@@ -43,7 +43,7 @@ public interface IDimensionResultIterator
 	public int getLevelIndex( String levelName );
 	
 	/**
-	 * 
+	 * there may be multi key in one level, so that the returned int should be an array.
 	 * @param levelName
 	 * @return
 	 */
@@ -67,7 +67,7 @@ public interface IDimensionResultIterator
 	public int getLevelAttributeDataType( String levelName, String attributeName );
 	
 	/**
-	 * 
+	 * random access seeking.
 	 * @param index
 	 */
 	public void seek( int index );
@@ -92,7 +92,7 @@ public interface IDimensionResultIterator
 	public int getDimesionPosition( ) throws BirtException, IOException;
 	
 	
-    
+    //TODO should refactor to getLevelKeyValues
 	/**
 	 * 
 	 * @param levelIndex

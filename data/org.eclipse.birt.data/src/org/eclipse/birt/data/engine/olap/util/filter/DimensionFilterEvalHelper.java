@@ -62,12 +62,15 @@ public class DimensionFilterEvalHelper implements IJsFilter
 			this.dimName = OlapExpressionCompiler.getReferencedDimensionName( expr );
 			this.expr = expr;
 			
-			DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
+			if ( this.dimName!= null )
+			{	
+				DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
 					this.getLevelNames( ) );
 
-			this.scope.put( "dimension",
+				this.scope.put( "dimension",
 					this.scope,
 					new DummyJSDimensionAccessor( this.dimName, dimObj ) );
+			}	
 			this.scope.put( "data", this.scope, this.dataObj );
 			OLAPExpressionCompiler.compile( cx, this.expr );
 		}

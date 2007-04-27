@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -178,15 +179,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	}
 	
 	/**
-	 * @param filters
+	 * @param levelFilterList
 	 */
-	private void addLevelFilters( List filters )
+	private void addLevelFilters( List levelFilterList )
 	{
-		for ( Iterator i = filters.iterator( ); i.hasNext( ); )
-		{
-			LevelFilter filter = (LevelFilter) i.next( );
-			filters.add( filter );
-		}
+		this.filters.addAll( levelFilterList );
 	}
 	
 	/**
@@ -236,13 +233,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		if ( aggrFilters.isEmpty( ) == false )
 		{// find level filters according to the specified aggregation filters
 			List newAddFilters = generateLevelFilters( aggregation, resultSet );
-			List oldFilters = new ArrayList( filters );
 			// add new filters for another aggregation computation
 			addLevelFilters( newAddFilters );
 			// recompute the aggregation according to new filters and return the
 			// result
 			resultSet = onePassExecute( aggregation, stopSign );
-			filters = oldFilters;//restore to original filter list to avoid conflict
+			filters.removeAll( newAddFilters );//restore to original filter list to avoid conflict
 		}
 		
 		if ( !this.columnSort.isEmpty( ) )
@@ -345,23 +341,27 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			{
 				if ( isEqualLevels( aggregation[j].getLevelNames( ), levels ) )
 				{
-					RowForFilter row = getResultRow( levels,
+					List rows = getResultRows( levels,
 							aggregation[j],
 							resultSet[j] );
-					boolean isFilter = filter.getAggrFilter( )
-							.evaluateFilter( row );
-					if ( isFilter )
-					{// generate level filter here
-						Object[] selectedKey = new Object[]{
-							row.getLevelValue( filter.getTargetLevel( ) )
-						};
-						ISelection selection = SelectionFactory.createOneKeySelection( selectedKey );
-						LevelFilter levelFilter = new LevelFilter( );
-						levelFilter.levelName = filter.getTargetLevel( );
-						levelFilter.selections = new ISelection[]{
-							selection
-						};
-						levelFilters.add( levelFilter );
+					for ( Iterator k = rows.iterator( ); k.hasNext( ); )
+					{
+						RowForFilter row = (RowForFilter) k.next( );
+						boolean isFilter = filter.getAggrFilter( )
+								.evaluateFilter( row );
+						if ( isFilter )
+						{// generate level filter here
+							Object[] selectedKey = new Object[]{
+								row.getLevelValue( filter.getTargetLevel( ) )
+							};
+							ISelection selection = SelectionFactory.createOneRowSelection( selectedKey );
+							LevelFilter levelFilter = new LevelFilter( );
+							levelFilter.levelName = filter.getTargetLevel( );
+							levelFilter.selections = new ISelection[]{
+								selection
+							};
+							levelFilters.add( levelFilter );
+						}
 					}
 				}
 			}
@@ -377,32 +377,41 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @return a row instance for filtering.
 	 * @throws IOException
 	 */
-	private RowForFilter getResultRow( String[] levels,
+	private List getResultRows( String[] levels,
 			AggregationDefinition aggrDefn, IAggregationResultSet resultSet )
 			throws IOException
 	{
+		List rowList = new LinkedList( );
 		AggregationFunctionDefinition[] aggrFuncs = aggrDefn.getAggregationFunctions( );
-		Object[] levelValues = new Object[levels.length];
 		String[] aggrNames = new String[aggrFuncs.length];
-		Object[] aggrValues = new Object[aggrFuncs.length];
-		// fill level values
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			int levelIndex = resultSet.getLevelIndex( levels[i] );
-			levelValues[i] = resultSet.getLevelKeyValue( levelIndex );
-		}
-		// fill aggregation names and values
 		for ( int i = 0; i < aggrFuncs.length; i++ )
 		{
 			aggrNames[i] = aggrFuncs[i].getName( );
-			int aggregationIndex = resultSet.getAggregationIndex( aggrFuncs[i].getName( ) );
-			aggrValues[i] = resultSet.getAggregationValue( aggregationIndex );
 		}
-		// generate a row against levels and aggrNames
-		RowForFilter row = new RowForFilter( levels, aggrNames );
-		row.setLevelValues( levelValues );
-		row.setDataValues( aggrValues );
-		return row;
+		for ( int i = 0; i < resultSet.length( ); i++ )
+		{
+			resultSet.seek( i );
+			Object[] levelValues = new Object[levels.length];
+			Object[] aggrValues = new Object[aggrFuncs.length];
+			// fill level values
+			for ( int j = 0; j < levels.length; j++ )
+			{
+				int levelIndex = resultSet.getLevelIndex( levels[j] );
+				levelValues[j] = resultSet.getLevelKeyValue( levelIndex )[0];
+			}
+			// fill aggregation names and values
+			for ( int j = 0; j < aggrFuncs.length; j++ )
+			{
+				int aggrIndex = resultSet.getAggregationIndex( aggrNames[j] );
+				aggrValues[j] = resultSet.getAggregationValue( aggrIndex );
+			}
+			// generate a row against levels and aggrNames
+			RowForFilter row = new RowForFilter( levels, aggrNames );
+			row.setLevelValues( levelValues );
+			row.setAggrValues( aggrValues );
+			rowList.add( row );
+		}
+		return rowList;
 	}
 	
 	/**
@@ -413,6 +422,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	private boolean isEqualLevels( String[] levelNames1, String[] levelNames2 )
 	{
+		if ( levelNames1 == null && levelNames2 == null )
+			return true;
+		else if ( levelNames1 == null || levelNames2 == null )
+			return false;
+
 		if ( levelNames1.length != levelNames2.length )
 			return false;
 		for ( int i = 0; i < levelNames1.length; i++ )
@@ -452,7 +466,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				}
 			}
 		}
-		Object[] distinctAggregationLevel = removeDuplicated( allAggregationLevel.toArray( ) );
+		Object[] distinctAggregationLevel = distinct( allAggregationLevel.toArray( ) );
 		for ( int i = 0; i < distinctAggregationLevel.length; i++ )
 		{
 			dimLevelList[getIndex( dimLevels,
@@ -480,7 +494,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @param objs
 	 * @return
 	 */
-	private static Object[] removeDuplicated( Object[] objs )
+	private static Object[] distinct( Object[] objs )
 	{
 		Arrays.sort( objs );
 		List result = new ArrayList( );

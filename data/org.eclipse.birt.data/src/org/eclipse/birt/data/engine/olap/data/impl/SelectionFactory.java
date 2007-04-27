@@ -28,9 +28,9 @@ public class SelectionFactory
 	 * @param key
 	 * @return
 	 */
-	public static ISelection createOneKeySelection( Object[] key )
+	public static ISelection createOneRowSelection( Object[] key )
 	{
-		return new OneKeySelection( key );
+		return new OneRowSelection( key );
 	}
 
 	/**
@@ -38,9 +38,9 @@ public class SelectionFactory
 	 * @param selectedObjects
 	 * @return
 	 */
-	public static ISelection createObjectsSelection( Object[][] selectedObjects )
+	public static ISelection createMutiRowSelection( Object[][] selectedObjects )
 	{
-		return new ObjectsSelection( selectedObjects );
+		return new MultiRowSelection( selectedObjects );
 	}
 
 	/**

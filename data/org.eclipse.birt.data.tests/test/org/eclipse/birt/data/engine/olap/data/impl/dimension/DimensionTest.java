@@ -874,7 +874,7 @@ public class DimensionTest extends TestCase
 		Object[][] selectedObjects = {
 				{"22"}, {"32"}
 		};
-		filters[0][0] = SelectionFactory.createObjectsSelection( selectedObjects );
+		filters[0][0] = SelectionFactory.createMutiRowSelection( selectedObjects );
 		filters[0][1] = SelectionFactory.createRangeSelection(  new Object[]{"21"},
 				 new Object[]{"23"},
 				true,
@@ -890,7 +890,7 @@ public class DimensionTest extends TestCase
 		selectedObjects[3] =  new String[1];
 		selectedObjects[3][0] =  "2211";
 
-		filters[1][0] = SelectionFactory.createObjectsSelection( selectedObjects );
+		filters[1][0] = SelectionFactory.createMutiRowSelection( selectedObjects );
 		filters[1][1] = SelectionFactory.createRangeSelection(  new Object[]{"2211"},
 				 new Object[]{"2231"},
 				true,

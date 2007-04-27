@@ -37,7 +37,7 @@ public interface ILevel
 	public int size( );
 	
 	/**
-	 * 
+	 * refactor to getKeyNames may be better
 	 * @return
 	 */
 	public String[] getKeyName( );

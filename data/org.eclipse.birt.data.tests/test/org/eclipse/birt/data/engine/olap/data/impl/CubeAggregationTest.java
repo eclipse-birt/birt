@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -26,12 +27,22 @@ import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
+import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.AggrFilter;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
@@ -43,6 +54,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
+import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ImporterTopLevel;
 
 /**
  * 
@@ -51,15 +65,69 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 public class CubeAggregationTest extends TestCase
 {
 	static String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+	private ImporterTopLevel baseScope;
+	private ICubeQueryDefinition cubeQuery;
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	public void setUp()
 	{
-		super.setUp( );
 	}
+	
+	private ICubeQueryDefinition createCubeQueryDefinition() throws DataException
+	{
+		ICubeQueryDefinition cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
+		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IEdgeDefinition columnEdge = cubeQuery.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dimension1 = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dimension1.createHierarchy( "hier1" );
+		hier1.createLevel( "level11" ); 
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		IBinding bindin11 = new Binding("edge1_level11");
+		bindin11.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cubeQuery.addBinding( bindin11 );
+		
+		IBinding bindin12 = new Binding("edge1_level12");
+		bindin11.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cubeQuery.addBinding( bindin12 );
+		
+		IBinding bindin13 = new Binding("edge1_level13");
+		bindin11.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cubeQuery.addBinding( bindin13 );
+		
+		IDimensionDefinition dimension2 = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dimension2.createHierarchy( "hier2" );
+		hier2.createLevel( "level21" );
+		
+		IBinding bindin21 = new Binding("edge1_level21");
+		bindin11.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cubeQuery.addBinding( bindin21 );
+		
+		IDimensionDefinition dimension3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dimension3.createHierarchy( "hier3" );
+		hier3.createLevel( "level31" );
+		
+		IBinding bindin31 = new Binding("edge1_level31");
+		bindin11.setExpression( new ScriptExpression("dimension[\"dimension3\"][\"level31\"]") );
+		cubeQuery.addBinding( bindin31 );
+		
+		IBinding measure1 = new Binding("measure1");
+		measure1.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		cubeQuery.addBinding( measure1 );
+		
+		IBinding measure2 = new Binding("measure2");
+		measure2.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		cubeQuery.addBinding( measure2 );
+		
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cubeQuery.addBinding( level21_sum );
+		return cubeQuery;
+	}
+	
 
 	/*
 	 * @see TestCase#tearDown()
@@ -127,7 +195,16 @@ public class CubeAggregationTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testCubeCreate1( documentManager );
-		testCubeAggregation1( documentManager );
+//		testCubeAggregation1( documentManager );
+		try{
+			Context.enter();
+			this.baseScope = new ImporterTopLevel();
+			this.cubeQuery = createCubeQueryDefinition();
+			testCubeAggregationWithAggrFilter( documentManager );
+		}finally
+		{
+			Context.exit( );
+		}
 	}
 
 	private void testCubeCreate1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -191,11 +268,47 @@ public class CubeAggregationTest extends TestCase
 		measureColumnName[1] = "measure2";
 		Cube cube = new Cube( "cube", documentManager );
 		
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		printFacttable( factTable2, new String[]{
+				"col11", "col12", "col13", "col21", "col31"
+		}, measureColumnName );
 		
+		factTable2.beforeFirst();
+		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
 		documentManager.flush( );
 	}
 
+	private void printFacttable( IDatasetIterator dataset,
+			String[] dimensions, String[] measures ) throws BirtException
+	{
+		System.out.println( "-------------fact table begine----------------" );
+		List fields = new ArrayList();
+		for ( int i = 0; i < dimensions.length; i++ )
+		{
+			fields.add( dimensions[i] );
+			System.out.print(dimensions[i]+"\t");
+		}
+		for ( int i = 0; i < measures.length; i++ )
+		{
+			fields.add( measures[i] );
+			System.out.print(measures[i]+"\t");
+		}
+		System.out.println();
+		while ( dataset.next( ) )
+		{
+			for ( Iterator i = fields.iterator( ); i.hasNext( ); )
+			{
+				String field = (String) i.next( );
+				int index = dataset.getFieldIndex( field );
+				Object obj = dataset.getValue( index );
+				if ( obj == null )
+					System.out.print( "\t" );
+				else
+					System.out.print( obj.toString( ) + "\t" );
+			}
+			System.out.println();
+		}
+		System.out.println( "-------------fact table end-------------------" );
+	}
 	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
 	{
 		//query
@@ -306,6 +419,44 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(8) );
 	}
 	
+	
+	private void testCubeAggregationWithAggrFilter( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
+		
+		AggrFilter aggrFilter = new AggrFilter( );
+		aggrFilter.setAggrLevels( new String[]{
+				"level21"
+		} );
+		IBaseExpression expr = new ScriptExpression("data[\"level21_sum\"]>30");
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, expr);
+		aggrFilter.setTargetLevel( "level21" );
+		aggrFilter.setAggrFilter( dimfilter );
+		cubeQueryExcutorHelper.addAggrFilter( aggrFilter );
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		String[] levelNamesForFilter = new String[1];
+		levelNamesForFilter[0] = "level21";
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );//
+	}
 	/**
 	 * 
 	 * @throws IOException
@@ -497,6 +648,12 @@ class TestFactTable implements IDatasetIterator
 
 	}
 
+	public void beforeFirst( )
+	{
+		ptr = -1;
+		
+	}
+
 	public Boolean getBoolean( int fieldIndex ) throws BirtException
 	{
 		// TODO Auto-generated method stub
@@ -556,7 +713,7 @@ class TestFactTable implements IDatasetIterator
 		}
 		else if ( name.equals( "col12" ) )
 		{
-			return -1;
+			return DataType.UNKNOWN_TYPE;
 		}
 		else if ( name.equals( "col13" ) )
 		{

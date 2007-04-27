@@ -15,7 +15,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 
 
 /**
- * 
+ * no reference, should be deleted?
  */
 
 public class DimensionSortFactory

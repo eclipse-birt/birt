@@ -33,7 +33,7 @@ public interface IDimensionSortDefn
     public static final int SORT_DESC = 1;
     
     /**
-	 * 
+	 * refactor to getSortLevel
 	 * @return
 	 */
 	public ILevel getLevel( );

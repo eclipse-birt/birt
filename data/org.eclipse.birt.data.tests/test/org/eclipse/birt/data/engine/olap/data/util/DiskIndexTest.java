@@ -354,7 +354,7 @@ public class DiskIndexTest extends TestCase
 		};
 		
 		ISelection[] selections = new ISelection[1];
-		selections[0] = SelectionFactory.createObjectsSelection( selectedObjs );
+		selections[0] = SelectionFactory.createMutiRowSelection( selectedObjs );
 		
 		IDiskArray list = indexTree.find( selections );
 		assertEquals( list.size( ), resultObjs.length );
@@ -416,7 +416,7 @@ public class DiskIndexTest extends TestCase
 		};
 		
 		ISelection[] selections = new ISelection[5];
-		selections[0] = SelectionFactory.createObjectsSelection( selectedObjs1 );
+		selections[0] = SelectionFactory.createMutiRowSelection( selectedObjs1 );
 		selections[1] =SelectionFactory.createRangeSelection(  new Object[]{new Integer( 1000 )},
 				 new Object[]{new Integer( 1100 )},
 				true,
@@ -429,7 +429,7 @@ public class DiskIndexTest extends TestCase
 				 new Object[]{new Integer( 12001 )},
 				true,
 				false );
-		selections[4] = SelectionFactory.createObjectsSelection( selectedObjs2 );
+		selections[4] = SelectionFactory.createMutiRowSelection( selectedObjs2 );
 		System.out.println( "search running    :"
 				+ System.currentTimeMillis( ) / 100 );
 		IDiskArray list = null;
@@ -520,12 +520,12 @@ public class DiskIndexTest extends TestCase
 		};
 		
 		ISelection[] selections = new ISelection[3];
-		selections[0] = SelectionFactory.createObjectsSelection( selectedObjs1 );
+		selections[0] = SelectionFactory.createMutiRowSelection( selectedObjs1 );
 		selections[1] =SelectionFactory.createRangeSelection(  new Object[]{new Integer( 81 )},
 				 new Object[]{new Integer( 90 )},
 				true,
 				true );
-		selections[2] = SelectionFactory.createObjectsSelection(  selectedObjs2 );
+		selections[2] = SelectionFactory.createMutiRowSelection(  selectedObjs2 );
 		System.out.println( "search running    :"
 				+ System.currentTimeMillis( ) / 100 );
 		IDiskArray list = null;
@@ -697,7 +697,7 @@ public class DiskIndexTest extends TestCase
 		};
 		
 		ISelection[] selections = new ISelection[5];
-		selections[0] = SelectionFactory.createObjectsSelection( selectedObjs1 );
+		selections[0] = SelectionFactory.createMutiRowSelection( selectedObjs1 );
 		selections[1] =SelectionFactory.createRangeSelection(  new Object[]{"abcdefghijklmno" + new Integer( 20000 ).toString( )},
 				 new Object[]{"abcdefghijklmno" + new Integer( 20100 ).toString( )},
 				true,
@@ -710,7 +710,7 @@ public class DiskIndexTest extends TestCase
 				 new Object[]{"abcdefghijklmno" + new Integer( 42001 ).toString( )},
 				true,
 				false );
-		selections[4] = SelectionFactory.createObjectsSelection( selectedObjs2 );
+		selections[4] = SelectionFactory.createMutiRowSelection( selectedObjs2 );
 		System.out.println( "search running    :"
 				+ System.currentTimeMillis( ) / 100 );
 		IDiskArray list = null;
