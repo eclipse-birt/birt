@@ -284,7 +284,7 @@ public class BindingPage extends Composite implements Listener
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		data = new FormData( );
 		data.top = new FormAttachment( combo, 0, SWT.BOTTOM );

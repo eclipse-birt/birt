@@ -887,12 +887,12 @@ public class ColumnBindingDialog extends BaseDialog
 
 		if ( !isDataSetVisible )
 		{
-			((GridData)warnLabel.getLayoutData( )).exclude = true;
-			((GridData)label.getLayoutData( )).exclude = true;
-			((GridData)combo.getLayoutData( )).exclude = true;
-			((GridData)composite.getLayoutData( )).exclude = true;
+			( (GridData) warnLabel.getLayoutData( ) ).exclude = true;
+			( (GridData) label.getLayoutData( ) ).exclude = true;
+			( (GridData) combo.getLayoutData( ) ).exclude = true;
+			( (GridData) composite.getLayoutData( ) ).exclude = true;
 		}
-		
+
 		return parentComposite;
 	}
 
@@ -1015,11 +1015,11 @@ public class ColumnBindingDialog extends BaseDialog
 		updateButtons( );
 		return super.initDialog( );
 	}
-	
+
 	private String getColumnName( String expression )
 	{
 		DataSetHandle dataSetHandle = inputElement.getDataSet( );
-		List columnList = new ArrayList();
+		List columnList = new ArrayList( );
 		try
 		{
 			columnList = DataUtil.getColumnList( dataSetHandle );
@@ -1028,11 +1028,11 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
-		
+
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
-			String columnName = cachedColumn.getColumnName( ); 
+			String columnName = cachedColumn.getColumnName( );
 			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
 			{
 				return columnName;
@@ -1104,10 +1104,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		boolean okEnable = false;
 
-		if ( !canSelect ||  (!isDataSetVisible &&  selectedColumnName != null)
-				|| ( selectedColumnName != null && getDataSetName( ) != null )
-				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement )
-						.getDataSet( ) != null ) )
+		if ( !canSelect
+				|| ( !isDataSetVisible && selectedColumnName != null )
+//				|| ( selectedColumnName != null && getDataSetName( ) != null )
+//				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement )
+//						.getDataSet( ) != null )
+				||  getSelectColumnHandle( ) != null  )
 		{
 			okEnable = true;
 		}
