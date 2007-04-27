@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -248,7 +249,6 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 	public Object getExtensionProperty( String propName )
 	{
-
 		if ( isExtensionXMLProperty( propName ) && hasOwnModel( propName ) )
 		{
 			if ( reportItem != null )
@@ -340,7 +340,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			}
 			else
 			{
-				setExtensionPropertyValue( prop.getName( ), value );
+				setExtensionPropertyValue( prop, value );
 			}
 		}
 		else if ( isExtensionModelProperty( prop.getName( ) ) )
@@ -354,7 +354,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		}
 		else
 		{
-			setExtensionPropertyValue( prop.getName( ), value );
+			setExtensionPropertyValue( prop, value );
 		}
 	}
 
@@ -367,12 +367,23 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	 *            the value to set
 	 */
 
-	private void setExtensionPropertyValue( String propName, Object value )
+	private void setExtensionPropertyValue( ElementPropertyDefn prop, Object value )
 	{
+		String propName =  prop.getName( ) ;
+		Object oldValue = extensionPropValues.get( propName );
+		
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			ElementRefValue oldRef = (ElementRefValue) oldValue;
+			ReferenceValueUtil.updateReference( element , oldRef,
+					(ReferenceValue) value, prop );
+		}
+		
 		if ( value != null )
 			extensionPropValues.put( propName, value );
 		else
 			extensionPropValues.remove( propName );
+		
 	}
 
 	/**
