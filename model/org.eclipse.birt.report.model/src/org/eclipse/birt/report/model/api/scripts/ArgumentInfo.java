@@ -32,7 +32,7 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the argument type.
 	 */
 
-	ArgumentInfo( Class argumentType )
+	protected ArgumentInfo( Class argumentType )
 	{
 		this.clazz = argumentType;
 	}

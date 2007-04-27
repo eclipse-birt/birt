@@ -39,7 +39,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 *            the parameters for the method
 	 */
 
-	ArgumentInfoList( Class[] params )
+	protected ArgumentInfoList( Class[] params )
 	{
 		initialize( params );
 

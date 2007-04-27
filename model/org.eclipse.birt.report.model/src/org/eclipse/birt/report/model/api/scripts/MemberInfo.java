@@ -27,7 +27,7 @@ public class MemberInfo implements IMemberInfo
 
 	private final Field field;
 
-	MemberInfo( Field field )
+	protected MemberInfo( Field field )
 	{
 		this.field = field;
 	}
