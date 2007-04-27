@@ -38,8 +38,8 @@ public class ContentEmitterUtil
 		else
 		{
 			if ( vformat.toLowerCase( ).indexOf(
-					emitter.getOutputFormat( ).toLowerCase( ) ) > 0
-					|| vformat.toLowerCase( ).indexOf( "all" ) > 0 )
+					emitter.getOutputFormat( ).toLowerCase( ) ) == -1
+					&& vformat.toLowerCase( ).indexOf( "all" ) == -1 )
 			{
 				starter.visit( content, emitter );
 			}
