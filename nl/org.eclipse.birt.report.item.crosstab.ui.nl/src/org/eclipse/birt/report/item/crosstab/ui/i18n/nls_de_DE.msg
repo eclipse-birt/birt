@@ -99,7 +99,7 @@ Element.ReportElement.Cube=&Daten:
 BindingPage.None=Ohne
 
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=Filtern nach:
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -109,16 +109,16 @@ CategoryPageGenerator.TabItem.Attributes=Eigenschaften
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=New Filter Condition
-FilterConditionBuilder.DialogTitle.Edit=Edit Filter Condition
-FilterConditionBuilder.choice.ValueOfThisDataItem=Value of this data item
-FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder.
-FilterConditionBuilder.text.AND=AND
-FilterConditionBuilder.text.Condition=Enter a filter condition:
-FilterConditionBuilder.text.GroupLevel=Group Level:
+FilterConditionBuilder.DialogTitle.New=Neue Filterbedingung
+FilterConditionBuilder.DialogTitle.Edit=Filterbedingung bearbeiten
+FilterConditionBuilder.choice.ValueOfThisDataItem=Wert dieses Datenelements
+FilterConditionBuilder.tooltip.ExpBuilder=Zum Öffnen der Ausdruckserstellung hier klicken.
+FilterConditionBuilder.text.AND=UND
+FilterConditionBuilder.text.Condition=Filterbedingung eingeben:
+FilterConditionBuilder.text.GroupLevel=Gruppenebene:
 
 ###########################################################
 #VirtualCellEditPart.java
-Blank.text.column=Drop data field(s) to define columns here
-Blank.text.row=Drop data field(s)\nto define rows here
-Blank.text.measure=Drop data field(s) to be summarized here
+Blank.text.column=Datenfeld/er verwerfen, um Spalten hier zu definieren
+Blank.text.row=Datenfeld/er verwerfen,\num Zeilen hier zu definieren
+Blank.text.measure=Datenfeld/er verwerfen, um sie hier zusammenzufassen

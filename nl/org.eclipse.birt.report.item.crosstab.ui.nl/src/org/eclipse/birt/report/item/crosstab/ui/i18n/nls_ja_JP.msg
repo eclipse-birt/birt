@@ -99,7 +99,7 @@ Element.ReportElement.Cube=データ(&D) :
 BindingPage.None=なし
 
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=フィルタの条件 :
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -109,16 +109,16 @@ CategoryPageGenerator.TabItem.Attributes=プロパティ
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=New Filter Condition
-FilterConditionBuilder.DialogTitle.Edit=Edit Filter Condition
-FilterConditionBuilder.choice.ValueOfThisDataItem=Value of this data item
-FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder.
+FilterConditionBuilder.DialogTitle.New=フィルタの条件の新規作成
+FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
+FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
+FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリックしてしてください
 FilterConditionBuilder.text.AND=AND
-FilterConditionBuilder.text.Condition=Enter a filter condition:
-FilterConditionBuilder.text.GroupLevel=Group Level:
+FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
+FilterConditionBuilder.text.GroupLevel=グループレベル :
 
 ###########################################################
 #VirtualCellEditPart.java
-Blank.text.column=Drop data field(s) to define columns here
-Blank.text.row=Drop data field(s)\nto define rows here
-Blank.text.measure=Drop data field(s) to be summarized here
+Blank.text.column=データフィールドを削除して、ここに列を定義
+Blank.text.row=データフィールドを削除して、\nここに行を定義
+Blank.text.measure=データフィールドを削除して、ここにサマリを作成

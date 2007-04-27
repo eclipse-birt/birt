@@ -99,7 +99,7 @@ Element.ReportElement.Cube=数据(&D):
 BindingPage.None=无
 
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=筛选依据:
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -109,16 +109,16 @@ CategoryPageGenerator.TabItem.Attributes=属性
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=New Filter Condition
-FilterConditionBuilder.DialogTitle.Edit=Edit Filter Condition
-FilterConditionBuilder.choice.ValueOfThisDataItem=Value of this data item
-FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder.
+FilterConditionBuilder.DialogTitle.New=新建筛选条件
+FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
+FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
+FilterConditionBuilder.tooltip.ExpBuilder=单击以调用表达式生成器。
 FilterConditionBuilder.text.AND=AND
-FilterConditionBuilder.text.Condition=Enter a filter condition:
-FilterConditionBuilder.text.GroupLevel=Group Level:
+FilterConditionBuilder.text.Condition=输入筛选条件:
+FilterConditionBuilder.text.GroupLevel=组级别:
 
 ###########################################################
 #VirtualCellEditPart.java
-Blank.text.column=Drop data field(s) to define columns here
-Blank.text.row=Drop data field(s)\nto define rows here
-Blank.text.measure=Drop data field(s) to be summarized here
+Blank.text.column=将要定义列的数据字段放置到此处
+Blank.text.row=将要定义行的数据字段放置到此处
+Blank.text.measure=将要汇总的数据字段放置到此处

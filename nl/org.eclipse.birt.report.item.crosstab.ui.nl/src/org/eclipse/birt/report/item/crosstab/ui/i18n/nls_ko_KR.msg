@@ -99,7 +99,7 @@ Element.ReportElement.Cube=데이터(&D):
 BindingPage.None=없음
 
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=필터링 기준:
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -109,16 +109,16 @@ CategoryPageGenerator.TabItem.Attributes=속성
 
 ###########################################################
 #FilterConditionBuilder dialog properties
-FilterConditionBuilder.DialogTitle.New=New Filter Condition
-FilterConditionBuilder.DialogTitle.Edit=Edit Filter Condition
-FilterConditionBuilder.choice.ValueOfThisDataItem=Value of this data item
-FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder.
-FilterConditionBuilder.text.AND=AND
-FilterConditionBuilder.text.Condition=Enter a filter condition:
-FilterConditionBuilder.text.GroupLevel=Group Level:
+FilterConditionBuilder.DialogTitle.New=새 필터 조건
+FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
+FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
+FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
+FilterConditionBuilder.text.AND=및 
+FilterConditionBuilder.text.Condition=필터 조건 입력:
+FilterConditionBuilder.text.GroupLevel=그룹 수준:
 
 ###########################################################
 #VirtualCellEditPart.java
-Blank.text.column=Drop data field(s) to define columns here
-Blank.text.row=Drop data field(s)\nto define rows here
-Blank.text.measure=Drop data field(s) to be summarized here
+Blank.text.column=열을 정의하려면 데이터 필드를 여기에 내려 놓으십시오.
+Blank.text.row=행을 정의하려면 데이터\n필드를 여기에 내려 놓으십시오.
+Blank.text.measure=요약하려면 데이터 필드를 여기에 내려 놓으십시오.
