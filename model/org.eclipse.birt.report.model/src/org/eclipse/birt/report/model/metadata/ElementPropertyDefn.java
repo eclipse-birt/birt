@@ -236,4 +236,17 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 		return null;
 	}
+	
+	/**
+	 * Returns <code>true</code> indicating if the xml property value
+	 * represents the extesion-defined model.
+	 * 
+	 * @return <code>true</code> if the xml property value represents the
+	 *         extesion-defined model.
+	 */
+
+	public boolean hasOwnModel( )
+	{
+		return false;
+	}
 }

@@ -516,8 +516,9 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		ExtensionElementDefn extDefn = getExtDefn( );
 		if ( extDefn != null )
 		{
-			IPropertyDefn propDefn = extDefn.getProperty( propName );
-			if ( propDefn != null
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn
+					.getProperty( propName );
+			if ( propDefn != null && propDefn.hasOwnModel( )
 					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
