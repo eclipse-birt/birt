@@ -142,8 +142,12 @@
       <plugin id="org.eclipse.datatools.connectivity.oda.consumer"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.design"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.flatfile"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.flatfile.ui"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.profile"/>
       <plugin id="org.eclipse.datatools.connectivity.ui"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.ws"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.ws.ui"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml.ui"/>
       <plugin id="org.eclipse.draw2d"/>
@@ -204,6 +208,7 @@
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
+      <plugin id="org.wsdl4j"/>
    </plugins>
 
 </product>
