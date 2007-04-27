@@ -17,6 +17,7 @@ package org.eclipse.birt.report.data.adapter.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,8 @@ import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -463,19 +466,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
 						cubeHandle.getQualifiedName( ) );
-				createCube( cubeHandle, cubeMaterializer );
+				createCube( (TabularCubeHandle)cubeHandle, cubeMaterializer );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
 						cubeHandle.getQualifiedName( ) );
-				createCube( cubeHandle, cubeMaterializer );
+				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
 			}
-		}
+		} 
 		catch ( Exception e )
 		{
 			throw new DataException( e.getLocalizedMessage( ) );
@@ -490,7 +493,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	private void createCube( CubeHandle cubeHandle,
+	private void createCube( TabularCubeHandle cubeHandle,
 			CubeMaterializer cubeMaterializer ) throws IOException,
 			BirtException, DataException
 	{
@@ -507,11 +510,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 
-		IDimension[] dimensions = populateDimensions( cubeMaterializer,
-				cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP ) );
+		Map extraTimeLevelNameHolder = new HashMap();
+		IDimension[] dimensions = populateDimensions( cubeMaterializer, cubeHandle, extraTimeLevelNameHolder );
 		cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
 				dimensions,
-				new DataSetIterator( this, (TabularCubeHandle)cubeHandle ),
+				new DataSetIterator( this, cubeHandle, extraTimeLevelNameHolder ),
 				this.toStringArray( measureNames ),
 				null );
 	}
@@ -526,13 +529,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
-			List dimHandles ) throws IOException, BirtException, DataException
+			TabularCubeHandle cubeHandle, Map extraTimeLevelHolder ) throws IOException, BirtException, DataException
 	{
+		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
 		for ( int i = 0; i < dimHandles.size( ); i++ )
 		{
 			result.add( populateDimension( cubeMaterializer,
-					(DimensionHandle) dimHandles.get( i ) ) );
+					(DimensionHandle) dimHandles.get( i ), cubeHandle, extraTimeLevelHolder ) );
 		}
 		
 		IDimension[] dimArray = new IDimension[dimHandles.size( )];
@@ -554,7 +558,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension populateDimension( CubeMaterializer cubeMaterializer,
-			DimensionHandle dim ) throws IOException,
+			DimensionHandle dim, TabularCubeHandle cubeHandle, Map extraTimeLevelHolder ) throws IOException,
 			BirtException, DataException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
@@ -563,7 +567,54 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( 0 );
 			List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-			ILevelDefn[] levelInHier = new ILevelDefn[hierhandle.getLevelCount( )];
+			boolean shareFactTable = cubeHandle.getDataSet( ).equals( hierhandle.getDataSet( ) );
+			ILevelDefn[] levelInHier = null;
+			
+			String timeLevelName = null;
+			int timeLevelOffset = 0;
+			if ( dim.isTimeType( ) )
+			{
+				TabularLevelHandle level = (TabularLevelHandle)hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP ).get( 0 );
+				timeLevelName = level.getColumnName( );
+				timeLevelOffset = 1;
+				extraTimeLevelHolder.put( dim, timeLevelName );
+			}
+			
+			String leafLevelName = null;
+			if ( !shareFactTable )
+			{
+				Iterator it = cubeHandle.joinConditionsIterator( );
+				while ( it.hasNext( ) )
+				{
+					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+
+					if ( dimCondHandle.getHierarchy( ).equals( hierhandle ) )
+					{
+						//Currently only support 1 join condition for each facttable--dimensiontable
+						DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) dimCondHandle.getJoinConditions( )
+								.iterator( )
+								.next( );
+					
+						leafLevelName = joinCondition.getHierarchyKey( );
+						if( hierhandle.getLevel( leafLevelName ) != null && !leafLevelName.equals( timeLevelName ))
+						{
+							if( ! (hierhandle.getLevel( hierhandle.getLevelCount( )-1 ).equals( hierhandle.getLevel( leafLevelName ) )))
+							{
+								throw new AdapterException("The join key should always be last level.");
+							}
+							levelInHier = new ILevelDefn[hierhandle.getLevelCount( )+timeLevelOffset];
+							leafLevelName = null;
+						}
+						else
+						{
+							levelInHier = new ILevelDefn[hierhandle.getLevelCount( ) + 1 + timeLevelOffset];
+						}
+					}	
+				}
+			}else
+			{
+				levelInHier = new ILevelDefn[hierhandle.getLevelCount( )+timeLevelOffset];
+			}
 			
 			for ( int k = 0; k < levels.size( ); k++ )
 			{
@@ -582,8 +633,31 @@ public class DataRequestSessionImpl extends DataRequestSession
 						this.toStringArray( levelKeys ) );
 				
 			}
+			
+			if ( timeLevelName!= null )
+			{
+				int index = 0;
+				if( leafLevelName!= null )
+					index = levelInHier.length-2;
+				else
+					index = levelInHier.length-1;
+				levelInHier[index] = CubeElementFactory.createLevelDefinition( timeLevelName,
+						new String[]{
+						timeLevelName
+				},
+				new String[0] );
+			}
+			if ( leafLevelName!= null )
+			{
+				levelInHier[levelInHier.length-1] = CubeElementFactory.createLevelDefinition( leafLevelName,
+						new String[]{
+						leafLevelName
+				},
+				new String[0] );
+			} 
+			
 			iHiers.add( cubeMaterializer.createHierarchy( hierhandle.getName( ),
-					new DataSetIterator( this, hierhandle ),
+					new DataSetIterator( this, hierhandle, timeLevelName, leafLevelName ),
 					levelInHier ) );
 		}
 		return cubeMaterializer.createDimension( dim.getName( ),

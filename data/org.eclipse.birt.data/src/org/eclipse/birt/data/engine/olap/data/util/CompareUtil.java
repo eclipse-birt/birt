@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+
 /**
  * 
  */
@@ -46,17 +49,14 @@ public class CompareUtil
 
 	public static int compare( Object temp1, Object temp2 )
 	{
-		int result = 0;
-		if ( temp1 != null && temp2 != null )
+		try
 		{
-			result = ( (Comparable) temp1 ).compareTo( temp2 );
+			return ScriptEvalUtil.compare( temp1, temp2 );
 		}
-		else if ( temp1 != null && temp2 == null )
-			result = 1;
-		else if ( temp1 == null && temp2 != null )
-			result = -1;
-		
-		return result;
+		catch ( DataException e )
+		{
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	public static void sort( IDiskArray array, Comparator comparator, IStructureCreator creator) throws IOException

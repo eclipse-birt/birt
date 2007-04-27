@@ -17,9 +17,11 @@ package org.eclipse.birt.report.data.adapter.impl;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -30,7 +32,10 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -73,16 +78,16 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSession session,
-			TabularHierarchyHandle hierHandle ) throws BirtException
+			TabularHierarchyHandle hierHandle, String timeLevelName, String leafLevelName ) throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
 		query.setUsesDetails( true );
-
+		
 		query.setDataSetName( hierHandle.getDataSet( ).getQualifiedName( ) );
 
 		List metaList = new ArrayList();
 		this.prepareLevels( query,
-				hierHandle, metaList );
+				hierHandle, metaList, timeLevelName, leafLevelName );
 
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
 		this.metadata = new ResultMeta( metaList );
@@ -96,7 +101,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSession session,
-			TabularCubeHandle cubeHandle ) throws BirtException
+			TabularCubeHandle cubeHandle, Map extraTimeLevelHolder ) throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
 
@@ -124,21 +129,38 @@ public class DataSetIterator implements IDatasetIterator
 								.equals( cubeHandle.getDataSet( ).getQualifiedName( ) ) )
 				{
 					prepareLevels( query,
-							hierHandle, metaList );
+							hierHandle,
+							metaList,
+							extraTimeLevelHolder.get( dimension ) == null
+									? null
+									: extraTimeLevelHolder.get( dimension )
+											.toString( ),
+							null );
 				}
 				else
 				{
-					//TODO need model support.
-					/*//Use different data set
-					 Iterator it = cubeHandle.joinConditionsIterator( );
-					 DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
-					 
-					 if ( dimCondHandle.getHierarchy( ).equals( hierHandle ))
-					 {
-					 dimCondHandle.getPrimaryKeys( )
-					 }*/
-				}
+					Iterator it = cubeHandle.joinConditionsIterator( );
+					while ( it.hasNext( ) )
+					{
+						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 
+						if ( dimCondHandle.getHierarchy( ).equals( hierHandle ) )
+						{
+							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) dimCondHandle.getJoinConditions( )
+									.iterator( )
+									.next( );
+							String cubeKey = joinCondition.getCubeKey( );
+							String hierKey = joinCondition.getHierarchyKey( );
+							metaList.add( new ColumnMeta( hierKey, true, null ) );
+							query.addResultSetExpression( hierKey,
+									new ScriptExpression(  ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) );
+
+							GroupDefinition gd = new GroupDefinition( );
+							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( hierKey ) );
+							query.addGroup( gd );
+						}
+					}
+				}
 			}
 		}
 
@@ -181,7 +203,7 @@ public class DataSetIterator implements IDatasetIterator
 							new ScriptExpression( measure.getMeasureExpression( ) ) );
 				}
 
-				ColumnMeta meta = new ColumnMeta( measure.getName( ), false );
+				ColumnMeta meta = new ColumnMeta( measure.getName( ), false, null );
 				//TODO after model finish support measure type, use data type defined in
 				//measure handle.
 				meta.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( )) );
@@ -236,8 +258,12 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param resultMetaList
 	 * @param levelNameColumnNamePair
 	 * @param hierHandle
+	 * @throws AdapterException 
 	 */
-	private void prepareLevels( QueryDefinition query, TabularHierarchyHandle hierHandle, List metaList )
+	private void prepareLevels( QueryDefinition query,
+			TabularHierarchyHandle hierHandle, List metaList,
+			String timeLevelName, String leafLevelName )
+			throws AdapterException
 	{
 		//Use same data set as cube fact table
 		List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
@@ -246,18 +272,25 @@ public class DataSetIterator implements IDatasetIterator
 		{
 
 			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			ColumnMeta temp = new ColumnMeta( level.getName( ), true );
+			ColumnMeta temp = null;
 			int type = ModelAdapter.adaptModelDataType(level.getDataType( ));
 			if ( isTimeType( type ))
+			{
+				temp = new ColumnMeta( level.getName( ), true, new TimeValueProcessor(level.getDateTimeLevelType( )) );
 				temp.setDataType( DataType.INTEGER_TYPE );
-			temp.setDataType( type );
+			}
+			else
+			{	
+				temp = new ColumnMeta( level.getName( ), true, null );
+				temp.setDataType( type );
+			}
 			metaList.add( temp );
 			Iterator it = level.attributesIterator( );
 			while ( it.hasNext( ) )
 			{
 				LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
 				ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-						levelAttr.getName( )), false );
+						levelAttr.getName( )), false, null );
 
 				meta.setDataType( ModelAdapter.adaptModelDataType( levelAttr.getDataType( ) ) );
 				metaList.add( meta );
@@ -265,7 +298,7 @@ public class DataSetIterator implements IDatasetIterator
 						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) );
 			}
 			
-			String exprString = populateLevelKeyExpression( level, type );
+			String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
 			
 			query.addResultSetExpression( level.getName( ),
 					new ScriptExpression( exprString ));
@@ -274,37 +307,36 @@ public class DataSetIterator implements IDatasetIterator
 			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
 			query.addGroup( gd );
 		}
-	}
-
-	private String populateLevelKeyExpression( TabularLevelHandle level,
-			int type )
-	{
-		String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
-		if ( isTimeType( type ))
+		
+		if ( timeLevelName != null )
 		{
-			String dateName = level.getDateTimeLevelType( );
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY.equals( dateName ))
-			{
-				exprString = "BirtDateTime.day(" + exprString + ")";
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK.equals( dateName ))
-			{
-				exprString = "BirtDateTime.week(" + exprString + ")";
-			}
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( dateName ))
-			{
-				exprString = "BirtDateTime.month(" + exprString + ")";
-			}
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( dateName ))
-			{
-				exprString = "BirtDateTime.quarter(" + exprString + ")";
-			}
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( dateName ))
-			{
-				exprString = "BirtDateTime.year(" + exprString + ")";
-			}
+			ColumnMeta temp = new ColumnMeta( timeLevelName, true, null );
+			temp.setDataType( DataType.DATE_TYPE );
+			metaList.add( temp );
+			String exprString = ExpressionUtil.createJSDataSetRowExpression( timeLevelName );
+			
+			query.addResultSetExpression( timeLevelName,
+					new ScriptExpression( exprString ));
+			
+			GroupDefinition gd = new GroupDefinition( );
+			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( timeLevelName ) );
+			query.addGroup( gd );
 		}
-		return exprString;
+		
+		if ( leafLevelName != null )
+		{
+			ColumnMeta temp = new ColumnMeta( leafLevelName, true, null );
+			temp.setDataType( DataType.STRING_TYPE );
+			metaList.add( temp );
+			String exprString = ExpressionUtil.createJSDataSetRowExpression( leafLevelName );
+			
+			query.addResultSetExpression( leafLevelName,
+					new ScriptExpression( exprString ));
+			
+			GroupDefinition gd = new GroupDefinition( );
+			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( leafLevelName ) );
+			query.addGroup( gd );
+		}
 	}
 
 	/**
@@ -359,6 +391,11 @@ public class DataSetIterator implements IDatasetIterator
 		if ( value == null )
 		{
 			return this.metadata.getNullValueReplacer( fieldIndex );
+		}
+		if ( value instanceof Date
+				&& this.metadata.getTimeValueProcessor( fieldIndex ) != null )
+		{
+			return new Integer(this.metadata.getTimeValueProcessor( fieldIndex ).process( (Date)value ));
 		}
 		return value;
 	}
@@ -467,6 +504,11 @@ public class DataSetIterator implements IDatasetIterator
 			return this.nullValueReplacer[index - 1];
 		}
 		
+		public ITimeValueProcessor getTimeValueProcessor( int index )
+		{
+			 return ( (ColumnMeta) this.indexMap.get( new Integer( index ) ) ).getTimeValueProcessor( );
+		}
+		
 		/**
 		 * 
 		 * @param fieldType
@@ -510,14 +552,16 @@ public class DataSetIterator implements IDatasetIterator
 		private int type;
 		private int index;
 		private boolean isLevelKey;
+		private ITimeValueProcessor timeValueProcessor;
 		/**
 		 * 
 		 * @param name
 		 */
-		ColumnMeta( String name, boolean isLevelKey )
+		ColumnMeta( String name, boolean isLevelKey, ITimeValueProcessor processor )
 		{
 			this.name = name;
 			this.isLevelKey = isLevelKey;
+			this.timeValueProcessor = processor;
 		}
 
 		/**
@@ -573,5 +617,137 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			return this.isLevelKey;
 		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public ITimeValueProcessor getTimeValueProcessor()
+		{
+			return this.timeValueProcessor;
+		}
 	}
+	private interface ITimeValueProcessor
+	{
+		public int process( Date d );
+	}
+	
+	private class YearProcessor implements ITimeValueProcessor
+	{
+		public int process( Date d )
+		{
+			return getCalendar( d ).get( Calendar.YEAR );
+		}
+		
+	}
+	
+	private class QuarterProcessor implements ITimeValueProcessor
+	{
+		public int process( Date d )
+		{
+			int month = getCalendar( d ).get( Calendar.MONTH );
+			int quarter = -1;
+			switch ( month )
+			{
+				case Calendar.JANUARY :
+				case Calendar.FEBRUARY :
+				case Calendar.MARCH :
+					quarter = 1;
+					break;
+				case Calendar.APRIL :
+				case Calendar.MAY :
+				case Calendar.JUNE :
+					quarter = 2;
+					break;
+				case Calendar.JULY :
+				case Calendar.AUGUST :
+				case Calendar.SEPTEMBER :
+					quarter = 3;
+					break;
+				case Calendar.OCTOBER :
+				case Calendar.NOVEMBER :
+				case Calendar.DECEMBER :
+					quarter = 4;
+					break;
+				default :
+					quarter = -1;
+			}
+			return quarter;
+		}
+	}
+
+	private class MonthProcessor implements ITimeValueProcessor
+	{
+		public int process( Date d )
+		{
+			int month = getCalendar( d ).get( Calendar.MONTH ) + 1;
+			return month;
+		}
+		
+	}
+
+	private class WeekProcessor implements ITimeValueProcessor
+	{
+		public int process( Date d )
+		{
+			return getCalendar( d ).get( Calendar.WEEK_OF_MONTH );
+		}
+		
+	}
+
+	private class DayProcessor implements ITimeValueProcessor
+	{
+		public int process( Date d )
+		{
+			return getCalendar( d ).get( Calendar.DAY_OF_WEEK );
+		}
+		
+	}
+	
+	private class TimeValueProcessor implements ITimeValueProcessor
+	{
+		private ITimeValueProcessor processor;
+		TimeValueProcessor( String timeType ) throws AdapterException
+		{
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY.equals( timeType ))
+			{
+				this.processor = new DayProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK.equals( timeType ))
+			{
+				this.processor = new WeekProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ))
+			{
+				this.processor = new MonthProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ))
+			{
+				this.processor = new QuarterProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ))
+			{
+				this.processor = new YearProcessor();
+			}
+			else
+				throw new AdapterException("Error");
+		}
+		
+		public int process( Date d )
+		{
+			return this.processor.process( d );
+		}
+		
+		
+	}
+	
+	private Calendar getCalendar( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( "date value is null!" );
+		Calendar c = Calendar.getInstance( );
+		c.setTime( d );
+		return c;
+	}
+	
 }

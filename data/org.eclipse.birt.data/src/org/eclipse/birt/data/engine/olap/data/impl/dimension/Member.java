@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
@@ -44,7 +45,7 @@ public class Member implements IComparableStructure
 		Member other = (Member) o;
 		for ( int i = 0; i < getKeyValues().length; i++ )
 		{
-			int result = ( (Comparable) getKeyValues()[i] ).compareTo( other.getKeyValues()[i] );
+			int result =  CompareUtil.compare( getKeyValues()[i], other.getKeyValues()[i] );
 			if ( result != 0 )
 			{
 				return result;
