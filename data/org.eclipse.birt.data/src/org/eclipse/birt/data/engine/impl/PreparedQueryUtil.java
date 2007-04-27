@@ -178,7 +178,7 @@ class PreparedQueryUtil
 		if ( runningOnRS == false )
 			return false;
 
-		runningOnRS = !hasTopBottomNInFilter( queryDefn.getFilters( ) );
+		runningOnRS = !hasAggregationInFilter( queryDefn.getFilters( ) );
 		if ( runningOnRS == false )
 			return false;
 
@@ -302,7 +302,7 @@ class PreparedQueryUtil
 	 * @param filters
 	 * @return
 	 */
-	private static boolean hasTopBottomNInFilter( List filters )
+	private static boolean hasAggregationInFilter( List filters )
 	{
 		if ( filters == null || filters.size( ) == 0 )
 			return false;
@@ -317,6 +317,8 @@ class PreparedQueryUtil
 						|| type == IConditionalExpression.OP_BOTTOM_N
 						|| type == IConditionalExpression.OP_TOP_PERCENT
 						|| type == IConditionalExpression.OP_BOTTOM_PERCENT )
+					return true;
+				if ( ExpressionCompilerUtil.hasAggregationInExpr( (IBaseExpression) o ) )
 					return true;
 			}
 		}
