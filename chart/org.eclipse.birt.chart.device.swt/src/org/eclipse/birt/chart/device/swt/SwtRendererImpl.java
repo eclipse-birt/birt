@@ -771,7 +771,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	{
 		Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
-		if ( isFullTransparent( flBackground ) )
+		if ( isFullTransparent( flBackground ) || are.getAngleExtent( ) == 0 )
 		{
 			return;
 		}
