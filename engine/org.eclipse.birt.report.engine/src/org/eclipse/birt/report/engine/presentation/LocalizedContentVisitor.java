@@ -526,7 +526,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	{
 		String outputFormat = getOutputFormat( );
 		if ( "FO".equalsIgnoreCase( outputFormat )
-				|| "PDF".equalsIgnoreCase( outputFormat ) )
+				|| "PDF".equalsIgnoreCase( outputFormat )
+				||"POSTSCRIPT".equalsIgnoreCase( outputFormat ))
 			return true;
 		return false;
 	}
