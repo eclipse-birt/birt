@@ -2395,6 +2395,7 @@ NoneAction.text=없음
 
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties

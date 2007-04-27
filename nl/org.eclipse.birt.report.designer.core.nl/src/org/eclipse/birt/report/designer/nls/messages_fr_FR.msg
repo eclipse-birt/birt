@@ -2395,6 +2395,7 @@ NoneAction.text=Aucun
 
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties

@@ -2395,6 +2395,7 @@ NoneAction.text=无
 
 OutputColumnDefnPage.description=输入取数脚本生成的输出列的定义: 
 OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties

@@ -2395,6 +2395,7 @@ NoneAction.text=Keine
 
 OutputColumnDefnPage.description=Definition für Ausgabespalten eingeben, die vom Abrufskript erstellt werden: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties

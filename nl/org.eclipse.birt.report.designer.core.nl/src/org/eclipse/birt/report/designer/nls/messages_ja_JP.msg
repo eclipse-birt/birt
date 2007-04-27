@@ -2395,6 +2395,7 @@ NoneAction.text=なし
 
 OutputColumnDefnPage.description=フェッチスクリプトによって作成される出力列の定義を入力 : 
 OutputColumnDefnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties

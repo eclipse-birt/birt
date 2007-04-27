@@ -2395,6 +2395,7 @@ NoneAction.text=Ninguno
 
 OutputColumnDefnPage.description=Introducir la definición de las columas de salida que produce el script de recuperación: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
 
 ###########################################################
 #OutputColumnPage properties
