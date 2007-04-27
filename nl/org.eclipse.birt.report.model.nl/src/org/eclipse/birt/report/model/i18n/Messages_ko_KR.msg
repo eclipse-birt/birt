@@ -1892,7 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=열 표시 이름
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2173,7 +2173,7 @@ Element.DataSet.computedColumns=계산 열
 Element.DataSet.filter=필터
 Element.DataSet.columnHints=열 힌트
 Element.DataSet.cachedMetaData=캐시된 메타데이터
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=데이터 집합에서 가져오는 최대 행 수
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=데이터 원본
@@ -2200,7 +2200,7 @@ Element.SimpleDataSet.afterClose.reportContext=보고서 컨텍스트
 Element.SimpleDataSet.paramBindings=매개 변수 바인딩
 Element.SimpleDataSet.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.SimpleDataSet.cachedRowCount=캐시된 행 수
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=데이터 집합 행 제한
  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=문

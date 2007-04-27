@@ -147,7 +147,7 @@ ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
-ColumnBindingDialog.Column.displayName=Display Name
+ColumnBindingDialog.Column.displayName=표시 이름
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -209,8 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=눈금자
 ###########################################################
 #CachePreferencePage properties
 
-SettingsPage.label.text=Please input the number of rows fetched from database:
-dataset.editor.settingsPage=Settings
+SettingsPage.label.text=데이터베이스에서 가져온 행 수를 입력하십시오.
+dataset.editor.settingsPage=설정
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -383,8 +383,8 @@ DataPageGenerator.TabItem.map=맵
 #dataset properties
 
 dataset.edit=데이터 집합 편집 - {0}
-dataset.editor.settings.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
-dataset.editor.settings=캐시 기본 설정
+dataset.editor.settings.errorNumberFormat=캐시 행 크기에 0 이상의 숫자를 입력하십시오.
+dataset.editor.settings=설정
 dataset.editor.computedColumns=계산 열
 dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
@@ -3490,7 +3490,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
-DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
+DataSetColumnBindingsFormHandleProvider.Column.displayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.TableTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식

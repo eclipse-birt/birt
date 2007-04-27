@@ -1892,7 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=Spaltenanzeigename
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
@@ -2173,7 +2173,7 @@ Element.DataSet.computedColumns=Berechnete Spalten
 Element.DataSet.filter=Filter
 Element.DataSet.columnHints=Spaltenhinweise
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=Maximale Anzahl der aus Datensatz abzurufenden Zeilen:
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Datenquelle
@@ -2200,7 +2200,7 @@ Element.SimpleDataSet.afterClose.reportContext=Berichtkontext
 Element.SimpleDataSet.paramBindings=Parameterbindungen
 Element.SimpleDataSet.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.SimpleDataSet.cachedRowCount=Zwischengespeicherte Zeilenzahl
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=Maximale Zeilenanzahl für Datensatz
  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Anweisung

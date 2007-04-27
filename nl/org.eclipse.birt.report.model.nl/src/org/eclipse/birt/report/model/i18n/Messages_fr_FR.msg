@@ -1892,7 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=Code de type de données natives
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nom de colonne
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=Nom d'affichage de la colonne
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn
@@ -2173,7 +2173,7 @@ Element.DataSet.computedColumns=Colonnes de calcul
 Element.DataSet.filter=Filtre
 Element.DataSet.columnHints=Astuces de colonne
 Element.DataSet.cachedMetaData=Métadonnées en cache
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=Nombre maximum de lignes à récupérer à partir du jeu de données
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Source de données
@@ -2200,7 +2200,7 @@ Element.SimpleDataSet.afterClose.reportContext=Contexte d'état
 Element.SimpleDataSet.paramBindings=Liaisons de paramètres
 Element.SimpleDataSet.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.SimpleDataSet.cachedRowCount=Nombre de lignes en cache
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=Nombre maximum de lignes du jeu de données
 
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Instruction

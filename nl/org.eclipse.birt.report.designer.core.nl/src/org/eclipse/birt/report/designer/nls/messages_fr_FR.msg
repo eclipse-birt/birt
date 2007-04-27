@@ -147,7 +147,7 @@ ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 ColumnBindingDialog.Column.Name=Nom
-ColumnBindingDialog.Column.displayName=Display Name
+ColumnBindingDialog.Column.displayName=Nom d'affichage
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -209,8 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=Règle
 ###########################################################
 #CachePreferencePage properties
 
-SettingsPage.label.text=Please input the number of rows fetched from database:
-dataset.editor.settingsPage=Settings
+SettingsPage.label.text=Entrez le nombre de lignes extraites de la base de données :
+dataset.editor.settingsPage=Paramètres
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -383,8 +383,8 @@ DataPageGenerator.TabItem.map=Mappage
 #dataset properties
 
 dataset.edit=Modifier le jeu de données - {0}
-dataset.editor.settings.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
-dataset.editor.settings=Préférences de cache
+dataset.editor.settings.errorNumberFormat=Entrez un nombre supérieur ou égal à zéro pour la taille des lignes en cache
+dataset.editor.settings=Paramètres
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
@@ -3490,7 +3490,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
-DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.TableTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
@@ -3571,7 +3571,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Le nom de fichier 
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nom :
-DataItemBindingDialog.text.displayName=DisplayName:
+DataItemBindingDialog.text.displayName=DisplayName :
 DataItemBindingDialog.text.DataType=Type de données :
 DataItemBindingDialog.text.Expression=Expression :
 DataItemBindingDialog.text.AggregateOn=Regrouper par :

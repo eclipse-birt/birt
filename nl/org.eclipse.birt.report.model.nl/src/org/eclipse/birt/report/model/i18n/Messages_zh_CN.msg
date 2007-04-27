@@ -1892,7 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=列显示名称
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
@@ -2173,7 +2173,7 @@ Element.DataSet.computedColumns=计算列
 Element.DataSet.filter=筛选
 Element.DataSet.columnHints=列提示
 Element.DataSet.cachedMetaData=缓存元数据
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=从数据集提取的最大行数
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=数据源
@@ -2200,7 +2200,7 @@ Element.SimpleDataSet.afterClose.reportContext=报表上下文
 Element.SimpleDataSet.paramBindings=参数绑定
 Element.SimpleDataSet.refTemplateParameter=参考模板参数定义
 Element.SimpleDataSet.cachedRowCount=缓存行计数
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=数据集行限制
  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=语句

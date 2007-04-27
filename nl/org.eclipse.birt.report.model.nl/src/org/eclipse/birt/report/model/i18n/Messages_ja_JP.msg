@@ -1892,7 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=列の表示名
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式
@@ -2173,7 +2173,7 @@ Element.DataSet.computedColumns=計算カラム
 Element.DataSet.filter=フィルタ
 Element.DataSet.columnHints=カラムのヒント
 Element.DataSet.cachedMetaData=キャッシュされたメタデータ
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=データソース
@@ -2200,7 +2200,7 @@ Element.SimpleDataSet.afterClose.reportContext=レポートのコンテキスト
 Element.SimpleDataSet.paramBindings=パラメタバインド
 Element.SimpleDataSet.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.SimpleDataSet.cachedRowCount=キャッシュ済みの行数
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=データセット行の制限
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=文
