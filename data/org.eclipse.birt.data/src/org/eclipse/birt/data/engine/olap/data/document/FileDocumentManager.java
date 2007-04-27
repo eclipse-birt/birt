@@ -82,6 +82,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		File file = new File( dirName + File.separatorChar + managerName + "obj" );
 		if ( !file.exists( ) )
 		{
+			if ( !new File(dirName).exists( ) )
+			{
+				new File(dirName).mkdirs( );
+			}	
+			
 			if ( !file.createNewFile( ) )
 			{
 				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,

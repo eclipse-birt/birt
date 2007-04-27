@@ -19,10 +19,12 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -37,14 +39,21 @@ import org.mozilla.javascript.Scriptable;
 public class CursorNavigatorTest extends TestCase
 {
 	private Scriptable scope;
+	private DataEngineImpl de;
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		new CubeCreator( ).createCube( );
+		
 		this.scope = new ImporterTopLevel();
+		de = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				scope,
+				null,
+				null ) );
+		
+		new CubeCreator( ).createCube( de );
 	}
 	
 
@@ -87,7 +96,7 @@ public class CursorNavigatorTest extends TestCase
 		cqd.addBinding( columnGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,this.scope,DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, scope, null, null )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( );
 

@@ -73,7 +73,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBasic( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -117,7 +116,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -134,7 +133,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBasic1( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -172,7 +170,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -190,7 +188,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testFilter1( ) throws Exception
 	{
-		this.createCube( );
+	
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -232,7 +230,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -250,7 +248,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testFilter2( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -297,7 +294,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -314,7 +311,11 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort1( ) throws Exception
 	{
-		this.createCube( );
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -352,10 +353,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter.setSortDirection( ISortDefinition.SORT_DESC );
 		cqd.addSort( sorter );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -374,7 +372,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort2( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -430,7 +427,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -448,7 +445,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testGrandTotal( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -522,7 +518,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -540,7 +536,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -607,6 +602,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -629,7 +625,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort1( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -657,7 +652,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -679,7 +674,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort2( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -716,7 +710,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -738,7 +732,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort3( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -783,7 +776,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -805,7 +798,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort5( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -833,7 +825,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
@@ -855,7 +847,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBindingRowReference( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -945,6 +936,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -970,7 +962,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBasicCache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1014,7 +1005,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -1039,7 +1030,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBasic1Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1077,7 +1067,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1103,7 +1093,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testFilter1Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1145,6 +1134,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
+		
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1170,7 +1161,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testFilter2Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1217,7 +1207,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
-		
+		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1242,7 +1232,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort1Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1284,6 +1273,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		
 		cqd.setCacheQueryResults( true );
 		
@@ -1310,7 +1300,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort2Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1366,6 +1355,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		
+		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1391,7 +1382,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testGrandTotalCache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1465,6 +1455,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
+		
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1490,7 +1482,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSortCache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1557,6 +1548,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
+		
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1586,7 +1579,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort1Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1614,6 +1606,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1643,7 +1636,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort2Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1680,6 +1672,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
+		
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1709,7 +1703,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort3Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1754,6 +1747,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		
 		cqd.setCacheQueryResults( true );
 		
@@ -1784,7 +1778,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testAggrSort5Cache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1812,6 +1805,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
 		
 		cqd.setCacheQueryResults( true );
 		
@@ -1842,7 +1836,6 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testBindingRowReferenceCache( ) throws Exception
 	{
-		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -1932,6 +1925,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null,
 				null ) );
+		this.createCube( engine );
+		
 		cqd.setCacheQueryResults( true );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -2211,9 +2206,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		this.checkOutputFile( );
 	}
 	
-	private void createCube() throws BirtException, IOException
+	private void createCube( DataEngine engine ) throws BirtException, IOException
 	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath, cubeName);
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath + engine.hashCode( ), cubeName);
 
 		Dimension[] dimensions = new Dimension[2];
 

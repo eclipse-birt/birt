@@ -259,26 +259,22 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{
 			String resultSetID = loadResultSetID( parentResult, queryID );
 			IBaseQueryResults queryResults = null;
-			if ( resultSetID == null )
+			query.setQueryResultsID( resultSetID );
+			IBasePreparedQuery pQuery = dteSession.prepare( query,
+					context.getAppContext( ) );
+			if ( parentResult != null )
 			{
-				IBasePreparedQuery pQuery = dteSession.prepare( query, context
-						.getAppContext( ) );
-				if ( parentResult != null )
-				{
-					queryResults = dteSession.execute( pQuery, parentResult
-							.getQueryResults( ), context.getSharedScope( ) );
-				}
-				else
-				{
-					queryResults = dteSession.execute( pQuery, null, context
-							.getSharedScope( ) );
-				}
-
+				queryResults = dteSession.execute( pQuery,
+						parentResult.getQueryResults( ),
+						context.getSharedScope( ) );
 			}
 			else
 			{
-				queryResults = dteSession.getQueryResults( resultSetID );
+				queryResults = dteSession.execute( pQuery,
+						null,
+						context.getSharedScope( ) );
 			}
+
 			
 			CubeResultSet resultSet = null;
 			if ( parentResult == null )

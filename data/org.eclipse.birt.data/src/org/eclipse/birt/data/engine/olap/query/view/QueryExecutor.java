@@ -260,7 +260,7 @@ public class QueryExecutor
 				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
 			return DocumentManagerFactory.loadFileDocumentManager( executor.getContext( )
-					.getTmpdir( ),
+					.getTmpdir( ) + executor.getSession( ).getEngine( ).hashCode( ),
 					executor.getCubeQueryDefinition( ).getName( ) );
 		}
 		else

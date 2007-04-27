@@ -463,16 +463,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
-						.getTmpdir( ),
-						cubeHandle.getQualifiedName( ) );
+				cubeMaterializer = createCubeMaterializer( cubeHandle );
 				createCube( (TabularCubeHandle)cubeHandle, cubeMaterializer );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
-						.getTmpdir( ),
-						cubeHandle.getQualifiedName( ) );
+				cubeMaterializer = createCubeMaterializer( cubeHandle );
 				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
@@ -483,6 +479,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			throw new DataException( e.getLocalizedMessage( ) );
 		}
+	}
+
+	/**
+	 * Create a cube materializer.
+	 * @param cubeHandle
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	private CubeMaterializer createCubeMaterializer( CubeHandle cubeHandle )
+			throws DataException, IOException, BirtException
+	{
+		CubeMaterializer cubeMaterializer;
+		cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
+				.getTmpdir( ) + this.dataEngine.hashCode( ),
+				cubeHandle.getQualifiedName( ) );
+		return cubeMaterializer;
 	}
 
 	/**
