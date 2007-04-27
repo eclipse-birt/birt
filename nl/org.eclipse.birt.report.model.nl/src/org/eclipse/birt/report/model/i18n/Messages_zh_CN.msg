@@ -559,10 +559,26 @@ Choices.viewAction.Added=已添加
 Choices.viewAction.Deleted=已删除
 
 #70. measureFunction
-Choices.measureFunction.sum=求和
-Choices.measureFunction.count=计数
-Choices.measureFunction.min=最小值
-Choices.measureFunction.max=最大值
+Choices.measureFunction.sum=SUM
+Choices.measureFunction.count=COUNT
+Choices.measureFunction.min=MIN
+Choices.measureFunction.max=MAX
+Choices.measureFunction.average=AVERAGE
+Choices.measureFunction.weighted-avg=WEIGHTEDAVG
+Choices.measureFunction.stddev=STDDEV
+Choices.measureFunction.first=FIRST
+Choices.measureFunction.last=LAST
+Choices.measureFunction.mode=MODE
+Choices.measureFunction.moving-ave=MOVINGAVE
+Choices.measureFunction.median=MEDIAN
+Choices.measureFunction.variance=VARIANCE
+Choices.measureFunction.running-sum=RUNNINGSUM
+Choices.measureFunction.irr=IRR
+Choices.measureFunction.mirr=MIRR
+Choices.measureFunction.npv=NPV
+Choices.measureFunction.running-npv=RUNNINGNPV
+Choices.measureFunction.count-distinct=COUNTDISTINCT
+Choices.measureFunction.running-count=RUNNINGCOUNT
 
 #71. levelType
 Choices.levelType.dynamic=动态

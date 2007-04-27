@@ -559,10 +559,26 @@ Choices.viewAction.Added=추가됨
 Choices.viewAction.Deleted=삭제됨
 
 #70. measureFunction
-Choices.measureFunction.sum=합
-Choices.measureFunction.count=카운트
-Choices.measureFunction.min=최소
-Choices.measureFunction.max=최대
+Choices.measureFunction.sum=SUM
+Choices.measureFunction.count=COUNT
+Choices.measureFunction.min=MIN
+Choices.measureFunction.max=MAX
+Choices.measureFunction.average=AVERAGE
+Choices.measureFunction.weighted-avg=WEIGHTEDAVG
+Choices.measureFunction.stddev=STDDEV
+Choices.measureFunction.first=FIRST
+Choices.measureFunction.last=LAST
+Choices.measureFunction.mode=MODE
+Choices.measureFunction.moving-ave=MOVINGAVE
+Choices.measureFunction.median=MEDIAN
+Choices.measureFunction.variance=VARIANCE
+Choices.measureFunction.running-sum=RUNNINGSUM
+Choices.measureFunction.irr=IRR
+Choices.measureFunction.mirr=MIRR
+Choices.measureFunction.npv=NPV
+Choices.measureFunction.running-npv=RUNNINGNPV
+Choices.measureFunction.count-distinct=COUNTDISTINCT
+Choices.measureFunction.running-count=RUNNINGCOUNT
 
 #71. levelType
 Choices.levelType.dynamic=동적

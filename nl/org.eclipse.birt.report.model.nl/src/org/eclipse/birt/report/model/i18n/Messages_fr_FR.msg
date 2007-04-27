@@ -559,10 +559,26 @@ Choices.viewAction.Added=Ajouté
 Choices.viewAction.Deleted=Supprimé
 
 #70. measureFunction
-Choices.measureFunction.sum=Somme
-Choices.measureFunction.count=Nombre
-Choices.measureFunction.min=Min
-Choices.measureFunction.max=Max
+Choices.measureFunction.sum=SUM
+Choices.measureFunction.count=COUNT
+Choices.measureFunction.min=MIN
+Choices.measureFunction.max=MAX
+Choices.measureFunction.average=AVERAGE
+Choices.measureFunction.weighted-avg=WEIGHTEDAVG
+Choices.measureFunction.stddev=STDDEV
+Choices.measureFunction.first=FIRST
+Choices.measureFunction.last=LAST
+Choices.measureFunction.mode=MODE
+Choices.measureFunction.moving-ave=MOVINGAVE
+Choices.measureFunction.median=MEDIAN
+Choices.measureFunction.variance=VARIANCE
+Choices.measureFunction.running-sum=RUNNINGSUM
+Choices.measureFunction.irr=IRR
+Choices.measureFunction.mirr=MIRR
+Choices.measureFunction.npv=NPV
+Choices.measureFunction.running-npv=RUNNINGNPV
+Choices.measureFunction.count-distinct=COUNTDISTINCT
+Choices.measureFunction.running-count=RUNNINGCOUNT
 
 #71. levelType
 Choices.levelType.dynamic=Dynamique
