@@ -682,6 +682,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					String imageMIMEType = itemPresentation.getImageMIMEType( );
 					generatedContent = processExtendedContent( content, type, output, imageMIMEType );
 				}
+				else
+				{
+					generatedContent = null;
+				}
 				itemPresentation.finish( );
 			}
 			catch ( BirtException ex )

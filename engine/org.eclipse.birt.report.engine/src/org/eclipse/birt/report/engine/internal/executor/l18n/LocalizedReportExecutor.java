@@ -180,7 +180,7 @@ public class LocalizedReportExecutor implements IReportExecutor
 			IContentEmitter emitter )
 	{
 		IContent content = executor.execute( );
-		if ( emitter != null )
+		if ( emitter != null && content != null )
 		{
 			ContentEmitterUtil.startContent( content, emitter );
 		}
@@ -190,7 +190,7 @@ public class LocalizedReportExecutor implements IReportExecutor
 			execute( child, emitter );
 			child.close( );
 		}
-		if ( emitter != null )
+		if ( emitter != null && content != null )
 		{
 			ContentEmitterUtil.endContent( content, emitter );
 		}
