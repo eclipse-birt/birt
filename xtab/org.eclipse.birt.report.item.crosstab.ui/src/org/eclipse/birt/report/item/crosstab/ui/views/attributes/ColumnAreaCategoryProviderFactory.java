@@ -15,24 +15,24 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ca
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.RowGrandTotalPage;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.RowPageBreak;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.RowSubTotalPage;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.ColumnGrandTotalPage;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.ColumnPageBreak;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.ColumnSubTotalPage;
 
 
 /**
  * 
  */
 
-public class RowAreaCategoryProviderFactory extends CategoryProviderFactory
+public class ColumnAreaCategoryProviderFactory extends CategoryProviderFactory
 {
-	private static ICategoryProviderFactory instance = new RowAreaCategoryProviderFactory( );
+	private static ICategoryProviderFactory instance = new ColumnAreaCategoryProviderFactory( );
 
 	public final static String SUB_TOTLES = "SubTotals";
 	public final static String GRAND_TOTALS = "GrandTotals";
 	public final static String PAGE_BREAK = "PageBreak";
 
-	protected RowAreaCategoryProviderFactory( )
+	protected ColumnAreaCategoryProviderFactory( )
 	{
 	}
 
@@ -61,9 +61,9 @@ public class RowAreaCategoryProviderFactory extends CategoryProviderFactory
 				"CrosstabPageGenerator.List.GrandTotals", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.PageBreak", //$NON-NLS-1$
 		}, new Class[]{
-				RowSubTotalPage.class,
-				RowGrandTotalPage.class,
-				RowPageBreak.class,
+				ColumnSubTotalPage.class,
+				ColumnGrandTotalPage.class,
+				ColumnPageBreak.class,
 		} );
 		return provider;
 	}

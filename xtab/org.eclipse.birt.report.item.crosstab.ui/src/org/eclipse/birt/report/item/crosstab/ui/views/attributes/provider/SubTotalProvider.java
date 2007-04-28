@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
@@ -20,40 +19,46 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
-import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.CrosstabGrandTotalDialog;
+import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.SubTotalDialog;
 
 /**
  * 
  */
 
-public class GrandTotalProvider extends AbstractFormHandleProvider
+public class SubTotalProvider extends AbstractFormHandleProvider
 {
 
+	
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			Messages.getString( "GrandTotalProvider.Column.DataField" ), Messages.getString( "GrandTotalProvider.Column.Function" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ),
+			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ),
+			Messages.getString( "CrosstabSubToatalProvider.Column.Function" ),
 	};
 
-	protected CrosstabReportItemHandle crosstabReportItemHandle;
 	private int[] columnWidths = new int[]{
-			200, 200
+			160, 160, 200
 	};
-
+	
+	private int axis;
+	public void setAxis(int axis)
+	{
+		this.axis = axis;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -62,14 +67,8 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean canModify( Object element, String property )
 	{
+		// TODO Auto-generated method stub
 		return false;
-	}
-
-	private int axis;
-
-	public void setAxis( int axis )
-	{
-		this.axis = axis;
 	}
 
 	/*
@@ -80,7 +79,6 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public boolean doAddItem( int pos ) throws Exception
 	{
 		// TODO Auto-generated method stub
-
 		CrosstabReportItemHandle reportHandle = null;
 		try
 		{
@@ -91,9 +89,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		CrosstabGrandTotalDialog grandTotalDialog = new CrosstabGrandTotalDialog( reportHandle,
+		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle,
 				axis );
-		if ( grandTotalDialog.open( ) == Dialog.CANCEL )
+		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
 			return false;
 		}
@@ -108,22 +106,34 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public boolean doDeleteItem( int pos ) throws Exception
 	{
 		// TODO Auto-generated method stub
-		Object obj[] = getGrandTotalInfo( crosstabReportItemHandle );
-		AggregationDialog.GrandTotalInfo info = (AggregationDialog.GrandTotalInfo) obj[pos];
-		MeasureHandle measure = info.getMeasure( );
-		ExtendedItemHandle itemHandle = (ExtendedItemHandle) crosstabReportItemHandle.getModelHandle( );
-		List measureList = itemHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
+		SubTotalInfo subTotalInfo = (SubTotalInfo) getElements( input )[pos];
+		LevelViewHandle levelViewHandle = subTotalInfo.level;
+		MeasureViewHandle measureViewHandle = subTotalInfo.measure;
+
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ;
+		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
 				.getContents( );
-		for ( int i = 0; i < measureList.size( ); i++ )
+		int measureIndex = -1;
+		for ( int i = 0; i < tmpMeasures.size( ); i++ )
 		{
-			ExtendedItemHandle extMeasure = (ExtendedItemHandle) measureList.get( i );
-			if ( ( (MeasureViewHandle) extMeasure.getReportItem( ) ).getCubeMeasure( ) == measure )
+			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
+			try
 			{
-				crosstabReportItemHandle.removeGrandTotal( axis, i );
-				return true;
+				if(measureViewHandle == (MeasureViewHandle) extHandle.getReportItem( ))
+				{
+					measureIndex = i;
+					break;
+				}
+			}
+			catch ( ExtendedElementException e1 )
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace( );
 			}
 		}
-		return false;
+
+		levelViewHandle.removeSubTotal( measureIndex );
+		return true;
 	}
 
 	/*
@@ -134,17 +144,23 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public boolean doEditItem( int pos )
 	{
 		// TODO Auto-generated method stub
-		CrosstabGrandTotalDialog grandTotalDialog = new CrosstabGrandTotalDialog( crosstabReportItemHandle,
-				axis );
-		Object obj[] = getGrandTotalInfo( crosstabReportItemHandle );
-		AggregationDialog.GrandTotalInfo info = (AggregationDialog.GrandTotalInfo) obj[pos];
-		MeasureHandle measure = info.getMeasure( );
-		grandTotalDialog.setInput( info );
-		if ( grandTotalDialog.open( ) == Dialog.CANCEL )
+		CrosstabReportItemHandle reportHandle = null;
+		try
+		{
+			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle,
+				axis);
+		subTotalDialog.setInput( (SubTotalInfo) getElements( input )[pos] );
+		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
 			return false;
 		}
-
 		return true;
 	}
 
@@ -180,17 +196,18 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public String getColumnText( Object element, int columnIndex )
 	{
 		// TODO Auto-generated method stub
-		GrandTotalInfo info = (GrandTotalInfo) element;
+		SubTotalInfo info = (SubTotalInfo) element;
 		switch ( columnIndex )
 		{
 			case 0 :
-				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
-						.getName( );
+				return info.level.getCubeLevelName( );
 			case 1 :
-				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
-					info.setFunction( getFunctionNames( )[0] );
-				return getFunctionDisplayName( info.getFunction( ) );
+				return info.measure == null ? "" : info.measure.getCubeMeasureName( ); //$NON-NLS-1$
+
+			case 2 :
+				if ( info.function == null || info.function.trim( ).equals( "" ) ) //$NON-NLS-1$
+					info.function = getFunctionNames( )[0];
+				return getFunctionDisplayName( info.function );
 			default :
 				break;
 		}
@@ -219,8 +236,10 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		if ( editors == null )
 		{
 			editors = new CellEditor[columnNames.length];
-			editors[0] = new TextCellEditor( );
-			editors[1] = new TextCellEditor( );
+			for ( int i = 0; i < columnNames.length; i++ )
+			{
+				editors[i] = new TextCellEditor( );
+			}
 		}
 		return editors;
 	}
@@ -244,17 +263,75 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 			obj = inputElement;
 		}
 
+		List list = new ArrayList( );
+		if ( !( obj instanceof ExtendedItemHandle ) )
+			return new Object[0];
+		ExtendedItemHandle element = (ExtendedItemHandle) obj;
+		CrosstabReportItemHandle crossTab = null;
 		try
 		{
-			crosstabReportItemHandle = (CrosstabReportItemHandle) ( ( (ExtendedItemHandle) obj ).getReportItem( ) );
+			crossTab = (CrosstabReportItemHandle) element.getReportItem( );
 		}
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
+		if ( crossTab == null )
+		{
+			return new Object[0];
+		}
 
-		return getGrandTotalInfo( crosstabReportItemHandle );
+		if ( crossTab.getCrosstabView( axis ) != null )
+		{
+			CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
+			list.addAll( getLevel( crosstabView ) );
+		}
+
+		return list.toArray( );
+	}
+
+	private List getLevel( CrosstabViewHandle crosstabViewHandle )
+	{
+		List list = new ArrayList( );
+		if ( crosstabViewHandle == null )
+		{
+			return list;
+		}
+		int dimensionCount = crosstabViewHandle.getDimensionCount( );
+
+		for ( int i = 0; i < dimensionCount; i++ )
+		{
+			DimensionViewHandle dimension = crosstabViewHandle.getDimension( i );
+			int levelCount = dimension.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				LevelViewHandle levelHandle = dimension.getLevel( j );
+				List aggMeasures = levelHandle.getAggregationMeasures( );
+				for ( int k = 0; k < aggMeasures.size( ); k++ )
+				{
+					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
+					SubTotalInfo info = new SubTotalInfo( );
+					info.measure = measure;
+					info.function = levelHandle.getAggregationFunction( measure );
+					info.level = levelHandle;
+					list.add( info );
+				}
+
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * GrandTotalInfo
+	 */
+	public static class SubTotalInfo
+	{
+
+		public LevelViewHandle level;
+		public MeasureViewHandle measure;
+		public String function = ""; //$NON-NLS-1$
 	}
 
 	/*
@@ -278,9 +355,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public Object getValue( Object element, String property )
 	{
 		// TODO Auto-generated method stub
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
-		return columnText;
+		return null;
 	}
 
 	/*
@@ -304,15 +379,6 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public boolean needRefreshed( NotificationEvent event )
 	{
 		// TODO Auto-generated method stub
-		if ( event instanceof PropertyEvent )
-		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-
-			if ( ICrosstabReportItemConstants.MEASURES_PROP.equals( propertyName ) )
-			{
-				return true;
-			}
-		}
 		return false;
 	}
 
@@ -325,21 +391,6 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	{
 		// TODO Auto-generated method stub
 		return "Update later";
-	}
-
-	public String[] getFunctionDisplayNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
-			return new String[0];
-
-		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getDisplayName( );
-		}
-		return displayNames;
-
 	}
 
 	public String[] getFunctionNames( )
@@ -370,23 +421,4 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 				.getChoices( );
 	}
 
-	private Object[] getGrandTotalInfo( CrosstabReportItemHandle reportHandle )
-	{
-
-		List retValue = new ArrayList( );
-		List measures = reportHandle.getAggregationMeasures( axis );
-		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
-			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
-			info.setMeasure( measureViewHandle.getCubeMeasure( ) );
-			info.setFunction( reportHandle.getAggregationFunction( axis,
-					measureViewHandle ) );
-			retValue.add( info );
-
-		}
-
-		return retValue.toArray( new Object[retValue.size( )] );
-
-	}
 }
