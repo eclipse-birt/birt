@@ -25,11 +25,14 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * A wizard launcher for Chart builder.
@@ -44,13 +47,13 @@ import org.eclipse.swt.widgets.Display;
 public class ChartWizardLauncher
 {
 
-	public void launch( )
+	public void launch( String filePath )
 	{
 		init( );
 
 		Chart chart = null;
 		Serializer serializer = null;
-		final File chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+		final File chartFile = new File( filePath );
 
 		// This array is for storing the latest chart data before pressing
 		// apply button
@@ -73,6 +76,7 @@ public class ChartWizardLauncher
 		// Configures the chart wizard.
 		final ChartWizard chartWizard = new ChartWizard( );
 		final ChartWizardContext context = new ChartWizardContext( chart );
+		context.setRtL( ChartUtil.isRightToLeftLocale( ULocale.getDefault( ) ) );
 
 		/*
 		 * Used to fetch data. Default implementation of <code>IDataServiceProvider</code>.
@@ -177,6 +181,8 @@ public class ChartWizardLauncher
 
 	public static void main( String[] args )
 	{
-		new ChartWizardLauncher( ).launch( );
+		String filePath = args != null && args.length > 0 ? args[0]
+				: "testChart.chart"; //$NON-NLS-1$
+		new ChartWizardLauncher( ).launch( filePath );
 	}
 }

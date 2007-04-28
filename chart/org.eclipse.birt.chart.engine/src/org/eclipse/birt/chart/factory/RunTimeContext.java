@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 import com.ibm.icu.util.ULocale;
@@ -363,25 +364,7 @@ public final class RunTimeContext implements Serializable
 	{
 		if ( iRightToLeft == -1 )
 		{
-			iRightToLeft = 0;
-			if ( lcl != null )
-			{
-				String language = lcl.getLanguage( );
-				// See ISO codes at
-				// http://www.unicode.org/unicode/onlinedat/languages.html
-				// RTL languages are Hebrew, Arabic, Urdu, Farsi (Persian),
-				// Yiddish
-				if ( language.equals( "he" ) || //$NON-NLS-1$
-						language.equals( "iw" ) || //$NON-NLS-1$
-						language.equals( "ar" ) || //$NON-NLS-1$
-						language.equals( "fa" ) || //$NON-NLS-1$
-						language.equals( "ur" ) || //$NON-NLS-1$
-						language.equals( "yi" ) || //$NON-NLS-1$
-						language.equals( "ji" ) ) //$NON-NLS-1$ 
-				{
-					iRightToLeft = 1;
-				}
-			}
+			iRightToLeft = ChartUtil.isRightToLeftLocale( lcl ) ? 1 : 0;
 		}
 		return iRightToLeft == 1;
 	}

@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utility class for Charts.
@@ -519,6 +520,35 @@ public class ChartUtil
 		for ( int i = 0; i < allTypes.length; i++ )
 		{
 			if ( output.equals( allTypes[i] ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns if specified locale uses right-to-left direction. See ISO codes
+	 * at http://www.unicode.org/unicode/onlinedat/languages.html RTL languages
+	 * are Hebrew, Arabic, Urdu, Farsi (Persian), Yiddish
+	 * 
+	 * @param lcl
+	 *            locale to check direction
+	 * @return if specified locale uses right-to-left direction
+	 * @since 2.2
+	 */
+	public static boolean isRightToLeftLocale( ULocale lcl )
+	{
+		if ( lcl != null )
+		{
+			String language = lcl.getLanguage( );
+			if ( language.equals( "he" ) || //$NON-NLS-1$
+					language.equals( "iw" ) || //$NON-NLS-1$
+					language.equals( "ar" ) || //$NON-NLS-1$
+					language.equals( "fa" ) || //$NON-NLS-1$
+					language.equals( "ur" ) || //$NON-NLS-1$
+					language.equals( "yi" ) || //$NON-NLS-1$
+					language.equals( "ji" ) ) //$NON-NLS-1$ 
 			{
 				return true;
 			}
