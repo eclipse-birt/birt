@@ -625,8 +625,17 @@ public class ReportDesignSerializer extends ElementVisitor
 		DesignElement container = (DesignElement) elements.peek( );
 
 		newElement.setID( element.getID( ) );
-		int slotId = element.getContainerInfo( ).getSlotID( );
-		container.add( newElement, slotId );
+
+		ContainerContext sourceContainment = element.getContainerInfo( );
+		ContainerContext containment = null;
+		String containmentProp = sourceContainment.getPropertyName( );
+		if ( containmentProp != null )
+			containment = new ContainerContext( container, containmentProp );
+		else
+			containment = new ContainerContext( container, sourceContainment
+					.getSlotID( ) );
+
+		containment.add( targetDesign, newElement );
 
 		if ( newElement.getName( ) != null )
 		{
@@ -797,7 +806,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				continue;
 
 			Object value = element.getStrategy( ).getPropertyFromElement(
-					element.getRoot( ), element, propDefn );
+					targetDesign, element, propDefn );
 
 			if ( value == null )
 				continue;
@@ -824,6 +833,10 @@ public class ReportDesignSerializer extends ElementVisitor
 					break;
 				case IPropertyType.STRUCT_TYPE :
 					handleStructureValue( newElement, propDefn, value );
+					break;
+				case IPropertyType.ELEMENT_TYPE :
+				case IPropertyType.CONTENT_ELEMENT_TYPE :
+					// for element types, do nothing.
 					break;
 				default :
 					if ( newElement.getLocalProperty( null, propDefn ) == null )

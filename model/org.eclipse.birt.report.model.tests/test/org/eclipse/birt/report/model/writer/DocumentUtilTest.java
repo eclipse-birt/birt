@@ -192,7 +192,22 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-		
+
 		assertTrue( compareFile( "DocumentUtilTest_shared_style_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * For cubes that contains elements in property values. Should no exception.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSerializeWithElementProps( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_ElementProps.xml" ); //$NON-NLS-1$
+		assertNotNull( designHandle );
+
+		serializeDocument( );
+		assertTrue( compareFile( "DocumentUtilTest_ElementProps_golden.xml" ) ); //$NON-NLS-1$
 	}
 }
