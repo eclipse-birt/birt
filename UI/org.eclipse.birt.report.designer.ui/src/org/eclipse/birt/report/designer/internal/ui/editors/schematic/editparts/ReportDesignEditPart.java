@@ -215,9 +215,11 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 				}
 			}
 		} );
-		
-		getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
-				((ReportDesignHandle)getModel()).getLayoutPreference());
+		if (getModel() instanceof ReportDesignHandle)
+		{
+			getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
+					((ReportDesignHandle)getModel()).getLayoutPreference());
+		}
 	}
 
 	/* (non-Javadoc)
