@@ -1080,24 +1080,48 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
 			DataSourceDesign design )
 	{
-		if ( designFromHandle != null )
+		if ( designFromHandle == null && design == null )
+			return true;
+
+		if ( designFromHandle != null && design == null )
+			return false;
+
+		if ( designFromHandle == null && design != null )
+			return false;
+
+		assert designFromHandle != null;
+
+		// both must be not null
+
+		Properties handleProps = designFromHandle.getPublicProperties( );
+		Properties props = design.getPublicProperties( );
+
+		if ( handleProps == null && props == null )
+			return true;
+
+		if ( handleProps != null && props == null )
+			return false;
+
+		if ( handleProps == null && props != null )
+			return false;
+
+		assert handleProps != null;
+		assert props != null;
+		
+		EList publicProps = handleProps.getProperties( );
+		for ( int i = 0; i < publicProps.size( ); i++ )
 		{
-			EList publicProps = designFromHandle.getPublicProperties( )
-					.getProperties( );
-			for ( int i = 0; i < publicProps.size( ); i++ )
+			Property prop = (Property) publicProps.get( i );
+			String propValue = prop.getValue( );
+			String propName = prop.getName( );
+			if ( propValue == null )
 			{
-				Property prop = (Property) publicProps.get( i );
-				String propValue = prop.getValue( );
-				String propName = prop.getName( );
-				if ( propValue == null )
-				{
-					String value = design.getPublicProperties( ).getProperty(
-							propName );
-					if ( value != null && value.trim( ).equals( "" ) ) //$NON-NLS-1$
-						prop.setNameValue( prop.getName( ), "" ); //$NON-NLS-1$
-				}
+				String value = props.getProperty( propName );
+				if ( value != null && value.trim( ).equals( "" ) ) //$NON-NLS-1$
+					prop.setNameValue( prop.getName( ), "" ); //$NON-NLS-1$
 			}
 		}
+
 		return new EcoreUtil.EqualityHelper( )
 				.equals( designFromHandle, design );
 	}
@@ -1141,8 +1165,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		DataSetDesign requestDesign = completedSession
 				.getRequestDataSetDesign( );
 
-		updateDataSetHandle( responseDesign, dataSetHandle, false, requestDesign
-				.getParameters( ), requestDesign.getResultSets( ) );
+		updateDataSetHandle( responseDesign, dataSetHandle, false,
+				requestDesign.getParameters( ), requestDesign.getResultSets( ) );
 
 		DesignerStateAdapter.updateROMDesignerState( completedSession
 				.getResponse( ).getDesignerState( ), dataSetHandle );;
