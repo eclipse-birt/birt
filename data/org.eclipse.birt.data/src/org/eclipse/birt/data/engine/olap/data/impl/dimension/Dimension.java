@@ -93,6 +93,10 @@ public class Dimension implements IDimension
 		documentObj = null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDimension#getAllRows()
+	 */
 	public IDiskArray getAllRows( ) throws IOException
 	{
 		return hierarchy.readAllRows( );
