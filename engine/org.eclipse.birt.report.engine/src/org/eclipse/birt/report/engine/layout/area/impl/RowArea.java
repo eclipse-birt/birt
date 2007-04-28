@@ -28,6 +28,11 @@ public class RowArea extends ContainerArea
 		style.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0 );
 		style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0 );
 		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.NUMBER_0 );
+		// Row does not support margin, remove them.
+		style.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0);
+		style.setProperty( IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
+		style.setProperty( IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
+		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0);
 	}
 
 	public int getRowID( )
