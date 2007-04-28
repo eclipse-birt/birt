@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingAggregateOnProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
@@ -1463,5 +1464,14 @@ public class TableEditPart extends AbstractTableEditPart implements
 				| PositionConstants.SOUTH_EAST );
 
 		return rpc;
+	}
+	
+	public Object getAdapter( Class key )
+	{
+		if (key == DataItemBindingAggregateOnProvider.class)
+		{
+			return new DataEditPart.DefaultDataItemBindingAggregateOnProvider();
+		}
+		return super.getAdapter( key );
 	}
 }

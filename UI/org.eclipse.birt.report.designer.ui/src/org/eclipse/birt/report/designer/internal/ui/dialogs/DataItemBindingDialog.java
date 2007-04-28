@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class DataItemBindingDialog extends BaseDialog
 {
-
+	DataItemBindingAggregateOnProvider provider;
 	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
 
 	// protected static final String DISPLAY_NAME = Messages.getString(
@@ -560,21 +560,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 	}
 
-	private ComputedColumnHandle getInputBinding( ReportItemHandle input,
-			String bindingName )
-	{
-		List elementsList = DEUtil.getVisiableColumnBindingsList( input );
-		if ( elementsList != null && elementsList.size( ) > 0 )
-		{
-			for ( int i = 0; i < elementsList.size( ); i++ )
-			{
-				if ( ( (ComputedColumnHandle) elementsList.get( i ) ).getName( )
-						.equals( bindingName ) )
-					return (ComputedColumnHandle) elementsList.get( i );
-			}
-		}
-		return null;
-	}
+	
 
 	private int getItemIndex( String[] items, String item )
 	{
@@ -1029,7 +1015,7 @@ public class DataItemBindingDialog extends BaseDialog
 		{
 			if ( !isCreateNew )
 			{
-				bindingColumn = getInputBinding( input,
+				bindingColumn = DEUtil.getInputBinding( input,
 						( (DataItemHandle) input ).getResultSetColumn( ) );
 			}
 			if ( isCreateNew )
@@ -1147,5 +1133,11 @@ public class DataItemBindingDialog extends BaseDialog
 			button.getImage( ).setBackground( button.getBackground( ) );
 		}
 
+	}
+
+	
+	public void setProvider( DataItemBindingAggregateOnProvider provider )
+	{
+		this.provider = provider;
 	}
 }

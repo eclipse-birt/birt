@@ -2512,5 +2512,26 @@ public class DEUtil
 		else
 			return Collections.EMPTY_LIST;
 	}
+	
+	/**
+	 * @param input
+	 * @param bindingName
+	 * @return
+	 */
+	public static ComputedColumnHandle getInputBinding( ReportItemHandle input,
+			String bindingName )
+	{
+		List elementsList = DEUtil.getVisiableColumnBindingsList( input );
+		if ( elementsList != null && elementsList.size( ) > 0 )
+		{
+			for ( int i = 0; i < elementsList.size( ); i++ )
+			{
+				if ( ( (ComputedColumnHandle) elementsList.get( i ) ).getName( )
+						.equals( bindingName ) )
+					return (ComputedColumnHandle) elementsList.get( i );
+			}
+		}
+		return null;
+	}
 
 }
