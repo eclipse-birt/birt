@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -33,31 +34,37 @@ public class DataAdapterUtil
 	 * @param targetScope
 	 * @param source
 	 */
-	public static void registerJSObject( Scriptable targetScope, Object source )
+	public static void registerJSObject( Scriptable targetScope,
+			ILinkedResult source )
 	{
-		if ( source instanceof ILinkedResultIterator )
+		int type = ( (ILinkedResult) source ).getCurrentResultType( );
+		if ( type == ILinkedResult.TYPE_TABLE )
 		{
-			targetScope.put( "row",
-					targetScope,
-					new JSResultIteratorObject( (ILinkedResultIterator) source ) );
-
+			targetScope.put( "row", targetScope, new JSResultIteratorObject(
+					(ILinkedResult) source ) );
 		}
-		else if ( source instanceof ICubeCursor )
+		else if ( type == ILinkedResult.TYPE_CUBE )
 		{
-			Scriptable scope = ((ICubeCursor)source).getScope( );
+			Scriptable scope = ( (ICubeCursor) source.getCurrentResult( ) )
+					.getScope( );
 			targetScope.put( "data", targetScope, scope.get( "data", scope ) );
-			targetScope.put( "dimension", targetScope, scope.get( "dimension", scope ) );
-			targetScope.put( "measure", targetScope, scope.get( "measure", scope ) );
+			targetScope.put( "dimension", targetScope, scope.get( "dimension",
+					scope ) );
+			targetScope.put( "measure", targetScope, scope.get( "measure",
+					scope ) );
 		}
 	}
 	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
-		private ILinkedResultIterator it;
-
-		JSResultIteratorObject( ILinkedResultIterator it )
+		private ILinkedResult it;
+		private IResultIterator currentIterator;
+		
+		JSResultIteratorObject( ILinkedResult it )
 		{
 			this.it = it;
+			if ( it.getCurrentResultType( ) == ILinkedResult.TYPE_TABLE )
+				this.currentIterator = ( IResultIterator ) it.getCurrentResult( );
 		}
 		public String getClassName( )
 		{
@@ -68,15 +75,18 @@ public class DataAdapterUtil
 		{
 			try
 			{
+				if ( this.currentIterator == null )
+					return null;
+				
 				if( "__rownum".equalsIgnoreCase( arg0 )||"0".equalsIgnoreCase( arg0 ))
 				{
-					return new Integer( it.getCurrentIterator( ).getRowIndex( ) );
+					return new Integer( this.currentIterator.getRowIndex( ) );
 				}
 				if( "_outer".equalsIgnoreCase( arg0 ))
 				{
 					return new JSResultIteratorObject( it.getParent( ));
 				}
-				return it.getCurrentIterator( ).getValue( arg0 );
+				return this.currentIterator.getValue( arg0 );
 			}
 			catch ( BirtException e )
 			{

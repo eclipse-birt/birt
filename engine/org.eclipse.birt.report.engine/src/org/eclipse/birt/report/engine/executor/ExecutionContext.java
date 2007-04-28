@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.ILinkedResult;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -1680,22 +1681,56 @@ public class ExecutionContext
 			return;
 		}
 		this.rsets = rsets;
-		if ( rsets[0] instanceof IQueryResultSet )
+		if ( rsets[0] != null )
 		{
-			IQueryResultSet qRset = (IQueryResultSet) rsets[0];
 			Scriptable scope = scriptContext.getRootScope( );
-			DataAdapterUtil
-					.registerJSObject( scope, qRset.getResultIterator( ) );
-
-		}
-		else if ( rsets[0] instanceof ICubeResultSet )
-		{
-			ICubeResultSet cRset = (ICubeResultSet) rsets[0];
-			Scriptable scope = scriptContext.getRootScope( );
-			DataAdapterUtil.registerJSObject( scope, cRset.getCubeCursor( ) );
+			DataAdapterUtil.registerJSObject( scope, new ResultIteratorTree(
+					rsets[0] ) );
 		}
 	}
 	
+	private class ResultIteratorTree implements ILinkedResult
+	{
+
+		IBaseResultSet currentRset;
+		int resultType = -1;
+
+		public ResultIteratorTree( IBaseResultSet rset )
+		{
+			this.currentRset = rset;
+			if ( rset instanceof IQueryResultSet )
+			{
+				resultType = ILinkedResult.TYPE_TABLE;
+			}
+			else if ( rset instanceof ICubeResultSet )
+			{
+				resultType = ILinkedResult.TYPE_CUBE;
+			}
+		}
+
+		public ILinkedResult getParent( )
+		{
+			return new ResultIteratorTree( currentRset.getParent( ) );
+		}
+
+		public Object getCurrentResult( )
+		{
+			if ( resultType == ILinkedResult.TYPE_TABLE )
+			{
+				return ( (IQueryResultSet) currentRset ).getResultIterator( );
+			}
+			else if ( resultType == ILinkedResult.TYPE_CUBE )
+			{
+				return ( (ICubeResultSet) currentRset ).getCubeCursor( );
+			}
+			return null;
+		}
+
+		public int getCurrentResultType( )
+		{
+			return resultType;
+		}
+	}
 
 	public boolean hasErrors( )
 	{
