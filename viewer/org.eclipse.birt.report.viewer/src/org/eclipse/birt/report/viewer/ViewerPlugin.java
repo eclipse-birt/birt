@@ -102,8 +102,9 @@ public class ViewerPlugin extends Plugin
 				ULocale.getDefault( ).getDisplayName( ) );
 
 		// set viewer plugin working path
-		String pluginPath = plugin.getStateLocation( ).toOSString( );
-		System.setProperty( BIRT_VIEWER_WORKING_PATH, pluginPath );
+		if ( plugin.getStateLocation( ) != null )
+			System.setProperty( BIRT_VIEWER_WORKING_PATH, plugin
+					.getStateLocation( ).toOSString( ) );
 	}
 
 	/**
