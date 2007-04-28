@@ -200,4 +200,16 @@ public interface IAggregationResultSet
 	 * @return
 	 */
 	public int getPosition( );
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void close( ) throws IOException;
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void clear( ) throws IOException;
 }

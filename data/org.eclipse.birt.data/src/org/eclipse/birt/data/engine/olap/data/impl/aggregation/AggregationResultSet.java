@@ -284,7 +284,8 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		if ( index >= aggregationResultRow.size( ) )
 		{
-			return;
+			throw new IndexOutOfBoundsException( "Index: "
+					+ index + ", Size: " + aggregationResultRow.size( ) );
 		}
 		currentPosition = index;
 		resultObject = (IAggregationResultRow) aggregationResultRow.get( index );
@@ -523,6 +524,24 @@ public class AggregationResultSet implements IAggregationResultSet
 	public AggregationDefinition getAggregationDefinition( )
 	{
 		return this.aggregation;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#close()
+	 */
+	public void close( ) throws IOException
+	{
+		aggregationResultRow.close( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#clear()
+	 */
+	public void clear( ) throws IOException
+	{
+		aggregationResultRow.clear( );
 	}
 
 }

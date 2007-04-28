@@ -383,7 +383,8 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	{
 		if ( index >= length )
 		{
-			return;
+			throw new IndexOutOfBoundsException( "Index: "
+					+ index + ", Size: " + length );
 		}
 		if ( index >= aggregationResultRow.size( ) )
 		{
@@ -434,6 +435,25 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#close()
+	 */
+	public void close( ) throws IOException
+	{
+		inputStream.close( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#clear()
+	 */
+	public void clear( ) throws IOException
+	{
+		inputStream.close( );
+		length = 0;
 	}
 
 }
