@@ -21,19 +21,19 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 public interface ICubeFilterDefinition extends IFilterDefinition
 {
 	/**
-	 * Return the targeting level that this sort definition will act against.
+	 * Return the targeting level that this sort/filter definition will act against.
 	 */
 	public ILevelDefinition getTargetLevel();
 	
 	/**
-	 * Return the Axis qualifier level.
+	 * Return the Axis qualifier levels.
 	 * @return
 	 */
-	public ILevelDefinition[] getAxisQualifierLevel( );
+	public ILevelDefinition[] getAxisQualifierLevels( );
 	
 	/**
-	 * Return the Axis qualifier value
+	 * Return the Axis qualifier values.
 	 * @return
 	 */
-	public Object[] getAxisQualifierValue( );
+	public Object[] getAxisQualifierValues( );
 }
