@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -37,7 +38,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <code>MessageConstants</code> are contained in the message file.
  * 
  * This test will test the messages based on "Messages.properties."
- *  
+ * 
  */
 public class MessageFileTest extends BaseTestCase
 {
@@ -61,7 +62,8 @@ public class MessageFileTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		props.load( ModelResourceHandle.class.getResourceAsStream( MESSAGE_FILE ) );
+		props.load( ModelResourceHandle.class
+				.getResourceAsStream( MESSAGE_FILE ) );
 		this.gatherDisplayNameIDs( );
 	}
 
@@ -139,7 +141,7 @@ public class MessageFileTest extends BaseTestCase
 	/**
 	 * Test if all the resourceKeys needed by "Rom.def" are contained in the
 	 * message file.
-	 *  
+	 * 
 	 */
 
 	public void testRom( )
@@ -189,7 +191,7 @@ public class MessageFileTest extends BaseTestCase
 	 * 
 	 * @throws IOException
 	 *             if errors occur when open/read file.
-	 *  
+	 * 
 	 */
 
 	public void testDuplicateMessages( ) throws IOException
@@ -275,5 +277,21 @@ public class MessageFileTest extends BaseTestCase
 		assertTrue( success );
 	}
 
-}
+	/**
+	 * Test to see if all the display name of tabular measure group.
+	 * 
+	 * @throws Exception
+	 */
 
+	public void testDisplayNameOfTabularMeasureGroup( ) throws Exception
+	{
+		createDesign( );
+		TabularMeasureGroupHandle measureGroupHandle = (TabularMeasureGroupHandle) designHandle
+				.getElementFactory( ).newTabularMeasureGroup( "" );
+		assertEquals( "SummaryField", measureGroupHandle.getName( ) );
+		measureGroupHandle = (TabularMeasureGroupHandle) designHandle
+		.getElementFactory( ).newTabularMeasureGroup( "" );
+		assertEquals( "SummaryField1", measureGroupHandle.getName( ) );
+	}
+
+}
