@@ -102,6 +102,16 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize() throws Throwable
+	{
+		inputStream.close( );
+		super.finalize();
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAggregationValue(int)
 	 */
 	public Object getAggregationValue( int aggregationIndex )
