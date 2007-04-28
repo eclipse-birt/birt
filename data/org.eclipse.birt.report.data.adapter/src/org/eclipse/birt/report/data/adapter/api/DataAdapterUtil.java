@@ -33,7 +33,7 @@ public class DataAdapterUtil
 	 * @param targetScope
 	 * @param source
 	 */
-	public static void registerJSObject( Scriptable targetScope, Object source, Object parent )
+	public static void registerJSObject( Scriptable targetScope, Object source )
 	{
 		if ( source instanceof ILinkedResultIterator )
 		{
