@@ -293,7 +293,7 @@ public final class LayoutManager
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( ) - szTitle.getHeight( ) )
 						: plotHeightHint );
 
-				boLegend.setTop( bo.getTop( ) );				
+				boLegend.setTop( bo.getTop( ) );
 				boLegend.setWidth( szLegend.getWidth( ) );
 				boLegend.setHeight( bo.getHeight( ) - szTitle.getHeight( ) );
 
@@ -307,7 +307,7 @@ public final class LayoutManager
 								- boLegend.getWidth( ) - szTitle.getWidth( ) )
 								: plotWidthHint );
 						boPlot.setHeight( plotHeightHint < 0 ? bo.getHeight( )
-								: plotHeightHint );						
+								: plotHeightHint );
 						if ( szTitle.getWidth( )
 								+ boPlot.getWidth( )
 								+ boLegend.getWidth( ) > bo.getWidth( ) )
@@ -357,7 +357,7 @@ public final class LayoutManager
 						break;
 				}
 				boLegend.setLeft( plotLeft + boPlot.getWidth( ) );
-				
+
 				// adjust plot left.
 				switch ( titleAnchor.getValue( ) )
 				{
@@ -638,9 +638,19 @@ public final class LayoutManager
 				boLegend.setTop( bo.getTop( ) );
 				boLegend.setLeft( bo.getLeft( ) );
 				boLegend.setWidth( bo.getWidth( ) );
-				boLegend.setHeight( bo.getHeight( )
-						- szTitle.getHeight( )
-						- boPlot.getHeight( ) );
+
+				if ( szTitle.getHeight( )
+						+ boPlot.getHeight( )
+						+ szLegend.getHeight( ) > bo.getHeight( ) )
+				{
+					boLegend.setHeight( bo.getHeight( )
+							- szTitle.getHeight( )
+							- boPlot.getHeight( ) );
+				}
+				else
+				{
+					boLegend.setHeight( szLegend.getHeight( ) );
+				}
 
 				plotLeft = bo.getLeft( );
 				plotTop = bo.getTop( ) + boLegend.getHeight( );
@@ -788,14 +798,23 @@ public final class LayoutManager
 				boPlot.setWidth( plotWidthHint < 0 ? bo.getWidth( )
 						: plotWidthHint );
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( )
-						- boTitle.getHeight( ) - boLegend.getHeight( ) )
+						- boTitle.getHeight( ) - szLegend.getHeight( ) )
 						: plotHeightHint );
 
 				boLegend.setLeft( bo.getLeft( ) );
 				boLegend.setWidth( bo.getWidth( ) );
-				boLegend.setHeight( bo.getHeight( )
-						- szTitle.getHeight( )
-						- boPlot.getHeight( ) );				
+				if ( szTitle.getHeight( )
+						+ boPlot.getHeight( )
+						+ szLegend.getHeight( ) > bo.getHeight( ) )
+				{
+					boLegend.setHeight( bo.getHeight( )
+							- szTitle.getHeight( )
+							- boPlot.getHeight( ) );
+				}
+				else
+				{
+					boLegend.setHeight( szLegend.getHeight( ) );
+				}
 
 				plotLeft = bo.getLeft( );
 				plotTop = bo.getTop( );
