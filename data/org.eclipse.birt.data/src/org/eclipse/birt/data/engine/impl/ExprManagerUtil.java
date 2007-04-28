@@ -22,6 +22,7 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -94,8 +95,9 @@ public class ExprManagerUtil
 	 * 
 	 * @param columnName
 	 * @return
+	 * @throws DataException 
 	 */
-	private boolean isColumnBindingExist( String columnName )
+	private boolean isColumnBindingExist( String columnName ) throws DataException
 	{
 		List bindings = exprManager.getBindingExprs( );
 		
@@ -300,12 +302,12 @@ public class ExprManagerUtil
 			return null;
 		}
 		
-		if ( queryDefn.getResultSetExpressions( ).get( columnBindingName ) == null )
+		if ( queryDefn.getBindings( ).get( columnBindingName ) == null )
 		{
 			return findExpression ( columnBindingName, queryDefn.getParentQuery( ));
 		}
 		
-		IBaseExpression expr = (IBaseExpression)queryDefn.getResultSetExpressions( ).get( columnBindingName );
+		IBaseExpression expr = (IBaseExpression)((IBinding)queryDefn.getBindings( ).get( columnBindingName ));
 		if ( expr instanceof IScriptExpression )
 			return ((IScriptExpression)expr).getText( );
 		else 

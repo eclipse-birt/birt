@@ -94,8 +94,9 @@ public class ExprManager
 	/**
 	 * @param name
 	 * @return expression for specified name
+	 * @throws DataException 
 	 */
-	public IBaseExpression getExpr( String name )
+	public IBaseExpression getExpr( String name ) throws DataException
 	{
 		IBaseExpression baseExpr = getBindingExpr( name );
 		if ( baseExpr == null )
@@ -107,8 +108,9 @@ public class ExprManager
 	/**
 	 * @param name
 	 * @return
+	 * @throws DataException 
 	 */
-	IBaseExpression getBindingExpr( String name )
+	IBaseExpression getBindingExpr( String name ) throws DataException
 	{
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{

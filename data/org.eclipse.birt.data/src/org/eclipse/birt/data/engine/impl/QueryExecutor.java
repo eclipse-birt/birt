@@ -24,6 +24,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -547,8 +548,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param cx
 	 * @param expr
 	 * @return
+	 * @throws DataException 
 	 */
-	private int getColumnDataType( Context cx, String expr )
+	private int getColumnDataType( Context cx, String expr ) throws DataException
 	{
 		String columnName = QueryExecutorUtil.getColInfoFromJSExpr( cx, expr )
 				.getColumnName( );
@@ -560,14 +562,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return DataType.INTEGER_TYPE;
 		}
-		Object baseExpr = ( this.baseQueryDefn.getResultSetExpressions( ).get( columnName ) );
+		Object baseExpr = ( this.baseQueryDefn.getBindings( ).get( columnName ) );
 
 		if ( baseExpr == null )
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
 
-		return ( (IBaseExpression) baseExpr ).getDataType( );
+		return ( (IBinding) baseExpr ).getExpression( ).getDataType( );
 	}
 	
 	/**

@@ -55,8 +55,9 @@ public class ExpressionCompilerUtil
 	 * @param exprManager
 	 * @param scope
 	 * @return
+	 * @throws DataException 
 	 */
-	public static boolean hasColumnRow( String name, ExprManager exprManager )
+	public static boolean hasColumnRow( String name, ExprManager exprManager ) throws DataException
 	{
 		if( name == null )
 			return false;
@@ -295,8 +296,9 @@ public class ExpressionCompilerUtil
 	 * @param expression
 	 * @param exprManager
 	 * @return
+	 * @throws DataException 
 	 */
-	private static boolean compile( String expression, ExprManager exprManager )
+	private static boolean compile( String expression, ExprManager exprManager ) throws DataException
 	{
 		Context context = Context.enter( );
 
@@ -325,9 +327,10 @@ public class ExpressionCompilerUtil
 	/**
 	 * 
 	 * @param expr
+	 * @throws DataException 
 	 */
 	private static boolean flattenExpression( CompiledExpression expr,
-			ExprManager exprManager )
+			ExprManager exprManager ) throws DataException
 	{
 		int type = expr.getType( );
 		switch ( type )

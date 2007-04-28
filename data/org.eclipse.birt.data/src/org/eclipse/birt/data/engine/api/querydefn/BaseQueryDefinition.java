@@ -14,12 +14,15 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 
 
 /**
@@ -39,7 +42,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	
 	//	 order might be sensitive, use LinkedHashMap instead of HashMap
 	private 	Map resultExprsMap = new LinkedHashMap( );
-		
+	private 	Map bindingMap = new HashMap();
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -122,13 +125,46 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * @param name
 	 * @param expression
+	 * @deprecated
 	 */
 	public void addResultSetExpression( String name, IBaseExpression expression )
 	{
-		this.resultExprsMap.put( name, expression );
+		Binding binding = new Binding( name );
+		binding.setExpression(expression );
+		this.bindingMap.put( name, binding );
+		
 	}
 	
 	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#addBinding(java.lang.String, org.eclipse.birt.data.engine.api.IBinding)
+	 */
+	public void addBinding( String name, IBinding binding )
+	{
+		this.bindingMap.put( name, binding );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getBindings()
+	 */
+	public Map getBindings( ) 
+	{
+		for( Iterator it = this.resultExprsMap.keySet( ).iterator( ); it.hasNext( );)
+		{
+			String key = it.next( ).toString( );
+			IBaseExpression expr = (IBaseExpression)this.resultExprsMap.get( key );
+			if ( this.bindingMap.get( key ) == null )
+			{
+				Binding binding = new Binding( key );
+				binding.setExpression( expr );
+				this.bindingMap.put( key, binding );
+			}
+		}
+		return this.bindingMap;
+	}
+	
+	/* 
 	 * @see org.eclipse.birt.data.engine.api.IBaseTransform#getResultSetExpressions()
 	 */
 	public Map getResultSetExpressions( )

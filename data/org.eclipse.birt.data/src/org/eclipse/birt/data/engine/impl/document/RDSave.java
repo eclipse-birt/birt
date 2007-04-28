@@ -169,7 +169,7 @@ class RDSave implements IRDSave
 	private Set getExprNameSet( )
 	{
 		Set set = new HashSet( );
-		Iterator it = this.queryDefn.getResultSetExpressions( )
+		Iterator it = this.queryDefn.getBindings( )
 				.entrySet( )
 				.iterator( );
 		while ( it.hasNext( ) )

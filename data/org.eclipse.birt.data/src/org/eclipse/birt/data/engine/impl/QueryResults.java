@@ -517,7 +517,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#getBaseExpression(java.lang.String)
 		 */
-		public IBaseExpression getBindingExpr( String exprName )
+		public IBaseExpression getBindingExpr( String exprName ) throws DataException
 		{
 			return queryResults.queryService.getBindingExpr( exprName );
 		}

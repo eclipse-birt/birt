@@ -65,16 +65,18 @@ public interface IEventHandler
 	 * 
 	 * @param columnName
 	 * @return row[0], row._rowPosition
+	 * @throws DataException 
 	 */
-	boolean isRowID( int index, String columnName );
+	boolean isRowID( int index, String columnName ) throws DataException;
 	
 	/**
 	 * Find the expression with the specified name from the column binding
 	 * table.
 	 * 
 	 * @return mapped base expression of the specified name
+	 * @throws DataException 
 	 */
-	IBaseExpression getBaseExpr( String name );
+	IBaseExpression getBaseExpr( String name ) throws DataException;
 	
 	/**
 	 * Get column mapping of current query defintion, inc. its subqueries.
@@ -86,8 +88,9 @@ public interface IEventHandler
 	 * Get column mapping of current query definition. 
 	 * 
 	 * @return
+	 * @throws DataException 
 	 */
-	Map getColumnBindings();
+	Map getColumnBindings() throws DataException;
 	
 	/**
 	 * Get the ExecutorHelper instance bound to this IEventHandler.

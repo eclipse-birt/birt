@@ -41,10 +41,12 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -101,7 +103,6 @@ public class ResultIterator implements IResultIterator
 	
 	private OutputStream metaOutputStream = null;
 	private DataOutputStream rowOutputStream = null;
-	private IResultClass resultClass = null;
 	
 	// log instance
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
@@ -128,7 +129,6 @@ public class ResultIterator implements IResultIterator
 
 		this.resultService = rService;
 		this.odiResult = odiResult;
-		this.resultClass = odiResult.getResultClass();
 		this.scope = scope;
 
 		this.context = rService.getContext( );
@@ -136,7 +136,7 @@ public class ResultIterator implements IResultIterator
 		if ( this.resultService.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| this.resultService.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			this.validateManualBindingExpressions( this.resultService.getQueryDefn( )
-					.getResultSetExpressions( ) );
+					.getBindings( ) );
 		if( needCache() )
 		{
 			try 
@@ -253,8 +253,11 @@ public class ResultIterator implements IResultIterator
 			throws DataException
 	{
 		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
-			metaMap.put( rsClass.getFieldName( i + 1 ),
-					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+		{
+			IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
+			binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+			metaMap.put( rsClass.getFieldName( i + 1 ), binding );
+		}
 	}
 
 	/**
@@ -271,7 +274,7 @@ public class ResultIterator implements IResultIterator
 		while( it.hasNext() )
 		{
 			Object key = it.next();
-			IBaseExpression expr =  (IBaseExpression)exprs.get(key);
+			IBaseExpression expr =  ((IBinding)exprs.get(key)).getExpression( );
 			List usedDataSetExprs = ExpressionCompilerUtil.extractDataSetColumnExpression( expr );
 			for ( int j = 0; j < usedDataSetExprs.size( ); j++ )
 			{

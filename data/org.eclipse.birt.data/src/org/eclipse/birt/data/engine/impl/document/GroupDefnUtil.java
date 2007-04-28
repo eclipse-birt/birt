@@ -36,7 +36,7 @@ public class GroupDefnUtil
 	 * @throws DataException
 	 */
 	static void saveGroupDefn( OutputStream outputStream,
-			List groupList ) throws DataException
+			List groupList, int version ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 
@@ -55,7 +55,7 @@ public class GroupDefnUtil
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ) );
 				QueryDefnUtil.saveSorts( dos, groupDefn.getSorts( ) );
-				QueryDefnUtil.saveSubQuery( dos, groupDefn.getSubqueries( ) );
+				QueryDefnUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
 			}
 			
 			dos.flush( );
@@ -71,7 +71,7 @@ public class GroupDefnUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	static List loadGroupDefn( InputStream inputStream, IBaseQueryDefinition parent )
+	static List loadGroupDefn( InputStream inputStream, IBaseQueryDefinition parent, int version )
 			throws DataException
 	{
 		List groupList = new ArrayList( );
@@ -94,7 +94,7 @@ public class GroupDefnUtil
 				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis ) );
 				groupDefn.getSorts( ).addAll( QueryDefnUtil.loadSorts( dis ) );
 				groupDefn.getSubqueries( )
-						.addAll( QueryDefnUtil.loadSubQuery( dis, parent ) );
+						.addAll( QueryDefnUtil.loadSubQuery( dis, parent, version ) );
 				groupList.add( groupDefn );
 			}
 		}

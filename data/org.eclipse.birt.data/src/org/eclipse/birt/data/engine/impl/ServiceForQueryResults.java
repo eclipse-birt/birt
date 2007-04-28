@@ -225,7 +225,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#isRowID(java.lang.String)
 		 */
-		public boolean isRowID( int index, String name )
+		public boolean isRowID( int index, String name ) throws DataException
 		{
 			IBaseExpression baseExpr = exprManager.getExpr(name);
 			if (baseExpr instanceof IScriptExpression) 
@@ -250,7 +250,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
 		 */
-		public IBaseExpression getBaseExpr( String name )
+		public IBaseExpression getBaseExpr( String name ) throws DataException
 		{
 			if ( name == null )
 				return null;
@@ -279,7 +279,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
 		 */
-		public Map getColumnBindings( )
+		public Map getColumnBindings( ) throws DataException
 		{
 			Map result = new HashMap();
 			List groupBindingColumns = exprManager.getBindingExprs( );
@@ -314,11 +314,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		private Map getColumnBindings(IBaseQueryDefinition defn) 
 		{
 			Map result = new HashMap();
-			Iterator temp = defn.getResultSetExpressions().keySet( ).iterator( );
+			Iterator temp = defn.getBindings( ).keySet( ).iterator( );
 			while ( temp.hasNext( ) )
 			{
 				Object key = temp.next( );
-				result.put( key, defn.getResultSetExpressions( ).get( key ) );
+				result.put( key, defn.getBindings( ).get( key ) );
 			}
 					
 			//Put all column bindings in subquery definitions in group
@@ -418,7 +418,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getBaseExpression(java.lang.String)
 	 */
-	public IBaseExpression getBindingExpr( String exprName )
+	public IBaseExpression getBindingExpr( String exprName ) throws DataException
 	{
 		return this.exprManager.getExpr( exprName );
 	}

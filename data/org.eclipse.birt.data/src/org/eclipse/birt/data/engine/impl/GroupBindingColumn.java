@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * 
@@ -68,10 +70,14 @@ class GroupBindingColumn
 	 * 
 	 * @param name
 	 * @return
+	 * @throws DataException 
 	 */
-	IBaseExpression getExpression( String name )
+	IBaseExpression getExpression( String name ) throws DataException
 	{
-		return (IBaseExpression) this.bindings.get( name );
+		if ( this.bindings.containsKey( name ))
+			return ((IBinding) this.bindings.get( name )).getExpression( );
+		else
+			return null;
 	}
 	
 }

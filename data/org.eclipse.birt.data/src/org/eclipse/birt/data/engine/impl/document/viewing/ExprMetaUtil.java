@@ -25,6 +25,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -87,8 +88,9 @@ public class ExprMetaUtil
 	 * Extract the expression information from query definition
 	 * 
 	 * @return queryDefn
+	 * @throws DataException 
 	 */
-	private List prepareQueryDefn( IBaseQueryDefinition queryDefn )
+	private List prepareQueryDefn( IBaseQueryDefinition queryDefn ) throws DataException
 	{
 		List exprMetaList = new ArrayList( );
 
@@ -103,27 +105,28 @@ public class ExprMetaUtil
 	 * @param trans
 	 * @param groupLevel
 	 * @param exprMetaList
+	 * @throws DataException 
 	 * @throws DataException
 	 */
-	private void prepareGroup( IBaseQueryDefinition trans, List exprMetaList )
+	private void prepareGroup( IBaseQueryDefinition trans, List exprMetaList ) throws DataException
 	{
-		Map exprMap = trans.getResultSetExpressions( );
+		Map exprMap = trans.getBindings( );
 		if ( exprMap == null )
 			return;
 		
 		Iterator it = exprMap.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String exprName = (String) it.next( );
-			if ( nameSet.contains( exprName ) == false )
+			String bindingName = (String) it.next( );
+			if ( nameSet.contains( bindingName ) == false )
 				continue;
 			
-			IBaseExpression baseExpr = (IBaseExpression) exprMap.get( exprName );
+			IBaseExpression baseExpr = ( (IBinding) exprMap.get( bindingName ) ).getExpression( );
 
 			ExprMetaInfo exprMeta = new ExprMetaInfo( );
 			exprMeta.setDataType( baseExpr.getDataType( ) );
 			exprMeta.setGroupLevel( 0 );
-			exprMeta.setName( exprName );
+			exprMeta.setName( bindingName );
 			
 			if ( baseExpr instanceof IScriptExpression )
 			{

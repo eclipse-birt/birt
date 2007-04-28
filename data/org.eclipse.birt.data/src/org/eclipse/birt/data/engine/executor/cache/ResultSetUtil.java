@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -99,7 +99,7 @@ public class ResultSetUtil
 				Entry entry = (Entry) iter.next( );
 				dataSetColumnList = entry.getValue( ) == null
 						? null
-						: ExpressionCompilerUtil.extractDataSetColumnExpression( (IBaseExpression) entry.getValue( ) );
+						: ExpressionCompilerUtil.extractDataSetColumnExpression( ((IBinding)entry.getValue( )).getExpression( ) );
 				if ( dataSetColumnList != null )
 				{
 					resultSetNameSet.addAll( dataSetColumnList );

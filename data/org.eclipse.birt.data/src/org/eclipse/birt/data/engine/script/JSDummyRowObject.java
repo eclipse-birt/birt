@@ -71,10 +71,10 @@ public class JSDummyRowObject extends ScriptableObject
 		if ( valueCacheMap.containsKey( name ) )
 			return valueCacheMap.get( name );
 
-		IBaseExpression baseExpr = exprManager.getExpr( name );
-
 		try
 		{
+			IBaseExpression baseExpr = exprManager.getExpr( name );
+		
 			Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
 					scope );
 			Object obValue = JavascriptEvalUtil.convertToJavascriptValue( value,

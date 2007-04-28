@@ -118,8 +118,9 @@ interface IServiceForQueryResults
 	/**
 	 * @param exprName
 	 * @return associated defined binding expression
+	 * @throws DataException 
 	 */
-	public IBaseExpression getBindingExpr( String exprName );
+	public IBaseExpression getBindingExpr( String exprName ) throws DataException;
 	
 	/**
 	 * @param exprName

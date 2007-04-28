@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -183,9 +184,8 @@ class PreparedQueryUtil
 			return false;
 
 		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE )
-				.getResultSetExpressions( ),
-				queryDefn.getResultSetExpressions( ) );
+				StreamManager.BASE_SCOPE ).getBindings( ),
+				queryDefn.getBindings( ) );
 
 		if ( runningOnRS == false )
 			return false;
@@ -270,12 +270,12 @@ class PreparedQueryUtil
 
 		if ( queryDefn.getFilters( ) != null
 				&& queryDefn.getFilters( ).size( ) > 0 )
-		{	
-			if( !isFiltersEquals(filters, queryDefn.getFilters( )))
-			runningOnRS = queryDefn.getResultSetExpressions( ).values( ) == null
-					|| !hasAggregationOnRowObjects( queryDefn.getResultSetExpressions( )
-							.values( )
-							.iterator( ) );
+		{
+			if ( !isFiltersEquals( filters, queryDefn.getFilters( ) ) )
+				runningOnRS = queryDefn.getBindings( ).values( ) == null
+						|| !hasAggregationOnRowObjects( queryDefn.getBindings( )
+								.values( )
+								.iterator( ) );
 		}
 		return runningOnRS;
 	}
@@ -328,8 +328,9 @@ class PreparedQueryUtil
 
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	private static boolean isCompatibleRSMap( Map oldMap, Map newMap )
+	private static boolean isCompatibleRSMap( Map oldMap, Map newMap ) throws DataException
 	{
 		if ( oldMap == null )
 			return newMap.size( ) == 0;
@@ -347,7 +348,7 @@ class PreparedQueryUtil
 			Object newObj = newMap.get( key );
 			if ( oldObj != null )
 			{
-				if( !isTwoExpressionEqual((IBaseExpression)newObj, (IBaseExpression)oldObj) )
+				if( !isTwoBindingEqual((IBinding)newObj, (IBinding)oldObj ))
 					return false;
 			}else
 			{
@@ -357,6 +358,54 @@ class PreparedQueryUtil
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param b1
+	 * @param b2
+	 * @return
+	 * @throws DataException
+	 */
+	private static boolean isTwoBindingEqual( IBinding b1, IBinding b2 )
+			throws DataException
+	{
+		if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ) ) )
+			return false;
+		if ( !isTwoStringEqual( b1.getAggrFunction( ), b2.getAggrFunction( ) ) )
+			return false;
+		if ( b1.getDataType( ) != b2.getDataType( ) )
+			return false;
+		if ( !isTwoExpressionEqual( b1.getFilter( ), b2.getFilter( ) ) )
+			return false;
+		if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
+			return false;
+		for ( int i = 0; i < b1.getAggregatOns( ).size( ); i++ )
+		{
+			if ( !isTwoStringEqual( b1.getAggregatOns( ).get( i ).toString( ),
+					b2.getAggregatOns( ).get( i ).toString( ) ) )
+				return false;
+		}
+		if ( b1.getArguments( ).size( ) != b2.getArguments( ).size( ) )
+			return false;
+		for ( int i = 0; i < b1.getArguments( ).size( ); i++ )
+		{
+			if ( !isTwoExpressionEqual( (IBaseExpression) b1.getArguments( )
+					.get( i ), (IBaseExpression) b2.getArguments( ).get( i ) ) )
+				return false;
+		}
+		return true;
+	}
+	
+	private static boolean isTwoStringEqual( String s1, String s2 )
+	{
+		if ( s1 == null && s2 == null )
+			return true;
+		if ( s1 != null && s2 == null )
+			return false;
+		if ( s1 == null && s2 != null )
+			return false;
+		
+		return s1.equals( s2 );
+	}
 	/**
 	 * 
 	 * @param obj1
@@ -416,23 +465,6 @@ class PreparedQueryUtil
 	}
 	
 	/**
-	 * 
-	 * @param s1
-	 * @param s2
-	 * @return
-	 */
-	private static boolean isTwoStringEqual( String s1, String s2 )
-	{
-		if( s1 == null && s2 != null )
-			return false;
-		
-		if( s1 != null && s2 == null )
-			return false;
-		
-		return s1.equals( s2 );
-	}
-	
-	/**
 	 * @param oldSubQuery
 	 * @param newSubQuery
 	 * @return
@@ -465,16 +497,19 @@ class PreparedQueryUtil
 	 * 
 	 * @param query
 	 * @return
+	 * @throws DataException 
 	 */
-	private static boolean hasAggregationOnRowObjects( Iterator it )
+	private static boolean hasAggregationOnRowObjects( Iterator it ) throws DataException
 	{
 		while ( it.hasNext( ) )
 		{
-			Object o = it.next( );
-			if ( ExpressionCompilerUtil.hasAggregationInExpr( (IBaseExpression) o ) )
+			IBinding binding = (IBinding)it.next( );
+			if ( ExpressionCompilerUtil.hasAggregationInExpr( binding.getExpression( ) ) )
 			{
 				return true;
 			}
+			if ( binding.getAggrFunction( ) != null )
+				return true;
 		}
 		return false;
 	}

@@ -256,7 +256,7 @@ public class RDLoad
 	 */
 	private IBaseQueryDefinition loadQueryDefn( InputStream inputStream ) throws DataException
 	{
-		IBaseQueryDefinition queryDefn = QueryDefnUtil.loadQueryDefn( inputStream );
+		IBaseQueryDefinition queryDefn = QueryDefnUtil.loadQueryDefn( inputStream, version );
 		try
 		{
 			inputStream.close( );

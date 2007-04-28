@@ -30,12 +30,14 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -130,8 +132,8 @@ final class PreparedQuery
 			// is treated as a group (with group level 0 ), If there are group
 			// definitions that of invalid or duplicate group name, then throw
 			// exceptions.			
-			if ( this.baseQueryDefn.getResultSetExpressions( ) != null
-					&& this.baseQueryDefn.getResultSetExpressions( ).size( ) > 0 )
+			if ( this.baseQueryDefn.getBindings( ) != null
+					&& this.baseQueryDefn.getBindings( ).size( ) > 0 )
 			{
 				this.expressionCompiler.setDataSetMode( false );
 			}
@@ -158,14 +160,14 @@ final class PreparedQuery
 			}
 
 			// The latest column binding (AggregateOn introduced)
-			Map map = baseQueryDefn.getResultSetExpressions( );
+			Map map = baseQueryDefn.getBindings( );
 			if ( map != null )
 			{
 				Iterator it = map.keySet( ).iterator( );
 				while ( it.hasNext( ) )
 				{
 					Object key = it.next( );
-					IBaseExpression icbe = (IBaseExpression) map.get( key );
+					IBaseExpression icbe = ((IBinding)map.get( key )).getExpression( );
 					if ( ( !icbe.getGroupName( )
 							.equals( IBaseExpression.GROUP_OVERALL ) )
 							&& !groupNameSet.contains( icbe.getGroupName( ) ) )
@@ -192,15 +194,16 @@ final class PreparedQuery
 	}
 	
 	/**
+	 * @throws DataException 
 	 * 
 	 */
-	private void mappingParentColumnBinding( )
+	private void mappingParentColumnBinding( ) throws DataException
 	{
 		IBaseQueryDefinition queryDef =  baseQueryDefn;
 		while ( queryDef instanceof ISubqueryDefinition )
 		{
 			queryDef = queryDef.getParentQuery();
-			Map parentBindings = queryDef.getResultSetExpressions();
+			Map parentBindings = queryDef.getBindings( );
 			addParentBindings(parentBindings);
 		}
 	}
@@ -208,22 +211,24 @@ final class PreparedQuery
 	/**
 	 * 
 	 * @param parentBindings
+	 * @throws DataException 
 	 */
-	private void addParentBindings( Map parentBindings ) {
+	private void addParentBindings( Map parentBindings ) throws DataException {
 		Iterator it = parentBindings.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
 			Object o = it.next( );
-			IBaseExpression expr = (IBaseExpression)parentBindings.get( o );
+			IBaseExpression expr = ((IBinding)parentBindings.get( o )).getExpression( );
 			if ( expr instanceof IScriptExpression )
 			{
 				if (!ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ))
 				{
-					if ( baseQueryDefn.getResultSetExpressions( )
+					if ( baseQueryDefn.getBindings( )
 							.get( o ) == null )
 					{	
-						baseQueryDefn.getResultSetExpressions( )
-								.put( o, copyScriptExpr( expr ) );
+						IBinding binding = new Binding( o.toString( ) );
+						binding.setExpression( copyScriptExpr( expr ) );
+						baseQueryDefn.addBinding( o.toString( ), binding );
 					}
 				}
 			}
@@ -271,16 +276,16 @@ final class PreparedQuery
 		Map resultSetExpressions = new HashMap();
 		
 		//The latest column binding (AggregateOn introduced) 
-		Map map = baseQuery.getResultSetExpressions();
+		Map map = baseQuery.getBindings( );
 		if (map != null) 
 		{
 			Iterator it = map.keySet().iterator();
 			while (it.hasNext()) {
 				Object key = it.next();
-				IBaseExpression icbe = (IBaseExpression)map.get(key);
-				if( icbe.getGroupName().equals(groupName))
+				IBinding icbe = ((IBinding)map.get(key));
+				if( icbe.getAggregatOns( ).contains( groupName ) || icbe.getExpression( ).getGroupName( ).equals( groupName ))
 				{
-					exprCol.add( icbe );
+					exprCol.add( icbe.getExpression( ) );
 					resultSetExpressions.put(key, icbe);
 				}
 			}
@@ -613,13 +618,31 @@ class QueryDefinitionCopyUtil
 			SubqueryDefinition srcSubQueryDefn,
 			SubqueryDefinition destSubQueryDefn) 
 	{
-		Map bindings = srcSubQueryDefn.getResultSetExpressions( );
+		Map bindings = srcSubQueryDefn.getBindings( );
 		Iterator it = bindings.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
 			Object o = it.next( );
-			destSubQueryDefn.addResultSetExpression((String) o,
-					(IBaseExpression) bindings.get(o));
+			destSubQueryDefn.addBinding((String) o,
+					convertToBindings( bindings.get( o ) ));
+		}
+	}
+
+	/**
+	 * 
+	 * @param bindings
+	 * @param o
+	 * @return
+	 */
+	private static IBinding convertToBindings( Object binding )
+	{
+		if( binding instanceof IBinding )
+		{
+			return (IBinding)binding;
+		}
+		else
+		{
+			return null;
 		}
 	}
 

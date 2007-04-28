@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.api;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.core.DataException;
+
 /**
 /**
  * Represents attributes common to a data engine query and a subquery.
@@ -69,6 +71,23 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * Map of bound colum name to {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
 	 * 
 	 * @return
+	 * @deprecated
 	 */
 	public Map getResultSetExpressions( );
+	
+	/**
+	 * Add a column binding instance to query definition.
+	 * 
+	 * @param name
+	 * @param binding
+	 * @throws DataException
+	 */
+	public void addBinding( String name, IBinding binding );
+	
+	/**
+	 * Get all column binding instance from query definition.
+	 * @return
+	 * @throws DataException
+	 */
+	public Map getBindings( );
 }

@@ -29,6 +29,7 @@ public class VersionManager
 	public final static int VERSION_2_0 = 0;
 	public final static int VERSION_2_1 = 1;
 	public final static int VERSION_2_2 = 2;
+	public final static int VERSION_2_2_1 = 3;
 	
 	private DataEngineContext dataEngineContext;
 	
@@ -43,7 +44,7 @@ public class VersionManager
 	int getVersion( )
 	{
 		//Default is 2.2
-		int version = VERSION_2_2;
+		int version = VERSION_2_2_1;
 
 		if ( dataEngineContext.hasInStream( null,
 				null,
@@ -103,7 +104,7 @@ public class VersionManager
 	 */
 	int getLatestVersion( )
 	{
-		return VERSION_2_2;
+		return VERSION_2_2_1;
 	}
 
 }

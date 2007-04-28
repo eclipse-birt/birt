@@ -83,7 +83,14 @@ public class JSResultSetRow extends ScriptableObject
 	 */
 	public boolean has( String name, Scriptable start )
 	{
-		return exprManager.getExpr( name ) != null;
+		try
+		{
+			return exprManager.getExpr( name ) != null;
+		}
+		catch ( DataException e )
+		{
+			return false;
+		}
 	}
 
 	/*

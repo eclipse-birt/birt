@@ -103,7 +103,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		this.context = context;
 		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( queryDefn );
-		this.exprManager.addBindingExpr( null, queryDefn.getResultSetExpressions( ),
+		this.exprManager.addBindingExpr( null, queryDefn.getBindings( ),
 				0 );
 	}
 
@@ -551,8 +551,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 		/**
 		 * @param manualBindingExprs
 		 * @return
+		 * @throws DataException 
 		 */
-		private Map getBindingMap( List manualBindingExprs )
+		private Map getBindingMap( List manualBindingExprs ) throws DataException
 		{
 			Map exprMap = new HashMap( );
 			// put the expressions of array into a list

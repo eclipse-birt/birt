@@ -46,8 +46,9 @@ interface IServiceForResultSet
 	/**
 	 * @param exprName
 	 * @return
+	 * @throws DataException 
 	 */
-	public IBaseExpression getBindingExpr( String exprName );
+	public IBaseExpression getBindingExpr( String exprName ) throws DataException;
 	
 	/**
 	 * @param exprName

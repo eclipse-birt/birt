@@ -30,7 +30,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -209,8 +211,11 @@ class CacheUtilFactory
 				throws DataException
 		{
 			for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
-				metaMap.put( rsClass.getFieldName( i + 1 ),
-						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+			{
+				IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+				metaMap.put( rsClass.getFieldName( i + 1 ), binding );
+			}
 		}
 	}
 	

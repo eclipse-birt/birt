@@ -243,7 +243,7 @@ class RDSaveUtil
 			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
+			QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
 			try
 			{
 				outputStream.close( );
@@ -257,7 +257,7 @@ class RDSaveUtil
 		outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
-		QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
+		QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
 		try
 		{
 			outputStream.close( );

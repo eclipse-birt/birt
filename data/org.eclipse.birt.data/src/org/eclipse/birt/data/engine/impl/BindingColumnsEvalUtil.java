@@ -62,9 +62,10 @@ class BindingColumnsEvalUtil
 	 * @param scope
 	 * @param saveUtil
 	 * @param serviceForResultSet
+	 * @throws DataException 
 	 */
 	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,
-			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs )
+			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs ) throws DataException
 	{
 		this.odiResult = ri;
 		this.scope = scope;
@@ -86,9 +87,10 @@ class BindingColumnsEvalUtil
 
 	/**
 	 * @param serviceForResultSet
+	 * @throws DataException 
 	 */
 	private void initBindingColumns( List manualBindingExprs,
-			Map autoBindingExprs )
+			Map autoBindingExprs ) throws DataException
 	{
 		// put the expressions of array into a list
 		int size = manualBindingExprs.size( );
