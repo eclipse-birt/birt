@@ -17,13 +17,13 @@ import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
+import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -31,10 +31,8 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * the base class for all crosstab element executor
@@ -290,77 +288,66 @@ public abstract class BaseCrosstabExecutor implements
 		return null;
 	}
 
-	protected void handleGroupPageBreakBefore( LevelViewHandle level,
-			EdgeCursor rowCursor ) throws OLAPException
+	/**
+	 * Returns 1-based starting group index
+	 */
+	protected int getStartingGroupLevel( EdgeCursor rowCursor, List groupCursors )
+			throws OLAPException
 	{
-		if ( level != null )
+		if ( rowCursor.isFirst( ) )
 		{
-			String pageBreakBefore = level.getPageBreakBefore( );
-			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreakBefore )
-					|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !rowCursor.isFirst( ) ) )
+			return 0;
+		}
+
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
+		{
+			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+
+			if ( GroupUtil.isDummyGroup( dc ) )
 			{
-				getContent( ).getStyle( )
-						.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-								IStyle.ALWAYS_VALUE );
+				// if first level is dummy, we still return the first index,
+				// otherwise, we return the previous index
+				return i == 0 ? 1 : i;
 			}
 
-			String pageBreakAfter = level.getPageBreakAfter( );
-			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreakAfter ) )
+			if ( dc.getEdgeStart( ) == rowCursor.getPosition( ) )
 			{
-				getContent( ).getStyle( )
-						.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
-								IStyle.ALWAYS_VALUE );
+				return i + 1;
 			}
 		}
 
-		// handle special logic for page_break_after_excluding_last
-		// TODO confirm the correct behavior
-		boolean hasPageBreak = false;
-		IReportItemExecutor parentExecutor = getParent( );
-
-		while ( parentExecutor instanceof CrosstabGroupExecutor )
-		{
-			if ( ( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak )
-			{
-				( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = false;
-
-				hasPageBreak = true;
-			}
-
-			parentExecutor = parentExecutor.getParent( );
-		}
-
-		if ( hasPageBreak )
-		{
-			getContent( ).getStyle( )
-					.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-							IStyle.ALWAYS_VALUE );
-		}
+		return groupCursors.size( );
 	}
 
-	protected void handleGroupPageBreakAfter( LevelViewHandle level,
-			EdgeCursor rowCursor ) throws OLAPException
+	/**
+	 * Returns 1-based ending group index
+	 */
+	protected int getEndingGroupLevel( EdgeCursor rowCursor, List groupCursors )
+			throws OLAPException
 	{
-		if ( level != null )
+		if ( rowCursor.isLast( ) )
 		{
-			// handle page_break_after_excluding_last
-			String pageBreakAfter = level.getPageBreakAfter( );
-			IReportItemExecutor parentExecutor = getParent( );
+			return 0;
+		}
 
-			if ( parentExecutor instanceof CrosstabGroupExecutor
-					&& DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( pageBreakAfter )
-					&& !rowCursor.isLast( ) )
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
+		{
+			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+
+			if ( GroupUtil.isDummyGroup( dc ) )
 			{
+				// if first level is dummy, we still return the first index,
+				// otherwise, we return the previous index
+				return i == 0 ? 1 : i;
+			}
 
-				// TODO confirm the correct behavior
-				while ( parentExecutor instanceof CrosstabGroupExecutor )
-				{
-					( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
-
-					parentExecutor = parentExecutor.getParent( );
-				}
+			if ( dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
+			{
+				return i + 1;
 			}
 		}
+
+		return groupCursors.size( );
 	}
 
 	public void close( )

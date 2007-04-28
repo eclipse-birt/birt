@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * CrosstabViewHandle.
@@ -46,24 +47,26 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
-	 * Returns if current level is mirrored
+	 * Returns the mirrored starting level for current view.
 	 * 
 	 * @return
 	 */
-	public boolean isMirrored( )
+	public LevelHandle getMirroredStartingLevel( )
 	{
-		return handle.getBooleanProperty( MIRRORED_PROP );
+		return (LevelHandle) handle.getElementProperty( MIRRORED_STARTING_LEVEL_PROP );
 	}
 
 	/**
-	 * Sets mirrrored property for current level.
+	 * Sets mirrrored starting level property for current view.
 	 * 
 	 * @param value
 	 * @throws SemanticException
 	 */
-	public void setMirrored( boolean value ) throws SemanticException
+	public void setMirroredStartingLevel( LevelHandle value )
+			throws SemanticException
 	{
-		handle.setProperty( MIRRORED_PROP, Boolean.valueOf( value ) );
+		handle.setProperty( MIRRORED_STARTING_LEVEL_PROP, value == null ? null
+				: value.getQualifiedName( ) );
 	}
 
 	/**

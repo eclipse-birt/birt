@@ -209,14 +209,11 @@
          </propertyVisibility>
          <property
                canInherit="true"
-               defaultValue="false"
-               displayNameID="Element.Mirrored"
-               hasOwnModel="true"
+               detailType="Level"
+               displayNameID="Element.MirroredStartingLevel"
                isEncryptable="false"
-               isList="false"
-               name="mirrored"
-               subType="string"
-               type="boolean">
+               name="mirroredStartingLevel"
+               type="elementRef">
          </property>
       </reportItem>
       <reportItem

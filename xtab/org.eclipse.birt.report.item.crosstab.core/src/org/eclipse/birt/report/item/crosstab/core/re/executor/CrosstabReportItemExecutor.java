@@ -39,6 +39,13 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 	private List children;
 	private int currentChild;
+	private EdgeCursor rowCursor;
+	private List groupCursors;
+	private int measureCount;
+	private boolean endOfGroups;
+	private boolean needRowGroups;
+
+	boolean notifyNextGroupPageBreak;
 
 	public CrosstabReportItemExecutor( )
 	{
@@ -58,6 +65,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		closeQuery( );
 
 		children = null;
+		rowCursor = null;
+		groupCursors = null;
 	}
 
 	public void setModelObject( Object handle )
@@ -120,6 +129,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 						walker,
 						getCubeResultSet( ) ).generateColumns( context.getReportContent( ),
 						content );
+
+				prepareChildren( );
 			}
 			catch ( OLAPException e )
 			{
@@ -127,8 +138,6 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 						Messages.getString( "CrosstabReportItemExecutor.error.generate.columns" ), //$NON-NLS-1$
 						e );
 			}
-
-			prepareChildren( );
 		}
 		else
 		{
@@ -136,79 +145,171 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 					Messages.getString( "CrosstabReportItemExecutor.error.invalid.cube.result" ) ); //$NON-NLS-1$
 		}
 
-		currentChild = 0;
-
 		return content;
 	}
 
-	private void prepareChildren( )
+	private void prepareChildren( ) throws OLAPException
 	{
-		int measureCount = crosstabItem.getMeasureCount( );
+		needRowGroups = false;
+		measureCount = crosstabItem.getMeasureCount( );
+		rowCursor = getRowEdgeCursor( );
 
-		if ( columnGroups.size( ) > 0
-				|| GroupUtil.hasMeasureHeader( crosstabItem, COLUMN_AXIS_TYPE ) )
+		// check if need recursive groups
+		if ( rowGroups.size( ) > 0 && rowCursor != null )
 		{
-			if ( children == null )
-			{
-				children = new ArrayList( );
-			}
-			CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
-			children.add( headerExecutor );
-		}
+			rowCursor.beforeFirst( );
 
-		if ( rowGroups.size( ) > 0 || measureCount > 0 )
-		{
-			if ( children == null )
+			if ( rowCursor.next( ) )
 			{
-				children = new ArrayList( );
-			}
+				groupCursors = rowCursor.getDimensionCursor( );
 
-			try
-			{
-				EdgeCursor rowCursor = getRowEdgeCursor( );
-
-				if ( rowCursor != null )
-				{
-					rowCursor.beforeFirst( );
-
-					if ( rowCursor.next( ) )
-					{
-						CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
-								0,
-								rowCursor );
-						children.add( groupExecutor );
-					}
-				}
-				else
-				{
-					CrosstabMeasureExecutor measureExecutor = new CrosstabMeasureExecutor( this );
-					children.add( measureExecutor );
-				}
-			}
-			catch ( OLAPException e )
-			{
-				logger.log( Level.SEVERE,
-						Messages.getString( "CrosstabReportItemExecutor.error.prepare.children" ), //$NON-NLS-1$
-						e );
+				needRowGroups = true;
 			}
 		}
 
-		if ( rowGroups.size( ) > 0
-				&& crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
-				&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+		if ( needRowGroups )
 		{
-			if ( children == null )
+			// collect recursive group executable
+			collectExecutable( );
+		}
+		else
+		{
+			// collect simple header/detial(measure)/footer sturcture
+			currentChild = 0;
+			children = new ArrayList( );
+
+			// prepare header
+			if ( columnGroups.size( ) > 0
+					|| GroupUtil.hasMeasureHeader( crosstabItem,
+							COLUMN_AXIS_TYPE ) )
 			{
-				children = new ArrayList( );
+				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
+				children.add( headerExecutor );
 			}
-			CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
-			children.add( totalExecutor );
+
+			// prepare body (measure only), this will skip the case if the
+			// rowCursor is avaiable but has zero data
+			if ( measureCount > 0 && rowCursor == null )
+			{
+				CrosstabMeasureExecutor measureExecutor = new CrosstabMeasureExecutor( this );
+				children.add( measureExecutor );
+			}
+
+			// prepare footer, if the rowCursor is avaiable but has zero data,
+			// we still need the footer
+			if ( rowGroups.size( ) > 0
+					&& rowCursor != null
+					&& crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
+					&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+			{
+				CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
+				children.add( totalExecutor );
+			}
+		}
+	}
+
+	private void collectExecutable( ) throws OLAPException
+	{
+		endOfGroups = false;
+		currentChild = 0;
+		children = new ArrayList( );
+
+		// prepare header
+		int startingGroupIndex = getStartingGroupLevel( rowCursor, groupCursors );
+
+		// this is the start of the entire edge
+		if ( startingGroupIndex <= 0 )
+		{
+			if ( columnGroups.size( ) > 0
+					|| GroupUtil.hasMeasureHeader( crosstabItem,
+							COLUMN_AXIS_TYPE ) )
+			{
+				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
+				children.add( headerExecutor );
+			}
+		}
+
+		// prepare groups, always generate a top level group
+		{
+			CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
+					0,
+					rowCursor );
+			children.add( groupExecutor );
+		}
+
+		// prepare footer
+		int endingGroupIndex = getEndingGroupLevel( rowCursor, groupCursors );
+
+		// this is the end of entire edge
+		if ( endingGroupIndex <= 0 )
+		{
+			if ( crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
+					&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+			{
+				CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
+				children.add( totalExecutor );
+			}
+
+			endOfGroups = true;
 		}
 	}
 
 	public boolean hasNextChild( )
 	{
-		return children != null && currentChild < children.size( );
+		if ( currentChild < children.size( ) )
+		{
+			return true;
+		}
+
+		if ( needRowGroups )
+		{
+			if ( endOfGroups )
+			{
+				return false;
+			}
+
+			try
+			{
+				while ( !endOfGroups )
+				{
+					int endingGroupIndex = getEndingGroupLevel( rowCursor,
+							groupCursors );
+
+					// check end on entire edge
+					if ( endingGroupIndex <= 0 )
+					{
+						currentChild = 0;
+						children = new ArrayList( );
+
+						if ( crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
+								&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+						{
+							CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
+							children.add( totalExecutor );
+						}
+
+						endOfGroups = true;
+
+						return currentChild < children.size( );
+					}
+
+					if ( rowCursor.next( ) )
+					{
+						collectExecutable( );
+
+						return currentChild < children.size( );
+					}
+				}
+			}
+			catch ( OLAPException e )
+			{
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabReportItemExecutor.error.generate.columns" ), //$NON-NLS-1$
+						e );
+			}
+		}
+
+		return false;
 	}
 
 	public IReportItemExecutor getNextChild( )

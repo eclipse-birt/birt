@@ -17,15 +17,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * CrosstabGroupExecutor
@@ -39,8 +40,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 	private EdgeCursor rowCursor;
 	private List groupCursors;
 
-	private LevelViewHandle lastLevel;
-	private int lastDimensionIndex, lastLevelIndex;
+	private LevelViewHandle currentLevel;
+	private int currentDimensionIndex, currentLevelIndex;
 	private int totalMeasureCount;
 
 	private List elements;
@@ -56,7 +57,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		super( parent );
 
 		this.currentGroupIndex = groupIndex;
-
 		this.rowCursor = rowCursor;
 	}
 
@@ -66,7 +66,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		{
 			try
 			{
-				handleGroupPageBreakAfter( lastLevel, rowCursor );
+				handleGroupPageBreakAfter( );
 			}
 			catch ( OLAPException e )
 			{
@@ -79,7 +79,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		super.close( );
 
 		groupCursors = null;
-		lastLevel = null;
+		currentLevel = null;
 		elements = null;
 		rowCursor = null;
 	}
@@ -108,21 +108,19 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 				groupCursors = rowCursor.getDimensionCursor( );
 
-				if ( currentGroupIndex > 0 )
+				EdgeGroup group = (EdgeGroup) rowGroups.get( currentGroupIndex );
+
+				currentDimensionIndex = group.dimensionIndex;
+				currentLevelIndex = group.levelIndex;
+
+				if ( currentDimensionIndex >= 0 && currentLevelIndex >= 0 )
 				{
-					EdgeGroup lastGroup = (EdgeGroup) rowGroups.get( currentGroupIndex - 1 );
-
-					lastDimensionIndex = lastGroup.dimensionIndex;
-					lastLevelIndex = lastGroup.levelIndex;
-
-					if ( lastDimensionIndex >= 0 && lastLevelIndex >= 0 )
-					{
-						lastLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
-								lastDimensionIndex ).getLevel( lastLevelIndex );
-					}
+					currentLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
+							currentDimensionIndex )
+							.getLevel( currentLevelIndex );
 				}
 
-				handleGroupPageBreakBefore( lastLevel, rowCursor );
+				handleGroupPageBreakBefore( );
 
 				collectExecutable( );
 			}
@@ -143,65 +141,102 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		}
 	}
 
-	private boolean isLastLevelLeafGroup( ) throws OLAPException
+	private boolean isCurrentLevelLeafGroup( ) throws OLAPException
 	{
-		if ( currentGroupIndex > 0 && rowCursor != null )
-		{
-			return GroupUtil.isLeafGroup( rowCursor.getDimensionCursor( ),
-					currentGroupIndex - 1 );
-		}
-
-		return false;
+		return GroupUtil.isLeafGroup( rowCursor.getDimensionCursor( ),
+				currentGroupIndex );
 	}
 
-	private int getStartingGroupLevel( ) throws OLAPException
+	private void handleGroupPageBreakBefore( ) throws OLAPException
 	{
-		if ( rowCursor.isFirst( ) )
+		if ( currentLevel != null )
 		{
-			return 0;
-		}
-
-		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
-		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-
-			if ( GroupUtil.isDummyGroup( dc ) )
+			String pageBreakBefore = currentLevel.getPageBreakBefore( );
+			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreakBefore )
+					|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !rowCursor.isFirst( ) ) )
 			{
-				return i;
+				getContent( ).getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+								IStyle.ALWAYS_VALUE );
 			}
 
-			if ( dc.getEdgeStart( ) == rowCursor.getPosition( ) )
+			String pageBreakAfter = currentLevel.getPageBreakAfter( );
+			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreakAfter ) )
 			{
-				return i + 1;
+				getContent( ).getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+								IStyle.ALWAYS_VALUE );
 			}
 		}
 
-		return groupCursors.size( );
+		// handle special logic for page_break_after_excluding_last
+		// TODO confirm the correct behavior
+		boolean hasPageBreak = false;
+		IReportItemExecutor parentExecutor = getParent( );
+
+		// TODO code refactor
+		while ( ( parentExecutor instanceof CrosstabGroupExecutor || parentExecutor instanceof CrosstabReportItemExecutor ) )
+		{
+			if ( parentExecutor instanceof CrosstabGroupExecutor )
+			{
+				if ( ( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak )
+				{
+					( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = false;
+
+					hasPageBreak = true;
+				}
+			}
+			else
+			{
+				if ( ( (CrosstabReportItemExecutor) parentExecutor ).notifyNextGroupPageBreak )
+				{
+					( (CrosstabReportItemExecutor) parentExecutor ).notifyNextGroupPageBreak = false;
+
+					hasPageBreak = true;
+				}
+			}
+
+			parentExecutor = parentExecutor.getParent( );
+		}
+
+		if ( hasPageBreak )
+		{
+			getContent( ).getStyle( )
+					.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+							IStyle.ALWAYS_VALUE );
+		}
 	}
 
-	private int getEndingGroupLevel( ) throws OLAPException
+	private void handleGroupPageBreakAfter( ) throws OLAPException
 	{
-		if ( rowCursor.isLast( ) )
+		if ( currentLevel != null )
 		{
-			return 0;
-		}
+			// handle page_break_after_excluding_last
+			String pageBreakAfter = currentLevel.getPageBreakAfter( );
+			IReportItemExecutor parentExecutor = getParent( );
 
-		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
-		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-
-			if ( GroupUtil.isDummyGroup( dc ) )
+			if ( ( parentExecutor instanceof CrosstabGroupExecutor || parentExecutor instanceof CrosstabReportItemExecutor )
+					&& DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( pageBreakAfter )
+					&& !rowCursor.isLast( ) )
 			{
-				return i;
-			}
+				// TODO code refactor
+				// TODO confirm the correct behavior
+				while ( parentExecutor instanceof CrosstabGroupExecutor
+						|| parentExecutor instanceof CrosstabReportItemExecutor )
+				{
+					if ( parentExecutor instanceof CrosstabGroupExecutor )
+					{
+						( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
+					}
+					else
+					{
+						( (CrosstabReportItemExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
+					}
 
-			if ( dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
-			{
-				return i + 1;
+					parentExecutor = parentExecutor.getParent( );
+				}
 			}
 		}
-
-		return groupCursors.size( );
 	}
 
 	private void collectExecutable( ) throws OLAPException
@@ -210,24 +245,24 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		currentElement = 0;
 		endGroup = false;
 
-		int startingGroupIndex = getStartingGroupLevel( );
+		int startingGroupIndex = getStartingGroupLevel( rowCursor, groupCursors );
 
 		// check group start on previous group, to show header on
 		// previous group
-		if ( startingGroupIndex <= currentGroupIndex )
+		if ( startingGroupIndex <= currentGroupIndex + 1 )
 		{
 			if ( totalMeasureCount > 0
 					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 			{
-				if ( lastLevel != null
-						&& lastLevel.getAggregationHeader( ) != null
-						&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lastLevel.getAggregationHeaderLocation( ) )
-						&& !isLastLevelLeafGroup( ) )
+				if ( !isCurrentLevelLeafGroup( )
+						&& currentLevel != null
+						&& currentLevel.getAggregationHeader( ) != null
+						&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( currentLevel.getAggregationHeaderLocation( ) ) )
 				{
 					// header
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-							lastDimensionIndex,
-							lastLevelIndex,
+							currentDimensionIndex,
+							currentLevelIndex,
 							IBandContent.BAND_HEADER );
 					elements.add( bandExecutor );
 				}
@@ -245,33 +280,31 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		else
 		{
 			// detail
-			EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
-
 			CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-					currentGroup.dimensionIndex,
-					currentGroup.levelIndex,
+					currentDimensionIndex,
+					currentLevelIndex,
 					IBandContent.BAND_DETAIL );
 			elements.add( bandExecutor );
 		}
 
-		int endingGroupIndex = getEndingGroupLevel( );
+		int endingGroupIndex = getEndingGroupLevel( rowCursor, groupCursors );
 
 		// check group end on previous group, to show footer on
 		// previous group
-		if ( endingGroupIndex <= currentGroupIndex )
+		if ( endingGroupIndex <= currentGroupIndex + 1 )
 		{
 			if ( totalMeasureCount > 0
 					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 			{
-				if ( lastLevel != null
-						&& lastLevel.getAggregationHeader( ) != null
-						&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) )
-						&& !isLastLevelLeafGroup( ) )
+				if ( !isCurrentLevelLeafGroup( )
+						&& currentLevel != null
+						&& currentLevel.getAggregationHeader( ) != null
+						&& AGGREGATION_HEADER_LOCATION_AFTER.equals( currentLevel.getAggregationHeaderLocation( ) ) )
 				{
 					// footer
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-							lastDimensionIndex,
-							lastLevelIndex,
+							currentDimensionIndex,
+							currentLevelIndex,
 							IBandContent.BAND_FOOTER );
 					elements.add( bandExecutor );
 				}
@@ -310,11 +343,12 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			{
 				while ( !endGroup )
 				{
-					int endingGroupIndex = getEndingGroupLevel( );
+					int endingGroupIndex = getEndingGroupLevel( rowCursor,
+							groupCursors );
 
 					// check group end on previous group, to show footer on
 					// previous group
-					if ( endingGroupIndex <= currentGroupIndex )
+					if ( endingGroupIndex <= currentGroupIndex + 1 )
 					{
 						currentElement = 0;
 						elements = new ArrayList( );
@@ -322,15 +356,15 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 						if ( totalMeasureCount > 0
 								|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 						{
-							if ( lastLevel != null
-									&& lastLevel.getAggregationHeader( ) != null
-									&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) )
-									&& !isLastLevelLeafGroup( ) )
+							if ( !isCurrentLevelLeafGroup( )
+									&& currentLevel != null
+									&& currentLevel.getAggregationHeader( ) != null
+									&& AGGREGATION_HEADER_LOCATION_AFTER.equals( currentLevel.getAggregationHeaderLocation( ) ) )
 							{
 								// footer
 								CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-										lastDimensionIndex,
-										lastLevelIndex,
+										currentDimensionIndex,
+										currentLevelIndex,
 										IBandContent.BAND_FOOTER );
 								elements.add( bandExecutor );
 							}

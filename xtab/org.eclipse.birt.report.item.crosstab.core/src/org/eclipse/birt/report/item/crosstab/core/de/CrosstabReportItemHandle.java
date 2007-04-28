@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
@@ -862,6 +863,26 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			return;
 		}
 		measureView.handle.moveTo( toIndex );
+	}
+
+	/**
+	 * Returns the mirrored starting level in specific axis.
+	 * 
+	 * @return
+	 */
+	public LevelHandle getMirroredStartingLevel( int axisType )
+	{
+		return new CrosstabReportItemTask( this ).getMirroredStartingLevel( axisType );
+	}
+
+	/**
+	 * Sets mirrrored starting level property for specific axis.
+	 */
+	public void setMirroredStartingLevel( int axisType, LevelHandle value )
+			throws SemanticException
+	{
+		new CrosstabReportItemTask( this ).setMirroredStartingLevel( axisType,
+				value );
 	}
 
 	/**
