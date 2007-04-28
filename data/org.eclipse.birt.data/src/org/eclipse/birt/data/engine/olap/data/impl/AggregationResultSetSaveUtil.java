@@ -48,8 +48,11 @@ public class AggregationResultSetSaveUtil
 			return;
 		}
 		dataOutputStream.writeInt( resultSets.length );
+		dataOutputStream.close( );
 		for( int i=0;i<resultSets.length;i++)
 		{
+			outputStream = writer.createRandomAccessStream( name + i );
+			dataOutputStream = new DataOutputStream( outputStream );
 			saveOneResultSet( dataOutputStream, resultSets[i] );
 		}
 	}
@@ -66,6 +69,7 @@ public class AggregationResultSetSaveUtil
 		DataInputStream dataInputStream = new DataInputStream( inputStream );
 		 
 		int size = dataInputStream.readInt( );
+		inputStream.close( );
 		if( size <= 0 )
 		{
 			return null;
@@ -73,6 +77,8 @@ public class AggregationResultSetSaveUtil
 		IAggregationResultSet[] result = new IAggregationResultSet[size];
 		for( int i=0;i<size;i++)
 		{
+			inputStream = reader.getStream( name + i );
+			dataInputStream = new DataInputStream( inputStream );
 			result[i] = loadOneResultSet( dataInputStream );
 		}
 		return result;
@@ -159,6 +165,7 @@ public class AggregationResultSetSaveUtil
 			saveMetaData( outputStream, (AggregationResultSet) resultSet );
 			saveAggregationRowSet( outputStream, (AggregationResultSet) resultSet );
 		}
+		outputStream.close( );
 	}
 	
 	/**

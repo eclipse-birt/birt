@@ -356,8 +356,8 @@ public class CubeAggregationTest extends TestCase
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
-		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test1", resultSet );
-		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test1" );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test2", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test2" );
 		//result set for aggregation 0
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );

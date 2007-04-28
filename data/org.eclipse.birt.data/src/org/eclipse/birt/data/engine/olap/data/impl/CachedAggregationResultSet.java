@@ -42,13 +42,15 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private IDiskArray aggregationResultRow;
 	private AggregationResultRow resultObject;
 	private int[] sortType;
+	private DataInputStream inputStream;
 
-	CachedAggregationResultSet( DataInputStream inputStream,
-			int length,
-			String[] levelNames, int[] sortTypes, String[][] keyNames, String[][] attributeNames,
-			int[][] keyDataTypes, int[][] attributeDataTypes,
-			String[] aggregationNames, int[] aggregationDataType ) throws IOException
+	CachedAggregationResultSet( DataInputStream inputStream, int length,
+			String[] levelNames, int[] sortTypes, String[][] keyNames,
+			String[][] attributeNames, int[][] keyDataTypes,
+			int[][] attributeDataTypes, String[] aggregationNames,
+			int[] aggregationDataType ) throws IOException
 	{
+		this.inputStream = inputStream;
 		this.currentPosition = 0;
 		this.length = length;
 		this.levelNames = levelNames;
@@ -69,11 +71,6 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		}
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		
-		//TODO make me lazy.
-		for( int i=0;i<length;i++)
-		{
-			aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );
-		}
 		seek( 0 );
 	}
 	
@@ -374,9 +371,16 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 */
 	public void seek( int index ) throws IOException
 	{
-		if ( index >= aggregationResultRow.size( ) )
+		if ( index >= length )
 		{
 			return;
+		}
+		if ( index >= aggregationResultRow.size( ) )
+		{
+			for ( int i = 0; i <= index - aggregationResultRow.size( ); i++ )
+			{
+				aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );
+			}
 		}
 		currentPosition = index;
 		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
