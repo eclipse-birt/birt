@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
