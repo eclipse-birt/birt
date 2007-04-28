@@ -102,20 +102,6 @@ public final class LayoutManager
 
 		// SETUP THE POSITION OF THE LEGEND AND THE PLOT
 		Position lgPos = lg.getPosition( );
-
-		// swap right/left
-		if ( isRightToLeft )
-		{
-			if ( lgPos == Position.RIGHT_LITERAL )
-			{
-				lgPos = Position.LEFT_LITERAL;
-			}
-			else if ( lgPos == Position.LEFT_LITERAL )
-			{
-				lgPos = Position.RIGHT_LITERAL;
-			}
-		}
-
 		Anchor plotAnchor = pl.getAnchor( );
 
 		// swap west/east
