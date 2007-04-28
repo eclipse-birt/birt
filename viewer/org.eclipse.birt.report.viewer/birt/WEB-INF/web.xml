@@ -23,7 +23,7 @@
 	<!-- The generated document files directory. Default to ${birt home}/documents -->
 	<context-param>
 		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
-		<param-value></param-value>
+		<param-value>${birt.viewer.working.path}/documents</param-value>
 	</context-param>
 
 	<!-- If usr can only access the report resources under working folder. Default is false -->
@@ -35,13 +35,13 @@
 	<!-- Output image/chart directory. Default to ${birt home}/report/images -->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>
-		<param-value></param-value>
+		<param-value>${birt.viewer.working.path}/report/images</param-value>
 	</context-param>
 
 	<!-- Engine log directory. Default to ${birt home}/logs -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_DIR</param-name>
-		<param-value></param-value>
+		<param-value>${birt.viewer.working.path}/logs</param-value>
 	</context-param>
 
 	<!-- Report engine log level -->
