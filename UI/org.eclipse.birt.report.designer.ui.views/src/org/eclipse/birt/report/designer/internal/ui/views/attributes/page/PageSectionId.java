@@ -214,6 +214,8 @@ public class PageSectionId
 	public final static String GRAND_TOTALS = "GRAND_TOTALS";
 
 	public final static String SUB_TOTALS = "SUB_TOTALS";
+	
+	public final static String PAGE_BREAK = "PAGE_BREAK";
 
 	public static final String AUTOTEXT_STYLE = "AUTOTEXT_STYLE";
 
