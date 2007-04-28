@@ -542,6 +542,19 @@ public abstract class EngineTask implements IEngineTask
 			return false;
 		}
 
+		String source = paramHandle.getValidate( );
+		if ( source != null && source.length( ) != 0 )
+		{
+			Object result = executionContext.evaluate( source );
+			if ( !( result instanceof Boolean )
+					|| !( (Boolean) result ).booleanValue( ) )
+			{
+				log.log( Level.SEVERE, "Parameter validate failed: ", //$NON-NLS-1$ 
+					source );
+				return false;
+			}
+		}
+		
 		/*
 		 * Validate based on parameter type
 		 */
