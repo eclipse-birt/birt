@@ -24,6 +24,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -93,6 +95,7 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
@@ -1421,15 +1424,18 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
-
-		String[] fontNames = ge.getAvailableFontFamilyNames( );
-
-		if ( comparator != null )
-		{
-			Arrays.sort( fontNames, comparator );
+		FontData[] fontDatas = (FontData [])Display.getCurrent( ).getFontList( null, false );
+		SortedSet set = new TreeSet(comparator);
+		for(int i=0;i<fontDatas.length;i++){
+			set.add( fontDatas[i].getName( ));
 		}
-		return fontNames;
+		fontDatas = (FontData [])Display.getCurrent( ).getFontList( null, true );
+		for(int i=0;i<fontDatas.length;i++){
+			set.add( fontDatas[i].getName( ));
+		}
+		String[] fonts = new String[set.size( )];
+		set.toArray( fonts );
+		return fonts;
 	}
 
 	/**
