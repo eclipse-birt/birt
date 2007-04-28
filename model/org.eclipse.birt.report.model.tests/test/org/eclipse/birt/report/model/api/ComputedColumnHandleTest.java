@@ -42,6 +42,14 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		column.setName( "column 1" ); //$NON-NLS-1$
 		column.setExpression( "expression 1" ); //$NON-NLS-1$
 
+		// test clear aggregate on string list on structure
+
+		column.setAggregateOn( "agg 1" ); //$NON-NLS-1$
+		column.addAggregateOn( "agg 2" ); //$NON-NLS-1$
+		assertEquals( 2, column.getAggregateOnList( ).size( ) );
+		column.clearAggregateOnList( );
+		assertEquals( 0, column.getAggregateOnList( ).size( ) );
+
 		ComputedColumnHandle columnHandle = data.addColumnBinding( column,
 				false );
 
@@ -62,5 +70,13 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		aggregates = columnHandle.getAggregateOnList( );
 		assertEquals( 0, aggregates.size( ) );
 
+		// test clear aggregate on stirng list on handle
+
+		columnHandle.setAggregateOn( "agg 1" ); //$NON-NLS-1$
+		columnHandle.addAggregateOn( "agg 2" ); //$NON-NLS-1$
+		assertEquals( 2, columnHandle.getAggregateOnList( ).size( ) );
+		columnHandle.clearAggregateOnList( );
+		assertEquals( 0, columnHandle.getAggregateOnList( ).size( ) );
 	}
+
 }

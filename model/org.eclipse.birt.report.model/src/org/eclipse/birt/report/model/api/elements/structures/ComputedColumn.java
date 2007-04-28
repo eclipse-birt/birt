@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.model.api.elements.structures;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -145,7 +147,7 @@ public class ComputedColumn extends Structure
 	/**
 	 * The aggregrateOn expression for the computed column.
 	 */
-	private List aggregrateOn = null;
+	private List aggregateOn = null;
 
 	/**
 	 * The column display name.
@@ -184,14 +186,14 @@ public class ComputedColumn extends Structure
 			return dataType;
 		else if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
 		{
-			if ( aggregrateOn == null || aggregrateOn.isEmpty( ) )
+			if ( aggregateOn == null || aggregateOn.isEmpty( ) )
 				return null;
-			return aggregrateOn.get( 0 );
+			return aggregateOn.get( 0 );
 		}
 		else if ( DISPLAY_NAME_MEMBER.equalsIgnoreCase( memberName ) )
 			return columnDisplayName;
 		else if ( AGGREGATEON_MEMBER.equals( memberName ) )
-			return aggregrateOn;
+			return aggregateOn;
 		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( memberName ) )
 			return aggregateFunc;
 		else if ( ARGUMENTS_MEMBER.equalsIgnoreCase( memberName ) )
@@ -233,7 +235,7 @@ public class ComputedColumn extends Structure
 			else if ( value instanceof List )
 				tmpList = (List) value;
 
-			aggregrateOn = tmpList;
+			aggregateOn = tmpList;
 		}
 		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( propName ) )
 			aggregateFunc = (String) value;
@@ -475,7 +477,11 @@ public class ComputedColumn extends Structure
 
 	public List getAggregateOnList( )
 	{
-		return (List) getProperty( null, AGGREGATEON_MEMBER );
+		List value = (List) getProperty( null, AGGREGATEON_MEMBER );
+		if ( value == null )
+			return Collections.EMPTY_LIST;
+
+		return (List) value;
 	}
 
 	/**
@@ -500,10 +506,10 @@ public class ComputedColumn extends Structure
 
 	public void addAggregateOn( String aggreValue )
 	{
-		if ( aggregrateOn == null )
-			aggregrateOn = new ArrayList( );
+		if ( aggregateOn == null )
+			aggregateOn = new ArrayList( );
 
-		aggregrateOn.add( aggreValue );
+		aggregateOn.add( aggreValue );
 	}
 
 	/**
@@ -516,10 +522,10 @@ public class ComputedColumn extends Structure
 
 	public void removeAggregateOn( String aggreValue )
 	{
-		if ( aggregrateOn == null )
+		if ( aggregateOn == null )
 			return;
 
-		aggregrateOn.remove( aggreValue );
+		aggregateOn.remove( aggreValue );
 	}
 
 	/**
@@ -544,7 +550,7 @@ public class ComputedColumn extends Structure
 	{
 		return (List) getProperty( null, ARGUMENTS_MEMBER );
 	}
-	
+
 	/**
 	 * Adds an arguments to list.
 	 * 
@@ -552,14 +558,14 @@ public class ComputedColumn extends Structure
 	 *            the aggregate function argument
 	 */
 
-	public void addArgument( String argument ) 
+	public void addArgument( String argument )
 	{
 		if ( arguments == null )
 			arguments = new ArrayList( );
 
 		arguments.add( argument );
 	}
-	
+
 	/**
 	 * Removes an arguments from list.
 	 * 
@@ -567,7 +573,7 @@ public class ComputedColumn extends Structure
 	 *            the aggregate function argument
 	 */
 
-	public void removeArgument( String argument ) 
+	public void removeArgument( String argument )
 	{
 		if ( arguments == null )
 			return;
@@ -612,5 +618,19 @@ public class ComputedColumn extends Structure
 	public void setFilterExpression( String expression )
 	{
 		setProperty( ComputedColumn.FILTER_MEMBER, expression );
+	}
+
+	/**
+	 * Sets the expression used to define this computed column.
+	 * 
+	 * @param expression
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             value required exception
+	 */
+
+	public void clearAggregateOnList( )
+	{
+		aggregateOn = null;
 	}
 }

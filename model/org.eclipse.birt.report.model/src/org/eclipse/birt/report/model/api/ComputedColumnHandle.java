@@ -293,7 +293,7 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		List aggregateOns = (List) getProperty( ComputedColumn.AGGREGATEON_MEMBER );
 		if ( aggregateOns == null )
-			return null;
+			return Collections.EMPTY_LIST;
 
 		return Collections.unmodifiableList( aggregateOns );
 	}
@@ -428,6 +428,17 @@ public class ComputedColumnHandle extends StructureHandle
 			throws SemanticException
 	{
 		setProperty( ComputedColumn.FILTER_MEMBER, expression );
+	}
+
+	/**
+	 * Clears the aggregate on list.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void clearAggregateOnList( ) throws SemanticException
+	{
+		setProperty( ComputedColumn.AGGREGATEON_MEMBER, null );
 	}
 
 }
