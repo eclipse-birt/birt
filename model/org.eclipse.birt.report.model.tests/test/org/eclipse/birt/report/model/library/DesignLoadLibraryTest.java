@@ -86,6 +86,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		assertEquals( 1, libraries.size( ) );
 		LibraryHandle libHandle = (LibraryHandle) libraries.get( 0 );
 		assertFalse( libHandle.isValid( ) );
+		assertEquals( "inexistentLibrary.xml", libHandle.getRelativeFileName( ) ); //$NON-NLS-1$
 		assertEquals( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND,
 				( (ErrorDetail) libHandle.getErrorList( ).get( 0 ) )
 						.getErrorCode( ) );
@@ -264,12 +265,19 @@ public class DesignLoadLibraryTest extends BaseTestCase
 				.getPropertyHandle( ReportDesignHandle.LIBRARIES_PROP );
 		ArrayList list = propHandle.getListValue( );
 		assertEquals( 3, list.size( ) );
+
 		IncludedLibrary includeLibrary = (IncludedLibrary) list.get( 0 );
 		assertEquals( "Library_1.xml", includeLibrary.getFileName( ) ); //$NON-NLS-1$
 		assertEquals( "Lib1", includeLibrary.getNamespace( ) ); //$NON-NLS-1$
+		assertEquals( includeLibrary.getFileName( ), libraryHandle1
+				.getRelativeFileName( ) );
+
 		includeLibrary = (IncludedLibrary) list.get( 1 );
 		assertEquals( "Library_2.xml", includeLibrary.getFileName( ) ); //$NON-NLS-1$
 		assertEquals( "Library_2", includeLibrary.getNamespace( ) ); //$NON-NLS-1$
+		assertEquals( includeLibrary.getFileName( ), libraryHandle2
+				.getRelativeFileName( ) );
+		
 		includeLibrary = (IncludedLibrary) list.get( 2 );
 		assertEquals( "Library_3.xml", includeLibrary.getFileName( ) ); //$NON-NLS-1$
 		assertEquals( "Lib3", includeLibrary.getNamespace( ) ); //$NON-NLS-1$

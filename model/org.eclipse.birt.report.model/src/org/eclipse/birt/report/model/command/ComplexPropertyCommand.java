@@ -96,7 +96,11 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		checkItem( ref, item );
 
 		List list = ref.getList( module, element );
-		element.checkStructureList( module, ref.getPropDefn( ), list, item );
+		PropertyDefn memberDefn = ref.getMemberDefn( );
+		if ( memberDefn != null )
+			element.checkStructureList( module, memberDefn, list, item );
+		else
+			element.checkStructureList( module, propDefn, list, item );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( ModelMessages

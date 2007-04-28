@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -297,8 +298,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 											.getName( ) ) );
 					// Copy CssStyle to Style
 
-					SharedStyleHandle newStyle = ModelUtil.TransferCssStyleToSharedStyle(
-							module, style );
+					SharedStyleHandle newStyle = ModelUtil
+							.TransferCssStyleToSharedStyle( module, style );
 					if ( newStyle == null )
 						continue;
 					themeHandle.getStyles( ).add( newStyle );
@@ -325,5 +326,29 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	public SlotHandle getCubes( )
 	{
 		return getSlot( CUBE_SLOT );
+	}
+
+	/**
+	 * If this library is included by a module, return the relative file name
+	 * that is defined in the host's xml file.
+	 * 
+	 * @return the relative file name that is defined in the host's xml file
+	 */
+
+	public String getRelativeFileName( )
+	{
+		ModuleHandle hostHandle = getHostHandle( );
+		if ( hostHandle == null )
+			return null;
+
+		Module host = (Module) hostHandle.getElement( );
+		if ( host == null )
+			return null;
+
+		IncludedLibrary libStruct = host.findIncludedLibrary( getNamespace( ) );
+		if ( libStruct != null )
+			return libStruct.getFileName( );
+
+		return null;
 	}
 }
