@@ -157,7 +157,7 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 			rollback( );
 			ExceptionHandler.handle( e );
 		}
-
+		load( );
 	}
 
 	/**
