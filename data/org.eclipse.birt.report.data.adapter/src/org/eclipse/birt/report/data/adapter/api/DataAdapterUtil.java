@@ -34,13 +34,13 @@ public class DataAdapterUtil
 	 * @param targetScope
 	 * @param source
 	 */
-	public static void registerJSObject( Scriptable targetScope, Object source )
+	public static void registerJSObject( Scriptable targetScope, Object source, Object parent )
 	{
-		if ( source instanceof IResultIterator )
+		if ( source instanceof ILinkedResultIterator )
 		{
 			targetScope.put( "row",
 					targetScope,
-					new JSResultIteratorObject( (IResultIterator) source ) );
+					new JSResultIteratorObject( (ILinkedResultIterator) source ) );
 
 		}
 		else if ( source instanceof ICubeCursor )
@@ -54,9 +54,9 @@ public class DataAdapterUtil
 	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
-		private IResultIterator it;
+		private ILinkedResultIterator it;
 
-		JSResultIteratorObject( IResultIterator it )
+		JSResultIteratorObject( ILinkedResultIterator it )
 		{
 			this.it = it;
 		}
@@ -69,7 +69,15 @@ public class DataAdapterUtil
 		{
 			try
 			{
-				return it.getValue( arg0 );
+				if( "__rownum".equalsIgnoreCase( arg0 )||"0".equalsIgnoreCase( arg0 ))
+				{
+					return new Integer( it.getCurrentIterator( ).getRowIndex( ) );
+				}
+				if( "_outer".equalsIgnoreCase( arg0 ))
+				{
+					return new JSResultIteratorObject( it.getParent( ));
+				}
+				return it.getCurrentIterator( ).getValue( arg0 );
 			}
 			catch ( BirtException e )
 			{
