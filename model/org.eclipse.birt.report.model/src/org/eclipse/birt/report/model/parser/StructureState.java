@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -66,6 +67,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -177,7 +179,16 @@ public class StructureState extends AbstractPropertyState
 		super.setName( name );
 
 		propDefn = element.getPropertyDefn( name );
+		createStructure( );
+	}
 
+	/**
+	 * Create structure according to struct defn.
+	 * 
+	 */
+
+	private void createStructure( )
+	{
 		if ( struct == null )
 		{
 			assert propDefn != null;
@@ -187,9 +198,23 @@ public class StructureState extends AbstractPropertyState
 
 			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
 
-			Structure.StructureContext structContext = new Structure.StructureContext(
-					element, propDefn.getName( ) );
-			( (Structure) struct ).setContext( structContext );
+			// Now only support one level , that mean element->list property
+			// ->structure->member is elementRefValue
+			
+			if ( propDefn instanceof ElementPropertyDefn && list != null )
+			{
+				CachedMemberRef memberRef = new CachedMemberRef(
+						(ElementPropertyDefn) propDefn, list.size( ), name );
+				Structure.StructureContext structContext = new Structure.StructureContext(
+						element, memberRef );
+				( (Structure) struct ).setContext( structContext );
+			}
+			else
+			{
+				Structure.StructureContext structContext = new Structure.StructureContext(
+						element, propDefn.getName( ) );
+				( (Structure) struct ).setContext( structContext );
+			}
 		}
 	}
 
@@ -231,20 +256,7 @@ public class StructureState extends AbstractPropertyState
 				return;
 			}
 		}
-
-		if ( struct == null )
-		{
-			assert propDefn != null;
-
-			// If the structure has its specific state, the structure will be
-			// created by the specific state.
-
-			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
-
-			Structure.StructureContext structContext = new Structure.StructureContext(
-					element, propDefn.getName( ) );
-			( (Structure) struct ).setContext( structContext );
-		}
+		createStructure( );
 	}
 
 	/*
@@ -483,7 +495,7 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( DateFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateFormatValue.class );
-		
+
 		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateTimeFormatValue.class );
 

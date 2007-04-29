@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -24,11 +28,40 @@ public class DimensionJoinConditionHandleTest extends BaseTestCase
 {
 
 	/**
+	 * Test dropAndClear method in DimensionHandle.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testDropAndClear( ) throws Exception
+	{
+		openDesign( "DimensionJoinConditionHandleTest_2.xml" );//$NON-NLS-1$
+
+		TabularCubeHandle cube = (TabularCubeHandle) designHandle
+				.findCube( "Customer Cube" ); //$NON-NLS-1$
+
+		List propList = cube
+				.getListProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+		assertEquals( 2, propList.size( ) );
+
+		DimensionHandle dimensionHandle = cube.getDimension( "Group" );//$NON-NLS-1$
+		dimensionHandle.dropAndClear( );
+
+		designHandle.saveAs( "D:\\test.rptdesign");//$NON-NLS-1$
+		propList = cube
+				.getListProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+		assertEquals( 1, propList.size( ) );
+
+		DimensionCondition condition = (DimensionCondition) propList.get( 0 );
+		assertEquals(
+				"NewTabularHierarchy1", condition.getProperty( designHandle.getModule( ), DimensionCondition.HIERARCHY_MEMBER ) );//$NON-NLS-1$
+	}
+	/**
 	 * Test equals method in DimensionJoinConditionHandle.
 	 * 
 	 * @throws Exception
 	 */
-	public void testEquals( ) throws Exception
+	 public void testEquals( ) throws Exception
 	{
 		openDesign( "DimensionJoinConditionHandleTest.xml" );//$NON-NLS-1$
 

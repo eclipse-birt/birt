@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Base class for structures that store some or all of their properties in a
@@ -56,9 +57,9 @@ public abstract class PropertyStructure extends Structure
 			value = getIntrinsicProperty( propDefn.getName( ) );
 		else
 			value = propValues.get( propDefn.getName( ) );
-		
+
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-			return resolveElementReference( module,
+			return ReferenceValueUtil.resolveElementReference( this, module,
 					(StructPropertyDefn) propDefn, value );
 		return value;
 	}

@@ -19,11 +19,11 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.Structure.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -148,10 +148,21 @@ public class PropertyListRecord extends SimpleRecord
 
 			// setup the context for the structure.
 
-			StructureContext structContext = new Structure.StructureContext(
-					element, listRef.getPropDefn( ).getName( ) );
-			( (Structure) value ).setContext( structContext );
-
+			// Now only support level one case.
+			if ( listRef.getDepth( ) == 1 )
+			{
+				CachedMemberRef memberRef = new CachedMemberRef( listRef
+						.getPropDefn( ), listRef.getIndex( ) );
+				Structure.StructureContext structContext = new Structure.StructureContext(
+						element, memberRef );
+				( (Structure) value ).setContext( structContext );
+			}
+			else
+			{
+				Structure.StructureContext structContext = new Structure.StructureContext(
+						element, listRef.getPropDefn( ).getName( ) );
+				( (Structure) value ).setContext( structContext );
+			}
 		}
 		else
 		{
@@ -184,7 +195,7 @@ public class PropertyListRecord extends SimpleRecord
 		if ( eventTarget != null )
 			return new PropertyEvent( eventTarget.getElement( ), eventTarget
 					.getPropName( ) );
-		
+
 		// Use the same notification for the done/redone and undone states.
 
 		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );

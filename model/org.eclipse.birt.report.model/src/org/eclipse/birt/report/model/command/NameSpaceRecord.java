@@ -17,16 +17,22 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -152,7 +158,9 @@ public class NameSpaceRecord extends SimpleRecord
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
 
+			CachedMemberRef memberRef = ref.getCachedMemberRef( );
 			Object value = client.getLocalProperty( root, ref.propName );
+
 			if ( value instanceof ElementRefValue )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
@@ -160,24 +168,86 @@ public class NameSpaceRecord extends SimpleRecord
 
 				referred.dropClient( client );
 
-				client.resolveElementReference( root , client
+				client.resolveElementReference( root, client
 						.getPropertyDefn( ref.propName ) );
 			}
+
 			else if ( value instanceof List )
 			{
 				List valueList = (List) value;
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
-					ElementRefValue item = (ElementRefValue) valueList.get( i );
-					if ( referred == item.getElement( ) )
+					Object tempObj = valueList.get( i );
+					if ( tempObj instanceof ElementRefValue )
 					{
-						item.unresolved( item.getName( ) );
-						referred.dropClient( client );
-						ReferenceValueUtil.resolveElementReference( root, client , client
-								.getPropertyDefn( ref.propName ), item );
-						break;
+						ElementRefValue item = (ElementRefValue) tempObj;
+						if ( referred == item.getElement( ) )
+						{
+							item.unresolved( item.getName( ) );
+							referred.dropClient( client );
+							ReferenceValueUtil.resolveElementReference( root,
+									client, client
+											.getPropertyDefn( ref.propName ),
+									item );
+							break;
+						}
+					}
+					else
+					{
+						// Now special deal with structure list.
+						// element -> list-property -> structure-> member is
+						// elementRefValue
+
+						int index = memberRef.getIndex( );
+						if ( index >= 0 && index < valueList.size( ) )
+						{
+							Structure structure = (Structure) valueList
+									.get( index );
+							Iterator iterator = structure.getDefn( )
+									.getPropertyIterator( );
+							while ( iterator.hasNext( ) )
+							{
+								IPropertyDefn propDefn = (IPropertyDefn) iterator
+										.next( );
+
+								// if member is element ref type , then do
+								// unreslove.
+
+								if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+								{
+									ElementRefValue tempRefValue = (ElementRefValue) structure
+											.getProperty( root,
+													(PropertyDefn) propDefn );
+
+									if ( referred == tempRefValue.getElement( ) )
+									{
+										tempRefValue.unresolved( tempRefValue
+												.getName( ) );
+										referred.dropClient( client );
+
+										// reslove member
+										StructPropertyDefn structDefn = (StructPropertyDefn) structure
+												.getDefn( ).findProperty(
+														propDefn.getName( ) );
+
+										ReferenceValueUtil
+												.resolveElementReference(
+														structure, root,
+														structDefn,
+														tempRefValue );
+
+										break;
+
+									}
+								}
+							}
+						}
 					}
 				}
+			}
+			else if ( value instanceof DesignElement )
+			{
+				// Do nothing now.
 			}
 			else
 			{
@@ -207,7 +277,7 @@ public class NameSpaceRecord extends SimpleRecord
 	{
 		NotificationEvent event = null;
 		if ( this.add )
-			event = new NameEvent( element, null, element.getName( ));
+			event = new NameEvent( element, null, element.getName( ) );
 		else
 			event = new NameEvent( element, element.getName( ), null );
 		return event;

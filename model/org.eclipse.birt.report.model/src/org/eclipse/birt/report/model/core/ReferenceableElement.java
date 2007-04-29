@@ -89,7 +89,7 @@ public abstract class ReferenceableElement extends DesignElement
 
 	public void dropClient( DesignElement client )
 	{
-		adapter.dropClient( client, null );
+		adapter.dropClient( client, (String) null );
 	}
 
 	/*
@@ -180,6 +180,40 @@ public abstract class ReferenceableElement extends DesignElement
 	public void clearClients( )
 	{
 		adapter.clearClients( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+
+	public void addClient( DesignElement client, CachedMemberRef ref )
+	{
+		adapter.addClient( client, ref );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+
+	public void dropClient( DesignElement client,
+			CachedMemberRef cachedMemberRef )
+	{
+		adapter.dropClient( client, cachedMemberRef );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#insertClient(int, org.eclipse.birt.report.model.core.DesignElement, org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+	public void insertClient( int index, DesignElement client,
+			CachedMemberRef cachedMemberRef )
+	{
+		adapter.insertClient( index, client, cachedMemberRef );
 	}
 
 }

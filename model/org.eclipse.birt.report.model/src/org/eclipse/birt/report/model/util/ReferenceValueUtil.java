@@ -13,10 +13,13 @@ package org.eclipse.birt.report.model.util;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -25,6 +28,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
@@ -34,6 +38,85 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 public class ReferenceValueUtil
 {
+
+	/**
+	 * Resolves a property element reference. The reference is the value of a
+	 * property of type property element reference.
+	 * 
+	 * @param structure
+	 *            structure
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param prop
+	 *            the property whose type is element reference
+	 * @param value
+	 *            element ref value
+	 * @return the element reference value is always returned, which contains
+	 *         the information of element resolution.
+	 */
+
+	public static ElementRefValue resolveElementReference(
+			Structure structure, Module module, StructPropertyDefn prop,
+			Object value )
+	{
+		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+			return null;
+
+		assert value == null || value instanceof ElementRefValue;
+
+		if ( value == null || module == null )
+			return (ElementRefValue) value;
+
+		ElementRefValue ref = (ElementRefValue) value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		ElementRefPropertyType refType = (ElementRefPropertyType) prop
+				.getType( );
+
+		refType.resolve( module, prop, ref );
+
+		if ( !ref.isResolved( ) )
+			return ref;
+
+		DesignElement me = structure.getContextElement( );
+
+		// if it is recursively reference, not resolve it.
+
+		if ( me instanceof ReferenceableElement
+				&& ModelUtil.isRecursiveReference( ref.getElement( ),
+						(ReferenceableElement) me ) )
+		{
+			ref.unresolved( ref.getName( ) );
+			return ref;
+		}
+
+		String propName = structure.getContextPropertyName( );
+		CachedMemberRef memberRef = structure.getContextCachedMemberRef( );
+
+		// how to handle back reference.
+
+		if ( me != null )
+		{
+			if ( memberRef != null )
+			{
+				ref.getTargetElement( ).addClient( me, memberRef );
+			}
+			else if ( propName != null )
+			{
+				ref.getTargetElement( ).addClient( me, propName );
+			}
+		}
+		return ref;
+	}
 
 	/**
 	 * Gets the property value with the name prefix. This method is just used
@@ -142,7 +225,7 @@ public class ReferenceValueUtil
 	{
 		return needTheNamespacePrefix( refValue, root, null );
 	}
-	
+
 	/**
 	 * Resolves the parent element reference.
 	 * 

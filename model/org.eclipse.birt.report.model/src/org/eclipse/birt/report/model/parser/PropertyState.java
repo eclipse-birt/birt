@@ -69,6 +69,9 @@ import org.xml.sax.SAXException;
 class PropertyState extends AbstractPropertyState
 {
 
+	/**
+	 * Property defn.
+	 */
 	protected PropertyDefn propDefn = null;
 
 	/*
@@ -159,6 +162,22 @@ class PropertyState extends AbstractPropertyState
 	{
 		if ( struct != null )
 		{
+//			IPropertyDefn memberDefn = struct.getDefn( ).getMember( name );
+//			if ( memberDefn != null
+//					&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+//			{
+//				// case for wrong member name
+//
+//				// set default index to zero.
+//				// Type is PROPERTY_LISTn_MEMBER
+//				MemberRef memberRef = new CachedMemberRef(
+//						(ElementPropertyDefn) propDefn, 0, name );
+//
+//				Structure.StructureContext structContext = new Structure.StructureContext(
+//						( (Structure) struct ).getContextElement( ), memberRef );
+//				( (Structure) struct ).setContext( structContext );
+//			}
+
 			setMember( struct, propDefn.getName( ), name, value );
 			return;
 		}
@@ -206,7 +225,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-		
+
 		if ( element instanceof ListGroup
 				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
 		{
@@ -345,10 +364,11 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
-		
-		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
-		
-		if(  handler.versionNumber < VersionUtil.VERSION_3_2_12 && element instanceof DataSet
+
+		// Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_12
+				&& element instanceof DataSet
 				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
 						.equalsIgnoreCase( name ) )
 		{
@@ -357,7 +377,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
 			return state;
 		}
-		
+
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_11
 				&& propDefn == null && element instanceof ScalarParameter
 				&& ( "allowNull".equalsIgnoreCase( name ) || "allowBlank" //$NON-NLS-1$ //$NON-NLS-2$

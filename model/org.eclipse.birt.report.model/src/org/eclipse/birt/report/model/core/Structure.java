@@ -184,74 +184,9 @@ public abstract class Structure implements IStructure
 			value = getIntrinsicProperty( propDefn.getName( ) );
 
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-			return resolveElementReference( module,
+			return ReferenceValueUtil.resolveElementReference( this, module,
 					(StructPropertyDefn) propDefn, value );
 		return value;
-	}
-
-	/**
-	 * Resolves a property element reference. The reference is the value of a
-	 * property of type property element reference.
-	 * 
-	 * @param module
-	 *            the module information needed for the check, and records any
-	 *            errors
-	 * @param prop
-	 *            the property whose type is element reference
-	 * @return the element reference value is always returned, which contains
-	 *         the information of element resolution.
-	 */
-
-	protected ElementRefValue resolveElementReference( Module module,
-			StructPropertyDefn prop, Object value )
-	{
-		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-			return null;
-
-		assert value == null || value instanceof ElementRefValue;
-
-		if ( value == null || module == null )
-			return (ElementRefValue) value;
-
-		ElementRefValue ref = (ElementRefValue) value;
-		if ( ref.isResolved( ) )
-			return ref;
-
-		// The element exist and is not resolved. Try to resolve it.
-		// If it is now resolved, cache the back pointer.
-		// Note that this is a safe operation to do without the
-		// use of the command stack. We are not changing the meaning
-		// of the property: we are only changing the form: from name
-		// to element pointer.
-
-		ElementRefPropertyType refType = (ElementRefPropertyType) prop
-				.getType( );
-
-		refType.resolve( module, prop, ref );
-
-		if ( !ref.isResolved( ) )
-			return ref;
-
-		DesignElement me = getContextElement( );
-
-		// if it is recursively reference, not resolve it.
-
-		if ( me instanceof ReferenceableElement
-				&& ModelUtil.isRecursiveReference( ref.getElement( ),
-						(ReferenceableElement) me ) )
-		{
-			ref.unresolved( ref.getName( ) );
-			return ref;
-		}
-
-		String propName = getContextPropertyName( );
-
-		// how to handle back reference.
-
-		if ( me != null && propName != null )
-			ref.getTargetElement( ).addClient( me, propName );
-
-		return ref;
 	}
 
 	/**
@@ -355,17 +290,22 @@ public abstract class Structure implements IStructure
 	{
 		IReferencableElement target;
 
-		DesignElement me = getContextElement( );;
+		DesignElement me = getContextElement( );
 		String propName = getContextPropertyName( );
-
+		CachedMemberRef memberRef = getContextCachedMemberRef( );
 		// Drop the old reference. Clear the back pointer from the referenced
 		// element to this element.
 
 		if ( oldRef != null )
 		{
 			target = oldRef.getTargetElement( );
-			if ( target != null && me != null && propName != null )
-				target.dropClient( me, propName );
+			if ( target != null && me != null )
+			{
+				if ( memberRef != null )
+					target.dropClient( me, memberRef );
+				else if ( propName != null )
+					target.dropClient( me, propName );
+			}
 		}
 
 		// Add the new reference. Cache a back pointer from the referenced
@@ -375,8 +315,13 @@ public abstract class Structure implements IStructure
 		if ( newRef != null )
 		{
 			target = newRef.getTargetElement( );
-			if ( target != null && me != null && propName != null )
-				target.addClient( me, propName );
+			if ( target != null && me != null )
+			{
+				if ( memberRef != null )
+					target.addClient( me, memberRef );
+				else if ( propName != null )
+					target.addClient( me, propName );
+			}
 		}
 	}
 
@@ -536,6 +481,14 @@ public abstract class Structure implements IStructure
 		return null;
 	}
 
+	public CachedMemberRef getContextCachedMemberRef( )
+	{
+		if ( context != null )
+			return context.cachedMemberRef;
+
+		return null;
+	}
+
 	/**
 	 * Caches the context to the structure.
 	 * 
@@ -559,6 +512,8 @@ public abstract class Structure implements IStructure
 		private DesignElement element;
 		private String elementPropName;
 
+		private CachedMemberRef cachedMemberRef;
+
 		/**
 		 * Constructs the structure context.
 		 * 
@@ -572,6 +527,21 @@ public abstract class Structure implements IStructure
 		{
 			this.element = element;
 			this.elementPropName = elementPropName;
+		}
+
+		/**
+		 * Constructs the structure context.
+		 * 
+		 * @param element
+		 *            the design element
+		 * @param memberRef
+		 *            member reference
+		 */
+
+		public StructureContext( DesignElement element, MemberRef memberRef )
+		{
+			this.element = element;
+			this.cachedMemberRef = new CachedMemberRef( memberRef );
 		}
 
 	}

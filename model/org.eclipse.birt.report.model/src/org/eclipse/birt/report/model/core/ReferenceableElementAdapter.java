@@ -103,7 +103,7 @@ public class ReferenceableElementAdapter
 
 	public void dropClient( DesignElement client )
 	{
-		dropClient( client, null );
+		dropClient( client, (String) null );
 	}
 
 	/*
@@ -198,7 +198,17 @@ public class ReferenceableElementAdapter
 
 			Module root = client.getRoot( );
 
-			Object value = client.getLocalProperty( root, ref.propName );
+			CachedMemberRef memberRef = ref.getCachedMemberRef( );
+			Object value = null;
+			if ( memberRef != null )
+			{
+				value = client
+						.getLocalProperty( root, memberRef.getPropDefn( ) );
+			}
+			else
+			{
+				value = client.getLocalProperty( root, ref.propName );
+			}
 			if ( value instanceof ElementRefValue )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
@@ -239,6 +249,54 @@ public class ReferenceableElementAdapter
 	public void clearClients( )
 	{
 		clients = new ArrayList( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+	public void addClient( DesignElement client, CachedMemberRef cachedMemberRef )
+	{
+		clients.add( new BackRef( client, cachedMemberRef ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+	public void dropClient( DesignElement client,
+			CachedMemberRef cachedMemberRef )
+	{
+		for ( int i = 0; i < clients.size( ); i++ )
+		{
+			BackRef ref = (BackRef) clients.get( i );
+			if ( ref.element == client
+					&& ( cachedMemberRef == null || cachedMemberRef.equals( ref
+							.getCachedMemberRef( ) ) ) )
+			{
+				clients.remove( i );
+				return;
+			}
+		}
+		assert false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#insertClient(int,
+	 *      org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 */
+	public void insertClient( int index, DesignElement client,
+			CachedMemberRef cachedMemberRef )
+	{
+		assert index > 0 && index <= clients.size( );
+		clients.add( index, new BackRef( client, cachedMemberRef ) );
 	}
 
 }

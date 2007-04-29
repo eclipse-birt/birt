@@ -158,7 +158,7 @@ public class StyleElementTest extends BaseTestCase
 		assertFalse( style.getClientList( ).contains( label1 ) );
 		assertEquals( style, label1.getStyle( ) );
 
-		style.addClient( label1, null );
+		style.addClient( label1, (String)null );
 		assertEquals( label1,
 				( (BackRef) style.getClientList( ).get( 1 ) ).element );
 

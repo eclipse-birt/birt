@@ -464,7 +464,6 @@ public class ContentCommand extends AbstractContentCommand
 		{
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
-
 			if ( unresolveReference )
 			{
 				BackRefRecord record = new ElementBackRefRecord( module,
@@ -480,8 +479,21 @@ public class ContentCommand extends AbstractContentCommand
 				}
 				else
 				{
-					PropertyCommand cmd = new PropertyCommand( module, client );
-					cmd.setProperty( ref.propName, null );
+					if ( ref.getCachedMemberRef( ) != null )
+					{
+						CachedMemberRef cachedMemberRef = ref
+								.getCachedMemberRef( );
+						ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+								module, client );
+						cmd.removeItem( new CachedMemberRef( cachedMemberRef
+								.getPropDefn( ) ), cachedMemberRef.getIndex( ) );
+					}
+					else if ( ref.getPropertyName( ) != null )
+					{
+						PropertyCommand cmd = new PropertyCommand( module,
+								client );
+						cmd.setProperty( ref.propName, null );
+					}
 				}
 			}
 		}

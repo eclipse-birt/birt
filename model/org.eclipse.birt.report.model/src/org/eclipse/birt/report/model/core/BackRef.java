@@ -33,6 +33,9 @@ public final class BackRef
 	 */
 
 	public final String propName;
+	
+	
+	private final CachedMemberRef cachedMemberRef;
 
 	/**
 	 * Constructs the back reference with the client element and the element
@@ -48,6 +51,24 @@ public final class BackRef
 	{
 		element = obj;
 		propName = prop;
+		cachedMemberRef = null;
+	}
+	
+	/**
+	 * Constructs the back reference with the client element and the element
+	 * reference property name.
+	 * 
+	 * @param obj
+	 *            client element
+	 * @param memberRef
+	 *            member reference
+	 */
+
+	public BackRef( DesignElement obj, MemberRef memberRef )
+	{
+		element = obj;
+		cachedMemberRef = new CachedMemberRef( memberRef );
+		propName = null;
 	}
 	
 	/**
@@ -68,5 +89,15 @@ public final class BackRef
 	public String getPropertyName( )
 	{
 		return this.propName;
+	}
+	
+	/**
+	 * Gets the member reference.
+	 * @return member reference
+	 */
+	
+	public CachedMemberRef getCachedMemberRef()
+	{
+		return this.cachedMemberRef;
 	}
 }
