@@ -115,36 +115,36 @@ public class GroupingLookupHelper
 		{
 			return dataExp;
 		}
-		return dataExp + aggExp;
+		return dataExp + "_" + aggExp; //$NON-NLS-1$
 	}
-
+	
 	/**
-	 * Finds the index according to the data expression and aggregation
-	 * expression of base series grouping.
+	 * Finds the index of base series according to the data expression .
 	 * 
 	 * @param dataExp
 	 *            the data expression to lookup
 	 * @return the index of the data expression in the evaluator data
 	 */
-	public int findIndex( String dataExp )
+	public int findIndexOfBaseSeries( String dataExp )
 	{
-		return findIndex( dataExp, this.strBaseAggExp );
+		return findIndex( dataExp, "" ); //$NON-NLS-1$
 	}
 
 	/**
-	 * Finds the index according to the combination of data expression and
-	 * aggregation expression.
+	 * Finds the index of orthogonal series according to the combination of data
+	 * expression and aggregation expression.
 	 * 
 	 * @param dataExp
 	 *            data expression
 	 * @param aggExp
-	 *            aggregation expression
+	 *            aggregation expression. If it's null, will use aggregation
+	 *            expression of base series instead
 	 * @return the index in the evaluator data
 	 */
 	public int findIndex( String dataExp, String aggExp )
 	{
 		Object value = null;
-		if ( aggExp == null || aggExp.trim( ).length( ) == 0 )
+		if ( aggExp == null )
 		{
 			value = lhmAggExp.get( generateKey( dataExp, this.strBaseAggExp ) );
 		}
@@ -176,10 +176,10 @@ public class GroupingLookupHelper
 		}
 		return indexArray;
 	}
-
-	private boolean addDataExp( String dataExp )
+	
+	private boolean addDataExpOfBaseSeries( String dataExp )
 	{
-		return addDataExp( dataExp, this.strBaseAggExp );
+		return addDataExp( dataExp, "" ); //$NON-NLS-1$
 	}
 
 	private boolean addDataExp( String dataExp, String aggExp )
@@ -223,7 +223,7 @@ public class GroupingLookupHelper
 					null );
 		}
 
-		if ( !addDataExp( ( (Query) elBaseSeries.get( 0 ) ).getDefinition( ) ) )
+		if ( !addDataExpOfBaseSeries( ( (Query) elBaseSeries.get( 0 ) ).getDefinition( ) ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_BINDING,

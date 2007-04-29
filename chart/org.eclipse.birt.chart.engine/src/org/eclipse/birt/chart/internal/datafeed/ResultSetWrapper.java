@@ -218,7 +218,7 @@ public final class ResultSetWrapper
 		// Apply base series sorting.
 		final Series seBaseDesignTime = sdBase.getDesignTimeSeries( );
 		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
-		final int iSortColumnIndex = htLookup.findIndex( q.getDefinition( ) );
+		final int iSortColumnIndex = htLookup.findIndexOfBaseSeries( q.getDefinition( ) ); 
 
 		SortOption so = null;
 		if ( !sdBase.isSetSorting( ) )
