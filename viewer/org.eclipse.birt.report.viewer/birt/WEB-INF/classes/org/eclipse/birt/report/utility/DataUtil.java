@@ -77,6 +77,23 @@ public class DataUtil
 	}
 
 	/**
+	 * Trim the end separator
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static String trimSepFirst( String path )
+	{
+		path = trimString( path );
+		if ( path.startsWith( File.separator ) )
+		{
+			path = path.substring( 1, path.length( ) );
+		}
+
+		return path;
+	}
+
+	/**
 	 * Returns the default date/time format
 	 * 
 	 * @param dataType

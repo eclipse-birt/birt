@@ -2233,7 +2233,10 @@ public class ParameterAccessor
 		{
 			String sysPath = DataUtil.trimSepEnd( System.getProperty( m.group(
 					1 ).trim( ) ) );
-			return DataUtil.trimString( sysPath ) + m.group( 2 ).trim( );
+			if ( sysPath.length( ) <= 0 )
+				return DataUtil.trimSepFirst( m.group( 2 ).trim( ) );
+			else
+				return sysPath + m.group( 2 ).trim( );
 		}
 
 		return path;
