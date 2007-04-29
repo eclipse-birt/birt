@@ -38,9 +38,9 @@ public interface IBinding
 
 	public void addArgument( IBaseExpression expr ) throws DataException;
 
-	public void setFilter( IScriptExpression expr ) throws DataException;
+	public void setFilter( IBaseExpression expr ) throws DataException;
 
-	public IScriptExpression getFilter( ) throws DataException;
+	public IBaseExpression getFilter( ) throws DataException;
 
 	public String getAggrFunction( ) throws DataException;
 
