@@ -791,7 +791,8 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 			}
-			else if ( PARAM_CONTROL_COMBO.equals( controlType ) || PARAM_CONTROL_LIST.equals( controlType ) )
+			else if ( PARAM_CONTROL_COMBO.equals( controlType )
+					|| PARAM_CONTROL_LIST.equals( controlType ) )
 			{
 				initSorttingArea( );
 			}
@@ -849,7 +850,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				controls[i].setEnabled( true );
 			}
-			
+
 			distinct.setSelection( !inputParameter.distinct( ) );
 			String sortKey = inputParameter.getSortBy( );
 			if ( sortKey == null
@@ -1922,15 +1923,13 @@ public class ParameterDialog extends BaseDialog
 						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
 					}
 
-					if ( sortDirectionChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
-					{
-						inputParameter.setSortDirection( null );
-					}
-					else if ( sortKeyChooser.getText( ).equals( CHOICE_ASCENDING ) )
+					if ( sortDirectionChooser.getText( )
+							.equals( CHOICE_ASCENDING ) )
 					{
 						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
 					}
-					else
+					else if ( sortDirectionChooser.getText( )
+							.equals( CHOICE_DESCENDING ) )
 					{
 						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 					}
