@@ -441,6 +441,10 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
+
+		// Restore label position for different sub type of chart.
+		ChartUIUtil.restoreLabelPositionFromCache( currentChart );
+		
 		return currentChart;
 	}
 

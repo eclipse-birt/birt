@@ -1429,4 +1429,86 @@ public class ChartUIUtil
 			list.add( array[i] );
 		}
 	}
+
+	/**
+	 * Caches label position for different subtype.
+	 * 
+	 * @param seriesDefinition
+	 *            the series definition in chart.
+	 */
+	public static void saveLabelPositionIntoCache(
+			SeriesDefinition seriesDefinition )
+	{
+		if ( seriesDefinition == null )
+		{
+			return;
+		}
+
+		// Cache label position of first BarSeries in all series.
+		EList seriesList = seriesDefinition.getSeries( );
+		for ( Iterator iter = seriesList.iterator( ); iter.hasNext( ); )
+		{
+			Series series = (Series) iter.next( );
+			if ( series instanceof BarSeries )
+			{
+				String stackedCase = ChartUIConstancts.NON_STACKED_TYPE;
+				if ( series.isStacked( ) )
+				{
+					stackedCase = ChartUIConstancts.STACKED_TYPE;
+				}
+
+				ChartCacheManager.getInstance( )
+						.cacheLabelPositionWithStackedCase( stackedCase,
+								series.getLabelPosition( ) );
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Restore cached label position to BarSeries in current chart.
+	 * 
+	 * @param currentChart
+	 *            current chart.
+	 */
+	public static void restoreLabelPositionFromCache( Chart currentChart )
+	{
+		if ( currentChart == null )
+		{
+			return;
+		}
+
+		SeriesDefinition[] sds = currentChart.getSeriesForLegend( );
+		for ( int i = 0; i < sds.length; i++ )
+		{
+			EList seriesList = sds[i].getSeries( );
+			for ( java.util.Iterator iter = seriesList.iterator( ); iter.hasNext( ); )
+			{
+				Series series = (Series) iter.next( );
+				if ( series instanceof BarSeries )
+				{
+					String stackedCase = ChartUIConstancts.NON_STACKED_TYPE;
+					if ( series.isStacked( ) )
+					{
+						stackedCase = ChartUIConstancts.STACKED_TYPE;
+					}
+
+					Position labelPosition = ChartCacheManager.getInstance( )
+							.findLabelPositionWithStackedCase( stackedCase );
+
+					if ( labelPosition != null )
+					{
+						series.setLabelPosition( labelPosition );
+					}
+					else
+					{
+						if ( series.isStacked( ) )
+						{
+							series.setLabelPosition( Position.INSIDE_LITERAL );
+						}
+					}
+				}
+			}
+		}
+	}
 }

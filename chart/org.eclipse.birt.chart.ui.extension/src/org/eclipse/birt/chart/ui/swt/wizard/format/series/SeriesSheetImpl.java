@@ -20,10 +20,12 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -413,6 +415,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			else if ( e.getSource( ).equals( btnStack ) )
 			{
 				series.setStacked( btnStack.getSelection( ) );
+				
+				// Default label position is inside if Stacked checkbox is
+				// selected.
+				if ( series instanceof BarSeries && series.isStacked( ) )
+				{
+					series.setLabelPosition( Position.INSIDE_LITERAL );
+				}
 			}
 			else if ( e.getSource( ).equals( btnTranslucent ) )
 			{

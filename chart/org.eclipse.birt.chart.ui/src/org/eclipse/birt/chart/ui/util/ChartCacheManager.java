@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -38,6 +39,12 @@ public final class ChartCacheManager
 
 	private Map cacheCharts = new HashMap( );
 
+	/**
+	 * The map stores Series label position, key is Chart stacked type, value is
+	 * reated label position object whose class type is <code>Position</code>.
+	 */
+	private Map cacheLabelPosition = new HashMap();
+	
 	private static final String PREFIX_SUBTYPE = "s_"; //$NON-NLS-1$
 
 	private static final String PREFIX_ORIENTATION = "o_"; //$NON-NLS-1$
@@ -202,6 +209,32 @@ public final class ChartCacheManager
 		cacheCharts.put( PREFIX_SUBTYPE + chartType, subtype );
 	}
 
+	/**
+	 * Caches the label position of specified Chart stacked type
+	 * 
+	 * @param stackedType
+	 *            Chart stacked type.
+	 * @param labelPosition
+	 *            Series label position.
+	 */
+	public void cacheLabelPositionWithStackedCase( String stackedType,
+			Position labelPosition )
+	{
+		cacheLabelPosition.put( stackedType, labelPosition );
+	}
+
+	/**
+	 * Returns label position of specified Chart stacked type.
+	 * 
+	 * @param stackedType
+	 *            Chart stacked type.
+	 * @return value of Series label position.
+	 */
+	public Position findLabelPositionWithStackedCase( String stackedType )
+	{
+		return (Position) cacheLabelPosition.get( stackedType );
+	}
+	
 	/**
 	 * Returns the latest selection of sub-type
 	 * 

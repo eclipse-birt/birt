@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
@@ -46,6 +47,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -614,7 +616,11 @@ public class TaskSelectType extends SimpleTask implements
 							cmpTypeButtons.redraw( );
 						}
 					}
-					sSubType = getSubtypeFromButton( btn );
+					
+					// Cache label position for stacked or non-stacked case.
+					ChartUIUtil.saveLabelPositionIntoCache( getSeriesDefinitionForProcessing() );
+					
+					sSubType = getSubtypeFromButton( btn );	
 					ChartCacheManager.getInstance( ).cacheSubtype( sType,
 							sSubType );
 				}
@@ -776,6 +782,8 @@ public class TaskSelectType extends SimpleTask implements
 			}
 		}
 	}
+
+
 
 	/**
 	 * Updates the dimension combo according to chart type and axes number

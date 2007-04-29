@@ -697,9 +697,14 @@ public class BarChart extends DefaultChartTypeImpl
 				}
 			}
 		}
-
+		
+		// Restore label position for different sub type of chart.
+		ChartUIUtil.restoreLabelPositionFromCache( currentChart );
+		
 		return currentChart;
 	}
+
+
 
 	private boolean isNumbericAxis( Axis axis )
 	{
