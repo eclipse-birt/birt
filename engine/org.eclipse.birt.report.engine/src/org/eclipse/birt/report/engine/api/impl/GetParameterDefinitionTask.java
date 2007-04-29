@@ -328,6 +328,8 @@ public class GetParameterDefinitionTask extends EngineTask
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
 		boolean fixedOrder = parameter.isFixedOrder( );
+		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter.getSortDirection( ) );
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
@@ -372,8 +374,9 @@ public class GetParameterDefinitionTask extends EngineTask
 				choices.add( new SelectionChoice( label, value ) );
 			}
 			if ( !fixedOrder )
-				Collections
-						.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
+				Collections.sort( choices, new SelectionChoiceComparator(
+						sortByLabel, parameter.getPattern( ),
+						sortDirectionValue, ULocale.forLocale( locale ) ) );
 			return choices;
 
 		}
@@ -539,8 +542,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				ex.printStackTrace( );
 			}
 		}
-		Collections.sort( choices, new SelectionChoiceComparator( sortByLabel,
-				pattern, sortDirectionValue, ULocale.forLocale( locale ) ) );
+		if ( !fixedOrder )
+			Collections.sort( choices, new SelectionChoiceComparator(
+					sortByLabel, pattern, sortDirectionValue, ULocale
+							.forLocale( locale ) ) );
 		return choices;
 
 	}
