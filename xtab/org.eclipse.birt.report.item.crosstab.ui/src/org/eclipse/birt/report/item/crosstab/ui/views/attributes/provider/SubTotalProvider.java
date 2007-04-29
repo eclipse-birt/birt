@@ -424,7 +424,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return "Update later";
+		return Messages.getString( "CrosstabPageGenerator.List.SubTotals" );
 	}
 
 	public String[] getFunctionNames( )

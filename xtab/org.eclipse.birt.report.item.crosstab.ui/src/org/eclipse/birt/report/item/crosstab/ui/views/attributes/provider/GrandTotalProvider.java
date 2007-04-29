@@ -324,7 +324,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return "Update later";
+		return Messages.getString( "CrosstabPageGenerator.List.GrandTotals" );
 	}
 
 	public String[] getFunctionDisplayNames( )
