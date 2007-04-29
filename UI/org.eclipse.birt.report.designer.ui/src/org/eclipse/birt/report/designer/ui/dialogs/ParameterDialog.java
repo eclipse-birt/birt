@@ -290,7 +290,7 @@ public class ParameterDialog extends BaseDialog
 
 	private String defaultValue;
 
-	private Composite valueArea;
+	private Composite valueArea, sorttingArea;
 
 	private List columnList;
 
@@ -740,9 +740,10 @@ public class ParameterDialog extends BaseDialog
 
 	private void initValueArea( )
 	{
+		String controlType = getSelectedControlType( );
 		if ( isStatic( ) )
 		{
-			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
+			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
 			{
 				if ( isValidValue( defaultValue ) != null )
 				{
@@ -761,7 +762,7 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 			}
-			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( controlType ) )
 			{
 				if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
@@ -789,6 +790,10 @@ public class ParameterDialog extends BaseDialog
 						defaultValueChooser.setText( defaultValue );
 					}
 				}
+			}
+			else if ( PARAM_CONTROL_COMBO.equals( controlType ) || PARAM_CONTROL_LIST.equals( controlType ) )
+			{
+				initSorttingArea( );
 			}
 			refreshValueTable( );
 		}
@@ -829,6 +834,22 @@ public class ParameterDialog extends BaseDialog
 			{
 				defaultValueChooser.setText( defaultValue );
 			}
+
+			initSorttingArea( );
+		}
+		updateMessageLine( );
+	}
+
+	private void initSorttingArea( )
+	{
+		if ( needSort.getSelection( ) )
+		{
+			Control[] controls = sorttingArea.getChildren( );
+			for ( int i = 0; i < controls.length; i++ )
+			{
+				controls[i].setEnabled( true );
+			}
+			
 			distinct.setSelection( !inputParameter.distinct( ) );
 			String sortKey = inputParameter.getSortBy( );
 			if ( sortKey == null
@@ -840,12 +861,10 @@ public class ParameterDialog extends BaseDialog
 			{
 				sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
 			}
-			if ( inputParameter.getSortDirection( ) == null )
-			{
-				sortDirectionChooser.setText( NONE_DISPLAY_TEXT );
-			}
-			else if ( inputParameter.getSortDirection( )
-					.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
+
+			String sortDirection = inputParameter.getSortDirection( );
+			if ( sortDirection == null
+					|| sortDirection.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
 			{
 				sortDirectionChooser.setText( CHOICE_ASCENDING );
 			}
@@ -854,7 +873,14 @@ public class ParameterDialog extends BaseDialog
 				sortDirectionChooser.setText( CHOICE_DESCENDING );
 			}
 		}
-		updateMessageLine( );
+		else
+		{
+			Control[] controls = sorttingArea.getChildren( );
+			for ( int i = 0; i < controls.length; i++ )
+			{
+				controls[i].setEnabled( false );
+			}
+		}
 	}
 
 	private void initFormatField( )
@@ -1501,6 +1527,7 @@ public class ParameterDialog extends BaseDialog
 		} );
 		createPromptLine( tableAreaComposite );
 		updateTableButtons( );
+		createSortingArea( valueArea );
 	}
 
 	private void switchToText( )
@@ -1610,9 +1637,16 @@ public class ParameterDialog extends BaseDialog
 		} );
 
 		createDefaultEditor( );
+		createSortingArea( valueArea );
+		createLabel( valueArea, null );
+		createPromptLine( valueArea );
+		listLimit.setEditable( true );
+	}
 
-		// Sorting condition here
-		Composite sorttingArea = new Composite( valueArea, SWT.NONE );
+	private void createSortingArea( Composite parent )
+	{
+		// Sorting conditions here
+		sorttingArea = new Composite( parent, SWT.NONE );
 		GridData sorttingAreaGridData = new GridData( GridData.FILL_HORIZONTAL );
 		sorttingAreaGridData.horizontalSpan = 2;
 		sorttingArea.setLayoutData( sorttingAreaGridData );
@@ -1628,18 +1662,13 @@ public class ParameterDialog extends BaseDialog
 		createLabel( sorttingArea, LABEL_SORT_DIRECTION );
 		sortDirectionChooser = new Combo( sorttingArea, SWT.BORDER );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		sortDirectionChooser.add( NONE_DISPLAY_TEXT );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
-		sortDirectionChooser.setText( LABEL_NULL );
+		sortDirectionChooser.setText( CHOICE_ASCENDING );
 
 		distinct = new Button( sorttingArea, SWT.CHECK );
 		distinct.setText( CHECKBOX_DISTINCT );
 		addCheckBoxListener( distinct, CHECKBOX_DISTINCT );
-
-		createLabel( valueArea, null );
-		createPromptLine( valueArea );
-		listLimit.setEditable( true );
 	}
 
 	private void clearDefaultValueText( )
@@ -1830,35 +1859,6 @@ public class ParameterDialog extends BaseDialog
 				{
 					inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
 				}
-
-				if ( dirtyProperties.containsKey( CHECKBOX_DISTINCT ) )
-				{
-					inputParameter.setDistinct( !getProperty( CHECKBOX_DISTINCT ) );
-				}
-
-				if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
-				{
-					inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
-				}
-				else if ( sortKeyChooser.getText( )
-						.equals( CHOICE_VALUE_COLUMN ) )
-				{
-					inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
-				}
-
-				if ( sortDirectionChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
-				{
-					inputParameter.setSortDirection( null );
-				}
-				else if ( sortKeyChooser.getText( ).equals( CHOICE_ASCENDING ) )
-				{
-					inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
-				}
-				else
-				{
-					inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
-				}
-
 			}
 
 			// Save help text
@@ -1905,6 +1905,35 @@ public class ParameterDialog extends BaseDialog
 				if ( dirtyProperties.containsKey( CHECKBOX_SORT ) )
 				{
 					inputParameter.setFixedOrder( !getProperty( CHECKBOX_SORT ) );
+				}
+				if ( !inputParameter.isFixedOrder( ) )
+				{
+					if ( dirtyProperties.containsKey( CHECKBOX_DISTINCT ) )
+					{
+						inputParameter.setDistinct( !getProperty( CHECKBOX_DISTINCT ) );
+					}
+					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
+					{
+						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+					}
+					else if ( sortKeyChooser.getText( )
+							.equals( CHOICE_VALUE_COLUMN ) )
+					{
+						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+					}
+
+					if ( sortDirectionChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+					{
+						inputParameter.setSortDirection( null );
+					}
+					else if ( sortKeyChooser.getText( ).equals( CHOICE_ASCENDING ) )
+					{
+						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+					}
+					else
+					{
+						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+					}
 				}
 			}
 			else
@@ -1997,6 +2026,10 @@ public class ParameterDialog extends BaseDialog
 			}
 			updateMessageLine( );
 		}
+		else if ( CHECKBOX_SORT.equals( key ) )
+		{
+			initSorttingArea( );
+		}
 	}
 
 	private void clearDefaultValueChooser( boolean isChecked )
@@ -2088,8 +2121,7 @@ public class ParameterDialog extends BaseDialog
 
 		// Fix order check
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) )
-				|| !isStatic( ) )
+				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
 		{
 			needSort.setEnabled( false );
 		}
