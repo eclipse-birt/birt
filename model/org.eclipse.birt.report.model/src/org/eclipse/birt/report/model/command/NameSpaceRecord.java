@@ -158,7 +158,6 @@ public class NameSpaceRecord extends SimpleRecord
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
 
-			CachedMemberRef memberRef = ref.getCachedMemberRef( );
 			Object value = client.getLocalProperty( root, ref.propName );
 
 			if ( value instanceof ElementRefValue )
@@ -194,54 +193,8 @@ public class NameSpaceRecord extends SimpleRecord
 					}
 					else
 					{
-						// Now special deal with structure list.
-						// element -> list-property -> structure-> member is
-						// elementRefValue
-
-						int index = memberRef.getIndex( );
-						if ( index >= 0 && index < valueList.size( ) )
-						{
-							Structure structure = (Structure) valueList
-									.get( index );
-							Iterator iterator = structure.getDefn( )
-									.getPropertyIterator( );
-							while ( iterator.hasNext( ) )
-							{
-								IPropertyDefn propDefn = (IPropertyDefn) iterator
-										.next( );
-
-								// if member is element ref type , then do
-								// unreslove.
-
-								if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-								{
-									ElementRefValue tempRefValue = (ElementRefValue) structure
-											.getProperty( root,
-													(PropertyDefn) propDefn );
-
-									if ( referred == tempRefValue.getElement( ) )
-									{
-										tempRefValue.unresolved( tempRefValue
-												.getName( ) );
-										referred.dropClient( client );
-
-										// reslove member
-										StructPropertyDefn structDefn = (StructPropertyDefn) structure
-												.getDefn( ).findProperty(
-														propDefn.getName( ) );
-
-										ReferenceValueUtil
-												.resolveElementReference(
-														structure, root,
-														structDefn,
-														tempRefValue );
-
-										break;
-
-									}
-								}
-							}
-						}
+						updatePropertyListnMemberCase( referred, ref
+								.getCachedMemberRef( ), valueList, client );
 					}
 				}
 			}
@@ -252,6 +205,58 @@ public class NameSpaceRecord extends SimpleRecord
 			else
 			{
 				assert false;
+			}
+		}
+	}
+
+	/**
+	 * Now special deal with case: element -> list-property -> structure->
+	 * member is elementRefValue
+	 * 
+	 * @param referred
+	 *            reference element
+	 * @param memberRef
+	 *            member ref
+	 * @param valueList
+	 *            structure list
+	 * @param client
+	 *            client element
+	 */
+
+	private void updatePropertyListnMemberCase( IReferencableElement referred,
+			CachedMemberRef memberRef, List valueList, DesignElement client )
+	{
+		int index = memberRef.getIndex( );
+		if ( index >= 0 && index < valueList.size( ) )
+		{
+			Structure structure = (Structure) valueList.get( index );
+			Iterator iterator = structure.getDefn( ).getPropertyIterator( );
+			while ( iterator.hasNext( ) )
+			{
+				IPropertyDefn propDefn = (IPropertyDefn) iterator.next( );
+
+				// if member is element ref type , then do
+				// unreslove.
+
+				if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+				{
+					ElementRefValue tempRefValue = (ElementRefValue) structure
+							.getProperty( root, (PropertyDefn) propDefn );
+
+					if ( referred == tempRefValue.getElement( ) )
+					{
+						tempRefValue.unresolved( tempRefValue.getName( ) );
+						referred.dropClient( client );
+
+						// reslove member
+
+						ReferenceValueUtil.resolveElementReference( structure,
+								root, (StructPropertyDefn) propDefn,
+								tempRefValue );
+
+						break;
+					}
+				}
 			}
 		}
 	}

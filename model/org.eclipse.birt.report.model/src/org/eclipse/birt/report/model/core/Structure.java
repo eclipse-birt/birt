@@ -21,12 +21,10 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -481,6 +479,12 @@ public abstract class Structure implements IStructure
 		return null;
 	}
 
+	/**
+	 * Gets cached member ref.
+	 * 
+	 * @return cached member ref
+	 */
+
 	public CachedMemberRef getContextCachedMemberRef( )
 	{
 		if ( context != null )
@@ -534,14 +538,15 @@ public abstract class Structure implements IStructure
 		 * 
 		 * @param element
 		 *            the design element
-		 * @param memberRef
+		 * @param cachedMemberRef
 		 *            member reference
 		 */
 
-		public StructureContext( DesignElement element, MemberRef memberRef )
+		public StructureContext( DesignElement element,
+				CachedMemberRef cachedMemberRef )
 		{
 			this.element = element;
-			this.cachedMemberRef = new CachedMemberRef( memberRef );
+			this.cachedMemberRef = cachedMemberRef;
 		}
 
 	}

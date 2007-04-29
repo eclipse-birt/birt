@@ -249,53 +249,6 @@ public class ListPropertyState extends AbstractPropertyState
 		}
 		else
 		{
-			// deal with case : one property is element reference in structure.
-//			Map nameMap = new HashMap();
-//			for ( int i = 0; list != null && i < list.size( ); ++i )
-//			{
-//				Object tempObj = list.get( i );
-//				if ( ! ( tempObj instanceof Structure ))
-//					break;
-//				Structure tempStruct = (Structure) tempObj;
-//
-//				// show there is no elementRef in structure.
-//				CachedMemberRef oldMemberRef = tempStruct.getContextCachedMemberRef( );
-//				if ( oldMemberRef == null )
-//					break;
-//				
-//				// Set new index to struct context
-//				CachedMemberRef memberRef = new CachedMemberRef( tempStruct
-//						.getContextCachedMemberRef( ).getPropDefn( ), i,
-//						tempStruct.getContextCachedMemberRef( ).getMemberDefn( )
-//								.getName( ) );
-//				Structure.StructureContext structContext = new Structure.StructureContext(
-//						tempStruct.getContextElement( ), memberRef );
-//				tempStruct.setContext( structContext );
-//
-//				// set new index to reference target element.
-//				ElementRefValue refValue = (ElementRefValue) tempStruct
-//						.getLocalProperty( null, oldMemberRef.getMemberDefn( )
-//								.getName( ) );
-//				if ( !refValue.isResolved( ) )
-//					continue;
-//
-//				Object mapValue = nameMap.get( refValue );
-//				int index = 0; 
-//				if( mapValue == null )
-//				{
-//					nameMap.put( refValue , new Integer( 0 ) );
-//				}else{
-//					index = ((Integer)mapValue).intValue( ) + 1;
-//					nameMap.put( refValue , new Integer( index ) );
-//				}
-//					
-//				List clients = refValue.getTargetElement( ).getClientList( );
-//				if( clients == null || clients.size( ) == 0 )
-//					continue;
-//				
-//				refValue.getTargetElement( ).dropClient( element, oldMemberRef );
-//				refValue.getTargetElement( ).insertClient( index , element , memberRef );
-//			}
 			element.setProperty( name, list );
 		}
 	}

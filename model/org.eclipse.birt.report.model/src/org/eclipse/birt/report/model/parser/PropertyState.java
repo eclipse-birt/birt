@@ -162,22 +162,6 @@ class PropertyState extends AbstractPropertyState
 	{
 		if ( struct != null )
 		{
-//			IPropertyDefn memberDefn = struct.getDefn( ).getMember( name );
-//			if ( memberDefn != null
-//					&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-//			{
-//				// case for wrong member name
-//
-//				// set default index to zero.
-//				// Type is PROPERTY_LISTn_MEMBER
-//				MemberRef memberRef = new CachedMemberRef(
-//						(ElementPropertyDefn) propDefn, 0, name );
-//
-//				Structure.StructureContext structContext = new Structure.StructureContext(
-//						( (Structure) struct ).getContextElement( ), memberRef );
-//				( (Structure) struct ).setContext( structContext );
-//			}
-
 			setMember( struct, propDefn.getName( ), name, value );
 			return;
 		}
