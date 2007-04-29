@@ -24,8 +24,7 @@ public class Grid extends ReportItem implements IGrid
     
     public Grid( org.eclipse.birt.report.model.api.simpleapi.IGrid gridImpl )
     {
-        super( null );
-        designElementImpl = gridImpl;
+        super( gridImpl );
     }
 
     /*

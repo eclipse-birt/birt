@@ -27,8 +27,7 @@ public class Image extends ReportItem implements IImage
     
     public Image( org.eclipse.birt.report.model.api.simpleapi.IImage imageImpl )
     {
-        super( null );
-        designElementImpl = imageImpl;
+        super( imageImpl );
     }
 
     /*

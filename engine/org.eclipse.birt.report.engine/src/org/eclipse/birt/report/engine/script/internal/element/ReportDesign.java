@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
+import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
@@ -61,8 +62,11 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
 				.getReportElement( name );
 
-		return (IReportElement) ElementUtil.getElement( tmpElement );
+		IDesignElement retElement = ElementUtil.getElement( tmpElement );
+		if ( retElement instanceof IReportElement )
+			return (IReportElement) retElement;
 
+		return null;
 	}
 
 	public IDataItem getDataItem( String name )

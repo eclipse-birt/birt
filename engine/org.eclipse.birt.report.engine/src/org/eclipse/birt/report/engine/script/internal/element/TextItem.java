@@ -27,8 +27,7 @@ public class TextItem extends ReportItem implements ITextItem
     public TextItem(
             org.eclipse.birt.report.model.api.simpleapi.ITextItem textImpl )
     {
-        super( null );
-        designElementImpl = textImpl;
+        super( textImpl );
     }
 
     /*

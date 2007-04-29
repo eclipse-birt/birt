@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.element.List;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ReportElement;
+import org.eclipse.birt.report.engine.script.internal.element.ReportItem;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
 import org.eclipse.birt.report.engine.script.internal.element.TextItem;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
@@ -68,6 +69,8 @@ import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
+import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
+import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 
@@ -238,6 +241,12 @@ public class ElementUtil
 		if ( element instanceof ITextItem )
 			return new TextItem( (ITextItem) element );
 
+		if ( element instanceof IReportItem )
+			return new ReportItem( (IReportItem) element );
+
+		if ( element instanceof IReportElement )
+			return new ReportElement( (IReportElement) element );
+		
 		return new DesignElement( element );
 
 	}

@@ -27,8 +27,7 @@ public class Label extends ReportItem implements ILabel
     
     public Label( org.eclipse.birt.report.model.api.simpleapi.ILabel labelImpl )
     {
-        super( null );
-        designElementImpl = labelImpl;
+        super( labelImpl );
     }
 
     /*

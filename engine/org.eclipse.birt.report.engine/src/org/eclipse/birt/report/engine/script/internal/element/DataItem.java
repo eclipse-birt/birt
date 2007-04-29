@@ -27,8 +27,7 @@ public class DataItem extends ReportItem implements IDataItem
     
     public DataItem( org.eclipse.birt.report.model.api.simpleapi.IDataItem dataItem )
     {
-        super( null );
-        designElementImpl = dataItem;
+        super( dataItem );
     }
 
     /*

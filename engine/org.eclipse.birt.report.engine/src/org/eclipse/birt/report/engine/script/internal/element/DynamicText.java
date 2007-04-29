@@ -25,8 +25,7 @@ public class DynamicText extends ReportItem implements IDynamicText
     
     public DynamicText( org.eclipse.birt.report.model.api.simpleapi.IDynamicText dynamicTextImpl )
     {
-        super( null );
-        designElementImpl = dynamicTextImpl;
+        super( dynamicTextImpl );
     }
 
     /*
