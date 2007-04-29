@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -28,7 +29,7 @@ public class Binding implements IBinding
 	private List aggregateOn;
 	private List argument;
 	private IBaseExpression expr;
-	private IBaseExpression filter;
+	private IScriptExpression filter;
 	private String aggrFunc;
 	private String name;
 	private int dataType;
@@ -104,7 +105,7 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#getFilter()
 	 */
-	public IBaseExpression getFilter( )
+	public IScriptExpression getFilter( )
 	{
 		return this.filter;
 	}
@@ -142,7 +143,7 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#setFilter(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
-	public void setFilter( IBaseExpression expr )
+	public void setFilter( IScriptExpression expr )
 	{
 		this.filter = expr;
 	}
