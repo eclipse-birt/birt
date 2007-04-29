@@ -12,17 +12,23 @@
 package org.eclipse.birt.data.engine.olap.util.filter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefn;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -33,7 +39,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * This is a helper class which provide script evaluation services for dimension filter.
  */
-public class DimensionFilterEvalHelper implements IJsFilter
+public class DimensionFilterEvalHelper implements IJsFilterHelper
 {
 
 	//
@@ -42,30 +48,54 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private DummyJSDataAccessor dataObj;
 	private IBaseExpression expr;
 	private String dimName;
-	private ICubeQueryDefinition defn;
+	private String[] aggrLevelNames;
+	
+	ICubeQueryDefinition queryDefn;
+	private ICubeFilterDefinition cubeFilter;
+	
+	private ILevelDefinition[] axisLevels;
+	private Object[] axisValues;
+	private boolean isAxisFilter;
+	
 	/**
-	 * The constructor.
 	 * @param parentScope
-	 * @throws DataException 
+	 * @param queryDefn
+	 * @param cubeFilter
+	 * @throws DataException
 	 */
-	public DimensionFilterEvalHelper( Scriptable parentScope, ICubeQueryDefinition defn, IBaseExpression expr ) throws DataException
+	public DimensionFilterEvalHelper( Scriptable parentScope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
 	{
-
+		assert cubeFilter!=null;
 		Context cx = Context.enter( );
 		try
 		{
 			this.scope = cx.initStandardObjects( );
 			this.scope.setParentScope( parentScope );
-			this.defn = defn;
 			this.dimObj = new DummyJSLevels( );
 			this.dataObj = new DummyJSDataAccessor();
-			this.dimName = OlapExpressionCompiler.getReferencedDimensionName( expr );
-			this.expr = expr;
+			
+			this.expr = cubeFilter.getExpression( );
+			this.dimName = OlapExpressionCompiler.getReferencedScriptObject( expr, "dimension" );
+			this.queryDefn = queryDefn;
+			if ( cubeFilter instanceof ICubeFilterDefinition )
+			{
+				this.cubeFilter = (ICubeFilterDefinition) cubeFilter;
+			}
+			else
+			{
+				this.cubeFilter = new CubeFilterDefn( this.expr );
+			}
+			this.aggrLevelNames = populateAggrLevelNames( this.expr, this.queryDefn );
+			
+			axisLevels = this.cubeFilter.getAxisQualifierLevels( );
+			axisValues = this.cubeFilter.getAxisQualifierValues( );			
+			this.isAxisFilter = ( axisLevels != null && axisValues != null && axisLevels.length == axisValues.length );
+			
 			
 			if ( this.dimName!= null )
 			{	
 				DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
-					this.getLevelNames( ) );
+					this.getTargetDimensionLevelNames( ) );
 
 				this.scope.put( "dimension",
 					this.scope,
@@ -79,13 +109,89 @@ public class DimensionFilterEvalHelper implements IJsFilter
 			Context.exit( );
 		}
 	}
-
-	private List getLevelNames() throws DataException
+	
+	/**
+	 * @param expr2
+	 * @param query
+	 * @return
+	 * @throws DataException
+	 */
+	private String[] populateAggrLevelNames( IBaseExpression expr2,
+			ICubeQueryDefinition query ) throws DataException
 	{
-		IDimensionDefinition dimDefn = this.getTargetDimension( );
+		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr2,
+				"data" );
+		if ( bindingName == null )
+			return null;
+		for ( Iterator it = query.getBindings( ).iterator( ); it.hasNext( ); )
+		{
+			IBinding binding = (IBinding) it.next( );
+			if ( binding.getBindingName( ).equals( bindingName ) )
+			{
+				List aggrs = binding.getAggregatOns( );
+				if ( aggrs.size( ) == 0 )
+				{// get all level names in the fact table
+					List levels = new ArrayList( );
+					// get all levels from the row edge and column edge
+					IEdgeDefinition rowEdge = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
+					List rowDims = rowEdge.getDimensions( );
+					for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
+					{
+						IDimensionDefinition dim = (IDimensionDefinition) i.next( );
+						IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
+								.get( 0 );
+						levels.addAll( hirarchy.getLevels( ) );
+					}
+					IEdgeDefinition colEdge = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+					List colDims = colEdge.getDimensions( );
+					for ( Iterator i = colDims.iterator( ); i.hasNext( ); )
+					{
+						IDimensionDefinition dim = (IDimensionDefinition) i.next( );
+						IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
+								.get( 0 );
+						levels.addAll( hirarchy.getLevels( ) );
+					}
+					String[] levelNames = new String[levels.size( )];
+					for ( int i = 0; i < levels.size( ); i++ )
+					{
+						ILevelDefinition levelDefn = (ILevelDefinition) levels.get( i );
+						levelNames[i] = levelDefn.getName( );
+					}
+					return levelNames;
+				}
+				else
+				{
+					String[] levelNames = new String[aggrs.size( )];
+					for ( int i = 0; i < aggrs.size( ); i++ )
+					{
+						levelNames[i] = aggrs.get( i ).toString( );
+					}
+					return levelNames;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * get aggregation all level names.
+	 * @return
+	 */
+	public String[] getAggrLevelNames()
+	{
+		return this.aggrLevelNames;
+	}
+	
+	/***
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	private List getTargetDimensionLevelNames() throws DataException
+	{
+		IDimensionDefinition dimDefn = getTargetDimension( );
 		if ( dimDefn == null )
-			throw new DataException( "Referenced dimension:"+this.dimName+" does not exist.");
-		
+			throw new DataException( "Referenced dimension definition:"+this.dimName+" does not exist.");
 		List result = new ArrayList();
 		List levels = ((IHierarchyDefinition)dimDefn.getHierarchy( ).get( 0 )).getLevels( );
 		for( int j = 0; j < levels.size(); j++ )
@@ -93,11 +199,13 @@ public class DimensionFilterEvalHelper implements IJsFilter
 			ILevelDefinition level = (ILevelDefinition)levels.get( j );
 			result.add( level.getName( ) );
 		}
-		
 		return result;
-
 	}
 	
+	/**
+	 * get the dimension name.
+	 * @return
+	 */
 	public String getDimensionName()
 	{
 		return this.dimName;
@@ -107,23 +215,62 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	 * 
 	 * @return
 	 */
-	private IDimensionDefinition getTargetDimension( )
+	public ICubeFilterDefinition getCubeFiterDefinition()
 	{
-		IEdgeDefinition columnEdge = this.defn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = this.defn.getEdge( ICubeQueryDefinition.ROW_EDGE );
-		List dims = new ArrayList();
-		dims.addAll( columnEdge.getDimensions( ) );
-		dims.addAll( rowEdge.getDimensions( ) );
-		
-		for ( int i = 0; i < dims.size( ); i++ )
+		return cubeFilter;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJsFilter#isAggregationFilter()
+	 */
+	public boolean isAggregationFilter( )
+	{
+		return this.dimName == null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException 
+	 */
+	private IDimensionDefinition getTargetDimension( ) throws DataException
+	{
+		if ( isAggregationFilter( ) )
 		{
-			IDimensionDefinition dimDefn = (IDimensionDefinition)dims.get( i );
-			if ( dimDefn.getName( ).equals( this.dimName ))
+			ILevelDefinition targetLevel = cubeFilter.getTargetLevel( );
+			if ( targetLevel == null )
 			{
-				return dimDefn;
+				throw new DataException( "Referenced level:"
+						+ targetLevel.getName( ) + " does not exist." );
 			}
+			IDimensionDefinition dimDefn = targetLevel.getHierarchy( )
+					.getDimension( );
+			if ( dimDefn == null )
+			{
+				throw new DataException( "Referenced dimension:"
+						+ this.dimName + " does not exist." );
+			}
+			return dimDefn;
 		}
-		return null;
+		else
+		{
+			IEdgeDefinition columnEdge = this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+			IEdgeDefinition rowEdge = this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
+			List dims = new ArrayList();
+			dims.addAll( columnEdge.getDimensions( ) );
+			dims.addAll( rowEdge.getDimensions( ) );
+			
+			for ( int i = 0; i < dims.size( ); i++ )
+			{
+				IDimensionDefinition dimDefn = (IDimensionDefinition)dims.get( i );
+				if ( dimDefn.getName( ).equals( this.dimName ))
+				{
+					return dimDefn;
+				}
+			}
+			return null;			
+		}
 	}
 
 	/**
@@ -150,6 +297,17 @@ public class DimensionFilterEvalHelper implements IJsFilter
 		Context cx = Context.enter( );
 		try
 		{
+			if ( this.isAxisFilter )
+			{
+				for ( int i = 0; i < axisLevels.length; i++ )
+				{
+					if ( CompareUtil.compare( resultRow.getLevelValue( axisLevels[i].getName( ) ),
+							axisValues[i] ) != 0 )
+					{
+						return false;
+					}
+				}
+			}
 			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, null, 0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );
 		}
@@ -174,6 +332,10 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private class DummyJSDimensionAccessor extends ScriptableObject
 	{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2973311240789516725L;
 		//
 		private String dimensionName;
 		private DummyJSDimensionObject dimObj;
@@ -221,6 +383,10 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private class DummyJSDimensionObject extends ScriptableObject
 	{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5518881690927904342L;
 		//
 		private DummyJSLevels levels;
 		private List levelNames;
@@ -269,6 +435,10 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private class DummyJSLevels extends ScriptableObject
 	{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3448256508462449221L;
 		//
 		private IResultRow resultRow;
 		private String key;
@@ -337,6 +507,11 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private class InMatchDimensionIndicator extends RuntimeException
 	{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5546172382226378064L;
+
 	}
 	
 	/**
@@ -345,6 +520,10 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	 */
 	private class DummyJSDataAccessor extends ScriptableObject
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6434908701820853543L;
 		private IResultRow resultRow;
 		
 		public String getClassName( )

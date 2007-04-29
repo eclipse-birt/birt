@@ -26,7 +26,6 @@ import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -37,11 +36,12 @@ import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefn;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.data.api.AggrFilter;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
@@ -66,7 +66,9 @@ public class CubeAggregationTest extends TestCase
 	String pathName;
 	private ImporterTopLevel baseScope;
 	private ICubeQueryDefinition cubeQuery;
+	
 	IDocumentManager documentManager;
+	private ILevelDefinition level21;
 	
 	public CubeAggregationTest( )
 	{
@@ -157,9 +159,11 @@ public class CubeAggregationTest extends TestCase
 		
 		Context.enter( );
 		this.baseScope = new ImporterTopLevel( );
-		this.cubeQuery = createCube1QueryDefn( );
+		createCube1QueryAndAggrFilterDefn( );
 		testCube1AggrFilter1( documentManager );
 		testCube1AggrFilter2( documentManager );
+		testCube1AggrFilter3( documentManager );
+		testCube1AggrFilter4( documentManager );
 		Context.exit( );
 	}
 	
@@ -179,9 +183,9 @@ public class CubeAggregationTest extends TestCase
 	 * @return
 	 * @throws DataException
 	 */
-	private ICubeQueryDefinition createCube1QueryDefn() throws DataException
+	private void createCube1QueryAndAggrFilterDefn() throws DataException
 	{
-		ICubeQueryDefinition cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
+		cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
 		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IEdgeDefinition columnEdge = cubeQuery.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IDimensionDefinition dimension1 = rowEdge.createDimension( "dimension1" );
@@ -203,7 +207,7 @@ public class CubeAggregationTest extends TestCase
 		
 		IDimensionDefinition dimension2 = columnEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dimension2.createHierarchy( "hier2" );
-		hier2.createLevel( "level21" );
+		level21  = hier2.createLevel( "level21" );
 		
 		IBinding bindin21 = new Binding("edge1_level21");
 		bindin11.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
@@ -224,12 +228,6 @@ public class CubeAggregationTest extends TestCase
 		IBinding measure2 = new Binding("measure2");
 		measure2.setExpression( new ScriptExpression("measure[\"measure2\"]") );
 		cubeQuery.addBinding( measure2 );
-		
-		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cubeQuery.addBinding( level21_sum );
-		return cubeQuery;
 	}
 	/**
 	 * get distincted string array, in which any object is unique.
@@ -438,16 +436,19 @@ public class CubeAggregationTest extends TestCase
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "level21" );
+		cubeQuery.addBinding( level21_sum );
 		
-		AggrFilter aggrFilter = new AggrFilter( );
-		aggrFilter.setAggrLevels( new String[]{
-				"level21"
-		} );
-		IBaseExpression expr = new ScriptExpression("data[\"level21_sum\"]>30");
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, expr);
-		aggrFilter.setTargetLevel( "level21" );
-		aggrFilter.setAggrFilter( dimfilter );
-		cubeQueryExcutorHelper.addAggrFilter( aggrFilter );
+		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>30" );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
+		cubeFilter.setTargetLevel( level21 );
+		//
+		DimensionFilterEvalHelper filterHelper = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		cubeQueryExcutorHelper.addJSFilter( filterHelper );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
@@ -476,23 +477,32 @@ public class CubeAggregationTest extends TestCase
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add dimension filter on level21
+		ISelection[][] filter = new ISelection[1][1];
+		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
+				 new Object[]{"3"},
+				true,
+				false );
+		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
+		//add aggregation filter on level21 and level31
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "level21" );
+		cubeQuery.addBinding( level21_sum );
 		
-		AggrFilter aggrFilter = new AggrFilter( );
-		aggrFilter.setAggrLevels( new String[]{
-				"level21","level31"
-		} );
-		IBaseExpression expr = new ScriptExpression("data[\"level21_sum\"]>30");
-		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, expr);
-		aggrFilter.setTargetLevel( "level21" );
-		aggrFilter.setAggrFilter( dimfilter );
-		cubeQueryExcutorHelper.addAggrFilter( aggrFilter );
-		
+		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>2" );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
+		cubeFilter.setTargetLevel( level21 );	
+		//
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		cubeQueryExcutorHelper.addJSFilter( dimfilter );
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[]{
 				IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC
 		};
 		String[] levelNamesForFilter = new String[]{
-				"level21", "level31"
+				"level21","level31"
 		};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
@@ -502,33 +512,124 @@ public class CubeAggregationTest extends TestCase
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		//result set for aggregation 0
-		assertEquals( resultSet[0].length( ), 12 );
+		assertEquals( resultSet[0].length( ), 8 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
 		assertEquals( resultSet[0].getLevelIndex( "level31" ), 1 );
 		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
 		/*aggregation result table
 		 *index	level21	level31	sum(measure1)
-		 *0		1		1		0	
-		 *1		1		2		1	
-		 *2		1		3		2	
 		 *3		1		4		3	
 		 *4		2		5		4	
 		 *5		2		6		5	
 		 *6		2		7		6	
-		 *7		2		8		7	
-		 *8		3		9		8	
-	     *9		3		10		9
-	     *10	3		11		10
-	     *11	3		12		11 
+		 *7		2		8		7		
 		 */
-		for ( int i = 0; i < 12; i++ )
+		for ( int i = 3; i < 8; i++ )
 		{
 			resultSet[0].seek( i );
 			assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], String.valueOf(i/4+1) );
 			assertEquals( resultSet[0].getLevelKeyValue( 1 )[0], new Integer( i+1 ) );
 			assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( i ) );//
 		}		
+	}
+	
+	/**
+	 * empty aggregation result set test.
+	 * @param documentManager
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	private void testCube1AggrFilter3( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add dimension filter on level21
+		ISelection[][] filter = new ISelection[1][1];
+		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
+				 new Object[]{"3"},
+				true,
+				false );
+		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
+		//add aggregation filter on level21 and level31
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "level21" );
+		cubeQuery.addBinding( level21_sum );
+		
+		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>40" );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
+		cubeFilter.setTargetLevel( level21 );	
+		//
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		cubeQueryExcutorHelper.addJSFilter( dimfilter );
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[]{
+			IDimensionSortDefn.SORT_ASC
+		};
+		String[] levelNamesForFilter = new String[]{
+			"level21"
+		};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		assertEquals( resultSet[0].length( ), 0 );
+		
+	}
+	
+	private void testCube1AggrFilter4( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );		
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "level21" );
+		cubeQuery.addBinding( level21_sum );
+		
+		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
+		cubeFilter.setTargetLevel( level21 );
+		cubeFilter.setAxisQualifierLevels( new ILevelDefinition[]{
+			level21
+		} );
+		cubeFilter.setAxisQualifierValues( new Object[]{
+			"1"
+		} );
+		//
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		cubeQueryExcutorHelper.addJSFilter( dimfilter );
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[]{
+			IDimensionSortDefn.SORT_ASC
+		};
+		String[] levelNamesForFilter = new String[]{
+			"level21"
+		};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( 6 ) );//		
 	}
 	
 	

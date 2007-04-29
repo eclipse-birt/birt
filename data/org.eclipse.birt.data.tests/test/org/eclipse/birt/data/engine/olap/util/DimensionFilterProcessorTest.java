@@ -22,13 +22,12 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefn;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IJsFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -48,9 +47,10 @@ public class DimensionFilterProcessorTest extends TestCase
 	{
 		
 		try{
-			Context cx = Context.enter();
+			Context.enter();
 			this.baseScope = new ImporterTopLevel();
 			this.cubeQuery = createCubeQueryDefinition();
+			
 		}finally
 		{
 			Context.exit( );
@@ -61,10 +61,10 @@ public class DimensionFilterProcessorTest extends TestCase
 	{
 		ICubeQueryDefinition cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
 		IEdgeDefinition columnEdge = cubeQuery.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dimension1 = columnEdge.createDimension( "dim1" );
 		IHierarchyDefinition hier1 = dimension1.createHierarchy( "hier1" );
-		ILevelDefinition level1 = hier1.createLevel( "level1" );
+		hier1.createLevel( "level1" );
 				
 		return cubeQuery;
 	}
@@ -73,7 +73,9 @@ public class DimensionFilterProcessorTest extends TestCase
 	{
 		
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"] * 2 + 2 == 6");
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
+		
 		List levelNames = new ArrayList();
 		levelNames.add( "level1" );
 		
@@ -103,7 +105,9 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter1() throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"][\"attr1\"] * 2 + 2 == 6");
-		IJsFilter helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList();
 		levelNames.add( "level1" );
 		
@@ -118,7 +122,8 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter3( ) throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
-		IJsFilter helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList( );
 		levelNames.add( "level1" );
 		List resultRows = this.getResultRows1( );

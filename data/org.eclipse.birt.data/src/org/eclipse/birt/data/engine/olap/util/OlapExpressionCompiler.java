@@ -26,58 +26,58 @@ import org.mozilla.javascript.ScriptOrFnNode;
 
 public class OlapExpressionCompiler
 {
-	public static String getReferencedDimensionName( IBaseExpression expr )
+	public static String getReferencedScriptObject( IBaseExpression expr, String objectName )
 	{
 		if ( expr instanceof IScriptExpression )
 		{
-			return getReferencedDimensionName( ((IScriptExpression)expr));
+			return getReferencedScriptObject( ((IScriptExpression)expr), objectName );
 		}
 		else if ( expr instanceof IConditionalExpression )
 		{
 			String dimName = null;
 			IScriptExpression expr1 = ((IConditionalExpression)expr).getExpression( );
-			dimName = getReferencedDimensionName( expr1 );
+			dimName = getReferencedScriptObject( expr1, objectName );
 			if ( dimName!= null )
 				return dimName;
 			IScriptExpression op1 = ((IConditionalExpression)expr).getOperand1( );
-			dimName = getReferencedDimensionName( op1 );
+			dimName = getReferencedScriptObject( op1, objectName );
 			if ( dimName!= null )
 				return dimName;
 			
 			IScriptExpression op2 = ((IConditionalExpression)expr).getOperand2( );
-			dimName = getReferencedDimensionName( op2 );
+			dimName = getReferencedScriptObject( op2, objectName );
 			return dimName;
 		}
 		
 		return null;
 	}
 	
-	private static String getReferencedDimensionName( IScriptExpression expr )
+	private static String getReferencedScriptObject( IScriptExpression expr, String objectName )
 	{
 		if ( expr == null )
 			return null;
 		else 
-			return getReferencedDimensionName( expr.getText( ));
+			return getReferencedScriptObject( expr.getText( ), objectName);
 	}
 	
-	public static String getReferencedDimensionName( String expr )
+	public static String getReferencedScriptObject( String expr, String objectName )
 	{
 		Context cx = Context.enter();
 		CompilerEnvirons ce = new CompilerEnvirons();
 		Parser p = new Parser( ce, cx.getErrorReporter( ) );
 		ScriptOrFnNode tree = p.parse( expr, null, 0 );
 		
-		return getDimensionName( tree );
+		return getScriptObjectName( tree, objectName );
 	}
 	
-	private static String getDimensionName( Node n )
+	private static String getScriptObjectName( Node n , String objectName )
 	{
 		if ( n == null )
 			return null;
 		String result = null;
 		if ( n.getType( ) == 38)
 		{
-			if( "dimension".equals( n.getString( ) ))
+			if( objectName.equals( n.getString( ) ))
 			{
 				Node dimNameNode = n.getNext( );
 				if ( dimNameNode == null || dimNameNode.getType( )!= 40 )
@@ -87,9 +87,9 @@ public class OlapExpressionCompiler
 			}
 		}
 	
-		result = getDimensionName( n.getFirstChild( ));
+		result = getScriptObjectName( n.getFirstChild( ), objectName );
 		if ( result == null )
-			result = getDimensionName( n.getLastChild( ));
+			result = getScriptObjectName( n.getLastChild( ), objectName );
 				
 		return result;
 	}

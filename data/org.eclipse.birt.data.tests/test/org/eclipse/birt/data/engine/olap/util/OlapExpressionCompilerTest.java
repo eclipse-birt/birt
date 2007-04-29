@@ -26,13 +26,13 @@ public class OlapExpressionCompilerTest extends TestCase
 
 	public void testGetReferencedDimensionName( )
 	{
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ScriptExpression("dimension[\"dim1\"][\"level1\"]") ));
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]")));
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]+15")));
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"]+dimension[\"dim2\"][\"level1\"]+15")));
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ScriptExpression("ra[\"abc\"]+rb[\"dim2\"]+dimension[\"dim1\"][\"level1\"]+15")));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("dimension[\"dim1\"][\"level1\"]"), "dimension" ));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]"), "dimension" ));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]+15"), "dimension" ));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"]+dimension[\"dim2\"][\"level1\"]+15"), "dimension" ));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("ra[\"abc\"]+rb[\"dim2\"]+dimension[\"dim1\"][\"level1\"]+15"), "dimension" ));
 		
-		assertEquals( "dim1", OlapExpressionCompiler.getReferencedDimensionName( new ConditionalExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]", 0, "dim[\"abc\"]")));
+		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ConditionalExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]", 0, "dim[\"abc\"]"), "dimension" ));
 	}
 
 }
