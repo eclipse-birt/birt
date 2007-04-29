@@ -26,15 +26,26 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ColumnSubTotalPage extends AttributePage
 {
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		SubTotalProvider subTotalProvider = new SubTotalProvider( );
+		final SubTotalProvider subTotalProvider = new SubTotalProvider( );
 		subTotalProvider.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		FormSection subTotalSection = new FormSection( subTotalProvider.getDisplayName( ),
 				container,
 				true );
+		subTotalSection.setCustomForm( new FormPropertyDescriptor( true ) {
+
+			public void load( )
+			{
+				super.load( );
+				if ( subTotalProvider.isEnable( ) )
+				{
+					btnAdd.setEnabled( subTotalProvider.isAddEnable( ) );
+				}
+			};
+		} );
 		subTotalSection.setProvider( subTotalProvider );
 		subTotalSection.setButtonWithDialog( true );
 		subTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
