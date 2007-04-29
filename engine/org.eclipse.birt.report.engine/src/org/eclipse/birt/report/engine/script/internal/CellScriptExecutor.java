@@ -30,8 +30,6 @@ public class CellScriptExecutor extends ScriptExecutor
 		try
 		{
 			ICell cell = new Cell( cellHandle );
-			if ( handleJS( cell, cellHandle.getOnPrepare( ), context ).didRun( ) )
-				return;
 			ICellEventHandler eh = getEventHandler( cellHandle, context );
 			if ( eh != null )
 				eh.onPrepare( cell, context.getReportContext( ) );

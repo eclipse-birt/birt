@@ -53,6 +53,8 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 class ScriptedDesignVisitor extends DesignVisitor
 {
@@ -98,6 +100,30 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 		executionContext.pushHandle( handle );
+		if ( hasJavaScript )
+		{
+			IDesignElement element = SimpleElementFactory.getInstance( )
+					.getElement( handle );
+			try
+			{
+				if ( element != null )
+				{
+					executionContext.newScope( element );
+				}
+				if ( handle.getOnPrepare( ) != null )
+				{
+					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+				}
+				return;
+			}
+			finally
+			{
+				if ( element != null )
+				{
+					executionContext.exitScope( );
+				}
+			}
+		}
 		try
 		{
 			if ( handle instanceof DataItemHandle )
@@ -166,6 +192,30 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 		executionContext.pushHandle( handle );
+		if ( hasJavaScript )
+		{
+			IDesignElement element = SimpleElementFactory.getInstance( )
+					.getElement( handle );
+			try
+			{
+				if ( element != null )
+				{
+					executionContext.newScope( element );
+				}
+				if ( handle.getOnPrepare( ) != null )
+				{
+					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+				}
+				return;
+			}
+			finally
+			{
+				if ( element != null )
+				{
+					executionContext.exitScope( );
+				}
+			}
+		}
 		try
 		{
 			CellScriptExecutor.handleOnPrepare( handle, executionContext );
@@ -186,6 +236,30 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 		executionContext.pushHandle( handle );
+		if ( hasJavaScript )
+		{
+			IDesignElement element = SimpleElementFactory.getInstance( )
+					.getElement( handle );
+			try
+			{
+				if ( element != null )
+				{
+					executionContext.newScope( element );
+				}
+				if ( handle.getOnPrepare( ) != null )
+				{
+					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+				}
+				return;
+			}
+			finally
+			{
+				if ( element != null )
+				{
+					executionContext.exitScope( );
+				}
+			}
+		}
 		try
 		{
 			if ( handle instanceof TableGroupHandle )
@@ -211,6 +285,30 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 		executionContext.pushHandle( handle );
+		if ( hasJavaScript )
+		{
+			IDesignElement element = SimpleElementFactory.getInstance( )
+					.getElement( handle );
+			try
+			{
+				if ( element != null )
+				{
+					executionContext.newScope( element );
+				}
+				if ( handle.getOnPrepare( ) != null )
+				{
+					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+				}
+				return;
+			}
+			finally
+			{
+				if ( element != null )
+				{
+					executionContext.exitScope( );
+				}
+			}
+		}
 		try
 		{
 			RowScriptExecutor.handleOnPrepare( handle, executionContext );

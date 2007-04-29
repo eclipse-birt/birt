@@ -29,9 +29,6 @@ public class LabelScriptExecutor extends ScriptExecutor
 		try
 		{
 			ILabel label = new Label( labelHandle );
-			if ( handleJS( label, labelHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			ILabelEventHandler eh = getEventHandler( labelHandle, context );
 			if ( eh != null )
 				eh.onPrepare( label, context.getReportContext( ) );

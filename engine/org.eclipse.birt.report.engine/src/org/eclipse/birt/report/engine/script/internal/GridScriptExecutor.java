@@ -29,8 +29,6 @@ public class GridScriptExecutor extends ScriptExecutor
 		try
 		{
 			IGrid grid = new Grid( gridHandle );
-			if ( handleJS( grid, gridHandle.getOnPrepare( ), context ).didRun( ) )
-				return;
 			IGridEventHandler eh = getEventHandler( gridHandle, context );
 			if ( eh != null )
 				eh.onPrepare( grid, context.getReportContext( ) );

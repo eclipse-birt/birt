@@ -29,9 +29,6 @@ public class TableScriptExecutor extends ScriptExecutor
 		try
 		{
 			ITable table = new Table( tableHandle );
-			if ( handleJS( table, tableHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			ITableEventHandler eh = getEventHandler( tableHandle, context );
 			if ( eh != null )
 				eh.onPrepare( table, context.getReportContext( ) );

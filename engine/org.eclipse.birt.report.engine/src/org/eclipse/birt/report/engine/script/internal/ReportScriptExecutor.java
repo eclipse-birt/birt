@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 public class ReportScriptExecutor extends ScriptExecutor
 {
@@ -42,8 +44,9 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
+			IDesignElement element = SimpleElementFactory.getInstance( ).getElement( report );
 			IReportDesign reportDesign = new ReportDesign( report );
-			if ( handleJS( reportDesign, report.getBeforeFactory( ), context )
+			if ( handleJS( element, report.getBeforeFactory( ), context )
 					.didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance(

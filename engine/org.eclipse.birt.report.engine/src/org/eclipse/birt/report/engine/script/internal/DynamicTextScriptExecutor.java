@@ -30,9 +30,6 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			IDynamicText text = new DynamicText( textDataHandle );
-			if ( handleJS( text, textDataHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			IDynamicTextEventHandler eh = getEventHandler( textDataHandle,
 					context );
 			if ( eh != null )

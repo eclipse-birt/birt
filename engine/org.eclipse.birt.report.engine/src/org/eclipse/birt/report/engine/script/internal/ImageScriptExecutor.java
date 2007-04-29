@@ -32,9 +32,6 @@ public class ImageScriptExecutor extends ScriptExecutor
 		try
 		{
 			IImage image = new Image( imageHandle );
-			if ( handleJS( image, imageHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			IImageEventHandler eh = getEventHandler( imageHandle, context );
 			if ( eh != null )
 				eh.onPrepare( image, context.getReportContext( ) );

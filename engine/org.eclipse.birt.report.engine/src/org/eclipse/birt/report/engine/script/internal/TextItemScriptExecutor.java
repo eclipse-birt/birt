@@ -33,9 +33,6 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		try
 		{
 			ITextItem textItem = new TextItem( textItemHandle );
-			if ( handleJS( textItem, textItemHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			ITextItemEventHandler eh = getEventHandler( textItemHandle, context );
 			if ( eh != null )
 				eh.onPrepare( textItem, context.getReportContext( ) );

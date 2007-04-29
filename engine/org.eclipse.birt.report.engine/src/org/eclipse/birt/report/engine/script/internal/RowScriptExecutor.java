@@ -30,8 +30,6 @@ public class RowScriptExecutor extends ScriptExecutor
 		try
 		{
 			IRow row = new Row( rowHandle );
-			if ( handleJS( row, rowHandle.getOnPrepare( ), context ).didRun( ) )
-				return;
 			IRowEventHandler eh = getEventHandler( rowHandle, context );
 			if ( eh != null )
 				eh.onPrepare( row, context.getReportContext( ) );

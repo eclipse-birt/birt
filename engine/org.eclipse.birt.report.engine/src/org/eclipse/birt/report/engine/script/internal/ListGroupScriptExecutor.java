@@ -28,9 +28,6 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			IListGroup group = new ListGroup( groupHandle );
-			if ( handleJS( group, groupHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			IListGroupEventHandler eh = getEventHandler( groupHandle, context );
 			if ( eh != null )
 				eh.onPrepare( group, context.getReportContext( ) );

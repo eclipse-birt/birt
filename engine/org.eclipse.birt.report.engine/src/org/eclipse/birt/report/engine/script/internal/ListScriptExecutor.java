@@ -29,8 +29,6 @@ public class ListScriptExecutor extends ScriptExecutor
 		try
 		{
 			IList list = new List( listHandle );
-			if ( handleJS( list, listHandle.getOnPrepare( ), context ).didRun( ) )
-				return;
 			IListEventHandler eh = getEventHandler( listHandle, context );
 			if ( eh != null )
 				eh.onPrepare( list, context.getReportContext( ) );

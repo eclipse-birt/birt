@@ -30,8 +30,6 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			IAutoText cell = new AutoText( autoTextHandle );
-			if ( handleJS( cell, autoTextHandle.getOnPrepare( ), context ).didRun( ) )
-				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextHandle, context );
 			if ( eh != null )
 				eh.onPrepare( cell, context.getReportContext( ) );

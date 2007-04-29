@@ -28,9 +28,6 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ITableGroup group = new TableGroup( groupHandle );
-			if ( handleJS( group, groupHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
 			ITableGroupEventHandler eh = getEventHandler( groupHandle, context );
 			if ( eh != null )
 				eh.onPrepare( group, context.getReportContext( ) );

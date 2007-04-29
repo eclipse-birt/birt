@@ -28,10 +28,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			IDataItem dataItem = new DataItem( dataItemHandle );
-			if ( handleJS( dataItem, dataItemHandle.getOnPrepare( ), context )
-					.didRun( ) )
-				return;
+			IDataItem dataItem = new DataItem( dataItemHandle );			
 			IDataItemEventHandler eh = getEventHandler( dataItemHandle, context );
 			if ( eh != null )
 				eh.onPrepare( dataItem, context.getReportContext( ) );

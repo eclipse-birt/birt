@@ -72,13 +72,14 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -1088,7 +1089,8 @@ public class ExecutionContext
 		this.runnable = (ReportRunnable)runnable;
 		ReportDesignHandle reportDesign = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		scriptContext.registerBean( "design", new ReportDesign( reportDesign ) );
+		IDesignElement element = SimpleElementFactory.getInstance( ).getElement( reportDesign );
+		scriptContext.registerBean( "design", element );
 	}
 
 	/**

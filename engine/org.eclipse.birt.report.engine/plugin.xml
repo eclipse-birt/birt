@@ -26,4 +26,10 @@
          point="org.eclipse.birt.core.FactoryService">
       <factory class="org.eclipse.birt.report.engine.api.impl.ReportEngineFactory"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
+      <scriptableClassInfo
+            class="org.eclipse.birt.report.engine.api.script.EngineScriptableClassInfo"
+            extensionName="org.eclipse.birt.report.engine"/>
+   </extension>
 </plugin>
