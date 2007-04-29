@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.IFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -160,7 +161,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		if ( tableViewer != null )
 		{
 			table.setEnabled( enabled );
-			if ( style != SIMPLE_FUNCTION  && style != NO_UP_DOWN)
+			if ( style != SIMPLE_FUNCTION && style != NO_UP_DOWN )
 			{
 				btnUp.setEnabled( enabled );
 				btnDown.setEnabled( enabled );
@@ -201,7 +202,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 				enableUI( false );
 				return;
 			}
-			
+
 			tableViewer.setInput( input );
 			enableUI( true );
 			updateBindingParameters( );
@@ -309,7 +310,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			}
 		} );
 
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN)
+		if ( style == FULL_FUNCTION
+				|| style == FULL_FUNCTION_HORIZONTAL
+				|| style == NO_UP_DOWN )
 		{
 			if ( isFormStyle( ) )
 				btnEdit = FormWidgetFactory.getInstance( )
@@ -447,6 +450,15 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			btnDel.setEnabled( false );
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
+		}
+
+		if ( getDescriptorProvider( ) instanceof IFormProvider )
+		{
+			IFormProvider provider = (IFormProvider) getDescriptorProvider( );
+			if ( provider.isEnable( ) )
+			{
+				btnAdd.setEnabled( provider.isAddEnable( ) );
+			}
 		}
 
 		if ( getDescriptorProvider( ) instanceof FilterHandleProvider )
@@ -709,7 +721,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 				SWT.DEFAULT,
 				true ).x );
 		btnDel.setLayoutData( data );
-		
+
 		data = new FormData( );
 		data.top = new FormAttachment( btnAdd, 0, SWT.TOP );
 		data.bottom = new FormAttachment( 100 );
@@ -930,7 +942,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableMouseDoubleClickEvent( )
 	{
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN)
+		if ( style == FULL_FUNCTION
+				|| style == FULL_FUNCTION_HORIZONTAL
+				|| style == NO_UP_DOWN )
 		{
 			edit( );
 		}

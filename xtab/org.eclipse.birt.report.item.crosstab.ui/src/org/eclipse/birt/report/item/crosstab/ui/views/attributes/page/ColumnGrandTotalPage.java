@@ -40,17 +40,6 @@ public class ColumnGrandTotalPage extends AttributePage
 		grandTotalSection = new FormSection( grandTotalProvider.getDisplayName( ),
 				container,
 				true );
-		grandTotalSection.setCustomForm( new FormPropertyDescriptor( true ) {
-
-			public void load( )
-			{
-				super.load( );
-				if ( grandTotalProvider.isEnable( ) )
-				{
-					btnAdd.setEnabled( grandTotalProvider.isAddEnable( ) );
-				}
-			};
-		} );
 		grandTotalSection.setProvider( grandTotalProvider );
 		grandTotalSection.setButtonWithDialog( true );
 		grandTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -35,7 +36,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
-import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.SubTotalDialog;
+import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.CrosstabSubTotalDialog;
 
 /**
  * 
@@ -92,7 +93,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle, axis );
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle, axis );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
 			return false;
@@ -156,7 +157,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle, axis );
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle, axis );
 		subTotalDialog.setInput( (SubTotalInfo) getElements( input )[pos] );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
@@ -409,7 +410,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
-		if ( event instanceof ContentEvent )
+		if ( event instanceof ContentEvent || event instanceof PropertyEvent)
 		{
 			return true;
 		}

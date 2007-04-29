@@ -167,5 +167,7 @@ public interface IFormProvider extends IDescriptorProvider
 	boolean needRefreshed( NotificationEvent event );
 
 	boolean isEnable( );
+	
+	boolean isAddEnable();
 
 }

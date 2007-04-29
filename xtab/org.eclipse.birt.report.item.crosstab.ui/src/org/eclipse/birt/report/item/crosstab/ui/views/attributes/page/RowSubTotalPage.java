@@ -39,17 +39,6 @@ public class RowSubTotalPage extends AttributePage
 		subTotalSection = new FormSection( subTotalProvider.getDisplayName( ),
 				container,
 				true );
-		subTotalSection.setCustomForm( new FormPropertyDescriptor( true ) {
-
-			public void load( )
-			{
-				super.load( );
-				if ( subTotalProvider.isEnable( ) )
-				{
-					btnAdd.setEnabled( subTotalProvider.isAddEnable( ) );
-				}
-			};
-		} );
 		subTotalSection.setProvider( subTotalProvider );
 		subTotalSection.setButtonWithDialog( true );
 		subTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );

@@ -182,4 +182,9 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 
 	}
 
+	public boolean isAddEnable( )
+	{
+		return true;
+	}
+
 }

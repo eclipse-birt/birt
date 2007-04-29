@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.text.AbstractDocument.Content;
-
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -24,17 +22,14 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.command.UserPropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -253,8 +248,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 
 		return getGrandTotalInfo( crosstabReportItemHandle );
@@ -306,7 +300,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
-		if ( event instanceof ContentEvent )
+		if ( event instanceof ContentEvent || event instanceof PropertyEvent)
 		{
 			return true;
 		}
