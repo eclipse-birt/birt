@@ -12,12 +12,13 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.GrandTotalProvider;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -28,23 +29,63 @@ import org.eclipse.swt.widgets.Composite;
 public class ColumnGrandTotalPage extends AttributePage
 {
 
+	private FormSection grandTotalSection;
+
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		GrandTotalProvider grandTotalProvider = new GrandTotalProvider( );
+		final GrandTotalProvider grandTotalProvider = new GrandTotalProvider( );
 		grandTotalProvider.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE  );
-		FormSection grandTotalSection = new FormSection( grandTotalProvider.getDisplayName( ),
+		grandTotalSection = new FormSection( grandTotalProvider.getDisplayName( ),
 				container,
 				true );
+		grandTotalSection.setCustomForm( new FormPropertyDescriptor( true ) {
+
+			public void load( )
+			{
+				super.load( );
+				if ( grandTotalProvider.isEnable( ) )
+				{
+					btnAdd.setEnabled( grandTotalProvider.isAddEnable( ) );
+				}
+			};
+		} );
 		grandTotalSection.setProvider( grandTotalProvider );
 		grandTotalSection.setButtonWithDialog( true );
 		grandTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
 		grandTotalSection.setFillForm( true );
 		grandTotalSection.setHeight( 170 );
-		addSection( PageSectionId.SUB_TOTALS, grandTotalSection );
+		addSection( CrosstabPageSectionId.COLUMN_SUB_TOTALS, grandTotalSection );
 		createSections( );
 		layoutSections( );
 	}
 
+	
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+		if ( checkControl( grandTotalSection ) )
+			grandTotalSection.getFormControl( ).addElementEvent( focus, ev );
+	}
+
+	public void clear( )
+	{
+		if ( checkControl( grandTotalSection ) )
+			grandTotalSection.getFormControl( ).clear( );
+	}
+
+	public void postElementEvent( )
+	{
+
+		if ( checkControl( grandTotalSection ) )
+			grandTotalSection.getFormControl( ).postElementEvent( );
+
+	}
+	
+	private boolean checkControl( FormSection form )
+	{
+		return form != null
+				&& form.getFormControl( ) != null
+				&& !form.getFormControl( ).getControl( ).isDisposed( );
+	}
 }

@@ -201,9 +201,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 				enableUI( false );
 				return;
 			}
-			enableUI( true );
+			
 			tableViewer.setInput( input );
-			updateArraw( );
+			enableUI( true );
 			updateBindingParameters( );
 		}
 
@@ -786,7 +786,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	// {
 	// if ( ( (IFormProvider) getDescriptorProvider( ) ).needRefreshed( event )
 	// )
-	// {
+	// {f
 	// tableViewer.refresh( );
 	// table.select( selectIndex );
 	// table.setFocus( );

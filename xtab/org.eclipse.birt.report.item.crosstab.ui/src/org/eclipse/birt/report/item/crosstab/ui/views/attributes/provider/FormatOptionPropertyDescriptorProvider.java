@@ -5,11 +5,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**

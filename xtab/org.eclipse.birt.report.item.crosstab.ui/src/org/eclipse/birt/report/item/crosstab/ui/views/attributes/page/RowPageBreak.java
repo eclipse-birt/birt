@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
@@ -41,7 +40,7 @@ public class RowPageBreak extends AttributePage
 		pageBreakSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
 		pageBreakSection.setFillForm( true );
 		pageBreakSection.setHeight( 170 );
-		addSection( PageSectionId.PAGE_BREAK, pageBreakSection );
+		addSection( CrosstabPageSectionId.ROW_PAGE_BREAK, pageBreakSection );
 		createSections( );
 		layoutSections( );
 	}

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -408,7 +409,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
-		// TODO Auto-generated method stub
+		if ( event instanceof ContentEvent )
+		{
+			return true;
+		}
 		return false;
 	}
 

@@ -11,23 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.GroupElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * @author Administrator
