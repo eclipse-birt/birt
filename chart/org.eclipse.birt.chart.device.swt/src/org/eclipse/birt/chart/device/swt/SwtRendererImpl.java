@@ -64,6 +64,7 @@ import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * This class implements the SWT primitive rendering code for each primitive
@@ -1047,11 +1048,22 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			try
 			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) g ).getData( )
-						.getBytes( ) ) );
+				String imageData = ( (EmbeddedImage) g ).getData( );
+				if ( imageData != null )
+				{
+					ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) g ).getData( )
+							.getBytes( ) ) );
 
-				img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-						bis );
+					img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
+							bis );
+				}
+				else
+				{
+					// To render a blank image for null embedded data
+					img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
+							10,
+							10 );
+				}
 			}
 			catch ( Exception ilex )
 			{

@@ -529,8 +529,13 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				try
 				{
-					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( )
-							.getBytes( ) );
+					String imageData = ( (EmbeddedImage) flBackground ).getData( );
+					if ( imageData == null )
+					{
+						// To render a blank image for null embedded data
+						imageData = ""; //$NON-NLS-1$
+					}
+					byte[] data = Base64.decodeBase64( imageData.getBytes( ) );
 
 					img = createImage( data );
 				}

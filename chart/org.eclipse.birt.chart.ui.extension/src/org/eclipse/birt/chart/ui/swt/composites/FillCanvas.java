@@ -276,11 +276,20 @@ class FillCanvas extends Canvas implements PaintListener
 		{
 			if ( modelImage instanceof EmbeddedImage )
 			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) modelImage ).getData( )
-						.getBytes( ) ) );
-
-				img = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
-						bis );
+				String imageData = ( (EmbeddedImage) modelImage ).getData( );
+				if ( imageData != null )
+				{
+					ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( imageData.getBytes( ) ) );
+					img = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
+							bis );
+				}
+				else
+				{
+					// To render a blank image for null embedded data
+					img = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
+							10,
+							10 );
+				}
 			}
 			else
 			{

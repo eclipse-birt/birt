@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
@@ -278,11 +279,11 @@ public class ImageDialog extends TrayDialog
 				fCurrent = ImageImpl.create( uriEditor.getText( ).trim( ) );
 				break;
 			case EMBEDDED_TYPE :
-				fCurrent = EmbeddedImageImpl.create( uriEditor.getText( )
-						.trim( ), imageData );
 				try
 				{
-
+					fCurrent = EmbeddedImageImpl.create( new File( uriEditor.getText( )
+							.trim( ) ).getName( ),
+							imageData );
 					BufferedInputStream bis = new BufferedInputStream( new URL( uriEditor.getText( )
 							.trim( ) ).openStream( ) );
 					ByteArrayOutputStream bos = new ByteArrayOutputStream( );
