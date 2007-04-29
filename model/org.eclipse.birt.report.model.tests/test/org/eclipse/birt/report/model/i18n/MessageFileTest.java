@@ -288,10 +288,10 @@ public class MessageFileTest extends BaseTestCase
 		createDesign( );
 		TabularMeasureGroupHandle measureGroupHandle = (TabularMeasureGroupHandle) designHandle
 				.getElementFactory( ).newTabularMeasureGroup( "" );
-		assertEquals( "SummaryField", measureGroupHandle.getName( ) );
+		assertEquals( "Summary Field", measureGroupHandle.getName( ) );
 		measureGroupHandle = (TabularMeasureGroupHandle) designHandle
 		.getElementFactory( ).newTabularMeasureGroup( "" );
-		assertEquals( "SummaryField1", measureGroupHandle.getName( ) );
+		assertEquals( "Summary Field1", measureGroupHandle.getName( ) );
 	}
 
 }

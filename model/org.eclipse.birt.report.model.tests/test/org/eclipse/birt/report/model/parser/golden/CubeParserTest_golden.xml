@@ -139,7 +139,7 @@
                         <tabular-measure name="NewTabularMeasure" id="24"/>
                     </property>
                 </tabular-measure-group>
-                <tabular-measure-group name="NewTabularMeasureGroup" id="23"/>
+                <tabular-measure-group name="Summary Field" id="23"/>
             </property>
             <property name="accessControls">
                 <access-control id="15">
