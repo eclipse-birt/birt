@@ -1486,10 +1486,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endCell( ICellContent cell )
 	{
-		if( (cell == leafCell) && (false == cellFilled) )
-		{
-			writer.text( " " );
-		}
 		leafCell = null;
 		cellFilled = false;
 		

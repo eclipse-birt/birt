@@ -519,7 +519,7 @@ public class TableAreaLayout
 			CellArea cell = row.getCell( start + i );
 			if(cell!=null)
 			{
-				if(cell.getRowSpan( )< 0 || cell.getRowSpan( )>1 )
+				if(isDropCell( cell ) || cell.getRowSpan( )>1 )
 				{
 					height = Math.max( height, cell.getHeight( ) );
 					hasDropCell = true;
@@ -702,11 +702,11 @@ public class TableAreaLayout
 				lastCell = lastRow.getCell( start + i );
 			}
 			CellArea cell = row.getCell( start + i );
-			if(cell!=null && (cell.getRowSpan( )>1 || cell.getRowSpan( )<0))
+			if(cell!=null && (cell.getRowSpan( )>1 || isDropCell( cell )))
 			{
 				hasDropCell = true;
 			}
-			if(lastCell!=null &&(lastCell.getRowSpan( )>1 || lastCell.getRowSpan( )<0))
+			if(lastCell!=null &&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
 			{
 				if(cell==null)
 				{
@@ -777,7 +777,7 @@ public class TableAreaLayout
 			for(int i=0; i<columnNumber; i++)
 			{
 				CellArea cell = unresolvedRow.getCell( start + i );
-				if(cell!=null && cell.getRowSpan( )<0)
+				if(cell!=null && isDropCell( cell ))
 				{
 					return true;
 				}
@@ -811,7 +811,7 @@ public class TableAreaLayout
 				lastCell = lastRow.getCell( start + i );
 			}
 			CellArea cell = row.getCell( start + i );
-			if(lastCell!=null &&(lastCell.getRowSpan( )>1 || lastCell.getRowSpan( )<0))
+			if(lastCell!=null &&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
 			{
 				//should remove conflict area. 
 				if(cell!=null)
@@ -881,12 +881,16 @@ public class TableAreaLayout
 					rowArea.addChild( emptyCell );
 					 i = i + emptyCell.getColSpan( ) -1;
 				}
-				
 			}
+		}
+
+		if ( specifiedHeight == 0 && isEmptyRow( row ) )
+		{
+			height = getHeightOfEmptyRow( row );
 		}
 		
 		//update row height
-		if(height>0)
+		if(height >= 0)
 		{
 			Iterator iter = rowArea.getChildren( );
 			while(iter.hasNext( ))
@@ -906,6 +910,41 @@ public class TableAreaLayout
 			mergeDropCell(rowArea);
 		}
 		
+	}
+
+	private int getHeightOfEmptyRow( Row row )
+	{
+		int heightOfEmptyRow = 0;
+		for ( int i = 0; i < columnNumber; i++ )
+		{
+			CellArea cell = row.getCell( start + i );
+			IStyle style = cell.getStyle( );
+			int bottomBorderWidth = PropertyUtil.getDimensionValue( style
+					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+			int topBorderWidth = PropertyUtil.getDimensionValue( style
+					.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+			int heightOfEmptyCell = topBorderWidth + bottomBorderWidth;
+			heightOfEmptyRow = Math.max( heightOfEmptyCell, heightOfEmptyRow );
+		}
+		return heightOfEmptyRow;
+	}
+
+	private boolean isEmptyRow( Row row )
+	{
+		for ( int i = 0; i < columnNumber; i++ )
+		{
+			CellArea cell = row.getCell( start + i );
+			if ( !isDropCell( cell ) && cell.getChildrenCount( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isDropCell( CellArea cell )
+	{
+		return cell.getRowSpan( ) < 0;
 	}
 	
 	protected void mergeDropCell(RowArea row)
