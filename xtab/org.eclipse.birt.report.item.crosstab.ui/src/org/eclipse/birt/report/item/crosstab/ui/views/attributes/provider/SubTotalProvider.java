@@ -329,9 +329,43 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	public static class SubTotalInfo
 	{
 
-		public LevelViewHandle level;
-		public MeasureViewHandle measure;
-		public String function = ""; //$NON-NLS-1$
+		private LevelViewHandle level = null;
+		private MeasureViewHandle measure = null;
+		private String function = ""; //$NON-NLS-1$
+		
+		public LevelViewHandle getLevel( )
+		{
+			return level;
+		}
+		
+		public void setLevel( LevelViewHandle level )
+		{
+			this.level = level;
+		}
+
+		
+		public MeasureViewHandle getMeasure( )
+		{
+			return measure;
+		}
+
+		
+		public void setMeasure( MeasureViewHandle measure )
+		{
+			this.measure = measure;
+		}
+
+		
+		public String getFunction( )
+		{
+			return function;
+		}
+
+		
+		public void setFunction( String function )
+		{
+			this.function = function;
+		}
 	}
 
 	/*
