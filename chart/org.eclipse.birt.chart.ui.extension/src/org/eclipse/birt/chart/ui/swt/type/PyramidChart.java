@@ -402,27 +402,7 @@ public class PyramidChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( TubeChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( ConeChart.TYPE_LITERAL ) )
-			{
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( CHART_TITLE );
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
-				{
-					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
-					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
-					{
-						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						( (BarSeries) series ).setRiser( RiserType.TRIANGLE_LITERAL );
-					}
-				}
-			}
-			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+			if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
