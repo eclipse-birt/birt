@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.core.util;
 
-
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -78,7 +77,7 @@ public class CrosstabUtil implements ICrosstabConstants
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Check the containment logic for dimension from outside of crosstab
 	 * 
@@ -173,4 +172,21 @@ public class CrosstabUtil implements ICrosstabConstants
 		return false;
 	}
 
+	/**
+	 * Checks if the add/remove aggregation operation should be perform on all
+	 * measures on given axis type
+	 */
+	public static boolean isAggregationAffectAllMeasures(
+			CrosstabReportItemHandle crosstabItem, int axisType )
+	{
+		String measureDirection = crosstabItem.getMeasureDirection( );
+
+		if ( ( MEASURE_DIRECTION_HORIZONTAL.equals( measureDirection ) && ( axisType == ROW_AXIS_TYPE ) )
+				|| ( MEASURE_DIRECTION_VERTICAL.equals( measureDirection ) && ( axisType == COLUMN_AXIS_TYPE ) ) )
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
