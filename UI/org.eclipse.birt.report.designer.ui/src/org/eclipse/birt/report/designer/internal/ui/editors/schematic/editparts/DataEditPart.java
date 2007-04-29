@@ -32,6 +32,7 @@ public class DataEditPart extends LabelEditPart
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
 	protected static final String AGGREGATE_ON = Messages.getString( "DataEditPart.text.AggregateOn" );
+
 	/**
 	 * Constructor
 	 * 
@@ -62,31 +63,40 @@ public class DataEditPart extends LabelEditPart
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-		DataItemBindingDialog dialog = new DataItemBindingDialog( handle.getResultSetColumn( )==null );
-		if (handle.getResultSetColumn() != null)
+		DataItemBindingDialog dialog = new DataItemBindingDialog( handle.getResultSetColumn( ) == null );
+		if ( handle.getResultSetColumn( ) != null )
 		{
+			DataItemBindingAggregateOnProvider provider;
 			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
 					handle.getResultSetColumn( ) );
-			
-			Object obj = bindingColumn.getElementHandle( );
-			EditPart part = (EditPart)getViewer( ).getEditPartRegistry( ).get( obj );
-			DataItemBindingAggregateOnProvider provider;
-			if (part == null)
+			if ( bindingColumn == null )
 			{
-				provider =  new NODataItemBindingAggregateOnProvider();
+				provider = new NODataItemBindingAggregateOnProvider( );
+				dialog.setProvider( provider );
 			}
-			else 
+			else
 			{
-				provider = (DataItemBindingAggregateOnProvider)part.getAdapter( DataItemBindingAggregateOnProvider.class );
+				Object obj = bindingColumn.getElementHandle( );
+				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
+						.get( obj );
+
+				if ( part == null )
+				{
+					provider = new NODataItemBindingAggregateOnProvider( );
+				}
+				else
+				{
+					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
+				}
+				if ( provider == null )
+				{
+					provider = new NODataItemBindingAggregateOnProvider( );
+				}
+				provider.setDataItemHandle( handle );
+
+				dialog.setProvider( provider );
 			}
-			if (part == null)
-			{
-				provider =  new NODataItemBindingAggregateOnProvider();
-			}
-			provider.setDataItemHandle( handle );
-			
-			dialog.setProvider(provider);
-			
+
 		}
 		dialog.setInput( handle );
 
@@ -96,12 +106,13 @@ public class DataEditPart extends LabelEditPart
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			
+
 			try
 			{
-				if(dialog.getBindingColumn( ) != null)
+				if ( dialog.getBindingColumn( ) != null )
 				{
-					handle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+					handle.setResultSetColumn( dialog.getBindingColumn( )
+							.getName( ) );
 				}
 				handle.getModuleHandle( ).getCommandStack( ).commit( );
 			}
@@ -109,7 +120,7 @@ public class DataEditPart extends LabelEditPart
 			{
 				ExceptionHandler.handle( e );
 				handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
-			}			
+			}
 			refreshVisuals( );
 		}
 		else
@@ -165,36 +176,47 @@ public class DataEditPart extends LabelEditPart
 
 		return ( text != null && text.length( ) > 0 );
 	}
-	
-	private static class NODataItemBindingAggregateOnProvider implements DataItemBindingAggregateOnProvider
+
+	private static class NODataItemBindingAggregateOnProvider implements
+			DataItemBindingAggregateOnProvider
 	{
-		public Object[] getAggregateOnLists()
+
+		public Object[] getAggregateOnLists( )
 		{
 			return null;
 		}
 
 		public String[] getLabel( )
 		{
-			return new String[]{AGGREGATE_ON};
+			return new String[]{
+				AGGREGATE_ON
+			};
 		}
 
 		public void setDataItemHandle( DataItemHandle handle )
 		{
-			
+
 		}
 	}
-	
-	static class DefaultDataItemBindingAggregateOnProvider implements DataItemBindingAggregateOnProvider
+
+	static class DefaultDataItemBindingAggregateOnProvider implements
+			DataItemBindingAggregateOnProvider
 	{
+
 		DataItemHandle handle;
-		public Object[] getAggregateOnLists()
+
+		public Object[] getAggregateOnLists( )
 		{
-			return new Object[]{DEUtil.getGroups( handle )};
+			return new Object[]{
+				DEUtil.getGroups( handle )
+			};
 		}
 
 		public String[] getLabel( )
 		{
-			return new String[]{AGGREGATE_ON};
+			return new String[]{
+				AGGREGATE_ON
+			};
 		}
 
 		public void setDataItemHandle( DataItemHandle handle )
