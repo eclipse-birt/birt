@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.core.expressions.EvaluationContext;
 import org.eclipse.core.expressions.EvaluationResult;
@@ -26,13 +27,11 @@ import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.ExpressionConverter;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
 
 /**
  * 
@@ -81,6 +80,9 @@ public class EditpartExtensionManager
 					entry.setCategory( paletteEntries[0].getAttribute( "category" ) );
 					//TODO command can't be empty
 					entry.setCommand( paletteEntries[0].getAttribute( "createCommand" ) );
+
+					registerImage( entry );
+					
 					palettes.add( entry );
 				}
 			}
@@ -104,6 +106,17 @@ public class EditpartExtensionManager
 		{
 		}
 		return null;
+	}
+
+	//backward compatible see bug 184371
+	private static void registerImage( PaletteEntryExtension entry )
+	{
+		String symbolName = ReportPlatformUIImages.getIconSymbolName( entry.getItemName( ),
+				IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
+		ReportPlatformUIImages.declareImage( symbolName, entry.getIcon( ) );
+		symbolName = ReportPlatformUIImages.getIconSymbolName( entry.getItemName( ),
+				IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON );
+		ReportPlatformUIImages.declareImage( symbolName, entry.getIcon( ) );
 	}
 
 	public static EditPart createEditPart( EditPart context, Object model )
