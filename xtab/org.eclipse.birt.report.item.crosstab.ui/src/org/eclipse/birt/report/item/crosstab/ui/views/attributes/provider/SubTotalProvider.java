@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -42,7 +43,6 @@ import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.SubTotalDialog;
 public class SubTotalProvider extends AbstractFormHandleProvider
 {
 
-	
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
 			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ),
@@ -53,12 +53,14 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	private int[] columnWidths = new int[]{
 			160, 160, 200
 	};
-	
+
 	private int axis;
-	public void setAxis(int axis)
+
+	public void setAxis( int axis )
 	{
 		this.axis = axis;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -89,8 +91,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle,
-				axis );
+		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle, axis );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
 			return false;
@@ -110,7 +111,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		LevelViewHandle levelViewHandle = subTotalInfo.level;
 		MeasureViewHandle measureViewHandle = subTotalInfo.measure;
 
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ;
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) ( ( (List) input ) ).get( 0 );
 		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
 				.getContents( );
 		int measureIndex = -1;
@@ -119,7 +120,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
 			try
 			{
-				if(measureViewHandle == (MeasureViewHandle) extHandle.getReportItem( ))
+				if ( measureViewHandle == (MeasureViewHandle) extHandle.getReportItem( ) )
 				{
 					measureIndex = i;
 					break;
@@ -154,8 +155,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle,
-				axis);
+		SubTotalDialog subTotalDialog = new SubTotalDialog( reportHandle, axis );
 		subTotalDialog.setInput( (SubTotalInfo) getElements( input )[pos] );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
@@ -332,36 +332,32 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		private LevelViewHandle level = null;
 		private MeasureViewHandle measure = null;
 		private String function = ""; //$NON-NLS-1$
-		
+
 		public LevelViewHandle getLevel( )
 		{
 			return level;
 		}
-		
+
 		public void setLevel( LevelViewHandle level )
 		{
 			this.level = level;
 		}
 
-		
 		public MeasureViewHandle getMeasure( )
 		{
 			return measure;
 		}
 
-		
 		public void setMeasure( MeasureViewHandle measure )
 		{
 			this.measure = measure;
 		}
 
-		
 		public String getFunction( )
 		{
 			return function;
 		}
 
-		
 		public void setFunction( String function )
 		{
 			this.function = function;
@@ -453,6 +449,56 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		return DEUtil.getMetaDataDictionary( )
 				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
 				.getChoices( );
+	}
+
+	public boolean isAddEnable( )
+	{
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+		CrosstabReportItemHandle crossTab = null;
+		try
+		{
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		if ( crossTab == null )
+			return false;
+		CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
+		if ( ( getAllLevelCount( crossTab ) - 1 )
+				* getMeasureCount( crossTab )
+				- getLevel( crosstabView ).size( ) > 0 )
+			return true;
+		else
+			return false;
+	}
+
+	private int getAllLevelCount( CrosstabReportItemHandle crosstab )
+	{
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axis );
+		if ( crosstabView == null )
+			return 0;
+		int dimCount = crosstabView.getDimensionCount( );
+		int result = 0;
+		for ( int i = 0; i < dimCount; i++ )
+		{
+			DimensionViewHandle dimensionView = crosstabView.getDimension( i );
+			int levelCount = dimensionView.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				result++;
+			}
+		}
+		return result;
+	}
+
+	private int getMeasureCount( CrosstabReportItemHandle crosstab )
+	{
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crosstab.getModelHandle( );
+		return extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
+				.getContentCount( );
 	}
 
 }

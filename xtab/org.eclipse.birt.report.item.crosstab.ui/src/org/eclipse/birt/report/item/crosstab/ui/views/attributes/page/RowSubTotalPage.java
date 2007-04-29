@@ -20,22 +20,33 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.SubTotalProvider;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * 
  */
 
 public class RowSubTotalPage extends AttributePage
 {
-	public void buildUI( Composite parent  )
+
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		SubTotalProvider subTotalProvider = new SubTotalProvider( );
-		subTotalProvider.setAxis( ICrosstabConstants.ROW_AXIS_TYPE  );
+		final SubTotalProvider subTotalProvider = new SubTotalProvider( );
+		subTotalProvider.setAxis( ICrosstabConstants.ROW_AXIS_TYPE );
 		FormSection subTotalSection = new FormSection( subTotalProvider.getDisplayName( ),
 				container,
 				true );
+		subTotalSection.setCustomForm( new FormPropertyDescriptor( true ) {
+
+			public void load( )
+			{
+				super.load( );
+				if ( subTotalProvider.isEnable( ) )
+				{
+					btnAdd.setEnabled( subTotalProvider.isAddEnable( ) );
+				}
+			};
+		} );
 		subTotalSection.setProvider( subTotalProvider );
 		subTotalSection.setButtonWithDialog( true );
 		subTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
