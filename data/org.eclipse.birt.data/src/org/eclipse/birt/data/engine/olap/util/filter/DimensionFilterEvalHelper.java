@@ -85,7 +85,8 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			{
 				this.cubeFilter = new CubeFilterDefn( this.expr );
 			}
-			this.aggrLevelNames = populateAggrLevelNames( this.expr, this.queryDefn );
+			
+			this.aggrLevelNames = populateAggrLevelNames( );
 			
 			axisLevels = this.cubeFilter.getAxisQualifierLevels( );
 			axisValues = this.cubeFilter.getAxisQualifierValues( );			
@@ -111,29 +112,27 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 	}
 	
 	/**
-	 * @param expr2
-	 * @param query
 	 * @return
 	 * @throws DataException
 	 */
-	private String[] populateAggrLevelNames( IBaseExpression expr2,
-			ICubeQueryDefinition query ) throws DataException
+	private String[] populateAggrLevelNames( ) throws DataException
 	{
-		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr2,
+		// get aggregation level names from the query definition related with the query expression
+		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
 				"data" );
 		if ( bindingName == null )
 			return null;
-		for ( Iterator it = query.getBindings( ).iterator( ); it.hasNext( ); )
+		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = (IBinding) it.next( );
 			if ( binding.getBindingName( ).equals( bindingName ) )
 			{
 				List aggrs = binding.getAggregatOns( );
 				if ( aggrs.size( ) == 0 )
-				{// get all level names in the fact table
+				{// get all level names in the query definition
 					List levels = new ArrayList( );
 					// get all levels from the row edge and column edge
-					IEdgeDefinition rowEdge = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
+					IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
 					List rowDims = rowEdge.getDimensions( );
 					for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
 					{
@@ -142,7 +141,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 								.get( 0 );
 						levels.addAll( hirarchy.getLevels( ) );
 					}
-					IEdgeDefinition colEdge = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+					IEdgeDefinition colEdge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 					List colDims = colEdge.getDimensions( );
 					for ( Iterator i = colDims.iterator( ); i.hasNext( ); )
 					{
@@ -172,7 +171,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 		}
 		return null;
 	}
-
+	
 	/**
 	 * get aggregation all level names.
 	 * @return
@@ -181,6 +180,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 	{
 		return this.aggrLevelNames;
 	}
+	
 	
 	/***
 	 * 
@@ -548,4 +548,6 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			}
 		}
 	}
+
+	
 }

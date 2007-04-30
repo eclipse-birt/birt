@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
@@ -266,9 +267,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			for ( int i = 0; i < noRecal.length; i++ )
 			{
 				if ( noRecal[i] == false )
-				{
+				{// release all result set that will not be used later
 					aggrList.add( aggregations[i] );
-					resultSet[i].close( ); //release all result setj that will not be used later
+					resultSet[i].close( ); 
 					resultSet[i] = null;
 				}
 				else
@@ -290,8 +291,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				{
 					if ( noRecal[i] == false )
 					{
-						resultSet[i] = recalResultSet[index];
-						index++;
+						resultSet[i] = recalResultSet[index++];
 					}
 				}
 			}
@@ -386,13 +386,13 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	/**
 	 * generate level filters.
-	 * @param aggregation
+	 * @param aggregations
 	 * @param resultSet
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private List generateLevelFilters( AggregationDefinition[] aggregation,
+	private List generateLevelFilters( AggregationDefinition[] aggregations,
 			IAggregationResultSet[] resultSet ) throws IOException,
 			DataException
 	{
@@ -400,14 +400,39 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
 			AggrFilter filter = (AggrFilter) i.next( );
-			String[] levels = filter.getAggrLevelNames( );
-			for ( int j = 0; j < aggregation.length; j++ )
+			String[] aggrLevelNames = filter.getAggrLevelNames( );
+			for ( int j = 0; j < aggregations.length; j++ )
 			{
-				if ( isEqualLevels( aggregation[j].getLevelNames( ), levels ) )
+				if ( isEqualLevels( aggregations[j].getLevelNames( ), aggrLevelNames ) )
 				{
-					List rows = getResultRows( levels,
-							aggregation[j],
+					// generate axis filter according to the cube filter definition
+					String[] names = filter.getAxisQualifierNames( );
+					Object[] values = filter.getAxisQualifierValues( );
+					if ( ( names != null )
+							&& ( values != null )
+							&& ( names.length == values.length ) )
+					{
+						for ( int k = 0; k < names.length; k++ )
+						{
+							if ( names[k].equals( filter.getTargetLevelName( ) ) == false )
+							{
+								LevelFilter axisFilter = new LevelFilter( );
+								axisFilter.levelName = names[k];
+								ISelection selection = SelectionFactory.createOneRowSelection( new Object[]{
+									values[k]
+								} );
+								axisFilter.selections = new ISelection[]{
+									selection
+								};
+								levelFilters.add( axisFilter );
+							}
+						}
+					}
+					// 
+					List rows = getResultRows( aggrLevelNames,
+							aggregations[j],
 							resultSet[j] );
+					
 					List selections = new ArrayList( );
 					for ( Iterator k = rows.iterator( ); k.hasNext( ); )
 					{//for any given row, if the aggregation result is true for the specified expression
@@ -945,8 +970,10 @@ class LevelFilter
 class AggrFilter
 {
 	private String[] aggrLevelNames;
-	private String targetLevelName;
 	private IJsFilterHelper aggrFilterHelper;
+	private String targetLevelName;
+	private String[] axisQualifierNames;
+	private Object[] axisQualifierValues;
 	
 	public AggrFilter( DimensionFilterEvalHelper filterEvalHelper)
 	{
@@ -954,6 +981,34 @@ class AggrFilter
 		ICubeFilterDefinition cubeFilter = filterEvalHelper.getCubeFiterDefinition( );
 		targetLevelName = cubeFilter.getTargetLevel( ).getName( );
 		aggrLevelNames = filterEvalHelper.getAggrLevelNames( );
+		ILevelDefinition[] axisLevels = cubeFilter.getAxisQualifierLevels( );
+		if ( axisLevels != null )
+		{
+			axisQualifierNames = new String[axisLevels.length];
+			for ( int i = 0; i < axisLevels.length; i++ )
+			{
+				axisQualifierNames[i] = axisLevels[i].getName( );
+			}
+		}
+		axisQualifierValues = cubeFilter.getAxisQualifierValues( );
+	}
+
+	
+	/**
+	 * @return the axisQualifierLevelNames
+	 */
+	public String[] getAxisQualifierNames( )
+	{
+		return axisQualifierNames;
+	}
+
+	
+	/**
+	 * @return the axisQualifierLevelValues
+	 */
+	public Object[] getAxisQualifierValues( )
+	{
+		return axisQualifierValues;
 	}
 
 	/**

@@ -69,6 +69,7 @@ public class CubeAggregationTest extends TestCase
 	
 	IDocumentManager documentManager;
 	private ILevelDefinition level21;
+	private ILevelDefinition level31;
 	
 	public CubeAggregationTest( )
 	{
@@ -76,14 +77,20 @@ public class CubeAggregationTest extends TestCase
 		try
 		{
 			documentManager = DocumentManagerFactory.createFileDocumentManager( );
+			createCube1( );
+			this.baseScope = new ImporterTopLevel( );
 		}
 		catch ( DataException e )
 		{
-			e.printStackTrace();
+			fail();
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			fail();
+		}
+		catch ( BirtException e )
+		{
+			fail();
 		}
 	}
 	/*
@@ -92,6 +99,8 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void setUp() throws Exception
 	{
+		Context.enter( );
+		createCube1QueryDefn( );
 		super.setUp( );
 	}
 	
@@ -99,7 +108,8 @@ public class CubeAggregationTest extends TestCase
 	 * @see TestCase#tearDown()
 	 */
 	protected void tearDown( ) throws Exception
-	{
+	{		
+		Context.exit();
 		super.tearDown( );
 	}
 	
@@ -114,8 +124,9 @@ public class CubeAggregationTest extends TestCase
 		documentManager = null;
 		super.finalize( );
 	}
+	
 	/**
-	 * 
+	 * test aggregation using random access document manager. 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -123,13 +134,18 @@ public class CubeAggregationTest extends TestCase
 	{
 		CubeMaterializer materializer = new CubeMaterializer();
 		IDocumentManager localDocManager = materializer.getDocumentManager( );
-		testCube1Create( localDocManager );
-		testCube1Aggregation( localDocManager );
+		IDocumentManager oldManager = documentManager; //backup old document manager
+		documentManager = localDocManager;
+		createCube1( );
+		testCube1Aggregation( );
 		IDocArchiveWriter writer = createRAWriter( );
 		materializer.saveCubeToReportDocument( "cube1", writer , new StopSign( ) );
 		writer.flush( );
 		writer.finish( );
-		testCube1Aggregation( createRADocumentManager( ) );
+		documentManager = createRADocumentManager( );
+		testCube1Aggregation( );
+		documentManager.close( ); //close localDocManager since it will not be used further
+		documentManager = oldManager; // restore the default docuemnt manager for other test cases
 	}
 
 	private IDocumentManager createRADocumentManager( ) throws IOException, DataException
@@ -147,43 +163,14 @@ public class CubeAggregationTest extends TestCase
 		return writer;
 	}
 	
-	/**
-	 * 
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public void testAggregation1( ) throws IOException, BirtException
-	{
-		testCube1Create( documentManager );
-		testCube1Aggregation( documentManager );
-		
-		Context.enter( );
-		this.baseScope = new ImporterTopLevel( );
-		createCube1QueryAndAggrFilterDefn( );
-		testCube1AggrFilter1( documentManager );
-		testCube1AggrFilter2( documentManager );
-		testCube1AggrFilter3( documentManager );
-		testCube1AggrFilter4( documentManager );
-		Context.exit( );
-	}
 	
-	/**
-	 * 
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public void testAggregation2( ) throws IOException, BirtException
-	{
-		testCube2Create( documentManager );
-		testCube2Aggregation( documentManager );
-	}
 	
 	/**
 	 * create cube query definition for aggregation filtering.
 	 * @return
 	 * @throws DataException
 	 */
-	private void createCube1QueryAndAggrFilterDefn() throws DataException
+	private void createCube1QueryDefn() throws DataException
 	{
 		cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
 		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -215,7 +202,7 @@ public class CubeAggregationTest extends TestCase
 		
 		IDimensionDefinition dimension3 = columnEdge.createDimension( "dimension3" );
 		IHierarchyDefinition hier3 = dimension3.createHierarchy( "hier3" );
-		hier3.createLevel( "level31" );
+		level31 = hier3.createLevel( "level31" );
 		
 		IBinding bindin31 = new Binding("edge1_level31");
 		bindin11.setExpression( new ScriptExpression("dimension[\"dimension3\"][\"level31\"]") );
@@ -254,7 +241,12 @@ public class CubeAggregationTest extends TestCase
 		return result;
 	}
 
-	private void testCube1Create( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	/**
+	 * @throws IOException
+	 * @throws BirtException
+	 * @throws DataException
+	 */
+	private void createCube1( ) throws IOException, BirtException, DataException
 	{
 		Dimension[] dimensions = new Dimension[3];
 		
@@ -320,7 +312,7 @@ public class CubeAggregationTest extends TestCase
 	}
 
 	
-	private void testCube1Aggregation( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	public void testCube1Aggregation( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -430,8 +422,14 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(8) );
 	}
 	
-	
-	private void testCube1AggrFilter1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	/**
+	 * test simiple aggregation with only expression such as data["level21_sum"]>30.
+	 * this will filter out the levels that does not qualify this condition.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter1(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -472,7 +470,13 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );//
 	}
 	
-	private void testCube1AggrFilter2( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	/**
+	 * test simple aggregation with level filter in muti-level aggregation.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter2( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -489,11 +493,14 @@ public class CubeAggregationTest extends TestCase
 		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "level31" );
+		
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>2" );
 		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
-		cubeFilter.setTargetLevel( level21 );	
+		cubeFilter.setTargetLevel( level21 );		
+		
 		//
 		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter( dimfilter );
@@ -519,13 +526,16 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
 		/*aggregation result table
 		 *index	level21	level31	sum(measure1)
+		 *0		1		1		0
+		 *1		1		2		1
+		 *2		1		3		2	
 		 *3		1		4		3	
 		 *4		2		5		4	
 		 *5		2		6		5	
 		 *6		2		7		6	
 		 *7		2		8		7		
 		 */
-		for ( int i = 3; i < 8; i++ )
+		for ( int i = 0; i < 8; i++ )
 		{
 			resultSet[0].seek( i );
 			assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], String.valueOf(i/4+1) );
@@ -535,13 +545,13 @@ public class CubeAggregationTest extends TestCase
 	}
 	
 	/**
-	 * empty aggregation result set test.
+	 * test empty aggregation result set.
 	 * @param documentManager
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void testCube1AggrFilter3( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	public void testCube1AggrFilter3(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -584,12 +594,17 @@ public class CubeAggregationTest extends TestCase
 		
 	}
 	
-	private void testCube1AggrFilter4( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	/**
+	 * test aggregation filter with one axis condition in one level aggregation.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter4(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );		
-		//add aggregation filter on level21
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
@@ -632,8 +647,63 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( 6 ) );//		
 	}
 	
+	/**
+	 * test aggregation filter with one axis condition in muti-level aggregation. 
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter5( ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );		
+		//add aggregation filter on level21 and level31
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "level31" );
+		cubeQuery.addBinding( level21_sum );
+		
+		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
+		CubeFilterDefn cubeFilter = new CubeFilterDefn( expr );
+		cubeFilter.setTargetLevel( level21 );
+		cubeFilter.setAxisQualifierLevels( new ILevelDefinition[]{
+			level31
+		} );
+		cubeFilter.setAxisQualifierValues( new Object[]{
+			new Integer( 4 )
+		} );
+		//
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		cubeQueryExcutorHelper.addJSFilter( dimfilter );
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[]{
+				IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC
+		};
+		String[] levelNamesForFilter = new String[]{
+				"level21","level31"
+		};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
+		assertEquals( resultSet[0].getLevelIndex( "level31" ), 1 );
+		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(3) );	
+	}
 	
-	private void testCube2Create( IDocumentManager documentManager ) throws IOException, BirtException
+	
+	private void createCube2( ) throws IOException, BirtException
 	{
 		Dimension[] dimensions = new Dimension[2];
 		
@@ -679,8 +749,9 @@ public class CubeAggregationTest extends TestCase
 		documentManager.flush( );
 	}
 	
-	private void testCube2Aggregation(IDocumentManager documentManager ) throws IOException, BirtException
+	public void testCube2Aggregation( ) throws IOException, BirtException
 	{
+		createCube2( );
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( CubeQueryExecutorHelper.loadCube( "cube2",
 				documentManager,
 				new StopSign( ) ) );
