@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -113,12 +114,31 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) crosstabReportItemHandle.getModelHandle( );
 		List measureList = itemHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
 				.getContents( );
+
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+		CrosstabReportItemHandle crossTab = null;
+		try
+		{
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		if ( crossTab == null )
+			return false;
+
 		for ( int i = 0; i < measureList.size( ); i++ )
 		{
 			ExtendedItemHandle extMeasure = (ExtendedItemHandle) measureList.get( i );
 			if ( extMeasure.getReportItem( ) == measure )
 			{
-				crosstabReportItemHandle.removeGrandTotal( axis, i );
+				if ( CrosstabUtil.isAggregationAffectAllMeasures( crossTab,
+						axis ) )
+					crosstabReportItemHandle.removeGrandTotal( axis );
+				else
+					crosstabReportItemHandle.removeGrandTotal( axis, i );
 				return true;
 			}
 		}
@@ -300,7 +320,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
-		if ( event instanceof ContentEvent || event instanceof PropertyEvent)
+		if ( event instanceof ContentEvent || event instanceof PropertyEvent )
 		{
 			return true;
 		}

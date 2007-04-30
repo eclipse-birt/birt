@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -93,7 +94,8 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle, axis );
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
+				axis );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
 			return false;
@@ -135,7 +137,24 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			}
 		}
 
-		levelViewHandle.removeSubTotal( measureIndex );
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+		CrosstabReportItemHandle crossTab = null;
+		try
+		{
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		if ( crossTab == null )
+			return false;
+
+		if ( CrosstabUtil.isAggregationAffectAllMeasures( crossTab, axis ) )
+			levelViewHandle.removeSubTotal( );
+		else
+			levelViewHandle.removeSubTotal( measureIndex );
 		return true;
 	}
 
@@ -157,7 +176,8 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle, axis );
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
+				axis );
 		subTotalDialog.setInput( (SubTotalInfo) getElements( input )[pos] );
 		if ( subTotalDialog.open( ) == Dialog.CANCEL )
 		{
@@ -410,7 +430,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
-		if ( event instanceof ContentEvent || event instanceof PropertyEvent)
+		if ( event instanceof ContentEvent || event instanceof PropertyEvent )
 		{
 			return true;
 		}
