@@ -551,7 +551,7 @@ public class HTML2Content
 	 */
 	protected void outputImg( Element ele, HashMap cssStyles, IContent content )
 	{
-		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
+	 	String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if(src!=null)
 		{		
 			IImageContent image = new ImageContent(content);
@@ -569,7 +569,7 @@ public class HTML2Content
 				URL url = handle.findResource( src, IResourceLocator.IMAGE );
 				if(url!=null)
 				{
-					src = url.getFile( );
+					src = url.toString( );
 				}
 				image.setImageSource(IImageContent.IMAGE_FILE);
 				image.setURI(src);
