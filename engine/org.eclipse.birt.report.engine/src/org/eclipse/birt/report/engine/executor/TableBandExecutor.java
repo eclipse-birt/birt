@@ -1,12 +1,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.w3c.dom.css.CSSValue;
@@ -19,23 +16,6 @@ public class TableBandExecutor extends StyledItemExecutor
 		super( manager );
 	}
 	
-	protected DataID getDataID( )
-	{
-		//FIXME: overide the getDataId from the reportItemExecutor.
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
-		{
-			curRset = getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
-			return new DataID( dataSetID, position );
-		}		
-		return null;
-	}
-
 	public IContent execute( )
 	{
 		// start table band
@@ -61,10 +41,6 @@ public class TableBandExecutor extends StyledItemExecutor
 			}
 		}
 		startTOCEntry( bandContent );
-		if (emitter != null)
-		{
-			emitter.startTableBand( bandContent );
-		}
 		
 		// prepare to execute the row in the band
 		currentRow = 0;
@@ -74,12 +50,8 @@ public class TableBandExecutor extends StyledItemExecutor
 
 	public void close( )
 	{
-		ITableBandContent bandContent = (ITableBandContent)getContent();
-		if (emitter != null)
-		{
-			emitter.endTableBand( bandContent );
-		}
 		finishTOCEntry( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.TABLEBANDITEM, this );
 	}
 

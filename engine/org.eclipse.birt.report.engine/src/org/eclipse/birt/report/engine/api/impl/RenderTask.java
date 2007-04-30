@@ -27,20 +27,23 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
-import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
-import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
-import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
-import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
+import org.eclipse.birt.report.engine.internal.document.ReportPageExecutor;
+import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
+import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
@@ -203,73 +206,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	protected void doRender( long pageNumber ) throws EngineException
 	{
-		try
-		{
-			IContentEmitter emitter = createContentEmitter( );
-			Report reportDesign = executionContext.getReport( );
-			String format = executionContext.getOutputFormat( );
-			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-			{
-				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageNumber, paginationType );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-						format, renderOptions );
-				
-				layoutEngine.setLocale( executionContext.getLocale( ) );
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
-
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
-						format );
-				outputEmitters.addEmitter( emitter );
-				outputEmitters.addEmitter( handle.getEmitter( ) );
-
-				startRender( );
-				layoutEngine.layout( executor, outputEmitters, false );
-				closeRender( );
-				executor.close( );
-			}
-			else
-			{
-				IReportExecutor executor = new ReportExecutor(
-						executionContext, reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				// start the render
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
-				startRender( );
-				loader.loadPage( pageNumber, paginationType, emitter );
-				closeRender( );
-				executor.close( );
-			}
-		}
-		catch ( EngineException e )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-			throw e;
-		}
-		catch ( Exception ex )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
-		}
-		catch ( OutOfMemoryError err )
-		{
-			log.log( Level.SEVERE,
-					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
-			throw err;
-		}
+		ArrayList pageSequences = new ArrayList( );
+		pageSequences.add( new long[]{pageNumber, pageNumber} );
+		doRender( pageSequences );
 	}
 
 	/**
@@ -287,13 +226,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 		try
 		{
 			// start the render
-			Report reportDesign = executionContext.getReport( );
 			IContentEmitter emitter = createContentEmitter( );
 			String format = executionContext.getOutputFormat( );
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
-				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageSequences, paginationType );
+				IReportExecutor executor = new ReportPageExecutor(
+						executionContext, pageSequences, false );
+				executor = new SuppressDuplciateReportExecutor( executor );
 				executor = new LocalizedReportExecutor( executionContext,
 						executor );
 				executionContext.setExecutor( executor );
@@ -319,15 +258,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 			else
 			{
-				IReportExecutor executor = new ReportExecutor(
-						executionContext, reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
-				startRender( );
+				boolean paged = true;
 				IRenderOption renderOption = executionContext.getRenderOption( );
 				if ( renderOption instanceof HTMLRenderOption )
 				{
@@ -335,10 +266,59 @@ public class RenderTask extends EngineTask implements IRenderTask
 							.getHtmlPagination( );
 					if ( !htmlPagination )
 					{
-						paginationType = IReportContentLoader.SINGLE_PAGE;
+						paged = false;
 					}
 				}
-				loader.loadPageRange( pageSequences, paginationType, emitter );
+				
+				IReportExecutor executor = new ReportPageExecutor(
+						executionContext, pageSequences, paged);
+				executor = new SuppressDuplciateReportExecutor( executor );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				//executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				
+				IReportContent report = executor.execute( );
+				emitter.start( report );
+				startRender( );
+				if ( paged )
+				{
+					PageRangeIterator iter = new PageRangeIterator(
+							pageSequences );
+					while ( iter.hasNext( ) )
+					{
+						long pageNumber = iter.next( );
+						IPageContent pageContent = ReportExecutorUtil
+								.executeMasterPage( executor, pageNumber, null );
+						emitter.startPage( pageContent );
+						//here the pageExecutor will returns a report.root.
+						IReportItemExecutor pageExecutor = executor
+								.getNextChild( );
+						if ( pageExecutor != null )
+						{
+							ReportExecutorUtil.execute( pageExecutor, emitter );
+						}
+						emitter.endPage( pageContent );
+					}
+				}
+				else
+				{
+					PageRangeIterator iter = new PageRangeIterator(
+							pageSequences );
+					long pageNumber = iter.next( );
+					IPageContent pageContent = ReportExecutorUtil
+							.executeMasterPage( executor, pageNumber, null );
+					emitter.startPage( pageContent );
+					while ( executor.hasNextChild( ) )
+					{
+						IReportItemExecutor itemExecutor = executor
+								.getNextChild( );
+						ReportExecutorUtil.execute( itemExecutor, emitter );
+					}
+					emitter.endPage( pageContent );
+				}
+				
+				emitter.end( report );
 				closeRender( );
 				executor.close( );
 			}
@@ -377,14 +357,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( offset != -1 )
 			{
 				// start the render
-
 				IContentEmitter emitter = createContentEmitter( );
-				Report reportDesign = executionContext.getReport( );
 				String format = executionContext.getOutputFormat( );
 				if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 				{
-					IReportExecutor executor = new ReportletReader(
+					IReportExecutor executor = new ReportletExecutor(
 							executionContext, offset );
+					executor = new SuppressDuplciateReportExecutor( executor );
 					executor = new LocalizedReportExecutor( executionContext,
 							executor );
 					executionContext.setExecutor( executor );
@@ -409,17 +388,27 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 				else
 				{
-					ReportContentLoader loader = new ReportContentLoader(
-							executionContext );
-					IReportExecutor executor = new ReportExecutor(
-							executionContext, reportDesign, null );
+					IReportExecutor executor = new ReportletExecutor(
+							executionContext, offset );
 					executor = new LocalizedReportExecutor( executionContext,
 							executor );
+					executor = new SuppressDuplciateReportExecutor( executor );
 					executionContext.setExecutor( executor );
-
 					initializeContentEmitter( emitter, executor );
+
 					startRender( );
-					loader.loadReportlet( offset, emitter );
+					IReportContent report = executor.execute( );
+					emitter.start( report );
+					while ( executor.hasNextChild( ) )
+					{
+						IReportItemExecutor itemExecutor = executor
+								.getNextChild( );
+						if ( itemExecutor != null )
+						{
+							ReportExecutorUtil.execute( itemExecutor, emitter );
+						}
+					}
+					emitter.end( report );
 					closeRender( );
 					executor.close( );
 				}
@@ -741,7 +730,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.offset = reportDoc.getInstanceOffset( iid );
 			if ( offset == -1 )
 			{
-				throw new EngineException( "Invalid instance id :" + iid ); //$NON-NLS-1$
+				throw new EngineException( "Invalid instance id :" + iid.toUniqueString( ) ); //$NON-NLS-1$
 			}
 		}
 

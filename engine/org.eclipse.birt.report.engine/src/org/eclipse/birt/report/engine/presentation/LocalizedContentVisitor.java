@@ -130,7 +130,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitPage( IPageContent page, Object value )
 	{
 		// must localize all the contents in the page content.
-		localizeAllChildren( page );
+		//localizeAllChildren( page );
 		return value;
 	}
 	

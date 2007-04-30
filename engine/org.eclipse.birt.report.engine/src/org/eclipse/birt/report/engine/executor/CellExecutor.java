@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.executor;
 
@@ -16,12 +26,6 @@ public class CellExecutor extends QueryItemExecutor
 	
 	int cellId;
 	
-	public void reset( )
-	{
-		super.reset( );
-		this.cellId = 0;
-	}
-
 	public IContent execute( )
 	{
 		CellDesign cellDesign = (CellDesign)getDesign();
@@ -50,10 +54,6 @@ public class CellExecutor extends QueryItemExecutor
 
 		startTOCEntry( cellContent );
 
-		if (emitter != null)
-		{
-			emitter.startCell( cellContent );
-		}
 		//prepare to execute the children.
 		currentItem = 0;
 		
@@ -62,13 +62,10 @@ public class CellExecutor extends QueryItemExecutor
 
 	public void close( )
 	{
-		ICellContent cellContent = (ICellContent)getContent();
-		if (emitter != null)
-		{
-			emitter.endCell( cellContent);
-		}
 		finishTOCEntry( );
 		closeQuery( );
+		this.cellId = 0;
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.CELLITEM, this );
 	}
 	

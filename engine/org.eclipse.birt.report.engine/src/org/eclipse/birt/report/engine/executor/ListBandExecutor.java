@@ -1,12 +1,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -20,22 +17,6 @@ public class ListBandExecutor extends StyledItemExecutor
 		super( manager );
 	}
 	
-	protected DataID getDataID( )
-	{
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
-		{
-			curRset = getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
-			return new DataID( dataSetID, position );
-		}		
-		return null;
-	}
-
 	ListingElementExecutor listExecutor;
 	
 	void setListingExecutor(ListingElementExecutor listExecutor)
@@ -69,10 +50,6 @@ public class ListBandExecutor extends StyledItemExecutor
 		}
 		
 		startTOCEntry(bandContent);
-		if (emitter != null)
-		{
-			emitter.startListBand( bandContent );
-		}
 		
 		//prepare to execute the children
 		currentItem = 0;
@@ -82,12 +59,8 @@ public class ListBandExecutor extends StyledItemExecutor
 	
 	public void close( )
 	{
-		IListBandContent bandContent = (IListBandContent) getContent();
-		if (emitter != null)
-		{
-			emitter.endListBand( bandContent );
-		}
 		finishTOCEntry( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.LISTBANDITEM, this );
 	}
 

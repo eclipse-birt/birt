@@ -5,42 +5,34 @@ import org.eclipse.birt.report.engine.content.IContent;
 
 class PageReader extends ReportItemReader
 {
-
-	ReportPageReader pageReader;
 	long pageNumber;
+	ReportItemReaderManager manager;
 
-	PageReader( ReportPageReader pageReader, long pageNumber, Fragment fragment )
+	PageReader( AbstractReportReader reportReader, long pageNumber )
 	{
-		super( pageReader.manager );
-		this.pageReader = pageReader;
-		this.pageNumber = pageNumber;
-		this.fragment = fragment;
+		super( reportReader.context );
+		this.reader = reportReader.pageReader;
+		this.manager = reportReader.manager;
 	}
 
 	public IContent execute( )
-	{	
-		pageReader.context.setPageNumber( pageNumber );
-		pageReader.context.setExecutingMasterPage( true );
-		// return the PageContent which is loaded from the content
-		IContent content = pageReader.loadPageContent( pageNumber );
-		pageReader.initializeContent( content );
-		// execute extra intialization
-		pageReader.initalizeContentVisitor.visit( content, null );
-		pageReader.context.setExecutingMasterPage( false );
-		//setup the first child
-		Fragment childFrag = fragment.getNextFragment( -1 );
-		if (childFrag != null)
-		{
-			this.child = childFrag.offset;
-		}
-		else
-		{
-			this.child = -1;
-		}
+	{
+		context.setPageNumber( pageNumber );
+		context.setExecutingMasterPage( true );
+
+		content = super.execute( );
 		return content;
 	}
 
 	public void close( )
 	{
+		context.setExecutingMasterPage( false );
+		super.close( );
+	}
+	
+	ReportItemReader createExecutor( ReportItemReader parent, long offset,
+			Fragment fragment )
+	{
+		return manager.createExecutor( parent, offset, fragment );
 	}
 }

@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -79,7 +78,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	/**
 	 * prepare the queries defined in the report.
 	 */
-	public void prepare( Report report, Map appContext )
+	public void prepare( Report report, Map appContext ) 
 	{
 		// build report queries
 		new ReportQueryBuilder( ).build( report, context );
@@ -89,12 +88,20 @@ public class DataPresentationEngine extends AbstractDataEngine
 	
 	protected void doPrepareQuery( Report report, Map appContext )
 	{
-		// prepare report queries
-		queryIDMap.putAll( report.getQueryIDs( ) );
-		loadDteMetaInfo( );
+		try
+		{
+			// prepare report queries
+			queryIDMap.putAll( report.getQueryIDs( ) );
+			loadDteMetaInfo( );
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, "Error happens in loading the metadata",
+					ex );
+		}
 	}
 
-	private void loadDteMetaInfo()
+	private void loadDteMetaInfo() throws IOException
 	{
 		loadDteMetaInfo( ReportDocumentConstants.DATA_META_STREAM );
 		if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
@@ -103,12 +110,12 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 	}
 	
-	private void loadDteMetaInfo( String metaDataStream)
+	private void loadDteMetaInfo( String metaDataStream ) throws IOException
 	{
-		DataInputStream dis = null;
+		DataInputStream dis = new DataInputStream( reader
+				.getStream( metaDataStream ) );
 		try
 		{
-			dis = new DataInputStream( reader.getStream( metaDataStream) );
 
 			StringBuffer buffer = new StringBuffer( );
 			while ( true )
@@ -132,24 +139,15 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{
 			// we expect that there should be an EOFexception
 		}
-		catch ( IOException ioe )
-		{
-			context.addException( new EngineException(
-					"Can't load the data in report document", ioe ) );
-			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
-		}
 		finally
 		{
-			if ( dis != null )
+			try
 			{
-				try
-				{
-					dis.close( );
-				}
-				catch ( IOException ex )
-				{
+				dis.close( );
+			}
+			catch ( IOException ex )
+			{
 
-				}
 			}
 		}
 	}

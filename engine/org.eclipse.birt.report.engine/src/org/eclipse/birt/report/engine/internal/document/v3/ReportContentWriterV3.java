@@ -194,7 +194,7 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	 * update the index for that object. 
 	 * 
 	 * @param parentOffset
-	 * @param offset
+	 * @param index
 	 * @throws IOException
 	 */
 	protected void updateIndex(IContent content) throws IOException

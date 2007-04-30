@@ -66,11 +66,11 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
-			return executeHtmlText( emitter );
+			return executeHtmlText( );
 		}
 		else
 		{
-			return executePlainText(emitter );
+			return executePlainText( );
 		}
 	}
 
@@ -78,6 +78,7 @@ public class TextItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.TEXTITEM, this );
 	}
 	
@@ -87,7 +88,7 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executeHtmlText( IContentEmitter emitter )
+	protected IContent executeHtmlText( )
 	{
 		TextItemDesign textDesign = (TextItemDesign) getDesign();
 		IForeignContent textContent = report.createForeignContent( );
@@ -126,10 +127,6 @@ public class TextItemExecutor extends QueryItemExecutor
 		}
 		
 		startTOCEntry( content );
-		if ( emitter != null )
-		{
-			emitter.startForeign( textContent );
-		}
 		
 		return textContent;
 	}
@@ -140,7 +137,7 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executePlainText(IContentEmitter emitter)
+	protected IContent executePlainText( )
 	{
 		TextItemDesign textDesign = (TextItemDesign) getDesign();
 		
@@ -166,10 +163,6 @@ public class TextItemExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( content );
-		if ( emitter != null )
-		{
-			emitter.startLabel( textContent );
-		}
 		
 		return textContent;
 	}

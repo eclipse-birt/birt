@@ -337,6 +337,11 @@ public class ImageContent extends AbstractContent implements IImageContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		return true;
+	}
+
 	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{

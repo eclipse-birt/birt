@@ -607,4 +607,29 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		this.version = version;
 	}
+
+	public boolean needSave( )
+	{
+		if ( name != null )
+		{
+			return true;
+		}
+		if ( x != null || y != null || width != null || height != null )
+		{
+			return true;
+		}
+		if ( hyperlink != null || bookmark != null || toc != null )
+		{
+			return true;
+		}
+		if ( helpText != null )
+		{
+			return true;
+		}
+		if ( inlineStyle != null && !inlineStyle.isEmpty( ))
+		{
+			return true;
+		}
+		return false;
+	}
 }

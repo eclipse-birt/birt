@@ -77,10 +77,6 @@ public class ListItemExecutor extends ListingElementExecutor
 					listContent, context );
 		}
 		startTOCEntry( listContent );
-		if ( emitter != null )
-		{
-			emitter.startList( listContent );
-		}
 		
 		//prepare to execute the children
 		prepareToExecuteChildren();
@@ -90,14 +86,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	
 	public void close( )
 	{
-		IListContent listContent = (IListContent)getContent();
-		if ( emitter != null )
-		{
-			emitter.endList( listContent );
-		}
-
 		finishTOCEntry( );
 		closeQuery( );
+		super.close( );
+		manager.releaseExecutor( ExecutorManager.LISTITEM, this );
 	}
 
 	public IReportItemExecutor getNextChild( )

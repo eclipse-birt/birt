@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.internal.document;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.internal.document.v3.ReportPageExecutorV3;
+import org.eclipse.birt.report.engine.internal.document.v4.ReportPageExecutorV4;
+
+public class ReportPageExecutor extends ReportExecutorWrapper
+{
+
+	public ReportPageExecutor( ExecutionContext context, List pages,
+			boolean paged ) throws BirtException
+	{
+		try
+		{
+			int version = getVersion( context.getReportDocument( ) );
+			switch ( version )
+			{
+				case EXECUTOR_VERSION_3 :
+					executor = new ReportPageExecutorV3( context, pages, paged );
+					break;
+				case EXECUTOR_VERSION_4 :
+					executor = new ReportPageExecutorV4( context, pages, paged );
+					break;
+				default :
+					throw new EngineException( "unsupported document version:"
+							+ version );
+			}
+		}
+		catch ( IOException ex )
+		{
+			throw new EngineException( ex.getLocalizedMessage( ), ex );
+		}
+
+	}
+}

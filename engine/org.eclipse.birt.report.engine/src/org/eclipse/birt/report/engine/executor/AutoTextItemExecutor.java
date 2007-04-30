@@ -81,16 +81,12 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 				textContent.setText(String.valueOf(context.getTotalPage()));
 			}
 		}
-
-		if ( emitter != null )
-		{
-			emitter.startAutoText( textContent );
-		}
 		return textContent;
 	}
 	
 	public void close( )
 	{
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.AUTOTEXTITEM, this );
 	}
 }

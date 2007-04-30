@@ -8,38 +8,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.IDocArchiveReader;
-import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
-import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
-import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
-import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
+import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.PageSection;
 
-public class ReportPageReader extends ReportReader
+public class ReportPageReader extends AbstractReportReader
 {
 
-	ArrayList outputPages = new ArrayList( );
-	ArrayList pageHints = new ArrayList( );
-	Fragment fragment = new Fragment( );
-	int paginationType;
-	PageHintReaderV2 hintReader;
-	CachedReportContentReaderV3 pageReader;
-
-	public ReportPageReader( ExecutionContext context, long pageNumber,
-			int paginationType )
-	{
-		super( context );
-		outputPages.add( new long[]{pageNumber, pageNumber} );
-		this.paginationType = paginationType;
-	}
+	private boolean paged;
+	private ArrayList outputPages = new ArrayList( );
+	private PageRangeIterator pageIter;
+	private BodyReader bodyExecutor;
 
 	/**
 	 * does the output should keep the pagination.
@@ -60,93 +44,31 @@ public class ReportPageReader extends ReportReader
 	 * @param keepPaginate
 	 *            should the output keep pagianted.
 	 */
-	public ReportPageReader( ExecutionContext context, List pages,
-			int paginationType )
+	public ReportPageReader( ExecutionContext context, List pages, boolean paged )
+			throws IOException
 	{
 		super( context );
 		outputPages.addAll( pages );
-		this.paginationType = paginationType;
-		if ( paginationType == IReportContentLoader.SINGLE_PAGE )
+		this.paged = paged;
+		pageIter = new PageRangeIterator( outputPages );
+		if ( !paged )
 		{
-			nextPage = 1;
+			Fragment fragment = loadPageFragment( outputPages );
+			bodyExecutor = new BodyReader( this, fragment );
 		}
+	}
+	
+	public void close( )
+	{
+		if ( bodyExecutor != null )
+		{
+			bodyExecutor.close( );
+			bodyExecutor = null;
+		}
+		super.close( );
 	}
 
-	protected void openReaders( ) throws IOException
-	{
-		super.openReaders( );
-		// open the page hints stream and the page content stream
-		hintReader = new PageHintReaderV2( reportDoc );
-		hintReader.open( );
-		IDocArchiveReader archive = reportDoc.getArchive( );
-		RAInputStream in = archive
-				.getStream( ReportDocumentConstants.PAGE_STREAM );
-		pageReader = new CachedReportContentReaderV3( reportContent, in );
-	}
-
-	protected void closeReaders( )
-	{
-		super.closeReaders( );
-		if ( hintReader != null )
-		{
-			hintReader.close( );
-			hintReader = null;
-		}
-		if ( pageReader != null )
-		{
-			pageReader.close( );
-			pageReader = null;
-		}
-		outputPages.clear( );
-	}
-
-	protected IPageHint loadPageHint(long pageNumber)
-	{
-		try
-		{
-			IPageHint hint = hintReader.getPageHint( pageNumber );
-			return hint;
-		}
-		catch(IOException ex)
-		{
-			logger.log( Level.WARNING, "Failed to load page hint" + pageNumber, ex );
-		}
-		return null;
-	}
-	protected void loadPageHints( )
-	{
-		for ( int m = 0; m < outputPages.size( ); m++ )
-		{
-			long[] ps = (long[]) outputPages.get( m );
-			for ( long pageNumber = ps[0]; pageNumber <= ps[1]; pageNumber++ )
-			{
-				IPageHint pageHint = loadPageHint( pageNumber );
-				if ( pageHint == null )
-				{
-					continue;
-				}
-				int sectCount = pageHint.getSectionCount( );
-				for ( int i = 0; i < sectCount; i++ )
-				{
-					try
-					{
-						long left = pageHint.getSectionStart( i );
-						long right = pageHint.getSectionEnd( i );
-						long[] leftEdges = createEdges( left );
-						long[] rightEdges = createEdges( right );
-						fragment.addFragment( leftEdges, rightEdges );
-					}
-					catch ( IOException ex )
-					{
-						logger.log( Level.SEVERE, "Can't load the page hints",
-								ex );
-					}
-				}
-			}
-		}
-	}
-
-	protected long[] createEdges( long offset ) throws IOException
+	protected Long[] createEdges( long offset ) throws IOException
 	{
 		LinkedList parents = new LinkedList( );
 		IContent content = reader.loadContent( offset );
@@ -160,190 +82,47 @@ public class ReportPageReader extends ReportReader
 			}
 			content = (IContent) content.getParent( );
 		}
-		long[] edges = new long[parents.size( )];
+		Long[] edges = new Long[parents.size( )];
 		Iterator iter = parents.iterator( );
 		int length = 0;
 		while ( iter.hasNext( ) )
 		{
 			Long value = (Long) iter.next( );
-			edges[length++] = value.longValue( );
+			edges[length++] = value;
 		}
 		return edges;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.internal.executor.doc.ReportReader#execute()
-	 */
-	public IReportContent execute( )
+	protected Fragment loadPageFragment( List pages ) throws IOException
 	{
-		IReportContent content = super.execute( );
-
-		if ( paginationType == IReportContentLoader.NO_PAGE )
+		Fragment fragment = new Fragment( new LongComparator( ) );
+		PageRangeIterator iter = new PageRangeIterator( pages );
+		while ( iter.hasNext( ) )
 		{
-			loadPageHints( );
-			nextElement = getFirstElementOffset( );
-		}
-
-		return content;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.internal.executor.doc.ReportReader#getNextChild()
-	 */
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( paginationType == IReportContentLoader.MULTI_PAGE
-				|| paginationType == IReportContentLoader.SINGLE_PAGE )
-		{
-			return getNextPage( );
-		}
-		return getNextElement( );
-	}
-
-	public boolean hasNextChild( )
-	{
-		if ( paginationType == IReportContentLoader.MULTI_PAGE
-				|| paginationType == IReportContentLoader.SINGLE_PAGE )
-		{
-			return hasNextPage( );
-		}
-		return hasNextElement( );
-	}
-
-	private int curPageRange = -1;
-	private long nextPage = -1;
-
-	private boolean hasNextPage( )
-	{
-		if ( nextPage == -1 )
-		{
-			nextPage = getNextPageNumber( );
-		}
-		return nextPage != -1;
-	}
-
-	private IReportItemExecutor getNextPage( )
-	{
-		if ( hasNextPage( ) )
-		{
-			assert nextPage != -1;
-			if ( paginationType == IReportContentLoader.SINGLE_PAGE )
+			long pageNumber = iter.next( );
+			IPageHint pageHint = hintReader.getPageHint( pageNumber );
+			if ( pageHint == null )
 			{
-				loadPageHints( );
-				IReportItemExecutor pageExecutor = new PageReader( this, 1,
-						fragment );
-				nextPage = -1;
-				return pageExecutor;
+				continue;
 			}
-			else
+			int sectCount = pageHint.getSectionCount( );
+			for ( int i = 0; i < sectCount; i++ )
 			{
-				IReportItemExecutor pageExecutor = new PageReader( this,
-						nextPage, loadPageFragment( nextPage ) );
-			nextPage = getNextPageNumber( );
-			return pageExecutor;
-		}
-		}
-		return null;
-	}
-
-	private long getNextPageNumber( )
-	{
-		// return the first page of the first range
-		if ( paginationType == IReportContentLoader.SINGLE_PAGE )
-		{
-			return -1;
-		}
-		if ( curPageRange == -1 )
-		{
-			if (outputPages.size( ) > 0)
-			{
-				curPageRange = 0;
-				long[] pageRange = (long[]) outputPages.get( curPageRange );
-				return pageRange[0];
-			}
-			return -1;
-		}
-		// we still have some pages remain
-		if ( curPageRange < outputPages.size( ) )
-		{
-			long pageNumber = nextPage + 1;
-			// test if it is in the current range
-			long[] pageRange = (long[]) outputPages.get( curPageRange );
-			if ( pageRange[0] <= pageNumber && pageRange[1] >= pageNumber )
-			{
-				return pageNumber;
-			}
-			// if it exceed the current page, use the first page of the next
-			// page range
-			curPageRange++;
-			if ( curPageRange < outputPages.size( ) )
-			{
-				pageRange = (long[]) outputPages.get( curPageRange );
-				return pageRange[0];
+				PageSection section = pageHint.getSection( i );
+				long left = section.startOffset;
+				long right = section.endOffset;
+				Long[] leftEdges = createEdges( left );
+				Long[] rightEdges = createEdges( right );
+				fragment.addFragment( leftEdges, rightEdges );
 			}
 		}
-		// all page has been outputed
-		return -1;
+		return fragment;
 	}
 
-	IPageContent loadPageContent( long pageNumber )
+	Fragment loadPageFragment( long pageNumber ) throws IOException
 	{
-		IPageHint pageHint = loadPageHint( pageNumber );
-		if ( pageHint != null )
-		{
-			long offset = pageHint.getOffset( );
-			// load the page reader full content
-			try
-			{
-				IContent pageContent = pageReader.loadContent( offset );
-				initializeContent( pageContent );
-				loadFullContent( pageReader, pageContent, null );
-				pageReader.unloadContent( offset );
-				return (IPageContent) pageContent;
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "Can't load the page content", ex );
-			}
-		}
-		return null;
-	}
-
-	private void loadFullContent( CachedReportContentReaderV3 reader,
-			IContent parent, IResultSet prset ) throws IOException
-	{
-		DocumentExtension docExt = (DocumentExtension) parent
-				.getExtension( IContent.DOCUMENT_EXTENSION );
-		long offset = docExt.getFirstChild( );
-		while ( offset != -1 )
-		{
-			IContent content = reader.loadContent( offset );
-			initializeContent( content );
-			IResultSet rset = openQuery( prset, content );
-			// execute extra intialization
-			initalizeContentVisitor.visit( content, null );
-
-			parent.getChildren( ).add( content );
-			loadFullContent( reader, content, rset == null ? prset : rset );
-			if ( rset != null )
-			{
-				closeQuery( rset );
-			}
-			reader.unloadContent( offset );
-			docExt = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			offset = docExt.getNext( );
-		}
-	}
-
-	Fragment loadPageFragment( long pageNumber )
-	{
-		Fragment fragment = new Fragment( );
-		IPageHint pageHint = loadPageHint( pageNumber );
+		Fragment fragment = new Fragment( new LongComparator( ) );
+		IPageHint pageHint = hintReader.getPageHint( pageNumber );
 		if ( pageHint != null )
 		{
 			int sectionCount = pageHint.getSectionCount( );
@@ -351,10 +130,11 @@ public class ReportPageReader extends ReportReader
 			{
 				try
 				{
-					long left = pageHint.getSectionStart( i );
-					long right = pageHint.getSectionEnd( i );
-					long[] leftEdges = createEdges( left );
-					long[] rightEdges = createEdges( right );
+					PageSection section = pageHint.getSection( i );
+					long left = section.startOffset;
+					long right = section.endOffset;
+					Long[] leftEdges = createEdges( left );
+					Long[] rightEdges = createEdges( right );
 					fragment.addFragment( leftEdges, rightEdges );
 				}
 				catch ( IOException ex )
@@ -366,52 +146,43 @@ public class ReportPageReader extends ReportReader
 		return fragment;
 	}
 
-	private long nextElement = -1;
-
-	IReportItemExecutor getNextElement( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.internal.executor.doc.ReportReader#getNextChild()
+	 */
+	public IReportItemExecutor getNextChild( )
 	{
-		if ( hasNextElement( ) )
+		if ( hasNextChild( ) )
 		{
-			assert nextElement != -1;
-			Fragment nextFrag = fragment.getFragment( nextElement );
-			ReportItemReader reader = manager.createExecutor( null,
-					nextElement, nextFrag );
-			long nextOffset = reader.findNextSibling( );
-			if ( nextOffset != -1 )
+			try
 			{
-				if ( !fragment.inFragment( nextOffset ) )
+				if ( paged )
 				{
-					// find in next segment
-					nextFrag = fragment.getNextFragment( nextOffset );
-					if ( nextFrag != null )
-					{
-						nextOffset = nextFrag.offset;
-					}
-					else
-					{
-						nextOffset = -1;
-					}
+					long pageNumber = pageIter.next( );
+					Fragment fragment = loadPageFragment( pageNumber );
+					return new BodyReader( this, fragment );
+				}
+				else
+				{
+					return bodyExecutor.getNextChild( );
 				}
 			}
-			nextElement = nextOffset;
-			return reader;
+			catch ( IOException ex )
+			{
+				context.addException( new EngineException(
+						"can't load the pages", ex ) );
+			}
 		}
 		return null;
-
 	}
 
-	boolean hasNextElement( )
+	public boolean hasNextChild( )
 	{
-		return ( nextElement != -1 );
-	}
-
-	long getFirstElementOffset( )
-	{
-		Fragment fstFrag = fragment.getNextFragment( -1 );
-		if ( fstFrag != null )
+		if ( paged )
 		{
-			return fstFrag.offset;
+			return pageIter.hasNext( );
 		}
-		return -1;
+		return bodyExecutor.hasNextChild( );
 	}
 }

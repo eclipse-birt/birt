@@ -31,17 +31,6 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
-
-	class DataItemExecutionState
-	{
-		Object lastValue;
-	}
-
-	/**
-	 * does the data content duplicate with the previous data content which
-	 * genertated by the same design
-	 */
-	boolean duplicated;
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
@@ -104,7 +93,7 @@ public class DataItemExecutor extends QueryItemExecutor
 				}
 			}
 		}		// should we suppress the duplicate
-		duplicated = false;
+/*		duplicated = false;
 		if ( dataDesign.getSuppressDuplicate( ) )
 		{
 			DataItemExecutionState state = (DataItemExecutionState) dataDesign
@@ -124,7 +113,7 @@ public class DataItemExecutor extends QueryItemExecutor
 				dataDesign.setExecutionState( state );
 			}
 			state.lastValue = value;
-		}
+		}*/
 		dataContent.setValue( value );
 
 		// get the mapping value
@@ -136,26 +125,23 @@ public class DataItemExecutor extends QueryItemExecutor
 					context );
 		}
 		
-		if ( !duplicated )
-		{
+//		if ( !duplicated )
+//		{
 			startTOCEntry( dataContent );
-			if (emitter != null)
-			{
-				emitter.startData( dataContent );
-			}
 			return dataContent;
-		}
+//		}
 		
-		return null;
+//		return null;
 	}
 	
 	public void close( )
 	{		
-		if ( !duplicated )
-		{
+//		if ( !duplicated )
+//		{
 			finishTOCEntry( );
-		}
+//		}
 		closeQuery( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.DATAITEM, this );
 	}
 }

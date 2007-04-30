@@ -408,6 +408,11 @@ public class PageContent extends AbstractContent implements IPageContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		return true;
+	}
+
 	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{

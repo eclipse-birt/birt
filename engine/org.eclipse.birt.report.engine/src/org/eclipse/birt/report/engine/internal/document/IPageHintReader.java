@@ -17,18 +17,16 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 /**
  * interfaces used to read the page hints.
- *
+ * 
  */
-public interface IPageHintReader
+public interface IPageHintReader extends IPageHintConstant
 {
 
-	void open( ) throws IOException;
+	int getVersion( );
 
 	void close( );
 
 	long getTotalPage( ) throws IOException;
 
 	IPageHint getPageHint( long pageNumber ) throws IOException;
-	
-	long findPage(long content) throws IOException;
 }

@@ -131,4 +131,13 @@ public class GroupContent extends AbstractContent implements IGroupContent
 				super.readField( version, filedId, in );
 		}
 	}
+
+	public boolean needSave( )
+	{
+		if ( headerRepeat != null )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
 }

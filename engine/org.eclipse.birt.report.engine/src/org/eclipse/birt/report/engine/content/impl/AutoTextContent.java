@@ -77,6 +77,11 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		return true;
+	}
+
 	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{

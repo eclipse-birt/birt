@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * 
  * report item executor manager
- *
+ * 
  */
 public class ExecutorManager
 {
@@ -73,11 +73,13 @@ public class ExecutorManager
 	protected static Logger log = Logger.getLogger( ExecutorManager.class
 			.getName( ) );
 
+	protected ReportExecutor executor;
+
 	/**
 	 * execution context
 	 */
 	protected ExecutionContext context;
-	
+
 	/**
 	 * the created content should pass out through this emitter
 	 */
@@ -98,15 +100,20 @@ public class ExecutorManager
 	 * @param context
 	 * @param visitor
 	 */
-	public ExecutorManager( ExecutionContext context, IContentEmitter emitter )
+	public ExecutorManager( ReportExecutor executor )
 	{
-		this.context = context;
-		this.emitter = emitter;
+		this.executor = executor;
+		this.context = executor.getContext( );
 		for ( int i = 0; i < NUMBER; i++ )
 		{
 			freeList[i] = new LinkedList( );
 		}
-		executorFactory = new ExecutorFactory();
+		executorFactory = new ExecutorFactory( );
+	}
+
+	long generateUniqueID( )
+	{
+		return executor.generateUniqueID( );
 	}
 
 	/**
@@ -156,9 +163,9 @@ public class ExecutorManager
 				return new RowExecutor( this );
 			case CELLITEM :
 				return new CellExecutor( this );
-			case LISTGROUPITEM:
+			case LISTGROUPITEM :
 				return new ListGroupExecutor( this );
-			case TABLEGROUPITEM:
+			case TABLEGROUPITEM :
 				return new TableGroupExecutor( this );
 			default :
 				throw new UnsupportedOperationException(
@@ -166,10 +173,11 @@ public class ExecutorManager
 		}
 	}
 
-	public ReportItemExecutor createExecutor(ReportItemExecutor parent, ReportItemDesign design)
+	public ReportItemExecutor createExecutor( ReportItemExecutor parent,
+			ReportItemDesign design )
 	{
 		ReportItemExecutor executor = executorFactory.createExecutor( design );
-		if (executor != null)
+		if ( executor != null )
 		{
 			executor.setParent( parent );
 			executor.setDesign( design );
@@ -188,89 +196,93 @@ public class ExecutorManager
 	public void releaseExecutor( int type, ReportItemExecutor itemExecutor )
 	{
 		assert ( type >= 0 ) && ( type < NUMBER );
-		itemExecutor.reset( );
 		freeList[type].add( itemExecutor );
 	}
-	
+
 	class ExecutorFactory extends DefaultReportItemVisitorImpl
 	{
-		public ReportItemExecutor createExecutor(ReportItemDesign design)
+
+		public ReportItemExecutor createExecutor( ReportItemDesign design )
 		{
-			return (ReportItemExecutor)design.accept( this, null );
+			return (ReportItemExecutor) design.accept( this, null );
 		}
-		public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
+
+		public Object visitAutoTextItem( AutoTextItemDesign autoText,
+				Object value )
 		{
-			return getItemExecutor(AUTOTEXTITEM);
+			return getItemExecutor( AUTOTEXTITEM );
 		}
 
 		public Object visitCell( CellDesign cell, Object value )
 		{
-			return getItemExecutor(CELLITEM);
+			return getItemExecutor( CELLITEM );
 		}
 
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
-			return getItemExecutor(DATAITEM);
+			return getItemExecutor( DATAITEM );
 		}
 
 		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
 		{
-			return getItemExecutor(EXTENDEDITEM);
+			return getItemExecutor( EXTENDEDITEM );
 		}
 
-		public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
+		public Object visitFreeFormItem( FreeFormItemDesign container,
+				Object value )
 		{
 			return null;
 		}
 
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
-			return getItemExecutor(GRIDITEM);
+			return getItemExecutor( GRIDITEM );
 		}
 
 		public Object visitImageItem( ImageItemDesign image, Object value )
 		{
-			return getItemExecutor(IMAGEITEM);
+			return getItemExecutor( IMAGEITEM );
 		}
 
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
-			return getItemExecutor(LABELITEM);
+			return getItemExecutor( LABELITEM );
 		}
 
 		public Object visitListBand( ListBandDesign band, Object value )
 		{
-			return getItemExecutor(LISTBANDITEM);
+			return getItemExecutor( LISTBANDITEM );
 		}
 
 		public Object visitListItem( ListItemDesign list, Object value )
 		{
-			return getItemExecutor(LISTITEM);
+			return getItemExecutor( LISTITEM );
 		}
 
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine, Object value )
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+				Object value )
 		{
-			return getItemExecutor(MULTILINEITEM);
+			return getItemExecutor( MULTILINEITEM );
 		}
 
 		public Object visitRow( RowDesign row, Object value )
 		{
-			return getItemExecutor(ROWITEM);
+			return getItemExecutor( ROWITEM );
 		}
 
 		public Object visitTableBand( TableBandDesign band, Object value )
 		{
-			return getItemExecutor(TABLEBANDITEM);
+			return getItemExecutor( TABLEBANDITEM );
 		}
 
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			return getItemExecutor(TABLEITEM);
+			return getItemExecutor( TABLEITEM );
 		}
 
 		public Object visitTemplate( TemplateDesign template, Object value )
 		{
-			return getItemExecutor(TEMPLATEITEM);
+			return getItemExecutor( TEMPLATEITEM );
 		}
 
 		public Object visitTextItem( TextItemDesign text, Object value )
@@ -287,9 +299,5 @@ public class ExecutorManager
 		{
 			return getItemExecutor( TABLEGROUPITEM );
 		}
-		
 	}
-	
-	
-
 }

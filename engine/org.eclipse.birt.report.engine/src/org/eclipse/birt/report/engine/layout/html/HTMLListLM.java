@@ -50,12 +50,13 @@ public class HTMLListLM extends HTMLBlockStackingLM
 				if ( header != null )
 				{
 					boolean pageBreak = context.allowPageBreak( );
-					boolean skipPageHint = context.getSkipPageHint( );
+					//boolean skipPageHint = context.getSkipPageHint( );
 					context.setAllowPageBreak( pageBreak );
-					context.setSkipPageHint( true );
+					//context.setSkipPageHint( true );
 					engine.layout( header, emitter );
 					context.setAllowPageBreak( pageBreak );
-					context.setSkipPageHint( skipPageHint );
+					//context.setSkipPageHint( skipPageHint );
+					context.endContentWithPageBreak( null );
 				}
 			}
 		}

@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 
 import com.ibm.icu.util.ULocale;
 
@@ -57,7 +56,7 @@ public class TransientReportDocument implements IReportDocument
 
 	public String getVersion( )
 	{
-		return ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0;
+		return document.getVersion( );
 	}
 
 	public String getName( )

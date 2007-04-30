@@ -11,18 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
 public class TemplateExecutor extends TextItemExecutor
 {
@@ -84,17 +77,13 @@ public class TemplateExecutor extends TextItemExecutor
 
 		processVisibility( templateDesign, textContent );
 		
-		if ( emitter != null )
-		{
-			emitter.startForeign( textContent );
-		}
-		
 		return textContent;
 	}
 	
 
 	public void close( )
 	{
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.TEMPLATEITEM, this );
 	}
 }

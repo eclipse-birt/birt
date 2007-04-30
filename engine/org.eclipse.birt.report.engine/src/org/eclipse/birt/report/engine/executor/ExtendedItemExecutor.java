@@ -93,10 +93,6 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( extContent );
-		if ( emitter != null )
-		{
-			emitter.startForeign( extContent );
-		}
 		
 		return extContent;
 	}
@@ -105,6 +101,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.EXTENDEDITEM, this );
 	}
 	

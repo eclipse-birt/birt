@@ -30,8 +30,8 @@ import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 
 /**
@@ -110,7 +110,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	}
 
 	private void initializeContentEmitter( IContentEmitter emitter,
-			ReportExecutor executor )
+			IReportExecutor executor )
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -163,10 +163,9 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			Report reportDesign = executionContext.getReport( );
-			ReportExecutor executor = new ReportExecutor( executionContext,
-					reportDesign, null );
-			IReportExecutor lExecutor = new LocalizedReportExecutor(
+			IReportExecutor executor = new ReportExecutor( executionContext );
+			executor = new SuppressDuplciateReportExecutor( executor );
+			executor = new LocalizedReportExecutor(
 					executionContext, executor );
 			executionContext.setExecutor( executor );
 			initializeContentEmitter( emitter, executor );
@@ -204,7 +203,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 
-				layoutEngine.layout( lExecutor, outputEmitters, paginate );
+				layoutEngine.layout( executor, outputEmitters, paginate );
 			}
 
 			closeRender( );

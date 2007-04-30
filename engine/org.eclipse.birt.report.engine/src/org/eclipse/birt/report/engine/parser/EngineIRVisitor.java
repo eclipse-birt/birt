@@ -201,6 +201,12 @@ class EngineIRVisitor extends DesignVisitor
 	StyleDeclaration inheritableReportStyle;
 
 	/**
+	 * Used to fix half-baked handle, such as: fix the new added empty cell
+	 * created in format irregular table or grid. fix default master page.
+	 */
+	long newCellId = -1;
+	
+	/**
 	 * constructor
 	 * 
 	 * @param handle
@@ -276,6 +282,7 @@ class EngineIRVisitor extends DesignVisitor
 		if ( pageSlot.getCount( ) < 1 )
 		{
 			MasterPageDesign masterPage = new SimpleMasterPageDesign( );
+			masterPage.setID( generateUniqueID( ) );
 			masterPage.setName( "NewSimpleMasterPage" );
 			masterPage.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LETTER );		
 			masterPage.setOrientation( "Auto" );
@@ -1375,6 +1382,8 @@ class EngineIRVisitor extends DesignVisitor
 	private ListBandDesign createListBand( SlotHandle elements )
 	{
 		ListBandDesign band = new ListBandDesign( );
+		
+		band.setID( generateUniqueID( ) );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
@@ -1553,6 +1562,8 @@ class EngineIRVisitor extends DesignVisitor
 	private TableBandDesign createTableBand( SlotHandle elements )
 	{
 		TableBandDesign band = new TableBandDesign( );
+		
+		band.setID( generateUniqueID( ) );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
@@ -2567,5 +2578,10 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupElementIDMap( ReportElementDesign rptElement )
 	{
 		report.setReportItemInstanceID( rptElement.getID( ), rptElement );
+	}
+	
+	protected long generateUniqueID( )
+	{
+		return newCellId--;
 	}
 }

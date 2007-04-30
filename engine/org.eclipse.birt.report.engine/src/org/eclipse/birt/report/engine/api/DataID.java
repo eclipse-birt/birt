@@ -46,6 +46,20 @@ public class DataID
 		append( buffer );
 		return buffer.toString( );
 	}
+	
+	public boolean equals( Object a )
+	{
+		if ( a instanceof DataID )
+		{
+			DataID aid = (DataID) a;
+			if ( rowId != aid.rowId )
+			{
+				return false;
+			}
+			return dataSet.equals( aid.dataSet );
+		}
+		return false;
+	}
 
 	static DataID parse( String dataId )
 	{

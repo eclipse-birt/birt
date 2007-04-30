@@ -18,12 +18,8 @@ public class ListGroupExecutor extends GroupExecutor
 		
 		handlePageBreakAfterExclusingLast( );
 		handlePageBreakAfter();
-		IListGroupContent groupContent = (IListGroupContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endListGroup( groupContent );
-		}
 		finishGroupTOCEntry( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.LISTGROUPITEM, this );
 	}
 
@@ -43,10 +39,6 @@ public class ListGroupExecutor extends GroupExecutor
 		handlePageBreakAfterOfPreviousGroup( );
 		handlePageBreakBefore();
 		startGroupTOCEntry( groupContent );
-		if ( emitter != null )
-		{
-			emitter.startListGroup( groupContent );
-		}
 
 		// prepare to execute the children
 		prepareToExecuteChildren( );

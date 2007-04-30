@@ -46,16 +46,17 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
  */
 public class ReportContentReaderV3
 {
+
 	protected static Logger logger = Logger
 			.getLogger( ReportContentReaderV3.class.getName( ) );
 
 	protected ReportContent reportContent;
 	protected RAInputStream stream;
 	protected int version = -1;
-	
+
 	protected final static int INDEX_ENTRY_SIZE_V0 = 40;
 	protected final static int INDEX_ENTRY_SIZE_V1 = 24;
-	
+
 	protected final static int VERSION_0 = 0;
 	protected final static int VERSION_1 = 1;
 	protected final static int VERSION_SIZE = 4;
@@ -65,28 +66,40 @@ public class ReportContentReaderV3
 	 */
 	protected long offset;
 
+	protected boolean isEmpty = false;
+
 	public ReportContentReaderV3( ReportContent reportContent,
 			RAInputStream stream ) throws IOException
 	{
 		this.reportContent = reportContent;
 		this.stream = stream;
-		if( this.stream.length( ) >= 4 )
+		long length = stream.length( );
+		if ( this.stream.length( ) >= 4 )
 		{
 			stream.seek( 0 );
 			int iVersion = stream.readInt( );
-			if( -1 == iVersion)
+			if ( -1 == iVersion )
 			{
 				version = VERSION_0;
 			}
 			else
 			{
 				version = iVersion;
+				if ( version == VERSION_1 && length == 4 )
+				{
+					isEmpty = true;
+				}
 			}
 		}
 		else
 		{
-			throw new IOException("unrecognized stream version!");
+			throw new IOException( "unrecognized stream version!" );
 		}
+	}
+
+	public boolean isEmpty( )
+	{
+		return isEmpty;
 	}
 
 	public void close( )
@@ -116,19 +129,19 @@ public class ReportContentReaderV3
 	 */
 	protected IContent readObject( long offset ) throws IOException
 	{
-		if( VERSION_0 == version )
+		if ( VERSION_0 == version )
 		{
 			stream.seek( offset );
 		}
-		else if( VERSION_1 == version )
+		else if ( VERSION_1 == version )
 		{
 			stream.seek( VERSION_SIZE + offset );
 		}
 		else
 		{
-			throw new IOException("unrecognized stream version!");
+			throw new IOException( "unrecognized stream version!" );
 		}
-		
+
 		int size = stream.readInt( );
 		byte[] buffer = new byte[size];
 		stream.readFully( buffer, 0, size );
@@ -248,74 +261,66 @@ public class ReportContentReaderV3
 	public IContent readContent( long index ) throws IOException
 	{
 
-		if( VERSION_0 == version )
+		if ( VERSION_0 == version )
 		{
 			return readContentV0( index );
 		}
-		else if( VERSION_1 == version )
+		else if ( VERSION_1 == version )
 		{
 			return readContentV1( index );
 		}
 		else
 		{
-			throw new IOException("unrecognized stream version!");
+			throw new IOException( "unrecognized stream version!" );
 		}
 	}
-	
+
 	private IContent readContentV0( long index ) throws IOException
 	{
-		if ( index >= stream.length( )  || index < 0)
+		if ( index >= stream.length( ) || index < 0 )
 		{
-			throw new IOException("Invalid content offset:" + index);
+			throw new IOException( "Invalid content offset:" + index );
 		}
-		DocumentExtension docExt  = readDocumentExtensionV0( index );
+		DocumentExtension docExt = readDocumentExtensionV0( index );
 		IContent content = readObject( index + INDEX_ENTRY_SIZE_V0 );
-		if (content != null)
+		if ( content != null )
 		{
-			content.setExtension(IContent.DOCUMENT_EXTENSION, docExt);
+			content.setExtension( IContent.DOCUMENT_EXTENSION, docExt );
 		}
 		return content;
 	}
-	
+
 	private IContent readContentV1( long index ) throws IOException
 	{
-		if ( index >= stream.length( )  || index < 0)
-		{
-			throw new IOException("Invalid content offset:" + index);
-		}
-		DocumentExtension docExt  = readDocumentExtensionV1( index );
+		DocumentExtension docExt = readDocumentExtensionV1( index );
 		IContent content = readObject( index + INDEX_ENTRY_SIZE_V1 );
-		if (content != null)
+		if ( content != null )
 		{
-			content.setExtension(IContent.DOCUMENT_EXTENSION, docExt);
+			content.setExtension( IContent.DOCUMENT_EXTENSION, docExt );
 		}
 		return content;
 	}
-	
+
 	private DocumentExtension readDocumentExtension( long index )
 			throws IOException
 	{
-		if( VERSION_0 == version )
+		if ( VERSION_0 == version )
 		{
 			return readDocumentExtensionV0( index );
 		}
-		else if( VERSION_1 == version )
+		else if ( VERSION_1 == version )
 		{
 			return readDocumentExtensionV1( index );
 		}
 		else
 		{
-			throw new IOException("unrecognized stream version!");
+			throw new IOException( "unrecognized stream version!" );
 		}
 	}
-	
+
 	private DocumentExtension readDocumentExtensionV0( long index )
 			throws IOException
 	{
-		if ( index >= stream.length( ) || index < 0 )
-		{
-			return null;
-		}
 		stream.seek( index );
 		index = stream.readLong( );
 		long parent = stream.readLong( );
@@ -329,14 +334,10 @@ public class ReportContentReaderV3
 		docExt.setFirstChild( child );
 		return docExt;
 	}
-	
+
 	private DocumentExtension readDocumentExtensionV1( long index )
 			throws IOException
 	{
-		if ( index >= stream.length( ) || index < 0 )
-		{
-			return null;
-		}
 		stream.seek( VERSION_SIZE + index );
 		long parent = stream.readLong( );
 		long next = stream.readLong( );

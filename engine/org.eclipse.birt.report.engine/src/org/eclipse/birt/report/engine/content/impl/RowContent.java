@@ -109,6 +109,11 @@ public class RowContent extends AbstractContent implements IRowContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		return true;
+	}
+
 	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{

@@ -63,7 +63,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * executor manager used to create this executor.
 	 */
 	protected ExecutorManager manager;
-	
+
 	/**
 	 * the report content
 	 */
@@ -78,30 +78,30 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * parent executor
 	 */
 	protected ReportItemExecutor parent;
-	
+
 	/**
 	 * the executed report design
 	 */
 	protected ReportItemDesign design;
-	
+
 	/**
-	 * emitter used to output the report content
-	 */
-	protected IContentEmitter emitter;
-	/**
-	 *  the create report content
+	 * the create report content
 	 */
 	protected IContent content;
-	
+
 	/**
 	 * rset used to execute the parent
 	 */
 	protected IResultSet rset;
-	
+
 	/**
 	 * toc created by this report item
 	 */
 	protected TOCEntry tocEntry;
+
+	protected long uniqueId;
+
+	protected InstanceID instanceId;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -115,9 +115,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected ReportItemExecutor( ExecutorManager manager )
 	{
 		this.manager = manager;
-		this.emitter = manager.emitter;
 		this.context = manager.context;
 		this.report = context.getReportContent( );
+		this.instanceId = null;
 	}
 
 	/**
@@ -164,58 +164,60 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	{
 		return null;
 	}
-	
+
 	/**
 	 * reset the state of the report item executor. This operation will reset
 	 * all property of this object
 	 * 
 	 */
-	void reset( )
+	public void close( )
 	{
 		tocEntry = null;
+		uniqueId = 0;
+		instanceId = null;
 	}
-	
-	void setParent(ReportItemExecutor parent)
+
+	void setParent( ReportItemExecutor parent )
 	{
 		this.parent = parent;
 	}
-	
-	ReportItemExecutor getParent()
+
+	ReportItemExecutor getParent( )
 	{
 		return parent;
 	}
-	
-	IContent getParentContent()
+
+	IContent getParentContent( )
 	{
-		if (parent != null)
+		if ( parent != null )
 		{
 			return parent.getContent( );
 		}
 		return null;
 	}
-	
-	void setDesign(ReportItemDesign design)
+
+	void setDesign( ReportItemDesign design )
 	{
 		this.design = design;
 		context.setItemDesign( design );
 	}
-	
-	ReportItemDesign getDesign()
+
+	ReportItemDesign getDesign( )
 	{
 		return design;
 	}
-	
-	IContent getContent()
+
+	IContent getContent( )
 	{
 		return content;
 	}
-	
-	void setContent(IContent content)
+
+	void setContent( IContent content )
 	{
 		context.setContent( content );
 		this.content = content;
 	}
-	
+
 	Object evaluate( String expr )
 	{
 		return context.evaluate( expr );
@@ -327,27 +329,20 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					}
 
 					String reportName = drill.getReportName( );
-					/* we do not set absoluted path here. we now changed this in render time
-					ReportDesignHandle design = context.getDesign( );
-					if ( design != null )
-					{
-						URL reportURL = design.findResource( reportName,
-								IResourceLocator.LIBRARY );
-						if ( reportURL != null )
-						{
-							String reportFile = reportURL.getFile( );
-							if ( reportFile != null )
-							{
-								reportName = reportFile;
-							}
-						}
-					}
-					*/
+					/*
+					 * we do not set absoluted path here. we now changed this in
+					 * render time ReportDesignHandle design =
+					 * context.getDesign( ); if ( design != null ) { URL
+					 * reportURL = design.findResource( reportName,
+					 * IResourceLocator.LIBRARY ); if ( reportURL != null ) {
+					 * String reportFile = reportURL.getFile( ); if ( reportFile !=
+					 * null ) { reportName = reportFile; } } }
+					 */
 					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
-					obj.setDrillThrough( bookmark, isBookmark, reportName, paramsVal, null,
-							action.getTargetWindow( ), format );
+					obj.setDrillThrough( bookmark, isBookmark, reportName,
+							paramsVal, null, action.getTargetWindow( ), format );
 
 					itemContent.setHyperlinkAction( obj );
 					break;
@@ -412,7 +407,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
 		}
 	}
-	
+
 	/**
 	 * Sets the visibility property for column.
 	 */
@@ -462,45 +457,66 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			column.setVisibleFormat( buffer.toString( ) );
 		}
 	}
-	
+
 	protected DataID getDataID( )
 	{
-		IResultSet curRset = getResultSet( );
-		if ( curRset != null )
+		if ( parent != null )
 		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
-			return new DataID( dataSetID, position );
+			IResultSet rset = parent.getResultSet( );
+			if ( rset != null )
+			{
+				DataSetID dataSetID = rset.getID( );
+				long position = rset.getCurrentPosition( );
+				return new DataID( dataSetID, position );
+			}
 		}
 		return null;
+	}
+	
+	protected long generateUniqueID( )
+	{
+		if ( parent != null )
+		{
+			return parent.uniqueId++;
+		}
+		return manager.generateUniqueID( );
+	}
+	
+	protected InstanceID getInstanceID( )
+	{
+		if ( instanceId == null )
+		{
+			InstanceID pid = parent == null ? null : parent.getInstanceID( );
+			long uid = generateUniqueID( );
+			long id = design == null ? -1 : design.getID( );
+			DataID dataId = getDataID( );
+			instanceId = new InstanceID( pid, uid, id, dataId );
+		}
+		return instanceId;
 	}
 
 	protected void initializeContent( ReportElementDesign design,
 			IContent content )
 	{
-		InstanceID pid = null;
 		IContent parent = getParentContent( );
 		if ( parent != null )
 		{
-			pid = parent.getInstanceID( );
 			content.setParent( parent );
 		}
-		InstanceID id = new InstanceID( pid, design == null ? -1 : design
-				.getID( ), getDataID( ) );
+		InstanceID id = getInstanceID( );
 		content.setInstanceID( id );
 		content.setGenerateBy( design );
 	}
-
 	
-	TOCEntry getParentTOCEntry()
+	TOCEntry getParentTOCEntry( )
 	{
-		if (parent != null)
+		if ( parent != null )
 		{
-			if (parent.tocEntry != null)
+			if ( parent.tocEntry != null )
 			{
 				return parent.tocEntry;
 			}
-			return parent.getParentTOCEntry();
+			return parent.getParentTOCEntry( );
 		}
 		return null;
 	}
@@ -555,7 +571,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			if (tocEntry != null)
+			if ( tocEntry != null )
 			{
 				tocBuilder.closeEntry( tocEntry );
 			}
@@ -567,7 +583,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			TOCEntry entry = getParentTOCEntry();
+			TOCEntry entry = getParentTOCEntry( );
 			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
 			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
 					group.getBookmark( ), hiddenFormats );
@@ -587,23 +603,18 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			tocBuilder.closeGroupEntry( tocEntry );
 		}
 	}
-	
-	void setResultSet(IResultSet rset)
-	{
-		this.rset = rset;
-	}
-	
-	IResultSet getResultSet()
+
+	IResultSet getResultSet( )
 	{
 		return rset;
 	}
-	
-	IResultSet getParentResultSet()
+
+	IResultSet getParentResultSet( )
 	{
-		if (parent != null)
+		if ( parent != null )
 		{
 			IResultSet rset = parent.getResultSet( );
-			if (rset == null)
+			if ( rset == null )
 			{
 				rset = parent.getParentResultSet( );
 			}
@@ -611,8 +622,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		return null;
 	}
-	
-	protected void restoreResultSet()
+
+	protected void restoreResultSet( )
 	{
 		context.setResultSet( getParentResultSet( ) );
 	}

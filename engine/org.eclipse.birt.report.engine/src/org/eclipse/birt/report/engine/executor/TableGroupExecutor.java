@@ -16,12 +16,8 @@ public class TableGroupExecutor extends GroupExecutor
 	{
 		handlePageBreakAfterExclusingLast( );
 		handlePageBreakAfter( );
-		ITableGroupContent groupContent = (ITableGroupContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endTableGroup( groupContent );
-		}
 		finishGroupTOCEntry( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.TABLEGROUPITEM, this );
 	}
 
@@ -42,10 +38,6 @@ public class TableGroupExecutor extends GroupExecutor
 		handlePageBreakBefore( );
 
 		startGroupTOCEntry( groupContent );
-		if ( emitter != null )
-		{
-			emitter.startTableGroup( groupContent );
-		}
 
 		//prepare to execute the children
 		prepareToExecuteChildren();

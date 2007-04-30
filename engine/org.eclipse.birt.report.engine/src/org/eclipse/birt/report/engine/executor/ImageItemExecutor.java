@@ -113,10 +113,6 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 		
 		startTOCEntry( imageContent );
-		if ( emitter != null )
-		{
-			emitter.startImage( imageContent );
-		}
 		
 		return imageContent;
 	}
@@ -125,6 +121,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
+		super.close( );
 		manager.releaseExecutor( ExecutorManager.IMAGEITEM, this );
 	}
 

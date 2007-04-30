@@ -13,16 +13,9 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.BandDesign;
-import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
-import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
-import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -97,13 +90,19 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * <li> create the footer.
 	 * <li> call the onFinish event.
 	 */
-	public void reset( )
+	public void close( )
 	{
 		rsetCursor = -1;
 		needPageBreak = false;
 		pageRowCount = 0;
 		pageBreakInterval = -1;
-		super.reset( );
+		executableElements = null;
+		// total bands in the executabelBands
+		totalElements = 0;
+		// band to be executed
+		currentElement = 0;
+		endOfListing = false;
+		super.close( );
 	}
 	
 	void clearSoftBreak()
@@ -124,129 +123,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		return (pageBreakInterval>0) && (pageBreakInterval<=pageRowCount);
 	}
 	
-
-	/**
-	 * clear the execution state of the elements
-	 * 
-	 * @param list
-	 */
-	protected void clearDuplicateFlags( ReportItemDesign list )
-	{
-		if ( list != null )
-		{
-			list.accept( new ClearDuplicateFlagVisitor( ), null );
-		}
-	}
-
-	protected class ClearDuplicateFlagVisitor
-			extends
-				DefaultReportItemVisitorImpl
-	{
-
-		public Object visitFreeFormItem( FreeFormItemDesign container,
-				Object value )
-		{
-			for ( int i = 0; i < container.getItemCount( ); i++ )
-			{
-				container.getItem( i ).accept( this, value );
-			}
-			return value;
-		}
-
-		public Object visitListing( ListingDesign list, Object value )
-		{
-			BandDesign header = list.getHeader( );
-			if ( header != null )
-			{
-				value = header.accept( this, value );
-			}
-			for ( int i = 0; i < list.getGroupCount( ); i++ )
-			{
-				GroupDesign group = list.getGroup( i );
-				BandDesign groupHeader = group.getHeader( );
-				if ( groupHeader != null )
-				{
-					value = groupHeader.accept( this, value );
-				}
-				BandDesign groupFooter = group.getFooter( );
-				if ( groupFooter != null )
-				{
-					value = groupFooter.accept( this, value );
-				}
-			}
-
-			BandDesign detail = list.getDetail( );
-			if ( detail != null )
-			{
-				value = detail.accept( this, value );
-			}
-
-			BandDesign footer = list.getFooter( );
-			if ( footer != null )
-			{
-				value = footer.accept( this, value );
-			}
-			return null;
-		}
-
-		public Object visitDataItem( DataItemDesign data, Object value )
-		{
-			data.setExecutionState( null );
-			return value;
-		}
-
-		public Object visitGridItem( GridItemDesign grid, Object value )
-		{
-			for ( int i = 0; i < grid.getRowCount( ); i++ )
-			{
-				value = grid.getRow( i ).accept( this, value );
-			}
-			return value;
-		}
-
-		public Object visitRow( RowDesign row, Object value )
-		{
-			for ( int i = 0; i < row.getCellCount( ); i++ )
-			{
-				value = visitCell( row.getCell( i ), value );
-			}
-			return value;
-		}
-
-		public Object visitCell( CellDesign cell, Object value )
-		{
-			for ( int i = 0; i < cell.getContentCount( ); i++ )
-			{
-				value = cell.getContent( i ).accept( this, value );
-			}
-			return value;
-		}
-
-		public Object visitBand(BandDesign band, Object value)
-		{
-			for ( int i = 0; i < band.getContentCount( ); i++ )
-			{
-				value = band.getContent( i ).accept( this, value );
-			}
-			return value;
-		}
-
-		public Object visitGroup( GroupDesign group, Object value )
-		{
-			BandDesign header = group.getHeader( );
-			if ( header != null )
-			{
-				value = header.accept( this, value );
-			}
-			BandDesign footer = group.getFooter( );
-			if ( footer != null )
-			{
-				value = footer.accept( this, value );
-			}
-			return value;
-		}
-	}
-
 	public boolean hasNextChild( )
 	{
 		if ( currentElement < totalElements )
@@ -338,7 +214,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 		
 		// clear the duplicate flag in the listing
-		clearDuplicateFlags( listingDesign );
+		SuppressDuplicateUtil.clearDuplicateFlags( listingDesign );
 	}
 
 	void collectExecutableElements( )

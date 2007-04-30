@@ -1,32 +1,38 @@
+
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.util.LinkedList;
 
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+
 /**
  * Manager used to create the report item readers.
  * 
- * It use a free list to store the unused readres, and after the 
- * reader is closed, it should be return to the freelist, so that
- * it can be resued by others.
+ * It use a free list to store the unused readres, and after the reader is
+ * closed, it should be return to the freelist, so that it can be resued by
+ * others.
  * 
- *  Once the caller close the report item reader, the reader can't be
- *  used any more.
+ * Once the caller close the report item reader, the reader can't be used any
+ * more.
  */
 class ReportItemReaderManager
 {
-	protected LinkedList freeList = new LinkedList();
-	protected AbstractReportReader reader;
 
-	ReportItemReaderManager (AbstractReportReader reader )
+	protected LinkedList freeList = new LinkedList( );
+	protected ExecutionContext context;
+
+	ReportItemReaderManager( ExecutionContext context )
 	{
-		this.reader = reader;
+		this.context = context;
 	}
-	
-	ReportItemReader createExecutor(ReportItemReader parent, long offset)
+
+	ReportItemReader createExecutor( ReportItemReader parent, long offset )
 	{
-		return createExecutor(parent, offset, null);
+		return createExecutor( parent, offset, null );
 	}
-	ReportItemReader createExecutor(ReportItemReader parent, long offset, Fragment frag)
+
+	ReportItemReader createExecutor( ReportItemReader parent, long offset,
+			Fragment frag )
 	{
 		ReportItemReader executor = null;
 		if ( !freeList.isEmpty( ) )
@@ -35,9 +41,9 @@ class ReportItemReaderManager
 		}
 		else
 		{
-			executor = new ReportItemReader( this );
+			executor = new PooledReportItemReader( this );
 		}
-		executor.initialize( reader, parent, offset , frag);
+		executor.initialize( parent, offset, frag );
 		return executor;
 	}
 

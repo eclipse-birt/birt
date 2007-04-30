@@ -64,6 +64,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 
 public class ReportContentLoaderV2 implements IReportContentLoader
@@ -118,8 +119,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			reader.open( ReportDocumentConstants.CONTENT_STREAM );
 			pageReader = new ReportContentReaderV2( reportContent, reportDoc );
 			pageReader.open( ReportDocumentConstants.PAGE_STREAM );
-			hintReader = new PageHintReaderV2( reportDoc );
-			hintReader.open( );
+			hintReader = new PageHintReaderV2( reportDoc.getArchive( ) );
 		}
 		catch ( IOException ex )
 		{
@@ -274,8 +274,9 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 		for ( int i = 0; i < pageHint.getSectionCount( ); i++ )
 		{
-			long start = pageHint.getSectionStart( i );
-			long end = pageHint.getSectionEnd( i );
+			PageSection section = pageHint.getSection( i );
+			long start = section.startOffset;
+			long end = section.endOffset;
 			if ( start != -1 && end != -1 )
 			{
 				try

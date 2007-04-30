@@ -30,7 +30,7 @@ public class PageHintReader implements IPageHintReader
 
 	IPageHintReader reader;
 
-	public PageHintReader( IReportDocument document )
+	public PageHintReader( IReportDocument document ) throws IOException
 	{
 		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
 				.equals( document.getVersion( ) ) )
@@ -39,13 +39,13 @@ public class PageHintReader implements IPageHintReader
 		}
 		else
 		{
-			this.reader = new PageHintReaderV2( document );
+			this.reader = new PageHintReaderV2( document.getArchive( ) );
 		}
 	}
 
-	public void open( ) throws IOException
+	public int getVersion( )
 	{
-		reader.open( );
+		return reader.getVersion( );
 	}
 
 	public void close( )
@@ -61,10 +61,5 @@ public class PageHintReader implements IPageHintReader
 	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
 		return reader.getPageHint( pageNumber );
-	}
-
-	public long findPage( long content ) throws IOException
-	{
-		return reader.findPage( content );
 	}
 }

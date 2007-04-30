@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.presentation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -90,7 +93,7 @@ public class ReportDocumentBuilder
 	/**
 	 * used to write the content stream
 	 */
-	protected IContentEmitter contentEmitter;
+	protected ContentEmitter contentEmitter;
 	/**
 	 * used to write the page content stream.
 	 */
@@ -157,6 +160,62 @@ public class ReportDocumentBuilder
 		pageHandler = handler;
 	}
 
+	protected void ensureContentSaved( IReportContentWriter writer,
+			IContent content ) throws IOException
+	{
+		DocumentExtension docExt = (DocumentExtension) content
+				.getExtension( IContent.DOCUMENT_EXTENSION );
+		if ( docExt == null )
+		{
+			IContent parent = (IContent) content.getParent( );
+
+			if ( parent != null && parent != parent.getReportContent( ).getRoot( ) )
+			{
+				ensureContentSaved( writer, parent );
+			}
+			writer.writeContent( content );
+		}
+	}
+
+	long writeContent( IReportContentWriter writer, IContent content )
+			throws IOException
+	{
+		IContent parent = (IContent) content.getParent( );
+		if ( parent != null && parent != parent.getReportContent().getRoot() )
+		{
+			ensureContentSaved( writer, parent );
+		}
+		return writer.writeContent( content );
+	}
+
+	long writeFullContent( IReportContentWriter writer, IContent content )
+			throws IOException
+	{
+		long offset = writeContent( writer, content );
+		Iterator iter = content.getChildren( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IContent child = (IContent) iter.next( );
+			writeFullContent( writer, child );
+		}
+		return offset;
+	}
+
+	private boolean needSave( IContent content )
+	{
+		InstanceID id = content.getInstanceID( );
+		if ( id == null || id.getComponentID( ) == -1 )
+		{
+			return true;
+		}
+		if ( content instanceof AbstractContent )
+		{
+			return ( (AbstractContent) content ).needSave( );
+		}
+		return true;
+	}
+
+	
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
@@ -208,16 +267,18 @@ public class ReportDocumentBuilder
 			document.saveReportletsIdIndex( reportletsIndexById );
 			document.saveReprotletsBookmarkIndex( reportletsIndexByBookmark );
 		}
-
+		
 		public void startContent( IContent content )
 		{
 			if ( writer != null )
 			{
+				if ( !needSave( content ) )
+				{
+					return;
+				}
 				try
 				{
-					// save the contents into the content stream.
-					long offset = writer.writeContent( content );
-
+					long offset = writeContent( writer, content );
 					// save the reportlet index
 					Object generateBy = content.getGenerateBy( );
 					if ( generateBy instanceof TableItemDesign
@@ -227,7 +288,7 @@ public class ReportDocumentBuilder
 						InstanceID iid = content.getInstanceID( );
 						if ( iid != null )
 						{
-							String strIID = iid.toString( );
+							String strIID = iid.toUniqueString( );
 							if ( reportletsIndexById.get( strIID ) == null )
 							{
 								reportletsIndexById.put( strIID, new Long(
@@ -248,7 +309,7 @@ public class ReportDocumentBuilder
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Write content error" );
+					logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
 					close( );
 				}
 			}
@@ -262,14 +323,14 @@ public class ReportDocumentBuilder
 	class PageEmitter extends ContentEmitterAdapter
 	{
 
-		IReportContentWriter writer;
+		IReportContentWriter pageWriter;
 
 		protected void open( )
 		{
 			try
 			{
-				writer = new ReportContentWriterV3( document );
-				writer.open( ReportDocumentConstants.PAGE_STREAM );
+				pageWriter = new ReportContentWriterV3( document );
+				pageWriter.open( ReportDocumentConstants.PAGE_STREAM );
 			}
 			catch ( IOException ex )
 			{
@@ -281,11 +342,11 @@ public class ReportDocumentBuilder
 
 		protected void close( )
 		{
-			if ( writer != null )
+			if ( pageWriter != null )
 			{
-				writer.close( );
+				pageWriter.close( );
 			}
-			writer = null;
+			pageWriter = null;
 		}
 
 		public void start( IReportContent report )
@@ -308,7 +369,7 @@ public class ReportDocumentBuilder
 			// write the page contents
 			try
 			{
-				pageOffset = writer.writeFullContent( page );
+				pageOffset = writeFullContent( pageWriter, page );
 			}
 			catch ( IOException ex )
 			{
@@ -334,7 +395,7 @@ public class ReportDocumentBuilder
 	class LayoutPageHandler implements ILayoutPageHandler
 	{
 
-		IPageHintWriter writer;
+		IPageHintWriter hintWriter;
 
 		LayoutPageHandler( )
 		{
@@ -342,19 +403,17 @@ public class ReportDocumentBuilder
 
 		boolean ensureOpen( )
 		{
-			if ( writer != null )
+			if ( hintWriter != null )
 			{
 				return true;
 			}
-			writer = new PageHintWriterV2( document );
 			try
 			{
-				writer.open( );
+				hintWriter = new PageHintWriterV2( document.getArchive( ) );
 			}
 			catch ( IOException ex )
 			{
 				logger.log( Level.SEVERE, "Can't open the hint stream", ex );
-				close( );
 				return false;
 			}
 			return true;
@@ -362,11 +421,11 @@ public class ReportDocumentBuilder
 
 		protected void close( )
 		{
-			if ( writer != null )
+			if ( hintWriter != null )
 			{
-				writer.close( );
+				hintWriter.close( );
 			}
-			writer = null;
+			hintWriter = null;
 		}
 
 		void writeTotalPage( long pageNumber )
@@ -375,7 +434,7 @@ public class ReportDocumentBuilder
 			{
 				try
 				{
-					writer.writeTotalPage( pageNumber );
+					hintWriter.writeTotalPage( pageNumber );
 				}
 				catch ( IOException ex )
 				{
@@ -392,7 +451,7 @@ public class ReportDocumentBuilder
 			{
 				try
 				{
-					writer.writePageHint( pageHint );
+					hintWriter.writePageHint( pageHint );
 				}
 				catch ( IOException ex )
 				{
@@ -403,17 +462,47 @@ public class ReportDocumentBuilder
 			}
 		}
 
-		protected long getOffset( IContent content )
+		private long getContentIndex( IContent content )
 		{
 			DocumentExtension docExt = (DocumentExtension) content
 					.getExtension( IContent.DOCUMENT_EXTENSION );
 			if ( docExt != null )
 			{
-				return docExt.getIndex( );
+				long offset = docExt.getIndex( );
+				if ( offset != -1 )
+				{
+					return offset;
+				}
+				return docExt.getPrevious( );
 			}
 			return -1;
+
 		}
 
+		private InstanceIndex[] createInstanceIndexes( IContent content )
+		{
+			LinkedList indexes = new LinkedList( );
+
+			while ( content != null
+					&& content != content.getReportContent( ).getRoot( ) )
+			{
+				InstanceID id = content.getInstanceID( );
+				long offset = getContentIndex( content );
+				indexes.addFirst( new InstanceIndex( id, offset ) );
+				content = (IContent) content.getParent( );
+			}
+
+			return (InstanceIndex[]) indexes.toArray( new InstanceIndex[]{} );
+		}
+
+		private PageSection createPageSection( IContent start, IContent end )
+		{
+			PageSection section = new PageSection( );
+			section.starts = createInstanceIndexes( start );
+			section.ends = createInstanceIndexes( end );
+			return section;
+		}
+	
 		public void onPage( long pageNumber, Object context )
 		{
 			if ( context instanceof HTMLLayoutContext )
@@ -442,9 +531,8 @@ public class ReportDocumentBuilder
 					for ( int i = 0; i < pageHint.size( ); i++ )
 					{
 						IContent[] range = (IContent[]) pageHint.get( i );
-						long startOffset = getOffset( range[0] );
-						long endOffset = getOffset( range[1] );
-						hint.addSection( startOffset, endOffset );
+						PageSection section = createPageSection( range[0], range[1]);
+						hint.addSection( section );
 					}
 					writePageHint( hint );
 				}

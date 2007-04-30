@@ -222,4 +222,21 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		if ( rawType != null )
+		{
+			return true;
+		}
+		if ( rawValue != null || rawKey != null )
+		{
+			return true;
+		}
+		if ( altText != null || altTextKey != null )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
+
 }

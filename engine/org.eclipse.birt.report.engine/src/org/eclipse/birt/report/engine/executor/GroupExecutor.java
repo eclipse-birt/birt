@@ -1,8 +1,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -23,39 +21,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	{
 		super( manager );
 	}
-	
-	protected DataID getDataID( )
-	{
-		//FIXME: overide the getDataId from the reportItemExecutor.
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
-		{
-			curRset = getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
-			return new DataID( dataSetID, position );
-		}		
-		return null;
-	}
 
-	public void reset( )
+	public void close( )
 	{
-		super.reset( );
 		endOfGroup = false;
 		hiddenDetail = false;
 		needPageBreak = false;
 		listingExecutor = null;
+		super.close( );
 	}
-	
-	void setLisingExecutor(ListingElementExecutor executor)
+
+	void setLisingExecutor( ListingElementExecutor executor )
 	{
 		listingExecutor = executor;
 		rset = listingExecutor.rset;
 	}
-	
+
 	public boolean hasNextChild()
 	{
 		if ( currentElement < totalElements )
@@ -330,8 +311,8 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				.getGroupCount( ); i++ )
 		{
 			GroupDesign group = listingDesign.getGroup( i );
-			listingExecutor.clearDuplicateFlags( group );
+			SuppressDuplicateUtil.clearDuplicateFlags( group );
 		}
-		listingExecutor.clearDuplicateFlags( listingDesign.getDetail( ) );
+		SuppressDuplicateUtil.clearDuplicateFlags( listingDesign.getDetail( ) );
 	}
 }

@@ -17,12 +17,10 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 /**
  * writer used to write the page hints.
- *
+ * 
  */
-public interface IPageHintWriter
+public interface IPageHintWriter extends IPageHintConstant
 {
-
-	void open( ) throws IOException;
 
 	void close( );
 

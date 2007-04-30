@@ -3,7 +3,6 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -33,6 +32,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		if ( rset != null )
 		{
 			rset.close( );
+			rset = null;
 		}
 	}
 
@@ -77,10 +77,10 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 	}
 
-	public void reset( )
+	public void close( )
 	{
 		rset = null;
 		rsetEmpty = false;
-		super.reset( );
+		super.close( );
 	}
 }
