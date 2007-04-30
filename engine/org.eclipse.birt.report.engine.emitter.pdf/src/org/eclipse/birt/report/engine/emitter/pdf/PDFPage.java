@@ -193,10 +193,8 @@ public class PDFPage implements IPage
 				float remainX = width;
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
-				// image width,
-				// the repeat will never happen. So it is not necessary to build
-				// a
-				// template for futher usage.
+				// image width, the repeat will never happen. So it is not 
+				// necessary to build a template for futher usage.
 				if ( width > img.scaledWidth( ) )
 				{
 					if ( height - absPosY > img.scaledHeight( ) )
@@ -259,10 +257,8 @@ public class PDFPage implements IPage
 			{
 				float remainY = height;
 				// If the height of the container is smaller than the scaled
-				// image height,
-				// the repeat will never happen. So it is not necessary to build
-				// a
-				// template for futher usage.
+				// image height, the repeat will never happen. So it is not 
+				// necessary to build a template for futher usage.
 				PdfTemplate template = null;
 				if ( height > img.scaledHeight( ) )
 				{
@@ -303,10 +299,8 @@ public class PDFPage implements IPage
 				float remainY = height;
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
-				// image width,
-				// the repeat will never happen. So it is not necessary to build
-				// a
-				// template for futher usage.
+				// image width, the repeat will never happen. So it is not 
+				// necessary to build a template for futher usage.
 				if ( width > img.scaledWidth( ) && height > img.scaledHeight( ) )
 				{
 					template = cbUnder.createTemplate( img.scaledWidth( ), img
@@ -429,8 +423,7 @@ public class PDFPage implements IPage
 			float width, Color color, String lineStyle )
 	{
 		// if the border does NOT have color or the linewidth of the border is
-		// zero
-		// or the lineStyle is "none", just return.
+		// zero or the lineStyle is "none", just return.
 		if ( null == color || 0f == width
 				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
@@ -790,7 +783,11 @@ public class PDFPage implements IPage
 	private PdfAction createPdfAction( String hyperlink, String bookmark,
 			String target, int type )
 	{
-		if ( "_blank".equalsIgnoreCase( target ) ) //$NON-NLS-1$
+		// patch from Ales Novy
+		if ("_top".equalsIgnoreCase(target) || 
+			"_parent".equalsIgnoreCase(target) || 
+            "_blank".equalsIgnoreCase(target) || 
+            "_self".equalsIgnoreCase(target)) 
 		// Opens the target in a new window.
 		{
 			return new PdfAction( hyperlink );
