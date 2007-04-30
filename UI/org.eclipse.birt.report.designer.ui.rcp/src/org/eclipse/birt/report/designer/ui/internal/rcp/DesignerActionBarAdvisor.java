@@ -241,7 +241,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		menu.add( saveAllAction );
 		menu.add( new GroupMarker( IWorkbenchActionConstants.SAVE_EXT ) );
 
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
+		menu.add( new GroupMarker( IWorkbenchActionConstants.MB_ADDITIONS ) );
 
 		menu.add( ContributionItemFactory.REOPEN_EDITORS.create( getWindow( ) ) );
 		menu.add( new GroupMarker( IWorkbenchActionConstants.MRU ) );
