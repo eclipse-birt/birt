@@ -40,20 +40,22 @@ public class CursorNavigatorTest extends TestCase
 {
 	private Scriptable scope;
 	private DataEngineImpl de;
+	private CubeUtility creator;
+	
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		
-		this.scope = new ImporterTopLevel();
+
+		this.scope = new ImporterTopLevel( );
 		de = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
 				null,
 				null ) );
-		
-		new CubeCreator( ).createCube( de );
+		creator = new CubeUtility( );
+		creator.createCube( de );
 	}
 	
 
@@ -64,26 +66,13 @@ public class CursorNavigatorTest extends TestCase
 	 */
 	public void testCursorModel1( ) throws OLAPException, BirtException
 	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube" );
-
-		cqd.createMeasure( "measure1" );
-		cqd.createMeasure( "measure2" );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
-		timeHier.createLevel( "level21" );
-
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
-		geographyHier.createLevel( "level11" );
-		geographyHier.createLevel( "level12" );
-		geographyHier.createLevel( "level13" );
+		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
 		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		rowGrandTotal.addAggregateOn( "level21" );
+		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
 		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
@@ -91,6 +80,7 @@ public class CursorNavigatorTest extends TestCase
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
 		columnGrandTotal.addAggregateOn( "level13" );
+		columnGrandTotal.addAggregateOn( "level14" );		
 
 		cqd.addBinding( rowGrandTotal );
 		cqd.addBinding( columnGrandTotal );
@@ -109,56 +99,62 @@ public class CursorNavigatorTest extends TestCase
 				.get( 0 );
 		DimensionCursor cityCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
 				.get( 1 );
-		DimensionCursor productCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+		DimensionCursor streetCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
 				.get( 2 );
-
-		DimensionCursor timeCursor = (DimensionCursor) rowCursor.getDimensionCursor( )
-				.get( 0 );
+		DimensionCursor timeCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+				.get( 3 );
 
 		//Test edgeCursor navigator
 		//-------------------------------edgeCursor beforeFirst()--------------
 		columnCursor.beforeFirst( );
 		assertTrue( countryCursor.isBeforeFirst( ) );
 		assertTrue( cityCursor.isBeforeFirst( ) );
-		assertTrue( productCursor.isBeforeFirst( ) );
+		assertTrue( streetCursor.isBeforeFirst( ) );
+		assertTrue( timeCursor.isBeforeFirst( ) );
 
 		//-------------------------------edgeCursor afterFirst()--------------
 		columnCursor.afterLast( );
 		assertTrue( countryCursor.isAfterLast( ) );
 		assertTrue( cityCursor.isAfterLast( ) );
-		assertTrue( productCursor.isAfterLast( ) );
-
+		assertTrue( streetCursor.isAfterLast( ) );
+		assertTrue( timeCursor.isAfterLast( ) );
+	
 		//-------------------------------edgeCursor first()--------------
 		columnCursor.first( );
 		assertTrue( columnCursor.isFirst( ) );
 		assertTrue( countryCursor.isFirst( ) );
 		assertTrue( cityCursor.isFirst( ) );
-		assertTrue( productCursor.isFirst( ) );
+		assertTrue( streetCursor.isFirst( ) );
+		assertTrue( timeCursor.isFirst( ) );
 		
 		//-------------------------------edgeCursor last()-------------
 		columnCursor.last( );
 		assertTrue( columnCursor.last( ) );
 		assertTrue( countryCursor.last( ) );
 		assertTrue( cityCursor.last( ) );
-		assertTrue( productCursor.last( ) );	
-
+		assertTrue( streetCursor.last( ) );	
+		assertTrue( timeCursor.last( ) );
+		
 		//-------------------------------edgeCursor setPosition()--------------
 		columnCursor.setPosition( 5 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
-		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "S2" ) );
+		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "2000" ) );
 		
 		//-------------------------------edgeCursor previous()--------------
 		columnCursor.previous( );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
-		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "S1" ) );	
+		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );	
+		assertTrue( timeCursor.getObject( "level14" ).equals( "1998" ) );	
 		
 		//-------------------------------edgeCursor setPosition()--------------
-		columnCursor.setPosition( 13 );
+		columnCursor.setPosition( 24 );
 		try
 		{
 			countryCursor.getObject( "level11" );
+			fail("should never get here!!");
 		}
 		catch ( OLAPException e )
 		{
@@ -168,8 +164,9 @@ public class CursorNavigatorTest extends TestCase
 		columnCursor.beforeFirst( );
 		columnCursor.relative( 6 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
-		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "S2" ) );
+		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "2000" ) );
 		
 		//-------------------------------edgeCursor beforeFirst(),next(),setPosition()--------------
 		columnCursor.beforeFirst( );
@@ -179,17 +176,17 @@ public class CursorNavigatorTest extends TestCase
 		columnCursor.setPosition( 1 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "BJ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "HD" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "2001" ) );
 
 		//------------------------------dimensionCursor setPosition()--------------
 		columnCursor.beforeFirst( );
-		columnCursor.next( );
-		columnCursor.next( );
-		columnCursor.next( );		
-		productCursor.setPosition( 1 );
+		columnCursor.setPosition( 4 );
+		streetCursor.setPosition( 1 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "ZJ" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "1998" ) );
 
 		//------------------------------dimensionCursor next()--------------
 		columnCursor.beforeFirst( );
@@ -197,12 +194,13 @@ public class CursorNavigatorTest extends TestCase
 		countryCursor.next( );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "JP" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "IL" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "P1" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A4" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "1999" ) );
 		
 		columnCursor.afterLast( );		
 		try
 		{
-			productCursor.getObject( "level13" ).equals( "PUDIAN" );
+			streetCursor.getObject( "level13" );
 			fail("should not get here");
 		}
 		catch ( OLAPException e )
@@ -213,74 +211,60 @@ public class CursorNavigatorTest extends TestCase
 		columnCursor.beforeFirst( );
 		columnCursor.setPosition( 1 );
 		assertTrue( countryCursor.getEdgeStart( ) == 0 );
-		assertTrue( countryCursor.getEdgeEnd( ) == 5 );
-
-		assertTrue( cityCursor.getEdgeStart( ) == 0 );
-		assertTrue( cityCursor.getEdgeEnd( ) == 1 );
-			
-		assertTrue( productCursor.getEdgeStart( )==1 );
-		assertTrue( productCursor.getEdgeEnd( ) ==1 );
-		
-		columnCursor.setPosition( 6 );
-		assertTrue( countryCursor.getEdgeStart( ) == 6 );
 		assertTrue( countryCursor.getEdgeEnd( ) == 7 );
 
-		assertTrue( cityCursor.getEdgeStart( ) == 6 );
-		assertTrue( cityCursor.getEdgeEnd( ) == 6 );
+		assertTrue( cityCursor.getEdgeStart( ) == 0 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 2 );
 			
-		assertTrue( productCursor.getEdgeStart( )==6 );
-		assertTrue( productCursor.getEdgeEnd( ) ==6 );
+		assertTrue( streetCursor.getEdgeStart( )==0 );
+		assertTrue( streetCursor.getEdgeEnd( ) ==1 );
 		
-		columnCursor.setPosition( 4 );
-		assertTrue( countryCursor.getEdgeStart( ) == 0 );
-		assertTrue( countryCursor.getEdgeEnd( ) == 5 );
+		assertTrue( timeCursor.getEdgeStart( )==1 );
+		assertTrue( timeCursor.getEdgeEnd( ) ==1 );
+		
+		columnCursor.setPosition( 9 );
+		assertTrue( countryCursor.getEdgeStart( ) == 8 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 11 );
 
-		assertTrue( cityCursor.getEdgeStart( ) == 4 );
-		assertTrue( cityCursor.getEdgeEnd( ) == 5 );
+		assertTrue( cityCursor.getEdgeStart( ) == 8 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 10 );
+
+		assertTrue( streetCursor.getEdgeStart( ) == 8 );
+		assertTrue( streetCursor.getEdgeEnd( ) == 10 );
+		
+		assertTrue( timeCursor.getEdgeStart( ) == 9 );
+		assertTrue( timeCursor.getEdgeEnd( ) == 9 );		
+		
+		columnCursor.setPosition( 23 );
+		assertTrue( countryCursor.getEdgeStart( ) == 15 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 23 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 23 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 23 );
 			
-		assertTrue( productCursor.getEdgeStart( )==4 );
-		assertTrue( productCursor.getEdgeEnd( ) ==4 );
+		assertTrue( streetCursor.getEdgeStart( )== 23 );
+		assertTrue( streetCursor.getEdgeEnd( ) == 23 );
 
+		assertTrue( timeCursor.getEdgeStart( ) == 23 );
+		assertTrue( timeCursor.getEdgeEnd( ) == 23 );
+		
 		columnCursor.setPosition( 12 );
-		assertTrue( countryCursor.getEdgeStart( ) == 10 );
-		assertTrue( countryCursor.getEdgeEnd( ) == 12 );
+		assertTrue( countryCursor.getEdgeStart( ) == 12 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 14 );
 
 		assertTrue( cityCursor.getEdgeStart( ) == 12 );
-		assertTrue( cityCursor.getEdgeEnd( ) == 12 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 13 );
 
-		assertTrue( productCursor.getEdgeStart( ) == 12 );
-		assertTrue( productCursor.getEdgeEnd( ) == 12 );
+		assertTrue( streetCursor.getEdgeStart( ) == 12 );
+		assertTrue( streetCursor.getEdgeEnd( ) == 12 );
+
+		assertTrue( timeCursor.getEdgeStart( ) == 12 );
+		assertTrue( timeCursor.getEdgeEnd( ) == 12 );
 		
 		columnCursor.beforeFirst( );
-		columnCursor.setPosition( 13 );
+		columnCursor.setPosition( 24 );
 		assertTrue( countryCursor.getEdgeStart( ) == -1 );
 		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
-								
-		columnCursor.beforeFirst( );
-		Object obj1, obj2, obj3;
-		while ( columnCursor.next( ) )
-		{
-			obj1 = countryCursor.getObject( "level11" );
-			print( obj1 );
-			obj2 = cityCursor.getObject( "level12" );
-			print( obj2 );
-			obj3 = productCursor.getObject( "level13" );
-			print( obj3 );
-		}
-
-		try
-		{
-			countryCursor.getObject( "level11" );
-			fail( "should not get here" );
-		}
-		catch ( OLAPException e )
-		{
-		}
 	}
 	
-	private void print( Object value )
-	{
-		System.out.println( value );
-	}
-
 }

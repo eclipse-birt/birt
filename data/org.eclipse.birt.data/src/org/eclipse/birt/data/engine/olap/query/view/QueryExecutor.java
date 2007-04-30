@@ -53,7 +53,6 @@ public class QueryExecutor
 {
 
 	/**
-	 * 
 	 * @param view
 	 * @param query
 	 * @return
@@ -99,7 +98,7 @@ public class QueryExecutor
 			//In Interactive viewing mode, we always re-execute the query.
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
 		}
-		return new CubeResultSet( rs, view, manager );
+		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
 	}
 
 	/**

@@ -191,6 +191,24 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	/**
 	 * 
+	 * @return sortDefinition list on row edge
+	 */
+	public List getRowSort( )
+	{
+		return this.rowSort;
+	}
+	
+	/**
+	 * 
+	 * @return sortDefinition list on column edge
+	 */
+	public List getColumnSort( )
+	{
+		return this.columnSort;
+	}
+	
+	/**
+	 * 
 	 * @param sort
 	 */
 	public void addColumnSort( AggrSortDefinition sort )

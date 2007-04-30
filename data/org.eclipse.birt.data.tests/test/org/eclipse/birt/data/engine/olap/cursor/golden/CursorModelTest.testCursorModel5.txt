@@ -1,9 +1,14 @@
 
-		CN            CN            CN            CN            CN            CN            JP            JP            UN            UN            US            US            US            
-		BJ            BJ            SH            SH            SZ            SZ            IL            TK            LD            LP            CS            LA            NY            
-		CP            HD            PD            ZJ            S1            S2            P1            F1            D1            E1            B1            A1            C1            
-1998		16.0, | 11.0, | 1.0, | 6.0, | 21.0, | 26.0, | 61.0, | 56.0, | 46.0, | 51.0, | 36.0, | 31.0, | 41.0, | 403.0&31.0&
-1999		17.0, | 12.0, | 2.0, | 7.0, | 22.0, | 27.0, | 62.0, | 57.0, | 47.0, | 52.0, | 37.0, | 32.0, | 42.0, | 416.0&32.0&
-2000		18.0, | 13.0, | 3.0, | 8.0, | 23.0, | 28.0, | 63.0, | 58.0, | 48.0, | 53.0, | 38.0, | 33.0, | 43.0, | 429.0&33.0&
-2001		19.0, | 14.0, | 4.0, | 9.0, | 24.0, | 29.0, | 65.0, | 59.0, | 49.0, | 54.0, | 39.0, | 34.0, | 44.0, | 443.0&34.07692307692308&
-2002		20.0, | 15.0, | 5.0, | 10.0, | 25.0, | 30.0, | 65.0, | 60.0, | 50.0, | 55.0, | 40.0, | 35.0, | 45.0, | 455.0&35.0&
+		CN   CN   CN   CN   CN   CN   CN   CN   JP   JP   JP   JP   UN   UN   UN   US   US   US   US   US   US   US   US   US   
+		BJ   BJ   BJ   HZ   SH   SH   SH   SZ   IL   IL   IL   TK   LD   LD   LP   CS   CS   CS   CS   CS   LA   LA   LA   NY   
+		A1   A1   A4   A2   A1   A1   A1   A1   A4   A4   A4   A4   A1   A3   A3   A2   A3   A4   A4   A4   A2   A2   A2   A1   
+		2000   2001   2002   1998   1998   2000   2002   1998   1999   2000   2002   1999   2001   2002   1998   1998   1999   2000   2001   2002   1998   2001   2002   2002   
+P1   PP1   null,  null,  null,  null,  1.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  36.0,  null,  null,  null,  null,  null,  null,  null,  41.0,  78.0&26.0&
+P1   PP2   null,  null,  null,  null,  null,  2.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  37.0,  null,  null,  null,  null,  null,  null,  null,  39.0&19.5&
+P1   PP3   null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  38.0,  null,  null,  null,  null,  null,  null,  38.0&38.0&
+P2   PP1   6.0,  null,  null,  null,  null,  null,  null,  11.0,  null,  null,  null,  null,  null,  null,  51.0,  null,  null,  null,  39.0,  null,  null,  null,  null,  null,  107.0&26.75&
+P2   PP2   null,  null,  null,  null,  null,  null,  null,  null,  61.0,  null,  null,  null,  46.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  107.0&53.5&
+P2   PP3   null,  null,  null,  null,  null,  null,  3.0,  null,  null,  64.0,  null,  null,  null,  47.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  114.0&38.0&
+P3   PP1   null,  null,  null,  16.0,  null,  null,  null,  null,  null,  null,  65.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  21.0,  null,  null,  null,  102.0&34.0&
+P3   PP2   null,  7.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  56.0,  null,  null,  null,  null,  null,  null,  null,  40.0,  null,  22.0,  null,  null,  125.0&31.25&
+P3   PP3   null,  null,  8.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  23.0,  null,  31.0&15.5&

@@ -12,6 +12,11 @@
 package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.RowDataMetaData;
@@ -19,6 +24,8 @@ import javax.olap.cursor.RowDataMetaData;
 import org.eclipse.birt.data.engine.olap.cursor.EdgeInfoGenerator;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataMetaDataImpl;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 
 /**
  * 
@@ -31,6 +38,9 @@ public class DimensionAxis
 	private IAggregationResultSet rs;
 	private int dimAxisIndex, levelIndex, attrIndex;
 	private EdgeInfoGenerator edgeInfo;
+	private boolean isMirrored = false; 
+	private int aggrSortType = IDimensionSortDefn.SORT_UNDEFINED;
+	private Vector valueObjects = null;
 
 	/**
 	 * 
@@ -43,14 +53,98 @@ public class DimensionAxis
 	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
 			int dimAixsIndex, int levelIndex, int attrIndex )
 	{
+		this( container, rs, dimAixsIndex, levelIndex, attrIndex, false, null );
+	}
+	
+	/**
+	 * 
+	 * @param container
+	 * @param rs
+	 * @param dimAixsIndex
+	 * @param levelIndex
+	 * @param attrIndex
+	 */
+	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
+			int dimAixsIndex, int levelIndex, int attrIndex,
+			boolean isMirrored, AggrSortDefinition aggrSortDefinition )
+	{
 		this.metaData = new ResultSetMetadata( rs, levelIndex );
 		this.rs = rs;
 		this.levelIndex = levelIndex;
 		this.attrIndex = attrIndex;
 		this.edgeInfo = container.getEdgeInfoUtil( );
 		this.dimAxisIndex = dimAixsIndex;
+		this.isMirrored = isMirrored;
+		if ( this.isMirrored )
+		{
+			valueObjects = populateValueVector( aggrSortDefinition );
+		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isMirrored( )
+	{
+		return this.isMirrored;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private Vector populateValueVector( AggrSortDefinition aggrSortDefinition )
+	{
+		Set valueSet = new HashSet( );
+		if ( aggrSortDefinition != null )
+		{
+			boolean aggrSortDirection = aggrSortDefinition.getDirection( );
+			if ( aggrSortDirection )
+				aggrSortType = IDimensionSortDefn.SORT_ASC;
+			else
+				aggrSortType = IDimensionSortDefn.SORT_DESC;
+		}
+
+		for ( int i = 0; i < this.rs.length( ); i++ )
+		{
+			try
+			{
+				this.rs.seek( i );
+			}
+			catch ( IOException e )
+			{
+			}
+			valueSet.add( this.rs.getLevelKeyValue( levelIndex )[0] );
+		}
+		
+		final int sortType = this.rs.getSortType( levelIndex );
+		Object[] value = valueSet.toArray( );
+		Arrays.sort( value, new Comparator( ) {
+
+			public int compare( final Object arg0, final Object arg1 )
+			{
+				if ( sortType == IDimensionSortDefn.SORT_ASC
+						|| sortType == IDimensionSortDefn.SORT_UNDEFINED )
+					return ( (Comparable) arg0 ).compareTo( arg1 );
+				else
+					return ( (Comparable) arg0 ).compareTo( arg1 ) * -1;
+			}
+		} );
+		Vector v = new Vector( );
+		v.addAll( Arrays.asList( value ) );
+		return v;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector getDisctinctValue( )
+	{
+		return this.valueObjects;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -284,12 +378,12 @@ public class DimensionAxis
 
 	public Object getCurrentMember( int attr ) throws OLAPException
 	{
-		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attr );
+		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attr, aggrSortType );
 	}
 	
 	public Object getCurrentMember( String attrName ) throws OLAPException
 	{
-		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attrName );
+		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attrName, aggrSortType );
 	}
 	
 	public Object getCurrentAggregation( int index ) throws IOException

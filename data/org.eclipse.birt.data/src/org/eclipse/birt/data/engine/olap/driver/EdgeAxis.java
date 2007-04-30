@@ -19,6 +19,7 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.cursor.EdgeInfoGenerator;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 
@@ -32,13 +33,35 @@ public class EdgeAxis
 	private DimensionAxis[] dimensionAxis;
 	private IAggregationResultSet rs;
 	private EdgeInfoGenerator edgeInfoUtil;
-	
+	private List sortList = null;
 
+	/**
+	 * 
+	 * @param resultSet
+	 * @param view
+	 * @param isPage
+	 * @throws IOException
+	 */
 	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
 			boolean isPage ) throws IOException
 	{
+		this( resultSet, view, null, isPage );
+	}
+
+	/**
+	 * 
+	 * @param resultSet
+	 * @param view
+	 * @param isPage
+	 * @param isMirrored
+	 * @throws IOException
+	 */
+	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
+			List sortList, boolean isPage ) throws IOException
+	{
 		this.dimensionAxis = null;
 		this.rs = resultSet;
+		this.sortList = sortList;
 		populateDimensionAxis( resultSet, view, isPage );
 	}
 
@@ -51,9 +74,12 @@ public class EdgeAxis
 	 * @throws IOException
 	 */
 	private void populateDimensionAxis( IAggregationResultSet rs,
-			BirtEdgeView view, boolean isPage ) throws IOException
+			BirtEdgeView view, boolean isPage )
+			throws IOException
 	{
+		
 		List dimensionAxisList = new ArrayList( );
+		int mirrorStartLevel = view.getMirrorStartingLevel( );
 
 		int index = 0;
 		if ( !isPage )
@@ -67,11 +93,28 @@ public class EdgeAxis
 				while ( levelIter.hasNext( ) )
 				{
 					levelIter.next( );
-					DimensionAxis axis = new DimensionAxis( this,
-							rs,
-							index,
-							levelIndex++,
-							0 );
+					DimensionAxis axis = null;
+					if ( mirrorStartLevel != 0
+							&& levelIndex >= mirrorStartLevel )
+					{
+
+						axis = new DimensionAxis( this,
+								rs,
+								index,
+								levelIndex,
+								0,
+								true,
+								findAggregationSort( levelIndex ) );
+						levelIndex++;
+					}
+					else
+					{
+						axis = new DimensionAxis( this,
+								rs,
+								index,
+								levelIndex++,
+								0 );
+					}
 					index++;
 					dimensionAxisList.add( axis );
 				}
@@ -88,7 +131,7 @@ public class EdgeAxis
 			this.dimensionAxis[i] = (DimensionAxis) dimensionAxisList.get( i );
 		}
 
-		edgeInfoUtil = new EdgeInfoGenerator( rs, this.dimensionAxis );
+		edgeInfoUtil = new EdgeInfoGenerator( rs, this.dimensionAxis, view.getMirrorStartingLevel( ) );
 		try
 		{
 			edgeInfoUtil.populateEdgeInfo( isPage );
@@ -102,6 +145,30 @@ public class EdgeAxis
 		{
 			this.dimensionAxis[i].setEdgeInfo( edgeInfoUtil );
 		}
+	}
+	
+	/**
+	 * 
+	 * @param levelIndex
+	 * @return
+	 */
+	private AggrSortDefinition findAggregationSort( int levelIndex )
+	{
+		AggrSortDefinition aggrSortDefn = null;
+
+		if ( this.sortList != null )
+		{
+			String levelName = this.rs.getLevelName( levelIndex );
+			for ( int i = 0; i < this.sortList.size( ); i++ )
+			{
+				if ( levelName.equals( aggrSortDefn.getTargetLevel( ) ) )
+				{
+					aggrSortDefn = (AggrSortDefinition) sortList.get( i );
+					break;
+				}
+			}
+		}
+		return aggrSortDefn;
 	}
 	
 	/**

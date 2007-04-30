@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
@@ -35,7 +36,9 @@ public class CubeResultSet implements IResultSet
 	 * @throws IOException 
 	 * @throws OLAPException
 	 */
-	public CubeResultSet( IAggregationResultSet[] rsArray, BirtCubeView view, MeasureNameManager manager )
+	public CubeResultSet( IAggregationResultSet[] rsArray, BirtCubeView view,
+			MeasureNameManager manager,
+			CubeQueryExecutorHelper cubeQueryExecutorHelper )
 			throws IOException
 	{
 		int count = 0;
@@ -43,6 +46,7 @@ public class CubeResultSet implements IResultSet
 		{
 			this.columnEdgeAxis = new EdgeAxis( rsArray[count],
 					view.getColumnEdgeView( ),
+					cubeQueryExecutorHelper.getColumnSort( ),
 					false );
 			count++;
 		}
@@ -50,6 +54,7 @@ public class CubeResultSet implements IResultSet
 		{
 			this.rowEdgeAxis = new EdgeAxis( rsArray[count],
 					view.getRowEdgeView( ),
+					cubeQueryExecutorHelper.getRowSort( ),
 					false );
 			count++;
 		}

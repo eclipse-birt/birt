@@ -19,6 +19,7 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 
 /**
  * An BirtEdgeView is part of the logical layout of a BirtCubeView.It aggregates
@@ -32,6 +33,7 @@ public class BirtEdgeView
 	private BirtCubeView cubeView;
 	private List dimensionViewList;
 	private String name;
+	private IEdgeDefinition edgeDefn;
 	private final static String CALCULATED_MEMBER ="CALCULATED_MEMBER";
 
 	/**
@@ -43,6 +45,7 @@ public class BirtEdgeView
 	{
 		this.cubeView = cubeView;
 		this.dimensionViewList = new ArrayList( );
+		this.edgeDefn = edgeDefn;
 		populateDimensionView( edgeDefn );
 		if ( edgeDefn != null )
 			this.name = edgeDefn.getName( );
@@ -117,5 +120,41 @@ public class BirtEdgeView
 	public String getName( )
 	{
 		return this.name;
+	}
+
+	/**
+	 * 
+	 */
+	public boolean hasMirrored( )
+	{
+		if ( edgeDefn != null && edgeDefn.getMirrorStartingLevel( ) != null )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMirrorStartingLevel( )
+	{
+		int index = 0;
+		if ( hasMirrored( ) )
+		{
+			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge( edgeDefn );
+			for ( int i = 0; i < levelArray.length; i++ )
+			{
+				if ( levelArray[i].equals( edgeDefn.getMirrorStartingLevel( ) ) )
+				{
+					index = i;
+					break;
+				}
+			}
+			return index;
+		}
+		else
+			return index;
 	}
 }
