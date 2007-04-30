@@ -47,6 +47,10 @@ interface ArchiveConstants
 	/** File status value: finished */
 	static final int FILE_STATUS_FINISHED = -1;
 
-	/** Max size of buffer pool - number of buffer blocks in buffer pool */
-	static final int MAX_BUFFER_POOL_SIZE = 1024;
+	/** default size of buffer pool - number of buffer blocks in buffer pool */
+	static final int DEFAULT_BUFFER_POOL_SIZE = 1024;
+	
+	/** Min size of buffer pool - number of buffer blocks in buffer pool */
+	static final int MIN_BUFFER_POOL_SIZE = 2;
+
 }
