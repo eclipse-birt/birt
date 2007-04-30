@@ -50,16 +50,15 @@ public class ContentEmitterUtil
 	{
         String vformat = content.getStyle( ).getVisibleFormat( );
 		
-        String format = emitter.getOutputFormat( );
-		if ( vformat == null )
+        if ( vformat == null )
 		{
 			ender.visit( content, emitter );
 		}
 		else
 		{
 			if ( vformat.toLowerCase( ).indexOf(
-					emitter.getOutputFormat( ).toLowerCase( ) ) > 0
-					|| vformat.toLowerCase( ).indexOf( "all" ) > 0 )
+					emitter.getOutputFormat( ).toLowerCase( ) ) == -1
+					&& vformat.toLowerCase( ).indexOf( "all" ) == -1 )
 			{
 				ender.visit( content, emitter );
 			}
