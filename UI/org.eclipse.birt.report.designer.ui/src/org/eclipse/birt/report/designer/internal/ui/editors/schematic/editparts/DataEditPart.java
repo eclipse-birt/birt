@@ -181,17 +181,17 @@ public class DataEditPart extends LabelEditPart
 			DataItemBindingAggregateOnProvider
 	{
 
-		public Object[] getAggregateOnLists( )
+		public Object[] getAggregateInfObjects( )
 		{
 			return null;
 		}
 
-		public String[] getLabel( )
-		{
-			return new String[]{
-				AGGREGATE_ON
-			};
-		}
+//		public String[] getLabel( )
+//		{
+//			return new String[]{
+//				AGGREGATE_ON
+//			};
+//		}
 
 		public void setDataItemHandle( DataItemHandle handle )
 		{
@@ -205,19 +205,26 @@ public class DataEditPart extends LabelEditPart
 
 		DataItemHandle handle;
 
-		public Object[] getAggregateOnLists( )
+		public Object[] getAggregateInfObjects( )
 		{
+			AggregateOnProviderInfo info = new AggregateOnProviderInfo();
+			info.setAggregateList( DEUtil.getGroups( handle ) );
+			info.setLabel( AGGREGATE_ON );
+			
+			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+					handle.getResultSetColumn( ) );
+			info.setValue( bindingColumn.getAggregateOn( ) );
 			return new Object[]{
-				DEUtil.getGroups( handle )
+					info
 			};
 		}
 
-		public String[] getLabel( )
-		{
-			return new String[]{
-				AGGREGATE_ON
-			};
-		}
+//		public String[] getLabel( )
+//		{
+//			return new String[]{
+//				AGGREGATE_ON
+//			};
+//		}
 
 		public void setDataItemHandle( DataItemHandle handle )
 		{

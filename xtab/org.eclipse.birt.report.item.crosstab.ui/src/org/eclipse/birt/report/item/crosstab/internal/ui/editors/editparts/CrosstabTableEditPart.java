@@ -47,6 +47,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabH
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -881,19 +882,28 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 	class CrosstabDataItemBindingAggregateOnProvider implements DataItemBindingAggregateOnProvider
 	{
 		DataItemHandle handle;
-		public Object[] getAggregateOnLists()
+		public Object[] getAggregateInfObjects()
 		{
+			//Object[] retValue = new Object[2];
+			
 			CrosstabReportItemHandle reportHandle = getCrosstabHandleAdapter( ).getCrosstabItemHandle( ).getCrosstab( );
-			List rows = new ArrayList();
-			List columns = new ArrayList();
-			fillList( rows, reportHandle, ICrosstabConstants.ROW_AXIS_TYPE );
-			fillList( columns, reportHandle, ICrosstabConstants.COLUMN_AXIS_TYPE );
-			return new Object[]{rows, columns};
+			AggregateOnProviderInfo row = fillInfo( reportHandle, ICrosstabConstants.ROW_AXIS_TYPE , handle);
+			row.setLabel( AGGREGATE_ON_ROW );
+			//List rows = new ArrayList();
+			
+			//row.setLabel( AGGREGATE_ON_ROW );
+			
+			AggregateOnProviderInfo column = fillInfo( reportHandle, ICrosstabConstants.COLUMN_AXIS_TYPE, handle );
+			column.setLabel(AGGREGATE_ON_COLUMN  );
+			
+			return new Object[]{row, column};
 		}
 
-		private void fillList(List list,CrosstabReportItemHandle reportHandle, int type )
+		private AggregateOnProviderInfo fillInfo(CrosstabReportItemHandle reportHandle, int type, DataItemHandle handle )
 		{
+			AggregateOnProviderInfo retValue = new AggregateOnProviderInfo();
 			int count = reportHandle.getDimensionCount( type );
+			List list = new ArrayList();
 			for (int i=0; i<count; i++)
 			{
 				DimensionViewHandle viewHandle = reportHandle.getDimension( type, i );
@@ -904,6 +914,22 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 					list.add( levelHandle.getCubeLevelName( ) );
 				}
 			}
+			
+			retValue.setAggregateList( list );
+			
+			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+					handle.getResultSetColumn( ) );
+			
+			List values = bindingColumn.getAggregateOnList( );
+			for (int i=0; i<values.size( ); i++)
+			{
+				if (list.contains( values.get( i ) ))
+				{
+					retValue.setValue( ( String)values.get( i ));
+				}
+			}
+			
+			return retValue;
 		}
 		
 		public String[] getLabel( )
