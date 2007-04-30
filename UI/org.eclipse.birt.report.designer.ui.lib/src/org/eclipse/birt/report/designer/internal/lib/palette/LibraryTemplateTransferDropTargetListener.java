@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.lib.palette;
 
-import java.util.List;
-
-import org.eclipse.birt.report.designer.internal.lib.editparts.EmptyEditPart;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -50,14 +46,14 @@ public class LibraryTemplateTransferDropTargetListener extends
 			return;
 		}
 
-		if ( getTargetEditPart( ).getModel( ) instanceof LibraryHandle )
-		{
-			List list = getTargetEditPart( ).getChildren( );
-			if ( list.size( ) > 0 && !( list.get( 0 ) instanceof EmptyEditPart ) )
-			{
-				event.detail = DND.DROP_NONE;
-			}
-		}
+//		if ( getTargetEditPart( ).getModel( ) instanceof LibraryHandle )
+//		{
+//			List list = getTargetEditPart( ).getChildren( );
+//			if ( list.size( ) > 0 && !( list.get( 0 ) instanceof EmptyEditPart ) )
+//			{
+//				event.detail = DND.DROP_NONE;
+//			}
+//		}
 
 	}
 }

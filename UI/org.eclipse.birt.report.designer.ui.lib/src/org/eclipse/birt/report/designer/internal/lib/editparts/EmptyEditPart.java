@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.LibRootModel;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.lib.editors.figures.EmptyFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
@@ -61,21 +60,21 @@ public class EmptyEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		getFigure().setSize(getFigure().getParent().getClientArea().getSize());
-		if(getModel() instanceof LibRootModel)
-		{
-			if(((LibRootModel)getModel()).isEmpty())
-			{
-				((EmptyFigure)getFigure()).setText(EMPTY_LIB);
-			}
-			else
-			{
-				((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
-			}
-		}
-		else
-		{
-			((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
-		}
+//		if(getModel() instanceof LibRootModel)
+//		{
+//			if(((LibRootModel)getModel()).isEmpty())
+//			{
+//				((EmptyFigure)getFigure()).setText(EMPTY_LIB);
+//			}
+//			else
+//			{
+//				((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
+//			}
+//		}
+//		else
+//		{
+//			((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
+//		}
 	}
 
 	/* (non-Javadoc)

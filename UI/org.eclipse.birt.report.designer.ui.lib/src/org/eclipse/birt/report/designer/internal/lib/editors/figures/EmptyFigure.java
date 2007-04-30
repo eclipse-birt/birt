@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editors.figures;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 
@@ -28,7 +27,7 @@ public class EmptyFigure extends LabelFigure
 	public EmptyFigure( )
 	{
 		setOpaque( true );
-		setBackgroundColor( ReportColorConstants.greyFillColor );
+//		setBackgroundColor( ReportColorConstants.greyFillColor );
 	}
 
 	/*

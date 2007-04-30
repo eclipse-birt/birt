@@ -41,6 +41,7 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.gef.ui.views.palette.PaletteView;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -86,6 +87,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String CUSTOM_NAME_PREFERENCE = "designer.preview.preference.elementname.customname.preferencestore"; //$NON-NLS-1$
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
+	public static final String LIBRARY_WARNING_PREFERENCE = "designer.library.preference.libraries.warning.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore"; //$NON-NLS-1$
@@ -767,6 +769,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultLibraryPreference( )
 	{
 		getPreferenceStore( ).setDefault( LIBRARY_PREFERENCE, "" ); //$NON-NLS-1$
+		getPreferenceStore( ).setDefault( LIBRARY_WARNING_PREFERENCE, MessageDialogWithToggle.PROMPT); //$NON-NLS-1$
 	}
 
 	/**

@@ -40,7 +40,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.widgets.Display;
 
@@ -209,11 +208,11 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 						List list = getHost().getChildren();
 						Boolean direct = (Boolean) request.getExtendedData()
 								.get(DesignerConstants.DIRECT_CREATEITEM);
-						if (list.size() != 0
-								&& !(list.get(0) instanceof EmptyEditPart)
-								&& (direct == null || !direct.booleanValue())) {
-							return UnexecutableCommand.INSTANCE;
-						}
+//						if (list.size() != 0
+//								&& !(list.get(0) instanceof EmptyEditPart)
+//								&& (direct == null || !direct.booleanValue())) {
+//							return UnexecutableCommand.INSTANCE;
+//						}
 						// EditPart after = getInsertionReference( request );
 						// final DesignElementHandle newObject =
 						// (DesignElementHandle) request.getExtendedData( )

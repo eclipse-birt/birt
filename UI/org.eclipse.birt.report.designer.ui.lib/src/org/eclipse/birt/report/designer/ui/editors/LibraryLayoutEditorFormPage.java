@@ -16,11 +16,14 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
@@ -58,6 +61,8 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			staleType = IPageStaleType.MODEL_CHANGED;
 		}
 	};
+
+	private boolean hasWarning;
 
 
 	protected void configureGraphicalViewer( )
@@ -168,6 +173,22 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public boolean onBroughtToTop( IReportEditorPage page )
 	{
+		
+		if ( !hasWarning && ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
+				.equals( MessageDialogWithToggle.PROMPT ) )
+		{
+			MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
+					Messages.getString( "LibraryLayoutEditorFormPage.warning.title" ), //$NON-NLS-1$
+					Messages.getString( "LibraryLayoutEditorFormPage.warning.message" ), //$NON-NLS-1$
+					Messages.getString( "LibraryLayoutEditorFormPage.warning.prompt" ), //$NON-NLS-1$
+					false,
+					ReportPlugin.getDefault( ).getPreferenceStore( ),
+					ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+			hasWarning = true;
+		}
+		
 		//the three classes has the logic to rebuild the model, should be refactor. 
 		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
 		
