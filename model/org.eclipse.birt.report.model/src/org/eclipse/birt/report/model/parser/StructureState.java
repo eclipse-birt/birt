@@ -200,11 +200,11 @@ public class StructureState extends AbstractPropertyState
 
 			// Now only support one level , that mean element->list property
 			// ->structure->member is elementRefValue
-			
-			if ( propDefn instanceof ElementPropertyDefn && list != null )
+
+			if ( propDefn instanceof ElementPropertyDefn && propDefn.isList( ) )
 			{
 				CachedMemberRef memberRef = new CachedMemberRef(
-						(ElementPropertyDefn) propDefn, list.size( ), name );
+						(ElementPropertyDefn) propDefn, list.size( ) );
 				Structure.StructureContext structContext = new Structure.StructureContext(
 						element, memberRef );
 				( (Structure) struct ).setContext( structContext );

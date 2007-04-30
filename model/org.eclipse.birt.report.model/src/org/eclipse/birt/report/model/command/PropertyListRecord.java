@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
@@ -149,7 +150,10 @@ public class PropertyListRecord extends SimpleRecord
 			// setup the context for the structure.
 
 			// Now only support level one case.
-			if ( listRef.getDepth( ) == 1 )
+
+			IPropertyDefn propDefn = listRef.getPropDefn( );
+			if ( listRef.getDepth( ) == 1 && propDefn.isList( )
+					&& propDefn.getStructDefn( ) != null )
 			{
 				CachedMemberRef memberRef = new CachedMemberRef( listRef
 						.getPropDefn( ), listRef.getIndex( ) );
