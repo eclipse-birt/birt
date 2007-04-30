@@ -254,7 +254,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( textAlign );
 			styleBuffer.append( ";" );
 		}
-		buildStyle( text, styleBuffer );
+		buildSimpleStyle( text, styleBuffer );
 		AttributeBuilder.checkHyperlinkTextDecoration( text.getComputedStyle( ),
 				styleBuffer );
 	}
@@ -293,7 +293,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( textAlign );
 			styleBuffer.append( ";" );
 		}
-		buildStyle( foreign, styleBuffer );
+		buildSimpleStyle( foreign, styleBuffer );
 		AttributeBuilder.checkHyperlinkTextDecoration( foreign.getComputedStyle( ),
 				styleBuffer );
 	}
@@ -453,6 +453,12 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	
 	public void buildStyle( IContent element, StringBuffer styleBuffer )
 	{
+		buildSimpleStyle( element, styleBuffer );
+		AttributeBuilder.checkHyperlinkTextDecoration( element.getComputedStyle(), styleBuffer );
+	}
+	
+	private void buildSimpleStyle( IContent element, StringBuffer styleBuffer )
+	{
 		IStyle style;
 		if ( isEmbeddable )
 		{
@@ -463,7 +469,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			style = element.getInlineStyle( );
 		}
 		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
-		AttributeBuilder.checkHyperlinkTextDecoration( element.getComputedStyle(), styleBuffer );
 	}
 
 	/**
@@ -701,9 +706,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			}
 
 		}
-
-		// output in-line style
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 	}
 
 	/**
