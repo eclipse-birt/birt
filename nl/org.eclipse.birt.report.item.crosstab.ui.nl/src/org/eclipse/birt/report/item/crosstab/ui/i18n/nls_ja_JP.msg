@@ -122,3 +122,42 @@ FilterConditionBuilder.text.GroupLevel=グループレベル :
 Blank.text.column=データフィールドを削除して、ここに列を定義
 Blank.text.row=データフィールドを削除して、\nここに行を定義
 Blank.text.measure=データフィールドを削除して、ここにサマリを作成
+
+###########################################################
+#CrosstabGrandTotalDialog
+CrosstabGrandTotalDialog.Title=総計
+CrosstabGrandTotalDialog.Text.DataField=Data Field:
+CrosstabGrandTotalDialog.Text.Function=Function:
+
+
+###########################################################
+# Crosstab RowArea PageBreak
+CrosstabPageBreakProvider.Column.GroupLevel=グループレベル
+CrosstabPageBreakProvider.Column.Before=Before
+CrosstabPageBreakProvider.Column.After=After
+
+###########################################################
+# Crosstab RowArea SubTotal
+CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.DataField=データフィールド
+CrosstabSubToatalProvider.Column.Function=関数
+
+###########################################################
+#CrosstabPageBreakDialog
+CrosstabPageBreakDialog.Title=ページ区切り
+CrosstabPageBreakDialog.Text.GroupLevel=グループレベル :
+CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+
+###########################################################
+#SubTotalDialog
+SubTotalDialog.Title=Sub Total
+SubTotalDialog.Text.AggregateOn=Aggregate On:
+SubTotalDialog.Text.Function=Function:
+SubTotalDialog.Text.DataField=Data Field:
+
+FormPage.Menu.ModifyProperty=Modify
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=ページ区切り

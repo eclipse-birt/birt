@@ -122,3 +122,42 @@ FilterConditionBuilder.text.GroupLevel=그룹 수준:
 Blank.text.column=열을 정의하려면 데이터 필드를 여기에 내려 놓으십시오.
 Blank.text.row=행을 정의하려면 데이터\n필드를 여기에 내려 놓으십시오.
 Blank.text.measure=요약하려면 데이터 필드를 여기에 내려 놓으십시오.
+
+###########################################################
+#CrosstabGrandTotalDialog
+CrosstabGrandTotalDialog.Title=총합계
+CrosstabGrandTotalDialog.Text.DataField=Data Field:
+CrosstabGrandTotalDialog.Text.Function=Function:
+
+
+###########################################################
+# Crosstab RowArea PageBreak
+CrosstabPageBreakProvider.Column.GroupLevel=그룹 수준
+CrosstabPageBreakProvider.Column.Before=Before
+CrosstabPageBreakProvider.Column.After=After
+
+###########################################################
+# Crosstab RowArea SubTotal
+CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.DataField=데이터 필드
+CrosstabSubToatalProvider.Column.Function=함수
+
+###########################################################
+#CrosstabPageBreakDialog
+CrosstabPageBreakDialog.Title=페이지 나누기
+CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준:
+CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+
+###########################################################
+#SubTotalDialog
+SubTotalDialog.Title=Sub Total
+SubTotalDialog.Text.AggregateOn=Aggregate On:
+SubTotalDialog.Text.Function=Function:
+SubTotalDialog.Text.DataField=Data Field:
+
+FormPage.Menu.ModifyProperty=Modify
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=페이지 나누기

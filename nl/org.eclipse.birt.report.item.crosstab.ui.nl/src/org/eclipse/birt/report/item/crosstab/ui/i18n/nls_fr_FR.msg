@@ -122,3 +122,42 @@ FilterConditionBuilder.text.GroupLevel=Niveau de groupe :
 Blank.text.column=Ignorer le(s) champ(s) de données pour définir les colonnes ici
 Blank.text.row=Ignorer le(s) champ(s) de données pour définir les lignes ici
 Blank.text.measure=Ignorer le(s) champ(s) de données à résumer ici
+
+###########################################################
+#CrosstabGrandTotalDialog
+CrosstabGrandTotalDialog.Title=Total global
+CrosstabGrandTotalDialog.Text.DataField=Data Field:
+CrosstabGrandTotalDialog.Text.Function=Function:
+
+
+###########################################################
+# Crosstab RowArea PageBreak
+CrosstabPageBreakProvider.Column.GroupLevel=Niveau de groupe
+CrosstabPageBreakProvider.Column.Before=Before
+CrosstabPageBreakProvider.Column.After=After
+
+###########################################################
+# Crosstab RowArea SubTotal
+CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.DataField=Champ de données
+CrosstabSubToatalProvider.Column.Function=Fonction
+
+###########################################################
+#CrosstabPageBreakDialog
+CrosstabPageBreakDialog.Title=Saut de page
+CrosstabPageBreakDialog.Text.GroupLevel=Niveau de groupe :
+CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+
+###########################################################
+#SubTotalDialog
+SubTotalDialog.Title=Sub Total
+SubTotalDialog.Text.AggregateOn=Aggregate On:
+SubTotalDialog.Text.Function=Function:
+SubTotalDialog.Text.DataField=Data Field:
+
+FormPage.Menu.ModifyProperty=Modify
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=Saut de page
