@@ -628,7 +628,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		public void refresh( Block block ) throws IOException
 		{
 			assertOpen( );
-			if ( block.id < totalDiskBlocks )
+			if ( block.id <= totalDiskBlocks )
 			{
 				block.refresh( rf );
 			}
