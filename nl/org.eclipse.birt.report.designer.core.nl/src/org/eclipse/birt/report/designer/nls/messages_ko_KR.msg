@@ -377,6 +377,8 @@ parameterBinding.title=데이터 집합 매개 변수 바인딩...
 DataEditPart.Figure.Dafault=데이터
 DataEditPart.Figure.Expression=식
 
+DataEditPart.text.AggregateOn=집계 대상
+
 ###########################################################
 #DataEditPart properties
 
@@ -2445,7 +2447,7 @@ ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&D)
-ParameterDialog.CheckBox.Sort=물을 경우 알파벳 순으로 정렬(&R)
+ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=중복 값 허용
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
@@ -3804,3 +3806,13 @@ CrosstabPageGenerator.List.Bookmark=책갈피
 CrosstabPageGenerator.List.NamedExpressions=명명된 식
 CrosstabPageGenerator.List.UserProperties=사용자 속성
 CrosstabPageGenerator.List.AdvancedProperty=고급
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=페이지 나누기
+
+###########################################################
+#LibraryLayoutEditorFormPage
+LibraryLayoutEditorFormPage.warning.title=라이브러리
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
+LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again

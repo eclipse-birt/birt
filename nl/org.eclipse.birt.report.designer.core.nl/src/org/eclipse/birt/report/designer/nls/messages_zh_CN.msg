@@ -377,6 +377,8 @@ parameterBinding.title=数据集参数绑定...
 DataEditPart.Figure.Dafault=数据
 DataEditPart.Figure.Expression=表达式
 
+DataEditPart.text.AggregateOn=聚合条件
+
 ###########################################################
 #DataEditPart properties
 
@@ -2445,7 +2447,7 @@ ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&D)
-ParameterDialog.CheckBox.Sort=提示时按字母顺序排序(&B)
+ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=允许重复值
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
@@ -3804,3 +3806,13 @@ CrosstabPageGenerator.List.Bookmark=书签
 CrosstabPageGenerator.List.NamedExpressions=命名表达式
 CrosstabPageGenerator.List.UserProperties=用户属性
 CrosstabPageGenerator.List.AdvancedProperty=高级
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=分页符
+
+###########################################################
+#LibraryLayoutEditorFormPage
+LibraryLayoutEditorFormPage.warning.title=库
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
+LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again

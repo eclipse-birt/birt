@@ -377,6 +377,8 @@ parameterBinding.title=データセットパラメタのバインド...
 DataEditPart.Figure.Dafault=データ
 DataEditPart.Figure.Expression=式
 
+DataEditPart.text.AggregateOn=集計条件
+
 ###########################################################
 #DataEditPart properties
 
@@ -2445,7 +2447,7 @@ ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&O)
 ParameterDialog.CheckBox.Hidden=非表示(&D)
-ParameterDialog.CheckBox.Sort=確認時にアルファベット順にソートする(&R)
+ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=値の重複を許可する
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
@@ -3804,3 +3806,13 @@ CrosstabPageGenerator.List.Bookmark=ブックマーク
 CrosstabPageGenerator.List.NamedExpressions=名前付き式
 CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
 CrosstabPageGenerator.List.AdvancedProperty=詳細設定
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=ページ区切り
+
+###########################################################
+#LibraryLayoutEditorFormPage
+LibraryLayoutEditorFormPage.warning.title=ライブラリ
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
+LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again

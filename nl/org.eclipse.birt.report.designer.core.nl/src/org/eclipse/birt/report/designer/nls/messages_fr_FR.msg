@@ -377,6 +377,8 @@ parameterBinding.title=Liaison de paramètre de jeu de données...
 DataEditPart.Figure.Dafault=Données
 DataEditPart.Figure.Expression=expression
 
+DataEditPart.text.AggregateOn=Regrouper par
+
 ###########################################################
 #DataEditPart properties
 
@@ -2445,7 +2447,7 @@ ParameterDialog.Button.SetDefault=Définir p&ar défaut
 ParameterDialog.CheckBox.IsRequired=&Est requis
 ParameterDialog.CheckBox.DoNotEchoInput=Ne pas repr&oduire l'entrée
 ParameterDialog.CheckBox.Hidden=&Masqué
-ParameterDialog.CheckBox.Sort=T&rier par ordre alphabétique à l'invite
+ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=Autoriser les valeurs dupliquées
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
@@ -3804,3 +3806,13 @@ CrosstabPageGenerator.List.Bookmark=Signet
 CrosstabPageGenerator.List.NamedExpressions=Expressions nommées
 CrosstabPageGenerator.List.UserProperties=Propriétés de l'utilisateur
 CrosstabPageGenerator.List.AdvancedProperty=Avancé
+
+CrosstabPageGenerator.List.SubTotals=Sub Totals
+CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.PageBreak=Saut de page
+
+###########################################################
+#LibraryLayoutEditorFormPage
+LibraryLayoutEditorFormPage.warning.title=Bibliothèque
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
+LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
