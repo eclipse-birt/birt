@@ -17,7 +17,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
@@ -43,6 +49,7 @@ public class CrosstabUIHelper
 	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
 	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
 	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
+
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;
@@ -120,5 +127,29 @@ public class CrosstabUIHelper
 			registry.put( sPluginRelativePath, image );
 		}
 		return image;
+	}
+
+	private static final String LABEL_NAME = Messages.getString( "AddSubTotalAction.LabelName" );//$NON-NLS-1$
+	public static void CreateGrandTotalLabel( CrosstabCellHandle cellHandle )
+			throws SemanticException
+	{
+		LabelHandle dataHandle = DesignElementFactory.getInstance( )
+				.newLabel( null );
+
+		// dataHandle.setDisplayName( NAME );
+		dataHandle.setText( LABEL_NAME );
+		cellHandle.addContent( dataHandle );
+	}
+	
+	private static final String DISPALY_NAME = Messages.getString( "AddSubTotalAction.TotalName" );//$NON-NLS-1$
+	public static void CreateSubTotalLabel( LevelViewHandle levelView,
+			CrosstabCellHandle cellHandle ) throws SemanticException
+	{
+		LabelHandle dataHandle = DesignElementFactory.getInstance( )
+		.newLabel(null );
+		//Label name is a compand name.
+		dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" + DISPALY_NAME);
+		
+		cellHandle.addContent( dataHandle );
 	}
 }
