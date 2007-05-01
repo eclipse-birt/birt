@@ -87,7 +87,7 @@ public class AttributesBuilder
 				{
 					element = selection.get( 0 );
 				}
-				Object adapter = ElementAdapterManager.getAdatper( element,
+				Object adapter = ElementAdapterManager.getAdapter( element,
 						IPageGenerator.class );
 				if ( adapter instanceof IPageGenerator )
 				{

@@ -15,15 +15,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
-import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -31,6 +29,14 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class CategoryPageGenerator extends TabPageGenerator
 {
+
+	public static final String ATTRIBUTESTITLE = Messages.getString( "PageGenerator.TabItem.Attributes" );
+	public static final String BINDINGTITLE = Messages.getString( "PageGenerator.TabItem.Binding" );
+	public static final String SORTINGTITLE = Messages.getString( "PageGenerator.TabItem.Sorting" );
+	public static final String FILTERTITLE = Messages.getString( "PageGenerator.TabItem.Filters" );
+	public static final String HIGHLIGHTSTITLE = Messages.getString( "PageGenerator.TabItem.Highlights" );
+	public static final String GROUPSSTITLE = Messages.getString( "PageGenerator.TabItem.Groups" );
+	public static final String MAPTITLE = Messages.getString( "PageGenerator.TabItem.map" );
 
 	/**
 	 * A <code>Composite<code> contains all category-like attribute pages.
@@ -43,13 +49,17 @@ public class CategoryPageGenerator extends TabPageGenerator
 	{
 		if ( factory == null )
 		{
-			factory = (ICategoryProviderFactory) AdapterManager.getDefault( )
-					.getAdapter( this, ICategoryProviderFactory.class );
+			factory = (ICategoryProviderFactory) ElementAdapterManager.getAdapter( this, ICategoryProviderFactory.class );
 			if ( factory == null )
 			{
 				factory = CategoryProviderFactory.getInstance( );
 			}
 		}
+	}
+
+	public void refresh( )
+	{
+		createTabItems( input );
 	}
 
 	/*
@@ -67,7 +77,7 @@ public class CategoryPageGenerator extends TabPageGenerator
 			basicPage = new BaseAttributePage( );
 			basicPage.buildUI( tabFolder );
 			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
-			tabItem.setText( Messages.getString( "CategoryPageGenerator.TabItem.Attributes" ) ); //$NON-NLS-1$
+			tabItem.setText( ATTRIBUTESTITLE ); //$NON-NLS-1$
 			tabItem.setControl( basicPage.getControl( ) );
 
 			if ( customProvider != null )

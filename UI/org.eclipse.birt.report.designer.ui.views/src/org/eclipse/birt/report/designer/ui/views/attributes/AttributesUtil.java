@@ -40,7 +40,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPr
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;

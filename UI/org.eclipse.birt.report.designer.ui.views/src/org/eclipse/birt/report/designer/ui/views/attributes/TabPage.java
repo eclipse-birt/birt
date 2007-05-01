@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * An attribute page Presents some attributes of a DE element.

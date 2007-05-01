@@ -4,13 +4,13 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
 public class AbstractPageGenerator extends CategoryPageGenerator
 {
+
 	protected List input;
 	protected HashMap itemMap = new HashMap( );
 
@@ -24,27 +24,74 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 		}
 	}
 
-	protected void setPageInput( Object object )
+	protected void createTabItem( String itemKey, String getItemIndex )
 	{
-		if ( object instanceof AttributePage )
+		if ( existTabItem( itemKey ) )
+			return;
+		CTabItem tabItem = new CTabItem( tabFolder,
+				SWT.NONE,
+				getItemIndex( getItemIndex ) + 1 );
+		tabItem.setText( itemKey ); //$NON-NLS-1$
+		itemMap.put( tabItem, null );
+	}
+
+	public int getItemIndex( String title )
+	{
+		if ( title == null )
+			return -1;
+		CTabItem[] items = tabFolder.getItems( );
+		for ( int i = 0; i < items.length; i++ )
 		{
-			( (AttributePage) object ).setInput( input );
+			if ( items[i].getText( ).equals( title ) )
+				return i;
+		}
+		return -1;
+	}
+
+	public boolean existTabItem( String title )
+	{
+		CTabItem[] items = tabFolder.getItems( );
+		for ( int i = 0; i < items.length; i++ )
+		{
+			if ( items[i].getText( ).equals( title ) )
+				return true;
+		}
+		return false;
+	}
+
+	public void removeTabItem( String title )
+	{
+		CTabItem[] items = tabFolder.getItems( );
+		for ( int i = 0; i < items.length; i++ )
+		{
+			if ( items[i].getText( ).equals( title ) )
+			{
+				itemMap.remove( items[i] );
+				items[i].dispose( );
+			}
 		}
 	}
 
-	protected void refresh( Composite parent,Object object,boolean init)
+	protected void setPageInput( Object object )
 	{
-		if ( object instanceof AttributePage )
+		if ( object instanceof TabPage )
+		{
+			( (TabPage) object ).setInput( input );
+		}
+	}
+
+	protected void refresh( Composite parent, Object object, boolean init )
+	{
+		if ( object instanceof TabPage )
 		{
 			if ( init )
 			{
-				( (AttributePage) object ).buildUI( parent );
-				((Composite)( (AttributePage) object ).getControl( )).layout( );
+				( (TabPage) object ).buildUI( parent );
+				( (Composite) ( (TabPage) object ).getControl( ) ).layout( );
 			}
-			( (AttributePage) object ).refresh( );
-			
+			( (TabPage) object ).refresh( );
 			showPropertiesPage( );
 		}
 	}
-	
+
 }

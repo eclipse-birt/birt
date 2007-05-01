@@ -17,11 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Bindin
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -32,36 +28,30 @@ public class TextPageGenerator extends AbstractPageGenerator
 {
 
 	protected BindingPage bindingPage;
-
-	/**
-	 * SWT widgets presented highlights properties of DE Table element
-	 */
 	protected PreviewPage highlightsPage;
 
 	protected void buildItemContent( CTabItem item )
 	{
 		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
 		{
-			switch ( tabFolder.getSelectionIndex( ) )
+			String title = tabFolder.getSelection( ).getText( );
+			if ( title.equals( BINDINGTITLE ) )
 			{
-				case 1 :
-					bindingPage = new BindingPage( );
-					setPageInput( bindingPage );
-					refresh( tabFolder, bindingPage, true );
-					item.setControl( bindingPage.getControl( ) );
-					itemMap.put( item, bindingPage );
-					break;
-				case 2 :
-					highlightsPage = new PreviewPage( true );
-					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
-					setPageInput( highlightsPage );
-					refresh( tabFolder, highlightsPage, true );
-					item.setControl( highlightsPage.getControl( ) );
-					itemMap.put( item, highlightsPage );
-					break;
-				default :
-					break;
+				bindingPage = new BindingPage( );
+				setPageInput( bindingPage );
+				refresh( tabFolder, bindingPage, true );
+				item.setControl( bindingPage.getControl( ) );
+				itemMap.put( item, bindingPage );
+			}
+			else if ( title.equals( HIGHLIGHTSTITLE ) )
+			{
+				highlightsPage = new PreviewPage( true );
+				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
+				highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
+				setPageInput( highlightsPage );
+				refresh( tabFolder, highlightsPage, true );
+				item.setControl( highlightsPage.getControl( ) );
+				itemMap.put( item, highlightsPage );
 			}
 		}
 		else if ( itemMap.get( item ) != null )
@@ -76,18 +66,21 @@ public class TextPageGenerator extends AbstractPageGenerator
 		super.createTabItems( input );
 		this.input = input;
 		addSelectionListener( this );
-		createTabItem( 1,
-				Messages.getString( "TablePageGenerator.TabItem.Binding" ) );
-		createTabItem( 2,
-				Messages.getString( "LabelPageGenerator.TabItem.Highlights" ) );
+		createTabItems( );
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
 	}
-	
+
+	protected void createTabItems( )
+	{
+		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
+		createTabItem( HIGHLIGHTSTITLE, BINDINGTITLE );
+	}
+
 	public void createControl( Composite parent, Object input )
 	{
 		super.createControl( parent, input );
-		createTabItems( (List)input );
+		createTabItems( (List) input );
 	}
-	
+
 }

@@ -22,8 +22,10 @@ public interface IPageGenerator
 {
 
 	void createControl( Composite parent, Object input );
-	
-	Control getControl();
-	
-	Object getInput();
+
+	Control getControl( );
+
+	Object getInput( );
+
+	void refresh( );
 }

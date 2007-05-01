@@ -16,11 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -36,24 +32,22 @@ public class LabelPageGenerator extends AbstractPageGenerator
 	{
 		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
 		{
-			switch ( tabFolder.getSelectionIndex( ) )
+			String title = tabFolder.getSelection( ).getText( );
+			if ( title.equals( HIGHLIGHTSTITLE ) )
 			{
-				case 1 :
-					highlightsPage = new PreviewPage( true );
-					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
-					setPageInput( highlightsPage );
-					refresh(tabFolder,highlightsPage, true);
-					item.setControl( highlightsPage.getControl( ) );
-					itemMap.put( item, highlightsPage );
-					break;
-				default :
-					break;
+				highlightsPage = new PreviewPage( true );
+				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
+				highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
+				setPageInput( highlightsPage );
+				refresh( tabFolder, highlightsPage, true );
+				item.setControl( highlightsPage.getControl( ) );
+				itemMap.put( item, highlightsPage );
 			}
 		}
-		else if ( itemMap.get( item ) != null ){
+		else if ( itemMap.get( item ) != null )
+		{
 			setPageInput( itemMap.get( item ) );
-			refresh(tabFolder,itemMap.get( item ), false);
+			refresh( tabFolder, itemMap.get( item ), false );
 		}
 	}
 
@@ -62,15 +56,19 @@ public class LabelPageGenerator extends AbstractPageGenerator
 		super.createTabItems( input );
 		this.input = input;
 		addSelectionListener( this );
-		createTabItem( 1,
-				Messages.getString( "LabelPageGenerator.TabItem.Highlights" ) );
+		createTabItems( );
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
 	}
-	
+
+	protected void createTabItems( )
+	{
+		createTabItem( HIGHLIGHTSTITLE, ATTRIBUTESTITLE );
+	}
+
 	public void createControl( Composite parent, Object input )
 	{
 		super.createControl( parent, input );
-		createTabItems( (List)input );
+		createTabItems( (List) input );
 	}
 }

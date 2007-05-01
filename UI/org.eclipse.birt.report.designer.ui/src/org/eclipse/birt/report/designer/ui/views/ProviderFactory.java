@@ -47,7 +47,7 @@ public class ProviderFactory
 
 	public static INodeProvider createProvider( Object object )
 	{
-		Object adapter = ElementAdapterManager.getAdatper( object,
+		Object adapter = ElementAdapterManager.getAdapter( object,
 				INodeProvider.class );
 		if ( adapter != null )
 			return (INodeProvider) adapter;

@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -78,8 +78,7 @@ public class TabPageGenerator implements IPageGenerator
 				/* not used */
 			}
 		};
-		Platform.run( runnable );
-
+		SafeRunner.run( runnable );
 	}
 
 	protected List input;
@@ -189,5 +188,11 @@ public class TabPageGenerator implements IPageGenerator
 	{
 		// TODO Auto-generated method stub
 		return input;
+	}
+
+	public void refresh( )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

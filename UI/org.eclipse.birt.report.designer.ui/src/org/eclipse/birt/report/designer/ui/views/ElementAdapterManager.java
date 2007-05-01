@@ -176,7 +176,7 @@ public class ElementAdapterManager
 		}
 	}
 
-	public static Object getAdatper( Object adaptableObject, Class adatperType )
+	public static Object getAdapter( Object adaptableObject, Class adatperType )
 	{
 
 		Set adapters = getAdapters( adaptableObject );

@@ -764,6 +764,8 @@ public class AttributeViewPage extends Page implements
 	public void postElementEvent( )
 	{
 		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
+		if ( pageGenerator != null )
+			pageGenerator.refresh( );
 	}
 
 	public Object getAdapter( Class adapter )
