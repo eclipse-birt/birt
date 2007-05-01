@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=空白值
 CascadingParametersDialog.Choice.SelectValue=<选择值...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=属性
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=边框
 CellPageGenerator.List.CellPadding=填充
 CellPageGenerator.List.Font=字体
 CellPageGenerator.List.General=常规
-CellPageGenerator.TabItem.Highlights=突出显示
-CellPageGenerator.TabItem.map=映射
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=突出显示
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=边框
 ColumnPageGenerator.List.CellPadding=单元格边距
 ColumnPageGenerator.List.Font=字体
 ColumnPageGenerator.List.General=常规
-ColumnPageGenerator.TabItem.Highlights=突出显示
-ColumnPageGenerator.TabItem.map=映射
 ColumnPageGenerator.List.Visibility=可见性
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=填充
 DataPageGenerator.List.Section=分页符
 DataPageGenerator.List.TOC=目录
 DataPageGenerator.List.Visibility=可见性
-DataPageGenerator.TabItem.map=映射
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=边距
 GridPageGenerator.List.Section=分页符
 GridPageGenerator.List.TOC=目录
 GridPageGenerator.List.Visibility=可见性
-GridPageGenerator.TabItem.Highlights=突出显示
-GridPageGenerator.TabItem.map=映射
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=常规
 ListPageGenerator.List.Section=分页符
 ListPageGenerator.List.TOC=目录
 ListPageGenerator.List.Visibility=可见性
-ListPageGenerator.TabItem.Binding=绑定
-ListPageGenerator.TabItem.Filters=筛选器
-ListPageGenerator.TabItem.Groups=组
-ListPageGenerator.TabItem.Highlights=突出显示
-ListPageGenerator.TabItem.map=映射
-ListPageGenerator.TabItem.Sorting=排序
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=分页符
 RowPageGenerator.List.CellPadding=单元格边距
 RowPageGenerator.List.Font=字体
 RowPageGenerator.List.General=常规
-RowPageGenerator.TabItem.Highlights=突出显示
-RowPageGenerator.TabItem.map=映射
 RowPageGenerator.List.Visibility=可见性
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=边距
 TablePageGenerator.List.Section=分页符
 TablePageGenerator.List.TOC=目录
 TablePageGenerator.List.Visibility=可见性
-TablePageGenerator.TabItem.Binding=绑定
-TablePageGenerator.TabItem.Filters=筛选器
-TablePageGenerator.TabItem.Groups=组
-TablePageGenerator.TabItem.Highlights=突出显示
-TablePageGenerator.TabItem.map=映射
-TablePageGenerator.TabItem.Sorting=排序
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=分页符
 LibraryLayoutEditorFormPage.warning.title=库
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=属性
+PageGenerator.TabItem.Binding=绑定
+PageGenerator.TabItem.Filters=筛选器
+PageGenerator.TabItem.Groups=组
+PageGenerator.TabItem.Highlights=突出显示
+PageGenerator.TabItem.map=映射
+PageGenerator.TabItem.Sorting=排序

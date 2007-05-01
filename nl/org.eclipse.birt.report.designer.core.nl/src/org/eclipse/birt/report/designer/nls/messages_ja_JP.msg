@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=空白値
 CascadingParametersDialog.Choice.SelectValue=<値の選択...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=プロパティ
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=罫線
 CellPageGenerator.List.CellPadding=パディング
 CellPageGenerator.List.Font=フォント
 CellPageGenerator.List.General=全般
-CellPageGenerator.TabItem.Highlights=ハイライト
-CellPageGenerator.TabItem.map=マップ
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=ハイライト
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=罫線
 ColumnPageGenerator.List.CellPadding=セルのパディング
 ColumnPageGenerator.List.Font=フォント
 ColumnPageGenerator.List.General=全般
-ColumnPageGenerator.TabItem.Highlights=ハイライト
-ColumnPageGenerator.TabItem.map=マップ
 ColumnPageGenerator.List.Visibility=表示/非表示
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=パディング
 DataPageGenerator.List.Section=ページ区切り
 DataPageGenerator.List.TOC=目次
 DataPageGenerator.List.Visibility=可視性
-DataPageGenerator.TabItem.map=マップ
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=余白
 GridPageGenerator.List.Section=ページ区切り
 GridPageGenerator.List.TOC=目次
 GridPageGenerator.List.Visibility=可視性
-GridPageGenerator.TabItem.Highlights=ハイライト
-GridPageGenerator.TabItem.map=マップ
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=全般
 ListPageGenerator.List.Section=ページ区切り
 ListPageGenerator.List.TOC=目次
 ListPageGenerator.List.Visibility=可視性
-ListPageGenerator.TabItem.Binding=バインド
-ListPageGenerator.TabItem.Filters=フィルタ
-ListPageGenerator.TabItem.Groups=グループ
-ListPageGenerator.TabItem.Highlights=ハイライト
-ListPageGenerator.TabItem.map=マップ
-ListPageGenerator.TabItem.Sorting=ソート
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=ページ区切り
 RowPageGenerator.List.CellPadding=セルのパディング
 RowPageGenerator.List.Font=フォント
 RowPageGenerator.List.General=全般
-RowPageGenerator.TabItem.Highlights=ハイライト
-RowPageGenerator.TabItem.map=マップ
 RowPageGenerator.List.Visibility=表示/非表示
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=余白
 TablePageGenerator.List.Section=ページ区切り
 TablePageGenerator.List.TOC=目次
 TablePageGenerator.List.Visibility=可視性
-TablePageGenerator.TabItem.Binding=バインド
-TablePageGenerator.TabItem.Filters=フィルタ
-TablePageGenerator.TabItem.Groups=グループ
-TablePageGenerator.TabItem.Highlights=ハイライト
-TablePageGenerator.TabItem.map=マップ
-TablePageGenerator.TabItem.Sorting=ソート
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=ページ区切り
 LibraryLayoutEditorFormPage.warning.title=ライブラリ
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=プロパティ
+PageGenerator.TabItem.Binding=バインド
+PageGenerator.TabItem.Filters=フィルタ
+PageGenerator.TabItem.Groups=グループ
+PageGenerator.TabItem.Highlights=ハイライト
+PageGenerator.TabItem.map=マップ
+PageGenerator.TabItem.Sorting=ソート

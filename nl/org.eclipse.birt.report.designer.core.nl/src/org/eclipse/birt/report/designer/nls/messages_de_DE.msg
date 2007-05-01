@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=Leerwert
 CascadingParametersDialog.Choice.SelectValue=<Wert auswählen ...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=Eigenschaften
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=Rahmen
 CellPageGenerator.List.CellPadding=Umrandungsfüllung
 CellPageGenerator.List.Font=Schriftart
 CellPageGenerator.List.General=Allgemein
-CellPageGenerator.TabItem.Highlights=Kennzeichnungen
-CellPageGenerator.TabItem.map=Zuordnung
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=Kennzeichnungen
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=Rahmen
 ColumnPageGenerator.List.CellPadding=Zellfüllung
 ColumnPageGenerator.List.Font=Schriftart
 ColumnPageGenerator.List.General=Allgemein
-ColumnPageGenerator.TabItem.Highlights=Kennzeichnungen
-ColumnPageGenerator.TabItem.map=Zuordnung
 ColumnPageGenerator.List.Visibility=Sichtbarkeit
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=Umrandungsfüllung
 DataPageGenerator.List.Section=Seitenumbruch
 DataPageGenerator.List.TOC=Inhaltsverzeichnis
 DataPageGenerator.List.Visibility=Sichtbarkeit
-DataPageGenerator.TabItem.map=Zuordnung
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=Rand
 GridPageGenerator.List.Section=Seitenumbruch
 GridPageGenerator.List.TOC=Inhaltsverzeichnis
 GridPageGenerator.List.Visibility=Sichtbarkeit
-GridPageGenerator.TabItem.Highlights=Kennzeichnungen
-GridPageGenerator.TabItem.map=Zuordnung
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=Allgemein
 ListPageGenerator.List.Section=Seitenumbruch
 ListPageGenerator.List.TOC=Inhaltsverzeichnis
 ListPageGenerator.List.Visibility=Sichtbarkeit
-ListPageGenerator.TabItem.Binding=Bindung
-ListPageGenerator.TabItem.Filters=Filter
-ListPageGenerator.TabItem.Groups=Gruppen
-ListPageGenerator.TabItem.Highlights=Kennzeichnungen
-ListPageGenerator.TabItem.map=Zuordnung
-ListPageGenerator.TabItem.Sorting=Sortierung
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=Seitenumbruch
 RowPageGenerator.List.CellPadding=Zellfüllung
 RowPageGenerator.List.Font=Schriftart
 RowPageGenerator.List.General=Allgemein
-RowPageGenerator.TabItem.Highlights=Kennzeichnungen
-RowPageGenerator.TabItem.map=Zuordnung
 RowPageGenerator.List.Visibility=Sichtbarkeit
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=Rand
 TablePageGenerator.List.Section=Seitenumbruch
 TablePageGenerator.List.TOC=Inhaltsverzeichnis
 TablePageGenerator.List.Visibility=Sichtbarkeit
-TablePageGenerator.TabItem.Binding=Bindung
-TablePageGenerator.TabItem.Filters=Filter
-TablePageGenerator.TabItem.Groups=Gruppen
-TablePageGenerator.TabItem.Highlights=Kennzeichnungen
-TablePageGenerator.TabItem.map=Zuordnung
-TablePageGenerator.TabItem.Sorting=Sortierung
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=Seitenumbruch
 LibraryLayoutEditorFormPage.warning.title=Bibliothek
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=Eigenschaften
+PageGenerator.TabItem.Binding=Bindung
+PageGenerator.TabItem.Filters=Filter
+PageGenerator.TabItem.Groups=Gruppen
+PageGenerator.TabItem.Highlights=Kennzeichnungen
+PageGenerator.TabItem.map=Zuordnung
+PageGenerator.TabItem.Sorting=Sortierung

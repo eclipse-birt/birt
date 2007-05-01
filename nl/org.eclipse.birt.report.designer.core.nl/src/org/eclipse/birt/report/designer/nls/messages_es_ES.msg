@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=Valor en blanco
 CascadingParametersDialog.Choice.SelectValue=<Seleccionar valor...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=Propiedades
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=Borde
 CellPageGenerator.List.CellPadding=Relleno
 CellPageGenerator.List.Font=Fuente
 CellPageGenerator.List.General=General
-CellPageGenerator.TabItem.Highlights=Resaltados
-CellPageGenerator.TabItem.map=Asignar
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=Resaltados
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=Borde
 ColumnPageGenerator.List.CellPadding=Relleno de celdas
 ColumnPageGenerator.List.Font=Fuente
 ColumnPageGenerator.List.General=General
-ColumnPageGenerator.TabItem.Highlights=Resaltados
-ColumnPageGenerator.TabItem.map=Asignar
 ColumnPageGenerator.List.Visibility=Visibilidad
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=Relleno
 DataPageGenerator.List.Section=Salto de página
 DataPageGenerator.List.TOC=Tabla de contenido
 DataPageGenerator.List.Visibility=Visibilidad
-DataPageGenerator.TabItem.map=Asignar
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=Margen
 GridPageGenerator.List.Section=Salto de página
 GridPageGenerator.List.TOC=Tabla de contenido
 GridPageGenerator.List.Visibility=Visibilidad
-GridPageGenerator.TabItem.Highlights=Resaltados
-GridPageGenerator.TabItem.map=Asignar
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=General
 ListPageGenerator.List.Section=Salto de página
 ListPageGenerator.List.TOC=Tabla de contenido
 ListPageGenerator.List.Visibility=Visibilidad
-ListPageGenerator.TabItem.Binding=Enlace
-ListPageGenerator.TabItem.Filters=Filtros
-ListPageGenerator.TabItem.Groups=Grupos
-ListPageGenerator.TabItem.Highlights=Resaltados
-ListPageGenerator.TabItem.map=Asignar
-ListPageGenerator.TabItem.Sorting=Ordenar
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=Salto de página
 RowPageGenerator.List.CellPadding=Relleno de celdas
 RowPageGenerator.List.Font=Fuente
 RowPageGenerator.List.General=General
-RowPageGenerator.TabItem.Highlights=Resaltados
-RowPageGenerator.TabItem.map=Asignar
 RowPageGenerator.List.Visibility=Visibilidad
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=Margen
 TablePageGenerator.List.Section=Salto de página
 TablePageGenerator.List.TOC=Tabla de contenido
 TablePageGenerator.List.Visibility=Visibilidad
-TablePageGenerator.TabItem.Binding=Enlace
-TablePageGenerator.TabItem.Filters=Filtros
-TablePageGenerator.TabItem.Groups=Grupos
-TablePageGenerator.TabItem.Highlights=Resaltados
-TablePageGenerator.TabItem.map=Asignar
-TablePageGenerator.TabItem.Sorting=Ordenar
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=Salto de página
 LibraryLayoutEditorFormPage.warning.title=Librería
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=Propiedades
+PageGenerator.TabItem.Binding=Enlace
+PageGenerator.TabItem.Filters=Filtros
+PageGenerator.TabItem.Groups=Grupos
+PageGenerator.TabItem.Highlights=Resaltados
+PageGenerator.TabItem.map=Asignar
+PageGenerator.TabItem.Sorting=Ordenar

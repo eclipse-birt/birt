@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=Valeur vierge
 CascadingParametersDialog.Choice.SelectValue=<Sélectionner une valeur...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=Propriétés
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=Bordure
 CellPageGenerator.List.CellPadding=Remplissage
 CellPageGenerator.List.Font=Police
 CellPageGenerator.List.General=Général
-CellPageGenerator.TabItem.Highlights=Surbrillances
-CellPageGenerator.TabItem.map=Mappage
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=Surbrillances
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=Bordure
 ColumnPageGenerator.List.CellPadding=Marge intérieure
 ColumnPageGenerator.List.Font=Police
 ColumnPageGenerator.List.General=Général
-ColumnPageGenerator.TabItem.Highlights=Surbrillances
-ColumnPageGenerator.TabItem.map=Mappage
 ColumnPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=Remplissage
 DataPageGenerator.List.Section=Saut de page
 DataPageGenerator.List.TOC=Table des matières
 DataPageGenerator.List.Visibility=Visibilité
-DataPageGenerator.TabItem.map=Mappage
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=Marge
 GridPageGenerator.List.Section=Saut de page
 GridPageGenerator.List.TOC=Table des matières
 GridPageGenerator.List.Visibility=Visibilité
-GridPageGenerator.TabItem.Highlights=Surbrillances
-GridPageGenerator.TabItem.map=Mappage
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=Général
 ListPageGenerator.List.Section=Saut de page
 ListPageGenerator.List.TOC=Table des matières
 ListPageGenerator.List.Visibility=Visibilité
-ListPageGenerator.TabItem.Binding=Liaison
-ListPageGenerator.TabItem.Filters=Filtres
-ListPageGenerator.TabItem.Groups=Groupes
-ListPageGenerator.TabItem.Highlights=Surbrillances
-ListPageGenerator.TabItem.map=Mappage
-ListPageGenerator.TabItem.Sorting=Tri
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=Saut de page
 RowPageGenerator.List.CellPadding=Marge intérieure
 RowPageGenerator.List.Font=Police
 RowPageGenerator.List.General=Général
-RowPageGenerator.TabItem.Highlights=Surbrillances
-RowPageGenerator.TabItem.map=Mappage
 RowPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=Marge
 TablePageGenerator.List.Section=Saut de page
 TablePageGenerator.List.TOC=Table des matières
 TablePageGenerator.List.Visibility=Visibilité
-TablePageGenerator.TabItem.Binding=Liaison
-TablePageGenerator.TabItem.Filters=Filtres
-TablePageGenerator.TabItem.Groups=Groupes
-TablePageGenerator.TabItem.Highlights=Surbrillances
-TablePageGenerator.TabItem.map=Mappage
-TablePageGenerator.TabItem.Sorting=Tri
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=Saut de page
 LibraryLayoutEditorFormPage.warning.title=Bibliothèque
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=Propriétés
+PageGenerator.TabItem.Binding=Liaison
+PageGenerator.TabItem.Filters=Filtres
+PageGenerator.TabItem.Groups=Groupes
+PageGenerator.TabItem.Highlights=Surbrillances
+PageGenerator.TabItem.map=Mappage
+PageGenerator.TabItem.Sorting=Tri en cours

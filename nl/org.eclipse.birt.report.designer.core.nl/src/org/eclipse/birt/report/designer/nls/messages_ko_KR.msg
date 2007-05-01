@@ -286,23 +286,12 @@ CascadingParametersDialog.Choice.BlankValue=빈 값
 CascadingParametersDialog.Choice.SelectValue=<값 선택...>
 
 ###########################################################
-#CategoryPageGenerator properties
-
-CategoryPageGenerator.TabItem.Attributes=속성
-
-###########################################################
 #CellPageGenerator properties
 
 CellPageGenerator.List.Borders=테두리
 CellPageGenerator.List.CellPadding=안쪽 여백
 CellPageGenerator.List.Font=글꼴
 CellPageGenerator.List.General=일반
-CellPageGenerator.TabItem.Highlights=강조
-CellPageGenerator.TabItem.map=맵
-
-###########################################################
-#LabelPageGenerator properties
-LabelPageGenerator.TabItem.Highlights=강조
 
 
 ###########################################################
@@ -328,8 +317,6 @@ ColumnPageGenerator.List.Borders=테두리
 ColumnPageGenerator.List.CellPadding=셀 안쪽 여백
 ColumnPageGenerator.List.Font=글꼴
 ColumnPageGenerator.List.General=일반
-ColumnPageGenerator.TabItem.Highlights=강조
-ColumnPageGenerator.TabItem.map=맵
 ColumnPageGenerator.List.Visibility=표시 유형
 
 ###########################################################
@@ -403,7 +390,6 @@ DataPageGenerator.List.Padding=안쪽 여백
 DataPageGenerator.List.Section=페이지 나누기
 DataPageGenerator.List.TOC=목차
 DataPageGenerator.List.Visibility=표시 유형
-DataPageGenerator.TabItem.map=맵
 
 ###########################################################
 #dataset properties
@@ -1558,8 +1544,6 @@ GridPageGenerator.List.Margin=여백
 GridPageGenerator.List.Section=페이지 나누기
 GridPageGenerator.List.TOC=목차
 GridPageGenerator.List.Visibility=표시 유형
-GridPageGenerator.TabItem.Highlights=강조
-GridPageGenerator.TabItem.map=맵
 
 ###########################################################
 #GridProvider properties
@@ -2099,13 +2083,6 @@ ListPageGenerator.List.General=일반
 ListPageGenerator.List.Section=페이지 나누기
 ListPageGenerator.List.TOC=목차
 ListPageGenerator.List.Visibility=표시 유형
-ListPageGenerator.TabItem.Binding=바인딩
-ListPageGenerator.TabItem.Filters=필터
-ListPageGenerator.TabItem.Groups=그룹
-ListPageGenerator.TabItem.Highlights=강조
-ListPageGenerator.TabItem.map=맵
-ListPageGenerator.TabItem.Sorting=정렬
-
 
 
 ###########################################################
@@ -2955,8 +2932,6 @@ RowPageGenerator.List.Section=페이지 나누기
 RowPageGenerator.List.CellPadding=셀 안쪽 여백
 RowPageGenerator.List.Font=글꼴
 RowPageGenerator.List.General=일반
-RowPageGenerator.TabItem.Highlights=강조
-RowPageGenerator.TabItem.map=맵
 RowPageGenerator.List.Visibility=표시 유형
 
 ###########################################################
@@ -3192,12 +3167,6 @@ TablePageGenerator.List.Marign=여백
 TablePageGenerator.List.Section=페이지 나누기
 TablePageGenerator.List.TOC=목차
 TablePageGenerator.List.Visibility=표시 유형
-TablePageGenerator.TabItem.Binding=바인딩
-TablePageGenerator.TabItem.Filters=필터
-TablePageGenerator.TabItem.Groups=그룹
-TablePageGenerator.TabItem.Highlights=강조
-TablePageGenerator.TabItem.map=맵
-TablePageGenerator.TabItem.Sorting=정렬
 
 ###########################################################
 #TemplateReportItemPropertiesDialog properties
@@ -3816,3 +3785,13 @@ CrosstabPageGenerator.List.PageBreak=페이지 나누기
 LibraryLayoutEditorFormPage.warning.title=라이브러리
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
 LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+
+###########################################################
+#PageGenerator Item properties
+PageGenerator.TabItem.Attributes=속성
+PageGenerator.TabItem.Binding=바인딩
+PageGenerator.TabItem.Filters=필터
+PageGenerator.TabItem.Groups=그룹
+PageGenerator.TabItem.Highlights=강조
+PageGenerator.TabItem.map=맵
+PageGenerator.TabItem.Sorting=정렬
