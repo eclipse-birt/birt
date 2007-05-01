@@ -68,6 +68,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private List rowSort = null;
 	private List columnSort = null;
+	private List topbottomFilters;
 	
 	private boolean[] noRecal; // to indicate whether an aggregation need
 									// recalculate,whose length should be the
@@ -86,12 +87,13 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.dimJSFilterMap = new HashMap( );
 		this.dimRowForFilterMap = new HashMap( );
 		
-		this.rowSort = new ArrayList();
-		this.columnSort = new ArrayList();
+		this.rowSort = new ArrayList( );
+		this.columnSort = new ArrayList( );
+		this.topbottomFilters = new ArrayList( );
 	}
 	
 	/**
-	 * get the members according to the specified dimensionName and levelName.
+	 * TODO: get the members according to the specified dimensionName and levelName.
 	 * @param dimensionName
 	 * @param levelName
 	 * @return
@@ -178,6 +180,15 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private static String getTmpFileName( String pathName, String name )
 	{
 		return pathName + File.separator + "cubequeryresult" +name;
+	}
+	
+	/**
+	 * 
+	 * @param tbFilter
+	 */
+	public void addTopBottomFilter(TopBottomFilterDefn topbottomFilter)
+	{
+		this.topbottomFilters.add(topbottomFilter);
 	}
 	
 	/**
@@ -328,7 +339,75 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					resultSet );
 			resultSet[findMatchedResultSetIndex( resultSet, row )] = row;
 		}
+		if ( topbottomFilters.size( ) > 0 )
+		{
+			selectTopBottomResultSet( aggregations, resultSet );
+		}
 		return resultSet;
+	}
+	
+	 
+	/**
+	 * do the top N and bottom N filter work here.
+	 * @param aggregations
+	 * @param resultSet
+	 * @return
+	 * @throws IOException 
+	 */
+	private void selectTopBottomResultSet(
+			AggregationDefinition[] aggregations,
+			IAggregationResultSet[] resultSet ) throws IOException
+	{
+		for ( int i = 0; i < aggregations.length; i++ )
+		{
+			String[] levels = aggregations[i].getLevelNames( );
+			Map levelRange = new HashMap();
+			for ( Iterator j = topbottomFilters.iterator( ); j.hasNext( ); )
+			{
+				TopBottomFilterDefn filter = (TopBottomFilterDefn) j.next( );
+				if ( isEqualLevels( levels, filter.getAggrLevels( ) ) )
+				{
+					String target = filter.getTargerLevelName( );
+					IntRange range = (IntRange) levelRange.get( target );
+					if (  range == null )
+					{
+						range = new IntRange(0,resultSet[i].length( ));
+						levelRange.put( target, range );
+					}
+					if ( filter.getN( ) == 0 )
+					{
+						continue;
+					}
+					else if ( filter.isTop( ) )
+					{//top N
+						range.end = range.start + filter.getN( );
+					}
+					else
+					{//bottom N
+						range.start = range.end - filter.getN( );
+					}
+				}
+			}
+			for ( Iterator j = levelRange.keySet( ).iterator( ); j.hasNext( ); )
+			{
+				String level = (String) j.next( );
+				IntRange range = (IntRange) levelRange.get( level );
+				if ( range.start >= range.end )
+					continue;// no need to apply top/bottom filter
+				resultSet[i].subset(level, range.start, range.end);
+			}
+		}
+	}
+	
+	class IntRange
+	{
+		int start;
+		int end;
+		IntRange( int start, int end )
+		{
+			this.start = start;
+			this.end = end;
+		}
 	}
 
 	/**
@@ -993,7 +1072,7 @@ class AggrFilter
 	private String[] axisQualifierNames;
 	private Object[] axisQualifierValues;
 	
-	public AggrFilter( DimensionFilterEvalHelper filterEvalHelper)
+	AggrFilter( DimensionFilterEvalHelper filterEvalHelper)
 	{
 		aggrFilterHelper = filterEvalHelper;
 		ICubeFilterDefinition cubeFilter = filterEvalHelper.getCubeFiterDefinition( );
@@ -1015,7 +1094,7 @@ class AggrFilter
 	/**
 	 * @return the axisQualifierLevelNames
 	 */
-	public String[] getAxisQualifierNames( )
+	String[] getAxisQualifierNames( )
 	{
 		return axisQualifierNames;
 	}
@@ -1024,7 +1103,7 @@ class AggrFilter
 	/**
 	 * @return the axisQualifierLevelValues
 	 */
-	public Object[] getAxisQualifierValues( )
+	Object[] getAxisQualifierValues( )
 	{
 		return axisQualifierValues;
 	}
@@ -1032,7 +1111,7 @@ class AggrFilter
 	/**
 	 * @return the aggrLevels
 	 */
-	public String[] getAggrLevelNames( )
+	String[] getAggrLevelNames( )
 	{
 		return aggrLevelNames;
 	}
@@ -1040,7 +1119,7 @@ class AggrFilter
 	/**
 	 * @return the aggrFilter
 	 */
-	public IJsFilterHelper getAggrFilter( )
+	IJsFilterHelper getAggrFilter( )
 	{
 		return aggrFilterHelper;
 	}
@@ -1048,7 +1127,7 @@ class AggrFilter
 	/**
 	 * @return the targetLevel
 	 */
-	public String getTargetLevelName( )
+	String getTargetLevelName( )
 	{
 		return targetLevelName;
 	}

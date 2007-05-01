@@ -456,4 +456,10 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		length = 0;
 	}
 
+	public void subset( String level, int start, int end )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

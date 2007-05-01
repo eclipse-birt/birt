@@ -19,6 +19,8 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
@@ -31,7 +33,7 @@ public class AggregationResultSet implements IAggregationResultSet
 
 	private AggregationDefinition aggregation;
 	private Map aggregationResultNameMap = null;
-	private IDiskArray aggregationResultRow;
+	private IDiskArray aggregationResultRows;
 	private int currentPosition;
 	private String[][] keyNames;
 	private String[][] attributeNames;
@@ -53,7 +55,7 @@ public class AggregationResultSet implements IAggregationResultSet
 			String[][] attributeNames ) throws IOException
 	{
 		this.aggregation = aggregation;
-		this.aggregationResultRow = aggregationResultRow;
+		this.aggregationResultRows = aggregationResultRow;
 		produceaggregationNameMap( );
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
@@ -273,7 +275,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public int length( )
 	{
-		return aggregationResultRow.size( );
+		return aggregationResultRows.size( );
 	}
 
 	/*
@@ -282,13 +284,13 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public void seek( int index ) throws IOException
 	{
-		if ( index >= aggregationResultRow.size( ) )
+		if ( index >= aggregationResultRows.size( ) )
 		{
 			throw new IndexOutOfBoundsException( "Index: "
-					+ index + ", Size: " + aggregationResultRow.size( ) );
+					+ index + ", Size: " + aggregationResultRows.size( ) );
 		}
 		currentPosition = index;
-		resultObject = (IAggregationResultRow) aggregationResultRow.get( index );
+		resultObject = (IAggregationResultRow) aggregationResultRows.get( index );
 	}
 
 	/**
@@ -532,7 +534,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public void close( ) throws IOException
 	{
-		aggregationResultRow.close( );
+		aggregationResultRows.close( );
 	}
 
 	/*
@@ -541,7 +543,36 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public void clear( ) throws IOException
 	{
-		aggregationResultRow.clear( );
+		aggregationResultRows.clear( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#selectRange(java.lang.String, int, int)
+	 */
+	public void subset( String level, int start, int end ) throws IOException
+	{
+		IDiskArray subset = new BufferedStructureArray( AggregationResultRow.getCreator( ),
+				4096 );
+		int levelIndex = this.getLevelIndex( level );
+		int levelPosition = -1; 
+		Object[] preKey = new Object[getLevelCount( )];
+		for ( int j = 0; j < this.length( ); j++ )
+		{
+			seek( j );
+			IAggregationResultRow temp = getCurrentRow( );
+			Object[] key = this.getLevelKeyValue( levelIndex );
+			if ( CompareUtil.compare( preKey, key ) != 0 )
+			{
+				levelPosition++;
+			}
+			if ( levelPosition >= start && levelPosition < end )
+			{
+				subset.add( temp );
+			}
+		}
+		aggregationResultRows.close( );
+		aggregationResultRows = subset;
+		seek( 0 );
+	}
 }
