@@ -34,7 +34,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public void afterLast( ) throws OLAPException
 	{
-		edgeInfoGenerator.edge_afterLst( );
+		edgeInfoGenerator.edge_afterLast( );
 	}
 
 	/*

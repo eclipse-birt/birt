@@ -138,7 +138,15 @@ public class MirrorCursorNavigatorTest extends TestCase
 		catch ( OLAPException e )
 		{
 		}
-
+		
+		//-------------------------edgeCursor setPostion(>edgeLength),previous------
+		columnCursor.setPosition( 225 );
+		columnCursor.previous( );
+		assertTrue( countryCursor.getObject( "level11" ).equals( "US" ) );
+		assertTrue( cityCursor.getObject( "level12" ).equals( "NY" ) );
+		assertTrue( streetCursor.getObject( "level13" ).equals( "A4" ) );
+		assertTrue( yearCursor.getObject( "level14" ).equals( "2002" ) );
+		
 		//-------------------------------edgeCursor previous()--------------
 		columnCursor.setPosition( 86 );
 		columnCursor.previous( );
@@ -198,6 +206,20 @@ public class MirrorCursorNavigatorTest extends TestCase
 
 		//------------------------------dimensionCursor setPosition(),getEdgeStart(),getEdgeEnd()--------------
 		columnCursor.beforeFirst( );
+		columnCursor.next( );
+		assertTrue( countryCursor.getEdgeStart( ) == 0 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 79 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 0 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 19 );
+
+		assertTrue( streetCursor.getEdgeStart( ) == 0 );
+		assertTrue( streetCursor.getEdgeEnd( ) == 4 );
+
+		assertTrue( yearCursor.getEdgeStart( ) == 0 );
+		assertTrue( yearCursor.getEdgeEnd( ) == 0 );
+		
+		columnCursor.beforeFirst( );
 		columnCursor.setPosition( 1 );
 		assertTrue( countryCursor.getEdgeStart( ) == 0 );
 		assertTrue( countryCursor.getEdgeEnd( ) == 79 );
@@ -241,5 +263,14 @@ public class MirrorCursorNavigatorTest extends TestCase
 		columnCursor.setPosition( 220 );
 		assertTrue( countryCursor.getEdgeStart( ) == -1 );
 		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == -1 );
+		assertTrue( cityCursor.getEdgeEnd( ) == -1 );
+
+		assertTrue( streetCursor.getEdgeStart( ) == -1 );
+		assertTrue( streetCursor.getEdgeEnd( ) == -1 );
+
+		assertTrue( yearCursor.getEdgeStart( ) == -1 );
+		assertTrue( yearCursor.getEdgeEnd( ) == -1 );
 	}
 }
