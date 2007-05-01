@@ -93,7 +93,7 @@ public abstract class RDTestCase extends APITestCase
 	 */
 	protected boolean useFolderArchive()
 	{
-		return true;
+		return false;
 	}
 
 	/**

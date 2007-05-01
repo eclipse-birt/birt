@@ -1984,4 +1984,12 @@ public class ReportDocumentTest extends RDTestCase
 			}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#useFolderArchive()
+	 */
+	protected boolean useFolderArchive()
+	{
+		return true;
+	}
 }
