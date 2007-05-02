@@ -16,9 +16,10 @@ data.engine.UnsupportedGroupOnClobAndBLOB=Gruppierung nach CLOB- oder BLOB-Daten
 data.engine.UnsupportedSortOnClobAndBLOB=Sortierung nach CLOB- oder BLOB-Daten "{0}" wird nicht unterstützt.
 
 data.engine.EndOfGroupOnly=Dieser Aggregatausdruck ist nur am Ende einer Gruppe verfügbar.
+data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=Ungültige Gruppierungsebene für Aggregatfunktion: {0}
 data.engine.WrongNumAggrArgs=Falsche Anzahl von Argumenten für Aggregatfunktion: {0}
-
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
 data.engine.DupPropertyName=Doppelt vergebener Eigenschaftenname gefunden: {0}
 data.engine.NoSubQueryName=Teilabfrage mit Namen "{0}" konnte nicht gefunden werden.
 
@@ -313,7 +314,7 @@ data.olap.DocumentObjectAlreadyExists =Das Dokumentobjekt ist bereits vorhanden.
 data.olap.DocumentObjectNotExists =Fehler beim Laden von Quader "{0}" aus Dokument. Das Dokumentobjekt existiert nicht.
 data.olap.FacttableRowNotDistinct=Die Zeilen sollten in der Faktentabelle eindeutig sein. "{0}" tritt mehr als einmal auf.
 data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte beträgt null. "{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=Die Zeile "{0}" hat keine gültige Dimensionsinformation für Dimension: {1}.
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.

@@ -16,9 +16,10 @@ data.engine.UnsupportedGroupOnClobAndBLOB=CLOB 또는 BLOB 데이터의 그룹 "{0}"은(�
 data.engine.UnsupportedSortOnClobAndBLOB=CLOB 또는 BLOB 데이터의 정렬 "{0}"은(는) 지원되지 않습니다.
 
 data.engine.EndOfGroupOnly=이 집계식은 그룹의 끝에서만 사용할 수 있습니다.
+data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=집계 함수에 대한 그룹화 수준이 잘못되었습니다: {0}
 data.engine.WrongNumAggrArgs=집계 함수에 대한 인수의 수가 잘못되었습니다: {0}
-
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
 data.engine.DupPropertyName=속성 이름이 중복되었습니다: {0}
 data.engine.NoSubQueryName=이름을 가진 하위 쿼리를 찾을 수 없습니다: {0}
 
@@ -313,7 +314,7 @@ data.olap.DocumentObjectAlreadyExists =문서 개체가 이미 있습니다. 데이터 개체 {0
 data.olap.DocumentObjectNotExists =문서로부터 큐브 "{0}"을(를) 로드하지 못했습니다. 문서 개체가 없습니다.
 data.olap.FacttableRowNotDistinct=행은 팩트 테이블에서 고유해야 합니다. "{0}"이(가) 여러 개 있습니다.
 data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=행 "{0}"에는 차원 {1}에 대한 올바른 차원 정보가 없습니다.
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=측정 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.

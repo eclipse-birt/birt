@@ -16,9 +16,10 @@ data.engine.UnsupportedGroupOnClobAndBLOB=²»Ö§³Ö¶Ô CLOB »ò BLOB Êı¾İ "{0}" ·Ö×é¡
 data.engine.UnsupportedSortOnClobAndBLOB=²»Ö§³Ö¶Ô CLOB »ò BLOB Êı¾İ "{0}" ÅÅĞò¡£
 
 data.engine.EndOfGroupOnly=´Ë¾ÛºÏ±í´ïÊ½½ö¿ÉÓÃÓÚ×é½áÎ²
+data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=¾ÛºÏº¯ÊıµÄ·Ö×é¼¶±ğÎŞĞ§: {1}
 data.engine.WrongNumAggrArgs=¾ÛºÏº¯ÊıµÄ²ÎÊıÊı´íÎó: {1}
-
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
 data.engine.DupPropertyName=ÕÒµ½ÖØ¸´ÊôĞÔÃû³Æ£º{0}
 data.engine.NoSubQueryName=ÎŞ·¨ÕÒµ½¾ßÓĞÒÔÏÂÃû³ÆµÄ×Ó²éÑ¯: {0}
 
@@ -313,7 +314,7 @@ data.olap.DocumentObjectAlreadyExists =ÎÄµµ¶ÔÏóÒÑ´æÔÚ¡£ÎŞ·¨´´½¨Êı¾İ¶ÔÏó: {0}¡£
 data.olap.DocumentObjectNotExists =ÎŞ·¨´ÓÎÄµµ¼ÓÔØ¶àÎ¬Êı¾İ¼¯¡°{0}¡±¡£ÎÄµµ¶ÔÏó²»´æÔÚ¡£
 data.olap.FacttableRowNotDistinct=ĞĞÔÚÊÂÊµ±íÖĞÓ¦¸÷²»ÏàÍ¬¡£¡°{0}¡±³öÏÖ¶à´Î¡£
 data.olap.FacttableNullMeasureValue=¶ÈÁ¿ÁĞµÄÖµÎª¿Õ¡£¡°{0}¡± 
-data.olap.InvalidDimensionPositionFacttableRow=ĞĞ¡°{0}¡±Ã»ÓĞ¹ØÓÚÎ¬ {1} µÄÓĞĞ§Î¬ĞÅÏ¢¡£
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=ÕÒ²»µ½¶ÈÁ¿Ãû³Æ¡°{0}¡±¡£
 data.olap.levelNameNotFound=ÕÒ²»µ½¼¶±ğÃû³Æ¡°{0}¡±¡£
 data.olap.cursorPositionError=¹â±êÎŞ·¨¶¨Î»µ½Ä¿±êÎ»ÖÃ¡£

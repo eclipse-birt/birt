@@ -16,9 +16,10 @@ data.engine.UnsupportedGroupOnClobAndBLOB=No se admite el grupo en datos "{0}" C
 data.engine.UnsupportedSortOnClobAndBLOB=No se admite la clasificación en datos "{0}" CLOB o BLOB.
 
 data.engine.EndOfGroupOnly=Esta expresión de agregación sólo está disponible al final de un grupo
+data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=Nivel de agrupación no válido para la función de agregación: {0}
 data.engine.WrongNumAggrArgs=Número de argumentos incorrecto para la función de agregación: {0}
-
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
 data.engine.DupPropertyName=Se ha encontrado un nombre de propiedad duplicado: {0}
 data.engine.NoSubQueryName=No se puede encontrar la subconsulta con el nombre: {0}
 
@@ -313,7 +314,7 @@ data.olap.DocumentObjectAlreadyExists =El objeto del documento ya existe. Error 
 data.olap.DocumentObjectNotExists =No se ha podido cargar el cubo "{0}" del documento. El objeto de documento no existe.
 data.olap.FacttableRowNotDistinct=Las filas deben ser diferentes en la tabla de hechos. "{0}" aparece más de una vez.
 data.olap.FacttableNullMeasureValue=El valor de la columna de medida es nulo. "{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=La fila "{0}" no tiene información de la dimensión válida para la dimensión: {1}.
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.

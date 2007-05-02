@@ -16,9 +16,10 @@ data.engine.UnsupportedGroupOnClobAndBLOB=CLOB ƒf[ƒ^‚Ü‚½‚Í BLOB ƒf[ƒ^ "{0}" ‚Í
 data.engine.UnsupportedSortOnClobAndBLOB=CLOB ƒf[ƒ^‚Ü‚½‚Í BLOB ƒf[ƒ^ "{0}" ‚Íƒ\[ƒg‚Å‚«‚Ü‚¹‚ñB
 
 data.engine.EndOfGroupOnly=‚±‚ÌWŒv®‚ÍAƒOƒ‹[ƒv‚ÌÅŒã‚Å‚µ‚©g—p‚Å‚«‚Ü‚¹‚ñB
+data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=WŒvŠÖ”‚ÌƒOƒ‹[ƒvƒŒƒxƒ‹‚ª–³Œø‚Å‚· : {0}
 data.engine.WrongNumAggrArgs=WŒvŠÖ”‚Ìˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ : {0}
-
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
 data.engine.DupPropertyName=ƒvƒƒpƒeƒB–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 data.engine.NoSubQueryName={0} ‚Æ‚¢‚¤–¼‘O‚ÌƒTƒuƒNƒGƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
@@ -313,7 +314,7 @@ data.olap.DocumentObjectAlreadyExists =ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ª‚·‚Å‚É‘¶İ‚·‚é‚
 data.olap.DocumentObjectNotExists =ƒLƒ…[ƒu "{0}" ‚ğ•¶‘‚©‚ç“Ç‚İ‚ß‚Å‚«‚Ü‚¹‚ñB•¶‘ƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.FacttableRowNotDistinct=ƒtƒ@ƒNƒgƒe[ƒuƒ‹‚Å‚Ís‚ªŒÅ—L‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñ‚ªA"{0}" ‚ª•¡”‚ ‚è‚Ü‚·B
 data.olap.FacttableNullMeasureValue=Œv‘ª—ñ‚Ì’l‚ª NULL ‚Å‚·B"{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=s "{0}" ‚ÌŸŒ³ {1} ‚ÉA—LŒø‚ÈŸŒ³î•ñ‚ª‚ ‚è‚Ü‚¹‚ñB
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Œv‘ª–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.levelNameNotFound=ƒŒƒxƒ‹–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.cursorPositionError=ƒJ[ƒ\ƒ‹‚Å‚Í–Ú“I‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
