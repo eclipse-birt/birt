@@ -285,6 +285,8 @@ public class DataSetIterator implements IDatasetIterator
 			String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
 			
 			int type = ModelAdapter.adaptModelDataType(level.getDataType( ));
+			if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
+				type = DataType.STRING_TYPE;
 			if ( isTimeType( type ))
 			{
 				temp = new ColumnMeta( level.getName( ), true, new TimeValueProcessor(level.getDateTimeLevelType( )) );

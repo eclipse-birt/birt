@@ -625,6 +625,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 						}
 					}	
 				}
+				if ( levelInHier == null )
+					throw new DataException( "The dimension-facttable join condition is missing." );
 			}else
 			{
 				levelInHier = new ILevelDefn[hierhandle.getLevelCount( )+timeLevelOffset];
