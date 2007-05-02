@@ -121,11 +121,12 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest2.class );
 		
 		/* in package org.eclipse.birt.data.engine.olap.data.impl.facttable */
-/*		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionSegmentsTest.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest2.class );
-		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowTest.class );
-*/		
+//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionSegmentsTest.class );
+//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest.class );
+//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest2.class );
+//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowTest.class );
+//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIteratorWithFilterTest.class );
+		
 		/* in package org.eclipse.birt.data.engine.olap.data.util */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArrayTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFileTest.class );
@@ -143,6 +144,8 @@ public class AllTests
 
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorModelTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorModelTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.MirrorCursorNavigatorTest.class );
 		
 		/* in package org.eclipse.birt.data.engine.olap.util */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.util.OlapExpressionUtilTest.class );
