@@ -22,6 +22,7 @@ public interface IBaseExpression
 {
 	/**
 	 * The string value which stands for overall group.
+	 * @deprecated
 	 */
 	public static final String GROUP_OVERALL = "Total.OVERALL";
 	
@@ -50,12 +51,14 @@ public interface IBaseExpression
      * Set the group name this expession belongs to.
      *  
      * @param name
+     * @deprecated
      */
     public void setGroupName( String name );
     
     /**
      * The group on which this expression should be evaluated.
      * @return
+     * @deprecated
      */
     public String getGroupName( ); 
 }

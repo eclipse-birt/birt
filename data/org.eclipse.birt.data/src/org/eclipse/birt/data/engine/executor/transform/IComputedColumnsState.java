@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * The implementation of this interface serve as data communication tool between
@@ -42,8 +43,9 @@ public interface IComputedColumnsState
 	 * 
 	 * @param index
 	 * @return
+	 * @throws DataException 
 	 */
-	public IBaseExpression getExpression( int index );
+	public IBaseExpression getExpression( int index ) throws DataException;
 
 	/**
 	 * Mark the state of one ComputedColumn whose value is available

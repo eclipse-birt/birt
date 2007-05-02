@@ -109,15 +109,9 @@ public class ExprEvaluateUtil
 		return exprValue;
 	}
 	
-	/**
-	 * @param expr
-	 * @param odiResult
-	 * @param scope
-	 * @return
-	 * @throws DataException
-	 */
 	public static Object evaluateCompiledExpression( CompiledExpression expr,
-			IResultIterator odiResult, Scriptable scope ) throws DataException
+			IResultObject ro, int currentIndex, Scriptable scope )
+			throws DataException
 	{
 		// Special case for DirectColRefExpr: it's faster to directly access
 		// column value using the Odi IResultIterator.
@@ -130,17 +124,17 @@ public class ExprEvaluateUtil
 				int idx = colref.getColumnindex( );
 				// Special case: row[0] refers to internal rowID
 				if ( idx == 0 )
-					return new Integer( odiResult.getCurrentResultIndex( ) );
-				else if ( odiResult.getCurrentResult( ) != null )
-				{	
-					try 
+					return new Integer( currentIndex );
+				else if ( ro != null )
+				{
+					try
 					{
-						return DataTypeUtil.convert(odiResult.getCurrentResult( )
-								.getFieldValue( idx ),colref.getDataType());
+						return DataTypeUtil.convert( ro.getFieldValue( idx ),
+								colref.getDataType( ) );
 					}
-					catch (BirtException e) 
+					catch ( BirtException e )
 					{
-						throw DataException.wrap(e);
+						throw DataException.wrap( e );
 					}
 				}
 				else
@@ -151,17 +145,17 @@ public class ExprEvaluateUtil
 				String name = colref.getColumnName( );
 				// Special case: row._rowPosition refers to internal rowID
 				if ( JSRowObject.ROW_POSITION.equals( name ) )
-					return new Integer( odiResult.getCurrentResultIndex( ) );
-				else if ( odiResult.getCurrentResult( ) != null )
+					return new Integer( currentIndex );
+				else if ( ro != null )
 				{
-					try 
+					try
 					{
-						return DataTypeUtil.convert(odiResult.getCurrentResult( )
-								.getFieldValue( name ),colref.getDataType());
+						return DataTypeUtil.convert( ro.getFieldValue( name ),
+								colref.getDataType( ) );
 					}
-					catch (BirtException e) 
+					catch ( BirtException e )
 					{
-						throw DataException.wrap(e);
+						throw DataException.wrap( e );
 					}
 				}
 				else
@@ -170,16 +164,32 @@ public class ExprEvaluateUtil
 		}
 		else
 		{
-			Context cx = Context.enter();
+			Context cx = Context.enter( );
 			try
 			{
-				return  expr.evaluate( cx, scope );
+				return expr.evaluate( cx, scope );
 			}
 			finally
 			{
-				Context.exit();
+				Context.exit( );
 			}
 		}
+	}
+
+	/**
+	 * @param expr
+	 * @param odiResult
+	 * @param scope
+	 * @return
+	 * @throws DataException
+	 */
+	public static Object evaluateCompiledExpression( CompiledExpression expr,
+			IResultIterator odiResult, Scriptable scope ) throws DataException
+	{
+		return evaluateCompiledExpression( expr,
+				odiResult.getCurrentResult( ),
+				odiResult.getCurrentResultIndex( ),
+				scope );
 	}
 	
 	/**

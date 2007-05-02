@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Context;
 
 /**
@@ -48,7 +47,7 @@ public class GroupProcessorManager
 	 * @param populator
 	 * @throws DataException
 	 */
-	public GroupProcessorManager( BaseQuery query, IResultIterator ri,
+	public GroupProcessorManager( BaseQuery query,
 			IResultClass rsMeta, ResultSetPopulator populator )
 			throws DataException
 	{

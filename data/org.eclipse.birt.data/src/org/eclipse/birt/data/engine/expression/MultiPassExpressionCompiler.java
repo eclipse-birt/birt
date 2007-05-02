@@ -16,8 +16,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -176,67 +177,74 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 							&& !columnBindingName.equals( "__rownum" )
 							&& !columnBindingName.equals( "0" ) )
 					{
-						ScriptExpression expression = (ScriptExpression) this.rsPopulator.getEventHandler( )
-								.getBaseExpr( columnBindingName );
-						if ( expression == null )
+						IBinding binding = this.rsPopulator.getEventHandler( )
+								.getBinding( columnBindingName );
+						if ( binding == null )
 							throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
 
-						currentGroupLevelList.add( expression.getGroupName( ) );
-						ScriptOrFnNode tree = parse( expression.getText( ),
-								context );
-						CompiledExpression expr = null;
-						if ( grandfather != null )
+						if ( binding.getAggrFunction( ) == null )
 						{
-							if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+							IScriptExpression expression = (IScriptExpression) binding.getExpression( );
+							currentGroupLevelList.add( expression.getGroupName( ) );
+							ScriptOrFnNode tree = parse( expression.getText( ),
+									context );
+							CompiledExpression expr = null;
+							if ( grandfather != null )
 							{
-								grandfather.replaceChild( parent,
-										tree.getFirstChild( ) );
-								expr = processChild( context,
-										false,
-										tree.getFirstChild( ),
-										tree.getFirstChild( ).getFirstChild( ),
-										grandfather );
+								if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+								{
+									grandfather.replaceChild( parent,
+											tree.getFirstChild( ) );
+									expr = processChild( context,
+											false,
+											tree.getFirstChild( ),
+											tree.getFirstChild( )
+													.getFirstChild( ),
+											grandfather );
+								}
+								else
+								{
+									grandfather.replaceChild( grandfather.getFirstChild( ),
+											tree.getFirstChild( ) );
+									grandfather.replaceChild( grandfather.getLastChild( ),
+											tree.getLastChild( ) );
+									expr = this.compileComplexExpr( context,
+											tree,
+											false );
+								}
 							}
 							else
 							{
-								grandfather.replaceChild( grandfather.getFirstChild( ),
-										tree.getFirstChild( ) );
-								grandfather.replaceChild( grandfather.getLastChild( ),
-										tree.getLastChild( ) );
-								expr = this.compileComplexExpr( context,
-										tree,
-										false );
-							}
-						}
-						else
-						{
-							if ( tree.getFirstChild( ) == tree.getLastChild( ) )
-							{
-								parent.replaceChild( refNode,
-										tree.getFirstChild( ).getFirstChild( ) );
-								expr = processChild( context,
-										false,
-										parent,
-										tree.getFirstChild( ).getFirstChild( ),
-										grandfather );
+								if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+								{
+									parent.replaceChild( refNode,
+											tree.getFirstChild( )
+													.getFirstChild( ) );
+									expr = processChild( context,
+											false,
+											parent,
+											tree.getFirstChild( )
+													.getFirstChild( ),
+											grandfather );
 
+								}
+								else
+								{
+									expr = this.compileComplexExpr( context,
+											tree,
+											false );
+								}
 							}
-							else
+							currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
+							if ( expr != null )
 							{
-								expr = this.compileComplexExpr( context,
-										tree,
-										false );
-							}						
-						}
-						currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
-						if ( expr != null )
-						{
-							if ( ( expr instanceof ColumnReferenceExpression ) )
-							{
-								( (ColumnReferenceExpression) expr ).setDataType( expression.getDataType( ) );
+								if ( ( expr instanceof ColumnReferenceExpression ) )
+								{
+									( (ColumnReferenceExpression) expr ).setDataType( expression.getDataType( ) );
+									return expr;
+								}
 								return expr;
 							}
-							return expr;
 						}
 					}
 				}

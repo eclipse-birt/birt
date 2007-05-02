@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
+import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
@@ -97,7 +99,11 @@ class ResultSetProcessUtil extends RowProcessUtil
 		doRowFiltering( );
 		
 		populateTempComputedColumns( aggCCList );
-
+		
+		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
+		
+		prepareAggregations( aggrDefns );
+		
 		//Filter group instances.
 		doGroupFiltering( );
 
@@ -110,6 +116,87 @@ class ResultSetProcessUtil extends RowProcessUtil
 		clearTemporaryComputedColumns( iccState );
 	}
 
+	/**
+	 * 
+	 * @param aggrDefns
+	 * @throws DataException
+	 */
+	private void prepareAggregations( List aggrDefns ) throws DataException
+	{
+		boolean needGroupFiltering = this.needDoGroupFiltering( );
+		boolean needGroupSorting = this.needDoGroupSorting( );
+		
+		if ( needPreCalculateForGroupFilterSort( needGroupFiltering,
+				needGroupSorting ) )
+		{
+			if (!hasGroupingBeDone())
+				PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true, session );
+			this.populator.getExpressionProcessor( )
+					.setResultIterator( this.populator.getResultIterator( ) );
+			AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
+			for ( int i = 0; i < factory.getRound( ); i++ )
+			{
+				AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
+						this.populator );
+				this.populator.getResultIterator( ).addAggrValueHolder( helper );
+			}
+		}
+	}
+
+	/**
+	 * Indicate whether grouping has been done.
+	 * @return
+	 */
+	private boolean hasGroupingBeDone( )
+	{
+		return psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) 
+			|| psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ) ;
+	}
+	
+	/**
+	 * Indicate whether need to pre calculate the aggregations.
+	 * @param needGroupFiltering
+	 * @param needGroupSorting
+	 * @return
+	 */
+	private boolean needPreCalculateForGroupFilterSort(
+			boolean needGroupFiltering, boolean needGroupSorting )
+	{
+		return needGroupFiltering || needGroupSorting;
+	}
+
+	/**
+	 * Indicate whether need to do group filtering.
+	 * @return
+	 */
+	private boolean needDoGroupFiltering( )
+	{
+		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
+		{
+			List groupFilters = this.populator.getQuery( ).getGrouping( )[i].getFilters( );
+			if( groupFilters != null && groupFilters.size( ) > 0 )
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Indicate whether need to do group sorting.
+	 * @return
+	 */
+	private boolean needDoGroupSorting( )
+	{
+		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
+		{
+			List groupFilters = this.populator.getQuery( ).getGrouping( )[i].getSorts( );
+			if( groupFilters != null && groupFilters.size( ) > 0 )
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param aggCCList

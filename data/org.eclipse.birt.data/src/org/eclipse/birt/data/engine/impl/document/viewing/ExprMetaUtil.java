@@ -124,7 +124,7 @@ public class ExprMetaUtil
 			IBaseExpression baseExpr = ( (IBinding) exprMap.get( bindingName ) ).getExpression( );
 
 			ExprMetaInfo exprMeta = new ExprMetaInfo( );
-			exprMeta.setDataType( baseExpr.getDataType( ) );
+			exprMeta.setDataType( ( (IBinding) exprMap.get( bindingName ) ).getDataType( ) );
 			exprMeta.setGroupLevel( 0 );
 			exprMeta.setName( bindingName );
 			

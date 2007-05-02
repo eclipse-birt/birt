@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.viewing;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -51,14 +52,6 @@ public class DummyEventHandler implements IEventHandler
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
-	 */
-	public IBaseExpression getBaseExpr( String name )
-	{
-		return null;
-	}
-
-	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExecutorHelper()
 	 */
@@ -91,6 +84,18 @@ public class DummyEventHandler implements IEventHandler
 	}
 
 	public Map getAppContext( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List getAggrDefinitions( ) throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IBinding getBinding( String name ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
  * This is the entry class for population of ResultSet. The instance of this
@@ -49,7 +48,7 @@ public class ResultSetPopulator
 	 * the IResultIterator instance to which the final populated ResultSet is
 	 * output
 	 */
-	private IResultIterator ri;
+	private CachedResultSet ri;
 
 	/**
 	 * the instance of GroupProcessorManager, which is used to do group-related
@@ -71,13 +70,12 @@ public class ResultSetPopulator
 	 * @throws DataException
 	 */
 	private ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			IResultIterator ri ) throws DataException
+			CachedResultSet ri ) throws DataException
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
 		this.ri = ri;
 		this.groupProcessorManager = new GroupProcessorManager( query,
-				this.ri,
 				this.rsMeta,
 				this );
 		// Initialize the ExpressionProcessor.
@@ -95,7 +93,7 @@ public class ResultSetPopulator
 	 * @throws DataException
 	 */
 	ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			IResultIterator ri, IEventHandler eventHandler, DataEngineSession session )
+			CachedResultSet ri, IEventHandler eventHandler, DataEngineSession session )
 			throws DataException
 	{
 		this( query, rsMeta, ri );
@@ -187,7 +185,7 @@ public class ResultSetPopulator
 	 * 
 	 * @return
 	 */
-	public IResultIterator getResultIterator( )
+	public CachedResultSet getResultIterator( )
 	{
 		return this.ri;
 	}

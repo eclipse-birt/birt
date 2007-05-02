@@ -80,4 +80,12 @@ class GroupBindingColumn
 			return null;
 	}
 	
+	IBinding getBinding( String name ) throws DataException
+	{
+		if ( this.bindings.containsKey( name ))
+			return ((IBinding) this.bindings.get( name ));
+		else
+			return null;
+	}
+	
 }

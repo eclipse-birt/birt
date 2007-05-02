@@ -13,21 +13,27 @@ package org.eclipse.birt.data.engine.executor.transform.pass;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
+import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.mozilla.javascript.Context;
 
 /**
  * The entry point of this package.
@@ -87,7 +93,59 @@ public class PassManager
 			doMultiPass( odaResultSet, psController );
 		}
 		
+		//TODO remove me
 		calculateAggregationsInColumnBinding( );
+		
+		
+		/************************************/
+		//TODO remove me
+		//Temp code util model makes the backward comp.
+		try
+		{
+			Context cx = Context.enter( );
+			ExpressionCompiler compiler = new ExpressionCompiler( );
+			compiler.setDataSetMode( false );
+			for ( Iterator it = this.populator.getEventHandler( )
+					.getColumnBindings( )
+					.values( )
+					.iterator( ); it.hasNext( ); )
+			{
+				IBinding binding = (IBinding) it.next( );
+				if ( binding.getExpression( )!= null && binding.getExpression( ).getGroupName( ) == null
+						&& binding.getAggrFunction( ) != null )
+				{
+					compiler.compile( binding.getExpression( ), cx );
+				}
+			}
+		}
+		finally
+		{
+			Context.exit( );
+		}
+		/*************************************/
+		//
+		populateAggregationInBinding( );
+	}
+
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void populateAggregationInBinding( ) throws DataException
+	{
+		this.populator.getExpressionProcessor( )
+				.setResultIterator( this.populator.getResultIterator( ) );
+		this.populator.getResultIterator( ).clearAggrValueHolder( );
+		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
+
+		AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
+		for ( int i = 0; i < factory.getRound( ); i++ )
+		{
+			AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
+					this.populator );
+			this.populator.getResultIterator( ).addAggrValueHolder( helper );
+
+		}
 	}
 
 	/**
@@ -297,9 +355,11 @@ public class PassManager
 			this.exprs = columnMappings.values( ).toArray( );
 			this.names = columnMappings.keySet( ).toArray( );
 			this.isValueAvailable= new boolean[exprs.length];
-			/*for( int i = 0; i < exprs.length; i ++ )
+/*			for( int i = 0; i < exprs.length; i ++ )
 			{
-				if( populator.getExpressionProcessor( ).hasAggregation( (IBaseExpression)exprs[i]))
+				IBinding binding = ((IBinding)exprs[i]);
+				
+				if( binding.getExpression( ).getHandle( )== null )
 				{
 					this.isValueAvailable[i] = false;
 				}else
@@ -332,9 +392,9 @@ public class PassManager
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
 		 */
-		public IBaseExpression getExpression( int index )
+		public IBaseExpression getExpression( int index ) throws DataException
 		{
-			return (IBaseExpression) exprs[index];
+			return ((IBinding) exprs[index]).getExpression( );
 		}
 
 		/*

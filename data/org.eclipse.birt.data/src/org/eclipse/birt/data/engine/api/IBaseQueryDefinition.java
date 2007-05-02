@@ -80,9 +80,10 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * 
 	 * @param name
 	 * @param binding
+	 * @throws DataException 
 	 * @throws DataException
 	 */
-	public void addBinding( String name, IBinding binding );
+	public void addBinding( IBinding binding ) throws DataException;
 	
 	/**
 	 * Get all column binding instance from query definition.

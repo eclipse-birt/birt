@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 
@@ -76,7 +77,7 @@ public interface IEventHandler
 	 * @return mapped base expression of the specified name
 	 * @throws DataException 
 	 */
-	IBaseExpression getBaseExpr( String name ) throws DataException;
+	IBinding getBinding( String name ) throws DataException;
 	
 	/**
 	 * Get column mapping of current query defintion, inc. its subqueries.
@@ -91,6 +92,14 @@ public interface IEventHandler
 	 * @throws DataException 
 	 */
 	Map getColumnBindings() throws DataException;
+	
+	/**
+	 * Return a list of IAggrDefinition instances.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	List getAggrDefinitions( ) throws DataException;
 	
 	/**
 	 * Get the ExecutorHelper instance bound to this IEventHandler.

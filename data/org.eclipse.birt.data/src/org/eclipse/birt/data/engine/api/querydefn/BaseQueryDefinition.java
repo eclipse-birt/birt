@@ -23,6 +23,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
 
 
 /**
@@ -139,9 +140,14 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#addBinding(java.lang.String, org.eclipse.birt.data.engine.api.IBinding)
 	 */
-	public void addBinding( String name, IBinding binding )
-	{
-		this.bindingMap.put( name, binding );
+	public void addBinding( IBinding binding ) throws DataException
+	{ 
+		//TODO remove me
+		//Temp solution for backward compatibility util Model make the changes.
+		if ( binding.getExpression( )!= null && binding.getExpression().getGroupName( ).equals( IBaseExpression.GROUP_OVERALL ))
+				binding.getExpression( ).setGroupName( null );
+		
+		this.bindingMap.put( binding.getBindingName( ), binding );
 	}
 	
 	/*

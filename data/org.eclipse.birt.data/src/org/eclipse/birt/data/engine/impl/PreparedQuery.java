@@ -167,14 +167,25 @@ final class PreparedQuery
 				while ( it.hasNext( ) )
 				{
 					Object key = it.next( );
-					IBaseExpression icbe = ((IBinding)map.get( key )).getExpression( );
-					if ( ( !icbe.getGroupName( )
+					IBinding binding = (IBinding)map.get( key );
+					String groupName = null;
+					if ( binding.getExpression( )!= null )
+						groupName = binding.getExpression( ).getGroupName( );
+					
+					if( groupName == null )
+					{
+						if ( binding.getAggregatOns( ).size( ) == 0 )
+							continue;
+						groupName = binding.getAggregatOns( ).get( 0 ).toString( );
+					}
+					
+					if ( ( !groupName
 							.equals( IBaseExpression.GROUP_OVERALL ) )
-							&& !groupNameSet.contains( icbe.getGroupName( ) ) )
+							&& !groupNameSet.contains( groupName ) )
 					{
 						throw new DataException( ResourceConstants.GROUP_NOT_EXIST,
 								new Object[]{
-										icbe.getGroupName( ), key
+								groupName, key
 								} );
 					}
 				}
@@ -228,7 +239,7 @@ final class PreparedQuery
 					{	
 						IBinding binding = new Binding( o.toString( ) );
 						binding.setExpression( copyScriptExpr( expr ) );
-						baseQueryDefn.addBinding( o.toString( ), binding );
+						baseQueryDefn.addBinding( binding );
 					}
 				}
 			}
@@ -283,11 +294,21 @@ final class PreparedQuery
 			while (it.hasNext()) {
 				Object key = it.next();
 				IBinding icbe = ((IBinding)map.get(key));
-				if( icbe.getAggregatOns( ).contains( groupName ) || icbe.getExpression( ).getGroupName( ).equals( groupName ))
+				if ( icbe.getExpression( ) != null && icbe.getExpression( )
+								.getGroupName( )
+								.equals( groupName ) && groupLevel!= 0 )
 				{
 					exprCol.add( icbe.getExpression( ) );
 					resultSetExpressions.put(key, icbe);
-				}
+				}else if ( groupLevel == 0 && icbe.getAggregatOns( ).size( ) == 0 )
+				{
+					exprCol.add( icbe.getExpression( ) );
+					resultSetExpressions.put(key, icbe);
+				}else if ( groupLevel!= 0 && icbe.getAggregatOns( ).contains( groupName ))
+				{
+					exprCol.add( icbe.getExpression( ) );
+					resultSetExpressions.put(key, icbe);
+				}	
 			}
 		}
 
@@ -584,8 +605,9 @@ class QueryDefinitionCopyUtil
 	 * 
 	 * @param baseQyeryDef
 	 * @return
+	 * @throws DataException 
 	 */
-	static IBaseQueryDefinition copy( IBaseQueryDefinition baseQyeryDef )
+	static IBaseQueryDefinition copy( IBaseQueryDefinition baseQyeryDef ) throws DataException
 	{
 		if( baseQyeryDef instanceof SubqueryDefinition )
 		{
@@ -613,18 +635,18 @@ class QueryDefinitionCopyUtil
 	 * 
 	 * @param srcSubQueryDefn
 	 * @param destSubQueryDefn
+	 * @throws DataException 
 	 */
 	private static void copyExpressions(
 			SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
+			SubqueryDefinition destSubQueryDefn) throws DataException 
 	{
 		Map bindings = srcSubQueryDefn.getBindings( );
 		Iterator it = bindings.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
 			Object o = it.next( );
-			destSubQueryDefn.addBinding((String) o,
-					convertToBindings( bindings.get( o ) ));
+			destSubQueryDefn.addBinding(convertToBindings( bindings.get( o ) ));
 		}
 	}
 

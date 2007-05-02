@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -111,7 +112,12 @@ class BindingColumnsEvalUtil
 			{
 				String exprName = (String) itr.next( );
 				IBaseExpression baseExpr = groupBindingColumns[i].getExpression( exprName );
-				groupBindingExprs.add( new BindingColumn( exprName, baseExpr ) );
+				groupBindingExprs.add( new BindingColumn( exprName,
+						baseExpr,
+						groupBindingColumns[i].getBinding( exprName )
+								.getAggrFunction( ) != null,
+						groupBindingColumns[i].getBinding( exprName )
+								.getDataType( ) ) );
 			}
 
 			allManualBindingExprs.add( groupBindingExprs );
@@ -126,7 +132,7 @@ class BindingColumnsEvalUtil
 			String exprName = (String) entry.getKey( );
 			IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
 			
-			allAutoBindingExprs.add( new BindingColumn( exprName, baseExpr ) );
+			allAutoBindingExprs.add( new BindingColumn( exprName, baseExpr, false, baseExpr.getDataType( ) ) );
 		}
 	}
 
@@ -190,12 +196,20 @@ class BindingColumnsEvalUtil
 			if ( getValue == false )
 			{
 				if ( exprType == MANUAL_BINDING )
-					exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
+				{	
+					if ( bindingColumn.isAggregation )
+						exprValue = this.odiResult.getAggrValue( bindingColumn.columnName );
+					else
+						exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
 							odiResult,
 							scope );
+				}
 				else
 					exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
 							scope );
+				
+				if ( exprValue!= null )
+					exprValue = DataTypeUtil.convert( exprValue, bindingColumn.type );
 			}
 		}
 		catch ( BirtException e )
@@ -215,11 +229,15 @@ class BindingColumnsEvalUtil
 		//
 		private String columnName;
 		private IBaseExpression baseExpr;
-
-		private BindingColumn( String columnName, IBaseExpression baseExpr )
+		private boolean isAggregation;
+		private int type;
+		
+		private BindingColumn( String columnName, IBaseExpression baseExpr, boolean isAggregation, int type )
 		{
 			this.columnName = columnName;
 			this.baseExpr = baseExpr;
+			this.isAggregation = isAggregation;
+			this.type = type;
 		}
 	}
 	

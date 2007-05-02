@@ -10,26 +10,40 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrInfo;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -250,11 +264,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
 		 */
-		public IBaseExpression getBaseExpr( String name ) throws DataException
+		public IBinding getBinding( String name ) throws DataException
 		{
 			if ( name == null )
 				return null;
-			return ServiceForQueryResults.this.exprManager.getExpr( name );
+			return ServiceForQueryResults.this.exprManager.getBinding( name );
 		}
 
 		/*
@@ -290,7 +304,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				while ( it.hasNext( ) )
 				{
 					String name = it.next( ).toString( );
-					result.put( name, gbc.getExpression( name ) );
+					result.put( name, gbc.getBinding( name ) );
 				}
 			}
 			return result;
@@ -377,8 +391,474 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			return queryExecutor.getAppContext( );
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getAggrDefinitions()
+		 */
+		public List getAggrDefinitions( ) throws DataException
+		{
+			List result = populateAggrDefinitions( );
+			sort( result );
+			return result;
+		}
+
+		/**
+		 * Populate a list of AggrDefinitions which is defined by user in column binding.
+		 * @return
+		 * @throws DataException
+		 */
+		private List populateAggrDefinitions( )
+				throws DataException
+		{
+			try
+			{
+				List result = new ArrayList();
+				Context cx = Context.enter( );
+				ExpressionCompiler compiler = new ExpressionCompiler( );
+				compiler.setDataSetMode( false );
+
+				
+				List groupBindingColumns = exprManager.getBindingExprs( );
+				for ( int i = 0; i < groupBindingColumns.size( ); i++ )
+				{
+					GroupBindingColumn gbc = (GroupBindingColumn) groupBindingColumns.get( i );
+					Iterator it = gbc.getColumnNames( ).iterator( );
+					while ( it.hasNext( ) )
+					{
+						String name = it.next( ).toString( );
+						populateOneAggrDefinition( result,
+								cx,
+								compiler,
+								gbc,
+								name );
+					}
+				}
+				return result;
+			}
+			finally
+			{
+				Context.exit( );
+			}
+		}
+
+		/**
+		 * Populate One AggrDefinition according to given binding name.
+		 * @param result
+		 * @param cx
+		 * @param compiler
+		 * @param gbc
+		 * @param name
+		 * @throws DataException
+		 */
+		private void populateOneAggrDefinition( List result, Context cx,
+				ExpressionCompiler compiler, GroupBindingColumn gbc, String name )
+				throws DataException
+		{
+			IBinding binding = gbc.getBinding( name );
+			
+			if ( isAggregationBinding( binding ) )
+			{
+				List argument = binding.getArguments( );
+				IAggregation aggrFunction = AggregationFactory.getInstance( )
+						.getAggregation( binding.getAggrFunction( ) );
+				
+				IBaseExpression[] compiledArgu = populateAggregationArgument( cx,
+						compiler,
+						binding,
+						argument,
+						aggrFunction );
+
+				compiler.compile( binding.getFilter( ), cx );
+
+				AggrInfo aggrDefn = new AggrInfo( name,
+						gbc.getGroupLevel( ),
+						aggrFunction,
+						compiledArgu,
+						binding.getFilter( ) );
+
+				result.add( aggrDefn );
+			}
+		}
+
+		/**
+		 * Return if a binding is an Aggregation Binding.
+		 * @param binding
+		 * @return
+		 * @throws DataException
+		 */
+		private boolean isAggregationBinding( IBinding binding )
+				throws DataException
+		{
+			return binding.getAggrFunction( ) != null;
+		}
+
+		/**
+		 * Populate the aggregation binding argument. Please note the binding expression
+		 * will serve as first argument of a binding in case of necessary.
+		 * 
+		 * @param cx
+		 * @param compiler
+		 * @param binding
+		 * @param argument
+		 * @param aggrFunction
+		 * @return
+		 * @throws DataException
+		 */
+		private IBaseExpression[] populateAggregationArgument( Context cx,
+				ExpressionCompiler compiler, IBinding binding, List argument,
+				IAggregation aggrFunction ) throws DataException
+		{
+			int offset = 0;
+			if ( aggrFunction.getParameterDefn( ).length > 0 )
+			{
+				offset = 1;
+			}
+
+			IBaseExpression[] compiledArgu = new IBaseExpression[argument.size( )
+					+ offset];
+			if ( offset > 0 )
+			{
+				// The expression of column binding will serve
+				// asd first argument of aggregation,
+				// if that aggregation accept argument.
+				compiledArgu[0] = binding.getExpression( );
+				compiler.compile( compiledArgu[0], cx );
+			}
+			for ( int j = offset; j < argument.size( ) + offset; j++ )
+			{
+				IScriptExpression scriptExpr = (IScriptExpression) argument.get( j - offset );
+				compiler.compile( scriptExpr, cx );
+				compiledArgu[j] = scriptExpr;
+
+			}
+			return compiledArgu;
+		}
+
+		/**
+		 * Sort the binding according to their calculation level.
+		 * 
+		 * @param aggrDefns
+		 * @throws DataException
+		 */
+		private void sort( List aggrDefns ) throws DataException
+		{
+			try
+			{
+				Map nameMap = populateBindingNameMap( aggrDefns );
+
+				Map aggrRefMap = new HashMap();
+				Map aggrRefGroupLevelMap = new HashMap();
+				for ( int i = 0; i < aggrDefns.size( ); i++ )
+				{
+					IAggrInfo aggrDefn = (IAggrInfo) aggrDefns.get( i );
+					
+					List exprs = new ArrayList();
+					for( int x = 0; x < aggrDefn.getArgument( ).length; x++ )
+					{
+						exprs.add( aggrDefn.getArgument( )[x] );
+					}
+					
+					if ( aggrDefn.getFilter( )!= null )
+						exprs.add( aggrDefn.getFilter( ) );
+					
+					Set aggrRefs = new HashSet();
+				
+					
+					Set aggrRefList = new HashSet();
+					boolean use0AggrLevel = this.popAggrRefFromExprs( aggrRefList, exprs, nameMap );
+					
+					if( aggrRefList.size( ) > 0)
+					{
+						aggrRefs.addAll( aggrRefList );
+					}
+					
+					int groupLevel = 0;
+					
+					int groupLevelInAggr = getGroupLevel( aggrRefs );
+					
+					if ( !use0AggrLevel )
+						groupLevel = groupLevelInAggr;
+					
+					
+					aggrRefMap.put( aggrDefn.getName( ), aggrRefs );
+					
+					aggrRefGroupLevelMap.put( aggrDefn.getName( ), new Integer( groupLevel) );
+				}
+				
+				popualteCalcuateRound( aggrDefns,
+						nameMap,
+						aggrRefMap,
+						aggrRefGroupLevelMap );
+
+				sortAggrDefnsAccordingToCalLvl( aggrDefns );
+			}
+			catch ( BirtException be )
+			{
+				throw DataException.wrap( be );
+			}
+		}
+
+		private int getGroupLevel( Set aggrRefs ) throws DataException
+		{
+			Iterator it = aggrRefs.iterator( );
+			int groupLevel = -1;
+			while( it.hasNext( ) )
+			{
+				IAggrInfo aggr = (IAggrInfo) it.next( );
+				if ( groupLevel == -1 )
+					groupLevel = aggr.getGroupLevel( );
+				if( groupLevel!= aggr.getGroupLevel( ))
+					throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER, aggr.getName( ));
+			}
+			return groupLevel;
+		}
+
+		/**
+		 * Sort the aggregation definition list according to their calculation level.
+		 * @param aggrDefns
+		 */
+		private void sortAggrDefnsAccordingToCalLvl( List aggrDefns )
+		{
+			Collections.sort( aggrDefns, new Comparator( ) {
+
+				public int compare( Object o1, Object o2 )
+				{
+					assert o1 instanceof IAggrInfo;
+					assert o2 instanceof IAggrInfo;
+					int round1 = ( (IAggrInfo) o1 ).getRound( );
+					int round2 = ( (IAggrInfo) o2 ).getRound( );
+					if ( round1 == round2 )
+						return 0;
+					if ( round1 > round2 )
+						return 1;
+					else
+						return -1;
+				}
+			} );
+		}
+
+		/**
+		 * Populate the calculation level of the aggr defns.
+		 * 
+		 * @param aggrDefns
+		 * @param nameMap
+		 * @param aggrRefMap
+		 * @param aggrRefGroupLevelMap
+		 */
+		private void popualteCalcuateRound( List aggrDefns, Map nameMap,
+				Map aggrRefMap, Map aggrRefGroupLevelMap )
+		{
+			List aggrDefnsCopy = new ArrayList();
+			aggrDefnsCopy.addAll( aggrDefns );
+			int calculateRound = -1;
+			while( aggrDefnsCopy.size( ) > 0 )
+			{
+				calculateRound++;
+				List removedNames = new ArrayList();
+				for( Iterator it = aggrRefMap.keySet( ).iterator( ); it.hasNext( );)
+				{
+					String name = it.next( ).toString( );
+					IAggrInfo defn = (IAggrInfo)nameMap.get( name );
+					Set aggrRefList = (Set)aggrRefMap.get( name );
+					if ( aggrRefList.size( ) == 0 )
+					{
+						defn.setRound( calculateRound );
+						defn.setCalculateLevel( ((Integer)aggrRefGroupLevelMap.get( name )).intValue( ) );
+						aggrDefnsCopy.remove( defn );
+						removedNames.add( defn );
+					}	
+				}
+				
+				for( int i = 0; i < removedNames.size( ); i++ )
+				{
+					aggrRefMap.remove( ((IAggrInfo)removedNames.get( i )).getName( ) );
+				}
+				for( Iterator it = aggrRefMap.values( ).iterator( ); it.hasNext();)
+				{
+					Set temp = (Set)it.next( );
+					temp.removeAll( removedNames );
+				}
+			}
+		}
+
+		/**
+		 * Popualte a binding name <--> binding map.
+		 * @param aggrDefns
+		 * @return
+		 */
+		private Map populateBindingNameMap( List aggrDefns )
+		{
+			Map nameMap = new HashMap( );
+			for ( int i = 0; i < aggrDefns.size( ); i++ )
+			{
+				IAggrInfo aggrDefn = (IAggrInfo) aggrDefns.get( i );
+				nameMap.put( aggrDefn.getName( ), aggrDefn );
+			}
+			return nameMap;
+		}
+
+		/**
+		 * 
+		 * @param expr
+		 * @return
+		 * @throws BirtException
+		 */
+		private boolean hasDataSetRowReference( IScriptExpression expr ) throws BirtException
+		{
+			return !ExpressionUtil.extractColumnExpressions( expr.getText( ), false ).isEmpty( );
+		}
+		
+		/**
+		 * 
+		 * @param aggrReferences
+		 * @param exprs
+		 * @param aggrMap
+		 * @return
+		 * @throws DataException
+		 */
+		private boolean popAggrRefFromExprs( Set aggrReferences, List exprs, Map aggrMap ) throws DataException
+		{
+			boolean[] result = new boolean[exprs.size( )];
+			for( int i = 0; i < exprs.size( ); i++ )
+			{
+				result[i] = this.popAggrRefFromBaseExpr( aggrReferences, (IBaseExpression)exprs.get(i), aggrMap );
+			}
+			
+			boolean base = false;
+			
+			for( int i = 0; i < result.length; i++ )
+			{
+				if ( isConstantExpr((IBaseExpression)exprs.get(i)))
+				{
+					continue;
+				}
+				base = result[i];
+				break;
+			}
+			
+			for( int i = 0; i < result.length; i++ )
+			{
+				if ( isConstantExpr((IBaseExpression)exprs.get(i)))
+				{
+					continue;
+				}
+				
+				if( result[i] != base )
+					throw new DataException( ResourceConstants.INVALID_NESTED_AGGR_GROUP );
+			}
+			return result.length == 0?false:base;
+		}
+		
+		/**
+		 * 
+		 * @param aggrReferences
+		 * @param expr
+		 * @param aggrMap
+		 * @return
+		 * @throws DataException
+		 */
+		private boolean popAggrRefFromBaseExpr( Set aggrReferences, IBaseExpression expr, Map aggrMap )
+				throws DataException
+		{
+			try
+			{
+				boolean result = false;
+				if ( expr instanceof IScriptExpression )
+				{
+					result = popAggrRefFromScriptExpr( aggrReferences, (IScriptExpression) expr,
+							aggrMap );
+
+				}
+				else if ( expr instanceof IConditionalExpression )
+				{
+					IConditionalExpression ce = (IConditionalExpression) expr;
+
+					result = popAggrRefFromScriptExpr( aggrReferences,
+							ce.getExpression( ),
+							aggrMap )||
+					popAggrRefFromScriptExpr( aggrReferences,
+									ce.getOperand1( ),
+									aggrMap )||
+					popAggrRefFromScriptExpr( aggrReferences,
+									ce.getOperand2( ),
+									aggrMap );
+
+					
+				}
+				return result;
+			}
+			catch ( BirtException be )
+			{
+				throw DataException.wrap( be );
+			}
+		}
+
+		/**
+		 * Popualte the aggregation references, return whether the aggregation should 
+		 * be calculated on OVERALL level, which is indicated by reference to "dataSetRow"
+		 * java script object.
+		 * 
+		 * @param aggrReferences
+		 * @param expr
+		 * @param aggrMap
+		 * @return
+		 * @throws DataException
+		 */
+		private boolean popAggrRefFromScriptExpr( Set aggrReferences, IScriptExpression expr, Map aggrMap )
+				throws DataException
+		{
+			try
+			{
+				List usedRowReferences = ExpressionUtil.extractColumnExpressions( expr.getText( ) );
+				boolean result = this.hasDataSetRowReference( expr );
+				for ( int i = 0; i < usedRowReferences.size( ); i++ )
+				{
+					Object o = aggrMap.get( ( (IColumnBinding) usedRowReferences.get( i ) ).getResultSetColumnName( ) );
+					if ( o != null )
+					{
+						aggrReferences.add( o );
+					}else
+					{
+						result = result || popAggrRefFromBaseExpr( aggrReferences,
+								this.getBinding( ( (IColumnBinding) usedRowReferences.get( i ) ).getResultSetColumnName( ) )
+										.getExpression( ),
+								aggrMap );
+					}
+				}
+				return result;
+			}
+			catch ( BirtException be )
+			{
+				throw DataException.wrap( be );
+			}
+		}
+		
+		/**
+		 * 
+		 * @param expr
+		 * @return
+		 * @throws DataException
+		 */
+		private boolean isConstantExpr( IBaseExpression expr )
+				throws DataException
+		{
+			if ( !( expr instanceof IScriptExpression ) )
+				return false;
+			try
+			{
+				return ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expr ).getText( ) )
+						.isEmpty( )
+						&& (!hasDataSetRowReference( (IScriptExpression) expr ));
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+		}
 	}
 	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)

@@ -203,4 +203,12 @@ abstract class BaseCachedResultSet
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getAggrValue(java.lang.String)
+	 */
+	public Object getAggrValue( String aggrName ) throws DataException
+	{
+		throw new UnsupportedOperationException();
+	}
 }

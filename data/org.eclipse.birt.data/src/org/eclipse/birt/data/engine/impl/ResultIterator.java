@@ -528,11 +528,6 @@ public class ResultIterator implements IResultIterator
 				"getValue",
 				"get of value binding column: " + LogUtil.toString( exprName ) );
 		
-		if ( this.resultService.getBindingExpr( exprName ) == null
-				&& this.resultService.getAutoBindingExpr( exprName ) == null )
-			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-					exprName );
-
 		// Actually below code is not correct, it is only back compatibility.
 		// the API of IResultIterator is a little different from JDBC that
 		// before the next is called, the cursor is in the first row, instead
@@ -541,6 +536,10 @@ public class ResultIterator implements IResultIterator
 		// is also available.
 		if ( this.isFirstRowPepared )
 			this.prepareCurrentRow( );
+		
+		if ( !this.boundColumnValueMap.containsKey( exprName ) )
+			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+					exprName );
 		
 		Object exprValue = boundColumnValueMap.get( exprName );
 		if ( exprValue instanceof BirtException )

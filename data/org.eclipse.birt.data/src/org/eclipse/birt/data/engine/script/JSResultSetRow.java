@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -139,6 +140,17 @@ public class JSResultSetRow extends ScriptableObject
 			Object value = null;
 			try
 			{
+				IBinding binding = this.exprManager.getBinding( name );
+				
+				if ( binding == null )
+				{
+					return new DataExceptionMocker( new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+							name ) );
+				}
+				
+				if ( binding.getAggrFunction( )!= null )
+					return this.odiResult.getAggrValue( name );
+				
 				IBaseExpression dataExpr = this.exprManager.getExpr( name );
 				if ( dataExpr == null )
 				{

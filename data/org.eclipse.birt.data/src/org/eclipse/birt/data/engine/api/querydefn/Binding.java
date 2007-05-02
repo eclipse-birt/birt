@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -35,11 +36,18 @@ public class Binding implements IBinding
 	
 	public Binding( String name )
 	{
-		this.name = name;
-		this.aggregateOn = new ArrayList();
-		this.argument = new ArrayList();
+		this ( name, null );
 	}
 
+	public Binding( String name, IBaseExpression expr )
+	{
+		this.name = name;
+		this.expr = expr;
+		this.aggregateOn = new ArrayList();
+		this.argument = new ArrayList();
+		this.dataType = DataType.ANY_TYPE;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#addAggregateOn(java.lang.String)

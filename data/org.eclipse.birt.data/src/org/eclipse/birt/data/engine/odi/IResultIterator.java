@@ -165,4 +165,11 @@ public interface IResultIterator
 	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
 			throws DataException;
 	
+	/**
+	 * Return the IAggrValueHolder instance of this IResultIterator.
+	 * @param aggrName
+	 * @return
+	 * @throws DataException
+	 */
+	public Object getAggrValue( String aggrName ) throws DataException;
 }

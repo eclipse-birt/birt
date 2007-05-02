@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
@@ -106,11 +107,32 @@ public class ExprManager
 	}
 
 	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public IBinding getBinding( String name ) throws DataException
+	{
+		for ( int i = 0; i < bindingExprs.size( ); i++ )
+		{
+			GroupBindingColumn gcb = (GroupBindingColumn) bindingExprs.get( i );
+			if ( entryLevel != OVERALL_GROUP )
+			{
+				if ( gcb.getGroupLevel( ) > entryLevel )
+					continue;
+			}
+			if( gcb.getBinding( name )!= null )
+				return gcb.getBinding( name );
+		}
+		return null;
+	}
+	/**
 	 * @param name
 	 * @return
 	 * @throws DataException 
 	 */
-	IBaseExpression getBindingExpr( String name ) throws DataException
+	private IBaseExpression getBindingExpr( String name ) throws DataException
 	{
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{

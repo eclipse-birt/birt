@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -44,6 +46,34 @@ abstract class AbstractExpressionCompiler
 	private boolean isDataSetMode = true;
 	
 	private IScriptExpression scriptExpr;
+	
+	public void compile( IBaseExpression expr, Context context ) throws DataException
+	{
+		if ( expr instanceof IScriptExpression )
+		{
+			compile( (IScriptExpression)expr, context );
+		}
+		else if ( expr instanceof IConditionalExpression )
+		{
+			IConditionalExpression ce = (IConditionalExpression)expr;
+			compile(ce.getExpression( ), context);
+			compile(ce.getOperand1( ), context);
+			compile(ce.getOperand2( ), context);
+		}
+	}
+	/**
+	 * Compile the script expression.
+	 * @param baseExpr
+	 * @param context
+	 * @return
+	 */
+	private void compile( IScriptExpression baseExpr, Context context ) throws DataException
+	{
+		if ( baseExpr == null )
+			return;
+		CompiledExpression handle = this.compileExpression( baseExpr, context );
+		baseExpr.setHandle( handle );
+	}
 	
 	/**
 	 * compile the scriptExpresion to generate a subclass of compiledExpression.
