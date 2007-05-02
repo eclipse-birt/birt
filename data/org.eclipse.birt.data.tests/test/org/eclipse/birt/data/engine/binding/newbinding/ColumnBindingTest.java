@@ -8,7 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.data.engine.binding;
+package org.eclipse.birt.data.engine.binding.newbinding;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,12 +25,14 @@ import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -115,7 +117,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -154,7 +156,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "row.AMOUNT1");
 		se[1].setDataType( DataType.UNKNOWN_TYPE );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -180,7 +182,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "row." + name[0] );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i],se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -215,7 +217,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "row[\"test\\\"Column1\"]" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i],se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -256,7 +258,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -300,8 +302,8 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
-
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
+		
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
 		{
@@ -350,7 +352,7 @@ public class ColumnBindingTest extends APITestCase
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		se[3] = new ScriptExpression( "dataSetRow.AMOUNT2" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i],se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -396,7 +398,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 		
 		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT1>100" );
 		FilterDefinition filterDefn = new FilterDefinition( filterExpr );
@@ -499,7 +501,7 @@ public class ColumnBindingTest extends APITestCase
 		QueryDefinition queryDefn = new QueryDefinition( );
 
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i],se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = dataEngine.prepare( queryDefn )
 				.execute( null )
@@ -552,7 +554,7 @@ public class ColumnBindingTest extends APITestCase
 			QueryDefinition queryDefn = new QueryDefinition( );
 
 			for ( int i = 0; i < name.length; i++ )
-				queryDefn.addResultSetExpression( name[i],se[i] );
+				queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 			IResultIterator ri = myDataEngine.prepare( queryDefn )
 					.execute( null )
@@ -563,9 +565,8 @@ public class ColumnBindingTest extends APITestCase
 		// inner query with data set
 		QueryDefinition queryDefn2 = this.newReportQuery( );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn2.addResultSetExpression( name[i],
-					new ScriptExpression( "row._outer." + name[i] ) );
-		
+			queryDefn2.addBinding( new Binding(name[i], new ScriptExpression( "row._outer." + name[i]) ));
+			
 		IResultIterator ri2 = this.dataEngine.prepare( queryDefn2 )
 				.execute( queryResult, null )
 				.getResultIterator( );
@@ -605,15 +606,15 @@ public class ColumnBindingTest extends APITestCase
 
 			QueryDefinition queryDefn = new QueryDefinition( );
 			for ( int i = 0; i < name.length; i++ )
-				queryDefn.addResultSetExpression( name[i],se[i] );
+				queryDefn.addBinding( new Binding(name[i], se[i] ));
 			
 			// sub query
 			String subQueryName = "TEST";
 			SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 			for ( int i = 0; i < name.length; i++ )
-				subQueryDefn.addResultSetExpression( name[i],
+				subQueryDefn.addBinding( new Binding(name[i], 
 						new ScriptExpression( "row._outer." + name[i],
-								dataType[i] ) );
+								dataType[i] ) ));
 			queryDefn.addSubquery( subQueryDefn );
 
 			DataEngine myDataEngine = new DataEngineImpl( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -692,7 +693,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		GroupDefinition groupDefn = new GroupDefinition( "group1" );
 		groupDefn.setKeyColumn( "testColumn1" );
@@ -700,7 +701,8 @@ public class ColumnBindingTest extends APITestCase
 		ScriptExpression se2 = new ScriptExpression( "Total.sum(dataSetRow.AMOUNT)" );
 		se2.setGroupName("group1");
 		//groupDefn.addResultSetExpression( name2, se2 );
-		queryDefn.addResultSetExpression(name2,se2);
+		queryDefn.addBinding( new Binding(name2, se2) );
+		
 		queryDefn.addGroup( groupDefn );
 		
 		IResultIterator ri = executeQuery( queryDefn );
@@ -744,8 +746,7 @@ public class ColumnBindingTest extends APITestCase
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
-
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 		for ( int i = 0; i < sortDefn.length; i++ )
 		{
 			queryDefn.addSort( sortDefn[i] );
@@ -784,7 +785,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "if ( row.AMOUNT >200 ){ Total.runningSum(row.AMOUNT);  }else{ row.AMOUNT;}" );
 
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -821,7 +822,7 @@ public class ColumnBindingTest extends APITestCase
 		se[2] = new ScriptExpression( "row[\"testColumn1\"]+dataSetRow.AMOUNT" );
 
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 		
 		IResultIterator ri = executeQuery( queryDefn );
 		while ( ri.next( ) )
@@ -857,7 +858,7 @@ public class ColumnBindingTest extends APITestCase
 		se[1] = new ScriptExpression( "dataSetRow.CITY" );
 		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		GroupDefinition groupDefn = new GroupDefinition( "group1" );
 		groupDefn.setKeyColumn( "testColumn1" );
@@ -865,7 +866,7 @@ public class ColumnBindingTest extends APITestCase
 		ScriptExpression se2 = new ScriptExpression( "Total.sum(dataSetRow.AMOUNT)" );
 		se2.setGroupName("group1");
 		//groupDefn.addResultSetExpression( name2, new ColumnBindingExpression(se2) );
-		queryDefn.addResultSetExpression( name2,se2 );
+		queryDefn.addBinding( new Binding( name2,se2 ));
 		queryDefn.addGroup( groupDefn );
 		String name3 = "testColumn4";
 		ScriptExpression se3 = new ScriptExpression( "row[\"testColumn1\"]");
@@ -873,7 +874,7 @@ public class ColumnBindingTest extends APITestCase
 		groupDefn1.setKeyColumn( "testColumn4" );
 		se3.setGroupName("group2");
 		//groupDefn1.addResultSetExpression( name3, new ColumnBindingExpression(se3) );
-		queryDefn.addResultSetExpression( name3, se3 );
+		queryDefn.addBinding( new Binding(name3, se3) );
 		queryDefn.addGroup( groupDefn1 );
 		
 		IResultIterator ri = executeQuery( queryDefn );
@@ -907,7 +908,7 @@ public class ColumnBindingTest extends APITestCase
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 
 		IResultIterator ri = executeQuery( queryDefn );
 		if ( ri.next( ) )
@@ -938,7 +939,7 @@ public class ColumnBindingTest extends APITestCase
 		se[0] = new ScriptExpression( null );
 		
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
 		try
 		{
 			IResultIterator ri = executeQuery( queryDefn );
@@ -1010,7 +1011,7 @@ public class ColumnBindingTest extends APITestCase
 		
 		// prepare
 		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBinding[] totalBeArray = getAggrBinding( );
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
 		
 		// generation
@@ -1317,17 +1318,22 @@ public class ColumnBindingTest extends APITestCase
 	
 	/**
 	 * @return aggregation expression array
+	 * @throws DataException 
 	 */
-	private IBaseExpression[] getAggrExpr( )
+	private IBinding[] getAggrBinding( ) throws DataException
 	{
 		int num2 = 2;
-		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		totalBeArray[1] = new ScriptExpression( "Total.Sum( row.AMOUNT )" );
-		
-		totalExprName = new String[totalBeArray.length];
+		totalExprName = new String[num2];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
+		
+		
+		IBinding[] totalBeArray = new IBinding[num2];
+		totalBeArray[0] = new Binding(this.totalExprName[0]  );
+		totalBeArray[0].setAggrFunction( "COUNT" );
+		totalBeArray[1] = new Binding( this.totalExprName[1], new ScriptExpression("row.AMOUNT_1")  );
+		totalBeArray[1].setAggrFunction( "SUM" );
+		
 		
 		return totalBeArray;
 	}
@@ -1337,20 +1343,21 @@ public class ColumnBindingTest extends APITestCase
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 * @param qd
+	 * @throws DataException 
 	 */
 	private void prepareExprNameAndQuery( IBaseExpression[] rowBeArray,
-			IBaseExpression[] totalBeArray, BaseQueryDefinition qd )
+			IBinding[] totalBeArray, BaseQueryDefinition qd ) throws DataException
 	{
 		int num = rowBeArray.length;
 		
 		for ( int i = 0; i < num; i++ )
-			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
+			qd.addBinding( new Binding(this.rowExprName[i], rowBeArray[i] ));
 
 		if ( totalBeArray != null )
 		{
 			int num2 = totalBeArray.length;
 			for ( int i = 0; i < num2; i++ )
-				qd.addResultSetExpression( this.totalExprName[i], rowBeArray[i] );
+				qd.addBinding( totalBeArray[i] );
 		}
 	}
 	

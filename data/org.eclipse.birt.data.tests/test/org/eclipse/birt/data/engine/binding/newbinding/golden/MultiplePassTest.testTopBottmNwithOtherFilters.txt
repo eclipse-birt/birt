@@ -1,0 +1,3 @@
+*****A new Report Start!*****
+S:0 E:0 0    0    CHINA    Beijing    2004-01-01 00:00:00.0    7000    
+

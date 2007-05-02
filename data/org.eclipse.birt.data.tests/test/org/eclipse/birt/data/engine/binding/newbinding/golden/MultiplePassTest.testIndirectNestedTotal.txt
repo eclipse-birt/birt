@@ -1,0 +1,10 @@
+*****A new Report Start!*****
+S:0 E:1 CHINA    Beijing    2004-01-01 00:00:00.0    8900.0    true    
+S:1 E:1 US    New York    2004-05-01 00:00:00.0    8900.0    true    
+S:1 E:1 CHINA    Shanghai    2004-06-01 00:00:00.0    8900.0    true    
+S:1 E:1 US    Chicago    2004-03-02 00:00:00.0    8900.0    false    
+S:1 E:1 US    New York    2004-06-01 00:00:00.0    8900.0    false    
+S:1 E:1 CHINA    Shanghai    2004-01-01 00:00:00.0    8900.0    false    
+S:1 E:1 CHINA    Beijing    2004-06-05 00:00:00.0    8900.0    false    
+S:1 E:0 US    Chicago    2004-05-05 00:00:00.0    8900.0    false    
+

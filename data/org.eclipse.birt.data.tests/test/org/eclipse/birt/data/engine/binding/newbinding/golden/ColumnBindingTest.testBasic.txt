@@ -1,0 +1,12 @@
+CHINA, Beijing, 7000
+US, New York, 100
+CHINA, Shanghai, 100
+US, Chicago, 700
+US, New York, 100
+CHINA, Shanghai, 100
+CHINA, Beijing, 400
+US, Chicago, 400
+UK, London, 600
+UK, London, 700
+UK, Edinburgh, 800
+UK, Edinburgh, 1000

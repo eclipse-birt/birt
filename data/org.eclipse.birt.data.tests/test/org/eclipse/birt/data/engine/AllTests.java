@@ -56,6 +56,10 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.NestedQueryTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.SubQueryTest.class );
 				
+		/* in package org.eclipse.birt.data.engine.binding.newbinding */
+		suite.addTestSuite( org.eclipse.birt.data.engine.binding.newbinding.MultiplePassTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.binding.newbinding.ColumnBindingTest.class );
+		
 		/* in package org.eclipse.birt.data.engine.executor.cache */
 		suite.addTestSuite( org.eclipse.birt.data.engine.executor.cache.CacheClobAndBlobTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.executor.cache.CacheComputedColumnTest.class );
@@ -87,6 +91,8 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ResultMetaDataTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ScriptEvalTest.class);
 		
+		/* in package org.eclipse.birt.data.engine.impl.binding  */
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.binding.AggregationTest.class );
 		/* in package org.eclipse.birt.data.engine.impl.document */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.document.GroupInfoUtilTest.class);
 		

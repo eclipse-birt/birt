@@ -1,0 +1,5 @@
+*****A new Report Start!*****
+S:0 E:1 0    0    US    New York    2004-05-01 00:00:00.0    100    
+S:1 E:1 1    1    CHINA    Shanghai    2004-06-01 00:00:00.0    100    
+S:1 E:0 2    2    CHINA    Beijing    2004-06-05 00:00:00.0    400    
+
