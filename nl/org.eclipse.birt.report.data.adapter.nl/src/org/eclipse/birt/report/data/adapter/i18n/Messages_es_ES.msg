@@ -21,3 +21,5 @@ datasource.exid.error=Falta el id de la extensión en la definición de la fuente 
 
 datasethandle.null.error=DataSetHandle no puede ser nulo.
 datasethandle.invalidColumnIndex=El índice de columna no es válido.
+
+adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
