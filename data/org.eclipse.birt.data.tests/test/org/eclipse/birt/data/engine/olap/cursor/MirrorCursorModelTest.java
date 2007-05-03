@@ -18,10 +18,10 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -66,13 +66,13 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( );
 		
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level21" );
 		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
-		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_AVE_FUNC );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
 		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
@@ -80,7 +80,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		columnGrandTotal.addAggregateOn( "level14" );	
 		
 		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
-		totalGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		
 		cqd.addBinding( rowGrandTotal );
@@ -137,7 +137,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( );
 		
 		IBinding rowGrandTotal = new Binding( "countryGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level11" );
 		rowGrandTotal.addAggregateOn( "level21" );

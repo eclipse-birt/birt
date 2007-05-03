@@ -20,11 +20,11 @@ import java.util.Set;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
@@ -468,8 +468,8 @@ public class AggregationHelper implements IAggrValueHolder
 				
 		if ( this.populator.getCache( ).getCount( ) == 0 )
 		{
-			if ( aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( BuiltInAggregationFactory.TOTAL_COUNT_FUNC)
-				 ||	aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( BuiltInAggregationFactory.TOTAL_COUNTDISTINCT_FUNC))
+			if ( aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNT_FUNC)
+				 ||	aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC))
 				
 				return new Integer( 0 );
 			else

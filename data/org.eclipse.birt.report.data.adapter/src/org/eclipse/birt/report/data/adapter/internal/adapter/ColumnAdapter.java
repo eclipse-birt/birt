@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
-import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 
@@ -33,7 +32,7 @@ public class ColumnAdapter extends ColumnDefinition
 			setColumnPosition( modelColumn.getPosition( ).intValue( ) );
 		if( modelColumn.getNativeDataType( )!= null )
 			setNativeDataType( modelColumn.getNativeDataType( ).intValue( ) );			
-		setDataType( ModelAdapter.adaptModelDataType( modelColumn.getDataType( ) ) );
+		setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelColumn.getDataType( ) ) );
 	}
 
 	/**

@@ -18,10 +18,10 @@ import javax.olap.cursor.EdgeCursor;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -69,13 +69,13 @@ public class CursorNavigatorTest extends TestCase
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		rowGrandTotal.addAggregateOn( "level21" );
 		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
-		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		columnGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );

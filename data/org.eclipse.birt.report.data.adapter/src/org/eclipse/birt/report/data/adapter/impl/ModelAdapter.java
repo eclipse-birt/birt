@@ -13,7 +13,6 @@
  */ 
 package org.eclipse.birt.report.data.adapter.impl;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -56,7 +55,6 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -211,34 +209,4 @@ public class ModelAdapter implements IModelAdapter
 	{
 		return new ComputedColumnAdapter( modelHandle);
 	}
-	
-	/**
-	 * Adapts a Model data type (string) to Data Engine data type constant
-	 * (integer) on column
-	 */
-	public static int adaptModelDataType( String modelDataType )
-	{
-		if ( modelDataType == null )
-			return DataType.UNKNOWN_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-			return DataType.ANY_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) )
-			return DataType.INTEGER_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-			return DataType.STRING_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-			return DataType.DATE_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
-			return DataType.DECIMAL_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
-			return DataType.DOUBLE_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-			return DataType.SQL_TIME_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
-			return DataType.SQL_DATE_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
-			return DataType.BOOLEAN_TYPE;
-		return DataType.UNKNOWN_TYPE;
-	}
-	
 }

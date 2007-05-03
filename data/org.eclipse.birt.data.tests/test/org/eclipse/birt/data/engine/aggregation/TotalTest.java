@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -86,7 +87,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("count");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_COUNT_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_COUNT_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(0, ag.getParameterDefn().length);
         
@@ -135,7 +136,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("sum");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_SUM_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_SUM_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -184,7 +185,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("RUNNINGSUM");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_RUNNINGSUM_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -229,7 +230,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("ave");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_AVE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_AVE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -278,7 +279,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("first");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_FIRST_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_FIRST_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -327,7 +328,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("last");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_LAST_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_LAST_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -376,7 +377,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("max");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MAX_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MAX_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -425,7 +426,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("min");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MIN_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MIN_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -474,7 +475,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("median");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MEDIAN_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MEDIAN_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -542,7 +543,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("mode");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MODE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MODE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -633,7 +634,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("stddev");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_STDDEV_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_STDDEV_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -684,7 +685,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("variance");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_VARIANCE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_VARIANCE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -735,7 +736,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("weightedAve");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_WEIGHTEDAVE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -820,7 +821,7 @@ public class TotalTest extends TestCase
         double[] values2 = new double[]{4.0, -19.5, -11.666666666666666, -3.0, -5.4, -5.5, -5.5, 0.6666666666666666, 0.5, 7.1666666666666666, 15.1666666666666666, 15.1666666666666666, 10.6666666666666666, 17.3333333333333333};
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("movingAve");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MOVINGAVE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MOVINGAVE_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -931,7 +932,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_TOP_N_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -954,7 +955,7 @@ public class TotalTest extends TestCase
         
         ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
         ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_TOP_N_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -972,7 +973,7 @@ public class TotalTest extends TestCase
       	     
         ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopNPercent");
         ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_TOP_PERCENT_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -995,7 +996,7 @@ public class TotalTest extends TestCase
         
         ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopNPercent");
         ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_TOP_PERCENT_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1015,7 +1016,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isBottomN");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_BOTTOM_N_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_BOTTOM_N_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1037,7 +1038,7 @@ public class TotalTest extends TestCase
         
         ag = BuiltInAggregationFactory.getInstance().getAggregation("isBottomNPercent");
         ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_BOTTOM_PERCENT_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1063,7 +1064,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("rank");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_RANK_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_RANK_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1106,7 +1107,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentrank");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_PERCENT_RANK_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1130,7 +1131,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentsum");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_PERCENTSUM_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_PERCENTSUM_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1171,7 +1172,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentile");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_PERCENTILE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_PERCENTILE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1262,7 +1263,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("quartile");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_QUARTILE_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_QUARTILE_FUNC, ag.getName());
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(ag.getParameterDefn()[0]);
@@ -1329,7 +1330,7 @@ public class TotalTest extends TestCase
     {
         IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("runningcount");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_RUNNINGCOUNT_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC, ag.getName());
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(0, ag.getParameterDefn().length);
                

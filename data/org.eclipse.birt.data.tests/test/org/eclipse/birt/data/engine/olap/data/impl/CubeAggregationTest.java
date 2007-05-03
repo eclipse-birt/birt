@@ -25,8 +25,8 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -332,7 +332,7 @@ public class CubeAggregationTest extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -437,7 +437,7 @@ public class CubeAggregationTest extends TestCase
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
 		//add aggregation filter on level21
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		cubeQuery.addBinding( level21_sum );
@@ -455,7 +455,7 @@ public class CubeAggregationTest extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -491,7 +491,7 @@ public class CubeAggregationTest extends TestCase
 		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
 		//add aggregation filter on level21 and level31
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		level21_sum.addAggregateOn( "level31" );
@@ -513,7 +513,7 @@ public class CubeAggregationTest extends TestCase
 				"level21","level31"
 		};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -566,7 +566,7 @@ public class CubeAggregationTest extends TestCase
 		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
 		//add aggregation filter on level21 and level31
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		cubeQuery.addBinding( level21_sum );
@@ -585,7 +585,7 @@ public class CubeAggregationTest extends TestCase
 			"level21"
 		};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -607,7 +607,7 @@ public class CubeAggregationTest extends TestCase
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );		
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		cubeQuery.addBinding( level21_sum );
@@ -632,7 +632,7 @@ public class CubeAggregationTest extends TestCase
 			"level21"
 		};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -661,7 +661,7 @@ public class CubeAggregationTest extends TestCase
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );		
 		//add aggregation filter on level21 and level31
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		level21_sum.addAggregateOn( "level31" );
@@ -687,7 +687,7 @@ public class CubeAggregationTest extends TestCase
 				"level21","level31"
 		};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -716,7 +716,7 @@ public class CubeAggregationTest extends TestCase
 				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
 		//add aggregation filter on level21
 		IBinding level21_sum = new Binding( "level21_sum" );
-		level21_sum.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		level21_sum.addAggregateOn( "level21" );
 		cubeQuery.addBinding( level21_sum );
@@ -749,7 +749,7 @@ public class CubeAggregationTest extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		
@@ -830,7 +830,7 @@ public class CubeAggregationTest extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		sortType = new int[2];
@@ -840,7 +840,7 @@ public class CubeAggregationTest extends TestCase
 		levelNamesForFilter[0] = "level11";
 		levelNamesForFilter[1] = "level12";
 		funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		sortType = new int[1];
@@ -848,7 +848,7 @@ public class CubeAggregationTest extends TestCase
 		levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[2] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		sortType = new int[1];
@@ -856,7 +856,7 @@ public class CubeAggregationTest extends TestCase
 		levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level11";
 		funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[3] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,

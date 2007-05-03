@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -99,7 +100,7 @@ public class MetaDataPopulator
 
 				columnDef = new ResultSetColumnDefinition( uniqueColumnName );
 				columnDef.setDataTypeName( resultSetColumn.getDataType( ) );
-				columnDef.setDataType( ModelAdapter.adaptModelDataType( resultSetColumn.getDataType( ) ) );
+				columnDef.setDataType( DataAdapterUtil.adaptModelDataType( resultSetColumn.getDataType( ) ) );
 				if ( resultSetColumn.getPosition( ) != null )
 					columnDef.setColumnPosition( resultSetColumn.getPosition( )
 							.intValue( ) );
@@ -149,7 +150,7 @@ public class MetaDataPopulator
 					columnDef = new ResultSetColumnDefinition( uniqueColumnName );
 
 					columnDef.setDataTypeName( computedColumn.getDataType( ) );
-					columnDef.setDataType( ModelAdapter.adaptModelDataType( computedColumn.getDataType( ) ) );
+					columnDef.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( computedColumn.getDataType( ) ) );
 					if ( findColumnHint( dataSetHandle, uniqueColumnName ) != null )
 					{
 						ColumnHintHandle columnHint = findColumnHint( dataSetHandle,

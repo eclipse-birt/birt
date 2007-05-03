@@ -40,6 +40,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	
 	/**
 	 * Constructs an unnamed group
+	 * @deprecated
 	 */
 	public GroupDefinition()
 	{

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
-import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 
@@ -32,7 +31,7 @@ public class ParameterAdapter extends ParameterDefinition
 			setPosition( modelParam.getPosition( ).intValue( ) );
 		if ( modelParam.getNativeDataType( ) != null )
 			setNativeType( modelParam.getNativeDataType( ).intValue( ) );
-		setType( ModelAdapter.adaptModelDataType( modelParam.getDataType( ) ) );
+		setType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelParam.getDataType( ) ) );
 		setInputMode( modelParam.isInput( ) );
 		setOutputMode( modelParam.isOutput( ) );
 		setNullable( modelParam.allowNull( ) );

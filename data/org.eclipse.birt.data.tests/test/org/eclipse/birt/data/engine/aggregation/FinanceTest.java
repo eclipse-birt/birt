@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.aggregation;
 
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 
 import junit.framework.TestCase;
 
@@ -51,7 +52,7 @@ public class FinanceTest extends TestCase
 
 		IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("irr");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_IRR_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_IRR_FUNC, ag.getName());
       
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
@@ -107,7 +108,7 @@ public class FinanceTest extends TestCase
 		double b[] = new double[]{-120000, 39000, 30000, 21000};
 		IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("mirr");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_MIRR_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_MIRR_FUNC, ag.getName());
       
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(3, ag.getParameterDefn().length);
@@ -155,7 +156,7 @@ public class FinanceTest extends TestCase
 	    
 	    IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("npv");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_NPV_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_NPV_FUNC, ag.getName());
    
         assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
@@ -192,7 +193,7 @@ public class FinanceTest extends TestCase
 	{
 	    IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("runningnpv");
         Accumulator ac = ag.newAccumulator();
-        assertEquals(BuiltInAggregationFactory.TOTAL_RUNNINGNPV_FUNC, ag.getName());
+        assertEquals(IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC, ag.getName());
  
         assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);

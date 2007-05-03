@@ -20,7 +20,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
@@ -491,7 +491,7 @@ public class FactTableHelperTest2 extends TestCase
 		levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -635,7 +635,7 @@ public class FactTableHelperTest2 extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -783,7 +783,7 @@ public class FactTableHelperTest2 extends TestCase
 		String[] levelNamesForFilter = new String[1];
 		levelNamesForFilter[0] = "level21";
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
-		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;

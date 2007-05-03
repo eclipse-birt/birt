@@ -20,10 +20,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.mozilla.javascript.Context;
 
 /**
@@ -431,10 +431,10 @@ public class ExpressionCompilerUtil
 	 */
 	private static boolean isTopBottomN( String aggName )
 	{
-		if ( BuiltInAggregationFactory.TOTAL_BOTTOM_N_FUNC.equals( aggName )
-				|| BuiltInAggregationFactory.TOTAL_BOTTOM_PERCENT_FUNC.equals( aggName )
-				|| BuiltInAggregationFactory.TOTAL_TOP_N_FUNC.equals( aggName )
-				|| BuiltInAggregationFactory.TOTAL_TOP_PERCENT_FUNC.equals( aggName ) )
+		if ( IBuildInAggregation.TOTAL_BOTTOM_N_FUNC.equals( aggName )
+				|| IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC.equals( aggName )
+				|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( aggName )
+				|| IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC.equals( aggName ) )
 			return true;
 		else
 			return false;

@@ -25,13 +25,13 @@ import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -979,32 +979,32 @@ public class CubeIVTest extends BaseTestCase
 		
 		IBinding binding6 = new Binding( "rowGrandTotal");
 		binding6.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding6.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding6.addAggregateOn( "level21" );
 		cqd.addBinding( binding6 );
 		
 		IBinding binding7 = new Binding( "columnGrandTotal");
 		binding7.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding7.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding7.addAggregateOn( "level11" );
 		binding7.addAggregateOn( "level12" );
 		cqd.addBinding( binding7 );
 		
 		IBinding binding8 = new Binding( "grandTotal");
 		binding8.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding8.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding8.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding8 );
 		
 		IBinding binding9 = new Binding( "country_year_total");
 		binding9.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding9.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding9.addAggregateOn( "level11" );
 		binding9.addAggregateOn( "level21" );
 		cqd.addBinding( binding9 );
 		
 		IBinding binding10= new Binding( "city_year_total");
 		binding10.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding10.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding10.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding10.addAggregateOn( "level11" );
 		binding10.addAggregateOn( "level12" );
 		binding10.addAggregateOn( "level21" );
@@ -1012,7 +1012,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		IBinding binding11= new Binding( "dist_total");
 		binding11.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding11.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding11.addAggregateOn( "level11" );
 		binding11.addAggregateOn( "level12" );
 		binding11.addAggregateOn( "level13" );
@@ -1021,7 +1021,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		IBinding binding12= new Binding( "city_total");
 		binding12.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding12.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding12.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding12.addAggregateOn( "level11" );
 		binding12.addAggregateOn( "level12" );
 		
@@ -1030,7 +1030,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		IBinding binding13= new Binding( "country_total");
 		binding13.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding13.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding13.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding13.addAggregateOn( "level11" );
 		
 		cqd.addBinding( binding13 );

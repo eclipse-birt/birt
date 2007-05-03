@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
-import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 /**
@@ -26,7 +25,7 @@ public class ComputedColumnAdapter extends ComputedColumn
 	{
 		super( modelCmptdColumn.getName( ),
 				modelCmptdColumn.getExpression( ),
-				ModelAdapter.adaptModelDataType( modelCmptdColumn.getDataType( ) ));
+				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelCmptdColumn.getDataType( ) ));
 	}
 
 }

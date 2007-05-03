@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -55,6 +59,86 @@ public class DataAdapterUtil
 		}
 	}
 	
+	/**
+	 * Adapts a Model data type (string) to Data Engine data type constant
+	 * (integer) on column
+	 */
+	public static int adaptModelDataType( String modelDataType )
+	{
+		if ( modelDataType == null )
+			return DataType.UNKNOWN_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+			return DataType.ANY_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) )
+			return DataType.INTEGER_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+			return DataType.STRING_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+			return DataType.DATE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
+			return DataType.DECIMAL_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
+			return DataType.DOUBLE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+			return DataType.SQL_TIME_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
+			return DataType.SQL_DATE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
+			return DataType.BOOLEAN_TYPE;
+		return DataType.UNKNOWN_TYPE;
+	}
+	
+	/**
+	 * 
+	 * @param modelAggrType
+	 * @return
+	 * @throws AdapterException
+	 */
+	public static String adaptModelAggregationType( String modelAggrType ) throws AdapterException
+	{
+		if( DesignChoiceConstants.MEASURE_FUNCTION_AVERAGE.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_AVE_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_COUNT.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_COUNT_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_COUNTDISTINCT.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_FIRST.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_FIRST_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_IRR.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_IRR_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_LAST.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_LAST_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MAX.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MAX_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MEDIAN.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MEDIAN_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MIN.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MIN_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MIRR.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MIRR_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MODE.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MODE_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_MOVINGAVE.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_MOVINGAVE_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_NPV.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_NPV_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGCOUNT.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGNPV.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGSUM.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_STDDEV.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_STDDEV_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_SUM.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_SUM_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_VARIANCE.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_VARIANCE_FUNC;
+		if( DesignChoiceConstants.MEASURE_FUNCTION_WEIGHTEDAVG.equals( modelAggrType ) )
+			return IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC;
+		
+		throw new AdapterException( ResourceConstants.INVALID_AGGREGATION_NAME, modelAggrType );
+	}
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
 		private ILinkedResult it;

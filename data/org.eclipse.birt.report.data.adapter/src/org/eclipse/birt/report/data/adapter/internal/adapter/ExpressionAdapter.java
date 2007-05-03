@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 public class ExpressionAdapter extends ScriptExpression
@@ -35,7 +34,7 @@ public class ExpressionAdapter extends ScriptExpression
 	 */
 	public ExpressionAdapter( String exprText, String returnType )
 	{
-		super( exprText, ModelAdapter.adaptModelDataType(returnType) );
+		super( exprText, org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(returnType) );
 	}
 	
 	/**
@@ -44,7 +43,7 @@ public class ExpressionAdapter extends ScriptExpression
 	public ExpressionAdapter( ComputedColumnHandle ccHandle )
 	{
 		super( ccHandle.getExpression(), 
-				ModelAdapter.adaptModelDataType( ccHandle.getDataType() ) );
+				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( ccHandle.getDataType() ) );
 	}
 	
 }

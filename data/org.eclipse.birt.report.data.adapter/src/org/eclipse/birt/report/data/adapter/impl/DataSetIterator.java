@@ -30,12 +30,15 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
@@ -159,10 +162,10 @@ public class DataSetIterator implements IDatasetIterator
 							String cubeKey = joinCondition.getCubeKey( );
 							String hierKey = joinCondition.getHierarchyKey( );
 							metaList.add( new ColumnMeta( hierKey, true, null ) );
-							query.addResultSetExpression( hierKey,
-									new ScriptExpression(  ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) );
+							query.addBinding( new Binding(hierKey,
+									new ScriptExpression(  ExpressionUtil.createJSDataSetRowExpression( cubeKey ) )) );
 
-							GroupDefinition gd = new GroupDefinition( );
+							GroupDefinition gd = new GroupDefinition( String.valueOf(query.getGroups( ).size( )));
 							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( hierKey ) );
 							query.addGroup( gd );
 						}
@@ -183,80 +186,52 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param cubeHandle
 	 * @param query
 	 * @param resultMetaList
+	 * @throws DataException 
+	 * @throws AdapterException 
 	 */
 	private void prepareMeasure( TabularCubeHandle cubeHandle,
-			QueryDefinition query, List metaList )
+			QueryDefinition query, List metaList ) throws AdapterException
 	{
-		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-		for ( int i = 0; i < measureGroups.size( ); i++ )
+		try
 		{
-			MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-			List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-			for ( int j = 0; j < measures.size( ); j++ )
+			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			for ( int i = 0; i < measureGroups.size( ); i++ )
 			{
-				MeasureHandle measure = (MeasureHandle) measures.get( j );
-				String function = measure.getFunction( );
-				if ( query.getGroups( ).size( ) > 0 )
+				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
+				List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
+				for ( int j = 0; j < measures.size( ); j++ )
 				{
-					ScriptExpression se = populateExpression( query,
-							measure,
-							function );
+					MeasureHandle measure = (MeasureHandle) measures.get( j );
+					String function = measure.getFunction( );
+					if ( query.getGroups( ).size( ) > 0 )
+					{
+						Binding binding = new Binding( measure.getName( ),
+								new ScriptExpression( measure.getMeasureExpression( ) ) );
+						binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
+						IGroupDefinition group = (IGroupDefinition) query.getGroups( )
+								.get( query.getGroups( ).size( ) - 1 );
+						binding.addAggregateOn( group.getName( ) );
 
-					query.addResultSetExpression( measure.getName( ), se );
-				}
-				else
-				{
-					query.addResultSetExpression( measure.getName( ),
-							new ScriptExpression( measure.getMeasureExpression( ) ) );
-				}
+						query.addBinding( binding );
+					}
+					else
+					{
+						query.addBinding( new Binding( measure.getName( ),
+								new ScriptExpression( measure.getMeasureExpression( ) ) ) );
+					}
 
-				ColumnMeta meta = new ColumnMeta( measure.getName( ), false, null );
-				//TODO after model finish support measure type, use data type defined in
-				//measure handle.
-				meta.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( )) );
-				metaList.add( meta );
+					ColumnMeta meta = new ColumnMeta( measure.getName( ),
+							false,
+							null );
+					meta.setDataType( DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
+					metaList.add( meta );
+				}
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @param query
-	 * @param measure
-	 * @param function
-	 * @return
-	 */
-	private ScriptExpression populateExpression( QueryDefinition query,
-			MeasureHandle measure, String function )
-	{
-		ScriptExpression se = null;
-		
-		if ( function == null || function.equals( "sum" ) )
+		catch ( DataException e )
 		{
-			se = new ScriptExpression( "Total.sum("
-					+ measure.getMeasureExpression( ) + ",null,"
-					+ query.getGroups( ).size( ) + ")" );
-
+			throw new AdapterException( e.getLocalizedMessage( ) );
 		}
-		else if ( function.equals( "count" ) )
-		{
-			se = new ScriptExpression( "Total.count("
-					+ "null," + query.getGroups( ).size( ) + ")" );
-		}
-		else if ( function.equals( "min" ) )
-		{
-			se = new ScriptExpression( "Total.min("
-					+ measure.getMeasureExpression( ) + ",null,"
-					+ query.getGroups( ).size( ) + ")" );
-		}
-		else if ( function.equals( "max" ) )
-		{
-			se = new ScriptExpression( "Total.max("
-					+ measure.getMeasureExpression( ) + ",null,"
-					+ query.getGroups( ).size( ) + ")" );
-		}
-		se.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( ) ) );
-		return se;
 	}
 
 	/**
@@ -265,109 +240,127 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param resultMetaList
 	 * @param levelNameColumnNamePair
 	 * @param hierHandle
-	 * @throws AdapterException 
+	 * @throws AdapterException
 	 */
 	private void prepareLevels( QueryDefinition query,
 			TabularHierarchyHandle hierHandle, List metaList,
 			String timeLevelName, String leafLevelName )
 			throws AdapterException
 	{
-		//Use same data set as cube fact table
-		List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-
-		for ( int j = 0; j < levels.size( ); j++ )
+		try
 		{
+			// Use same data set as cube fact table
+			List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-		
-			ColumnMeta temp = null;
-			
-			String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
-			
-			int type = ModelAdapter.adaptModelDataType(level.getDataType( ));
-			if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
-				type = DataType.STRING_TYPE;
-			if ( isTimeType( type ))
+			for ( int j = 0; j < levels.size( ); j++ )
 			{
-				temp = new ColumnMeta( level.getName( ), true, new TimeValueProcessor(level.getDateTimeLevelType( )) );
-				temp.setDataType( DataType.INTEGER_TYPE );
-			}
-			else
-			{	
-				IDataProcessor processor = null;
-				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( )) )
+
+				TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
+
+				ColumnMeta temp = null;
+
+				String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
+
+				int type = DataAdapterUtil.adaptModelDataType( level.getDataType( ) );
+				if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
+					type = DataType.STRING_TYPE;
+				if ( isTimeType( type ) )
 				{
-					int interval = GroupAdapter.intervalFromModel( level.getInterval( ) );
-					if ( interval != IGroupDefinition.NO_INTERVAL)
-						processor = new DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( interval,
-							type,
-							level.getIntervalBase( ),
-							level.getIntervalRange( ) ) );
+					temp = new ColumnMeta( level.getName( ),
+							true,
+							new TimeValueProcessor( level.getDateTimeLevelType( ) ) );
+					temp.setDataType( DataType.INTEGER_TYPE );
 				}
-				else if ( DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals( level.getLevelType( ) ))
+				else
 				{
-					Iterator it = level.staticValuesIterator( );
-					List dispExpr = new ArrayList();
-					List filterExpr = new ArrayList();
-					while( it.hasNext( ))
+					IDataProcessor processor = null;
+					if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) ) )
 					{
-						RuleHandle o = (RuleHandle)it.next( );
-						dispExpr.add( o.getDisplayExpression( ));
-						filterExpr.add( o.getRuleExpression( ));
-						
+						int interval = GroupAdapter.intervalFromModel( level.getInterval( ) );
+						if ( interval != IGroupDefinition.NO_INTERVAL )
+							processor = new DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( interval,
+									type,
+									level.getIntervalBase( ),
+									level.getIntervalRange( ) ) );
 					}
-					
-					//When use mirrored level type, we would change the 
-					exprString = "";
-					for ( int i = 0; i < dispExpr.size( ); i++ )
+					else if ( DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals( level.getLevelType( ) ) )
 					{
-						String disp = "\""+JavascriptEvalUtil.transformToJsConstants( String.valueOf( dispExpr.get( i ) ))+"\"";
-						String filter = String.valueOf( filterExpr.get( i ) );
-						exprString += "if(" + filter +")" + disp +";";
-					}
-				}
-				temp = new ColumnMeta( level.getName( ), true, processor );
-				temp.setDataType( type );
-			}
-			metaList.add( temp );
-			Iterator it = level.attributesIterator( );
-			while ( it.hasNext( ) )
-			{
-				LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-				ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-						levelAttr.getName( )), false, null );
+						Iterator it = level.staticValuesIterator( );
+						List dispExpr = new ArrayList( );
+						List filterExpr = new ArrayList( );
+						while ( it.hasNext( ) )
+						{
+							RuleHandle o = (RuleHandle) it.next( );
+							dispExpr.add( o.getDisplayExpression( ) );
+							filterExpr.add( o.getRuleExpression( ) );
 
-				meta.setDataType( ModelAdapter.adaptModelDataType( levelAttr.getDataType( ) ) );
-				metaList.add( meta );
-				query.addResultSetExpression( meta.getName( ),
-						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) );
+						}
+
+						// When use mirrored level type, we would change the
+						exprString = "";
+						for ( int i = 0; i < dispExpr.size( ); i++ )
+						{
+							String disp = "\""
+									+ JavascriptEvalUtil.transformToJsConstants( String.valueOf( dispExpr.get( i ) ) )
+									+ "\"";
+							String filter = String.valueOf( filterExpr.get( i ) );
+							exprString += "if(" + filter + ")" + disp + ";";
+						}
+					}
+					temp = new ColumnMeta( level.getName( ), true, processor );
+					temp.setDataType( type );
+				}
+				metaList.add( temp );
+				Iterator it = level.attributesIterator( );
+				while ( it.hasNext( ) )
+				{
+					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
+					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+							levelAttr.getName( ) ),
+							false,
+							null );
+
+					meta.setDataType( DataAdapterUtil.adaptModelDataType( levelAttr.getDataType( ) ) );
+					metaList.add( meta );
+
+					query.addBinding( new Binding( meta.getName( ),
+							new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) ) );
+				}
+
+				query.addBinding( new Binding(level.getName( ),
+						new ScriptExpression( exprString ) ));
+
+				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
+				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
+
+				if ( level.getLevelType( ) != null )
+				{
+					gd.setIntervalRange( level.getIntervalRange( ) );
+					gd.setIntervalStart( level.getIntervalBase( ) );
+					gd.setInterval( GroupAdapter.intervalFromModel( level.getInterval( ) ) );
+				}
+				query.addGroup( gd );
 			}
-			
-			
-			
-			query.addResultSetExpression( level.getName( ),
-					new ScriptExpression( exprString ));
-			
-			GroupDefinition gd = new GroupDefinition( );
-			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
-			
-			if ( level.getLevelType( ) != null )
+
+			if ( timeLevelName != null )
 			{
-				gd.setIntervalRange( level.getIntervalRange( ) );
-				gd.setIntervalStart( level.getIntervalBase( ) );
-				gd.setInterval( GroupAdapter.intervalFromModel(level.getInterval( )) );
+				populateSpecialLevel( query,
+						metaList,
+						timeLevelName,
+						DataType.DATE_TYPE );
 			}
-			query.addGroup( gd );
+
+			if ( leafLevelName != null )
+			{
+				populateSpecialLevel( query,
+						metaList,
+						leafLevelName,
+						DataType.STRING_TYPE );
+			}
 		}
-		
-		if ( timeLevelName != null )
+		catch ( DataException e )
 		{
-			populateSpecialLevel( query, metaList, timeLevelName, DataType.DATE_TYPE );
-		}
-		
-		if ( leafLevelName != null )
-		{
-			populateSpecialLevel( query, metaList, leafLevelName, DataType.STRING_TYPE );
+			throw new AdapterException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -377,21 +370,29 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param metaList
 	 * @param timeLevelName
 	 * @param dataType
+	 * @throws DataException 
 	 */
 	private void populateSpecialLevel( QueryDefinition query, List metaList,
-			String timeLevelName, int dataType )
+			String timeLevelName, int dataType ) throws AdapterException
 	{
-		ColumnMeta temp = new ColumnMeta( timeLevelName, true, null );
-		temp.setDataType( dataType );
-		metaList.add( temp );
-		String exprString = ExpressionUtil.createJSDataSetRowExpression( timeLevelName );
-		
-		query.addResultSetExpression( timeLevelName,
-				new ScriptExpression( exprString ));
-		
-		GroupDefinition gd = new GroupDefinition( );
-		gd.setKeyExpression( ExpressionUtil.createJSRowExpression( timeLevelName ) );
-		query.addGroup( gd );
+		try
+		{
+			ColumnMeta temp = new ColumnMeta( timeLevelName, true, null );
+			temp.setDataType( dataType );
+			metaList.add( temp );
+			String exprString = ExpressionUtil.createJSDataSetRowExpression( timeLevelName );
+
+			query.addBinding( new Binding( timeLevelName,
+					new ScriptExpression( exprString ) ) );
+
+			GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( ) ) );
+			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( timeLevelName ) );
+			query.addGroup( gd );
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/**

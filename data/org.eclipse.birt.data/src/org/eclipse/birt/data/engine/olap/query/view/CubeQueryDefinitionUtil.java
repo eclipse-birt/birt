@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -92,7 +92,7 @@ class CubeQueryDefinitionUtil
 						measureDefn.getName( ),
 						levelList,
 						measureDefn.getAggrFunction( ) == null
-								? BuiltInAggregationFactory.TOTAL_SUM_FUNC
+								? IBuildInAggregation.TOTAL_SUM_FUNC
 								: measureDefn.getAggrFunction( ),
 						0 );
 				calculatedMemberList.add( calculatedMember[index] );

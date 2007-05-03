@@ -337,7 +337,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataSet.getQualifiedName( ) );
-		GroupDefinition group = new GroupDefinition( );
+		GroupDefinition group = new GroupDefinition( boundColumnName );
 		group.setKeyColumn( boundColumnName );
 		query.addGroup( group );
 		query.setUsesDetails( false );

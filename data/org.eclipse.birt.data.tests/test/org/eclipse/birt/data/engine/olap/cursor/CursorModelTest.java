@@ -20,10 +20,10 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -72,13 +72,13 @@ public class CursorModelTest extends BaseTestCase
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level21" );
 		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
-		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_AVE_FUNC );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
 		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
@@ -86,7 +86,7 @@ public class CursorModelTest extends BaseTestCase
 		columnGrandTotal.addAggregateOn( "level14" );
 		
 		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
-		totalGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		
 		cqd.addBinding( rowGrandTotal );
@@ -259,13 +259,13 @@ public class CursorModelTest extends BaseTestCase
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level21" );
 		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
-		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
@@ -333,13 +333,13 @@ public class CursorModelTest extends BaseTestCase
 		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level21" );
 		rowGrandTotal.addAggregateOn( "level22" );
 
 		IBinding rowGrandAvg = new Binding( "rowGrandAvg" );
-		rowGrandAvg.setAggrFunction( BuiltInAggregationFactory.TOTAL_AVE_FUNC );
+		rowGrandAvg.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
 		rowGrandAvg.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandAvg.addAggregateOn( "level21" );
 		rowGrandAvg.addAggregateOn( "level22" );
@@ -398,7 +398,7 @@ public class CursorModelTest extends BaseTestCase
 		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
 
 		IBinding rowGrandTotal = new Binding( "countryGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level11" );
 		rowGrandTotal.addAggregateOn( "level21" );
@@ -536,18 +536,18 @@ public class CursorModelTest extends BaseTestCase
 		geographyHier3.createLevel( "level13" );
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
-		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		rowGrandTotal.addAggregateOn( "level21" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
-		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_AVE_FUNC );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
 		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level13" );
 		
 		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
-		totalGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_COUNTDISTINCT_FUNC );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC );
 		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		
 		cqd.addBinding( rowGrandTotal );

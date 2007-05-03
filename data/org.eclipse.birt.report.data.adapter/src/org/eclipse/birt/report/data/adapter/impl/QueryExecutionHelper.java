@@ -18,13 +18,16 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -142,28 +145,37 @@ class QueryExecutionHelper
 	 * @param paramBindingIt
 	 * @param filterIt
 	 * @param bindingIt
+	 * @throws AdapterException 
 	 */
 	private void populateQueryDefn( QueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
+			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt ) throws AdapterException
 	{
-		while ( bindingIt != null && bindingIt.hasNext( ) )
+		try
 		{
-			IComputedColumn column = this.modelAdaptor.adaptComputedColumn( (ComputedColumnHandle) bindingIt.next( ) );
-			ScriptExpression sxp = (ScriptExpression) column.getExpression( );
-			sxp.setDataType( column.getDataType( ) );
-			queryDefn.addResultSetExpression( column.getName( ), sxp );
+			while ( bindingIt != null && bindingIt.hasNext( ) )
+			{
+				IComputedColumn column = this.modelAdaptor.adaptComputedColumn( (ComputedColumnHandle) bindingIt.next( ) );
+				IBinding binding = new Binding( column.getName( ),
+						(ScriptExpression) column.getExpression( ) );
+				binding.setDataType( column.getDataType( ) );
+				queryDefn.addBinding( binding );
+			}
+
+			List parameterBindings = convertParamterBindings( paramBindingIt );
+
+			// add parameter binding
+			if ( parameterBindings != null )
+				queryDefn.getInputParamBindings( ).addAll( parameterBindings );
+
+			// add filter
+			List filters = convertFilters( filterIt );
+			if ( filters != null )
+				queryDefn.getFilters( ).addAll( filters );
 		}
-
-		List parameterBindings = convertParamterBindings( paramBindingIt );
-
-		// add parameter binding
-		if ( parameterBindings != null )
-			queryDefn.getInputParamBindings( ).addAll( parameterBindings );
-
-		// add filter
-		List filters = convertFilters( filterIt );
-		if ( filters != null )
-			queryDefn.getFilters( ).addAll( filters );
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/**
