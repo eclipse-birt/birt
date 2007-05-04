@@ -112,11 +112,11 @@ data.engine.WriteTempError=Se ha encontrado una excepción al escribir en el arch
 data.engine.ReadTempError=Excepción al leer en el archivo temporal de un conjunto de datos grande.
 
 #resultiterator cache exception
-data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
-data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
-data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
-data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
-data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+data.engine.CreateCacheTempError=Excepción al crear un archivo temporal para filas de resultados de caché.
+data.engine.OpenCacheTempError=Excepción al abrir un archivo temporal para filas de resultados de caché.
+data.engine.WriteCacheTempError=Excepción al escribir un archivo temporal para filas de resultados de caché.
+data.engine.ReadCacheTempError=Excepción al leer un archivo temporal para filas de resultados de caché.
+data.engine.CloseCacheTempError=Excepción al cerrar un archivo temporal para filas de resultados de caché.
 
 #load data engine factory exception
 load.factory.error=Hay un error al cargar la fábrica del motor de datos.
@@ -321,6 +321,6 @@ data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
 data.olap.CannotGetMeasureValue=No se puede encontrar la definición "{0}" de medida en el cubo, la medida no existe o no es válida.
 data.olap.CannotFindLevel=No se puede encontrar el nivel de definición "{0}" en la jerarquía "{1}" de la dimensión "{2}".
-data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
-data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined.
-data.olap.invalidSortDefinition=The sort definition is invalid. 
+data.olap.tryToAddIdenticalAggrGroup=El valor "{0}" ya existe en la adición de la lista de enlace "{1}";
+data.olap.NoEdgeDefinitionFound=Error al ejecutar la consulta, ya que no contiene ni extremo de fila, ni extremo de columna. Se precisa la definición de un extremo como mínimo.
+data.olap.invalidSortDefinition=La definición de orden no es válida. 

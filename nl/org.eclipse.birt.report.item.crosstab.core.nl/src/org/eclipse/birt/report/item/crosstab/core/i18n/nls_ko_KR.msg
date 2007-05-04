@@ -23,9 +23,9 @@ Element.CaptionID=캡션 키
 Element.MeasureDirection=측정 방향
 Element.PageLayout=페이지 레이아웃
 Element.EmptyCellValue=빈 셀 값
-Element.RepeatRowHeader=Repeat Row Header
-Element.RepeatColumnHeader=Repeat Column Header
-Element.Mirrored=Mirrored
+Element.RepeatRowHeader=행 머리글 반복
+Element.RepeatColumnHeader=열 머리글 반복
+Element.Mirrored=미러링됨
 Element.MirroredStartingLevel=Mirrored Starting Level
 
 ###########################################################
@@ -38,7 +38,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
 CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
-CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
+CrosstabReportItemQuery.error.register.empty.cell.value=빈 셀 값을 등록하는 중에 오류가 발생했습니다.
 
 CrosstabQueryHelper.error.invalid.measure=크로스 탭에 연결된 측정이 올바르지 않습니다.
 CrosstabQueryHelper.error.invalid.dimension=크로스 탭에 연결된 차원이 올바르지 않습니다.
@@ -84,25 +84,25 @@ CrosstabReportItemHandle.error.locate.column.cell=관련 크로스 탭 셀을 열에서 찾�
 CrosstabReportItemHandle.error.locate.row.cell=관련 크로스 탭 셀을 행에서 찾는 중 오류 발생
 CrosstabReportItemHandle.error.set.column.width=크로스 탭 열 너비 설정 중 오류 발생
 CrosstabReportItemHandle.error.set.row.height=크로스 탭 행 높이 설정 중 오류 발생
-CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
-CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+CrosstabReportItemHandle.msg.change.measure.direction=측정값 방향 변경
+CrosstabReportItemHandle.msg.insert.measure=측정값 삽입
 
-MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
-MeasureViewHandle.msg.add.aggregation=Add Aggregation
+MeasureViewHandle.info.aggregation.already.exist=요청된 집계가 이미 있습니다.
+MeasureViewHandle.msg.add.aggregation=집계 추가
 
-LevelViewTask.msg.remove.subtotal=Remove Subtotal
-LevelViewTask.msg.add.subtotal=Add Subtotal
+LevelViewTask.msg.remove.subtotal=부분합 제거
+LevelViewTask.msg.add.subtotal=부분합 추가
 
-DimensionViewTask.msg.remove.level=Remove Level
-DimensionViewTask.msg.insert.level=Insert Level
+DimensionViewTask.msg.remove.level=수준 제거
+DimensionViewTask.msg.insert.level=수준 삽입
 
-CrosstabViewTask.msg.remove.dimension=Remove Dimension
-CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
-CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+CrosstabViewTask.msg.remove.dimension=차원 제거
+CrosstabViewTask.msg.remove.grandtotal=총합계 제거
+CrosstabViewTask.msg.add.grandtotal=총합계 추가
 
-CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
-CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
-CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
-CrosstabReportItemTask.msg.insert.dimension=Insert Dimension
+CrosstabReportItemTask.msg.add.grandtotal=총합계 추가
+CrosstabReportItemTask.msg.set.aggregate.function=집계 함수 설정
+CrosstabReportItemTask.msg.pivot.dimension=차원 피벗
+CrosstabReportItemTask.msg.insert.dimension=차원 삽입
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 

@@ -23,9 +23,9 @@ Element.CaptionID=キャプションキー
 Element.MeasureDirection=計測の方向
 Element.PageLayout=ページ配置
 Element.EmptyCellValue=空のセル値
-Element.RepeatRowHeader=Repeat Row Header
-Element.RepeatColumnHeader=Repeat Column Header
-Element.Mirrored=Mirrored
+Element.RepeatRowHeader=行のヘッダの繰り返し
+Element.RepeatColumnHeader=列のヘッダの繰り返し
+Element.Mirrored=ミラー化
 Element.MirroredStartingLevel=Mirrored Starting Level
 
 ###########################################################
@@ -38,7 +38,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=拡張項目からクロスタブ項目を読み込めませんでした。
 CrosstabReportItemQuery.error.query.building=クエリ構築のクロスタブモデルが無効です。
-CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
+CrosstabReportItemQuery.error.register.empty.cell.value=空のセル値の登録中にエラーが発生しました。
 
 CrosstabQueryHelper.error.invalid.measure=クロスタブに関連付けられている計測が無効です。
 CrosstabQueryHelper.error.invalid.dimension=クロスタブに関連付けられている次元が無効です。
@@ -84,25 +84,25 @@ CrosstabReportItemHandle.error.locate.column.cell=カラム上で関連するクロスタブセ
 CrosstabReportItemHandle.error.locate.row.cell=ロウ上で関連するクロスタブセルを検出中にエラーが発生しました。
 CrosstabReportItemHandle.error.set.column.width=クロスタブカラムの幅を設定中にエラーが発生しました。
 CrosstabReportItemHandle.error.set.row.height=クロスタブロウの高さを設定中にエラーが発生しました。
-CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
-CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+CrosstabReportItemHandle.msg.change.measure.direction=計測の方向を変更
+CrosstabReportItemHandle.msg.insert.measure=計測の挿入
 
-MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
-MeasureViewHandle.msg.add.aggregation=Add Aggregation
+MeasureViewHandle.info.aggregation.already.exist=指定された総計はすでに存在します。
+MeasureViewHandle.msg.add.aggregation=総計の追加
 
-LevelViewTask.msg.remove.subtotal=Remove Subtotal
-LevelViewTask.msg.add.subtotal=Add Subtotal
+LevelViewTask.msg.remove.subtotal=小計の削除
+LevelViewTask.msg.add.subtotal=小計の追加
 
-DimensionViewTask.msg.remove.level=Remove Level
-DimensionViewTask.msg.insert.level=Insert Level
+DimensionViewTask.msg.remove.level=レベルの削除
+DimensionViewTask.msg.insert.level=レベルの挿入
 
-CrosstabViewTask.msg.remove.dimension=Remove Dimension
-CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
-CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+CrosstabViewTask.msg.remove.dimension=次元の削除
+CrosstabViewTask.msg.remove.grandtotal=総計の削除
+CrosstabViewTask.msg.add.grandtotal=総計の追加
 
-CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
-CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
-CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
-CrosstabReportItemTask.msg.insert.dimension=Insert Dimension
+CrosstabReportItemTask.msg.add.grandtotal=総計の追加
+CrosstabReportItemTask.msg.set.aggregate.function=総計関数の設定
+CrosstabReportItemTask.msg.pivot.dimension=次元の回転
+CrosstabReportItemTask.msg.insert.dimension=次元の挿入
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 

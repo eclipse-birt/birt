@@ -23,9 +23,9 @@ Element.CaptionID=Clave de título
 Element.MeasureDirection=Dirección de medidas
 Element.PageLayout=Diseño de página
 Element.EmptyCellValue=Valor de celda vacía
-Element.RepeatRowHeader=Repeat Row Header
-Element.RepeatColumnHeader=Repeat Column Header
-Element.Mirrored=Mirrored
+Element.RepeatRowHeader=Repetir encabezado de fila
+Element.RepeatColumnHeader=Repetir encabezado de columna
+Element.Mirrored=Reflejado
 Element.MirroredStartingLevel=Mirrored Starting Level
 
 ###########################################################
@@ -38,7 +38,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
 CrosstabReportItemQuery.error.query.building=Modelo de tabla de referencias cruzadas no válido para compilar consultas.
-CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
+CrosstabReportItemQuery.error.register.empty.cell.value=Error al registrar un valor de celda vacía.
 
 CrosstabQueryHelper.error.invalid.measure=La medida asociada para la tabla de referencias cruzadas no es válida.
 CrosstabQueryHelper.error.invalid.dimension=La dimensión asociada para la tabla de referencias cruzadas no es válida.
@@ -84,25 +84,25 @@ CrosstabReportItemHandle.error.locate.column.cell=Error al ubicar la celda de ta
 CrosstabReportItemHandle.error.locate.row.cell=Error al ubicar la celda de tabla de referencias cruzadas relevante en las filas
 CrosstabReportItemHandle.error.set.column.width=Error al establecer la anchura de columna de la tabla de referencias cruzadas
 CrosstabReportItemHandle.error.set.row.height=Error al establecer la altura de fila de la tabla de referencias cruzadas
-CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
-CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+CrosstabReportItemHandle.msg.change.measure.direction=Cambiar dirección de medidas
+CrosstabReportItemHandle.msg.insert.measure=Insertar medida
 
-MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
-MeasureViewHandle.msg.add.aggregation=Add Aggregation
+MeasureViewHandle.info.aggregation.already.exist=La agregación solicitada ya existe.
+MeasureViewHandle.msg.add.aggregation=Añadir agregación
 
-LevelViewTask.msg.remove.subtotal=Remove Subtotal
-LevelViewTask.msg.add.subtotal=Add Subtotal
+LevelViewTask.msg.remove.subtotal=Eliminar subtotal
+LevelViewTask.msg.add.subtotal=Añadir subtotal
 
-DimensionViewTask.msg.remove.level=Remove Level
-DimensionViewTask.msg.insert.level=Insert Level
+DimensionViewTask.msg.remove.level=Eliminar nivel
+DimensionViewTask.msg.insert.level=Insertar nivel
 
-CrosstabViewTask.msg.remove.dimension=Remove Dimension
-CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
-CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+CrosstabViewTask.msg.remove.dimension=Eliminar dimensión
+CrosstabViewTask.msg.remove.grandtotal=Eliminar total general
+CrosstabViewTask.msg.add.grandtotal=Añadir total general
 
-CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
-CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
-CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
-CrosstabReportItemTask.msg.insert.dimension=Insert Dimension
+CrosstabReportItemTask.msg.add.grandtotal=Añadir total general
+CrosstabReportItemTask.msg.set.aggregate.function=Establecer función de agregación
+CrosstabReportItemTask.msg.pivot.dimension=Dimensión dinámica
+CrosstabReportItemTask.msg.insert.dimension=Insertar dimensión
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 

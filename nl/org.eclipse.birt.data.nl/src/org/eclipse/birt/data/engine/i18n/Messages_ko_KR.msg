@@ -112,11 +112,11 @@ data.engine.WriteTempError=큰 데이터 집합에 대해 임시 파일을 쓰는 중 예외가 발생
 data.engine.ReadTempError=큰 데이터 집합에 대해 임시 파일을 읽는 중 예외가 발생했습니다.
 
 #resultiterator cache exception
-data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
-data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
-data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
-data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
-data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+data.engine.CreateCacheTempError=결과 행 캐싱을 위한 임시 파일을 생성하는 중 예외 발생.
+data.engine.OpenCacheTempError=결과 행 캐싱을 위한 임시 파일을 여는 중 예외 발생.
+data.engine.WriteCacheTempError=결과 행 캐싱을 위한 임시 파일을 쓰는 중 예외 발생.
+data.engine.ReadCacheTempError=결과 행 캐싱을 위한 임시 파일을 읽는 중 예외 발생.
+data.engine.CloseCacheTempError=결과 행 캐싱을 위한 임시 파일을 닫는 중 예외 발생.
 
 #load data engine factory exception
 load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
@@ -321,6 +321,6 @@ data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
 data.olap.CannotFindLevel="{2}" 차원의 "{1}" 계층에 "{0}" 수준의 정의를 찾을 수 없습니다.
-data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
-data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined.
-data.olap.invalidSortDefinition=The sort definition is invalid. 
+data.olap.tryToAddIdenticalAggrGroup=바인딩 "{1}" 목록에 대한 집계에 값 "{0}"이(가) 이미 있습니다.
+data.olap.NoEdgeDefinitionFound=행 가장자리나 열 가장자리를 포함하지 않기 때문에 쿼리 실행에 실패했습니다. 최소한 하나의 가장자리가 정의되어야 합니다.
+data.olap.invalidSortDefinition=정렬 정의가 잘못되었습니다. 

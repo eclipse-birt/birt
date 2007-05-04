@@ -112,11 +112,11 @@ data.engine.WriteTempError=为大数据集写入临时文件时出现异常。
 data.engine.ReadTempError=为大数据集读取临时文件时出现异常。
 
 #resultiterator cache exception
-data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
-data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
-data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
-data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
-data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+data.engine.CreateCacheTempError=创建用于缓存结果行的临时文件时出现例外。
+data.engine.OpenCacheTempError=打开用于缓存结果行的临时文件时出现例外。
+data.engine.WriteCacheTempError=写入用于缓存结果行的临时文件时出现例外。
+data.engine.ReadCacheTempError=读取用于缓存结果行的临时文件时出现例外。
+data.engine.CloseCacheTempError=关闭用于缓存结果行的临时文件时出现例外。
 
 #load data engine factory exception
 load.factory.error=加载数据引擎工厂时出错。
@@ -321,6 +321,6 @@ data.olap.cursorPositionError=光标无法定位到目标位置。
 data.olap.cursorSeekError=光标无法定位到查找位置。
 data.olap.CannotGetMeasureValue=无法在多维数据集中找到度量“{0}”定义，该度量不存在或无效。
 data.olap.CannotFindLevel=无法在维“{2}”中的层次结构“{1}”下找到“{0}”级别定义。
-data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
-data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined.
-data.olap.invalidSortDefinition=The sort definition is invalid. 
+data.olap.tryToAddIdenticalAggrGroup=绑定列表“{1}”上的聚合中已存在值“{0}”；
+data.olap.NoEdgeDefinitionFound=由于查询既未包含行边缘，也未包含列边缘，查询执行失败。要求至少定义一个边缘。
+data.olap.invalidSortDefinition=排序定义无效。 
