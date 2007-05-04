@@ -2522,7 +2522,7 @@ Element.ReportItem.paramBindings=パラメタバインド
 Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
 Element.ReportItem.zIndex=重ね順
-Element.ReportItem.dataBindingRef=Data binding reference
+Element.ReportItem.dataBindingRef=データバインドの参照
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ

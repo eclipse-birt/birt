@@ -840,7 +840,7 @@ EditLabelAction.text=편집
 ###########################################################
 #Element properties
 
-Element.AutoText.type=형식:
+Element.AutoText.type=유형:
 Element.Cell.colSpan=열 범위:
 Element.Cell.column=열:
 Element.Cell.drop=삭제(&D):
@@ -1743,20 +1743,20 @@ ImageBuilder.ErrorMessage.OutOfMemory=이미지가 너무 커서 메모리에 맞지 않습니다.
 ImageBuilder.FileDialog.FilterMessage=지원되지 않는 이미지 파일
 ImageBuilder.Button.Browser=찾아보기...
 ImageBuilder.Button.Import=이미지 추가(&A)...
-ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.SelectImageData=이미지 데이터 선택...
 ImageBuilder.Button.Insert=삽입(&S)
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.SelectFrom=이미지 선택 위치:
+ImageBuilder.Label.EnterURI=URI 입력:
+ImageBuilder.Label.EnterResourceFile=리소스 파일 입력:
 ImageBuilder.Label.EnterExpr=동적 이미지 식 입력(&N):
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.ResourceFile=공유된 리소스의 이미지 파일 
 ImageBuilder.Type.EmbededImage=내장된 이미지(&E)
 ImageBuilder.Type.DynamicImage=동적 이미지(&D)
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Description.URI=웹 상의 이미지에 링크
+ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
+ImageBuilder.Description.Embedded=이미지를 보고서에 포함
+ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
 
 ###########################################################
 #ImageEditPart properties
@@ -2374,7 +2374,7 @@ NoneAction.text=없음
 
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
+OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3776,8 +3776,8 @@ CrosstabPageGenerator.List.NamedExpressions=명명된 식
 CrosstabPageGenerator.List.UserProperties=사용자 속성
 CrosstabPageGenerator.List.AdvancedProperty=고급
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=부분합
+CrosstabPageGenerator.List.GrandTotals=총합계
 CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
 ###########################################################

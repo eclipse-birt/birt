@@ -2522,7 +2522,7 @@ Element.ReportItem.paramBindings=Liaisons de paramètres
 Element.ReportItem.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.ReportItem.boundDataColumns=Colonnes de données liées
 Element.ReportItem.zIndex=Index Z
-Element.ReportItem.dataBindingRef=Data binding reference
+Element.ReportItem.dataBindingRef=Référence de liaison de données
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu

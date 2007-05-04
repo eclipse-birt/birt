@@ -1,20 +1,20 @@
 ###########################################################
 #Cube treeNode properties
-DefaultNodeProvider.Tree.Cubes=Data Cubes
-cube.new=New Data Cube
-cube.edit=Edit Data Cube
+DefaultNodeProvider.Tree.Cubes=데이터 큐브
+cube.new=새 데이터 큐브
+cube.edit=데이터 큐브 편집
 CubeNodeProvider.menu.text=Edit
-cube.dimension.new=New Dimension
-cube.dimension.edit=Edit Dimension
+cube.dimension.new=새 차원
+cube.dimension.edit=차원 편집
 CubeDimensionNodeProvider.menu.text=Edit
-cube.level.new=New Level
-cube.level.edit=Editube Level
+cube.level.new=새 수준
+cube.level.edit=큐브 수준 편집
 CubeLevelNodeProvider.menu.text=Edit
-cube.measure.new=New Measure
-cube.measure.edit=Edit Measure
+cube.measure.new=새 측정값
+cube.measure.edit=측정값 편집
 CubeMeasureNodeProvider.menu.text=Edit
-cube.measuregroup.new=New Measure Group
-cube.measure.edit=Edit Measure Group
+cube.measuregroup.new=새 측정값 그룹
+cube.measure.edit=측정값 편집
 CubeMeasureGroupNodeProvider.menu.text=Edit
 CubeModel.group.edit=Edit Group
 CubeModel.summaryfield.edit=Edit Summary Field

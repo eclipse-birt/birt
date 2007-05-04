@@ -1743,20 +1743,20 @@ ImageBuilder.ErrorMessage.OutOfMemory=La mémoire est insuffisante pour contenir 
 ImageBuilder.FileDialog.FilterMessage=Fichier image pris en charge
 ImageBuilder.Button.Browser=Parcourir...
 ImageBuilder.Button.Import=&Ajouter une image...
-ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.SelectImageData=Sélectionner des données d'image...
 ImageBuilder.Button.Insert=&Insertion
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.SelectFrom=Sélectionner une image à partir de :
+ImageBuilder.Label.EnterURI=Entrer l'URI :
+ImageBuilder.Label.EnterResourceFile=Entrer le fichier de ressources :
 ImageBuilder.Label.EnterExpr=E&ntrer une expression d'image dynamique :
 ImageBuilder.Type.URI=&URI
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.ResourceFile=Fichier image dans les ressources partagées 
 ImageBuilder.Type.EmbededImage=Imag&e incorporée
 ImageBuilder.Type.DynamicImage=Image &dynamique
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Description.URI=Lien vers l'image sur le Web
+ImageBuilder.Description.ResourceFile=Lien vers l'image dans les ressources partagées
+ImageBuilder.Description.Embedded=Incorporer l'image dans l'état
+ImageBuilder.Description.Dynamic=Extraire l'image du jeu de données (bases de données)
 
 ###########################################################
 #ImageEditPart properties
@@ -2374,7 +2374,7 @@ NoneAction.text=Aucun
 
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
+OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3776,8 +3776,8 @@ CrosstabPageGenerator.List.NamedExpressions=Expressions nommées
 CrosstabPageGenerator.List.UserProperties=Propriétés de l'utilisateur
 CrosstabPageGenerator.List.AdvancedProperty=Avancé
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=Sous-totaux
+CrosstabPageGenerator.List.GrandTotals=Totaux généraux
 CrosstabPageGenerator.List.PageBreak=Saut de page
 
 ###########################################################

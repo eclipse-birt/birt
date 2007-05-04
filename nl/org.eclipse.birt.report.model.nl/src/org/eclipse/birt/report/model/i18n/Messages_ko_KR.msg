@@ -2522,7 +2522,7 @@ Element.ReportItem.paramBindings=매개 변수 바인딩
 Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
 Element.ReportItem.zIndex=Z 인덱스
-Element.ReportItem.dataBindingRef=Data binding reference
+Element.ReportItem.dataBindingRef=데이터 바인딩 참조
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용

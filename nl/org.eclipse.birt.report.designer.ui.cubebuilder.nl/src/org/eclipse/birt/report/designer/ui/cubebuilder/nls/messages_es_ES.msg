@@ -1,20 +1,20 @@
 ###########################################################
 #Cube treeNode properties
-DefaultNodeProvider.Tree.Cubes=Data Cubes
-cube.new=New Data Cube
-cube.edit=Edit Data Cube
+DefaultNodeProvider.Tree.Cubes=Cubos de datos
+cube.new=Nuevo cubo de datos
+cube.edit=Editar cubo de datos
 CubeNodeProvider.menu.text=Edit
-cube.dimension.new=New Dimension
-cube.dimension.edit=Edit Dimension
+cube.dimension.new=Nueva dimensión
+cube.dimension.edit=Editar dimensión
 CubeDimensionNodeProvider.menu.text=Edit
-cube.level.new=New Level
-cube.level.edit=Editube Level
+cube.level.new=Nuevo nivel
+cube.level.edit=Editar nivel de cubo
 CubeLevelNodeProvider.menu.text=Edit
-cube.measure.new=New Measure
-cube.measure.edit=Edit Measure
+cube.measure.new=Nueva medida
+cube.measure.edit=Editar medida
 CubeMeasureNodeProvider.menu.text=Edit
-cube.measuregroup.new=New Measure Group
-cube.measure.edit=Edit Measure Group
+cube.measuregroup.new=Nuevo grupo de medida
+cube.measure.edit=Editar medida
 CubeMeasureGroupNodeProvider.menu.text=Edit
 CubeModel.group.edit=Edit Group
 CubeModel.summaryfield.edit=Edit Summary Field

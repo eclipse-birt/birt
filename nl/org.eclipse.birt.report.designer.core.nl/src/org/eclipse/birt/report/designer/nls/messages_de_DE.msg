@@ -1743,20 +1743,20 @@ ImageBuilder.ErrorMessage.OutOfMemory=Das Bild ist zu groß für den verfügbaren S
 ImageBuilder.FileDialog.FilterMessage=Unterstützte Bilddatei
 ImageBuilder.Button.Browser=Durchsuchen...
 ImageBuilder.Button.Import=&Bild hinzufügen...
-ImageBuilder.Button.SelectImageData=Select Image Data...
-ImageBuilder.Button.Insert=&Einfügen
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Button.SelectImageData=Bilddaten auswählen...
+ImageBuilder.Button.Insert=Ein&fügen
+ImageBuilder.Label.SelectFrom=Bild auswählen von...
+ImageBuilder.Label.EnterURI=URI eingeben:
+ImageBuilder.Label.EnterResourceFile=Ressourcendatei eingeben:
 ImageBuilder.Label.EnterExpr=&Ausdruck für dynamisches Bild eingeben:
 ImageBuilder.Type.URI=&URI
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.ResourceFile=Bilddatei in gemeinsamen Ressourcen 
 ImageBuilder.Type.EmbededImage=&Eingebettetes Bild
 ImageBuilder.Type.DynamicImage=&Dynamisches Bild
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Description.URI=Verknüpfen mit Bild im Internet
+ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressourcen
+ImageBuilder.Description.Embedded=Bild in Bericht einbetten
+ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
 
 ###########################################################
 #ImageEditPart properties
@@ -2374,7 +2374,7 @@ NoneAction.text=Keine
 
 OutputColumnDefnPage.description=Definition für Ausgabespalten eingeben, die vom Abrufskript erstellt werden: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
+OutputColumnPage.OutputColumns.DuplicatedName=Der Name wurde bereits verwendet!
 
 ###########################################################
 #OutputColumnPage properties
@@ -3692,7 +3692,7 @@ DataItemBindingDialog.text.AggregateOn=Aggregat ein:
 DataItemBindingDialog.text.ForceBinding=Erstellt neue Bindung mit demselben Ausdruck
 DataItemBindingDialog.text.All=Alles
 DataItemBindingDialog.text.None=n.a.
-DataItemBindingDialog.text.Null=Keine
+DataItemBindingDialog.text.Null=Ohne
 DataItemBindingDialog.title.CreateNewItem=Neue Datenelementbindung
 DataItemBindingDialog.title.EditDataItem=Datenelementbindung bearbeiten
 DataItemBindingDialog.text.Function=Funktion:
@@ -3776,8 +3776,8 @@ CrosstabPageGenerator.List.NamedExpressions=Benannte Ausdrücke
 CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
 CrosstabPageGenerator.List.AdvancedProperty=Erweitert
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=Zwischensumme
+CrosstabPageGenerator.List.GrandTotals=Gesamtsummen
 CrosstabPageGenerator.List.PageBreak=Seitenumbruch
 
 ###########################################################

@@ -1743,20 +1743,20 @@ ImageBuilder.ErrorMessage.OutOfMemory=该图像太大，无法装入内存。
 ImageBuilder.FileDialog.FilterMessage=支持的图像文件
 ImageBuilder.Button.Browser=浏览...
 ImageBuilder.Button.Import=添加图像(&A)...
-ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.SelectImageData=选择图像数据...
 ImageBuilder.Button.Insert=插入(&S)
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.SelectFrom=选择图像自:
+ImageBuilder.Label.EnterURI=输入 URI:
+ImageBuilder.Label.EnterResourceFile=输入资源文件:
 ImageBuilder.Label.EnterExpr=输入动态图像表达式(&N):
-ImageBuilder.Type.URI=&URI
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.URI=URI(&U)
+ImageBuilder.Type.ResourceFile=共享资源中的图像文件 
 ImageBuilder.Type.EmbededImage=嵌入图像(&E)
 ImageBuilder.Type.DynamicImage=动态图像(&D)
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Description.URI=链接到 web 上的图像
+ImageBuilder.Description.ResourceFile=链接到共享资源中的图像
+ImageBuilder.Description.Embedded=将图像嵌入到报表
+ImageBuilder.Description.Dynamic=从数据集(数据库)中检索图像
 
 ###########################################################
 #ImageEditPart properties
@@ -2374,7 +2374,7 @@ NoneAction.text=无
 
 OutputColumnDefnPage.description=输入取数脚本生成的输出列的定义: 
 OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
+OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
 
 ###########################################################
 #OutputColumnPage properties
@@ -3776,8 +3776,8 @@ CrosstabPageGenerator.List.NamedExpressions=命名表达式
 CrosstabPageGenerator.List.UserProperties=用户属性
 CrosstabPageGenerator.List.AdvancedProperty=高级
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=小计
+CrosstabPageGenerator.List.GrandTotals=总计
 CrosstabPageGenerator.List.PageBreak=分页符
 
 ###########################################################

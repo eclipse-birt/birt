@@ -1,20 +1,20 @@
 ###########################################################
 #Cube treeNode properties
-DefaultNodeProvider.Tree.Cubes=Data Cubes
-cube.new=New Data Cube
-cube.edit=Edit Data Cube
+DefaultNodeProvider.Tree.Cubes=多维数据集
+cube.new=新建多维数据集
+cube.edit=编辑多维数据集
 CubeNodeProvider.menu.text=Edit
-cube.dimension.new=New Dimension
-cube.dimension.edit=Edit Dimension
+cube.dimension.new=新建维
+cube.dimension.edit=编辑维
 CubeDimensionNodeProvider.menu.text=Edit
-cube.level.new=New Level
-cube.level.edit=Editube Level
+cube.level.new=新建级别
+cube.level.edit=编辑多维数据集级别
 CubeLevelNodeProvider.menu.text=Edit
-cube.measure.new=New Measure
-cube.measure.edit=Edit Measure
+cube.measure.new=新建度量
+cube.measure.edit=编辑度量
 CubeMeasureNodeProvider.menu.text=Edit
-cube.measuregroup.new=New Measure Group
-cube.measure.edit=Edit Measure Group
+cube.measuregroup.new=新建度量组
+cube.measure.edit=编辑度量
 CubeMeasureGroupNodeProvider.menu.text=Edit
 CubeModel.group.edit=Edit Group
 CubeModel.summaryfield.edit=Edit Summary Field

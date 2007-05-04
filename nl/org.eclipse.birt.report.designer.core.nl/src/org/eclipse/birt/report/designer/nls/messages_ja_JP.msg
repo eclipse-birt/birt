@@ -840,7 +840,7 @@ EditLabelAction.text=編集
 ###########################################################
 #Element properties
 
-Element.AutoText.type=次のように入力します。
+Element.AutoText.type=種類 :
 Element.Cell.colSpan=列の幅 :
 Element.Cell.column=列 :
 Element.Cell.drop=ドロップ(&D) :
@@ -1743,20 +1743,20 @@ ImageBuilder.ErrorMessage.OutOfMemory=イメージが大きすぎるため、メモリに入りきり
 ImageBuilder.FileDialog.FilterMessage=サポートされているイメージファイル
 ImageBuilder.Button.Browser=参照...
 ImageBuilder.Button.Import=イメージの追加(&A)...
-ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.SelectImageData=イメージデータの選択...
 ImageBuilder.Button.Insert=挿入(&S)
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.SelectFrom=イメージの選択元 :
+ImageBuilder.Label.EnterURI=URI の入力 :
+ImageBuilder.Label.EnterResourceFile=リソースファイルの入力 :
 ImageBuilder.Label.EnterExpr=動的なイメージの式を入力(&N) :
 ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.ResourceFile=共有リソース内のイメージファイル 
 ImageBuilder.Type.EmbededImage=埋め込まれたイメージ(&E)
 ImageBuilder.Type.DynamicImage=動的なイメージ(&D)
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Description.URI=Web 上のイメージへのリンク
+ImageBuilder.Description.ResourceFile=共有リソース内のイメージへのリンク
+ImageBuilder.Description.Embedded=レポートへのイメージの埋め込み
+ImageBuilder.Description.Dynamic=データセット (データベース) からのイメージの取得
 
 ###########################################################
 #ImageEditPart properties
@@ -2374,7 +2374,7 @@ NoneAction.text=なし
 
 OutputColumnDefnPage.description=フェッチスクリプトによって作成される出力列の定義を入力 : 
 OutputColumnDefnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already been used!
+OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに使用されています。
 
 ###########################################################
 #OutputColumnPage properties
@@ -3776,8 +3776,8 @@ CrosstabPageGenerator.List.NamedExpressions=名前付き式
 CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
 CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=小計
+CrosstabPageGenerator.List.GrandTotals=総計
 CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 ###########################################################
