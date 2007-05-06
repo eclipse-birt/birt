@@ -159,20 +159,21 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 				else
 				{
 					InstanceIndex leftIndex = (InstanceIndex) leftEdge;
+					long leftOffset = leftIndex.getOffset( );
 
-					if ( leftIndex.getOffset( ) == -1 )
+					if ( leftOffset == -1 )
 					{
 						DocumentExtension docExt = (DocumentExtension) content
 								.getExtension( IContent.DOCUMENT_EXTENSION );
 						if ( docExt != null )
 						{
-							nextOffset = docExt.getFirstChild( );
+							leftOffset = docExt.getFirstChild( );
 						}
 					}
-					else
+
+					if ( leftOffset != -1 )
 					{
-						IContent leftContent = reader.loadContent( leftIndex
-								.getOffset( ) );
+						IContent leftContent = reader.loadContent( leftOffset );
 						if ( isSameInstance( leftContent.getInstanceID( ),
 								leftIndex.getInstanceID( ) ) )
 						{

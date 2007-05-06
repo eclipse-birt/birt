@@ -20,8 +20,7 @@ public class TableBandExecutor extends ContainerExecutor
 
 	protected IContent doCreateContent( )
 	{
-		throw new IllegalStateException(
-				"can't re-generate content for table band" );
+		return report.createTableBandContent( );
 	}
 
 	protected void doExecute( ) throws Exception
