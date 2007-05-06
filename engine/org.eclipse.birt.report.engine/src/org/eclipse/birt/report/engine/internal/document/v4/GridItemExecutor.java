@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 
@@ -60,6 +61,22 @@ public class GridItemExecutor extends ContainerExecutor
 				column.setInstanceID( iid );
 
 				tableContent.addColumn( column );
+			}
+		}
+		else
+		{
+			int columnCount = tableContent.getColumnCount( );
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				Column column = (Column) tableContent.getColumn( i );
+				InstanceID iid = column.getInstanceID( );
+				if ( iid != null )
+				{
+					long componentId = iid.getComponentID( );
+					ReportElementDesign element = report.getDesign( )
+							.getReportItemByID( componentId );
+					column.setGenerateBy( element );
+				}
 			}
 		}
 	}
