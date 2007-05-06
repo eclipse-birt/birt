@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -216,13 +217,48 @@ public class DataExtractionTaskV1 extends EngineTask
 	 */
 	private void loadResultSetMetaData( ) throws EngineException
 	{
-		DataInputStream dis = null;
+		try
+		{
+			IDocArchiveReader reader = reportDocReader.getArchive( );
+			if ( reader.exists( ReportDocumentConstants.DATA_META_STREAM ) )
+			{
+				InputStream in = reader
+						.getStream( ReportDocumentConstants.DATA_META_STREAM );
+				try
+				{
+					loadResultSetMetaData( in );
+				}
+				finally
+				{
+					in.close( );
+				}
+			}
+			if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+			{
+				InputStream in = reader
+						.getStream( ReportDocumentConstants.DATA_SNAP_META_STREAM );
+				try
+				{
+					loadResultSetMetaData( in );
+				}
+				finally
+				{
+					in.close( );
+				}
+			}
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+		}
+	}
+
+	private void loadResultSetMetaData( InputStream in ) throws IOException
+	{
 		try
 		{
 			HashMap query2ResultMetaData = report.getResultMetaData( );
-			IDocArchiveReader reader = reportDocReader.getArchive( );
-			dis = new DataInputStream( reader
-					.getStream( ReportDocumentConstants.DATA_META_STREAM ) );
+			DataInputStream dis = new DataInputStream( in );
 
 			HashMap queryCounts = new HashMap( );
 			while ( true )
@@ -271,24 +307,6 @@ public class DataExtractionTaskV1 extends EngineTask
 		catch ( EOFException eofe )
 		{
 			// we expect that there should be an EOFexception
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
-		}
-		finally
-		{
-			if ( dis != null )
-			{
-				try
-				{
-					dis.close( );
-				}
-				catch ( IOException ex )
-				{
-
-				}
-			}
 		}
 	}
 
