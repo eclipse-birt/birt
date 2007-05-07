@@ -3171,4 +3171,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 	}
+	
+	
 }

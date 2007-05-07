@@ -543,6 +543,16 @@ public class SVGRendererImpl extends SwingRendererImpl
 			}
 			elm = svggc.createGeneralPath( gp );
 		}
+		else if ( pre instanceof LineRenderEvent )
+		{
+			final GeneralPath gp = new GeneralPath( );
+			final LineRenderEvent lre = (LineRenderEvent) pre;
+			final Line2D.Double l2d = new Line2D.Double( lre.getStart( )
+					.getX( ), lre.getStart( ).getY( ), lre.getEnd( )
+					.getX( ), lre.getEnd( ).getY( ) );
+			gp.append( l2d, true );
+			elm = svggc.createGeneralPath( gp );
+		}
 		else if ( pre instanceof ArcRenderEvent )
 		{
 			final ArcRenderEvent are = (ArcRenderEvent) pre;

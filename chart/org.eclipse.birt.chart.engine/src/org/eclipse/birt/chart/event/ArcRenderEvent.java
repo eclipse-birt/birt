@@ -508,4 +508,9 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	{
 		idr.fillArc( this );
 	}
+
+	public LineAttributes getLineAttributes( )
+	{
+		return getOutline( );
+	}
 }

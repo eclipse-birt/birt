@@ -76,7 +76,6 @@ public final class SwingInteractivityViewer extends JPanel implements
 	
 	private BufferedImage bi = null;
 
-	private Map contextMap;
 	
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
@@ -127,7 +126,6 @@ public final class SwingInteractivityViewer extends JPanel implements
 	 */
 	SwingInteractivityViewer( )
 	{
-		contextMap = new HashMap();
 		
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -160,6 +158,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 	 */
 	public void repaintChart( )
 	{
+		updateBuffer( );
 		repaint( );
 	}
 
@@ -193,36 +192,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 		return gcs.getChartModel( );
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
-	 *      java.lang.Object)
-	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
-	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
-	}
 
 	public void updateBuffer( )
 	{

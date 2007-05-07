@@ -78,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
 
 /**
@@ -106,6 +107,8 @@ public class SwingRendererImpl extends DeviceAdapter
 	private IUpdateNotifier _iun = null;
 
 	private SwingEventHandler _eh = null;
+	
+	private InteractiveRenderer iv = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
@@ -118,7 +121,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SWING" ); //$NON-NLS-1$
-
+			iv = new InteractiveRenderer( );
 			_tr = new SwingTextRenderer( (SwingDisplayServer) _ids );
 		}
 		catch ( ChartException pex )
@@ -166,6 +169,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
 		{
 			_iun = (IUpdateNotifier) oValue;
+			iv.setUpdateNotifier( _iun );
 			_lhmAllTriggers.clear( );
 			Object obj = _iun.peerInstance( );
 
@@ -185,7 +189,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					jc.removeFocusListener( _eh );
 				}
 
-				_eh = new SwingEventHandler( _lhmAllTriggers,
+				_eh = new SwingEventHandler( iv, _lhmAllTriggers,
 						_iun,
 						getULocale( ) );
 				jc.addMouseListener( _eh );
@@ -257,6 +261,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawImage( ImageRenderEvent pre ) throws ChartException
 	{
+		iv.modifyEvent( pre );
 		if ( pre.getImage( ) == null || pre.getLocation( ) == null )
 		{
 			return;
@@ -353,6 +358,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawLine( LineRenderEvent lre ) throws ChartException
 	{
+		iv.modifyEvent( lre );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = lre.getLineAttributes( );
 		if ( !validateLineAttributes( lre.getSource( ), lia )
@@ -396,6 +402,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
+		iv.modifyEvent( rre );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = rre.getOutline( );
 		if ( !validateLineAttributes( rre.getSource( ), lia ) )
@@ -439,6 +446,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
+		iv.modifyEvent( rre );
 		final Fill flBackground = validateMultipleFill( rre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -652,6 +660,7 @@ public class SwingRendererImpl extends DeviceAdapter
 
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
+		iv.modifyEvent( pre );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = pre.getOutline( );
 		if ( !validateLineAttributes( pre.getSource( ), lia ) )
@@ -681,7 +690,6 @@ public class SwingRendererImpl extends DeviceAdapter
 
 		_g2d.setColor( cFG );
 		_g2d.draw( new Polygon( i2a[0], i2a[1], la.length ) );
-
 		if ( sPrevious != null ) // RESTORE PREVIOUS STROKE
 		{
 			_g2d.setStroke( sPrevious );
@@ -695,6 +703,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
+		iv.modifyEvent( pre );
 		final Fill flBackground = validateMultipleFill( pre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -709,7 +718,11 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			final ColorDefinition cd = (ColorDefinition) flBackground;
 			_g2d.setColor( (Color) _ids.getColor( cd ) );
+			_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			
 			_g2d.fill( new Polygon( i2a[0], i2a[1], loa.length ) );
+			_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			
 		}
 		else if ( flBackground instanceof Gradient )
 		{
@@ -855,6 +868,8 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawArc( ArcRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = are.getOutline( );
 		if ( !validateLineAttributes( are.getSource( ), lia ) )
@@ -965,6 +980,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
 		final Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -1284,6 +1300,8 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawArea( AreaRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = are.getOutline( );
 		if ( !validateLineAttributes( are.getSource( ), lia ) )
@@ -1357,6 +1375,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
 		final Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -1482,6 +1501,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
+		iv.modifyEvent( tre );
+		if ( !tre.getLabel( ).isVisible( ) )
+			return;
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
@@ -1724,6 +1746,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawOval( OvalRenderEvent ore ) throws ChartException
 	{
+		iv.modifyEvent( ore );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = ore.getOutline( );
 		if ( !validateLineAttributes( ore.getSource( ), lia ) )
@@ -1771,6 +1794,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
+		iv.modifyEvent( ore );
 		final Fill flBackground = validateMultipleFill( ore.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )

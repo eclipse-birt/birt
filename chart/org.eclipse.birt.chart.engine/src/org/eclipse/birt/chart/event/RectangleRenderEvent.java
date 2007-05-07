@@ -158,4 +158,9 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 		this._lia = null;
 
 	}
+	
+	public LineAttributes getLineAttributes( )
+	{
+		return getOutline( );
+	}
 }

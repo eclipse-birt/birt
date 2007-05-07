@@ -90,34 +90,4 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 		return runtimeModel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
-	 *      java.lang.Object)
-	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
-	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
-	}
 }

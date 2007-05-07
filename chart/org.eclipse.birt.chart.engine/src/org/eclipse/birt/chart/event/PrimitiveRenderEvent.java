@@ -16,11 +16,17 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * This is the basic rendering event for each concrete rendering event to
  * extend.
+ */
+/**
+ *
  */
 public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		Comparable
@@ -291,5 +297,27 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	public final double getDepth( )
 	{
 		return dDepth;
+	}
+	
+	
+	/**
+	 * @return A reference to the LineAttributes
+	 */
+	public LineAttributes getLineAttributes( )
+	{
+		return null;
+	}
+	
+	/**
+	 * @return A reference to the Background Fill
+	 */
+	public Fill getBackground( )
+	{
+		return null;
+	}
+	
+	public Label getLabel( )
+	{
+		return null;
 	}
 }

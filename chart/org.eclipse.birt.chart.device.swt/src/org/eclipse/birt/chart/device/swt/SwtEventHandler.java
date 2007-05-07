@@ -12,35 +12,26 @@
 package org.eclipse.birt.chart.device.swt;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.swt.i18n.Messages;
 import org.eclipse.birt.chart.device.swt.util.SwtUtil;
 import org.eclipse.birt.chart.event.StructureSource;
-import org.eclipse.birt.chart.event.StructureType;
-import org.eclipse.birt.chart.event.WrappedStructureSource;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
-import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -80,27 +71,38 @@ class SwtEventHandler
 
 	private RegionAction raTooltip = null;
 
-	private RegionAction raHighlighted = null;
-
 	private final ULocale lcl;
 
 	private final GC _gc;
+	
+	private InteractiveRenderer iv = null;
+
+	private StructureSource srcHighlight;
+
+	private StructureSource srcToggleDataPoint;
+
+	private StructureSource srcToggleVisibility;
 
 	/**
 	 * The constructor.
+	 * @param Interactive Renderer
+	 * @param swtRendererImpl 
 	 * 
 	 * @param _lhmAllTriggers
 	 * @param _jc
 	 * @param _lcl
 	 */
-	SwtEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
+	SwtEventHandler(InteractiveRenderer iv, LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
 			ULocale _lcl )
 	{
+
 		lhmAllTriggers = _lhmAllTriggers;
 		iun = _jc;
 		lcl = _lcl;
 		hand_cursor = new Cursor( Display.getDefault( ), SWT.CURSOR_HAND );
 		_gc = new GC( Display.getDefault( ) );
+		this.iv = iv;
+		
 	}
 
 	private final List getActionsForConditions( TriggerCondition[] tca )
@@ -135,21 +137,27 @@ class SwtEventHandler
 		return ( e.button == 1 );
 	}
 
-	private void handleAction( List al, Object event )
+	private void handleAction( TriggerCondition[] tgArray, Object event )
 	{
-		handleAction( al, event, true );
+		handleAction( tgArray, event, true );
 	}
+	
 
-	private synchronized void handleAction( List al, Object event,
+	
+
+
+	private synchronized void handleAction( TriggerCondition[] tgArray, Object event,
 			boolean cleanState )
 	{
+		List al = getActionsForConditions( tgArray );
+		
 		if ( al == null || event == null )
 		{
 			return;
 		}
 
-		RegionAction ra;
-		Action ac;
+		RegionAction ra = null;
+		Action ac = null;
 
 		Point p = null;
 
@@ -196,95 +204,37 @@ class SwtEventHandler
 						break LOOP;
 
 					case ActionType.TOGGLE_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES
-								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
-						{
-							final Series seRT;
-							if ( src.getType( ) == StructureType.SERIES )
-							{
-								seRT = (Series) src.getSource( );
-							}
-							else
-							{
-								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
-										.getSource( );
-							}
-							logger.log( ILogger.INFORMATION,
-									Messages.getString( "SwtEventHandler.info.toggle.visibility", //$NON-NLS-1$
-											lcl )
-											+ seRT );
-							Series seDT = null;
-							try
-							{
-								seDT = findDesignTimeSeries( seRT );
-							}
-							catch ( ChartException oosx )
-							{
-								logger.log( oosx );
-								return;
-							}
-							seDT.setVisible( !seDT.isVisible( ) );
-							iun.regenerateChart( );
+						
+							bFound = true;
+							srcToggleVisibility = handleGraphicAction( src,
+									srcToggleVisibility,
+									ActionType.TOGGLE_VISIBILITY_LITERAL,
+									cleanState );
+
 							break LOOP;
-						}
-						break;
+						
 
 					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES
-								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
-						{
-							final Series seRT;
-							if ( src.getType( ) == StructureType.SERIES )
-							{
-								seRT = (Series) src.getSource( );
-							}
-							else
-							{
-								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
-										.getSource( );
-							}
-							logger.log( ILogger.INFORMATION,
-									Messages.getString( "SwtEventHandler.info.toggle.datapoint.visibility", //$NON-NLS-1$
-											lcl )
-											+ seRT );
-							Series seDT = null;
-							try
-							{
-								seDT = findDesignTimeSeries( seRT );
-							}
-							catch ( ChartException oosx )
-							{
-								logger.log( oosx );
-								return;
-							}
-							seDT.getLabel( ).setVisible( !seDT.getLabel( )
-									.isVisible( ) );
-							iun.regenerateChart( );
+						
+							bFound = true;
+							srcToggleDataPoint = handleGraphicAction( src,
+									srcToggleDataPoint,
+									ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
+									cleanState );
+
 							break LOOP;
-						}
-						break;
+						
 
 					case ActionType.HIGHLIGHT :
+
 						bFound = true;
+						srcHighlight = handleGraphicAction( src,
+								srcHighlight,
+								ActionType.HIGHLIGHT_LITERAL,
+								cleanState );
 
-						boolean newRegion = raHighlighted == null
-								|| raHighlighted.isEmpty( );
-
-						if ( !newRegion )
-						{
-							if ( p == null || !raHighlighted.contains( p, _gc ) )
-							{
-								newRegion = true;
-							}
-						}
-
-						if ( newRegion )
-						{
-							raHighlighted = ra.copy( );
-							toggleHighlight( ra );
-							break LOOP;
-						}
-						break;
+						break LOOP;
+						
 
 					case ActionType.CALL_BACK :
 						if ( iun instanceof ICallBackNotifier )
@@ -308,233 +258,123 @@ class SwtEventHandler
 			}
 		}
 
-		if ( !bFound && raTooltip != null )
-		{
-			hideTooltip( );
-			raTooltip = null;
-		}
+		if ( !bFound )
+			disableActions( getActionTypesForConditions( tgArray ) );
+		
 
-		if ( ( cleanState || !bFound ) && raHighlighted != null )
-		{
-			raHighlighted.dispose( );
-			raHighlighted = null;
-		}
+
 
 	}
 
-	// private final boolean invert( Series seDT )
-	// {
-	// boolean changed = false;
-	// for ( Iterator itr = seDT.eAllContents( ); itr.hasNext( ); )
-	// {
-	// Object obj = itr.next( );
-	//
-	// if ( obj instanceof ColorDefinition )
-	// {
-	// ( (ColorDefinition) obj ).invert( );
-	//
-	// changed = true;
-	// }
-	// }
-	//
-	// return changed;
-	// }
 
-	/**
-	 * Locates a design-time series corresponding to a given cloned run-time
-	 * series.
-	 * 
-	 * @param seRT
-	 * @return
-	 */
-	private final Series findDesignTimeSeries( Series seRT )
-			throws ChartException
+
+	protected Set getActionTypesForConditions( TriggerCondition[] tca )
 	{
-
-		Series seDT = null;
-
-		final Chart cmRT = iun.getRunTimeModel( );
-		final Chart cmDT = iun.getDesignTimeModel( );
-
-		if ( cmDT instanceof ChartWithAxes )
+		if ( tca == null || tca.length == 0 )
 		{
-			final ChartWithAxes cwaRT = (ChartWithAxes) cmRT;
-			final ChartWithAxes cwaDT = (ChartWithAxes) cmDT;
-
-			Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
-			Axis axBase = axaBase[0];
-			Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
-			EList elSD, elSE;
-			SeriesDefinition sd;
-			Series se = null;
-			int i = -1, j = 0, k = 0;
-			boolean bFound = false;
-
-			elSD = axaBase[0].getSeriesDefinitions( );
-			for ( j = 0; j < elSD.size( ); j++ )
-			{
-				sd = (SeriesDefinition) elSD.get( j );
-				elSE = sd.getSeries( );
-				for ( k = 0; k < elSE.size( ); k++ )
-				{
-					se = (Series) elSE.get( k );
-					if ( seRT == se )
-					{
-						bFound = true;
-						break;
-					}
-				}
-				if ( bFound )
-				{
-					break;
-				}
-			}
-
-			if ( !bFound )
-			{
-				// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME
-				// MODEL
-				for ( i = 0; i < axaOrthogonal.length; i++ )
-				{
-					elSD = axaOrthogonal[i].getSeriesDefinitions( );
-					for ( j = 0; j < elSD.size( ); j++ )
-					{
-						sd = (SeriesDefinition) elSD.get( j );
-						elSE = sd.getSeries( );
-						for ( k = 0; k < elSE.size( ); k++ )
-						{
-							se = (Series) elSE.get( k );
-							if ( seRT == se )
-							{
-								bFound = true;
-								break;
-							}
-						}
-						if ( bFound )
-						{
-							break;
-						}
-					}
-					if ( bFound )
-					{
-						break;
-					}
-				}
-			}
-
-			if ( !bFound )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.OUT_OF_SYNC,
-						"SwtEventHandler.info.cannot.find.series", //$NON-NLS-1$
-						new Object[]{
-							seRT
-						},
-						Messages.getResourceBundle( lcl ) );
-			}
-
-			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
-			// MODEL
-			axaBase = cwaDT.getPrimaryBaseAxes( );
-			axBase = axaBase[0];
-			axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
-			if ( i == -1 )
-			{
-				elSD = axaBase[0].getSeriesDefinitions( );
-			}
-			else
-			{
-				elSD = axaOrthogonal[i].getSeriesDefinitions( );
-			}
-			sd = (SeriesDefinition) elSD.get( j );
-			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
+			return null;
 		}
-		else if ( cmDT instanceof ChartWithoutAxes )
+		Set set = new HashSet( );
+		
+		for ( int i = 0; i < tca.length; i++ )
 		{
-			final ChartWithoutAxes cwoaRT = (ChartWithoutAxes) cmRT;
-			final ChartWithoutAxes cwoaDT = (ChartWithoutAxes) cmDT;
-
-			EList elSD, elSE;
-			SeriesDefinition sd;
-			Series se = null;
-			int i = -1, j = 0, k = 0;
-			boolean bFound = false;
-
-			elSD = cwoaRT.getSeriesDefinitions( );
-			for ( j = 0; j < elSD.size( ); j++ )
+			List tal = (List) lhmAllTriggers.get( tca[i] );
+			if ( tal == null )
+				continue;
+			for ( Iterator iter = tal.iterator( ); iter.hasNext( ); )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
-				elSE = sd.getSeries( );
-				for ( k = 0; k < elSE.size( ); k++ )
-				{
-					se = (Series) elSE.get( k );
-					if ( seRT == se )
-					{
-						bFound = true;
-						break;
-					}
-				}
-				if ( bFound )
-				{
-					break;
-				}
+				RegionAction rg = (RegionAction) iter.next( );
+				ActionType actionType = rg.getAction( ).getType( );
+				set.add(  actionType  );
 			}
-
-			if ( !bFound )
-			{
-				i = 1;
-				elSD = ( (SeriesDefinition) cwoaRT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
-
-				for ( j = 0; j < elSD.size( ); j++ )
-				{
-					sd = (SeriesDefinition) elSD.get( j );
-					elSE = sd.getSeries( );
-					for ( k = 0; k < elSE.size( ); k++ )
-					{
-						se = (Series) elSE.get( k );
-						if ( seRT == se )
-						{
-							bFound = true;
-							break;
-						}
-					}
-					if ( bFound )
-					{
-						break;
-					}
-				}
-			}
-
-			if ( !bFound )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.OUT_OF_SYNC,
-						"SwtEventHandler.info.cannot.find.series", //$NON-NLS-1$
-						new Object[]{
-							seRT
-						},
-						Messages.getResourceBundle( lcl ) );
-			}
-
-			if ( i == -1 )
-			{
-				elSD = cwoaDT.getSeriesDefinitions( );
-			}
-			else
-			{
-				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
-			}
-			sd = (SeriesDefinition) elSD.get( j );
-			elSE = sd.getSeries( );
-			seDT = (Series) elSE.get( k );
 		}
-
-		return seDT;
+		return set;
+			
 	}
 
+	// if the event was fired without new action disable the previous action
+	
+	private void disableActions( Set actions  )
+	{
+		if ( actions == null )
+			return;
+		
+		for ( Iterator iter = actions.iterator( ); iter.hasNext( ); )
+		{
+			ActionType action = (ActionType)iter.next();
+			if ( action == null )
+				continue;
+			switch ( action.getValue( ) )
+			{
+				case ActionType.SHOW_TOOLTIP:
+					if ( raTooltip != null )
+					{
+						hideTooltip( );
+						raTooltip = null;
+					}
+					break;
+				case ActionType.HIGHLIGHT:
+					if ( srcHighlight != null  )
+					{
+						iv.unregisterAction( srcHighlight, ActionType.HIGHLIGHT_LITERAL );
+						srcHighlight = null;
+						iun.repaintChart( );
+					}
+					break;
+				case ActionType.TOGGLE_DATA_POINT_VISIBILITY:
+					if ( srcToggleDataPoint != null  )
+					{
+						iv.unregisterAction( srcToggleDataPoint, ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL );
+						srcToggleDataPoint = null;
+						iun.repaintChart( );
+					}
+					break;
+				case ActionType.TOGGLE_VISIBILITY:
+					if ( srcToggleVisibility != null  )
+					{
+						iv.unregisterAction( srcToggleVisibility, ActionType.TOGGLE_VISIBILITY_LITERAL );
+						srcToggleVisibility = null;
+						iun.repaintChart( );
+					}
+					break;
+			}
+		}
+	}
+
+	private StructureSource handleGraphicAction( StructureSource src, StructureSource previousSrc, ActionType actionType, boolean cleanState )
+	{
+		if ( previousSrc == null )
+		{
+			previousSrc = src;
+			iv.registerAction( src,
+					actionType);
+			iun.repaintChart( );
+		}
+		else if (! iv.getSource(src ).equals(iv.getSource(previousSrc) ))
+		{
+			// unhighlight previous region
+			iv.unregisterAction( previousSrc,
+					actionType);
+
+			previousSrc = src;
+			iv.registerAction( src,
+					actionType );
+			iun.repaintChart( );
+		}
+		else
+		{
+			if ( cleanState )
+			{
+				iv.unregisterAction( previousSrc,
+						actionType);
+				previousSrc = null;
+				iun.repaintChart( );
+			}
+		}
+		return previousSrc;
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -548,11 +388,11 @@ class SwtEventHandler
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE DOUBLE CLICK ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tgArray =  new TriggerCondition[]{
 			TriggerCondition.ONDBLCLICK_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tgArray, e );
 	}
 
 	/*
@@ -568,11 +408,11 @@ class SwtEventHandler
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE DOWN ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tgArray =  new TriggerCondition[]{
 			TriggerCondition.ONMOUSEDOWN_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tgArray, e );
 	}
 
 	/*
@@ -588,13 +428,13 @@ class SwtEventHandler
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE UP/CLICK ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tgArray =  new TriggerCondition[]{
 				TriggerCondition.ONMOUSEUP_LITERAL,
 				TriggerCondition.ONCLICK_LITERAL,
 				TriggerCondition.MOUSE_CLICK_LITERAL,
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tgArray, e );
 	}
 
 	/*
@@ -635,13 +475,19 @@ class SwtEventHandler
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE MOVE/OVER ONLY
-		al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tgArray =  new TriggerCondition[]{
 				TriggerCondition.ONMOUSEMOVE_LITERAL,
 				TriggerCondition.ONMOUSEOVER_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e, false );
+		if ( tgArray != null )
+			handleAction( tgArray, e, false );
+
+		
+		
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -651,11 +497,11 @@ class SwtEventHandler
 	public void keyPressed( KeyEvent e )
 	{
 		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tg = new TriggerCondition[]{
 			TriggerCondition.ONKEYDOWN_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tg, e );
 	}
 
 	/*
@@ -666,12 +512,12 @@ class SwtEventHandler
 	public void keyReleased( KeyEvent e )
 	{
 		// FILTER OUT ALL TRIGGERS FOR KEY UP/PRESS ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition[] tg = new TriggerCondition[]{
 				TriggerCondition.ONKEYUP_LITERAL,
 				TriggerCondition.ONKEYPRESS_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tg, e );
 	}
 
 	/*
@@ -691,11 +537,11 @@ class SwtEventHandler
 	public void mouseExit( MouseEvent e )
 	{
 		// FILTER OUT ALL TRIGGERS FOR MOUSE OUT ONLY
-		List al = getActionsForConditions( new TriggerCondition[]{
+		TriggerCondition tg[] = new TriggerCondition[]{
 			TriggerCondition.ONMOUSEOUT_LITERAL
-		} );
+		} ;
 
-		handleAction( al, e );
+		handleAction( tg, e );
 	}
 
 	/*
@@ -710,210 +556,20 @@ class SwtEventHandler
 	public void focusGained( FocusEvent e )
 	{
 		// FILTER OUT ALL TRIGGERS FOR FOCUS IN ONLY
-		handleAction( getActionsForConditions( new TriggerCondition[]{
+		handleAction( new TriggerCondition[]{
 			TriggerCondition.ONFOCUS_LITERAL
-		} ), e );
+		} , e );
 	}
 
 	public void focusLost( FocusEvent e )
 	{
 		// FILTER OUT ALL TRIGGERS FOR FOCUS OUT ONLY
-		handleAction( getActionsForConditions( new TriggerCondition[]{
+		handleAction(new TriggerCondition[]{
 			TriggerCondition.ONBLUR_LITERAL
-		} ), e );
+		} , e );
 	}
 
-	private final void toggleHighlight( RegionAction ra )
-	{
-		if ( ra == null )
-		{
-			return;
-		}
-
-		final StructureSource src = ra.getSource( );
-
-		if ( src.getType( ) == StructureType.SERIES
-				|| src.getType( ) == StructureType.SERIES_DATA_POINT )
-		{
-			final Series seRT;
-			if ( src.getType( ) == StructureType.SERIES )
-			{
-				seRT = (Series) src.getSource( );
-			}
-			else
-			{
-				seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
-						.getSource( );
-			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwtEventHandler.info.toggle.visibility", //$NON-NLS-1$
-							lcl ) + seRT );
-			Series seDT = null;
-			SeriesDefinition sdDT = null;
-			try
-			{
-				seDT = findDesignTimeSeries( seRT ); // LOCATE
-				if ( seDT.eContainer( ) instanceof SeriesDefinition )
-				{
-					sdDT = (SeriesDefinition) seDT.eContainer( );
-				}
-			}
-			catch ( ChartException oosx )
-			{
-				logger.log( oosx );
-				return;
-			}
-
-			boolean highlight = iun.getContext( seDT ) == null;
-
-			boolean changed = false;
-			if ( seDT != null )
-			{
-				changed = performHighlight( seDT, highlight );
-			}
-			if ( sdDT != null )
-			{
-				for ( Iterator itr = sdDT.getSeriesPalette( )
-						.getEntries( )
-						.iterator( ); itr.hasNext( ); )
-				{
-					Object entry = itr.next( );
-					if ( entry instanceof ColorDefinition )
-					{
-						performHighlight( (ColorDefinition) entry, highlight );
-						changed = true;
-					}
-				}
-			}
-
-			if ( highlight )
-			{
-				if ( iun.getContext( seDT ) == null )
-				{
-					iun.putContext( seDT, Boolean.TRUE );
-				}
-			}
-			else
-			{
-				iun.removeContext( seDT );
-			}
-
-			if ( changed )
-			{
-				iun.regenerateChart( );
-			}
-		}
-	}
-
-	private boolean performHighlight( Series se, boolean highlighted )
-	{
-		boolean changed = false;
-
-		List lineContext;
-
-		if ( highlighted )
-		{
-			lineContext = new ArrayList( );
-		}
-		else
-		{
-			Object context = iun.getContext( se );
-
-			if ( context instanceof List )
-			{
-				lineContext = (List) context;
-			}
-			else
-			{
-				lineContext = new ArrayList( );
-			}
-		}
-
-		int idx = 0;
-
-		for ( Iterator itr = se.eAllContents( ); itr.hasNext( ); )
-		{
-			Object obj = itr.next( );
-
-			if ( obj instanceof ColorDefinition
-					&& !( ( (ColorDefinition) obj ).eContainer( ) instanceof LineAttributes ) )
-			{
-				performHighlight( (ColorDefinition) obj, highlighted );
-
-				changed = true;
-			}
-			else if ( obj instanceof LineAttributes )
-			{
-				LineAttributes la = (LineAttributes) obj;
-
-				if ( highlighted )
-				{
-					int[] ls = new int[5];
-					ls[0] = la.getThickness( );
-					ls[1] = la.getColor( ).getRed( );
-					ls[2] = la.getColor( ).getGreen( );
-					ls[3] = la.getColor( ).getBlue( );
-					ls[4] = la.getColor( ).getTransparency( );
-
-					lineContext.add( ls );
-
-					la.setThickness( 3 );
-					la.getColor( ).set( 255, 255, 255, 127 );
-
-					changed = true;
-				}
-				else
-				{
-					if ( idx < lineContext.size( ) )
-					{
-						Object context = lineContext.get( idx );
-
-						if ( context instanceof int[]
-								&& ( (int[]) context ).length > 4 )
-						{
-							int[] ls = (int[]) context;
-
-							la.setThickness( ls[0] );
-							la.getColor( ).setRed( ls[1] );
-							la.getColor( ).setGreen( ls[2] );
-							la.getColor( ).setBlue( ls[3] );
-							la.getColor( ).setTransparency( ls[4] );
-
-							changed = true;
-						}
-					}
-				}
-
-				idx++;
-			}
-		}
-
-		if ( highlighted && lineContext.size( ) > 0 )
-		{
-			iun.putContext( se, lineContext );
-		}
-
-		return changed;
-	}
-
-	private void performHighlight( ColorDefinition cd, boolean highlighted )
-	{
-		if ( cd != null )
-		{
-			if ( highlighted )
-			{
-				cd.setRed( ( cd.getRed( ) + 255 ) / 2 );
-				cd.setGreen( ( cd.getGreen( ) + 255 ) / 2 );
-				cd.setBlue( ( cd.getBlue( ) + 255 ) / 2 );
-			}
-			else
-			{
-				cd.setRed( Math.max( 0, cd.getRed( ) * 2 - 255 ) );
-				cd.setGreen( Math.max( 0, cd.getGreen( ) * 2 - 255 ) );
-				cd.setBlue( Math.max( 0, cd.getBlue( ) * 2 - 255 ) );
-			}
-		}
-	}
+	
 
 	private final void hideTooltip( )
 	{
@@ -931,13 +587,10 @@ class SwtEventHandler
 
 	public final void dispose( )
 	{
-		if ( raHighlighted != null )
-		{
-			raHighlighted.dispose( );
-			raHighlighted = null;
-		}
+	
 
 		hand_cursor.dispose( );
 		_gc.dispose( );
 	}
+
 }

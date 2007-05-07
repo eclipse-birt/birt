@@ -168,4 +168,9 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 		this._loa = null;
 
 	}
+	
+	public LineAttributes getLineAttributes( )
+	{
+		return getOutline( );
+	}
 }

@@ -253,4 +253,9 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	{
 		idr.fillArea( this );
 	}
+	
+	public LineAttributes getLineAttributes( )
+	{
+		return getOutline( );
+	}
 }

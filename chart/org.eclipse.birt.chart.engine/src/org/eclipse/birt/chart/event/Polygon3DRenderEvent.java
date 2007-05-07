@@ -158,9 +158,13 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	public void setBrightness( double value )
 	{
 		dBrightness = value;
-		Fill fill = (Fill) EcoreUtil.copy( _ifBackground );
-		applyBrightnessToFill( fill, dBrightness );
-		runtimeBackground = fill;
+		if ( _ifBackground != null )
+		{
+			Fill fill = (Fill) EcoreUtil.copy( _ifBackground );
+		
+			applyBrightnessToFill( fill, dBrightness );
+			runtimeBackground = fill;
+		}
 	}
 
 	/**

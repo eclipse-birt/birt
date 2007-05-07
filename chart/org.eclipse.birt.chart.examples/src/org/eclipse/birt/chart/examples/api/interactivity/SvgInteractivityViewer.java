@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class SvgInteractivityViewer extends Composite implements
-		IUpdateNotifier,
 		SelectionListener
 {
 
@@ -61,12 +60,10 @@ public class SvgInteractivityViewer extends Composite implements
 
 	private Chart cm = null;
 
-	private Map contextMap;
 
 	SvgInteractivityViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		contextMap = new HashMap( );
 
 		PluginSettings.instance( ).registerDevice( "dv.SVG", //$NON-NLS-1$
 				"org.eclipse.birt.chart.device.svg.SVGRendererImpl" ); //$NON-NLS-1$
@@ -161,8 +158,6 @@ public class SvgInteractivityViewer extends Composite implements
 						null );
 				
 				idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-				idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
-						new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 				gr.render( idr, gcs );
 			}
@@ -193,71 +188,8 @@ public class SvgInteractivityViewer extends Composite implements
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
-	 */
-	public Chart getDesignTimeModel( )
-	{
-		return cm;
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
-	 */
-	public Chart getRunTimeModel( )
-	{
-		return gcs.getChartModel( );
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
-	 */
-	public Object peerInstance( )
-	{
-		return this;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object, java.lang.Object)
-	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
-	 */
-	public void regenerateChart( )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
-	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
-	 */
-	public void repaintChart( )
-	{
-		// TODO Auto-generated method stub
-
-	}
+	
 }

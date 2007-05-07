@@ -63,8 +63,6 @@ public final class SwtInteractivityViewer extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private boolean bNeedsGeneration = true;
-	
-	private Map contextMap;
 
 	/**
 	 * main() method for constructing the layout.
@@ -117,8 +115,7 @@ public final class SwtInteractivityViewer extends Composite implements
 	SwtInteractivityViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		
-		contextMap = new HashMap();
+	
 		
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -258,41 +255,12 @@ public final class SwtInteractivityViewer extends Composite implements
 		redraw( );
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
-	 *      java.lang.Object)
-	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
-	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
-	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
-	}
 	
 	public void callback( Object event, Object source, CallBackValue value )
 	{
 		MessageBox mb = new MessageBox ( this.getShell( ) );
-		mb.setText( value.getIdentifier( ) ); 
+		mb.setMessage( value.getIdentifier( ) ); 
 		mb.open( );
 	}
 

@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
+import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
@@ -3427,6 +3428,45 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected int checkEntryInRange( Object entry, Object min, Object max )
 	{
 		return 0;
+	}
+	
+	protected void addInteractivity(IPrimitiveRenderer ipr, DataPointHints dph, PrimitiveRenderEvent event) throws ChartException
+	{
+		// interactivity
+		final EList elTriggers = se.getTriggers( );
+		if ( !elTriggers.isEmpty( ) )
+		{
+			final StructureSource iSource =  WrappedStructureSource.createSeriesDataPoint( se,
+					dph) ;
+			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
+					InteractionEvent.class );
+			Trigger tg;
+			for ( int t = 0; t < elTriggers.size( ); t++ )
+			{
+				tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+				this.processTrigger( tg, iSource );
+				iev.addTrigger( tg );
+			}
+			
+			if ( event instanceof I3DRenderEvent )
+			{
+				final Location panningOffset = getPanningOffset( );
+	
+				PrimitiveRenderEvent copy = event.copy( );
+				if ( get3DEngine( ).processEvent( copy,
+						panningOffset.getX( ),
+						panningOffset.getY( ) ) != null )
+				{
+					iev.setHotSpot( copy );
+					ipr.enableInteraction( iev );
+				}
+			}
+			else
+			{
+				iev.setHotSpot( event );
+				ipr.enableInteraction( iev );
+			}
+		}
 	}
 	
 }

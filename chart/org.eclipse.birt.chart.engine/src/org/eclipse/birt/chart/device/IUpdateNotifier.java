@@ -24,12 +24,13 @@ public interface IUpdateNotifier
 
 	/**
 	 * Requests the container to regenerate the chart using the design-time
-	 * model
+	 * model. It should call IGenerator.build() or refresh() and render()
 	 */
 	void regenerateChart( );
 
 	/**
 	 * Requests the container to repaint the last generated chart
+	 * This should call IGenerator.render(), but not build() nor refresh().
 	 */
 	void repaintChart( );
 
@@ -58,38 +59,4 @@ public interface IUpdateNotifier
 	 */
 	Chart getRunTimeModel( );
 
-	/**
-	 * Returns the object from context by given key.
-	 * 
-	 * @since 2.1
-	 * 
-	 * @param key
-	 *            Key object.
-	 * @return
-	 */
-	Object getContext( Object key );
-
-	/**
-	 * Puts specified key,value to context.
-	 * 
-	 * @since 2.1
-	 * 
-	 * @param key
-	 *            Key object.
-	 * @param value
-	 *            Value object.
-	 * @return The previous value associated with given key.
-	 */
-	Object putContext( Object key, Object value );
-
-	/**
-	 * Removes the entry from context by given key if exists.
-	 * 
-	 * @since 2.1
-	 * 
-	 * @param key
-	 *            Key object.
-	 * @return The previous value associated with given key
-	 */
-	Object removeContext( Object key );
 }

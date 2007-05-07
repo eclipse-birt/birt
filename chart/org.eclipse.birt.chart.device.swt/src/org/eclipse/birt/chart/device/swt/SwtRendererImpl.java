@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -98,6 +99,8 @@ public class SwtRendererImpl extends DeviceAdapter
 
 	private double dScale = 1;
 
+	private InteractiveRenderer iv;
+
 	static final int CEIL = 1;
 
 	static final int TRUNCATE = 2;
@@ -114,6 +117,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			_ids = ps.getDisplayServer( "ds.SWT" ); //$NON-NLS-1$
 			_tr = new SwtTextRenderer( (SwtDisplayServer) _ids );
+			iv = new InteractiveRenderer( );
 		}
 		catch ( ChartException pex )
 		{
@@ -265,6 +269,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawLine( LineRenderEvent lre ) throws ChartException
 	{
+		iv.modifyEvent( lre  );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = lre.getLineAttributes( );
 		if ( !validateLineAttributes( lre.getSource( ), lia )
@@ -306,6 +311,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+
 	}
 
 	/*
@@ -315,6 +321,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
+		iv.modifyEvent( rre  );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = rre.getOutline( );
 		if ( !validateLineAttributes( rre.getSource( ), lia ) )
@@ -362,6 +369,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+		
+
 	}
 
 	/*
@@ -371,6 +380,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
+		iv.modifyEvent( rre  );
 		final Fill flBackground = validateMultipleFill( rre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -410,6 +420,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			pt.dispose( );
 		}
+		
+
 	}
 
 	/*
@@ -419,6 +431,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
+		iv.modifyEvent( pre );
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = pre.getOutline( );
 		if ( !validateLineAttributes( pre.getSource( ), lia ) )
@@ -467,6 +480,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+		
+
 	}
 
 	/*
@@ -476,6 +491,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
+		iv.modifyEvent( pre );
+		
 		// DUE TO RESTRICTIVE SWT API, WE SET A CLIPPED POLYGON REGION
 		// AND RENDER THE POLYGON BY RENDERING A CONTAINING RECTANGLE WHERE
 		// THE RECTANGLE BOUNDS CORRESPOND TO THE POLYGON BOUNDS
@@ -531,6 +548,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			pt.dispose( );
 		}
+		
+
 	}
 
 	/**
@@ -545,6 +564,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	protected void drawArc( GC _gc, Device _dv, ArcRenderEvent are,
 			double dTranslateX, double dTranslateY, double dScale )
 	{
+		
+		
 		if ( are.getInnerRadius( ) >= 0
 				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
@@ -713,6 +734,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawArc( ArcRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = are.getOutline( );
 		if ( !validateLineAttributes( are.getSource( ), lia ) )
@@ -761,6 +784,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+		
+
 	}
 
 	/*
@@ -770,6 +795,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) || are.getAngleExtent( ) == 0 )
@@ -937,6 +964,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			pt.dispose( );
 		}
+
 	}
 	
 	private final void fillPathColor( Path path, ColorDefinition g )
@@ -1255,6 +1283,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawArea( AreaRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = are.getOutline( );
 		if ( !validateLineAttributes( are.getSource( ), lia ) )
@@ -1339,6 +1369,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
+		iv.modifyEvent( are );
+		
 		Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -1401,6 +1433,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			pt.dispose( );
 		}
+		
+
 	}
 
 	/*
@@ -1410,6 +1444,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawOval( OvalRenderEvent ore ) throws ChartException
 	{
+		iv.modifyEvent( ore );
+		
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = ore.getOutline( );
 		if ( !validateLineAttributes( ore.getSource( ), lia ) )
@@ -1457,6 +1493,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+		
+
 	}
 
 	/*
@@ -1466,6 +1504,8 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
+		iv.modifyEvent( ore );
+		
 		final Fill flBackground = validateMultipleFill( ore.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
@@ -1501,6 +1541,8 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			pt.dispose( );
 		}
+		
+
 	}
 
 	/*
@@ -1510,6 +1552,10 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
+		iv.modifyEvent( tre );
+		if ( !tre.getLabel( ).isVisible( ) )
+			return;
+		
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
@@ -1550,6 +1596,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						tre.getLabel( ) );
 				break;
 		}
+
 	}
 
 	/**
@@ -1754,6 +1801,9 @@ public class SwtRendererImpl extends DeviceAdapter
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
 		{
 			_iun = (IUpdateNotifier) oValue;
+			iv.reset( );
+			iv.setUpdateNotifier( _iun );
+
 			cleanUpTriggers( );
 			Object obj = _iun.peerInstance( );
 
@@ -1776,8 +1826,8 @@ public class SwtRendererImpl extends DeviceAdapter
 					_eh.dispose( );
 				}
 
-				_eh = new SwtEventHandler( _lhmAllTriggers, _iun, getULocale( ) );
-
+				_eh = new SwtEventHandler( iv, _lhmAllTriggers, _iun, getULocale( ) );
+				
 				jc.addMouseListener( _eh );
 				jc.addMouseMoveListener( _eh );
 				jc.addMouseTrackListener( _eh );
@@ -1836,5 +1886,7 @@ public class SwtRendererImpl extends DeviceAdapter
 
 		return bo;
 	}
+
+
 
 }
