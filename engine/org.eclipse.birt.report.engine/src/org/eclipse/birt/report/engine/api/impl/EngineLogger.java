@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
@@ -37,30 +36,85 @@ public class EngineLogger {
 	
 	static private final String BIRT_NAME_SPACE = "org.eclipse.birt" ; //$NON-NLS-1$;
 
-	static private FileHandler logFileHandler = null;
+	/**
+	 * the handler used by "org.eclipse.birt"
+	 */
+	static private EngineLoggerHandler sharedHandler = null;
 
+	/**
+	 * the user defined logger.
+	 */
+	static private Logger userLogger = null;
+
+	/**
+	 * the user defined logger output directory.
+	 */
 	static private String dirName = null;
+	
+	/**
+	 * the logger uses the file handler
+	 */
+	static private Logger fileLogger = null;
+	
 	/**
 	 * This function should only called by the main application that starts BIRT. It will add a new log handler to the global BIRT logger. 
 	 * @param directoryName - the directory name of the log file (e.g. C:\Log). The final file name will be the directory name plus an unique file name.
 	 * 						  For example, if the directory name is C:\Log, the log file name will be something like C:\Log\ReportEngine_2005_02_26_11_26_56.log
 	 * @param logLevel - the log level to be set. If logLevel is null, it will be ignored.
 	 */
-	public static void startEngineLogging( String directoryName, Level logLevel )
+	public static void startEngineLogging( Logger logger, String directoryName,
+			Level logLevel )
 	{
-		dirName = directoryName;
-		
-		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
-		assert (logger != null);
-		
-		if ( logLevel != null )
-			logger.setLevel( logLevel );
-		
-		//if the log lever is OFF, we wont create log file
-		if ( logger.getLevel( ) != Level.OFF )
+		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
+		if ( sharedHandler == null )
 		{
-			createLogFile( logger );
+			sharedHandler = new EngineLoggerHandler( rootLogger );
+			sharedHandler.setLevel( Level.ALL );
+			rootLogger.addHandler( sharedHandler );
 		}
+		if ( fileLogger != null )
+		{
+			closeFileLogger( fileLogger );
+			fileLogger = null;
+		}
+		Logger sharedLogger = rootLogger.getParent( );
+		if ( logger != null && isValidLogger( logger ) )
+		{
+			userLogger = logger;		
+			sharedHandler.setSharedLogger( userLogger );
+		}
+		else
+		{
+			if ( directoryName != null )
+			{
+				dirName = directoryName;
+			}
+			if ( logLevel == null )
+			{
+				logLevel = rootLogger.getLevel( );
+			}
+			if ( logLevel != Level.OFF && dirName != null )
+			{
+				fileLogger = createFileLogger( dirName );
+				sharedHandler.setSharedLogger( fileLogger );
+			}
+			rootLogger.setLevel( logLevel );
+		}
+		rootLogger.setUseParentHandlers( false );
+	}
+	
+	public static boolean isValidLogger( Logger logger )
+	{
+		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
+		while ( logger != null )
+		{
+			if ( logger == rootLogger )
+			{
+				return false;
+			}
+			logger = logger.getParent( );
+		}
+		return true;
 	}
 
 	/**
@@ -68,23 +122,18 @@ public class EngineLogger {
 	 * Note: Because of a Java API's bug, an additional .lck file will be created for each log file. 
 	 * 		 Please see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4775533 for detail.    
 	 */
-	public static void stopEngineLogging()
+	public static void stopEngineLogging( )
 	{
-		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
-		assert (logger != null);
-		
-		Handler[] handlers = logger.getHandlers();
-		if ( (handlers != null) &&
-			 (handlers.length > 0) )
+		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
+		rootLogger.removeHandler( sharedHandler );
+		sharedHandler.close( );
+		sharedHandler = null;
+		if ( fileLogger != null )
 		{
-			for ( int i=0; i<handlers.length; i++ )
-			{
-				handlers[i].close();
-				logger.removeHandler( handlers[i] );
-			}
+			closeFileLogger( fileLogger );
+			fileLogger = null;
 		}
-		
-		logFileHandler = null;
+		userLogger = null;
 	}
 
 	/**
@@ -93,16 +142,22 @@ public class EngineLogger {
 	 */
 	public static void changeLogLevel( Level newLevel )
 	{
-		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
-		assert (logger != null);
-
 		if ( newLevel != null )
 		{
-			if ( Level.OFF == logger.getLevel( ) && Level.OFF != newLevel )
+			if ( userLogger != null )
 			{
-				createLogFile( logger );
+				if ( newLevel != Level.OFF && fileLogger == null
+						&& dirName != null )
+				{
+					fileLogger = createFileLogger( dirName );
+					if ( fileLogger != null )
+					{
+						sharedHandler.setSharedLogger( fileLogger );
+					}
+				}
 			}
-			logger.setLevel( newLevel );
+			Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
+			rootLogger.setLevel( newLevel );
 		}
 	}
 	
@@ -126,25 +181,39 @@ public class EngineLogger {
 		return new String( directoryName + "ReportEngine_" + dateTimeString + ".log" ); //$NON-NLS-1$; $NON-NLS-2$;
 	}
 
-	private static void createLogFile( Logger logger )
+	private static Logger createFileLogger( String dirName )
 	{
-		if ( logFileHandler != null || dirName == null )
-			return;
-		try {
-			logFileHandler = new FileHandler( generateUniqueLogFileName(dirName), true );
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if ( logFileHandler != null )
+		try
 		{
-			logFileHandler.setFormatter( new SimpleFormatter() ); // In BIRT log, we should always use the simple format.
+			Handler logFileHandler = new FileHandler(
+					generateUniqueLogFileName( dirName ), true );
+			// In BIRT log, we should always use the simple format.
+			logFileHandler.setFormatter( new SimpleFormatter( ) );
 			logFileHandler.setLevel( Level.FINEST );
+			Logger logger = Logger.getAnonymousLogger( );
 			logger.addHandler( logFileHandler );
+			return logger;
 		}
-		
-		logger.setUseParentHandlers( false );
+		catch ( SecurityException e )
+		{
+			e.printStackTrace( );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace( );
+		}
+		return null;
+	}
+	
+	private static void closeFileLogger( Logger logger )
+	{
+		Handler[] handles = logger.getHandlers( );
+		if ( handles != null )
+		{
+			for ( int i = 0; i < handles.length; i++ )
+			{
+				handles[i].close( );
+			}
+		}
 	}
 }

@@ -976,6 +976,7 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
+		EngineLoggerHandler.setLogger( null );
 	}
 
 	protected IReportLayoutEngine createReportLayoutEngine( String pagination,
@@ -1315,6 +1316,12 @@ public abstract class EngineTask implements IEngineTask
 
 	public void setLogger( Logger logger )
 	{
+		if ( logger == null || !EngineLogger.isValidLogger( logger ) )
+		{
+			throw new IllegalArgumentException(
+					"the logger can't be NULL or children or in namespace of org.eclipse.birt" );
+		}
+		EngineLoggerHandler.setLogger( logger );
 		this.log = logger;
 		this.executionContext.setLogger( logger );
 	}

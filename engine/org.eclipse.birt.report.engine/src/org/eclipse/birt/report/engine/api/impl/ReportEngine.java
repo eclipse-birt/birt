@@ -52,7 +52,8 @@ import org.mozilla.javascript.ScriptableObject;
 public class ReportEngine implements IReportEngine
 {
 
-	protected Logger logger;
+	static protected Logger logger = Logger.getLogger( ReportEngine.class
+			.getName( ) );
 
 	/**
 	 * engine configuration object
@@ -83,7 +84,7 @@ public class ReportEngine implements IReportEngine
 	{
 		this.config = config;
 		
-		logger = intializeLogger( );
+		intializeLogger( );
 
 		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
 				config );
@@ -95,32 +96,22 @@ public class ReportEngine implements IReportEngine
 	/**
 	 * set up engine logging
 	 */
-	private Logger intializeLogger( )
+	private void intializeLogger( )
 	{
 		Logger logger = null;
+		String dest = null;
+		Level level = Level.WARNING;
 		if ( config != null )
 		{
 			logger = config.getLogger( );
-			if ( logger != null )
-			{
-				return logger;
-			}
-
-			String dest = (String) config.getLogDirectory( );
-			Level level = config.getLogLevel( );
-
+			dest = config.getLogDirectory( );
+			level = config.getLogLevel( );
 			if ( level == null )
 			{
 				level = Level.WARNING;
 			}
-			EngineLogger.startEngineLogging( dest, level );
 		}
-
-		if ( logger == null )
-		{
-			logger = Logger.getLogger( ReportEngine.class.getName( ) );
-		}
-		return logger;
+		EngineLogger.startEngineLogging( logger, dest, level );
 	}
 
 	/**
@@ -203,7 +194,6 @@ public class ReportEngine implements IReportEngine
 	public void changeLogLevel( Level newLevel )
 	{
 		EngineLogger.changeLogLevel( newLevel );
-		logger.setLevel( newLevel );
 	}
 
 	/**
@@ -530,9 +520,9 @@ public class ReportEngine implements IReportEngine
 
 	public void setLogger( Logger logger )
 	{
-		if ( this.logger != logger )
+		if ( logger != null )
 		{
-			this.logger = logger;
+			EngineLogger.startEngineLogging( logger, null, null );
 		}
 	}
 }

@@ -19,21 +19,34 @@ import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.impl.EngineLoggerHandler;
 
 public class EngintTaskLoggerTest extends EngineCase
 {
 
 	public void testLogger( ) throws Exception
 	{
+		Logger engineLogger = Logger.getAnonymousLogger( );
+		ByteArrayOutputStream engineOut = new ByteArrayOutputStream( );
+		StreamHandler engineHandler = new StreamHandler( engineOut,
+				new SimpleFormatter( ) );
+		engineHandler.setLevel( Level.ALL );
+		engineLogger.addHandler( engineHandler );
+		engineLogger.setLevel( Level.ALL );
 
-		Logger logger = Logger.getAnonymousLogger( );
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		StreamHandler handler = new StreamHandler( out, new SimpleFormatter( ) );
-		handler.setLevel( Level.FINEST );
-		logger.addHandler( handler );
-		logger.setLevel( Level.FINE );
+		Logger taskLogger = Logger.getAnonymousLogger( );
+		ByteArrayOutputStream taskOut = new ByteArrayOutputStream( );
+		StreamHandler taskHandler = new StreamHandler( taskOut,
+				new SimpleFormatter( ) );
+		taskHandler.setLevel( Level.ALL );
+		taskLogger.addHandler( taskHandler );
+		taskLogger.setLevel( Level.ALL );
 
-		engine.setLogger( logger );
+		engine.setLogger( engineLogger );
+		engine.changeLogLevel( Level.ALL );
+
+		engineHandler.flush( );
+		taskHandler.flush( );
 
 		new File( "./utest/" ).mkdirs( );
 		copyResource(
@@ -41,17 +54,26 @@ public class EngintTaskLoggerTest extends EngineCase
 				"./utest/reportdesign.rptdesign" );
 		IReportRunnable runnable = engine
 				.openReportDesign( "./utest/reportdesign.rptdesign" );
+
 		IRunTask task = engine.createRunTask( runnable );
 		task.setParameter( "sample", "==golden values==", "displayText" );
 		task.run( "./utest/report.rptdocument" );
 		task.close( );
-		engine.setLogger( logger );
 
-		removeFile( "./utest" );
+		// the logger is output to engine out.
+		engineHandler.flush( );
+		assertTrue( engineOut.toString( ).indexOf( "==golden values==" ) != -1 );
+		engineOut.reset( );
 
-		handler.close( );
-		System.out.println( out.toString( ) );
-		assertTrue( out.toString( ).indexOf( "==golden values==" ) != -1 );
+		task = engine.createRunTask( runnable );
+		task.setLogger( taskLogger );
+		task.setParameter( "sample", "==golden values==", "displayText" );
+		task.run( "./utest/report.rptdocument" );
+		task.close( );
 
+		engineHandler.flush( );
+		taskHandler.flush( );
+		assertTrue( engineOut.toString( ).indexOf( "==golden values==" ) == -1 );
+		assertTrue( taskOut.toString( ).indexOf( "==golden values==" ) != -1 );
 	}
 }
