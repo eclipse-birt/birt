@@ -288,11 +288,14 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		// using the current setting to evaluate the parameter values.
 		String expr = parameter.getDefaultValue( );
-		if ( expr == null || expr.length( ) == 0 )
+		String dataType = parameter.getDataType( );
+		if ( expr == null
+				|| ( expr.length( ) == 0 && !DesignChoiceConstants.PARAM_TYPE_STRING
+						.equals( dataType ) ) )
 		{
 			return null;
 		}
-		return convertToType( expr, parameter.getDataType( ) );
+		return convertToType( expr, dataType );
 	}
 
 	/*
@@ -315,17 +318,29 @@ public class GetParameterDefinitionTask extends EngineTask
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
 		boolean fixedOrder = parameter.isFixedOrder( );
+		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter.getSortDirection( ) );
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
-			if ( parameter.getDataSetName( ) != null )
+			CascadingParameterGroupHandle group = null;
+			if ( isCascadingParameter( parameter ) )
+			{
+				group = getCascadingGroup( parameter );
+			}
+			if ( group != null
+					&& DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( group
+							.getDataSetMode( ) ) )
+			{
+				return getCascadingParameterList( parameter );
+			}
+			else if ( parameter.getDataSetName( ) != null )
 			{
 				return getChoicesFromParameterQuery( parameter );
 			}
-			else if ( isCascadingParameter( parameter ))
+			else if ( group != null )
 			{
-				Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
-				return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
+				return getCascadingParameterList( parameter );
 			}
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
@@ -349,12 +364,19 @@ public class GetParameterDefinitionTask extends EngineTask
 				choices.add( new SelectionChoice( label, value ) );
 			}
 			if ( !fixedOrder )
-				Collections
-						.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
+				Collections.sort( choices, new SelectionChoiceComparator(
+						sortByLabel, parameter.getPattern( ),
+						sortDirectionValue, ULocale.forLocale( locale ) ) );
 			return choices;
 
 		}
 		return Collections.EMPTY_LIST;
+	}
+
+	private Collection getCascadingParameterList( ScalarParameterHandle parameter )
+	{
+		Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
+		return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
 	}
 
 	/**
@@ -378,6 +400,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				return DataTypeUtil.toBigDecimal( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
 				return DataTypeUtil.toDouble( value );
+			if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
+				return DataTypeUtil.toInteger( value );
 		}
 		catch ( BirtException e )
 		{
@@ -399,10 +423,14 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *            value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices( String pattern, String dataSetName,
-			String labelStmt, String valueStmt, String dataType, int limit,
-			boolean fixedOrder )
+	private Collection createDynamicSelectionChoices( String pattern,
+			String dataSetName, String labelStmt, String valueStmt,
+			String dataType, int limit, boolean fixedOrder, boolean isDistinct,
+			String sortDirection, String sortBy )
 	{
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( sortDirection );
+		boolean sortByLabel = "label".equalsIgnoreCase( sortBy );
+
 		ArrayList choices = new ArrayList( );
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
@@ -453,11 +481,6 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				queryDefn.addResultSetExpression( valueColumnName, valueExpr );
 				
-				// Create a group to skip all of the duplicate values
-				GroupDefinition groupDef = new GroupDefinition( );
-				groupDef.setKeyColumn( valueColumnName );
-				queryDefn.addGroup( groupDef );
-				
 				queryDefn.setAutoBinding( true );
 
 				IPreparedQuery query = dteDataEngine.prepare( queryDefn, this.appContext );
@@ -466,6 +489,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						.getSharedScope( ) );
 				IResultIterator iter = result.getResultIterator( );
 				int count = 0;
+				Map checkPool = new HashMap( );
 				while ( iter.next( ) )
 				{
 					String label = null;
@@ -474,14 +498,28 @@ public class GetParameterDefinitionTask extends EngineTask
 						label = iter.getString( labelColumnName );
 					}
 					Object value = iter.getValue( valueColumnName );
-					choices.add( new SelectionChoice( label, convertToType(
-							value, dataType ) ) );
-					count++;
+										
+					value = convertToType( value, dataType );
+
+					// skip duplicated values.
+					if ( isDistinct )
+					{
+						if ( !checkPool.containsKey( value ) )
+						{
+							checkPool.put( value, value );
+							choices.add( new SelectionChoice( label, value ) );
+							count++;
+						}
+					}
+					else
+					{
+						choices.add( new SelectionChoice( label, value ) );
+						count++;
+					}
 					if ( ( limit != 0 ) && ( count >= limit ) )
 					{
 						break;
 					}
-					iter.skipToEnd( 1 ); // Skip all of the duplicate values
 				}
 			}
 			catch ( BirtException ex )
@@ -490,7 +528,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 		}
 		if ( !fixedOrder )
-			Collections.sort( choices, new SelectionChoiceComparator( true, pattern, ULocale.forLocale( locale ) ) );
+			Collections.sort( choices, new SelectionChoiceComparator(
+					sortByLabel, pattern, sortDirectionValue, ULocale
+							.forLocale( locale ) ) );
 		return choices;
 
 	}
@@ -825,11 +865,16 @@ public class GetParameterDefinitionTask extends EngineTask
 		String dataSetName = parameter.getDataSetName( );
 		String valueExpr = parameter.getValueExpr( );
 		String labelExpr = parameter.getLabelExpr( );
+		boolean isDistinct = parameter.distinct( );
+		String sortDirection = parameter.getSortDirection( );
+		String sortBy = parameter.getSortBy( );
 		int limit = parameter.getListlimit( );
 		String pattern = parameter.getPattern( );
 
 		return createDynamicSelectionChoices( pattern, dataSetName, labelExpr,
-				valueExpr, dataType, limit, fixedOrder );
+				valueExpr, dataType, limit, fixedOrder, isDistinct,
+				sortDirection, sortBy );
+
 	}
 	
 	private IParameterDefnBase getParamDefnBaseByName( ParameterDefnBase param,
