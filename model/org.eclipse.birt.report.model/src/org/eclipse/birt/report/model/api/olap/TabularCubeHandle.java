@@ -79,13 +79,13 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 		else
 		{
 			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getName( );
+			String valueToSet = handle.getElement( ).getFullName( );
 			if ( moduleHandle instanceof LibraryHandle )
 			{
 				String namespace = ( (LibraryHandle) moduleHandle )
 						.getNamespace( );
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						handle.getName( ) );
+						valueToSet );
 			}
 			setStringProperty( DATA_SET_PROP, valueToSet );
 		}
@@ -98,7 +98,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @return the added dimension condition handle if succeed
 	 * @throws SemanticException
 	 */
-	
+
 	public DimensionConditionHandle addDimensionCondition(
 			DimensionCondition condition ) throws SemanticException
 	{
@@ -128,7 +128,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * 
 	 * @return iterator of the join conditions in this cube
 	 */
-	
+
 	public Iterator joinConditionsIterator( )
 	{
 		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );

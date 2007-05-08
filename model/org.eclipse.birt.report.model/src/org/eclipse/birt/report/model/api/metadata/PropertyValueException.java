@@ -134,6 +134,7 @@ public class PropertyValueException extends SemanticException
 
 	/**
 	 * The character "." is forbidden to NamePropertyType.
+	 * @deprecated
 	 */
 
 	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN;
@@ -395,7 +396,7 @@ public class PropertyValueException extends SemanticException
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					propertyName, element.getName( )} );
+					propertyName, element.getFullName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DOT_FORBIDDEN )
 		{

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * Represents the extension element definition based on Model extension point.
@@ -63,6 +65,14 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		
 		// build validation trigger
 		buildTriggerDefnSet( );
+		
+		// if name is not defined, the set the name options
+		if ( getProperty( IDesignElementModel.NAME_PROP ) == null )
+		{
+			nameConfig.nameOption = MetaDataConstants.NO_NAME;
+			nameConfig.nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
+			nameConfig.holder = null;
+		}
 
 		isBuilt = true;
 	}

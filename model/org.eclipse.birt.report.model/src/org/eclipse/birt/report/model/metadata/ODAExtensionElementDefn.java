@@ -47,7 +47,7 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 
 		this.name = baseElementDefn.getName( );
 		this.displayNameKey = (String) baseElementDefn.getDisplayNameKey( );
-		this.nameOption = MetaDataConstants.REQUIRED_NAME;
+		this.nameConfig.nameOption = MetaDataConstants.REQUIRED_NAME;
 		this.allowExtend = false;
 		this.extendsFrom = baseElementDefn.getName( );
 	}

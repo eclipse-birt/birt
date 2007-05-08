@@ -134,10 +134,10 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 		for ( Iterator iter = slot.iterator( ); iter.hasNext( ); )
 		{
 			StyleElement style = (StyleElement) iter.next( );
-			String styleName = style.getName( );
+			String styleName = style.getFullName( );
 
 			if ( !set.contains( styleName ) )
-				set.add( style.getName( ) );
+				set.add( style.getFullName( ) );
 			else
 				list.add( new NameException( theme, styleName,
 						NameException.DESIGN_EXCEPTION_DUPLICATE ) );

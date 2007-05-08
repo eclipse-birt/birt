@@ -59,7 +59,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -1626,8 +1625,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllStyles( )
 	{
-		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
-				.getElements( IAccessControl.ARBITARY_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.STYLE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -1644,8 +1643,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleThemes( int level )
 	{
-		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.getElements( level );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.THEME_NAME_SPACE, level );
 
 		return generateHandleList( sortVisibleElements( elementList, level ) );
 	}
@@ -1680,11 +1679,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSources( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
-
-		List elementList = namescope
-				.getElements( IAccessControl.ARBITARY_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 
 	}
@@ -1697,10 +1693,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSources( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
-
-		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SOURCE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
 	}
@@ -1715,11 +1709,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSets( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
-
-		List elementList = namescope
-				.getElements( IAccessControl.ARBITARY_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SET_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1731,10 +1722,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSets( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
-
-		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.DATA_SET_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
 
@@ -1772,11 +1761,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllCubes( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.CUBE_NAME_SPACE );
-
-		List elementList = namescope
-				.getElements( IAccessControl.ARBITARY_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.CUBE_NAME_SPACE, IAccessControl.ARBITARY_LEVEL );
 		List cubeList = getCubeList( elementList );
 		return generateHandleList( cubeList );
 	}
@@ -1789,10 +1775,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleCubes( )
 	{
-		IModuleNameScope namescope = module
-				.getModuleNameSpace( Module.CUBE_NAME_SPACE );
-
-		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
+		List elementList = module.getNameHelper( ).getElements(
+				Module.CUBE_NAME_SPACE, IAccessControl.NATIVE_LEVEL );
 		List cubeList = getCubeList( elementList );
 		return generateHandleList( sortVisibleElements( cubeList,
 				IAccessControl.NATIVE_LEVEL ) );
@@ -1822,8 +1806,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllPages( )
 	{
-		List elementList = module.getNameSpace( Module.PAGE_NAME_SPACE )
-				.getElements( );
+		List elementList = module.getNameHelper( ).getNameSpace(
+				Module.PAGE_NAME_SPACE ).getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -1836,8 +1820,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllParameters( )
 	{
-		List elementList = module.getNameSpace( Module.PARAMETER_NAME_SPACE )
-				.getElements( );
+		List elementList = module.getNameHelper( ).getNameSpace(
+				Module.PARAMETER_NAME_SPACE ).getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -2522,8 +2506,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	List getAllTemplateParameterDefinitions( )
 	{
-		List elementList = module.getModuleNameSpace(
-				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements(
+		List elementList = module.getNameHelper( ).getElements(
+				Module.TEMPLATE_PARAMETER_NAME_SPACE,
 				IAccessControl.NATIVE_LEVEL );
 
 		return generateHandleList( elementList );

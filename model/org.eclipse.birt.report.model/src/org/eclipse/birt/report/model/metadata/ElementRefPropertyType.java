@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -122,7 +121,7 @@ public class ElementRefPropertyType extends PropertyType
 		{
 			logger.log( Level.FINE,
 					"Validate the value of the element reference property as a DesignElement " //$NON-NLS-1$
-							+ ( (DesignElement) value ).getName( ) );
+							+ ( (DesignElement) value ).getFullName( ) );
 			DesignElement target = (DesignElement) value;
 			return validateElementValue( module, targetDefn, defn, target );
 		}
@@ -158,14 +157,9 @@ public class ElementRefPropertyType extends PropertyType
 		if ( name == null )
 			return null;
 
-		IModuleNameScope elementResolver = module
-				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-
-		ElementRefValue refValue = null;
-
 		// special case for theme property since it can be direcly referred.
-
-		refValue = elementResolver.resolve( name, propDefn );
+		ElementRefValue refValue = module.getNameHelper( ).resolve( name,
+				propDefn, targetDefn );
 
 		assert refValue != null;
 
@@ -180,7 +174,7 @@ public class ElementRefPropertyType extends PropertyType
 		// Check type.
 
 		if ( !target.getDefn( ).isKindOf( targetDefn ) )
-			throw new PropertyValueException( target.getName( ),
+			throw new PropertyValueException( target.getFullName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					IPropertyType.ELEMENT_REF_TYPE );
 
@@ -207,14 +201,13 @@ public class ElementRefPropertyType extends PropertyType
 			ElementDefn targetDefn, PropertyDefn propDefn, DesignElement target )
 			throws PropertyValueException
 	{
-		IModuleNameScope elementResolver = module
-				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-		ElementRefValue refValue = elementResolver.resolve( target, propDefn );
+		ElementRefValue refValue = module.getNameHelper( ).resolve( target,
+				propDefn, null );
 
 		// Check type.
 
 		if ( !target.getDefn( ).isKindOf( targetDefn ) )
-			throw new PropertyValueException( target.getName( ),
+			throw new PropertyValueException( target.getFullName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					IPropertyType.ELEMENT_REF_TYPE );
 
@@ -267,22 +260,17 @@ public class ElementRefPropertyType extends PropertyType
 	{
 		if ( ref.isResolved( ) )
 			return;
-		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 
 		// Let the corresponding name scope do the resolve things for the
 		// element reference value. The scope will search the target element not
 		// only in the current root namespace, but also in the included
 		// libraries namespace.
-
-		IModuleNameScope elementResolver = module
-				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-
 		String name = ReferenceValueUtil.needTheNamespacePrefix( ref, module );
 
 		// special case for theme property since it can be direcly referred.
 
 		DesignElement target = null;
-		target = elementResolver.resolve( name, defn ).getElement( );
+		target = module.resolveElement( name, defn, null );
 
 		if ( target != null )
 			ref.resolve( target );

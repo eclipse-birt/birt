@@ -159,7 +159,7 @@ public class CssNameManager
 			if ( theme == null )
 				return;
 
-			cssOperation = (ICssStyleSheetOperation) theme;
+			cssOperation = theme;
 			csses = cssOperation.getCsses( );
 
 			for ( int i = 0; i < csses.size( ); ++i )

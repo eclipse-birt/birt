@@ -56,6 +56,8 @@ public class VersionUtil
 	
 	public final static int VERSION_3_2_12 =3021200; 
 	
+	public final static int VERSION_3_2_13 =3021300;
+	
 	/**
 	 * 
 	 * @param version

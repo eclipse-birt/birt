@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -71,6 +69,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.OdaCube;
 import org.eclipse.birt.report.model.elements.olap.OdaDimension;
 import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
@@ -89,7 +88,6 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
-import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -1035,23 +1033,6 @@ public class ElementFactory
 	}
 
 	/**
-	 * Rename for the virtual elements inside the new element. *
-	 * 
-	 * @param element
-	 *            the new created element.
-	 */
-	private void renameForVirtualElements( DesignElement element )
-	{
-
-		Iterator contentIter = new ContentIterator( module, element );
-		while ( contentIter.hasNext( ) )
-		{
-			DesignElement virtualElement = (DesignElement) contentIter.next( );
-			module.makeUniqueName( virtualElement );
-		}
-	}
-
-	/**
 	 * Creates a new theme element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
@@ -1136,6 +1117,8 @@ public class ElementFactory
 	 * @param name
 	 *            the level name
 	 * @return a handle to the level element
+	 * @deprecated replaced by
+	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
 	public TabularLevelHandle newTabularLevel( String name )
@@ -1144,6 +1127,30 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 
+	}
+
+	/**
+	 * Creates a new level element within the given dimension handle. The name
+	 * is required. If the <code>name</code> is null, we will make a unique
+	 * name with the given dimension scope for it.
+	 * 
+	 * @param dimensionHandle
+	 *            the dimension handle where the level will be inserted
+	 * 
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 */
+
+	public TabularLevelHandle newTabularLevel(
+			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name )
+	{
+		TabularLevel element = new TabularLevel( name );
+		if ( dimensionHandle != null )
+			( (Dimension) dimensionHandle.getElement( ) )
+					.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -1265,6 +1272,8 @@ public class ElementFactory
 	 * @param name
 	 *            the level name
 	 * @return a handle to the level element
+	 * @deprecated replaced by
+	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
 	public OdaLevelHandle newOdaLevel( String name )
@@ -1273,6 +1282,27 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 
+	}
+
+	/**
+	 * Creates a new oda level handle. The name is required. If given name is
+	 * null, we will make a unique name within the dimension scope for it.
+	 * 
+	 * @param dimensionHandle
+	 *            the dimension handle where the level will be inserted
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 */
+	public OdaLevelHandle newOdaLevel(
+			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name )
+	{
+		OdaLevel element = new OdaLevel( name );
+		if ( dimensionHandle != null )
+			( (Dimension) dimensionHandle.getElement( ) )
+					.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**

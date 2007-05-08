@@ -468,7 +468,7 @@ public class SemanticError extends SemanticException
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_DATA_SET )
 		{
-			String name = element.getName( );
+			String name = element.getFullName( );
 			if ( StringUtil.isBlank( name ) )
 			{
 				return ModelMessages.getMessage( sResourceKey,

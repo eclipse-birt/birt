@@ -24,15 +24,18 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
@@ -325,8 +328,9 @@ public class ReportDesignSerializer extends ElementVisitor
 		String selector = ( (ElementDefn) target.getDefn( ) ).getSelector( );
 		if ( selector != null )
 		{
-			Style style = (Style) sourceDesign.resolveElement( selector,
-					Module.STYLE_NAME_SPACE, null );
+			Style style = (Style) sourceDesign.resolveElement( selector, null,
+					MetaDataDictionary.getInstance( ).getElement(
+							ReportDesignConstants.STYLE_ELEMENT ) );
 
 			if ( style != null )
 			{
@@ -641,7 +645,12 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			int ns = ( (ElementDefn) newElement.getDefn( ) ).getNameSpaceID( );
 			if ( ns >= 0 )
-				targetDesign.getNameSpace( ns ).insert( newElement );
+			{
+				NameSpace namespace = new NameExecutor( newElement )
+						.getNameSpace( targetDesign );
+				if ( namespace != null )
+					namespace.insert( newElement );
+			}
 		}
 
 		targetDesign.addElementID( newElement );

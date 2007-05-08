@@ -143,7 +143,7 @@ public class CellOverlappingValidator extends AbstractElementValidator
 			}
 			list.add( new SemanticError( toValidate, new String[]{
 					container.getElementName( ),
-					container.getName( )},
+					container.getFullName( )},
 					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
 		}
 

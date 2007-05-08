@@ -3755,7 +3755,7 @@
   	</Property>
     <Property displayNameID="Element.OdaHierarchy.nativeName" name="nativeName" since="2.2" type="string"/>	  
   </Element>    	 
-  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="(Dimension, level)" since="2.2" xmlName="level">
   	<Property detailType="columnDataType" displayNameID="Element.Level.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice"/>
   	<Property detailType="dateTimeLevelType" displayNameID="Element.Level.dateTimeLevelType" name="dateTimeLevelType" runtimeSettable="false" since="2.2" type="choice"/>
   	<PropertyGroup displayNameID="Element.Level.Interval">

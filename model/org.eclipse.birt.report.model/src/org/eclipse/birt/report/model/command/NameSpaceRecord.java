@@ -27,9 +27,10 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -47,7 +48,7 @@ public class NameSpaceRecord extends SimpleRecord
 	 * The module that has the name space.
 	 */
 
-	protected Module root = null;
+	protected INameHelper nameHelper = null;
 
 	/**
 	 * The element to add or remove.
@@ -70,26 +71,25 @@ public class NameSpaceRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param theRoot
-	 *            the module.
+	 * @param nameHelper
+	 *            the name container
 	 * @param ns
-	 *            the name space to use.
 	 * @param symbol
 	 *            the element to insert or remove.
 	 * @param isAdd
 	 *            whether to add (true) or remove (false) the element.
 	 */
 
-	public NameSpaceRecord( Module theRoot, int ns, DesignElement symbol,
-			boolean isAdd )
+	public NameSpaceRecord( INameHelper nameHelper, int ns,
+			DesignElement symbol, boolean isAdd )
 	{
-		root = theRoot;
+		this.nameHelper = nameHelper;
+		this.nameSpaceID = ns;
 		element = symbol;
-		nameSpaceID = ns;
 		add = isAdd;
 
-		assert root != null;
 		assert element != null;
+		assert nameHelper != null;
 
 		// This record should never appear by itself in the activity stack.
 		// Instead, this record should appear as part of a larger task,
@@ -112,24 +112,24 @@ public class NameSpaceRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		NameSpace ns = root.getNameSpace( nameSpaceID );
+		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		Module root = nameHelper.getElement( ).getRoot( );
+		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
+		assert root != null;
 		if ( add && !undo || !add && undo )
 		{
 			if ( element instanceof IReferencableElement )
 			{
 				IReferencableElement originalElement = (IReferencableElement) root
-						.resolveElement(
-								element.getName( ),
-								nameSpaceID,
-								element
-										.getPropertyDefn( IDesignElementModel.NAME_PROP ) );
+						.resolveElement( element.getName( ), null, element
+								.getDefn( ) );
 				ns.insert( element );
 
 				// drop the element from the cached name manager
 
-				root.getNameManager( ).dropElement( element );
+				nameHelper.dropElement( element );
 				if ( originalElement != null )
-					updateAllElementReferences( originalElement );
+					updateAllElementReferences( root, originalElement );
 			}
 			else
 			{
@@ -137,7 +137,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 				// drop the element from the cached name manager
 
-				root.getNameManager( ).dropElement( element );
+				nameHelper.dropElement( element );
 			}
 		}
 		else
@@ -145,11 +145,13 @@ public class NameSpaceRecord extends SimpleRecord
 			ns.remove( element );
 
 			if ( element instanceof ReferenceableElement )
-				updateAllElementReferences( (ReferenceableElement) element );
+				updateAllElementReferences( root,
+						(ReferenceableElement) element );
 		}
 	}
 
-	private void updateAllElementReferences( IReferencableElement referred )
+	private void updateAllElementReferences( Module root,
+			IReferencableElement referred )
 	{
 		List clients = referred.getClientList( );
 		Iterator iter = clients.iterator( );
@@ -159,7 +161,6 @@ public class NameSpaceRecord extends SimpleRecord
 			DesignElement client = ref.element;
 
 			Object value = client.getLocalProperty( root, ref.propName );
-
 			if ( value instanceof ElementRefValue )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
@@ -170,7 +171,6 @@ public class NameSpaceRecord extends SimpleRecord
 				client.resolveElementReference( root, client
 						.getPropertyDefn( ref.propName ) );
 			}
-
 			else if ( value instanceof List )
 			{
 				List valueList = (List) value;
@@ -193,7 +193,7 @@ public class NameSpaceRecord extends SimpleRecord
 					}
 					else
 					{
-						updatePropertyListnMemberCase( referred, ref
+						updatePropertyListnMemberCase( root, referred, ref
 								.getCachedMemberRef( ), valueList, client );
 					}
 				}
@@ -223,8 +223,9 @@ public class NameSpaceRecord extends SimpleRecord
 	 *            client element
 	 */
 
-	private void updatePropertyListnMemberCase( IReferencableElement referred,
-			CachedMemberRef memberRef, List valueList, DesignElement client )
+	private void updatePropertyListnMemberCase( Module root,
+			IReferencableElement referred, CachedMemberRef memberRef,
+			List valueList, DesignElement client )
 	{
 		int index = memberRef.getIndex( );
 		if ( index >= 0 && index < valueList.size( ) )
@@ -269,7 +270,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return root;
+		return nameHelper.getElement( );
 	}
 
 	/*

@@ -563,17 +563,6 @@ class MetaDataHandler extends XMLParserHandler
 	class ElementDefnState extends InnerParseState
 	{
 
-		private static final String NO_NS_NAME = "none"; //$NON-NLS-1$
-		private static final String MASTER_PAGE_NS_NAME = "masterPage"; //$NON-NLS-1$
-		private static final String PARAMETER_NS_NAME = "parameter"; //$NON-NLS-1$
-		private static final String ELEMENT_NS_NAME = "element"; //$NON-NLS-1$
-		private static final String DATA_SOURCE_NS_NAME = "dataSource"; //$NON-NLS-1$
-		private static final String DATA_SET_NS_NAME = "dataSet"; //$NON-NLS-1$
-		private static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
-		private static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
-		private static final String TEMPLATE_PARAMETER_DEFINITION_NS_NAME = "templateParameterDefinition"; //$NON-NLS-1$
-		private static final String CUBE_NS_NAME = "cube"; //$NON-NLS-1$		
-
 		public void parseAttrs( Attributes attrs )
 		{
 			String name = attrs.getValue( NAME_ATTRIB );
@@ -628,28 +617,49 @@ class MetaDataHandler extends XMLParserHandler
 			{
 				// Inherit default name space
 			}
-			else if ( ns.equalsIgnoreCase( STYLE_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.STYLE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.STYLE_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( THEME_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.THEME_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.THEME_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( DATA_SET_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DATA_SET_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DATA_SOURCE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SOURCE_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( ELEMENT_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.ELEMENT_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.ELEMENT_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( PARAMETER_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.PARAMETER_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.PARAMETER_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( MASTER_PAGE_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.MASTER_PAGE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.PAGE_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( NO_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.NO_NS_NAME ) )
 				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
 			else if ( ns
-					.equalsIgnoreCase( TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
+					.equalsIgnoreCase( NameSpaceFactory.TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
 				elementDefn
 						.setNameSpaceID( Module.TEMPLATE_PARAMETER_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( CUBE_NS_NAME ) )
+			else if ( ns.equalsIgnoreCase( NameSpaceFactory.CUBE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.CUBE_NAME_SPACE );
+			else if ( ns.startsWith( "(" ) && ns.endsWith( ")" ) ) //$NON-NLS-1$//$NON-NLS-2$
+			{
+				String nsValue = ns.substring( 1, ns.length( ) - 1 );
+				int index = nsValue.indexOf( "," ); //$NON-NLS-1$
+				if ( index == -1 )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+				}
+				else
+				{
+					String holderName = StringUtil.trimString( nsValue
+							.substring( 0, index ) );
+					String nameSpace = StringUtil.trimString( nsValue
+							.substring( index + 1, nsValue.length( ) ) );
+					elementDefn.nameConfig.holderName = holderName;
+					elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+							.getNameSpaceID( holderName, nameSpace );
+				}
+			}
 			else
 				errorHandler
 						.semanticError( new MetaDataParserException(

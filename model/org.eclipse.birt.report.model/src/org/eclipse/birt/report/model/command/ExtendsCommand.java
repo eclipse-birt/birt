@@ -157,11 +157,11 @@ public class ExtendsCommand extends AbstractElementCommand
 
 			if ( !newExtendsValue.isResolved( ) )
 				resolvedParent = root.resolveElement( ReferenceValueUtil
-						.needTheNamespacePrefix( newExtendsValue, module ), ns,
-						propDefn );
+						.needTheNamespacePrefix( newExtendsValue, module ),
+						propDefn, metaData );
 			else
 				resolvedParent = root.resolveElement( newExtendsValue
-						.getElement( ), ns, propDefn );
+						.getElement( ), propDefn, metaData );
 
 			DesignElement parent = newExtendsValue.getElement( );
 			if ( parent != null && parent != resolvedParent )
@@ -274,6 +274,7 @@ public class ExtendsCommand extends AbstractElementCommand
 					InvalidParentException.DESIGN_EXCEPTION_UNNAMED_PARENT );
 
 		Module module = parent.getRoot( );
+		name = parent.getFullName( );
 		if ( module instanceof Library )
 		{
 			String namespace = ( (Library) module ).getNamespace( );

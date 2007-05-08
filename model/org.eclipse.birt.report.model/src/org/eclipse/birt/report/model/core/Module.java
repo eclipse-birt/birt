@@ -38,9 +38,9 @@ import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.core.INameManager;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -51,8 +51,10 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
-import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
+import org.eclipse.birt.report.model.core.namespace.INameContainer;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
@@ -103,7 +105,10 @@ import com.ibm.icu.util.ULocale;
  * in the data dictionary.
  */
 
-public abstract class Module extends DesignElement implements IModuleModel
+public abstract class Module extends DesignElement
+		implements
+			IModuleModel,
+			INameContainer
 {
 
 	/**
@@ -197,20 +202,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected int saveState = 0;
-
-	/**
-	 * The array of name spaces. The meanings of each name space is defined in
-	 * {@link org.eclipse.birt.report.model.api.metadata.MetaDataConstants MetaDataConstants}.
-	 */
-
-	protected NameSpace nameSpaces[] = new NameSpace[NAME_SPACE_COUNT];
-
-	/**
-	 * The array of module name spaces. Each name space has the corresponding
-	 * module name space.
-	 */
-
-	protected IModuleNameScope moduleNameSpaces[] = new IModuleNameScope[NAME_SPACE_COUNT];
 
 	/**
 	 * Internal table to store a bunch of user-defined messages. One message can
@@ -311,12 +302,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected Exception fatalException;
 
 	/**
-	 * The registered name manager of this module.
-	 */
-
-	protected INameManager nameManager = null;
-
-	/**
 	 * The registered API backward compatibility manager of this module.
 	 */
 
@@ -335,6 +320,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected LineNumberInfo lineNoInfo = null;
 
 	/**
+	 * 
+	 */
+	protected INameHelper nameHelper = null;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param theSession
@@ -345,21 +335,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		session = theSession;
 
-		for ( int i = 0; i < NAME_SPACE_COUNT; i++ )
-		{
-			nameSpaces[i] = new NameSpace( );
-			moduleNameSpaces[i] = ModuleNameScopeFactory
-					.createElementNameSpace( this, i );
-		}
+		// initialize name helper
+		this.nameHelper = new ModuleNameHelper( this );
 
 		// Put this element into the ID map.
 
 		setID( getNextID( ) );
 		addElementID( this );
 
-		// initialize the name manager
-
-		nameManager = new NameManager( this );
 		versionMgr = new VersionControlMgr( );
 	}
 
@@ -385,7 +368,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public StyleElement findNativeStyle( String name )
 	{
-		return (StyleElement) nameSpaces[STYLE_NAME_SPACE].getElement( name );
+		return (StyleElement) nameHelper.getNameSpace( STYLE_NAME_SPACE )
+				.getElement( name );
 	}
 
 	/**
@@ -398,9 +382,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public StyleElement findStyle( String name )
 	{
-		ElementRefValue refValue = moduleNameSpaces[STYLE_NAME_SPACE].resolve(
-				name, null );
-		return (StyleElement) refValue.getElement( );
+		return (StyleElement) resolveElement( name, null, MetaDataDictionary
+				.getInstance( )
+				.getElement( ReportDesignConstants.STYLE_ELEMENT ) );
 	}
 
 	/**
@@ -427,7 +411,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSource( String name )
 	{
-		return resolveElement( name, DATA_SOURCE_NAME_SPACE, null );
+		return resolveElement( name, null, MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
 	}
 
 	/**
@@ -440,7 +425,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSet( String name )
 	{
-		return resolveElement( name, DATA_SET_NAME_SPACE, null );
+		return resolveElement( name, null, MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.DATA_SET_ELEMENT ) );
 	}
 
 	/**
@@ -480,35 +466,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public DesignElement findOLAPElement( String name )
 	{
 		return resolveNativeElement( name, CUBE_NAME_SPACE );
-	}
-
-	/**
-	 * Gets a name space.
-	 * 
-	 * @param ns
-	 *            The name space ID.
-	 * @return The name space.
-	 */
-
-	public NameSpace getNameSpace( int ns )
-	{
-		assert ns >= 0 && ns < NAME_SPACE_COUNT;
-		return nameSpaces[ns];
-	}
-
-	/**
-	 * Returns the module name space instance for the given name space in this
-	 * module.
-	 * 
-	 * @param nameSpace
-	 *            the name space ID
-	 * @return the module name space for the given name space
-	 */
-
-	public IModuleNameScope getModuleNameSpace( int nameSpace )
-	{
-		assert nameSpace >= 0 && nameSpace < NAME_SPACE_COUNT;
-		return moduleNameSpaces[nameSpace];
 	}
 
 	/**
@@ -692,7 +649,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void onSave( )
 	{
 		saveState = activityStack.getCurrentTransNo( );
-		nameManager.clear( );
+		nameHelper.clear( );
 	}
 
 	/**
@@ -772,9 +729,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.fatalException = null;
 		module.idMap = new HashMap( );
 		module.lineNoInfo = null;
-		module.moduleNameSpaces = new IModuleNameScope[NAME_SPACE_COUNT];
-		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
-		module.nameManager = new NameManager( module );
+		module.nameHelper = new ModuleNameHelper( module );
 		module.referencableProperties = null;
 		module.saveState = 0;
 		module.systemId = null;
@@ -785,17 +740,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		assert module.getElementByID( module.getID( ) ) == null;
 		module.addElementID( module );
 
-		// clone module name space and name space
-
-		for ( int i = 0; i < NAME_SPACE_COUNT; i++ )
-		{
-			module.nameSpaces[i] = new NameSpace( );
-			module.moduleNameSpaces[i] = ModuleNameScopeFactory
-					.createElementNameSpace( module, i );
-		}
-
 		// clone theme property
-
 		if ( theme != null )
 			module.theme = new ElementRefValue( theme.getLibraryNamespace( ),
 					theme.getName( ) );
@@ -863,9 +808,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 					.getTemplateParameterElement( module );
 			if ( templateParam != null && templateParam.getRoot( ) != module )
 			{
-				element.setProperty(
-						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-						new ElementRefValue( null, templateParam.getName( ) ) );
+				element
+						.setProperty(
+								IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
+								new ElementRefValue( null, templateParam
+										.getFullName( ) ) );
 			}
 		}
 
@@ -889,7 +836,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
 				&& element.isManagedByNameSpace( ) )
 		{
-			NameSpace ns = module.getNameSpace( id );
+			// most element name resides in module, however not all; for
+			// example, level resides in dimension. Therefore, we will get name
+			// space where the element should reside
+			NameSpace ns = new NameExecutor( element ).getNameSpace( module );
 
 			assert !ns.contains( name );
 			ns.insert( element );
@@ -1275,11 +1225,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            element for which to create a unique name
 	 */
 
-	public void makeUniqueName( DesignElement element )
-	{
-		nameManager.makeUniqueName( element );
-	}
-
+	// public void makeUniqueName( DesignElement element )
+	// {
+	// nameHelper.getNameManager( ).makeUniqueName( element );
+	// }
 	/**
 	 * Returns a unique name for an element.
 	 * 
@@ -1288,22 +1237,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return unique name of given element.
 	 */
 
-	public String getUniqueName( DesignElement element )
-	{
-		return nameManager.getUniqueName( element );
-	}
-
-	/**
-	 * Gets the name manager of this module.
-	 * 
-	 * @return the name manager of this module
-	 */
-
-	public INameManager getNameManager( )
-	{
-		return nameManager;
-	}
-
+	// public String getUniqueName( DesignElement element )
+	// {
+	// return nameHelper.getNameManager( ).getUniqueName( element );
+	// }
 	/**
 	 * Returns the file name of the module file.
 	 * 
@@ -1470,7 +1407,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		// clear the name manager
 
-		this.nameManager.clear( );
+		nameHelper.clear( );
 	}
 
 	/**
@@ -1480,8 +1417,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * 
 	 * @param elementName
 	 *            name of the element
-	 * @param nameSpace
-	 *            name space
+	 * @param elementDefn
+	 *            the definition of the target element
 	 * @param propDefn
 	 *            the property definition
 	 * @return the resolved element if the name can be resolved, otherwise,
@@ -1490,12 +1427,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public DesignElement resolveElement( String elementName, int nameSpace,
-			PropertyDefn propDefn )
+	public DesignElement resolveElement( String elementName,
+			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
-		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
-				elementName, propDefn );
-		return refValue.getElement( );
+		ElementRefValue refValue = nameHelper.resolve( elementName, propDefn,
+				elementDefn );
+		return refValue == null ? null : refValue.getElement( );
 	}
 
 	/**
@@ -1505,8 +1442,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * 
 	 * @param element
 	 *            the element
-	 * @param nameSpace
-	 *            name space
+	 * @param elementDefn
+	 *            the definition of the target element
 	 * @param propDefn
 	 *            the property definition
 	 * @return the resolved element if the name can be resolved, otherwise,
@@ -1515,12 +1452,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public DesignElement resolveElement( DesignElement element, int nameSpace,
-			PropertyDefn propDefn )
+	public DesignElement resolveElement( DesignElement element,
+			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
-		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
-				element, propDefn );
-		return refValue.getElement( );
+		ElementRefValue refValue = nameHelper.resolve( element, propDefn,
+				elementDefn );
+		return refValue == null ? null : refValue.getElement( );
 	}
 
 	/**
@@ -1537,7 +1474,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	private DesignElement resolveNativeElement( String elementName,
 			int nameSpace )
 	{
-		NameSpace namespace = nameSpaces[nameSpace];
+		NameSpace namespace = nameHelper.getNameSpace( nameSpace );
 		return namespace.getElement( elementName );
 	}
 
@@ -2221,9 +2158,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public Theme findTheme( String name )
 	{
-		ElementRefValue refValue = moduleNameSpaces[THEME_NAME_SPACE].resolve(
-				name, null );
-		return (Theme) refValue.getElement( );
+		return (Theme) resolveElement( name, null, MetaDataDictionary
+				.getInstance( ).getElement( ReportDesignConstants.THEME_ITEM ) );
 	}
 
 	/**
@@ -2269,11 +2205,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( theme.isResolved( ) )
 			return (Theme) theme.getElement( );
 
-		IModuleNameScope resolver = module
-				.getModuleNameSpace( Module.THEME_NAME_SPACE );
-
-		ElementRefValue refValue = resolver.resolve( ReferenceValueUtil
-				.needTheNamespacePrefix( theme, this ), null );
+		ElementRefValue refValue = nameHelper.resolve( ReferenceValueUtil
+				.needTheNamespacePrefix( theme, this ), null,
+				MetaDataDictionary.getInstance( ).getElement(
+						ReportDesignConstants.THEME_ITEM ) );
 
 		Theme target = null;
 		if ( refValue.isResolved( ) )
@@ -2606,22 +2541,17 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void rename( DesignElement element )
 	{
-		if ( element == null )
-			return;
+		nameHelper.rename( element );
+	}
 
-		IElementDefn defn = element.getDefn( );
-
-		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
-				|| element.getRoot( ) instanceof Library
-				|| element.getName( ) != null )
-			makeUniqueName( element );
-
-		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement innerElement = (DesignElement) iter.next( );
-			rename( innerElement );
-		}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public void makeUniqueName( DesignElement element )
+	{
+		nameHelper.makeUniqueName( element );
 	}
 
 	/**
@@ -2749,13 +2679,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @throws StyleSheetException
 	 */
 
-	public CssStyleSheet loadCss( DesignElement container , String fileName ) throws StyleSheetException
+	public CssStyleSheet loadCss( DesignElement container, String fileName )
+			throws StyleSheetException
 	{
 		try
 		{
 			StyleSheetLoader loader = new StyleSheetLoader( );
 			CssStyleSheet sheet = loader.load( this, fileName );
-			sheet.setContainer(  container );
+			sheet.setContainer( container );
 			List styles = sheet.getStyles( );
 			for ( int i = 0; styles != null && i < styles.size( ); ++i )
 			{
@@ -2769,5 +2700,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 		{
 			throw e;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper()
+	 */
+	public INameHelper getNameHelper( )
+	{
+		return this.nameHelper;
 	}
 }

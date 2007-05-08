@@ -331,7 +331,7 @@ public final class ErrorDetail implements ErrorCodes
 			description.append( " (Element = " ); //$NON-NLS-1$
 			description.append( e.getElement( ).getElementName( ) );
 			description.append( ", Name = " ); //$NON-NLS-1$
-			description.append( e.getElement( ).getName( ) );
+			description.append( e.getElement( ).getFullName( ) );
 			description.append( "), " ); //$NON-NLS-1$
 		}
 		description.append( e.getClass( ).getName( ) );

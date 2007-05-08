@@ -151,7 +151,7 @@ public class Theme extends ReferenceableElement
 			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
 					.getContent( i );
 			int pos = ModelUtil
-					.getStylePotision( styleList, tmpStyle.getName( ) );
+					.getStylePotision( styleList, tmpStyle.getFullName( ) );
 			if ( pos == -1 )
 			{
 				styleList.add( tmpStyle );
@@ -181,7 +181,7 @@ public class Theme extends ReferenceableElement
 		for ( int i = 0; i < styles.size( ); ++i )
 		{
 			StyleElement style = (StyleElement) styles.get( i );
-			if ( styleName.equals( style.getName( ) ) )
+			if ( styleName.equals( style.getFullName( ) ) )
 			{
 				return style;
 			}
@@ -206,7 +206,7 @@ public class Theme extends ReferenceableElement
 
 		tmpErrors.addAll( ThemeStyleNameValidator.getInstance( )
 				.validateForAddingStyle( (ThemeHandle) getHandle( module ),
-						content.getName( ) ) );
+						content.getFullName( ) ) );
 
 		return tmpErrors;
 	}

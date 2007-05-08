@@ -168,7 +168,7 @@ public class ExtendsException extends SemanticException
 	{
 		super( obj, errCode );
 		this.parent = parent;
-		this.extendsName = parent.getName( );
+		this.extendsName = parent.getFullName( );
 	}
 
 	/**

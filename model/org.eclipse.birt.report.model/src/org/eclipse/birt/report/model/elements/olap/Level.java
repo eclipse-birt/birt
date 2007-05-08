@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.model.elements.olap;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 
@@ -67,4 +70,22 @@ public abstract class Level extends ReferenceableElement implements ILevelModel
 	{
 		return ReportDesignConstants.LEVEL_ELEMENT;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getFullName()
+	 */
+	public String getFullName( )
+	{
+		if ( StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		INameHelper nameHelper = new NameExecutor( this )
+				.getNameHelper( getRoot( ) );
+		String parentName = nameHelper == null ? null : nameHelper.getElement( )
+				.getFullName( );
+		return StringUtil.isBlank( parentName ) ? getName( ) : parentName
+				+ NameExecutor.NAME_SEPARATOR + getName( );
+	}
+
 }

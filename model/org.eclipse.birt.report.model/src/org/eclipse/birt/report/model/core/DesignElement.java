@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
@@ -1408,6 +1409,20 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Gets the full name of this name. Generally, all the name is unique in the
+	 * whole design tree, and therefore its full name is the same with
+	 * name.However, some kinds of elements are not. Their name are unique
+	 * partly, such as the level name is unique in the dimension container. And
+	 * therefore, its full name is dimensionName/levelName.
+	 * 
+	 * @return
+	 */
+	public String getFullName( )
+	{
+		return getName( );
+	}
+
+	/**
 	 * Sets the element name. The caller must have cleaned up any references to
 	 * the old name, have changed any name spaces as needed, have verified the
 	 * name, and so on.
@@ -2167,6 +2182,11 @@ public abstract class DesignElement
 			throw new InvalidParentException( this, extendsName,
 					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 		}
+		else if ( !defn.canExtend( ) )
+		{
+			throw new ExtendsForbiddenException( this, parent.getName( ),
+					ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
+		}
 		else if ( parent.getDefn( ) != defn )
 		{
 			throw new WrongTypeException( this, parent,
@@ -2863,12 +2883,12 @@ public abstract class DesignElement
 
 	public String getIdentifier( )
 	{
-		if ( getName( ) != null )
+		if ( getFullName( ) != null )
 		{
 			StringBuffer sb = new StringBuffer( );
 			sb.append( getDefn( ).getDisplayName( ) );
 			sb.append( "(\"" ); //$NON-NLS-1$
-			sb.append( getName( ) );
+			sb.append( getFullName( ) );
 			sb.append( "\")" ); //$NON-NLS-1$
 
 			return sb.toString( );

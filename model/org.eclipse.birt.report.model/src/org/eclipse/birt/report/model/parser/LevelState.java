@@ -12,24 +12,15 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.TabularLevel;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.xml.sax.Attributes;
+import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
+import org.eclipse.birt.report.model.util.VersionUtil;
+import org.xml.sax.SAXException;
 
 /**
- * This class parses a Level element within a hierarchy.
- * 
+ * Abstract level state for all OLAP level parser.
  */
-
-public class TabularLevelState extends LevelState
+abstract public class LevelState extends ReportElementState
 {
-
-	/**
-	 * The level being created.
-	 */
-
-	protected Level element = null;
 
 	/**
 	 * Constructs level state with the design parser handler, the container
@@ -43,8 +34,8 @@ public class TabularLevelState extends LevelState
 	 *            the slot in which this element appears
 	 */
 
-	public TabularLevelState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
+	public LevelState( ModuleParserHandler handler, DesignElement theContainer,
+			String prop )
 	{
 		super( handler, theContainer, prop );
 	}
@@ -52,23 +43,19 @@ public class TabularLevelState extends LevelState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
+	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
-
-	public DesignElement getElement( )
+	public void end( ) throws SAXException
 	{
-		return element;
+		super.end( );
+
+		// to do the backward compatibility, we cached all level elements and
+		// helps to resolve
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_13 )
+		{
+			((ModuleNameHelper)handler.module.getNameHelper( )).addCachedLevel( getElement( ) );
+		}
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-	 */
-
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TabularLevel( );
-		initElement( attrs, true );
-	}
 }

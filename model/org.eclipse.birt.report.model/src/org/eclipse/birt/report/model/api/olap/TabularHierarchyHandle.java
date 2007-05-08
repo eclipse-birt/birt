@@ -77,13 +77,13 @@ public class TabularHierarchyHandle extends HierarchyHandle
 		else
 		{
 			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getName( );
+			String valueToSet = handle.getElement( ).getFullName( );
 			if ( moduleHandle instanceof LibraryHandle )
 			{
 				String namespace = ( (LibraryHandle) moduleHandle )
 						.getNamespace( );
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						handle.getName( ) );
+						valueToSet );
 			}
 			setStringProperty( DATA_SET_PROP, valueToSet );
 		}
@@ -95,7 +95,7 @@ public class TabularHierarchyHandle extends HierarchyHandle
 	 * 
 	 * @return a list of primary keys if set, otherwise null
 	 */
-	
+
 	public List getPrimaryKeys( )
 	{
 		return getListProperty( PRIMARY_KEYS_PROP );

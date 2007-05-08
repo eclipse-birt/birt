@@ -19,9 +19,11 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -260,6 +262,14 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 				&& versionNumber <= VersionUtil.VERSION_3_2_12 )
 			handleUnnamedReportItems( );
 
+		// if module is a report design or the directly opened library, its
+		// namespace is null, then we will clear all the cached level names
+		if ( versionNumber <= VersionUtil.VERSION_3_2_13
+				&& StringUtil.isBlank( module.getNamespace( ) ) )
+		{
+			( (ModuleNameHelper) module.getNameHelper( ) ).clearCachedLevels( );
+		}
+
 		// build the line number information of design elements if needed.
 
 		if ( markLineNumber && tempLineNumbers != null )
@@ -367,7 +377,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	final void addUnnamedReportItem( DesignElement element )
 	{
 		assert element instanceof ReportItem;
-		
+
 		if ( !unnamedReportItems.contains( element ) )
 			unnamedReportItems.add( element );
 	}

@@ -92,12 +92,11 @@ public class NamePropertyType extends TextualPropertyType
 							NAME_TYPE );
 				return null;
 			}
-			else if ( stringValue.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 ) 
+			else if ( !isValidName( stringValue ) )
 			{
-					throw new PropertyValueException(
-							value,
-							PropertyValueException.DESIGN_EXCEPTION_DOT_FORBIDDEN,
-							NAME_TYPE );
+				throw new PropertyValueException( value,
+						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+						NAME_TYPE );
 			}
 
 			return stringValue;
@@ -121,5 +120,20 @@ public class NamePropertyType extends TextualPropertyType
 		if ( value == null )
 			return null;
 		return StringUtil.trimString( value );
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	private boolean isValidName( String value )
+	{
+		assert value != null;
+
+		// can not contain: / \ . : ! ; ,
+		if ( value.contains( "/" ) || value.contains( "\\" ) || value.contains( "." ) || value.contains( ":" ) || value.contains( "!" ) || value.contains( ";" ) || value.contains( "," ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+			return false;
+		return true;
 	}
 }

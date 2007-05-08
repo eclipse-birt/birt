@@ -109,7 +109,7 @@ public abstract class ListingItemState extends ReportItemState
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
 
-			handler.getModule( ).getNameManager( ).makeUniqueName( group );
+			handler.getModule( ).getNameHelper( ).makeUniqueName( group );
 
 			String groupName = (String) group.getLocalProperty( handler
 					.getModule( ), GroupElement.GROUP_NAME_PROP );

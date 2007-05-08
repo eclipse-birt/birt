@@ -86,7 +86,7 @@ public class ElementRefValue extends ReferenceValue
 		if ( name != null )
 			return name;
 		if ( resolved != null )
-			return ( (DesignElement) resolved ).getName( );
+			return ( (DesignElement) resolved ).getFullName( );
 		assert false;
 		return null;
 	}

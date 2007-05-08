@@ -56,7 +56,7 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 
 	public IPropertyDefn getMember( String name )
 	{
-		return (StructPropertyDefn) findProperty( name );
+		return findProperty( name );
 	}
 
 	/**

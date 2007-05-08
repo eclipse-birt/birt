@@ -183,7 +183,7 @@ public class ContentCommand extends AbstractContentCommand
 
 			if ( content instanceof GroupElement )
 			{
-				String name = module.getUniqueName( content );
+				String name = module.getNameHelper( ).getUniqueName( content );
 				setGroupName( content, stack, name );
 			}
 		}

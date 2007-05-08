@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -430,13 +431,9 @@ public class ElementStructureUtil
 				continue;
 
 			module.makeUniqueName( virtualElement );
-
-			ElementDefn contentDefn = (ElementDefn) virtualElement.getDefn( );
-			int id = contentDefn.getNameSpaceID( );
-
-			NameSpace ns = module.getNameSpace( id );
-			ns.insert( virtualElement );
-
+			NameSpace ns = new NameExecutor( element ).getNameSpace( module );
+			if ( ns != null )
+				ns.insert( virtualElement );
 		}
 	}
 

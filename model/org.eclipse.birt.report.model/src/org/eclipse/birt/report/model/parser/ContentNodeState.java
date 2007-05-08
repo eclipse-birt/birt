@@ -160,7 +160,7 @@ public class ContentNodeState extends AbstractParseState
 
 			// handler name
 			if ( !StringUtil.isBlank( name ) )
-				handler.module.getNameManager( ).addContentName(
+				handler.module.getNameHelper( ).addContentName(
 						elementDefn.getNameSpaceID( ), name );
 			// handler id
 			if ( !StringUtil.isBlank( idString ) )

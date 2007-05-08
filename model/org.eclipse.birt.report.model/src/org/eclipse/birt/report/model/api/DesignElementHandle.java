@@ -964,16 +964,17 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Gets the name of this element. The returned element name will be the same
 	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
-	 * elment is contained, if any. If the element is existed in the current
-	 * module,this method and <CODE>getName()</CODE> will return identical
-	 * results.
+	 * elment is contained, if the element name resides in the whole design tree
+	 * scope; otherwise we will append the name of the holder where the element
+	 * name resides. If the element is existed in the current module,this method
+	 * and <CODE>getName()</CODE> will return identical results.
 	 * 
 	 * @return the qualified name of thie element.
 	 */
 
 	public String getQualifiedName( )
 	{
-		String name = getName( );
+		String name = getElement( ).getFullName( );
 
 		if ( name == null )
 			return null;

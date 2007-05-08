@@ -107,7 +107,7 @@ public class StyleCommand extends AbstractElementCommand
 
 		String name = null;
 		if ( style != null )
-			name = style.getName( );
+			name = style.getFullName( );
 		setStyle( name );
 	}
 

@@ -18,8 +18,12 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.namespace.DimensionNameHelper;
+import org.eclipse.birt.report.model.core.namespace.INameContainer;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
+import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -33,8 +37,21 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 public abstract class Dimension extends ReferenceableElement
 		implements
-			IDimensionModel
+			IDimensionModel,
+			INameContainer
 {
+
+	/**
+	 * Level name space id.
+	 */
+	public static final int LEVEL_NAME_SPACE = 0;
+
+	/**
+	 * Name space count in the dimension.
+	 */
+	public static final int NAME_SPACE_COUNT = 1;
+
+	protected INameHelper nameHelper = null;
 
 	/**
 	 * Default constructor.
@@ -43,6 +60,7 @@ public abstract class Dimension extends ReferenceableElement
 
 	public Dimension( )
 	{
+		nameHelper = new DimensionNameHelper( this );
 	}
 
 	/**
@@ -55,6 +73,7 @@ public abstract class Dimension extends ReferenceableElement
 	public Dimension( String name )
 	{
 		super( name );
+		nameHelper = new DimensionNameHelper( this );
 	}
 
 	/*
@@ -129,7 +148,40 @@ public abstract class Dimension extends ReferenceableElement
 			throws CloneNotSupportedException
 	{
 		DesignElement element = (DesignElement) super.doClone( policy );
+		Dimension clonedDimension = (Dimension) element;
 
+		// initialize name helper
+		DimensionNameHelper nHelper = new DimensionNameHelper( clonedDimension );
+		clonedDimension.nameHelper = nHelper;
+
+		// add all level names to cached name space rather than the real name
+		// space in nameContext, the reason is: after clone the dimension, the
+		// dimension does not resides in any design tree, after get handle for
+		// it, user may add/remove level, so record all level name to make level
+		// name unique but not add it to real name space until the dimension is
+		// added to the design
+		List hierarchies = (List) clonedDimension.getLocalProperty( null,
+				IDimensionModel.HIERARCHIES_PROP );
+		if ( hierarchies != null )
+		{
+			for ( int i = 0; i < hierarchies.size( ); i++ )
+			{
+				Hierarchy hierarchy = (Hierarchy) hierarchies.get( i );
+				List levels = (List) hierarchy.getLocalProperty( null,
+						IHierarchyModel.LEVELS_PROP );
+				if ( levels != null )
+				{
+					for ( int j = 0; j < levels.size( ); j++ )
+					{
+						Level level = (Level) levels.get( j );
+						if ( level.getName( ) != null )
+							nHelper.addElement( level );
+					}
+				}
+			}
+		}
+
+		// adjust default hierarchy as the fixed hierarchy index
 		Module module = getRoot( );
 		DesignElement hierarchy = getDefaultHierarchy( module );
 		if ( hierarchy != null )
@@ -142,5 +194,35 @@ public abstract class Dimension extends ReferenceableElement
 					null, clonedHierarchy ) );
 		}
 		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper()
+	 */
+	public INameHelper getNameHelper( )
+	{
+		return this.nameHelper;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public void makeUniqueName( DesignElement element )
+	{
+		nameHelper.makeUniqueName( element );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#rename(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public void rename( DesignElement element )
+	{
+		nameHelper.rename( element );
 	}
 }

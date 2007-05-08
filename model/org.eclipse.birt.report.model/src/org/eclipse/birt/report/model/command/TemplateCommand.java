@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -169,10 +168,9 @@ public class TemplateCommand extends AbstractElementCommand
 				.getPropertyDefn( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 		if ( prop == null )
 			return null;
-		ElementDefn targetDefn = (ElementDefn) prop.getTargetElementType( );
 
-		DesignElement resolvedElement = module.resolveElement( name, targetDefn
-				.getNameSpaceID( ), prop );
+		DesignElement resolvedElement = module
+				.resolveElement( name, prop, null );
 		return (TemplateParameterDefinition) resolvedElement;
 	}
 
@@ -497,7 +495,7 @@ public class TemplateCommand extends AbstractElementCommand
 			propertyCmd = new PropertyCommand( module, template );
 			propertyCmd.setProperty(
 					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-					templateParam.getName( ) );
+					templateParam.getFullName( ) );
 		}
 		catch ( ContentException e )
 		{
@@ -552,7 +550,7 @@ public class TemplateCommand extends AbstractElementCommand
 		{
 			PropertyCommand pcmd = new PropertyCommand( module, reportItem );
 			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-					templateparam.getName( ) );
+					templateparam.getFullName( ) );
 
 			ContentCommand cmd = new ContentCommand( module, focus );
 			cmd.transformTemplate( templateItem, reportItem, false );
@@ -599,7 +597,7 @@ public class TemplateCommand extends AbstractElementCommand
 		{
 			PropertyCommand pcmd = new PropertyCommand( module, dataSet );
 			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-					templateparam.getName( ) );
+					templateparam.getFullName( ) );
 
 			ContentCommand cmd = new ContentCommand( module, focus );
 			cmd.transformTemplate( templateDataSet, dataSet, false );
@@ -666,7 +664,7 @@ public class TemplateCommand extends AbstractElementCommand
 			PropertyCommand propertyCmd = new PropertyCommand( module, template );
 			propertyCmd.setProperty(
 					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-					templateParam.getName( ) );
+					templateParam.getFullName( ) );
 		}
 		catch ( SemanticException e )
 		{

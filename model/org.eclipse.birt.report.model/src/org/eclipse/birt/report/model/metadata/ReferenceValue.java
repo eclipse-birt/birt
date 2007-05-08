@@ -78,19 +78,16 @@ public abstract class ReferenceValue
 		libraryNamespace = namespace;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * Gets the name of the reference value.
+	 * @return
 	 */
 	abstract public String getName( );
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see java.lang.Object#toString()
+	 * @param value
 	 */
-
 	abstract public void resolve( Object value );
 
 	/**
@@ -187,10 +184,10 @@ public abstract class ReferenceValue
 		this.libraryNamespace = libraryNamespace;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
+	/**
+	 * 
+	 * @return
 	 */
-	
 	abstract public Object copy( );
 	
 	

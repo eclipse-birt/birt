@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -792,9 +793,10 @@ public class ModelUtil
 				&& ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
 						.equals( name );
 
-		NameSpace ns = library.getNameSpace( Module.THEME_NAME_SPACE );
-		assert library.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.canContain( name );
+		NameSpace ns = library.getNameHelper( ).getNameSpace(
+				Module.THEME_NAME_SPACE );
+		assert library.getNameHelper( ).canContain( Module.THEME_NAME_SPACE,
+				name );
 
 		ns.insert( theme );
 
@@ -1389,15 +1391,15 @@ public class ModelUtil
 	public static void addElement2NameSpace( Module module,
 			DesignElement element )
 	{
-		if ( module == null || element == null || element.getRoot( ) != module )
+		if ( module == null || element == null
+				|| !element.isManagedByNameSpace( ) )
 			return;
 
 		module.makeUniqueName( element );
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( element.getName( ) != null
-				&& ns != MetaDataConstants.NO_NAME_SPACE
-				&& element.getContainerInfo( ).isManagedByNameSpace( ) )
-			module.getNameSpace( ns ).insert( element );
+				&& ns != MetaDataConstants.NO_NAME_SPACE )
+			new NameExecutor( element ).getNameSpace( module ).insert( element );
 
 	}
 

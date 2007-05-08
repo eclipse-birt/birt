@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Exception thrown when a property name is invalid.
- *  
+ * 
  */
 
 public class PropertyNameException extends SemanticException
@@ -28,7 +28,7 @@ public class PropertyNameException extends SemanticException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 8269697054523876373L;
 
 	/**
@@ -122,7 +122,7 @@ public class PropertyNameException extends SemanticException
 		String errorCode = getErrorCode( );
 		if ( errorCode == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID )
 		{
-			String elementName = element == null ? "" : element.getName( ); //$NON-NLS-1$
+			String elementName = element == null ? "" : element.getFullName( ); //$NON-NLS-1$
 			return ModelMessages.getMessage(
 					DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[]{name,
 							elementName} );

@@ -196,7 +196,7 @@ public class ReferenceValueUtil
 		if ( root != null && root instanceof Library )
 			nameSpace = ( (Library) root ).getNamespace( );
 
-		String name = element.getName( );
+		String name = element.getFullName( );
 
 		if ( root != module )
 			name = nameSpace + ReferenceValue.NAMESPACE_DELIMITER + name;
@@ -257,10 +257,9 @@ public class ReferenceValueUtil
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		PropertyDefn propDefn = (PropertyDefn) metaData
 				.getProperty( IDesignElementModel.EXTENDS_PROP );
-		int ns = metaData.getNameSpaceID( );
 		DesignElement resolvedParent = module
 				.resolveElement( ReferenceValueUtil.needTheNamespacePrefix(
-						extendsRef, module ), ns, propDefn );
+						extendsRef, module ), propDefn, metaData );
 
 		try
 		{

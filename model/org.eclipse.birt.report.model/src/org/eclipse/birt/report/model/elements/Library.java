@@ -132,6 +132,7 @@ public class Library extends Module implements ILibraryModel
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Module#getNamespace()
 	 */
 	public String getNamespace( )
@@ -246,7 +247,8 @@ public class Library extends Module implements ILibraryModel
 
 	public Theme findNativeTheme( String name )
 	{
-		return (Theme) nameSpaces[THEME_NAME_SPACE].getElement( name );
+		return (Theme) nameHelper.getNameSpace( THEME_NAME_SPACE ).getElement(
+				name );
 	}
 
 	/*

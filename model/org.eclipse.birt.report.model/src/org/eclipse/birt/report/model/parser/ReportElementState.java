@@ -24,11 +24,13 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -38,7 +40,6 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ContentIterator;
@@ -150,8 +151,7 @@ public abstract class ReportElementState extends DesignParseState
 			assert propDefn.canContain( content );
 
 			// Can not change the structure of an element if it is a child
-			// element
-			// or it is within a child element.
+			// element or it is within a child element.
 
 			if ( container.getExtendsElement( ) != null )
 			{
@@ -244,15 +244,10 @@ public abstract class ReportElementState extends DesignParseState
 		if ( !checkContainer( container, slotID, content ) )
 			return false;
 
-		// The name should not be null if it is required. The parser state
-		// should have already caught this case.
-		addToNamespace( content );
-
 		Module module = handler.getModule( );
 
 		// Add the item to the element ID map, check whether the id is unique
 		// if the element has no ID, we will allocate it in the endDocument
-
 		long elementID = content.getID( );
 
 		if ( elementID > 0 )
@@ -286,6 +281,12 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			container.add( content, slotID );
 		}
+
+		// this action should be done after container relationship is set,
+		// otherwise we may not find the name holde, such as add level name to
+		// the container dimension;The name should not be null if it is
+		// required. The parser state should have already caught this case.
+		addToNamespace( content );
 		return true;
 	}
 
@@ -306,37 +307,63 @@ public abstract class ReportElementState extends DesignParseState
 		DesignElement element = getElement( );
 
 		String name = attrs.getValue( IDesignElementModel.NAME_PROP );
-		if ( StringUtil.isBlank( name ) )
-		{
-			if ( nameRequired )
-			{
-				// if version<3.2.8, add it to the list and allocate a name in
-				// end-document
 
-				// if the version < 3.2.12, add it to the list.
-
-				if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 )
-				{
-					handler.addUnnamedReportItem( element );
-				}
-				else
-					handler
-							.getErrorHandler( )
-							.semanticError(
-									new NameException(
-											element,
-											null,
-											NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
-			}
-		}
-		else if ( name.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 )
+		// name is not defined on this element
+		PropertyDefn propDefn = element
+				.getPropertyDefn( IDesignElementModel.NAME_PROP );
+		if ( propDefn == null )
 		{
-			handler.getErrorHandler( ).semanticError(
+			// if name is not defined, then fire a waring and do nothing
+			handler.getErrorHandler( ).semanticWarning(
 					new NameException( element, name,
-							NameException.DESIGN_EXCEPTION_DOT_FORBIDDEN ) );
+							NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN ) );
 		}
 		else
-			element.setName( name );
+		{
+			boolean isValidName = true;
+			try
+			{
+				name = (String) propDefn.validateValue( this.handler
+						.getModule( ), name );
+			}
+			catch ( PropertyValueException e )
+			{
+				handler.getErrorHandler( ).semanticError(
+						new NameException( element, name,
+								NameException.DESIGN_EXCEPTION_INVALID_NAME ) );
+				isValidName = false;
+			}
+			if ( isValidName )
+			{
+				if ( StringUtil.isBlank( name ) )
+				{
+					if ( nameRequired )
+					{
+						// if version<3.2.8, add it to the list and allocate a
+						// name
+						// in
+						// end-document
+
+						// if the version < 3.2.12, add it to the list.
+
+						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 )
+						{
+							handler.addUnnamedReportItem( element );
+						}
+						else
+							handler
+									.getErrorHandler( )
+									.semanticError(
+											new NameException(
+													element,
+													null,
+													NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+					}
+				}
+				else
+					element.setName( name );
+			}
+		}
 
 		String extendsName = attrs
 				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
@@ -455,14 +482,12 @@ public abstract class ReportElementState extends DesignParseState
 
 		// Resolve extends
 
-		int id = defn.getNameSpaceID( );
-		assert id != MetaDataConstants.NO_NAME_SPACE;
 		String extendsName = element.getExtendsName( );
 		if ( StringUtil.isBlank( extendsName ) )
 			return;
 
-		DesignElement parent = module.resolveElement( extendsName, id, element
-				.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ) );
+		DesignElement parent = module.resolveElement( extendsName, element
+				.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ), defn );
 
 		if ( parent == null )
 		{
@@ -526,9 +551,9 @@ public abstract class ReportElementState extends DesignParseState
 				&& new ContainerContext( container, slotID )
 						.isManagedByNameSpace( ) )
 		{
-			NameSpace ns = module.getNameSpace( id );
+			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
 
-			if ( module.getNameSpace( id ).contains( name ) )
+			if ( ns.contains( name ) )
 			{
 				handler.getErrorHandler( ).semanticError(
 						new NameException( content, name,

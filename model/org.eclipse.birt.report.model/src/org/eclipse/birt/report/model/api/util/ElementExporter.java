@@ -301,7 +301,7 @@ class ElementExporter
 			int nameSpaceID = ( (ElementDefn) elementToExport.getDefn( ) )
 					.getNameSpaceID( );
 			NameSpace nameSpace = targetLibraryHandle.getModule( )
-					.getNameSpace( nameSpaceID );
+					.getNameHelper( ).getNameSpace( nameSpaceID );
 
 			DesignElement duplicateElement = nameSpace
 					.getElement( elementToExport.getName( ) );
@@ -355,8 +355,8 @@ class ElementExporter
 
 		// find the default theme
 
-		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameSpace(
-				Module.THEME_NAME_SPACE );
+		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameHelper( )
+				.getNameSpace( Module.THEME_NAME_SPACE );
 
 		Theme theme = (Theme) nameSpace.getElement( defaultThemeName );
 		ThemeHandle themeHandle = null;

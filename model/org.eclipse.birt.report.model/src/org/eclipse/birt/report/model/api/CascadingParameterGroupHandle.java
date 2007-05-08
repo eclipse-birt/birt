@@ -79,13 +79,13 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 		else
 		{
 			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getName( );
+			String valueToSet = handle.getElement( ).getFullName( );
 			if ( moduleHandle instanceof LibraryHandle )
 			{
 				String namespace = ( (LibraryHandle) moduleHandle )
 						.getNamespace( );
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						handle.getName( ) );
+						valueToSet );
 			}
 
 			setStringProperty( DATA_SET_PROP, valueToSet );

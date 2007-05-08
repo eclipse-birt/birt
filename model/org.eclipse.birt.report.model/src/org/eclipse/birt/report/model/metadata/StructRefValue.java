@@ -121,13 +121,15 @@ public class StructRefValue extends ReferenceValue
 	{
 		assert structure instanceof Structure;
 		name = null;
-		resolved = (Structure) structure;
+		resolved = structure;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	
+
 	public Object copy( )
 	{
 		return new StructRefValue( getLibraryNamespace( ), getName( ) );

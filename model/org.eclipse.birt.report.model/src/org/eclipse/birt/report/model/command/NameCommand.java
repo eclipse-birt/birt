@@ -19,16 +19,19 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Renames a design element.
@@ -106,7 +109,6 @@ public class NameCommand extends AbstractElementCommand
 	public void checkName( String name ) throws NameException
 	{
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
-
 		if ( name == null )
 		{
 			// Cannot clear the name when there are references. It would leave
@@ -131,40 +133,47 @@ public class NameCommand extends AbstractElementCommand
 		}
 		else
 		{
+
+			PropertyDefn propDefn = (PropertyDefn) metaData
+					.getProperty( IDesignElementModel.NAME_PROP );
+
+			// no name is defined in this element
+			if ( propDefn == null )
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
+
+			try
+			{
+				name = (String) propDefn.validateValue( module, name );
+			}
+			catch ( PropertyValueException e )
+			{
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_INVALID_NAME );
+			}
 			if ( !isNameValidInContext( name ) )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
 
 			// Cannot set the name of an element when the name is not allowed.
 
-			if ( metaData.getProperty( IDesignElementModel.NAME_PROP ) == null
-					&& metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
+			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
-
-			if ( name.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 )
-			{
-				throw new NameException( element, name,
-						NameException.DESIGN_EXCEPTION_DOT_FORBIDDEN );
-			}
 
 			// if the element is a pending node and not in any module, or it is
 			// in a slot that is not managed by namespace, then we need not
 			// check whether the name is duplicate
-
 			if ( !element.isManagedByNameSpace( ) )
 			{
 				return;
 			}
 
-			int ns = metaData.getNameSpaceID( );
-
 			// first found the element with the given name. Since the library
 			// has it own namespace -- prefix, the range of name check should be
 			// in the current module.
-
-			DesignElement existedElement = getModule( ).getNameSpace( ns )
-					.getElement( name );
+			DesignElement existedElement = new NameExecutor( element )
+					.getNameSpace( module ).getElement( name );
 
 			// if the element is null, then the name is OK. Now, the name of the
 			// element is inserted into the namespace only if the element is in
@@ -221,20 +230,19 @@ public class NameCommand extends AbstractElementCommand
 
 		assert element.getRoot( ) != null;
 
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-
 		// if the element has been in the name space, that is, the element
 		// is added to another element through handels but the outermost
 		// compound element is not in the design tree, then do not insert
-		// the element
-		// to the name space agian.
-
-		DesignElement existedElement = getModule( ).getNameSpace( ns )
+		// the element to the name space agian.
+		NameExecutor nameExecutor = new NameExecutor( element );
+		INameHelper nameHelper = nameExecutor.getNameHelper( module );
+		assert nameHelper != null;
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		DesignElement existedElement = nameHelper.getNameSpace( ns )
 				.getElement( element.getName( ) );
-
 		assert existedElement == null;
 		getActivityStack( ).execute(
-				new NameSpaceRecord( getModule( ), ns, element, true ) );
+				new NameSpaceRecord( nameHelper, ns, element, true ) );
 	}
 
 	/**
@@ -244,13 +252,15 @@ public class NameCommand extends AbstractElementCommand
 
 	private void dropSymbol( )
 	{
-		if ( element.getName( ) == null )
+		if ( element.getName( ) == null || !element.isManagedByNameSpace( ) )
 			return;
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( module.getNameSpace( ns ).getElement( element.getName( ) ) != element )
+		NameExecutor executor = new NameExecutor( element );
+		if ( executor.getNameSpace( module ).getElement( element.getName( ) ) != element )
 			return;
 		getActivityStack( ).execute(
-				new NameSpaceRecord( getModule( ), ns, element, false ) );
+				new NameSpaceRecord( executor.getNameHelper( module ), ns,
+						element, false ) );
 	}
 
 	/**
@@ -269,7 +279,7 @@ public class NameCommand extends AbstractElementCommand
 		if ( element.isManagedByNameSpace( ) )
 		{
 			RenameInNameSpaceRecord record = new RenameInNameSpaceRecord(
-					getModule( ), element, oldName, element.getName( ) );
+					module, element, oldName, element.getName( ) );
 			getActivityStack( ).execute( record );
 		}
 	}
@@ -290,11 +300,11 @@ public class NameCommand extends AbstractElementCommand
 			DesignElement tmpContainer = element.getContainer( );
 			if ( tmpContainer instanceof Theme )
 			{
-				List errors = ThemeStyleNameValidator.getInstance( )
+				List errors = ThemeStyleNameValidator
+						.getInstance( )
 						.validateForRenamingStyle(
 								(ThemeHandle) tmpContainer.getHandle( module ),
-								(StyleHandle) element.getHandle( module ),
-								(String) name );
+								(StyleHandle) element.getHandle( module ), name );
 				if ( !errors.isEmpty( ) )
 					return false;
 			}

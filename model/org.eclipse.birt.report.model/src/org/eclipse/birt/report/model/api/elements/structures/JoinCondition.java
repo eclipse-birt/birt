@@ -441,7 +441,7 @@ public class JoinCondition extends Structure
 	private void checkDataSet( Module module, String dataSetName, List errors,
 			DesignElement element )
 	{
-		if ( dataSetName == null)
+		if ( dataSetName == null )
 		{
 			return;
 		}
@@ -464,7 +464,7 @@ public class JoinCondition extends Structure
 		errors
 				.add( new SemanticError(
 						element,
-						new String[]{element.getName( ), dataSetName},
+						new String[]{element.getFullName( ), dataSetName},
 						SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET ) );
 	}
 }

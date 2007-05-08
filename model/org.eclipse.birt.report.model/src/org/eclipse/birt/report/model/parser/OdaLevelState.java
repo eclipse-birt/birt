@@ -22,7 +22,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class OdaLevelState extends ReportElementState
+public class OdaLevelState extends LevelState
 {
 
 	/**
@@ -69,6 +69,6 @@ public class OdaLevelState extends ReportElementState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new OdaLevel( );
-		initElement( attrs, false );
+		initElement( attrs, true );
 	}
 }

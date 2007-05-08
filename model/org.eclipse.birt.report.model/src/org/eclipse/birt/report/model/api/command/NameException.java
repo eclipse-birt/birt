@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error when setting the name of an element.
- *  
+ * 
  */
 
 public class NameException extends SemanticException
@@ -36,7 +36,8 @@ public class NameException extends SemanticException
 	protected String name = null;
 
 	/**
-	 * Error code indicating the element miss its name, while the name is required.
+	 * Error code indicating the element miss its name, while the name is
+	 * required.
 	 */
 
 	public static final String DESIGN_EXCEPTION_NAME_REQUIRED = MessageConstants.NAME_EXCEPTION_NAME_REQUIRED;
@@ -48,22 +49,31 @@ public class NameException extends SemanticException
 	public static final String DESIGN_EXCEPTION_NAME_FORBIDDEN = MessageConstants.NAME_EXCEPTION_NAME_FORBIDDEN;
 
 	/**
-	 * Error code indicating the new name duplicates an existing name in the same name space.
+	 * Error code indicating the new name duplicates an existing name in the
+	 * same name space.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE = MessageConstants.NAME_EXCEPTION_DUPLICATE;
 
 	/**
-	 * Error code indicating the element has references, so it cannot be anonymous.
+	 * Error code indicating the element has references, so it cannot be
+	 * anonymous.
 	 */
 
 	public static final String DESIGN_EXCEPTION_HAS_REFERENCES = MessageConstants.NAME_EXCEPTION_HAS_REFERENCES;
 
 	/**
 	 * The character "." is forbidden to NamePropertyType.
+	 * 
+	 * @deprecated replaced by {@link #DESIGN_EXCEPTION_INVALID_NAME}
 	 */
 
-	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.NAME_EXCEPTION_DOT_FORBIDDEN;
+	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.NAME_EXCEPTION_INVALID_NAME;
+
+	/**
+	 * 
+	 */
+	public static final String DESIGN_EXCEPTION_INVALID_NAME = MessageConstants.NAME_EXCEPTION_INVALID_NAME;
 
 	/**
 	 * Constructor.
@@ -98,10 +108,11 @@ public class NameException extends SemanticException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	
+
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NAME_REQUIRED || sResourceKey == DESIGN_EXCEPTION_NAME_FORBIDDEN )
+		if ( sResourceKey == DESIGN_EXCEPTION_NAME_REQUIRED
+				|| sResourceKey == DESIGN_EXCEPTION_NAME_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{element
 					.getElementName( )} );
@@ -115,7 +126,7 @@ public class NameException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_DOT_FORBIDDEN )
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_NAME )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{name} );
 		}
