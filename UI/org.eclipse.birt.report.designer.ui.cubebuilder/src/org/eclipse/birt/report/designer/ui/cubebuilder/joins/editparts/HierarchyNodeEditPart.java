@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
@@ -127,8 +128,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 				UIHelper.getId( getModel( ), cube ),
 				BuilderConstancts.POSITION_X ) )
 		{
-			int displayWidth = Display.getCurrent( ).getBounds( ).width - 60;
-			int displayHeight = Display.getCurrent( ).getBounds( ).height - 20 - 150;
+			int displayWidth = JointDatasetsDialog.DIALOG_WIDTH;
+			int displayHeight = JointDatasetsDialog.DIALOG_HEIGHT;
 
 			List childList = new ArrayList( );
 			if ( getCube( ) != null )

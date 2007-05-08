@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
@@ -114,8 +115,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		{
 			int width = getWidth( );
 			int height = getHeight( );
-			int posX = Display.getCurrent( ).getBounds( ).width/2-20-width/2;
-			int posY = Display.getCurrent( ).getBounds( ).height/2-10-height/2-150;
+			int posX = JointDatasetsDialog.DIALOG_WIDTH/2-width/2;
+			int posY = JointDatasetsDialog.DIALOG_HEIGHT/2-height/2;
 			r = new Rectangle( setPosX(posX), setPosY(posY) , getWidth( ), getHeight( ) );
 		}
 		else r = new Rectangle( getPosX( ), getPosY( ), getWidth( ), getHeight( ) );
