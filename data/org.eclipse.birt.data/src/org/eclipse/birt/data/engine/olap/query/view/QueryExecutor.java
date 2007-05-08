@@ -66,8 +66,8 @@ public class QueryExecutor
 				manager.getCalculatedMembers( ) );
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
-
-		ICube cube = loadCube( executor );
+		IDocumentManager documentManager = getDocumentManager( executor );
+		ICube cube = loadCube( documentManager, executor );
 		CubeQueryValidator.validateCubeQueryDefinition( view,
 				cube,
 				manager.getCalculatedMembers( ) );
@@ -98,6 +98,8 @@ public class QueryExecutor
 			//In Interactive viewing mode, we always re-execute the query.
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
 		}
+		cube.close( );
+		documentManager.close( );
 		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
 	}
 
@@ -229,13 +231,11 @@ public class QueryExecutor
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private ICube loadCube( CubeQueryExecutor executor ) throws DataException,
+	private ICube loadCube( IDocumentManager documentManager, CubeQueryExecutor executor ) throws DataException,
 			IOException
 	{
 		ICube cube = null;
-		IDocumentManager documentManager;
-		documentManager = getDocumentManager( executor );
-
+		
 		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
 				.getName( ),
 				documentManager,
