@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.olap.cursor.DimensionCursor;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -55,6 +57,9 @@ public class JSDimensionObject extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
+		if ( !this.levels.containsKey( name ) )
+			return new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
+					name );
 		return this.levels.get( name );
 	}
 }

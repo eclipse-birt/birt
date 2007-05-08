@@ -19,6 +19,8 @@ import java.util.Map;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
@@ -114,6 +116,9 @@ public class JSLevelAccessor extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
+		if ( !this.dims.containsKey( name ) )
+			return new DataException( ResourceConstants.DIMENSION_NAME_NOT_FOUND,
+					name );
 		return this.dims.get( name );
 	}
 }
