@@ -256,6 +256,11 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 	public boolean hasNextChild( )
 	{
+		if ( children == null )
+		{
+			return false;
+		}
+
 		if ( currentChild < children.size( ) )
 		{
 			return true;
