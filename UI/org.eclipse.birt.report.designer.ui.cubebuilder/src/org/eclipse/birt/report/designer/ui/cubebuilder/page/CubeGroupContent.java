@@ -130,7 +130,8 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					dragSourceItems[0] = selection[0];
 				}
-				else event.doit = false;
+				else
+					event.doit = false;
 			}
 			else
 			{
@@ -502,7 +503,7 @@ public class CubeGroupContent extends Composite implements Listener
 										.equals( VirtualField.TYPE_MEASURE ) )
 								|| element instanceof MeasureHandle )
 						{
-							DataSetHandle primary = (  input ).getDataSet( );
+							DataSetHandle primary = ( input ).getDataSet( );
 							if ( primary == null || primary != dataset )
 							{
 								event.detail = DND.DROP_NONE;
@@ -936,7 +937,8 @@ public class CubeGroupContent extends Composite implements Listener
 		{
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			else if((input).getDataSet( )!=null)dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
+			else if ( ( input ).getDataSet( ) != null )
+				dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
 			groupViewer.setInput( input );
 			getListenerElementVisitor( ).addListener( input );
 			updateButtons( );
@@ -1130,9 +1132,14 @@ public class CubeGroupContent extends Composite implements Listener
 			propBtn.setEnabled( false );
 			editBtn.setEnabled( false );
 		}
-		
-		if(input.getDataSet( ) == null)joinBtn.setEnabled( false );
-		else joinBtn.setEnabled( true );
+		if ( input != null )
+		{
+			if ( input.getDataSet( ) == null )
+				joinBtn.setEnabled( false );
+			else
+				joinBtn.setEnabled( true );
+		}
+
 	}
 
 	private void handleDelEvent( )
@@ -1259,7 +1266,7 @@ public class CubeGroupContent extends Composite implements Listener
 						else
 							measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
 						MeasureDialog dialog = new MeasureDialog( true );
-						dialog.setInput(  input, null );
+						dialog.setInput( input, null );
 						if ( dialog.open( ) == Window.OK )
 						{
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
@@ -1271,7 +1278,7 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						MeasureGroupHandle measureGroup = (MeasureGroupHandle) ( (MeasureHandle) obj ).getContainer( );
 						MeasureDialog dialog = new MeasureDialog( true );
-						dialog.setInput(  input, null );
+						dialog.setInput( input, null );
 						if ( dialog.open( ) == Window.OK )
 						{
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
@@ -1347,7 +1354,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 			ResultSetColumnHandle dataField = (ResultSetColumnHandle) temp;
 			DataSetHandle dataset = (DataSetHandle) dataField.getElementHandle( );
-			DataSetHandle primary = (  input ).getDataSet( );
+			DataSetHandle primary = ( input ).getDataSet( );
 
 			TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 			Iterator iter = slections.iterator( );
