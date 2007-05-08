@@ -17,7 +17,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 
-public class TemplateExecutor extends TextItemExecutor
+public class TemplateExecutor extends ReportItemExecutor
 {
 
 	/**
