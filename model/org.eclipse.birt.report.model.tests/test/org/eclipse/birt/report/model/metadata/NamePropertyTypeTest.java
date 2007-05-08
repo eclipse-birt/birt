@@ -73,7 +73,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 		catch ( PropertyValueException e )
 		{
 			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_DOT_FORBIDDEN, e
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
 							.getErrorCode( ) );
 		}
 		// try

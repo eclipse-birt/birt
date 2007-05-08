@@ -145,13 +145,9 @@ public class ClassDefnTest extends AbstractMetaTest
 
 	/**
 	 * Test the meta-data parser for class definition.
-	 * 
-	 * @throws MetaDataParserException
-	 *             if any exception.
 	 */
 
 	public void testMethodsWithDifferentArgumentLists( )
-			throws MetaDataParserException
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 

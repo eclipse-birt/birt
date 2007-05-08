@@ -48,8 +48,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.ODA_DATA_SOURCE );
 
-		design.getNameSpace( elemDefn.getNameSpaceID( ) ).insert( ds1 );
-		design.getNameSpace( elemDefn.getNameSpaceID( ) ).insert( label1 );
+		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) ).insert( ds1 );
+		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) ).insert( label1 );
 	}
 
 	/*

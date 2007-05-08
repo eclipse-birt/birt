@@ -665,7 +665,7 @@ public class DesignElementHandleTest extends BaseTestCase
 		designHandle.getBody( ).add( section1 );
 
 		assertEquals( section1, slot.get( 0 ) );
-		NameSpace ns = design.getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
 		assertEquals( 0, ns.getCount( ) );
 		assertEquals( design, section1.getContainer( ) );
 

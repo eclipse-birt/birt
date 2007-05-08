@@ -54,6 +54,7 @@ public class ElementDefnTest extends AbstractMetaTest
 	{
 		MetadataTestUtil.setAllowsUserProperties( def, true );
 		MetadataTestUtil.setCanExtends( def, true );
+		assertEquals( true, def.canExtend( ) );
 		MetadataTestUtil.setDisplayNameKey( def, "Element.ReportDesign" ); //$NON-NLS-1$
 		MetadataTestUtil.setExtends( def, "ReportElement" ); //$NON-NLS-1$
 		MetadataTestUtil.setHasStyle( def, true );
@@ -62,8 +63,7 @@ public class ElementDefnTest extends AbstractMetaTest
 		MetadataTestUtil.setNameSpaceID( def, 4 );
 
 		assertEquals( false, def.isAbstract( ) );
-		assertEquals( true, def.allowsUserProperties( ) );
-		assertEquals( true, def.canExtend( ) );
+		assertEquals( true, def.allowsUserProperties( ) );		
 		assertEquals( "Report Design", def.getDisplayName( ) ); //$NON-NLS-1$
 		assertEquals( "Element.ReportDesign", def.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "ReportElement", def.getExtends( ) ); //$NON-NLS-1$

@@ -554,8 +554,8 @@ public class DesignElementCloneTest extends BaseTestCase
 		assert module != null;
 		assert clonedModule != null;
 
-		NameSpace ns = module.getNameSpace( id );
-		NameSpace clonedNs = clonedModule.getNameSpace( id );
+		NameSpace ns = module.getNameHelper( ).getNameSpace( id );
+		NameSpace clonedNs = clonedModule.getNameHelper( ).getNameSpace( id );
 		assertNotSame( ns, clonedNs );
 
 		assertNotNull( ns.getElement( name ) );

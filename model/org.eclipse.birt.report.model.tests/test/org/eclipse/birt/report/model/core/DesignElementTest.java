@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.core.namespace.AbstractNameHelper;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ListGroup;
@@ -1242,11 +1243,11 @@ public class DesignElementTest extends BaseTestCase
 
 		// get background color from the parent
 
-		TableHandle parentTable = (TableHandle) designHandle
-				.getElementFactory( ).newTableItem( "parent" ); //$NON-NLS-1$
+		TableHandle parentTable = designHandle.getElementFactory( )
+				.newTableItem( "parent" ); //$NON-NLS-1$
 		designHandle.getComponents( ).add( parentTable );
 		parentTable.setProperty( IStyleModel.BACKGROUND_COLOR_PROP, "red" ); //$NON-NLS-1$
-		TableHandle childTable = (TableHandle) designHandle.getElementFactory( )
+		TableHandle childTable = designHandle.getElementFactory( )
 				.newTableItem( "child" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( childTable );
 		assertNull( childTable.getProperty( IStyleModel.BACKGROUND_COLOR_PROP ) );
@@ -3710,17 +3711,17 @@ public class DesignElementTest extends BaseTestCase
 		ScalarParameterHandle param = designHandle.getElementFactory( )
 				.newScalarParameter( null );
 		assertNotNull( param.getName( ) );
-		assertEquals( param.getElement( ), CoreTestUtil.getNameSpace(
-				( (NameManager) design.getNameManager( ) ),
+		assertEquals( param.getElement( ), ( (AbstractNameHelper) design
+				.getNameHelper( ) ).getCachedNameSpace(
 				Module.PARAMETER_NAME_SPACE ).getElement( param.getName( ) ) );
 
 		// add the parameter into the design and find that
 		// the cached name in the name manger is cleared.
 
 		designHandle.getParameters( ).add( param );
-		assertNull( CoreTestUtil.getNameSpace(
-				( (NameManager) design.getNameManager( ) ),
-				Module.PARAMETER_NAME_SPACE ).getElement( param.getName( ) ) );
+		assertNull( ( (AbstractNameHelper) design.getNameHelper( ) )
+				.getCachedNameSpace( Module.PARAMETER_NAME_SPACE ).getElement(
+						param.getName( ) ) );
 	}
 
 	/**
