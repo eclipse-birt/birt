@@ -140,6 +140,10 @@ data.engine.GetLoadStreamError=Beim Versuch, den Ladedatenstrom abzurufen, ist e
 data.engine.NullExpr=Ausdruck für Wertabfrage bei der Darstellung darf nicht Null sein.
 data.engine.InValidExpr=Unzulässiger Ausdruck für die Wertabfrage bei der Darstellung.
 data.engine.BadGroupExpr=Der Gruppenausdruck darf nicht leer sein. 
+data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
+data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+
+
 data.engine.ResultSetNotStart=Das Ergebnis wurde noch nicht gestartet.
 
 data.engine.invalidRowIndex=Ungültiger Zeilenindexwert: {0}
@@ -317,6 +321,7 @@ data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte beträgt null. 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
+data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Definition der Maßeinheit "{0}" in Quader nicht gefunden. Die Maßeinheit existiert nicht oder ist ungültig.
@@ -324,3 +329,4 @@ data.olap.CannotFindLevel=Ebenendefinition "{0}" kann nicht unter Hierarchie "{1
 data.olap.tryToAddIdenticalAggrGroup=Der Wert "{0}" ist bereits im Aggregat auf der Liste der Bindung "{1}" vorhanden;
 data.olap.NoEdgeDefinitionFound=Ausführung der Abfrage ist fehlgeschlagen, da weder Zeilen- noch Spaltenrand enthalten ist. Mindestens ein Rand muss definiert sein.
 data.olap.invalidSortDefinition=Die Sortierdefinition ist ungültig. 
+data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.

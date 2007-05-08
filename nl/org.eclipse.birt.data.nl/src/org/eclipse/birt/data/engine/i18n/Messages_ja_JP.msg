@@ -140,6 +140,10 @@ data.engine.GetLoadStreamError=“Ç‚İ‚İƒXƒgƒŠ[ƒ€‚ğæ“¾‚·‚éÛ‚ÉƒŒƒ|[ƒg•¶‘‚ÅƒGƒ
 data.engine.NullExpr=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚Ì’l‚ğæ“¾‚·‚é‚É‚ÍA®‚ğ null ‚É‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 data.engine.InValidExpr=®‚ª–³Œø‚È‚½‚ßAƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚Ì’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 data.engine.BadGroupExpr=ƒOƒ‹[ƒv®‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB 
+data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
+data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+
+
 data.engine.ResultSetNotStart=Œ‹‰ÊƒZƒbƒg‚Í‚Ü‚¾ŠJn‚µ‚Ä‚¢‚Ü‚¹‚ñB
 
 data.engine.invalidRowIndex=ƒƒE‚ÌƒCƒ“ƒfƒbƒNƒX’l‚ª–³Œø‚Å‚· : {0}
@@ -317,6 +321,7 @@ data.olap.FacttableNullMeasureValue=Œv‘ª—ñ‚Ì’l‚ª NULL ‚Å‚·B"{0}"
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Œv‘ª–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.levelNameNotFound=ƒŒƒxƒ‹–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+data.olap.measureNameNotFound=Œv‘ª–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.cursorPositionError=ƒJ[ƒ\ƒ‹‚Å‚Í–Ú“I‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.cursorSeekError=ƒJ[ƒ\ƒ‹‚Å‚ÍQÆ‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.CannotGetMeasureValue=ƒLƒ…[ƒu‚ÉŒv‘ª "{0}" ‚Ì’è‹`‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB‚±‚ÌŒv‘ª‚Í‘¶İ‚µ‚È‚¢‚©A–³Œø‚Å‚·B
@@ -324,3 +329,4 @@ data.olap.CannotFindLevel=ŸŒ³ "{2}" ‚ÌŠK‘w "{1}" ‚É "{0}" ƒŒƒxƒ‹‚Ì’è‹`‚ªŒ©‚Â‚©‚
 data.olap.tryToAddIdenticalAggrGroup=’l "{0}" ‚ÍA‚·‚Å‚ÉƒoƒCƒ“ƒh‚Ìˆê—— "{1}" ‚Ì‘Œv‚É‘¶İ‚µ‚Ü‚·B
 data.olap.NoEdgeDefinitionFound=s‚Æ—ñ‚Ì‚Ç‚¿‚ç‚ÌƒGƒbƒW‚à’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAƒNƒGƒŠ‚ğÀs‚Å‚«‚Ü‚¹‚ñB­‚È‚­‚Æ‚à‚¢‚¸‚ê‚©ˆê•û‚ÌƒGƒbƒW‚ğ’è‹`‚µ‚Ä‚­‚¾‚³‚¢B
 data.olap.invalidSortDefinition=ƒ\[ƒg‚Ì’è‹`‚ª–³Œø‚Å‚·B 
+data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.

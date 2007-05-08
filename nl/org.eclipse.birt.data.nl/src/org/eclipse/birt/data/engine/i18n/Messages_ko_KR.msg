@@ -140,6 +140,10 @@ data.engine.GetLoadStreamError=로드 스트림을 가져오는 중 보고서 문서 오류가 발생
 data.engine.NullExpr=프리젠테이션에서 값을 검색할 수 있도록 식은 널(null) 값이 될 수 없습니다.
 data.engine.InValidExpr=프리젠테이션에서 값을 검색할 식이 잘못되었습니다.
 data.engine.BadGroupExpr=그룹 식을 입력해야 합니다. 
+data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
+data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+
+
 data.engine.ResultSetNotStart=결과 집합이 시작되지 않았습니다.
 
 data.engine.invalidRowIndex=잘못된 행 인덱스 값: {0}
@@ -317,6 +321,7 @@ data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}"
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=측정 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
+data.olap.measureNameNotFound=측정 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
@@ -324,3 +329,4 @@ data.olap.CannotFindLevel="{2}" 차원의 "{1}" 계층에 "{0}" 수준의 정의를 찾을 수 
 data.olap.tryToAddIdenticalAggrGroup=바인딩 "{1}" 목록에 대한 집계에 값 "{0}"이(가) 이미 있습니다.
 data.olap.NoEdgeDefinitionFound=행 가장자리나 열 가장자리를 포함하지 않기 때문에 쿼리 실행에 실패했습니다. 최소한 하나의 가장자리가 정의되어야 합니다.
 data.olap.invalidSortDefinition=정렬 정의가 잘못되었습니다. 
+data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.

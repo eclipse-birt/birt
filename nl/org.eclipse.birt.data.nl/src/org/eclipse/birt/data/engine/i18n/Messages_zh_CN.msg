@@ -140,6 +140,10 @@ data.engine.GetLoadStreamError=»ñÈ¡¼ÓÔØÁ÷Ê±³öÏÖ±¨±íÎÄµµ´íÎó¡£
 data.engine.NullExpr=Òª¼ìË÷Õ¹Ê¾ÖĞµÄÖµ£¬±í´ïÊ½²»ÄÜÎª¿Õ¡£
 data.engine.InValidExpr=±í´ïÊ½ÎŞĞ§£¬ÎŞ·¨¼ìË÷Õ¹Ê¾ÖĞµÄÖµ¡£
 data.engine.BadGroupExpr=×é±í´ïÊ½²»ÄÜÎª¿Õ¡£ 
+data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
+data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+
+
 data.engine.ResultSetNotStart=½á¹û¼¯ÉĞÎ´Æô¶¯¡£
 
 data.engine.invalidRowIndex=ÎŞĞ§µÄĞĞË÷ÒıÖµ: {0}
@@ -317,6 +321,7 @@ data.olap.FacttableNullMeasureValue=¶ÈÁ¿ÁĞµÄÖµÎª¿Õ¡£¡°{0}¡±
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=ÕÒ²»µ½¶ÈÁ¿Ãû³Æ¡°{0}¡±¡£
 data.olap.levelNameNotFound=ÕÒ²»µ½¼¶±ğÃû³Æ¡°{0}¡±¡£
+data.olap.measureNameNotFound=ÕÒ²»µ½¶ÈÁ¿Ãû³Æ¡°{0}¡±¡£
 data.olap.cursorPositionError=¹â±êÎŞ·¨¶¨Î»µ½Ä¿±êÎ»ÖÃ¡£
 data.olap.cursorSeekError=¹â±êÎŞ·¨¶¨Î»µ½²éÕÒÎ»ÖÃ¡£
 data.olap.CannotGetMeasureValue=ÎŞ·¨ÔÚ¶àÎ¬Êı¾İ¼¯ÖĞÕÒµ½¶ÈÁ¿¡°{0}¡±¶¨Òå£¬¸Ã¶ÈÁ¿²»´æÔÚ»òÎŞĞ§¡£
@@ -324,3 +329,4 @@ data.olap.CannotFindLevel=ÎŞ·¨ÔÚÎ¬¡°{2}¡±ÖĞµÄ²ã´Î½á¹¹¡°{1}¡±ÏÂÕÒµ½¡°{0}¡±¼¶±ğ¶¨Ò
 data.olap.tryToAddIdenticalAggrGroup=°ó¶¨ÁĞ±í¡°{1}¡±ÉÏµÄ¾ÛºÏÖĞÒÑ´æÔÚÖµ¡°{0}¡±£»
 data.olap.NoEdgeDefinitionFound=ÓÉÓÚ²éÑ¯¼ÈÎ´°üº¬ĞĞ±ßÔµ£¬Ò²Î´°üº¬ÁĞ±ßÔµ£¬²éÑ¯Ö´ĞĞÊ§°Ü¡£ÒªÇóÖÁÉÙ¶¨ÒåÒ»¸ö±ßÔµ¡£
 data.olap.invalidSortDefinition=ÅÅĞò¶¨ÒåÎŞĞ§¡£ 
+data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.

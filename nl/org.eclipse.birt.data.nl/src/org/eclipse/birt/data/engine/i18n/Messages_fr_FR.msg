@@ -140,6 +140,10 @@ data.engine.GetLoadStreamError=Une erreur d'état s'est produite lors de la récup
 data.engine.NullExpr=L'expression ne peut pas être nulle pour la récupération de la valeur dans la présentation.
 data.engine.InValidExpr=Expression non valide pour récupérer la valeur dans la présentation.
 data.engine.BadGroupExpr=L'expression de groupe doit être renseignée. 
+data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
+data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+
+
 data.engine.ResultSetNotStart=Le jeu de résultats n'a pas encore démarré.
 
 data.engine.invalidRowIndex=Valeur d''index de ligne incorrecte : {0}
@@ -317,6 +321,7 @@ data.olap.FacttableNullMeasureValue=Une des colonnes de mesures comporte une val
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
+data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
 data.olap.cursorSeekError=Impossible de placer le curseur en position de recherche.
 data.olap.CannotGetMeasureValue=Impossible de trouver la définition de mesure "{0}" dans le cube, la mesure n''existe pas ou est incorrecte.
@@ -324,3 +329,4 @@ data.olap.CannotFindLevel=Impossible de trouver la définition de niveau "{0}" so
 data.olap.tryToAddIdenticalAggrGroup=La valeur "{0}" existe déjà dans l''agrégat sur la liste de la liaison "{1}" ;
 data.olap.NoEdgeDefinitionFound=Echec de l'exécution de la requête car elle ne comporte aucun bord de ligne ni de colonne. Au moins un bord doit être défini.
 data.olap.invalidSortDefinition=La définition de tri est incorrecte. 
+data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.
