@@ -1003,7 +1003,7 @@ public class TableAreaLayout
 	{
 		int rowSpan = cell.getRowSpan();
 		IContent rowContent = (IContent)cell.getContent( ).getParent( );
-		if(row.getContent( )==rowContent)
+		if(row.getContent( )!=rowContent)
 		{
 			if(rowSpan>1)
 			{
