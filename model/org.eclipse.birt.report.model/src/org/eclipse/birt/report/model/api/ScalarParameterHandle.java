@@ -980,4 +980,109 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}
+	
+
+	/**
+	 * Sets the flag that indicates whether duplicate values should be shown
+	 * when preview.
+	 * 
+	 * @param distinct
+	 *            <code>true</code> if duplicate values only show once.
+	 *            Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDistinct( boolean distinct ) throws SemanticException
+	{
+		setProperty( DISTINCT_PROP, Boolean.valueOf( distinct ) );
+	}
+
+	/**
+	 * Checks whether duplicate values should be shown when preview.
+	 * 
+	 * @return <code>true</code> if duplicate values only show once. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean distinct( )
+	{
+		return getBooleanProperty( DISTINCT_PROP );
+	}
+
+	/**
+	 * Sets the sort order for parameter values when preview. The input argument
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
+	 * <li><code>null</code>
+	 * </ul>
+	 * 
+	 * @param direction
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setSortDirection( String direction ) throws SemanticException
+	{
+		setProperty( SORT_DIRECTION_PROP, direction );
+	}
+
+	/**
+	 * Gets the sort order for parameter values when preview. The return value
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
+	 * <li><code>null</code>
+	 * </ul>
+	 * 
+	 * @return the sort order for parameter values
+	 */
+
+	public String getSortDirection( )
+	{
+		return getStringProperty( SORT_DIRECTION_PROP );
+	}
+
+	/**
+	 * Sets the sort key for parameter values when preview. The input argument
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * </ul>
+	 * 
+	 * @param sortValue
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setSortBy( String sortValue ) throws SemanticException
+	{
+		setProperty( SORT_BY_PROP, sortValue );
+	}
+
+	/**
+	 * Gets the sort key for parameter values when preview. The return value can
+	 * be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * </ul>
+	 * 
+	 * @return the sort key for parameter values
+	 */
+
+	public String getSortBy( )
+	{
+		return getStringProperty( SORT_BY_PROP );
+	}
 }

@@ -738,4 +738,11 @@ public interface DesignChoiceConstants
 	public static final String REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT = "fixed layout"; //$NON-NLS-1$
 	public static final String REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT = "auto layout"; //$NON-NLS-1$
 
+	/**
+	 * Parameter sort values -- can be value or display text.
+	 */
+
+	public static final String CHOICE_PARAM_SORT_VALUES = "paramSortValues"; //$NON-NLS-1$
+	public static final String PARAM_SORT_VALUES_VALUE = "value"; //$NON-NLS-1$
+	public static final String PARAM_SORT_VALUES_LABEL = "label"; //$NON-NLS-1$
 };

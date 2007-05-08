@@ -262,7 +262,7 @@ class PropertyState extends AbstractPropertyState
 		else
 			jmpDefn = element.getPropertyDefn( name );
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_7 )
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_7 )
 		{
 			if ( element instanceof ListGroup && GROUP_START_PROP == nameValue )
 			{

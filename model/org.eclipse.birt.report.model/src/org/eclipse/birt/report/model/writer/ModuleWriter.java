@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1907,7 +1908,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ScalarParameter.MUCH_MATCH_PROP );
 		property( obj, ScalarParameter.FIXED_ORDER_PROP );
 		property( obj, ScalarParameter.DEFAULT_VALUE_PROP );
-
+		property( obj, IScalarParameterModel.DISTINCT_PROP );
+		property( obj, IScalarParameterModel.SORT_BY_PROP );
+		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
+		
 		writeStructure( obj, ScalarParameter.FORMAT_PROP );
 		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
 		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );

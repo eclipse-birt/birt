@@ -132,5 +132,27 @@ public interface IScalarParameterModel
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
 	
+	/**
+	 * Name of the distinct property. If it is true, Engine checks duplicate
+	 * values.
+	 * 
+	 */
+
+	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
+
+	/**
+	 * Name of the sortDirection property. Can be null, "asc" or "desc".
+	 * 
+	 */
+
+	public static final String SORT_DIRECTION_PROP = "sortDirection"; //$NON-NLS-1$
+
+	/**
+	 * Name of the sortKey property. It indicates the sort key is value or the
+	 * display text.
+	 * 
+	 */
+
+	public static final String SORT_BY_PROP = "sortBy"; //$NON-NLS-1$
 	
 }

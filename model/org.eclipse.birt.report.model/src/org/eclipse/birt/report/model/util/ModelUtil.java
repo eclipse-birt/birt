@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -1178,5 +1179,82 @@ public class ModelUtil
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Adds an element to the name space. If the module is null, or element is
+	 * null, or element is not in the tree of module, then do nothing.
+	 * 
+	 * @param module
+	 * @param element
+	 */
+
+	public static void addElement2NameSpace( Module module,
+			DesignElement element )
+	{
+		if ( module == null || element == null || element.getRoot( ) != module )
+			return;
+
+		module.makeUniqueName( element );
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( element.getName( ) != null
+				&& ns != MetaDataConstants.NO_NAME_SPACE
+				&& element.getContainer( ).isManagedByNameSpace(
+						element.getContainerSlot( ) ) )
+			module.getNameSpace( ns ).insert( element );
+
+	}
+	
+	/**
+	 * Duplicates the extension identifier. The extension identifier must be set
+	 * before copy other property values. If the identifier is not set first,
+	 * extension property definitions cannot be found. Hence, duplicating
+	 * property values cannot be right.
+	 * <p>
+	 * The extension identifier is:
+	 * <ul>
+	 * <li>EXTENSION_ID_PROP for Oda elements.
+	 * <li>EXTENSION_NAME_PROP for extension elements like chart.
+	 * </ul>
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param destination
+	 *            the destination element
+	 * @param sourceModule
+	 *            the root module of the source
+	 */
+
+	static void duplicateExtensionIdentifier( DesignElement source,
+			DesignElement destination, Module sourceModule )
+	{
+
+		// for the special oda cases, the extension id must be set before
+		// copy properties. Otherwise, destination cannot find its ODA
+		// properties.
+
+		if ( source instanceof IOdaExtendableElementModel )
+		{
+			String extensionId = (String) source.getProperty( sourceModule,
+					IOdaExtendableElementModel.EXTENSION_ID_PROP );
+
+			destination.setProperty(
+					IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionId );
+		}
+		else
+
+		if ( source instanceof IExtendedItemModel )
+		{
+			String extensionId = (String) source.getProperty( sourceModule,
+					IExtendedItemModel.EXTENSION_NAME_PROP );
+
+			destination.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
+					extensionId );
+		}
+		else
+		{
+			assert false;
+		}
+
 	}
 }
