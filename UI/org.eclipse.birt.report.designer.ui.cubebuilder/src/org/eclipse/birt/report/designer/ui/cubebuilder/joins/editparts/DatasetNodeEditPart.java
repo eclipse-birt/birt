@@ -36,7 +36,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.tools.DragEditPartsTracker;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Edit Part corresponding to a Table object.
