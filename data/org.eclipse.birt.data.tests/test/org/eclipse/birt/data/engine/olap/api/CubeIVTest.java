@@ -1379,6 +1379,7 @@ public class CubeIVTest extends BaseTestCase
 		cubeMaterializer.saveCubeToReportDocument( "cube",
 				writter,
 				null );
+		cubeMaterializer.close( );
 	}
 	
 	private String[] distinct( String[] values )

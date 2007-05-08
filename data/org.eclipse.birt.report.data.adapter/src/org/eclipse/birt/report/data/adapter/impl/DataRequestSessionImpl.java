@@ -465,6 +465,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				cubeMaterializer = createCubeMaterializer( cubeHandle );
 				createCube( (TabularCubeHandle)cubeHandle, cubeMaterializer );
+				cubeMaterializer.close( );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
@@ -473,6 +474,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
+				cubeMaterializer.close( );
 			}
 		} 
 		catch ( Exception e )
