@@ -784,6 +784,7 @@ public final class Engine3D implements IConstants
 		Matrix transMatrix = getTransformMatrix( );
 
 		List rtList = new ArrayList( );
+		List labels = new ArrayList( );
 
 		WrappedInstruction wi;
 
@@ -807,17 +808,24 @@ public final class Engine3D implements IConstants
 			{
 				if ( wi != null )
 				{
-					rtList.add( wi );
+					if ( obj instanceof Text3DRenderEvent )
+						labels.add(  wi );
+					else
+						rtList.add( wi );
 				}
 				else
 				{
-					rtList.add( obj );
+					if ( obj instanceof Text3DRenderEvent )
+						labels.add( obj );
+					else
+						rtList.add( obj );
 				}
 			}
 		}
 
 		zsort( rtList );
 		overlapSwap( rtList );
+		rtList.addAll( labels );
 		return rtList;
 	}
 
