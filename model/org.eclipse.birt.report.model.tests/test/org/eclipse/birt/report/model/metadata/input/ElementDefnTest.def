@@ -12,6 +12,6 @@
       <Argument name="arg3" />
     </Method>
 </Element>
-<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true" xmlName="style"/>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="(ReportDesign,style)" isNameRequired="true" xmlName="style"/>
 </ReportMetaData>
 

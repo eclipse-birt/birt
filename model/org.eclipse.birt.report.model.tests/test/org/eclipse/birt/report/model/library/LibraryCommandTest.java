@@ -204,7 +204,7 @@ public class LibraryCommandTest extends BaseTestCase
 		// first, there are a table and grid that define inheritance, table is
 		// resolved and grid is not and table has four children have names
 
-		NameSpace ns = design.getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
 		List elements = ns.getElements( );
 		TableItem designTable = (TableItem) ns.getElement( "designTable" ); //$NON-NLS-1$
 		GridItem designGrid = (GridItem) ns.getElement( "designGrid" ); //$NON-NLS-1$

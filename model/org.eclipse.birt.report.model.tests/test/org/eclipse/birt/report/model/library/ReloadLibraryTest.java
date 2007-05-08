@@ -93,7 +93,7 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		// tests in name sapces,
 
-		NameSpace ns = designHandle.getModule( ).getNameSpace(
+		NameSpace ns = designHandle.getModule( ).getNameHelper( ).getNameSpace(
 				ReportDesign.ELEMENT_NAME_SPACE );
 		assertEquals( 7, ns.getCount( ) );
 

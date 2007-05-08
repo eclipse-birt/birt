@@ -1546,7 +1546,7 @@ public class ContentCommandTest extends BaseTestCase
 		designHandle.rename( clonedCasHandle );
 		designHandle.getParameters( ).paste( clonedCasHandle );
 
-		NameSpace ns = design.getNameSpace( Module.PARAMETER_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace( Module.PARAMETER_NAME_SPACE );
 		assertEquals( "param11", clonedCasHandle.getParameters( ).get( 0 ) //$NON-NLS-1$
 				.getName( ) );
 		assertEquals( "param21", clonedCasHandle.getParameters( ).get( 1 ) //$NON-NLS-1$
@@ -1564,7 +1564,7 @@ public class ContentCommandTest extends BaseTestCase
 		designHandle.rename( clonedCasHandle );
 		designHandle.getParameters( ).paste( clonedCasHandle );
 
-		ns = design.getNameSpace( Module.PARAMETER_NAME_SPACE );
+		ns = design.getNameHelper( ).getNameSpace( Module.PARAMETER_NAME_SPACE );
 		assertEquals( "param12", clonedCasHandle.getParameters( ).get( 0 ) //$NON-NLS-1$
 				.getName( ) );
 		assertEquals( "param22", clonedCasHandle.getParameters( ).get( 1 ) //$NON-NLS-1$

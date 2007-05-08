@@ -366,7 +366,7 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		// level
 		hierarchy.add( TabularHierarchyHandle.LEVELS_PROP, factory
-				.newTabularLevel( null ) );
+				.newTabularLevel( dimension, null ) );
 		TabularLevelHandle level = (TabularLevelHandle) hierarchy.getContent(
 				TabularHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );

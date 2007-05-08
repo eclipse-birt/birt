@@ -34,7 +34,7 @@
   </ChoiceType>
 <Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report" xmlName="report"/>
 <Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none"/>
-<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true" xmlName="style">
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="(ReportDesign,style)" isNameRequired="true" xmlName="style">
     <PropertyGroup displayNameID="Element.Style.font">
       <Property name="fontSize" displayNameID="Element.Style.font.size" type="dimension" detailType="fontSize" isStyleProperty="true">
         <Allowed>in,cm</Allowed>

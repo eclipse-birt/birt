@@ -177,7 +177,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		assertNotNull( design );
 
 		element = new Label( "Happy" ); //$NON-NLS-1$
-		NameSpace ns = design.getNameSpace( ( (ElementDefn) element.getDefn( ) )
+		NameSpace ns = design.getNameHelper( ).getNameSpace( ( (ElementDefn) element.getDefn( ) )
 				.getNameSpaceID( ) );
 		ns.insert( element );
 
@@ -281,7 +281,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		DesignElement parent = new Style( );
 		parent.setName( "Parent Label" ); //$NON-NLS-1$
 
-		NameSpace ns = design.getNameSpace( ( (ElementDefn) element.getDefn( ) )
+		NameSpace ns = design.getNameHelper( ).getNameSpace( ( (ElementDefn) element.getDefn( ) )
 				.getNameSpaceID( ) );
 		ns.insert( parent );
 

@@ -139,7 +139,7 @@ public class ImageItemParseTest extends BaseTestCase
 
 	private ImageItem findImageItemByName( String name )
 	{
-		NameSpace ns = design.getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
 		assertTrue( ns.contains( name ) );
 
 		image = (ImageItem) ns.getElement( name );

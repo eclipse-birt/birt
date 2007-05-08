@@ -68,20 +68,7 @@ public class CoreTestUtil
 			return;
 		parent.addDerived( child );
 	}
-
-	/**
-	 * 
-	 * @param manager
-	 * @param id
-	 * @return the name space id in the manager
-	 */
-	public static NameSpace getNameSpace( NameManager manager, int id )
-	{
-		if ( manager == null )
-			return null;
-		return manager.getNameSpace( id );
-	}
-
+	
 	/**
 	 * Gets the session locale.
 	 * 

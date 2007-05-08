@@ -131,7 +131,7 @@ public class TemplateElementParserTest extends BaseTestCase
 		// get the template definition from the namespace
 
 		NameSpace ns = design
-				.getNameSpace( ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
+				.getNameHelper( ).getNameSpace( ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
 		assertEquals( templateLabelParam.getElement( ), ns
 				.getElement( "templateLabelParam" ) ); //$NON-NLS-1$
 		assertEquals( templateDataSetParam.getElement( ), ns
@@ -192,10 +192,10 @@ public class TemplateElementParserTest extends BaseTestCase
 		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) designHandle
 				.findElement( "templateLabel" ); //$NON-NLS-1$
 		assertNotNull( templateLabel );
-		assertEquals( templateDataSet.getElement( ), design.getNameSpace(
+		assertEquals( templateDataSet.getElement( ), design.getNameHelper( ).getNameSpace(
 				ReportDesign.DATA_SET_NAME_SPACE ).getElement(
 				"templateDataSet" ) ); //$NON-NLS-1$
-		assertEquals( templateLabel.getElement( ), design.getNameSpace(
+		assertEquals( templateLabel.getElement( ), design.getNameHelper( ).getNameSpace(
 				ReportDesign.ELEMENT_NAME_SPACE ).getElement( "templateLabel" ) );//$NON-NLS-1$
 
 		// test the property values of template label and template data set

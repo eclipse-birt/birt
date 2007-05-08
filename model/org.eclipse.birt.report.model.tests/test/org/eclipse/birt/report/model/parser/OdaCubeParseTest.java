@@ -145,20 +145,21 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( "display expression2", rule.getDisplayExpression( ) ); //$NON-NLS-1$
 		iter = level.attributesIterator( );
 
-		OdaLevelAttributeHandle attribute = (OdaLevelAttributeHandle) iter.next( );
+		OdaLevelAttributeHandle attribute = (OdaLevelAttributeHandle) iter
+				.next( );
 		assertEquals( "var1", attribute.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, attribute
 				.getDataType( ) );
 		assertEquals( "native var1", attribute.getNativeName( ) ); //$NON-NLS-1$
-		assertEquals( 10, attribute.getNativeDataType( ).intValue( ) ); 
-		
+		assertEquals( 10, attribute.getNativeDataType( ).intValue( ) );
+
 		attribute = (OdaLevelAttributeHandle) iter.next( );
 		assertEquals( "var2", attribute.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, attribute
 				.getDataType( ) );
 		assertEquals( "native var2", attribute.getNativeName( ) ); //$NON-NLS-1$
-		assertEquals( 2, attribute.getNativeDataType( ).intValue( ) ); 
-		
+		assertEquals( 2, attribute.getNativeDataType( ).intValue( ) );
+
 		// access controls on level.
 
 		iter1 = level.valueAccessControlsIterator( );
@@ -283,8 +284,8 @@ public class OdaCubeParseTest extends BaseTestCase
 		propHandle.add( accessControl );
 
 		// level
-		hierarchy.add( OdaHierarchyHandle.LEVELS_PROP, factory
-				.newOdaLevel( null ) );
+		hierarchy.add( OdaHierarchyHandle.LEVELS_PROP, factory.newOdaLevel(
+				dimension, null ) );
 		LevelHandle level = (LevelHandle) hierarchy.getContent(
 				OdaHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );
@@ -301,13 +302,13 @@ public class OdaCubeParseTest extends BaseTestCase
 		propHandle.insertItem( rule, 0 );
 		propHandle = level.getPropertyHandle( LevelHandle.ATTRIBUTES_PROP );
 		propHandle.removeItem( propHandle.get( 1 ) );
-		
+
 		OdaLevelAttribute attribute = new OdaLevelAttribute( );
 		attribute.setName( "var3" ); //$NON-NLS-1$
 		attribute.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
-		attribute.setNativeDataType( new Integer(100) );
+		attribute.setNativeDataType( new Integer( 100 ) );
 		attribute.setNativeName( "new native name 3" ); //$NON-NLS-1$
-		
+
 		propHandle.insertItem( attribute, 0 );
 
 		// access controls on hierarchy.

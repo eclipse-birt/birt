@@ -633,13 +633,13 @@ public class LibraryThemeTest extends BaseTestCase
 		libraryHandle.getThemes( ).add( theme );
 		Library library = (Library) libraryHandle.getModule( );
 
-		assertEquals( 2, library.getNameSpace( Module.THEME_NAME_SPACE )
+		assertEquals( 2, library.getNameHelper( ).getNameSpace( Module.THEME_NAME_SPACE )
 				.getCount( ) );
-		assertEquals( 0, library.getNameSpace( Module.STYLE_NAME_SPACE )
+		assertEquals( 0, library.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE )
 				.getCount( ) );
 
 		theme.getStyles( ).add( libFactory.newStyle( "style2" ) ); //$NON-NLS-1$
-		assertEquals( 0, library.getNameSpace( Module.STYLE_NAME_SPACE )
+		assertEquals( 0, library.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE )
 				.getCount( ) );
 	}
 

@@ -150,10 +150,10 @@ public class NameCommandTest extends BaseTestCase
 		assertEquals( "changeStyle", newStyle.getName( ) ); //$NON-NLS-1$
 
 		// check whether the old name has beed moved from name space
-		assertFalse( ( design.getNameSpace( Module.STYLE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
 				.contains( "newStyle" ) ); //$NON-NLS-1$
 		// check whether the new name has beed added into name space.
-		assertFalse( ( design.getNameSpace( Module.STYLE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
 				.contains( "changeStyle" ) ); //$NON-NLS-1$
 
 		// Test for Page name space
@@ -163,14 +163,14 @@ public class NameCommandTest extends BaseTestCase
 		// set name of MasterPage to page
 
 		masterPage.getHandle( design ).setName( "page" ); //$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.PAGE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
 				.contains( "page" ) ); //$NON-NLS-1$
 		// set name of MasterPage to newPage
 
 		masterPage.getHandle( design ).setName( "newPage" ); //$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.PAGE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
 				.contains( "page" ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.PAGE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
 				.contains( "newPage" ) ); //$NON-NLS-1$
 
 		// Test for element namespace
@@ -180,15 +180,15 @@ public class NameCommandTest extends BaseTestCase
 		// set name of label to label
 
 		label.getHandle( design ).setName( "label" );//$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.ELEMENT_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
 				.contains( "label" ) ); //$NON-NLS-1$
 
 		// set name of label to newLabel
 
 		label.getHandle( design ).setName( "newLabel" );//$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.ELEMENT_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
 				.contains( "label" ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.ELEMENT_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
 				.contains( "newLabel" ) ); //$NON-NLS-1$
 	}
 
@@ -224,7 +224,7 @@ public class NameCommandTest extends BaseTestCase
 		// set name of Style to testStyle
 
 		testStyle.setName( "testStyle" ); //$NON-NLS-1$
-		design.getNameSpace( Module.STYLE_NAME_SPACE ).insert( testStyle );
+		design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ).insert( testStyle );
 		try
 		{
 			// set duplicate name and throw out exception
@@ -314,13 +314,13 @@ public class NameCommandTest extends BaseTestCase
 		newStyle.getHandle( design ).setName( "newStyleName" ); //$NON-NLS-1$
 		//
 		// assertEquals( "newStyleName", newStyle.getName( ) );//$NON-NLS-1$
-		// assertFalse( design.getNameSpace( RootElement.STYLE_NAME_SPACE )
+		// assertFalse( design.getNameHelper( ).getNameSpace( RootElement.STYLE_NAME_SPACE )
 		// .contains( "newStyleName" ) ); //$NON-NLS-1$
 
 		// undo again and style name back to style
 		as.undo( );
 		assertEquals( "style", newStyle.getName( ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameSpace( Module.STYLE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
 				.contains( "style" ) ); //$NON-NLS-1$
 
 		// redo and style name back to newStyleName
@@ -328,7 +328,7 @@ public class NameCommandTest extends BaseTestCase
 		as.redo( );
 		assertEquals( "newStyleName", newStyle.getName( ) );//$NON-NLS-1$
 
-		assertFalse( ( design.getNameSpace( Module.STYLE_NAME_SPACE ) )
+		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
 				.contains( "newStyleName" ) ); //$NON-NLS-1$		
 	}
 

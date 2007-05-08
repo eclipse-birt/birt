@@ -175,25 +175,25 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "CompatibleOdaDataSetProperty_golden.xml" ) );//$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Test cachedRowCount property in SimpleDataSet
+	 * 
 	 * @throws Exception
 	 */
-	
-	public void testDataSetCachedRowCount() throws Exception
+
+	public void testDataSetCachedRowCount( ) throws Exception
 	{
 		openDesign( "CompatibleDataSetCachedRowCount.xml" );//$NON-NLS-1$
 
 		OdaDataSetHandle dataSetHandle = (OdaDataSetHandle) designHandle
 				.findDataSet( "Data Set" ); //$NON-NLS-1$
 		assertNotNull( dataSetHandle );
-		assertEquals( 500 , dataSetHandle.getCachedRowCount( ) );
+		assertEquals( 500, dataSetHandle.getCachedRowCount( ) );
 
 		save( );
 		assertTrue( compareFile( "CompatibleDataSetCachedRowCount_golden.xml" ) );//$NON-NLS-1$
 	}
-
 
 	/**
 	 * Old version: <property name="msgBaseName">message </property> New
@@ -639,7 +639,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatibleScalarParamAllowPropsTest.xml" ); //$NON-NLS-1$
 		save( );
 
-		compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" )); //$NON-NLS-1$
 	}
 
 	/**
@@ -655,7 +655,22 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 
-		compareFile( "CompatibleColumnBindingTest_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleColumnBindingTest_golden.xml" )); //$NON-NLS-1$
+	}
+
+	/**
+	 * Since version 3.2.13, all the level is unique within dimension scope not
+	 * general scope in the design.Test the parser for level reference and
+	 * computed column conversion.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCompatibileLevelName( ) throws Exception
+	{
+		openDesign( "CompatibleLevelName.xml" ); //$NON-NLS-1$
+		save( );
+		System.out.println(os );
+		assertTrue( compareFile("CompatibleLevelName_golden.xml")); //$NON-NLS-1$
 	}
 
 }

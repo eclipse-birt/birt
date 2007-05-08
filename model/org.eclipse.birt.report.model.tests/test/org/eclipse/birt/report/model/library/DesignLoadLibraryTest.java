@@ -1894,7 +1894,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		// change the name for the base element
 
 		assertEquals( "Lib.base", childLabel.getExtends( ).getQualifiedName( ) ); //$NON-NLS-1$		
-		NameSpace ns = ( (Module) includeLib.getElement( ) )
+		NameSpace ns = ( (Module) includeLib.getElement( ) ).getNameHelper( )
 				.getNameSpace( Module.ELEMENT_NAME_SPACE );
 		ns
 				.rename(

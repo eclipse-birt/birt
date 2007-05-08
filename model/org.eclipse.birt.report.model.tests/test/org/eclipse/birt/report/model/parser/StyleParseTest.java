@@ -404,7 +404,7 @@ public class StyleParseTest extends BaseTestCase
 				( (MapRule) mapRules.get( 2 ) ).getOperator( ) );
 		assertEquals( "Unknown", ( (MapRule) mapRules.get( 2 ) ).getDisplay( ) ); //$NON-NLS-1$
 
-		NameSpace ns = design.getNameSpace( Module.STYLE_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE );
 		assertEquals( 18, ns.getCount( ) );
 
 		// Predefined style is defined by user.
