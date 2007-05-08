@@ -538,6 +538,10 @@ Choices.viewAction.Deleted=削除済み
 Choices.reportLayoutPreference.fixedLayout=Fixed Layout
 Choices.reportLayoutPreference.autoLayout=Auto Layout
 
+#71. paramSortValues
+Choices.paramSortValues.value=Value
+Choices.paramSortValues.label=Display Text
+
 ###########################################################
 # Classes
 
@@ -2237,6 +2241,9 @@ Element.ScalarParameter.promptText=プロンプトテキスト
 Element.ScalarParameter.promptTextID=プロンプトテキストキー
 Element.ScalarParameter.listLimit=一覧の制限
 Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
+Element.ScalarParameter.distinct=Distinct
+Element.ScalarParameter.sortDirection=Sort direction
+Element.ScalarParameter.sortBy=Sort by
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開
