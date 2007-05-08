@@ -650,6 +650,7 @@ public class DataExtractionTaskV1 extends EngineTask
 					}
 					iid = iid.getParentID( );
 				}
+				return null;
 			}
 			iid = iid.getParentID( );
 		}
