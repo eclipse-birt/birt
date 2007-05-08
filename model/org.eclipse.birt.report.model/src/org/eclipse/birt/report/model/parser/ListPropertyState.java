@@ -22,9 +22,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -204,10 +203,11 @@ public class ListPropertyState extends AbstractPropertyState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		int tagValue = tagName.toLowerCase( ).toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new StructureState( handler, element, propDefn, list );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EX_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.EX_PROPERTY_TAG == tagValue )
 			return new ExtendedPropertyState( handler, element, propDefn, list );
 
 		return super.startElement( tagName );
@@ -248,7 +248,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber > VersionUtil.VERSION_3_0_0
 				&& handler.versionNumber <= VersionUtil.VERSION_3_2_1
-				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
+				&& ( BOUND_DATA_COLUMNS_PROP == nameValue )
 				&& ( element instanceof GroupElement ) )
 		{
 
@@ -262,6 +262,18 @@ public class ListPropertyState extends AbstractPropertyState
 		return super.jumpTo( );
 	}
 
+	private static final int USER_PROPERTIES_PROP = DesignElement.USER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int INCLUDE_SCRIPTS_PROP = Module.INCLUDE_SCRIPTS_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int LIBRARIES_PROP = Module.LIBRARIES_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int INCLUDE_LIBRARIES_PROP = "includeLibraries"
+			.toLowerCase( ).hashCode( );
+
+	private static final int BOUND_DATA_COLUMNS_PROP = IReportItemModel.BOUND_DATA_COLUMNS_PROP
+			.toLowerCase( ).hashCode( );
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -270,7 +282,8 @@ public class ListPropertyState extends AbstractPropertyState
 
 	protected AbstractParseState generalJumpTo( )
 	{
-		if ( DesignElement.USER_PROPERTIES_PROP.equalsIgnoreCase( name ) )
+
+		if ( USER_PROPERTIES_PROP == nameValue )
 		{
 			AbstractPropertyState state = new UserPropertyListState( handler,
 					element );
@@ -279,7 +292,7 @@ public class ListPropertyState extends AbstractPropertyState
 		}
 		if ( element instanceof Module )
 		{
-			if ( Module.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
+			if ( INCLUDE_SCRIPTS_PROP == nameValue )
 			{
 				SimpleStructureListState state = new SimpleStructureListState(
 						handler, element );
@@ -288,8 +301,8 @@ public class ListPropertyState extends AbstractPropertyState
 				return state;
 			}
 
-			if ( ( Module.LIBRARIES_PROP.equalsIgnoreCase( name ) )
-					|| ( "includeLibraries".equals( name ) ) ) //$NON-NLS-1$
+			if ( LIBRARIES_PROP == nameValue
+					|| INCLUDE_LIBRARIES_PROP == nameValue )
 			{
 				AbstractPropertyState state = new IncludedLibrariesStructureListState(
 						handler, element );
@@ -298,9 +311,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 
 		}
-		if ( ScalarParameter.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
-				|| "boundDataColumns" //$NON-NLS-1$
-				.equalsIgnoreCase( name ) )
+		if ( BOUND_DATA_COLUMNS_PROP == nameValue )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
@@ -310,6 +321,17 @@ public class ListPropertyState extends AbstractPropertyState
 
 		return super.generalJumpTo( );
 	}
+
+	private static final int PRIVATE_DRIVER_PROPERTIES_PROP = OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int PUBLIC_DRIVER_PROPERTIES_PROP = OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int RESULT_SET_PROP = "resultSet".toLowerCase( )
+			.hashCode( );
+	private static final int PARAMETERS_PROP = "parameters".toLowerCase( )
+			.hashCode( );
 
 	/*
 	 * (non-Javadoc)
@@ -321,10 +343,8 @@ public class ListPropertyState extends AbstractPropertyState
 	{
 		if ( element instanceof OdaDataSource )
 		{
-			if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
-					.equalsIgnoreCase( name )
-					|| OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
-							.equalsIgnoreCase( name ) )
+			if ( PRIVATE_DRIVER_PROPERTIES_PROP == nameValue
+					|| PUBLIC_DRIVER_PROPERTIES_PROP == nameValue )
 			{
 				if ( handler.isVersion( VersionUtil.VERSION_0 ) )
 				{
@@ -336,7 +356,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) ) )
+				&& BOUND_DATA_COLUMNS_PROP == nameValue )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
@@ -346,7 +366,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& element instanceof ScriptDataSet
-				&& "resultSet".equals( name ) ) //$NON-NLS-1$
+				&& RESULT_SET_PROP == nameValue )
 		{
 			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
 					handler, element, name );
@@ -359,7 +379,7 @@ public class ListPropertyState extends AbstractPropertyState
 		{
 			AbstractParseState state = null;
 
-			if ( "parameters".equals( name ) ) //$NON-NLS-1$
+			if ( PARAMETERS_PROP == nameValue )
 			{
 				state = new CompatibleDataSetParamListPropertyState( handler,
 						element );

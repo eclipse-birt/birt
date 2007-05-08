@@ -63,7 +63,9 @@ class ThemeState extends ReportElementState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+
+		if ( ParserSchemaConstants.STYLES_TAG == tagValue )
 			return new StylesState( );
 		return super.startElement( tagName );
 	}
@@ -94,7 +96,8 @@ class ThemeState extends ReportElementState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.STYLE_TAG == tagValue )
 				return new StyleState( handler, element, Theme.STYLES_SLOT );
 			return super.startElement( tagName );
 		}

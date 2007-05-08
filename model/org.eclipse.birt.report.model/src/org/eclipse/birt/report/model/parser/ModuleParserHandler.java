@@ -141,7 +141,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			String qName, Attributes atts ) throws SAXException
 	{
 		errorHandler.setCurrentElement( qName );
-		AbstractParseState newState = topState( ).startElement( qName );
+		AbstractParseState newState = topState.startElement( qName );
 		newState.parseAttrs( atts );
 		AbstractParseState jumpToState = newState.jumpTo( );
 		if ( jumpToState != null )

@@ -45,7 +45,8 @@ public class IncludedLibrariesStructureListState extends ListPropertyState
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new IncludedLibraryStructureState( handler, element,
 					propDefn, list );
 

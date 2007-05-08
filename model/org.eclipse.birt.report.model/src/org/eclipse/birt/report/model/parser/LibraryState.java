@@ -133,7 +133,8 @@ public class LibraryState extends ModuleState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEME_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.THEME_TAG == tagValue  )
 				return new ThemeState( handler, module, Library.THEMES_SLOT );
 			return super.startElement( tagName );
 		}

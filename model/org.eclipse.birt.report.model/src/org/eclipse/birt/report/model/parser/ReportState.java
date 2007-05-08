@@ -84,43 +84,41 @@ public class ReportState extends ModuleState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
 				return new TextItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+			if ( ParserSchemaConstants.GRID_TAG == tagValue  )
 				return new GridItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue  )
 				return new FreeFormState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
+			if ( ParserSchemaConstants.LIST_TAG == tagValue  )
 				return new ListItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
+			if ( ParserSchemaConstants.TABLE_TAG == tagValue  )
 				return new TableItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			if ( ParserSchemaConstants.LABEL_TAG == tagValue  )
 				return new LabelState( handler, module, ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+			if ( ParserSchemaConstants.IMAGE_TAG == tagValue  )
 				return new ImageState( handler, module, ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+			if ( ParserSchemaConstants.DATA_TAG == tagValue  )
 				return new DataItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
+			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue  )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
+			if ( ParserSchemaConstants.TOC_TAG == tagValue  )
 				return new AnyElementState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue  )
 				return new ExtendedItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
-					|| tagName
-							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue 
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue  )
 				return new TextDataItemState( handler, module,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue  )
 				return new TemplateReportItemState( handler, module, ReportDesign.BODY_SLOT );
 			return super.startElement( tagName );
 		}
@@ -141,7 +139,8 @@ public class ReportState extends ModuleState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.STYLE_TAG == tagValue  )
 				return new StyleState( handler );
 			return super.startElement( tagName );
 		}
@@ -162,8 +161,8 @@ public class ReportState extends ModuleState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG == tagValue )
 				return new TemplateParameterDefinitionState( handler, module, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			return super.startElement( tagName );
 		}

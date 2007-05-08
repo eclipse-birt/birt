@@ -107,26 +107,26 @@ public abstract class DesignParseState extends AbstractParseState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if (  ParserSchemaConstants.PROPERTY_TAG == tagValue )
 			return new PropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		if (  ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
 			return new ListPropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+		if (  ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new ExpressionState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
+		if (  ParserSchemaConstants.XML_PROPERTY_TAG == tagValue )
 			return new XmlPropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		if (  ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new StructureState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
+		if (  ParserSchemaConstants.METHOD_TAG == tagValue )
 			return new PropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+		if (  ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
+		if (  ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, getElement( ) );
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue )
 			return new EncryptedPropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
+		if (  ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue )
 			return new SimplePropertyListState( handler, getElement( ) );
 
 		return super.startElement( tagName );

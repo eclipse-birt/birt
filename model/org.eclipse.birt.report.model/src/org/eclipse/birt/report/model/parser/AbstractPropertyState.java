@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
-import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -90,10 +89,11 @@ public class AbstractPropertyState extends AbstractParseState
 	protected String name = null;
 
 	/**
-	 * The library which the element reference is using.
+	 * The hash code for the name member. Used for performance tuning. 
 	 */
-
-	// protected String library = null;
+	
+	protected int nameValue = -1;
+	
 	/**
 	 * The structure which holds this property as a member.
 	 */
@@ -144,6 +144,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
+		nameValue = name.toLowerCase( ).hashCode( );		
 		super.parseAttrs( attrs );
 	}
 
@@ -296,7 +297,7 @@ public class AbstractPropertyState extends AbstractParseState
 		try
 		{
 			assert valueToSet instanceof String || valueToSet == null;
-			Object propValue = propDefn.validateXml( handler.getModule( ),
+			Object propValue = propDefn.validateXml( handler.module,
 					(String) valueToSet );
 			element.setProperty( propDefn, propValue );
 		}

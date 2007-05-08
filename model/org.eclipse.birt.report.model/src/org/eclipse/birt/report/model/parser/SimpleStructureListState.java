@@ -58,7 +58,8 @@ public class SimpleStructureListState extends ListPropertyState
 
 		assert memberName != null;
 
-		if ( DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase( tagName ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 		{
 			AbstractPropertyState state = new SimpleStructureState( handler,
 					element, propDefn, list );
@@ -85,7 +86,7 @@ public class SimpleStructureListState extends ListPropertyState
 
 		public void end( ) throws SAXException
 		{
-			struct = createStructure( (StructureDefn)propDefn.getStructDefn( ) );
+			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
 			assert struct != null;
 
 			String value = text.toString( );

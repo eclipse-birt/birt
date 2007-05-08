@@ -91,13 +91,14 @@ public class ActionStructureState extends StructureState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new CompatibleActionExpressionState( handler, element,
 					propDefn, struct );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue  )
 			return new CompatibleActionPropertyState( handler, element,
 					propDefn, struct );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue  )
 			return new CompatibleActionListPropertyState( handler, element,
 					propDefn, struct );
 

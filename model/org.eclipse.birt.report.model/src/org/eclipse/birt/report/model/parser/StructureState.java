@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
-import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
@@ -42,6 +41,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
@@ -55,7 +55,6 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -183,7 +182,11 @@ public class StructureState extends AbstractPropertyState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		if ( name == null )
+		{
 			name = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
+			if ( !StringUtil.isBlank( name ) )
+				nameValue = name.toLowerCase( ).hashCode( );
+		}
 
 		if ( list == null )
 		{
@@ -230,30 +233,30 @@ public class StructureState extends AbstractPropertyState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 			return new PropertyState( handler, element, propDefn, struct );
 
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue )
 			return new EncryptedPropertyState( handler, element, propDefn,
 					struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new ExpressionState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.XML_PROPERTY_TAG == tagValue )
 			return new XmlPropertyState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
 			return new ListPropertyState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new StructureState( handler, element, propDefn, struct );
 
 		return super.startElement( tagName );

@@ -76,7 +76,8 @@ public class TableRowState extends ReportElementState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CELL_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.CELL_TAG == tagValue )
 			return new CellState( handler, element, TableRow.CONTENT_SLOT );
 		return super.startElement( tagName );
 	}

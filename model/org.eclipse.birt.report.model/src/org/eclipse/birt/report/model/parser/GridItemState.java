@@ -70,9 +70,11 @@ public class GridItemState extends ReportItemState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+
+		if ( ParserSchemaConstants.COLUMN_TAG == tagValue )
 			return new TableColumnState( handler, element, GridItem.COLUMN_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ROW_TAG ) )
+		if ( ParserSchemaConstants.ROW_TAG == tagValue )
 			return new TableRowState( handler, element, GridItem.ROW_SLOT );
 		return super.startElement( tagName );
 	}

@@ -57,9 +57,10 @@ public class ExtendedPropertyState extends StructureState
 	{
 		assert struct instanceof ExtendedProperty;
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.NAME_ATTRIB ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if (  ParserSchemaConstants.NAME_ATTRIB == tagValue )
 			return new TextState( handler, struct, ExtendedProperty.NAME_MEMBER );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.VALUE_TAG ) )
+		if (  ParserSchemaConstants.VALUE_TAG == tagValue )
 			return new TextState( handler, struct,
 					ExtendedProperty.VALUE_MEMBER );
 

@@ -70,6 +70,11 @@ class ExpressionState extends PropertyState
 		super.parseAttrs( attrs );
 	}
 
+	private static final int CONTENT_TYPE_EXPR = "contentTypeExpr"
+			.toLowerCase( ).hashCode( );
+	private static final int MAP_TEST_EXPR = "mapTestExpr".toLowerCase( )
+			.hashCode( );
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,19 +83,29 @@ class ExpressionState extends PropertyState
 
 	protected AbstractParseState generalJumpTo( )
 	{
+		int nameValue = name.toLowerCase( ).hashCode( );
 		if ( ( element instanceof TextDataItem )
-				&& "contentTypeExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+				&& CONTENT_TYPE_EXPR == nameValue )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "contentTypeExpr" ); //$NON-NLS-1$
 			state.setName( TextDataItem.CONTENT_TYPE_PROP );
 			return state;
 		}
-		if ( "mapTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		if ( MAP_TEST_EXPR == nameValue )
 			return new CompatibleTestExpreState( handler, element,
 					Style.MAP_RULES_PROP );
 		return super.generalJumpTo( );
 	}
+
+	private static final int HIGHLIGHT_TEST_EXPR = "highlightTestExpr"
+			.toLowerCase( ).hashCode( );
+	private static final int VALUE_EXPR = "valueExpr".toLowerCase( ).hashCode( );
+	private static final int IMAGE_NAME_PROP = ImageItem.IMAGE_NAME_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int EXPRESSION_MEMBER = ComputedColumn.EXPRESSION_MEMBER
+			.toLowerCase( ).hashCode( );
 
 	/*
 	 * (non-Javadoc)
@@ -100,15 +115,14 @@ class ExpressionState extends PropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
-		if ( "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		if ( HIGHLIGHT_TEST_EXPR == nameValue )
 		{
 			if ( handler.isVersion( VersionUtil.VERSION_0 )
 					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 				return new CompatibleTestExpreState( handler, element,
 						Style.HIGHLIGHT_RULES_PROP );
 		}
-		if ( element instanceof DataItem
-				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
+		if ( element instanceof DataItem && VALUE_EXPR == nameValue
 				&& struct == null
 				&& handler.versionNumber < VersionUtil.VERSION_3_1_0 )
 
@@ -118,12 +132,10 @@ class ExpressionState extends PropertyState
 			state.setName( IDataItemModel.RESULT_SET_COLUMN_PROP );
 			return state;
 		}
-		if ( propDefn == null )
-			propDefn = element.getPropertyDefn( name );
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
 				&& element instanceof ImageItem && struct == null
-				&& ImageItem.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
+				&& IMAGE_NAME_PROP == nameValue )
 		{
 			PropertyState state = new PropertyState( handler, element );
 			state.setName( name );
@@ -133,6 +145,9 @@ class ExpressionState extends PropertyState
 		if ( struct instanceof ParamBinding
 				&& handler.versionNumber < VersionUtil.VERSION_3_2_3 )
 		{
+			if ( propDefn == null )
+				propDefn = element.getPropertyDefn( name );
+
 			CompatibleParamBindingValueState state = new CompatibleParamBindingValueState(
 					handler, element, propDefn, struct );
 			state.setName( name );
@@ -141,9 +156,12 @@ class ExpressionState extends PropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_3 )
 		{
+			if ( propDefn == null )
+				propDefn = element.getPropertyDefn( name );
+
 			if ( struct instanceof ComputedColumn
 					&& element instanceof ReportItem
-					&& ComputedColumn.EXPRESSION_MEMBER.equals( name ) )
+					&& EXPRESSION_MEMBER == nameValue )
 			{
 				CompatibleBoundColumnExprState state = new CompatibleBoundColumnExprState(
 						handler, element, propDefn, struct );

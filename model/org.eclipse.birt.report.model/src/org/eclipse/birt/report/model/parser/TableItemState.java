@@ -70,16 +70,17 @@ public class TableItemState extends ListingItemState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.COLUMN_TAG == tagValue )
 			return new TableColumnState( handler, element,
 					TableItem.COLUMN_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
+		if ( ParserSchemaConstants.HEADER_TAG == tagValue )
 			return new TableBandState( element, TableItem.HEADER_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GROUP_TAG ) )
+		if ( ParserSchemaConstants.GROUP_TAG == tagValue )
 			return new TableGroupState( handler, element, TableItem.GROUP_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DETAIL_TAG ) )
+		if ( ParserSchemaConstants.DETAIL_TAG == tagValue )
 			return new TableBandState( element, TableItem.DETAIL_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
+		if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
 			return new TableBandState( element, TableItem.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
@@ -172,9 +173,10 @@ public class TableItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.HEADER_TAG == tagValue )
 				return new TableBandState( group, TableGroup.HEADER_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
+			if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
 				return new TableBandState( group, TableGroup.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
@@ -211,7 +213,8 @@ public class TableItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ROW_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.ROW_TAG == tagValue )
 				return new TableRowState( handler, table, rowSlotID );
 			return super.startElement( tagName );
 		}

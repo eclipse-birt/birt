@@ -68,14 +68,14 @@ public class UserPropertyStructureState extends StructureState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-			return new UserPropertyState( handler, element, propDefn, struct );
+		int tagValue = tagName.toLowerCase( ).hashCode( );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
+			return new UserPropertyState( handler, element, propDefn, struct );
+		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
 			return new ChoiceStructureListState( handler, element, propDefn,
 					struct );
-
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
 
 		return super.startElement( tagName );
@@ -144,7 +144,7 @@ public class UserPropertyStructureState extends StructureState
 		 * @param propDefn
 		 * @param struct
 		 */
-		
+
 		ChoiceStructureListState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
@@ -190,7 +190,8 @@ public class UserPropertyStructureState extends StructureState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 				return new ChoiceStructureState( list );
 
 			return super.startElement( tagName );
@@ -217,23 +218,25 @@ public class UserPropertyStructureState extends StructureState
 
 	class ChoiceStructureState extends InnerParseState
 	{
+
 		/**
 		 * Choice list.
 		 */
-		
+
 		ArrayList choices = null;
-		
+
 		/**
 		 * User choice to handle.
 		 */
-		
+
 		UserChoice choice = new UserChoice( null, null );
 
 		/**
 		 * Constructor.
+		 * 
 		 * @param theChoices
 		 */
-		
+
 		ChoiceStructureState( ArrayList theChoices )
 		{
 			this.choices = theChoices;
@@ -247,11 +250,11 @@ public class UserPropertyStructureState extends StructureState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 				return new ChoicePropertyState( choice );
 
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+			if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 				return new ChoiceTextPropertyState( choice );
 
 			return super.startElement( tagName );

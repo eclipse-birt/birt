@@ -91,7 +91,8 @@ public class OdaDataSourceState extends DataSourceState
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 		{
 			if ( handler.isVersion( VersionUtil.VERSION_0 )
 					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
@@ -118,12 +119,11 @@ public class OdaDataSourceState extends DataSourceState
 
 	protected AbstractParseState startDummyElement( String tagName )
 	{
-		if ( DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.XML_PROPERTY_TAG
-						.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.EXPRESSION_TAG
-						.equalsIgnoreCase( tagName ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue
+				|| ParserSchemaConstants.XML_PROPERTY_TAG == tagValue
+				|| ParserSchemaConstants.METHOD_TAG == tagValue
+				|| ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new DummyPropertyState( handler, getElement( ),
 					(OdaDummyProvider) provider );
 

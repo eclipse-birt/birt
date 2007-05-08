@@ -147,12 +147,11 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG
-					.equalsIgnoreCase( tagName ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue )
 				return new ScriptDataSourceState( handler );
-			if ( DesignSchemaConstants.ODA_DATA_SOURCE_TAG
-					.equalsIgnoreCase( tagName )
-					|| "extended-data-source".equalsIgnoreCase( tagName ) ) //$NON-NLS-1$
+			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue
+					|| ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
 			{
 				return new OdaDataSourceState( handler );
 			}
@@ -175,20 +174,17 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( DesignSchemaConstants.SCRIPT_DATA_SET_TAG
-					.equalsIgnoreCase( tagName ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue )
 				return new ScriptDataSetState( handler );
-			if ( DesignSchemaConstants.ODA_DATA_SET_TAG
-					.equalsIgnoreCase( tagName )
-					|| "extended-data-set".equalsIgnoreCase( tagName ) ) //$NON-NLS-1$
+			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue
+					|| ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
 			{
 				return new OdaDataSetState( handler );
 			}
-			if ( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG
-					.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.TEMPLATE_DATA_SET_TAG == tagValue )
 				return new TemplateDataSetState( handler );
-			if ( DesignSchemaConstants.JOINT_DATA_SET_TAG
-					.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.JOINT_DATA_SET_TAG == tagValue )
 				return new JointDataSetState( handler );
 			return super.startElement( tagName );
 		}
@@ -334,14 +330,12 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG
-					.equalsIgnoreCase( tagName ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.GRAPHIC_MASTER_PAGE_TAG == tagValue )
 				return new GraphicMasterPageState( handler );
-			if ( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG
-					.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.SIMPLE_MASTER_PAGE_TAG == tagValue )
 				return new SimpleMasterPageState( handler );
-			if ( DesignSchemaConstants.PAGE_SEQUENCE_TAG
-					.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.PAGE_SEQUENCE_TAG == tagValue )
 				return new AnyElementState( handler );
 			return super.startElement( tagName );
 		}
@@ -377,42 +371,40 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( DesignSchemaConstants.BROWSER_CONTROL_TAG
-					.equalsIgnoreCase( tagName ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+
+			if ( ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( DesignSchemaConstants.FREE_FORM_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue )
 				return new FreeFormState( handler, module, slotID );
-			if ( DesignSchemaConstants.DATA_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.DATA_TAG == tagValue )
 				return new DataItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.EXTENDED_ITEM_TAG
-					.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
 				return new ExtendedItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.GRID_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.GRID_TAG == tagValue )
 				return new GridItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.IMAGE_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
 				return new ImageState( handler, module, slotID );
-			if ( DesignSchemaConstants.INCLUDE_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( DesignSchemaConstants.LABEL_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
 				return new LabelState( handler, module, slotID );
-			if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
 				return new TextItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.LINE_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.LINE_TAG == tagValue )
 				return new LineItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.LIST_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.LIST_TAG == tagValue )
 				return new ListItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.RECTANGLE_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.RECTANGLE_TAG == tagValue )
 				return new RectangleState( handler, module, slotID );
-			if ( DesignSchemaConstants.TABLE_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.TABLE_TAG == tagValue )
 				return new TableItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
 				return new TextItemState( handler, module, slotID );
-			if ( DesignSchemaConstants.TOC_TAG.equalsIgnoreCase( tagName ) )
+			if ( ParserSchemaConstants.TOC_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
-					|| tagName
-							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
 				return new TextDataItemState( handler, module, slotID );
 			return super.startElement( tagName );
 		}

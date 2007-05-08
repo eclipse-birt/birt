@@ -63,7 +63,7 @@ public abstract class PropertyType implements IPropertyType
 
 	protected PropertyType( String displayNameID )
 	{
-		setDisplayNameKey( displayNameID );
+		displayNameKey = displayNameID;
 	}
 
 	/**
@@ -102,18 +102,6 @@ public abstract class PropertyType implements IPropertyType
 
 	protected void build( )
 	{
-	}
-
-	/**
-	 * Sets the display name resource key.
-	 * 
-	 * @param key
-	 *            message key to set
-	 */
-
-	void setDisplayNameKey( String key )
-	{
-		displayNameKey = key;
 	}
 
 	/**

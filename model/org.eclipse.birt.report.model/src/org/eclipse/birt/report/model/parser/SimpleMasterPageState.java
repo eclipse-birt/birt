@@ -57,9 +57,10 @@ public class SimpleMasterPageState extends MasterPageState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_HEADER_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PAGE_HEADER_TAG == tagValue )
 			return new PageState( SimpleMasterPage.PAGE_HEADER_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_FOOTER_TAG ) )
+		if ( ParserSchemaConstants.PAGE_FOOTER_TAG == tagValue  )
 			return new PageState( SimpleMasterPage.PAGE_FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
@@ -112,24 +113,24 @@ public class SimpleMasterPageState extends MasterPageState
 			// MasterPage slot can contain any report item is not variable size 
 			// or is bound to data, such as Data, Label, Text, Grid, Image.
 			
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue  )
 				return new TextItemState( handler, element, page );
-			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+			else if ( ParserSchemaConstants.GRID_TAG == tagValue  )
 				return new GridItemState( handler, element, page );
-			else if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			else if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue  )
 				return new FreeFormState( handler, element, page );
-			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			else if ( ParserSchemaConstants.LABEL_TAG == tagValue  )
 				return new LabelState( handler, element, page );
-			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+			else if ( ParserSchemaConstants.IMAGE_TAG == tagValue  )
 				return new ImageState( handler, element, page );
-			else if( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+			else if( ParserSchemaConstants.DATA_TAG == tagValue  )
 				return new DataItemState( handler, element, page );
-			else if( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+			else if( ParserSchemaConstants.TEXT_DATA_TAG == tagValue  )
 				return new TextDataItemState( handler, element, page );
-			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			else if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue  )
 				return new TemplateReportItemState( handler, element, page );
-			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.AUTO_TEXT_TAG ) )
+			else if ( ParserSchemaConstants.AUTO_TEXT_TAG == tagValue  )
 				return new AutoTextState( handler, element, page );
 			return super.startElement( tagName );
 		}

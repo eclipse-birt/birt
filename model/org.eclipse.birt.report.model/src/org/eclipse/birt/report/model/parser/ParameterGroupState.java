@@ -61,7 +61,8 @@ public class ParameterGroupState extends ReportElementState
     
     public AbstractParseState startElement( String tagName )
     {
-        if( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
+    	int tagValue = tagName.toLowerCase( ).hashCode( );
+        if(  ParserSchemaConstants.PARAMETERS_TAG == tagValue )
             return new ParametersState( handler, paramGroup,
                     ParameterGroup.PARAMETERS_SLOT );
 
