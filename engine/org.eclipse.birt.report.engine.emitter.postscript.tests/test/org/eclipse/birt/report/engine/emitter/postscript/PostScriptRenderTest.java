@@ -68,6 +68,10 @@ public class PostScriptRenderTest extends EngineCase
 		String resultFolder = "testresult/";
 		for ( int i = 0; i < designs.length; i++ )
 		{
+			if ( "uriImages".equals( designs[i] ) && !isOnWindows( ) )
+			{
+				continue;
+			}
 			options.setOutputFileName( resultFolder + designs[i] + ".ps" );
 			String design = thePackage + designs[i] + suffix;
 			IRunAndRenderTask runAndRenderTask = createRunAndRenderTask( design );
@@ -78,6 +82,10 @@ public class PostScriptRenderTest extends EngineCase
 		System.out.println( "please check result manually in folder : "
 				+ new File( resultFolder ).getAbsolutePath( ) );
 		tearDown( );
-		System.exit( 0 );
+	}
+
+	private boolean isOnWindows( )
+	{
+		return System.getProperty( "os.name" ).indexOf( "Windows" ) >= 0;
 	}
 }

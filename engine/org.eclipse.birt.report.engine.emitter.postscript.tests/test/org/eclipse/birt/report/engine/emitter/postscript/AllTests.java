@@ -30,7 +30,6 @@ public class AllTests
 		
 		/* in package: org.eclipse.birt.report.engine.emitter.pdf */
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.postscript.PostScriptRenderTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.postscript.PostScriptWriterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.postscript.util.BackgroundImageLayoutTest.class );
 		
 		//$JUnit-END$
