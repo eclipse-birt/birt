@@ -962,6 +962,24 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Returns the full name of this element. Generally, the full name is
+	 * identical with the name of the element. That is the returned value is
+	 * just what returned by {@link #getName()}.However, some elements have a
+	 * local name scope and its full name is not the name of the element itself.
+	 * For example, the name of the level is managed by its contaienr dimension
+	 * element. Therefore its full name is that name of the container dimension
+	 * appends character '/' and appends the name of the level itself, like
+	 * dimensionName/levelName. If the level has no container dimension, then
+	 * its full name is the same as the name.
+	 * 
+	 * @return the full name of the element
+	 */
+	public String getFullName( )
+	{
+		return getElement( ).getFullName( );
+	}
+
+	/**
 	 * Gets the name of this element. The returned element name will be the same
 	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
 	 * elment is contained, if the element name resides in the whole design tree

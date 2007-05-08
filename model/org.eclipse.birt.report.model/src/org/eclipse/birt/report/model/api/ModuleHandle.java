@@ -700,6 +700,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Finds a cube element by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            the element name
+	 * @return the cube element handle, if found, otherwise null
+	 */
+
+	public DesignElementHandle findLevel( String name )
+	{
+		DesignElement element = module.findLevel( name );
+		if ( element == null )
+			return null;
+		return element.getHandle( element.getRoot( ) );
+	}
+
+	/**
 	 * Finds the image with the given name.
 	 * 
 	 * @param name

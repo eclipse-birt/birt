@@ -469,6 +469,18 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
+	 * Finds a level element by name in this module and the included modules.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public DesignElement findLevel( String name )
+	{
+		return resolveElement( name, null, MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.LEVEL_ELEMENT ) );
+	}
+
+	/**
 	 * Returns the next element ID and increments the ID. Used to assign an ID
 	 * to new elements.
 	 * 
