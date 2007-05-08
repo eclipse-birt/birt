@@ -3365,7 +3365,7 @@ Error.NameException.NAME_REQUIRED=要求提供 {0} 的名称。
 Error.NameException.NAME_FORBIDDEN={0} 不允许具有名称。
 Error.NameException.DUPLICATE=名称 "{0}" 与现有名称重复。请选择一个不同的名称。
 Error.NameException.HAS_REFERENCES={0} 具有衍生元素，因此无法清除该名称。
-Error.NameException.DOT_FORBIDDEN=名称 "{0}" 无效，因为它包含字符 "."。
+Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=属性 "{0}" 对元素 "{1}" 无效。

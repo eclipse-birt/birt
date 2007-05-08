@@ -3365,7 +3365,7 @@ Error.NameException.NAME_REQUIRED=Le nom de {0} est requis.
 Error.NameException.NAME_FORBIDDEN=Le {0} n''est pas autorisé à porter un nom.
 Error.NameException.DUPLICATE=Le nom "{0}" est le doublon d''un nom existant. Choisissez un autre nom.
 Error.NameException.HAS_REFERENCES={0} comporte un élément dérivé, le nom ne peut pas être effacé.
-Error.NameException.DOT_FORBIDDEN=Le nom "{0}" n''est pas valide car il contient le caractère ".".
+Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propriété "{0}" est incorrecte pour l''élément "{1}".

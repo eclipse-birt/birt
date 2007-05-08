@@ -3365,7 +3365,7 @@ Error.NameException.NAME_REQUIRED={0} に名前を指定する必要があります。
 Error.NameException.NAME_FORBIDDEN={0} には名前を指定できません。
 Error.NameException.DUPLICATE=この名前 "{0}" は、すでに使用されています。別の名前を付けてください。
 Error.NameException.HAS_REFERENCES={0} には、派生した要素があります。名前をクリアできません。
-Error.NameException.DOT_FORBIDDEN="{0}" は無効な名前です。名前には "." (ピリオド) を使用できません。
+Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=プロパティ "{0}" は、要素 "{1}" では使用できません。
