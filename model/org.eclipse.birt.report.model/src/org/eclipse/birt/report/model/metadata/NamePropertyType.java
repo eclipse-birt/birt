@@ -130,10 +130,15 @@ public class NamePropertyType extends TextualPropertyType
 	private boolean isValidName( String value )
 	{
 		assert value != null;
-
+		
 		// can not contain: / \ . : ! ; ,
-		if ( value.contains( "/" ) || value.contains( "\\" ) || value.contains( "." ) || value.contains( ":" ) || value.contains( "!" ) || value.contains( ";" ) || value.contains( "," ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-			return false;
+		for ( int i = 0; i < value.length( ); i++ )
+		{
+			char c = value.charAt( i );
+			if ( c == '/' || c == '\\' || c == '.' || c == ':' || c == '!'
+					|| c == ';' || c == ',' )
+				return false;
+		}
 		return true;
 	}
 }
