@@ -321,4 +321,5 @@ public class ResourceConstants
 	public final static String TRY_TO_ADD_IDENTICAL_AGGR_GROUP = "data.olap.tryToAddIdenticalAggrGroup";
 	public final static String NO_EDGEDEFN_FOUND = "data.olap.NoEdgeDefinitionFound";
 	public final static String INVALID_SORT_DEFN = "data.olap.invalidSortDefinition";
+	public final static String INVALID_MEASURE_REF = "data.olap.invalidMeasureRef";
 }

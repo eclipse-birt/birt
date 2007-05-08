@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * 
@@ -57,12 +58,12 @@ public class OlapExpressionUtil
 	 * @param expr
 	 * @return
 	 */
-	public static String getMeasure( String expr )
+	public static String getMeasure( String expr ) throws DataException
 	{
-		if ( expr == null )
-			return null;
-		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
-			return null;
+		if ( expr == null || !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
+			throw new DataException( ResourceConstants.INVALID_MEASURE_REF,
+					expr );
+
 		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" )
 				.replaceFirst( "\\Q\"]\\E", "" );
 
