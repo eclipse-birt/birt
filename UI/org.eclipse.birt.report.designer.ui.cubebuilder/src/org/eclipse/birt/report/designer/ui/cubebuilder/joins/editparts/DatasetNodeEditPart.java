@@ -114,8 +114,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		{
 			int width = getWidth( );
 			int height = getHeight( );
-			int posX = JointDatasetsDialog.DIALOG_WIDTH/2-width/2;
-			int posY = JointDatasetsDialog.DIALOG_HEIGHT/2-height/2;
+			int posX = JointDatasetsDialog.DIALOG_WIDTH/2-width/2-40;
+			int posY = JointDatasetsDialog.DIALOG_HEIGHT/2-height/2-20;
 			r = new Rectangle( setPosX(posX), setPosY(posY) , getWidth( ), getHeight( ) );
 		}
 		else r = new Rectangle( getPosX( ), getPosY( ), getWidth( ), getHeight( ) );

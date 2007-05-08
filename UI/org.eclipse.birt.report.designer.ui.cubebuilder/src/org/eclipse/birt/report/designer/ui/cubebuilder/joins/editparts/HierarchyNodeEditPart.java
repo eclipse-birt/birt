@@ -127,8 +127,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 				UIHelper.getId( getModel( ), cube ),
 				BuilderConstancts.POSITION_X ) )
 		{
-			int displayWidth = JointDatasetsDialog.DIALOG_WIDTH;
-			int displayHeight = JointDatasetsDialog.DIALOG_HEIGHT;
+			int displayWidth = JointDatasetsDialog.DIALOG_WIDTH-40;
+			int displayHeight = JointDatasetsDialog.DIALOG_HEIGHT-20;
 
 			List childList = new ArrayList( );
 			if ( getCube( ) != null )
