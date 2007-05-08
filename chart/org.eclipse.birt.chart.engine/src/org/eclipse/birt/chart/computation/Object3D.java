@@ -72,7 +72,8 @@ public class Object3D
 	 */
 	public Object3D( Location3D[] loa, boolean inverted )
 	{
-
+		// Remove duplicate points to avoid wrong computation later
+		loa = removeDuplicatePoints( loa );
 		va = new Vector[loa.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
@@ -738,5 +739,45 @@ public class Object3D
 	public boolean testZOverlap( Object3D near )
 	{
 		return ( ( this.getZMax( ) >= near.getZMax( ) && this.getZMin( ) < near.getZMax( ) ) || ( this.getZMax( ) < near.getZMax( ) && this.getZMax( ) > near.getZMin( ) ) );
+	}
+	
+	/**
+	 * Removed duplicate points to avoid wrong computations later.
+	 * 
+	 * @param loa
+	 * @return
+	 */
+	private Location3D[] removeDuplicatePoints( Location3D[] loa )
+	{
+		if ( loa.length > 3 )
+		{
+			int iWrong = -1;
+			for ( int i = 1; i < loa.length; i++ )
+			{
+				if ( loa[i].getX( ) == loa[i - 1].getX( )
+						&& loa[i].getY( ) == loa[i - 1].getY( )
+						&& loa[i].getZ( ) == loa[i - 1].getZ( ) )
+				{
+					// Find one duplicate point
+					iWrong = i;
+					break;
+				}
+			}
+			if ( iWrong >= 0 )
+			{
+				// Handle one duplicate point
+				Location3D[] newLoa = new Location3D[loa.length - 1];
+				for ( int i = 0, j = 0; i < loa.length; i++ )
+				{
+					if ( i != iWrong )
+					{
+						newLoa[j++] = loa[i];
+					}
+				}
+				// check for next duplicate point
+				return removeDuplicatePoints( newLoa );
+			}
+		}
+		return loa;
 	}
 }

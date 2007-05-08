@@ -1195,8 +1195,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							// dX = dOrthogonalZero;
-							dX = Double.NaN;
+							dX = dOrthogonalZero;
+							// dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{
@@ -1242,8 +1242,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							// dY = dOrthogonalZero;
-							dX = Double.NaN;
+							dY = dOrthogonalZero;
+							// dY = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{
