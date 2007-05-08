@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
@@ -129,6 +130,8 @@ public class ReportDocumentBuilder
 		layoutPageHandler = new CompositeLayoutPageHandler( );
 		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
+		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
+				executionContext ) );
 
 		contentEmitter = new ContentEmitter( );
 	}

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 
 /**
@@ -194,9 +196,14 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			{
 				layoutEngine.setLocale( executionContext.getLocale( ) );
 				
+				CompositeLayoutPageHandler layoutPageHandler = new CompositeLayoutPageHandler( );
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
+											executionContext );
+				layoutPageHandler.addPageHandler( handle );
+				layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
+						executionContext ) );
+
+				layoutEngine.setPageHandler( layoutPageHandler );
 
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );

@@ -231,9 +231,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		String pageBreak = style.getPageBreakBefore( );
 		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
-				|| IStyle.CSS_RIGHT_VALUE == pageBreak)
+				|| IStyle.CSS_RIGHT_VALUE == pageBreak
+				|| IStyle.CSS_SOFT_VALUE == pageBreak )
 		{
-			//style.setPageBreakBefore( IStyle.CSS_AUTO_VALUE );
 			return true;
 		}
 

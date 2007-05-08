@@ -22,6 +22,8 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * is the base element for table and list items.
  */
 public abstract class ListingElementExecutor extends QueryItemExecutor
+		implements
+			IPageBreakListener
 {
 
 	/**
@@ -54,6 +56,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		if(isPageBreakIntervalValid((ListingDesign)design))
 		{
 			pageBreakInterval = ((ListingDesign)design).getPageBreakInterval( );
+			context.addPageBreakListener( this );
 		}
 	}
 
@@ -92,6 +95,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	public void close( )
 	{
+		if ( pageBreakInterval != -1 )
+		{
+			context.removePageBreakListener( this );
+		}
 		rsetCursor = -1;
 		needPageBreak = false;
 		pageRowCount = 0;
@@ -104,15 +111,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		endOfListing = false;
 		super.close( );
 	}
-	
-	void clearSoftBreak()
+
+	void nextRow( )
 	{
-		pageRowCount = 0;
-	}
-	
-	void nextRow()
-	{
-		if(pageBreakInterval>0)
+		if ( pageBreakInterval > 0 )
 		{
 			pageRowCount++;
 		}
@@ -143,7 +145,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				currentElement = 0;
 				if ( listingDesign.getFooter( ) != null )
 				{
-					executableElements[totalElements++] = listingDesign.getFooter( );
+					executableElements[totalElements++] = listingDesign
+							.getFooter( );
 				}
 				endOfListing = true;
 				return currentElement < totalElements;
@@ -260,4 +263,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
+	public void onPageBreak( )
+	{
+		pageRowCount = 0;
+	}
 }

@@ -233,18 +233,10 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	
 	protected void handlePageBreakAfter( )
 	{
-		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER) ))
-		{
-			listingExecutor.clearSoftBreak( );
-		}
 	}
 	
 	protected void handlePageBreakBefore()
 	{
-		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE) ))
-		{
-			listingExecutor.clearSoftBreak( );
-		}
 	}
 	
 	protected void handlePageBreakAfterExclusingLast()

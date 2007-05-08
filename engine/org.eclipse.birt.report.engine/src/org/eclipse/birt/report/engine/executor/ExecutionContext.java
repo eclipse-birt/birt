@@ -249,6 +249,11 @@ public class ExecutionContext
 	 */
 	private IDocArchiveReader dataSource;
 	
+	/**
+	 * All page break listeners.
+	 */
+	private List pageBreakListeners;
+	
 	public ExecutionContext()
 	{
 		this(null, -1);
@@ -1731,5 +1736,49 @@ public class ExecutionContext
 	public boolean isExecutingMasterPage( )
 	{
 		return isExecutingMasterPage;
+	}
+
+	/**
+	 * Add a page break listener.
+	 * 
+	 * @param listener
+	 *            the page break listener.
+	 */
+	public void addPageBreakListener( IPageBreakListener listener )
+	{
+		if ( pageBreakListeners == null )
+		{
+			pageBreakListeners = new ArrayList( );
+		}
+		pageBreakListeners.add( listener );
+	}
+	
+	/**
+	 * Notify page break listeners that page is broken.
+	 */
+	public void firePageBreakEvent( )
+	{
+		if ( pageBreakListeners != null )
+		{
+			for ( int i = 0; i < pageBreakListeners.size( ); i++ )
+			{
+				( (IPageBreakListener) pageBreakListeners.get( i ) )
+						.onPageBreak( );
+			}
+		}
+	}
+	
+	/**
+	 * Remove a page break listener.
+	 * 
+	 * @param listener
+	 *            the page break listener.
+	 */
+	public void removePageBreakListener( IPageBreakListener listener )
+	{
+		if ( pageBreakListeners != null )
+		{
+			pageBreakListeners.remove( listener );
+		}
 	}
 }
