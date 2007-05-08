@@ -29,12 +29,14 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -887,12 +889,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#validateQueryColumBinding()
 	 */
-	public void validateQueryColumBinding( ) throws DataException
+	public void validateQuery( ) throws DataException
 	{
 		if ( getPreparedQuery( ) instanceof PreparedIVQuery )
 			return;
 		
 		this.exprManager.validateColumnBinding( );
+		this.validateFilters( );
+		this.validateSorts( );
 	}
 	
 	/*
@@ -975,4 +979,99 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param filters
+	 * @throws DataException
+	 */
+	private void validateFilters( ) throws DataException
+	{
+		for ( int i = 0; i < this.queryDefn.getFilters( ).size( ); i++ )
+		{
+			IFilterDefinition filter = (IFilterDefinition) this.queryDefn.getFilters( ).get( i );
+			if ( hasRowNumRefExpr( filter.getExpression( ) ) )
+				throw new DataException( ResourceConstants.FILTER_EXPR_CONTAIN_ROW_NUM );
+		}
+	}
+
+	/**
+	 * 
+	 * @param sorts
+	 * @throws DataException
+	 */
+	private void validateSorts( ) throws DataException
+	{
+		for ( int i = 0; i < this.queryDefn.getSorts( ).size( ); i++ )
+		{
+			ISortDefinition sort = (ISortDefinition) this.queryDefn.getSorts( ).get( i );
+			if ( hasRowNumRefExpr( sort.getExpression( ) ) )
+				throw new DataException( ResourceConstants.SORT_EXPR_CONTAIN_ROW_NUM );
+		}
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws BirtException 
+	 * @throws DataException 
+	 */
+	private boolean hasRowNumRefExpr( IBaseExpression expr ) throws DataException
+	{
+		if ( expr instanceof IScriptExpression )
+			return hasRowNumRefExpr( (IScriptExpression) expr );
+		else if ( expr instanceof IConditionalExpression )
+		{
+			IConditionalExpression ce = (IConditionalExpression) expr;
+			return hasRowNumRefExpr( ce.getExpression( ) )
+					|| hasRowNumRefExpr( ce.getOperand1( ) )
+					|| hasRowNumRefExpr( ce.getOperand2( ) );
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws BirtException
+	 * @throws DataException
+	 */
+	private boolean hasRowNumRefExpr( IScriptExpression expr ) throws DataException
+	{
+		try
+		{
+			if ( expr == null || expr.getText( ) == null )
+				return false;
+			if ( expr.getText( ).matches( ".*\\Qrow.__rownum\\E.*" ) )
+				return true;
+			return findRowNumReferenceInBindings( ExpressionUtil.extractColumnExpressions( expr.getText( ) ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param bindingNames
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean findRowNumReferenceInBindings( List bindingNames ) throws DataException
+	{
+		for ( int i = 0; i < bindingNames.size( ); i++ )
+		{
+			IBinding binding = (IBinding) this.queryDefn.getBindings( )
+					.get( ( (IColumnBinding) bindingNames.get( i ) ).getResultSetColumnName( ) );
+			if( binding == null )
+				return false;
+			IBaseExpression expr = binding.getExpression( );
+			if ( hasRowNumRefExpr( expr ) )
+				return true;
+		}
+		return false;
+	}
 }

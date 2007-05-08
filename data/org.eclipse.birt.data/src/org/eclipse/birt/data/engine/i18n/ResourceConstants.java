@@ -112,6 +112,8 @@ public class ResourceConstants
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	public final static String INVALID_DEFINITION_IN_FILTER = "data.engine.BadFilterDefn";
 	public final static String BAD_GROUP_EXPRESSION = "data.engine.BadGroupExpr";
+	public final static String FILTER_EXPR_CONTAIN_ROW_NUM = "data.engine.filterExprContainRowNum";
+	public final static String SORT_EXPR_CONTAIN_ROW_NUM = "data.engine.sortExprContainRowNum";
 	
 	// clob and blob
 	public final static String CLOB_OPEN_ERROR = "data.engine.opencloberror";

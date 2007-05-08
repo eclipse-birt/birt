@@ -113,7 +113,7 @@ interface IServiceForQueryResults
 	 * @return the valid property of defined column bindings
 	 * @throws DataException
 	 */
-	public void validateQueryColumBinding() throws DataException;
+	public void validateQuery() throws DataException;
 	
 	/**
 	 * @param exprName

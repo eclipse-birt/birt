@@ -143,7 +143,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		{
 			// data row binding
 			this.queryService.initAutoBinding( );
-			this.queryService.validateQueryColumBinding( );
+			this.queryService.validateQuery( );
 			
 			org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
 			if (isDummyQuery(odiIterator) )

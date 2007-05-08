@@ -843,6 +843,104 @@ public class ColumnBindingTest extends APITestCase
 	}
 	
 	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testInvalidSort( ) throws Exception
+	{
+		for( int i = 0; i < 4; i++ )
+			this.testInvalidSort( i );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	private void testInvalidSort( int sortIndex ) throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+		// column mapping
+		String[] name = new String[]{
+				"rownum1", "rownum2", "rownum3"
+		};
+
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "row.__rownum" );
+		se[1] = new ScriptExpression( "row.rownum1" );
+		se[2] = new ScriptExpression( "row[\"rownum2\"]" );
+
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addBinding( new Binding( name[i], se[i] ) );
+
+		SortDefinition[] sort = new SortDefinition[name.length+1];
+		sort[0] = new SortDefinition();
+		sort[0].setExpression( "row.rownum1" );
+		sort[1] = new SortDefinition();
+		sort[1].setExpression( "row.rownum2" );
+		sort[2] = new SortDefinition();
+		sort[2].setExpression( "row.rownum3" );
+		sort[3] = new SortDefinition();
+		sort[3].setExpression( "row.__rownum" );
+		
+		queryDefn.addSort( sort[sortIndex] );
+			
+		try
+		{
+			executeQuery( queryDefn );
+			fail( "Should not arrive here" );
+		}
+		catch ( DataException e )
+		{
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testInvalidFilter( ) throws Exception
+	{
+		for( int i = 0; i < 4; i++ )
+			this.testInvalidFilter( i );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	private void testInvalidFilter( int filterIndex ) throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+		// column mapping
+		String[] name = new String[]{
+				"rownum1", "rownum2", "rownum3"
+		};
+
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "row.__rownum" );
+		se[1] = new ScriptExpression( "row.rownum1" );
+		se[2] = new ScriptExpression( "row[\"rownum2\"]" );
+
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addBinding( new Binding( name[i], se[i] ) );
+
+		FilterDefinition[] filter = new FilterDefinition[name.length+1];
+		filter[0] = new FilterDefinition(new ScriptExpression("row.rownum1 == 1"));
+		filter[1] = new FilterDefinition(new ScriptExpression("row.rownum2 == 1"));
+		filter[2] = new FilterDefinition(new ScriptExpression("row.rownum3 == 1"));
+		filter[3] = new FilterDefinition(new ScriptExpression("row.__rownum == 1"));
+		queryDefn.addFilter( filter[filterIndex] );
+			
+		try
+		{
+			executeQuery( queryDefn );
+			fail( "Should not arrive here" );
+		}
+		catch ( DataException e )
+		{
+		}
+	}
+	/**
 	 * @throws Exception
 	 */
 	public void testGroup( ) throws Exception
