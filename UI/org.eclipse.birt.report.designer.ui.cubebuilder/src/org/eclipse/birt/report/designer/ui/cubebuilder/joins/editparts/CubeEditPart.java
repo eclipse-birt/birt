@@ -87,14 +87,15 @@ public class CubeEditPart extends NodeEditPartHelper
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
-				if ( hierarchy != null && hierarchy.getDataSet( ) != null )
+				if ( hierarchy != null
+						&& hierarchy.getDataSet( ) != null
+						&& hierarchy.getDataSet( ) != getCube( ).getDataSet( ) )
 					childList.add( hierarchy );
 			}
 		}
 		return childList;
 
 	}
-
 
 	/*
 	 * (non-Javadoc)
