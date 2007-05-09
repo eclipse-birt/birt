@@ -103,10 +103,15 @@ public class SPParameterMetaData implements IParameterMetaData
      * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
      */
     public String getParameterName( int param ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	{
+		logger.logp( java.util.logging.Level.FINE,
+				SPParameterMetaData.class.getName( ),
+				"getParameterName",
+				"SPParameterMetaData.getParameterName( )" );
+		assertNotNull( paramMetadataArray );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
+		return paramDefn.getParamName( );
+	}
 
 	/*
 	 * 
