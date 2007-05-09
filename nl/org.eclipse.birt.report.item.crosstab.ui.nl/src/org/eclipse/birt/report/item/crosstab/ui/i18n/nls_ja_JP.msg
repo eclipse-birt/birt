@@ -161,3 +161,6 @@ FormPage.Menu.ModifyProperty=Modify
 CrosstabPageGenerator.List.SubTotals=Sub Totals
 CrosstabPageGenerator.List.GrandTotals=Grand Totals
 CrosstabPageGenerator.List.PageBreak=ƒy[ƒW‹æØ‚è
+
+PageLayoutPropertyDescriptorProvider.PageLayout=Page Layout:
+CrosstabSectionPage.RepeatRowHeader=Repeat Row Header
