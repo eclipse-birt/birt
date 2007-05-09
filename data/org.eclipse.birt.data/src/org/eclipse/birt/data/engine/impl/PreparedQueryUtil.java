@@ -383,6 +383,13 @@ class PreparedQueryUtil
 	 */
 	private static boolean isTwoExpressionEqual( IScriptExpression obj1, IScriptExpression obj2 )
 	{
+		if ( obj1 == null && obj2 != null )
+			return false;
+		if ( obj1 != null && obj2 == null )
+			return false;
+		if ( obj1 == null && obj2 == null )
+			return true;
+		
 		return isTwoStringEqual( obj1.getText( ), obj2.getText( ) )
 				&& isTwoStringEqual( obj1.getGroupName( ), obj2.getGroupName( ))
 				&& isTwoStringEqual( obj1.getText( ), obj2.getText( ))
