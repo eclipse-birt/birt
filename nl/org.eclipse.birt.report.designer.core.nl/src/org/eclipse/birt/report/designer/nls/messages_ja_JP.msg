@@ -2880,7 +2880,7 @@ ReportTemplateTransferDropTargetListener.transLabel.createElement=要素の挿入
 ###########################################################
 #ResourceEditDialog properties
 
-ResourceEditDialog.message.AddNote=[今すぐ追加] をクリックすると、現在のリソースファイルにキーが保存されます。
+ResourceEditDialog.message.AddNote=[今すぐ追加] では、現在のリソースファイルにキーが保存されます。
 ResourceEditDialog.message.ResourceFile=リソースファイル : 
 ResourceEditDialog.text.Add=追加
 ResourceEditDialog.text.AddWarningMsg=キーは空白にできません。
