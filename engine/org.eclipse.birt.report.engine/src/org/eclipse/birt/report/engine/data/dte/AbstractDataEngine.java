@@ -54,7 +54,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected ExecutionContext context;
 
 	protected HashMap queryIDMap = new HashMap( );
-	
+
 	protected HashMap cachedQueryIdMap = new HashMap( );
 
 	protected Map appContext;
@@ -68,27 +68,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	protected static Logger logger = Logger.getLogger( IDataEngine.class.getName( ) );
 
-	protected final static String VERSION_1 = "__version__1";
+	protected final static String VERSION_1 = "__version__1"; //$NON-NLS-1$
 
 	public AbstractDataEngine( ExecutionContext context )
 	{
 		this.context = context;
 		this.adapter = new ModelDteApiAdapter( context,
 				context.getSharedScope( ) );
-		/* Use DataAdapterUtil to register the scriptable. See ExecutionContext.setResultSets.
-		try
-		{
-			Scriptable scope = context.getScope( );
-			// register a js row object into the execution context, so
-			// we can use row["colName"] to get the column values
-			context.registerBean( "row", new NativeRowObject( scope, context ) );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "can't register row object", ex );
-			ex.printStackTrace( );
-		}
-		*/
+		/*
+		 * Use DataAdapterUtil to register the scriptable. See
+		 * ExecutionContext.setResultSets. try { Scriptable scope =
+		 * context.getScope( ); // register a js row object into the execution
+		 * context, so // we can use row["colName"] to get the column values
+		 * context.registerBean( "row", new NativeRowObject( scope, context ) ); }
+		 * catch ( Exception ex ) { logger.log( Level.SEVERE, "can't register
+		 * row object", ex ); ex.printStackTrace( ); }
+		 */
 	}
 
 	/*
@@ -135,14 +130,18 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			CubeHandle cube = (CubeHandle) cubeList.get( i );
 
-			try
+			// only defines cube which is referenced by a report item
+			if ( cube.clientsIterator( ).hasNext( ) )
 			{
-				dteSession.defineCube( cube );
-			}
-			catch ( BirtException be )
-			{
-				logger.log( Level.SEVERE, be.getMessage( ), be );
-				context.addException( cube, be );
+				try
+				{
+					dteSession.defineCube( cube );
+				}
+				catch ( BirtException be )
+				{
+					logger.log( Level.SEVERE, be.getMessage( ), be );
+					context.addException( cube, be );
+				}
 			}
 		}
 
@@ -182,7 +181,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
-				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:"
+				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
 						+ ( (ISubqueryDefinition) query ).getName( ) ) );
 			}
 			return doExecuteSubQuery( (QueryResultSet) parent, query );
@@ -336,9 +335,9 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 				buffer.setLength( 0 );
 				buffer.append( pRsetId );
-				buffer.append( "." );
+				buffer.append( "." ); //$NON-NLS-1$
 				buffer.append( rowId );
-				buffer.append( "." );
+				buffer.append( "." ); //$NON-NLS-1$
 				buffer.append( queryId );
 
 				result.add( new String[]{
@@ -354,13 +353,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		catch ( IOException ioe )
 		{
-			context.addException( new EngineException( "Can't load the data in report document",
+			context.addException( new EngineException( "Can't load the data in report document", //$NON-NLS-1$
 					ioe ) );
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 		return result;
 	}
-	
+
 	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
 			throws BirtException
 	{
