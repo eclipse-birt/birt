@@ -126,8 +126,11 @@ public class EngineLogger {
 	{
 		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
 		rootLogger.removeHandler( sharedHandler );
-		sharedHandler.close( );
-		sharedHandler = null;
+		if ( sharedHandler != null )
+		{
+			sharedHandler.close( );
+			sharedHandler = null;
+		}
 		if ( fileLogger != null )
 		{
 			closeFileLogger( fileLogger );

@@ -161,7 +161,7 @@ public class DataEngineTest extends TestCase
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
-				Map map = query.getResultSetExpressions( );
+				Map map = query.getBindings( );
 				Iterator it = map.keySet( ).iterator( );
 				while ( it.hasNext( ) )
 				{
@@ -196,7 +196,7 @@ public class DataEngineTest extends TestCase
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
-				Map map = query.getResultSetExpressions( );
+				Map map = query.getBindings( );
 				Iterator it = map.keySet( ).iterator( );
 				while ( it.hasNext( ) )
 				{
@@ -234,7 +234,7 @@ public class DataEngineTest extends TestCase
 
 		while ( parentRSet.next( ) )
 		{
-			Map parentMap = parentQuery.getResultSetExpressions( );
+			Map parentMap = parentQuery.getBindings( );
 			Iterator parentIter = parentMap.keySet( ).iterator( );
 			while ( parentIter.hasNext( ) )
 			{
@@ -245,7 +245,7 @@ public class DataEngineTest extends TestCase
 					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
-				Map childMap = childQuery.getResultSetExpressions( );
+				Map childMap = childQuery.getBindings( );
 				Iterator childIter = childMap.keySet( ).iterator( );
 				while ( childIter.hasNext( ) )
 				{
@@ -283,7 +283,7 @@ public class DataEngineTest extends TestCase
 
 		while ( parentRSet.next( ) )
 		{
-			Map parentMap = parentQuery.getResultSetExpressions( );
+			Map parentMap = parentQuery.getBindings( );
 			Iterator parentIter = parentMap.keySet( ).iterator( );
 			while ( parentIter.hasNext( ) )
 			{
@@ -294,7 +294,7 @@ public class DataEngineTest extends TestCase
 					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
-				Map childMap = childQuery.getResultSetExpressions( );
+				Map childMap = childQuery.getBindings( );
 				Iterator childIter = childMap.keySet( ).iterator( );
 				while ( childIter.hasNext( ) )
 				{
@@ -341,7 +341,7 @@ public class DataEngineTest extends TestCase
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
 							subQuery, false );
-					Map map = subQuery.getResultSetExpressions( );
+					Map map = subQuery.getBindings( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );
 
@@ -401,7 +401,7 @@ public class DataEngineTest extends TestCase
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
 							subQuery, false );
-					Map map = subQuery.getResultSetExpressions( );
+					Map map = subQuery.getBindings( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );
 

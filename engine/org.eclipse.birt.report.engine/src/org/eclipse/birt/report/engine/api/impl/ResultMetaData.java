@@ -19,6 +19,8 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 
@@ -68,15 +70,24 @@ public class ResultMetaData implements IResultMetaData
 
 	protected void appendMetaData( IBaseQueryDefinition query )
 	{
-		Map bindings = query.getResultSetExpressions( );
+		Map bindings = query.getBindings( );
 		Iterator iter = bindings.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Map.Entry entry = (Map.Entry) iter.next( );
 			String name = (String) entry.getKey( );
-			IBaseExpression expr = (IBaseExpression) entry.getValue( );
-			int type = expr.getDataType( );
-			metaEntries.add( new MetaDataEntry( name, type ) );
+			IBinding binding = (IBinding) entry.getValue( );
+			try
+			{
+				IBaseExpression expr;
+				expr = (IBaseExpression) binding.getExpression( );
+				int type = expr.getDataType( );
+				metaEntries.add( new MetaDataEntry( name, type ) );
+			}
+			catch ( DataException ex )
+			{
+				// FIXME: process exception. 
+			}
 		}
 	}
 

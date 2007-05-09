@@ -753,7 +753,7 @@ public class DataExtractionTask extends EngineTask
 		newQuery.getSorts( ).addAll( query.getSorts( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
 		newQuery.getSubqueries( ).addAll( query.getSubqueries( ) );
-		newQuery.getResultSetExpressions( ).putAll( query.getResultSetExpressions( ) );
+		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		
 		newQuery.getGroups( ).addAll( query.getGroups( ) );
 		newQuery.setUsesDetails( query.usesDetails( ) );

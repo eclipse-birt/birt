@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -33,10 +34,14 @@ public class ExprManager
 {
 	private List bindingExprs;
 	private Map autoBindingExprMap;
-
+	
+	//TODO enhance me. The auto binding should be done at preparation phrase rather than 
+	//execution phrase.
+	private Map autoBindingMap;
+	
 	private int entryLevel;
 	private IBaseQueryDefinition baseQueryDefn;
-
+	
 	public final static int OVERALL_GROUP = 0;
 
 	/**
@@ -48,6 +53,7 @@ public class ExprManager
 		autoBindingExprMap = new HashMap( );
 		entryLevel = OVERALL_GROUP;
 		this.baseQueryDefn = baseQueryDefn;
+		this.autoBindingMap = new HashMap( );
 	}
 
 	/**
@@ -90,6 +96,7 @@ public class ExprManager
 	void addAutoBindingExpr( String name, IBaseExpression baseExpr )
 	{
 		autoBindingExprMap.put( name, baseExpr );
+		this.autoBindingMap.put( name, new Binding( name, baseExpr ) );
 	}
 
 	/**
@@ -125,7 +132,14 @@ public class ExprManager
 			if( gcb.getBinding( name )!= null )
 				return gcb.getBinding( name );
 		}
+		
+		if ( this.autoBindingMap.containsKey( name ))
+		{
+			return (IBinding)this.autoBindingMap.get( name );
+		}	
+		
 		return null;
+		
 	}
 	/**
 	 * @param name

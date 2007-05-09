@@ -67,7 +67,7 @@ public class ReportQueryBuilderTest extends TestCase
 	{
 		assertTrue( item.getQuery( ) instanceof QueryDefinition );
 		assertTrue( report.getQueries( ).contains( item.getQuery( ) ) );
-		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getResultSetExpressions( ).size( ) );
+		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getBindings( ).size( ) );
 	}
 
 	private void testList( Report report, ReportItemDesign item )
@@ -75,7 +75,7 @@ public class ReportQueryBuilderTest extends TestCase
 		ListItemDesign list = (ListItemDesign) item;
 		assertTrue( item.getQuery( ) instanceof QueryDefinition );
 		assertTrue( report.getQueries( ).contains( item.getQuery( ) ) );
-		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getResultSetExpressions( ).size( ) );
+		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getBindings( ).size( ) );
 		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getGroups( ).size( ) );
 		assertTrue( ( (QueryDefinition)item.getQuery( ) ).usesDetails( ) );
 		assertEquals( 1, ( (QueryDefinition)item.getQuery( ) ).getSubqueries( ).size( ) );
@@ -124,7 +124,7 @@ public class ReportQueryBuilderTest extends TestCase
 		IQueryDefinition query = (IQueryDefinition)item.getQuery( );
 		assertTrue( query.getSorts( ).size( ) == 2 );
 		assertTrue( query.getFilters( ).size( ) == 1 );
-		assertTrue( query.getResultSetExpressions( ).size( ) == 29 );
+		assertTrue( query.getBindings( ).size( ) == 29 );
 		
 		GroupDefinition grp = (GroupDefinition)( (QueryDefinition)item.getQuery( ) ).getGroups( ).get( 0 );
 		assertTrue( grp.getSorts( ).size( ) == 2 );

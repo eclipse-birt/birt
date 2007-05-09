@@ -172,8 +172,8 @@ public final class LogUtil
 		QueryDefinition querySpec = (QueryDefinition)source;
 		StringBuffer stringBuffer = new StringBuffer("QueryDefinition(");
 		stringBuffer.append( "DataSetName : "+querySpec.getDataSetName()+"\r\n" );
-		if ( !isEmpty( querySpec.getResultSetExpressions( ) ) )
-			stringBuffer.append( "ResultSetExpressions : " + LogUtil.toString( querySpec.getResultSetExpressions( ) )	+ "\r\n" );
+		if ( !isEmpty( querySpec.getBindings( ) ) )
+			stringBuffer.append( "ResultSetExpressions : " + LogUtil.toString( querySpec.getBindings( ) )	+ "\r\n" );
 		
 		if ( !isEmpty( querySpec.getParentQuery( ) ) )
 			stringBuffer.append( "ParentQuery : "+LogUtil.toString(querySpec.getParentQuery())+"\r\n" );

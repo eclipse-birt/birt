@@ -12,6 +12,8 @@ package org.eclipse.birt.report.engine.adapter;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBinding;
+
 /**
  * The instance of this class define a data structure used by engine. 
  */
@@ -31,6 +33,6 @@ public interface ITotalExprBindings
 	 * will appears in the return of getNewExpression() method. 
 	 * @return
 	 */
-	public IColumnBinding[] getColumnBindings();
+	public IBinding[] getColumnBindings();
 	
 }

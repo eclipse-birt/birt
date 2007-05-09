@@ -19,9 +19,11 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -490,10 +492,12 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				if ( labelExpr != null )
 				{
-					queryDefn.addResultSetExpression( labelColumnName, labelExpr );
+					IBinding binding = new Binding( labelColumnName, labelExpr );
+					queryDefn.addBinding( binding );
 				}
 				
-				queryDefn.addResultSetExpression( valueColumnName, valueExpr );
+				IBinding binding = new Binding( valueColumnName, valueExpr );
+				queryDefn.addBinding( binding );
 				
 				queryDefn.setAutoBinding( true );
 
@@ -624,8 +628,8 @@ public class GetParameterDefinitionTask extends EngineTask
 						
 	/*					valueMap.put( keyValue,
 								valueExpObject );*/
-						
-						queryDefn.addResultSetExpression( keyValue, valueExpObject );
+						IBinding binding = new Binding( keyValue, valueExpObject );
+						queryDefn.addBinding( binding );
 						//queryDefn.getRowExpressions( ).add( valueExpObject );
 
 						String labelExpString = ( (ScalarParameterHandle) param )
@@ -642,10 +646,11 @@ public class GetParameterDefinitionTask extends EngineTask
 	/*						labelMap.put( keyLabel, labelExpObject );
 							queryDefn.getRowExpressions( ).add( labelExpObject );*/
 							labelColumnBindingNames.add( keyLabel );
-							queryDefn.addResultSetExpression( keyLabel, labelExpObject );
+							IBinding labelBinding = new Binding( keyLabel, labelExpObject );
+							queryDefn.addBinding( labelBinding );
 						}
 
-						GroupDefinition groupDef = new GroupDefinition( );
+						GroupDefinition groupDef = new GroupDefinition( null );
 						groupDef.setKeyExpression( valueExpString );
 						queryDefn.addGroup( groupDef );
 					}

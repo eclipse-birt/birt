@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -30,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -38,9 +40,9 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
-import org.eclipse.birt.report.engine.adapter.IColumnBinding;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -785,15 +787,24 @@ public class ReportQueryBuilder
 		}
 		
 		protected void addColumBinding( IBaseQueryDefinition transfer,
-				ComputedColumnHandle binding )
+				ComputedColumnHandle columnBinding )
 		{
-			String name = binding.getName( );
-			String expr = binding.getExpression( );
-			String type = binding.getDataType( );
+			String name = columnBinding.getName( );
+			String expr = columnBinding.getExpression( );
+			String type = columnBinding.getDataType( );
 			int dbType = ModelDteApiAdapter.toDteDataType( type );
 			IBaseExpression dbExpr = new ScriptExpression( expr, dbType );
-			dbExpr.setGroupName( binding.getAggregateOn( ) );
-			transfer.getResultSetExpressions( ).put( name, dbExpr );
+			IBinding binding = new Binding( name, dbExpr );
+			try
+			{
+				if ( columnBinding.getAggregateOn( ) != null )
+					binding.addAggregateOn( columnBinding.getAggregateOn( ) );
+				transfer.addBinding( binding );				
+			}
+			catch ( DataException ex )
+			{
+				context.addException( ex );
+			}
 		}
 		
 		/**
@@ -1346,8 +1357,16 @@ public class ReportQueryBuilder
 			{
 				List expressions = new ArrayList( );
 				expressions.add( expr );	
-				ITotalExprBindings totalExpressionBinding = expressionUtil
-					.prepareTotalExpressions( expressions, groupName );
+				ITotalExprBindings totalExpressionBinding = null;;
+				try
+				{
+					totalExpressionBinding = expressionUtil
+						.prepareTotalExpressions( expressions, groupName );
+				}
+				catch ( EngineException ex )
+				{
+					context.addException( ex );
+				}
 				
 				addNewColumnBindings( query, totalExpressionBinding );
 				
@@ -1394,8 +1413,16 @@ public class ReportQueryBuilder
 					}
 				}
 			}
-			ITotalExprBindings totalExpressionBindings = expressionUtil
-					.prepareTotalExpressions( expressions, groupName );
+			ITotalExprBindings totalExpressionBindings = null;
+			try
+			{
+				totalExpressionBindings = expressionUtil
+						.prepareTotalExpressions( expressions, groupName );
+			}
+			catch ( EngineException ex )
+			{
+				context.addException( ex );
+			}
 
 			// add new column bindings to the query
 			addNewColumnBindings( query, totalExpressionBindings );
@@ -1607,31 +1634,37 @@ public class ReportQueryBuilder
 				}
 			}
 			
-			ITotalExprBindings totalExpressionBindings = expressionUtil
-					.prepareTotalExpressions( expressions, groupName );
+			ITotalExprBindings totalExpressionBindings = null;
+			try
+			{
+				totalExpressionBindings = expressionUtil
+						.prepareTotalExpressions( expressions, groupName );
+			}
+			catch ( EngineException ex )
+			{
+				context.addException( ex );
+			}
 			return totalExpressionBindings;
 		}
 
 		private void addNewColumnBindings( IBaseQueryDefinition query,
 				ITotalExprBindings totalExpressionBindings )
 		{
-			IColumnBinding[] bindings = totalExpressionBindings.getColumnBindings( );
+			IBinding[] bindings = totalExpressionBindings.getColumnBindings( );
 			if ( bindings != null )
 			{
-				for ( int i = 0; i < bindings.length; i++ )
+				try
 				{
-					addColumnBinding( query, bindings[i] );
+					for ( int i = 0; i < bindings.length; i++ )
+					{
+						query.addBinding( bindings[i] );
+					}
+				}
+				catch ( DataException e )
+				{
+					context.addException( e );
 				}
 			}
-		}
-
-		private void addColumnBinding( IBaseQueryDefinition transfer,
-				IColumnBinding binding )
-		{
-			assert transfer != null;
-			transfer.getResultSetExpressions( )
-					.put( binding.getResultSetColumnName( ),
-							binding.getBoundExpression( ));
 		}
 
 		/**

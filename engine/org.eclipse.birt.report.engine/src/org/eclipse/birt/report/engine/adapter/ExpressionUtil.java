@@ -15,10 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
@@ -31,7 +35,7 @@ public final class ExpressionUtil
 
 	private int totalColumnSuffix = 0;
 
-	public ITotalExprBindings prepareTotalExpressions( List exprs )
+	public ITotalExprBindings prepareTotalExpressions( List exprs ) throws EngineException
 	{
 		return prepareTotalExpressions( exprs, null );
 	}
@@ -40,8 +44,9 @@ public final class ExpressionUtil
 	 * 
 	 * @param exprs
 	 * @return
+	 * @throws EngineException 
 	 */
-	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName )
+	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName ) throws EngineException
 	{
 		
 		TotalExprBinding result = new TotalExprBinding();
@@ -116,28 +121,37 @@ public final class ExpressionUtil
 	/**
 	 * @param result
 	 * @param key
+	 * @throws EngineException 
 	 */
 	private void addConditionalExprBindings( TotalExprBinding result,
-			IConditionalExpression key, List bindings, String groupName )
+			IConditionalExpression key, List bindings, String groupName ) throws EngineException
 	{
-		IConditionalExpression ce = key;
-		
-		if( groupName!= null )
-			ce.setGroupName( groupName );
-		
-		String bindingName = TOTAL_PREFIX + totalColumnSuffix;
-		totalColumnSuffix++;
+		try
+		{
+			IConditionalExpression ce = key;
 
-		ColumnBinding columnBinding = new ColumnBinding( bindingName,
-				ce );
+			if ( groupName != null )
+				ce.setGroupName( groupName );
 
-		List allColumnBindings = new ArrayList( );
+			String bindingName = TOTAL_PREFIX + totalColumnSuffix;
+			totalColumnSuffix++;
 
-		allColumnBindings.add( columnBinding );
-		
-		result.addColumnBindings( allColumnBindings );
-		
-		result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
+			Binding columnBinding = new Binding( bindingName, ce );
+
+			columnBinding.addAggregateOn( groupName );
+
+			List allColumnBindings = new ArrayList( );
+
+			allColumnBindings.add( columnBinding );
+
+			result.addColumnBindings( allColumnBindings );
+
+			result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
+		}
+		catch ( DataException e )
+		{
+			throw new EngineException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/**
@@ -146,111 +160,126 @@ public final class ExpressionUtil
 	 * 
 	 * @param oldExpression
 	 * @return
+	 * @throws DataException
 	 */
 	private String prepareTotalExpression( String oldExpression,
-			List columnBindings, String groupName )
+			List columnBindings, String groupName ) throws EngineException
 	{
-		if ( oldExpression == null )
-			return null;
-		
-		char[] chars = oldExpression.toCharArray( );
-
-		// 5 is the minium length of expression that can cantain a row
-		// expression
-		if ( chars.length < 8 )
-			return oldExpression;
-		else
+		try
 		{
-			ParseIndicator indicator = new ParseIndicator( 0,
-					0,
-					false,
-					false,
-					true,
-					true );
-			for ( int i = 0; i < chars.length; i++ )
+			if ( oldExpression == null )
+				return null;
+
+			char[] chars = oldExpression.toCharArray( );
+
+			// 5 is the minium length of expression that can cantain a row
+			// expression
+			if ( chars.length < 8 )
+				return oldExpression;
+			else
 			{
-				indicator = getParseIndicator( chars,
-						i,
-						indicator.omitNextQuote( ),
-						indicator.getCandidateKey1( ),
-						indicator.getCandidateKey2( ) );
-
-				i = indicator.getNewIndex( );
-
-				if ( i >= indicator.getRetrieveSize( ) + 6 )
+				ParseIndicator indicator = new ParseIndicator( 0,
+						0,
+						false,
+						false,
+						true,
+						true );
+				for ( int i = 0; i < chars.length; i++ )
 				{
-					if ( indicator.isCandidateKey( )
-							&& chars[i - indicator.getRetrieveSize( ) - 6] == 'T'
-							&& chars[i - indicator.getRetrieveSize( ) - 5] == 'o'
-							&& chars[i - indicator.getRetrieveSize( ) - 4] == 't'
-							&& chars[i - indicator.getRetrieveSize( ) - 3] == 'a'
-							&& chars[i - indicator.getRetrieveSize( ) - 2] == 'l'
-							&& chars[i - indicator.getRetrieveSize( ) - 1] == '.' )
+					indicator = getParseIndicator( chars,
+							i,
+							indicator.omitNextQuote( ),
+							indicator.getCandidateKey1( ),
+							indicator.getCandidateKey2( ) );
+
+					i = indicator.getNewIndex( );
+
+					if ( i >= indicator.getRetrieveSize( ) + 6 )
 					{
-						if ( i - indicator.getRetrieveSize( ) - 7 <= 0
-								|| isValidProceeding( chars[i
-										- indicator.getRetrieveSize( ) - 7] ) )
+						if ( indicator.isCandidateKey( )
+								&& chars[i - indicator.getRetrieveSize( ) - 6] == 'T'
+								&& chars[i - indicator.getRetrieveSize( ) - 5] == 'o'
+								&& chars[i - indicator.getRetrieveSize( ) - 4] == 't'
+								&& chars[i - indicator.getRetrieveSize( ) - 3] == 'a'
+								&& chars[i - indicator.getRetrieveSize( ) - 2] == 'l'
+								&& chars[i - indicator.getRetrieveSize( ) - 1] == '.' )
 						{
-							String firstPart = oldExpression.substring( 0, i
-									- indicator.getRetrieveSize( ) - 6 );
-
-							int startIndex = i - indicator.getRetrieveSize( ) - 6;
-							i = advanceToNextValidEncloser( chars, i );
-							String secondPart = "";
-							String name = "";
-							String expr = "";
-
-							if ( i < chars.length )
+							if ( i - indicator.getRetrieveSize( ) - 7 <= 0
+									|| isValidProceeding( chars[i
+											- indicator.getRetrieveSize( ) - 7] ) )
 							{
-								int endIndex = i + 1;
+								String firstPart = oldExpression.substring( 0,
+										i - indicator.getRetrieveSize( ) - 6 );
 
-								expr = oldExpression.substring( startIndex,
-										endIndex );
+								int startIndex = i
+										- indicator.getRetrieveSize( ) - 6;
+								i = advanceToNextValidEncloser( chars, i );
+								String secondPart = "";
+								String name = "";
+								String expr = "";
 
-								secondPart = prepareTotalExpression( oldExpression.substring( i
-										+ 1 - indicator.getRetrieveSize( ) ),
-										columnBindings, groupName );
-							}
-							else
-							{
-								expr = oldExpression.substring( startIndex );
-							}
-
-							boolean shouldAddToList = true;
-							for( int j = 0; j < columnBindings.size( ); j++ )
-							{
-								IBaseExpression expression = ((IColumnBinding)columnBindings.get( j )).getBoundExpression( );
-								if( expression instanceof IScriptExpression )
+								if ( i < chars.length )
 								{
-									if( oldExpression.equals( ((IScriptExpression) expression).getText( ) ))
+									int endIndex = i + 1;
+
+									expr = oldExpression.substring( startIndex,
+											endIndex );
+
+									secondPart = prepareTotalExpression( oldExpression.substring( i
+											+ 1 - indicator.getRetrieveSize( ) ),
+											columnBindings,
+											groupName );
+								}
+								else
+								{
+									expr = oldExpression.substring( startIndex );
+								}
+
+								boolean shouldAddToList = true;
+								for ( int j = 0; j < columnBindings.size( ); j++ )
+								{
+									IBaseExpression expression = ( (IBinding) columnBindings.get( j ) ).getExpression( );
+									if ( expression instanceof IScriptExpression )
 									{
-										shouldAddToList = false;
-										name = ((IColumnBinding)columnBindings.get( j )).getResultSetColumnName( );
-										break;
+										if ( oldExpression.equals( ( (IScriptExpression) expression ).getText( ) ) )
+										{
+											shouldAddToList = false;
+											name = ( (IBinding) columnBindings.get( j ) ).getBindingName( );
+											break;
+										}
 									}
 								}
-							}
-							if ( shouldAddToList )
-							{
-								name = TOTAL_PREFIX + totalColumnSuffix;
-								totalColumnSuffix++;
-								columnBindings.add( new ColumnBinding( name, expr, groupName ) );
-							}
-							
-							String newExpression = firstPart
-									+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
-									+ secondPart;
+								if ( shouldAddToList )
+								{
+									name = TOTAL_PREFIX + totalColumnSuffix;
+									totalColumnSuffix++;
+									ScriptExpression se = new ScriptExpression( expr );
+									se.setGroupName( groupName );
+									
+									Binding columnBinding = new Binding( name, se );
+									
+									columnBindings.add( columnBinding );
+								}
 
-							return newExpression;
+								String newExpression = firstPart
+										+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
+										+ secondPart;
+
+								return newExpression;
+							}
 						}
 					}
+
 				}
 
 			}
 
+			return oldExpression;
 		}
-
-		return oldExpression;
+		catch ( DataException e )
+		{
+			throw new EngineException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/**
@@ -491,12 +520,12 @@ class TotalExprBinding implements ITotalExprBindings
 	 * 
 	 * @see org.eclipse.birt.core.data.ITotalExprBindings#getColumnBindings()
 	 */
-	public IColumnBinding[] getColumnBindings( )
+	public IBinding[] getColumnBindings( )
 	{
-		IColumnBinding[] result = new ColumnBinding[columnBindings.size()];
+		IBinding[] result = new IBinding[columnBindings.size()];
 		for ( int i = 0; i < result.length; i++ )
 		{
-			result[i] = (IColumnBinding) columnBindings.get( i );
+			result[i] = (IBinding) columnBindings.get( i );
 		}
 		return result;
 	}
@@ -574,33 +603,3 @@ class ParseIndicator
 	}
 }
 
-class ColumnBinding implements IColumnBinding
-{
-
-	private String columnName;
-	private IBaseExpression expression;
-
-	ColumnBinding( String name, IBaseExpression expression )
-	{
-		this.columnName = name;
-		this.expression = expression;
-	}
-
-	ColumnBinding( String name, String expression, String groupName )
-	{
-		this.columnName = name;
-		this.expression = new ScriptExpression( expression );
-		if( groupName != null )
-			this.expression.setGroupName( groupName );
-	}
-	
-	public String getResultSetColumnName( )
-	{
-		return this.columnName;
-	}
-
-	public IBaseExpression getBoundExpression( )
-	{
-		return this.expression;
-	}
-}

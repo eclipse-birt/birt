@@ -15,11 +15,13 @@ package org.eclipse.birt.report.engine.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-
-import junit.framework.TestCase;
+import org.eclipse.birt.report.engine.api.EngineException;
 
 /**
  * 
@@ -33,7 +35,7 @@ public class ExpressionUtilTest extends TestCase
 		expressionUtil = new ExpressionUtil( );
 	}
 
-	public void testprepareTotalExpression( )
+	public void testprepareTotalExpression( ) throws EngineException
 	{
 		String[] oldExpressions = new String[]{null,
 				"   " + Messages.getString( "ExpressionUtilTest.old.1" ),
@@ -91,7 +93,7 @@ public class ExpressionUtilTest extends TestCase
 		assertEquals( "row[\"TOTAL_COLUMN_13\"]", l.getNewExpression( ).get( oldExpressions.length ));
 		assertEquals( "row[\"TOTAL_COLUMN_14\"]", l.getNewExpression( ).get( oldExpressions.length+1));
 		
-		IColumnBinding[] bindings = l.getColumnBindings( );
+		IBinding[] bindings = l.getColumnBindings( );
 		assertEquals( bindings.length, 15 );
 	}
 }
