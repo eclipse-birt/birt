@@ -747,6 +747,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dStart,
 				dEnd,
 				sc,
+				oaxPrimaryBase.getModelAxis( ).getOrigin( ).getValue( ),
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				AUTO,

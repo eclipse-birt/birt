@@ -57,7 +57,9 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMinimum;
 
 	private Object oMaximum;
-	
+
+	private Object oOriginal;
+
 	/**
 	 * Minimum without considering fixed value. Only valid if margin percent is
 	 * set and real minimum is less than fixed minimum.
@@ -81,7 +83,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private double dEndShift;
 
 	private double dZoomFactor = 1.0;
-	
+
 	private int iMarginPercent = 0;
 
 	private transient double dStart, dEnd;
@@ -350,7 +352,7 @@ public final class AutoScale extends Methods implements Cloneable
 						}
 					}
 					// To prevent endless loop if step is not changed
-					if ( dStep == oldStep ) 
+					if ( dStep == oldStep )
 					{
 						dStep /= 2;
 					}
@@ -1015,19 +1017,19 @@ public final class AutoScale extends Methods implements Cloneable
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-		 // ARTIFICIAL LIMIT TO TICK COUNT
+		// ARTIFICIAL LIMIT TO TICK COUNT
 		// More ticks will cause memory issues.
-		 if ( nTicks > 10000 )
-		 {
-			 nTicks = 10000;
-		 }
+		if ( nTicks > 10000 )
+		{
+			nTicks = 10000;
+		}
 
 		// at least 2 ticks
 		if ( nTicks < 2 )
 		{
 			nTicks = 2;
 		}
-		
+
 		return nTicks;
 	}
 
@@ -1264,8 +1266,8 @@ public final class AutoScale extends Methods implements Cloneable
 			updateContext( sct );
 		}
 	}
-	
-	private final void updateContext(ScaleContext sct)
+
+	private final void updateContext( ScaleContext sct )
 	{
 		this.oMaximum = sct.getMax( );
 		this.oMinimum = sct.getMin( );
@@ -1273,7 +1275,7 @@ public final class AutoScale extends Methods implements Cloneable
 		this.oMinimumWithMargin = sct.getRealMin( );
 		this.oStep = sct.getStep( );
 	}
-	
+
 	Object getMinWithMargin( )
 	{
 		return this.oMinimumWithMargin;
@@ -1283,7 +1285,6 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		return this.oMaximumWithMargin;
 	}
-
 
 	/**
 	 * Checks all labels for any overlap for a given axis' scale
@@ -1895,6 +1896,49 @@ public final class AutoScale extends Methods implements Cloneable
 			int direction, double zoomFactor, int iMarginPercent )
 			throws ChartException
 	{
+		return computeScale( xs,
+				ax,
+				dsi,
+				iType,
+				dStart,
+				dEnd,
+				scModel,
+				null,
+				fs,
+				rtc,
+				direction,
+				zoomFactor,
+				iMarginPercent );
+
+	}
+
+	/**
+	 * 
+	 * @param xs
+	 * @param ax
+	 * @param dsi
+	 * @param iType
+	 * @param dStart
+	 * @param dEnd
+	 * @param scModel
+	 * @param axisOriginal
+	 * @param fs
+	 * @param rtc
+	 * @param direction
+	 * @param zoomFactor
+	 *            1 is default factor
+	 * @param iMarginPercent
+	 *            the percentage of margin area for display some charts, such as
+	 *            bubble. 0 means no margin
+	 * @return AutoScale instance
+	 * @throws ChartException
+	 */
+	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
+			DataSetIterator dsi, int iType, double dStart, double dEnd,
+			Scale scModel, DataElement axisOriginal, FormatSpecifier fs,
+			RunTimeContext rtc, int direction, double zoomFactor,
+			int iMarginPercent ) throws ChartException
+	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
@@ -1953,17 +1997,20 @@ public final class AutoScale extends Methods implements Cloneable
 					dMinValue = dValue;
 				if ( dValue > dMaxValue )
 					dMaxValue = dValue;
-				dPrecision = getPrecision( dPrecision, dValue, fs, rtc.getULocale( ) );
+				dPrecision = getPrecision( dPrecision,
+						dValue,
+						fs,
+						rtc.getULocale( ) );
 			}
 
 			final double dAbsMax = Math.abs( dMaxValue );
 			final double dAbsMin = Math.abs( dMinValue );
 			double dStep = Math.max( dAbsMax, dAbsMin );
-			
+
 			double dDelta = dMaxValue - dMinValue;
 			if ( dDelta == 0 ) // Min == Max
 			{
-				dStep = dPrecision; 
+				dStep = dPrecision;
 			}
 			else
 			{
@@ -1975,7 +2022,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dStep = dPrecision;
 				}
-				
+
 			}
 			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
 			sc.oStep = new Double( dStep );
@@ -1990,6 +2037,11 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
 			sc.iMarginPercent = iMarginPercent;
+
+			if ( axisOriginal instanceof NumberDataElement )
+			{
+				sc.oOriginal = new Double( ( (NumberDataElement) axisOriginal ).getValue( ) );
+			}
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2046,6 +2098,11 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iMarginPercent = iMarginPercent;
 			sc.setData( dsi );
 			sc.setDirection( direction );
+
+			if ( axisOriginal instanceof NumberDataElement )
+			{
+				sc.oOriginal = new Double( ( (NumberDataElement) axisOriginal ).getValue( ) );
+			}
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2135,6 +2192,11 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
 
+			if ( axisOriginal instanceof DateTimeDataElement )
+			{
+				sc.oOriginal = ( (DateTimeDataElement) axisOriginal ).getValueAsCDateTime( );
+			}
+
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
 			{
@@ -2189,6 +2251,37 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
+			}
+
+			if ( sc.oOriginal != null )
+			{
+				if ( sc.bMaximumFixed && sc.bMinimumFixed )
+				{
+					if ( ( (CDateTime) sc.oMinimum ).after( sc.oOriginal )
+							&& ( (CDateTime) sc.oMaximum ).after( sc.oOriginal ) )
+					{
+						sc.oMinimum = sc.oOriginal;
+					}
+					if ( ( (CDateTime) sc.oMinimum ).before( sc.oOriginal )
+							&& ( (CDateTime) sc.oMaximum ).before( sc.oOriginal ) )
+					{
+						sc.oMaximum = sc.oOriginal;
+					}
+				}
+				else if ( sc.bMaximumFixed )
+				{
+					if ( ( (CDateTime) sc.oMaximum ).before( sc.oOriginal ) )
+					{
+						sc.oMaximum = sc.oOriginal;
+					}
+				}
+				else if ( sc.bMinimumFixed )
+				{
+					if ( ( (CDateTime) sc.oMinimum ).after( sc.oOriginal ) )
+					{
+						sc.oMinimum = sc.oOriginal;
+					}
 				}
 			}
 
@@ -2286,9 +2379,10 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param value
 	 * @return
 	 */
-	protected static double getPrecision( double precision, double pValue, FormatSpecifier fs, ULocale locale )
+	protected static double getPrecision( double precision, double pValue,
+			FormatSpecifier fs, ULocale locale )
 	{
-		double value = Math.abs(  pValue  );
+		double value = Math.abs( pValue );
 		if ( value == 0 )
 		{
 			if ( precision < 0 )
@@ -2320,20 +2414,23 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( loopCounter == 20 )
 			logger.log( ILogger.WARNING,
 					"Autoscale precision not found for " + value );//$NON-NLS-1$
-		
+
 		if ( fs != null )
 		{
 
 			if ( fs instanceof NumberFormatSpecifier )
 			{
-				NumberFormatSpecifier ns = (NumberFormatSpecifier)fs;
+				NumberFormatSpecifier ns = (NumberFormatSpecifier) fs;
 				if ( ns.isSetFractionDigits( ) )
 				{
-					double multiplier = ns.isSetMultiplier( ) ? ns.getMultiplier() : 1;
+					double multiplier = ns.isSetMultiplier( ) ? ns.getMultiplier( )
+							: 1;
 					if ( multiplier != 0 )
 					{
-						double formatPrecision = Math.pow( 10, - ns.getFractionDigits( ) ) / multiplier  ;
-					
+						double formatPrecision = Math.pow( 10,
+								-ns.getFractionDigits( ) )
+								/ multiplier;
+
 						if ( precision == 0 )
 							precision = formatPrecision;
 						else
@@ -2341,7 +2438,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 				}
 			}
-			
+
 		}
 		return precision;
 	}
@@ -3744,12 +3841,15 @@ public final class AutoScale extends Methods implements Cloneable
 			Object oMaximum, final RunTimeContext rtc, final OneAxis ax )
 			throws ChartException
 	{
+		double min, max;
+		min = max = 0;
 		// OVERRIDE MINIMUM IF SPECIFIED
 		if ( oMinimum != null )
 		{
 			if ( oMinimum instanceof NumberDataElement )
 			{
-				sc.oMinimum = new Double( ( (NumberDataElement) oMinimum ).getValue( ) );
+				min = ( (NumberDataElement) oMinimum ).getValue( );
+				sc.oMinimum = new Double( min );
 			}
 			/*
 			 * else if (oMinimum instanceof DateTimeDataElement) { sc.oMinimum =
@@ -3774,7 +3874,8 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			if ( oMaximum instanceof NumberDataElement )
 			{
-				sc.oMaximum = new Double( ( (NumberDataElement) oMaximum ).getValue( ) );
+				max = ( (NumberDataElement) oMaximum ).getValue( );
+				sc.oMaximum = new Double( max );
 			}
 			/*
 			 * else if (oMaximum instanceof DateTimeDataElement) { sc.oMaximum =
@@ -3806,6 +3907,36 @@ public final class AutoScale extends Methods implements Cloneable
 								sc.oMinimum, sc.oMaximum
 						},
 						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+		}
+
+		if ( sc.oOriginal != null )
+		{
+			double original = ( (Double) sc.oOriginal ).doubleValue( );
+			if ( sc.bMaximumFixed && sc.bMinimumFixed )
+			{
+				if ( original < min && original < max )
+				{
+					sc.oMinimum = sc.oOriginal;
+				}
+				if ( original > min && original > max )
+				{
+					sc.oMaximum = sc.oOriginal;
+				}
+			}
+			else if ( sc.bMaximumFixed )
+			{
+				if ( original > max )
+				{
+					sc.oMaximum = sc.oOriginal;
+				}
+			}
+			else if ( sc.bMinimumFixed )
+			{
+				if ( original < min )
+				{
+					sc.oMinimum = sc.oOriginal;
+				}
 			}
 		}
 	}
