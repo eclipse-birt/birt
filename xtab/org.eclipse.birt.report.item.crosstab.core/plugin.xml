@@ -158,6 +158,10 @@
                name="repeatColumnHeader"
                visibility="hide">
          </propertyVisibility>
+         <propertyVisibility
+               name="pageLayout"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
