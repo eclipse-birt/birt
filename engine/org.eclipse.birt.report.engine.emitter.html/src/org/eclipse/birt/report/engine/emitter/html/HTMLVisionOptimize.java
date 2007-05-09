@@ -57,12 +57,23 @@ public class HTMLVisionOptimize extends HTMLEmitter
 				HTMLEmitterUtil.DISPLAY_INLINE,
 				styleBuffer );
 
-		// shrink
-		handleShrink( HTMLEmitterUtil.DISPLAY_BLOCK,
-				style,
-				table.getHeight( ),
-				table.getWidth( ),
-				styleBuffer );
+		// table doesn¡¯t support shrink
+		// height
+		DimensionType height = table.getHeight( );
+		if ( null != height )
+		{
+			buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, height );
+		}
+		// width
+		DimensionType width = table.getWidth( );
+		if ( null != width )
+		{
+			buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+		}
+		else
+		{
+			styleBuffer.append( " width: 100%;" );
+		}
 
 		//implement table-layout
 		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
