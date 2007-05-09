@@ -1353,14 +1353,19 @@ public class ExecutionContext
 	 * @return formatter object
 	 */
 	public DateFormatter getDateFormatter( String value )
-	{
-		DateFormatter fmt = (DateFormatter) dateFormatters.get( value );
-		if ( fmt == null )
+	{	
+		DateFormatter fmt = null;
+		if ( value != null )
 		{
-			fmt = new DateFormatter( value, ULocale.forLocale(locale) );
-			dateFormatters.put( value, fmt );
+			fmt = (DateFormatter) dateFormatters.get( value );
+			if ( fmt == null )
+			{
+				fmt = new DateFormatter( value, ULocale.forLocale( locale ) );
+				dateFormatters.put( value, fmt );
+			}
+			return fmt;
 		}
-		return fmt;
+		return new DateFormatter( value, ULocale.forLocale( locale ) );
 	}
 
 	/**
