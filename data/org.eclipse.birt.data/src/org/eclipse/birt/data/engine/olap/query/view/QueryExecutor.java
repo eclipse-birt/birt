@@ -193,7 +193,7 @@ public class QueryExecutor
 				IBinding binding = (IBinding) bindings.get( j );
 				if ( binding.getBindingName( ).equals( bindingName ) )
 				{
-					aggrOns = binding.getAggregatOns( );
+					aggrOns = OlapExpressionUtil.getAggrOnLevels( binding.getAggregatOns( ) );
 					break;
 				}
 			}

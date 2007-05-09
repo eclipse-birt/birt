@@ -120,7 +120,7 @@ public class OlapExpressionUtil
 				if ( binding.getAggrFunction( ) != null  )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
-							binding.getAggregatOns( ),
+							getAggrOnLevels ( binding.getAggregatOns( )),
 							binding.getAggrFunction( ) ) );
 			}
 		}
@@ -134,6 +134,23 @@ public class OlapExpressionUtil
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param exprs
+	 * @return
+	 */
+	public static List getAggrOnLevels( List exprs )
+	{
+		List levelNames = new ArrayList( );
+		for( int i = 0; i < exprs.size( ); i++ )
+		{
+			String[] array = getTargetLevel(exprs.get( i ).toString( )); 
+			if ( array!= null )
+				levelNames.add( array[1] );
+		}
+		return levelNames;
+	}
+	
 	private static class CubeAggrDefn implements ICubeAggrDefn
 	{
 

@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -127,7 +128,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			IBinding binding = (IBinding) it.next( );
 			if ( binding.getBindingName( ).equals( bindingName ) )
 			{
-				List aggrs = binding.getAggregatOns( );
+				List aggrs = OlapExpressionUtil.getAggrOnLevels(binding.getAggregatOns( ));
 				if ( aggrs.size( ) == 0 )
 				{// get all level names in the query definition
 					List levels = new ArrayList( );
