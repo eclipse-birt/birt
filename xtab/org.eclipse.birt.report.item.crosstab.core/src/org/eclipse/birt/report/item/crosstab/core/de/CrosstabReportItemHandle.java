@@ -332,6 +332,37 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Sets the page layout of this crosstab. The given value is defined in
+	 * <code>ICrosstabConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_LAYOUT_DOWN_THEN_OVER</code>
+	 * <li><code>PAGE_LAYOUT_OVER_THEN_DOWN</code>
+	 * 
+	 * </ul>
+	 */
+	public void setPageLayout( String value ) throws SemanticException
+	{
+		handle.setProperty( PAGE_LAYOUT_PROP, value );
+	}
+
+	/**
+	 * Sets if repeat crosstab row header for each page
+	 */
+	public void setRepeatRowHeader( boolean value ) throws SemanticException
+	{
+		handle.setProperty( REPEAT_ROW_HEADER_PROP, Boolean.valueOf( value ) );
+	}
+
+	/**
+	 * Sets if repeat crosstab column header for each page
+	 */
+	public void setRepeatColumnHeader( boolean value ) throws SemanticException
+	{
+		handle.setProperty( REPEAT_COLUMN_HEADER_PROP, Boolean.valueOf( value ) );
+	}
+
+	/**
 	 * Returns the page layout of this crosstab. The return value is defined in
 	 * <code>ICrosstabConstants</code> and can be one of:
 	 * 
