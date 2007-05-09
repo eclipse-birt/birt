@@ -226,6 +226,7 @@ public class PrintUtility
 
 			String mediaSize = ParameterAccessor.getParameter( request,
 					PARAM_PRINTER_MEDIASIZE );
+			mediaSize = ParameterAccessor.htmlDecode( mediaSize );
 			if ( mediaSize != null )
 				printer.setMediaSize( mediaSize );
 		}

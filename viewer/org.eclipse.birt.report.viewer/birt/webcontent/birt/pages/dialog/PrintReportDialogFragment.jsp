@@ -155,6 +155,7 @@
 					for( int j=0; j<mediaSizeNames.length; j++ )
 					{
 						String mediaSizeName = DataUtil.trimString( (String)mediaSizeNames[j] );
+						mediaSizeName = ParameterAccessor.htmlEncode( mediaSizeName );
 					%>
 				printer.addMediaSizeName( "<%= mediaSizeName %>" );						
 				<%
