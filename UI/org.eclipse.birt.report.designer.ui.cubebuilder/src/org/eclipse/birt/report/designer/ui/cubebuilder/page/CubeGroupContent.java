@@ -621,7 +621,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
-											.newTabularLevel( dataField.getColumnName( ) );
+											.newTabularLevel( dimension,
+													dataField.getColumnName( ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
 									( (LevelHandle) element ).getContainer( )
@@ -693,7 +694,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
-											.newTabularLevel( dataField.getColumnName( ) );
+											.newTabularLevel( dimension,
+													dataField.getColumnName( ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
 									( (LevelHandle) element ).getContainer( )
@@ -733,19 +735,24 @@ public class CubeGroupContent extends Composite implements Listener
 										else
 										{
 											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dataField,
+													OlapUtil.getDateLevel( dimension,
+															dataField,
 															OlapUtil.Level_Year ) );
 											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dataField,
+													OlapUtil.getDateLevel( dimension,
+															dataField,
 															OlapUtil.Level_Qtr ) );
 											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dataField,
+													OlapUtil.getDateLevel( dimension,
+															dataField,
 															OlapUtil.Level_Month ) );
 											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dataField,
+													OlapUtil.getDateLevel( dimension,
+															dataField,
 															OlapUtil.Level_Week ) );
 											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dataField,
+													OlapUtil.getDateLevel( dimension,
+															dataField,
 															OlapUtil.Level_Day ) );
 											( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 										}
@@ -753,7 +760,8 @@ public class CubeGroupContent extends Composite implements Listener
 									else
 									{
 										TabularLevelHandle level = DesignElementFactory.getInstance( )
-												.newTabularLevel( dataField.getColumnName( ) );
+												.newTabularLevel( dimension,
+														dataField.getColumnName( ) );
 										level.setColumnName( dataField.getColumnName( ) );
 										level.setDataType( dataField.getDataType( ) );
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
@@ -1391,7 +1399,8 @@ public class CubeGroupContent extends Composite implements Listener
 						}
 					}
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
-							.newTabularLevel( dataField.getColumnName( ) );
+							.newTabularLevel( dimension,
+									dataField.getColumnName( ) );
 					try
 					{
 						level.setColumnName( dataField.getColumnName( ) );
@@ -1442,19 +1451,24 @@ public class CubeGroupContent extends Composite implements Listener
 							else
 							{
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dataField,
+										OlapUtil.getDateLevel( dimension,
+												dataField,
 												OlapUtil.Level_Year ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dataField,
+										OlapUtil.getDateLevel( dimension,
+												dataField,
 												OlapUtil.Level_Qtr ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dataField,
+										OlapUtil.getDateLevel( dimension,
+												dataField,
 												OlapUtil.Level_Month ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dataField,
+										OlapUtil.getDateLevel( dimension,
+												dataField,
 												OlapUtil.Level_Week ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dataField,
+										OlapUtil.getDateLevel( dimension,
+												dataField,
 												OlapUtil.Level_Day ) );
 								dimension.setTimeType( true );
 							}
@@ -1462,7 +1476,8 @@ public class CubeGroupContent extends Composite implements Listener
 						else
 						{
 							TabularLevelHandle level = DesignElementFactory.getInstance( )
-									.newTabularLevel( dataField.getColumnName( ) );
+									.newTabularLevel( dimension,
+											dataField.getColumnName( ) );
 							level.setColumnName( dataField.getColumnName( ) );
 							level.setDataType( dataField.getDataType( ) );
 							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );

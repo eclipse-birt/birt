@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
@@ -34,7 +35,7 @@ public class OlapUtil
 	public static final String Level_Week = "Week";
 	public static final String Level_Day = "Day";
 
-	public static LevelHandle getDateLevel( ResultSetColumnHandle column,
+	public static LevelHandle getDateLevel( DimensionHandle dimension,ResultSetColumnHandle column,
 			String type )
 	{
 		TabularLevelHandle level = null;
@@ -43,35 +44,35 @@ public class OlapUtil
 			if ( type.equals( Level_Year ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Year" );
+						.newTabularLevel( dimension,"Year" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR );
 			}
 			else if ( type.equals( Level_Qtr ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Quarter" );
+						.newTabularLevel( dimension,"Quarter" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
 			}
 			else if ( type.equals( Level_Month ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Month" );
+						.newTabularLevel( dimension,"Month" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH );
 			}
 			else if ( type.equals( Level_Week ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Week" );
+						.newTabularLevel( dimension,"Week" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK );
 			}
 			else if ( type.equals( Level_Day ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Day" );
+						.newTabularLevel( dimension,"Day" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY );
 			}
