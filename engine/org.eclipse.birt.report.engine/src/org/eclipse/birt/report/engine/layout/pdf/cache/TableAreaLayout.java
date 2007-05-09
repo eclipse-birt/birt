@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 import org.w3c.dom.css.CSSValue;
 
 
@@ -850,7 +851,7 @@ public class TableAreaLayout
 						if(ca!=null)
 						{
 							ICellContent cc = (ICellContent)ca.getContent( );
-							cellContent = new ClonedCellContent(cc, getRowSpan(unresolvedRow, ca));
+							cellContent = new ClonedCellContent(cc, getRowSpan((IRowContent)rowArea.getContent( ), ca));
 						}
 						
 					}
@@ -980,7 +981,7 @@ public class TableAreaLayout
 				{
 					ICellContent cc = (ICellContent)ca.getContent( );
 					cellContent = new ClonedCellContent(cc, 
-							getRowSpan(unresolvedRow, ca));
+							getRowSpan((IRowContent)row.getContent( ), ca));
 				
 					//FIXME resolve column span conflict
 					//FIXME resolve content hierarchy
@@ -999,11 +1000,11 @@ public class TableAreaLayout
 		}
 	} 
 	
-	protected int getRowSpan(Row row, CellArea cell)
+	protected int getRowSpan(IRowContent row, CellArea cell)
 	{
 		int rowSpan = cell.getRowSpan();
 		IContent rowContent = (IContent)cell.getContent( ).getParent( );
-		if(row.getContent( )!=rowContent)
+		if(row!=rowContent)
 		{
 			if(rowSpan>1)
 			{
