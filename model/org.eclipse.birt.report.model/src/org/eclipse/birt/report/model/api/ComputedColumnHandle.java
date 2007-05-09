@@ -440,5 +440,16 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setProperty( ComputedColumn.AGGREGATEON_MEMBER, null );
 	}
+	
+	/**
+	 * Clears the argument list.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void clearArgumentList( ) throws SemanticException
+	{
+		setProperty( ComputedColumn.ARGUMENTS_MEMBER, null );
+	}
 
 }
