@@ -117,8 +117,8 @@ public class JSLevelAccessor extends ScriptableObject
 	public Object get( String name, Scriptable start )
 	{
 		if ( !this.dims.containsKey( name ) )
-			return new DataException( ResourceConstants.DIMENSION_NAME_NOT_FOUND,
-					name );
+			throw new RuntimeException( new DataException(ResourceConstants.DIMENSION_NAME_NOT_FOUND,
+					name) );
 		return this.dims.get( name );
 	}
 }

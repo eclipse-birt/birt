@@ -315,7 +315,7 @@ public class ResourceConstants
 	public final static String INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW = "data.olap.InvalidDimensionPositionFacttableRow";
 	public final static String MEASURE_NAME_NOT_FOUND = "data.olap.measureNameNotFound";
 	public final static String LEVEL_NAME_NOT_FOUND = "data.olap.levelNameNotFound";
-	public final static String DIMENSION_NAME_NOT_FOUND = "data.olap.measureNameNotFound";
+	public final static String DIMENSION_NAME_NOT_FOUND = "data.olap.dimensionNameNotFound";
 	public final static String CURSOR_POSITION_SET_ERROR = "data.olap.cursorPositionError";
 	public final static String CURSOR_SEEK_ERROR = "data.olap.cursorSeekError";
 	public final static String CANNOT_GET_MEASURE_VALUE = "data.olap.CannotGetMeasureValue";
@@ -325,4 +325,5 @@ public class ResourceConstants
 	public final static String NO_EDGEDEFN_FOUND = "data.olap.NoEdgeDefinitionFound";
 	public final static String INVALID_SORT_DEFN = "data.olap.invalidSortDefinition";
 	public final static String INVALID_MEASURE_REF = "data.olap.invalidMeasureRef";
+	public final static String INVALID_LEVEL_ATTRIBUTE = "data.olap.invalidLevelAttr";
 }

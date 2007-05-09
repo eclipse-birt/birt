@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.script;
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -54,7 +55,7 @@ public class JSMeasureAccessor extends ScriptableObject
 		}
 		catch ( OLAPException e )
 		{
-			return null;
+			throw new RuntimeException( new DataException( e.getLocalizedMessage( ) ));
 		}
 	}
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.script;
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -66,12 +67,12 @@ public class JSLevelObject extends ScriptableObject
 	public Object get( String name, Scriptable start )
 	{
 		try
-		{
+		{	
 			return this.cursor.getObject( levelName + "/" + name );
 		}
 		catch ( OLAPException e )
 		{
-			return null;
+			throw new RuntimeException( new DataException( e.getLocalizedMessage( ) ) );
 		}
 	}
 }

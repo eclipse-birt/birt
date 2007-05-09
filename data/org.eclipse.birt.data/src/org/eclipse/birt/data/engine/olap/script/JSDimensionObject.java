@@ -58,8 +58,8 @@ public class JSDimensionObject extends ScriptableObject
 	public Object get( String name, Scriptable start )
 	{
 		if ( !this.levels.containsKey( name ) )
-			return new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
-					name );
+			throw new RuntimeException( new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
+					name ));
 		return this.levels.get( name );
 	}
 }
