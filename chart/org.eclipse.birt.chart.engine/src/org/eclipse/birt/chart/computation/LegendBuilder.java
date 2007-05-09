@@ -680,7 +680,11 @@ public final class LegendBuilder implements IConstants
 		while ( dsiBase.hasNext( ) )
 		{
 			Object obj = dsiBase.next( );
-
+			
+			// Replace with one space char if it is null, and it can be
+			// dispalyed normally with empty label. - Henry
+			obj = getNonNullValue( obj, IConstants.ONE_SPACE );
+			
 			// Skip invalid data
 			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 			{
@@ -943,6 +947,22 @@ public final class LegendBuilder implements IConstants
 		};
 	}
 
+	/**
+	 * Returns a non-null value, if it is null, replace with specified value.
+	 * 
+	 * @param value specified value.
+	 * @param defaultValue default return value.
+	 * @return a non-null value.
+	 */
+	private Object getNonNullValue( Object value, Object defaultValue )
+	{
+		if ( value == null )
+		{
+			value = defaultValue;
+		}
+		return value;
+	}
+
 	private double[] computeVerticalByTopBottomValue( IDisplayServer xs,
 			Chart cm, SeriesDefinition[] seda, RunTimeContext rtc,
 			ITextMetrics itm, Label la, LegendData legendData )
@@ -1076,11 +1096,11 @@ public final class LegendBuilder implements IConstants
 								// ignore, use original text.
 							}
 						}
-
+ 						
 						Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
 						seLabel.getCaption( ).setValue( valueText );
 						itm.reuse( seLabel );
-
+						
 						BoundingBox bbV = null;
 						try
 						{
@@ -1566,6 +1586,8 @@ public final class LegendBuilder implements IConstants
 		{
 			Object obj = dsiBase.next( );
 
+			obj = getNonNullValue( obj, IConstants.ONE_SPACE );
+			
 			// Skip invalid data
 			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 			{
