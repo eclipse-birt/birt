@@ -2481,7 +2481,9 @@ ParameterDialog.Label.Listlimit=一覧の制限(&I) :
 ParameterDialog.Radio.Dynamic=動的(&Y)
 ParameterDialog.Radio.Static=静的(&S)
 ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
-
+ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
+ParameterDialog.date.prompt=Please enter date values as: {0}
+ParameterDialog.time.prompt=Please enter time values as: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=値の選択

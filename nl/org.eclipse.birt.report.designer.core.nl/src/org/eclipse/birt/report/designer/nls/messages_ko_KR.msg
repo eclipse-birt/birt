@@ -2481,7 +2481,9 @@ ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
 ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
-
+ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
+ParameterDialog.date.prompt=Please enter date values as: {0}
+ParameterDialog.time.prompt=Please enter time values as: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=값 선택

@@ -2481,7 +2481,9 @@ ParameterDialog.Label.Listlimit=列表限制(&I):
 ParameterDialog.Radio.Dynamic=动态(&Y)
 ParameterDialog.Radio.Static=静态(&S)
 ParameterDialog.toolTipText.OpenExprButton=打开表达式生成器
-
+ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
+ParameterDialog.date.prompt=Please enter date values as: {0}
+ParameterDialog.time.prompt=Please enter time values as: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=选择值

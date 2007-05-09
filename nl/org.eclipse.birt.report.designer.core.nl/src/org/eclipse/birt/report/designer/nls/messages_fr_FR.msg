@@ -2481,7 +2481,9 @@ ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
 ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
-
+ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
+ParameterDialog.date.prompt=Please enter date values as: {0}
+ParameterDialog.time.prompt=Please enter time values as: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Sélectionner une valeur
