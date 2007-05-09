@@ -48,7 +48,7 @@
 
 	<target name="Clean">
 		<delete>
-			<fileset dir="." includes="**/*_??_??.properties" />
+			<fileset dir="." includes="nl/**/*.properties,**/*_??_??.properties" />
 			<fileset dir="." includes="${jar.name}" />
 		</delete>
 	</target>
@@ -61,28 +61,28 @@
 					  src="." 
 					  dest="." 
 					  ext=".properties" 
-					  includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg"/>
+					  includes="*/de/*/jspbirtchart-templates.msg,*/es/*/jspbirtchart-templates.msg,*/fr/*/jspbirtchart-templates.msg,**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg"/>
 		<native2ascii encoding="GBK" 
 					  src="." 
 					  dest="." 
 					  ext=".properties" 
-					  includes="**/*_zh_CN.msg"/>	
+					  includes="*/zh/*/jspbirtchart-templates.msg,**/*_zh_CN.msg"/>	
 		<native2ascii encoding="SJIS" 
 					  src="." 
 					  dest="." 
 					  ext=".properties"
-					  includes="**/*_ja_JP.msg"/>
+					  includes="*/ja/*/jspbirtchart-templates.msg,**/*_ja_JP.msg"/>
 		<native2ascii encoding="MS949" 
 					  src="." 
 					  dest="." 
 					  ext=".properties"
-					  includes="**/*_ko_KR.msg"/>
+					  includes="*/ko/*/jspbirtchart-templates.msg,**/*_ko_KR.msg"/>
 	</target>
 	
 	<target name="nl-jar">
 		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
 		<zipfileset dir="${dir.src}"  includes="**/*.properties"/>
-		   <fileset dir="." includes="plugin_??_??.properties,templates/*.properties"/>
+		   <fileset dir="." includes="plugin_??_??.properties,nl/*/templates/*.properties"/>
 		</jar>
 	</target>
 	
