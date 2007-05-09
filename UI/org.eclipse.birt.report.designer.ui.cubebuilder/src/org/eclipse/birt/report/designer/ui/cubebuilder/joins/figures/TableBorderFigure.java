@@ -77,22 +77,30 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 		titleBar.setLabel( s );
 	}
 
-	public void setSelectedColors( )
+	public void setSelectedColors( boolean isFact )
 	{
-		titleBar.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_TITLE_BACKGROUND_GRADIENT ) );
+		if ( !isFact )
+			titleBar.setBackgroundColor( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_TITLE_BACKGROUND ) );
+		else
+			titleBar.setBackgroundColor( Fact_BACKGROUND );
 		titleBar.setTextColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_TITLE_FOREGROUND ) );
 		titleBar.setFont( selectedFont );
 	}
 
-	public void setDeselectedColors( )
+	private Color Fact_INACTIVE_BACKGROUND = new Color( null, 75, 75, 75 );
+	private Color Fact_BACKGROUND = new Color( null, 25, 25, 25 );
+
+	public void setDeselectedColors( boolean isFact )
 	{
-		titleBar.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT ) );
+		if ( !isFact )
+			titleBar.setBackgroundColor( Display.getCurrent( )
+					.getSystemColor( SWT.COLOR_TITLE_INACTIVE_BACKGROUND ) );
+		else
+			titleBar.setBackgroundColor( Fact_INACTIVE_BACKGROUND );
 		titleBar.setTextColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_FOREGROUND ) );
 		titleBar.setFont( selectedFont );
 	}
-
 }

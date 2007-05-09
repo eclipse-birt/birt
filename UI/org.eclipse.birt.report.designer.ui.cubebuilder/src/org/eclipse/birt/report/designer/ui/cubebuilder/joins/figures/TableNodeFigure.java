@@ -19,9 +19,10 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+
 /**
- * Figure for representing a Table object. This uses a ToolBarLayout to 
- * List all the columns
+ * Figure for representing a Table object. This uses a ToolBarLayout to List all
+ * the columns
  */
 public class TableNodeFigure extends Panel
 {
@@ -38,6 +39,14 @@ public class TableNodeFigure extends Panel
 		this.setLayoutManager( mainLayout );
 		this.setOpaque( true );
 
+	}
+
+	private boolean isFact;
+
+	public TableNodeFigure( String name, boolean isFact )
+	{
+		this( name );
+		this.isFact = isFact;
 	}
 
 	/*
@@ -73,27 +82,27 @@ public class TableNodeFigure extends Panel
 	}
 
 	/**
-	 *  Sets the color of the figure , when it is selected.
-	 *
+	 * Sets the color of the figure , when it is selected.
+	 * 
 	 */
 	public void setSelectedColors( )
 	{
 		this.setOpaque( true );
 		this.setForegroundColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setSelectedColors( );
+		( (TableBorderFigure) this.getBorder( ) ).setSelectedColors( isFact );
 	}
 
 	/**
 	 * Sets the color of the figure when it is deselected.
-	 *
+	 * 
 	 */
 	public void setDeselectedColors( )
 	{
 		this.setOpaque( true );
 		this.setForegroundColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( );
+		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( isFact );
 	}
 
 	/**
@@ -105,7 +114,8 @@ public class TableNodeFigure extends Panel
 	}
 
 	/**
-	 * @param The Name of the table to be displayed
+	 * @param The
+	 *            Name of the table to be displayed
 	 */
 	public void setName( String string )
 	{

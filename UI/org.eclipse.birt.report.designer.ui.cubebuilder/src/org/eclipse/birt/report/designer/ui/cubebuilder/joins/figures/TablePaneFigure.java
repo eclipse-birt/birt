@@ -18,7 +18,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 /**
- *  The Scrollable Pane for representing the Table Object in the Joins page
+ * The Scrollable Pane for representing the Table Object in the Joins page
  * 
  */
 public class TablePaneFigure extends ScrollPane
@@ -29,11 +29,19 @@ public class TablePaneFigure extends ScrollPane
 
 	public TablePaneFigure( String name )
 	{
-		super();
+		super( );
 		frameBorder = new TableBorderFigure( );
 		frameBorder.setLabel( name );
-		this.setBorder(frameBorder);
+		this.setBorder( frameBorder );
 
+	}
+
+	private boolean isFact = false;
+
+	public TablePaneFigure( String name, boolean isFact )
+	{
+		this( name );
+		this.isFact = isFact;
 	}
 
 	/*
@@ -57,30 +65,29 @@ public class TablePaneFigure extends ScrollPane
 		return getPreferredSize( );
 	}
 
-
 	/**
-	 *  Sets the color of the figure , when it is selected.
-	 *
+	 * Sets the color of the figure , when it is selected.
+	 * 
 	 */
 	public void setSelectedColors( )
 	{
 		this.setOpaque( true );
 		this.setForegroundColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setSelectedColors( );
+		( (TableBorderFigure) this.getBorder( ) ).setSelectedColors( isFact );
 		repaint( );
 	}
 
 	/**
 	 * Sets the color of the figure when it is deselected.
-	 *
+	 * 
 	 */
 	public void setDeselectedColors( )
 	{
 		this.setOpaque( true );
 		this.setForegroundColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( );
+		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( isFact );
 		repaint( );
 	}
 }

@@ -70,8 +70,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	protected IFigure createFigure( )
 	{
 		String name = ( (DataSetHandle) dataset ).getName( ) + "(Cube Dataset)";
-		tableNode = new TableNodeFigure( name );
-		scrollPane = new TablePaneFigure( name );
+		tableNode = new TableNodeFigure( name,true );
+		scrollPane = new TablePaneFigure( name,true );
 		scrollPane.setContents( tableNode );
 		return scrollPane;
 	}
