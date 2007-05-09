@@ -393,7 +393,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[2].length( ), 1 );
 		assertEquals( resultSet[2].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[2].getLevelIndex( "level31" ), -1 );
-		resultSet[1].seek( 0 );
+		resultSet[2].seek( 0 );
 		assertEquals( resultSet[2].getLevelKeyValue( 0 ), null );
 		assertEquals( resultSet[2].getAggregationValue( 0 ), new Double(28) );
 		
@@ -421,6 +421,10 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(7) );
 		resultSet[3].seek( 7 );
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(8) );
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
 	}
 	
 	/**
@@ -928,6 +932,10 @@ public class CubeAggregationTest extends TestCase
 		resultSet[3].seek( 1 );
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], "2" );
 		assertEquals( resultSet[3].getAggregationValue( 0 ), new Double(22) );
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
 	}
 }
 

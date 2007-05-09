@@ -86,6 +86,30 @@ public abstract class RDTestCase extends APITestCase
 			File file = new File( fileName2 );
 			file.delete( );
 		}
+		if( archiveWriter != null )
+		{
+			try
+			{
+				archiveWriter.finish( );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if( archiveReader != null )
+		{
+			try
+			{
+				archiveReader.close( );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
