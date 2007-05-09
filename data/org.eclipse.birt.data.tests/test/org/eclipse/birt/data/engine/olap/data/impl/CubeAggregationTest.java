@@ -443,7 +443,7 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>30" );
@@ -497,8 +497,8 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
-		level21_sum.addAggregateOn( "level31" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		level21_sum.addAggregateOn( "dimension[\"dimension3\"][\"level31\"]" );
 		
 		cubeQuery.addBinding( level21_sum );
 		
@@ -572,7 +572,7 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>40" );
@@ -613,7 +613,7 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
@@ -667,8 +667,8 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
-		level21_sum.addAggregateOn( "level31" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		level21_sum.addAggregateOn( "dimension[\"dimension3\"][\"level31\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
@@ -722,7 +722,7 @@ public class CubeAggregationTest extends TestCase
 		IBinding level21_sum = new Binding( "level21_sum" );
 		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		level21_sum.addAggregateOn( "level21" );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
 		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
