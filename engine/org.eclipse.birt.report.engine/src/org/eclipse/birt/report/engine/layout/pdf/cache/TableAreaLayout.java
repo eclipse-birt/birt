@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 import org.w3c.dom.css.CSSValue;
 
 
