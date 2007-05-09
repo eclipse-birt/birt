@@ -17,7 +17,7 @@
 <project name="Create BIRT Java Doc" default="main" basedir=".">
 	
 
-	<property name="javadoc.dir" value="${postingDirectory}/${buildId}/javaDocs" />
+	<property name="javadoc.dir" value="${postingDirectory}/javaDoc/javaDocs" />
 	<property name="javacSource" value="1.4"/>
 	<property name="javacTarget" value="1.4"/>
 
@@ -247,10 +247,19 @@
 	</projectList>
 
 	<target name="main" >
+		<antcall target="CleanLastOutput"/>
 		<antcall target="UnzipBIRT"/>
 		<antcall target="GenClasspath"/>
 		<antcall target="GenJavaDoc"/>
 		<antcall target="Clean"/>
+	</target>
+	
+	<target name="CleanLastOutput">
+		<delete failonerror="false">
+			<fileset dir="${javadoc.dir}">
+			    <include name="**"/>
+			</fileset>
+		</delete>
 	</target>
 	
 	<target name="UnzipBIRT">

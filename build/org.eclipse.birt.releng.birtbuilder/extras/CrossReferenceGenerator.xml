@@ -2,8 +2,8 @@
 	
 	<property name="working.dir" value="${buildDirectory}/plugins"/>
     <property name="tool.lib.path" value="${p4.home}/dailybuild/source/org.eclipse.birt.build/lib" />
-    <property name="javaCrossReference.dir" value="${postingDirectory}/${buildId}/javaCrossReferenceDoc"/>
-	<property name="javaDocCheck.base.dir" value="${postingDirectory}/${buildId}/javaDocCheck"/>
+    <property name="javaCrossReference.dir" value="${postingDirectory}/javaDoc/javaCrossReferenceDoc"/>
+	<property name="javaDocCheck.base.dir" value="${postingDirectory}/javaDoc/javaDocCheck"/>
     
 
     <property name="birt.build.tools.dir" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
