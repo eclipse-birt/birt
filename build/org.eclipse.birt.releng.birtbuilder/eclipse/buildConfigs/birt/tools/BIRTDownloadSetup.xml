@@ -774,6 +774,7 @@
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${ZipPrefix}">
 				<include name="*.nl1_*/**" />
 				<include name="*.nl1_*.jar" />
+				<exclude name="org.eclipse.birt.report.designer.ui.rcp.nl1_*.jar"/>
 			</zipfileset>
 		</zip>
 		<!-- package NL for Report Designer Full Eclipse Install -->
@@ -784,6 +785,9 @@
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
 				<include name="*.nl1_*/**" />
 				<include name="*.nl1_*.jar" />
+				<exclude name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar"/>
 			</zipfileset>
 		</zip>
 	</target>
