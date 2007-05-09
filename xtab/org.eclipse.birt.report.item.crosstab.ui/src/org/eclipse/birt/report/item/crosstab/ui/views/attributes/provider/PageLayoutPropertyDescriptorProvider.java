@@ -14,8 +14,16 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
 /**
  * @author Administrator
@@ -36,7 +44,7 @@ public class PageLayoutPropertyDescriptorProvider extends
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName() {
-		return "Page Layout:";
+		return Messages.getString("PageLayoutPropertyDescriptorProvider.PageLayout");
 	}
 
 	public Object load( )
@@ -71,6 +79,7 @@ public class PageLayoutPropertyDescriptorProvider extends
 		super.save(value);
 	}
 
+	private static IChoiceSet choiceSet;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,49 +87,29 @@ public class PageLayoutPropertyDescriptorProvider extends
 	 */
 	public void setInput(Object input) {
 		this.input = input;
-
+		GroupElementHandle multiSelectionHandle = DEUtil.getMultiSelectionHandle( DEUtil.getInputElements( input ) );
+		choiceSet = multiSelectionHandle.getPropertyHandle( getProperty( ) )
+				.getPropertyDefn( )
+				.getChoices( );
 	}
 
 	public String[] getItems() {
-		String[] items = new String[] { "Over, then Down", "Down, then Over" };
+		IChoice choice[]= choiceSet.getChoices( );
+		String[] items = new String[choice.length];
+		for(int i = 0; i < choice.length; i ++)
+		{
+			items[i] = choice[i].getDisplayName( );
+		}
 		return items;
 	}
 
 	public String[] getValues() {
-		String[] items = new String[] {
-				ICrosstabConstants.PAGE_LAYOUT_OVER_THEN_DOWN,
-				ICrosstabConstants.PAGE_LAYOUT_DOWN_THEN_OVER };
+		IChoice choice[]= choiceSet.getChoices( );
+		String[] items = new String[choice.length];
+		for(int i = 0; i < choice.length; i ++)
+		{
+			items[i] = choice[i].getName( );
+		}
 		return items;
 	}
-
-	//
-	// protected void initializeCrosstab() {
-	// crosstabHandle = null;
-	// if ((input == null)) {
-	// return;
-	// }
-	//
-	// if ((!(input instanceof List && DEUtil.getMultiSelectionHandle(
-	// (List) input).isExtendedElements()))
-	// && (!(input instanceof ExtendedItemHandle))) {
-	// return;
-	// }
-	//
-	// ExtendedItemHandle handle;
-	// if (((List) input).size() > 0) {
-	// handle = (ExtendedItemHandle) (((List) input).get(0));
-	// } else // input instanceof ExtendedItemHandle
-	// {
-	// handle = (ExtendedItemHandle) input;
-	// }
-	//
-	// try {
-	// crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem();
-	// return;
-	// } catch (ExtendedElementException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// return;
-	// }
-	// }
 }
