@@ -121,6 +121,10 @@ public class ResourceFileFolderSelectionDialog extends
 		if ( selected.length > 0 && rootFile != null )
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
+			if(entry == null || entry.getURL( ) == null)
+			{
+				return null;
+			}
 			return ResourceLocator.relativize( entry.getURL( ) );
 		}
 		return null;
