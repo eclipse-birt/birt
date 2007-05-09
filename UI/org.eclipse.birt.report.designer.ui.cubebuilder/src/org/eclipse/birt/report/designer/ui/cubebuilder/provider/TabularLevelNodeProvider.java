@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -78,7 +77,8 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 	 */
 	public String getNodeDisplayName( Object model )
 	{
-		return DEUtil.getDisplayLabel( model, false );
+		LevelHandle handle = (LevelHandle) model;
+		return handle.getName( );
 	}
 
 	/**

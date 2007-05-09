@@ -92,8 +92,7 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT ) );
 		titleBar.setTextColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_FOREGROUND ) );
-		titleBar.setFont( Display.getCurrent( )
-				.getSystemFont( ) );
+		titleBar.setFont( selectedFont );
 	}
 
 }

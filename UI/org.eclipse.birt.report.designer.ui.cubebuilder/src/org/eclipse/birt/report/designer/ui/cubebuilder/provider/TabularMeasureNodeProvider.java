@@ -18,8 +18,9 @@ import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeMeasureAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.action.IMenuManager;
@@ -69,14 +70,10 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 		return measure.getContainer( );
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
-	 */
 	public String getNodeDisplayName( Object model )
 	{
-		return DEUtil.getDisplayLabel( model, false );
+		MeasureHandle handle = (MeasureHandle) model;
+		return handle.getName( );
 	}
 
 
