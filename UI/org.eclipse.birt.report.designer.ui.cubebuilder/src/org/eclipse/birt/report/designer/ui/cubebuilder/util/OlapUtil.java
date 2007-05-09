@@ -34,7 +34,8 @@ public class OlapUtil
 	public static final String Level_Week = "Week";
 	public static final String Level_Day = "Day";
 
-	public static LevelHandle getDateLevel( ResultSetColumnHandle column, String type )
+	public static LevelHandle getDateLevel( ResultSetColumnHandle column,
+			String type )
 	{
 		TabularLevelHandle level = null;
 		try
@@ -162,22 +163,29 @@ public class OlapUtil
 
 	public static DataSetHandle[] getAvailableDatasets( )
 	{
-		return (DataSetHandle[]) SessionHandleAdapter.getInstance( )
+		SlotHandle slot = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllDataSets( )
-				.toArray( new DataSetHandle[0] );
+				.getDataSets( );
+		if ( slot == null || slot.getCount( ) == 0 )
+			return new DataSetHandle[0];
+		DataSetHandle[] datasets = new DataSetHandle[slot.getCount( )];
+		for ( int i = 0; i < slot.getCount( ); i++ )
+		{
+			datasets[i] = (DataSetHandle) slot.get( i );
+		}
+		return datasets;
 	}
 
 	public static int getIndexOfPrimaryDataset( DataSetHandle dataset )
 	{
-		DataSetHandle[] datasets = (DataSetHandle[]) SessionHandleAdapter.getInstance( )
+		SlotHandle slot = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllDataSets( )
-				.toArray( new DataSetHandle[0] );
-		for ( int i = 0; i < datasets.length; i++ )
+				.getDataSets( );
+		if ( slot == null || slot.getCount( ) == 0 )
+			return -1;
+		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
-			DataSetHandle temp = (DataSetHandle) datasets[i];
-			if ( dataset == temp )
+			if ( slot.get( i ) == dataset )
 				return i;
 		}
 		return -1;
@@ -185,15 +193,15 @@ public class OlapUtil
 
 	public static DataSetHandle getDataset( String datasetName )
 	{
-		DataSetHandle[] datasets = (DataSetHandle[]) SessionHandleAdapter.getInstance( )
+		SlotHandle slot = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllDataSets( )
-				.toArray( new DataSetHandle[0] );
-		for ( int i = 0; i < datasets.length; i++ )
+				.getDataSets( );
+		if ( slot == null || slot.getCount( ) == 0 )
+			return null;
+		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
-			DataSetHandle temp = (DataSetHandle) datasets[i];
-			if ( datasetName.equals( temp.getName( ) ) )
-				return temp;
+			if ( ((DataSetHandle)slot.get( i )).getName( ).equals( datasetName ) )
+				return (DataSetHandle)slot.get( i );
 		}
 		return null;
 	}
