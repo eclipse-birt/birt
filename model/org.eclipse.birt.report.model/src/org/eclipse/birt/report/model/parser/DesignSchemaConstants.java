@@ -125,6 +125,9 @@ public interface DesignSchemaConstants
 	static final String MASK_ATTRIB = "mask"; //$NON-NLS-1$
 	static final String MEASURE_TAG = "measure"; //$NON-NLS-1$
 	static final String MEASURE_GROUP_TAG = "measure-group"; //$NON-NLS-1$
+	static final String MEMBER_VALUE_TAG = "member-value"; //$NON-NLS-1$
+	static final String SORT_ELEMENT_TAG = "sort-element"; //$NON-NLS-1$
+	static final String FILTER_CONDITION_TAG = "filter-condition-element"; //$NON-NLS-1$
 	static final String METHOD_TAG = "method"; //$NON-NLS-1$
 	static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	static final String NUMBER_ALIGN_ATTRIB = "number-align"; //$NON-NLS-1$ 

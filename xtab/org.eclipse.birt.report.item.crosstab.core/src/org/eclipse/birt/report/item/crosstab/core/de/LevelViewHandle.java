@@ -29,9 +29,10 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * LevelViewHandle.
  */
-public class LevelViewHandle extends AbstractCrosstabItemHandle implements
-		ILevelViewConstants,
-		ICrosstabConstants
+public class LevelViewHandle extends AbstractCrosstabItemHandle
+		implements
+			ILevelViewConstants,
+			ICrosstabConstants
 {
 
 	/**
@@ -65,11 +66,12 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 
 	/**
 	 * Returns the iterator for filter list defined on this level view. The
-	 * element in the iterator is the corresponding <code>StructureHandle</code>
-	 * that deal with a <code>FilterCond</code> in the list.
+	 * element in the iterator is the corresponding
+	 * <code>DesignElementHandle</code> that deal with a
+	 * <code>FilterConditionElementHandle</code> in the list.
 	 * 
-	 * @return the iterator for <code>FilterConditionHandle</code> structure
-	 *         list
+	 * @return the iterator for <code>FilterConditionElementHandle</code>
+	 *         element list
 	 */
 
 	public Iterator filtersIterator( )
@@ -79,7 +81,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 		{
 			return Collections.EMPTY_LIST.iterator( );
 		}
-		return propHandle.iterator( );
+		return propHandle.getListValue( ).iterator( );
 	}
 
 	/**
@@ -112,10 +114,20 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
-	 * Returns the iterator for Sort list defined on this level. The element in
-	 * the iterator is the corresponding <code>StructureHandle</code>.
+	 * Gets the display key for this level view.
 	 * 
-	 * @return the iterator for <code>SortKeyHandle</code> structure list
+	 * @return the display key for this level view
+	 */
+	public String getDisplayField( )
+	{
+		return handle.getStringProperty( DISPLAY_FIELD_PROP );
+	}
+
+	/**
+	 * Returns the iterator for Sort list defined on this level. The element in
+	 * the iterator is the corresponding <code>SortElementHandle</code>.
+	 * 
+	 * @return the iterator for <code>SortElementHandle</code> element list
 	 */
 
 	public Iterator sortsIterator( )
@@ -125,7 +137,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 		{
 			return Collections.EMPTY_LIST.iterator( );
 		}
-		return propHandle.iterator( );
+		return propHandle.getListValue( ).iterator( );
 	}
 
 	/**
@@ -238,9 +250,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	public CrosstabCellHandle getCell( )
 	{
 		PropertyHandle propHandle = getMemberProperty( );
-		return propHandle.getContentCount( ) == 0 ? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
-						CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0
+				? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
+						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -251,9 +264,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	public CrosstabCellHandle getAggregationHeader( )
 	{
 		PropertyHandle propHandle = getAggregationHeaderProperty( );
-		return propHandle.getContentCount( ) == 0 ? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
-						CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0
+				? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
+						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -275,12 +289,15 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 		// can not add aggregation if this level is innermost
 		if ( isInnerMost( ) )
 		{
-			logger.log( Level.WARNING,
-					"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
+			logger
+					.log(
+							Level.WARNING,
+							"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
 			return;
 		}
 
-		getAggregationHeaderProperty( ).add( CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle ) );
+		getAggregationHeaderProperty( ).add(
+				CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle ) );
 	}
 
 	/**
@@ -311,7 +328,8 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
 			throws SemanticException
 	{
-		return new LevelViewTask( this ).addSubTotal( measureList, functionList );
+		return new LevelViewTask( this )
+				.addSubTotal( measureList, functionList );
 	}
 
 	/**
@@ -364,9 +382,11 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 		// one in crosstab view
 		if ( dimensionView != null )
 		{
-			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView.getContainer( );
+			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView
+					.getContainer( );
 			if ( container != null
-					&& dimensionView.getIndex( ) == container.getDimensionCount( ) - 1
+					&& dimensionView.getIndex( ) == container
+							.getDimensionCount( ) - 1
 					&& getIndex( ) == dimensionView.getLevelCount( ) - 1 )
 				return true;
 		}
@@ -385,10 +405,11 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public int getAxisType( )
 	{
-		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
-				DIMENSION_VIEW_EXTENSION_NAME );
-		return dimensionView == null ? NO_AXIS_TYPE
-				: dimensionView.getAxisType( );
+		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil
+				.getReportItem( handle.getContainer( ),
+						DIMENSION_VIEW_EXTENSION_NAME );
+		return dimensionView == null ? NO_AXIS_TYPE : dimensionView
+				.getAxisType( );
 
 	}
 
@@ -428,6 +449,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	public void setAggregationFunction( MeasureViewHandle measureView,
 			String function ) throws SemanticException
 	{
-		new LevelViewTask( this ).setAggregationFunction( measureView, function );
+		new LevelViewTask( this )
+				.setAggregationFunction( measureView, function );
 	}
 }

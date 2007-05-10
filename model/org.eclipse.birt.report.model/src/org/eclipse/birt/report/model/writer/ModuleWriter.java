@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -72,6 +73,7 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
@@ -83,6 +85,7 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.SortElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -107,6 +110,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -121,6 +125,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
@@ -133,6 +138,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
@@ -1670,6 +1676,7 @@ public abstract class ModuleWriter extends ElementVisitor
 							writeStructure( obj, propName );
 						break;
 					case IPropertyType.ELEMENT_TYPE :
+					case IPropertyType.CONTENT_ELEMENT_TYPE :
 						writeContents( obj, propName );
 						break;
 					default :
@@ -3646,4 +3653,68 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitFilterConditionElement(org.eclipse.birt.report.model.elements.FilterConditionElement)
+	 */
+	public void visitFilterConditionElement( FilterConditionElement obj )
+	{
+		writer.startElement( DesignSchemaConstants.FILTER_CONDITION_TAG );
+		markLineNumber( obj );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		super.visitFilterConditionElement( obj );
+		property( obj, IFilterConditionElementModel.EXPR_PROP );
+		property( obj, IFilterConditionElementModel.OPERATOR_PROP );
+		property( obj, IFilterConditionElementModel.VALUE1_PROP );
+		property( obj, IFilterConditionElementModel.VALUE2_PROP );
+		property( obj, IFilterConditionElementModel.FILTER_TARGET_PROP );
+		writeContents( obj, IFilterConditionElementModel.MEMBER_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMemberValue(org.eclipse.birt.report.model.elements.MemberValue)
+	 */
+	public void visitMemberValue( MemberValue obj )
+	{
+		writer.startElement( DesignSchemaConstants.MEMBER_VALUE_TAG );
+		markLineNumber( obj );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		super.visitMemberValue( obj );
+		property( obj, IMemberValueModel.VALUE_PROP );
+		property( obj, IMemberValueModel.LEVEL_PROP );
+		writeContents( obj, IMemberValueModel.MEMBER_VALUES_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSortElement(org.eclipse.birt.report.model.elements.SortElement)
+	 */
+	public void visitSortElement( SortElement obj )
+	{
+		writer.startElement( DesignSchemaConstants.SORT_ELEMENT_TAG );
+		markLineNumber( obj );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		super.visitSortElement( obj );
+		property( obj, ISortElementModel.KEY_PROP );
+		property( obj, ISortElementModel.DIRECTION_PROP );
+		writeContents( obj, ISortElementModel.MEMBER_PROP );
+
+		writer.endElement( );
+	}
+
 }

@@ -98,8 +98,8 @@
         </extended-item>
         <extended-item extensionName="TestingTable" name="testExtendedTable" id="26">
             <property name="usage">testusagevalue</property>
-            <property name="caption">table caption</property>
             <property name="color">red</property>
+            <property name="caption">table caption</property>            
             <property name="dataSet">tableDataSet</property>
         </extended-item>
     </body>

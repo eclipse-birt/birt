@@ -237,6 +237,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( jmpDefn != null
+				&& struct != null
 				&& ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( jmpDefn
 						.getName( ) ) || StyleRule.OPERATOR_MEMBER
 						.equalsIgnoreCase( jmpDefn.getName( ) ) ) )

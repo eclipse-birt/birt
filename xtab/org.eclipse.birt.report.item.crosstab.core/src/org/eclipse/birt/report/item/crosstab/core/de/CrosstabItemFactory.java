@@ -72,8 +72,6 @@ public class CrosstabItemFactory extends ReportItemFactory
 			return new CrosstabCellHandle( extendedItemHandle );
 		if ( AGGREGATION_CELL_EXTENSION_NAME.equals( extensionName ) )
 			return new AggregationCellHandle( extendedItemHandle );
-		if ( CROSSTAB_MEMBER_VALUE_EXTENSION_NAME.equals( extensionName ) )
-			return new CrosstabMemberValueHandle( extendedItemHandle );
 		// if ( HEADER_CELL_EXTENSION_NAME.equals( extensionName ) )
 		// return new HeaderCellHandle( extendedItemHandle );
 		return null;

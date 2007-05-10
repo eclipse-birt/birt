@@ -3805,7 +3805,37 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaMeasure" name="OdaMeasure" since="2.2" xmlName="oda-measure">
-  </Element>  	
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.MemberValue" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.MemberValue" name="MemberValue" nameSpace="none" since="2.2" xmlName="member-value">
+    <Property displayNameID="Element.MemberValue.value" name="value" since="2.2" type="string"/>
+    <Property detailType="Level" displayNameID="Element.MemberValue.level" name="level" since="2.2" type="elementRef"/>    
+	<Property displayNameID="Element.MemberValue.memberValues" isList="true" name="memberValues" since="2.2" type="contentElement">
+		<Type name="MemberValue"/>
+	</Property>        
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.SortElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.SortElement" name="SortElement" nameSpace="none" since="2.2" xmlName="sort-element">
+    <Property displayNameID="Element.SortElement.key" name="key" since="2.2" type="expression" valueRequired="true"/>
+    <Property detailType="sortDirection" displayNameID="Element.SortElement.direction" name="direction" runtimeSettable="false" since="2.2" type="choice">
+      <Default>asc</Default>
+    </Property>
+    <Property displayNameID="Element.SortElement.member" isList="false" name="member" since="2.2" type="contentElement">
+		<Type name="MemberValue"/>
+	</Property>
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.FilterConditionElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.FilterConditionElement" name="FilterConditionElement" nameSpace="none" since="2.2" xmlName="filter-condition-element">
+    <Property detailType="filterOperator" displayNameID="Element.FilterConditionElement.operator" name="operator" runtimeSettable="false" since="2.2" type="choice">
+      <Default>eq</Default>
+    </Property>
+    <Property displayNameID="Element.FilterConditionElement.expr" name="expr" runtimeSettable="false" since="2.2" type="expression" valueRequired="true"/>
+    <Property displayNameID="Element.FilterConditionElement.value1" name="value1" runtimeSettable="false" since="2.2" type="expression"/>
+    <Property displayNameID="Element.FilterConditionElement.value2" name="value2" runtimeSettable="false" since="2.2" type="expression"/>
+    <Property detailType="filterTarget" displayNameID="Element.FilterConditionElement.filterTarget" name="filterTarget" returnType="any" runtimeSettable="false" since="2.2" type="choice">
+    	<Default>DataSet</Default>
+    </Property>
+    <Property displayNameID="Element.FilterConditionElement.member" isList="false" name="member" since="2.2" type="contentElement">
+		<Type name="MemberValue"/>
+	</Property>
+  </Element>    	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
   	<Property canInherit="false" detailType="templateElementType" displayNameID="Element.TemplateParameterDefinition.allowedType" name="allowedType" runtimeSettable="false" since="2.0" type="choice"/>

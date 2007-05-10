@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -688,15 +690,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the cube element handle, if found, otherwise null
 	 */
 
-	public DesignElementHandle findCube( String name )
+	public CubeHandle findCube( String name )
 	{
 		DesignElement element = module.findOLAPElement( name );
 		if ( element == null )
 			return null;
 		return element.getDefn( ).isKindOf(
 				MetaDataDictionary.getInstance( ).getElement(
-						ReportDesignConstants.CUBE_ELEMENT ) ) ? element
-				.getHandle( element.getRoot( ) ) : null;
+						ReportDesignConstants.CUBE_ELEMENT ) )
+				? (CubeHandle) element.getHandle( element.getRoot( ) )
+				: null;
 	}
 
 	/**
@@ -707,12 +710,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the cube element handle, if found, otherwise null
 	 */
 
-	public DesignElementHandle findLevel( String name )
+	public LevelHandle findLevel( String name )
 	{
 		DesignElement element = module.findLevel( name );
 		if ( element == null )
 			return null;
-		return element.getHandle( element.getRoot( ) );
+		return (LevelHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**

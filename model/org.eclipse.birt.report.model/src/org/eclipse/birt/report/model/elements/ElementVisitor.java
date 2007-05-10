@@ -717,7 +717,7 @@ public class ElementVisitor
 	public void visitValueAccessControl( ValueAccessControl obj )
 	{
 	}
-	
+
 	/**
 	 * Visits the cube element.
 	 * 
@@ -789,7 +789,7 @@ public class ElementVisitor
 	{
 		visitMeasureGroup( obj );
 	}
-	
+
 	/**
 	 * Visits the cube element.
 	 * 
@@ -860,5 +860,38 @@ public class ElementVisitor
 	public void visitOdaMeasureGroup( OdaMeasureGroup obj )
 	{
 		visitMeasureGroup( obj );
+	}
+
+	/**
+	 * Visits the member value.
+	 * 
+	 * @param obj
+	 *            the member value to traverse
+	 */
+	public void visitMemberValue( MemberValue obj )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Visits the filter condition element.
+	 * 
+	 * @param obj
+	 *            the filter condition element to traverse
+	 */
+	public void visitFilterConditionElement( FilterConditionElement obj )
+	{
+		// do nothing
+	}
+
+	/**
+	 * Visits the sort element.
+	 * 
+	 * @param obj
+	 *            the sort element to traverse
+	 */
+	public void visitSortElement( SortElement obj )
+	{
+		// do nothing
 	}
 }

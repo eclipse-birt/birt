@@ -85,6 +85,9 @@ public interface ReportDesignConstants
 	String ODA_LEVEL_ELEMENT = "OdaLevel"; //$NON-NLS-1$
 	String ODA_MEASURE_ELEMENT = "OdaMeasure"; //$NON-NLS-1$
 	String ODA_MEASURE_GROUP_ELEMENT = "OdaMeasureGroup"; //$NON-NLS-1$
+	String MEMBER_VALUE_ELEMENT = "MemberValue"; //$NON-NLS-1$
+	String SORT_ELEMENT = "SortElement"; //$NON-NLS-1$
+	String FILTER_CONDITION_ELEMENT = "FilterConditionElement"; //$NON-NLS-1$
 	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

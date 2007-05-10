@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
+import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
@@ -52,6 +54,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.SortElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -1335,4 +1338,36 @@ public class ElementFactory
 		return element.handle( module );
 	}
 
+	/**
+	 * Creates a member value handle.
+	 * 
+	 * @return a handle to the member value
+	 */
+	public MemberValueHandle newMemberValue( )
+	{
+		MemberValue element = new MemberValue( );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a sort element handle.
+	 * 
+	 * @return a handle to the sort element
+	 */
+	public SortElementHandle newSortElement( )
+	{
+		SortElement element = new SortElement( );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a filter condition element handle.
+	 * 
+	 * @return a handle to the filter condition element
+	 */
+	public FilterConditionElementHandle newFilterConditionElement( )
+	{
+		FilterConditionElement element = new FilterConditionElement( );
+		return element.handle( module );
+	}
 }

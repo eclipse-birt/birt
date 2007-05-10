@@ -53,11 +53,7 @@ public interface ICrosstabConstants
 	 * Extension name of aggregation cell.
 	 */
 	String AGGREGATION_CELL_EXTENSION_NAME = "AggregationCell"; //$NON-NLS-1$
-
-	/**
-	 * Extension name of crosstab member value.
-	 */
-	String CROSSTAB_MEMBER_VALUE_EXTENSION_NAME = "CrosstabMemberValue"; //$NON-NLS-1$
+	
 	/**
 	 * Extension name of header cell.
 	 */

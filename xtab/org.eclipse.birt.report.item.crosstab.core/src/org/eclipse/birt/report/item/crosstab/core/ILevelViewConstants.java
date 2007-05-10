@@ -73,4 +73,9 @@ public interface ILevelViewConstants
 	 */
 	String AGGREGATION_HEADER_PROP = "aggregationHeader"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that gives the display key for this level view.
+	 */
+	String DISPLAY_FIELD_PROP = "displayField"; //$NON-NLS-1$
+
 }

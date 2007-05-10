@@ -196,7 +196,7 @@
                name="members"
                type="contentElement">
             <elementType
-                  name="CrosstabMemberValue">
+                  name="MemberValue">
             </elementType>
          </property>
          <propertyVisibility
@@ -256,6 +256,11 @@
             isNameRequired="true">
          <property
                canInherit="true"
+               name="displayField"
+               type="string">
+         </property>
+         <property
+               canInherit="true"
                detailType="Level"
                displayNameID="Element.Level"
                isEncryptable="false"
@@ -264,11 +269,13 @@
          </property>
          <property
                canInherit="true"
-               detailType="FilterCondition"
                isEncryptable="false"
                isList="true"
                name="filter"
-               type="structure">
+               type="contentElement">
+            <elementType
+                  name="FilterConditionElement">
+            </elementType>
          </property>
          <property
                canInherit="true"
@@ -290,11 +297,13 @@
          </property>
          <property
                canInherit="true"
-               detailType="SortKey"
                isEncryptable="false"
                isList="true"
                name="sort"
-               type="structure">
+               type="contentElement">
+            <elementType
+                  name="SortElement">
+            </elementType>
          </property>
          <property
                canInherit="false"
@@ -503,36 +512,6 @@
                isEncryptable="false"
                name="aggregationOnColumn"
                type="elementRef">
-         </property>
-      </reportItem>
-      <reportItem
-            class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
-            extendsFrom="DesignElement"
-            extensionName="CrosstabMemberValue">
-         <property
-               canInherit="true"
-               isEncryptable="false"
-               isList="false"
-               name="value"
-               type="string">
-         </property>
-         <property
-               canInherit="true"
-               detailType="Level"
-               isEncryptable="false"
-               isList="false"
-               name="level"
-               type="elementRef">
-         </property>
-         <property
-               canInherit="true"
-               isEncryptable="false"
-               isList="true"
-               name="memberValues"
-               type="contentElement">
-            <elementType
-                  name="CrosstabMemberValue">
-            </elementType>
          </property>
       </reportItem>
    </extension>

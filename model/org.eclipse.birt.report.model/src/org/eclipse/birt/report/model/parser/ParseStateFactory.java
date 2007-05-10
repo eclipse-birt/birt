@@ -172,8 +172,7 @@ public class ParseStateFactory
 				return new OdaLevelState( handler, container, propName );
 			if ( ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new OdaMeasureGroupState( handler, container,
-						propName );
+				return new OdaMeasureGroupState( handler, container, propName );
 			if ( ReportDesignConstants.ODA_MEASURE_ELEMENT
 					.equalsIgnoreCase( elementName ) )
 				return new OdaMeasureState( handler, container, propName );
@@ -184,6 +183,16 @@ public class ParseStateFactory
 					.equalsIgnoreCase( elementName ) )
 				return new ValueAccessControlState( handler, container,
 						propName );
+			if ( ReportDesignConstants.MEMBER_VALUE_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new MemberValueState( handler, container, propName );
+			if ( ReportDesignConstants.FILTER_CONDITION_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new FilterConditionElementState( handler, container,
+						propName );
+			if ( ReportDesignConstants.SORT_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new SortElementState( handler, container, propName );
 
 		}
 		return null;
