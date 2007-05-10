@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSe
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.RepeatHeaderDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
@@ -24,8 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sep
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.PageLayoutPropertyDescriptorProvider;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.PageLayoutComboSection;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -68,7 +65,7 @@ public class CrosstabSectionPage extends AttributePage
 		IDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
-		RepeatRowHeaderProvider repeatHeaderProvider = new RepeatRowHeaderProvider( ICrosstabReportItemConstants.REPEAT_ROW_HEADER_PROP,
+		RepeatColumnHeaderProvider repeatHeaderProvider = new RepeatColumnHeaderProvider( ICrosstabReportItemConstants.REPEAT_COLUMN_HEADER_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
 
 		// Defines sections.
