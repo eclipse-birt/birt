@@ -4,11 +4,9 @@ Bundle-Name: W3C Sac
 Bundle-SymbolicName: org.w3c.sac
 Bundle-Version: 1.3.0.qualifier
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/flute.jar,
- lib/sac.jar
-Export-Package: org.w3c.css.sac,
- org.w3c.css.sac.helpers,
- org.w3c.flute.parser,
+Bundle-ClassPath: lib/flute.jar
+Export-Package: org.w3c.flute.parser,
  org.w3c.flute.parser.selectors,
  org.w3c.flute.util
 Bundle-Vendor: Eclipse.org
+Require-Bundle: org.w3c.css.sac;bundle-version="[1.3.0,2.0.0)"
