@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -57,6 +60,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -88,6 +92,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.PlatformUI;
 
 public class CubeGroupContent extends Composite implements Listener
 {
@@ -762,18 +767,19 @@ public class CubeGroupContent extends Composite implements Listener
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
 												level );
 									}
-									
+
 									if ( hierarchy.getDataSet( ) == null
 											&& dataset != null )
 									{
 										hierarchy.setDataSet( dataset );
-										if(dataset!= input.getDataSet( )){
+										if ( dataset != input.getDataSet( ) )
+										{
 											JointDatasetsDialog dialog = new JointDatasetsDialog( );
 											dialog.setInput( input );
 											dialog.open( );
 										}
 									}
-									
+
 								}
 							}
 						}
@@ -1157,6 +1163,37 @@ public class CubeGroupContent extends Composite implements Listener
 
 	}
 
+	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "GroupsPage.Reference" ); //$NON-NLS-1$
+	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "GroupsPage.Clients" ); //$NON-NLS-1$
+	public static final String DLG_CONFIRM_MSG = Messages.getString( "GroupsPage.Dlg.Confirm" ); //$NON-NLS-1$
+
+	protected boolean isOKPressed( Object model )
+	{
+		if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
+			ArrayList referenceList = new ArrayList( );
+			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
+			{
+				referenceList.add( itor.next( ) );
+			}
+			if ( !referenceList.isEmpty( ) )
+			{
+				DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						DLG_REFERENCE_FOUND_TITLE,
+						referenceList );
+				dialog.setPreString( DEUtil.getDisplayLabel( handle )
+						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
+				dialog.setSufString( DLG_CONFIRM_MSG );
+				return dialog.open( ) != Dialog.CANCEL;
+			}
+			return true;
+		}
+		return true;
+	}
+
 	private void handleDelEvent( )
 	{
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
@@ -1167,56 +1204,55 @@ public class CubeGroupContent extends Composite implements Listener
 			if ( obj instanceof DimensionHandle )
 			{
 				DimensionHandle dimension = (DimensionHandle) obj;
-				try
+
+				boolean hasExecuted = isOKPressed( dimension );
+				if ( hasExecuted )
 				{
 					UIHelper.dropDimensionProperties( dimension );
-					dimension.dropAndClear( );
+					new DeleteCommand( dimension ).execute( );
 				}
-				catch ( Exception e1 )
-				{
-					ExceptionHandler.handle( e1 );
-				}
+
 			}
 			else if ( obj instanceof LevelHandle )
 			{
 				LevelHandle level = (LevelHandle) obj;
 				DesignElementHandle hierarchy = level.getContainer( );
 				DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
+
+				boolean hasExecuted = isOKPressed( level );
+				if ( hasExecuted )
+				{
+					new DeleteCommand( level ).execute( );
+				}
 				try
 				{
-					level.dropAndClear( );
 					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) == 0 )
 					{
 						dimension.setTimeType( false );
 					}
 				}
-				catch ( SemanticException e1 )
+				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle( e1 );
+					ExceptionHandler.handle( e );
 				}
+
 			}
 			else if ( obj instanceof MeasureGroupHandle )
 			{
 				MeasureGroupHandle measureGroup = (MeasureGroupHandle) obj;
-				try
+				boolean hasExecuted = isOKPressed( measureGroup );
+				if ( hasExecuted )
 				{
-					measureGroup.dropAndClear( );
-				}
-				catch ( Exception e1 )
-				{
-					ExceptionHandler.handle( e1 );
+					new DeleteCommand( measureGroup ).execute( );
 				}
 			}
 			else if ( obj instanceof MeasureHandle )
 			{
 				MeasureHandle measure = (MeasureHandle) obj;
-				try
+				boolean hasExecuted = isOKPressed( measure );
+				if ( hasExecuted )
 				{
-					measure.dropAndClear( );
-				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
+					new DeleteCommand( measure ).execute( );
 				}
 			}
 
@@ -1495,7 +1531,8 @@ public class CubeGroupContent extends Composite implements Listener
 							try
 							{
 								hierarchy.setDataSet( dataset );
-								if(dataset!= input.getDataSet( )){
+								if ( dataset != input.getDataSet( ) )
+								{
 									JointDatasetsDialog dialog = new JointDatasetsDialog( );
 									dialog.setInput( input );
 									dialog.open( );
