@@ -163,4 +163,4 @@ CrosstabPageGenerator.List.GrandTotals=Grand Totals
 CrosstabPageGenerator.List.PageBreak=Salto de página
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Page Layout:
-CrosstabSectionPage.RepeatRowHeader=Repeat Row Header
+CrosstabSectionPage.RepeatColumnHeader=Repeat Column Header
