@@ -58,7 +58,8 @@ public class BindingExpressionProvider extends ExpressionProvider
 		List categoryList = super.getCategoryList( );
 		if ( dataSetHandle != null )
 		{
-			categoryList.add( DATASETS );
+			//185280
+			categoryList.add( 1, DATASETS );
 		}
 		return categoryList;
 	}
