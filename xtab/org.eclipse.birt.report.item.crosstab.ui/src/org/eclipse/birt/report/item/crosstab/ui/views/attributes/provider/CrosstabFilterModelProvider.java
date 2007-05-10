@@ -196,7 +196,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		if ( key.equals( ILevelViewConstants.LEVEL_PROP ) )
 		{
 			return ( (LevelFilterConditionHandle) element ).getLevelHandle( )
-					.getCubeLevelName( );
+					.getCubeLevel( ).getFullName( );
 		}
 
 		element = ((LevelFilterConditionHandle) element ).getfilterConditionHandle( );

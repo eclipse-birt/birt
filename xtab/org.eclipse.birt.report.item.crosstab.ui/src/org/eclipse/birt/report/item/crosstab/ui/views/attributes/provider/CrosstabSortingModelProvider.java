@@ -225,7 +225,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 
 		if(key.equals( ILevelViewConstants.LEVEL_PROP ))
 		{
-			return ((LevelSortKeyHandle)element).getLevelHandle( ).getCubeLevelName( );
+			return ((LevelSortKeyHandle)element).getLevelHandle( ).getCubeLevel( ).getFullName( );
 		}
 		
 		element = ((LevelSortKeyHandle)element).getSortKeyHandle( );

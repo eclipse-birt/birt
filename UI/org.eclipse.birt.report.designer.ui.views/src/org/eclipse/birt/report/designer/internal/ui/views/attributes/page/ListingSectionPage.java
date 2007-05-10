@@ -83,7 +83,6 @@ public class ListingSectionPage extends AttributePage
 				container,
 				true );
 		intervalSection.setProvider( internalProvider );
-		intervalSection.setLayoutNum( 2 );
 		intervalSection.setLayoutNum( 4 );
 		intervalSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.LISTING_SECTION_INTERVAL, intervalSection );
