@@ -37,6 +37,7 @@
 	<target name="main" depends="init">
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
+		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
 		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
@@ -57,9 +58,7 @@
 				<antcall target="generateJavaDoc"/>
 			</sequential>
 		</parallel>
-		<!-- iPortal-library creating, internal use only -->
 		<antcall target="iPortalSetup"/>
-		<!-- start birt JUnit test -->
 		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
 	</target>
@@ -77,7 +76,6 @@
 		<condition property="generateFeatureVersionSuffix" value="false">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
-		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.4" />
@@ -101,14 +99,6 @@
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt" />
 		</ant>
-		<!--
-		<ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" >
-		        <property file="${eclipse.build.configs}/birt/build.properties"/>
-		</ant>
-		<ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" target="updatePluginVersion.new" >
-		        <property file="${eclipse.build.configs}/birt/build.properties"/>
-		</ant>
-		-->
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
 			<property name="builder" value="${eclipse.build.configs}/birt" />
 		</ant>
@@ -149,12 +139,12 @@
 			<property name="OutputDir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-		
-		<!-- copy chart runtim to ${buildDirectory}/${buildID}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
+			
+		<!-- copy chart runtim to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
 		</ant>
-		
+
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
@@ -170,11 +160,21 @@
 	</target>
 	
 	<target name="iPortalSetup">
-		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createIpotalLib">
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
+
+        <!--copy all packages to upload area-->
+		<echo message="start copying to download area..."/>
+	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
+        <copy todir="${test.dir}/../downloads" failonerror="false" overwrite="true">
+	        <fileset dir="${postingDirectory}/${buildId}" >
+                <include name="*.zip"/>
+                <include name="*.txt"/>
+                <include name="*.gz"/>
+            </fileset>
+	    </copy>
 	</target>
 	
 	<target name="CreateUpdateSite">
@@ -188,7 +188,6 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
 			<fileset dir="${baseLocation}/plugins">
 				<include name="org.apache.batik.*.jar"/>
@@ -219,7 +218,7 @@
 			<arg line=" pack200" />
 		</exec>
 		<!--
-		<java jar="${buildDirectory}/../eclipse/plugins/org.eclipse.equinox.launcher.jar"
+		<java jar="${basedir}/../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -231,9 +230,10 @@
 			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars/eclipse"/>
 		</java>
 		-->
+		
 		<!-- create Pack200 update jars -->
 		<!--
-		<java jar="${buildDirectory}/../eclipse/plugins/org.eclipse.equinox.launcher.jar"
+		<java jar="${basedir}/../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -320,11 +320,25 @@
           target: buildBirtRCPFeature                      
          - - - - - - - - - - - - - - - - - -->
     <target name="buildBirtRCPFeature">
+		<!--	
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp" />
 		</ant>           
+		-->
+    	<ant antfile="productBuild.xml" dir="${eclipse.pdebuild.scripts}/productBuild">
+    		<property name="builder" value="${eclipse.build.configs}/birt.rcp"/>
+    		<property name="product" value="${buildDirectory}/plugins/org.eclipse.birt.report.designer.ui.rcp/BIRT.product" />
+    	</ant>
     </target>
 
+	<target name="fetchRCP">
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+                        <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+                        <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
+                </ant>
+	</target>
 	<target name="BuildChartViewer">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
@@ -390,16 +404,12 @@
 
 		<property name="birtFramePackageName" value="birt-report-framework-sdk-2_2_0" />
 		<property name="birtThirdPartyPackageName" value="birt-third-party-2_2_0" />
-		<property name="birtRCPPackageName" value="birt-rcp-2_2_0" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q ${birtThirdPartyPackageName}.zip -d ${buildDirectory}/${buildId}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q ${birtRCPPackageName}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
 	</target>
 
@@ -430,5 +440,6 @@
     <target name="generateJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/antJavadoc.xml"/>
     </target>
+
 	
 </project>
