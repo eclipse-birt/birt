@@ -720,11 +720,6 @@ public class CubeGroupContent extends Composite implements Listener
 									}
 
 									TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
-									if ( hierarchy.getDataSet( ) == null
-											&& dataset != null )
-									{
-										hierarchy.setDataSet( dataset );
-									}
 									if ( isDateType( dataField.getDataType( ) ) )
 									{
 										if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
@@ -767,6 +762,18 @@ public class CubeGroupContent extends Composite implements Listener
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
 												level );
 									}
+									
+									if ( hierarchy.getDataSet( ) == null
+											&& dataset != null )
+									{
+										hierarchy.setDataSet( dataset );
+										if(dataset!= input.getDataSet( )){
+											JointDatasetsDialog dialog = new JointDatasetsDialog( );
+											dialog.setInput( input );
+											dialog.open( );
+										}
+									}
+									
 								}
 							}
 						}
@@ -1488,6 +1495,11 @@ public class CubeGroupContent extends Composite implements Listener
 							try
 							{
 								hierarchy.setDataSet( dataset );
+								if(dataset!= input.getDataSet( )){
+									JointDatasetsDialog dialog = new JointDatasetsDialog( );
+									dialog.setInput( input );
+									dialog.open( );
+								}
 							}
 							catch ( SemanticException e )
 							{
