@@ -402,16 +402,7 @@ public class PyramidChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( DifferenceChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
+			if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
@@ -471,10 +462,6 @@ public class PyramidChart extends DefaultChartTypeImpl
 			}
 			else
 			{
-				currentChart.getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
