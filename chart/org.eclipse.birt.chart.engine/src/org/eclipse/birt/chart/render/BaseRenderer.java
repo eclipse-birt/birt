@@ -1606,6 +1606,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh,
 			int dataIndex, double dScale ) throws ChartException
 	{
+		// Copy correct font setting into current legend item label.
+		if ( la != null
+				&& la.getCaption( ) != null
+				&& valueLa != null
+				&& valueLa.getCaption( ) != null )
+		{
+			valueLa.getCaption( ).setFont( la.getCaption( ).getFont( ) );
+			valueLa.getCaption( ).setColor( la.getCaption( ).getColor( ) );
+		}
+		
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,
 				valueLa,
 				dataIndex,
