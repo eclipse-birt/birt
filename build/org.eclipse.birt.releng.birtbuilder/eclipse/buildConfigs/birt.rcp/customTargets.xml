@@ -23,14 +23,14 @@
 	<!-- ===================================================================== -->
 	<!--
 	<target name="assemble.org.eclipse.birt.rcp">
-		<property name="archiveName" value="birt-rcp-${package.version}.zip"/>
+		<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 		<antcall target="assemble" />
 	</target>
 	-->
-    <target name="assemble.org.eclipse.pde.build.container.feature.win32.win32.x86">
-            <property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
-            <antcall target="assemble" />
-    </target>
+	<target name="assemble.org.eclipse.pde.build.container.feature.win32.win32.x86">
+		<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
+		<antcall target="assemble" />
+	</target>
 
 	<target name="assemble">
 		<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
