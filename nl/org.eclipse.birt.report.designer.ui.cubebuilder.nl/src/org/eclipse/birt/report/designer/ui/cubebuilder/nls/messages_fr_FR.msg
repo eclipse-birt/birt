@@ -51,6 +51,9 @@ GroupsPage.Label.Group=Groupes :
 GroupsPage.Button.Add=&Ajouter
 GroupsPage.VirtualField.Measure=(Ignorez un champ ici pour créer un champ de récapitulation)
 GroupsPage.VirtualField.Level=(Ignorez un champ ici pour créer un groupe)
+GroupsPage.Reference=Reference Found
+GroupsPage.Clients=\ has following clients
+GroupsPage.Dlg.Confirm=Do you really want to delete it?
 LevelDialog.Title=Propriété
 LevelDialog.Label.Name=Nom :
 LevelDialog.Label.Field=Sélection de champ :
@@ -87,3 +90,4 @@ RenameInputDialog.DialogMessage=Saisissez le nouveau nom
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=Jeux de données disponibles
+

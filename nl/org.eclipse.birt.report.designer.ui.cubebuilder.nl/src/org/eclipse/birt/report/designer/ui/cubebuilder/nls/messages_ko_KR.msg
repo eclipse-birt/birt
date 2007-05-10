@@ -51,6 +51,9 @@ GroupsPage.Label.Group=그룹:
 GroupsPage.Button.Add=추가(&A)
 GroupsPage.VirtualField.Measure=(요약 필드를 생성하려면 여기에 필드를 내려 놓으십시오)
 GroupsPage.VirtualField.Level=(그룹을 생성하려면 여기에 필드를 내려 놓으십시오)
+GroupsPage.Reference=Reference Found
+GroupsPage.Clients=\ has following clients
+GroupsPage.Dlg.Confirm=Do you really want to delete it?
 LevelDialog.Title=속성
 LevelDialog.Label.Name=이름:
 LevelDialog.Label.Field=필드 선택:
@@ -87,3 +90,4 @@ RenameInputDialog.DialogMessage=새 이름을 입력하십시오.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=사용 가능한 데이터 집합
+

@@ -51,6 +51,9 @@ GroupsPage.Label.Group=グループ :
 GroupsPage.Button.Add=追加(&A)
 GroupsPage.VirtualField.Measure=(サマリフィールドを作成するには、フィールドをここにドロップします)
 GroupsPage.VirtualField.Level=(グループを作成するには、フィールドをここにドロップします)
+GroupsPage.Reference=Reference Found
+GroupsPage.Clients=\ has following clients
+GroupsPage.Dlg.Confirm=Do you really want to delete it?
 LevelDialog.Title=プロパティ
 LevelDialog.Label.Name=名前 :
 LevelDialog.Label.Field=フィールドの選択 :
@@ -87,3 +90,4 @@ RenameInputDialog.DialogMessage=新しい名前を入力してください。
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=使用可能なデータセット
+

@@ -51,6 +51,9 @@ GroupsPage.Label.Group=组:
 GroupsPage.Button.Add=添加(&A)
 GroupsPage.VirtualField.Measure=（将字段拖至此处以创建摘要字段）
 GroupsPage.VirtualField.Level=（将字段拖至此处以创建组）
+GroupsPage.Reference=Reference Found
+GroupsPage.Clients=\ has following clients
+GroupsPage.Dlg.Confirm=Do you really want to delete it?
 LevelDialog.Title=属性
 LevelDialog.Label.Name=名称:
 LevelDialog.Label.Field=选择字段:
@@ -87,3 +90,4 @@ RenameInputDialog.DialogMessage=请输入新名称
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=可用数据集
+

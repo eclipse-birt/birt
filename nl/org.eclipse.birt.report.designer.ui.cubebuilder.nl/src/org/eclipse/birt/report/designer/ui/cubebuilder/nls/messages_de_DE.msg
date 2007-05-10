@@ -51,6 +51,9 @@ GroupsPage.Label.Group=Gruppen:
 GroupsPage.Button.Add=&Hinzufügen
 GroupsPage.VirtualField.Measure=(Feld hier ablegen, um ein Zusammenfassungsfeld zu erstellen)
 GroupsPage.VirtualField.Level=(Feld hier ablegen, um eine Gruppe zu erstellen)
+GroupsPage.Reference=Reference Found
+GroupsPage.Clients=\ has following clients
+GroupsPage.Dlg.Confirm=Do you really want to delete it?
 LevelDialog.Title=Eigenschaft
 LevelDialog.Label.Name=Name:
 LevelDialog.Label.Field=Feld wählen:
@@ -87,3 +90,4 @@ RenameInputDialog.DialogMessage=Geben Sie den neuen Namen ein.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=Verfügbare Datensätze
+
