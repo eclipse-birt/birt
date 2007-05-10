@@ -282,6 +282,9 @@ public class LibraryCommand extends AbstractElementCommand
 	private Map dealElementDecendents( Library library, DesignElement parent,
 			int actionCode ) throws SemanticException
 	{
+		if ( !parent.hasDerived( ) )
+			return Collections.EMPTY_MAP;
+
 		List allDescendents = new ArrayList( );
 		getAllDescdents( parent, allDescendents );
 
@@ -290,25 +293,26 @@ public class LibraryCommand extends AbstractElementCommand
 		for ( int i = 0; i < allDescendents.size( ); i++ )
 		{
 			DesignElement child = (DesignElement) allDescendents.get( i );
-			do
+			Module tmpModule = child.getRoot( );
+
+			if ( child.hasDerived( ) )
+				dealElementDecendents( (Library) tmpModule, child, actionCode );
+
+			if ( tmpModule != module )
+				continue;
+
+			if ( actionCode == RELOAD_ACTION )
 			{
-				if ( child.getRoot( ) != module )
-					continue;
+				Map values = unresolveElementDescendent( module, child );
+				overriddenValues.put( new Long( child.getID( ) ), values );
+			}
+			else if ( actionCode == SIMPLE_ACTION )
+				throw new LibraryException(
+						library,
+						new String[]{child.getHandle( module )
+								.getDisplayLabel( )},
+						LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
 
-				if ( actionCode == RELOAD_ACTION )
-				{
-					Map values = unresolveElementDescendent( module, child );
-					overriddenValues.put( new Long( child.getID( ) ), values );
-				}
-
-				if ( actionCode == SIMPLE_ACTION )
-					throw new LibraryException(
-							library,
-							new String[]{child.getHandle( module )
-									.getDisplayLabel( )},
-							LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
-
-			} while ( child.hasDerived( ) );
 		}
 
 		return overriddenValues;

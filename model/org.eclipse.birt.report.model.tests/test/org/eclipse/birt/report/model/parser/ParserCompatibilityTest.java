@@ -669,7 +669,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 	{
 		openDesign( "CompatibleLevelName.xml" ); //$NON-NLS-1$
 		save( );
-		System.out.println(os );
+
 		assertTrue( compareFile("CompatibleLevelName_golden.xml")); //$NON-NLS-1$
 	}
 
