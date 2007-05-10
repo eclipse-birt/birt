@@ -95,10 +95,10 @@ public class TemplateCommandTest extends BaseTestCase
 		openDesign( INPUT_FILE );
 
 		List list = designHandle.getBody( ).getContents( );
-		designElement = (DesignElement) ( (DesignElementHandle) list.get( 0 ) )
-				.getElement( ).clone( );
-		templateItem = (DesignElement) ( (DesignElementHandle) list.get( 1 ) )
-				.getElement( ).clone( );
+		designElement = (DesignElement) ( (DesignElementHandle) list.get( 0 ) ).getElement( )
+				.clone( );
+		templateItem = (DesignElement) ( (DesignElementHandle) list.get( 1 ) ).getElement( )
+				.clone( );
 		designHandle.close( );
 	}
 
@@ -112,11 +112,11 @@ public class TemplateCommandTest extends BaseTestCase
 	public void testCheckAdd( ) throws Exception
 	{
 		createDesign( );
-		design.getVersionManager( ).setVersion(
-				DesignSchemaConstants.REPORT_VERSION );
+		design.getVersionManager( )
+				.setVersion( DesignSchemaConstants.REPORT_VERSION );
 
-		ContentCommand command = new ContentCommand( design, new ContainerContext(
-				design, ReportDesign.BODY_SLOT ) );
+		ContentCommand command = new ContentCommand( design,
+				new ContainerContext( design, ReportDesign.BODY_SLOT ) );
 		command.add( designElement );
 		command.add( templateItem );
 
@@ -149,14 +149,12 @@ public class TemplateCommandTest extends BaseTestCase
 		templateElement = label.createTemplateElement( "Def1" ); //$NON-NLS-1$
 		assertNotNull( templateElement );
 
-		TemplateParameterDefinition definition = (TemplateParameterDefinition) design
-				.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
+		TemplateParameterDefinition definition = (TemplateParameterDefinition) design.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
 		assertNotNull( definition );
 
 		// transform to reprot item
 
-		( (TemplateReportItemHandle) templateElement )
-				.transformToReportItem( label );
+		( (TemplateReportItemHandle) templateElement ).transformToReportItem( label );
 
 		// create another template report item, discard the ex definition
 
@@ -165,30 +163,25 @@ public class TemplateCommandTest extends BaseTestCase
 
 		// the discarded definition does not exist any more
 
-		definition = (TemplateParameterDefinition) design
-				.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
+		definition = (TemplateParameterDefinition) design.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
 		assertNull( definition );
 
 		// the new definition
 
-		definition = (TemplateParameterDefinition) design
-				.findTemplateParameterDefinition( "NewTemplateParameterDefinition1" ); //$NON-NLS-1$
+		definition = (TemplateParameterDefinition) design.findTemplateParameterDefinition( "NewTemplateParameterDefinition1" ); //$NON-NLS-1$
 		assertNotNull( definition );
 
 		// transform to reprot item again
 
-		( (TemplateReportItemHandle) templateElement )
-				.transformToReportItem( label );
+		( (TemplateReportItemHandle) templateElement ).transformToReportItem( label );
 
 		// revert to a real report item
 
 		label.revertToReportItem( );
 
-		definition = (TemplateParameterDefinition) design
-				.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
+		definition = (TemplateParameterDefinition) design.findTemplateParameterDefinition( "NewTemplateParameterDefinition" ); //$NON-NLS-1$
 		assertNull( definition );
-		definition = (TemplateParameterDefinition) design
-				.findTemplateParameterDefinition( "NewTemplateParameterDefinition1" ); //$NON-NLS-1$
+		definition = (TemplateParameterDefinition) design.findTemplateParameterDefinition( "NewTemplateParameterDefinition1" ); //$NON-NLS-1$
 		assertNull( definition );
 	}
 }

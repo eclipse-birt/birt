@@ -101,16 +101,15 @@ public class ImportCssTest extends BaseTestCase
 				designHandle );
 
 		designHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
-		assertEquals( 0 , designHandle.getAllCssStyleSheets( ).size( ) );
-		
-		//import css is customer style not css style
+		assertEquals( 0, designHandle.getAllCssStyleSheets( ).size( ) );
+
+		// import css is customer style not css style
 		Object obj = designHandle.getAllStyles( ).get( 0 );
-		assertTrue( obj instanceof  SharedStyleHandle );
+		assertTrue( obj instanceof SharedStyleHandle );
 		assertFalse( obj instanceof CssSharedStyleHandle );
-		
+
 		save( );
-		assertTrue( compareFile( "ImportCssToDesign_golden.xml" ) ); //$NON-NLS-1$
-	}
+		assertTrue( compareFile( "ImportCssToDesign_golden.xml" ) );} //$NON-NLS-1$
 
 	/**
 	 * Test cases:
@@ -141,11 +140,12 @@ public class ImportCssTest extends BaseTestCase
 		// import css styles to the specified theme.
 
 		libraryHandle = sessionHandle.createLibrary( );
-		libraryHandle.getThemes( ).add(
-				libraryHandle.getElementFactory( ).newTheme( "theme1" ) ); //$NON-NLS-1$
+		libraryHandle.getThemes( ).add( libraryHandle.getElementFactory( )
+				.newTheme( "theme1" ) ); //$NON-NLS-1$
 		styleSheet = loadStyleSheet( cssFileName, libraryHandle );
 
-		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ),
+		libraryHandle.importCssStyles( styleSheet,
+				getAllStyles( styleSheet ),
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );
@@ -169,16 +169,17 @@ public class ImportCssTest extends BaseTestCase
 		// import css styles to the specified theme.
 
 		libraryHandle = sessionHandle.createLibrary( );
-		ThemeHandle theme1 = libraryHandle.getElementFactory( ).newTheme(
-				"theme1" );//$NON-NLS-1$		
+		ThemeHandle theme1 = libraryHandle.getElementFactory( )
+				.newTheme( "theme1" );//$NON-NLS-1$		
 		libraryHandle.getThemes( ).add( theme1 );
-		theme1.getStyles( ).add(
-				libraryHandle.getElementFactory( ).newStyle( "table" ) ); //$NON-NLS-1$
+		theme1.getStyles( ).add( libraryHandle.getElementFactory( )
+				.newStyle( "table" ) ); //$NON-NLS-1$
 
 		CssStyleSheetHandle styleSheet = loadStyleSheet( cssFileName,
 				libraryHandle );
 
-		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ),
+		libraryHandle.importCssStyles( styleSheet,
+				getAllStyles( styleSheet ),
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );

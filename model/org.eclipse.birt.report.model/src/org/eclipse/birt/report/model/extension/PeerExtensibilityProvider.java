@@ -132,8 +132,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			for ( int i = 0; i < dynamicProps.length; i++ )
 			{
 				IPropertyDefinition extProp = dynamicProps[i];
-				props.add( new ExtensionModelPropertyDefn( extProp, extDefn
-						.getReportItemFactory( ).getMessages( ) ) );
+				props.add( new ExtensionModelPropertyDefn( extProp,
+						extDefn.getReportItemFactory( ).getMessages( ) ) );
 			}
 		}
 
@@ -169,8 +169,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			{
 				IPropertyDefinition extProp = dynamicMethods[i];
 				MethodInfo methodInfo = (MethodInfo) extProp.getMethodInfo( );
-				ExtensionModelPropertyDefn modelPropDefn = new ExtensionModelPropertyDefn(
-						extProp, extDefn.getReportItemFactory( ).getMessages( ) );
+				ExtensionModelPropertyDefn modelPropDefn = new ExtensionModelPropertyDefn( extProp,
+						extDefn.getReportItemFactory( ).getMessages( ) );
 				modelPropDefn.setDetails( methodInfo );
 				methods.add( modelPropDefn );
 			}
@@ -289,7 +289,9 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			Module root = element.getRoot( );
 			if ( root != null )
 				return ReferenceValueUtil.resolveElementReference( root,
-						element, defn, (ElementRefValue) value );
+						element,
+						defn,
+						(ElementRefValue) value );
 		}
 
 		return extensionPropValues.get( propName );
@@ -318,8 +320,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 						byte[] raw = null;
 						try
 						{
-							raw = value.toString( ).getBytes(
-									UnicodeUtil.SIGNATURE_UTF_8 );
+							raw = value.toString( )
+									.getBytes( UnicodeUtil.SIGNATURE_UTF_8 );
 						}
 						catch ( UnsupportedEncodingException e )
 						{
@@ -367,23 +369,26 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	 *            the value to set
 	 */
 
-	private void setExtensionPropertyValue( ElementPropertyDefn prop, Object value )
+	private void setExtensionPropertyValue( ElementPropertyDefn prop,
+			Object value )
 	{
-		String propName =  prop.getName( ) ;
+		String propName = prop.getName( );
 		Object oldValue = extensionPropValues.get( propName );
-		
+
 		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			ElementRefValue oldRef = (ElementRefValue) oldValue;
-			ReferenceValueUtil.updateReference( element , oldRef,
-					(ReferenceValue) value, prop );
+			ReferenceValueUtil.updateReference( element,
+					oldRef,
+					(ReferenceValue) value,
+					prop );
 		}
-		
+
 		if ( value != null )
 			extensionPropValues.put( propName, value );
 		else
 			extensionPropValues.remove( propName );
-		
+
 	}
 
 	/**
@@ -406,7 +411,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		if ( extDefn == null )
 			throw new ExtendedElementException( element,
 					ModelException.PLUGIN_ID,
-					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null );
+					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND,
+					null );
 
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory( );
 		assert elementFactory != null;
@@ -416,8 +422,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		List localPropDefns = getExtDefn( ).getLocalProperties( );
 		for ( int i = 0; i < localPropDefns.size( ); i++ )
 		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
-					.get( i );
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns.get( i );
 
 			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
 					|| !propDefn.canInherit( ) )
@@ -431,21 +436,18 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			if ( value == null )
 			{
 				// Get the raw xml data from parent.
-				ExtendedItem parent = (ExtendedItem) ModelUtil
-						.getParent( element );
+				ExtendedItem parent = (ExtendedItem) ModelUtil.getParent( element );
 				while ( parent != null )
 				{
 					// get the value from the parent provider: read from the
 					// hashmap or the reporItem
-					PeerExtensibilityProvider parentProvider = parent
-							.getExtensibilityProvider( );
+					PeerExtensibilityProvider parentProvider = parent.getExtensibilityProvider( );
 					HashMap propValues = parentProvider.extensionPropValues;
 					value = propValues.get( propName );
 					if ( value == null )
 					{
 						if ( parentProvider.reportItem != null )
-							value = parentProvider.reportItem
-									.serialize( propName );
+							value = parentProvider.reportItem.serialize( propName );
 					}
 
 					if ( value != null )
@@ -467,8 +469,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				byte[] raw = null;
 				try
 				{
-					raw = value.toString( ).getBytes(
-							UnicodeUtil.SIGNATURE_UTF_8 );
+					raw = value.toString( )
+							.getBytes( UnicodeUtil.SIGNATURE_UTF_8 );
 				}
 				catch ( UnsupportedEncodingException e )
 				{
@@ -476,8 +478,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				}
 
 				if ( reportItem != null )
-					reportItem.deserialize( propName, new ByteArrayInputStream(
-							raw ) );
+					reportItem.deserialize( propName,
+							new ByteArrayInputStream( raw ) );
 			}
 		}
 	}
@@ -494,8 +496,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	{
 		if ( reportItem != null )
 		{
-			IPropertyDefinition[] extProps = reportItem
-					.getPropertyDefinitions( );
+			IPropertyDefinition[] extProps = reportItem.getPropertyDefinitions( );
 			if ( extProps != null )
 			{
 				for ( int i = 0; i < extProps.length; i++ )
@@ -527,9 +528,9 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		ExtensionElementDefn extDefn = getExtDefn( );
 		if ( extDefn != null )
 		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn
-					.getProperty( propName );
-			if ( propDefn != null && propDefn.hasOwnModel( )
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn.getProperty( propName );
+			if ( propDefn != null
+					&& propDefn.hasOwnModel( )
 					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
@@ -551,8 +552,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	private boolean hasOwnModel( String propName )
 	{
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
-		ExtensionPropertyDefn tmpPropDefn = (ExtensionPropertyDefn) extDefn
-				.getProperty( propName );
+		ExtensionPropertyDefn tmpPropDefn = (ExtensionPropertyDefn) extDefn.getProperty( propName );
 
 		if ( tmpPropDefn == null )
 			return false;

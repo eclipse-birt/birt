@@ -152,8 +152,7 @@ public class DesignWriterTest extends BaseTestCase
 		handle = (TextItemHandle) designHandle.findElement( "bodyText" ); //$NON-NLS-1$
 		assertEquals( "doesn\u2019t have", handle.getContent( ) ); //$NON-NLS-1$
 
-		labelHandle = (LabelHandle) designHandle
-				.findElement( "he\u0020llo<&\"" ); //$NON-NLS-1$
+		labelHandle = (LabelHandle) designHandle.findElement( "he\u0020llo<&\"" ); //$NON-NLS-1$
 		assertNotNull( labelHandle );
 
 		labelHandle = (LabelHandle) designHandle.findElement( "\u4E2D\u6587" ); //$NON-NLS-1$
@@ -202,6 +201,7 @@ public class DesignWriterTest extends BaseTestCase
 		designHandle.getBody( ).add( image );
 
 		save( );
+		System.out.println( os );
 		assertTrue( compareFile( "testWriter_golden.xml" ) ); //$NON-NLS-1$  
 
 	}
@@ -237,8 +237,7 @@ public class DesignWriterTest extends BaseTestCase
 	private void readOutputFile( String outputFileName ) throws Exception
 	{
 		String fileContent = os.toString( "utf-8" ); //$NON-NLS-1$
-		ByteArrayInputStream is = new ByteArrayInputStream( fileContent
-				.getBytes( "utf-8" ) ); //$NON-NLS-1$
+		ByteArrayInputStream is = new ByteArrayInputStream( fileContent.getBytes( "utf-8" ) ); //$NON-NLS-1$
 
 		// the design name can be empty
 
@@ -252,7 +251,7 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testStructContainStrucut( ) throws Exception
 	{
 		// toc
@@ -260,21 +259,19 @@ public class DesignWriterTest extends BaseTestCase
 		createDesign( );
 		ElementFactory elemFactory = new ElementFactory( design );
 		LabelHandle labelHandle = elemFactory.newLabel( "label1" );//$NON-NLS-1$
-		designHandle.getBody( ).add(  labelHandle );
+		designHandle.getBody( ).add( labelHandle );
 		TOC toc = StructureFactory.createTOC( "toc" );//$NON-NLS-1$\
 		FormatValue formatValueToSet = new DateTimeFormatValue( );
 		formatValueToSet.setCategory( "Short Date" );//$NON-NLS-1$
 		formatValueToSet.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
 		toc.setProperty( TOC.DATE_TIME_FORMAT_MEMBER, formatValueToSet );
-		
+
 		labelHandle.addTOC( toc );
 
 		save( );
-		
 		// save successfully and no assert error.
 		compareFile( "DesignWriterTest_1_golden.xml" );//$NON-NLS-1$
-		
-		
+
 	}
 
 	/**
@@ -284,16 +281,16 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testStructListContainStruct( ) throws Exception
 	{
 		// hightlightrule
-		
+
 		createDesign( );
 		ElementFactory elemFactory = new ElementFactory( design );
 		StyleHandle styleHandle = elemFactory.newStyle( "style1" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( styleHandle );
-		
+
 		HighlightRule rule = StructureFactory.createHighlightRule( );
 		FormatValue formatValueToSet = new DateTimeFormatValue( );
 		formatValueToSet.setCategory( "Short Date" );//$NON-NLS-1$
@@ -302,10 +299,11 @@ public class DesignWriterTest extends BaseTestCase
 
 		List list = new ArrayList( );
 		list.add( rule );
-		styleHandle.getElement().setProperty( IStyleModel.HIGHLIGHT_RULES_PROP, list );
+		styleHandle.getElement( )
+				.setProperty( IStyleModel.HIGHLIGHT_RULES_PROP, list );
 
 		save( );
-		
+
 		// save successfully and no assert error.
 		compareFile( "DesignWriterTest_2_golden.xml" );//$NON-NLS-1$
 	}

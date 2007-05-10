@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
@@ -75,6 +76,7 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignSession
 {
+
 	/**
 	 * list each item is <code>Style</code>
 	 */
@@ -110,8 +112,7 @@ public class DesignSession
 	 * predefined absolute font size.
 	 */
 
-	protected IAbsoluteFontSizeValueProvider fontSizeProvider = DefaultAbsoluteFontSizeValueProvider
-			.getInstance( );
+	protected IAbsoluteFontSizeValueProvider fontSizeProvider = DefaultAbsoluteFontSizeValueProvider.getInstance( );
 
 	/**
 	 * The list of open designs for the user.
@@ -233,8 +234,7 @@ public class DesignSession
 			throws DesignFileException
 	{
 		if ( fileName == null )
-			throw new IllegalArgumentException(
-					"The file name must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The file name must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
@@ -307,12 +307,13 @@ public class DesignSession
 			ModuleOption options ) throws DesignFileException
 	{
 		if ( is == null )
-			throw new IllegalArgumentException(
-					"The input stream must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The input stream must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
-		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
-				is, options );
+		ReportDesign design = DesignReader.getInstance( ).read( this,
+				fileName,
+				is,
+				options );
 		designs.add( design );
 		return design;
 	}
@@ -356,11 +357,12 @@ public class DesignSession
 			ModuleOption options ) throws DesignFileException
 	{
 		if ( is == null )
-			throw new IllegalArgumentException(
-					"The input stream must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The input stream must not be null" ); //$NON-NLS-1$
 
-		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
-				is, options );
+		ReportDesign design = DesignReader.getInstance( ).read( this,
+				systemId,
+				is,
+				options );
 		designs.add( design );
 		return design;
 	}
@@ -403,12 +405,13 @@ public class DesignSession
 			ModuleOption options ) throws DesignFileException
 	{
 		if ( is == null )
-			throw new IllegalArgumentException(
-					"The input stream must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The input stream must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
-				fileName, is, options );
+				fileName,
+				is,
+				options );
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
@@ -450,12 +453,12 @@ public class DesignSession
 			throws DesignFileException
 	{
 		if ( fileName == null )
-			throw new IllegalArgumentException(
-					"The file name must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The file name must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
-				fileName, options );
+				fileName,
+				options );
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
@@ -499,11 +502,11 @@ public class DesignSession
 			throws DesignFileException
 	{
 		if ( fileName == null )
-			throw new IllegalArgumentException(
-					"The file name must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The file name must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
-		Library library = LibraryReader.getInstance( ).read( this, fileName,
+		Library library = LibraryReader.getInstance( ).read( this,
+				fileName,
 				options );
 		libraries.add( library );
 		return library;
@@ -553,11 +556,12 @@ public class DesignSession
 			ModuleOption options ) throws DesignFileException
 	{
 		if ( is == null )
-			throw new IllegalArgumentException(
-					"The input stream must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The input stream must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
-		Library design = LibraryReader.getInstance( ).read( this, fileName, is,
+		Library design = LibraryReader.getInstance( ).read( this,
+				fileName,
+				is,
 				options );
 		designs.add( design );
 		return design;
@@ -603,12 +607,13 @@ public class DesignSession
 			ModuleOption options ) throws DesignFileException
 	{
 		if ( is == null )
-			throw new IllegalArgumentException(
-					"The input stream must not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The input stream must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
-		Library library = LibraryReader.getInstance( ).read( this, systemId,
-				is, options );
+		Library library = LibraryReader.getInstance( ).read( this,
+				systemId,
+				is,
+				options );
 		libraries.add( library );
 		return library;
 	}
@@ -633,6 +638,9 @@ public class DesignSession
 			if ( systemId != null )
 				design.setSystemId( systemId );
 		}
+		// if the extension side provide predefined style instance, those style
+		// will be added into the new created design tree.
+		addExtensionDefaultStyles( design );
 
 		design.setValid( true );
 		designs.add( design );
@@ -687,6 +695,31 @@ public class DesignSession
 	}
 
 	/**
+	 * add the predefined style instance defined by the extension side into the
+	 * new created design tree.
+	 */
+	private void addExtensionDefaultStyles( ReportDesign design )
+	{
+		List defaultStyles = MetaDataDictionary.getInstance( )
+				.getExtensionFactoryStyles( );
+
+		for ( int i = 0; i < defaultStyles.size( ); i++ )
+		{
+			Style style = (Style) defaultStyles.get( i );
+			assert style.getName( ) != null;
+
+			if ( design.findStyle( style.getName( ) ) != null )
+				continue;
+
+			design.add( style, ReportDesign.STYLE_SLOT );
+			style.setID( design.getNextID( ) );
+			design.addElementID( style );
+			design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ).insert( style );
+		}
+
+	}
+
+	/**
 	 * Creates a new library.
 	 * 
 	 * @return the created library.
@@ -696,10 +729,9 @@ public class DesignSession
 	{
 		Library library = new Library( this );
 
-		Theme theme = new Theme( ModelMessages
-				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
-		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
-				null, theme ) );
+		Theme theme = new Theme( ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
+		library.setProperty( IModuleModel.THEME_PROP,
+				new ElementRefValue( null, theme ) );
 		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
 
 		// set initial id.
@@ -917,8 +949,8 @@ public class DesignSession
 		}
 		else
 		{
-			Object actualValue = ( (ElementPropertyDefn) propDefn )
-					.validateValue( null, value );
+			Object actualValue = ( (ElementPropertyDefn) propDefn ).validateValue( null,
+					value );
 
 			defaultValues.put( propName, actualValue );
 		}
@@ -1044,8 +1076,7 @@ public class DesignSession
 					|| module.getLibraryByLocation( path,
 							IAccessControl.ARBITARY_LEVEL ) != null )
 			{
-				LibraryChangeEvent event = new LibraryChangeEvent( ev
-						.getChangedResourcePath( ) );
+				LibraryChangeEvent event = new LibraryChangeEvent( ev.getChangedResourcePath( ) );
 				event.setTarget( module );
 				event.setDeliveryPath( ev.getDeliveryPath( ) );
 				module.broadcastResourceChangeEvent( event );
@@ -1108,8 +1139,7 @@ public class DesignSession
 		Iterator iter = temp.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IResourceChangeListener listener = (IResourceChangeListener) iter
-					.next( );
+			IResourceChangeListener listener = (IResourceChangeListener) iter.next( );
 			listener.resourceChanged( null, event );
 		}
 	}
@@ -1167,7 +1197,8 @@ public class DesignSession
 	{
 		defaultTOCStyleList = new ArrayList( );
 		URL url = new DefaultResourceLocator( ).findResource( null,
-				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
+				TOC_DEFAULT_VALUE,
+				IResourceLocator.OTHERS );
 		if ( url == null )
 			return;
 
@@ -1194,8 +1225,7 @@ public class DesignSession
 		while ( iterator.hasNext( ) )
 		{
 			DesignElement tmpStyle = (DesignElement) iterator.next( );
-			StyleHandle styleHandle = (StyleHandle) tmpStyle
-					.getHandle( tocDesign );
+			StyleHandle styleHandle = (StyleHandle) tmpStyle.getHandle( tocDesign );
 			defaultTOCStyleList.add( styleHandle );
 		}
 	}

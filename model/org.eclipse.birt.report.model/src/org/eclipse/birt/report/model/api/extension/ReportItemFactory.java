@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-
 /**
  * Adapter class for the IReportItemFactory interface.
  */
@@ -21,14 +20,30 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 abstract public class ReportItemFactory implements IReportItemFactory
 {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#newReportItem(org.eclipse.birt.report.model.api.ReportDesignHandle)
 	 */
-	
-	abstract public IReportItem newReportItem( DesignElementHandle extendedItemHandle );
 
-	/* (non-Javadoc)
+	abstract public IReportItem newReportItem(
+			DesignElementHandle extendedItemHandle );
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 	abstract public IMessages getMessages( );
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#getFactoryStyles(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 */
+	public IStyleDeclaration[] getFactoryStyles( String extensionName )
+	{
+		return null;
+	}
+
 }

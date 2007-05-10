@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleGroupElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -131,8 +132,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		assertTrue( dd.getExtensions( ).size( ) >= 2 );
 
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( TESTING_MATRIX_NAME );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension( TESTING_MATRIX_NAME );
 		assertNotNull( extDefn );
 		assertEquals( "TestingMatrix", extDefn.getDisplayName( ) ); //$NON-NLS-1$
 		assertEquals( "Element.TestingMatrix", extDefn.getDisplayNameKey( ) ); //$NON-NLS-1$
@@ -223,10 +223,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertNotNull( method );
 		assertEquals( "afterCloseDoc", method.getName( ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"Element.TestingMatrix.afterCloseDoc", method.getDisplayNameKey( ) ); //$NON-NLS-1$
-		assertEquals(
-				"Element.TestingMatrix.afterCloseDoc.toolTip", method.getToolTipKey( ) ); //$NON-NLS-1$
+		assertEquals( "Element.TestingMatrix.afterCloseDoc", method.getDisplayNameKey( ) ); //$NON-NLS-1$
+		assertEquals( "Element.TestingMatrix.afterCloseDoc.toolTip", method.getToolTipKey( ) ); //$NON-NLS-1$
 		assertEquals( "string", method.getReturnType( ) ); //$NON-NLS-1$
 
 		Iterator iter = method.argumentListIterator( );
@@ -234,13 +232,11 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		IArgumentInfo arg = argumentList.getArgument( "reportContext" ); //$NON-NLS-1$
 		assertNotNull( arg );
-		assertEquals(
-				"Element.TestingMatrix.afterCloseDoc.reportContext", arg.getDisplayNameKey( ) ); //$NON-NLS-1$
+		assertEquals( "Element.TestingMatrix.afterCloseDoc.reportContext", arg.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "IReportContext", arg.getType( ) ); //$NON-NLS-1$
 		arg = argumentList.getArgument( "object" ); //$NON-NLS-1$
 		assertNotNull( arg );
-		assertEquals(
-				"Element.TestingMatrix.afterCloseDoc.object", arg.getDisplayNameKey( ) ); //$NON-NLS-1$
+		assertEquals( "Element.TestingMatrix.afterCloseDoc.object", arg.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "Object", arg.getType( ) ); //$NON-NLS-1$
 
 		// prop = (IPropertyDefinition) propList.get( 3 );
@@ -305,8 +301,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testExtension( ) throws Exception
 	{
 		openDesign( fileName );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		try
@@ -317,38 +312,35 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN,
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN,
 					e.getErrorCode( ) );
 		}
 
 		// test the property values
 
-		assertNotNull( ( (ExtendedItem) extendedHandle.getElement( ) )
-				.getExtendedElement( ) );
+		assertNotNull( ( (ExtendedItem) extendedHandle.getElement( ) ).getExtendedElement( ) );
 		assertEquals( TESTING_MATRIX_NAME, extendedHandle.getExtensionName( ) );
 		assertEquals( 1.2, extendedHandle.getX( ).getMeasure( ), 0.00 );
 		assertEquals( "2in", extendedHandle.getProperty( "test1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( 22, extendedHandle.getIntProperty( "test2" ) ); //$NON-NLS-1$
-		assertEquals(
-				"type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", extendedHandle.getProperty( "test3" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", extendedHandle.getProperty( "test3" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNull( extendedHandle.getProperty( "test4" ) ); //$NON-NLS-1$
 		assertEquals( "choice1", extendedHandle.getProperty( "test5" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals( "script of afterCloseDoc", extendedHandle //$NON-NLS-1$
-				.getProperty( "afterCloseDoc" ) );//$NON-NLS-1$
+		.getProperty( "afterCloseDoc" ) );//$NON-NLS-1$
 
 		// read filter properties
 
 		Iterator iter1 = extendedHandle.filtersIterator( );
 		FilterConditionHandle filter = (FilterConditionHandle) iter1.next( );
-		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filter
-				.getOperator( ) );
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT,
+				filter.getOperator( ) );
 		assertEquals( "filter expression", filter.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filter.getValue1( ) ); //$NON-NLS-1$
 
 		filter = (FilterConditionHandle) iter1.next( );
-		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_GE, filter
-				.getOperator( ) );
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_GE,
+				filter.getOperator( ) );
 		assertEquals( "expr", filter.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expr", filter.getValue1( ) ); //$NON-NLS-1$
 
@@ -366,24 +358,20 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
+					e.getErrorCode( ) );
 		}
 
 		filter.setExpr( "new expr" ); //$NON-NLS-1$
 		filter.setValue2( "new value 2" ); //$NON-NLS-1$
 
 		extendedHandle.loadExtendedElement( );
-		assertNotNull( ( (ExtendedItem) extendedHandle.getElement( ) )
-				.getExtendedElement( ) );
-		assertEquals(
-				"type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", //$NON-NLS-1$
+		assertNotNull( ( (ExtendedItem) extendedHandle.getElement( ) ).getExtendedElement( ) );
+		assertEquals( "type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", //$NON-NLS-1$
 				extendedHandle.getProperty( "test3" ) ); //$NON-NLS-1$
-		assertEquals(
-				"type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", //$NON-NLS-1$
-				( (ExtendedItem) extendedHandle.getElement( ) ).getProperty(
-						design, "test3" ) ); //$NON-NLS-1$
+		assertEquals( "type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", //$NON-NLS-1$
+				( (ExtendedItem) extendedHandle.getElement( ) ).getProperty( design,
+						"test3" ) ); //$NON-NLS-1$
 		extendedHandle.setProperty( "afterCloseDoc", //$NON-NLS-1$
 				"new script of afterCloseDoc" ); //$NON-NLS-1$
 
@@ -394,8 +382,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		openDesign( checkFileName );
 		extendedHandle = null;
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		// test the property values
@@ -403,8 +390,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( 1.2, extendedHandle.getX( ).getMeasure( ), 0.00 );
 		assertEquals( "2in", extendedHandle.getProperty( "test1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( 22, extendedHandle.getIntProperty( "test2" ) ); //$NON-NLS-1$
-		assertEquals(
-				"type=bar,xScale=2,yScale=3,lineStyle=normal", extendedHandle.getProperty( "test3" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "type=bar,xScale=2,yScale=3,lineStyle=normal", extendedHandle.getProperty( "test3" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// clear some property values
 
@@ -423,8 +409,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testExtends( ) throws Exception
 	{
 		openDesign( fileName );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		// test the extends case, that the parent is not the same extension
@@ -442,8 +427,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( ExtendsException e )
 		{
-			assertEquals( WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE, e
-					.getErrorCode( ) );
+			assertEquals( WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE,
+					e.getErrorCode( ) );
 		}
 
 		// creates a new extended item by element factory and
@@ -455,8 +440,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( TESTING_MATRIX_NAME, child.getExtensionName( ) );
 		assertEquals( TESTING_MATRIX_NAME, extendedHandle.getExtensionName( ) );
 
-		parent = (ExtendedItem) extendedHandle
-				.getElementFactory( )
+		parent = (ExtendedItem) extendedHandle.getElementFactory( )
 				.newExtendedItem( "new parent", TESTING_MATRIX_NAME ).getElement( ); //$NON-NLS-1$
 
 		designHandle.addElement( parent.handle( design ),
@@ -473,8 +457,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		catch ( DesignFileException e )
 		{
 
-			assertEquals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR, e
-					.getErrorCode( ) );
+			assertEquals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR,
+					e.getErrorCode( ) );
 
 			List errors = e.getErrorList( );
 
@@ -497,8 +481,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_3 );
 
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		assertEquals( 1.2, extendedHandle.getX( ).getMeasure( ), 0.0 );
@@ -507,13 +490,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// test1 property can inherit
 
 		assertEquals( "parent value", extendedHandle.getProperty( "test1" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( null, extendedHandle.getElement( ).getLocalProperty(
-				design, "test1" ) ); //$NON-NLS-1$
+		assertEquals( null, extendedHandle.getElement( )
+				.getLocalProperty( design, "test1" ) ); //$NON-NLS-1$
 
 		// test5 property can not inherit
 
-		ExtendedItemHandle parent = (ExtendedItemHandle) designHandle
-				.findElement( "parent" ); //$NON-NLS-1$
+		ExtendedItemHandle parent = (ExtendedItemHandle) designHandle.findElement( "parent" ); //$NON-NLS-1$
 		assertEquals( parent, extendedHandle.getExtends( ) );
 
 		assertEquals( "choice2", parent.getProperty( "test5" ) ); //$NON-NLS-1$//$NON-NLS-2$
@@ -531,163 +513,106 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testStyleProperty( ) throws Exception
 	{
 		openDesign( fileName_3 );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		// test style property search algorithm
 
 		// get style property from local
 
-		assertEquals(
-				"white", extendedHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "white", extendedHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
 
 		// get style property from container
 
-		assertEquals( ColorPropertyType.BLUE, extendedHandle
-				.getStringProperty( Style.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE,
+				extendedHandle.getStringProperty( Style.COLOR_PROP ) );
 
 		// get style property from pre-defined style
 
-		assertEquals(
-				"normal", extendedHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", extendedHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
 
 		// test all style property values from private style
 
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "style extended item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "style extended item" ); //$NON-NLS-1$
 
 		// test get the style property definition from handle and from the
 		// extended item directly.
-		assertNotNull( extendedHandle.getDefn( ).getProperty(
-				Style.FONT_FAMILY_PROP ) );
+		assertNotNull( extendedHandle.getDefn( )
+				.getProperty( Style.FONT_FAMILY_PROP ) );
 
 		assertNotNull( extendedHandle.getElement( ).getProperty( design,
 				Style.FONT_FAMILY_PROP ) );
 
-		assertEquals(
-				"fantasy", extendedHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"red", extendedHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"larger", extendedHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"italic", extendedHandle.getStringProperty( Style.FONT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", extendedHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"bold", extendedHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"line-through", extendedHandle.getStringProperty( Style.TEXT_LINE_THROUGH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"overline", extendedHandle.getStringProperty( Style.TEXT_OVERLINE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"underline", extendedHandle.getStringProperty( Style.TEXT_UNDERLINE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "fantasy", extendedHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+		assertEquals( "red", extendedHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "larger", extendedHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "italic", extendedHandle.getStringProperty( Style.FONT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", extendedHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "bold", extendedHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "line-through", extendedHandle.getStringProperty( Style.TEXT_LINE_THROUGH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "overline", extendedHandle.getStringProperty( Style.TEXT_OVERLINE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "underline", extendedHandle.getStringProperty( Style.TEXT_UNDERLINE_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"dotted", extendedHandle.getStringProperty( Style.BORDER_TOP_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", extendedHandle.getStringProperty( Style.BORDER_TOP_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"blue", extendedHandle.getStringProperty( Style.BORDER_TOP_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "dotted", extendedHandle.getStringProperty( Style.BORDER_TOP_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", extendedHandle.getStringProperty( Style.BORDER_TOP_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "blue", extendedHandle.getStringProperty( Style.BORDER_TOP_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"dashed", extendedHandle.getStringProperty( Style.BORDER_LEFT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", extendedHandle.getStringProperty( Style.BORDER_LEFT_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"green", extendedHandle.getStringProperty( Style.BORDER_LEFT_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "dashed", extendedHandle.getStringProperty( Style.BORDER_LEFT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", extendedHandle.getStringProperty( Style.BORDER_LEFT_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "green", extendedHandle.getStringProperty( Style.BORDER_LEFT_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID, extendedHandle
-				.getStringProperty( Style.BORDER_BOTTOM_STYLE_PROP ) );
-		assertEquals(
-				"thin", extendedHandle.getStringProperty( Style.BORDER_BOTTOM_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"red", extendedHandle.getStringProperty( Style.BORDER_BOTTOM_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID,
+				extendedHandle.getStringProperty( Style.BORDER_BOTTOM_STYLE_PROP ) );
+		assertEquals( "thin", extendedHandle.getStringProperty( Style.BORDER_BOTTOM_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "red", extendedHandle.getStringProperty( Style.BORDER_BOTTOM_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"double", extendedHandle.getStringProperty( Style.BORDER_RIGHT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", extendedHandle.getStringProperty( Style.BORDER_RIGHT_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"maroon", extendedHandle.getStringProperty( Style.BORDER_RIGHT_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "double", extendedHandle.getStringProperty( Style.BORDER_RIGHT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", extendedHandle.getStringProperty( Style.BORDER_RIGHT_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "maroon", extendedHandle.getStringProperty( Style.BORDER_RIGHT_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"1mm", extendedHandle.getStringProperty( Style.PADDING_TOP_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"2mm", extendedHandle.getStringProperty( Style.PADDING_LEFT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"3mm", extendedHandle.getStringProperty( Style.PADDING_RIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"4mm", extendedHandle.getStringProperty( Style.PADDING_BOTTOM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "1mm", extendedHandle.getStringProperty( Style.PADDING_TOP_PROP ) ); //$NON-NLS-1$
+		assertEquals( "2mm", extendedHandle.getStringProperty( Style.PADDING_LEFT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "3mm", extendedHandle.getStringProperty( Style.PADDING_RIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "4mm", extendedHandle.getStringProperty( Style.PADDING_BOTTOM_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"scroll", extendedHandle.getStringProperty( Style.BACKGROUND_ATTACHMENT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"red", extendedHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"file", extendedHandle.getStringProperty( Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"center", extendedHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"top", extendedHandle.getStringProperty( Style.BACKGROUND_POSITION_Y_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"repeat", extendedHandle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "scroll", extendedHandle.getStringProperty( Style.BACKGROUND_ATTACHMENT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "red", extendedHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "file", extendedHandle.getStringProperty( Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "center", extendedHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
+		assertEquals( "top", extendedHandle.getStringProperty( Style.BACKGROUND_POSITION_Y_PROP ) ); //$NON-NLS-1$
+		assertEquals( "repeat", extendedHandle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"right", extendedHandle.getStringProperty( Style.TEXT_ALIGN_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"5mm", extendedHandle.getStringProperty( Style.TEXT_INDENT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", extendedHandle.getStringProperty( Style.LETTER_SPACING_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", extendedHandle.getStringProperty( Style.LINE_HEIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"19", extendedHandle.getStringProperty( Style.ORPHANS_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"uppercase", extendedHandle.getStringProperty( Style.TEXT_TRANSFORM_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"middle", extendedHandle.getStringProperty( Style.VERTICAL_ALIGN_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"nowrap", extendedHandle.getStringProperty( Style.WHITE_SPACE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"12", extendedHandle.getStringProperty( Style.WIDOWS_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", extendedHandle.getStringProperty( Style.WORD_SPACING_PROP ) ); //$NON-NLS-1$
+		assertEquals( "right", extendedHandle.getStringProperty( Style.TEXT_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "5mm", extendedHandle.getStringProperty( Style.TEXT_INDENT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", extendedHandle.getStringProperty( Style.LETTER_SPACING_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", extendedHandle.getStringProperty( Style.LINE_HEIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "19", extendedHandle.getStringProperty( Style.ORPHANS_PROP ) ); //$NON-NLS-1$
+		assertEquals( "uppercase", extendedHandle.getStringProperty( Style.TEXT_TRANSFORM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "middle", extendedHandle.getStringProperty( Style.VERTICAL_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "nowrap", extendedHandle.getStringProperty( Style.WHITE_SPACE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "12", extendedHandle.getStringProperty( Style.WIDOWS_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", extendedHandle.getStringProperty( Style.WORD_SPACING_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"inline", extendedHandle.getStringProperty( Style.DISPLAY_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"My Page", extendedHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"avoid", extendedHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"inherit", extendedHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"true", extendedHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"true", extendedHandle.getStringProperty( Style.CAN_SHRINK_PROP ) ); //$NON-NLS-1$
+		assertEquals( "inline", extendedHandle.getStringProperty( Style.DISPLAY_PROP ) ); //$NON-NLS-1$
+		assertEquals( "My Page", extendedHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", extendedHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
+		assertEquals( "avoid", extendedHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "inherit", extendedHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "true", extendedHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
+		assertEquals( "true", extendedHandle.getStringProperty( Style.CAN_SHRINK_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"right", extendedHandle.getStringProperty( Style.NUMBER_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "right", extendedHandle.getStringProperty( Style.NUMBER_ALIGN_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.MARGIN_TOP_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.MARGIN_LEFT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.MARGIN_RIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", extendedHandle.getStringProperty( Style.MARGIN_BOTTOM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", extendedHandle.getStringProperty( Style.MARGIN_TOP_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", extendedHandle.getStringProperty( Style.MARGIN_LEFT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", extendedHandle.getStringProperty( Style.MARGIN_RIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", extendedHandle.getStringProperty( Style.MARGIN_BOTTOM_PROP ) ); //$NON-NLS-1$
 
 		// assertEquals(
 		// "[somefield]", extendedHandle.getStringProperty(
 		// Style.MAP_TEST_EXPR_PROP ) ); //$NON-NLS-1$
 
-		List mapRules = (List) extendedHandle
-				.getProperty( Style.MAP_RULES_PROP );
+		List mapRules = (List) extendedHandle.getProperty( Style.MAP_RULES_PROP );
 		assertEquals( 5, mapRules.size( ) );
 		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ,
 				( (MapRule) mapRules.get( 0 ) ).getOperator( ) );
@@ -711,8 +636,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// Predefined style is defined by user.
 		StyleElement predefinedStyle = design.findStyle( "extended-item" ); //$NON-NLS-1$
 		assertEquals( "extended-item", predefinedStyle.getName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", predefinedStyle.getStringProperty( design, Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", predefinedStyle.getStringProperty( design, Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
 
 		StyleHandle sh = extendedHandle.getPrivateStyle( );
 		Iterator iter = sh.mapRulesIterator( );
@@ -724,26 +648,26 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		list.add( extendedHandle );
 
-		GroupElementHandle groupHandle = new SimpleGroupElementHandle(
-				designHandle, list );
+		GroupElementHandle groupHandle = new SimpleGroupElementHandle( designHandle,
+				list );
 
-		assertEquals(
-				"center", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
+		assertEquals( "center", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
 
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "predefined style item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "predefined style item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
-		assertEquals( ColorPropertyType.BLUE, extendedHandle
-				.getProperty( Style.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE,
+				extendedHandle.getProperty( Style.COLOR_PROP ) );
 
 		// drop the "testing-matrix" selector,
 
 		designHandle.getStyles( ).drop( 3 );
 
-		assertEquals( ColorPropertyType.RED, extendedHandle
-				.getProperty( Style.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.RED,
+				extendedHandle.getProperty( Style.COLOR_PROP ) );
 
+		save( );
+		assertTrue( compareFile( goldenFileName_3 ) );
 		save( );
 		assertTrue( compareFile( goldenFileName_3 ) );
 
@@ -758,163 +682,109 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 
 		openDesign( fileName_3 );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		ArrayList list = new ArrayList( );
 
 		list.add( extendedHandle );
 
-		GroupElementHandle groupHandle = new SimpleGroupElementHandle(
-				designHandle, list );
+		GroupElementHandle groupHandle = new SimpleGroupElementHandle( designHandle,
+				list );
 
 		// test style property search algorithm
 
 		// get style property from local
 
-		assertEquals(
-				"white", groupHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "white", groupHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
 
 		// get style property from container
 
-		assertEquals( ColorPropertyType.BLUE, groupHandle
-				.getStringProperty( Style.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE,
+				groupHandle.getStringProperty( Style.COLOR_PROP ) );
 
 		// get style property from pre-defined style
 
-		assertEquals(
-				"normal", groupHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", groupHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
 
 		// test all style property values from private style
 
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "style extended item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "style extended item" ); //$NON-NLS-1$
 
 		list.clear( );
 		list.add( extendedHandle );
 		groupHandle = new SimpleGroupElementHandle( designHandle, list );
 
-		assertEquals(
-				"fantasy", groupHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+		assertEquals( "fantasy", groupHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 		assertEquals( "red", groupHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"larger", groupHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"italic", groupHandle.getStringProperty( Style.FONT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", groupHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"bold", groupHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"line-through", groupHandle.getStringProperty( Style.TEXT_LINE_THROUGH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"overline", groupHandle.getStringProperty( Style.TEXT_OVERLINE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"underline", groupHandle.getStringProperty( Style.TEXT_UNDERLINE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "larger", groupHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "italic", groupHandle.getStringProperty( Style.FONT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", groupHandle.getStringProperty( Style.FONT_VARIANT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "bold", groupHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "line-through", groupHandle.getStringProperty( Style.TEXT_LINE_THROUGH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "overline", groupHandle.getStringProperty( Style.TEXT_OVERLINE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "underline", groupHandle.getStringProperty( Style.TEXT_UNDERLINE_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"dotted", groupHandle.getStringProperty( Style.BORDER_TOP_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", groupHandle.getStringProperty( Style.BORDER_TOP_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"blue", groupHandle.getStringProperty( Style.BORDER_TOP_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "dotted", groupHandle.getStringProperty( Style.BORDER_TOP_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", groupHandle.getStringProperty( Style.BORDER_TOP_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "blue", groupHandle.getStringProperty( Style.BORDER_TOP_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"dashed", groupHandle.getStringProperty( Style.BORDER_LEFT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", groupHandle.getStringProperty( Style.BORDER_LEFT_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"green", groupHandle.getStringProperty( Style.BORDER_LEFT_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "dashed", groupHandle.getStringProperty( Style.BORDER_LEFT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", groupHandle.getStringProperty( Style.BORDER_LEFT_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "green", groupHandle.getStringProperty( Style.BORDER_LEFT_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID, groupHandle
-				.getStringProperty( Style.BORDER_BOTTOM_STYLE_PROP ) );
-		assertEquals(
-				"thin", groupHandle.getStringProperty( Style.BORDER_BOTTOM_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"red", groupHandle.getStringProperty( Style.BORDER_BOTTOM_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID,
+				groupHandle.getStringProperty( Style.BORDER_BOTTOM_STYLE_PROP ) );
+		assertEquals( "thin", groupHandle.getStringProperty( Style.BORDER_BOTTOM_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "red", groupHandle.getStringProperty( Style.BORDER_BOTTOM_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"double", groupHandle.getStringProperty( Style.BORDER_RIGHT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"thin", groupHandle.getStringProperty( Style.BORDER_RIGHT_WIDTH_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"maroon", groupHandle.getStringProperty( Style.BORDER_RIGHT_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "double", groupHandle.getStringProperty( Style.BORDER_RIGHT_STYLE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "thin", groupHandle.getStringProperty( Style.BORDER_RIGHT_WIDTH_PROP ) ); //$NON-NLS-1$
+		assertEquals( "maroon", groupHandle.getStringProperty( Style.BORDER_RIGHT_COLOR_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"1mm", groupHandle.getStringProperty( Style.PADDING_TOP_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"2mm", groupHandle.getStringProperty( Style.PADDING_LEFT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"3mm", groupHandle.getStringProperty( Style.PADDING_RIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"4mm", groupHandle.getStringProperty( Style.PADDING_BOTTOM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "1mm", groupHandle.getStringProperty( Style.PADDING_TOP_PROP ) ); //$NON-NLS-1$
+		assertEquals( "2mm", groupHandle.getStringProperty( Style.PADDING_LEFT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "3mm", groupHandle.getStringProperty( Style.PADDING_RIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "4mm", groupHandle.getStringProperty( Style.PADDING_BOTTOM_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"scroll", groupHandle.getStringProperty( Style.BACKGROUND_ATTACHMENT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"red", groupHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"file", groupHandle.getStringProperty( Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"center", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"top", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_Y_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"repeat", groupHandle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "scroll", groupHandle.getStringProperty( Style.BACKGROUND_ATTACHMENT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "red", groupHandle.getStringProperty( Style.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( "file", groupHandle.getStringProperty( Style.BACKGROUND_IMAGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "center", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_X_PROP ) ); //$NON-NLS-1$
+		assertEquals( "top", groupHandle.getStringProperty( Style.BACKGROUND_POSITION_Y_PROP ) ); //$NON-NLS-1$
+		assertEquals( "repeat", groupHandle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"right", groupHandle.getStringProperty( Style.TEXT_ALIGN_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"5mm", groupHandle.getStringProperty( Style.TEXT_INDENT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", groupHandle.getStringProperty( Style.LETTER_SPACING_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", groupHandle.getStringProperty( Style.LINE_HEIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "right", groupHandle.getStringProperty( Style.TEXT_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "5mm", groupHandle.getStringProperty( Style.TEXT_INDENT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", groupHandle.getStringProperty( Style.LETTER_SPACING_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", groupHandle.getStringProperty( Style.LINE_HEIGHT_PROP ) ); //$NON-NLS-1$
 		assertEquals( "19", groupHandle.getStringProperty( Style.ORPHANS_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"uppercase", groupHandle.getStringProperty( Style.TEXT_TRANSFORM_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"middle", groupHandle.getStringProperty( Style.VERTICAL_ALIGN_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"nowrap", groupHandle.getStringProperty( Style.WHITE_SPACE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "uppercase", groupHandle.getStringProperty( Style.TEXT_TRANSFORM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "middle", groupHandle.getStringProperty( Style.VERTICAL_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "nowrap", groupHandle.getStringProperty( Style.WHITE_SPACE_PROP ) ); //$NON-NLS-1$
 		assertEquals( "12", groupHandle.getStringProperty( Style.WIDOWS_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"normal", groupHandle.getStringProperty( Style.WORD_SPACING_PROP ) ); //$NON-NLS-1$
+		assertEquals( "normal", groupHandle.getStringProperty( Style.WORD_SPACING_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"inline", groupHandle.getStringProperty( Style.DISPLAY_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"My Page", groupHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", groupHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"avoid", groupHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"inherit", groupHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"true", groupHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"true", groupHandle.getStringProperty( Style.CAN_SHRINK_PROP ) ); //$NON-NLS-1$
+		assertEquals( "inline", groupHandle.getStringProperty( Style.DISPLAY_PROP ) ); //$NON-NLS-1$
+		assertEquals( "My Page", groupHandle.getStringProperty( Style.MASTER_PAGE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", groupHandle.getStringProperty( Style.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
+		assertEquals( "avoid", groupHandle.getStringProperty( Style.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "inherit", groupHandle.getStringProperty( Style.PAGE_BREAK_INSIDE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "true", groupHandle.getStringProperty( Style.SHOW_IF_BLANK_PROP ) ); //$NON-NLS-1$
+		assertEquals( "true", groupHandle.getStringProperty( Style.CAN_SHRINK_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"right", groupHandle.getStringProperty( Style.NUMBER_ALIGN_PROP ) ); //$NON-NLS-1$
+		assertEquals( "right", groupHandle.getStringProperty( Style.NUMBER_ALIGN_PROP ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"auto", groupHandle.getStringProperty( Style.MARGIN_TOP_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", groupHandle.getStringProperty( Style.MARGIN_LEFT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", groupHandle.getStringProperty( Style.MARGIN_RIGHT_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"auto", groupHandle.getStringProperty( Style.MARGIN_BOTTOM_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", groupHandle.getStringProperty( Style.MARGIN_TOP_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", groupHandle.getStringProperty( Style.MARGIN_LEFT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", groupHandle.getStringProperty( Style.MARGIN_RIGHT_PROP ) ); //$NON-NLS-1$
+		assertEquals( "auto", groupHandle.getStringProperty( Style.MARGIN_BOTTOM_PROP ) ); //$NON-NLS-1$
 
 		// assertEquals(
 		// "[somefield]", groupHandle.getStringProperty(
 		// Style.MAP_TEST_EXPR_PROP ) ); //$NON-NLS-1$
 
-		GroupPropertyHandle groupPropertyHandle = groupHandle
-				.getPropertyHandle( Style.MAP_RULES_PROP );
+		GroupPropertyHandle groupPropertyHandle = groupHandle.getPropertyHandle( Style.MAP_RULES_PROP );
 		assertNotNull( groupPropertyHandle );
 	}
 
@@ -927,8 +797,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testExtendedCommand( ) throws Exception
 	{
 		openDesign( fileName );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		// creates the extended element before operations
@@ -939,17 +808,14 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		extendedHandle.setProperty( "company", "new value" ); //$NON-NLS-1$//$NON-NLS-2$
 
-		assertTrue( extendedHandle
-				.getStringProperty( "company" ).endsWith( "execute" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue( extendedHandle.getStringProperty( "company" ).endsWith( "execute" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		ActivityStack stack = design.getActivityStack( );
 		stack.undo( );
-		assertTrue( extendedHandle
-				.getStringProperty( "company" ).endsWith( "undo" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertTrue( extendedHandle.getStringProperty( "company" ).endsWith( "undo" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		stack.redo( );
-		assertTrue( extendedHandle
-				.getStringProperty( "company" ).endsWith( "redo" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertTrue( extendedHandle.getStringProperty( "company" ).endsWith( "redo" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 	}
 
@@ -965,8 +831,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 			SemanticException
 	{
 		openDesign( fileName, ULocale.ENGLISH );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		Set set = new HashSet( );
@@ -1004,19 +869,13 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertNull( extendedItem.getPropertyDefn( "pieWidth" ) ); //$NON-NLS-1$
 		assertNull( extendedItem.getPropertyDefn( "pieHeight" ) ); //$NON-NLS-1$
 
-		assertEquals(
-				"Type", extendedItem.getPropertyDefn( "type" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals(
-				"X Scale", extendedItem.getPropertyDefn( "xScale" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals(
-				"Y Scale", extendedItem.getPropertyDefn( "yScale" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "Type", extendedItem.getPropertyDefn( "type" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "X Scale", extendedItem.getPropertyDefn( "xScale" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "Y Scale", extendedItem.getPropertyDefn( "yScale" ).getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertEquals(
-				"Thin", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[0].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals(
-				"Normal", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[1].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals(
-				"Thick", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[2].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "Thin", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[0].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "Normal", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[1].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "Thick", extendedItem.getPropertyDefn( "lineStyle" ).getChoices( ).getChoices( )[2].getDisplayName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Change the dynamci property list
 
@@ -1037,21 +896,21 @@ public class ReportItemExtensionTest extends BaseTestCase
 		List methods = extendedHandle.getMethods( );
 
 		assertEquals( "afterCloseDoc", ( (ElementPropertyDefn) methods //$NON-NLS-1$
-				.get( 0 ) ).getName( ) );
+		.get( 0 ) ).getName( ) );
 		assertEquals( "test8", ( (ElementPropertyDefn) methods.get( 1 ) ) //$NON-NLS-1$
-				.getName( ) );
+		.getName( ) );
 		assertEquals( "onPrepare", ( (ElementPropertyDefn) methods.get( 2 ) ) //$NON-NLS-1$
-				.getName( ) );
+		.getName( ) );
 		assertEquals( "onCreate", ( (ElementPropertyDefn) methods.get( 3 ) ) //$NON-NLS-1$
-				.getName( ) );
+		.getName( ) );
 		assertEquals( "onRender", ( (ElementPropertyDefn) methods.get( 4 ) ) //$NON-NLS-1$
-				.getName( ) );
+		.getName( ) );
 		assertEquals( "onPageBreak", //$NON-NLS-1$
 				( (ElementPropertyDefn) methods.get( 5 ) ).getName( ) );
 		assertEquals( "firstMethod", ( (ElementPropertyDefn) methods //$NON-NLS-1$
-				.get( 6 ) ).getName( ) );
+		.get( 6 ) ).getName( ) );
 		assertEquals( "sencondMethod", ( (ElementPropertyDefn) methods //$NON-NLS-1$
-				.get( 7 ) ).getName( ) );
+		.get( 7 ) ).getName( ) );
 
 		try
 		{
@@ -1072,8 +931,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testTestingBox( )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( TESTING_BOX_NAME );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension( TESTING_BOX_NAME );
 		assertNotNull( extDefn );
 		assertEquals( "TestingBox", extDefn.getDisplayName( ) ); //$NON-NLS-1$
 		assertEquals( null, extDefn.getDisplayNameKey( ) );
@@ -1084,8 +942,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		List propList = extDefn.getProperties( );
 
-		ElementPropertyDefn prop = (ElementPropertyDefn) extDefn
-				.getProperty( "usage" ); //$NON-NLS-1$
+		ElementPropertyDefn prop = (ElementPropertyDefn) extDefn.getProperty( "usage" ); //$NON-NLS-1$
 		assertEquals( prop, extDefn.getProperty( "usage" ) ); //$NON-NLS-1$
 		assertEquals( "usage", prop.getName( ) ); //$NON-NLS-1$
 		assertEquals( "usage", prop.getDisplayName( ) ); //$NON-NLS-1$
@@ -1134,18 +991,19 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testAddExtendedItem( ) throws Exception
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( (ULocale) null );
+		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
-		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
-				.getElementFactory( ).newElement( TESTING_BOX_NAME, "box1" ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle.getElementFactory( )
+				.newElement( TESTING_BOX_NAME, "box1" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( itemHandle );
 
 		assertEquals( TESTING_BOX_NAME, itemHandle.getDefn( ).getName( ) );
-		assertEquals( TESTING_BOX_NAME, ( (ExtendedItem) itemHandle
-				.getElement( ) ).getExtDefn( ).getName( ) );
-		assertEquals( true, ( (ExtendedItem) itemHandle.getElement( ) )
-				.getExtDefn( ).hasStyle( ) );
+		assertEquals( TESTING_BOX_NAME,
+				( (ExtendedItem) itemHandle.getElement( ) ).getExtDefn( )
+						.getName( ) );
+		assertEquals( true,
+				( (ExtendedItem) itemHandle.getElement( ) ).getExtDefn( )
+						.hasStyle( ) );
 
 		// itemHandle.loadExtendedElement( );
 		itemHandle.setProperty( "usage", "toy" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1186,25 +1044,22 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testClone( ) throws Exception
 	{
 		openDesign( fileName );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		extendedHandle.loadExtendedElement( );
-		ExtendedItemHandle clonedHandle = (ExtendedItemHandle) extendedHandle
-				.copy( ).getHandle( design );
+		ExtendedItemHandle clonedHandle = (ExtendedItemHandle) extendedHandle.copy( )
+				.getHandle( design );
 		assertNotNull( clonedHandle );
 
 		// test the property values of cloned element
 
-		assertNotNull( ( (ExtendedItem) clonedHandle.getElement( ) )
-				.getExtendedElement( ) );
+		assertNotNull( ( (ExtendedItem) clonedHandle.getElement( ) ).getExtendedElement( ) );
 		assertEquals( TESTING_MATRIX_NAME, clonedHandle.getExtensionName( ) );
 		assertEquals( 1.2, clonedHandle.getX( ).getMeasure( ), 0.00 );
 		assertEquals( "2in", clonedHandle.getProperty( "test1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( 22, clonedHandle.getIntProperty( "test2" ) ); //$NON-NLS-1$
-		assertEquals(
-				"type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", clonedHandle.getProperty( "test3" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript", clonedHandle.getProperty( "test3" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNull( clonedHandle.getProperty( "test4" ) ); //$NON-NLS-1$
 		assertEquals( "choice1", clonedHandle.getProperty( "test5" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals( "bar", clonedHandle.getProperty( "type" ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1228,8 +1083,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testNotification( ) throws Exception
 	{
 		openDesign( fileName_3 );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		MyListener containerListener = new MyListener( );
@@ -1250,11 +1104,11 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// test changes on the testing-matrix selector.
 
-		assertEquals( ColorPropertyType.BLUE, extendedHandle
-				.getProperty( Style.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE,
+				extendedHandle.getProperty( Style.COLOR_PROP ) );
 
-		String selectorName = ( (ExtendedItem) extendedHandle.getElement( ) )
-				.getExtDefn( ).getSelector( );
+		String selectorName = ( (ExtendedItem) extendedHandle.getElement( ) ).getExtDefn( )
+				.getSelector( );
 		StyleHandle selector = designHandle.findNativeStyle( selectorName );
 
 		selector.getColor( ).setStringValue( ColorPropertyType.TEAL );
@@ -1270,8 +1124,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testChoiceProperty( ) throws Exception
 	{
-		ExtendedItemHandle itemHandle = insertExtendedItem(
-				"matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = insertExtendedItem( "matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
 
 		// itemHandle.loadExtendedElement( );
 		itemHandle.setProperty( "test5", "choice2" );//$NON-NLS-1$//$NON-NLS-2$
@@ -1300,8 +1153,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testChoiceDynamicProperty( ) throws Exception
 	{
-		ExtendedItemHandle itemHandle = insertExtendedItem(
-				"matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = insertExtendedItem( "matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
 
 		// itemHandle.loadExtendedElement( );
 		itemHandle.setProperty( "lineStyle", "thin" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1328,22 +1180,20 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testExtensionPropertyInvisible( ) throws Exception
 	{
-		ExtendedItemHandle itemHandle = insertExtendedItem(
-				"matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = insertExtendedItem( "matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
 
 		ExtendedItem element = (ExtendedItem) itemHandle.getElement( );
 
-		assertFalse( element.getExtDefn( ).isPropertyVisible(
-				ReportItem.BOOKMARK_PROP ) );
+		assertFalse( element.getExtDefn( )
+				.isPropertyVisible( ReportItem.BOOKMARK_PROP ) );
 		assertFalse( element.getExtDefn( ).isPropertyVisible( "test3" ) ); //$NON-NLS-1$
-		assertTrue( element.getExtDefn( ).isPropertyReadOnly(
-				ReportItem.DATA_SET_PROP ) );
+		assertTrue( element.getExtDefn( )
+				.isPropertyReadOnly( ReportItem.DATA_SET_PROP ) );
 
 		itemHandle = insertExtendedItem( "testTable1", TESTING_TABLE_NAME ); //$NON-NLS-1$
-		assertNotNull( itemHandle
-				.getPropertyDefn( IExtendedItemModel.EXTENSION_NAME_PROP ) );
-		assertFalse( element.getExtDefn( ).isPropertyVisible(
-				IExtendedItemModel.EXTENSION_NAME_PROP ) );
+		assertNotNull( itemHandle.getPropertyDefn( IExtendedItemModel.EXTENSION_NAME_PROP ) );
+		assertFalse( element.getExtDefn( )
+				.isPropertyVisible( IExtendedItemModel.EXTENSION_NAME_PROP ) );
 
 	}
 
@@ -1367,8 +1217,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
-		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 
 		// load elements without valid extension.
 
@@ -1379,8 +1228,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( ExtendedElementException e )
 		{
-			assertEquals( SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, e
-					.getErrorCode( ) );
+			assertEquals( SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND,
+					e.getErrorCode( ) );
 		}
 
 		testExtendedItemWithoutExtension( itemHandle );
@@ -1411,15 +1260,14 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( PropertyNameException e )
 		{
-			assertEquals(
-					PropertyNameException.DESIGN_EXCEPTION_PROPERTY_NAME_INVALID,
+			assertEquals( PropertyNameException.DESIGN_EXCEPTION_PROPERTY_NAME_INVALID,
 					e.getErrorCode( ) );
 		}
 
 		// get property.
 
 		assertEquals( "12.5cm", itemHandle //$NON-NLS-1$
-				.getStringProperty( ReportItem.Y_PROP ) );
+		.getStringProperty( ReportItem.Y_PROP ) );
 
 		assertNull( itemHandle.getStringProperty( "test2" ) ); //$NON-NLS-1$
 
@@ -1456,8 +1304,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
-		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 
 		// load elements without valid extension.
 
@@ -1468,8 +1315,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( ExtendedElementException e )
 		{
-			assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, e
-					.getErrorCode( ) );
+			assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
+					e.getErrorCode( ) );
 		}
 
 		testExtendedItemWithoutExtension( itemHandle );
@@ -1490,8 +1337,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	private ExtendedItemHandle insertExtendedItem( String name,
 			String extensionName ) throws Exception
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( (ULocale) null );
+		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 		ExtendedItemHandle itemHandle = designHandle.getElementFactory( )
 				.newExtendedItem( name, extensionName );
@@ -1512,8 +1358,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// Get property without initializing.
 
 		openDesign( fileName );
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		assertEquals( "bar", extendedHandle.getProperty( "type" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -1522,8 +1367,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// Get string property without initializing.
 
 		openDesign( fileName );
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		assertEquals( "bar", extendedHandle.getStringProperty( "type" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -1532,8 +1376,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// Set property without initializing.
 
 		openDesign( fileName );
-		extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "right extended item" ); //$NON-NLS-1$
+		extendedHandle = (ExtendedItemHandle) designHandle.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
 		extendedHandle.setProperty( "type", "pie" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1568,8 +1411,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// TestingMatrix does appear in this list.
 
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( TESTING_MATRIX_NAME );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension( TESTING_MATRIX_NAME );
 		assertTrue( slotDefn.getContentExtendedElements( ).contains( extDefn ) );
 		assertFalse( slotDefn.getContentElements( ).contains( extDefn ) );
 
@@ -1581,10 +1423,9 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// ExtendedItem does not appear in this list.
 
-		ElementDefn extendedItemDefn = (ElementDefn) dd
-				.getElement( ReportDesignConstants.EXTENDED_ITEM );
-		assertFalse( slotDefn.getContentExtendedElements( ).contains(
-				extendedItemDefn ) );
+		ElementDefn extendedItemDefn = (ElementDefn) dd.getElement( ReportDesignConstants.EXTENDED_ITEM );
+		assertFalse( slotDefn.getContentExtendedElements( )
+				.contains( extendedItemDefn ) );
 		assertTrue( slotDefn.getContentElements( ).contains( extendedItemDefn ) );
 
 		openDesign( "ExtensionTest_5.xml" ); //$NON-NLS-1$
@@ -1613,35 +1454,26 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		assertEquals( 2, design.getErrorList( ).size( ) );
 
-		assertEquals(
-				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 0 ) )
-						.getExceptionName( ) );
-		assertEquals(
-				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 1 ) )
-						.getExceptionName( ) );
+		assertEquals( "org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
+				( (ErrorDetail) design.getErrorList( ).get( 0 ) ).getExceptionName( ) );
+		assertEquals( "org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
+				( (ErrorDetail) design.getErrorList( ).get( 1 ) ).getExceptionName( ) );
 
 		// move an extended item, which is originally in report-items slot of a
 		// free-form
 		// and the free-form is in component slot, to the body slot
 
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.findElement( "parent" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement( "parent" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 		extendedHandle.moveTo( designHandle, ReportDesign.BODY_SLOT );
 		designHandle.checkReport( );
 		assertEquals( 2, design.getErrorList( ).size( ) );
 
-		assertEquals(
-				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 0 ) )
-						.getExceptionName( ) );
+		assertEquals( "org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
+				( (ErrorDetail) design.getErrorList( ).get( 0 ) ).getExceptionName( ) );
 
-		assertEquals(
-				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 1 ) )
-						.getExceptionName( ) );
+		assertEquals( "org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
+				( (ErrorDetail) design.getErrorList( ).get( 1 ) ).getExceptionName( ) );
 
 	}
 
@@ -1653,8 +1485,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testCreateExtension( ) throws Exception
 	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
+		SessionHandle session = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
 
 		ExtendedItemHandle elementHandle = designHandle.getElementFactory( )
@@ -1663,18 +1494,19 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		libraryHandle = session.createLibrary( );
 
-		elementHandle = libraryHandle.getElementFactory( ).newExtendedItem(
-				null, TESTING_MATRIX_NAME );
+		elementHandle = libraryHandle.getElementFactory( )
+				.newExtendedItem( null, TESTING_MATRIX_NAME );
 		assertEquals( "NewTestingMatrix", elementHandle.getName( ) ); //$NON-NLS-1$
 
-		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) MetaDataDictionary
-				.getInstance( ).getExtension( TESTING_MATRIX_NAME );
+		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) MetaDataDictionary.getInstance( )
+				.getExtension( TESTING_MATRIX_NAME );
 		IMessages msgs = extDefn.getReportItemFactory( ).getMessages( );
 		assertEquals( "TestingMatrix", msgs.getMessage( //$NON-NLS-1$
-				(String) extDefn.getDisplayNameKey( ), ULocale.ENGLISH ) );
+		(String) extDefn.getDisplayNameKey( ),
+				ULocale.ENGLISH ) );
 
-		elementHandle = libraryHandle.getElementFactory( ).newExtendedItem(
-				null, TESTING_BOX_NAME );
+		elementHandle = libraryHandle.getElementFactory( )
+				.newExtendedItem( null, TESTING_BOX_NAME );
 		assertEquals( "NewTestingBox", elementHandle.getName( ) ); //$NON-NLS-1$
 
 		extDefn = (PeerExtensionElementDefn) MetaDataDictionary.getInstance( )
@@ -1769,8 +1601,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		createDesign( ULocale.ENGLISH );
 
-		StyleHandle style = designHandle.getElementFactory( ).newStyle(
-				"testing-matrix" ); //$NON-NLS-1$
+		StyleHandle style = designHandle.getElementFactory( )
+				.newStyle( "testing-matrix" ); //$NON-NLS-1$
 		assertEquals( "Testing Matrix", style.getDisplayLabel( ) ); //$NON-NLS-1$
 	}
 
@@ -1785,11 +1617,10 @@ public class ReportItemExtensionTest extends BaseTestCase
 		openDesign( fileName_10, ULocale.ENGLISH );
 		assertNotNull( designHandle );
 
-		ExtendedItemHandle extendedItemHandle = (ExtendedItemHandle) designHandle
-				.findElement( "testMatrixItem" ); //$NON-NLS-1$
+		ExtendedItemHandle extendedItemHandle = (ExtendedItemHandle) designHandle.findElement( "testMatrixItem" ); //$NON-NLS-1$
 		assertNotNull( extendedItemHandle );
-		PropertyDefn defn = extendedItemHandle.getElement( ).getPropertyDefn(
-				"abc" ); //$NON-NLS-1$
+		PropertyDefn defn = extendedItemHandle.getElement( )
+				.getPropertyDefn( "abc" ); //$NON-NLS-1$
 		assertNotNull( defn );
 		assertTrue( defn instanceof UserPropertyDefn );
 	}
@@ -1803,8 +1634,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testAltTextProperty( ) throws Exception
 	{
 		openDesign( "ExtensionTest_AltText.xml" );//$NON-NLS-1$
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.getBody( ).get( 0 );
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.getBody( )
+				.get( 0 );
 		assertNotNull( extendedHandle );
 
 		assertEquals( "chart is beautiful", extendedHandle.getAltText( ) ); //$NON-NLS-1$
@@ -1819,4 +1650,40 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertTrue( compareFile( "ExtensionTest_AltText_golden.xml" ) );//$NON-NLS-1$
 	}
 
+	public void testExtensionDefaultStyle( ) throws SemanticException,
+			DesignFileException
+	{
+
+		SessionHandle session = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
+		designHandle = session.createDesign( );
+		assertEquals( 1, designHandle.getStyles( ).getCount( ) );
+
+		ExtendedItemHandle elementHandle = designHandle.getElementFactory( )
+				.newExtendedItem( null, TESTING_BOX_NAME );
+		assertNotNull( elementHandle.getName( ) );
+
+		assertEquals( 1, designHandle.getStyles( ).getCount( ) );
+
+		StyleHandle boxDefaultStyle = (StyleHandle) designHandle.getStyles( )
+				.get( 0 );
+
+		assertEquals( "BoxStyle", boxDefaultStyle.getName( ) );
+		assertEquals( "#CCCCCC", boxDefaultStyle.getColor( ).getStringValue( ) );
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID,
+				boxDefaultStyle.getBorderBottomStyle( ) );
+		assertEquals( "1pt", boxDefaultStyle.getBorderBottomWidth( )
+				.getValue( )
+				.toString( ) );
+		assertEquals( "10pt", boxDefaultStyle.getMarginRight( )
+				.getValue( )
+				.toString( ) );
+
+		assertEquals( "Tahoma", boxDefaultStyle.getFontFamilyHandle( )
+				.getStringValue( ) );
+
+		assertEquals( "12pt", boxDefaultStyle.getFontSize( )
+				.getValue( )
+				.toString( ) );
+
+	}
 }

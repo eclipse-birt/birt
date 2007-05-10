@@ -97,4 +97,13 @@ public interface IReportItemFactory
 
 	IMessages getMessages( );
 
+	/**
+	 * Returns the list of default styles that defined for the extension
+	 * element.
+	 * 
+	 * @param extensionName
+	 *            the extension name of the element
+	 * @return default style list.
+	 */
+	IStyleDeclaration[] getFactoryStyles( String extensionName );
 }
