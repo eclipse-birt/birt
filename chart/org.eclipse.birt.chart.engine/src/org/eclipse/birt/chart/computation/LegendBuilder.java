@@ -683,7 +683,7 @@ public final class LegendBuilder implements IConstants
 			
 			// Replace with one space char if it is null, and it can be
 			// dispalyed normally with empty label. - Henry
-			obj = getNonNullValue( obj, IConstants.ONE_SPACE );
+			obj = getNonEmptyValue( obj, IConstants.ONE_SPACE );
 			
 			// Skip invalid data
 			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
@@ -948,18 +948,19 @@ public final class LegendBuilder implements IConstants
 	}
 
 	/**
-	 * Returns a non-null value, if it is null, replace with specified value.
+	 * Returns a non empty value, if it is null or empty string, replace with specified value.
 	 * 
 	 * @param value specified value.
 	 * @param defaultValue default return value.
-	 * @return a non-null value.
+	 * @return a non empty value.
 	 */
-	private Object getNonNullValue( Object value, Object defaultValue )
+	private Object getNonEmptyValue( Object value, Object defaultValue )
 	{
-		if ( value == null )
+		if ( value == null || value.toString( ).length( ) == 0 )
 		{
-			value = defaultValue;
+			return defaultValue;
 		}
+		
 		return value;
 	}
 
@@ -1586,7 +1587,7 @@ public final class LegendBuilder implements IConstants
 		{
 			Object obj = dsiBase.next( );
 
-			obj = getNonNullValue( obj, IConstants.ONE_SPACE );
+			obj = getNonEmptyValue( obj, IConstants.ONE_SPACE );
 			
 			// Skip invalid data
 			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
