@@ -605,7 +605,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			for( var i=0; i<mediaSizeNames.length; i++ )
 			{
 				var oOption = document.createElement( "OPTION" );
-				oOption.innerHTML = mediaSizeNames[i].name;
+				var oLabel = document.createElement( "LABEL" );
+				oLabel.innerHTML = mediaSizeNames[i].name;
+				oOption.text = oLabel.innerHTML;				
 				oOption.value = mediaSizeNames[i].value;
 				
 				if( mediaSizeNames[i].value == mediaSize )
