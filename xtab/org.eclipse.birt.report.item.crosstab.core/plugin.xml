@@ -155,7 +155,7 @@
                type="boolean">
          </property>
          <propertyVisibility
-               name="repeatColumnHeader"
+               name="repeatRowHeader"
                visibility="hide">
          </propertyVisibility>
          <propertyVisibility

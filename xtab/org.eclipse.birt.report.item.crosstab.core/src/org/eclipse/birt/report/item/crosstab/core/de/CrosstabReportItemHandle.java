@@ -347,7 +347,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
-	 * Sets if repeat crosstab row header for each page
+	 * Sets if repeat crosstab row header for each page. The row header is
+	 * normally on left of the detail area.
 	 */
 	public void setRepeatRowHeader( boolean value ) throws SemanticException
 	{
@@ -355,7 +356,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
-	 * Sets if repeat crosstab column header for each page
+	 * Sets if repeat crosstab column header for each page. The column header is
+	 * normally on top of the detail area.
 	 */
 	public void setRepeatColumnHeader( boolean value ) throws SemanticException
 	{
@@ -381,7 +383,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
-	 * Returns if repeat crosstab row header for each page
+	 * Returns if repeat crosstab row header for each page. The row header is
+	 * normally on left of the detail area.
 	 * 
 	 * @return
 	 */
@@ -391,7 +394,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
-	 * Returns if repeat crosstab column header for each page
+	 * Returns if repeat crosstab column header for each page. The column header
+	 * is normally on top of the detail area.
 	 * 
 	 * @return
 	 */
