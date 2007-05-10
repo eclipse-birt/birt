@@ -390,6 +390,8 @@
 			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
+			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
+			<include name="org.wsdl4j_1.4.1*/**"/>
 			<!-- orbit project -->
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
@@ -398,7 +400,6 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
-			<include name="org.wsdl4j_*/**"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -442,7 +443,7 @@
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
 			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar" />
 			<!-- temp plugin in BIRT, which will move to DTP in later RC0 -->
-			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
+			
 		</fileset>
 	</copy>
 
