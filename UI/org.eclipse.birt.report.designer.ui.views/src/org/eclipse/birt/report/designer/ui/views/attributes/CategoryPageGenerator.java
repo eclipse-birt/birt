@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
@@ -49,7 +49,8 @@ public class CategoryPageGenerator extends TabPageGenerator
 	{
 		if ( factory == null )
 		{
-			factory = (ICategoryProviderFactory) ElementAdapterManager.getAdapter( this, ICategoryProviderFactory.class );
+			factory = (ICategoryProviderFactory) Platform.getAdapterManager( )
+					.getAdapter( this, ICategoryProviderFactory.class );
 			if ( factory == null )
 			{
 				factory = CategoryProviderFactory.getInstance( );
