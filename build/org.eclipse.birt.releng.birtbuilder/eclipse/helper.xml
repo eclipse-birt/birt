@@ -190,7 +190,7 @@
 		</condition>
 		<property name="configArgs" value="" />
 
-		<java jar="${basedir}/../org.eclipse.releng.basebuilder/startup.jar" fork="true" maxmemory="256m">
+		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar" fork="true" maxmemory="256m">
 			<arg line="${configArgs} -application org.eclipse.test.performance.ui.resultGenerator
 					-baseline ${eclipse.perf.ref}
 					-baseline.prefix 3.2_200606291905
@@ -340,7 +340,6 @@
 	<target name="CheckoutFromP4" depends="init">
 
 		<!-- check out org.eclipse.releng     -->
-		<!-- check out iText jars             -->
 		<!-- check out version control files  -->
 
 		<property file="${eclipse.build.configs}/../../config.properties"/>
@@ -353,7 +352,6 @@
         <delete dir="${p4.workspace}/Development/JRP/Dev/build" failonerror="false" />
         <mkdir dir="${p4.workspace}/Development/JRP/Dev/build" />
 
-        <delete dir="${p4.home}/iText" failonerror="false"/>
         <delete dir="${p4.home}/CvsDiff" failonerror="false"/>
 		<delete dir="${p4.home}/reportTestsLib" failonerror="false"/>
 
@@ -365,18 +363,14 @@
         -->
         <p4sync view="//${p4.client}/Development/JRP/Dev/build/script/... 
                       //${p4.client}/Development/JRP/Dev/build/lib/... 
-                      //${p4.client}/Development/JRP/3rdParty/iText/...
-        			  //${p4.client}/Development/JRP/Dev/build/AutomationLib/...
-			          //${p4.client}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers/..." 
+     		  //${p4.client}/Development/JRP/Dev/build/AutomationLib/...
+	          //${p4.client}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers/..." 
                     port="${p4.port}" 
                     user="${p4.user}" 
                     globalopts="-P ${p4.passwd}" 
                     failonerror="true" 
                     force="true" />
 
-        <copy todir="${p4.home}/iText"  overwrite="true" failonerror="true">
-                <fileset dir="${p4.workspace}/Development/JRP/3rdParty/iText/itext_1_5_1"/>
-        </copy>
         <copy todir="${p4.home}/reportTestsLib"  overwrite="true" failonerror="true">
                 <fileset dir="${p4.workspace}/Development/JRP/Dev/build/AutomationLib"/>
         </copy>
@@ -448,6 +442,9 @@
 			<fileset dir="${plugin-dest}/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
+			    <include name="org.apache.xerces_*.jar"/>
+			    <include name="org.apache.xml.resolver_*.jar"/>
+			    <include name="org.w3c.dom_*.jar"/>
 			</fileset>
 			<fileset dir="${plugin-dest}/features" >
 				<include name="org.eclipse.datatools.*/**" />
@@ -455,6 +452,9 @@
 			<fileset dir="${AllInOne-dest}/eclipse/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
+			    <include name="org.apache.xerces_*.jar"/>
+			    <include name="org.apache.xml.resolver_*.jar"/>
+			    <include name="org.w3c.dom_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-dest}/eclipse/features" >
 				<include name="org.eclipse.datatools.*/**" />
@@ -462,6 +462,9 @@
 			<fileset dir="${AllInOne-Linux-dest}/eclipse/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
+			    <include name="org.apache.xerces_*.jar"/>
+			    <include name="org.apache.xml.resolver_*.jar"/>
+			    <include name="org.w3c.dom_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-Linux-dest}/eclipse/features" >
 				<include name="org.eclipse.datatools.*/**" />
@@ -492,9 +495,9 @@
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
 			<include name="org.wsdl4j_*/**"/>
-			<include name="org.apache.xerces_*/**"/>
-            <include name="org.apache.xml.resolver_*.jar"/>
-            <include name="org.w3c.dom_*.jar"/>
+			<include name="org.apache.xerces_*.jar"/>
+			<include name="org.apache.xml.resolver_*.jar"/>
+			<include name="org.w3c.dom_*.jar"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
 			<include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
@@ -549,10 +552,6 @@
 		<property name="baseLocation.emf" value="${baseLocation}"/>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
-			<!-- 
-			Add baselocation.emf to enable runtime download be packaged with emf version 
-			from other location other than baseLocation
-			 -->
 			<property name="baseLocation.emf" value="${baseLocation.emf}"/>
 		</ant>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
@@ -600,16 +599,8 @@
 	<target name="prepareBirtTest" depends="init">
 		<!-- Clean last test plugins -->
 		<delete includeEmptyDirs="true" failonerror="false">
-			<fileset dir="${test.dir}">
-				<include name="**/*.birt*.jar"/>
-				<include name="**/*.birt*/**"/>
-				<include name="**/*.itext*/**"/>
-				<include name="**/org.apache.derby.core*/**"/>
-				<include name="**/org.apache.batik*/**"/>
-				<include name="**/org.apache.batik.pdf*/**"/>
-				<include name="**/org.mozilla.rhino*/**"/>
-				<include name="**/org.w3c.sac*/**"/>
-				<include name="**/org.apache.commons.codec*/**"/>
+			<fileset dir="${test.dir}/eclipse">
+				<include name="**/*"/>
 			</fileset>
 		</delete>
 		<!-- clean last unit test reports -->
@@ -621,21 +612,35 @@
 			</fileset>
 		</delete>
 		<!-- prepare unit test components -->
-		
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-2_2_0.zip -d ${test.dir}" />
-		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
-			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
-		</exec>
-		<!-- copy iText jars for pdf testing -->
-		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
-		<copy todir="${test.dir}/eclipse/plugins/com.lowagie.itext_${com.lowagie.itext}/lib">
-			<fileset dir="${p4.home}/iText">
-				<include name="**"/>
+		<copy todir="${test.dir}">
+			<fileset dir="${postingDirectory}/${buildId}">
+				<include name="birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz"/>
+				<include name="birt-tests-suite-2_2_0.zip"/>
 			</fileset>
 		</copy>
+		
+		<exec executable="gunzip" dir="${test.dir}">
+			<arg line="birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz" />
+		</exec>
+		<exec executable="tar" dir="${test.dir}">
+			<arg line="-xvf birt-report-designer-all-in-one-2_2_0-linux-gtk.tar" />
+		</exec>
+		<exec executable="unzip" dir="${test.dir}">
+			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
+		</exec>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/RC0_Platform">
+			<arg line="-o -q eclipse-test-framework-3.3M7.zip -d ${test.dir}" />
+		</exec>
+		<delete>
+			<fileset dir="${test.dir}">
+				<include name="*.zip"/>
+				<include name="*.gz"/>
+				<include name="*.tar"/>
+			</fileset>
+		</delete>
+
 		<!-- copy drivers for jdbc testing -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.data.oda.jdbc_${org.eclipse.birt.report.data.oda.jdbc}/drivers">
 			<fileset dir="${p4.home}/drivers">
 				<include name="**"/>
@@ -643,11 +648,13 @@
 		</copy>
 		
 		<!-- copy necessary jars for tests.viewer and set value for config.properties in tests.viewer -->
+		<!--
 		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests_${org.eclipse.birt.report.tests}/lib">
 			<fileset dir="${p4.home}/reportTestsLib">
 				<include name="**"/>
 			</fileset>
 		</copy>
+		-->
 
 	</target>
 	
