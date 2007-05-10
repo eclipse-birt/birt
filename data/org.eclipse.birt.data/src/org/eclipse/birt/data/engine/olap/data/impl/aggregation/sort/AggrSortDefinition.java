@@ -11,17 +11,19 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+
 /**
  * 
  */
 
 public class AggrSortDefinition
 {
-	private String[] aggrLevels;
+	private DimLevel[] aggrLevels;
 	private String aggrName;
-	private String[] axisQualifierLevel;
+	private DimLevel[] axisQualifierLevel;
 	private Object[] axisQualifierValue;
-	private String targetLevel;
+	private DimLevel targetLevel;
 	private boolean direction;
 	
 	/**
@@ -33,9 +35,9 @@ public class AggrSortDefinition
 	 * @param targetLevel
 	 * @param direction
 	 */
-	public AggrSortDefinition( String[] aggrLevels, String aggrName,
-			String[] axisQualifierLevel, Object[] axisQualifierValue,
-			String targetLevel, boolean direction )
+	public AggrSortDefinition( DimLevel[] aggrLevels, String aggrName,
+			DimLevel[] axisQualifierLevel, Object[] axisQualifierValue,
+			DimLevel targetLevel, boolean direction )
 	{
 		this.aggrLevels = aggrLevels;
 		this.aggrName = aggrName;
@@ -49,7 +51,7 @@ public class AggrSortDefinition
 	 * 
 	 * @return
 	 */
-	public String[] getAggrLevels( )
+	public DimLevel[] getAggrLevels( )
 	{
 		return this.aggrLevels;
 	}
@@ -67,7 +69,7 @@ public class AggrSortDefinition
 	 * 
 	 * @return
 	 */
-	public String[] getAxisQualifierLevel()
+	public DimLevel[] getAxisQualifierLevel()
 	{
 		return this.axisQualifierLevel;
 	}
@@ -85,7 +87,7 @@ public class AggrSortDefinition
 	 * 
 	 * @return
 	 */
-	public String getTargetLevel()
+	public DimLevel getTargetLevel()
 	{
 		return this.targetLevel;
 	}

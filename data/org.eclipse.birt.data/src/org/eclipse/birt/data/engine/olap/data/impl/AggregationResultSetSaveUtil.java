@@ -20,6 +20,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
@@ -88,7 +89,17 @@ public class AggregationResultSetSaveUtil
 			DataInputStream dataInputStream ) throws IOException
 	{
 		//read level
+		String[] dimNames = convertToStringArray( readObjectArray( dataInputStream ) );
 		String[] levelNames = convertToStringArray( readObjectArray( dataInputStream ) );
+		DimLevel[] levels = null;
+		if ( dimNames != null && levelNames != null )
+		{
+			levels = new DimLevel[levelNames.length];
+			for ( int i = 0; i < levels.length; i++ )
+			{
+				levels[i] = new DimLevel( dimNames[i], levelNames[i] );
+			}
+		}
 		//read keys
 		String[][] keyNames = convertToMDStringArray( readMDObjectArray( dataInputStream ) );
 		int[][] keyDataTypes = readMDIntArray( dataInputStream );
@@ -107,7 +118,7 @@ public class AggregationResultSetSaveUtil
 		
 		return new CachedAggregationResultSet( dataInputStream,
 				size,
-				levelNames,
+				levels,
 				sortTypes,
 				keyNames,
 				attributeNames,
@@ -115,8 +126,8 @@ public class AggregationResultSetSaveUtil
 				attributeDataTypes,
 				aggregationNames,
 				aggregationDataType );
-	}
-	
+	}	
+
 	/**
 	 * 
 	 * @param objs
@@ -221,8 +232,23 @@ public class AggregationResultSetSaveUtil
 	{
 		//write level
 			//level names
-		String[] levels = resultSet.getAllLevels( );
-		writeObjectArray( outputStream, levels );
+		DimLevel[] levels = resultSet.getAllLevels( );
+		String[] dimensionNames = null;
+		String[] levelNames = null;
+		if ( levels != null )
+		{
+			dimensionNames = new String[levels.length];
+			levelNames = new String[levels.length];
+			for ( int i = 0; i < levels.length; i++ )
+			{
+				dimensionNames[i] = levels[i].getDimensionName( );
+				levelNames[i] = levels[i].getLevelName( );
+			}
+		}
+		// write DimLevels as seperate string arrays
+		writeObjectArray( outputStream, dimensionNames );
+		writeObjectArray( outputStream, levelNames);
+		
 			//level keys
 		writeObjectArray( outputStream, resultSet.getLevelKeys( ) );
 		writeIntArray( outputStream, resultSet.getLevelKeyDataType( ) );

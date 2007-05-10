@@ -50,10 +50,10 @@ public class AggregationCalculator
 	{
 		this.aggregation = aggregation;
 		AggregationFunctionDefinition[] aggregationFunction = aggregation.getAggregationFunctions( );
-		if(aggregation.getLevelNames( )==null)
+		if(aggregation.getLevels( )==null)
 			this.levelCount = 0;
 		else
-			this.levelCount = aggregation.getLevelNames( ).length;
+			this.levelCount = aggregation.getLevels( ).length;
 		if ( aggregationFunction != null )
 		{
 			this.accumulators = new Accumulator[aggregationFunction.length];

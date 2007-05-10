@@ -140,7 +140,7 @@ public class Level implements ILevel
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.ILevel#getKeyName()
 	 */
-	public String[] getKeyName( )
+	public String[] getKeyNames( )
 	{
 		return getKeyColNames();
 	}

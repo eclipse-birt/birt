@@ -53,8 +53,7 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 		for( int i=0;i<dimensions.length;i++)
 		{
 			dimesionResultIterators[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-					dimensions[i].findAll( ),
-					getAllLevelName(dimensions[i]) );
+					dimensions[i].findAll( ));
 		}
 		return dimesionResultIterators;
 	}

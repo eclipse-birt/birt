@@ -14,10 +14,8 @@ package org.eclipse.birt.data.engine.olap.data.api;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,6 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
@@ -93,14 +90,25 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	}
 	
 	/**
-	 * TODO: get the members according to the specified dimensionName and levelName.
-	 * @param dimensionName
-	 * @param levelName
+	 * TODO: get the members according to the specified level.
+	 * @param level
 	 * @return
 	 */
-	public IDiskArray getLevelMembers( String dimensionName, String levelName )
+	public IDiskArray getLevelMembers( DimLevel level )
 	{
 		return null;
+	}
+	
+	/**
+	 * get the attribute reference name.
+	 * @param dimName
+	 * @param levelName
+	 * @param attrName
+	 * @return
+	 */
+	public static String getAttrReference( String dimName, String levelName, String attrName )
+	{
+		return dimName + '/' + levelName + '/' + attrName;
 	}
 	
 	/**
@@ -184,7 +192,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	/**
 	 * 
-	 * @param tbFilter
+	 * @param topbottomFilter
 	 */
 	public void addTopBottomFilter(TopBottomFilterDefn topbottomFilter)
 	{
@@ -231,12 +239,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#addFilter(java.lang.String, org.eclipse.birt.data.olap.data.api.ISelection[])
 	 */
-	public void addFilter( String levelName, ISelection[] selections )
-	{
-		LevelFilter filter = new LevelFilter();
-		filter.levelName = levelName;
-		filter.selections = selections;
-		filters.add( filter );
+	public void addFilter( LevelFilter levelFilter )
+	{		
+		filters.add( levelFilter );
 	}
 	
 	/**
@@ -256,6 +261,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		filters.clear( );
 		aggrFilters.clear( );
+		topbottomFilters.clear( );
 		dimJSFilterMap.clear( );
 		dimRowForFilterMap.clear( );
 	}
@@ -268,6 +274,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		filters = null;
 		aggrFilters = null;
+		topbottomFilters = null;
 		dimJSFilterMap = null;
 		dimRowForFilterMap = null;
 	}
@@ -360,14 +367,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		for ( int i = 0; i < aggregations.length; i++ )
 		{
-			String[] levels = aggregations[i].getLevelNames( );
+			DimLevel[] levels = aggregations[i].getLevels( );
 			Map levelRange = new HashMap();
 			for ( Iterator j = topbottomFilters.iterator( ); j.hasNext( ); )
 			{
 				TopBottomFilterDefn filter = (TopBottomFilterDefn) j.next( );
 				if ( isEqualLevels( levels, filter.getAggrLevels( ) ) )
 				{
-					String target = filter.getTargerLevelName( );
+					DimLevel target = filter.getTargerLevel( );
 					IntRange range = (IntRange) levelRange.get( target );
 					if (  range == null )
 					{
@@ -390,7 +397,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			}
 			for ( Iterator j = levelRange.keySet( ).iterator( ); j.hasNext( ); )
 			{
-				String level = (String) j.next( );
+				DimLevel level = (DimLevel) j.next( );
 				IntRange range = (IntRange) levelRange.get( level );
 				if ( range.start >= range.end )
 					continue;// no need to apply top/bottom filter
@@ -399,17 +406,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 	}
 	
-	class IntRange
-	{
-		int start;
-		int end;
-		IntRange( int start, int end )
-		{
-			this.start = start;
-			this.end = end;
-		}
-	}
-
 	/**
 	 * @param rSets
 	 * @param source
@@ -422,7 +418,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			if( AggrSortHelper.isEdgeResultSet( rSets[i] ))
 			{
-				if( source.getLevelName( 0 ).equals( rSets[i].getLevelName( 0 ) ))
+				if( source.getLevel( 0 ).equals( rSets[i].getLevel( 0 ) ))
 					return i;
 			}
 		}
@@ -443,7 +439,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggregationDefinition[] aggregations, StopSign stopSign )
 			throws DataException, IOException, BirtException
 	{
-		String[][] allResultLevels = getAllResultLevels( aggregations );
 		IDiskArray[] dimPosition = getFilterResult( );
 
 		int count = 0;
@@ -472,8 +467,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				validDimPosition,
 				stopSign );
 
-		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( allResultLevels,
-				dimPosition );
+		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition );
 
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
 				facttableRowIterator,
@@ -497,136 +491,142 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
 			AggrFilter filter = (AggrFilter) i.next( );
-			String[] aggrLevelNames = filter.getAggrLevelNames( );
+			DimLevel[] aggrLevels = filter.getAggrLevels( );
 			for ( int j = 0; j < aggregations.length; j++ )
 			{
-				if ( isEqualLevels( aggregations[j].getLevelNames( ), aggrLevelNames ) )
+				if ( isEqualLevels( aggregations[j].getLevels( ), aggrLevels ) )
 				{
 					// generate axis filter according to the cube filter definition
-					String[] names = filter.getAxisQualifierNames( );
-					Object[] values = filter.getAxisQualifierValues( );
-					if ( ( names != null )
-							&& ( values != null )
-							&& ( names.length == values.length ) )
+					DimLevel[] axisLevels = filter.getAxisQualifierLevels( );
+					Object[] axisValues = filter.getAxisQualifierValues( );
+					if ( ( axisLevels != null )
+							&& ( axisValues != null )
+							&& ( axisLevels.length == axisValues.length ) )
 					{
-						for ( int k = 0; k < names.length; k++ )
+						for ( int k = 0; k < axisLevels.length; k++ )
 						{
-							if ( names[k].equals( filter.getTargetLevelName( ) ) == false )
+							if ( !axisLevels[k].equals( filter.getTargetLevel( ) ) )
 							{
-								LevelFilter axisFilter = new LevelFilter( );
-								axisFilter.levelName = names[k];
 								ISelection selection = SelectionFactory.createOneRowSelection( new Object[]{
-									values[k]
+									axisValues[k]
 								} );
-								axisFilter.selections = new ISelection[]{
-									selection
-								};
+
+								LevelFilter axisFilter = new LevelFilter( axisLevels[k],
+										new ISelection[]{
+											selection
+										} );
 								levelFilters.add( axisFilter );
 							}
 						}
 					}
-					// 
-					List rows = getResultRows( aggrLevelNames,
-							aggregations[j],
+					//-----------------------------------------------------------------------
+					List selectionList = new ArrayList( );
+					AggregationFunctionDefinition[] aggrFuncs = aggregations[j].getAggregationFunctions( );
+					// TODO: currently we just support one level key
+					// generate a row against levels and aggrNames
+					String[] fields = getAllFieldNames( aggrLevels,
 							resultSet[j] );
-					
-					List selections = new ArrayList( );
-					for ( Iterator k = rows.iterator( ); k.hasNext( ); )
-					{//for any given row, if the aggregation result is true for the specified expression
-					//this row should be selected. This is a filter-in filter.
-						RowForFilter row = (RowForFilter) k.next( );
+					String[] aggrNames = new String[aggrFuncs.length];
+					for ( int k = 0; k < aggrFuncs.length; k++ )
+					{
+						aggrNames[k] = aggrFuncs[k].getName( );
+					}
+					for ( int k = 0; k < resultSet[j].length( ); k++ )
+					{
+						resultSet[j].seek( k );
+						int fieldIndex = 0;
+						Object[] fieldValues = new Object[fields.length];
+						Object[] aggrValues = new Object[aggrFuncs.length];
+						// fill field values
+						for ( int m = 0; m < aggrLevels.length; m++ )
+						{
+							int levelIndex = resultSet[j].getLevelIndex( aggrLevels[m] );
+							if ( levelIndex < 0
+									|| levelIndex >= resultSet[j].getLevelCount( ) )
+								continue;							
+							fieldValues[fieldIndex++] = resultSet[j].getLevelKeyValue( levelIndex )[0];
+							
+						}
+						// fill aggregation names and values
+						for ( int m = 0; m < aggrFuncs.length; m++ )
+						{
+							int aggrIndex = resultSet[j].getAggregationIndex( aggrNames[m] );
+							aggrValues[m] = resultSet[j].getAggregationValue( aggrIndex );
+						}
+						RowForFilter row = new RowForFilter( fields, aggrNames );
+						row.setFieldValues( fieldValues );
+						row.setAggrValues( aggrValues );
 						boolean isSelect = filter.getAggrFilter( )
 								.evaluateFilter( row );
 						if ( isSelect )
 						{// generate level filter here
-							Object[] selectedKey = new Object[]{
-								row.getLevelValue( filter.getTargetLevelName( ) )
-							};
+							int levelIndex = resultSet[j].getLevelIndex( filter.getTargetLevel( ) );
 							// select aggregation row
-							ISelection selection = SelectionFactory.createOneRowSelection( selectedKey );
-							selections.add( selection );
+							ISelection selection = SelectionFactory.createOneRowSelection( resultSet[j].getLevelKeyValue( levelIndex ) );
+							selectionList.add( selection );
 						}
-					}
-					if ( selections.isEmpty( ) )
+					}				
+					//---------------------------------------------------------------------------------
+					if ( selectionList.isEmpty( ) )
 					{// this aggregation filter will filter out all
 						// aggregation result set.
 						noRecal[j] = true;
 					}
 					else
 					{
-						LevelFilter levelFilter = new LevelFilter( );
-						levelFilter.levelName = filter.getTargetLevelName( );
-						levelFilter.selections = new ISelection[selections.size( )];
-						selections.toArray( levelFilter.selections );
+						ISelection[] selections = new ISelection[selectionList.size( )];
+						selectionList.toArray( selections );
+						LevelFilter levelFilter = new LevelFilter( filter.getTargetLevel( ),
+								selections );
 						levelFilters.add( levelFilter );
 					}
 				}
 			}
 		}
 		return levelFilters;
-	}
+	}	
+	
 	
 	/**
-	 * construct a row that contains all the level and aggregation for filtering.
+	 * get all field names of a level, including key column names and attribute column names.
+	 * TODO: we just get all the field names, and will further support key names and attributes as field names.
 	 * @param levels
-	 * @param aggrDefn
 	 * @param resultSet
-	 * @return a row instance for filtering.
-	 * @throws IOException
-	 */
-	private List getResultRows( String[] levels,
-			AggregationDefinition aggrDefn, IAggregationResultSet resultSet )
-			throws IOException
-	{
-		List rowList = new LinkedList( );
-		AggregationFunctionDefinition[] aggrFuncs = aggrDefn.getAggregationFunctions( );
-		String[] aggrNames = new String[aggrFuncs.length];
-		for ( int i = 0; i < aggrFuncs.length; i++ )
-		{
-			aggrNames[i] = aggrFuncs[i].getName( );
-		}
-		for ( int i = 0; i < resultSet.length( ); i++ )
-		{
-			resultSet.seek( i );
-			Object[] levelValues = new Object[levels.length];
-			Object[] aggrValues = new Object[aggrFuncs.length];
-			// fill level values
-			for ( int j = 0; j < levels.length; j++ )
-			{
-				int levelIndex = resultSet.getLevelIndex( levels[j] );
-				levelValues[j] = resultSet.getLevelKeyValue( levelIndex )[0];
-			}
-			// fill aggregation names and values
-			for ( int j = 0; j < aggrFuncs.length; j++ )
-			{
-				int aggrIndex = resultSet.getAggregationIndex( aggrNames[j] );
-				aggrValues[j] = resultSet.getAggregationValue( aggrIndex );
-			}
-			// generate a row against levels and aggrNames
-			RowForFilter row = new RowForFilter( levels, aggrNames );
-			row.setLevelValues( levelValues );
-			row.setAggrValues( aggrValues );
-			rowList.add( row );
-		}
-		return rowList;
-	}
-	
-	/**
-	 * compare two level arrays to determine whether they are equal or not.
-	 * @param levelNames1
-	 * @param levelNames2
 	 * @return
 	 */
-	private boolean isEqualLevels( String[] levelNames1, String[] levelNames2 )
+	private String[] getAllFieldNames( DimLevel[] levels,
+			IAggregationResultSet resultSet )
 	{
-		if ( levelNames1 == null || levelNames2 == null )
+		List fieldNameList = new ArrayList( );
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			int levelIndex = resultSet.getLevelIndex( levels[i] );
+			if ( levelIndex < 0 || levelIndex >= resultSet.getLevelCount( ) )
+				continue;
+			fieldNameList.add( levels[i].getDimensionName( )
+					+ '/' + levels[i].getLevelName( ));			
+		}
+		String[] fieldNames = new String[fieldNameList.size( )];
+		fieldNameList.toArray( fieldNames );
+		return fieldNames;
+	}
+
+	/**
+	 * compare two level arrays to determine whether they are equal or not.
+	 * @param levels1
+	 * @param levels2
+	 * @return
+	 */
+	private boolean isEqualLevels( DimLevel[] levels1, DimLevel[] levels2 )
+	{
+		if ( levels1 == null || levels2 == null )
 			return false;
 
-		if ( levelNames1.length != levelNames2.length )
+		if ( levels1.length != levels2.length )
 			return false;
-		for ( int i = 0; i < levelNames1.length; i++ )
+		for ( int i = 0; i < levels1.length; i++ )
 		{
-			if ( levelNames1[i].equals( levelNames2[i] ) == false )
+			if ( levels1[i].equals( levels2[i] ) == false )
 			{
 				return false;
 			}
@@ -640,10 +640,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @return
 	 * @throws DataException 
 	 */
-	private String[][] getAllResultLevels( AggregationDefinition[] aggregation ) throws DataException
+	/*private DimLevel[][] getAllResultLevels( AggregationDefinition[] aggregation ) throws DataException
 	{
 		IDimension[] dimensions = cube.getDimesions( );
-		String[][] dimLevels = getAllLevelNames( dimensions );
 		List[] dimLevelList = new List[dimensions.length];
 		
 		for ( int i = 0; i < dimLevelList.length; i++ )
@@ -653,28 +652,29 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		List allAggregationLevel = new ArrayList( );
 		for ( int i = 0; i < aggregation.length; i++ )
 		{
-			if ( aggregation[i].getLevelNames( ) != null )
+			if ( aggregation[i].getLevels( ) != null )
 			{
-				for ( int j = 0; j < aggregation[i].getLevelNames( ).length; j++ )
+				for ( int j = 0; j < aggregation[i].getLevels( ).length; j++ )
 				{
-					allAggregationLevel.add( aggregation[i].getLevelNames( )[j] );
+					allAggregationLevel.add( aggregation[i].getLevels( )[j] );
 				}
+				
 			}
 		}
 		Object[] distinctAggregationLevel = distinct( allAggregationLevel.toArray( ) );
 		for ( int i = 0; i < distinctAggregationLevel.length; i++ )
 		{
-			dimLevelList[getLevelIndex( dimLevels,
-					(String)distinctAggregationLevel[i] )].add( distinctAggregationLevel[i] );
+			dimLevelList[getDimensionIndex( dimensions,
+					(DimLevel)distinctAggregationLevel[i] )].add( distinctAggregationLevel[i] );
 		}
-		String[][] result = new String[dimensions.length][];
+		DimLevel[][] result = new DimLevel[dimensions.length][];
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
 			if( dimLevelList[i].size( ) == 0 )
 			{
 				continue;
 			}
-			result[i] = new String[dimLevelList[i].size( )];
+			result[i] = new DimLevel[dimLevelList[i].size( )];
 			System.arraycopy( dimLevelList[i].toArray( ),
 					0,
 					result[i],
@@ -682,14 +682,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					dimLevelList[i].size( ) );
 		}
 		return result;
-	}
+	}*/
 	
 	/**
 	 * 
 	 * @param objs
 	 * @return
 	 */
-	private static Object[] distinct( Object[] objs )
+	/*private static Object[] distinct( Object[] objs )
 	{
 		Arrays.sort( objs );
 		List result = new ArrayList( );
@@ -702,37 +702,42 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			}
 		}
 		return result.toArray( );
-	}
+	}*/
 	
 	/**
 	 * 
 	 * @param levelNameArray
-	 * @param levelName
+	 * @param level
 	 * @return
 	 * @throws DataException 
 	 */
-	private static int getLevelIndex( String[][] levelNameArray, String levelName ) throws DataException
+/*	private static int getDimensionIndex( IDimension[] dimensions,
+			DimLevel level ) throws DataException
 	{
-		for ( int i = 0; i < levelNameArray.length; i++ )
+		for ( int i = 0; i < dimensions.length; i++ )
 		{
-			for ( int j = 0; j < levelNameArray[i].length; j++ )
+			if ( dimensions[i].getName( ).equals( level.getDimensionName( ) ) )
 			{
-				if ( levelNameArray[i][j].equals( levelName ) )
+				ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
+				for ( int j = 0; j < levels.length; j++ )
 				{
-					return i;
+					if ( levels[j].getName( ).equals( level.getLevelName( ) ) )
+					{
+						return i;
+					}
 				}
 			}
 		}
 		throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
-				levelName );
-	}
+				level );
+	}*/
 	
 	/**
 	 * 
 	 * @param dimensions
 	 * @return
 	 */
-	private static String[][] getAllLevelNames( IDimension[] dimensions )
+	/*private static String[][] getAllLevelNames( IDimension[] dimensions )
 	{
 		String[][] result = new String[dimensions.length][];
 		for ( int i = 0; i < result.length; i++ )
@@ -745,40 +750,34 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			}
 		}
 		return result;
-	}
+	}*/
 	
 	/**
 	 * 
-	 * @param resultLevel
+	 * @param resultLevels
 	 * @param position
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private DimensionResultIterator[] populateDimensionResultIterator( String[][] resultLevel,
-			IDiskArray[] position ) throws DataException, IOException
+	private DimensionResultIterator[] populateDimensionResultIterator( IDiskArray[] position ) throws DataException, IOException
 	{
 		IDimension[] dimensions = cube.getDimesions( );
 		DimensionResultIterator[] dimResultSet = new DimensionResultIterator[dimensions.length];
 		int count = 0;
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
-			if ( resultLevel[i] != null )
-			{
-				if ( position[i] == null )
+			if ( position[i] == null )
 				{
 					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							dimensions[i].findAll( ),
-							resultLevel[i] );
+							dimensions[i].findAll( ));
 				}
 				else
 				{
 					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							position[i],
-							resultLevel[i] );
+							position[i] );
 				}
-				count++;
-			}
+				count++;			
 		}
 		
 		DimensionResultIterator[] result = new DimensionResultIterator[count];
@@ -901,7 +900,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				}
 			}
 		}
-		rowForFilter.setLevelValues( fields.toArray( ) );
+		rowForFilter.setFieldValues( fields.toArray( ) );
 		return rowForFilter;
 	}
 	
@@ -913,15 +912,17 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private static String[] getAllFieldNames( Dimension dimension )
 	{
 		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		List fieldNames = new ArrayList( );
+		List fieldNameList = new ArrayList( );
 		for ( int i = 0; i < levels.length; i++ )
 		{
-			String[] keyNames = levels[i].getKeyName( );
-			if( keyNames!=null )
+			String[] keyNames = levels[i].getKeyNames( );
+			if ( keyNames != null )
 			{
 				for ( int j = 0; j < keyNames.length; j++ )
 				{
-					fieldNames.add( keyNames[j] );
+					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( dimension.getName( ),
+							levels[i].getName( ),
+							keyNames[j] ) );
 				}
 			}
 			String[] attrNames = levels[i].getAttributeNames( );
@@ -929,16 +930,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			{
 				for ( int j = 0; j < attrNames.length; j++ )
 				{
-					fieldNames.add( attrNames[j] );
+					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( dimension.getName( ),
+							levels[i].getName( ), attrNames[j] ) );
 				}
 			}
 		}
-		String[] result = new String[fieldNames.size( )];
-		for( int i=0;i<result.length;i++)
-		{
-			result[i] = (String) fieldNames.get( i );
-		}
-		return result;
+		String[] fieldNames = new String[fieldNameList.size( )];
+		fieldNameList.toArray( fieldNames );
+		return fieldNames;
 	}	
 	
 	
@@ -975,10 +974,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			LevelFilter filter = (LevelFilter)filters.get( i );
-			int index = getIndex( levels, filter.levelName );
+			if ( filter.getDimensionName( ).equals( dimension.getName( ) ) == false )
+			{
+				continue;
+			}
+			int index = getIndex( levels, filter.getLevelName( ) );
 			if ( index >= 0 && selections[index] == null )
 			{
-				selections[index] = filter.selections;
+				selections[index] = filter.getSelections( );
 				filterCount ++;
 			}
 		}
@@ -987,18 +990,18 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			return null;
 		}
 		Level[] filterLevel = new Level[filterCount];
-		ISelection[][] filters = new ISelection[filterCount][];
+		ISelection[][] selects = new ISelection[filterCount][];
 		int pos = 0;
 		for( int i=0;i<selections.length;i++)
 		{
 			if ( selections[i] != null )
 			{
 				filterLevel[pos] = (Level)levels[i];
-				filters[pos] = selections[i];
+				selects[pos] = selections[i];
 				pos++;
 			}
 		}
-		return dimension.find( filterLevel, filters );
+		return dimension.find( filterLevel, selects );
 	}
 	
 	/**
@@ -1051,13 +1054,17 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 }
 
 /**
- * 
+ *
  */
-class LevelFilter
+class IntRange
 {
-	String dimensionName;
-	String levelName;
-	ISelection[] selections;
+	int start;
+	int end;
+	IntRange( int start, int end )
+	{
+		this.start = start;
+		this.end = end;
+	}
 }
 
 /**
@@ -1066,25 +1073,25 @@ class LevelFilter
  */
 class AggrFilter
 {
-	private String[] aggrLevelNames;
+	private DimLevel[] aggrLevels;
 	private IJsFilterHelper aggrFilterHelper;
-	private String targetLevelName;
-	private String[] axisQualifierNames;
+	private DimLevel targetLevel;
+	private DimLevel[] axisQualifierLevels;
 	private Object[] axisQualifierValues;
 	
 	AggrFilter( DimensionFilterEvalHelper filterEvalHelper)
 	{
 		aggrFilterHelper = filterEvalHelper;
 		ICubeFilterDefinition cubeFilter = filterEvalHelper.getCubeFiterDefinition( );
-		targetLevelName = cubeFilter.getTargetLevel( ).getName( );
-		aggrLevelNames = filterEvalHelper.getAggrLevelNames( );
+		targetLevel = new DimLevel(cubeFilter.getTargetLevel( ));
+		aggrLevels = filterEvalHelper.getAggrLevels( );
 		ILevelDefinition[] axisLevels = cubeFilter.getAxisQualifierLevels( );
 		if ( axisLevels != null )
 		{
-			axisQualifierNames = new String[axisLevels.length];
+			axisQualifierLevels = new DimLevel[axisLevels.length];
 			for ( int i = 0; i < axisLevels.length; i++ )
 			{
-				axisQualifierNames[i] = axisLevels[i].getName( );
+				axisQualifierLevels[i] = new DimLevel(axisLevels[i]);
 			}
 		}
 		axisQualifierValues = cubeFilter.getAxisQualifierValues( );
@@ -1094,9 +1101,9 @@ class AggrFilter
 	/**
 	 * @return the axisQualifierLevelNames
 	 */
-	String[] getAxisQualifierNames( )
+	DimLevel[] getAxisQualifierLevels( )
 	{
-		return axisQualifierNames;
+		return axisQualifierLevels;
 	}
 
 	
@@ -1111,9 +1118,9 @@ class AggrFilter
 	/**
 	 * @return the aggrLevels
 	 */
-	String[] getAggrLevelNames( )
+	DimLevel[] getAggrLevels( )
 	{
-		return aggrLevelNames;
+		return aggrLevels;
 	}
 	
 	/**
@@ -1127,9 +1134,9 @@ class AggrFilter
 	/**
 	 * @return the targetLevel
 	 */
-	String getTargetLevelName( )
+	DimLevel getTargetLevel( )
 	{
-		return targetLevelName;
+		return targetLevel;
 	}
 }
 
@@ -1139,31 +1146,31 @@ class AggrFilter
 class RowForFilter implements IResultRow
 {
 
-	private HashMap levelMap = new HashMap( );
+	private HashMap fieldMap = new HashMap( );
 	private HashMap aggrMap = new HashMap( );
-	private Object[] levelValues;
+	private Object[] fieldValues;
 	private Object[] aggrValues;
 
 	/**
 	 * 
-	 * @param levelNames
+	 * @param fieldNames
 	 */
-	RowForFilter( String[] levelNames )
+	RowForFilter( String[] fieldNames )
 	{
-		for ( int i = 0; i < levelNames.length; i++ )
+		for ( int i = 0; i < fieldNames.length; i++ )
 		{
-			levelMap.put( levelNames[i], new Integer( i ) );
+			fieldMap.put( fieldNames[i].toString( ), new Integer( i ) );
 		}
 	}
 
 	/**
 	 * 
-	 * @param levelNames
+	 * @param fieldNames
 	 * @param aggrNames
 	 */
-	RowForFilter( String[] levelNames, String[] aggrNames )
+	RowForFilter( String[] fieldNames, String[] aggrNames )
 	{
-		this( levelNames );
+		this( fieldNames );
 		for ( int i = 0; i < aggrNames.length; i++ )
 		{
 			aggrMap.put( aggrNames[i], new Integer( i ) );
@@ -1174,9 +1181,9 @@ class RowForFilter implements IResultRow
 	 * 
 	 * @param levelValues
 	 */
-	void setLevelValues( Object[] levelValues )
+	void setFieldValues( Object[] levelValues )
 	{
-		this.levelValues = levelValues;
+		this.fieldValues = levelValues;
 	}
 
 	/**
@@ -1185,21 +1192,6 @@ class RowForFilter implements IResultRow
 	void setAggrValues( Object[] dataValues )
 	{
 		this.aggrValues = dataValues;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getLevelValue(java.lang.String)
-	 */
-	public Object getLevelValue( String attrName ) throws DataException
-	{
-		Object index = levelMap.get( attrName );
-		if ( index == null )
-		{
-			return null;
-		}
-		return levelValues[( (Integer) index ).intValue( )];
 	}
 
 	/*
@@ -1216,4 +1208,19 @@ class RowForFilter implements IResultRow
 		}
 		return aggrValues[( (Integer) index ).intValue( )];
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getFieldValue(java.lang.String)
+	 */
+	public Object getFieldValue( String field ) throws DataException
+	{
+		Object index = fieldMap.get( field );
+		if ( index == null )
+		{
+			return null;
+		}
+		return fieldValues[( (Integer) index ).intValue( )];
+	}
+	
 }

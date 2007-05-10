@@ -674,7 +674,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				new String[0] );
 			} 
 			
-			iHiers.add( cubeMaterializer.createHierarchy( hierhandle.getName( ),
+			iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ), hierhandle.getName( ),
 					new DataSetIterator( this, hierhandle, timeLevelName, leafLevelName ),
 					levelInHier ) );
 		}

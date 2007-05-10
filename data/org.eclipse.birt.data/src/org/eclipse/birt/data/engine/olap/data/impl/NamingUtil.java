@@ -52,9 +52,20 @@ public class NamingUtil
 	 * @param hierarchylName
 	 * @return
 	 */
-	public static String getHierarchyDocName( String hierarchylName )
+	public static String getHierarchyDocName( String dimensionName, String hierarchylName )
 	{
-		return HIERARCHY_PREFIX + hierarchylName;
+		return HIERARCHY_PREFIX + dimensionName + hierarchylName;
+	}
+	
+	/**
+	 * 
+	 * @param dimensionName
+	 * @param levelName
+	 * @return
+	 */
+	public static String getLevelIndexDocName( String dimensionName, String levelName )
+	{
+		return LEVEL_INDEX + dimensionName + '_' + levelName;
 	}
 	
 	/**
@@ -62,19 +73,9 @@ public class NamingUtil
 	 * @param levelName
 	 * @return
 	 */
-	public static String getLevelIndexDocName( String levelName )
+	public static String getHierarchyOffsetDocName( String dimensionName, String hierarchylName )
 	{
-		return LEVEL_INDEX + levelName;
-	}
-	
-	/**
-	 * 
-	 * @param levelName
-	 * @return
-	 */
-	public static String getHierarchyOffsetDocName( String hierarchylName )
-	{
-		return HIERARCHY_OFFSET + hierarchylName;
+		return HIERARCHY_OFFSET + dimensionName + hierarchylName;
 	}
 	
 	/**

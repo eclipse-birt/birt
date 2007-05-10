@@ -29,10 +29,12 @@ import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -58,6 +60,8 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 public class FactTableHelperTest2 extends TestCase
 {
 	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	private DimLevel dimLevel31 = new DimLevel("dimension3","level31");
+	private DimLevel dimLevel21 = new DimLevel("dimension2","level21");
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -461,19 +465,12 @@ public class FactTableHelperTest2 extends TestCase
 		IDiskArray positionArray = dimensions[1].find( findLevel, filter );
 		positionForFilter[0] = positionArray;
 		assertEquals( positionArray.size( ), 2 );
-		String[] levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level21";
 		DimensionResultIterator[] dimesionResultSets = new DimensionResultIterator[2];
 		dimesionResultSets[0] = new DimensionResultIterator( dimensions[1],
-				positionArray,
-				levelNamesForFilter );
-		levelNamesForFilter = new String[2];
-		levelNamesForFilter[0] = "level31";
-		levelNamesForFilter[1] = "level32";
+				positionArray);
 		positionArray = dimensions[2].findAll( );
 		dimesionResultSets[1] = new DimensionResultIterator( dimensions[2],
-				positionArray,
-				levelNamesForFilter );
+				positionArray);
 		
 		String[] dimensionNamesForFilter = new String[2];
 		dimensionNamesForFilter[0] = "dimension2";
@@ -488,17 +485,15 @@ public class FactTableHelperTest2 extends TestCase
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level21";
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
-		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
 		sortType[1] = IDimensionSortDefn.SORT_ASC;
-		levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level31";
-		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		levelsForFilter = new DimLevel[]{dimLevel31};
+		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( dimesionResultSets,
 						facttableRowIterator,
@@ -506,8 +501,8 @@ public class FactTableHelperTest2 extends TestCase
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "level21" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.INTEGER_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
@@ -517,8 +512,8 @@ public class FactTableHelperTest2 extends TestCase
 		
 		assertEquals( resultSet[1].length( ), 8 );
 		assertEquals( resultSet[1].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[1].getLevelIndex( "level31" ), 0 );
-		assertEquals( resultSet[1].getLevelKeyDataType( "level31", "level31" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[1].getLevelIndex( dimLevel31 ), 0 );
+		assertEquals( resultSet[1].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
 		resultSet[1].seek( 0 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(0) );
@@ -626,30 +621,29 @@ public class FactTableHelperTest2 extends TestCase
 				 new Object[]{new Integer( 3 )},
 				true,
 				false );
-		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
+		cubeQueryExcutorHelper.addFilter( new LevelFilter( dimLevel21,
+				filter[0] ) );
 		
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		String[] levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level21";
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
-		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
 		sortType[1] = IDimensionSortDefn.SORT_ASC;
-		levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level31";
-		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		levelsForFilter = new DimLevel[]{dimLevel31};
+		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "level21" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.INTEGER_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
@@ -659,8 +653,8 @@ public class FactTableHelperTest2 extends TestCase
 		
 		assertEquals( resultSet[1].length( ), 8 );
 		assertEquals( resultSet[1].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[1].getLevelIndex( "level31" ), 0 );
-		assertEquals( resultSet[1].getLevelKeyDataType( "level31", "level31" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[1].getLevelIndex( dimLevel31 ), 0 );
+		assertEquals( resultSet[1].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
 		resultSet[1].seek( 0 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(0) );
@@ -720,11 +714,11 @@ public class FactTableHelperTest2 extends TestCase
 		levelDefs[1] = CubeElementFactory.createLevelDefinition( "level12", new String[]{"level12"}, null );
 		levelDefs[2] = CubeElementFactory.createLevelDefinition( "level13", new String[]{"level13"}, null );
 		IHierarchy hierarchy = cubeMaterializer.createHierarchy( "dimension1",
-				iterator,
+				"hir1", iterator,
 				levelDefs );
 		dimensions[0] = (Dimension) cubeMaterializer.createDimension( "dimension1",
 				hierarchy );
-		assertEquals( hierarchy.getName( ), "dimension1" );
+		assertEquals( hierarchy.getName( ), "hir1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L1Col.length );
 		
 		//dimension1
@@ -738,12 +732,13 @@ public class FactTableHelperTest2 extends TestCase
 				new String[]{"level21"},
 				null );
 		hierarchy = cubeMaterializer.createHierarchy( "dimension2",
+				"hir2",
 				iterator,
 				levelDefs );
 		dimensions[1] = (Dimension) cubeMaterializer.createDimension( "dimension2",
 				hierarchy );
 		hierarchy = dimensions[1].getHierarchy( );
-		assertEquals( hierarchy.getName( ), "dimension2" );
+		assertEquals( hierarchy.getName( ), "hir2" );
 		assertEquals( dimensions[1].length( ), 3 );
 		
 		// dimension2
@@ -755,13 +750,13 @@ public class FactTableHelperTest2 extends TestCase
 
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
-		hierarchy = cubeMaterializer.createHierarchy( "dimension3",
+		hierarchy = cubeMaterializer.createHierarchy( "dimension3","hir3",
 				iterator,
 				levelDefs );
 		dimensions[2] = (Dimension) cubeMaterializer.createDimension( "dimension3",
 				hierarchy );
 		hierarchy = dimensions[2].getHierarchy( );
-		assertEquals( hierarchy.getName( ), "dimension3" );
+		assertEquals( hierarchy.getName( ), "hir3" );
 		assertEquals( dimensions[2].length( ), 12 );
 		
 		FactTable2 factTable2 = new FactTable2();
@@ -777,29 +772,27 @@ public class FactTableHelperTest2 extends TestCase
 				 new Object[]{new Integer( 3 )},
 				true,
 				false );
-		cubeQueryExcutorHelper.addFilter( "level21", filter[0] );
+		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		String[] levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level21";
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
-		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
 		sortType[1] = IDimensionSortDefn.SORT_ASC;
-		levelNamesForFilter = new String[1];
-		levelNamesForFilter[0] = "level31";
-		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		levelsForFilter = new DimLevel[]{dimLevel31};
+		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "level21" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.INTEGER_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
@@ -809,8 +802,8 @@ public class FactTableHelperTest2 extends TestCase
 		
 		assertEquals( resultSet[1].length( ), 8 );
 		assertEquals( resultSet[1].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
-		assertEquals( resultSet[1].getLevelIndex( "level31" ), 0 );
-		assertEquals( resultSet[1].getLevelKeyDataType( "level31", "level31" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[1].getLevelIndex( dimLevel31 ), 0 );
+		assertEquals( resultSet[1].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
 		resultSet[1].seek( 0 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(0) );

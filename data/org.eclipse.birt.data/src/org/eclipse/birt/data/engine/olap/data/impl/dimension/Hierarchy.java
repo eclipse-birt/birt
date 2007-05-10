@@ -45,11 +45,13 @@ public class Hierarchy implements IHierarchy
 	private Level[] levels = null;
 	private String name = null;
 	private Map levelMap = new HashMap( );
+	private String dimensionName;
 	
-	public Hierarchy( IDocumentManager documentManager, String name )
+	public Hierarchy( IDocumentManager documentManager, String dimensionName, String hierarchyName )
 	{
 		this.documentManager = documentManager;
-		this.name = name;
+		this.dimensionName = dimensionName;
+		this.name = hierarchyName;
 	}
 	
 	/*
@@ -181,9 +183,9 @@ public class Hierarchy implements IHierarchy
 	private void openReadDocuemntObject( ) throws IOException
 	{
 		if(documentObj==null)
-			documentObj = documentManager.openDocumentObject( NamingUtil.getHierarchyDocName( name ) );
+			documentObj = documentManager.openDocumentObject( NamingUtil.getHierarchyDocName( dimensionName, name ) );
 		if(offsetDocObj==null)
-			offsetDocObj = documentManager.openDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
+			offsetDocObj = documentManager.openDocumentObject( NamingUtil.getHierarchyOffsetDocName( dimensionName, name ) );
 	}
 	
 	/**
@@ -228,7 +230,7 @@ public class Hierarchy implements IHierarchy
 					attributeDataTypes,
 					size,
 					DiskIndex.loadIndex( documentManager,
-							NamingUtil.getLevelIndexDocName( levelName ) ));
+							NamingUtil.getLevelIndexDocName( dimensionName, levelName ) ));
 		}
 	}
 
@@ -240,7 +242,7 @@ public class Hierarchy implements IHierarchy
 	private IDocumentObject createHierarchyDocumentObject( )
 			throws IOException
 	{	
-		return documentManager.createDocumentObject( NamingUtil.getHierarchyDocName( name) );
+		return documentManager.createDocumentObject( NamingUtil.getHierarchyDocName( dimensionName, name) );
 	}
 
 	/**
@@ -251,7 +253,7 @@ public class Hierarchy implements IHierarchy
 	private IDocumentObject createLevelOffsetDocumentObject( )
 			throws IOException
 	{
-		return documentManager.createDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
+		return documentManager.createDocumentObject( NamingUtil.getHierarchyOffsetDocName( dimensionName, name ) );
 	}
 
 	/**
@@ -362,7 +364,7 @@ public class Hierarchy implements IHierarchy
 		{
 			// create index for this level
 			diskIndex[i] = DiskIndex.createIndex( documentManager,
-					NamingUtil.getLevelIndexDocName( levelDefs[i].getLevelName( ) ),
+					NamingUtil.getLevelIndexDocName( dimensionName, levelDefs[i].getLevelName( ) ),
 					indexKeyLists[i],
 					false );
 		}

@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
  * 
@@ -26,6 +27,18 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 public class OlapExpressionUtil
 {
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public static boolean isReferenceToDimLevel( String expr )
+	{
+		if( expr == null )
+			return false;
+		return expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
+	}
+	
 	/**
 	 * This method is used to get the level name that reference by a level
 	 * reference expression of following format:
@@ -36,7 +49,7 @@ public class OlapExpressionUtil
 	 * @param expr
 	 * @return String[]
 	 */
-	public static String[] getTargetLevel( String expr )
+	private static String[] getTargetLevel( String expr )
 	{
 		// TODO enhance me.
 		if ( expr == null )
@@ -49,6 +62,23 @@ public class OlapExpressionUtil
 		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
 		result[1] = result[1].replaceAll( "\\Q\"]\\E", "" );
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws DataException
+	 */
+	public static DimLevel getTargetDimLevel( String expr ) throws DataException
+	{
+		final String[] target = getTargetLevel( expr );
+		if ( target == null || target.length != 2 )
+		{
+			throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
+					expr );
+		}
+		return new DimLevel( target[0], target[1] );
 	}
 
 	/**
@@ -120,7 +150,7 @@ public class OlapExpressionUtil
 				if ( binding.getAggrFunction( ) != null  )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
-							getAggrOnLevels ( binding.getAggregatOns( )),
+							convertToDimLevel(binding.getAggregatOns( )),
 							binding.getAggrFunction( ) ) );
 			}
 		}
@@ -134,21 +164,14 @@ public class OlapExpressionUtil
 		return result;
 	}
 
-	/**
-	 * 
-	 * @param exprs
-	 * @return
-	 */
-	public static List getAggrOnLevels( List exprs )
+	private static List convertToDimLevel( List dimLevelExpressions ) throws DataException
 	{
-		List levelNames = new ArrayList( );
-		for( int i = 0; i < exprs.size( ); i++ )
+		List result = new ArrayList();
+		for( int i = 0; i < dimLevelExpressions.size( ); i++ )
 		{
-			String[] array = getTargetLevel(exprs.get( i ).toString( )); 
-			if ( array!= null )
-				levelNames.add( array[1] );
+			result.add( getTargetDimLevel( dimLevelExpressions.get( i ).toString( )) );
 		}
-		return levelNames;
+		return result;
 	}
 	
 	private static class CubeAggrDefn implements ICubeAggrDefn

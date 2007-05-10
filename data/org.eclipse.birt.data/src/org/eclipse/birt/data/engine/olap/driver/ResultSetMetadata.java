@@ -57,7 +57,7 @@ public class ResultSetMetadata implements IResultSetMetaData
 
 	public String getColumnName( int arg0 ) throws OLAPException
 	{
-		String[] attrs = rs.getAllAttributes( levelIndex );
+		String[] attrs = rs.getLevelAttributes( levelIndex );
 		return attrs[arg0];
 	}
 

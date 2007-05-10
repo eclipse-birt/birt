@@ -20,12 +20,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 public interface IResultRow
 {
 	/**
-	 * get the level value according to the specified level name.
-	 * @param name
+	 * get the field value according to the specified field name.
+	 * @param fieldName
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getLevelValue( String name ) throws DataException;
+	public Object getFieldValue( String fieldName ) throws DataException;
 	/**
 	 * get the aggregation values according to teh specified aggregation name.
 	 * @param aggrName

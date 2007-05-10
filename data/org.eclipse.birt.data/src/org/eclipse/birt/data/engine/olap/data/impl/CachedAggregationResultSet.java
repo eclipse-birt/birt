@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
@@ -32,7 +33,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 {
 	private int currentPosition;
 	private int length;
-	private String[] levelNames;
+	private DimLevel[] levels;
 	private String[][] keyNames;
 	private String[][] attributeNames;
 	private int[][] keyDataTypes;
@@ -45,7 +46,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private DataInputStream inputStream;
 
 	CachedAggregationResultSet( DataInputStream inputStream, int length,
-			String[] levelNames, int[] sortTypes, String[][] keyNames,
+			DimLevel[] levels, int[] sortTypes, String[][] keyNames,
 			String[][] attributeNames, int[][] keyDataTypes,
 			int[][] attributeDataTypes, String[] aggregationNames,
 			int[] aggregationDataType ) throws IOException
@@ -53,7 +54,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		this.inputStream = inputStream;
 		this.currentPosition = 0;
 		this.length = length;
-		this.levelNames = levelNames;
+		this.levels = levels;
 		this.sortType = sortTypes;
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
@@ -126,7 +127,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAllAttributes(int)
 	 */
-	public String[] getAllAttributes( int levelIndex )
+	public String[] getLevelAttributes( int levelIndex )
 	{
 		if ( attributeNames == null )
 		{
@@ -139,9 +140,9 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAllLevels()
 	 */
-	public String[] getAllLevels( )
+	public DimLevel[] getAllLevels( )
 	{
-		return levelNames;
+		return levels;
 	}
 
 	/*
@@ -173,14 +174,14 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeDataType(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeDataType( String levelName, String attributeName )
+	public int getLevelAttributeDataType( DimLevel level, String attributeName )
 	{
-		int levelIndex = getLevelIndex( levelName );
+		int levelIndex = getLevelIndex( level );
 		if ( attributeDataTypes == null || attributeDataTypes[levelIndex] == null )
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( levelName,
+		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( level,
 				attributeName )];
 	}
 
@@ -223,9 +224,9 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeIndex(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeIndex( String levelName, String attributeName )
+	public int getLevelAttributeIndex( DimLevel level, String attributeName )
 	{
-		int levelIndex = getLevelIndex( levelName );
+		int levelIndex = getLevelIndex( level );
 		if ( attributeNames == null || attributeNames[levelIndex] == null )
 		{
 			return -1;
@@ -255,15 +256,15 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelIndex(java.lang.String)
 	 */
-	public int getLevelIndex( String levelName )
+	public int getLevelIndex( DimLevel level )
 	{
-		if ( levelNames == null )
+		if ( levels == null )
 		{
 			return -1;
 		}
-		for ( int i = 0; i < levelNames.length; i++ )
+		for ( int i = 0; i < levels.length; i++ )
 		{
-			if ( levelNames[i].equals( levelName ) )
+			if ( levels[i].equals( level ) )
 			{
 				return i;
 			}
@@ -286,13 +287,13 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType(java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyDataType( String levelName, String keyName )
+	public int getLevelKeyDataType( DimLevel level, String keyName )
 	{
 		if ( keyDataTypes == null )
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		return getLevelKeyDataType( getLevelIndex( levelName ), keyName );
+		return getLevelKeyDataType( getLevelIndex( level ), keyName );
 	}
 
 	/*
@@ -333,13 +334,13 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyIndex( String levelName, String keyName )
+	public int getLevelKeyIndex( DimLevel level, String keyName )
 	{
 		if ( keyNames == null )
 		{
 			return -1;
 		}
-		return getLevelKeyIndex( getLevelIndex( levelName ), keyName );
+		return getLevelKeyIndex( getLevelIndex( level ), keyName );
 	}
 
 	/*
@@ -426,9 +427,9 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		return this.keyNames[levelIndex][keyIndex];
 	}
 
-	public String getLevelName( int levelIndex )
+	public DimLevel getLevel( int levelIndex )
 	{
-		return this.levelNames[levelIndex];
+		return this.levels[levelIndex];
 	}
 
 	public AggregationDefinition getAggregationDefinition( )
@@ -456,7 +457,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		length = 0;
 	}
 
-	public void subset( String level, int start, int end )
+	public void subset( DimLevel level, int start, int end )
 	{
 		// TODO Auto-generated method stub
 		

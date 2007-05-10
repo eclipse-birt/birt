@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+
 
 /**
  * Defines a cube aggregation.
@@ -18,7 +20,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 public class AggregationDefinition
 {
-	private String[] levelNames;
+	private DimLevel[] levels;
 	private int[] sortTypes;
 	private AggregationFunctionDefinition[] aggregationFunctions;
 	
@@ -28,9 +30,9 @@ public class AggregationDefinition
 	 * @param sortTypes
 	 * @param aggregationFunctions
 	 */
-	public AggregationDefinition( String[] levelNames, int[] sortTypes, AggregationFunctionDefinition[] aggregationFunctions )
+	public AggregationDefinition( DimLevel[] levels, int[] sortTypes, AggregationFunctionDefinition[] aggregationFunctions )
 	{
-		this.levelNames = levelNames;
+		this.levels = levels;
 		this.aggregationFunctions = aggregationFunctions;
 		this.sortTypes = sortTypes;
 	}
@@ -48,9 +50,9 @@ public class AggregationDefinition
 	 * 
 	 * @return
 	 */
-	public String[] getLevelNames( )
+	public DimLevel[] getLevels( )
 	{
-		return levelNames;
+		return levels;
 	}
 
 	/**

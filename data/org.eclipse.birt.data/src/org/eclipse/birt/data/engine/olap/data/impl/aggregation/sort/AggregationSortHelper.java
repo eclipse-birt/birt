@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
@@ -114,10 +115,10 @@ public class AggregationSortHelper
 			// Only when the aggr table is the measure table the offset of a key would be greater than 0.
 			for ( int y = key.getLevelKeyOffset( ); y < key.getLevelKeyIndex( ) + 1; y++ )
 			{
-				String levelName = sortKeys[x].getTargetResultSet( )
-						.getLevelName( y );
-				values[y - key.getLevelKeyOffset( )] = base.getLevelKeyValue( base.getLevelIndex( levelName ) )[0];
-				direction[y - key.getLevelKeyOffset( )] = base.getSortType( base.getLevelIndex( levelName ) ) == 1
+				DimLevel level = sortKeys[x].getTargetResultSet( )
+						.getLevel( y );
+				values[y - key.getLevelKeyOffset( )] = base.getLevelKeyValue( base.getLevelIndex( level ) )[0];
+				direction[y - key.getLevelKeyOffset( )] = base.getSortType( base.getLevelIndex( level ) ) == 1
 						? false : true;
 			}
 
@@ -187,7 +188,7 @@ public class AggregationSortHelper
 		{
 			for ( int j = 0; j < sortKeys.length; j++ )
 			{
-				int levelIndexInBase = base.getLevelIndex( sortKeys[j].getLevelKeyName( ) );
+				int levelIndexInBase = base.getLevelIndex( sortKeys[j].getLevel( ) );
 				if ( i == levelIndexInBase )
 					sks[i] = sortKeys[j];
 				if ( i < levelIndexInBase )
@@ -207,9 +208,9 @@ public class AggregationSortHelper
 		int offset = 0;
 		for ( int i = 0; i < sks.length; i++ )
 		{
-			String levelName = sks[i].getTargetResultSet( )
-					.getLevelName( sks[i].getLevelKeyIndex( ) );
-			int levelKeyIndex = base.getLevelIndex( levelName );
+			DimLevel level = sks[i].getTargetResultSet( )
+					.getLevel( sks[i].getLevelKeyIndex( ) );
+			int levelKeyIndex = base.getLevelIndex( level );
 			int[] aggrKeyIndex = new int[sks[i].getAggrKeys( ).length];
 			for ( int j = 0; j < sks[i].getAggrKeys( ).length; j++ )
 			{

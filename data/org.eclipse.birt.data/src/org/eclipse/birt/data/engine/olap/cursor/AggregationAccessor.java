@@ -27,6 +27,7 @@ import javax.olap.cursor.Time;
 import javax.olap.cursor.Timestamp;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
@@ -141,17 +142,17 @@ public class AggregationAccessor implements Accessor
 
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
-			String levelName = columnLevelList.get( i ).toString( );
+			DimLevel level = (DimLevel) columnLevelList.get( i );
 			DimensionCursor cursor = (DimensionCursor) columnDimList.get( i );
-			Object value = cursor.getObject( levelName );
-			valueMap.put( levelName, value );
+			Object value = cursor.getObject( level.getLevelName( ) );
+			valueMap.put( level, value );
 		}
 		for ( int i = 0; i < rowLevelList.size( ); i++ )
 		{
-			String levelName = rowLevelList.get( i ).toString( );
+			DimLevel level = (DimLevel) rowLevelList.get( i );
 			DimensionCursor cursor = (DimensionCursor) rowDimList.get( i );
-			Object value = cursor.getObject( levelName );
-			valueMap.put( levelName, value );
+			Object value = cursor.getObject( level.getLevelName( ) );
+			valueMap.put( level, value );
 		}
 
 		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) )
@@ -179,11 +180,11 @@ public class AggregationAccessor implements Accessor
 		boolean find = false;
 		for ( ; start < levelList.size( ); )
 		{
-			String levelName = levelList.get( start ).toString( );
+			DimLevel level = (DimLevel) levelList.get( start );
 
-			Object value1 = valueMap.get( levelName );
-			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( levelName ) )[0];
-			int sortType = rs.getSortType( rs.getLevelIndex( levelName ) ) == IDimensionSortDefn.SORT_DESC
+			Object value1 = valueMap.get( level );
+			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[0];
+			int sortType = rs.getSortType( rs.getLevelIndex( level ) ) == IDimensionSortDefn.SORT_DESC
 					? -1 : 1;
 			int direction = sortType
 					* ( (Comparable) value1 ).compareTo( value2 ) < 0 ? -1

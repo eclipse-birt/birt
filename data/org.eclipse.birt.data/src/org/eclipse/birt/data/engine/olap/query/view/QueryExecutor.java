@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -193,29 +194,30 @@ public class QueryExecutor
 				IBinding binding = (IBinding) bindings.get( j );
 				if ( binding.getBindingName( ).equals( bindingName ) )
 				{
-					aggrOns = OlapExpressionUtil.getAggrOnLevels( binding.getAggregatOns( ) );
+					aggrOns = binding.getAggregatOns( );
 					break;
 				}
 			}
 
 			if ( aggrOns == null )
 				throw new DataException( "Invalid" );
-			String[] aggrOnNames = new String[aggrOns.size( )];
-			for ( int j = 0; j < aggrOnNames.length; j++ )
+			DimLevel[] aggrOnLevels = new DimLevel[aggrOns.size( )];
+			for ( int j = 0; j < aggrOnLevels.length; j++ )
 			{
-				aggrOnNames[j] = aggrOns.get( j ).toString( );
+				aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
+						.toString( ) );
 			}
 			
-			String[] levelNames = new String[cubeSort.getAxisQualifierLevel( ).length];
-			for( int k = 0; k < levelNames.length; k++ )
+			DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevel( ).length];
+			for ( int k = 0; k < axisLevels.length; k++ )
 			{
-				levelNames[k] = cubeSort.getAxisQualifierLevel( )[k].getName( );
+				axisLevels[k] = new DimLevel( cubeSort.getAxisQualifierLevel( )[k] );
 			}
-			AggrSortDefinition sort = new AggrSortDefinition( aggrOnNames,
+			AggrSortDefinition sort = new AggrSortDefinition( aggrOnLevels,
 					bindingName,
-					levelNames,
+					axisLevels,
 					cubeSort.getAxisQualifierValue( ),
-					cubeSort.getTargetLevel( ).getName( ),
+					new DimLevel( cubeSort.getTargetLevel( ) ),
 					cubeSort.getSortDirection( ) == 1 ? false : true );
 			if ( isRow )
 				cubeQueryExcutorHelper.addRowSort( sort );
@@ -274,9 +276,10 @@ public class QueryExecutor
 	 * @param cube
 	 * @param query
 	 * @return
+	 * @throws DataException 
 	 */
 	private AggregationDefinition[] prepareCube( ICubeQueryDefinition query,
-			CalculatedMember[] calculatedMember )
+			CalculatedMember[] calculatedMember ) throws DataException
 	{
 		IEdgeDefinition columnEdgeDefn = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		ILevelDefinition[] levelsOnColumn = CubeQueryDefinitionUtil.getLevelsOnEdge( columnEdgeDefn );
@@ -298,30 +301,28 @@ public class QueryExecutor
 		int[] sortType;
 		if ( columnEdgeDefn != null )
 		{
-			String[] levelNamesForFilter = new String[levelsOnColumn.length];
+			DimLevel[] levelsForFilter = new DimLevel[levelsOnColumn.length];
 			sortType = new int[levelsOnColumn.length];
 			for ( int i = 0; i < levelsOnColumn.length; i++ )
 			{
-				levelNamesForFilter[i] = levelsOnColumn[i].getName( );
-				sortType[i] = getSortDirection( levelsOnColumn[i].getName( ),
-						query );
+				levelsForFilter[i] = new DimLevel( levelsOnColumn[i] );
+				sortType[i] = getSortDirection( levelsForFilter[i], query );
 			}
-			aggregations[aggrIndex] = new AggregationDefinition( levelNamesForFilter,
+			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
 					sortType,
 					null );
 			aggrIndex++;
 		}
 		if ( rowEdgeDefn != null )
 		{
-			String[] levelNamesForFilter = new String[levelsOnRow.length];
+			DimLevel[] levelsForFilter = new DimLevel[levelsOnRow.length];
 			sortType = new int[levelsOnRow.length];
 			for ( int i = 0; i < levelsOnRow.length; i++ )
 			{
-				levelNamesForFilter[i] = levelsOnRow[i].getName( );
-				sortType[i] = getSortDirection( levelsOnRow[i].getName( ),
-						query );
+				levelsForFilter[i] = new DimLevel( levelsOnRow[i] );
+				sortType[i] = getSortDirection( levelsForFilter[i], query );
 			}
-			aggregations[aggrIndex] = new AggregationDefinition( levelNamesForFilter,
+			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
 					sortType,
 					null );
 			aggrIndex++;
@@ -344,21 +345,20 @@ public class QueryExecutor
 							( (CalculatedMember) list.get( index ) ).getAggrFunction( ) );
 				}
 
-				String[] levelNames = new String[calculatedMember[i].getAggrOnList( )
+				DimLevel[] levels = new DimLevel[calculatedMember[i].getAggrOnList( )
 						.size( )];
 				sortType = new int[calculatedMember[i].getAggrOnList( ).size( )];
 				for ( int index = 0; index < calculatedMember[i].getAggrOnList( )
 						.size( ); index++ )
 				{
-					levelNames[index] = calculatedMember[i].getAggrOnList( )
-							.get( index )
-							.toString( );
-					sortType[index] = getSortDirection( levelNames[index],
-							query );
+					Object obj = calculatedMember[i].getAggrOnList( )
+							.get( index );
+					levels[index] = (DimLevel) obj;
+					sortType[index] = getSortDirection( levels[index], query );
 				}
 
 				rsIDSet.add( new Integer( calculatedMember[i].getRsID( ) ) );
-				aggregations[aggrIndex] = new AggregationDefinition( levelNames,
+				aggregations[aggrIndex] = new AggregationDefinition( levels,
 						sortType,
 						funcitons );
 				aggrIndex++;
@@ -410,24 +410,25 @@ public class QueryExecutor
 	 * @param levelDefn
 	 * @param query
 	 * @return
+	 * @throws DataException 
 	 */
-	private int getSortDirection( String levelName, ICubeQueryDefinition query )
+	private int getSortDirection( DimLevel level, ICubeQueryDefinition query ) throws DataException
 	{
-		// TODO add dimension name specification
 		if ( query.getSorts( ) != null && !query.getSorts( ).isEmpty( ) )
 		{
 			for ( int i = 0; i < query.getSorts( ).size( ); i++ )
 			{
 				ISortDefinition sortDfn = ( (ISortDefinition) query.getSorts( )
 						.get( i ) );
-				String[] info = OlapExpressionUtil.getTargetLevel( sortDfn.getExpression( )
-						.getText( ) );
-				if ( info != null && info.length == 2 )
+				String expr = sortDfn.getExpression( ).getText( );
+				if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
 				{
-					if ( levelName.equals( info[1] ) )
-					{
-						return sortDfn.getSortDirection( );
-					}
+					continue;
+				}
+				DimLevel info = OlapExpressionUtil.getTargetDimLevel( expr );
+				if ( level.equals( info ) )
+				{
+					return sortDfn.getSortDirection( );
 				}
 			}
 		}

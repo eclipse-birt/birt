@@ -34,14 +34,12 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	private int currentPosition;
 	private ILevel[] levels;
 	
-	public DimensionResultIterator( Dimension dimension, IDiskArray dimensionPosition,
-			String[] levelNames ) throws IOException
+	public DimensionResultIterator( Dimension dimension, IDiskArray dimensionPosition) throws IOException
 	{
 		this.dimension = dimension;
 		this.dimensionPosition = dimensionPosition;
 		this.levels = dimension.getHierarchy( ).getLevels( );
-		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition );
-		
+		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition );		
 		this.currentPosition = 0;
 	}
 	
@@ -148,7 +146,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 		{
 			return null;
 		}
-		String[] keyNames = levels[levelIndex].getKeyName( );
+		String[] keyNames = levels[levelIndex].getKeyNames( );
 		int[] result = new int[keyNames.length];
 		for ( int i = 0; i < result.length; i++ )
 		{

@@ -18,6 +18,7 @@ import java.util.List;
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.cursor.EdgeInfoGenerator;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
@@ -158,10 +159,10 @@ public class EdgeAxis
 
 		if ( this.sortList != null )
 		{
-			String levelName = this.rs.getLevelName( levelIndex );
+			DimLevel level = this.rs.getLevel( levelIndex );
 			for ( int i = 0; i < this.sortList.size( ); i++ )
 			{
-				if ( levelName.equals( aggrSortDefn.getTargetLevel( ) ) )
+				if ( level.equals( aggrSortDefn.getTargetLevel( ) ) )
 				{
 					aggrSortDefn = (AggrSortDefinition) sortList.get( i );
 					break;

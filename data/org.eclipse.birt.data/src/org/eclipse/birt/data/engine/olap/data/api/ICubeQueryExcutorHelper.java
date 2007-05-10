@@ -28,10 +28,9 @@ public interface ICubeQueryExcutorHelper
 {
 	/**
 	 * 
-	 * @param levelName
-	 * @param selections
+	 * @param levelFilter
 	 */
-	public void addFilter( String levelName, ISelection[] selections );
+	public void addFilter( LevelFilter levelFilter );
 	
 	/**
 	 * 

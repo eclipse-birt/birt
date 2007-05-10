@@ -276,7 +276,7 @@ public class FactTableAccessor
 		{
 			ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
 			ILevel detailLevel = levels[levels.length-1];
-			keyColumnName[i] = detailLevel.getKeyName( );
+			keyColumnName[i] = detailLevel.getKeyNames( );
 		}
 		return keyColumnName;
 	}

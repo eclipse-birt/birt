@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -169,14 +170,14 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeDataType(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeDataType( String levelName, String attributeName )
+	public int getLevelAttributeDataType( DimLevel level, String attributeName )
 	{
-		int levelIndex = getLevelIndex( levelName );
+		int levelIndex = getLevelIndex( level );
 		if ( attributeDataTypes == null || attributeDataTypes[levelIndex] == null )
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( levelName,
+		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( level,
 				attributeName )];
 	}
 
@@ -184,9 +185,9 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeIndex(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeIndex( String levelName, String attributeName )
+	public int getLevelAttributeIndex( DimLevel level, String attributeName )
 	{
-		int levelIndex = getLevelIndex( levelName );
+		int levelIndex = getLevelIndex( level );
 		if ( attributeNames == null || attributeNames[levelIndex] == null )
 		{
 			return -1;
@@ -225,15 +226,15 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelIndex(java.lang.String)
 	 */
-	public int getLevelIndex( String levelName )
+	public int getLevelIndex( DimLevel level )
 	{
-		if ( aggregation.getLevelNames( ) == null )
+		if ( aggregation.getLevels( ) == null )
 		{
 			return -1;
 		}
-		for ( int i = 0; i < aggregation.getLevelNames( ).length; i++ )
+		for ( int i = 0; i < aggregation.getLevels( ).length; i++ )
 		{
-			if ( aggregation.getLevelNames( )[i].equals( levelName ) )
+			if ( aggregation.getLevels( )[i].equals( level ) )
 			{
 				return i;
 			}
@@ -245,13 +246,13 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType(java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyDataType( String levelName, String keyName )
+	public int getLevelKeyDataType( DimLevel level, String keyName )
 	{
 		if ( keyDataTypes == null )
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		return getLevelKeyDataType( getLevelIndex( levelName ), keyName );
+		return getLevelKeyDataType( getLevelIndex( level ), keyName );
 	}
 
 	/*
@@ -352,7 +353,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAllAttributes(int)
 	 */
-	public String[] getAllAttributes( int levelIndex )
+	public String[] getLevelAttributes( int levelIndex )
 	{
 		if ( attributeNames == null )
 		{
@@ -399,13 +400,13 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyIndex( String levelName, String keyName )
+	public int getLevelKeyIndex( DimLevel level, String keyName )
 	{
 		if ( keyNames == null )
 		{
 			return -1;
 		}
-		return getLevelKeyIndex( getLevelIndex( levelName ), keyName );
+		return getLevelKeyIndex( getLevelIndex( level ), keyName );
 	}
 
 	/*
@@ -477,21 +478,37 @@ public class AggregationResultSet implements IAggregationResultSet
 		return keyNames.length;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getLevelKeyName(int, int)
+	 */
 	public String getLevelKeyName( int levelIndex, int keyIndex )
 	{
 		return keyNames[levelIndex][keyIndex];
 	}
 
-	public String getLevelName( int levelIndex )
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getLevelName(int)
+	 */
+	public DimLevel getLevel( int levelIndex )
 	{
-		return aggregation.getLevelNames( )[levelIndex];
+		return aggregation.getLevels( )[levelIndex];
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAggributeNames()
+	 */
 	public String[][] getAggributeNames()
 	{
 		return this.attributeNames;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getKeyNames()
+	 */
 	public String[][] getKeyNames()
 	{
 		return this.keyNames;
@@ -515,9 +532,9 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAllLevels()
 	 */
-	public String[] getAllLevels( )
+	public DimLevel[] getAllLevels( )
 	{
-		return aggregation.getLevelNames( );
+		return aggregation.getLevels( );
 	}
 
 	/**
@@ -550,7 +567,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#selectRange(java.lang.String, int, int)
 	 */
-	public void subset( String level, int start, int end ) throws IOException
+	public void subset( DimLevel level, int start, int end ) throws IOException
 	{
 		IDiskArray subset = new BufferedStructureArray( AggregationResultRow.getCreator( ),
 				4096 );

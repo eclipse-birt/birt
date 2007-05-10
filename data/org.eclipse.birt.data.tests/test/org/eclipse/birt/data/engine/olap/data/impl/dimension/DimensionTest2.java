@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -39,6 +40,9 @@ import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 public class DimensionTest2 extends TestCase
 {
 	
+	private DimLevel dimLevel12;
+	private DimLevel dimLevel11;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -229,9 +233,7 @@ public class DimensionTest2 extends TestCase
 	
 	private void testDimensionCreateAndFind3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
-		
-		Dimension dimension = createDimension3( documentManager ) ;
-		
+		createDimension3( documentManager ) ;
 	}
 	/**
 	 * 
@@ -261,15 +263,14 @@ public class DimensionTest2 extends TestCase
 		IDiskArray positionArray = dimension.find( findLevel,
 				filter );
 		assertEquals( positionArray.size( ), 4 );
-		String[] levelNames = new String[1];
-		levelNames[0] = "l2";
 		DimensionResultIterator dimesionResultSet = new DimensionResultIterator( dimension,
-				positionArray,
-				levelNames);
-		assertEquals(dimesionResultSet.getLevelIndex( "l2" ), 1 );
-		assertEquals(dimesionResultSet.getLevelIndex( "l1" ), 0 );
-		assertEquals(dimesionResultSet.getLevelKeyDataType( "l2" )[0], DataType.INTEGER_TYPE );
-		assertEquals(dimesionResultSet.getLevelKeyDataType( "l1" )[0], DataType.INTEGER_TYPE );
+				positionArray);
+		dimLevel11 = new DimLevel(dimension.getName( ),"l1");
+		dimLevel12 = new DimLevel(dimension.getName( ),"l2");
+		assertEquals(dimesionResultSet.getLevelIndex( dimLevel12.getLevelName( ) ), 1 );
+		assertEquals(dimesionResultSet.getLevelIndex( dimLevel11.getLevelName( ) ), 0 );
+		assertEquals(dimesionResultSet.getLevelKeyDataType( dimLevel12.getLevelName( ) )[0], DataType.INTEGER_TYPE );
+		assertEquals(dimesionResultSet.getLevelKeyDataType(dimLevel11.getLevelName( ) )[0], DataType.INTEGER_TYPE );
 		assertEquals(dimesionResultSet.length( ), 4 );
 		dimesionResultSet.seek( 0 );
 		assertEquals(dimesionResultSet.getLevelKeyValue( 0 )[0], new Integer(1) );

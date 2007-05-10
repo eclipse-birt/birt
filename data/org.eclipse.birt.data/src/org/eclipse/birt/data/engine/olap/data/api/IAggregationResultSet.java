@@ -33,14 +33,14 @@ public interface IAggregationResultSet
 	 * 
 	 * @return
 	 */
-	public String[] getAllLevels( );
+	public DimLevel[] getAllLevels( );
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param level
 	 * @return
 	 */
-	public int getLevelIndex( String levelName );
+	public int getLevelIndex( DimLevel level );
 	
 	/**
 	 * 
@@ -58,10 +58,10 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param level
 	 * @return
 	 */
-	public int getLevelKeyDataType( String levelName, String keyName );
+	public int getLevelKeyDataType( DimLevel level, String keyName );
 	
 	/**
 	 * 
@@ -80,11 +80,11 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeIndex( String levelName, String attributeName );
+	public int getLevelAttributeIndex( DimLevel level, String attributeName );
 	
 	/**
 	 * 
@@ -96,11 +96,11 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelKeyIndex( String levelName, String keyName );
+	public int getLevelKeyIndex( DimLevel level, String keyName );
 	
 	
 	/**
@@ -108,15 +108,15 @@ public interface IAggregationResultSet
 	 * @param levelIndex
 	 * @return
 	 */
-	public String[] getAllAttributes( int levelIndex );
+	public String[] getLevelAttributes( int levelIndex );
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeDataType( String levelName, String attributeName );
+	public int getLevelAttributeDataType( DimLevel level, String attributeName );
 	
 	/**
 	 * 
@@ -186,7 +186,7 @@ public interface IAggregationResultSet
 	
 	public IAggregationResultRow getCurrentRow() throws IOException;
 	
-	public String getLevelName( int levelIndex );
+	public DimLevel getLevel( int levelIndex );
 	public String getLevelKeyName( int levelIndex, int keyIndex );
 	
 	public AggregationDefinition getAggregationDefinition();
@@ -217,5 +217,5 @@ public interface IAggregationResultSet
 	 * change the current result set to be its subset based on specified level and range.
 	 * @thows IOException
      */
-	public void subset( String level, int start, int end ) throws IOException;
+	public void subset( DimLevel level, int start, int end ) throws IOException;
 }

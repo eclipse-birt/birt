@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
 /**
@@ -66,8 +67,8 @@ public class AggrSortHelper
 				List aggrSorts = (List) map.get( keys[n] );
 				IAggregationResultSet matchedResultSet = getMatchedResultSet( resultSet,
 						( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAggrLevels( ) );
-				String targetLevelName = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getTargetLevel( );
-				String[] levelNames = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAxisQualifierLevel( );
+				DimLevel targetLevelName = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getTargetLevel( );
+				DimLevel[] levelNames = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAxisQualifierLevel( );
 				int[] levelIndex = new int[levelNames.length];
 				for ( int k = 0; k < levelIndex.length; k++ )
 				{
@@ -103,7 +104,7 @@ public class AggrSortHelper
 			for ( int i = 0; i < resultSet.length; i++ )
 			{
 				if ( isEdgeResultSet( resultSet[i] )
-						&& ( resultSet[i].getLevelIndex( keys[0].toString( ) ) >= 0 ) )
+						&& ( resultSet[i].getLevelIndex( (DimLevel)keys[0] ) >= 0 ) )
 				{
 					base = resultSet[i];
 					break;
@@ -137,7 +138,7 @@ public class AggrSortHelper
 	 * @throws DataException
 	 */
 	private static IAggregationResultSet getMatchedResultSet(
-			IAggregationResultSet[] resultSet, String[] levelNames )
+			IAggregationResultSet[] resultSet, DimLevel[] levelNames )
 			throws DataException
 	{
 		for ( int i = 0; i < resultSet.length; i++ )
@@ -148,7 +149,7 @@ public class AggrSortHelper
 			boolean match = true;
 			for ( int j = 0; j < rSet.getLevelCount( ); j++ )
 			{
-				if ( !levelNames[j].equals( rSet.getLevelName( j ) ) )
+				if ( !levelNames[j].equals( rSet.getLevel( j ) ) )
 				{
 					match = false;
 					break;

@@ -184,16 +184,16 @@ public class DimensionFilterProcessorTest extends TestCase
 		{
 			this.nameValuePair = nameValuePair;
 		}
-		
-		public Object getLevelValue( String attrName ) throws DataException
-		{
-			return this.nameValuePair.get( attrName );
-		}
 
 		public Object getAggrValue( String aggrName ) throws DataException
 		{
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public Object getFieldValue( String name ) throws DataException
+		{
+			return this.nameValuePair.get( name );
 		}
 		
 	}

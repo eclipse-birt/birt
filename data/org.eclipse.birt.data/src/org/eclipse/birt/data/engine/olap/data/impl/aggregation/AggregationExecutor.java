@@ -19,9 +19,10 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
@@ -149,7 +150,7 @@ public class AggregationExecutor
 		{
 			result[i] = dimesionResultIterators[tmpLevelIndex[i * 2]].getDimesion( )
 					.getHierarchy( )
-					.getLevels( )[tmpLevelIndex[i * 2 + 1]].getKeyName( );
+					.getLevels( )[tmpLevelIndex[i * 2 + 1]].getKeyNames( );
 		}
 		return result;
 	}
@@ -226,8 +227,8 @@ public class AggregationExecutor
 			for ( int i = 0; i < aggregationCalculators.length; i++ )
 			{
 				if ( sortedFactRows[i] == null
-						&& aggregationCalculators[i].aggregation.getLevelNames( ) != null
-						&& aggregationCalculators[i].aggregation.getLevelNames( ).length > maxLevelCount )
+						&& aggregationCalculators[i].aggregation.getLevels( ) != null
+						&& aggregationCalculators[i].aggregation.getLevels( ).length > maxLevelCount )
 				{
 					aggregationIndex = i;
 					maxLevelCount = levelIndex[i].length;
@@ -295,17 +296,17 @@ public class AggregationExecutor
 		levelIndex = new int[aggregationCalculators.length][];
 		for ( int i = 0; i < aggregationCalculators.length; i++ )
 		{
-			String[] levelNames = aggregationCalculators[i].aggregation.getLevelNames( );
-			if ( levelNames == null || levelNames.length == 0 )
+			DimLevel[] levels = aggregationCalculators[i].aggregation.getLevels( );
+			if ( levels == null || levels.length == 0 )
 			{
 				levelIndex[i] = new int[0];
 				continue;
 			}
-			int[] tmpLevelIndex = new int[levelNames.length * 2];
+			int[] tmpLevelIndex = new int[levels.length * 2];
 			for ( int j = 0; j < tmpLevelIndex.length / 2; j++ )
 			{
-				tmpLevelIndex[j * 2] = findDimensionIterator( levelNames[j] );
-				tmpLevelIndex[j * 2 + 1] = dimesionResultIterators[tmpLevelIndex[j * 2]].getLevelIndex( levelNames[j] );
+				tmpLevelIndex[j * 2] = findDimensionIterator( levels[j].getLevelName( ) );
+				tmpLevelIndex[j * 2 + 1] = dimesionResultIterators[tmpLevelIndex[j * 2]].getLevelIndex( levels[j].getLevelName( ) );
 			}
 			levelIndex[i] = tmpLevelIndex;
 		}

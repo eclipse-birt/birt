@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.api.query.impl.MeasureDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
@@ -76,11 +77,11 @@ class CubeQueryDefinitionUtil
 
 			for ( int i = 0; i < rowLevels.length; i++ )
 			{
-				levelList.add( rowLevels[i].getName( ) );
+				levelList.add( new DimLevel( rowLevels[i] ) );
 			}
 			for ( int i = 0; i < columnLevels.length; i++ )
 			{
-				levelList.add( columnLevels[i].getName( ) );
+				levelList.add( new DimLevel( columnLevels[i] ) );
 			}
 
 			Iterator measureIter = measureList.iterator( );
@@ -107,11 +108,12 @@ class CubeQueryDefinitionUtil
 			{
 				int id = getResultSetIndex( calculatedMemberList,
 						( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ) );
+				List aggrLevels = ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( );
 				if ( id == -1 )
 				{
 					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
+							aggrLevels,
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
 							rsID );
 					calculatedMemberList.add( calculatedMember[index] );
@@ -121,7 +123,7 @@ class CubeQueryDefinitionUtil
 				{
 					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
+							aggrLevels,
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
 							id );
 				}
@@ -202,7 +204,7 @@ class CubeQueryDefinitionUtil
 			ILevelDefinition[] levels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 			for ( int i = 0; i < levels.length; i++ )
 			{
-				columnLevelList.add( levels[i].getName( ) );
+				columnLevelList.add( new DimLevel( levels[i] ) );
 			}
 		}
 
@@ -211,7 +213,7 @@ class CubeQueryDefinitionUtil
 			ILevelDefinition[] levels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 			for ( int i = 0; i < levels.length; i++ )
 			{
-				rowLevelList.add( levels[i].getName( ) );
+				rowLevelList.add( new DimLevel( levels[i] ) );
 			}
 		}
 

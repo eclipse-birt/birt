@@ -86,7 +86,7 @@ public class Dimension implements IDimension
 		}
 		isTime = documentObj.readBoolean( );
 		String hierarchyName = documentObj.readString( );
-		hierarchy = new Hierarchy( documentManager, hierarchyName );
+		hierarchy = new Hierarchy( documentManager, name, hierarchyName );
 		hierarchy.loadFromDisk( );
 		length = hierarchy.size( );
 		documentObj.close( );
