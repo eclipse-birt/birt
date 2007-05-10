@@ -227,6 +227,17 @@ class ComputedColumnHelperInstance
 									"ComputedColumn",
 									0 );
 						}
+						if ( computedColumn[i] instanceof GroupComputedColumn )
+						{
+							try
+							{
+								value = ( (GroupComputedColumn) computedColumn[i] ).calculate( value );
+							}
+							catch ( BirtException e )
+							{
+								throw DataException.wrap( e );
+							}
+						}
 
 						value = DataTypeUtil.convert( value,
 								resultClass.getFieldValueClass( columnIndexArray[i] ) );
@@ -259,17 +270,7 @@ class ComputedColumnHelperInstance
 												: value.toString( ),
 								} );
 					}
-					if ( computedColumn[i] instanceof GroupComputedColumn )
-					{
-						try
-						{
-							value = ( (GroupComputedColumn) computedColumn[i] ).calculate( value );
-						}
-						catch ( BirtException e )
-						{
-							throw DataException.wrap( e );
-						}
-					}
+
 					resultObject.setCustomFieldValue( columnIndexArray[i],
 							value );
 				}
