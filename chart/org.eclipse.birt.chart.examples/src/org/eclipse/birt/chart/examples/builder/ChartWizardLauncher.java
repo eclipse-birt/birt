@@ -37,12 +37,14 @@ import com.ibm.icu.util.ULocale;
 /**
  * A wizard launcher for Chart builder.
  * <p>
- * If the eclipse extension is expected to use, append the argument in VM,
- * <b>-DBIRT_HOME=birt_home_directory</b>; or append <b>-DSTANDALONE</b> to
- * use hard-coded manifest, in
- * <code>org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionImpl</code> and
- * <code>org.eclipse.birt.chart.util.PluginSettings</code>.
- * 
+ * If the eclipse extension is expected to use, append
+ * <b>-DBIRT_HOME=birt_home_directory</b> in VM arguments; or <b>-DSTANDALONE</b>
+ * to use hard-coded configuration. Default value is standalone.
+ * <p>
+ * Set special locale to enable BiDi support, for example, append VM arguments
+ * <b>-Duser.language=ar_AB</b>.
+ * <p>
+ * Also could specify file name in program arguments to open the expected chart.
  */
 public class ChartWizardLauncher
 {
@@ -54,10 +56,6 @@ public class ChartWizardLauncher
 		Chart chart = null;
 		Serializer serializer = null;
 		final File chartFile = new File( filePath );
-
-		// This array is for storing the latest chart data before pressing
-		// apply button
-		final Object[] applyData = new Object[1];
 
 		// Reads the chart model
 		try
@@ -94,6 +92,10 @@ public class ChartWizardLauncher
 		 */
 		context.setUIServiceProvider( new DefaultUIServiceProviderImpl( ) );
 
+		// This array is for storing the latest chart data before pressing
+		// apply button
+		final Object[] applyData = new Object[1];
+		
 		// Add Apply button
 		chartWizard.addCustomButton( new ApplyButtonHandler( chartWizard ) {
 
@@ -136,10 +138,7 @@ public class ChartWizardLauncher
 				WizardBase.displayException( e );
 			}
 		}
-		else
-		{
-			System.out.println( "Wizard was cancelled!" ); //$NON-NLS-1$
-		}
+
 	}
 
 	void init( )
@@ -161,11 +160,6 @@ public class ChartWizardLauncher
 				TasksManager.instance( )
 						.registerTask( "org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", //$NON-NLS-1$
 								new TaskFormatChart( ) );
-				// TasksManager.instance( )
-				// .registerTask(
-				// "org.eclipse.birt.chart.ui.swt.wizard.TaskEditScript",
-				// //$NON-NLS-1$
-				// new TaskEditScript( ) );
 				String sChartTasks = "org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"; //$NON-NLS-1$
 				TasksManager.instance( )
 						.registerWizard( "org.eclipse.birt.chart.ui.ChartWizard", //$NON-NLS-1$
