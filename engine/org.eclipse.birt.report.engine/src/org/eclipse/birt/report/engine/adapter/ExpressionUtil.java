@@ -138,7 +138,10 @@ public final class ExpressionUtil
 
 			Binding columnBinding = new Binding( bindingName, ce );
 
-			columnBinding.addAggregateOn( groupName );
+			if ( groupName != null )
+			{
+				columnBinding.addAggregateOn( groupName );
+			}
 
 			List allColumnBindings = new ArrayList( );
 
