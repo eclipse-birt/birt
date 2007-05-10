@@ -155,9 +155,8 @@ public final class QueryExecutorUtil
 			|| interval == IQuery.GroupSpec.MONTH_INTERVAL
 			|| interval == IQuery.GroupSpec.QUARTER_INTERVAL
 			|| interval == IQuery.GroupSpec.YEAR_INTERVAL
-			|| interval == IQuery.GroupSpec.WEEK_INTERVAL )
-			interval = DataType.DATE_TYPE;
-		else if ( interval == IQuery.GroupSpec.NUMERIC_INTERVAL )
+			|| interval == IQuery.GroupSpec.WEEK_INTERVAL
+			|| interval == IQuery.GroupSpec.NUMERIC_INTERVAL )
 			interval = DataType.DOUBLE_TYPE;
 		else if ( interval == IQuery.GroupSpec.STRING_PREFIX_INTERVAL )
 			interval = DataType.STRING_TYPE;
