@@ -493,6 +493,8 @@
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
 			<include name="org.wsdl4j_*/**"/>
 			<include name="org.apache.xerces_*/**"/>
+            <include name="org.apache.xml.resolver_*.jar"/>
+            <include name="org.w3c.dom_*.jar"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
 			<include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
