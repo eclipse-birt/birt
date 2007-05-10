@@ -952,6 +952,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
 									valueLa.getCaption( )
 											.setValue( lih.getExtraText( ) );
+									// Bugzilla #185885, make sure the label
+									// will be drawn
+									valueLa.setVisible( true );
 								}
 
 								// CYCLE THROUGH THE PALETTE
@@ -1058,6 +1061,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
 									valueLa.getCaption( )
 											.setValue( lih.getExtraText( ) );
+									// Bugzilla #185885, make sure the label
+									// will be drawn
+									valueLa.setVisible( true );
 								}
 
 								// CYCLE THROUGH THE PALETTE
@@ -1264,6 +1270,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
 									valueLa.getCaption( )
 											.setValue( lih.getExtraText( ) );
+									// Bugzilla #185885, make sure the label
+									// will be drawn
+									valueLa.setVisible( true );
 								}
 
 								// CYCLE THROUGH THE PALETTE
@@ -1360,6 +1369,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
 									valueLa.getCaption( )
 											.setValue( lih.getExtraText( ) );
+									// Bugzilla #185885, make sure the label
+									// will be drawn
+									valueLa.setVisible( true );
 								}
 
 								// CYCLE THROUGH THE PALETTE
