@@ -1564,6 +1564,10 @@ public class ParameterDialog extends BaseDialog
 			{
 				refreshColumns( false );
 			}
+			
+			public void widgetSelected(SelectionEvent e) {
+				refreshColumns( false );
+			}
 		}
 
 		);
