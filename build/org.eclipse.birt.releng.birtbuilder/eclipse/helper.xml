@@ -470,9 +470,9 @@
 
 		<!--Define the ODA dependency plugins-->
 		<patternset id="oda.runtime.plugins">
-			<include name="org.eclipse.datatools.connectivity_*/**" />
-			<include name="org.eclipse.datatools.connectivity.ui_*/**" />
-			<include name="org.eclipse.datatools.connectivity.ui.dse_*/**" />
+			<include name="org.eclipse.datatools.connectivity_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.ui_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.ui.dse_*.jar" />
 			<include name="org.eclipse.datatools.doc.user_*/**"/>
 			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda.design.ui_*.jar" />
@@ -489,6 +489,9 @@
 			<include name="org.eclipse.datatools.enablement.oda.designer.finfo_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.finfo_*.jar"/>
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
+			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
+			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
+			<include name="org.wsdl4j_*/**"/>
 			<include name="org.apache.xerces_*/**"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
