@@ -2,7 +2,7 @@
 
 	<property name="postingDirectory" value="${buildDirectory}" />
 	<property name="package.version" value="2_2_0" />
-	<property name="archiveName" value="birt-rcp-${package.version}.zip"/>
+	<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 
 	
 	<!-- ===================================================================== -->
@@ -11,7 +11,7 @@
 	<target name="allElements">
 		<ant antfile="${genericTargets}" target="${target}" >
 			<property name="type" value="feature" />
-			<property name="id" value="org.eclipse.birt.rcp" />
+			<property name="id" value="org.eclipse.pde.build.container.feature" />
 		</ant>
 	</target>
 
@@ -21,12 +21,16 @@
 	<!-- ${assembleScriptName}) but may also add pre and post processing -->
 	<!-- Add one target for each root element and each configuration -->
 	<!-- ===================================================================== -->
-	
+	<!--
 	<target name="assemble.org.eclipse.birt.rcp">
 		<property name="archiveName" value="birt-rcp-${package.version}.zip"/>
 		<antcall target="assemble" />
 	</target>
-
+	-->
+    <target name="assemble.org.eclipse.pde.build.container.feature.win32.win32.x86">
+            <property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
+            <antcall target="assemble" />
+    </target>
 
 	<target name="assemble">
 		<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
@@ -34,6 +38,63 @@
 	</target>
 	
 	<target name="postPackage">
+        <move todir="${postingDirectory}/${buildId}">
+                <fileset dir="${buildDirectory}/${buildId}">
+                        <include name="${archiveName}" />
+                </fileset>
+        </move>
+		
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
+		    <arg line="-o -q ${archiveName} -d ${postingDirectory}/${buildId}/rcp" />
+		</exec>
+		<delete file="${postingDirectory}/${buildId}/${archiveName}" failonerror="false"/>
+		<!-- extract birt.resources, engine.fonts, and five doc plugins as directory  -->
+		<echo message="unzip org.eclipse.birt.resources..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.resources_${org.eclipse.birt.resources}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.resources}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.report.engine.fonts..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.report.engine.fonts}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.doc..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.doc}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.chart.doc.isv..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.chart.doc.isv}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.chart.cshelp..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.chart.cshelp}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.cshelp..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.cshelp}" />
+		</exec>
+		<echo message="unzip org.eclipse.birt.doc.isv..."/>
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.doc.isv}" />
+		</exec>
+		<delete>
+			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
+				<include name="org.eclipse.birt.doc_*.jar"/>
+				<include name="org.eclipse.birt.cshelp_*.jar"/>
+				<include name="org.eclipse.birt.doc.isv_*.jar"/>
+				<include name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+				<include name="org.eclipse.birt.chart.cshelp_*.jar"/>
+				<include name="org.eclipse.birt.resources_*.jar"/>
+				<include name="org.eclipse.birt.report.engine.fonts_*.jar"/>
+			</fileset>
+		</delete>
+    	<exec executable="zip" dir="${postingDirectory}/${buildId}/rcp">
+            <arg line="-q ${postingDirectory}/${buildId}/${archiveName} -r birt-rcp-report-designer-${package.version}" />
+        </exec>
+		
+        <delete dir="${postingDirectory}/${buildId}/rcp" failonerror="false" />
+
 	</target>
 	<!-- ===================================================================== -->
 	<!-- Check out map files from correct repository -->
@@ -142,7 +203,7 @@
 		</antcall>
 	
 		<unzip dest="${postingDirectory}/${buildLabel}/compilelogs" overwrite="true">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.rcp">
+			<fileset dir="${buildDirectory}/features/org.eclipse.pde.build.container.feature">
 				<include name="*.log.zip" />
 			</fileset>
 		</unzip>
