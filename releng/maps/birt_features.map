@@ -58,4 +58,4 @@ feature@org.mozilla.rhino=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/
 plugin@org.mozilla.rhino=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
 feature@org.w3c.sac=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
-plugin@org.w3c.sac=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
+plugin@org.w3c.sac=v20070510,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
