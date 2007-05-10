@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,8 +29,10 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -121,7 +124,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private int cachedSchemaComboIndex = -1;
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
-
+	private boolean shouldUpdateDataSetDesign;
 	// List of Schema Name
 	protected ArrayList schemaList;
 	// List of Table names 
@@ -441,10 +444,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		if ( design != null && doc != null )
 			design.setQueryText( doc.get( ) );
-		if ( !formerQueryTxt.equals( design.getQueryText( ) ) )
+		if ( this.shouldUpdateDataSetDesign || !formerQueryTxt.equals( design.getQueryText( ) ) )
 		{
 			SQLUtility.saveDataSetDesign( design );
 			formerQueryTxt = design.getQueryText( );
+			this.shouldUpdateDataSetDesign = false;
 		}
 		return design;
 	}
@@ -1349,7 +1353,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		DataSourceDesign curDataSourceDesign = this.getDataSetDesign( )
 				.getDataSourceDesign( );
 
-		if ( curDataSourceDesign != prevDataSourceDesign )
+		if ( curDataSourceDesign != prevDataSourceDesign  )
 		{
 			RemoveAllAvailableDbObjects( );
 			resetJdbcInfo( curDataSourceDesign );
@@ -1357,9 +1361,39 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			setRootElement( );
 			sourceViewerConfiguration.getContentAssistProcessor( )
 					.setDataSourceHandle( curDataSourceDesign );
-
+ 
 			populateAvailableDbObjects( );
 			prevDataSourceDesign = curDataSourceDesign;
+			try 
+			{
+				ResultSetMetaData meta = this.metaDataProvider.getConnection( ).prepareStatement( this.getDataSetDesign( ).getQueryText( ) ).getMetaData( );
+				ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
+
+				if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
+				{
+					this.shouldUpdateDataSetDesign = true;
+					return;
+				}
+				
+				for ( int i = 0; i < rsc.getResultColumnDefinitions( ).size( ); i++ )
+				{
+					ColumnDefinition cd = (ColumnDefinition) rsc.getResultColumnDefinitions( ).get( i );
+					if ( !( cd.getAttributes( )
+							.getName( )
+							.equals( meta.getColumnName( i + 1 ) ) && cd.getAttributes( )
+							.getNativeDataTypeCode( ) == meta.getColumnType( i + 1 ) ) )
+					{
+						this.shouldUpdateDataSetDesign = true;
+						return;
+					}
+				}
+			}
+			catch ( SQLException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
