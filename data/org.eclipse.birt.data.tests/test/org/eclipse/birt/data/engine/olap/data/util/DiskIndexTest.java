@@ -654,7 +654,7 @@ public class DiskIndexTest extends TestCase
 	{
 		int keyNumber = 100000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
-				keyNumber );
+				4000 );
 		IndexKey key = null;
 		for ( int i = 1; i < keyNumber; i++ )
 		{
