@@ -322,7 +322,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 					name );
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
-			column.setAggregateFunction( function );
+			column.setAggregateFunction( function != null ? function
+					: DEFAULT_MEASURE_FUNCTION );
 			column.addAggregateOn( rowLevel );
 			column.addAggregateOn( colLevel );
 
