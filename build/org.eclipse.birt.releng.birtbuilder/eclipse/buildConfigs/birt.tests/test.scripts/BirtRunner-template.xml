@@ -25,7 +25,7 @@
 		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.report.tests.model"/>
 		<antcall target="org.eclipse.birt.report.tests.chart"/>
-		<antcall target="org.eclipse.birt.report.tests"/>	
+		<!--<antcall target="org.eclipse.birt.report.tests"/>-->
 		<!--
 		<antcall target="org.eclipse.birt.report.designer.tests"/>
 		-->
@@ -65,7 +65,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.postscript.tests_${org.eclipse.birt.report.engine.emitter.postscript.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
-			<property name="jvm" value="${jvm15_home}/bin/java"/>
+			<property name="jvm" value="${jvm.15.home}"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.engine.emitter.postscript.AllTests.xml"/>
 		</ant>
 	</target>

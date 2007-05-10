@@ -8,27 +8,25 @@
 	
 
 	<target name="Start">
+        <antcall target="org.eclipse.birt.data.tests"/>
+        <antcall target="org.eclipse.birt.report.data.oda.jdbc.tests"/>
 		<antcall target="org.eclipse.birt.core.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.pdf.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.html.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.postscript.tests"/>
 		<antcall target="org.eclipse.birt.report.model.tests"/>
 		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
-        <antcall target="org.eclipse.birt.data.tests"/>
-        <antcall target="org.eclipse.birt.report.data.oda.jdbc.tests"/>
-        <antcall target="org.eclipse.birt.chart.tests"/>				
+       	<antcall target="org.eclipse.birt.chart.tests"/>				
 		<antcall target="org.eclipse.birt.report.engine.tests"/>		
-		
 		<!-- Clean model test plugin -->
 		<antcall target="cleanModelTestPlugin"/>
 		<antcall target="org.eclipse.birt.tests.data"/>
 		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.report.tests.model"/>
 		<antcall target="org.eclipse.birt.report.tests.chart"/>
-		<antcall target="org.eclipse.birt.report.tests"/>
+		<!--<antcall target="org.eclipse.birt.report.tests"/>-->
 		<!-- obselete -->
 		<!--<antcall target="org.eclipse.birt.report.tests.viewer"/>-->
-		
 		<!--
 		<antcall target="org.eclipse.birt.report.designer.tests"/>
 		-->
