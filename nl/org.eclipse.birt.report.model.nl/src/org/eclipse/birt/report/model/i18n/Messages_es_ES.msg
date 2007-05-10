@@ -2230,6 +2230,9 @@ Element.OdaHierarchy=Jerarquía ODA
 Element.OdaLevel=Nivel ODA
 Element.OdaMeasure=Medida ODA
 Element.OdaMeasureGroup=Grupo de medida ODA
+Element.MemberValue=Member Value
+Element.SortElement=Sort Element
+Element.FilterConditionElement=Filter Condition Element
 
 ###########################################################
 # Element property names
@@ -3067,6 +3070,24 @@ Element.OdaHierarchy.nativeName=Nombre nativo
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=Atributos
+
+#60. MemberValue ( prefix Element.MemberValue )
+Element.MemberValue.value=Valor
+Element.MemberValue.level=Nivel
+Element.MemberValue.memberValues=Member Values
+
+#61. SortElement ( prefix Element.SortElement )
+Element.SortElement.key=Key
+Element.SortElement.direction=Direction
+Element.SortElement.member=Member
+
+#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+Element.FilterConditionElement.operator=operador
+Element.FilterConditionElement.expr=Expresión
+Element.FilterConditionElement.value1=valor1
+Element.FilterConditionElement.value2=valor2
+Element.FilterConditionElement.filterTarget=Destino del filtro
+Element.FilterConditionElement.member=Member 
 
 ###########################################################
 # Predefined style

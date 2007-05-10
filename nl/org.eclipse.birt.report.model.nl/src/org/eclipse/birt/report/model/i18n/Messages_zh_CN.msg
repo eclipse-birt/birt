@@ -2230,6 +2230,9 @@ Element.OdaHierarchy=ODA 层次结构
 Element.OdaLevel=ODA 级别
 Element.OdaMeasure=ODA 度量
 Element.OdaMeasureGroup=ODA 度量组
+Element.MemberValue=Member Value
+Element.SortElement=Sort Element
+Element.FilterConditionElement=Filter Condition Element
 
 ###########################################################
 # Element property names
@@ -3067,6 +3070,24 @@ Element.OdaHierarchy.nativeName=本地名称
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=属性
+
+#60. MemberValue ( prefix Element.MemberValue )
+Element.MemberValue.value=值
+Element.MemberValue.level=级别
+Element.MemberValue.memberValues=Member Values
+
+#61. SortElement ( prefix Element.SortElement )
+Element.SortElement.key=Key
+Element.SortElement.direction=Direction
+Element.SortElement.member=Member
+
+#62. FilterConditionElement ( prefix Element.FilterConditionElement )
+Element.FilterConditionElement.operator=运算符
+Element.FilterConditionElement.expr=表达式
+Element.FilterConditionElement.value1=值 1
+Element.FilterConditionElement.value2=值 2
+Element.FilterConditionElement.filterTarget=筛选目标
+Element.FilterConditionElement.member=Member 
 
 ###########################################################
 # Predefined style
