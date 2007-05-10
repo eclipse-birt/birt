@@ -378,8 +378,6 @@ public class JDBCSelectionPageHelper
 					propertyField.setText( EMPTY_STRING );
 
 				propertyField.addSelectionListener( new SelectionListener( ) {
-
-					@Override
 					public void widgetSelected(
 							SelectionEvent arg0 )
 					{
@@ -400,7 +398,6 @@ public class JDBCSelectionPageHelper
 						}
 					}
 
-					@Override
 					public void widgetDefaultSelected(
 							SelectionEvent arg0 )
 					{
