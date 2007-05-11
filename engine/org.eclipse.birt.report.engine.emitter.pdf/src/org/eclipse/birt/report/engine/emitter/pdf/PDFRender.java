@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -47,6 +48,10 @@ public class PDFRender extends PageDeviceRender
 	
 	private boolean isTotalPage = false;
 	
+	private PDFPageDevice currentPageDevice = null;
+	
+	private HashSet bookmarks = new HashSet();
+	
 	public PDFRender( IEmitterServices services )
 	{
 		initialize( services );
@@ -55,7 +60,8 @@ public class PDFRender extends PageDeviceRender
 	public IPageDevice createPageDevice( String title, IReportContext context,
 			IReportContent report ) throws Exception
 	{
-		return new PDFPageDevice( output, title, context, report );
+		currentPageDevice =  new PDFPageDevice( output, title, context, report );
+		return currentPageDevice;
 	}
 
 	public String getOutputFormat( )
@@ -107,6 +113,18 @@ public class PDFRender extends PageDeviceRender
 		int y = curPos.y + getY( totalPage );
 		isTotalPage = true;
 		drawTextAt( totalPage, x, y );
+	}
+	
+	/**
+	 * Closes the document.
+	 * 
+	 * @param rc
+	 *            the report content.
+	 */
+	public void end( IReportContent rc )
+	{
+		createTOC( );
+		super.end( rc );
 	}
 
 	protected void drawContainer( IContainerArea container )
@@ -275,8 +293,14 @@ public class PDFRender extends PageDeviceRender
 			if ( null != bookmark )
 			{
 				currentPage.createBookmark( bookmark, x, y, width, height );
+				bookmarks.add(bookmark);
 			}
 		}
+	}
+	
+	private void createTOC( )
+	{
+		currentPageDevice.createTOC(bookmarks);
 	}
 
 	private void createTotalPageTemplate( int x, int y, int width,

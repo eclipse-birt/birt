@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
@@ -38,7 +37,6 @@ import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -574,21 +572,6 @@ public class PDFPage implements IPage
 		contentByte.restoreState( );
 	}
 
-	void createToc( TOCNode tocTree )
-	{
-		TOCHandler tocHandler = new TOCHandler( tocTree );
-		TOCNode tocRoot = tocHandler.getTOCRoot( );
-		if ( tocRoot == null || tocRoot.getChildren( ).isEmpty( ) )
-		{
-			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
-		}
-		else
-		{
-			writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
-			PdfOutline root = contentByte.getRootOutline( );
-			tocHandler.createTOC( tocRoot, root );
-		}
-	}
 
 	/**
 	 * Draws a line with the line-style specified in advance from the start

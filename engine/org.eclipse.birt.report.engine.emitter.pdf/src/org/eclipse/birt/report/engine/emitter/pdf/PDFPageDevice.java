@@ -15,14 +15,15 @@ import java.awt.Color;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
+import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -73,20 +74,6 @@ public class PDFPageDevice implements IPageDevice
 	
 	public void close( ) throws Exception
 	{
-		ULocale ulocale = null;
-		Locale locale = context.getLocale( );
-		if(locale==null)
-		{
-			ulocale = ULocale.getDefault( );
-		}
-		else
-		{
-			ulocale = ULocale.forLocale( locale);
-		}
-		// Before closing the document, we need to create TOC.
-		TOCNode tocTree = report.getTOCTree( "pdf", //$NON-NLS-1$
-				ulocale ).getRoot( );
-		currentPage.createToc( tocTree );
 		writer.setPageEmpty( false );
 		if(doc.isOpen( ))
 		{
@@ -100,4 +87,33 @@ public class PDFPageDevice implements IPageDevice
 		currentPage.drawBackgroundColor( backgroundColor, 0, 0, width, height );
 		return currentPage;
 	}
+	
+	public void createTOC(Set bookmarks)
+	{
+		ULocale ulocale = null;
+		Locale locale = context.getLocale( );
+		if(locale==null)
+		{
+			ulocale = ULocale.getDefault( );
+		}
+		else
+		{
+			ulocale = ULocale.forLocale( locale);
+		}
+		// Before closing the document, we need to create TOC.
+		TOCNode tocTree = report.getTOCTree( "pdf", //$NON-NLS-1$
+				ulocale ).getRoot( );
+		
+		if ( tocTree == null || tocTree.getChildren( ).isEmpty( ) )
+		{
+			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
+		}
+		else
+		{
+			writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
+			TOCHandler tocHandler = new TOCHandler( tocTree, writer.getDirectContent().getRootOutline( ), bookmarks );
+			tocHandler.createTOC( );
+		}
+	}
+	
 }
