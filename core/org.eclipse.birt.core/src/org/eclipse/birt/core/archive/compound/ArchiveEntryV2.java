@@ -15,7 +15,7 @@ import java.io.IOException;
 
 class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 {
-
+	protected final int BLOCK_SIZE;
 	protected int cachId;
 	protected ArchiveFileV2 af;
 	protected NameEntry entry;
@@ -24,6 +24,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 	ArchiveEntryV2( ArchiveFileV2 af, NameEntry entry ) throws IOException
 	{
 		this.af = af;
+		this.BLOCK_SIZE = af.BLOCK_SIZE;
 		this.entry = entry;
 		this.cachId = entry.getBlock( );
 		if ( cachId != -1 )
@@ -169,7 +170,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 			index = af.allocTbl.createEntry( );
 			entry.setBlock( index.getFirstBlock( ) );
 		}
-		int blockCount = (int) ( ( newLength + Block.BLOCK_SIZE - 1 ) / Block.BLOCK_SIZE );
+		int blockCount = (int) ( ( newLength + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 		int totalBlock = index.getTotalBlocks( );
 		if ( blockCount > totalBlock )
 		{

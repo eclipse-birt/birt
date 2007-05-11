@@ -29,10 +29,13 @@ class Block implements ArchiveConstants
 
 	Block next;
 
-	/** data of the block */
-	byte[] blockData = new byte[BLOCK_SIZE];
+	final int blockSize;
 
-	private int blockSize;
+	/** data of the block */
+	byte[] blockData;
+
+
+	private int dataSize;
 
 	private int dirtyStart;
 
@@ -48,10 +51,17 @@ class Block implements ArchiveConstants
 	 */
 	Block( )
 	{
+		this( DEFAULT_BLOCK_SIZE );
+	}
+
+	Block( int size )
+	{
+		blockSize = size;
+		blockData = new byte[size];
 		id = -1;
 		dirtyStart = 0;
 		dirtyEnd = 0;
-		blockSize = 0;
+		dataSize = 0;
 		prev = null;
 		next = null;
 	}
@@ -61,28 +71,28 @@ class Block implements ArchiveConstants
 		id = -1;
 		dirtyStart = 0;
 		dirtyEnd = 0;
-		blockSize = 0;
+		dataSize = 0;
 		prev = null;
 		next = null;
 	}
 
 	void refresh( RandomAccessFile rf ) throws IOException
 	{
-		blockSize = 0;
-		if (id < 0)
+		dataSize = 0;
+		if ( id < 0 )
 		{
 			assert false;
 		}
-		rf.seek( ( (long) id ) * BLOCK_SIZE );
+		rf.seek( ( (long) id ) * blockSize );
 		do
 		{
-			int size = rf.read( blockData, blockSize, BLOCK_SIZE - blockSize );
+			int size = rf.read( blockData, dataSize, blockSize - dataSize );
 			if ( size < 0 )
 			{
 				break;
 			}
-			blockSize += size;
-		} while ( blockSize < BLOCK_SIZE );
+			dataSize += size;
+		} while ( dataSize < blockSize );
 		dirtyStart = 0;
 		dirtyEnd = 0;
 	}
@@ -91,7 +101,7 @@ class Block implements ArchiveConstants
 	{
 		if ( dirtyEnd != dirtyStart )
 		{
- 			file.seek( ( (long) id * BLOCK_SIZE ) + dirtyStart );
+			file.seek( ( (long) id * blockSize ) + dirtyStart );
 			file.write( blockData, dirtyStart, dirtyEnd - dirtyStart );
 		}
 		dirtyEnd = dirtyStart = 0;
@@ -104,7 +114,7 @@ class Block implements ArchiveConstants
 
 	public int write( int tgt, byte b[], int off, int len ) throws IOException
 	{
-		int size = BLOCK_SIZE - tgt;
+		int size = blockSize - tgt;
 		if ( size > len )
 			size = len;
 		System.arraycopy( b, off, blockData, tgt, size );
@@ -117,16 +127,16 @@ class Block implements ArchiveConstants
 			dirtyEnd = tgt + size;
 		}
 
-		if ( blockSize < dirtyEnd )
+		if ( dataSize < dirtyEnd )
 		{
-			blockSize = dirtyEnd;
+			dataSize = dirtyEnd;
 		}
 		return size;
 	}
 
 	public int read( int src, byte b[], int off, int len ) throws IOException
 	{
-		int size = blockSize - src;
+		int size = dataSize - src;
 		if ( size > len )
 		{
 			size = len;

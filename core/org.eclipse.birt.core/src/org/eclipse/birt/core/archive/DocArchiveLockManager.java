@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.core.archive;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;

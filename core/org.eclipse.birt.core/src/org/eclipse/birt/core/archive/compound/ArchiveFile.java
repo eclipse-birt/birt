@@ -156,7 +156,7 @@ public class ArchiveFile implements IArchiveFile
 
 	static public int getTotalUsedCache( )
 	{
-		return BlockManager.totalPoolSize * BlockManager.BLOCK_SIZE;
+		return BlockManager.totalCacheSize;
 	}
 	/**
 	 * save the

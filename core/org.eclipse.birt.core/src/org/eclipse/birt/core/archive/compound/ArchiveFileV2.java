@@ -59,6 +59,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	protected String archiveName;
 
+	protected int BLOCK_SIZE;
 	/**
 	 * header status
 	 */
@@ -174,8 +175,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 
 		setupArchiveMode( mode );
 
-		caches = new BlockManager( new CacheEventAdapter( ) );
-
 		if ( isWritable && !isAppend )
 		{
 			createDocument( );
@@ -212,13 +211,12 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	public void setCacheSize( int cacheSize )
 	{
-		int blockCount = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
-		caches.setPoolSize( blockCount );
+		caches.setCacheSize( cacheSize );
 	}
-	
+
 	public int getUsedCache( )
 	{
-		return caches.getUsedPool( ) * BLOCK_SIZE;
+		return caches.getUsedCache( );
 	}
 
 	/**
@@ -241,9 +239,13 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 					rf = new RandomAccessFile( archiveName, "rw" );
 				}
 			}
+
+			head = ArchiveHeader.read( rf );
+			BLOCK_SIZE = head.blockSize;
+			caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+
 			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 			totalDiskBlocks = totalBlocks;
-			head = ArchiveHeader.loadHeader( this );
 			allocTbl = AllocTable.loadTable( this );
 			entryTbl = NameTable.loadTable( this );
 			entries = new HashMap( );
@@ -290,9 +292,13 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 				}
 				rf.setLength( 0 );
 			}
+
+			BLOCK_SIZE = getDefaultBlockSize( );
+			caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
 			totalBlocks = 3;
 			totalDiskBlocks = 0;
-			head = ArchiveHeader.createHeader( this );
+			head = new ArchiveHeader( BLOCK_SIZE );
+			head.flush( this );
 			allocTbl = AllocTable.createTable( this );
 			entryTbl = NameTable.createTable( this );
 			entries = new HashMap( );
@@ -360,7 +366,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		assertWritable( );
 		if ( !isTransient )
 		{
-			head.flush( );
+			head.flush( this );
 			entryTbl.flush( );
 			allocTbl.flush( );
 			caches.flush( );
@@ -384,7 +390,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 			totalDiskBlocks = totalBlocks;
-			head.refresh( );
+			head.refresh( this );
 			allocTbl.refresh( );
 			entryTbl.refresh( );
 		}
@@ -471,8 +477,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			{
 				entryV2.ensureSize( 1 );
 				int blockId = entryV2.index.getBlock( 0 );
-				return rf.getChannel( ).lock( blockId * Block.BLOCK_SIZE, 1,
-						false );
+				return rf.getChannel( ).lock( blockId * BLOCK_SIZE, 1, false );
 			}
 		}
 		return entry;
@@ -556,7 +561,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			long pos = blockId * Block.BLOCK_SIZE + blockOff;
+			long pos = blockId * BLOCK_SIZE + blockOff;
 			rf.seek( pos );
 			rf.readFully( b, off, len );
 		}
@@ -592,7 +597,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			long pos = blockId * Block.BLOCK_SIZE + blockOff;
+			long pos = blockId * BLOCK_SIZE + blockOff;
 			rf.seek( pos );
 			rf.write( b, off, len );
 		}
@@ -620,7 +625,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 				block.flush( rf );
 				if ( block.id >= totalDiskBlocks )
 				{
-					totalDiskBlocks = block.id;
+					totalDiskBlocks = block.id + 1;
 				}
 			}
 		}
@@ -634,4 +639,27 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			}
 		}
 	}
+
+	int getDefaultBlockSize( )
+	{
+		String value = System.getProperty( PROPERTY_DEFAULT_BLOCK_SIZE );
+		if ( value == null )
+		{
+			try
+			{
+				int defaultBlockSize = Integer.parseInt( value );
+				defaultBlockSize = ( defaultBlockSize + 1023 ) / 1024 * 1024;
+				if ( defaultBlockSize > 0 )
+				{
+					return defaultBlockSize;
+				}
+			}
+			catch ( Exception ex )
+			{
+				// just skip the exception
+			}
+		}
+		return DEFAULT_BLOCK_SIZE;
+	}
+
 }

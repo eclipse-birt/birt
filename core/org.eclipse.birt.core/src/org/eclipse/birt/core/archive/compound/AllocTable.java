@@ -50,6 +50,10 @@ class AllocTable implements ArchiveConstants
 	 */
 	protected ArchiveFileV2 af;
 
+	final int BLOCK_SIZE;
+
+	final int INDEX_PER_BLOCK;
+
 	/**
 	 * the list saves the blocks of the allocat table.
 	 */
@@ -71,6 +75,8 @@ class AllocTable implements ArchiveConstants
 	AllocTable( ArchiveFileV2 af )
 	{
 		this.af = af;
+		BLOCK_SIZE = af.BLOCK_SIZE;
+		INDEX_PER_BLOCK = BLOCK_SIZE / 4;
 		allocBlocks = new int[BLOCK_COUNT_INCREASE];
 		allocBlocks[0] = ALLOC_TABLE_BLOCK;
 		totalAllocBlocks = 1;
@@ -180,7 +186,7 @@ class AllocTable implements ArchiveConstants
 		else
 		{
 			int freeBlockId = af.allocateBlock( );
-			if ( freeBlockId % ( BLOCK_SIZE / 4 ) == 0 )
+			if ( freeBlockId % INDEX_PER_BLOCK == 0 )
 			{
 				freeBlockId = af.allocateBlock( );
 			}

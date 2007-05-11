@@ -16,17 +16,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+
+import org.eclipse.birt.core.util.IOUtil;
 
 /**
  * Contains the report archive file 's head information.
  */
 class ArchiveHeader implements ArchiveConstants
 {
-	protected ArchiveFileV2 af;
+
+	protected static final int TAG_OFFSET = 0;
+	protected static final int VERSION_OFFSET = 8;
+	protected static final int STATUS_OFFSET = 16;
+	protected static final int BLOCK_SIZE_OFFSET = 20;
+	protected static final int HEADER_LENGTH = 24;
 	/**
 	 * the file status of the archive
 	 */
 	protected int fileStatus;
+
+	protected int blockSize;
 
 	/**
 	 * Constructor
@@ -34,23 +44,16 @@ class ArchiveHeader implements ArchiveConstants
 	 * @param fs
 	 *            the corresponding compound file system
 	 */
-	private ArchiveHeader( ArchiveFileV2 af )
+	ArchiveHeader( )
 	{
-		this.af = af;
 		this.fileStatus = 0;
+		this.blockSize = DEFAULT_BLOCK_SIZE;
 	}
-
-	static ArchiveHeader createHeader( ArchiveFileV2 af ) throws IOException
+	
+	ArchiveHeader( int blockSize )
 	{
-		ArchiveHeader header = new ArchiveHeader( af );
-		return header;
-	}
-
-	static ArchiveHeader loadHeader( ArchiveFileV2 af ) throws IOException
-	{
-		ArchiveHeader header = new ArchiveHeader( af );
-		header.refresh( );
-		return header;
+		this.fileStatus = 0;
+		this.blockSize = blockSize;
 	}
 
 	int getStatus( )
@@ -63,16 +66,18 @@ class ArchiveHeader implements ArchiveConstants
 		this.fileStatus = status;
 	}
 
-	/**
-	 * Read the header information from disk.
-	 * 
-	 * @throws IOException
-	 */
-	void refresh( ) throws IOException
+	int getBlockSize( )
 	{
-		byte[] b = new byte[Block.BLOCK_SIZE];
-		af.read( 0, 0, b, 0, Block.BLOCK_SIZE );
+		return this.blockSize;
+	}
 
+	static ArchiveHeader read( RandomAccessFile rf ) throws IOException
+	{
+		ArchiveHeader header = new ArchiveHeader( );
+
+		byte[] b = new byte[HEADER_LENGTH];
+		rf.seek( 0 );
+		rf.readFully( b );
 		DataInputStream in = new DataInputStream( new ByteArrayInputStream( b ) );
 		long magicTag = in.readLong( );
 		if ( magicTag != DOCUMENT_TAG )
@@ -86,7 +91,22 @@ class ArchiveHeader implements ArchiveConstants
 			throw new IOException( "Unsupported compound archive version "
 					+ DOCUMENT_VERSION );
 		}
-		fileStatus = in.readInt( );
+
+		header.fileStatus = in.readInt( );
+		header.blockSize = in.readInt( );
+		return header;
+	}
+
+	/**
+	 * Read the header information from disk.
+	 * 
+	 * @throws IOException
+	 */
+	void refresh( ArchiveFileV2 af ) throws IOException
+	{
+		byte[] b = new byte[4];
+		af.read( 0, STATUS_OFFSET, b, 0, 4 );
+		fileStatus = IOUtil.bytesToInteger( b );
 	}
 
 	/**
@@ -94,13 +114,14 @@ class ArchiveHeader implements ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	void flush( ) throws IOException
+	void flush( ArchiveFileV2 af ) throws IOException
 	{
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
 		DataOutputStream out = new DataOutputStream( buffer );
 		out.writeLong( DOCUMENT_TAG );
 		out.writeLong( DOCUMENT_VERSION );
 		out.writeInt( fileStatus );
+		out.writeInt( blockSize );
 
 		byte[] b = buffer.toByteArray( );
 		af.write( 0, 0, b, 0, b.length );
