@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -34,12 +35,20 @@ public class DataEngineSession
 	private DataSetCacheManager dataSetCacheManager;
 	private CacheUtil cacheUtil;
 	private DataEngine engine;
+	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
 	/**
 	 * Constructor.
 	 * @param engine
 	 */
 	public DataEngineSession( DataEngineContext context, DataEngine engine )
 	{
+		Object[] params = {
+				context, engine
+		};
+		logger.entering( DataEngineSession.class.getName( ),
+				"DataEngineSession",
+				params );
+		
 		this.context = new HashMap();
 		
 		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
@@ -54,7 +63,7 @@ public class DataEngineSession
 		}
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 		Context.exit( );
-		
+		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
 	/**

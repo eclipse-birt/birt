@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
@@ -29,10 +30,15 @@ public class DimensionKey implements IComparableStructure
 	private static IStructureCreator creator = new DimensionKeyCreator( );
 	private Object[] keyValues = null;
 	private int dimensionPos = 0;
+	private static Logger logger = Logger.getLogger( DimensionKey.class.getName( ) );
 
 	public DimensionKey( int keylCount )
 	{
+		logger.entering( DimensionKey.class.getName( ),
+				"DimensionKey",
+				new Integer( keylCount ) );
 		setKeyValues( new Object[keylCount] );
+		logger.exiting( DimensionKey.class.getName( ), "DimensionKey" );
 	}
 
 	/**

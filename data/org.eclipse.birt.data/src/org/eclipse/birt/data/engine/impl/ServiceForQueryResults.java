@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -70,6 +71,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	private Scriptable 					scope;
 	private int 						nestedLevel;
 	
+	private static Logger logger = Logger.getLogger( ServiceForQueryResults.class.getName( ) );
+
 	/**
 	 * @param reportQuery
 	 * @param query
@@ -79,6 +82,19 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			IPreparedQueryService query, QueryExecutor queryExecutor,
 			IBaseQueryDefinition queryDefn, ExprManager exprManager )
 	{
+		Object[] params = {
+				context,
+				scope,
+				new Integer( nestedLevel ),
+				reportQuery,
+				query,
+				queryExecutor,
+				queryDefn,
+				exprManager
+		};
+		logger.entering( ServiceForQueryResults.class.getName( ),
+				"ServiceForQueryResults",
+				params );
 		assert reportQuery != null && queryExecutor != null;
 
 		this.context = context;
@@ -89,6 +105,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		this.queryExecutor = queryExecutor;
 		this.queryDefn = queryDefn;
 		this.exprManager = exprManager;
+		logger.exiting( ServiceForQueryResults.class.getName( ),
+				"ServiceForQueryResults" );
 	}
 	
 	/*

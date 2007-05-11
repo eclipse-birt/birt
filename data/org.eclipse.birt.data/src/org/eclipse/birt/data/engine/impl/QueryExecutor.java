@@ -95,7 +95,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private IExecutorHelper parentHelper;
 	private DataEngineSession session;
 	private List temporaryComputedColumns = new ArrayList( );
-	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+	private static Logger logger = Logger.getLogger( QueryExecutor.class.getName( ) );
 
 	/**
 	 * @param sharedScope
@@ -105,10 +105,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 	QueryExecutor( Scriptable sharedScope, IBaseQueryDefinition baseQueryDefn,
 			AggregateTable aggrTable, DataEngineSession session )
 	{
+		Object[] params = {
+				sharedScope, baseQueryDefn, aggrTable, session
+		};
+		logger.entering( QueryExecutor.class.getName( ),
+				"QueryExecutor",
+				params );
 		this.sharedScope = sharedScope;
 		this.baseQueryDefn = baseQueryDefn;
 		this.aggrTable = aggrTable;
 		this.session = session;
+		logger.exiting( QueryExecutor.class.getName( ), "QueryExecutor" );
 	}
 
 	/**

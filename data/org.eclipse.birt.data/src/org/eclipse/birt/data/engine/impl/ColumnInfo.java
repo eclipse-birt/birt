@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 /**
  * Simple wrapper of colum information, including column index and column
  * name.
@@ -18,11 +20,18 @@ public class ColumnInfo
 {
 	private int columnIndex;
 	private String columnName;
+	private static Logger logger = Logger.getLogger( ColumnInfo.class.getName( ) );
 
 	ColumnInfo( int columnIndex, String columnName )
 	{
+		Object[] params = {
+				new Integer( columnIndex ), columnName
+		};
+		logger.entering( ColumnInfo.class.getName( ), "ColumnInfo", params );
+		
 		this.columnIndex = columnIndex;
 		this.columnName = columnName;
+		logger.exiting( ColumnInfo.class.getName( ), "ColumnInfo" );
 	}
 
 	public int getColumnIndex( )

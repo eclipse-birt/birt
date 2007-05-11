@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
@@ -38,14 +39,23 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	/** Columns defined by the describe event handler. 
 	 * A list of ResultFieldMetadata objects*/
 	private List describedColumns;
+	private static Logger logger = Logger.getLogger( ScriptDataSetRuntime.class.getName( ) );
 		
     ScriptDataSetRuntime( IScriptDataSetDesign dataSet, IQueryExecutor executor )
     {
         super( dataSet, executor);
-    	if ( getEventHandler() instanceof IScriptDataSetEventHandler )
-    		scriptEventHandler = (IScriptDataSetEventHandler) getEventHandler();
-		logger.log(Level.FINER,"ScriptDataSetRuntime starts up");
-    }
+		Object[] params = {
+				dataSet, executor
+		};
+		logger.entering( ScriptDataSetRuntime.class.getName( ),
+				"ScriptDataSetRuntime",
+				params );
+		if ( getEventHandler( ) instanceof IScriptDataSetEventHandler )
+			scriptEventHandler = (IScriptDataSetEventHandler) getEventHandler( );
+		logger.exiting( ScriptDataSetRuntime.class.getName( ),
+				"ScriptDataSetRuntime" );
+		logger.log( Level.FINER, "ScriptDataSetRuntime starts up" );
+	}
 
     public IScriptDataSetDesign getSubdesign()
 	{

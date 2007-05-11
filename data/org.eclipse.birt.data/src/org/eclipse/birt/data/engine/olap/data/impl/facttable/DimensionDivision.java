@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
+import java.util.logging.Logger;
+
 
 /**
  * A dimension can be divided to several sub dimensions by a DimensionDivision.
@@ -21,6 +23,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 public class DimensionDivision
 {
 	private IntRange[] ranges = null;
+	private static Logger logger = Logger.getLogger( DimensionDivision.class.getName( ) );
 	
 	/**
 	 * 
@@ -29,6 +32,13 @@ public class DimensionDivision
 	 */
 	public DimensionDivision( int dimensionMemberCount, int subDimensionCount )
 	{
+		Object[] params = {
+				new Integer( dimensionMemberCount ),
+				new Integer( subDimensionCount )
+		};
+		logger.entering( DimensionDivision.class.getName( ),
+				"DimensionDivision",
+				params );
 		if ( dimensionMemberCount <= subDimensionCount )
 		{
 			setRanges( new IntRange[dimensionMemberCount] );
@@ -59,6 +69,7 @@ public class DimensionDivision
 		}
 		
 		assert getRanges()[getRanges().length].end == dimensionMemberCount - 1;
+		logger.exiting( DimensionDivision.class.getName( ), "DimensionDivision" );
 	}
 	
 	int getSubDimensionIndex( int dimensionIndex )

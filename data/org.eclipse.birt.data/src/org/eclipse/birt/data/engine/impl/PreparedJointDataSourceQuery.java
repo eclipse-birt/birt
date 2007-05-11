@@ -95,11 +95,19 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		Object[] params = {
+				dataEngine, queryDefn, dataSetDesign, appContext
+		};
+		logger.entering( PreparedJointDataSourceQuery.class.getName( ),
+				"PreparedJointDataSourceQuery",
+				params );
 		
 		this.dataEngine = dataEngine;
 		this.dataSetDesign = dataSetDesign;
 		this.appContext = appContext;
 		this.parameterBindings = queryDefn.getInputParamBindings( );
+		logger.exiting( PreparedJointDataSourceQuery.class.getName( ),
+				"PreparedJointDataSourceQuery" );
 	}
 
 	/**

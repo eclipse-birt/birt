@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -47,6 +48,7 @@ final class AggrRegistry implements AggregateRegistry
 	
 	private static int PREPARED_QUERY = 1;
 	private static int BASE_QUERY = 2;
+	private static Logger logger = Logger.getLogger( AggrRegistry.class.getName( ) );
 	
 	/**
 	 * @param groupLevel
@@ -56,12 +58,20 @@ final class AggrRegistry implements AggregateRegistry
 	 */
 	AggrRegistry( int groupLevel, int calculationLevel, boolean isDetailedRow, Context cx ) throws DataException
 	{
+		Object[] params = {
+				new Integer( groupLevel ),
+				new Integer( calculationLevel ),
+				new Boolean( isDetailedRow ),
+				cx
+		};
+		logger.entering( AggrRegistry.class.getName( ), "AggrRegistry", params );
 		this.groupLevel = groupLevel;
 		this.isDetailedRow = isDetailedRow;
 		this.calculationLevel = calculationLevel;
 		this.cx = cx;
 		if( this.calculationLevel < this.groupLevel && this.calculationLevel > 0 )
 			throw new DataException( ResourceConstants.INVALID_TOTAL_EXPRESSION );
+		logger.exiting( AggrRegistry.class.getName( ), "AggrRegistry" );
 	}
 
 	/**

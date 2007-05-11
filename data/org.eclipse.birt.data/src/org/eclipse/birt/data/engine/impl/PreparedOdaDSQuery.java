@@ -59,6 +59,14 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext != null
 				? appContext: new HashMap( ) );
+		Object[] params = {
+				dataEngine, queryDefn, dataSetDesign, appContext
+		};
+		logger.entering( PreparedOdaDSQuery.class.getName( ),
+				"PreparedOdaDSQuery",
+				params );
+		logger.exiting( PreparedOdaDSQuery.class.getName( ),
+				"PreparedOdaDSQuery" );
 	}
 	
 	/*

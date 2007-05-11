@@ -123,6 +123,12 @@ public class ResultIterator implements IResultIterator
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Scriptable scope ) throws DataException
 	{
+		Object[] params = {
+				rService, odiResult, scope
+		};
+		logger.entering( ResultIterator.class.getName( ),
+				"ResultIterator",
+				params );
 		assert rService != null
 				&& rService.getQueryResults( ) != null && odiResult != null
 				&& scope != null;
@@ -151,6 +157,7 @@ public class ResultIterator implements IResultIterator
 			}
 		}
 		this.start( );
+		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
 
 	/**

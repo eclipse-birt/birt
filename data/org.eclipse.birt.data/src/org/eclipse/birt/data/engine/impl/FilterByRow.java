@@ -64,6 +64,10 @@ public class FilterByRow implements IResultObjectEvent
 	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters,
 			DataSetRuntime dataSet ) throws DataException
 	{
+		Object[] params = {
+				dataSetFilters, queryFilters, groupFilters, dataSet
+		};
+		logger.entering( FilterByRow.class.getName( ), "FilterByRow", params );
 
 		isLegal( dataSetFilters );
 		isLegal( queryFilters );
@@ -76,6 +80,7 @@ public class FilterByRow implements IResultObjectEvent
 		this.allFilters = getAllFilters( dataSetFilters, queryFilters );
 		this.currentWorkingFilters = ALL_ROW_FILTER;
 
+		logger.exiting( FilterByRow.class.getName( ), "FilterByRow" );
 		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
 

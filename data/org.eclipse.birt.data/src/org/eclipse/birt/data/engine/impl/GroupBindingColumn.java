@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -27,6 +28,8 @@ class GroupBindingColumn
 	private String groupKey;
 	private Map bindings;
 		
+	private static Logger logger = Logger.getLogger( GroupBindingColumn.class.getName( ) );
+
 	/**
 	 * 
 	 * @param bindings
@@ -34,9 +37,18 @@ class GroupBindingColumn
 	 */
 	GroupBindingColumn( String groupKey, int groupLevel, Map bindings )
 	{
+		Object[] params = {
+				groupKey, new Integer( groupLevel ), bindings
+		};
+		logger.entering( GroupBindingColumn.class.getName( ),
+				"GroupBindingColumn",
+				params );
+
 		this.groupKey = groupKey;
 		this.groupLevel = groupLevel;
 		this.bindings = bindings;
+		logger.exiting( GroupBindingColumn.class.getName( ),
+				"GroupBindingColumn" );
 	}
 		
 	/**

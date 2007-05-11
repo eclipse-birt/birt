@@ -78,12 +78,16 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	QueryResults( IServiceForQueryResults queryService )
 	{
+		logger.entering( QueryResults.class.getName( ),
+				"QueryResults",
+				queryService );
 		assert queryService != null;
 
 		this.queryService = queryService;
 		this.context = queryService.getContext( );
 		this.queryScope = queryService.getScope( );
 		this.nestedLevel = queryService.getNestedLevel( );
+		logger.exiting( QueryResults.class.getName( ), "QueryResults" );
 	}
 		
 	/*

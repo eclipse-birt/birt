@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -43,6 +44,8 @@ public class AggregationExecutor
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
 
+	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
+
 	/**
 	 * 
 	 * @param dimesionResultIterators
@@ -55,6 +58,12 @@ public class AggregationExecutor
 			IFactTableRowIterator facttableRowIterator,
 			AggregationDefinition[] aggregations ) throws DataException
 	{
+		Object[] params = {
+				dimesionResultIterators, facttableRowIterator, aggregations
+		};
+		logger.entering( AggregationExecutor.class.getName( ),
+				"AggregationExecutor",
+				params );
 		this.dimesionResultIterators = dimesionResultIterators;
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
@@ -66,6 +75,8 @@ public class AggregationExecutor
 		this.facttableRowIterator = facttableRowIterator;
 
 		getAllAggregationLevelIndex( );
+		logger.exiting( AggregationExecutor.class.getName( ),
+				"AggregationExecutor" );
 	}
 
 	/**

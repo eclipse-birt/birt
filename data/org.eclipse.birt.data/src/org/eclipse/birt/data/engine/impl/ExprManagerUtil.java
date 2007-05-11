@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -37,12 +38,18 @@ public class ExprManagerUtil
 {
 	private ExprManager exprManager;
 	
+	private static Logger logger = Logger.getLogger( ExprManagerUtil.class.getName( ) );
+
 	/**
 	 * No external instance
 	 */
 	private ExprManagerUtil( ExprManager em )
 	{
+		logger.entering( ExprManagerUtil.class.getName( ),
+				"ExprManagerUtil",
+				em );
 		this.exprManager = em;
+		logger.exiting( ExprManagerUtil.class.getName( ), "ExprManagerUtil" );
 	}
 	
 	/**

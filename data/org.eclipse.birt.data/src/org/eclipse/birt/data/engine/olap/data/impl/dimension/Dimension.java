@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -41,6 +42,7 @@ public class Dimension implements IDimension
 	private Hierarchy hierarchy = null;
 	private int length = 0;
 	private boolean isTime;
+	private static Logger logger = Logger.getLogger( Dimension.class.getName( ) );
 
 	/**
 	 * 
@@ -55,6 +57,10 @@ public class Dimension implements IDimension
 			 Hierarchy hierarchy, boolean isTime )
 			throws DataException, IOException
 	{
+		Object[] params = {
+				name, documentManager, hierarchy, new Boolean( isTime )
+		};
+		logger.entering( Dimension.class.getName( ), "Dimension", params );
 		this.name = name;
 		this.documentManager = documentManager;
 		this.isTime = isTime;
@@ -66,14 +72,20 @@ public class Dimension implements IDimension
 		// close document object
 		documentObj.close( );
 		documentObj = null;
+		logger.exiting( Dimension.class.getName( ), "Dimension" );
 	}
 
 	Dimension( String name, IDocumentManager documentManager )
 			throws IOException, DataException
 	{
+		Object[] params = {
+			name, documentManager
+		};
+		logger.entering( Dimension.class.getName( ), "Dimension", params );
 		this.name = name;
 		this.documentManager = documentManager;
 		loadFromDisk( );
+		logger.exiting( Dimension.class.getName( ), "Dimension" );
 	}
 
 	private void loadFromDisk( ) throws IOException, DataException

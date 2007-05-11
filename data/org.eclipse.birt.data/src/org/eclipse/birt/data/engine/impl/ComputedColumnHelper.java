@@ -42,6 +42,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private int currentModel;
 	private List allCC;
 
+	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 	// private Object groupMethod.
 
 	/**
@@ -53,6 +54,11 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	ComputedColumnHelper( DataSetRuntime dataSet, List dataSetCCList,
 			List resultSetCCList )
 	{
+		Object[] params = { dataSet, dataSetCCList, resultSetCCList };
+		logger.entering( ComputedColumnHelper.class.getName( ),
+				"ComputedColumnHelper",
+				params );
+		
 		this.dataSetInstance = new ComputedColumnHelperInstance( dataSet,
 				dataSetCCList );
 		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet,
@@ -61,6 +67,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
 		this.allCC.addAll( resultSetCCList );
+		logger.exiting( ComputedColumnHelper.class.getName( ), "ComputedColumnHelper" );
 	}
 
 	/**

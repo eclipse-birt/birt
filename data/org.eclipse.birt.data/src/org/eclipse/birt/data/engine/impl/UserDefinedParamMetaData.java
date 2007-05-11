@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -28,6 +29,8 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 
 	private Object[] paraDefnList;
 
+	private static Logger logger = Logger.getLogger( UserDefinedParamMetaData.class.getName( ) );
+
 	/**
 	 * 
 	 * @param parameterDefnList
@@ -35,10 +38,15 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 */
 	public UserDefinedParamMetaData( List parameterDefnList )
 	{
+		logger.entering( UserDefinedParamMetaData.class.getName( ),
+				"UserDefinedParamMetaData",
+				parameterDefnList );
 		if ( parameterDefnList == null || parameterDefnList.size( ) == 0 )
 			paraDefnList = new Object[0];
 		else
 			paraDefnList = parameterDefnList.toArray( );
+		logger.exiting( UserDefinedParamMetaData.class.getName( ),
+				"UserDefinedParamMetaData" );
 	}
 	
 	/*

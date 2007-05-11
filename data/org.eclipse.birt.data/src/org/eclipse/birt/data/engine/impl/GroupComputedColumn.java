@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.impl.group.ICalculator;
@@ -26,6 +28,8 @@ public class GroupComputedColumn extends ComputedColumn
 {
 	private ICalculator calcultor = null;
 	
+	private static Logger logger = Logger.getLogger( GroupComputedColumn.class.getName( ) );
+
 	/**
 	 * @param name
 	 * @param expr
@@ -33,7 +37,16 @@ public class GroupComputedColumn extends ComputedColumn
     public GroupComputedColumn( String name, String expr, ICalculator calcultor )
 	{
 		super(name, expr );
+		Object[] params = {
+				name, expr, calcultor
+		};
+		logger.entering( GroupComputedColumn.class.getName( ),
+				"GroupComputedColumn",
+				params );
+
 		this.calcultor = calcultor;
+		logger.exiting( GroupComputedColumn.class.getName( ),
+				"GroupComputedColumn" );
     }
     
     /**
@@ -46,7 +59,13 @@ public class GroupComputedColumn extends ComputedColumn
     public GroupComputedColumn( String name, String expr, int dataType, ICalculator calcultor )
 	{
     	super(name, expr, dataType );
-    	this.calcultor = calcultor;
+		Object[] params = { name, expr, new Integer(dataType), calcultor };
+		logger.entering( GroupComputedColumn.class.getName( ),
+				"GroupComputedColumn",
+				params );
+
+		this.calcultor = calcultor;
+		logger.exiting( GroupComputedColumn.class.getName( ), "GroupComputedColumn" );
     }
     
     /**

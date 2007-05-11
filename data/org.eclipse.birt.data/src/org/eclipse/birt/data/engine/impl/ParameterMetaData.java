@@ -33,8 +33,12 @@ public class ParameterMetaData implements IParameterMetaData
 
     ParameterMetaData( org.eclipse.birt.data.engine.odi.IParameterMetaData odiMetaData )
     {
+		logger.entering( ParameterMetaData.class.getName( ),
+				"ParameterMetaData",
+				odiMetaData );
         assert odiMetaData != null;
         m_odiMetaData = odiMetaData;
+		logger.exiting( ParameterMetaData.class.getName( ), "ParameterMetaData" );
 		logger.log( Level.FINER, "ParameterMetaData starts up" );
     }
 

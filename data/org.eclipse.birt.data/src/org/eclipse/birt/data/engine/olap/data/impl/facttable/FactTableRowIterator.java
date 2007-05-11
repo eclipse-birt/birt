@@ -15,6 +15,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
@@ -47,6 +48,8 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	
 	private int[][] selectedPosOfCurSegment;
 
+	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
+
 	/**
 	 * 
 	 * @param factTable
@@ -58,6 +61,12 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
 			IDiskArray[] dimensionPos, StopSign stopSign ) throws IOException
 	{
+		Object[] params = {
+				factTable, dimensionName, dimensionPos, stopSign
+		};
+		logger.entering( FactTableRowIterator.class.getName( ),
+				"FactTableRowIterator",
+				params );
 		this.factTable = factTable;
 		this.measureInfo = factTable.getMeasureInfo( );
 		this.selectedPos = dimensionPos;
@@ -86,6 +95,8 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		this.currentMeasures = new Object[factTable.getMeasureInfo( ).length];
 
 		nextSegment( );
+		logger.exiting( FactTableRowIterator.class.getName( ),
+				"FactTableRowIterator" );
 	}
 
 	/**

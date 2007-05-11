@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
@@ -23,6 +25,7 @@ public class MultiKeySelection implements ISelection
 	private Object[][] keys;
 	private Object[] minKey = null;
 	private Object[] maxKey = null;
+	private static Logger logger = Logger.getLogger( MultiKeySelection.class.getName( ) );
 	
 	/**
 	 * 
@@ -30,6 +33,9 @@ public class MultiKeySelection implements ISelection
 	 */
 	public MultiKeySelection( Object[][] keys )
 	{
+		logger.entering( MultiKeySelection.class.getName( ),
+				"MultiKeySelection",
+				keys );
 		assert keys != null && keys.length > 0;
 		minKey = keys[0];
 		maxKey = keys[0];
@@ -45,6 +51,7 @@ public class MultiKeySelection implements ISelection
 			}
 		}
 		this.keys = keys;
+		logger.exiting( MultiKeySelection.class.getName( ), "MultiKeySelection" );
 	}
 	
 	/*

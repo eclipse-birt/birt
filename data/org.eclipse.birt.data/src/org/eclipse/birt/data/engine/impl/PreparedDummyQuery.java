@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -66,6 +67,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 	
 	private Map subQueryMap;
 	
+	private static Logger logger = Logger.getLogger( PreparedDummyQuery.class.getName( ) );
+
 	/**
 	 * @param context
 	 * @param queryDefn
@@ -74,8 +77,16 @@ public class PreparedDummyQuery implements IPreparedQuery
 	PreparedDummyQuery( DataEngineContext context, IQueryDefinition queryDefn,
 			Scriptable sharedScope )
 	{
+		Object[] params = {
+				context, queryDefn, sharedScope
+		};
+		logger.entering( PreparedDummyQuery.class.getName( ),
+				"PreparedDummyQuery",
+				params );
 		this.queryDefn = queryDefn;
 		init( context, queryDefn, sharedScope );
+		logger.exiting( PreparedDummyQuery.class.getName( ),
+				"PreparedDummyQuery" );
 	}
 
 	/**
@@ -86,8 +97,16 @@ public class PreparedDummyQuery implements IPreparedQuery
 	PreparedDummyQuery( DataEngineContext context,
 			ISubqueryDefinition subQueryDefn, Scriptable sharedScope )
 	{
+		Object[] params = {
+				context, subQueryDefn, sharedScope
+		};
+		logger.entering( PreparedDummyQuery.class.getName( ),
+				"PreparedDummyQuery",
+				params );
 		this.subQueryDefn = subQueryDefn;
 		init( context, subQueryDefn, sharedScope );
+		logger.exiting( PreparedDummyQuery.class.getName( ),
+				"PreparedDummyQuery" );
 	}
 	
 	/**

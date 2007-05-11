@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -29,6 +31,8 @@ public class CachedQueryResults implements IQueryResults
 	private String queryResultID;
 	private IResultIterator resultIterator;
 
+	private static Logger logger = Logger.getLogger( CachedQueryResults.class.getName( ) );
+
 	/**
 	 * 
 	 * @param context
@@ -38,8 +42,17 @@ public class CachedQueryResults implements IQueryResults
 	public CachedQueryResults( DataEngineContext context, String queryResultID )
 			throws DataException
 	{
+		Object[] params = {
+				context, queryResultID
+		};
+		logger.entering( CachedQueryResults.class.getName( ),
+				"CachedQueryResults",
+				params );
+		
 		this.queryResultID = queryResultID;
 		this.resultIterator = new CacheResultIterator( context, queryResultID );
+		logger.exiting( CachedQueryResults.class.getName( ),
+				"CachedQueryResults" );
 	}
 
 	/*

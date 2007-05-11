@@ -45,7 +45,7 @@ class ParameterUtil
 	private IQueryDefinition queryDefn;
 	private Scriptable scope;
 
-	private Logger logger;
+	private Logger logger = Logger.getLogger( ParameterUtil.class.getName( ) );
 
 	/**
 	 * @param outerResults
@@ -56,10 +56,17 @@ class ParameterUtil
 	ParameterUtil( IQueryService outerResults, DataSetRuntime dsRT,
 			IQueryDefinition queryDefn, Scriptable scope )
 	{
+		Object[] params = {
+				outerResults, dsRT, queryDefn, scope
+		};
+		logger.entering( ParameterUtil.class.getName( ),
+				"ParameterUtil",
+				params );
 		this.outerResults = outerResults;
 		this.dsRT = dsRT;
 		this.queryDefn = queryDefn;
 		this.scope = scope;
+		logger.exiting( ParameterUtil.class.getName( ), "ParameterUtil" );
 	}
 	
 	/**

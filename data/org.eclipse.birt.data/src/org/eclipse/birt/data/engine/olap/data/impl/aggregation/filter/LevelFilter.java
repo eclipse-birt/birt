@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 
@@ -23,6 +25,7 @@ public class LevelFilter
 	private String dimensionName;
 	private String levelName;
 	private ISelection[] selections;
+	private static Logger logger = Logger.getLogger( LevelFilter.class.getName( ) );
 	
 	
 	/**
@@ -31,9 +34,14 @@ public class LevelFilter
 	 */
 	public LevelFilter(DimLevel level, ISelection[] selections )
 	{
+		Object[] params = {
+				level, selections
+		};
+		logger.entering( LevelFilter.class.getName( ), "LevelFilter", params );
 		this.dimensionName = level.getDimensionName( );
 		this.levelName = level.getLevelName( );
 		this.selections = selections;
+		logger.exiting( LevelFilter.class.getName( ), "LevelFilter" );
 	}
 
 	/**
@@ -44,9 +52,14 @@ public class LevelFilter
 	public LevelFilter( String dimensionName, String levelName,
 			ISelection[] selections )
 	{
+		Object[] params = {
+				dimensionName, levelName, selections
+		};
+		logger.entering( LevelFilter.class.getName( ), "LevelFilter", params );
 		this.dimensionName = dimensionName;
 		this.levelName = levelName;
 		this.selections = selections;
+		logger.exiting( LevelFilter.class.getName( ), "LevelFilter" );
 	}
 	
 	/**

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.data.api;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 
 /**
@@ -31,6 +33,7 @@ public class DimLevel implements Comparable
 	private String levelName;
 
 	private String qualifiedName;// = dimensionName+'/'+levelName
+	private static Logger logger = Logger.getLogger( DimLevel.class.getName( ) );
 
 	/**
 	 * @param dimensionName
@@ -38,9 +41,14 @@ public class DimLevel implements Comparable
 	 */
 	public DimLevel( String dimensionName, String levelName )
 	{
+		Object[] params = {
+				dimensionName, levelName
+		};
+		logger.entering( DimLevel.class.getName( ), "DimLevel", params );
 		this.dimensionName = dimensionName;
 		this.levelName = levelName;
 		setQualifiedName( );
+		logger.exiting( DimLevel.class.getName( ), "DimLevel" );
 	}
 
 	/**

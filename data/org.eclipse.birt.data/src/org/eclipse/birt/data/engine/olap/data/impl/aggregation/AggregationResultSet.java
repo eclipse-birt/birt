@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -42,6 +43,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	private int[][] attributeDataTypes;
 	private int[] aggregationDataType;
 	private IAggregationResultRow resultObject;
+	private static Logger logger = Logger.getLogger( AggregationResultSet.class.getName( ) );
 
 	/**
 	 * 
@@ -55,6 +57,12 @@ public class AggregationResultSet implements IAggregationResultSet
 			IDiskArray aggregationResultRow, String[][] keyNames,
 			String[][] attributeNames ) throws IOException
 	{
+		Object[] params = {
+				aggregation, aggregationResultRow, keyNames, attributeNames
+		};
+		logger.entering( AggregationResultSet.class.getName( ),
+				"AggregationResultSet",
+				params );
 		this.aggregation = aggregation;
 		this.aggregationResultRows = aggregationResultRow;
 		produceaggregationNameMap( );
@@ -96,6 +104,8 @@ public class AggregationResultSet implements IAggregationResultSet
 						resultObject.getAggregationValues()[i].getClass( ) );
 			}
 		}
+		logger.exiting( AggregationResultSet.class.getName( ),
+				"AggregationResultSet" );
 	}
 
 	/**

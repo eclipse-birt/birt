@@ -50,7 +50,7 @@ class PreparedSubquery implements IPreparedQueryService
 	private DataEngineSession session;
 	private boolean subQueryOnGroup;
 	
-	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+	private static Logger logger = Logger.getLogger( PreparedSubquery.class.getName( ) );
 	
 	/**
 	 * @param subquery
@@ -67,6 +67,16 @@ class PreparedSubquery implements IPreparedQueryService
 			ISubqueryDefinition subquery,
 			IPreparedQueryService queryService, int groupLevel ) throws DataException
 	{
+		Object[] params = {
+				session,
+				context,
+				subquery,
+				queryService,
+				new Integer( groupLevel )
+		};
+		logger.entering( PreparedSubquery.class.getName( ),
+				"PreparedSubquery",
+				params );
 		this.groupLevel = groupLevel;
 		this.queryService = queryService;
 		this.subQueryOnGroup = subquery.applyOnGroup( );
@@ -80,6 +90,7 @@ class PreparedSubquery implements IPreparedQueryService
 				subquery,
 				this,
 				null );
+		logger.exiting( PreparedSubquery.class.getName( ), "PreparedSubquery" );
 	}
 	
 	/*

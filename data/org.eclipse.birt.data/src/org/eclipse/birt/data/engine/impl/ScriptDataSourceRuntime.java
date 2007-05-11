@@ -39,9 +39,17 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 			Scriptable sharedScope )
 	{
 		super( dataSource, sharedScope );
+		Object[] params = {
+				dataSource, sharedScope
+		};
+		logger.entering( ScriptDataSourceRuntime.class.getName( ),
+				"ScriptDataSourceRuntime",
+				params );
 		if ( getEventHandler( ) instanceof IScriptDataSourceEventHandler )
 			scriptEventHandler = (IScriptDataSourceEventHandler) getEventHandler( );
 		
+		logger.exiting( ScriptDataSourceRuntime.class.getName( ),
+				"ScriptDataSourceRuntime" );
 		logger.log( Level.FINER, "ScriptDataSourceRuntime starts up" );
 	}
     

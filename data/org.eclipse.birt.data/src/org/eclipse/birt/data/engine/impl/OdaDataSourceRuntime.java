@@ -20,6 +20,7 @@ import org.mozilla.javascript.Scriptable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Encapulates the runtime definition of a generic extended data source.
@@ -29,16 +30,26 @@ public class OdaDataSourceRuntime extends DataSourceRuntime
 	private String		extensionID;
 	private	Map			publicProperties;
 	
-    OdaDataSourceRuntime( IOdaDataSourceDesign dataSource,
+	private static Logger logger = Logger.getLogger( OdaDataSourceRuntime.class.getName( ) );
+
+	OdaDataSourceRuntime( IOdaDataSourceDesign dataSource,
 			Scriptable sharedScope )
 	{
 		super( dataSource, sharedScope );
 
+		Object[] params = {
+				dataSource, sharedScope
+		};
+		logger.entering( OdaDataSourceRuntime.class.getName( ),
+				"OdaDataSourceRuntime",
+				params );
 		// Copy updatable properties
 		publicProperties = new HashMap( );
 		publicProperties.putAll( dataSource.getPublicProperties( ) );
 
 		extensionID = dataSource.getExtensionID( );
+		logger.exiting( OdaDataSourceRuntime.class.getName( ),
+				"OdaDataSourceRuntime" );
 		logger.log( Level.FINER, "OdaDataSourceRuntime starts up" );
 	}
 

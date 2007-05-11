@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -28,6 +30,8 @@ class ResultIterator2 extends ResultIterator
 	
 	private int cachedRowId;
 
+	private static Logger logger = Logger.getLogger( ResultIterator2.class.getName( ) );
+
 	/**
 	 * @param context
 	 * @param queryResults
@@ -41,11 +45,17 @@ class ResultIterator2 extends ResultIterator
 			Scriptable scope ) throws DataException
 	{
 		super( rService, odiResult, scope );
+		Object[] params = {
+				rService, odiResult, scope
+		};
+		logger.entering( ResultIterator2.class.getName( ),
+				"ResultIterator2",
+				params );
 
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
 		this.cachedRowId = 0;
-
+		logger.exiting( ResultIterator2.class.getName( ), "ResultIterator2" );
 	}
 
 	/*

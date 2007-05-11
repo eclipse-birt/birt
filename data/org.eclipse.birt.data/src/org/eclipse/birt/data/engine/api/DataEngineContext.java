@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.api;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -135,6 +136,7 @@ public class DataEngineContext
 	
 	public final static int META_INDEX_STREAM = 100;
 	
+	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -167,6 +169,13 @@ public class DataEngineContext
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws BirtException
 	{
+		Object[] params = {
+				new Integer( mode ), scope, reader, writer
+		};
+		logger.entering( DataEngineContext.class.getName( ),
+				"DataEngineContext",
+				params );
+		
 		if ( !( mode == MODE_GENERATION
 				|| mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
 			throw new DataException( ResourceConstants.RD_INVALID_MODE );
@@ -186,7 +195,7 @@ public class DataEngineContext
 		this.reader = reader;
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
-
+		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" );
 	}
 
 	/** 

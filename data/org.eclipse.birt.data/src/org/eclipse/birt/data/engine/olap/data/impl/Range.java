@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.logging.Logger;
+
 
 /**
  * 
@@ -19,6 +21,11 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 public class Range
 {
 
+	private static Logger logger = Logger.getLogger( Range.class.getName( ) );
+	
+	private Object start;
+	private Object end;
+	
 	/**
 	 * 
 	 * @param start
@@ -26,11 +33,14 @@ public class Range
 	 */
 	public Range( Object start, Object end )
 	{
+		Object[] params = {
+				start, end
+		};
+		logger.entering( Range.class.getName( ), "Range", params );
 		this.start = start;
 		this.end = end;
+		logger.exiting( Range.class.getName( ), "Range" );
 	}
-	private Object start;
-	private Object end;
 	
 	public Object getStart( )
 	{

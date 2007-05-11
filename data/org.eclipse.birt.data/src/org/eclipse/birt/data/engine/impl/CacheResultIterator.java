@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -61,6 +62,7 @@ public class CacheResultIterator implements IResultIterator
 	private Map columnValueMap = null;
 
 	private int currRowIndex;
+	private static Logger logger = Logger.getLogger( CacheResultIterator.class.getName( ) );
 
 	/**
 	 * 
@@ -71,6 +73,13 @@ public class CacheResultIterator implements IResultIterator
 	public CacheResultIterator( DataEngineContext context, String queryResultID )
 			throws DataException
 	{
+		Object[] params = {
+				context, queryResultID
+		};
+		logger.entering( CacheResultIterator.class.getName( ),
+				"CacheResultIterator",
+				params );
+		
 		this.context = context;
 		this.queryResultID = queryResultID;
 		this.columnValueMap = new HashMap( );
@@ -86,6 +95,8 @@ public class CacheResultIterator implements IResultIterator
 			{
 				columnList.add( IOUtil.readObject( rowInputStream ) );
 			}
+			logger.exiting( CacheResultIterator.class.getName( ),
+					"CacheResultIterator" );
 		}
 		catch ( FileNotFoundException e )
 		{

@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -35,6 +36,8 @@ public class Level implements ILevel
 	
 	private DiskIndex diskIndex = null;
 	
+	private static Logger logger = Logger.getLogger( Level.class.getName( ) );
+
 	/**
 	 * 
 	 * @param documentManager
@@ -48,6 +51,15 @@ public class Level implements ILevel
 	public Level( IDocumentManager documentManager, ILevelDefn levelDef, int[] keyDataType,
 			int[] attributeDataTypes, int size, DiskIndex diskIndex ) throws IOException, DataException
 	{
+		Object[] params = {
+				documentManager,
+				levelDef,
+				keyDataType,
+				attributeDataTypes,
+				new Integer( size ),
+				diskIndex
+		};
+		logger.entering( Level.class.getName( ), "Level", params );
 		this.name = levelDef.getLevelName( );
 		this.setKeyDataType( keyDataType );
 		this.setKeyColNames( levelDef.getKeyColumns( ) );
@@ -55,6 +67,7 @@ public class Level implements ILevel
 		this.setAttributeColNames( levelDef.getAttributeColumns( ) );
 		this.setSize( size );
 		this.setDiskIndex( diskIndex );
+		logger.exiting( Level.class.getName( ), "Level" );
 	}
 	
 	/*

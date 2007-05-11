@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 
 
@@ -23,6 +25,7 @@ public class LevelDefinition implements ILevelDefn
 	private String name = null;
 	private String[] keyColumns = null;
 	private String[] attributeColumns = null;
+	private static Logger logger = Logger.getLogger( LevelDefinition.class.getName( ) );
 	
 	/**
 	 * 
@@ -32,9 +35,16 @@ public class LevelDefinition implements ILevelDefn
 	 */
 	public LevelDefinition( String name, String[] keyColumns, String[] attributeColumns )
 	{
+		Object[] params = {
+				name, keyColumns, attributeColumns
+		};
+		logger.entering( LevelDefinition.class.getName( ),
+				"LevelDefinition",
+				params );
 		this.name = name;
 		this.keyColumns = keyColumns;
 		this.attributeColumns = attributeColumns;
+		logger.exiting( LevelDefinition.class.getName( ), "LevelDefinition" );
 	}
 	
 	/*

@@ -115,6 +115,13 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign,
 			IQueryExecutor queryExecutor )
 	{
+		Object[] parameters = {
+				dataSetDesign, queryExecutor
+		};
+		logger.entering( DataSetRuntime.class.getName( ),
+				"DataSetRuntime",
+				parameters );
+		
 		this.dataSetDesign = dataSetDesign;
 		this.queryExecutor = queryExecutor;
 		isOpen = true;
@@ -159,6 +166,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 			else if ( dataSetDesign instanceof IOdaDataSetDesign)
 				eventHandler = new DataSetJSEventHandler( dataSetDesign );
 		}
+		logger.exiting( DataSetRuntime.class.getName( ), "DataSetRuntime" );
 		/*
 		 * END Temporary 
 		 */

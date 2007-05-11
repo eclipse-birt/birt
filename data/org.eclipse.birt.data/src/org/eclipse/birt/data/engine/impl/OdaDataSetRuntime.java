@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 
@@ -30,14 +31,23 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	/** Public properties as a (String -> String) map */
 	private Map		publicProperties;
 	
-    OdaDataSetRuntime( IOdaDataSetDesign dataSet, IQueryExecutor executor )
+	private static Logger logger = Logger.getLogger( OdaDataSetRuntime.class.getName( ) );
+
+	OdaDataSetRuntime( IOdaDataSetDesign dataSet, IQueryExecutor executor )
     {
         super( dataSet, executor );
         
+		Object[] params = {
+				dataSet, executor
+		};
+		logger.entering( OdaDataSetRuntime.class.getName( ),
+				"OdaDataSetRuntime",
+				params );
         // Copy from design all properties that may change at runtime
         queryText = dataSet.getQueryText();
         publicProperties = new HashMap();
         publicProperties.putAll( dataSet.getPublicProperties() );
+		logger.exiting( OdaDataSetRuntime.class.getName( ), "OdaDataSetRuntime" );
 		logger.log( Level.FINER, "OdaDataSetRuntime starts up" );
     }
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.logging.Logger;
+
 /**
  * 
  */
@@ -27,18 +29,24 @@ public class Traversalor
 	private int[] lengthArray;
 	private int[] current;
 
+	private static Logger logger = Logger.getLogger( Traversalor.class.getName( ) );
+
 	/**
 	 * 
 	 * @param lengthArray
 	 */
 	public Traversalor( int[] lengthArray )
 	{
+		logger.entering( Traversalor.class.getName( ),
+				"Traversalor",
+				lengthArray );
 		this.lengthArray = lengthArray;
 		this.length = lengthArray.length;
 		this.positionValue = new int[length];
 		this.current = new int[length];
 
 		init( );
+		logger.exiting( Traversalor.class.getName( ), "Traversalor" );
 	}
 
 	/**

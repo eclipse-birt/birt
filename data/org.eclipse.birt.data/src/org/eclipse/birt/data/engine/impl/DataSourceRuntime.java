@@ -90,6 +90,13 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign,
 			Scriptable sharedScope )
 	{
+		Object[] params = {
+				dataSourceDesign, sharedScope
+		};
+		logger.entering( DataSourceRuntime.class.getName( ),
+				"DataSourceRuntime",
+				params );
+		
 		assert dataSourceDesign != null;
 		
 		this.design = dataSourceDesign;
@@ -107,6 +114,7 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 			else
 				eventHandler = new DataSourceJSEventHandler( dataSourceDesign );
 		}
+		logger.exiting( DataSourceRuntime.class.getName( ), "DataSourceRuntime" );
 		/*
 		 * END Temporary
 		 */

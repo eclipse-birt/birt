@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -47,10 +48,15 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 public class FactTableAccessor
 {
 	private IDocumentManager documentManager =null;
+	private static Logger logger = Logger.getLogger( FactTableAccessor.class.getName( ) );
 	
 	public FactTableAccessor( IDocumentManager documentManager )
 	{
+		logger.entering( FactTableAccessor.class.getName( ),
+				"FactTableAccessor",
+				documentManager );
 		this.documentManager = documentManager;
+		logger.exiting( FactTableAccessor.class.getName( ), "FactTableAccessor" );
 	}
 	
 	/**

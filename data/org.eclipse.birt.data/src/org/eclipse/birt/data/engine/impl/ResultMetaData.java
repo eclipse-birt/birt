@@ -39,12 +39,16 @@ public class ResultMetaData implements IResultMetaData
 	 */
     public ResultMetaData( IResultClass odiResultClass )
     {
+		logger.entering( ResultMetaData.class.getName( ),
+				"ResultMetaData",
+				odiResultClass );
         assert odiResultClass != null;
         m_odiResultClass = odiResultClass;
 	    logger.logp( Level.FINER,
 				QueryResults.class.getName( ),
 				"QueryResults",
 				"QueryResults starts up" );       
+		logger.exiting( ResultMetaData.class.getName( ), "ResultMetaData" );
     }
 
     /* (non-Javadoc)

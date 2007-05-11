@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -38,6 +39,8 @@ public class Cube implements ICube
 	private IDimension[] dimension;
 	private FactTable factTable;
 
+	private static Logger logger = Logger.getLogger( Cube.class.getName( ) );
+
 	/**
 	 * 
 	 * @param name
@@ -45,8 +48,13 @@ public class Cube implements ICube
 	 */
 	public Cube( String name, IDocumentManager documentManager )
 	{
+		Object[] params = {
+				name, documentManager
+		};
+		logger.entering( Cube.class.getName( ), "Cube", params );
 		this.name = name;
 		this.documentManager = documentManager;
+		logger.exiting( Cube.class.getName( ), "Cube" );
 	}
 
 	/**

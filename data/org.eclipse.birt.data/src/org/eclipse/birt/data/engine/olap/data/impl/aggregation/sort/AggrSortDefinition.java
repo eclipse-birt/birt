@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
@@ -25,6 +27,7 @@ public class AggrSortDefinition
 	private Object[] axisQualifierValue;
 	private DimLevel targetLevel;
 	private boolean direction;
+	private static Logger logger = Logger.getLogger( AggrSortDefinition.class.getName( ) );
 	
 	/**
 	 * 
@@ -39,12 +42,25 @@ public class AggrSortDefinition
 			DimLevel[] axisQualifierLevel, Object[] axisQualifierValue,
 			DimLevel targetLevel, boolean direction )
 	{
+		Object[] params = {
+				aggrLevels,
+				aggrName,
+				axisQualifierLevel,
+				axisQualifierValue,
+				targetLevel,
+				new Boolean( direction )
+		};
+		logger.entering( AggrSortDefinition.class.getName( ),
+				"AggrSortDefinition",
+				params );
 		this.aggrLevels = aggrLevels;
 		this.aggrName = aggrName;
 		this.axisQualifierLevel = axisQualifierLevel;
 		this.axisQualifierValue = axisQualifierValue;
 		this.targetLevel = targetLevel;
 		this.direction = direction;
+		logger.exiting( AggrSortDefinition.class.getName( ),
+				"AggrSortDefinition" );
 	}
 	
 	/**

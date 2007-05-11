@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -23,12 +25,18 @@ public class ExecutorHelper implements IExecutorHelper
 	//
 	private IExecutorHelper parent;
 	
+	private static Logger logger = Logger.getLogger( ExecutorHelper.class.getName( ) );
+
 	/**
 	 * @param scope
 	 */
 	public ExecutorHelper( IExecutorHelper parent )
 	{
+		logger.entering( ExecutorHelper.class.getName( ),
+				"ExecutorHelper",
+				parent );
 		this.parent = parent;
+		logger.exiting( ExecutorHelper.class.getName( ), "ExecutorHelper" );
 	}
 	
 	/*

@@ -65,11 +65,19 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IQueryDefinition queryDefn ) throws DataException
 	{
 		super( dataEngine, queryDefn, null, null );
+		Object[] params = {
+				dataEngine, queryDefn
+		};
+		logger.entering( PreparedIVDataSourceQuery.class.getName( ),
+				"PreparedIVDataSourceQuery",
+				params );
 		
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 		
 		this.cleanUpOldRD( );
+		logger.exiting( PreparedIVDataSourceQuery.class.getName( ),
+				"PreparedIVDataSourceQuery" );
 	}	
 
 	/**

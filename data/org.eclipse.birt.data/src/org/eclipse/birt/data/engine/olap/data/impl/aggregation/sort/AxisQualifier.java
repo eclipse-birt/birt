@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
+import java.util.logging.Logger;
+
 /**
  * 
  */
@@ -18,12 +20,20 @@ public class AxisQualifier
 {
 	private int[] levelIndex;
 	private Object[] value;
+	private static Logger logger = Logger.getLogger( AxisQualifier.class.getName( ) );
 	
 	//
 	public AxisQualifier( int[] levelIndex, Object[] value )
 	{
+		Object[] params = {
+				levelIndex, value
+		};
+		logger.entering( AxisQualifier.class.getName( ),
+				"AxisQualifier",
+				params );
 		this.levelIndex = levelIndex;
 		this.value = value;
+		logger.exiting( AxisQualifier.class.getName( ), "AxisQualifier" );
 	}
 	
 	/**

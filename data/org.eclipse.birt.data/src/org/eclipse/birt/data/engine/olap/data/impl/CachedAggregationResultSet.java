@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -44,6 +45,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private AggregationResultRow resultObject;
 	private int[] sortType;
 	private DataInputStream inputStream;
+	private static Logger logger = Logger.getLogger( CachedAggregationResultSet.class.getName( ) );
 
 	CachedAggregationResultSet( DataInputStream inputStream, int length,
 			DimLevel[] levels, int[] sortTypes, String[][] keyNames,
@@ -51,6 +53,21 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			int[][] attributeDataTypes, String[] aggregationNames,
 			int[] aggregationDataType ) throws IOException
 	{
+		Object[] params = {
+				inputStream,
+				new Integer( length ),
+				levels,
+				sortTypes,
+				keyNames,
+				attributeNames,
+				keyDataTypes,
+				attributeDataTypes,
+				aggregationNames,
+				aggregationDataType
+		};
+		logger.entering( CachedAggregationResultSet.class.getName( ),
+				"CachedAggregationResultSet",
+				params );
 		this.inputStream = inputStream;
 		this.currentPosition = 0;
 		this.length = length;
@@ -73,6 +90,8 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		
 		seek( 0 );
+		logger.exiting( CachedAggregationResultSet.class.getName( ),
+				"CachedAggregationResultSet" );
 	}
 	
 	/*

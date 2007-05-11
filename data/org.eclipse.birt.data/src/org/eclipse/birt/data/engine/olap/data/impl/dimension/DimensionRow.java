@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
@@ -28,9 +29,15 @@ public class DimensionRow implements IComparableStructure
 	
 	private Member[] members;
 
+	private static Logger logger = Logger.getLogger( DimensionRow.class.getName( ) );
+
 	public DimensionRow( Member[] members )
 	{
+		logger.entering( DimensionRow.class.getName( ),
+				"DimensionRow",
+				members );
 		this.members = members;
+		logger.exiting( DimensionRow.class.getName( ), "DimensionRow" );
 	}
 
 	/*

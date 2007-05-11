@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -67,6 +68,8 @@ class AggregateCalculator
 	private Set invalidAggrSet;
 	private Map invalidAggrMsg;
 
+	private static Logger logger = Logger.getLogger( AggregateCalculator.class.getName( ) );
+
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
@@ -76,6 +79,12 @@ class AggregateCalculator
 	 */
 	AggregateCalculator( List aggrExprInfoList, IResultIterator odiResult )
 	{
+		Object[] params = {
+				aggrExprInfoList, odiResult
+		};
+		logger.entering( AggregateCalculator.class.getName( ),
+				"AggregateCalculator",
+				params );
 		assert aggrExprInfoList != null;
 		assert odiResult != null;
 		
@@ -98,6 +107,7 @@ class AggregateCalculator
 			}
 			accumulatorManagers = new AccumulatorManager[aggrCount];
 		}
+		logger.exiting( AggregateCalculator.class.getName( ), "AggregateCalculator" );
 	}
 	
 	/**

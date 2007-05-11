@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
@@ -73,6 +74,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 									// recalculate,whose length should be the
 									// same as the length of aggregation
 									// definisoin
+	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	/**
 	 * 
@@ -80,6 +82,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public CubeQueryExecutorHelper( ICube cube )
 	{
+		logger.entering( CubeQueryExecutorHelper.class.getName( ),
+				"CubeQueryExecutorHelper",
+				cube );
 		this.cube = (Cube) cube;
 		this.filters = new ArrayList( );
 		this.aggrFilters = new ArrayList( );
@@ -89,6 +94,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.rowSort = new ArrayList( );
 		this.columnSort = new ArrayList( );
 		this.topbottomFilters = new ArrayList( );
+		logger.exiting( CubeQueryExecutorHelper.class.getName( ),
+				"CubeQueryExecutorHelper" );
 	}
 	
 	/**

@@ -45,7 +45,7 @@ abstract class PreparedDataSourceQuery
 	protected PreparedQuery preparedQuery;
 	protected Map appContext;
 	
-	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( PreparedDataSourceQuery.class.getName( ) );
 	
 	/**
 	 * @param dataEngine
@@ -58,6 +58,12 @@ abstract class PreparedDataSourceQuery
 			Map appContext )
 			throws DataException
 	{
+		Object[] params = {
+				dataEngine, queryDefn, dataSetDesign, appContext
+		};
+		logger.entering( PreparedDataSourceQuery.class.getName( ),
+				"PreparedDataSourceQuery",
+				params );
 		this.dataSetDesign = dataSetDesign;
 		this.queryDefn = queryDefn;
 		this.dataEngine = dataEngine;
@@ -67,6 +73,8 @@ abstract class PreparedDataSourceQuery
 				queryDefn,
 				this,
 				appContext );
+		logger.exiting( PreparedDataSourceQuery.class.getName( ),
+				"PreparedDataSourceQuery" );
 	}
 	
 	/**
@@ -83,6 +91,12 @@ abstract class PreparedDataSourceQuery
 			Map appContext )
 			throws DataException
 	{
+		Object[] params = {
+				dataEngine, baseQueryDefn, queryDefn, dataSetDesign, appContext
+		};
+		logger.entering( PreparedDataSourceQuery.class.getName( ),
+				"PreparedDataSourceQuery",
+				params );
 		this.dataSetDesign = dataSetDesign;
 		this.queryDefn = queryDefn;
 		this.dataEngine = dataEngine;
@@ -92,6 +106,8 @@ abstract class PreparedDataSourceQuery
 				baseQueryDefn,
 				this,
 				appContext );
+		logger.exiting( PreparedDataSourceQuery.class.getName( ),
+				"PreparedDataSourceQuery" );
 	}
 	
 	/*

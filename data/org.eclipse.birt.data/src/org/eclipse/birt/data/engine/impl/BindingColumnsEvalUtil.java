@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -40,7 +41,7 @@ import org.mozilla.javascript.Scriptable;
  * only the binding column can be added, not allowed for delete or change. So it
  * is reasonable to assume that if the binding name is the same as one of
  * original binding columns, the binding expression is also the same as that of
- * the orignial one.
+ * the original one.
  */
 class BindingColumnsEvalUtil
 {
@@ -58,6 +59,8 @@ class BindingColumnsEvalUtil
 	private final static int MANUAL_BINDING = 1;
 	private final static int AUTO_BINDING = 2;
 
+	private static Logger logger = Logger.getLogger( BindingColumnsEvalUtil.class.getName( ) );
+
 	/**
 	 * @param ri
 	 * @param scope
@@ -68,6 +71,13 @@ class BindingColumnsEvalUtil
 	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,
 			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs ) throws DataException
 	{
+		Object[] params = {
+				ri, scope, saveUtil, manualBindingExprs, autoBindingExprs
+		};
+		logger.entering( BindingColumnsEvalUtil.class.getName( ),
+				"BindingColumnsEvalUtil",
+				params );
+		
 		this.odiResult = ri;
 		this.scope = scope;
 		this.saveHelper = saveUtil;
@@ -84,6 +94,8 @@ class BindingColumnsEvalUtil
 		}
 
 		this.initBindingColumns( manualBindingExprs, autoBindingExprs );
+		logger.exiting( BindingColumnsEvalUtil.class.getName( ),
+				"BindingColumnsEvalUtil" );
 	}
 
 	/**

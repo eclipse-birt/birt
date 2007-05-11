@@ -57,6 +57,15 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			IBaseDataSetDesign dataSetDesign, Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		Object[] params = {
+				dataEngine, queryDefn, dataSetDesign, appContext
+		};
+		logger.entering( PreparedScriptDSQuery.class.getName( ),
+				"PreparedScriptDSQuery",
+				params );
+
+		logger.exiting( PreparedScriptDSQuery.class.getName( ),
+				"PreparedScriptDSQueryss" );
 		logger.logp( Level.FINER,
 				PreparedScriptDSQuery.class.getName( ),
 				"PreparedScriptDSQuery",

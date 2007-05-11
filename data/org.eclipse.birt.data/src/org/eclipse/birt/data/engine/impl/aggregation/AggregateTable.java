@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -35,12 +36,18 @@ public final class AggregateTable
 	/** the base query contains aggregate */
 	private BaseQuery baseQuery;
 		
+	private static Logger logger = Logger.getLogger( AggregateTable.class.getName( ) );
+
 	/**
 	 * Used for de-serialization
 	 */
 	public AggregateTable( )
 	{
+		logger.entering( AggregateTable.class.getName( ),
+				"AggregateTable",
+				null );
 		this.aggrExprInfoList = new ArrayList( );
+		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 	}
 
 	/**
@@ -51,9 +58,16 @@ public final class AggregateTable
 	public AggregateTable( Scriptable scope, List groupDefns )
 	{
 		this( );
+		Object[] params = {
+				scope, groupDefns
+		};
+		logger.entering( AggregateTable.class.getName( ),
+				"AggregateTable",
+				params );
 		
 		this.groupDefns = groupDefns;
 		this.scope = scope;
+		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 	}
 
 	/**
@@ -64,8 +78,12 @@ public final class AggregateTable
 	public AggregateTable( BaseQuery query )
 	{
 		this( );
+		logger.entering( AggregateTable.class.getName( ),
+				"AggregateTable",
+				query );
 		
 		this.baseQuery = query;
+		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 	}
 	
 	//--------------registration of aggregation ------------------------------

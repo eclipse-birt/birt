@@ -35,6 +35,10 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	{
 		// Subquery data set does not have an associated data set design
 		super( null, executor );
+		logger.entering( SubqueryDataSetRuntime.class.getName( ),
+				"SubqueryDataSetRuntime",
+				executor );
+		logger.exiting( SubqueryDataSetRuntime.class.getName( ), "SubqueryDataSetRuntime" );
 	}
 
 	protected IBaseDataSetEventHandler getEventHandler()

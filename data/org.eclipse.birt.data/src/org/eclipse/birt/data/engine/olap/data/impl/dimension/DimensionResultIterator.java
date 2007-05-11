@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
@@ -33,14 +34,23 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	private IDiskArray dimensionRows;
 	private int currentPosition;
 	private ILevel[] levels;
+	private static Logger logger = Logger.getLogger( DimensionResultIterator.class.getName( ) );
 	
 	public DimensionResultIterator( Dimension dimension, IDiskArray dimensionPosition) throws IOException
 	{
+		Object[] params = {
+				dimension, dimensionPosition
+		};
+		logger.entering( DimensionResultIterator.class.getName( ),
+				"DimensionResultIterator",
+				params );
 		this.dimension = dimension;
 		this.dimensionPosition = dimensionPosition;
 		this.levels = dimension.getHierarchy( ).getLevels( );
 		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition );		
 		this.currentPosition = 0;
+		logger.exiting( DimensionResultIterator.class.getName( ),
+				"DimensionResultIterator" );
 	}
 	
 	/*

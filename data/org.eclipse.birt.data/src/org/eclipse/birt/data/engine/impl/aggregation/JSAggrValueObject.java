@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
@@ -32,6 +33,7 @@ public class JSAggrValueObject extends ScriptableObject
 	
 	/** serialVersionUID = 1L; */
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger( JSAggrValueObject.class.getName( ) );
 	
 	/**
 	 * @param aggrExprInfoList
@@ -42,11 +44,18 @@ public class JSAggrValueObject extends ScriptableObject
 	JSAggrValueObject( List aggrExprInfoList, IResultIterator odiResult,
 			List[] aggrValues )
 	{
+		Object[] params = {
+				aggrExprInfoList, odiResult, aggrValues
+		};
+		logger.entering( JSAggrValueObject.class.getName( ),
+				"JSAggrValueObject",
+				params );
 		this.aggrExprInfoList = aggrExprInfoList;
 		this.odiResult = odiResult;
 		this.aggrValues = aggrValues;
 
 		this.aggrCount = aggrExprInfoList.size( );
+		logger.exiting( JSAggrValueObject.class.getName( ), "JSAggrValueObject" );
 	}
 	
 	/*

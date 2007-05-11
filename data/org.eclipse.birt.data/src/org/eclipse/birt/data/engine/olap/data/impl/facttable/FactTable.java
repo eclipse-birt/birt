@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 
 /**
@@ -27,6 +29,7 @@ public class FactTable
 	
 	private IDocumentManager documentManager;
 	private CombinedPositionContructor combinedPositionCalculator;
+	private static Logger logger = Logger.getLogger( FactTable.class.getName( ) );
 	
 	/**
 	 * 
@@ -41,6 +44,15 @@ public class FactTable
 			MeasureInfo[] measureInfo, int segmentCount,
 			DimensionDivision[] dimensionDivision )
 	{
+		Object[] params = {
+				name,
+				documentManager,
+				dimensionInfo,
+				measureInfo,
+				new Integer( segmentCount ),
+				dimensionDivision
+		};
+		logger.entering( FactTable.class.getName( ), "FactTable", params );
 		this.name = name;
 		this.dimensionInfo = dimensionInfo;
 		this.measureInfo = measureInfo;
@@ -48,6 +60,7 @@ public class FactTable
 		this.dimensionDivision = dimensionDivision;
 		this.documentManager = documentManager;
 		this.combinedPositionCalculator = new CombinedPositionContructor( dimensionDivision );
+		logger.exiting( FactTable.class.getName( ), "FactTable" );
 	}
 	
 	/**

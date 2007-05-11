@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.logging.Logger;
+
 /**
  * Defines a function which is used in cube aggregation.
  */
@@ -20,7 +22,9 @@ public class AggregationFunctionDefinition
 	private String name;
 	private String measureName;
 	private String functionName;
-	
+
+	private static Logger logger = Logger.getLogger( AggregationFunctionDefinition.class.getName( ) );
+
 	/**
 	 * 
 	 * @param name
@@ -30,9 +34,17 @@ public class AggregationFunctionDefinition
 	public AggregationFunctionDefinition( String name, String measurename,
 			String functionName )
 	{
+		Object[] params = {
+				name, measurename, functionName
+		};
+		logger.entering( AggregationFunctionDefinition.class.getName( ),
+				"AggregationFunctionDefinition",
+				params );
 		this.name = name;
 		this.measureName = measurename;
 		this.functionName = functionName;
+		logger.exiting( AggregationFunctionDefinition.class.getName( ),
+				"AggregationFunctionDefinition" );
 	}
 	
 	/**
@@ -43,14 +55,22 @@ public class AggregationFunctionDefinition
 	public AggregationFunctionDefinition( String measurename,
 			String functionName )
 	{
+		Object[] params = {
+				measurename, functionName
+		};
+		logger.entering( AggregationFunctionDefinition.class.getName( ),
+				"AggregationFunctionDefinition",
+				params );
 		this.measureName = measurename;
 		this.functionName = functionName;
+		logger.exiting( AggregationFunctionDefinition.class.getName( ),
+				"AggregationFunctionDefinition" );
 	}
-		
+
 	/**
 	 * @return the functionName
 	 */
-	public String getFunctionName()
+	public String getFunctionName( )
 	{
 		return functionName;
 	}
@@ -58,12 +78,11 @@ public class AggregationFunctionDefinition
 	/**
 	 * @return the measureName
 	 */
-	public String getMeasureName()
+	public String getMeasureName( )
 	{
 		return measureName;
 	}
 
-	
 	public String getName( )
 	{
 		return name;

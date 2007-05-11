@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -40,6 +41,8 @@ public class AggregationCalculator
 	private IDiskArray result = null;
 	private IAggregationResultRow currentResultObj = null;
 	
+	private static Logger logger = Logger.getLogger( AggregationCalculator.class.getName( ) );
+
 	/**
 	 * 
 	 * @param aggregation
@@ -48,6 +51,12 @@ public class AggregationCalculator
 	 */
 	AggregationCalculator( AggregationDefinition aggregation, IFactTableRowIterator facttableRowIterator ) throws DataException
 	{
+		Object[] params = {
+				aggregation, facttableRowIterator
+		};
+		logger.entering( AggregationCalculator.class.getName( ),
+				"AggregationCalculator",
+				params );
 		this.aggregation = aggregation;
 		AggregationFunctionDefinition[] aggregationFunction = aggregation.getAggregationFunctions( );
 		if(aggregation.getLevels( )==null)
@@ -74,6 +83,8 @@ public class AggregationCalculator
 			}
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		logger.exiting( AggregationCalculator.class.getName( ),
+				"AggregationCalculator" );
 	}
 	
 	/**

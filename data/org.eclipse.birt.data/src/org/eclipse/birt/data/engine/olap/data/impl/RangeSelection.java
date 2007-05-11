@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
@@ -25,6 +27,8 @@ public class RangeSelection implements ISelection
 	private boolean containsMinKey;
 	private boolean containsMaxKey;
 	
+	private static Logger logger = Logger.getLogger( RangeSelection.class.getName( ) );
+
 	/**
 	 * 
 	 * @param minKey
@@ -35,10 +39,20 @@ public class RangeSelection implements ISelection
 	public RangeSelection( Object[] minKey, Object[] maxKey, boolean containsMinKey,
 			boolean containsMaxKey )
 	{
+		Object[] params = {
+				minKey,
+				maxKey,
+				new Boolean( containsMinKey ),
+				new Boolean( containsMaxKey )
+		};
+		logger.entering( RangeSelection.class.getName( ),
+				"RangeSelection",
+				params );
 		this.minKey = minKey;
 		this.maxKey = maxKey;
 		this.containsMinKey = containsMinKey;
 		this.containsMaxKey = containsMaxKey;
+		logger.exiting( RangeSelection.class.getName( ), "RangeSelection" );
 	}
 	
 	/*

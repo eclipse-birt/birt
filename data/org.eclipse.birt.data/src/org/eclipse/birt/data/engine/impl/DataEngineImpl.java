@@ -54,7 +54,7 @@ public class DataEngineImpl extends DataEngine
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
 	private HashMap					dataSetDesigns = new HashMap();
 	
-	/** Scripable object implementing "report.dataSources" array */
+	/** Scriptable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
 	// data engine context
@@ -70,7 +70,7 @@ public class DataEngineImpl extends DataEngine
 	 * 
 	 * @param context
 	 *            scope of Context: The global JavaScript scope shared by all
-	 *            runtime components within a report sesssion. If this parameter
+	 *            runtime components within a report session. If this parameter
 	 *            is null, a new standard top level scope will be created and
 	 *            used.
 	 */
