@@ -317,8 +317,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			ExtendedItem extendedItem = ( (ExtendedItem) element );
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
-					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 

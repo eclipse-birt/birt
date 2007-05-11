@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -533,4 +534,46 @@ public class ReloadLibraryTest extends BaseTestCase
 		libraryHandle.close( );
 		libraryHandle = null;
 	}
+
+	/**
+	 * Test cases:
+	 * 
+	 * <ul>
+	 * <li>modify the extended item in library, then reload the design, the
+	 * design should be updated.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testReloadLibraryWithExtendedItem( ) throws Exception
+	{
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadExtendedItem.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryWithExtendedItemToReload.xml" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
+		ExtendedItemHandle child = (ExtendedItemHandle) designHandle
+				.findElement( "child" );//$NON-NLS-1$
+		assertEquals( new Integer( 0 ), child.getProperty( "xScale" ) ); //$NON-NLS-1$ 
+
+		String libFilePath = (String) filePaths.get( 1 );
+
+		// make modification on its library.
+
+		openLibrary( libFilePath, false );
+		ExtendedItemHandle parent = (ExtendedItemHandle) libraryHandle
+				.findElement( "parent" );//$NON-NLS-1$
+		parent.setProperty( "xScale", "3" );//$NON-NLS-1$ //$NON-NLS-2$ 
+		libraryHandle.save( );
+
+		designHandle.reloadLibrary( libraryHandle );
+
+		child.loadExtendedElement( );
+		assertEquals( new Integer( 3 ), child.getProperty( "xScale" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
 }

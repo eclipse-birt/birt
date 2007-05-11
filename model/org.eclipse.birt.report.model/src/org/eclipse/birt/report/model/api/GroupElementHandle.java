@@ -15,11 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -209,53 +205,11 @@ abstract public class GroupElementHandle
 		{
 			DesignElementHandle elementHandle = (DesignElementHandle) iter
 					.next( );
+			boolean hasLocalProperties = elementHandle.hasLocalProperties( );
+			if ( hasLocalProperties )
+				return true;
 
-			Iterator propIter = elementHandle.getPropertyIterator( );
-			while ( propIter.hasNext( ) )
-			{
-				PropertyHandle propertyHandle = (PropertyHandle) propIter
-						.next( );
-				String name = propertyHandle.getDefn( ).getName( );
-				if ( ( IDesignElementModel.NAME_PROP.equals( name ) )
-						|| ( IDesignElementModel.EXTENDS_PROP.equals( name ) )
-						|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( name ) )
-					continue;
-
-				if ( elementHandle instanceof ExtendedItemHandle )
-				{
-					ExtendedItem elem = (ExtendedItem) elementHandle
-							.getElement( );
-
-					if ( elem.isExtensionXMLProperty( name ) )
-						continue;
-
-					if ( elem.isExtensionModelProperty( name ) )
-					{
-						ExtendedItem parent = (ExtendedItem) elem
-								.getExtendsElement( );
-						try
-						{
-							parent.initializeReportItem( parent.getRoot( ) );
-						}
-						catch ( ExtendedElementException e )
-						{
-						}
-						
-						Object value = elem.getLocalProperty(
-								elementHandle.getModule( ), name );
-						if ( value != null && !value.equals(
-								parent.getLocalProperty( parent.getRoot( ),
-										name ) ) )
-							return true;
-						else
-							continue;
-					}
-				}
-
-				if ( elementHandle.getElement( ).getLocalProperty(
-						elementHandle.getModule( ), name ) != null )
-					return true;
-			}
+			continue;
 		}
 
 		return false;

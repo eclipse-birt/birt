@@ -1666,8 +1666,10 @@ public abstract class ModuleWriter extends ElementVisitor
 						writeSimplePropertyList( obj, propName );
 						break;
 					case IPropertyType.XML_TYPE :
-						writeProperty( obj, ModelUtil
-								.getTagByPropertyType( prop ), propName, true );
+						if ( obj.hasLocalPropertyValuesOnOwnModel( ) )
+							writeProperty( obj, ModelUtil
+									.getTagByPropertyType( prop ), propName,
+									true );
 						break;
 					case IPropertyType.STRUCT_TYPE :
 						if ( prop.isList( ) )

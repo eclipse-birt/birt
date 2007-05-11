@@ -82,7 +82,6 @@
                 </extended-item>
                 <extended-item extensionName="TestingMatrix" name="style extended item" extends="parent"
  id="14">
-                    <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                     <property name="fontFamily">fantasy</property>
                     <property name="fontSize">larger</property>
                     <property name="fontStyle">italic</property>

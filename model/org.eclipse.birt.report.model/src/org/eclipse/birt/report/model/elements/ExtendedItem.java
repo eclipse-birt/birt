@@ -545,13 +545,29 @@ public class ExtendedItem extends ReportItem
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#initializeContentTree()
 	 */
-	
+
 	public void initializeContentTree( )
 	{
 		if ( contentTree == null )
 			contentTree = new ContentTree( );
+	}
+
+	/**
+	 * Returns if this extended item has local property values on own model.
+	 * 
+	 * @return <code>true</code> if this extended item has local property
+	 *         values on own model, <code>false</code> otherwise.
+	 */
+	
+	public boolean hasLocalPropertyValuesOnOwnModel( )
+	{
+		if ( provider == null )
+			return false;
+		
+		return provider.hasLocalPropertyValuesOnOwnModel( );
 	}
 
 }

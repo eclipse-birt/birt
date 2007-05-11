@@ -294,7 +294,7 @@ public class GroupPropertyHandle
 
 	public void clearValue( ) throws SemanticException
 	{
-		if ( isExtensionModelProperty( ) )
+		if ( isExtensionXMLProperty( ) )
 		{
 			ActivityStack actStack = handle.getModule( ).getActivityStack( );
 			actStack.startTrans( );
@@ -306,15 +306,12 @@ public class GroupPropertyHandle
 				{
 					DesignElementHandle elemHandle = (DesignElementHandle) iter
 							.next( );
-					if ( elemHandle instanceof ExtendedItemHandle )
-					{
-						ExtendedItem parent = (ExtendedItem) elemHandle
-								.getElement( ).getExtendsElement( );
-						parent.initializeReportItem( parent.getRoot( ) );
-						elemHandle.setProperty( propDefn.getName( ), parent
-								.getLocalProperty( parent.getRoot( ),
-										propDefn ) );
-					}
+					assert elemHandle instanceof ExtendedItemHandle;
+
+					ExtendedItem parent = (ExtendedItem) ModelUtil
+							.getParent( elemHandle.getElement( ) );
+					elemHandle.setProperty( propDefn.getName( ), parent
+							.getLocalProperty( parent.getRoot( ), propDefn ) );
 				}
 			}
 			catch ( SemanticException e )
@@ -348,12 +345,12 @@ public class GroupPropertyHandle
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Tests if this property is an extension defined xml property.
 	 * 
-	 * @return <code>true</code> if this property is an extension defined
-	 *         xml property, <code>false</code> otherwise.
+	 * @return <code>true</code> if this property is an extension defined xml
+	 *         property, <code>false</code> otherwise.
 	 */
 
 	boolean isExtensionXMLProperty( )

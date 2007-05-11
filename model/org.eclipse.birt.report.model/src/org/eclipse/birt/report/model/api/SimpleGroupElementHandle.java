@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -276,7 +277,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 						|| IDesignElementModel.NAME_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_NAME_PROP
 								.equals( propName )
-						|| propHandle.isExtensionXMLProperty( ) )
+						|| propHandle.isExtensionModelProperty( ) )
 				{
 					// ignore name, extends, extension id property.
 					continue;
@@ -405,8 +406,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 				|| IReportItemModel.TOC_PROP.equals( propName )
 				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equals( propName )
 				|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equals( propName )
-				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) 
-				|| ICellModel.DROP_PROP
+				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) || ICellModel.DROP_PROP
 				.equals( propName ) ) )
 			return false;
 

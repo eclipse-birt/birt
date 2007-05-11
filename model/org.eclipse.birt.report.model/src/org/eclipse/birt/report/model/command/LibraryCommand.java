@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
@@ -604,6 +605,16 @@ public class LibraryCommand extends AbstractElementCommand
 
 		DesignElement parent = value.getElement( );
 		assert parent != null;
+
+		// special case for extendeditem
+
+		if ( child instanceof ExtendedItem )
+		{
+			assert parent instanceof ExtendedItem;
+			if ( !( (ExtendedItem) child ).hasLocalPropertyValuesOnOwnModel( ) )
+				( (ExtendedItem) child ).getExtensibilityProvider( )
+						.clearOwnModel( );
+		}
 
 		// not layout structure involved.
 

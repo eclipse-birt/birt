@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -376,7 +377,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	protected FontHandle getFontProperty( )
 	{
-		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn( IStyleModel.FONT_FAMILY_PROP );
+		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn(
+				IStyleModel.FONT_FAMILY_PROP );
 
 		if ( propDefn == null )
 			return null;
@@ -567,28 +569,40 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		List props = getDefn( ).getProperties( );
 
-		for ( int i = 0; i < props.size( ); i++ )
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+
+		try
 		{
-			PropertyDefn propDefn = (PropertyDefn) props.get( i );
-			String propName = propDefn.getName( );
-
-			if ( ( IDesignElementModel.NAME_PROP.equals( propName ) ) )
+			for ( int i = 0; i < props.size( ); i++ )
 			{
-				NameCommand nameCmd = new NameCommand( module, getElement( ) );
-				try
-				{
-					nameCmd.checkName( null );
-				}
-				catch ( NameException e )
-				{
-					continue;
-				}
-			}
+				PropertyDefn propDefn = (PropertyDefn) props.get( i );
+				String propName = propDefn.getName( );
 
-			PropertyHandle propHandle = getPropertyHandle( propName );
-			if ( propHandle.isLocal( ) )
-				propHandle.clearValue( );
+				if ( ( IDesignElementModel.NAME_PROP.equals( propName ) ) )
+				{
+					NameCommand nameCmd = new NameCommand( module, getElement( ) );
+					try
+					{
+						nameCmd.checkName( null );
+					}
+					catch ( NameException e )
+					{
+						continue;
+					}
+				}
+
+				PropertyHandle propHandle = getPropertyHandle( propName );
+				if ( propHandle.isLocal( ) )
+					propHandle.clearValue( );
+			}
 		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
 	}
 
 	/**
@@ -1202,11 +1216,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement oldContainer = element.getContainer( );
 		if ( oldContainer == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
-		ContentCommand cmd = new ContentCommand( module,
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
 		cmd.move( element, new ContainerContext( newContainer.getElement( ),
 				toSlot ) );
 	}
@@ -1230,12 +1243,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement container = element.getContainer( );
 		if ( container == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 
-		ContentCommand cmd = new ContentCommand( module,
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
 		cmd.remove( element, false );
 	}
 
@@ -1258,12 +1270,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement container = element.getContainer( );
 		if ( container == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 
-		ContentCommand cmd = new ContentCommand( module,
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
 		cmd.remove( element, true );
 	}
 
@@ -1317,8 +1328,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElementHandle containerHandle = getContainer( );
 		if ( containerHandle == null )
 			return null;
-		return containerHandle.getPropertyHandle( getElement( ).getContainerInfo( )
-				.getPropertyName( ) );
+		return containerHandle.getPropertyHandle( getElement( )
+				.getContainerInfo( ).getPropertyName( ) );
 	}
 
 	/**
@@ -1417,8 +1428,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns an iterator over the clients of this element, e.g. other elements
-	 * which reference this element.
+	 * Returns an iterator over the clients of this element. Useful only for
+	 * styles. Returns a list of all the elements that use this style.
 	 * 
 	 * @return an iterator over the clients of this element. Each item returned
 	 *         by the iterator's <code>getNext( )</code> method is of type
@@ -1628,19 +1639,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		assert ( targetHandle.getModule( ) == getModule( ) );
 
 		if ( targetHandle.getModule( ) != getModule( ) )
-			throw new IllegalArgumentException( "The target element should be in the same report !" ); //$NON-NLS-1$
+			throw new IllegalArgumentException(
+					"The target element should be in the same report !" ); //$NON-NLS-1$
 
 		if ( targetHandle.getDefn( ) != getDefn( ) )
-			throw new PropertyValueException( targetHandle.getDefn( ).getName( ),
+			throw new PropertyValueException(
+					targetHandle.getDefn( ).getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					IPropertyType.ELEMENT_REF_TYPE );
 
-		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty( propName );
+		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty(
+				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
 
-		propDefn = (ElementPropertyDefn) targetHandle.getDefn( )
-				.getProperty( propName );
+		propDefn = (ElementPropertyDefn) targetHandle.getDefn( ).getProperty(
+				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( targetHandle.getElement( ),
 					propName );
@@ -1656,9 +1670,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( IDesignElementModel.NAME_PROP.equals( propName )
 				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
-			throw new SemanticError( getElement( ), new String[]{
-				propName
-			}, SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
+			throw new SemanticError( getElement( ), new String[]{propName},
+					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
 		}
 
 		switch ( propDefn.getTypeCode( ) )
@@ -1667,13 +1680,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				ElementRefValue refValue = (ElementRefValue) value;
 
 				if ( refValue.isResolved( ) )
-					targetHandle.setProperty( propDefn.getName( ),
-							refValue.getElement( ) );
+					targetHandle.setProperty( propDefn.getName( ), refValue
+							.getElement( ) );
 				else
 				{
 					String name = refValue.getName( );
-					name = ReferenceValueUtil.needTheNamespacePrefix( (ReferenceValue) value,
-							getModule( ) );
+					name = ReferenceValueUtil.needTheNamespacePrefix(
+							(ReferenceValue) value, getModule( ) );
 					targetHandle.setProperty( propDefn.getName( ), name );
 				}
 				break;
@@ -1692,7 +1705,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			case IPropertyType.STRUCT_TYPE :
 				if ( propDefn.isList( ) )
 				{
-					PropertyHandle propHandle = targetHandle.getPropertyHandle( propName );
+					PropertyHandle propHandle = targetHandle
+							.getPropertyHandle( propName );
 
 					Iterator strcutIter = ( (List) value ).iterator( );
 					while ( strcutIter.hasNext( ) )
@@ -1712,7 +1726,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 				assert value instanceof List;
 				List valueList = (List) value;
-				PropertyHandle propHandle = targetHandle.getPropertyHandle( propName );
+				PropertyHandle propHandle = targetHandle
+						.getPropertyHandle( propName );
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
 					Object item = valueList.get( i );
@@ -1728,7 +1743,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 						}
 						else
 						{
-							propHandle.addItem( refValue.getQualifiedReference( ) );
+							propHandle.addItem( refValue
+									.getQualifiedReference( ) );
 						}
 					}
 				}
@@ -1814,8 +1830,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canContain( int slotId, String type )
 	{
-		return new ContainerContext( getElement( ), slotId ).canContain( getModule( ),
-				type );
+		return new ContainerContext( getElement( ), slotId ).canContain(
+				getModule( ), type );
 	}
 
 	/**
@@ -1838,8 +1854,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return false;
 
-		return new ContainerContext( getElement( ), slotId ).canContain( getModule( ),
-				content.getElement( ) );
+		return new ContainerContext( getElement( ), slotId ).canContain(
+				getModule( ), content.getElement( ) );
 	}
 
 	/**
@@ -1858,8 +1874,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canContain( String propName, String type )
 	{
-		return new ContainerContext( getElement( ), propName ).canContain( getModule( ),
-				type );
+		return new ContainerContext( getElement( ), propName ).canContain(
+				getModule( ), type );
 	}
 
 	/**
@@ -1882,8 +1898,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return false;
 
-		return new ContainerContext( getElement( ), propName ).canContain( module,
-				content.getElement( ) );
+		return new ContainerContext( getElement( ), propName ).canContain(
+				module, content.getElement( ) );
 	}
 
 	/**
@@ -1994,10 +2010,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		TemplateCommand cmd = new TemplateCommand( getModule( ),
-				getElement( ).getContainerInfo( ) );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
 		TemplateElement template = cmd.createTemplateElement( getElement( ),
 				name );
 		if ( template == null )
@@ -2024,10 +2041,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		TemplateCommand cmd = new TemplateCommand( getModule( ),
-				getElement( ).getContainerInfo( ) );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
 		TemplateElement template = cmd.revertToTemplate( getElement( ), name );
 		if ( template == null )
 			return null;
@@ -2210,9 +2228,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( propName );
 		if ( defn == null )
-			throw new SemanticError( getElement( ), new String[]{
-				propName
-			}, SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
+			throw new SemanticError( getElement( ), new String[]{propName},
+					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
 		if ( IModuleModel.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
 			return;
 
@@ -2252,8 +2269,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					root );
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new CachedMemberRef( defn ),
-					bindingList.indexOf( binding ) );
+			cmd.removeItem( new CachedMemberRef( defn ), bindingList
+					.indexOf( binding ) );
 		}
 		else
 		{
@@ -2268,17 +2285,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				binding.setName( propName );
 				binding.setID( getID( ) );
 				binding.setValue( value );
-				ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
-						root );
+				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+						module, root );
 				cmd.addItem( new CachedMemberRef( defn ), binding );
 			}
 			else
 			{
 				// changes the binding value.
 
-				MemberRef memberRef = new CachedMemberRef( defn,
-						bindingList.indexOf( binding ),
-						PropertyBinding.VALUE_MEMBER );
+				MemberRef memberRef = new CachedMemberRef( defn, bindingList
+						.indexOf( binding ), PropertyBinding.VALUE_MEMBER );
 				PropertyCommand cmd = new PropertyCommand( module, root );
 				cmd.setMember( memberRef, value );
 			}
@@ -2297,10 +2313,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
-		return ModelUtil.getExternalizedValue( getElement( ),
-				textIDProp,
-				textProp,
-				ThreadResources.getLocale( ) );
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, ThreadResources.getLocale( ) );
 	}
 
 	/**
@@ -2318,10 +2332,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public String getExternalizedValue( String textIDProp, String textProp,
 			ULocale locale )
 	{
-		return ModelUtil.getExternalizedValue( getElement( ),
-				textIDProp,
-				textProp,
-				locale );
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, locale );
 	}
 
 	/**
@@ -2339,10 +2351,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public String getExternalizedValue( String textIDProp, String textProp,
 			Locale locale )
 	{
-		return ModelUtil.getExternalizedValue( getElement( ),
-				textIDProp,
-				textProp,
-				ULocale.forLocale( locale ) );
+		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
+				textProp, ULocale.forLocale( locale ) );
 	}
 
 	/**
@@ -2517,10 +2527,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( currentModule != null && currentModule instanceof Library )
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
-		ModelUtil.revisePropertyNameSpace( getModule( ),
-				content,
-				content.getDefn( )
-						.getProperty( IDesignElementModel.EXTENDS_PROP ),
+		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
+				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
 				nameSpace );
 
 		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
@@ -2544,8 +2552,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public List getContents( String propName )
 	{
 		PropertyHandle propHandle = getPropertyHandle( propName );
-		return propHandle == null ? Collections.EMPTY_LIST
-				: propHandle.getContents( );
+		return propHandle == null ? Collections.EMPTY_LIST : propHandle
+				.getContents( );
 	}
 
 	/**
@@ -2613,11 +2621,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement oldContainer = element.getContainer( );
 		if ( oldContainer == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
-		ContentCommand cmd = new ContentCommand( module,
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
 		cmd.movePosition( element, posn );
 	}
 
@@ -2647,8 +2654,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), fromPropName ) );
-		cmd.move( content.getElement( ),
-				new ContainerContext( newContainer.getElement( ), toPropName ) );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toPropName ) );
 	}
 
 	/**
@@ -2666,13 +2673,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement oldContainer = element.getContainer( );
 		if ( oldContainer == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 		if ( newContainer == null )
 			return;
-		ContentCommand cmd = new ContentCommand( getModule( ),
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( getModule( ), element
+				.getContainerInfo( ) );
 		cmd.move( element, new ContainerContext( newContainer.getElement( ),
 				toPropName ) );
 	}
@@ -2708,9 +2714,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), fromPropName ) );
-		cmd.move( content.getElement( ),
-				new ContainerContext( newContainer.getElement( ), toPropName ),
-				newPos );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toPropName ), newPos );
 	}
 
 	/**
@@ -2734,13 +2739,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		DesignElement oldContainer = element.getContainer( );
 		if ( oldContainer == null )
-			throw new ContentException( element,
-					-1,
+			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 		if ( newContainer == null )
 			return;
-		ContentCommand cmd = new ContentCommand( getModule( ),
-				element.getContainerInfo( ) );
+		ContentCommand cmd = new ContentCommand( getModule( ), element
+				.getContainerInfo( ) );
 		cmd.move( element, new ContainerContext( newContainer.getElement( ),
 				toPropName ), newPos );
 	}
