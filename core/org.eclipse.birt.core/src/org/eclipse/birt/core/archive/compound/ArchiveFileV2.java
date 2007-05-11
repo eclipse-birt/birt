@@ -618,9 +618,9 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 					rf.setLength( 0 );
 				}
 				block.flush( rf );
-				if ( block.id > totalDiskBlocks )
+				if ( block.id >= totalDiskBlocks )
 				{
-					totalDiskBlocks = block.id;
+					totalDiskBlocks = block.id + 1;
 				}
 			}
 		}
@@ -628,7 +628,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		public void refresh( Block block ) throws IOException
 		{
 			assertOpen( );
-			if ( block.id <= totalDiskBlocks )
+			if ( block.id < totalDiskBlocks )
 			{
 				block.refresh( rf );
 			}
