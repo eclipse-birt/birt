@@ -306,7 +306,7 @@ public interface DesignChoiceConstants
 	public static final String INTERVAL_MINUTE = "minute"; //$NON-NLS-1$
 	public static final String INTERVAL_SECOND = "second"; //$NON-NLS-1$
 	public static final String INTERVAL_INTERVAL = "interval"; //$NON-NLS-1$
-	
+
 	// intervalType
 
 	public static final String CHOICE_INTERVAL_TYPE = "intervalType"; //$NON-NLS-1$
@@ -622,11 +622,11 @@ public interface DesignChoiceConstants
 	public static final String DATETIEM_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
-	
+
 	/**
 	 * dateFormat choice.
 	 */
-	
+
 	public static final String CHOICE_DATE_FORMAT_TYPE = "dateFormat"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
@@ -634,11 +634,11 @@ public interface DesignChoiceConstants
 	public static final String DATE_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
-	
+
 	/**
 	 * timeFormat choice
 	 */
-	
+
 	public static final String CHOICE_TIME_FORMAT_TYPE = "timeFormat"; //$NON-NLS-1$
 	public static final String TIME_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
 	public static final String TIME_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
@@ -829,8 +829,11 @@ public interface DesignChoiceConstants
 	public static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_MONTH = "month"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_QUARTER = "quarter"; //$NON-NLS-1$
-	public static final String DATE_TIME_LEVEL_TYPE_WEEK = "week"; //$NON-NLS-1$
-	public static final String DATE_TIME_LEVEL_TYPE_DAY = "day"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR = "week-of-year"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH = "week-of-month"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR = "day-of-year"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH = "day-of-month"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK = "day-of-week"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_HOUR = "hour"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_MINUTE = "minute"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_SECOND = "second"; //$NON-NLS-1$

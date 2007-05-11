@@ -351,6 +351,18 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		// change 'week' to 'week-of-year' and change 'day' to 'day-of-year'.
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_14
+				&& element instanceof Level
+				&& ILevelModel.DATE_TIME_LEVEL_TYPE.equalsIgnoreCase( name ) )
+		{
+			CompatibleDateTimeLevelTypeState state = new CompatibleDateTimeLevelTypeState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
 		// change interval property value to none if property value is not
 		// 'none,'interval' or 'perfix'.
 
