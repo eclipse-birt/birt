@@ -49,6 +49,8 @@ public class Bar
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 		cwaBar.setDimension( ChartDimension.THREE_DIMENSIONAL_LITERAL );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

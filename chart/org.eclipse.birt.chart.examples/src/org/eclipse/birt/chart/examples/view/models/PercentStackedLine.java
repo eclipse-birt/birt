@@ -43,6 +43,7 @@ public class PercentStackedLine
 	public static final Chart createPercentStackedLine( )
 	{
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
+		cwaLine.setType( "Line Chart" ); //$NON-NLS-1$
 		cwaLine.setSubType( "Percent Stacked" ); //$NON-NLS-1$
 
 		// Plot

@@ -45,6 +45,7 @@ public class PercentStackedArea
 	public static final Chart createPercentStackedArea( )
 	{
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create( );
+		cwaArea.setType( "Area Chart" ); //$NON-NLS-1$
 		cwaArea.setSubType( "Percent Stacked" ); //$NON-NLS-1$
 
 		// Plot/Title

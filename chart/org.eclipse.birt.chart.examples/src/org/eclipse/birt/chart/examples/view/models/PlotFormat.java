@@ -45,7 +45,9 @@ public class PlotFormat
 	public static final Chart createPlotFormat( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		// Plot
 		Plot p = cwaBar.getPlot( );
 

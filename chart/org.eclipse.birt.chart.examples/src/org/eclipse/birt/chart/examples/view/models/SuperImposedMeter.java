@@ -44,7 +44,9 @@ public class SuperImposedMeter
 	public static final Chart createSuperImposedMeter( )
 	{
 		DialChart dChart = (DialChart) DialChartImpl.create( );
+		dChart.setType( "Meter Chart" ); //$NON-NLS-1$	
 		dChart.setSubType( "Superimposed Meter Chart" ); //$NON-NLS-1$
+		
 		dChart.setDialSuperimposition( true );
 		dChart.setGridColumnCount( 2 );
 		dChart.setSeriesThickness( 25 );

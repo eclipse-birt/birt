@@ -41,7 +41,9 @@ public class CurveFittingLine
 	public static final Chart createCurveFittingLine( )
 	{
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
-
+		cwaLine.setType( "LineChart" ); //$NON-NLS-1$
+		cwaLine.setSubType( "Overlay" ); //$NON-NLS-1$
+		
 		// Plot
 		cwaLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaLine.getPlot( ).getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,

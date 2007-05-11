@@ -35,6 +35,9 @@ public class SeriesTitleScript
 	public static final Chart createSeriesTitleScript( )
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
+		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
+		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
+		
 		cwoaPie.setScript( "function beforeDrawSeriesTitle(series, label, scriptContext)" //$NON-NLS-1$
 				+ "{label.setVisible(true);" //$NON-NLS-1$
 				+ "label.getCaption().setValue(\"Cities\");" //$NON-NLS-1$

@@ -43,6 +43,9 @@ public class MarkerRangeScript
 	public static final Chart createMarkerRangeScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawMarkerRange(axis, range, scriptContext)" //$NON-NLS-1$
 				+ "{range.getLabel().getCaption().getColor().set( 225, 104, 105 );}" //$NON-NLS-1$
 		);

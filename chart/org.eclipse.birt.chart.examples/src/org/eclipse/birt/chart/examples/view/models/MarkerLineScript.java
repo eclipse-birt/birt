@@ -42,6 +42,9 @@ public class MarkerLineScript
 	public static final Chart createMarkerLineScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
 				+ "{line.getLabel().getCaption( ).getColor().set( 165, 184, 55 );" //$NON-NLS-1$
 				+ "line.getLineAttributes().getColor().set( 165, 184, 55 );}" //$NON-NLS-1$

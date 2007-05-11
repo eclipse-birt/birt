@@ -48,6 +48,7 @@ public class BarStickStock
 	public final static Chart createBarStickStock( )
 	{
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
+		cwaStock.setType( "Stock Chart" ); //$NON-NLS-1$		
 		cwaStock.setSubType( "Bar Stick Stock Chart" ); //$NON-NLS-1$
 
 		// Title

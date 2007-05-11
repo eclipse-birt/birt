@@ -39,6 +39,9 @@ public class DataPointLabelScript
 	public static final Chart createDataPointLabelScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawDataPointLabel(dataPoints, label, scriptContext)" //$NON-NLS-1$
 				+ "{val = dataPoints.getOrthogonalValue( );" //$NON-NLS-1$
 				+ "clr = label.getCaption( ).getColor( );" //$NON-NLS-1$

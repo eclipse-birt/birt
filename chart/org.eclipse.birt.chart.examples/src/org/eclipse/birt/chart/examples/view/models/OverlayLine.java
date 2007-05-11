@@ -43,6 +43,7 @@ public class OverlayLine
 	public static final Chart createOverlayLine( )
 	{
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
+		cwaLine.setType( "Line Chart" ); //$NON-NLS-1$
 		cwaLine.setSubType( "Overlay" ); //$NON-NLS-1$
 
 		// Plot

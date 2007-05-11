@@ -48,6 +48,7 @@ public class CandleStickStock
 	public final static Chart createCandleStickStock( )
 	{
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
+		cwaStock.setType( "Stock Chart" ); //$NON-NLS-1$	
 		cwaStock.setSubType( "Standard Stock Chart" ); //$NON-NLS-1$
 
 		// Title

@@ -49,7 +49,9 @@ public class AxisLabelFormat
 	public static final Chart createAxisLabelFormat( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		Plot p = cwaBar.getPlot( );

@@ -40,7 +40,9 @@ public class PercentageValueFormat
 	public static final Chart createPercentageValueFormat( )
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
-
+		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
+		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
+		
 		// Plot
 		cwoaPie.setSeriesThickness( 25 );
 		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

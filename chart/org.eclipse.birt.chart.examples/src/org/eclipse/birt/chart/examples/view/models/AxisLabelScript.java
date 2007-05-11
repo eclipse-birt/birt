@@ -43,6 +43,8 @@ public class AxisLabelScript
 				+ "{label.getCaption( ).getColor( ).set( 140, 198, 62 );"  //$NON-NLS-1$
 				+ "label.getCaption( ).getFont( ).setSize( 20 );}" //$NON-NLS-1$
 		);
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 		
 		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "Axis Label Script Chart" ); //$NON-NLS-1$
 		cwaBar.getLegend( ).setVisible( false );

@@ -44,6 +44,7 @@ public class SideBySideBar
 	public static final Chart createSideBySideBar( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" );
 		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

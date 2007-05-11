@@ -38,7 +38,9 @@ public class Pie
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
 		cwoaPie.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
-
+		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
+		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
+		
 		// Plot
 		cwoaPie.setSeriesThickness( 10 );
 

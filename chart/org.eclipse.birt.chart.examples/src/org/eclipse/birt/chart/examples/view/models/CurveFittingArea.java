@@ -39,7 +39,9 @@ public class CurveFittingArea
 	public static final Chart createCurveFittingArea( )
 	{
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create( );
-
+		cwaArea.setType( "Area Chart" ); //$NON-NLS-1$
+		cwaArea.setSubType( "Overlay" ); //$NON-NLS-1$
+		
 		// Plot/Title
 		cwaArea.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaArea.getPlot( ).getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,

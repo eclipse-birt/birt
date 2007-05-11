@@ -43,7 +43,9 @@ public class CurveFittingBar
 	public static final Chart createCurveFittingBar( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaBar.getBlock( ).getOutline( ).setVisible( true );

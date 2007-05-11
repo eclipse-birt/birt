@@ -41,6 +41,8 @@ public class MinSlice
 	public static final Chart createMinSlice( )
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
+		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
+		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
 		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ));
 
 		// Plot

@@ -44,6 +44,7 @@ public class PercentStackedBar
 	public static final Chart createPercentStackedBar( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
 		cwaBar.setSubType( "Percent Stacked" ); //$NON-NLS-1$
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

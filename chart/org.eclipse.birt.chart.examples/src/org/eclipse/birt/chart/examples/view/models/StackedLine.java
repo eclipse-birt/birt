@@ -43,6 +43,7 @@ public class StackedLine
 	public static final Chart createStackedLine( )
 	{
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
+		cwaLine.setType( "Line Chart" ); //$NON-NLS-1$
 		cwaLine.setSubType( "Stacked" ); //$NON-NLS-1$
 
 		// Plot

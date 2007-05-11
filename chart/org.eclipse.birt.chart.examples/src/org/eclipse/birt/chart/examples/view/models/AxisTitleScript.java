@@ -39,6 +39,9 @@ public class AxisTitleScript
 	public static final Chart createAxisTitleScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawAxisTitle(axis, title, scriptContext)" //$NON-NLS-1$
 				+ "{title.getCaption( ).setValue( \"Axis Title By JavaScript\");" //$NON-NLS-1$
 				+ "title.getCaption( ).getColor( ).set( 32, 168, 255 );}" //$NON-NLS-1$

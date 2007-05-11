@@ -38,7 +38,9 @@ public class MultiplePie
 	public static final Chart createMultiplePie( )
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
-
+		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
+		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
+		
 		// Plot
 		cwoaPie.setSeriesThickness( 25 );
 		cwoaPie.setGridColumnCount( 2 );

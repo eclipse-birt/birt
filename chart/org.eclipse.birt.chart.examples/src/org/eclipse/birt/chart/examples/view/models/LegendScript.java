@@ -40,6 +40,9 @@ public class LegendScript
 	public static final Chart createLegendScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawLegendEntry(label, scriptContext)" //$NON-NLS-1$
 				+ "{label.getCaption( ).getColor().set( 35, 184, 245 );"//$NON-NLS-1$
 				+ "label.getCaption().getFont().setBold(true);" //$NON-NLS-1$

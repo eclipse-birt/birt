@@ -45,7 +45,9 @@ public class Scatter
 	public static final Chart createScatter( )
 	{
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create( );
-
+		cwaScatter.setType( "Scatter Chart" ); //$NON-NLS-1$	
+		cwaScatter.setSubType( "Standard Scatter Chart" ); //$NON-NLS-1$
+		
 		// Plot
 		cwaScatter.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaScatter.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );

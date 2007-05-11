@@ -47,6 +47,9 @@ public class MDialSRegionMeter
 	public static final Chart createMDialSRegionMeter( )
 	{
 		DialChart dChart = (DialChart) DialChartImpl.create( );
+		dChart.setType( "Meter Chart" ); //$NON-NLS-1$	
+		dChart.setSubType( "Superimposed Meter Chart" ); //$NON-NLS-1$
+		
 		dChart.setDialSuperimposition( true );
 		dChart.setGridColumnCount( 2 );
 		dChart.setSeriesThickness( 25 );

@@ -39,6 +39,9 @@ public class BlockScript
 	public static final Chart createBlockScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawBlock(block, scriptContext)" //$NON-NLS-1$
 				+ "{if (block.isLegend())" //$NON-NLS-1$
 				+ "{block.getOutline().setVisible( true );" //$NON-NLS-1$

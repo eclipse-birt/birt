@@ -40,6 +40,9 @@ public class CurveFittingScript
 	public static final Chart createCurveFittingScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawFittingCurve(cf, scriptContext)" //$NON-NLS-1$
 				+ "{cf.getLabel( ).getCaption( ).setValue(\"Curve Fitting\");" //$NON-NLS-1$
 				+ "cf.getLabel( ).setVisible(true)}" //$NON-NLS-1$

@@ -47,7 +47,9 @@ public class StandardMeter
 	public static final Chart createStandardMeter( )
 	{
 		DialChart dChart = (DialChart) DialChartImpl.create( );
+		dChart.setType( "Meter Chart" ); //$NON-NLS-1$	
 		dChart.setSubType( "Standard Meter Chart" ); //$NON-NLS-1$
+		
 		dChart.setDialSuperimposition( false );
 		dChart.setGridColumnCount( 2 );
 		dChart.setSeriesThickness( 25 );

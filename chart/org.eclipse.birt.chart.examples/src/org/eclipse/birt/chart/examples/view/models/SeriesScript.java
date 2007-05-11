@@ -39,6 +39,9 @@ public class SeriesScript
 	public static final Chart createSeriesScript( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		
 		cwaBar.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
 				+ "{series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
 		);

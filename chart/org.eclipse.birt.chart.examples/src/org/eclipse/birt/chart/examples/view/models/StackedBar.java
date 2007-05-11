@@ -44,6 +44,7 @@ public class StackedBar
 	public static final Chart createStackedBar( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
 		cwaBar.setSubType( "Stacked" ); //$NON-NLS-1$
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

@@ -53,6 +53,8 @@ public class Area
 	{
 		ChartWithAxes cwa3DArea = ChartWithAxesImpl.create( );
 		cwa3DArea.setDimension( ChartDimension.THREE_DIMENSIONAL_LITERAL );
+		cwa3DArea.setType( "Area Chart" ); //$NON-NLS-1$
+		cwa3DArea.setSubType( "Overlay" ); //$NON-NLS-1$
 
 		// Title
 		cwa3DArea.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );

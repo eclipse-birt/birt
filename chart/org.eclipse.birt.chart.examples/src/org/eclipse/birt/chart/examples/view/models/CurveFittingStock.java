@@ -48,7 +48,9 @@ public class CurveFittingStock
 	public final static Chart createCurveFittingStock( )
 	{
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
-
+		cwaStock.setType( "Stock Chart" ); //$NON-NLS-1$	
+		cwaStock.setSubType( "Standard Stock Chart" ); //$NON-NLS-1$
+		
 		// Title
 		cwaStock.getTitle( )
 				.getLabel( )

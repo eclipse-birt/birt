@@ -51,7 +51,9 @@ public class Line
 	{
 		ChartWithAxes cwa3DLine = ChartWithAxesImpl.create( );
 		cwa3DLine.setDimension( ChartDimension.THREE_DIMENSIONAL_LITERAL );
-
+		cwa3DLine.setType( "Line Chart" ); //$NON-NLS-1$
+		cwa3DLine.setSubType( "Overlay" ); //$NON-NLS-1$
+		
 		// Plot
 		cwa3DLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		Plot p = cwa3DLine.getPlot( );
