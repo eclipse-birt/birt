@@ -111,14 +111,6 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
-	 * <li><code>INTERVAL_YEAR</code>
-	 * <li><code>INTERVAL_QUARTER</code>
-	 * <li><code>INTERVAL_MONTH</code>
-	 * <li><code>INTERVAL_WEEK</code>
-	 * <li><code>INTERVAL_DAY</code>
-	 * <li><code>INTERVAL_HOUR</code>
-	 * <li><code>INTERVAL_MINUTE</code>
-	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
 	 * 
 	 * </ul>
@@ -138,14 +130,6 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
-	 * <li><code>INTERVAL_YEAR</code>
-	 * <li><code>INTERVAL_QUARTER</code>
-	 * <li><code>INTERVAL_MONTH</code>
-	 * <li><code>INTERVAL_WEEK</code>
-	 * <li><code>INTERVAL_DAY</code>
-	 * <li><code>INTERVAL_HOUR</code>
-	 * <li><code>INTERVAL_MINUTE</code>
-	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
 	 * 
 	 * </ul>
@@ -310,6 +294,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * <li>DATE_TIME_LEVEL_TYPE_QUARTER
 	 * <li>DATE_TIME_LEVEL_TYPE_WEEK
 	 * <li>DATE_TIME_LEVEL_TYPE_DAY
+	 * <li>DATE_TIME_LEVEL_TYPE_HOUR
+	 * <li>DATE_TIME_LEVEL_TYPE_MINUTE
+	 * <li>DATE_TIME_LEVEL_TYPE_SECOND
 	 * </ul>
 	 * 
 	 * @return the date-time type of this level.
@@ -330,6 +317,9 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * <li>DATE_TIME_LEVEL_TYPE_QUARTER
 	 * <li>DATE_TIME_LEVEL_TYPE_WEEK
 	 * <li>DATE_TIME_LEVEL_TYPE_DAY
+	 * <li>DATE_TIME_LEVEL_TYPE_HOUR
+	 * <li>DATE_TIME_LEVEL_TYPE_MINUTE
+	 * <li>DATE_TIME_LEVEL_TYPE_SECOND
 	 * </ul>
 	 * 
 	 * @param dateTimeType

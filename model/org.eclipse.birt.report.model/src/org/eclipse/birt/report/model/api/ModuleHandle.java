@@ -706,7 +706,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Finds a cube element by name in this module and the included modules.
 	 * 
 	 * @param name
-	 *            the element name
+	 *            the element name, name must be Dimension name + "/" + level name.
 	 * @return the cube element handle, if found, otherwise null
 	 */
 

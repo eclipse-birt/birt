@@ -47,7 +47,6 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="testTable">
-            <property name="level">testLevel</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COLUMN_1</property>
@@ -67,6 +66,7 @@
                     </simple-property-list>
                 </structure>
             </list-property>
+            <property name="level">testLevel</property>
         </extended-item>
     </body>
 </report>

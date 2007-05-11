@@ -80,7 +80,7 @@ public class CssStyle extends Style
 	{
 		if ( handle == null )
 		{
-			handle = new CssSharedStyleHandle( module, this );
+			handle = new CssSharedStyleHandle( module, this , sheet );
 		}
 		return (SharedStyleHandle) handle;
 	}

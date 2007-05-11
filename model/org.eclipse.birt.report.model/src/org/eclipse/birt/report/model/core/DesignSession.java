@@ -87,7 +87,7 @@ public class DesignSession
 	 * file with TOC default value.
 	 */
 
-	public static final String TOC_DEFAULT_VALUE = "TOCDefaultValue.xml";//$NON-NLS-1$
+	public static final String TOC_DEFAULT_VALUE = "templates/TOCDefaultValue.xml";//$NON-NLS-1$
 
 	/**
 	 * Resource path.

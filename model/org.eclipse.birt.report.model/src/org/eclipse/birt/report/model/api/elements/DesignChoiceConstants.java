@@ -306,6 +306,13 @@ public interface DesignChoiceConstants
 	public static final String INTERVAL_MINUTE = "minute"; //$NON-NLS-1$
 	public static final String INTERVAL_SECOND = "second"; //$NON-NLS-1$
 	public static final String INTERVAL_INTERVAL = "interval"; //$NON-NLS-1$
+	
+	// intervalType
+
+	public static final String CHOICE_INTERVAL_TYPE = "intervalType"; //$NON-NLS-1$
+	public static final String INTERVAL_TYPE_NONE = "none"; //$NON-NLS-1$
+	public static final String INTERVAL_TYPE_PREFIX = "prefix"; //$NON-NLS-1$
+	public static final String INTERVAL_TYPE_INTERVAL = "interval"; //$NON-NLS-1$
 
 	// sortDirection
 
@@ -824,4 +831,7 @@ public interface DesignChoiceConstants
 	public static final String DATE_TIME_LEVEL_TYPE_QUARTER = "quarter"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_WEEK = "week"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_DAY = "day"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_HOUR = "hour"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_MINUTE = "minute"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_SECOND = "second"; //$NON-NLS-1$
 };

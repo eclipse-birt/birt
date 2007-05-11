@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -349,6 +351,18 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		// change interval property value to none if property value is not
+		// 'none,'interval' or 'perfix'.
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_14
+				&& element instanceof Level
+				&& ILevelModel.INTERVAL_PROP.equalsIgnoreCase( name ) )
+		{
+			CompatibleIntervalState state = new CompatibleIntervalState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
 
 		// Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
 

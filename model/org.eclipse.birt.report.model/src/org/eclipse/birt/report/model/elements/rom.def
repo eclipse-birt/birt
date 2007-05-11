@@ -224,6 +224,11 @@
     <Choice displayNameID="Choices.interval.second" name="second"/>
     <Choice displayNameID="Choices.interval.interval" name="interval"/>
   </ChoiceType>
+  <ChoiceType name="intervalType">
+    <Choice displayNameID="Choices.intervalType.none" name="none"/>
+    <Choice displayNameID="Choices.intervalType.prefix" name="prefix"/>
+    <Choice displayNameID="Choices.intervalType.interval" name="interval"/>
+  </ChoiceType>
   <ChoiceType name="sortDirection">
     <Choice displayNameID="Choices.sortDirection.asc" name="asc"/>
     <Choice displayNameID="Choices.sortDirection.desc" name="desc"/>
@@ -541,10 +546,16 @@
   </ChoiceType>
   <ChoiceType name="dateTimeLevelType">
 	<Choice displayNameID="Choices.dateTimeLevelType.year" name="year"/>
-	<Choice displayNameID="Choices.dateTimeLevelType.month" name="month"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.quarter" name="quarter"/>
-	<Choice displayNameID="Choices.dateTimeLevelType.week" name="week"/>
-	<Choice displayNameID="Choices.dateTimeLevelType.day" name="day"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.month" name="month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.weekOfMonth" name="week-of-month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.weekOfYear" name="week-of-year"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.dayOfWeek" name="day-of-week"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.dayOfMonth" name="day-of-month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.dayOfYear" name="day-of-year"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.hour" name="hour"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.minute" name="minute"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.second" name="second"/>
   </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -3760,7 +3771,7 @@
   	<Property detailType="dateTimeLevelType" displayNameID="Element.Level.dateTimeLevelType" name="dateTimeLevelType" runtimeSettable="false" since="2.2" type="choice"/>
   	<PropertyGroup displayNameID="Element.Level.Interval">
 		<Property displayNameID="Element.Level.intervalBase" name="intervalBase" runtimeSettable="false" since="2.2" type="string" />
-   		<Property detailType="interval" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">
+   		<Property detailType="intervalType" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">
      		 <Default>none</Default>
    		</Property>
     	<Property displayNameID="Element.Level.intervalRange" name="intervalRange" runtimeSettable="false" since="2.2" type="float" />

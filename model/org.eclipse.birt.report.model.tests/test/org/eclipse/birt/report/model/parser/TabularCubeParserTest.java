@@ -192,7 +192,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "column1", level.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
 				.getDataType( ) );
-		assertEquals( "week", level.getInterval( ) ); //$NON-NLS-1$
+		assertEquals( "none", level.getInterval( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH, level
 				.getDateTimeLevelType( ) );
 		assertEquals( 3.0, level.getIntervalRange( ), 0.00 );
@@ -374,7 +374,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
 		level
 				.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
-		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
+//		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
 		level.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );

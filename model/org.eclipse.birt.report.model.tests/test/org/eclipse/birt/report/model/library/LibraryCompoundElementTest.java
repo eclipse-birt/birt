@@ -261,7 +261,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		assertEquals( "column1", level.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
 				.getDataType( ) );
-		assertEquals( "week", level.getInterval( ) ); //$NON-NLS-1$
+		assertEquals( "none", level.getInterval( ) ); //$NON-NLS-1$
 		assertEquals( 3.0, level.getIntervalRange( ), 0.00 );
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level

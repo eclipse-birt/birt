@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -185,6 +186,25 @@ public class ImportCssTest extends BaseTestCase
 		saveLibrary( );
 		assertTrue( compareFile( "ImportCssToLibrary2_golden.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Test container of css style sheet handle when import to report design.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testContainerOfCssStyleSheet( ) throws Exception
+	{
+		openDesign( "ImportCssReport.xml" ); //$NON-NLS-1$
+		CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) designHandle
+				.getTheme( ).getAllCssStyleSheets( ).get( 0 );
+		SharedStyleHandle styleHandle = cssStyleSheetHandle.findStyle( "table" ); //$NON-NLS-1$
+		assertTrue( styleHandle instanceof CssSharedStyleHandle );
+		CssSharedStyleHandle cssStyleHandle = (CssSharedStyleHandle) styleHandle;
+		DesignElementHandle elementHandle = cssStyleHandle
+				.getCssStyleSheetHandle( ).getContainerHandle( );
+		assertTrue( elementHandle instanceof ThemeHandle );
 	}
 
 	/**
