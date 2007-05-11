@@ -153,7 +153,12 @@ Choices.interval.hour=小时
 Choices.interval.minute=分钟
 Choices.interval.second=秒
 Choices.interval.interval=间隔
-  
+
+#interval type
+Choices.intervalType.none=无间隔
+Choices.intervalType.prefix=前缀
+Choices.intervalType.interval=间隔
+
 #13.sortDirection
 Choices.sortDirection.asc=升序
 Choices.sortDirection.desc=降序
@@ -600,8 +605,14 @@ Choices.reportLayoutPreference.autoLayout=自动布局
 Choices.dateTimeLevelType.year=年
 Choices.dateTimeLevelType.month=月
 Choices.dateTimeLevelType.quarter=季
-Choices.dateTimeLevelType.week=周
-Choices.dateTimeLevelType.day=日
+Choices.dateTimeLevelType.weekOfMonth=Week Of Month
+Choices.dateTimeLevelType.weekOfYear=Week Of Year
+Choices.dateTimeLevelType.dayOfWeek=Day Of Week
+Choices.dateTimeLevelType.dayOfMonth=Day Of Month
+Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.hour=小时
+Choices.dateTimeLevelType.minute=分钟
+Choices.dateTimeLevelType.second=秒
 
 
 ###########################################################

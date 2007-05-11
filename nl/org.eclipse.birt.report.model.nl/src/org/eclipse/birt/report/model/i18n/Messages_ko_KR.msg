@@ -153,7 +153,12 @@ Choices.interval.hour=시
 Choices.interval.minute=분
 Choices.interval.second=초
 Choices.interval.interval=간격
-  
+
+#interval type
+Choices.intervalType.none=간격 없음
+Choices.intervalType.prefix=접두사
+Choices.intervalType.interval=간격
+
 #13.sortDirection
 Choices.sortDirection.asc=오름차순
 Choices.sortDirection.desc=내림차순
@@ -600,8 +605,14 @@ Choices.reportLayoutPreference.autoLayout=자동 레이아웃
 Choices.dateTimeLevelType.year=연
 Choices.dateTimeLevelType.month=월
 Choices.dateTimeLevelType.quarter=분기
-Choices.dateTimeLevelType.week=주
-Choices.dateTimeLevelType.day=일
+Choices.dateTimeLevelType.weekOfMonth=Week Of Month
+Choices.dateTimeLevelType.weekOfYear=Week Of Year
+Choices.dateTimeLevelType.dayOfWeek=Day Of Week
+Choices.dateTimeLevelType.dayOfMonth=Day Of Month
+Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.hour=시
+Choices.dateTimeLevelType.minute=분
+Choices.dateTimeLevelType.second=초
 
 
 ###########################################################

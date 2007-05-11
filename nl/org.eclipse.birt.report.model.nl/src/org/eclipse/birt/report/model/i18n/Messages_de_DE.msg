@@ -153,7 +153,12 @@ Choices.interval.hour=Stunde
 Choices.interval.minute=Minute
 Choices.interval.second=Sekunde
 Choices.interval.interval=Intervall
-  
+
+#interval type
+Choices.intervalType.none=Kein Intervall
+Choices.intervalType.prefix=Präfix
+Choices.intervalType.interval=Intervall
+
 #13.sortDirection
 Choices.sortDirection.asc=Aufsteigend
 Choices.sortDirection.desc=Absteigend
@@ -600,8 +605,14 @@ Choices.reportLayoutPreference.autoLayout=Automatisches Layout
 Choices.dateTimeLevelType.year=Jahr
 Choices.dateTimeLevelType.month=Monat
 Choices.dateTimeLevelType.quarter=Quartal
-Choices.dateTimeLevelType.week=Woche
-Choices.dateTimeLevelType.day=Tag
+Choices.dateTimeLevelType.weekOfMonth=Week Of Month
+Choices.dateTimeLevelType.weekOfYear=Week Of Year
+Choices.dateTimeLevelType.dayOfWeek=Day Of Week
+Choices.dateTimeLevelType.dayOfMonth=Day Of Month
+Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.hour=Stunde
+Choices.dateTimeLevelType.minute=Minute
+Choices.dateTimeLevelType.second=Sekunde
 
 
 ###########################################################

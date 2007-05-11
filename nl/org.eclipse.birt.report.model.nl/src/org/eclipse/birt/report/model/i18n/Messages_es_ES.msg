@@ -153,7 +153,12 @@ Choices.interval.hour=Hora
 Choices.interval.minute=Minuto
 Choices.interval.second=Segundo
 Choices.interval.interval=Intervalo
-  
+
+#interval type
+Choices.intervalType.none=Sin intervalo
+Choices.intervalType.prefix=Prefijo
+Choices.intervalType.interval=Intervalo
+
 #13.sortDirection
 Choices.sortDirection.asc=Ascendente
 Choices.sortDirection.desc=Descendente
@@ -600,8 +605,14 @@ Choices.reportLayoutPreference.autoLayout=Diseño automático
 Choices.dateTimeLevelType.year=Año
 Choices.dateTimeLevelType.month=Mes
 Choices.dateTimeLevelType.quarter=Trimestre
-Choices.dateTimeLevelType.week=Semana
-Choices.dateTimeLevelType.day=Día
+Choices.dateTimeLevelType.weekOfMonth=Week Of Month
+Choices.dateTimeLevelType.weekOfYear=Week Of Year
+Choices.dateTimeLevelType.dayOfWeek=Day Of Week
+Choices.dateTimeLevelType.dayOfMonth=Day Of Month
+Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.hour=Hora
+Choices.dateTimeLevelType.minute=Minuto
+Choices.dateTimeLevelType.second=Segundo
 
 
 ###########################################################
