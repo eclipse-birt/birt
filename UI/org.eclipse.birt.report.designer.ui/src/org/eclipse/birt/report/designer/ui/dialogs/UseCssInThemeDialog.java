@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -26,13 +25,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -51,62 +51,52 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-
 /**
  * 
  */
 
-public class UseCssInThemeDialog extends BaseDialog
+public class UseCssInThemeDialog extends TitleAreaDialog
 {
-	final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" );
 
-	
+	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
+	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInThemeDialog.TitleArea.Title" ); //$NON-NLS-1$
+	private final static String TITLE_AREA_MESSAGE = Messages.getString( "UseCssInThemeDialog.TitleArea.Message" ); //$NON-NLS-1$
+	private final static String DIALOG_BROWSE = Messages.getString( "UseCssInReportDialog.Dialog.Browse" ); //$NON-NLS-1$
+	private final static String DIALOG_BROWSE_TITLE = Messages.getString( "UseCssInReportDialog.Dialog.Browse.Title" ); //$NON-NLS-1$
+	private final static String DIALOG_LABEL_NOFILE = Messages.getString( "UseCssInReportDialog.Label.No.File" ); //$NON-NLS-1$
+
 	private Text fileNameField;
-	
+
 	private Label title;
 
 	private Table stylesTable;
 
 	private Table notificationsTable;
-	
+
 	private Combo themeCombo;
-	
+
 	private Map styleMap = new HashMap( );
 
 	private List styleNames = new ArrayList( );
 
 	private List unSupportedStyleNames = new ArrayList( );
-	
+
 	private int themeIndex;
-	protected UseCssInThemeDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
-	}
-
-	/**
-	 * 
-	 * Creates a dialog under the parent shell with the given title and a help
-	 * button. This constructor is equivalent to calling
-	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
-	 * 
-	 * @param title
-	 *            the title of the dialog
-	 */
-
-	public UseCssInThemeDialog( String title )
-	{		
-		this( UIUtil.getDefaultShell( ), title );
-		themeIndex = -1;
-	}
 
 	public UseCssInThemeDialog( )
 	{
-		this( UIUtil.getDefaultShell( ), DIALOG_TITLE );
+		super( UIUtil.getDefaultShell( ) );
 		themeIndex = -1;
 	}
 
+	protected void configureShell( Shell shell )
+	{
+		super.configureShell( shell );
+		shell.setText( DIALOG_TITLE );
+	}
+
 	private CssStyleSheetHandle cssHandle;
-	
+
 	private String fileName;
 
 	public void setFileName( String fileName )
@@ -118,24 +108,25 @@ public class UseCssInThemeDialog extends BaseDialog
 	{
 		return this.fileName;
 	}
-	
+
 	public ThemeHandle getTheme( )
 	{
-		if( themeIndex > -1)
+		if ( themeIndex > -1 )
 		{
-			return (ThemeHandle)getThemes().get( themeIndex );
-		}else
+			return (ThemeHandle) getThemes( ).get( themeIndex );
+		}
+		else
 		{
 			return null;
 		}
 
 	}
-	
-	public void setTheme(ThemeHandle theme)
+
+	public void setTheme( ThemeHandle theme )
 	{
-		themeIndex = getThemes().indexOf( theme );
+		themeIndex = getThemes( ).indexOf( theme );
 	}
-	
+
 	/**
 	 * Notifies that the ok button of this dialog has been pressed.
 	 * <p>
@@ -144,11 +135,12 @@ public class UseCssInThemeDialog extends BaseDialog
 	 * dialog. Subclasses may override.
 	 * </p>
 	 */
-	protected void okPressed() {
+	protected void okPressed( )
+	{
 		themeIndex = themeCombo.getSelectionIndex( );
-		super.okPressed( );		
+		super.okPressed( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -157,12 +149,17 @@ public class UseCssInThemeDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite topComposite = (Composite) super.createDialogArea( parent );
+		topComposite.setLayout( new GridLayout( ) );
 
 		createFileNameComposite( topComposite );
 		createStyleComposite( topComposite );
 
-		InitializeContents();
+		InitializeContents( );
 		UIUtil.bindHelp( parent, IHelpContextIds.USE_CSS_IN_REPORT_DIALOG_ID );
+
+		this.setTitle( TITLE_AREA_TITLE );
+		this.setMessage( TITLE_AREA_MESSAGE );
+
 		return topComposite;
 
 	}
@@ -172,48 +169,32 @@ public class UseCssInThemeDialog extends BaseDialog
 		if ( fileName != null )
 		{
 			fileNameField.setText( fileName );
-		}else
+		}
+		else
 		{
-			refresh();
+			refresh( );
 		}
 	}
-	
+
 	private void createStyleComposite( Composite parent )
 	{
 		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
+		styleComposite.setLayout( new GridLayout( ) );
 		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		title = new Label( styleComposite, SWT.NULL );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		data.horizontalSpan = 2;
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		title.setLayoutData( data );
-//		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", new String[]( ) ) ); //$NON-NLS-1$
-		title.setText( "" );
-		createStyleList( styleComposite );
-
-	}
-
-	public void createStyleList( Composite parent )
-	{
-		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		//		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", new String[]( ) ) ); //$NON-NLS-1$
+		title.setText( DIALOG_LABEL_NOFILE );
 		stylesTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
-//				| SWT.CHECK 
-				);
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		//				| SWT.CHECK 
+		);
+		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 100;
 		stylesTable.setLayoutData( data );
-
 
 		new Label( styleComposite, SWT.NULL ).setText( Messages.getString( "UseCssInReportDialog.Label.notifications" ) ); //$NON-NLS-1$
 
@@ -225,33 +206,33 @@ public class UseCssInThemeDialog extends BaseDialog
 		notificationsTable.setLayoutData( data );
 
 	}
-	
+
 	private void createFileNameComposite( Composite parent )
 	{
 		Composite nameComposite = new Composite( parent, SWT.NULL );
 		GridLayout layout = new GridLayout( 3, false );
-		layout.marginWidth = 0;
+		//		layout.marginWidth = 0;
 		nameComposite.setLayout( layout );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 360;
-		nameComposite.setLayoutData( gd  );
+		//		gd.widthHint = 360;
+		nameComposite.setLayoutData( gd );
 
 		Label title = new Label( nameComposite, SWT.NULL );
 		title.setText( Messages.getString( "UseCssInReportDialog.Wizard.Filename" ) ); //$NON-NLS-1$
 
 		fileNameField = new Text( nameComposite, SWT.BORDER | SWT.READ_ONLY );
 		fileNameField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
+
 		fileNameField.addListener( SWT.Modify, new Listener( ) {
 
 			public void handleEvent( Event e )
 			{
-				fileName = fileNameField.getText( ).trim( ) ;
+				fileName = fileNameField.getText( ).trim( );
 				try
 				{
 					cssHandle = SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( )
-							.openCssStyleSheet(fileName );
+							.openCssStyleSheet( fileName );
 				}
 				catch ( StyleSheetException e1 )
 				{
@@ -262,7 +243,8 @@ public class UseCssInThemeDialog extends BaseDialog
 				refresh( );
 			}
 		} );
-		
+		fileNameField.setLayoutData( gd );
+
 		Button selectButton = new Button( nameComposite, SWT.PUSH );
 		selectButton.setText( Messages.getString( "WizardSelectCssStylePage.button.label.browse" ) ); //$NON-NLS-1$
 
@@ -275,8 +257,8 @@ public class UseCssInThemeDialog extends BaseDialog
 						new String[]{
 								"*.css", "*.CSS"
 						} );
-				dialog.setTitle( "Select" );
-				dialog.setMessage( "Please select a CSS File" );
+				dialog.setTitle( DIALOG_BROWSE );
+				dialog.setMessage( DIALOG_BROWSE_TITLE );
 				ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
 						".css", ".CSS"
 				} );
@@ -293,30 +275,27 @@ public class UseCssInThemeDialog extends BaseDialog
 			}
 		} );
 
-		
 		Label theme = new Label( nameComposite, SWT.NULL );
 		theme.setText( "Theme:" ); //$NON-NLS-1$
-		themeCombo = new Combo(nameComposite, SWT.READ_ONLY);
+		themeCombo = new Combo( nameComposite, SWT.READ_ONLY );
 		themeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		themeCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				refresh();
+				refresh( );
 			}
 		} );
-		
 
 	}
-	
-	private void refresh()
+
+	private void refresh( )
 	{
 		styleMap.clear( );
 		styleNames.clear( );
 		unSupportedStyleNames.clear( );
 
 		String fileName = null;
-		
 
 		TableItem[] ch = stylesTable.getItems( );
 		for ( int i = 0; i < ch.length; i++ )
@@ -330,27 +309,29 @@ public class UseCssInThemeDialog extends BaseDialog
 			ch[i].dispose( );
 		}
 
-		title.setText( "" ); //$NON-NLS-1$
+		title.setText( DIALOG_LABEL_NOFILE );
 		
-		if(themeCombo.getItemCount( ) == 0 )
+		if ( themeCombo.getItemCount( ) == 0 )
 		{
-			List themeList = getThemes();
-			for(int i = 0; i < themeList.size( ); i ++)
+			List themeList = getThemes( );
+			for ( int i = 0; i < themeList.size( ); i++ )
 			{
-				String displayName = ((ThemeHandle)themeList.get( i )).getName( );
-				themeCombo.add( displayName  );
-			}			
-			if(themeCombo.getItemCount( ) > 0 )
+				String displayName = ( (ThemeHandle) themeList.get( i ) ).getName( );
+				themeCombo.add( displayName );
+			}
+			if ( themeCombo.getItemCount( ) > 0 )
 			{
-				if(themeIndex > -1 && themeIndex < themeCombo.getItemCount( ))
+				if ( themeIndex > -1 && themeIndex < themeCombo.getItemCount( ) )
 				{
 					themeCombo.select( themeIndex );
-				}else
+				}
+				else
 				{
 					themeCombo.select( 0 );
 				}
-				
-			}else
+
+			}
+			else
 			{
 				themeCombo.select( -1 );
 			}
@@ -359,7 +340,7 @@ public class UseCssInThemeDialog extends BaseDialog
 		fileName = fileNameField.getText( );
 		if ( fileName.length( ) == 0 )
 		{
-			updateOKButton();
+			updateOKButton( );
 			return;
 		}
 		else
@@ -372,19 +353,21 @@ public class UseCssInThemeDialog extends BaseDialog
 			}
 			catch ( StyleSheetException e )
 			{
-				updateOKButton();
+				updateOKButton( );
 				return;
 			}
 			if ( cssHandle == null )
 			{
-				updateOKButton();
+				updateOKButton( );
 				return;
 			}
-		}		
+		}
 
-		title.setText(  Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", new String[]{ fileName } ));
-		
-	
+		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles",
+				new String[]{
+					fileName
+				} ) );
+
 		Iterator styleIter = cssHandle.getStyleIterator( );
 		while ( styleIter.hasNext( ) )
 		{
@@ -402,7 +385,7 @@ public class UseCssInThemeDialog extends BaseDialog
 			unSupportedStyleNames.add( name
 					+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
 		}
-		
+
 		TableItem item;
 		for ( int i = 0; i < styleNames.size( ); i++ )
 		{
@@ -419,56 +402,63 @@ public class UseCssInThemeDialog extends BaseDialog
 			item.setText( sn );
 			item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
 		}
-		
 
-		updateOKButton();
+		updateOKButton( );
 
-		
 	}
-	
-	private void updateOKButton()
+
+	private void updateOKButton( )
 	{
-		if(themeCombo == null)
+		if ( themeCombo == null )
 		{
-			return ;
+			return;
 		}
 		themeIndex = themeCombo.getSelectionIndex( );
-		ThemeHandle theme = getTheme();
-		
-		if ( getOkButton( ) != null )
-		{
+		ThemeHandle theme = getTheme( );
 
-			if ( theme.canAddCssStyleSheet( fileName )
-					&& styleNames.size( ) != 0 )
+		if ( getButton( IDialogConstants.OK_ID ) != null )
+		{
+			if ( fileName!=null && !theme.canAddCssStyleSheet( fileName ) )
 			{
-				getOkButton( ).setEnabled( true );
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include",
+						new String[]{
+							fileName
+						} ) );
+			}
+			else if ( styleNames.size( ) != 0 )
+			{
+				getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				setErrorMessage( null );
 			}
 			else
 			{
-				getOkButton( ).setEnabled( false );
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setErrorMessage( null );
 			}
-
 		}
 	}
-	
-	private List getThemes()
+
+	private List getThemes( )
 	{
-		if(!(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle))
+		if ( !( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle ) )
 		{
-			return new ArrayList(0);
+			return new ArrayList( 0 );
 		}
-		LibraryHandle libraryHandle = (LibraryHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
 		SlotHandle slotHandle = libraryHandle.getThemes( );
-		List list = new ArrayList();
-		for(Iterator iter = slotHandle.iterator( );iter.hasNext( );)
+		List list = new ArrayList( );
+		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )
 		{
 			list.add( iter.next( ) );
 		}
 		return list;
 	}
-	protected void	createButtonsForButtonBar(Composite parent)
+
+	protected void createButtonsForButtonBar( Composite parent )
 	{
 		super.createButtonsForButtonBar( parent );
-		updateOKButton();
+		updateOKButton( );
 	}
 }

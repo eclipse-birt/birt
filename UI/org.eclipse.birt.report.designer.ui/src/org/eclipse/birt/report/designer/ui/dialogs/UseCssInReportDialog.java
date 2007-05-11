@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,10 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -32,40 +29,44 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * 
  */
 
-public class UseCssInReportDialog extends BaseDialog
+public class UseCssInReportDialog extends TitleAreaDialog
 {
 
-	final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" );
+	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
+	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInReportDialog.TitleArea.Title" ); //$NON-NLS-1$
+	private final static String TITLE_AREA_MESSAGE = Messages.getString( "UseCssInReportDialog.TitleArea.Message" ); //$NON-NLS-1$
+	private final static String DIALOG_BROWSE = Messages.getString( "UseCssInReportDialog.Dialog.Browse" ); //$NON-NLS-1$
+	private final static String DIALOG_BROWSE_TITLE = Messages.getString( "UseCssInReportDialog.Dialog.Browse.Title" ); //$NON-NLS-1$
+	private final static String DIALOG_LABEL_NOFILE = Messages.getString( "UseCssInReportDialog.Label.No.File" ); //$NON-NLS-1$
 
 	private Text fileNameField;
 
 	Button selectButton;
 
-	private Label title;
+	private Label stylesTitle;
 
 	private Table stylesTable;
 
@@ -77,34 +78,20 @@ public class UseCssInReportDialog extends BaseDialog
 
 	private List unSupportedStyleNames = new ArrayList( );
 
-	protected UseCssInReportDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
-	}
-
-	/**
-	 * 
-	 * Creates a dialog under the parent shell with the given title and a help
-	 * button. This constructor is equivalent to calling
-	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
-	 * 
-	 * @param title
-	 *            the title of the dialog
-	 */
-
-	public UseCssInReportDialog( String title )
-	{
-		this( UIUtil.getDefaultShell( ), title );
-	}
-
-	public UseCssInReportDialog( )
-	{
-		this( UIUtil.getDefaultShell( ), DIALOG_TITLE );
-	}
-
 	private CssStyleSheetHandle cssHandle;
 
 	private String fileName;
+
+	public UseCssInReportDialog( )
+	{
+		super( UIUtil.getDefaultShell( ) );
+	}
+
+	protected void configureShell( Shell shell )
+	{
+		super.configureShell( shell );
+		shell.setText( DIALOG_TITLE );
+	}
 
 	public void setFileName( String fileName )
 	{
@@ -124,12 +111,16 @@ public class UseCssInReportDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite topComposite = (Composite) super.createDialogArea( parent );
-
-		createFileNameComposite( topComposite );
-		createStyleComposite( topComposite );
+		topComposite.setLayout( new GridLayout( ) );
+		
+		createFileNameComposite( parent );
+		createStyleComposite( parent );
 
 		InitializeContents( );
 		UIUtil.bindHelp( parent, IHelpContextIds.USE_CSS_IN_REPORT_DIALOG_ID );
+
+		this.setTitle( TITLE_AREA_TITLE );
+		this.setMessage( TITLE_AREA_MESSAGE );
 
 		return topComposite;
 
@@ -150,39 +141,19 @@ public class UseCssInReportDialog extends BaseDialog
 	private void createStyleComposite( Composite parent )
 	{
 		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
+		styleComposite.setLayout( new GridLayout( ) );
 		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		title = new Label( styleComposite, SWT.NULL );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		data.widthHint = 360;
-		data.horizontalSpan = 2;
-		title.setLayoutData( data );
-		// title.setText( Messages.getFormattedString(
-		// "UseCssInReportDialog.Label.Styles", new String[]( ) ) );
-		// //$NON-NLS-1$
-		title.setText( "" );
-		createStyleList( styleComposite );
-
-	}
-
-	public void createStyleList( Composite parent )
-	{
-		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		stylesTitle = new Label( styleComposite, SWT.NULL );
+		stylesTitle.setLayoutData( data );
+		
 		stylesTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 		// | SWT.CHECK
 		);
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 100;
 		stylesTable.setLayoutData( data );
 
@@ -201,10 +172,10 @@ public class UseCssInReportDialog extends BaseDialog
 	{
 		Composite nameComposite = new Composite( parent, SWT.NULL );
 		GridLayout layout = new GridLayout( 3, false );
-		layout.marginWidth = 0;
+//		layout.marginWidth = 0;
 		nameComposite.setLayout( layout );
-		GridData gd = new GridData( );
-		gd.widthHint = 360;
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+//		gd.grabExcessHorizontalSpace = true;
 		nameComposite.setLayoutData( gd );
 
 		Label title = new Label( nameComposite, SWT.NULL );
@@ -231,6 +202,7 @@ public class UseCssInReportDialog extends BaseDialog
 				refresh( );
 			}
 		} );
+		fileNameField.setLayoutData( gd );
 
 		selectButton = new Button( nameComposite, SWT.PUSH );
 		selectButton.setText( Messages.getString( "WizardSelectCssStylePage.button.label.browse" ) ); //$NON-NLS-1$
@@ -273,8 +245,8 @@ public class UseCssInReportDialog extends BaseDialog
 						new String[]{
 								"*.css", "*.CSS"
 						} );
-				dialog.setTitle( "Select" );
-				dialog.setMessage( "Please select a CSS File" );
+				dialog.setTitle( DIALOG_BROWSE );
+				dialog.setMessage( DIALOG_BROWSE_TITLE );
 				ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
 						".css", ".CSS"
 				} );
@@ -312,7 +284,7 @@ public class UseCssInReportDialog extends BaseDialog
 			ch[i].dispose( );
 		}
 
-		title.setText( "" ); //$NON-NLS-1$
+		stylesTitle.setText( DIALOG_LABEL_NOFILE ); //$NON-NLS-1$
 
 		fileName = fileNameField.getText( );
 		if ( fileName.length( ) == 0 )
@@ -340,7 +312,7 @@ public class UseCssInReportDialog extends BaseDialog
 			}
 		}
 
-		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles",
+		stylesTitle.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles",
 				new String[]{
 					fileName
 				} ) );
@@ -387,18 +359,26 @@ public class UseCssInReportDialog extends BaseDialog
 		ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		if ( getOkButton( ) != null )
+		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
-			if ( moduleHandle.canAddCssStyleSheet( fileName )
-					&& styleNames.size( ) != 0 )
+			if ( fileName!=null && !moduleHandle.canAddCssStyleSheet( fileName ) )
 			{
-				getOkButton( ).setEnabled( true );
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include",
+						new String[]{
+							fileName
+						} ) );
+			}
+			else if ( styleNames.size( ) != 0 )
+			{
+				getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				setErrorMessage( null );
 			}
 			else
 			{
-				getOkButton( ).setEnabled( false );
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				setErrorMessage( null );
 			}
-
 		}
 	}
 

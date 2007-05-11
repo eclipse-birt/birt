@@ -24,18 +24,22 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.NonGEFSynchronizerWithTreeView;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameListener;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -44,6 +48,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
@@ -58,12 +63,17 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 /**
@@ -128,7 +138,17 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		getTreeViewer( ).expandToLevel( 2 );
 
 		final Tree tree = getTreeViewer( ).getTree( );
+		//184790
+		tree.addListener(SWT.PaintItem, new Listener() {
 
+			public void handleEvent(Event event)
+			{
+				if(event.item.getData( ) instanceof CssStyleSheetHandle || event.item.getData( ) instanceof CssSharedStyleHandle){
+					TreeItem item = (TreeItem)event.item;
+					Color red = Display.getCurrent( ).getSystemColor(SWT.COLOR_DARK_GRAY);
+					item.setForeground( red );
+				}
+			}} );
 		// Adds mouse listener to disable Cell multi-selection
 		tree.addMouseListener( new MouseAdapter( ) {
 
@@ -507,6 +527,21 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			getSite( ).getActionBars( ).setGlobalActionHandler( id,
 					GlobalActionFactory.createSelectionAction( id, this ) );
 		}
+
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < entries.length; i++ )
+		{
+			getSite( ).getActionBars( )
+					.setGlobalActionHandler( entries[i].getItemName( ),
+							GlobalActionFactory.createSelectionAction( entries[i].getItemName( ),
+									this ) );
+		}
+
+		getSite( ).getActionBars( )
+				.setGlobalActionHandler( ImportLibraryAction.ID,
+						new RetargetAction( ImportLibraryAction.ID,
+								ImportLibraryAction.ACTION_TEXT ) );
+
 		for ( int i = 0; i < GlobalActionFactory.GLOBAL_STACK_ACTIONS.length; i++ )
 		{
 			String id = GlobalActionFactory.GLOBAL_STACK_ACTIONS[i];
@@ -613,7 +648,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	 */
 	public boolean isDispose( )
 	{
-		if(getTreeViewer( ) == null || getTreeViewer( ).getTree( )==null)return true;
-		else return getTreeViewer( ).getTree( ).isDisposed( );
+		if ( getTreeViewer( ) == null || getTreeViewer( ).getTree( ) == null )
+			return true;
+		else
+			return getTreeViewer( ).getTree( ).isDisposed( );
 	}
 }
