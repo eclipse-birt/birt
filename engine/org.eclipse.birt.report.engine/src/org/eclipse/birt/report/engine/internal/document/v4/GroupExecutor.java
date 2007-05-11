@@ -79,7 +79,7 @@ abstract public class GroupExecutor extends ContainerExecutor
 		long rsetPosition = rset.getCurrentPosition( );
 		if (rsetPosition == rowId)
 		{
-			if ( currentElement < totalElements)
+			if ( currentElement >= totalElements)
 			{
 				collectExecutables( uid == 0, true );
 			}

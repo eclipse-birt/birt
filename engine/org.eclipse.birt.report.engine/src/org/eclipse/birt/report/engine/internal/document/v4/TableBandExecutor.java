@@ -49,7 +49,8 @@ public class TableBandExecutor extends ContainerExecutor
 			throws Exception
 	{
 		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
-		if ( nextItem < bandDesign.getRowCount( ) )
+		int rowCount = bandDesign.getRowCount( );
+		if ( nextItem < rowCount )
 		{
 			RowDesign rowDesign = bandDesign.getRow( nextItem );
 			RowExecutor rowExecutor = (RowExecutor) manager.createExecutor(
@@ -66,7 +67,8 @@ public class TableBandExecutor extends ContainerExecutor
 	protected void doSkipToExecutor( InstanceID id, long offset )
 	{
 		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
-		for ( int i = 0; i < bandDesign.getRowCount( ); i++ )
+		int rowCount = bandDesign.getRowCount( );
+		for ( int i = 0; i < rowCount; i++ )
 		{
 			ReportItemDesign childDesign = bandDesign.getRow( i );
 			if ( childDesign.getID( ) == id.getComponentID( ) )
@@ -76,6 +78,6 @@ public class TableBandExecutor extends ContainerExecutor
 				return;
 			}
 		}
-		nextItem = 0;
+		nextItem = rowCount;
 	}
 }
