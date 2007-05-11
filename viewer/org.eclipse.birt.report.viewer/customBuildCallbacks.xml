@@ -115,6 +115,7 @@
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
 	<target name="post.build.sources">
+		<property name="birt.dir" value="birt" />
 		<mkdir dir="${build.result.folder}"/>
 		<zip destfile="${build.result.folder}/viewerservletssrc.zip" filesonly="false" whenempty="skip" update="false">
 			<fileset dir="${birt.dir}/WEB-INF/classes/" includes="**/*.java"			/>
