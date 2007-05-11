@@ -439,7 +439,11 @@ public class CallStatement implements IAdvancedQuery
 		if ( parameterDefn.getParameterType( i ) != Types.CHAR )
 			return parameterDefn.getParameterType( i );
 
-		return ( (ParameterDefn) getCallableParamMetaData( ).get( i ) ).getParamType( );
+		List paramMetaDataList = getCallableParamMetaData( );
+		if ( paramMetaDataList != null && !paramMetaDataList.isEmpty( ) )
+			return ( (ParameterDefn) paramMetaDataList.get( i ) ).getParamType( );
+		else
+			return parameterDefn.getParameterType( i );
 	}
 	
 	/**
@@ -1437,12 +1441,23 @@ public class CallStatement implements IAdvancedQuery
 			ArrayList schemaList = null;
 			String columnNamePattern = null;
 			String procedureNamePattern = procedureName;
+			String packagePattern = "";
 			
 			if ( procedureName.indexOf( "." ) > 0 )
 			{
 				schemaPattern = procedureName.substring( 0,
-						procedureName.indexOf( "." ) );
-				procedureNamePattern = procedureName.substring( procedureName.indexOf( "." ) + 1 );
+						procedureName.lastIndexOf( "." ) );
+				procedureNamePattern = procedureName.substring( procedureName.lastIndexOf( "." ) + 1 );
+				
+			}
+			// handles schema.package.storedprocedure for databases such as
+			// Oracle
+			if ( !metaData.supportsCatalogsInProcedureCalls( )
+					&& schemaPattern.indexOf( "." ) != -1 )
+			{
+				packagePattern = schemaPattern.substring( schemaPattern.lastIndexOf( "." ) + 1 );
+				schemaPattern = schemaPattern.substring( 0,
+						schemaPattern.lastIndexOf( "." ) );
 			}
 			
 			if ( schemaPattern != null )
@@ -1466,10 +1481,17 @@ public class CallStatement implements IAdvancedQuery
 
 			for ( int i = 0; i < schemaList.size( ); i++ )
 			{
-				java.sql.ResultSet rs = metaData.getProcedureColumns( cataLog,
-						schemaList.get( i ).toString( ),
-						procedureNamePattern,
-						columnNamePattern );
+				java.sql.ResultSet rs = null;
+				if ( packagePattern.trim( ).length( ) > 0 )
+					rs = metaData.getProcedureColumns( packagePattern,
+							schemaList.get( i ).toString( ),
+							procedureNamePattern,
+							columnNamePattern );
+				else
+					rs = metaData.getProcedureColumns( cataLog,
+							schemaList.get( i ).toString( ),
+							procedureNamePattern,
+							columnNamePattern );
 				while ( rs.next( ) )
 				{
 					ParameterDefn p = new ParameterDefn( );

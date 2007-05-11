@@ -1366,7 +1366,17 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			prevDataSourceDesign = curDataSourceDesign;
 			try 
 			{
+				if ( this.getDataSetDesign( ).getQueryText( ) == null
+						|| this.getDataSetDesign( )
+								.getQueryText( )
+								.trim( )
+								.length( ) == 0 )
+					return;
+				
 				ResultSetMetaData meta = this.metaDataProvider.getConnection( ).prepareStatement( this.getDataSetDesign( ).getQueryText( ) ).getMetaData( );
+				if ( meta == null )
+					return;
+				
 				ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
 
 				if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
