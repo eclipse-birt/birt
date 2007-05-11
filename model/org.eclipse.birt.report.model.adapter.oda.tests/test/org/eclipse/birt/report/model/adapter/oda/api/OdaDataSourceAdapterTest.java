@@ -207,9 +207,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		new ModelOdaAdapter( ).updateROMDesignerState( designerState,
 				sourceHandle );
-
-		save( ); 
-		compareTextFile( "OdaDataSourceDesignerState_golden.xml" ); //$NON-NLS-1$
+		compareTextFile( "UpdateROMDesignerState_golden.xml" ); //$NON-NLS-1$
 		
 		sourceHandle.setDesignerState( null );
 		assertNull( sourceHandle.getDesignerState( ) );

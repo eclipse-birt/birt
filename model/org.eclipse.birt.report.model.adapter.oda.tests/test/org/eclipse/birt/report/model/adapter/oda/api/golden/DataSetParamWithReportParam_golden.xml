@@ -120,14 +120,14 @@
       <design:attributes>
         <design:name></design:name>
         <design:position>2</design:position>
-        <design:nullability>Nullable</design:nullability>
+        <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>City</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:optional>true</design:optional>
+          <design:optional>false</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
             <design:dataSetDesign>
@@ -217,7 +217,7 @@
       <design:attributes>
         <design:name></design:name>
         <design:position>3</design:position>
-        <design:nullability>Nullable</design:nullability>
+        <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>City</design:displayName>
         </design:uiHints>
@@ -225,7 +225,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultScalarValue>&quot;default value param 3&quot;</design:defaultScalarValue>
-          <design:optional>true</design:optional>
+          <design:optional>false</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
             <design:dataSetDesign>
