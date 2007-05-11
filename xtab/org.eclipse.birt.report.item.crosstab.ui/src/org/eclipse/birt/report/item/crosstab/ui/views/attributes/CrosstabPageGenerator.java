@@ -14,7 +14,6 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.High
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabBindingPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSortingHandleProvider;
 import org.eclipse.swt.custom.CTabItem;
@@ -35,7 +35,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 	public static final String ROWAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" );
 	public static final String COLUMNAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" );
 
-	protected BindingPage bindingPage;
+	protected CrosstabBindingPage bindingPage;
 	protected BaseAttributePage rowAreaPage;
 	protected BaseAttributePage columnAreaPage;
 	protected FormPage filterPage;
@@ -50,8 +50,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 			String title = tabFolder.getSelection( ).getText( );
 			if ( title.equals( BINDINGTITLE ) )
 			{
-				bindingPage = new BindingPage( );
-				bindingPage.setDataSetSectionVisible( false );
+				bindingPage = new CrosstabBindingPage( );
 				setPageInput( bindingPage );
 				refresh( tabFolder, bindingPage, true );
 				item.setControl( bindingPage.getControl( ) );

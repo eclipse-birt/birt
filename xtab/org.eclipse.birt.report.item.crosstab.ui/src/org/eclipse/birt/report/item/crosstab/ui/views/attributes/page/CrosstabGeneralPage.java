@@ -23,10 +23,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.LayoutMeasuresProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.ContainerSection;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.InnerCheckSection;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.InnerTextSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -70,15 +68,15 @@ public class CrosstabGeneralPage extends AttributePage
 		nameSection.setWidth( 280 );
 		addSection( CrosstabPageSectionId.CROSSTAB_NAME, nameSection );
 
-		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( ICrosstabReportItemConstants.CUBE_PROP,/* ICrosstabReportItemConstants.CUBE_PROP */
-				ReportDesignConstants.EXTENDED_ITEM );
-		CrosstabSimpleComboSection cubeSection = new CrosstabSimpleComboSection( cubeProvider.getDisplayName( ),
-				container,
-				true );
-		cubeSection.setProvider( cubeProvider );
-		cubeSection.setWidth( 280 );
-		cubeSection.setGridPlaceholder( 2, true );
-		addSection( CrosstabPageSectionId.CUBE, cubeSection );
+//		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( ICrosstabReportItemConstants.CUBE_PROP,/* ICrosstabReportItemConstants.CUBE_PROP */
+//				ReportDesignConstants.EXTENDED_ITEM );
+//		CrosstabSimpleComboSection cubeSection = new CrosstabSimpleComboSection( cubeProvider.getDisplayName( ),
+//				container,
+//				true );
+//		cubeSection.setProvider( cubeProvider );
+//		cubeSection.setWidth( 280 );
+//		cubeSection.setGridPlaceholder( 2, true );
+//		addSection( CrosstabPageSectionId.CUBE, cubeSection );
 
 		ContainerSection formatOptionSection = new ContainerSection( Messages.getString( "CrosstabGeneraPage.FormatOption" ),
 				container,
