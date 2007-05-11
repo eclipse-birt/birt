@@ -13,6 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,7 +51,6 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -79,7 +81,6 @@ import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -370,6 +371,8 @@ public class PDFEmitter implements IContentEmitter
 		
 		private Stack containerStack = new Stack();
 		
+		private Set bookmarks = new HashSet();
+		
 		private class ContainerPosition
 		{
 			private int x;
@@ -483,19 +486,29 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public void end(IReportContent rc)
 		{
-			// Before closing the document, we need to create TOC.
-			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf",
-					ULocale.getDefault( ) ).getRoot( ) );
-			TOCNode tocRoot = tocHandler.getTOCRoot();
-			if (tocRoot == null || tocRoot.getChildren().isEmpty())
+			ULocale ulocale = null;
+			Locale locale = context.getLocale( );
+			if(locale==null)
 			{
-				writer.setViewerPreferences(PdfWriter.PageModeUseNone);
+				ulocale = ULocale.getDefault( );
 			}
 			else
 			{
-				writer.setViewerPreferences(PdfWriter.PageModeUseOutlines);
-				PdfOutline root = cb.getRootOutline();
-				tocHandler.createTOC(tocRoot, root);
+				ulocale = ULocale.forLocale( locale);
+			}
+			// Before closing the document, we need to create TOC.
+			TOCNode tocTree = report.getTOCTree( "pdf", //$NON-NLS-1$
+					ulocale ).getRoot( );
+			
+			if ( tocTree == null || tocTree.getChildren( ).isEmpty( ) )
+			{
+				writer.setViewerPreferences( PdfWriter.PageModeUseNone );
+			}
+			else
+			{
+				writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
+				TOCHandler tocHandler = new TOCHandler( tocTree, cb.getRootOutline( ), bookmarks );
+				tocHandler.createTOC( );
 			}
 			if(doc.isOpen( ))
 			{
@@ -1808,6 +1821,7 @@ public class PDFEmitter implements IContentEmitter
 				{
 					cb.localDestination( bookmark, new PdfDestination(
 							PdfDestination.XYZ, -1, layoutPointY2PDF(areaY), 0));
+					bookmarks.add( bookmark );
 				}
 			}
 		}
