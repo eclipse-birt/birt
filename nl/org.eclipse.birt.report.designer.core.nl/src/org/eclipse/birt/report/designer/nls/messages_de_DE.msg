@@ -2424,11 +2424,11 @@ ParameterDialog.Button.SetDefault=&Als Standard einstellen
 ParameterDialog.CheckBox.IsRequired=&erforderlich
 ParameterDialog.CheckBox.DoNotEchoInput=&Keine Wiedergabe auf Eingabe
 ParameterDialog.CheckBox.Hidden=&Ausgeblendet
-ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=Doppelte Werte zulassen
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Choice.NullValue=Null-Wert
 ParameterDialog.Choice.BlankValue=Leerwert
+ParameterDialog.Choice.None=Keine
 ParameterDialog.Choice.DisplayText=Text anzeigen
 ParameterDialog.Choice.ValueColumn=Wertespalte
 ParameterDialog.Choice.ASCENDING=Aufsteigend
@@ -2461,6 +2461,7 @@ ParameterDialog.Label.DisplayType=&Anzeigetyp:
 ParameterDialog.Label.Format=For&matieren als:
 ParameterDialog.Label.HelpText=&Hilfetext:
 ParameterDialog.Label.ListOfValue=Werteliste
+ParameterDialog.Label.SortGroup=Sort
 ParameterDialog.Label.Name=&Name:
 ParameterDialog.Label.None=<Keine>
 ParameterDialog.Label.Null=Null
@@ -3024,10 +3025,19 @@ SelectCssStyleWizard.wizardPage.title=Stile aus CSS-Datei importieren
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=CSS verwenden
+UseCssInReportDialog.Wizard.Title=Use CSS
 UseCssInReportDialog.Wizard.Filename=&Dateiname:
 UseCssInReportDialog.Label.Styles=&Verfügbare Stile von {0}
 UseCssInReportDialog.Label.notifications=&Benachrichtigungen:
+UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
+UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.Dialog.Browse=Durchsuchen
+UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
+UseCssInReportDialog.Error.Already.Include={0} was included already
+
+UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
+UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
 
 ###########################################################
 #SelectValueDialog properties

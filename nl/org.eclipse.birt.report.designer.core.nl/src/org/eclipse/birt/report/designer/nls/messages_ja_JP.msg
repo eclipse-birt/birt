@@ -2424,11 +2424,11 @@ ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&O)
 ParameterDialog.CheckBox.Hidden=非表示(&D)
-ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=値の重複を許可する
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
 ParameterDialog.Choice.BlankValue=空白値
+ParameterDialog.Choice.None=なし
 ParameterDialog.Choice.DisplayText=表示テキスト
 ParameterDialog.Choice.ValueColumn=値のカラム
 ParameterDialog.Choice.ASCENDING=昇順
@@ -2461,6 +2461,7 @@ ParameterDialog.Label.DisplayType=表示の種類(&T) :
 ParameterDialog.Label.Format=書式設定(&M) :
 ParameterDialog.Label.HelpText=ヘルプテキスト(&H) :
 ParameterDialog.Label.ListOfValue=値リスト
+ParameterDialog.Label.SortGroup=Sort
 ParameterDialog.Label.Name=名前(&N) :
 ParameterDialog.Label.None=<なし>
 ParameterDialog.Label.Null=Null
@@ -3024,10 +3025,19 @@ SelectCssStyleWizard.wizardPage.title=CSS ファイルからスタイルをインポート
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=CSS の使用
+UseCssInReportDialog.Wizard.Title=Use CSS
 UseCssInReportDialog.Wizard.Filename=ファイル名(&F) :
 UseCssInReportDialog.Label.Styles={0} の使用可能なスタイル(&A)
 UseCssInReportDialog.Label.notifications=通知(&N) :
+UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
+UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.Dialog.Browse=参照
+UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
+UseCssInReportDialog.Error.Already.Include={0} was included already
+
+UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
+UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
 
 ###########################################################
 #SelectValueDialog properties

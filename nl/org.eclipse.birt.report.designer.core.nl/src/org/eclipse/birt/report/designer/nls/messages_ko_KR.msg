@@ -2424,11 +2424,11 @@ ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&D)
-ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=중복 값 허용
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
 ParameterDialog.Choice.BlankValue=빈 값
+ParameterDialog.Choice.None=없음
 ParameterDialog.Choice.DisplayText=표시 텍스트
 ParameterDialog.Choice.ValueColumn=값 열
 ParameterDialog.Choice.ASCENDING=오름차순
@@ -2461,6 +2461,7 @@ ParameterDialog.Label.DisplayType=표시 형식(&T):
 ParameterDialog.Label.Format=다음으로 형식 지정(&M):
 ParameterDialog.Label.HelpText=도움말 텍스트(&H):
 ParameterDialog.Label.ListOfValue=값 목록
+ParameterDialog.Label.SortGroup=Sort
 ParameterDialog.Label.Name=이름(&N):
 ParameterDialog.Label.None=<없음>
 ParameterDialog.Label.Null=널(null)
@@ -3024,10 +3025,19 @@ SelectCssStyleWizard.wizardPage.title=CSS 파일의 스타일 가져오기
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=CSS 사용
+UseCssInReportDialog.Wizard.Title=Use CSS
 UseCssInReportDialog.Wizard.Filename=파일 이름(&F):
 UseCssInReportDialog.Label.Styles={0}에 있는 스타일(&A)
 UseCssInReportDialog.Label.notifications=알림(&N):
+UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
+UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.Dialog.Browse=찾아보기
+UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
+UseCssInReportDialog.Error.Already.Include={0} was included already
+
+UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
+UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
 
 ###########################################################
 #SelectValueDialog properties

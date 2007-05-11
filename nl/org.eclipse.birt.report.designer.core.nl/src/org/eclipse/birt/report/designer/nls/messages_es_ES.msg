@@ -2424,11 +2424,11 @@ ParameterDialog.Button.SetDefault=Configurar &como predeterminada
 ParameterDialog.CheckBox.IsRequired=&Requerido
 ParameterDialog.CheckBox.DoNotEchoInput=&No realizar comando eco de entrada
 ParameterDialog.CheckBox.Hidden=O&culto
-ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=Permitir valores duplicados
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
 ParameterDialog.Choice.NullValue=Valor nulo
 ParameterDialog.Choice.BlankValue=Valor en blanco
+ParameterDialog.Choice.None=Ninguno
 ParameterDialog.Choice.DisplayText=Mostrar texto
 ParameterDialog.Choice.ValueColumn=Columna de valores
 ParameterDialog.Choice.ASCENDING=Ascendente
@@ -2461,6 +2461,7 @@ ParameterDialog.Label.DisplayType=Mostrar tip&o:
 ParameterDialog.Label.Format=For&mato como:
 ParameterDialog.Label.HelpText=Texto de ayu&da:
 ParameterDialog.Label.ListOfValue=Lista de valores
+ParameterDialog.Label.SortGroup=Sort
 ParameterDialog.Label.Name=&Nombre:
 ParameterDialog.Label.None=<Ninguno>
 ParameterDialog.Label.Null=Nulo
@@ -3024,10 +3025,19 @@ SelectCssStyleWizard.wizardPage.title=Importar estilo desde un archivo CSS
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Utilizar CSS
+UseCssInReportDialog.Wizard.Title=Use CSS
 UseCssInReportDialog.Wizard.Filename=&Nombre de archivo:
 UseCssInReportDialog.Label.Styles=&Estilos disponibles de {0}
 UseCssInReportDialog.Label.notifications=&Notificaciones:
+UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
+UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.Dialog.Browse=Examinar
+UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
+UseCssInReportDialog.Error.Already.Include={0} was included already
+
+UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
+UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
 
 ###########################################################
 #SelectValueDialog properties

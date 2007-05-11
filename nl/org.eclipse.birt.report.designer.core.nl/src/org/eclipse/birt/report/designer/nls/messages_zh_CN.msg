@@ -2424,11 +2424,11 @@ ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&D)
-ParameterDialog.CheckBox.Sort=So&rt when prompting
 ParameterDialog.CheckBox.Distinct=允许重复值
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
 ParameterDialog.Choice.BlankValue=空白值
+ParameterDialog.Choice.None=无
 ParameterDialog.Choice.DisplayText=显示文本
 ParameterDialog.Choice.ValueColumn=值列
 ParameterDialog.Choice.ASCENDING=升序
@@ -2461,6 +2461,7 @@ ParameterDialog.Label.DisplayType=显示类型(&T):
 ParameterDialog.Label.Format=格式为(&M):
 ParameterDialog.Label.HelpText=帮助文本(&H):
 ParameterDialog.Label.ListOfValue=值列表
+ParameterDialog.Label.SortGroup=Sort
 ParameterDialog.Label.Name=名称(&N):
 ParameterDialog.Label.None=<无>
 ParameterDialog.Label.Null=NULL
@@ -3024,10 +3025,19 @@ SelectCssStyleWizard.wizardPage.title=从 CSS 文件导入样式
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=使用 CSS
+UseCssInReportDialog.Wizard.Title=Use CSS
 UseCssInReportDialog.Wizard.Filename=文件名(&F):
 UseCssInReportDialog.Label.Styles=来自 {0} 的可用样式(&A)
 UseCssInReportDialog.Label.notifications=通知(&N):
+UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
+UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.Dialog.Browse=浏览
+UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
+UseCssInReportDialog.Error.Already.Include={0} was included already
+
+UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
+UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
 
 ###########################################################
 #SelectValueDialog properties
