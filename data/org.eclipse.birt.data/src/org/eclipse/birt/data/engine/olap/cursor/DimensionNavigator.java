@@ -15,15 +15,13 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 
 /**
- * A dimensionNavigator maintains a cursor pointing to its current row of data.
- * Initially the cursor is positioned before the first row. The next method
- * moves the cursor to the next row, it can be used in a while loop to iterate
- * through the result set.
+ * A dimensionNavigator maintains a cursor pointing to the dimension result set
+ * object.
  * 
  */
 class DimensionNavigator implements INavigator
 {
-	protected DimensionAxis dimensionAxis;
+	private DimensionAxis dimensionAxis;
 
 	/**
 	 * 
@@ -34,191 +32,131 @@ class DimensionNavigator implements INavigator
 		this.dimensionAxis = dimensionAxis;
 	}
 
-	/**
-	 * Move cursor to the next row.Return false if the next row does not exist.
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#next()
 	 */
 	public boolean next( ) throws OLAPException
 	{
 		return dimensionAxis.next( );
 	}
 
-	/**
-	 * Moves cursor to previous row. Return false if the previous row does not
-	 * exist
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#previous()
 	 */
 	public boolean previous( ) throws OLAPException
 	{
 		return dimensionAxis.previous( );
 	}
 
-	/**
-	 * Moves cursor offset positions relative to current. Returns false if the
-	 * indicated position does not exist
-	 * 
-	 * @param arg0
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#relative(int)
 	 */
 	public boolean relative( int arg0 ) throws OLAPException
 	{
 		return dimensionAxis.relative( arg0 );
 	}
 
-	/**
-	 * Moves the cursor to the first row in the result set. Returns false if the
-	 * result set is empty.
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#first()
 	 */
 	public boolean first( ) throws OLAPException
 	{
 		return dimensionAxis.first( );
 	}
 
-	/**
-	 * Moves cursor to last row. Returns false if the result set is empty
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#last()
 	 */
 	public boolean last( ) throws OLAPException
 	{
 		return dimensionAxis.last( );
 	}
 
-	/**
-	 * 
-	 * @return
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#isBeforeFirst()
 	 */
 	public boolean isBeforeFirst( )
 	{
 		return dimensionAxis.isBeforeFirst( );
 	}
 
-	/**
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#isAfterLast()
 	 */
 	public boolean isAfterLast( ) throws OLAPException
 	{
 		return dimensionAxis.isAfterLast( );
 	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws OLAPException
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#isFirst()
 	 */
 	public boolean isFirst( ) throws OLAPException
 	{
 		return dimensionAxis.isFirst( );
 	}
 
-	/**
-	 * 
-	 * @return
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#isLast()
 	 */
 	public boolean isLast( ) throws OLAPException
 	{
 		return dimensionAxis.isLast( );
 	}
-
-	/**
-	 * Moves the cursor to the end of the result set, just after the last row
-	 * 
-	 * @throws OLAPException
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#afterLast()
 	 */
 	public void afterLast( ) throws OLAPException
 	{
 		dimensionAxis.afterLast( );
 	}
 
-	/**
-	 * Moves the cursor to the front of the result set, just before the first
-	 * row.
-	 * 
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#beforeFirst()
 	 */
 	public void beforeFirst( ) throws OLAPException
 	{
 		dimensionAxis.beforeFirst( );
 	}
 
-	/**
-	 * 
-	 * @param position
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#setPosition(long)
 	 */
 	public void setPosition( long position ) throws OLAPException
 	{
 		dimensionAxis.setPosition( position );
 	}
 
-	/**
-	 * Returns the cursor¡¯s current position.
-	 * 
-	 * @return the cursor¡¯s current position.
-	 * @throws OLAPException
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#getPosition()
 	 */
 	public long getPosition( ) throws OLAPException
 	{
 		return dimensionAxis.getPosition( );
 	}
-
-	/**
-	 * Closes the result set and releases all resources.
-	 *
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#close()
 	 */
-	public void close( )
+	public void close( ) throws OLAPException
 	{
 		dimensionAxis.close( );
 	}
 
-	/**
-	 * Return the extend of this cursor
-	 * 
-	 * @return
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#getExtend()
 	 */
 	public long getExtend( )
 	{
 		return dimensionAxis.getExtend( );
 	}
-
-	/**
-	 * Returns the type of the cursor.
-	 * @return
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#getType()
 	 */
 	public int getType( )
 	{
 		return dimensionAxis.getType( );
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @throws OLAPException 
-	 */
-	public Object getCurrentMemeber( ) throws OLAPException
-	{
-		return dimensionAxis.getCurrentMember( 0 );
-	}
-
-	public long getEdgeEnd( ) throws OLAPException
-	{
-		return dimensionAxis.getEdgeEnd( );
-	}
-
-	public long getEdgeStart( ) throws OLAPException
-	{
-		return dimensionAxis.getEdgeStart( );
 	}
 }

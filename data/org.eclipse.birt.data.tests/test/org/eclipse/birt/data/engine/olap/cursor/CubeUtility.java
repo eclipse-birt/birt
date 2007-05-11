@@ -333,6 +333,8 @@ public class CubeUtility
 			output += "\n" + line;
 
 		}
+		edge1.close( );
+		edge2.close( );
 		if ( columnGrandTotal != null )
 		{
 			output += "\n" + columnGrandTotal + "  ";
@@ -346,6 +348,7 @@ public class CubeUtility
 		if ( totalGrandTotal != null )
 			output += cursor.getObject( totalGrandTotal );
 
+		cursor.close( );
 		System.out.print( output );
 		return output;
 	}
@@ -429,6 +432,12 @@ public class CubeUtility
 				}
 				lines[0] += "  \n";
 			}
+			productCursor1.close( );
+			productCursor2.close( );
+			countryCursor.close( );
+			cityCursor.close( );
+			timeCursor.close( );
+			dataCursor.close( );
 		}
 		else if ( countryCursor != null
 				&& cityCursor != null && timeCursor != null )
@@ -448,6 +457,10 @@ public class CubeUtility
 					}
 				}
 			}
+			countryCursor.close( );
+			cityCursor.close( );
+			timeCursor.close( );
+			dataCursor.close( );
 			lines[0] += "  \n";
 		}
 		else if( productCursor1!= null && productCursor2!= null )
@@ -465,6 +478,9 @@ public class CubeUtility
 					lines[0] += "  \n";
 				}
 			}
+			productCursor1.close( );
+			productCursor2.close( );
+			dataCursor.close( );
 			lines[0] += "  \n";
 		}
 		output += "\n" + lines[0];

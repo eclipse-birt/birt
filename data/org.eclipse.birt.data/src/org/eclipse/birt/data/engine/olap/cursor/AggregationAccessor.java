@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -38,15 +39,15 @@ import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 import org.eclipse.birt.data.engine.olap.query.view.RelationShip;
 
 /**
- * This class is to access all aggregation value's according to its resultset ID
- * and its index. Aggregation with same aggrOn level list will be assigned with
- * same resultset ID during preparation.
+ * This class is to access all aggregation value's according to its result set
+ * ID and its index. Aggregation with same aggrOn level list will be assigned
+ * with same result set ID during preparation.
  * 
  * Firstly, we will do match on its member level. It's better to define one
- * aggragation in sequence of that in consideration of efficiency.It will match
+ * aggregation in sequence of that in consideration of efficiency.It will match
  * values with its associated edge. If they are matched, return accessor's
  * current value, or move down/up to do the match again based on the logic of
- * sort dircetion on this level.
+ * sort direction on this level.
  * 
  * If there is no match find in cube cursor, 'null' value will be returned.
  */
@@ -248,8 +249,27 @@ public class AggregationAccessor implements Accessor
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#close()
 	 */
-	public void close( )
+	public void close( ) throws OLAPException
 	{
+		if ( this.resultSet.getMeasureResult( ) == null )
+			return;
+		List errorList = new ArrayList( );
+		for ( int i = 0; i < this.resultSet.getMeasureResult( ).length; i++ )
+		{
+			try
+			{
+				this.resultSet.getMeasureResult( )[i].getQueryResultSet( )
+						.close( );
+			}
+			catch ( IOException e )
+			{
+				errorList.add( e );
+			}
+		}
+		if ( !errorList.isEmpty( ) )
+		{
+			throw new OLAPException( ( (IOException) errorList.get( 0 ) ).getLocalizedMessage( ) );
+		}
 	}
 
 	/*

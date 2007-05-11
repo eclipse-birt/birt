@@ -28,8 +28,9 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 
 /**
+ * A DimensionAxis represents an axis based on certain level. It provides
+ * methods to point to current position, and get the value at this position.
  * 
- *
  */
 public class DimensionAxis
 {
@@ -341,10 +342,19 @@ public class DimensionAxis
 
 	/**
 	 * Closes the result set and releases all resources.
+	 * @throws OLAPException 
 	 *
 	 */
-	public void close( )
+	public void close( ) throws OLAPException
 	{
+		try
+		{
+			this.rs.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/**
@@ -366,31 +376,63 @@ public class DimensionAxis
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws OLAPException
+	 */
 	public long getEdgeEnd( ) throws OLAPException
 	{
 		return this.edgeInfo.getEdgeEnd( dimAxisIndex );
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws OLAPException
+	 */
 	public long getEdgeStart( ) throws OLAPException
 	{
 		return this.edgeInfo.getEdgeStart( dimAxisIndex );
 	}
 
+	/**
+	 * 
+	 * @param attr
+	 * @return
+	 * @throws OLAPException
+	 */
 	public Object getCurrentMember( int attr ) throws OLAPException
 	{
 		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attr, aggrSortType );
 	}
 	
+	/**
+	 * 
+	 * @param attrName
+	 * @return
+	 * @throws OLAPException
+	 */
 	public Object getCurrentMember( String attrName ) throws OLAPException
 	{
 		return this.edgeInfo.dim_getCurrentMember( dimAxisIndex, attrName, aggrSortType );
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @return
+	 * @throws IOException
+	 */
 	public Object getCurrentAggregation( int index ) throws IOException
 	{
 		return this.edgeInfo.dim_getCurrentAggregation( index );
 	}
 
+	/**
+	 * 
+	 * @param edgeInfoUtil
+	 */
 	public void setEdgeInfo( EdgeInfoGenerator edgeInfoUtil )
 	{
 		this.edgeInfo = edgeInfoUtil;

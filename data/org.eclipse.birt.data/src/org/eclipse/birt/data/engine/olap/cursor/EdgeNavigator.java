@@ -10,23 +10,29 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.io.IOException;
+
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 
 /**
  * 
- * @author Administrator
- *
+ * An EdgeNavigator maintains a cursor pointing to the Edge object. It will
+ * navigate along the edge.
+ * 
  */
 class EdgeNavigator implements INavigator
 {
 
 	private EdgeInfoGenerator edgeInfoGenerator;
-	
+	private IAggregationResultSet rs;
+
 	EdgeNavigator( EdgeAxis axis )
 	{
 		this.edgeInfoGenerator = axis.getEdgeInfoUtil( );
+		this.rs = axis.getQueryResultSet( );
 	}
 
 	/*
@@ -46,10 +52,18 @@ class EdgeNavigator implements INavigator
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.jolap.cursor.INavigator#close()
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#close()
 	 */
-	public void close( )
+	public void close( ) throws OLAPException
 	{
+		try
+		{
+			this.rs.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -58,14 +72,6 @@ class EdgeNavigator implements INavigator
 	public boolean first( ) throws OLAPException
 	{
 		return edgeInfoGenerator.edge_first( );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.jolap.cursor.INavigator#getCurrentMemeber()
-	 */
-	public Object getCurrentMemeber( )
-	{
-		return null;
 	}
 
 	/*
@@ -163,5 +169,4 @@ class EdgeNavigator implements INavigator
 	{
 		this.edgeInfoGenerator.edge_setPostion( position );
 	}
-
 }

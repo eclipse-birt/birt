@@ -99,6 +99,26 @@ public class MirrorCursorNavigatorTest extends TestCase
 		assertTrue( streetCursor.isAfterLast( ) );
 		assertTrue( yearCursor.isAfterLast( ) );
 
+		columnCursor.first( );
+		countryCursor.afterLast( );
+		cityCursor.afterLast( );
+		streetCursor.afterLast( );
+		yearCursor.afterLast( );
+		assertTrue( countryCursor.isAfterLast( ) );
+		assertTrue( cityCursor.isAfterLast( ) );
+		assertTrue( streetCursor.isAfterLast( ) );
+		assertTrue( yearCursor.isAfterLast( ) );
+		
+		columnCursor.first( );
+		columnCursor.next( );
+		cityCursor.afterLast( );
+		streetCursor.afterLast( );
+		yearCursor.afterLast( );
+		assertTrue( countryCursor.isFirst( ) );
+		assertTrue( cityCursor.isAfterLast( ) );
+		assertTrue( streetCursor.isAfterLast( ) );
+		assertTrue( yearCursor.isAfterLast( ) );
+		
 		//-------------------------------edgeCursor first()--------------
 		columnCursor.first( );
 		assertTrue( columnCursor.isFirst( ) );
@@ -272,5 +292,21 @@ public class MirrorCursorNavigatorTest extends TestCase
 
 		assertTrue( yearCursor.getEdgeStart( ) == -1 );
 		assertTrue( yearCursor.getEdgeEnd( ) == -1 );
+		this.close( dataCursor );
+	}
+	
+	/**
+	 * 
+	 * @param dataCursor
+	 * @throws OLAPException
+	 */
+	private void close( CubeCursor dataCursor ) throws OLAPException
+	{
+		for ( int i = 0; i < dataCursor.getOrdinateEdge( ).size( ); i++ )
+		{
+			EdgeCursor edge = (EdgeCursor) ( dataCursor.getOrdinateEdge( ).get( i ) );
+			edge.close( );
+		}
+		dataCursor.close( );
 	}
 }

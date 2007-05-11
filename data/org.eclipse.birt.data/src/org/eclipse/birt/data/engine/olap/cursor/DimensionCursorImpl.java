@@ -40,7 +40,7 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	DimensionCursorImpl( EdgeCursor edgeCursor, DimensionAxis dimensionAxis,
 			DimensionNavigator navigator ) throws OLAPException
 	{
-		super( navigator, new DimensionAccessor( dimensionAxis, navigator) );
+		super( navigator, new DimensionAccessor( dimensionAxis ) );
 		this.edgeCursor = edgeCursor;
 		this.dimensionAxis = dimensionAxis;
 		this.navigator = navigator;

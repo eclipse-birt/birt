@@ -26,10 +26,6 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -265,6 +261,22 @@ public class CursorNavigatorTest extends TestCase
 		columnCursor.setPosition( 24 );
 		assertTrue( countryCursor.getEdgeStart( ) == -1 );
 		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
+		close( dataCursor );
+	}
+	
+	/**
+	 * 
+	 * @param dataCursor
+	 * @throws OLAPException
+	 */
+	private void close( CubeCursor dataCursor ) throws OLAPException
+	{
+		for ( int i = 0; i < dataCursor.getOrdinateEdge( ).size( ); i++ )
+		{
+			EdgeCursor edge = (EdgeCursor) ( dataCursor.getOrdinateEdge( ).get( i ) );
+			edge.close( );
+		}
+		dataCursor.close( );
 	}
 	
 }

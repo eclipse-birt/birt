@@ -25,18 +25,12 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 
 /**
  * DimensionAccessor class implements Accessor interface, it provides getXXX
- * methods for retrieving column values. Values can be retrieved using either
- * the index number of the column or the name of the column. It's recommended
- * using column index. Those columns are numbered from 0.
+ * methods for retrieving column values from Dimension ResultSet.
  * 
  */
 class DimensionAccessor implements Accessor
 {
-
-	private DimensionNavigator navigator;
-	private int position;
 	private DimensionAxis dimAxis;
-	private int levelIndex;
 	
 	/**
 	 * 
@@ -44,11 +38,8 @@ class DimensionAccessor implements Accessor
 	 * @param navigator
 	 * @throws OLAPException
 	 */
-	DimensionAccessor( DimensionAxis dimensionAxis,
-			DimensionNavigator navigator ) throws OLAPException
+	DimensionAccessor( DimensionAxis dimensionAxis ) throws OLAPException
 	{
-		this.navigator = navigator;
-		this.levelIndex = dimensionAxis.getLevelIndex( );
 		this.dimAxis = dimensionAxis;
 	}
 
@@ -329,8 +320,8 @@ class DimensionAccessor implements Accessor
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.cursor.Accessor#close()
 	 */
-	public void close( )
+	public void close( ) throws OLAPException
 	{
-		
+		dimAxis.close( );
 	}
 }

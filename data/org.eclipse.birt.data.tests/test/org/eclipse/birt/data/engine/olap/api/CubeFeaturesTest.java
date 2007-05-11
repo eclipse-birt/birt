@@ -2204,6 +2204,22 @@ public class CubeFeaturesTest extends BaseTestCase
 		this.testPrint( output );
 
 		this.checkOutputFile( );
+		close( cursor );
+	}
+
+	/**
+	 * 
+	 * @param dataCursor
+	 * @throws OLAPException
+	 */
+	private void close( CubeCursor dataCursor ) throws OLAPException
+	{
+		for ( int i = 0; i < dataCursor.getOrdinateEdge( ).size( ); i++ )
+		{
+			EdgeCursor edge = (EdgeCursor) ( dataCursor.getOrdinateEdge( ).get( i ) );
+			edge.close( );
+		}
+		dataCursor.close( );
 	}
 	
 	private void createCube( DataEngine engine ) throws BirtException, IOException
