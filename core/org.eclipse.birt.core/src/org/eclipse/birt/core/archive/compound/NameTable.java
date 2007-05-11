@@ -25,10 +25,12 @@ class NameTable implements ArchiveConstants
 	protected ArrayList slots;
 	protected AllocEntry index;
 	protected ArchiveFileV2 af;
+	protected final int BLOCK_SIZE;
 
 	private NameTable( ArchiveFileV2 af ) throws IOException
 	{
 		this.af = af;
+		BLOCK_SIZE = af.BLOCK_SIZE;
 		slots = new ArrayList( );
 		index = af.allocTbl.loadEntry( ENTRY_TABLE_BLOCK );
 	}
@@ -52,7 +54,7 @@ class NameTable implements ArchiveConstants
 		index.refresh( af.allocTbl );
 
 		// refresh the slots
-		int maxSlots = index.getTotalBlocks( ) * Block.BLOCK_SIZE
+		int maxSlots = index.getTotalBlocks( ) * BLOCK_SIZE
 				/ ENTRY_ITEM_SIZE;
 		int lastSlot = slots.size( );
 		while ( lastSlot < maxSlots )
@@ -153,7 +155,7 @@ class NameTable implements ArchiveConstants
 	{
 		// the last slot is used to indicate the EOF table
 		long offset = (long) ( slotSize + 1 ) * ENTRY_ITEM_SIZE;
-		int blockCount = (int) ( ( offset + Block.BLOCK_SIZE - 1 ) / Block.BLOCK_SIZE );
+		int blockCount = (int) ( ( offset + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 		int totalBlock = index.getTotalBlocks( );
 		while ( blockCount > totalBlock )
 		{

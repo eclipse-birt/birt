@@ -19,10 +19,16 @@ interface ArchiveConstants
 
 	/** The file format version */
 	static final long DOCUMENT_VERSION = 0L;
+	
+	/**
+	 * the system property defines the block size, it should be times of 1024.
+	 */
+	static final String PROPERTY_DEFAULT_BLOCK_SIZE = "org.eclipse.birt.core.archive.compound.DEFAULT_BLOCK_SIZE";
+	
 	/**
 	 * Size of a physical block, counted in bytes.
 	 */
-	static final int BLOCK_SIZE = 4096;
+	static final int DEFAULT_BLOCK_SIZE = 4096;
 
 	/**
 	 * the block of archive header
