@@ -747,7 +747,7 @@ public class DataSetIterator implements IDatasetIterator
 		
 	}
 
-	private class WeekProcessor implements IDataProcessor
+	private class WeekOfMonthProcessor implements IDataProcessor
 	{
 		public Object process( Object d )
 		{
@@ -756,7 +756,17 @@ public class DataSetIterator implements IDatasetIterator
 		
 	}
 
-	private class DayProcessor implements IDataProcessor
+	private class WeekOfYearProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.WEEK_OF_YEAR ));
+		}
+		
+	}
+	
+	
+	private class DayOfWeekProcessor implements IDataProcessor
 	{
 		public Object process( Object d )
 		{
@@ -765,18 +775,72 @@ public class DataSetIterator implements IDatasetIterator
 		
 	}
 	
+	private class DayOfMonthProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.DAY_OF_MONTH ));
+		}
+		
+	}
+	
+	private class DayOfYearProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.DAY_OF_YEAR ));
+		}
+		
+	}
+	
+	private class HourProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.HOUR_OF_DAY ));
+		}
+	}
+	
+	private class MinuteProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.MINUTE ));
+		}
+	}
+	
+	private class SecondProcessor implements IDataProcessor
+	{
+		public Object process( Object d )
+		{
+			return new Integer(getCalendar( d ).get( Calendar.SECOND ));
+		}
+	}
+	
 	private class TimeValueProcessor implements IDataProcessor
 	{
 		private IDataProcessor processor;
 		TimeValueProcessor( String timeType ) throws AdapterException
 		{
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY.equals( timeType ))
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ))
 			{
-				this.processor = new DayProcessor();
+				this.processor = new DayOfMonthProcessor();
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType ))
 			{
-				this.processor = new WeekProcessor();
+				this.processor = new DayOfWeekProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ))
+			{
+				this.processor = new DayOfYearProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType ))
+			{
+				this.processor = new WeekOfMonthProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
+			{
+				this.processor = new WeekOfYearProcessor();
 			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ))
 			{
@@ -789,6 +853,18 @@ public class DataSetIterator implements IDatasetIterator
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ))
 			{
 				this.processor = new YearProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ))
+			{
+				this.processor = new HourProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ))
+			{
+				this.processor = new MinuteProcessor();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ))
+			{
+				this.processor = new SecondProcessor();
 			}
 			else
 				throw new AdapterException("Error");
