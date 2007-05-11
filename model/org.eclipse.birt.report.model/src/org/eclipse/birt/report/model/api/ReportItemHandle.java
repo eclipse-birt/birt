@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -50,6 +52,26 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			IStyledElementModel,
 			IReportItemMethodContext
 {
+
+	/**
+	 * Data binding type "none".
+	 */
+
+	public static final int DATABINDING_TYPE_NONE = 0;
+
+	/**
+	 * Data binding type "data", means the report item is binding to a data set
+	 * or cube.
+	 */
+
+	public static final int DATABINDING_TYPE_DATA = 1;
+
+	/**
+	 * Data binding type "reportItemRef", means the report item is binding to
+	 * another report item.
+	 */
+
+	public static final int DATABINDING_TYPE_REPORT_ITEM_REF = 2;
 
 	/**
 	 * Constructs the handle for a report item with the given design and
@@ -109,7 +131,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				String namespace = ( (LibraryHandle) moduleHandle )
 						.getNamespace( );
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						valueToSet);
+						valueToSet );
 			}
 			setStringProperty( IReportItemModel.DATA_SET_PROP, valueToSet );
 		}
@@ -775,5 +797,72 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		DesignElement tmpElement = refValue.getElement( );
 		return (ReportItemHandle) tmpElement.getHandle( tmpElement.getRoot( ) );
+	}
+
+	/**
+	 * Returns the data binding type of this report item. The return value
+	 * should be one of following:
+	 * 
+	 * <ul>
+	 * <li>DATABINDING_TYPE_NONE, no data binding.
+	 * <li>DATABINDING_TYPE_DATA, data binding to data set or
+	 * cube.
+	 * <li>DATABINDING_TYPE_REPORT_ITEM_REF, data binding to
+	 * another report item.
+	 * </ul>
+	 * 
+	 * @return the data binding type of this report item
+	 */
+
+	public int getDataBindingType( )
+	{
+		if ( getDataBindingReferenceName( ) != null )
+			return DATABINDING_TYPE_REPORT_ITEM_REF;
+
+		// TODO: after add the "cube" property on ReportItem in ROM, substitute
+		// below literal string with constants variable.
+
+		if ( getDataSet( ) != null
+				|| element.getProperty( module, "cube" ) != null ) //$NON-NLS-1$
+			return DATABINDING_TYPE_DATA;
+
+		return DATABINDING_TYPE_NONE;
+	}
+
+	/**
+	 * Returns report items that has dataset property defined. That is, data set
+	 * property is set locally and databinding ref property is null. ReportItem
+	 * in the design are all applicable. Each entry of the return list is of
+	 * <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has dataset property defined
+	 */
+
+	public List getAvailableDataBindingReferenceList( )
+	{
+		List rtnList = new ArrayList( );
+
+		NameSpace ns = module.getNameHelper( ).getNameSpace(
+				Module.ELEMENT_NAME_SPACE );
+		List elements = ns.getElements( );
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			DesignElement e = (DesignElement) elements.get( i );
+			if ( e == getElement( ) )
+				continue;
+
+			if ( e instanceof ReportItem )
+			{
+				ReportItemHandle elementHandle = (ReportItemHandle) e
+						.getHandle( module );
+				if ( elementHandle.getDataBindingType( ) == DATABINDING_TYPE_DATA )
+					rtnList.add( elementHandle );
+			}
+		}
+
+		if ( rtnList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		else
+			return Collections.unmodifiableList( rtnList );
 	}
 }

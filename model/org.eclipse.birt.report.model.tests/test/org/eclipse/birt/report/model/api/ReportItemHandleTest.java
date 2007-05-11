@@ -827,10 +827,10 @@ public class ReportItemHandleTest extends BaseTestCase
 		Iterator filters = table2.filtersIterator( );
 		FilterConditionHandle filter = (FilterConditionHandle) filters.next( );
 		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
-		
+
 		Iterator sorts = table2.sortsIterator( );
 		SortKeyHandle sort = (SortKeyHandle) sorts.next( );
-		assertEquals( "table 1 name", sort.getKey( )); //$NON-NLS-1$
+		assertEquals( "table 1 name", sort.getKey( ) ); //$NON-NLS-1$
 	}
 
 	private void verifyColumnValues( ComputedColumnHandle column )
@@ -839,5 +839,38 @@ public class ReportItemHandleTest extends BaseTestCase
 		assertEquals( "dataSetRow[\"CUSTOMERNUMBER\"]", column.getExpression( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
 				.getDataType( ) );
+	}
+
+	/**
+	 * Tests getDataBindingType() and getAvailableDataBindingReferenceList.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testgetAvailableDataBindingReferenceList( ) throws Exception
+	{
+		openDesign( "ReportItemHandleBindingDataTypeTest.xml" ); //$NON-NLS-1$ 
+
+		TextItemHandle text = (TextItemHandle) designHandle
+				.findElement( "myText" ); //$NON-NLS-1$
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_NONE, text
+				.getDataBindingType( ) );
+
+		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, list
+				.getDataBindingType( ) );
+
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "ex1" ); //$NON-NLS-1$
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, extendedItem
+				.getDataBindingType( ) );
+
+		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table
+				.getDataBindingType( ) );
+
+		List handleList = list.getAvailableDataBindingReferenceList( );
+		assertEquals( 1, handleList.size( ) );
+		assertTrue( handleList.get( 0 ) instanceof ExtendedItemHandle );
 	}
 }
