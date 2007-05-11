@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.DummyHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Hyphenation;
@@ -60,6 +61,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 	private Compositor comp = null;
 
 	private ITextContent textContent = null;
+	
+	private static final char maxHighChar ='P'; 
 	
 	public PDFTextLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
@@ -300,6 +303,14 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					chunk = cg.getNext();
 					if (chunk == Chunk.HARD_LINE_BREAK)
 					{
+						FontHandler handler = new FontHandler(content);
+						handler.selectFont(maxHighChar);
+						ContainerArea con = (ContainerArea)createInlineContainer(content, false, true);
+						con.setWidth(0);
+						con.setHeight( (int)(handler.getFontInfo().getWordHeight()*PDFConstants.LAYOUT_TO_PDF_RATIO)
+								+ topBorder + topPadding + bottomBorder + bottomPadding);
+						PDFTextLM.this.addSpaceHolder(con);
+						
 						currentPos = chunk.getText().length();
 						PDFTextLM.this.newLine();
 						vestigeIndex = -1;
