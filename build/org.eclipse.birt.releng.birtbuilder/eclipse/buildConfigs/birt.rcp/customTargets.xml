@@ -52,31 +52,31 @@
 		<!-- extract birt.resources, engine.fonts, and five doc plugins as directory  -->
 		<echo message="unzip org.eclipse.birt.resources..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.resources_${org.eclipse.birt.resources}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.resources}" />
+		    <arg line="-o -q org.eclipse.birt.resources_${org.eclipse.birt.resources}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.resources_${org.eclipse.birt.resources}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.report.engine.fonts..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.report.engine.fonts}" />
+		    <arg line="-o -q org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.doc..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.doc}" />
+		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc_${org.eclipse.birt.doc}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.chart.doc.isv..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.chart.doc.isv}" />
+		    <arg line="-o -q org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.chart.doc.isv_${org.eclipse.birt.chart.doc.isv}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.chart.cshelp..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.chart.cshelp}" />
+		    <arg line="-o -q org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.chart.cshelp_${org.eclipse.birt.chart.cshelp}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.cshelp..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.cshelp}" />
+		    <arg line="-o -q org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.cshelp_${org.eclipse.birt.cshelp}" />
 		</exec>
 		<echo message="unzip org.eclipse.birt.doc.isv..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
-		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/${org.eclipse.birt.doc.isv}" />
+		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}" />
 		</exec>
 		<delete>
 			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
