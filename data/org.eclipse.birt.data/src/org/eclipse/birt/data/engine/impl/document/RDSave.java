@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
-import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
@@ -116,8 +115,6 @@ class RDSave implements IRDSave
 		this.closeSaveRowUtil( );
 
 		this.saveForIV( );
-		
-		this.streamManager.saveToReportDocument( );
 	}
 
 	/**

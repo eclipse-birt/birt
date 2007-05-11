@@ -66,8 +66,6 @@ class RDSave2 implements IRDSave
 	public void saveFinish( int currIndex ) throws DataException
 	{
 		this.saveUtilHelper.saveChildQueryID( );
-		this.streamManager.saveToReportDocument( );
-		
 	}
 
 	/*

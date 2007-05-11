@@ -94,7 +94,6 @@ public class DataEngineContext
 	public final static int EXPR_META_STREAM = 32;
 	
 	/**
-	 *@deprecated
 	 */
 	public final static int EXPR_ROWLEN_STREAM = 33;
 	

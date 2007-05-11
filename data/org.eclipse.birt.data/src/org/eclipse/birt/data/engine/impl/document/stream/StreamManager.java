@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl.document.stream;
 
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -406,15 +405,6 @@ public class StreamManager
 		return QueryResultIDUtil.buildID( rootQueryResultID, selfQueryResultID );
 	}
 
-	public void saveToReportDocument( ) throws DataException
-	{
-		Iterator it = this.cachedStreamManagers.values( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			((StreamWriter) it.next( )).saveToReportDocument( );
-		}
-	}
-	
 	private StreamWriter getTempStreamManager( StreamID id )
 	{
 		if( this.cachedStreamManagers.get( id ) == null )
@@ -441,7 +431,7 @@ public class StreamManager
 			case DataEngineContext.EXPR_VALUE_STREAM :
 				return false;
 			case DataEngineContext.EXPR_ROWLEN_STREAM :
-				return true;
+				return this.version < VersionManager.VERSION_2_2_0;
 			case DataEngineContext.EXPR_META_STREAM :
 				return true;
 			case DataEngineContext.GROUP_INFO_STREAM :

@@ -32,7 +32,7 @@ public class DummyOutputStreamTest extends TestCase
 	{
 		byte[] b = new byte[12345];
 		Arrays.fill( b, (byte)3 );
-		DummyOutputStream stream = new DummyOutputStream();
+		DummyOutputStream stream = new DummyOutputStream( null, null ,0);
 		stream.write( b );
 		assertEquals( b.length, stream.toByteArray( ).length);
 		
