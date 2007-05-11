@@ -137,7 +137,7 @@ public class LevelPropertyDialog extends BaseDialog
 	{
 		if ( input != null )
 		{
-			infoLabel.setText( infoLabel.getText( ) + input.getColumnName( ) );
+			infoLabel.setText( infoLabel.getText( ) + " " + input.getFullName( ) );
 			expressionEditor.setExpressionProvider( new CubeExpressionProvider( input ) );
 		}
 
