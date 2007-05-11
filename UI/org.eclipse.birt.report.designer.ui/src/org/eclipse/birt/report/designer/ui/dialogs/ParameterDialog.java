@@ -79,6 +79,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
@@ -110,6 +111,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" );
 
+	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" );
+
 	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" );
 
 	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" );
@@ -131,9 +134,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_DATETIME_PROMPT = Messages.getFormattedString( "ParameterDialog.datetime.prompt", new String[]{"MM/DD/YYYY hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"MM/DD/YYYY"}); //$NON-NLS-1$ //$NON-NLS-2$
-	
-	private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss AM/PM"}); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private static final String LABEL_PROMPT_TEXT = Messages.getString( "ParameterDialog.Label.PromptText" ); //$NON-NLS-1$
 
@@ -145,7 +148,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_HELP_TEXT = Messages.getString( "ParameterDialog.Label.HelpText" ); //$NON-NLS-1$
 
-	private static final String LABEL_LIST_OF_VALUE = Messages.getString( "ParameterDialog.Label.ListOfValue" ); //$NON-NLS-1$	
+	private static final String LABEL_LIST_OF_VALUE = Messages.getString( "ParameterDialog.Label.ListOfValue" ); //$NON-NLS-1$
+
+	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" );
 
 	private static final String LABEL_VALUES = Messages.getString( "ParameterDialog.Label.Value" ); //$NON-NLS-1$
 
@@ -170,8 +175,6 @@ public class ParameterDialog extends BaseDialog
 	private static final String CHECKBOX_ISREQUIRED = Messages.getString( "ParameterDialog.CheckBox.IsRequired" ); //$NON-NLS-1$
 
 	private static final String CHECKBOX_DO_NOT_ECHO = Messages.getString( "ParameterDialog.CheckBox.DoNotEchoInput" ); //$NON-NLS-1$
-
-	private static final String CHECKBOX_SORT = Messages.getString( "ParameterDialog.CheckBox.Sort" ); //$NON-NLS-1$
 
 	private static final String CHECKBOX_HIDDEN = Messages.getString( "ParameterDialog.CheckBox.Hidden" ); //$NON-NLS-1$
 
@@ -284,7 +287,7 @@ public class ParameterDialog extends BaseDialog
 			sortKeyChooser, sortDirectionChooser;
 
 	// Label
-	private Label previewLabel;
+	private Label previewLabel, sortKeyLabel, sortDirectionLabel;
 
 	private TableViewer valueTable;
 
@@ -618,10 +621,6 @@ public class ParameterDialog extends BaseDialog
 		isHidden = new Button( checkBoxArea, SWT.CHECK );
 		isHidden.setText( CHECKBOX_HIDDEN );
 		addCheckBoxListener( isHidden, CHECKBOX_HIDDEN );
-
-		needSort = new Button( checkBoxArea, SWT.CHECK );
-		needSort.setText( CHECKBOX_SORT );
-		addCheckBoxListener( needSort, CHECKBOX_SORT );
 	}
 
 	private void createValuesDefineSection( Composite composite )
@@ -652,13 +651,12 @@ public class ParameterDialog extends BaseDialog
 			{
 				switchParamterType( );
 			}
-
 		} );
 
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 200;
+		gd.heightHint = 230;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
@@ -732,7 +730,7 @@ public class ParameterDialog extends BaseDialog
 		// allowBlank.setSelection( inputParameter.allowBlank( ) );
 		isRequired.setSelection( inputParameter.isRequired( ) );
 		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
-		needSort.setSelection( !inputParameter.isFixedOrder( ) );
+		// needSort.setSelection( !inputParameter.isFixedOrder( ) );
 
 		changeDataType( );
 		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( inputParameter.getDataType( ) )
@@ -847,13 +845,13 @@ public class ParameterDialog extends BaseDialog
 
 	private void initSorttingArea( )
 	{
-		if ( needSort.getSelection( ) )
+		if ( !inputParameter.isFixedOrder( ) )
 		{
-			Control[] controls = sorttingArea.getChildren( );
-			for ( int i = 0; i < controls.length; i++ )
-			{
-				controls[i].setEnabled( true );
-			}
+			sortKeyLabel.setEnabled( true );
+			sortKeyChooser.setEnabled( true );
+			sortDirectionLabel.setEnabled( true );
+			sortDirectionChooser.setEnabled( true );
+			distinct.setEnabled( true );
 
 			distinct.setSelection( !inputParameter.distinct( ) );
 			String sortKey = inputParameter.getSortBy( );
@@ -880,11 +878,11 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
-			Control[] controls = sorttingArea.getChildren( );
-			for ( int i = 0; i < controls.length; i++ )
-			{
-				controls[i].setEnabled( false );
-			}
+			sortKeyLabel.setEnabled( true );
+			sortKeyChooser.setEnabled( true );
+			sortDirectionLabel.setEnabled( false );
+			sortDirectionChooser.setEnabled( false );
+			distinct.setEnabled( false );
 		}
 	}
 
@@ -1564,8 +1562,9 @@ public class ParameterDialog extends BaseDialog
 			{
 				refreshColumns( false );
 			}
-			
-			public void widgetSelected(SelectionEvent e) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
 				refreshColumns( false );
 			}
 		}
@@ -1656,28 +1655,73 @@ public class ParameterDialog extends BaseDialog
 	{
 		// Sorting conditions here
 		sorttingArea = new Composite( parent, SWT.NONE );
-		GridData sorttingAreaGridData = new GridData( GridData.FILL_HORIZONTAL );
+		GridData sorttingAreaGridData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_END );
 		sorttingAreaGridData.horizontalSpan = 2;
 		sorttingArea.setLayoutData( sorttingAreaGridData );
-		sorttingArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 5, false ) );
+		sorttingArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 1, false ) );
 
-		createLabel( sorttingArea, LABEL_SORT_KEY );
-		sortKeyChooser = new Combo( sorttingArea, SWT.BORDER );
+		Group sortGroup = new Group( sorttingArea, SWT.NONE );
+		sortGroup.setText( LABEL_SORT_GROUP );
+		sortGroup.setLayout( new GridLayout( 2, false ) );
+		sortGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite sortKeyArea = new Composite( sortGroup, SWT.NONE );
+		sortKeyArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyArea.setLayout( new GridLayout( 2, false ) );
+		// createLabel( sortKeyArea, LABEL_SORT_KEY );
+		sortKeyLabel = new Label( sortKeyArea, SWT.NONE );
+		sortKeyLabel.setText( LABEL_SORT_KEY );
+		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyChooser.add( CHOICE_NONE );
 		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
 		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
-		sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+		sortKeyChooser.setText( CHOICE_NONE );
+		sortKeyChooser.addSelectionListener( new SelectionListener( ) {
 
-		createLabel( sorttingArea, LABEL_SORT_DIRECTION );
-		sortDirectionChooser = new Combo( sorttingArea, SWT.BORDER );
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( !( (Combo) e.widget ).getText( ).equals( CHOICE_NONE ) )
+				{
+					sortDirectionLabel.setEnabled( true );
+					sortDirectionChooser.setEnabled( true );
+					distinct.setEnabled( true );
+				}
+				else
+				{
+					sortDirectionLabel.setEnabled( false );
+					sortDirectionChooser.setEnabled( false );
+					distinct.setEnabled( false );
+				}
+			}
+
+		} );
+
+		Composite sortDirectionArea = new Composite( sortGroup, SWT.NONE );
+		sortDirectionArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionArea.setLayout( new GridLayout( 2, false ) );
+		// createLabel( sortDirectionArea, LABEL_SORT_DIRECTION );
+		sortDirectionLabel = new Label( sortDirectionArea, SWT.NONE );
+		sortDirectionLabel.setText( LABEL_SORT_KEY );
+		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
 
-		distinct = new Button( sorttingArea, SWT.CHECK );
+		Composite distinctBtnArea = new Composite( sortGroup, SWT.NONE );
+		distinctBtnArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		distinctBtnArea.setLayout( new GridLayout( ) );
+		distinct = new Button( distinctBtnArea, SWT.CHECK );
 		distinct.setText( CHECKBOX_DISTINCT );
-		addCheckBoxListener( distinct, CHECKBOX_DISTINCT );
+		distinct.setSelection( true );
 	}
 
 	private void clearDefaultValueText( )
@@ -1909,18 +1953,12 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 
-			if ( needSort.isEnabled( ) )
+			if ( sorttingArea.isVisible( ) )
 			{
-				if ( dirtyProperties.containsKey( CHECKBOX_SORT ) )
+				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
 				{
-					inputParameter.setFixedOrder( !getProperty( CHECKBOX_SORT ) );
-				}
-				if ( !inputParameter.isFixedOrder( ) )
-				{
-					if ( dirtyProperties.containsKey( CHECKBOX_DISTINCT ) )
-					{
-						inputParameter.setDistinct( !getProperty( CHECKBOX_DISTINCT ) );
-					}
+					inputParameter.setFixedOrder( false );
+					inputParameter.setDistinct( !distinct.getSelection( ) );
 					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
 					{
 						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
@@ -1941,6 +1979,13 @@ public class ParameterDialog extends BaseDialog
 					{
 						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 					}
+				}
+				else
+				{
+					inputParameter.setFixedOrder( true );
+					inputParameter.setSortBy( null );
+					inputParameter.setSortDirection( null );
+					inputParameter.setDistinct( false );
 				}
 			}
 			else
@@ -2033,10 +2078,6 @@ public class ParameterDialog extends BaseDialog
 			}
 			updateMessageLine( );
 		}
-		else if ( CHECKBOX_SORT.equals( key ) )
-		{
-			initSorttingArea( );
-		}
 	}
 
 	private void clearDefaultValueChooser( boolean isChecked )
@@ -2124,17 +2165,6 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			doNotEcho.setEnabled( false );
-		}
-
-		// Fix order check
-		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
-		{
-			needSort.setEnabled( false );
-		}
-		else
-		{
-			needSort.setEnabled( true );
 		}
 	}
 
