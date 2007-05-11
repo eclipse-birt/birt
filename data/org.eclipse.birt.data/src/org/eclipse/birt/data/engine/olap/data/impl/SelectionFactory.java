@@ -30,7 +30,7 @@ public class SelectionFactory
 	 */
 	public static ISelection createOneRowSelection( Object[] key )
 	{
-		return new OneRowSelection( key );
+		return new OneKeySelection( key );
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class SelectionFactory
 	 */
 	public static ISelection createMutiRowSelection( Object[][] selectedObjects )
 	{
-		return new MultiRowSelection( selectedObjects );
+		return new MultiKeySelection( selectedObjects );
 	}
 
 	/**

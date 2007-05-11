@@ -20,7 +20,7 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
-import org.eclipse.birt.data.engine.olap.data.impl.OneRowSelection;
+import org.eclipse.birt.data.engine.olap.data.impl.OneKeySelection;
 
 /**
  * A disk based index. The index is n-tree which can be used to find element
@@ -486,7 +486,7 @@ public class DiskIndex
 	public IDiskArray find( Object[] value ) throws IOException, DataException
 	{
 		ISelection[] selections = new ISelection[1];
-		selections[0] = new OneRowSelection( value );
+		selections[0] = new OneKeySelection( value );
 		return find( selections );
 	}
 	/**

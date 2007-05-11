@@ -18,6 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 
 /**

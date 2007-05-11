@@ -38,6 +38,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.TopBottomFilterDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
@@ -191,7 +193,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	}
 	
 	/**
-	 * 
+	 * Current we only support muti-top/bottom filters with AND predication.
 	 * @param topbottomFilter
 	 */
 	public void addTopBottomFilter(TopBottomFilterDefn topbottomFilter)
@@ -368,7 +370,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( int i = 0; i < aggregations.length; i++ )
 		{
 			DimLevel[] levels = aggregations[i].getLevels( );
-			Map levelRange = new HashMap();
+			Map levelRange = new HashMap( );
 			for ( Iterator j = topbottomFilters.iterator( ); j.hasNext( ); )
 			{
 				TopBottomFilterDefn filter = (TopBottomFilterDefn) j.next( );
@@ -376,22 +378,26 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				{
 					DimLevel target = filter.getTargerLevel( );
 					IntRange range = (IntRange) levelRange.get( target );
-					if (  range == null )
+					if ( range == null )
 					{
-						range = new IntRange(0,resultSet[i].length( ));
+						range = new IntRange( 0, resultSet[i].length( ) );
 						levelRange.put( target, range );
 					}
-					if ( filter.getN( ) == 0 )
-					{
-						continue;
-					}
-					else if ( filter.isTop( ) )
-					{//top N
-						range.end = range.start + filter.getN( );
+					if ( filter.isTop( ) )
+					{// top N
+						int end = filter.getN( );
+						if ( end < range.end )
+						{
+							range.end = end;
+						}
 					}
 					else
-					{//bottom N
-						range.start = range.end - filter.getN( );
+					{// bottom N
+						int start = resultSet[i].length( ) - filter.getN( );
+						if ( start > range.start )
+						{
+							range.start = start;
+						}
 					}
 				}
 			}
@@ -400,8 +406,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				DimLevel level = (DimLevel) j.next( );
 				IntRange range = (IntRange) levelRange.get( level );
 				if ( range.start >= range.end )
-					continue;// no need to apply top/bottom filter
-				resultSet[i].subset(level, range.start, range.end);
+				{// there is no intersection of the top/bottom filters, so
+					// that the result set should be empty
+					resultSet[i].clear( );
+					continue;
+				}
+				resultSet[i].subset( level, range.start, range.end );
 			}
 		}
 	}

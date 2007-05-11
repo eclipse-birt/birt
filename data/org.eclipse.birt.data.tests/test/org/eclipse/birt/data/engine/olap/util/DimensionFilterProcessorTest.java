@@ -22,11 +22,11 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
-import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefn;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.mozilla.javascript.Context;
@@ -73,7 +73,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	{
 		
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"] * 2 + 2 == 6");
-		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
 		
 		List levelNames = new ArrayList();
@@ -105,7 +105,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter1() throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"][\"attr1\"] * 2 + 2 == 6");
-		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		
 		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList();
@@ -122,7 +122,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter3( ) throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
-		CubeFilterDefn cubeFilter = new CubeFilterDefn(expr);
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList( );
 		levelNames.add( "level1" );

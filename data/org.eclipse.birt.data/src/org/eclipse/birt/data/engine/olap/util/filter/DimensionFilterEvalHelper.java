@@ -21,13 +21,13 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefn;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
@@ -86,7 +86,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			}
 			else
 			{
-				this.cubeFilter = new CubeFilterDefn( this.expr );
+				this.cubeFilter = new CubeFilterDefinition( this.expr );
 			}
 			
 			this.aggrLevels = populateAggrLevels( );
