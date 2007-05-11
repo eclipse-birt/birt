@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.extension.ReportItemFactory;
 
 import com.ibm.icu.util.ULocale;
@@ -29,10 +30,9 @@ import com.ibm.icu.util.ULocale;
  * level view, crosstab cell, header cell and aggregation cell.
  */
 
-public class CrosstabItemFactory extends ReportItemFactory
-		implements
-			IMessages,
-			ICrosstabConstants
+public class CrosstabItemFactory extends ReportItemFactory implements
+		IMessages,
+		ICrosstabConstants
 {
 
 	/*
@@ -54,8 +54,7 @@ public class CrosstabItemFactory extends ReportItemFactory
 	{
 		if ( extendedItemHandle == null )
 			return null;
-		String extensionName = extendedItemHandle
-				.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
+		String extensionName = extendedItemHandle.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
 		if ( extensionName == null )
 			return null;
 		if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
@@ -97,6 +96,19 @@ public class CrosstabItemFactory extends ReportItemFactory
 	public String getMessage( String key, ULocale locale )
 	{
 		return Messages.getString( key, locale );
+	}
+
+	public IStyleDeclaration[] getFactoryStyles( String extensionName )
+	{
+		if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
+		{
+			return new IStyleDeclaration[]{
+					new CrosstabFactoryStyle( CROSSTAB_SELECTOR ),
+					new CrosstabFactoryStyle( CROSSTAB_CELL_SELECTOR )
+			};
+		}
+
+		return null;
 	}
 
 }

@@ -237,7 +237,8 @@ public class DesignSession
 			throw new IllegalArgumentException( "The file name must not be null" ); //$NON-NLS-1$
 
 		initializeOptions( options );
-		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
+		ReportDesign design = DesignReader.getInstance( ).read( this,
+				fileName,
 				options );
 		designs.add( design );
 		return design;
@@ -680,6 +681,11 @@ public class DesignSession
 	{
 		ReportDesign design = openDesign( templateName );
 		design.setFileName( null );
+
+		// if the extension side provide predefined style instance, those style
+		// will be added into the new created design tree.
+		addExtensionDefaultStyles( design );
+
 		return design;
 	}
 
@@ -714,7 +720,9 @@ public class DesignSession
 			design.add( style, ReportDesign.STYLE_SLOT );
 			style.setID( design.getNextID( ) );
 			design.addElementID( style );
-			design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ).insert( style );
+			design.getNameHelper( )
+					.getNameSpace( Module.STYLE_NAME_SPACE )
+					.insert( style );
 		}
 
 	}
