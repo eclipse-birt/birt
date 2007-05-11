@@ -406,8 +406,13 @@ public class DataSourceAndDataSet
 		if ( dataSetDesign == null || dataSetDesign2 == null )
 			return false;
 
-		if ( !isEqualString( dataSetDesign.getName( ), dataSetDesign2.getName( )))
+		if ( !isEqualString( dataSetDesign.getName( ), dataSetDesign2.getName( ) ) )
 			return false;
+
+		if ( dataSetDesign.getRowFetchLimit( ) != dataSetDesign2.getRowFetchLimit( ) )
+		{
+			return false;
+		}
 		
 		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
 				dataSetDesign2.getBeforeOpenScript( ) ) == false
