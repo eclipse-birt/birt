@@ -115,8 +115,6 @@ class RDSave implements IRDSave
 		this.closeSaveRowUtil( );
 
 		this.saveForIV( );
-		
-		this.streamManager.saveToReportDocument( );
 	}
 
 	/**
