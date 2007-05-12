@@ -24,8 +24,8 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
@@ -47,10 +47,10 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	 */
 	private String[] columnKeys = new String[]{
 			ILevelViewConstants.LEVEL_PROP,
-			FilterCondition.EXPR_MEMBER,
-			FilterCondition.OPERATOR_MEMBER,
-			FilterCondition.VALUE1_MEMBER,
-			FilterCondition.VALUE2_MEMBER
+			IFilterConditionElementModel.EXPR_PROP,
+			IFilterConditionElementModel.OPERATOR_PROP,
+			IFilterConditionElementModel.VALUE1_PROP,
+			IFilterConditionElementModel.VALUE2_PROP
 	};
 
 	/**

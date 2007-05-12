@@ -245,7 +245,7 @@ public class FilterConditionBuilder extends BaseDialog
 	 * 
 	 * @param value
 	 */
-	static int getIndexForOperatorValue( String value )
+	protected static int getIndexForOperatorValue( String value )
 	{
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{

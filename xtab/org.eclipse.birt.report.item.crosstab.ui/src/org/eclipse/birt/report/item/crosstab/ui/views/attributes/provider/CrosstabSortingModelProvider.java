@@ -29,16 +29,15 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.SortKeyHandle;
-import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclpse.birt.report.item.crosstab.ui.views.dialogs.CrosstabSortKeyBuilder;
 
@@ -77,7 +76,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 				return false;
 			}
 			LevelViewHandle level = levelSortKeyHandle.getLevelHandle( );
-			SortKeyHandle sortKey = levelSortKeyHandle.getSortKeyHandle( );
+			SortElementHandle sortKey = levelSortKeyHandle.getSortKeyHandle( );
 			
 			CrosstabSortKeyBuilder dialog = new CrosstabSortKeyBuilder( UIUtil.getDefaultShell( ),
 					SortkeyBuilder.DLG_TITLE_EDIT );
@@ -117,11 +116,15 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		}
 		LevelSortKeyHandle levelSortKeyHandle = (LevelSortKeyHandle) Arrays.asList(levelArray).get( pos );
 		LevelViewHandle level = levelSortKeyHandle.getLevelHandle( );
-		PropertyHandle propertyHandle = level.getModelHandle().getPropertyHandle( ILevelViewConstants.SORT_PROP );
-		SortKeyHandle sortKey = levelSortKeyHandle.getSortKeyHandle( );
-		if(propertyHandle != null && sortKey != null)
+		SortElementHandle sortKey = levelSortKeyHandle.getSortKeyHandle( );
+
+		try
 		{
-			propertyHandle.removeItem(sortKey);
+			level.getModelHandle( ).drop( ILevelViewConstants.SORT_PROP, sortKey );
+		}
+		catch ( SemanticException e )
+		{
+			return false;
 		}
 		
 		return true;
@@ -179,33 +182,6 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	{
 		// Because user cannot modify the value of table cell directly(User only modify the value by CrosstabSortKeyBuilder), return true.
 		return true;
-//		if(key.endsWith( ILevelViewConstants.LEVEL_PROP ))
-//		{
-//			element = ((LevelSortKeyHandle)element).getSortKeyHandle( );
-//			if ( key.equals( SortKey.KEY_MEMBER ) )
-//			{
-//				String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-//				if ( value != null )
-//					newValue = value;
-//			}
-//
-//			String saveValue = newValue;
-//			StructureHandle handle = (StructureHandle) element;
-//			if ( key.equals( SortKey.DIRECTION_MEMBER ) )
-//			{
-//				IChoice choice = choiceSetDirection.findChoiceByDisplayName( newValue );
-//				if ( choice == null )
-//					saveValue = null;
-//				else
-//					saveValue = choice.getName( );
-//			}
-//			handle.getMember( key ).setStringValue( saveValue );
-//			return true;
-//		}else // The level Changes
-//		{
-//			return true;
-//		}
-
 	}
 	
 	/**
@@ -229,21 +205,21 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		}
 		
 		element = ((LevelSortKeyHandle)element).getSortKeyHandle( );
+		String value = null;
 		
-		String value = ( (StructureHandle) element ).getMember( key )
-				.getStringValue( );
+		value = ( (SortElementHandle) element ).getStringProperty( key );
 		if ( value == null )
 			value = "";//$NON-NLS-1$
-		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
+		
+		if ( key.equals( ISortElementModel.DIRECTION_PROP ) )
 		{
 			IChoice choice = choiceSetDirection.findChoice( value );
 			if ( choice != null )
 				return choice.getDisplayName( );
 		}
-		else
-			return value;
+		
+		return value;
 
-		return "";//$NON-NLS-1$
 	}
 	
 	/**
@@ -260,9 +236,9 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		columnNames[0] = Messages.getString("CrosstabSortingModelProvider.ColumnName.GroupLevel");
 		for ( int i = 1; i < keys.length; i++ )
 		{
-			IStructureDefn structure = DEUtil.getMetaDataDictionary( )
-					.getStructure( SortKey.SORT_STRUCT );
-			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
+			IElementDefn ElementDefn = DEUtil.getMetaDataDictionary( )
+					.getElement( ReportDesignConstants.SORT_ELEMENT );
+			columnNames[i] = ElementDefn.getProperty(  keys[i] ).getDisplayName( );
 		}
 		return columnNames;
 	}
@@ -341,7 +317,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 				Iterator iter = levelHandle.sortsIterator( );
 				while(iter.hasNext( ))
 				{
-					LevelSortKeyHandle levelSortKeyHandle = new LevelSortKeyHandle(levelHandle,(SortKeyHandle)iter.next( ));
+					LevelSortKeyHandle levelSortKeyHandle = new LevelSortKeyHandle(levelHandle,(SortElementHandle)iter.next( ));
 					list.add( levelSortKeyHandle );
 				}
 				
@@ -373,8 +349,8 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	class LevelSortKeyHandle
 	{
 		protected LevelViewHandle levelHandle;
-		protected SortKeyHandle sortKeyHandle;
-		public LevelSortKeyHandle(LevelViewHandle level, SortKeyHandle sortKey)
+		protected SortElementHandle sortKeyHandle;
+		public LevelSortKeyHandle(LevelViewHandle level, SortElementHandle sortKey)
 		{
 			this.levelHandle = level;
 			this.sortKeyHandle = sortKey;
@@ -390,12 +366,12 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 			this.levelHandle = level;
 		}
 		
-		public 	SortKeyHandle getSortKeyHandle()
+		public 	SortElementHandle getSortKeyHandle()
 		{
 			return this.sortKeyHandle;
 		}
 		
-		public void setSortKeyHandle(SortKeyHandle sortKey)
+		public void setSortKeyHandle(SortElementHandle sortKey)
 		{
 			this.sortKeyHandle = sortKey;
 		}

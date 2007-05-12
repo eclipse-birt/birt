@@ -23,8 +23,8 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
@@ -46,8 +46,8 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	private String[] columnKeys = new String[]{
 			ILevelViewConstants.LEVEL_PROP,
-			SortKey.KEY_MEMBER,
-			SortKey.DIRECTION_MEMBER
+			ISortElementModel.KEY_PROP,
+			ISortElementModel.DIRECTION_PROP
 	};
 
 	/**
