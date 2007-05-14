@@ -320,7 +320,6 @@ public final class DataSetProvider
 				queryDefn,
 				useColumnHints,
 				useFilters,
-				null,
 				false,
 				session );
 	}	
@@ -335,7 +334,7 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
 			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, Map appContext, boolean clearCache,
+			boolean useFilters, boolean clearCache,
 			DataRequestSession session ) throws BirtException
 	{
 
