@@ -26,6 +26,7 @@ public class MasterPageExecutor extends ContainerExecutor
 	private static final int FOOTER_BAND = 2;
 
 	private long pageNumber;
+	private long offset;
 	private SimpleMasterPageDesign masterPage;
 
 	private int nextBand;
@@ -43,6 +44,7 @@ public class MasterPageExecutor extends ContainerExecutor
 		context.setExecutingMasterPage( false );
 		pageNumber = 0;
 		nextBand = 0;
+		reader.unloadContent(offset);
 		super.close( );
 	}
 
@@ -65,9 +67,8 @@ public class MasterPageExecutor extends ContainerExecutor
 				pageNo = totalPage;
 			}
 			IPageHint hint = hintReader.getPageHint( pageNo );
-			long offset = hint.getOffset( );
-			CachedReportContentReaderV3 pageReader = manager.getPageReader( );
-			content = pageReader.loadContent( offset );
+			offset = hint.getOffset( );
+			content = reader.loadContent( offset );
 			InstanceID iid = content.getInstanceID( );
 			long id = iid.getComponentID( );
 			masterPage = (SimpleMasterPageDesign) context.getReport( )
