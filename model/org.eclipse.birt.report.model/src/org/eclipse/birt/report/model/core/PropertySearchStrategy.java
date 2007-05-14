@@ -134,6 +134,42 @@ public class PropertySearchStrategy
 	public Object getPropertyFromElement( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
+		if ( prop.isIntrinsic( ) )
+		{
+			// This is an intrinsic system-defined property.
+
+			return element.getIntrinsicProperty( prop.getName( ) );
+		}
+
+		return getNonIntrinsicPropertyFromElement( module, element, prop );
+
+	}
+
+	/**
+	 * Gets a non-intrinic property value given its definition. This version
+	 * does the property search as defined by the given derived component. That
+	 * is, it gets the "effective" property value. The definition can be for a
+	 * system or user-defined property.
+	 * <p>
+	 * The search won't search up the containment hierarchy. Meanwhile, it won't
+	 * the inheritance hierarchy if the non-style property is not inheritable.
+	 * <p>
+	 * Part of: Property value system.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element to search
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 */
+
+	private Object getNonIntrinsicPropertyFromElement( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		assert !prop.isIntrinsic( );
+
 		Object value = null;
 
 		value = getPropertyFromSelf( module, element, prop );
@@ -174,7 +210,7 @@ public class PropertySearchStrategy
 
 		return null;
 	}
-
+	
 	/**
 	 * Returns the property value from this element. The value is only from
 	 * local properties or local style of this element.
