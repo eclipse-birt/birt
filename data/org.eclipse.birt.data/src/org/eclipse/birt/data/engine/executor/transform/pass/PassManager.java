@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.mozilla.javascript.Context;
 
 /**
@@ -180,7 +181,26 @@ public class PassManager
 			computedColumnHelper.setModel( TransformationConstants.DATA_SET_MODEL );
 		PassUtil.pass( this.populator, odaResultSet, false, this.session );
 		this.populator.getExpressionProcessor( ).setDataSetMode( false );
+		
+		removeOnFetchScriptHelper( );
 		handleEndOfDataSetProcess( );
+	}
+
+	/**
+	 * The OnFetchScript should only be calcualted one time.
+	 */
+	private void removeOnFetchScriptHelper( )
+	{
+		if ( this.populator.getQuery( ).getFetchEvents( ) == null )
+			return;
+		for( Iterator it = this.populator.getQuery( ).getFetchEvents( ).iterator( ); it.hasNext( );)
+		{
+			Object o = it.next( );
+			if( o instanceof OnFetchScriptHelper )
+			{
+				it.remove( );
+			}
+		}
 	}
 
 	/**
@@ -296,7 +316,7 @@ public class PassManager
 			this.populator.getQuery( ).setMaxRows( 0 );
 		
 		PassUtil.pass( this.populator, odaResultSet, false, this.session );
-
+		this.removeOnFetchScriptHelper( );
 		this.populator.getQuery( ).setMaxRows( max );
 	}
 
