@@ -162,10 +162,14 @@ public final class DataSetProvider
 				}
 				if ( canExecute )
 				{
+					DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+							dataSet.getModuleHandle( ) );
+					DataRequestSession session = DataRequestSession.newSession( context );
 					IQueryResults results = execute( dataSet,
 							useColumnHints,
 							true,
-							1 );
+							1,
+							session );
 
 					if ( results != null )
 					{
@@ -173,6 +177,7 @@ public final class DataSetProvider
 					}
 					// Now lookup the columns again
 					columns = (DataSetViewData[]) htColumns.get( dataSet );
+					session.shutdown( );
 				}
 			}
 			catch ( BirtException e )
@@ -260,9 +265,9 @@ public final class DataSetProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	public IQueryResults execute( DataSetHandle dataSet ) throws BirtException
+	public IQueryResults execute( DataSetHandle dataSet, DataRequestSession session ) throws BirtException
 	{
-		return execute( dataSet, true, true, -1 );
+		return execute( dataSet, true, true, -1, session );
 	}
 	
 	/**
@@ -274,16 +279,12 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
-			boolean useColumnHints, boolean useFilters, int rowsToReturn )
-			throws BirtException
+			boolean useColumnHints, boolean useFilters, int rowsToReturn,
+			DataRequestSession session ) throws BirtException
 	{
 
 	    populateAllOutputColumns( dataSet );
-		// get the prepared query
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ) );
-		DataRequestSession session = DataRequestSession.newSession( context );
-
+	    
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
 
@@ -316,9 +317,14 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute(  DataSetHandle dataSet,
 			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters ) throws BirtException
+			boolean useFilters, DataRequestSession session ) throws BirtException
 	{
-		return this.execute( dataSet, queryDefn, useColumnHints, useFilters, null, false );
+		return this.execute( dataSet,
+				queryDefn,
+				useColumnHints,
+				useFilters,
+				false,
+				session );
 	}	
 	
 	/**
@@ -331,18 +337,12 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
 			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, Map appContext, boolean clearCache ) throws BirtException
+			boolean useFilters, boolean clearCache,
+			DataRequestSession session ) throws BirtException
 	{
 
 		this.populateAllOutputColumns( dataSet );
-		// get the prepared query
-
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ) );
-		context.setAppContext( appContext );
 		
-		DataRequestSession session = DataRequestSession.newSession( context );
-
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
 		if ( clearCache )

@@ -79,6 +79,7 @@ public final class DataSetUIUtil
 					null );
 			DataRequestSession drSession = DataRequestSession.newSession( context );
 			drSession.refreshMetaData( dataSetHandle, holdEvent );
+			drSession.shutdown( );
 		}
 		catch ( BirtException e )
 		{
