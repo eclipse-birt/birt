@@ -871,6 +871,44 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						styleBuffer.append(";");
 					}
 				}
+			// Build MasterPage's margin as padding.
+			if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+			{
+				Object genBy = page.getGenerateBy( );
+				if ( genBy instanceof SimpleMasterPageDesign )
+				{
+					SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
+					String padding = SimpleMasterPage.getLeftMargin( )
+							.toString( );
+					if ( null != padding )
+					{
+						styleBuffer.append( "padding-left: " );
+						styleBuffer.append( padding );
+						styleBuffer.append( ";" );
+					}
+					padding = SimpleMasterPage.getTopMargin( ).toString( );
+					if ( null != padding )
+					{
+						styleBuffer.append( "padding-top: " );
+						styleBuffer.append( padding );
+						styleBuffer.append( ";" );
+					}
+					padding = SimpleMasterPage.getRightMargin( ).toString( );
+					if ( null != padding )
+					{
+						styleBuffer.append( "padding-right: " );
+						styleBuffer.append( padding );
+						styleBuffer.append( ";" );
+					}
+					padding = SimpleMasterPage.getBottomMargin( ).toString( );
+					if ( null != padding )
+					{
+						styleBuffer.append( "padding-bottom: " );
+						styleBuffer.append( padding );
+						styleBuffer.append( ";" );
+					}
+				}
+			}
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
 		
@@ -945,9 +983,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							HTMLTags.ATTR_MIN_HEIGHT,
 							masterPage.getPageHeight( ) );
 				}
-//				// output page body margin
-//				styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
-//				styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}
