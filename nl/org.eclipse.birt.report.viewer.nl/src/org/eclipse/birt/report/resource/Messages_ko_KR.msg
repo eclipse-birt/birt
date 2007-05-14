@@ -137,6 +137,8 @@ birt.viewer.dialog.exportdata.addall=모두 추가
 birt.viewer.dialog.exportdata.add=추가
 birt.viewer.dialog.exportdata.removeall=모두 제거
 birt.viewer.dialog.exportdata.remove=제거
+birt.viewer.dialog.exportdata.up=Up
+birt.viewer.dialog.exportdata.down=Down
 birt.viewer.dialog.exportdata.separator=구분 기호:
 
 birt.viewer.sep.0=쉼표( , )

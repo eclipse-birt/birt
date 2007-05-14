@@ -137,6 +137,8 @@ birt.viewer.dialog.exportdata.addall=‚·‚×‚Ä’Ç‰Á
 birt.viewer.dialog.exportdata.add=’Ç‰Á
 birt.viewer.dialog.exportdata.removeall=‚·‚×‚Äíœ
 birt.viewer.dialog.exportdata.remove=íœ
+birt.viewer.dialog.exportdata.up=Up
+birt.viewer.dialog.exportdata.down=Down
 birt.viewer.dialog.exportdata.separator=‹æØ‚è•¶š :
 
 birt.viewer.sep.0=ƒRƒ“ƒ} (,)
