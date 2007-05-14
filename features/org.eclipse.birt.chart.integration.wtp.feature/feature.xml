@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.birt.chart.integration.wtp.feature"
-      label="Feature Feature"
-      version="1.0.0"
-      provider-name="Eclipse.org">
+      label="%featureName"
+      version="2.2.0.qualifier"
+      provider-name="%providerName"
+      plugin="org.eclipse.birt.chart.integration.wtp.ui"
+      image="eclipse_update_120.jpg">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="http://www.eclipse.org/birt">
+      %description
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="%copyrightURL">
+      %copyright
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
+   
+   <url>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
+   </url>
    
    <requires>
       <import plugin="org.eclipse.ui"/>
