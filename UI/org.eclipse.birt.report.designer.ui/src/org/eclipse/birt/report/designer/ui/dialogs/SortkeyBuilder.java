@@ -238,7 +238,7 @@ public class SortkeyBuilder extends BaseDialog
 
 	private Object getResultSetColumn( String name )
 	{
-		if ( columnList.isEmpty( ) )
+		if (columnList == null || columnList.isEmpty( ) )
 		{
 			return null;
 		}
