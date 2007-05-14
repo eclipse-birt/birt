@@ -467,6 +467,54 @@ BirtUtility.prototype =
 		{}		
 	},
 	
+	/**
+	 * Move selected items up
+	 */
+	moveSelectedItemsUp : function( list )
+	{
+		if( !list || list.selectedIndex < 0 )
+			return;
+		
+		var i = 0; 
+		var value = ""; 
+		var text = ""; 
+		for( i=0; i<(list.options.length-1); i++ ) 
+		{ 
+			if (!list.options[i].selected && list.options[i+1].selected) 
+			{ 
+				value = list.options[i].value; 
+				text = list.options[i].text; 
+				list.options[i] = new Option(list.options[i+1].text, list.options[i+1].value); 
+				list.options[i].selected = true; 
+				list.options[i+1] = new Option(text, value); 
+			} 
+		}			
+	},
+	
+	/**
+	 * Move selected items down
+	 */
+	moveSelectedItemsDown : function( list )
+	{
+		if( !list || list.selectedIndex < 0 )
+			return;
+		
+		var i = 0; 
+		var value = ""; 
+		var text = ""; 
+		for( i=list.options.length-1; i>0; i-- ) 
+		{
+			if (!list.options[i].selected && list.options[i-1].selected) 
+			{
+				value = list.options[i].value; 
+				text = list.options[i].text; 
+				list.options[i] = new Option(list.options[i-1].text, list.options[i-1].value); 
+				list.options[i].selected = true; 
+				list.options[i-1] = new Option(text, value); 
+			} 
+		} 	
+	},
+		
 	noComma : "" //just to avoid javascript syntax errors
 }
 

@@ -120,6 +120,16 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					}
 					break;
 				}
+				case 'Up':
+				{
+					birtUtility.moveSelectedItemsUp( oSelects[2] );
+					break;
+				}
+				case 'Down':
+				{
+					birtUtility.moveSelectedItemsDown( oSelects[2] );
+					break;
+				}
 			}
 		}
 		
@@ -197,6 +207,12 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 		oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
 		oInputs[3].style.cursor = canRemove ? "pointer" : "default";
+
+		oInputs[4].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Up.gif" : "birt/images/Up_disabled.gif";
+		oInputs[4].style.cursor = canRemove ? "pointer" : "default";
+
+		oInputs[5].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Down.gif" : "birt/images/Down_disabled.gif";
+		oInputs[5].style.cursor = canRemove ? "pointer" : "default";
 		
 		if( canExport )
 		{
