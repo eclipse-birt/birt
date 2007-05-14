@@ -38,12 +38,4 @@ public interface ILabel
 	 * @return the caption text
 	 */
 	IText getCaption( );
-
-	/**
-	 * Sets the caption in the Label
-	 * 
-	 * @param text
-	 *            the caption text
-	 */
-	void setCaption( IText text );
 }

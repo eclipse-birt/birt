@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.chart.script.internal.component;
 
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.component.IMarkerRange;
 import org.eclipse.birt.chart.script.api.data.IDataElement;
+import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
  * 
@@ -53,7 +55,13 @@ public class MarkerRangeImpl implements IMarkerRange
 
 	public ILabel getTitle( )
 	{
-		return ChartComponentFactory.convertLabel( range.getLabel( ) );
+		Label title = range.getLabel( );
+		if ( title == null )
+		{
+			title = ChartComponentUtil.createEMFLabel( );
+			range.setLabel( title );
+		}
+		return ChartComponentFactory.convertLabel( title );
 	}
 
 	public boolean isVisible( )

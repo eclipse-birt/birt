@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.chart.script.internal.component;
 
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.component.IMarkerLine;
 import org.eclipse.birt.chart.script.api.data.IDataElement;
+import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
  * 
@@ -43,7 +45,13 @@ public class MarkerLineImpl implements IMarkerLine
 
 	public ILabel getTitle( )
 	{
-		return ChartComponentFactory.convertLabel( line.getLabel( ) );
+		Label title = line.getLabel( );
+		if ( title == null )
+		{
+			title = ChartComponentUtil.createEMFLabel( );
+			line.setLabel( title );
+		}
+		return ChartComponentFactory.convertLabel( title );
 	}
 
 	public boolean isVisible( )

@@ -12,10 +12,6 @@
 package org.eclipse.birt.chart.tests.script;
 
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
-import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.report.model.api.extension.IColor;
 import org.eclipse.birt.report.model.api.extension.IFont;
 
@@ -33,9 +29,7 @@ public class ChartTest extends BaseChartTestCase
 				.getValue( ), "Bar Chart Title" );
 
 		String newTitle = "Test title";
-		Label label = LabelImpl.create( );
-		label.setCaption( TextImpl.create( newTitle ) );
-		getChartWithAxes( ).setTitle( ChartComponentFactory.convertLabel( label ) );
+		getChartWithAxes( ).getTitle( ).getCaption( ).setValue( newTitle );
 		assertEquals( "IChart.SetTitle", getChartWithAxes( ).getTitle( )
 				.getCaption( )
 				.getValue( ), newTitle );
@@ -60,7 +54,7 @@ public class ChartTest extends BaseChartTestCase
 		IColor color = getChartWithAxes( ).getTitle( ).getCaption( ).getColor( );
 		assertNotNull( color );
 
-		assertEquals( "Dummy color - Red", color.getRed( ), -1 );
+		assertEquals( "Dummy color - Red", color.getRed( ), 0 );
 		color.setRed( 255 );
 		assertEquals( color.getRed( ), 255 );
 
@@ -78,10 +72,11 @@ public class ChartTest extends BaseChartTestCase
 				"Description" );
 
 		String newDesc = "Test description";
-		getChartWithAxes( ).setDescription( ChartComponentFactory.convertText( TextImpl.create( newDesc ) ) );
+		getChartWithAxes( ).getDescription( ).setValue( newDesc );
 		assertEquals( "IChart.SetDescription",
 				getChartWithAxes( ).getDescription( ).getValue( ),
 				newDesc );
+
 	}
 
 	public void testColorByCategory( )

@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.chart.script.internal.attribute;
 
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.attribute.IText;
+import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
  * 
@@ -32,7 +34,13 @@ public class LabelImpl implements ILabel
 
 	public IText getCaption( )
 	{
-		return ChartComponentFactory.convertText( label.getCaption( ) );
+		Text caption = label.getCaption( );
+		if ( caption == null )
+		{
+			caption = ChartComponentUtil.createEMFText( );
+			label.setCaption( caption );
+		}
+		return ChartComponentFactory.convertText( caption );
 	}
 
 	public boolean isVisible( )

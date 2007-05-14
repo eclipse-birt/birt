@@ -32,27 +32,11 @@ public interface IChart extends IMultiRowItem
 	IText getDescription( );
 
 	/**
-	 * Sets the description of Chart
-	 * 
-	 * @param label
-	 *            description
-	 */
-	void setDescription( IText label );
-
-	/**
 	 * Gets the title of Chart
 	 * 
 	 * @return title
 	 */
 	ILabel getTitle( );
-
-	/**
-	 * Sets the title of Chart
-	 * 
-	 * @param title
-	 *            title
-	 */
-	void setTitle( ILabel title );
 
 	/**
 	 * Gets Legend in Chart model

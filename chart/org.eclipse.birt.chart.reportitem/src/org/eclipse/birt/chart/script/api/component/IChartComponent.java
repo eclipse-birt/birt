@@ -42,12 +42,4 @@ public interface IChartComponent
 	 */
 	ILabel getTitle( );
 
-	/**
-	 * Sets the title of component
-	 * 
-	 * @param title
-	 *            title string
-	 */
-	void setTitle( ILabel title );
-
 }

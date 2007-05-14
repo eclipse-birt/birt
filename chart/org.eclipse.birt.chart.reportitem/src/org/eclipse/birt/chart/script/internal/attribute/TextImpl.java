@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.script.internal.attribute;
 
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.IText;
+import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 import org.eclipse.birt.report.model.api.extension.IColor;
 import org.eclipse.birt.report.model.api.extension.IFont;
 
@@ -43,12 +46,24 @@ public class TextImpl implements IText
 
 	public IColor getColor( )
 	{
-		return ChartComponentFactory.convertColor( text.getColor( ) );
+		ColorDefinition cd = text.getColor( );
+		if ( cd == null )
+		{
+			cd = ChartComponentUtil.createEMFColor( );
+			text.setColor( cd );
+		}
+		return ChartComponentFactory.convertColor( cd );
 	}
 
 	public IFont getFont( )
 	{
-		return ChartComponentFactory.convertFont( text.getFont( ) );
+		FontDefinition fd = text.getFont( );
+		if ( fd == null )
+		{
+			fd = ChartComponentUtil.createEMFFont( );
+			text.setFont( fd );
+		}
+		return ChartComponentFactory.convertFont( fd );
 	}
 
 	public void setColor( IColor color )

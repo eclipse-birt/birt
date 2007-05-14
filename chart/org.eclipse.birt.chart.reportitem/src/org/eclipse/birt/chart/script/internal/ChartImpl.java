@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.IChart;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
@@ -48,7 +50,13 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 
 	public IText getDescription( )
 	{
-		return ChartComponentFactory.convertText( cm.getDescription( ) );
+		Text desc = cm.getDescription( );
+		if ( desc == null )
+		{
+			desc = ChartComponentUtil.createEMFText( );
+			cm.setDescription( desc );
+		}
+		return ChartComponentFactory.convertText( desc );
 	}
 
 	public ILegend getLegend( )
@@ -63,7 +71,13 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 
 	public ILabel getTitle( )
 	{
-		return ChartComponentFactory.convertLabel( cm.getTitle( ).getLabel( ) );
+		Label title = cm.getTitle( ).getLabel( );
+		if ( title == null )
+		{
+			title = ChartComponentUtil.createEMFLabel( );
+			cm.getTitle( ).setLabel( title );
+		}
+		return ChartComponentFactory.convertLabel( title );
 	}
 
 	public boolean isColorByCategory( )
