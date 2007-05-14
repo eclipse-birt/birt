@@ -27,6 +27,9 @@ public final class AxisSubUnit
 
 	private double dLastValue = 0;
 
+	/** The field stores orthogonal position of series in axes. */
+	private double dLastPosition = Double.NaN;
+	
 	AxisSubUnit( )
 	{
 	}
@@ -130,5 +133,17 @@ public final class AxisSubUnit
 			return 0;
 		}
 		return ( dValue * 100d ) / ( dPositiveTotal - dNegativeTotal );
+	}
+
+	
+	public final double getLastPosition( )
+	{
+		return dLastPosition;
+	}
+
+	
+	public final void setLastPosition( double dLastPosition )
+	{
+		this.dLastPosition = dLastPosition;
 	}
 }
