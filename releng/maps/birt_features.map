@@ -32,8 +32,9 @@ feature@org.eclipse.birt.testhelper=v20070202,:pserver:anonymous@dev.eclipse.org
 feature@org.eclipse.birt.tests=v20070508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
-feature@org.eclipse.birt.integration.wtp=v20070420,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp=v20070514,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.rcp.feature
+feature@org.eclipse.birt.chart.integration.wtp=v20070514,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.feature
 
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
