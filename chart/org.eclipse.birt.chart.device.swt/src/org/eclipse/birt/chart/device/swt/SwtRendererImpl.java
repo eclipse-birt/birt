@@ -62,6 +62,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Composite;
@@ -868,20 +869,26 @@ public class SwtRendererImpl extends DeviceAdapter
 	{
 		Fill flBackground = are.getBackground( );
 
-		if ( isFullTransparent( flBackground ) )
+		if ( isFullTransparent( flBackground ) || are.getAngleExtent( ) == 0 )
 		{
 			return;
 		}
 
+		Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
+				are.getTopLeft( ).getY( ),
+				are.getWidth( ),
+				are.getHeight( ) );
+		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
+				(int) Math.ceil( bo.getWidth( ) * dScale ),
+				(int) Math.ceil( bo.getHeight( ) * dScale ) );
+		
+		Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		
 		if ( are.getInnerRadius( ) >= 0
 				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 		{
-			Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ) );
-
 			Bounds rctOuter, rctInner;
 
 			if ( are.getOuterRadius( ) > 0 )
@@ -928,7 +935,6 @@ public class SwtRendererImpl extends DeviceAdapter
 			double yeInner = ( rctInner.getTop( ) + ( Math.sin( stopAngle ) * 0.5 + 0.5 )
 					* rctInner.getHeight( ) );
 
-			Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
 			pt.addArc( (float) rctOuter.getLeft( ),
 					(float) rctOuter.getTop( ),
 					(float) rctOuter.getWidth( ),
@@ -946,164 +952,48 @@ public class SwtRendererImpl extends DeviceAdapter
 					(float) -are.getAngleExtent( ) );
 
 			pt.lineTo( (float) xsOuter, (float) ysOuter );
-
-			if ( flBackground instanceof ColorDefinition )
-			{
-				final ColorDefinition cd = (ColorDefinition) flBackground;
-
-				// skip full transparency for optimization.
-				if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
-				{
-					final Color cBG = (Color) _ids.getColor( cd );
-					final Color cPreviousBG = _gc.getBackground( );
-					_gc.setBackground( cBG );
-
-					R31Enhance.setAlpha( _gc, cd );
-
-					_gc.fillPath( pt );
-
-					cBG.dispose( );
-					_gc.setBackground( cPreviousBG );
-				}
-			}
-			else if ( flBackground instanceof Gradient
-					|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				Region previousClipping = new Region( );
-				_gc.getClipping( previousClipping );
-
-				// TODO intersect previous clipping with current path.
-				_gc.setClipping( pt );
-
-				RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-						RectangleRenderEvent.class );
-				rre.setBackground( are.getBackground( ) );
-				try
-				{
-					rre.setBounds( are.getBounds( ) );
-					rre.setOutline( are.getOutline( ) );
-
-					fillRectangle( rre );
-				}
-				catch ( ChartException ufex )
-				{
-					pt.dispose( );
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							ufex );
-				}
-				finally
-				{
-					_gc.setClipping( previousClipping );
-					previousClipping.dispose( );
-				}
-
-			}
-
-			pt.dispose( );
 		}
 		else
 		{
 			if ( are.getStyle( ) == ArcRenderEvent.SECTOR
 					|| ( are.getStyle( ) == ArcRenderEvent.CLOSED && Math.abs( are.getAngleExtent( ) ) >= 360 ) )
 			{
-				if ( flBackground instanceof ColorDefinition )
+				double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
+				double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
+
+				double xs = 0, ys = 0;
+				double angle = Math.toRadians( -are.getStartAngle( ) );
+
+				xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
+						* are.getWidth( ) ) * dScale );
+				ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
+						* are.getHeight( ) ) * dScale );
+
+				if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
 				{
-					final ColorDefinition cd = (ColorDefinition) flBackground;
-
-					// skip full transparency for optimization.
-					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
-					{
-						final Color cBG = (Color) _ids.getColor( cd );
-						final Color cPreviousBG = _gc.getBackground( );
-						_gc.setBackground( cBG );
-
-						R31Enhance.setAlpha( _gc, cd );
-
-						_gc.fillArc( (int) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(int) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(int) ( are.getWidth( ) * dScale ),
-								(int) ( are.getHeight( ) * dScale ),
-								(int) are.getStartAngle( ),
-								(int) are.getAngleExtent( ) );
-
-						cBG.dispose( );
-						_gc.setBackground( cPreviousBG );
-					}
+					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
+							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
+							(float) ( are.getWidth( ) * dScale ),
+							(float) ( are.getHeight( ) * dScale ),
+							(float) are.getStartAngle( ),
+							(float) are.getAngleExtent( ) );
+					pt.lineTo( (float) xs, (float) ys );
 				}
-				else if ( flBackground instanceof Gradient
-						|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+				else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
 				{
-					double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
-					double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
-
-					double xs = 0, ys = 0;
-					double angle = Math.toRadians( -are.getStartAngle( ) );
-
-					xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-							* are.getWidth( ) ) * dScale );
-					ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-							* are.getHeight( ) ) * dScale );
-
-					Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-
-					if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
-					{
-						pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(float) ( are.getWidth( ) * dScale ),
-								(float) ( are.getHeight( ) * dScale ),
-								(float) are.getStartAngle( ),
-								(float) are.getAngleExtent( ) );
-						pt.lineTo( (float) xs, (float) ys );
-					}
-					else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
-					{
-						pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(float) ( are.getWidth( ) * dScale ),
-								(float) ( are.getHeight( ) * dScale ),
-								(float) are.getStartAngle( ),
-								(float) are.getAngleExtent( ) );
-						pt.lineTo( (float) xc, (float) yc );
-						pt.lineTo( (float) xs, (float) ys );
-					}
-
-					Region previousClipping = new Region( );
-					_gc.getClipping( previousClipping );
-
-					// TODO intersect previous clipping with current path.
-					_gc.setClipping( pt );
-
-					RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-							RectangleRenderEvent.class );
-					rre.setBackground( are.getBackground( ) );
-					try
-					{
-						rre.setBounds( are.getBounds( ) );
-						rre.setOutline( are.getOutline( ) );
-
-						fillRectangle( rre );
-					}
-					catch ( ChartException ufex )
-					{
-						throw new ChartException( ChartDeviceSwtActivator.ID,
-								ChartException.RENDERING,
-								ufex );
-					}
-					finally
-					{
-						_gc.setClipping( previousClipping );
-						previousClipping.dispose( );
-						pt.dispose( );
-					}
+					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
+							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
+							(float) ( are.getWidth( ) * dScale ),
+							(float) ( are.getHeight( ) * dScale ),
+							(float) are.getStartAngle( ),
+							(float) are.getAngleExtent( ) );
+					pt.lineTo( (float) xc, (float) yc );
+					pt.lineTo( (float) xs, (float) ys );
 				}
-
-				return;
 			}
 
 			// Extra fix due to SWT arc rendering limitation.
-			if ( are.getStyle( ) == ArcRenderEvent.OPEN
+			else if ( are.getStyle( ) == ArcRenderEvent.OPEN
 					|| are.getStyle( ) == ArcRenderEvent.CLOSED )
 			{
 				double angle = Math.toRadians( -are.getStartAngle( ) );
@@ -1113,7 +1003,6 @@ public class SwtRendererImpl extends DeviceAdapter
 				double ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
 						* are.getHeight( ) ) * dScale );
 
-				Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
 				pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
 						(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
 						(float) ( are.getWidth( ) * dScale ),
@@ -1122,64 +1011,30 @@ public class SwtRendererImpl extends DeviceAdapter
 						(float) are.getAngleExtent( ) );
 
 				pt.lineTo( (float) xs, (float) ys );
-
-				if ( flBackground instanceof ColorDefinition )
-				{
-					final ColorDefinition cd = (ColorDefinition) flBackground;
-
-					// skip full transparency for optimization.
-					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
-					{
-						final Color cBG = (Color) _ids.getColor( cd );
-						final Color cPreviousBG = _gc.getBackground( );
-						_gc.setBackground( cBG );
-
-						R31Enhance.setAlpha( _gc, cd );
-
-						_gc.fillPath( pt );
-
-						cBG.dispose( );
-						_gc.setBackground( cPreviousBG );
-					}
-				}
-				else if ( flBackground instanceof Gradient
-						|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-				{
-					Region previousClipping = new Region( );
-					_gc.getClipping( previousClipping );
-
-					// TODO intersect previous clipping with current path.
-					_gc.setClipping( pt );
-
-					RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-							RectangleRenderEvent.class );
-					rre.setBackground( are.getBackground( ) );
-					try
-					{
-						rre.setBounds( are.getBounds( ) );
-						rre.setOutline( are.getOutline( ) );
-
-						fillRectangle( rre );
-					}
-					catch ( ChartException ufex )
-					{
-						pt.dispose( );
-						throw new ChartException( ChartDeviceSwtActivator.ID,
-								ChartException.RENDERING,
-								ufex );
-					}
-					finally
-					{
-						_gc.setClipping( previousClipping );
-						previousClipping.dispose( );
-					}
-				}
-
-				pt.dispose( );
 			}
 		}
+		
+		try
+		{
+			if ( flBackground instanceof ColorDefinition )
+			{
+				fillPathColor( pt, (ColorDefinition) flBackground );
+			}
+			else if ( flBackground instanceof Gradient )
+			{
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+			}
+		}
+		finally
+		{
+			pt.dispose( );
+		}
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1931,6 +1786,151 @@ public class SwtRendererImpl extends DeviceAdapter
 		}
 
 		return bo;
+	}
+	
+	private final void fillPathColor( Path path, ColorDefinition g )
+			throws ChartException
+	{
+		// skip full transparency for optimization.
+		if ( !( g.isSetTransparency( ) && g.getTransparency( ) == 0 ) )
+		{
+			final Color cBG = (Color) _ids.getColor( g );
+			final Color cPreviousBG = _gc.getBackground( );
+			_gc.setBackground( cBG );
+
+			R31Enhance.setAlpha( _gc, g );
+
+			_gc.fillPath( path );
+
+			cBG.dispose( );
+			_gc.setBackground( cPreviousBG );
+		}
+	}
+
+	private final void fillPathGradient( Path path, Gradient g, Rectangle r )
+			throws ChartException
+	{
+		final ColorDefinition cdStart = g.getStartColor( );
+		final ColorDefinition cdEnd = g.getEndColor( );
+		double dAngleInDegrees = g.getDirection( );
+
+		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
+		{
+			throw new ChartException( ChartDeviceSwtActivator.ID,
+					ChartException.RENDERING,
+					"SwtRendererImpl.exception.gradient.angle", //$NON-NLS-1$
+					new Object[]{
+						new Double( dAngleInDegrees )
+					},
+					Messages.getResourceBundle( getULocale( ) ) );
+		}
+
+		final Color cPreviousFG = _gc.getForeground( );
+		final Color cPreviousBG = _gc.getBackground( );
+		Color cFG = (Color) _ids.getColor( cdStart );
+		Color cBG = (Color) _ids.getColor( cdEnd );
+
+		float x1, y1, x2, y2;
+		if ( dAngleInDegrees == 0 )
+		{
+			x1 = r.x;
+			x2 = r.x + r.width;
+			y1 = y2 = r.y;
+		}
+		else if ( dAngleInDegrees == 90 )
+		{
+			x1 = x2 = r.x;
+			y1 = r.y + r.height;
+			y2 = r.y;
+		}
+		else if ( dAngleInDegrees == -90 )
+		{
+			x1 = x2 = r.x;
+			y1 = r.y;
+			y2 = r.y + r.height;
+		}
+		else if ( dAngleInDegrees > 0 )
+		{
+			x1 = r.x;
+			y1 = r.y + r.height;
+			x2 = r.x + r.width;
+			y2 = r.y;
+		}
+		else
+		{
+			x1 = r.x;
+			y1 = r.y;
+			x2 = r.x + r.width;
+			y2 = r.y + r.height;
+		}
+
+		_gc.setForeground( cFG );
+		_gc.setBackground( cBG );
+
+		R31Enhance.setAlpha( _gc, g );
+
+		Pattern pattern = new Pattern( _gc.getDevice( ),
+				x1,
+				y1,
+				x2,
+				y2,
+				cFG,
+				cdStart.getTransparency( ),
+				cBG,
+				cdEnd.getTransparency( ) );
+		_gc.setBackgroundPattern( pattern );
+		_gc.fillPath( path );
+
+		_gc.setForeground( cPreviousFG );
+		_gc.setBackground( cPreviousBG );
+		cFG.dispose( );
+		cBG.dispose( );
+		pattern.dispose( );
+	}
+
+	private final void fillPathImage( Path path,
+			org.eclipse.birt.chart.model.attribute.Image g )
+			throws ChartException
+	{
+		org.eclipse.swt.graphics.Image img = null;
+		if ( g instanceof EmbeddedImage )
+		{
+			try
+			{
+				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) g ).getData( )
+						.getBytes( ) ) );
+
+				img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
+						bis );
+			}
+			catch ( Exception ilex )
+			{
+				throw new ChartException( ChartDeviceSwtActivator.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
+		}
+		else
+		{
+			final String sUrl = g.getURL( );
+			try
+			{
+				img = (org.eclipse.swt.graphics.Image) _ids.loadImage( new URL( sUrl ) );
+			}
+			catch ( MalformedURLException muex )
+			{
+				throw new ChartException( ChartDeviceSwtActivator.ID,
+						ChartException.RENDERING,
+						muex );
+			}
+		}
+
+		Pattern pattern = new Pattern( _gc.getDevice( ), img );
+		_gc.setBackgroundPattern( pattern );
+		_gc.fillPath( path );
+
+		pattern.dispose( );
+		img.dispose( );
 	}
 
 }
