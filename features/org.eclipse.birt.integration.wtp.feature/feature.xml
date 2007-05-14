@@ -25,7 +25,7 @@
    </url>
 
    <includes
-         id="org.eclipse.birt.chart.integration.wtp.feature"
+         id="org.eclipse.birt.chart.integration.wtp"
          version="0.0.0"/>
 
    <plugin
