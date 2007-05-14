@@ -98,7 +98,9 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//that is, group keys cannot contain aggregation.
 		doRowFiltering( );
 		
-		populateTempComputedColumns( aggCCList );
+		//TODO remove me
+		populateTempComputedColumns( this.getAggrComputedColumns( aggCCList, false ) );
+		///////////////
 		
 		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
 		

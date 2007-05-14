@@ -75,6 +75,8 @@ class PassUtil
 					.doGrouping( );
 
 		populator.getCache( ).next( );
+		
+		populator.getExpressionProcessor( ).setResultIterator( populator.getResultIterator( ));
 	}
 
 	/**

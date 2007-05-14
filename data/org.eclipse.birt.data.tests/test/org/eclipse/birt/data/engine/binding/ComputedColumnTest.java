@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.data.engine.binding;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.data.engine.binding.APITestCase;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -453,6 +454,76 @@ public class ComputedColumnTest extends APITestCase
 					.addComputedColumn(computedColumn);
 		}
 		
+		String[] bindingNameRow = new String[8];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		bindingNameRow[4] = "ROW_cc1";
+		bindingNameRow[5] = "ROW_cc2";
+		bindingNameRow[6] = "ROW_cc3";
+		bindingNameRow[7] = "ROW_cc4";
+
+		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
+				new ScriptExpression("dataSetRow." + "COL0", 0),
+				new ScriptExpression("dataSetRow." + "COL1", 0),
+				new ScriptExpression("dataSetRow." + "COL2", 0),
+				new ScriptExpression("dataSetRow." + "COL3", 0),
+				new ScriptExpression("dataSetRow." + ccName[0], 0),
+				new ScriptExpression("dataSetRow." + ccName[1], 0),
+				new ScriptExpression("dataSetRow." + ccName[2], 0),
+				new ScriptExpression("dataSetRow." + ccName[3], 0) };
+
+		IResultIterator resultIt = this.executeQuery(this.createQuery(
+				null, null, null, null, null,
+				null, null, null, null, bindingNameRow, bindingExprRow));
+		
+		printResult(resultIt, bindingNameRow, bindingExprRow);
+		// assert
+		checkOutputFile();
+		
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testNewAggregationOnComputedColumn( ) throws Exception
+	{
+		ccName = new String[] { "cc1", "cc2", "cc3", "cc4" };
+		ccExpr = new String[] {
+				"row.COL0+row.COL1",
+				"Total.sum(row.COL1+row.cc1)",
+				"Total.ave(row.cc1+row.COL2+row.COL3, null, 0)*81",
+				"Total.sum(row.COL1+row.COL2+row.COL3+row.COL0)" };
+		
+		ComputedColumn cc1 = new ComputedColumn( "cc1", "row.COL0+row.COL1" );
+		ComputedColumn cc2 = new ComputedColumn( "cc2",
+				"row.COL1+row.cc1",
+				DataType.ANY_TYPE,
+				"SUM",
+				null,
+				new ArrayList( ) );
+		ComputedColumn cc31 = new ComputedColumn( "cc31",
+				"row.cc1+row.COL2+row.COL3",
+				DataType.ANY_TYPE,
+				"AVE",
+				null,
+				new ArrayList( ) );
+		ComputedColumn cc3 = new ComputedColumn( "cc3", "row.cc31*81");
+		ComputedColumn cc4 = new ComputedColumn( "cc4",
+				"row.COL1+row.COL2+row.COL3+row.COL0",
+				DataType.ANY_TYPE,
+				"SUM",
+				null,
+				new ArrayList( ) );
+		
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc1 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc2 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc3 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc31 );
+		((BaseDataSetDesign) this.dataSet).addComputedColumn( cc4 );
+
 		String[] bindingNameRow = new String[8];
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";

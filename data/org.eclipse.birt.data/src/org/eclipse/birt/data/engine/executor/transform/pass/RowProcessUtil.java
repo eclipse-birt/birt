@@ -80,7 +80,8 @@ abstract class RowProcessUtil
 			for ( int i = 0; i < l.size( ); i++ )
 			{
 				if ( this.populator.getExpressionProcessor( )
-						.hasAggregation( ( (ComputedColumn) l.get( i ) ).getExpression( ) ) )
+						.hasAggregation( ( (ComputedColumn) l.get( i ) ).getExpression( ) )
+						|| ( (ComputedColumn) l.get( i ) ).getAggregateFunction( ) != null )
 				{
 					aggCCList.add( l.get( i ) );
 				}
@@ -97,6 +98,35 @@ abstract class RowProcessUtil
 		return aggCCList;
 	}
 
+	/**
+	 * 
+	 * @param computedColumns
+	 * @param isNew
+	 * @return
+	 */
+	protected List getAggrComputedColumns( List computedColumns, boolean isNew )
+	{
+		List result = new ArrayList( );
+		for ( int i = 0; i < computedColumns.size( ); i++ )
+		{
+			if ( isNew )
+			{
+				if ( ( (ComputedColumn) computedColumns.get( i ) ).getAggregateFunction( ) != null )
+				{
+					result.add( computedColumns.get( i ) );
+				}
+			}
+			else
+			{
+				if ( ( (ComputedColumn) computedColumns.get( i ) ).getAggregateFunction( ) == null )
+				{
+					result.add( computedColumns.get( i ) );
+				}
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @param model

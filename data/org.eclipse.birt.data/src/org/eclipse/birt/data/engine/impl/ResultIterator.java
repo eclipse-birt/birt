@@ -770,9 +770,8 @@ public class ResultIterator implements IResultIterator
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
     		// save all gap row
-			while ( this.next( ) )
-				;
-			// save results when neededs
+			while ( this.next( ) );
+			// save results when needs
 			this.getRdSaveHelper( ).doSaveFinish( );
 		}
 

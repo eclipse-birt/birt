@@ -157,6 +157,8 @@ class PassStatusController
 
 		for (int j = 0; j < list.size(); j++) {
 			expressionList.add(((IComputedColumn) list.get(j)).getExpression());
+			if ( ((IComputedColumn) list.get(j)).getAggregateFunction( )!= null )
+				return true;
 		}
 		return rsp.getExpressionProcessor().hasAggregateExpr(expressionList);
 	}

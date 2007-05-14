@@ -11,15 +11,26 @@
 
 package org.eclipse.birt.data.engine.executor.transform.pass;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrInfo;
+import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.odi.IAggrInfo;
+import org.mozilla.javascript.Context;
 
 /**
  * The class used to populate DataSet data.
@@ -78,26 +89,123 @@ class DataSetProcessUtil extends RowProcessUtil
 	 */
 	private void populateDataSet() throws DataException
 	{
+		int originalMaxRows = this.populator.getQuery( ).getMaxRows( );
+		
+		boolean changeMaxRows = filterByRow == null?false:filterByRow.getFilterList( FilterByRow.QUERY_FILTER )
+			.size( )
+			+ filterByRow.getFilterList( FilterByRow.GROUP_FILTER ).size( ) > 0;
+		if ( changeMaxRows )
+			this.populator.getQuery( ).setMaxRows( 0 );
+			
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 
-		doDataSetFilter( );
+		doDataSetFilter( changeMaxRows );
 
+		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ));
+		
 		//Begin populate computed columns with aggregations.
-		populateComputedColumns( aggCCList );
+		//TODO:remove me
+		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ));
+		
+		
+		
+		this.populator.getQuery( ).setMaxRows( originalMaxRows );
 	}
 	
 	/**
 	 * 
+	 * @param aggrComputedColumns
 	 * @throws DataException
 	 */
-	private void doDataSetFilter( ) throws DataException
+	private void populateAggrCCs( List aggrComputedColumns )
+			throws DataException
+	{
+		if ( aggrComputedColumns.size( ) == 0 )
+			return;
+		ExpressionCompiler compiler = new ExpressionCompiler( );
+		compiler.setDataSetMode( true );
+		try
+		{
+
+			Context cx = Context.enter( );
+
+			List aggrInfos = new ArrayList( );
+			List aggrNames = new ArrayList( );
+			for ( int i = 0; i < aggrComputedColumns.size( ); i++ )
+			{
+				ComputedColumn cc = (ComputedColumn) aggrComputedColumns.get( i );
+				List args = cc.getAggregateArgument( );
+
+				IBaseExpression[] exprs = null;
+				int offset = 0;
+				if ( cc.getExpression( ) != null )
+				{
+					exprs = new IBaseExpression[args.size( ) + 1];
+					offset = 1;
+					exprs[0] = cc.getExpression( );
+				}
+				else
+					exprs = new IBaseExpression[args.size( )];
+
+				for ( int j = offset; j < args.size( ); j++ )
+				{
+					exprs[j] = (IBaseExpression) args.get( j - offset );
+				}
+
+				for ( int j = 0; j < exprs.length; j++ )
+				{
+					compiler.compile( exprs[j], cx );
+				}
+
+				IAggregation aggrFunction = AggregationFactory.getInstance( )
+						.getAggregation( cc.getAggregateFunction( ) );
+				IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),
+						0,
+						aggrFunction,
+						exprs,
+						cc.getAggregateFilter( ) );
+				aggrInfos.add( aggrInfo );
+				aggrNames.add( cc.getName( ) );
+			}
+
+			// All the computed column aggregations should only have one round.
+
+			if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
+				PassUtil.pass( populator,
+						new OdiResultSetWrapper( populator.getResultIterator( ) ),
+						false,
+						this.session );
+
+			AggregationHelper helper = new AggregationHelper( new AggrDefnManager( aggrInfos ),
+					this.populator );
+
+			AggrComputedColumnHelper ccHelper = new AggrComputedColumnHelper( helper,
+					aggrNames );
+			this.populator.getQuery( ).getFetchEvents( ).add( 0, ccHelper );
+
+			PassUtil.pass( populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					false,
+					this.session );
+
+			this.populator.getQuery( ).getFetchEvents( ).remove( 0 );
+		}
+		finally
+		{
+			Context.exit( );
+		}
+	}
+
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void doDataSetFilter( boolean changeMaxRows ) throws DataException
 	{
 		if(	!psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ))
 			return;
 				
-		boolean changeMaxRows = filterByRow.getFilterList( FilterByRow.QUERY_FILTER )
-				.size( )
-				+ filterByRow.getFilterList( FilterByRow.GROUP_FILTER ).size( ) > 0;
+		
 
 		applyFilters( FilterByRow.DATASET_FILTER,
 				changeMaxRows );
