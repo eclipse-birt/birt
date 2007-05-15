@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -58,6 +59,8 @@ public class CubeLabelProvider extends LabelProvider
 
 	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
 
+	private static final Image IMG_OTHER_DATASETS = UIHelper.getImage( BuilderConstancts.IMAGE_OTHER_DATASETS );
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -72,6 +75,10 @@ public class CubeLabelProvider extends LabelProvider
 		else if ( element instanceof DataSetHandle )
 		{
 			return IMG_DATASET;
+		}
+		if ( element instanceof VirtualField && ((VirtualField)element).getType( ).equals( VirtualField.TYPE_OTHER_DATASETS ) )
+		{
+			return IMG_OTHER_DATASETS;
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
@@ -127,6 +134,10 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return ( (DataSetHandle) element ).getName( );
 		}
+		if ( element instanceof VirtualField && ((VirtualField)element).getType( ).equals( VirtualField.TYPE_OTHER_DATASETS ) )
+		{
+			return Messages.getString("Cube.Other.Datasets"); //$NON-NLS-1$
+		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
 			return ( (ResultSetColumnHandle) element ).getColumnName( );
@@ -161,11 +172,11 @@ public class CubeLabelProvider extends LabelProvider
 			if ( model.getPropertyDefn( )
 					.getName( )
 					.equals( ICubeModel.DIMENSIONS_PROP ) )
-				return Messages.getString( "Cube.Groups" );
+				return Messages.getString( "Cube.Groups" ); //$NON-NLS-1$
 			else if ( model.getPropertyDefn( )
 					.getName( )
 					.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-				return Messages.getString( "Cube.MeasureGroup" );
+				return Messages.getString( "Cube.MeasureGroup" ); //$NON-NLS-1$
 		}
 		return super.getText( element );
 	}

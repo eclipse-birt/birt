@@ -28,7 +28,6 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -45,6 +44,8 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -60,6 +61,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -96,6 +98,12 @@ import org.eclipse.ui.PlatformUI;
 
 public class CubeGroupContent extends Composite implements Listener
 {
+
+	private IChoice[] DATE_TIME_LEVEL_TYPE_ALL = MetaDataDictionary.getInstance( )
+			.getElement( ReportDesignConstants.TABULAR_LEVEL_ELEMENT )
+			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
+			.getAllowedChoices( )
+			.getChoices( );
 
 	private TreeItem[] dragSourceItems = new TreeItem[1];
 
@@ -428,7 +436,10 @@ public class CubeGroupContent extends Composite implements Listener
 					Object obj = (Object) dragSourceItems[0].getData( );
 					ResultSetColumnHandle dataField = null;
 					DataSetHandle dataset = null;
-					if ( obj == null || obj instanceof DataSetHandle )
+					if ( obj == null
+							|| obj instanceof DataSetHandle
+							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+									.equals( VirtualField.TYPE_OTHER_DATASETS ) ) )
 					{
 						event.detail = DND.DROP_NONE;
 						return;
@@ -734,26 +745,16 @@ public class CubeGroupContent extends Composite implements Listener
 										}
 										else
 										{
-											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dimension,
-															dataField,
-															OlapUtil.Level_Year ) );
-											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dimension,
-															dataField,
-															OlapUtil.Level_Qtr ) );
-											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dimension,
-															dataField,
-															OlapUtil.Level_Month ) );
-											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dimension,
-															dataField,
-															OlapUtil.Level_Week ) );
-											hierarchy.add( HierarchyHandle.LEVELS_PROP,
-													OlapUtil.getDateLevel( dimension,
-															dataField,
-															OlapUtil.Level_Day ) );
+											for ( int i = 0; i < DATE_TIME_LEVEL_TYPE_ALL.length; i++ )
+											{
+												TabularLevelHandle level = DesignElementFactory.getInstance( )
+														.newTabularLevel( dimension,
+																DATE_TIME_LEVEL_TYPE_ALL[i].getDisplayName( ) );
+												level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+												level.setDateTimeLevelType( DATE_TIME_LEVEL_TYPE_ALL[i].getName( ) );
+												hierarchy.add( HierarchyHandle.LEVELS_PROP,
+														level );
+											}
 											( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 										}
 									}
@@ -921,8 +922,8 @@ public class CubeGroupContent extends Composite implements Listener
 				| SWT.V_SCROLL
 				| SWT.BORDER );
 		dataFieldsViewer.setLabelProvider( new CubeLabelProvider( ) );
-		dataFieldsViewer.setContentProvider( new DataContentProvider( ) );
-		dataFieldsViewer.setAutoExpandLevel( 2 );
+		dataFieldsViewer.setContentProvider( dataContentProvider );
+		dataFieldsViewer.setAutoExpandLevel( 3 );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		dataFieldsViewer.getTree( ).setLayoutData( gd );
 		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
@@ -958,8 +959,8 @@ public class CubeGroupContent extends Composite implements Listener
 		{
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			else if ( ( input ).getDataSet( ) != null )
-				dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
+			else if ( input.getDataSet( ) != null )
+				dataFieldsViewer.setInput( input );
 			groupViewer.setInput( input );
 			getListenerElementVisitor( ).addListener( input );
 			updateButtons( );
@@ -1166,6 +1167,7 @@ public class CubeGroupContent extends Composite implements Listener
 	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "GroupsPage.Reference" ); //$NON-NLS-1$
 	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "GroupsPage.Clients" ); //$NON-NLS-1$
 	public static final String DLG_CONFIRM_MSG = Messages.getString( "GroupsPage.Dlg.Confirm" ); //$NON-NLS-1$
+	private DataContentProvider dataContentProvider = new DataContentProvider( );
 
 	protected boolean isOKPressed( Object model )
 	{
@@ -1493,26 +1495,16 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 							else
 							{
-								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dimension,
-												dataField,
-												OlapUtil.Level_Year ) );
-								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dimension,
-												dataField,
-												OlapUtil.Level_Qtr ) );
-								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dimension,
-												dataField,
-												OlapUtil.Level_Month ) );
-								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dimension,
-												dataField,
-												OlapUtil.Level_Week ) );
-								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( dimension,
-												dataField,
-												OlapUtil.Level_Day ) );
+								for ( int i = 0; i < DATE_TIME_LEVEL_TYPE_ALL.length; i++ )
+								{
+									TabularLevelHandle level = DesignElementFactory.getInstance( )
+											.newTabularLevel( dimension,
+													DATE_TIME_LEVEL_TYPE_ALL[i].getName( ));
+									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+									level.setDateTimeLevelType( DATE_TIME_LEVEL_TYPE_ALL[i].getName( ) );
+									hierarchy.add( HierarchyHandle.LEVELS_PROP,
+											level );
+								}
 								dimension.setTimeType( true );
 							}
 						}
