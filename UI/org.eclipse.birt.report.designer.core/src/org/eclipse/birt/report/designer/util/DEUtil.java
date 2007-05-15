@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupElementFactory;
@@ -222,10 +223,11 @@ public class DEUtil
 		}
 		return DEUtil.findPos( parent, slotID, element );
 	}
-	
+
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
+	 * 
 	 * @param parent
 	 * @param element
 	 * @param content
@@ -237,16 +239,15 @@ public class DEUtil
 		if ( element == null )
 		{
 			return parent.getContentCount( content );
-//			SlotHandle slotHandle = parent.getSlot( slotID );
-//			if ( slotHandle != null )
-//			{
-//				return slotHandle.getCount( );
-//			}
-//			return -1;
+			// SlotHandle slotHandle = parent.getSlot( slotID );
+			// if ( slotHandle != null )
+			// {
+			// return slotHandle.getCount( );
+			// }
+			// return -1;
 		}
 		return element.getIndex( );
 	}
-	
 
 	/**
 	 * Finds the position of the child element in the parent element with the
@@ -375,23 +376,27 @@ public class DEUtil
 		return account;
 	}
 
-	/**Gets the default content property name.
+	/**
+	 * Gets the default content property name.
+	 * 
 	 * @param parent
 	 * @return
 	 */
-	//TODO this a temp resolve method.
-	public static String getDefaultContentName(Object parent)
+	// TODO this a temp resolve method.
+	public static String getDefaultContentName( Object parent )
 	{
-		if (parent instanceof DesignElementHandle)
+		if ( parent instanceof DesignElementHandle )
 		{
-			List propDefns = ((DesignElementHandle)parent).getDefn( ).getContents( );
-			if (!propDefns.isEmpty( ))
+			List propDefns = ( (DesignElementHandle) parent ).getDefn( )
+					.getContents( );
+			if ( !propDefns.isEmpty( ) )
 			{
-				return ( (IPropertyDefn) propDefns.get( 0 ) ) .getName( );
+				return ( (IPropertyDefn) propDefns.get( 0 ) ).getName( );
 			}
 		}
 		return "";
 	}
+
 	/**
 	 * Get default slot id of give container element
 	 * 
@@ -479,7 +484,7 @@ public class DEUtil
 
 		return slotID;
 	}
-	
+
 	/**
 	 * Get the slot id of child If the slot id was not found, returns the
 	 * default slot id
@@ -492,11 +497,13 @@ public class DEUtil
 	{
 		assert parent instanceof DesignElementHandle;
 
-		String  retValue = "";
+		String retValue = "";
 
 		if ( child != null )
 		{
-			retValue = ((DesignElementHandle)child).getContainerPropertyHandle( ).getDefn( ).getName( );
+			retValue = ( (DesignElementHandle) child ).getContainerPropertyHandle( )
+					.getDefn( )
+					.getName( );
 		}
 		else
 		{
@@ -949,28 +956,29 @@ public class DEUtil
 			// ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			return ExpressionUtil.createJSParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
 		}
-		//add for the cross tab
-		if (model instanceof LevelHandle)
+		// add for the cross tab
+		if ( model instanceof LevelHandle )
 		{
-			LevelHandle handle = (LevelHandle)model;
+			LevelHandle handle = (LevelHandle) model;
 			DesignElementHandle temp = handle.getContainer( );
 			String dimensionName = "";
-			while(temp != null)
+			while ( temp != null )
 			{
-				if (temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle)
+				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
 				{
-					dimensionName = ((org.eclipse.birt.report.model.api.olap.DimensionHandle)temp).getName( );
+					dimensionName = ( (org.eclipse.birt.report.model.api.olap.DimensionHandle) temp ).getName( );
 					break;
 				}
 				temp = temp.getContainer( );
 			}
-			return ExpressionUtil.createJSDimensionExpression( dimensionName, handle.getName( ) );
+			return ExpressionUtil.createJSDimensionExpression( dimensionName,
+					handle.getName( ) );
 		}
-		if (model instanceof MeasureHandle)
+		if ( model instanceof MeasureHandle )
 		{
-			return ExpressionUtil.createJSMeasureExpression( (((MeasureHandle)model)).getName( ) );
+			return ExpressionUtil.createJSMeasureExpression( ( ( (MeasureHandle) model ) ).getName( ) );
 		}
-		
+
 		if ( model instanceof DataSetItemModel )
 		{
 			String colName = ( (DataSetItemModel) model ).getAlias( );
@@ -1424,14 +1432,17 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		FontData[] fontDatas = (FontData [])Display.getCurrent( ).getFontList( null, false );
-		SortedSet set = new TreeSet(comparator);
-		for(int i=0;i<fontDatas.length;i++){
-			set.add( fontDatas[i].getName( ));
+		FontData[] fontDatas = (FontData[]) Display.getCurrent( )
+				.getFontList( null, false );
+		SortedSet set = new TreeSet( comparator );
+		for ( int i = 0; i < fontDatas.length; i++ )
+		{
+			set.add( fontDatas[i].getName( ) );
 		}
-		fontDatas = (FontData [])Display.getCurrent( ).getFontList( null, true );
-		for(int i=0;i<fontDatas.length;i++){
-			set.add( fontDatas[i].getName( ));
+		fontDatas = (FontData[]) Display.getCurrent( ).getFontList( null, true );
+		for ( int i = 0; i < fontDatas.length; i++ )
+		{
+			set.add( fontDatas[i].getName( ) );
 		}
 		String[] fonts = new String[set.size( )];
 		set.toArray( fonts );
@@ -2085,7 +2096,9 @@ public class DEUtil
 			}
 			if ( handle instanceof ReportItemHandle )
 			{
-				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
+				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
+						|| ( (ReportItemHandle) handle ).getCube( ) != null
+						|| ( (ReportItemHandle) handle ).getDataSet( ) != null
 						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
 								.hasNext( ) )
 				{
@@ -2206,6 +2219,12 @@ public class DEUtil
 			ComputedColumnHandle column )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
+		if ( baseElement instanceof ExtendedItemHandle
+				&& ( (ExtendedItemHandle) baseElement ).getExtensionName( )
+						.equals( "Crosstab" ) )
+		{
+			exp = ExpressionUtil.DATA_INDICATOR;
+		}
 		for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
 				baseElement ); i++ )
 		{
@@ -2512,7 +2531,7 @@ public class DEUtil
 		else
 			return Collections.EMPTY_LIST;
 	}
-	
+
 	/**
 	 * @param input
 	 * @param bindingName

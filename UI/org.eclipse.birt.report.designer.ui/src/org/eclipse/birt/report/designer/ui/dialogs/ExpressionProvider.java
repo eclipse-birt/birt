@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -408,7 +409,7 @@ public class ExpressionProvider implements IExpressionProvider
 				childrenList.add( iter.next( ) );
 			}
 			// add hard code row count expression here
-			childrenList.add( rowNum );			
+			if(parent instanceof TableHandle)childrenList.add( rowNum );			
 			
 			// add edit option
 			childrenList.add( new Object[]{

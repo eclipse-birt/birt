@@ -887,10 +887,10 @@ public class ColumnBindingDialog extends BaseDialog
 
 		if ( !isDataSetVisible )
 		{
-			( (GridData) warnLabel.getLayoutData( ) ).exclude = true;
-			( (GridData) label.getLayoutData( ) ).exclude = true;
-			( (GridData) combo.getLayoutData( ) ).exclude = true;
-			( (GridData) composite.getLayoutData( ) ).exclude = true;
+			if(warnLabel!=null)( (GridData) warnLabel.getLayoutData( ) ).exclude = true;
+			if(label!=null)( (GridData) label.getLayoutData( ) ).exclude = true;
+			if(combo!=null)( (GridData) combo.getLayoutData( ) ).exclude = true;
+			if(composite!=null)( (GridData) composite.getLayoutData( ) ).exclude = true;
 		}
 
 		return parentComposite;
