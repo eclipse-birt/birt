@@ -45,7 +45,7 @@ public class ChartTest extends BaseChartTestCase
 		assertEquals( new Float( font.getSize( ) ), new Float( 9 ) );
 
 		assertTrue( font.isBold( ) );
-		font.setIsBold( false );
+		font.setBold( false );
 		assertFalse( font.isBold( ) );
 	}
 

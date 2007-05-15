@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
-import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.component.IAxis;
 import org.eclipse.birt.chart.script.api.component.IMarkerLine;
@@ -94,7 +93,7 @@ public class AxisImpl implements IAxis
 			title = ChartComponentUtil.createEMFLabel( );
 			axis.setTitle( title );
 		}
-		return ChartComponentFactory.convertLabel( title );
+		return ChartComponentUtil.convertLabel( title );
 	}
 
 	public boolean isVisible( )
@@ -104,7 +103,7 @@ public class AxisImpl implements IAxis
 
 	public void setTitle( ILabel title )
 	{
-		axis.setTitle( ChartComponentFactory.convertILabel( title ) );
+		axis.setTitle( ChartComponentUtil.convertILabel( title ) );
 	}
 
 	public void setVisible( boolean visible )

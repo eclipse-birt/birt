@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.script.internal.attribute;
 
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.attribute.IText;
 import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
@@ -40,7 +39,7 @@ public class LabelImpl implements ILabel
 			caption = ChartComponentUtil.createEMFText( );
 			label.setCaption( caption );
 		}
-		return ChartComponentFactory.convertText( caption );
+		return ChartComponentUtil.convertText( caption );
 	}
 
 	public boolean isVisible( )
@@ -50,7 +49,7 @@ public class LabelImpl implements ILabel
 
 	public void setCaption( IText text )
 	{
-		label.setCaption( ChartComponentFactory.convertIText( text ) );
+		label.setCaption( ChartComponentUtil.convertIText( text ) );
 
 	}
 

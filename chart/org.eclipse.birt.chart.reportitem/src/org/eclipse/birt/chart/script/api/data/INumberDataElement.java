@@ -34,8 +34,6 @@ public interface INumberDataElement extends IDataElement
 	 * <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #isSetValue()
-	 * @see #unsetValue()
 	 * @see #setValue(double)
 	 */
 	double getValue( );
@@ -46,31 +44,8 @@ public interface INumberDataElement extends IDataElement
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Value</em>' attribute.
-	 * @see #isSetValue()
-	 * @see #unsetValue()
 	 * @see #getValue()
 	 */
 	void setValue( double value );
 
-	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #isSetValue()
-	 * @see #getValue()
-	 * @see #setValue(double)
-	 */
-	void unsetValue( );
-
-	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return whether the value of the '<em>Value</em>' attribute is set.
-	 * @see #unsetValue()
-	 * @see #getValue()
-	 * @see #setValue(double)
-	 */
-	boolean isSetValue( );
 }

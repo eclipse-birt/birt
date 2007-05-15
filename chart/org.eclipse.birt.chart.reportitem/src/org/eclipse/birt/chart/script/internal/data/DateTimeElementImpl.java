@@ -23,36 +23,33 @@ import com.ibm.icu.util.Calendar;
 public class DateTimeElementImpl implements IDateTimeDataElement
 {
 
-	private DateTimeDataElement data;
+	private long data;
 
 	public DateTimeElementImpl( DateTimeDataElement data )
+	{
+		this.data = data.getValue( );
+	}
+
+	public DateTimeElementImpl( long data )
 	{
 		this.data = data;
 	}
 
 	public long getValue( )
 	{
-		return data.getValue( );
+		return data;
 	}
 
 	public Calendar getValueAsCalendar( )
 	{
-		return data.getValueAsCalendar( );
-	}
-
-	public boolean isSetValue( )
-	{
-		return data.isSetValue( );
+		Calendar calendar = Calendar.getInstance( );
+		calendar.setTimeInMillis( data );
+		return calendar;
 	}
 
 	public void setValue( long value )
 	{
-		data.setValue( value );
-	}
-
-	public void unsetValue( )
-	{
-		data.unsetValue( );
+		data = value;
 	}
 
 }

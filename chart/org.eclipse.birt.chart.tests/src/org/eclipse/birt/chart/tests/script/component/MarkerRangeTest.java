@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.tests.script.component;
 
-import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.component.IMarkerRange;
 import org.eclipse.birt.chart.script.api.data.INumberDataElement;
@@ -54,7 +53,7 @@ public class MarkerRangeTest extends BaseChartTestCase
 		INumberDataElement data = (INumberDataElement) range.getStartValue( );
 		assertTrue( data.getValue( ) == 0 );
 
-		range.setStartValue( ChartComponentFactory.convertDataElement( NumberDataElementImpl.create( 1 ) ) );
+		range.setStartValue( ChartComponentFactory.createNumberElement( 1 ) );
 		data = (INumberDataElement) range.getStartValue( );
 		assertTrue( data.getValue( ) == 1 );
 	}
@@ -68,7 +67,7 @@ public class MarkerRangeTest extends BaseChartTestCase
 		INumberDataElement data = (INumberDataElement) range.getEndValue( );
 		assertTrue( data.getValue( ) == 5 );
 
-		range.setEndValue( ChartComponentFactory.convertDataElement( NumberDataElementImpl.create( 6 ) ) );
+		range.setEndValue( ChartComponentFactory.createNumberElement( 6 ) );
 		data = (INumberDataElement) range.getEndValue( );
 		assertTrue( data.getValue( ) == 6 );
 	}

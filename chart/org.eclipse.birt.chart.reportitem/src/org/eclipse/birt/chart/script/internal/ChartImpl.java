@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.IChart;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.attribute.IText;
@@ -56,7 +55,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 			desc = ChartComponentUtil.createEMFText( );
 			cm.setDescription( desc );
 		}
-		return ChartComponentFactory.convertText( desc );
+		return ChartComponentUtil.convertText( desc );
 	}
 
 	public ILegend getLegend( )
@@ -77,7 +76,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 			title = ChartComponentUtil.createEMFLabel( );
 			cm.getTitle( ).setLabel( title );
 		}
-		return ChartComponentFactory.convertLabel( title );
+		return ChartComponentUtil.convertLabel( title );
 	}
 
 	public boolean isColorByCategory( )
@@ -94,7 +93,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 
 	public void setDescription( IText label )
 	{
-		cm.setDescription( ChartComponentFactory.convertIText( label ) );
+		cm.setDescription( ChartComponentUtil.convertIText( label ) );
 	}
 
 	public void setOutputType( String type )
@@ -119,7 +118,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 
 	public void setTitle( ILabel title )
 	{
-		cm.getTitle( ).setLabel( ChartComponentFactory.convertILabel( title ) );
+		cm.getTitle( ).setLabel( ChartComponentUtil.convertILabel( title ) );
 	}
 
 	public String getDimension( )

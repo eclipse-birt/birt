@@ -58,22 +58,22 @@ public class FontImpl implements IFont
 		return fd.isUnderline( );
 	}
 
-	public void setIsBold( boolean isBold )
+	public void setBold( boolean isBold )
 	{
 		fd.setBold( isBold );
 	}
 
-	public void setIsItalic( boolean isItalic )
+	public void setItalic( boolean isItalic )
 	{
 		fd.setItalic( isItalic );
 	}
 
-	public void setIsStrikeThrough( boolean isStrikeThrough )
+	public void setStrikeThrough( boolean isStrikeThrough )
 	{
 		fd.setStrikethrough( isStrikeThrough );
 	}
 
-	public void setIsUnderline( boolean isUnderline )
+	public void setUnderline( boolean isUnderline )
 	{
 		fd.setUnderline( isUnderline );
 	}
