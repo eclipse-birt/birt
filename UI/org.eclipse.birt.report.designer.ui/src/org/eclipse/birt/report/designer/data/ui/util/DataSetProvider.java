@@ -14,12 +14,12 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -42,11 +42,13 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
@@ -68,7 +70,6 @@ public final class DataSetProvider
 
 	// constant value
 	private static final char RENAME_SEPARATOR = '_';
-
 	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
 
 	/**
@@ -134,59 +135,31 @@ public final class DataSetProvider
 		{
 			return new DataSetViewData[0];
 		}
-
-		// Find the data set in the hashtable
-		DataSetViewData[] columns = (DataSetViewData[]) htColumns.get( dataSet );
-
-		// If there are not cached get them from the column hints
-		if ( !refresh && columns == null )
+		DataSetViewData[] columns = null;
+		try
 		{
-			columns = getCachedColumns( dataSet );
+			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSet.getModuleHandle( ) );
+			DataRequestSession session = DataRequestSession.newSession( context );
+
+			// Find the data set in the hashtable
+			columns = (DataSetViewData[]) htColumns.get( dataSet );
+
+			// If there are not cached get them from the column hints
+			if ( columns == null || refresh )
+			{
+				columns = this.populateAllOutputColumns( dataSet, session );
+				htColumns.put( dataSet, columns );
+			}
+			session.shutdown( );
 		}
-
-		// If there are no columns present or if we should refresh
-		// find the data set definition and execute it.
-		if ( columns == null || refresh )
+		catch ( BirtException e )
 		{
-			// init columns to null
+			if ( !suppressErrorMessage )
+			{
+				ExceptionHandler.handle( e );
+			}
 			columns = null;
-			try
-			{
-				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						dataSet.getModuleHandle( ) );
-				DataRequestSession session = DataRequestSession.newSession( context );
-				// execute it
-				boolean canExecute = true;
-				if ( dataSet instanceof OdaDataSetHandle )
-				{
-					String queryTxt = ( (OdaDataSetHandle) dataSet ).getQueryText( );
-					canExecute = ( queryTxt != null && queryTxt.trim( )
-							.length( ) > 0 );
-				}
-				if ( canExecute )
-				{
-					IQueryResults results = execute( dataSet,
-							useColumnHints,
-							true,
-							1,
-							session );
-
-					if ( results != null )
-					{
-						results.close( );
-					}
-					// Now lookup the columns again
-					columns = (DataSetViewData[]) htColumns.get( dataSet );
-				}
-				session.shutdown( );
-			}
-			catch ( BirtException e )
-			{
-				if ( !suppressErrorMessage )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
 		}
 
 		// If the columns array is still null
@@ -228,15 +201,6 @@ public final class DataSetProvider
 		updateModel( dataSetHandle, items );
 		return items;
 	}
-
-	/**
-	 * @param dataSet
-	 * @return
-	 */
-	private final DataSetViewData[] getCachedColumns( DataSetHandle dataSet )
-	{
-		return null;
-	}
 	
 	/**
 	 * This function should be called very carefully. Presently it is only
@@ -252,9 +216,98 @@ public final class DataSetProvider
 			return;
 
 		updateModel( dataSet, dsItemModel );
+		cleanUnusedResultSetColumn( dataSet, dsItemModel );
+		cleanUnusedComputedColumn( dataSet, dsItemModel );
 		htColumns.put( dataSet, dsItemModel );
 	}
+	
+	/**
+	 * To rollback original datasetHandle, clean unused resultset columm
+	 * 
+	 * @param dataSetHandle
+	 * @param dsItemModel
+	 */
+	private void cleanUnusedResultSetColumn( DataSetHandle dataSetHandle,
+			DataSetViewData[] dsItemModel )
+	{
+		PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		if ( handle != null && handle.getListValue( ) != null )
+		{
+			ArrayList list = handle.getListValue( );
+			int count = list.size( );
+			for ( int n = count - 1; n >= 0; n-- )
+			{
+				ResultSetColumn rsColumn = (ResultSetColumn) list.get( n );
+				String columnName = (String) rsColumn.getColumnName( );
+				boolean found = false;
 
+				for ( int m = 0; m < dsItemModel.length; m++ )
+				{
+					if ( columnName.equals( dsItemModel[m].getName( ) ) )
+					{
+						found = true;
+						break;
+					}
+				}
+
+				if ( !found )
+				{
+					try
+					{
+						// remove the item
+						handle.removeItem( rsColumn );
+					}
+					catch ( PropertyValueException e )
+					{
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * To rollback original datasetHandle, clean unused computed columm
+	 * 
+	 * @param dataSetHandle
+	 * @param dsItemModel
+	 */
+	private void cleanUnusedComputedColumn( DataSetHandle dataSetHandle,
+			DataSetViewData[] dsItemModel )
+	{
+		PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.COMPUTED_COLUMNS_PROP );
+		if ( handle != null && handle.getListValue( ) != null )
+		{
+			ArrayList list = handle.getListValue( );
+			int count = list.size( );
+			for ( int n = count - 1; n >= 0; n-- )
+			{
+				ComputedColumn rsColumn = (ComputedColumn) list.get( n );
+				String columnName = (String) rsColumn.getName( );
+				boolean found = false;
+
+				for ( int m = 0; m < dsItemModel.length; m++ )
+				{
+					if ( columnName.equals( dsItemModel[m].getName( ) ) )
+					{
+						found = true;
+						break;
+					}
+				}
+
+				if ( !found )
+				{
+					try
+					{
+						// remove the item
+						handle.removeItem( rsColumn );
+					}
+					catch ( PropertyValueException e )
+					{
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * @param dataSet
@@ -337,9 +390,6 @@ public final class DataSetProvider
 			boolean useFilters, boolean clearCache,
 			DataRequestSession session ) throws BirtException
 	{
-
-		this.populateAllOutputColumns( dataSet, session );
-		// get the prepared query
 
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
@@ -704,7 +754,22 @@ public final class DataSetProvider
 	{
 		DataSetViewData[] result = (DataSetViewData[]) this.htColumns.get( ds );
 		if ( result == null )
-			result = new DataSetViewData[0];
+		{
+
+			DataRequestSession session;
+			try
+			{
+				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						ds.getModuleHandle( ) );
+				session = DataRequestSession.newSession( context );
+				result = this.populateAllOutputColumns( ds, session );
+				return result;
+			}
+			catch ( BirtException e )
+			{
+				result = new DataSetViewData[0];
+			}
+		}
 		return result;
 	}
 	
