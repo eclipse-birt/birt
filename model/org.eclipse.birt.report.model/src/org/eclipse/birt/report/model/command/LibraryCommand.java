@@ -280,7 +280,7 @@ public class LibraryCommand extends AbstractElementCommand
 	 *             if error occurs during removing virtual elements.
 	 */
 
-	private Map dealElementDecendents( Library library, DesignElement parent,
+	private Map dealElementDecendents( Module library, DesignElement parent,
 			int actionCode ) throws SemanticException
 	{
 		if ( !parent.hasDerived( ) )
@@ -297,7 +297,7 @@ public class LibraryCommand extends AbstractElementCommand
 			Module tmpModule = child.getRoot( );
 
 			if ( child.hasDerived( ) )
-				dealElementDecendents( (Library) tmpModule, child, actionCode );
+				dealElementDecendents( tmpModule, child, actionCode );
 
 			if ( tmpModule != module )
 				continue;
