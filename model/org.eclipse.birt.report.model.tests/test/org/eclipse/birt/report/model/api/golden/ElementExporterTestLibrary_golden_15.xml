@@ -37,8 +37,7 @@
         <label name="NewLabel1" id="8">
             <text-property name="text">asdsad</text-property>
         </label>
-        <extended-item extensionName="Crosstab" name="NewCross Table" id="9">
-            <property name="cube">new_library_4.NewTabularCube</property>
+        <extended-item extensionName="Crosstab" name="NewCross Table" id="9">            
             <property name="measures">
                 <extended-item extensionName="MeasureView" name="NewMeasure View1" id="10">
                     <property name="measure">new_library_4.QUANTITYORDERED</property>
@@ -205,6 +204,7 @@
                 </extended-item>
             </property>
             <property name="backgroundColor">#00FFFF</property>
+            <property name="cube">new_library_4.NewTabularCube</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COUNTRY</property>

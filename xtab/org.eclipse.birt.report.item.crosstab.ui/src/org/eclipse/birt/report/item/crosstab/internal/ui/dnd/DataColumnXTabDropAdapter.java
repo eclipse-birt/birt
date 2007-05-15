@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -57,12 +58,12 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		if ( handle != null )
 		{
 			//when xtab has not bind with Cube, data item can drop on everywhere in xtab.
-			if ( handle.getProperty( ICrosstabReportItemConstants.CUBE_PROP ) == null
+			if ( handle.getProperty( IReportItemModel.CUBE_PROP ) == null
 					&& ( target instanceof CrosstabTableEditPart || target instanceof CrosstabCellEditPart ) )
 			{
 				return DNDService.LOGIC_TRUE;
 			}
-			else if ( handle.getProperty( ICrosstabReportItemConstants.CUBE_PROP ) != null )
+			else if ( handle.getProperty( IReportItemModel.CUBE_PROP ) != null )
 			{
 				Object model = ( (EditPart) target ).getModel( );
 
@@ -101,7 +102,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		DesignElementHandle handle = getExtendedItemHandle( target );
 		if ( handle != null )
 		{
-			if ( handle.getProperty( ICrosstabReportItemConstants.CUBE_PROP ) != null )
+			if ( handle.getProperty( IReportItemModel.CUBE_PROP ) != null )
 			{
 				EditPart editPart = (EditPart) target;
 
@@ -154,7 +155,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						{
 							if ( handle != null )
 							{
-								handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
+								handle.setProperty( IReportItemModel.CUBE_PROP,
 										newCube );
 							}
 							stack.commit( );

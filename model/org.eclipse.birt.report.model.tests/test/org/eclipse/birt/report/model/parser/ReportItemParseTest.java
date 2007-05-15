@@ -119,14 +119,19 @@ public class ReportItemParseTest extends BaseTestCase
 
 	public void testParseProperties( ) throws Exception
 	{
-		LabelHandle labelHandle = (LabelHandle) designHandle.findElement( "bodyLabel" ); //$NON-NLS-1$
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "bodyLabel" ); //$NON-NLS-1$
 
 		assertEquals( "birt.js.labelHandler", labelHandle //$NON-NLS-1$
-		.getEventHandlerClass( ) );
+				.getEventHandlerClass( ) );
 
 		// check zIndex properties.
 
 		assertEquals( 2, labelHandle.getZIndex( ) );
+
+		// check cube property
+		assertEquals(
+				designHandle.findCube( "testCube" ), labelHandle.getCube( ) ); //$NON-NLS-1$
 
 		// checks on-prepare, on-create and on-render values
 
@@ -136,7 +141,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		assertEquals( "hello, show me on prepare.", labelHandle.getOnPrepare( ) ); //$NON-NLS-1$
 
-		assertEquals( "hello, show me on page break.", labelHandle.getOnPageBreak( ) ); //$NON-NLS-1$
+		assertEquals(
+				"hello, show me on page break.", labelHandle.getOnPageBreak( ) ); //$NON-NLS-1$
 
 		Iterator rules = labelHandle.visibilityRulesIterator( );
 
@@ -145,9 +151,10 @@ public class ReportItemParseTest extends BaseTestCase
 		StructureHandle structHandle = (StructureHandle) rules.next( );
 		assertNotNull( structHandle );
 
-		MemberHandle memberHandle = structHandle.getMember( HideRule.FORMAT_MEMBER );
-		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF,
-				memberHandle.getStringValue( ) );
+		MemberHandle memberHandle = structHandle
+				.getMember( HideRule.FORMAT_MEMBER );
+		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF, memberHandle
+				.getStringValue( ) );
 		memberHandle = structHandle.getMember( HideRule.VALUE_EXPR_MEMBER );
 		assertEquals( "word, 10 people", memberHandle.getStringValue( ) ); //$NON-NLS-1$
 
@@ -157,8 +164,8 @@ public class ReportItemParseTest extends BaseTestCase
 		assertNotNull( structHandle );
 
 		memberHandle = structHandle.getMember( HideRule.FORMAT_MEMBER );
-		assertEquals( DesignChoiceConstants.FORMAT_TYPE_ALL,
-				memberHandle.getStringValue( ) );
+		assertEquals( DesignChoiceConstants.FORMAT_TYPE_ALL, memberHandle
+				.getStringValue( ) );
 		memberHandle = structHandle.getMember( HideRule.VALUE_EXPR_MEMBER );
 		assertEquals( "excel, 10 people", memberHandle.getStringValue( ) ); //$NON-NLS-1$
 
@@ -175,10 +182,11 @@ public class ReportItemParseTest extends BaseTestCase
 
 		// tests visibility on the data item.
 
-		DataItemHandle dataHandle = (DataItemHandle) designHandle.findElement( "bodyData" ); //$NON-NLS-1$		
+		DataItemHandle dataHandle = (DataItemHandle) designHandle
+				.findElement( "bodyData" ); //$NON-NLS-1$		
 
 		assertEquals( "birt.js.dataHandler", dataHandle //$NON-NLS-1$
-		.getEventHandlerClass( ) );
+				.getEventHandlerClass( ) );
 
 		// checks on-prepare, on-create and on-render values
 
@@ -193,8 +201,8 @@ public class ReportItemParseTest extends BaseTestCase
 		// if no format attribute, use the default value.
 
 		memberHandle = structHandle.getMember( HideRule.FORMAT_MEMBER );
-		assertEquals( DesignChoiceConstants.FORMAT_TYPE_ALL,
-				memberHandle.getStringValue( ) );
+		assertEquals( DesignChoiceConstants.FORMAT_TYPE_ALL, memberHandle
+				.getStringValue( ) );
 
 		// if no expression, should be empty string
 
@@ -207,8 +215,8 @@ public class ReportItemParseTest extends BaseTestCase
 		assertNotNull( structHandle );
 
 		memberHandle = structHandle.getMember( HideRule.FORMAT_MEMBER );
-		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF,
-				memberHandle.getStringValue( ) );
+		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF, memberHandle
+				.getStringValue( ) );
 
 		// if no expression, should be empty string
 
@@ -241,7 +249,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		assertEquals( "2005 Statistics", dataHandle.getTocExpression( ) ); //$NON-NLS-1$	
 
-		FreeFormHandle form = (FreeFormHandle) designHandle.findElement( "free form" ); //$NON-NLS-1$	
+		FreeFormHandle form = (FreeFormHandle) designHandle
+				.findElement( "free form" ); //$NON-NLS-1$	
 		assertEquals( "\"This Section\"", form.getTocExpression( ) ); //$NON-NLS-1$	
 
 		TOCHandle tocHandle = dataHandle.getTOC( );
@@ -258,7 +267,11 @@ public class ReportItemParseTest extends BaseTestCase
 
 	public void testWriteProperties( ) throws Exception
 	{
-		LabelHandle labelHandle = (LabelHandle) designHandle.findElement( "bodyLabel" ); //$NON-NLS-1$
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "bodyLabel" ); //$NON-NLS-1$
+
+		// test cube
+		labelHandle.setCube( designHandle.findCube( "testCube_one" ) ); //$NON-NLS-1$
 
 		labelHandle.setZIndex( 1 );
 		labelHandle.setOnCreate( "my new label on create" ); //$NON-NLS-1$
@@ -272,7 +285,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		StructureHandle structHandle = (StructureHandle) rules.next( );
 		assertNotNull( structHandle );
-		MemberHandle memberHandle = structHandle.getMember( HideRule.FORMAT_MEMBER );
+		MemberHandle memberHandle = structHandle
+				.getMember( HideRule.FORMAT_MEMBER );
 
 		memberHandle.setValue( DesignChoiceConstants.FORMAT_TYPE_REPORTLET );
 
@@ -285,7 +299,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		labelHandle.setTocExpression( "new 2005 statistics" ); //$NON-NLS-1$
 
-		DataItemHandle dataHandle = (DataItemHandle) designHandle.findElement( "bodyData" ); //$NON-NLS-1$	
+		DataItemHandle dataHandle = (DataItemHandle) designHandle
+				.findElement( "bodyData" ); //$NON-NLS-1$	
 
 		dataHandle.setOnCreate( "my new data on create" ); //$NON-NLS-1$
 		dataHandle.setOnRender( "my new data on render" ); //$NON-NLS-1$
@@ -376,12 +391,15 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( "blue", tocHandle.getBorderLeftColor( ).getStringValue( ) );//$NON-NLS-1$
 
 		assertEquals( "double", tocHandle.getBorderBottomStyle( ) );//$NON-NLS-1$
-		assertEquals( "thick", tocHandle.getBorderBottomWidth( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"thick", tocHandle.getBorderBottomWidth( ).getStringValue( ) );//$NON-NLS-1$
 		assertEquals( "red", tocHandle.getBorderBottomColor( ).getStringValue( ) );//$NON-NLS-1$
 
 		assertEquals( "double", tocHandle.getBorderRightStyle( ) );//$NON-NLS-1$
-		assertEquals( "thick", tocHandle.getBorderRightWidth( ).getStringValue( ) );//$NON-NLS-1$
-		assertEquals( "yellow", tocHandle.getBorderRightColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"thick", tocHandle.getBorderRightWidth( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"yellow", tocHandle.getBorderRightColor( ).getStringValue( ) );//$NON-NLS-1$
 
 		assertEquals( "center", tocHandle.getNumberAlign( ) );//$NON-NLS-1$
 		assertEquals( "cursive", tocHandle.getFontFamily( ).getValue( ) );//$NON-NLS-1$
@@ -405,8 +423,8 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( "Currency", tocHandle.getNumberFormatCategory( ) );//$NON-NLS-1$
 		assertEquals( "<", tocHandle.getStringFormatCategory( ) );//$NON-NLS-1$
 
-		StyleHandle styleHandle = (StyleHandle) designHandle.getStyles( )
-				.get( 0 );
+		StyleHandle styleHandle = (StyleHandle) designHandle.getStyles( ).get(
+				0 );
 		styleHandle.setProperty( IStyleModel.BORDER_TOP_COLOR_PROP, "red" );//$NON-NLS-1$
 
 		styleHandle.setProperty( IStyleModel.BORDER_LEFT_COLOR_PROP, "yellow" );//$NON-NLS-1$
@@ -416,10 +434,13 @@ public class ReportItemParseTest extends BaseTestCase
 		tocHandle.setProperty( TOC.BORDER_RIGHT_COLOR_MEMBER, "white" );//$NON-NLS-1$
 
 		assertEquals( "gray", tocHandle.getBorderTopColor( ).getStringValue( ) );//$NON-NLS-1$
-		assertEquals( "medium", tocHandle.getBorderBottomWidth( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"medium", tocHandle.getBorderBottomWidth( ).getStringValue( ) );//$NON-NLS-1$
 
-		assertEquals( "white", tocHandle.getBorderRightColor( ).getStringValue( ) );//$NON-NLS-1$
-		assertEquals( "yellow", tocHandle.getBorderLeftColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"white", tocHandle.getBorderRightColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"yellow", tocHandle.getBorderLeftColor( ).getStringValue( ) );//$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( "ReportItemParseTest_3_golden.xml" ) );//$NON-NLS-1$

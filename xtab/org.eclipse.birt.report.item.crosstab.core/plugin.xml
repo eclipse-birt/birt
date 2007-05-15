@@ -14,14 +14,6 @@
             isNameRequired="false">
          <property
                canInherit="true"
-               detailType="Cube"
-               displayNameID="Element.Cube"
-               isEncryptable="false"
-               name="cube"
-               type="elementRef">
-         </property>
-         <property
-               canInherit="true"
                displayNameID="Element.Caption"
                isEncryptable="false"
                name="caption"

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.core.util;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.IDimensionViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
@@ -23,6 +22,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Factory class to create some extended item handle for all crosstab item
@@ -52,7 +52,7 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 				.newExtendedItem( null, CROSSTAB_EXTENSION_NAME );
 		if ( extendedItem != null )
 		{
-			extendedItem.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
+			extendedItem.setProperty( IReportItemModel.CUBE_PROP,
 					cube );
 		}
 		return extendedItem;

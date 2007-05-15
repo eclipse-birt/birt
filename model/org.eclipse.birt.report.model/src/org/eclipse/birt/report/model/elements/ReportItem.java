@@ -72,6 +72,24 @@ public abstract class ReportItem extends ReferencableStyledElement
 		return dataSetRef.getElement( );
 	}
 
+	/**
+	 * Returns the cube element, if any, for this element.
+	 * 
+	 * @param module
+	 *            the report design of the report item
+	 * 
+	 * @return the cube element defined on this specific element
+	 */
+
+	public DesignElement getCubeElement( Module module )
+	{
+		ElementRefValue cubeRef = (ElementRefValue) getProperty( module,
+				CUBE_PROP );
+		if ( cubeRef == null )
+			return null;
+		return cubeRef.getElement( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

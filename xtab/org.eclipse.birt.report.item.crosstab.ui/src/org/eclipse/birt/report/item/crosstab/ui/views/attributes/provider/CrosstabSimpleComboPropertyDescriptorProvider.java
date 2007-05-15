@@ -15,9 +15,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * @author Administrator
@@ -47,7 +47,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			return items;
 		}
 
-		if (ICrosstabReportItemConstants.CUBE_PROP.equals(getProperty())) {
+		if (IReportItemModel.CUBE_PROP.equals(getProperty())) {
 			items = ChoiceSetFactory.getCubes();
 		}
 
@@ -55,7 +55,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 	}
 
 	public boolean isSpecialProperty() {
-		if (ICrosstabReportItemConstants.CUBE_PROP.equals(getProperty())) {
+		if (IReportItemModel.CUBE_PROP.equals(getProperty())) {
 			return true;
 		} else
 			return super.isSpecialProperty();
@@ -64,7 +64,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 	
 	public String getDisplayName( )
 	{
-		if (ICrosstabReportItemConstants.CUBE_PROP.equals(getProperty())) {
+		if (IReportItemModel.CUBE_PROP.equals(getProperty())) {
 			return Messages.getString("Element.ReportElement.Cube");
 		}else
 		{

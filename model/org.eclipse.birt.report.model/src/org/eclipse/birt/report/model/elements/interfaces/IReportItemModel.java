@@ -49,6 +49,11 @@ public interface IReportItemModel
 	public static final String DATA_SET_PROP = "dataSet"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that references a cube element within the report.
+	 */
+	public static final String CUBE_PROP = "cube"; //$NON-NLS-1$
+
+	/**
 	 * Name of the bookmark property. The bookmark is the target of hyperlinks
 	 * within the report.
 	 */

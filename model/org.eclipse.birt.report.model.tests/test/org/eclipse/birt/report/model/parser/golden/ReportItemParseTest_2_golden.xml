@@ -8,11 +8,15 @@
             <property name="dataSource">myDataSource</property>
         </oda-data-set>
     </data-sets>
+    <cubes>
+        <tabular-cube name="testCube" id="4"/>
+        <tabular-cube name="testCube_one" id="5"/>
+    </cubes>
     <styles>
-        <style name="My Style" id="4"/>
+        <style name="My Style" id="6"/>
     </styles>
     <page-setup>
-        <graphic-master-page name="My Page" id="5">
+        <graphic-master-page name="My Page" id="7">
             <property name="comments">Sample page</property>
             <property name="topMargin">0.95mm</property>
             <property name="leftMargin">0.8mm</property>
@@ -21,28 +25,28 @@
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
             <contents>
-                <label id="6">
+                <label id="8">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
-                <label id="7">
+                <label id="9">
                     <property name="x">6mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">1mm</property>
                     <text-property name="text">Today's Date</text-property>
                 </label>
-                <data id="8">
+                <data id="10">
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
         </graphic-master-page>
     </page-setup>
     <body>
-        <free-form name="free form" id="9">
+        <free-form name="free form" id="11">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
             <property name="style">My Style</property>
@@ -52,7 +56,7 @@
                 <expression name="expressionValue">"This Section"</expression>
             </structure>
             <report-items>
-                <label name="StyleLabel" id="10">
+                <label name="StyleLabel" id="12">
                     <property name="style">My Style</property>
                     <property name="fontSize">14mm</property>
                     <property name="x">1mm</property>
@@ -61,25 +65,25 @@
                     <property name="width">4mm</property>
                     <text-property name="text">Customer Name</text-property>
                 </label>
-                <free-form name="freeFrom1" id="11">
+                <free-form name="freeFrom1" id="13">
                     <property name="comments">Inner freeform</property>
                     <report-items>
-                        <label id="12">
+                        <label id="14">
                             <property name="x">6mm</property>
                             <property name="y">0.5mm</property>
                             <property name="height">0.25mm</property>
                             <property name="width">1mm</property>
                             <text-property name="text">Today's Date</text-property>
                         </label>
-                        <free-form name="level3FreeForm" id="13"/>
+                        <free-form name="level3FreeForm" id="15"/>
                     </report-items>
                 </free-form>
             </report-items>
         </free-form>
-        <list name="my list" id="14">
+        <list name="my list" id="16">
             <property name="dataSet">myDataSet</property>
         </list>
-        <label name="bodyLabel" id="15">
+        <label name="bodyLabel" id="17">
             <property name="eventHandlerClass">birt.js.labelHandler</property>
             <property name="fontFamily">"bodyFont"</property>
             <property name="color">yellow</property>
@@ -88,6 +92,7 @@
             <property name="zIndex">1</property>
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>
+            <property name="cube">testCube_one</property>
             <list-property name="visibility">
                 <structure>
                     <property name="format">userDefinedformat</property>
@@ -106,7 +111,7 @@
             <method name="onPageBreak"><![CDATA[my new label on page break]]></method>
             <text-property name="text">Body's slot</text-property>
         </label>
-        <data name="bodyData" id="16">
+        <data name="bodyData" id="18">
             <property name="eventHandlerClass">my new data handler class</property>
             <list-property name="visibility">
                 <structure>

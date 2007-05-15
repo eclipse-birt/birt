@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
@@ -133,7 +135,54 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
 						valueToSet );
 			}
-			setStringProperty( IReportItemModel.DATA_SET_PROP, valueToSet );
+			setStringProperty( DATA_SET_PROP, valueToSet );
+		}
+	}
+
+	/**
+	 * Returns the cube of the report item.
+	 * 
+	 * @return the handle to the cube
+	 */
+
+	public CubeHandle getCube( )
+	{
+		DesignElement cube = ( (ReportItem) getElement( ) )
+				.getCubeElement( module );
+		if ( cube == null )
+			return null;
+
+		assert cube instanceof Cube;
+
+		return (CubeHandle) cube.getHandle( cube.getRoot( ) );
+	}
+
+	/**
+	 * Sets the cube of the report item.
+	 * 
+	 * @param handle
+	 *            the handle of the cube
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setCube( CubeHandle handle ) throws SemanticException
+	{
+		if ( handle == null )
+			setStringProperty( CUBE_PROP, null );
+		else
+		{
+			ModuleHandle moduleHandle = handle.getRoot( );
+			String valueToSet = handle.getElement( ).getFullName( );
+			if ( moduleHandle instanceof LibraryHandle )
+			{
+				String namespace = ( (LibraryHandle) moduleHandle )
+						.getNamespace( );
+				valueToSet = StringUtil.buildQualifiedReference( namespace,
+						valueToSet );
+			}
+			setStringProperty( CUBE_PROP, valueToSet );
 		}
 	}
 
@@ -805,10 +854,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * <ul>
 	 * <li>DATABINDING_TYPE_NONE, no data binding.
-	 * <li>DATABINDING_TYPE_DATA, data binding to data set or
-	 * cube.
-	 * <li>DATABINDING_TYPE_REPORT_ITEM_REF, data binding to
-	 * another report item.
+	 * <li>DATABINDING_TYPE_DATA, data binding to data set or cube.
+	 * <li>DATABINDING_TYPE_REPORT_ITEM_REF, data binding to another report
+	 * item.
 	 * </ul>
 	 * 
 	 * @return the data binding type of this report item

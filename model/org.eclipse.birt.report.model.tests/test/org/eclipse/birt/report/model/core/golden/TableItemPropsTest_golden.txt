@@ -71,6 +71,7 @@ pageBreakInterval
 bookmark
 toc
 dataSet
+cube
 x
 y
 height

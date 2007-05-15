@@ -9,6 +9,10 @@
             <property name="dataSource">myDataSource</property>
         </oda-data-set>
     </data-sets>
+    <cubes>
+    	<tabular-cube name="testCube"/>
+    	<tabular-cube name="testCube_one"/>
+    </cubes>
     <styles>
         <style name="My Style"/>
     </styles>
@@ -81,6 +85,7 @@
         </list>
         <label name="bodyLabel">
             <property name="fontFamily">bodyFont</property>
+            <property name="cube">testCube</property>
             <property name="color">yellow</property>
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>
