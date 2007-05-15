@@ -1255,7 +1255,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 			}
 		}
 
-		//
+		if ( getSpecifiedHeight( ) == 0 && isEmptyRow( row ) )
+		{
+			height = getHeightOfEmptyRow( row );
+		}
+		
 		if ( height > 0 )
 		{
 
@@ -1336,6 +1340,50 @@ public class PDFTableLM extends PDFBlockStackingLM
 			row.setHeight( height );
 		}
 
+	}
+
+	private int getSpecifiedHeight( )
+	{
+		return getDimensionValue( content.getHeight( ));
+	}
+
+	private int getHeightOfEmptyRow( RowArea row )
+	{
+		int heightOfEmptyRow = 0;
+		Iterator iterator = row.getChildren( );
+		while( iterator.hasNext( ) )
+		{
+			CellArea cell = (CellArea) iterator.next( );
+			IStyle style = cell.getStyle( );
+			int bottomBorderWidth = PropertyUtil.getDimensionValue( style
+					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+			int topBorderWidth = PropertyUtil.getDimensionValue( style
+					.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+			int heightOfEmptyCell = topBorderWidth + bottomBorderWidth;
+			heightOfEmptyRow = Math.max( heightOfEmptyCell, heightOfEmptyRow );
+		}
+		return heightOfEmptyRow;
+	}
+
+	private boolean isEmptyRow( RowArea row )
+	{
+		Iterator iterator = row.getChildren( );
+		while( iterator.hasNext( ) )
+		{
+			CellArea cell = ( CellArea )iterator.next( );
+			if ( !isDropCell( cell ) && cell.getChildrenCount( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isDropCell( CellArea cell )
+	{
+		int colID = cell.getColumnID( );
+		return currentRowContent[colID] != null
+				&& ( currentRowContent[colID].rowSpan != 1 );
 	}
 
 	public int getXPos( int columnID )
