@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -68,6 +68,9 @@ public class CallStatement implements IAdvancedQuery
 
 	/** The user defined parameter metadata from AppContext */
 	private IParameterMetaData parameterDefn; 
+	
+	private IResultSetMetaData cachedResultMetaData;
+	private IResultSet cachedResultSet;
 
 	protected String procedureName;
 
@@ -141,6 +144,8 @@ public class CallStatement implements IAdvancedQuery
 			String queryText = SQLFormatter.formatQueryText( command );
 			this.callStat = conn.prepareCall( queryText );
 			paramUtil = new SPParameterPositionUtil( queryText, '@' );
+			this.cachedResultMetaData = null;
+			this.cachedResultSet = null;
 		}
 		catch ( SQLException e )
 		{
@@ -222,6 +227,8 @@ public class CallStatement implements IAdvancedQuery
 			{
 				this.callStat.close( );
 			}
+			this.cachedResultMetaData = null;
+			this.cachedResultSet = null;
 		}
 		catch ( SQLException e )
 		{
@@ -268,6 +275,9 @@ public class CallStatement implements IAdvancedQuery
 				CallStatement.class.getName( ),
 				"getMetaData",
 				"CallableStatement.getMetaData( )" );
+		
+		if ( this.cachedResultMetaData != null )
+			return this.cachedResultMetaData;
 
 		java.sql.ResultSetMetaData resultmd = null;
 		try
@@ -285,40 +295,28 @@ public class CallStatement implements IAdvancedQuery
 			// in prepared time. To solve this problem, query execution is
 			// required to be executed first.
 		}
-		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
 		{
-			pstmtResultMetaData = new ResultSetMetaData( resultmd );
+			cachedResultMetaData = new ResultSetMetaData( resultmd );
 		}
 		else
 		{
 			// If Jdbc driver throw an SQLexception or return null, when we get
 			// MetaData from ResultSet
-			IResultSet mdRs = null;
 			try
 			{
-				 mdRs = executeQuery( );
-			}
-			catch ( OdaException e )
-			{
-				 mdRs = null;
-			}
-			
-			try
-			{
-				if ( mdRs != null )
-					pstmtResultMetaData = mdRs.getMetaData( );
+				this.cachedResultSet = executeQuery( );
+				if ( this.cachedResultSet != null )
+					cachedResultMetaData = cachedResultSet.getMetaData( );
 				else
-					pstmtResultMetaData = new SPResultSetMetaData( null );
+					cachedResultMetaData = new SPResultSetMetaData( null );
 			}
 			catch ( OdaException e )
 			{
-				//					throw new JDBCException(
-				// ResourceConstants.DRIVER_NO_RESULTSET,
-				//							ResourceConstants.ERROR_NO_RESULTSET );
+				cachedResultSet = null;
 			}
 		}
-		return pstmtResultMetaData;
+		return cachedResultMetaData;
 	}
 
 	/*
@@ -330,6 +328,13 @@ public class CallStatement implements IAdvancedQuery
 				CallStatement.class.getName( ),
 				"executeQuery",
 				"CallableStatement.executeQuery( )" );
+		if ( this.cachedResultSet != null )
+		{
+			IResultSet ret = this.cachedResultSet;
+			this.cachedResultSet = null; // Clear this so subsequent
+											// executeQuery should run it again
+			return ret;
+		}
 		try
 		{
 			if ( !maxRowsUpToDate )
