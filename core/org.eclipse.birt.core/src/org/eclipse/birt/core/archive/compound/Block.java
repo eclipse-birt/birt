@@ -49,11 +49,6 @@ class Block implements ArchiveConstants
 	 * @param blockId
 	 *            the block ID
 	 */
-	Block( )
-	{
-		this( DEFAULT_BLOCK_SIZE );
-	}
-
 	Block( int size )
 	{
 		blockSize = size;

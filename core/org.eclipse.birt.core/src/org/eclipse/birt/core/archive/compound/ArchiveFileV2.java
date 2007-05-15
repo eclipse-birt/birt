@@ -643,7 +643,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	int getDefaultBlockSize( )
 	{
 		String value = System.getProperty( PROPERTY_DEFAULT_BLOCK_SIZE );
-		if ( value == null )
+		if ( value != null )
 		{
 			try
 			{
