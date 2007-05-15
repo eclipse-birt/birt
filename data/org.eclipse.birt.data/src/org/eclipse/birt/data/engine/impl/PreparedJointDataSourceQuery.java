@@ -160,20 +160,24 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	{
 		try
 		{
+			// The right and left resultSet metaData should be fetched on time
+			// if it's loaded from cache.
 			IQueryResults left = getResultSetQuery( dataEngine,
 					dataSet.getLeftDataSetDesignName( ),
 					appContext,
 					dataSet.getJoinConditions( ),
 					true );
+			IResultMetaData leftMetaData = left.getResultMetaData( );
 
 			IQueryResults right = getResultSetQuery( dataEngine,
 					dataSet.getRightDataSetDesignName( ),
 					appContext,
 					dataSet.getJoinConditions( ),
 					false );
-
-			JointResultMetadata meta = getJointResultMetadata( left.getResultMetaData( ),
-					right.getResultMetaData( ) );
+			IResultMetaData rightMetaData = right.getResultMetaData( );
+			
+			JointResultMetadata meta = getJointResultMetadata( leftMetaData,
+					rightMetaData );
 
 			resultClass = meta.getResultClass( );
 		}
