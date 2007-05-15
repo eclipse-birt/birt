@@ -258,7 +258,7 @@ class AllocTable implements ArchiveConstants
 			ensureFATBlocks( newTotalBlocks );
 			for ( int i = totalAllocBlocks; i < newTotalBlocks; i++ )
 			{
-				allocBlocks[totalAllocBlocks] = 1024 * totalAllocBlocks;
+				allocBlocks[totalAllocBlocks] = INDEX_PER_BLOCK * totalAllocBlocks;
 				totalAllocBlocks++;
 			}
 		}
