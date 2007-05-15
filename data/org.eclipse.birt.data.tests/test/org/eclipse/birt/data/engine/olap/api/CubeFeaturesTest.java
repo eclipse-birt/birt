@@ -440,6 +440,78 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 	
 	/**
+	 * Complex sort on multiple levels
+	 * @throws Exception
+	 */
+	public void testSort3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+				
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		cqd.addBinding( binding5 );
+		
+		//sort on year
+		SortDefinition sorter1 = new SortDefinition();
+		sorter1.setExpression( "data[\"edge2level1\"]" );
+		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		//sort on country
+		SortDefinition sorter2 = new SortDefinition();
+		sorter2.setExpression( "data[\"edge1level1\"]" );
+		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		//sort on city.
+		SortDefinition sorter3 = new SortDefinition();
+		sorter3.setExpression( "data[\"edge1level2\"]" );
+		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		cqd.addSort( sorter1 );
+		cqd.addSort( sorter2 );
+		cqd.addSort( sorter3);
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+	
+	}
+	/**
 	 * Test grand total
 	 * @throws Exception
 	 */

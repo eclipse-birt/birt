@@ -109,6 +109,7 @@ public class AllTests
 
 		/* in package org.eclipse.birt.data.engine.olap.api */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.api.CubeFeaturesTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.api.CubeIVTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.olap.data.document*/
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.document.BufferedRandomAccessObjectTest.class );

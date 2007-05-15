@@ -22,6 +22,7 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
@@ -421,11 +422,9 @@ public class QueryExecutor
 				ISortDefinition sortDfn = ( (ISortDefinition) query.getSorts( )
 						.get( i ) );
 				String expr = sortDfn.getExpression( ).getText( );
-				if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
-				{
-					continue;
-				}
-				DimLevel info = OlapExpressionUtil.getTargetDimLevel( expr );
+			
+				DimLevel info = getDimLevel( expr, query.getBindings( ) );
+
 				if ( level.equals( info ) )
 				{
 					return sortDfn.getSortDirection( );
@@ -433,5 +432,34 @@ public class QueryExecutor
 			}
 		}
 		return IDimensionSortDefn.SORT_UNDEFINED;
+	}
+	
+	/**
+	 * Get dim level from an expression.
+	 * @param expr
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	private DimLevel getDimLevel( String expr, List bindings ) throws DataException
+	{
+		String bindingName = OlapExpressionUtil.getBindingName( expr );
+		if( bindingName != null )
+		{
+			for( int j = 0; j < bindings.size( ); j++ )
+			{
+				IBinding binding = (IBinding)bindings.get( j );
+				if( binding.getBindingName( ).equals( bindingName ))
+				{
+					if (! (binding.getExpression( ) instanceof IScriptExpression))
+						return null;
+					return getDimLevel( ((IScriptExpression)binding.getExpression( )).getText( ), bindings );
+				}
+			}
+		}
+		if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
+			return null;
+		else 
+			return OlapExpressionUtil.getTargetDimLevel( expr );
 	}
 }

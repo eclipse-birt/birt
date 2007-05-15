@@ -117,7 +117,7 @@ public class CubeIVTest extends BaseTestCase
 				null,
 				null,
 				writter ) );
-		this.createCube( writter );
+		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -203,7 +203,7 @@ public class CubeIVTest extends BaseTestCase
 				null,
 				null,
 				writter ) );
-		this.createCube( writter );
+		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -288,7 +288,7 @@ public class CubeIVTest extends BaseTestCase
 				null,
 				null,
 				writter ) );
-		this.createCube( writter );
+		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -679,7 +679,7 @@ public class CubeIVTest extends BaseTestCase
 				null,
 				null,
 				writter ) );
-		this.createCube( writter );
+		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -970,24 +970,24 @@ public class CubeIVTest extends BaseTestCase
 		
 		IBinding binding5 = new Binding( "measure1" );
 		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding5.addAggregateOn( "level21" );
-		binding5.addAggregateOn( "level11" );
-		binding5.addAggregateOn( "level12" );
-		binding5.addAggregateOn( "level13" );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
 		
 		cqd.addBinding( binding5 );
 		
 		IBinding binding6 = new Binding( "rowGrandTotal");
 		binding6.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding6.addAggregateOn( "level21" );
+		binding6.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding6 );
 		
 		IBinding binding7 = new Binding( "columnGrandTotal");
 		binding7.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding7.addAggregateOn( "level11" );
-		binding7.addAggregateOn( "level12" );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
 		cqd.addBinding( binding7 );
 		
 		IBinding binding8 = new Binding( "grandTotal");
@@ -998,32 +998,32 @@ public class CubeIVTest extends BaseTestCase
 		IBinding binding9 = new Binding( "country_year_total");
 		binding9.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding9.addAggregateOn( "level11" );
-		binding9.addAggregateOn( "level21" );
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding9 );
 		
 		IBinding binding10= new Binding( "city_year_total");
 		binding10.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding10.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding10.addAggregateOn( "level11" );
-		binding10.addAggregateOn( "level12" );
-		binding10.addAggregateOn( "level21" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding10 );
 		
 		IBinding binding11= new Binding( "dist_total");
 		binding11.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding11.addAggregateOn( "level11" );
-		binding11.addAggregateOn( "level12" );
-		binding11.addAggregateOn( "level13" );
+		binding11.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding11.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding11.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
 		
 		cqd.addBinding( binding11 );
 		
 		IBinding binding12= new Binding( "city_total");
 		binding12.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding12.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding12.addAggregateOn( "level11" );
-		binding12.addAggregateOn( "level12" );
+		binding12.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding12.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
 		
 		
 		cqd.addBinding( binding12 );
@@ -1031,7 +1031,7 @@ public class CubeIVTest extends BaseTestCase
 		IBinding binding13= new Binding( "country_total");
 		binding13.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		binding13.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		binding13.addAggregateOn( "level11" );
+		binding13.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		
 		cqd.addBinding( binding13 );
 	}
@@ -1310,9 +1310,9 @@ public class CubeIVTest extends BaseTestCase
 		this.checkOutputFile( );
 	}
 	
-	private void createCube( IDocArchiveWriter writter ) throws BirtException, IOException
+	private void createCube( IDocArchiveWriter writter, DataEngine engine ) throws BirtException, IOException
 	{
-		CubeMaterializer cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( System.getProperty( "java.io.tmpdir" ),
+		CubeMaterializer cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( System.getProperty( "java.io.tmpdir" )+engine.hashCode( ),
 				"cube" );
 		
 		IDocumentManager documentManager = cubeMaterializer.getDocumentManager( );
