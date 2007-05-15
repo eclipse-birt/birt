@@ -59,6 +59,11 @@ public class BindingPage extends AttributePage
 		dataSetSectionVisible = bool;
 	}
 
+	protected Composite getSectionContainer( )
+	{
+		return composite;
+	}
+
 	public void buildUI( Composite parent )
 	{
 		container = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
@@ -110,12 +115,12 @@ public class BindingPage extends AttributePage
 			dataSetProvider.setComboAndButtonSection( dataSetSection );
 			addSection( PageSectionId.BINDING_DATASET, dataSetSection );
 		}
-		
+
 		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
 		dataSetFormSection = new FormSection( dataSetFormProvider.getDisplayName( ),
 				composite,
 				true );
-		dataSetFormSection.setCustomForm( new DataSetColumnBindingsFormDescriptor( ) );
+		dataSetFormSection.setCustomForm( new DataSetColumnBindingsFormDescriptor( true ) );
 		dataSetFormSection.setProvider( dataSetFormProvider );
 		dataSetFormSection.showDisplayLabel( true );
 		dataSetFormSection.setButtonWithDialog( true );
@@ -123,12 +128,11 @@ public class BindingPage extends AttributePage
 		dataSetFormSection.setFillForm( true );
 		dataSetFormSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.BINDING_DATASET_FORM, dataSetFormSection );
-		
-		if(dataSetProvider != null)
+
+		if ( dataSetProvider != null )
 		{
 			dataSetProvider.setDependedProvider( dataSetFormProvider );
 		}
-		
 
 		createSections( );
 		layoutSections( );

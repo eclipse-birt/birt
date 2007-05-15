@@ -86,7 +86,7 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		}
 	}
 
-	private CommandStack getActionStack( )
+	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}

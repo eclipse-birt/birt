@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AggregateOnBindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -36,7 +36,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 	protected FormPage sortingPage;
 	protected FormPage filterPage;
 	protected FormPage groupPage;
-	protected BindingPage bindingPage;
+	protected AggregateOnBindingPage bindingPage;
 	protected PreviewPage highlightsPage;
 	protected PreviewPage mapPage;
 
@@ -47,7 +47,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 			String title = tabFolder.getSelection( ).getText( );
 			if ( title.equals( BINDINGTITLE ) )
 			{
-				bindingPage = new BindingPage( );
+				bindingPage = new AggregateOnBindingPage( );
 				setPageInput( bindingPage );
 				refresh( tabFolder, bindingPage, true );
 				item.setControl( bindingPage.getControl( ) );

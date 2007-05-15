@@ -158,35 +158,6 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public boolean doAddItem( int pos ) throws Exception
 	{
-		/*
-		 * ComputedColumn bindingColumn = StructureFactory.newComputedColumn(
-		 * bindingObject, Messages.getString(
-		 * "DataSetColumnBindingsFormHandleProvider.NewBinding" ) );
-		 * //$NON-NLS-1$
-		 * 
-		 * bindingColumn.setExpression( "" ); String groupType =
-		 * DEUtil.getGroupControlType( bindingObject ); if (
-		 * ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) ) {
-		 * if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-		 * bindingColumn.setAggregrateOn( ( (GroupHandle) groupList.get( 0 )
-		 * ).getName( ) ); else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-		 * bindingColumn.setAggregrateOn( null ); } ExpressionBuilder dialog =
-		 * new ExpressionBuilder( UIUtil.getDefaultShell( ), "" );
-		 * dialog.setExpressionProvier( expressionProvider ); if ( dialog.open( ) ==
-		 * Dialog.OK ) { String newValue = dialog.getResult( ); if (
-		 * !newValue.equals( "" ) ) { bindingColumn.setExpression( newValue ); } }
-		 * 
-		 * if ( bindingObject instanceof ReportItemHandle ) { (
-		 * (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
-		 * false ); if ( viewer != null ) viewer.editElement(
-		 * viewer.getElementAt( viewer.getTable( ) .getItemCount( ) - 1 ), 0 );
-		 * return true; } if ( bindingObject instanceof GroupHandle ) { (
-		 * (GroupHandle) bindingObject ).addColumnBinding( bindingColumn, false );
-		 * if ( viewer != null ) viewer.editElement( viewer.getElementAt(
-		 * viewer.getTable( ) .getItemCount( ) - 1 ), 0 ); return true; } return
-		 * false;
-		 * 
-		 */
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 		dialog.setInput( (ReportItemHandle) bindingObject );
 
@@ -197,17 +168,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				viewer.refresh( true );
 				return true;
 			}
-			/*
-			 * if ( bindingObject instanceof ReportItemHandle ) { if ( viewer !=
-			 * null )viewer.refresh( true ); viewer.editElement(
-			 * viewer.getElementAt( viewer.getTable( ) .getItemCount( ) - 1 ), 0 );
-			 * return true; } if ( bindingObject instanceof GroupHandle ) { if (
-			 * viewer != null ) viewer.editElement( viewer.getElementAt(
-			 * viewer.getTable( ) .getItemCount( ) - 1 ), 0 ); return true; }
-			 */
 		}
 		return false;
-
 	}
 
 	public boolean doEditItem( int pos )
@@ -568,7 +530,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		this.expressionProvider = expressionProvider;
 	}
 
-	private TableViewer viewer;
+	protected TableViewer viewer;
 
 	public void setTableViewer( TableViewer viewer )
 	{

@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.IFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -95,7 +94,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	/**
 	 * When Add button is clicked, whether invoke dialogs.
 	 */
-	private boolean bAddWithDialog = false;
+	protected boolean bAddWithDialog = false;
 
 	/**
 	 * Buttons for moving operations.
@@ -111,12 +110,12 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	 * The table widget that present the data of Filters, Sorting, Groups or
 	 * Hight-lights.
 	 */
-	private Table table;
+	protected Table table;
 
 	/**
 	 * The TableViewer of the table widget.
 	 */
-	private TableViewer tableViewer;
+	protected TableViewer tableViewer;
 
 	/**
 	 * The current selection index.
@@ -408,7 +407,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	}
 
-	private void updateArraw( )
+	protected void updateArraw( )
 	{
 		if ( style == SIMPLE_FUNCTION )
 		{
@@ -787,25 +786,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		table.setLayoutData( data );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
-	 */
-	// public void elementChanged( DesignElementHandle arg0,
-	// NotificationEvent event )
-	// {
-	// if ( ( (IFormProvider) getDescriptorProvider( ) ).needRefreshed( event )
-	// )
-	// {f
-	// tableViewer.refresh( );
-	// table.select( selectIndex );
-	// table.setFocus( );
-	// updateArraw( );
-	// updateBindingParameters( );
-	// }
-	// }
+
 	private class FormLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{

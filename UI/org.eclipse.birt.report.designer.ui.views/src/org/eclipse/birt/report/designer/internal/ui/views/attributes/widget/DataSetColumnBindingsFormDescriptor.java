@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -32,9 +30,9 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 
 	private DataSetColumnBindingsFormHandleProvider provider;
 
-	public DataSetColumnBindingsFormDescriptor( )
+	public DataSetColumnBindingsFormDescriptor( boolean formStyle)
 	{
-		super( true );
+		super( formStyle );
 		super.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
 		super.setButtonWithDialog( false );
 	}
@@ -76,19 +74,8 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 				SWT.DEFAULT,
 				true ).x );
 		btnDel.setLayoutData( data );
-
-		data = new FormData( );
-		data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#setInput(java.util.List)
-	 */
-
-	List groupList;
 
 	public void setInput( Object object )
 	{
