@@ -17,19 +17,19 @@ public interface IFont
 
 	boolean isBold( );
 
-	void setIsBold( boolean isBlod );
+	void setBold( boolean isBold );
 
 	boolean isItalic( );
 
-	void setIsItalic( boolean isItalic );
+	void setItalic( boolean isItalic );
 
 	boolean isUnderline( );
 
-	void setIsUnderline( boolean isUnderline );
+	void setUnderline( boolean isUnderline );
 
 	boolean isStrikeThrough( );
 
-	void setIsStrikeThrough( boolean isStrikeThrough );
+	void setStrikeThrough( boolean isStrikeThrough );
 
 	String getName( );
 
