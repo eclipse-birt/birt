@@ -414,6 +414,7 @@ dataset.editor.error.noDataSource=No hay ninguna fuente de datos disponible para
 dataset.editor.error.noEditorsFound=No se han encontrado editores para el conjunto de datos {0}.
 dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} debe tener un valor predeterminado que no esté vacío.
 dataset.editor.error.title=Advertencia
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
 dataset.editor.filters=Filtros
@@ -1493,6 +1494,9 @@ FormatStringPreferencePage.formatString.title=Formato de string
 
 FormPage.Button.Add=&Añadir
 FormPage.Button.AddWithDialog=&Añadir...
+FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.AddWithDialog=&Añadir...
+FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
 FormPage.Button.Delete=&Quitar
 FormPage.Button.Down=&Abajo
 FormPage.Button.Edit=Ed&itar
@@ -2382,6 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya se ha utilizado.
 OutputColumnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
 OutputColumnPage.toolTipText.Edit=Editar columna de salida
 OutputColumnPage.title.OutputColumnInputDialog=Columna de salida
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
 
 ###########################################################
 #OutputColumnsPage properties

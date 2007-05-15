@@ -414,6 +414,7 @@ dataset.editor.error.noDataSource=Aucune source de données disponible pour le je
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
 dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur renseignée par défaut.
 dataset.editor.error.title=Avertissement
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
 dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vierge. Voulez-vous laisser cette valeur vierge ?
 dataset.editor.filters=Filtres
@@ -1493,6 +1494,9 @@ FormatStringPreferencePage.formatString.title=Chaîne
 
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
+FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.AddWithDialog=&Ajouter...
+FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
 FormPage.Button.Delete=&Supprimer
 FormPage.Button.Down=&Bas
 FormPage.Button.Edit=&Modifier
@@ -2382,6 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
+OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
 
 ###########################################################
 #OutputColumnsPage properties
