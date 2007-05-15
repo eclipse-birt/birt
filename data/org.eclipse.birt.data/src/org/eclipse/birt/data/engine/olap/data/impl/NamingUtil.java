@@ -68,6 +68,11 @@ public class NamingUtil
 		return LEVEL_INDEX + dimensionName + '_' + levelName;
 	}
 	
+	public static String getLevelIndexOffsetDocName( String dimensionName, String levelName )
+	{
+		return getLevelIndexDocName( dimensionName, levelName )+"_offset";
+	}
+	
 	/**
 	 * 
 	 * @param levelName
