@@ -17,10 +17,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ag
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 
 	protected void applyCustomSections( )
 	{
-		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( ICrosstabReportItemConstants.CUBE_PROP,/* ICrosstabReportItemConstants.CUBE_PROP */
+		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( IReportItemModel.CUBE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
 		CrosstabSimpleComboSection cubeSection = new CrosstabSimpleComboSection( cubeProvider.getDisplayName( ),
 				getSectionContainer( ),
