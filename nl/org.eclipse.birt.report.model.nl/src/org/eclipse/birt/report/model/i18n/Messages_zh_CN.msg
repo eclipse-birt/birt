@@ -2527,6 +2527,7 @@ Element.Style.wordSpacing=字间距
 Element.ReportItem.bookmark=书签
 Element.ReportItem.toc=目录
 Element.ReportItem.dataSet=数据集
+Element.ReportItem.cube=多维数据集
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=高度

@@ -2527,6 +2527,7 @@ Element.Style.wordSpacing=Separación de palabras
 Element.ReportItem.bookmark=Marcador
 Element.ReportItem.toc=TDC
 Element.ReportItem.dataSet=Conjunto de datos
+Element.ReportItem.cube=Cubo
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Altura

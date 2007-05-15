@@ -2527,6 +2527,7 @@ Element.Style.wordSpacing=Wortabstand
 Element.ReportItem.bookmark=Lesezeichen
 Element.ReportItem.toc=Inhalt
 Element.ReportItem.dataSet=Datensatz
+Element.ReportItem.cube=Quader
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Höhe

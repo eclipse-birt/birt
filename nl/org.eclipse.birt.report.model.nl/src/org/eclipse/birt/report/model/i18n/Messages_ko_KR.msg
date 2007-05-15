@@ -2527,6 +2527,7 @@ Element.Style.wordSpacing=단어 간격
 Element.ReportItem.bookmark=책갈피
 Element.ReportItem.toc=목차
 Element.ReportItem.dataSet=데이터 집합
+Element.ReportItem.cube=큐브
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=높이

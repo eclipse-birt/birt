@@ -2527,6 +2527,7 @@ Element.Style.wordSpacing=Espacement des mots
 Element.ReportItem.bookmark=Signet
 Element.ReportItem.toc=Sommaire
 Element.ReportItem.dataSet=Jeu de données
+Element.ReportItem.cube=Cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Hauteur
