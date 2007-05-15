@@ -17,6 +17,7 @@ cube.measuregroup.new=キューブの計測グループの新規作成
 cube.measure.edit=キューブの計測の編集
 CubeMeasureGroupNodeProvider.menu.text=編集
 CubeModel.group.edit=グループの編集
+Cube.Other.Datasets=Other
 CubeModel.summaryfield.edit=サマリフィールドの編集
 Cube.Groups=グループ (サイズ)
 Cube.MeasureGroup=サマリフィールド (計測)

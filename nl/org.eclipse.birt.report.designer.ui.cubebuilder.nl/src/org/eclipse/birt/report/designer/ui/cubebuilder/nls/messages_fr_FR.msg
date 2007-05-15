@@ -17,6 +17,7 @@ cube.measuregroup.new=Nouveau groupe de mesures de cube
 cube.measure.edit=Modifier la mesure de cube
 CubeMeasureGroupNodeProvider.menu.text=Modifier
 CubeModel.group.edit=Modifier le groupe
+Cube.Other.Datasets=Other
 CubeModel.summaryfield.edit=Modifier le champ de récapitulation
 Cube.Groups=Groupes (Dimensions)
 Cube.MeasureGroup=Champs de récapitulation (Mesures)

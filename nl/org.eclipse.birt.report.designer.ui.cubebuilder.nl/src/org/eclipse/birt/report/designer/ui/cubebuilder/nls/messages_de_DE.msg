@@ -17,6 +17,7 @@ cube.measuregroup.new=Neue Quadereinheitsgruppe
 cube.measure.edit=Quadereinheit bearbeiten
 CubeMeasureGroupNodeProvider.menu.text=Bearbeiten
 CubeModel.group.edit=Gruppe bearbeiten
+Cube.Other.Datasets=Other
 CubeModel.summaryfield.edit=Zusammenfassungsfeld bearbeiten
 Cube.Groups=Gruppen (Dimensionen)
 Cube.MeasureGroup=Zusammenfassungsfelder (Einheiten)

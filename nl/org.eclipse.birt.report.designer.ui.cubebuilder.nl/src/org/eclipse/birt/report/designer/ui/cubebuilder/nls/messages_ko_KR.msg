@@ -17,6 +17,7 @@ cube.measuregroup.new=새 큐브 측정값 그룹
 cube.measure.edit=큐브 측정값 편집
 CubeMeasureGroupNodeProvider.menu.text=편집
 CubeModel.group.edit=그룹 편집
+Cube.Other.Datasets=Other
 CubeModel.summaryfield.edit=요약 필드 편집
 Cube.Groups=그룹(차원)
 Cube.MeasureGroup=요약 필드(측정값)

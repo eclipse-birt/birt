@@ -17,6 +17,7 @@ cube.measuregroup.new=新建多维数据集度量组
 cube.measure.edit=编辑多维数据集度量
 CubeMeasureGroupNodeProvider.menu.text=编辑
 CubeModel.group.edit=编辑组
+Cube.Other.Datasets=Other
 CubeModel.summaryfield.edit=编辑摘要字段
 Cube.Groups=组(维)
 Cube.MeasureGroup=摘要字段(度量)
