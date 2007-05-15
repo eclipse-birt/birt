@@ -40,7 +40,7 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public void close( ) throws IOException
 	{
-		archiveReader.close( );
+		//archiveReader.close( );
 	}
 
 	/*
