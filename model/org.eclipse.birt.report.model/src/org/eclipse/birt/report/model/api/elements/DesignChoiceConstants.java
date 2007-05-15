@@ -825,7 +825,7 @@ public interface DesignChoiceConstants
 	/**
 	 * Date time level type -- type for date-time cube level.
 	 */
-	public static final String CHOICE_DATE_TIME_LEVEL_TYPE = "dateTimeLevlType"; //$NON-NLS-1$
+	public static final String CHOICE_DATE_TIME_LEVEL_TYPE = "dateTimeLevelType"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_MONTH = "month"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_QUARTER = "quarter"; //$NON-NLS-1$
