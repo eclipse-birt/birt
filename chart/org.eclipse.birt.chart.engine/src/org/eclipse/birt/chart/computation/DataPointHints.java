@@ -52,7 +52,7 @@ public final class DataPointHints
 
 	private Map userValueMap;
 
-	private final int index;
+	private int index;
 
 	private final Location lo;
 
@@ -739,5 +739,10 @@ public final class DataPointHints
 	public final void setBaseValue( Object newBaseValue )
 	{
 		oBaseValue = newBaseValue;
+	}
+	
+	public final void setIndex( int index )
+	{
+		this.index = index;
 	}
 }
