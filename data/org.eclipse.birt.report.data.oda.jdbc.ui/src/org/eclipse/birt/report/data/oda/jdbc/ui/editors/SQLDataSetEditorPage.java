@@ -1377,6 +1377,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				if ( meta == null )
 					return;
 				
+				if ( this.getDataSetDesign( ).getPrimaryResultSet( ) == null )
+				{
+					this.shouldUpdateDataSetDesign = true;
+					return;
+				}
+				
 				ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
 
 				if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
