@@ -399,6 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} de
 dataset.editor.error.title=Advertencia
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.filters=Filtros
 dataset.editor.label.selectDataSource=Seleccionar &fuente de datos:
 dataset.editor.outputColumns=Columnas de salida
@@ -2383,7 +2384,6 @@ ParameterDialog.CheckBox.AllowBlank=Permitir valores en &blanco
 ParameterDialog.CheckBox.AllowNull=&Permitir valor nulo
 ParameterDialog.CheckBox.DoNotEchoInput=&No realizar comando eco de entrada
 ParameterDialog.CheckBox.Hidden=O&culto
-ParameterDialog.CheckBox.Sort=Ordenar al&fabéticamente al solicitar
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
 ParameterDialog.Column.Default=Predeterminado
 ParameterDialog.Column.DisplayText=Texto en pantalla
@@ -2428,6 +2428,15 @@ ParameterDialog.Label.Sample=Muestra
 ParameterDialog.Label.Listlimit=Límite de &lista:
 ParameterDialog.Radio.Dynamic=&Dinámico
 ParameterDialog.Radio.Static=&Estático
+ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortKey=Sort by:
+ParameterDialog.Label.SortDirection=Sort direction:
+ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
+ParameterDialog.Choice.DisplayText=Display Text
+ParameterDialog.Choice.ValueColumn=Value Column
+ParameterDialog.Choice.ASCENDING=Ascending
+ParameterDialog.Choice.DESCENDING=Descending
+ParameterDialog.Choice.None=None
 
 ###########################################################
 #ParameterDropListener properties

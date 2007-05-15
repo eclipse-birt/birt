@@ -399,6 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doi
 dataset.editor.error.title=Avertissement
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
 dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vierge. Voulez-vous laisser cette valeur vierge ?
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.filters=Filtres
 dataset.editor.label.selectDataSource=Sélectionner une source de &données :
 dataset.editor.outputColumns=Colonnes de sortie
@@ -2383,7 +2384,6 @@ ParameterDialog.CheckBox.AllowBlank=&Autoriser les valeurs vierges
 ParameterDialog.CheckBox.AllowNull=Autoriser une &valeur nulle
 ParameterDialog.CheckBox.DoNotEchoInput=Ne pas repr&oduire l'entrée
 ParameterDialog.CheckBox.Hidden=&Masqué
-ParameterDialog.CheckBox.Sort=T&rier par ordre alphabétique à l'invite
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Column.Default=Par défaut
 ParameterDialog.Column.DisplayText=Texte d'affichage
@@ -2428,6 +2428,15 @@ ParameterDialog.Label.Sample=Echantillon
 ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
+ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortKey=Sort by:
+ParameterDialog.Label.SortDirection=Sort direction:
+ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
+ParameterDialog.Choice.DisplayText=Display Text
+ParameterDialog.Choice.ValueColumn=Value Column
+ParameterDialog.Choice.ASCENDING=Ascending
+ParameterDialog.Choice.DESCENDING=Descending
+ParameterDialog.Choice.None=None
 
 ###########################################################
 #ParameterDropListener properties

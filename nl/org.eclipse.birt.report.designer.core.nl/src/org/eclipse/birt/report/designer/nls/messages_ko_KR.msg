@@ -399,6 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 널(null)�
 dataset.editor.error.title=경고
 dataset.editor.error.unsupportedDataSet=지원되지 않는 데이터 집합 형식 - {0}.
 dataset.editor.error.validationParameter=입력 매개 변수 [{0}]의 값이 비어 있습니다. 값을 그대로 비워두시겠습니까?
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.filters=필터
 dataset.editor.label.selectDataSource=데이터 원본 선택(&D):
 dataset.editor.outputColumns=열 출력
@@ -2383,7 +2384,6 @@ ParameterDialog.CheckBox.AllowBlank=빈 값 허용(&B)
 ParameterDialog.CheckBox.AllowNull=널(null) 값 허용(&V)
 ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&D)
-ParameterDialog.CheckBox.Sort=물을 경우 알파벳 순으로 정렬(&R)
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Column.Default=기본값
 ParameterDialog.Column.DisplayText=표시 텍스트
@@ -2428,6 +2428,15 @@ ParameterDialog.Label.Sample=예제
 ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
+ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortKey=Sort by:
+ParameterDialog.Label.SortDirection=Sort direction:
+ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
+ParameterDialog.Choice.DisplayText=Display Text
+ParameterDialog.Choice.ValueColumn=Value Column
+ParameterDialog.Choice.ASCENDING=Ascending
+ParameterDialog.Choice.DESCENDING=Descending
+ParameterDialog.Choice.None=None
 
 ###########################################################
 #ParameterDropListener properties

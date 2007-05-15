@@ -399,6 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss eine
 dataset.editor.error.title=Warnung
 dataset.editor.error.unsupportedDataSet=Nicht unterstützter Datensatztyp - {0}.
 dataset.editor.error.validationParameter=Für den Eingabeparameter [{0}] liegt kein Wert vor. Soll der Parameter ohne Wert bleiben?
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.filters=Filter
 dataset.editor.label.selectDataSource=&Datenquelle wählen:
 dataset.editor.outputColumns=Ausgabespalten
@@ -2383,7 +2384,6 @@ ParameterDialog.CheckBox.AllowBlank=&Leerwerte zulassen
 ParameterDialog.CheckBox.AllowNull=&Nullwert zulassen
 ParameterDialog.CheckBox.DoNotEchoInput=&Keine Wiedergabe auf Eingabe
 ParameterDialog.CheckBox.Hidden=&Ausgeblendet
-ParameterDialog.CheckBox.Sort=&Bei Aufforderung alphabetisch sortieren
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Column.Default=Standard
 ParameterDialog.Column.DisplayText=Angezeigter Text
@@ -2428,6 +2428,15 @@ ParameterDialog.Label.Sample=Beispiel
 ParameterDialog.Label.Listlimit=L&istenbegrenzung:
 ParameterDialog.Radio.Dynamic=D&ynamisch
 ParameterDialog.Radio.Static=&Statisch
+ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortKey=Sort by:
+ParameterDialog.Label.SortDirection=Sort direction:
+ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
+ParameterDialog.Choice.DisplayText=Display Text
+ParameterDialog.Choice.ValueColumn=Value Column
+ParameterDialog.Choice.ASCENDING=Ascending
+ParameterDialog.Choice.DESCENDING=Descending
+ParameterDialog.Choice.None=None
 
 ###########################################################
 #ParameterDropListener properties

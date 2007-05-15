@@ -399,6 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É NULL ˆÈŠO‚
 dataset.editor.error.title=Œx
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
 dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?
+dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
 dataset.editor.filters=ƒtƒBƒ‹ƒ^
 dataset.editor.label.selectDataSource=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ(&D) :
 dataset.editor.outputColumns=o—Í—ñ
@@ -2383,7 +2384,6 @@ ParameterDialog.CheckBox.AllowBlank=‹ó”’’l‚ğ‹–‰Â‚·‚é(&B)
 ParameterDialog.CheckBox.AllowNull=Null ’l‚ğ‹–‰Â‚·‚é(&V)
 ParameterDialog.CheckBox.DoNotEchoInput=“ü—Í’l‚ğŒJ‚è•Ô‚³‚È‚¢(&O)
 ParameterDialog.CheckBox.Hidden=”ñ•\¦(&D)
-ParameterDialog.CheckBox.Sort=Šm”F‚ÉƒAƒ‹ƒtƒ@ƒxƒbƒg‡‚Éƒ\[ƒg‚·‚é(&R)
 ParameterDialog.Choice.NoDefault=ƒfƒtƒHƒ‹ƒg’l‚ª‚ ‚è‚Ü‚¹‚ñ
 ParameterDialog.Column.Default=ƒfƒtƒHƒ‹ƒg
 ParameterDialog.Column.DisplayText=•\¦ƒeƒLƒXƒg
@@ -2428,6 +2428,15 @@ ParameterDialog.Label.Sample=ƒTƒ“ƒvƒ‹
 ParameterDialog.Label.Listlimit=ˆê——‚Ì§ŒÀ(&I) :
 ParameterDialog.Radio.Dynamic=“®“I(&Y)
 ParameterDialog.Radio.Static=Ã“I(&S)
+ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortKey=Sort by:
+ParameterDialog.Label.SortDirection=Sort direction:
+ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
+ParameterDialog.Choice.DisplayText=Display Text
+ParameterDialog.Choice.ValueColumn=Value Column
+ParameterDialog.Choice.ASCENDING=Ascending
+ParameterDialog.Choice.DESCENDING=Descending
+ParameterDialog.Choice.None=None
 
 ###########################################################
 #ParameterDropListener properties
