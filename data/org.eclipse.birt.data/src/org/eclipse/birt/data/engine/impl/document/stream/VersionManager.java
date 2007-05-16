@@ -57,6 +57,7 @@ public class VersionManager
 		{
 			DataInputStream is = new DataInputStream(dataEngineContext.getInputStream( null, null, DataEngineContext.VERSION_INFO_STREAM ));
 			version = IOUtil.readInt( is );
+			is.close( );
 		}
 		catch ( DataException e )
 		{
