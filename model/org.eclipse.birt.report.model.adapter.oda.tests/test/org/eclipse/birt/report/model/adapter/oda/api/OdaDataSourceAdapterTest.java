@@ -63,7 +63,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		assertEquals( "My Data Source One", sourceDesign.getDisplayName( ) ); //$NON-NLS-1$
 		Properties props = sourceDesign.getPublicProperties( );
-		//add OdaConnProfileName, OdaConnProfileStorePath properties.
+		// add OdaConnProfileName, OdaConnProfileStorePath properties.
 		assertEquals( 7, props.getProperties( ).size( ) );
 
 		assertEquals( "com.mysql.jdbc.Driver", props //$NON-NLS-1$
@@ -79,7 +79,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		assertEquals( "User", props.findProperty( "odaUser" ).getValue( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "Password", props.findProperty( "odaPassword" ) //$NON-NLS-1$ //$NON-NLS-2$
-				.getValue( ) );		
+				.getValue( ) );
 	}
 
 	/**
@@ -98,8 +98,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 	{
 		DataSourceDesign sourceDesign = createDataSourceDesign( );
 
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle = sessionHandle.createDesign( );
+		createDesign( );
 
 		OdaDataSourceHandle sourceHandle = new ModelOdaAdapter( )
 				.createDataSourceHandle( sourceDesign, designHandle );
@@ -108,7 +107,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		designHandle.getDataSources( ).add( sourceHandle );
 
-		save();
+		save( );
 		assertTrue( compareTextFile( GOLDEN_FILE ) );
 	}
 
@@ -143,7 +142,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 		assertTrue( designHandle.getCommandStack( ).canRedo( ) );
 
-		save(  );
+		save( );
 		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );
 
 		designHandle.getCommandStack( ).redo( );
@@ -208,14 +207,15 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( ).updateROMDesignerState( designerState,
 				sourceHandle );
 		compareTextFile( "UpdateROMDesignerState_golden.xml" ); //$NON-NLS-1$
-		
+
 		sourceHandle.setDesignerState( null );
 		assertNull( sourceHandle.getDesignerState( ) );
-		
-		new ModelOdaAdapter( )
-				.updateROMDesignerState( designerState, sourceHandle );
 
-		OdaDesignerStateHandle romDesignerState = sourceHandle.getDesignerState( );
+		new ModelOdaAdapter( ).updateROMDesignerState( designerState,
+				sourceHandle );
+
+		OdaDesignerStateHandle romDesignerState = sourceHandle
+				.getDesignerState( );
 		assertNotNull( romDesignerState );
 
 		assertEquals( "2.0", romDesignerState.getVersion( ) ); //$NON-NLS-1$

@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * The utility class to create a unique name for result set column.
@@ -27,6 +27,8 @@ public class IdentifierUtility
 
 	private static final char RENAME_SEPARATOR = '_';
 	private static final String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
+
+	private static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
 
 	/**
 	 * Get a uniqueName for columnName
@@ -76,55 +78,68 @@ public class IdentifierUtility
 	}
 
 	/**
-	 * Get a unique name for dataset parameter
+	 * Updates data set parameters with unique names. If the name is already
+	 * good, uses it directly. If the name is empty or duplicates with others,
+	 * creates a unique name.
 	 * 
 	 * @param parameters
-	 * @return
+	 *            a list containing data set parameters
 	 */
-	
-	public static final String getParamUniqueName( Iterator parametersIter,
-			List retList, int position )
+
+	public static final void updateParams2UniqueName( List parameters )
 	{
-		int n = 1;
-		String prefix = "param"; //$NON-NLS-1$
-		StringBuffer buf = new StringBuffer( );
-		while ( buf.length( ) == 0 )
+		List existedNames = collectParameterNames( parameters );
+
+		List newNames = new ArrayList( );
+
+		for ( int i = 0; i < parameters.size( ); i++ )
 		{
-			buf.append( prefix ).append( n++ );
-			if ( parametersIter != null )
+			OdaDataSetParameter param = (OdaDataSetParameter) parameters
+					.get( i );
+			String name = param.getName( );
+			if ( StringUtil.isBlank( name ) || newNames.contains( name ) )
 			{
-				Iterator iter = parametersIter;
-				if ( iter != null )
+				String prefix = PARAM_PREFIX;
+
+				int n = 1;
+				while ( true )
 				{
-					while ( iter.hasNext( ) && buf.length( ) > 0 )
-					{
-						DataSetParameterHandle parameter = (DataSetParameterHandle) iter
-								.next( );
-						if ( buf.toString( ).equalsIgnoreCase(
-								parameter.getName( ) ) )
-						{
-							if ( parameter.getPosition( ) != null
-									&& parameter.getPosition( ).intValue( ) == position )
-								break;
-							buf.setLength( 0 );
-						}
-					}
+					name = prefix + n;
+
+					if ( !existedNames.contains( name )
+							&& !newNames.contains( name ) )
+						break;
+					n++;
 				}
-				iter = retList.iterator( );
-				while ( iter.hasNext( ) && buf.length( ) > 0 )
-				{
-					DataSetParameter parameter = (DataSetParameter) iter.next( );
-					if ( buf.toString( )
-							.equalsIgnoreCase( parameter.getName( ) ) )
-					{
-						if ( parameter.getPosition( ) != null
-								&& parameter.getPosition( ).intValue( ) == position )
-							break;
-						buf.setLength( 0 );
-					}
-				}
+
+				param.setName( name );
 			}
+
+			newNames.add( name );
 		}
-		return buf.toString( );
+	}
+
+	/**
+	 * Returns a listing contains unique names of data set parameters.
+	 * 
+	 * @param parameters
+	 *            a list containing data set parameters
+	 * 
+	 * @return a listing contains unique names. Not empty string or null.
+	 */
+
+	private static List collectParameterNames( List parameters )
+	{
+		List names = new ArrayList( );
+		for ( int i = 0; i < parameters.size( ); i++ )
+		{
+			OdaDataSetParameter param = (OdaDataSetParameter) parameters
+					.get( i );
+			String name = param.getName( );
+			if ( !StringUtil.isBlank( name ) && !names.contains( name ) )
+				names.add( name );
+		}
+
+		return names;
 	}
 }

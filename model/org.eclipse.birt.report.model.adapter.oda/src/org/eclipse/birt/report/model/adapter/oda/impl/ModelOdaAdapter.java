@@ -1028,7 +1028,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			DataSetParameterAdapter setParamAdapter,
 			DataSetParameters cachedParameters ) throws SemanticException
 	{
-		List resultList = setParamAdapter.newROMSetParams( cachedParameters );
+		List newParams = setParamAdapter.newROMSetParams( cachedParameters );
 
 		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
 
@@ -1044,29 +1044,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		// parameter and in this
 		// time it's easy to duplicate name.
 
-		List nameList = new ArrayList( );
-		List retList = new ArrayList( );
-
 		propHandle.clearValue( );
-		Iterator iterator = resultList.iterator( );
-
-		List setDefinedParams = new ArrayList( );
-		while ( iterator.hasNext( ) )
+		IdentifierUtility.updateParams2UniqueName( newParams );
+		for ( int i = 0; i < newParams.size( ); i++ )
 		{
-			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
-					.next( );
-			String paramName = parameter.getName( );
-			if ( nameList.contains( paramName ) )
-			{
-				paramName = IdentifierUtility.getParamUniqueName(
-						setDefinedParams.iterator( ), retList, parameter
-								.getPosition( ).intValue( ) );
-				parameter.setName( paramName );
-			}
-			nameList.add( paramName );
-			retList.add( parameter );
-
-			setDefinedParams.add( propHandle.addItem( parameter ) );
+			propHandle.addItem( (OdaDataSetParameter) newParams.get( i ) );
 		}
 	}
 
@@ -1107,7 +1089,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		assert handleProps != null;
 		assert props != null;
-		
+
 		EList publicProps = handleProps.getProperties( );
 		for ( int i = 0; i < publicProps.size( ); i++ )
 		{

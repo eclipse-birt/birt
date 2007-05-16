@@ -53,8 +53,8 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 	private final static String GOLDEN_FILE1_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_golden_1.xml"; //$NON-NLS-1$
 
-	private final static String DATA_SET_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
-	private final static String DATA_SOURCE_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
+	final static String DATA_SET_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
+	final static String DATA_SOURCE_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
 
 	/**
 	 * Test case: <br>

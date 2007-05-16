@@ -24,10 +24,14 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
+import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -130,14 +134,14 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		values.setDataSetParameters( (DataSetParameters) EcoreUtil
 				.copy( setDesign.getParameters( ) ) );
 
-		saveDesignValuesToFile( values ); 
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_1.xml") ); //$NON-NLS-1$
+		saveDesignValuesToFile( values );
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_1.xml" ) ); //$NON-NLS-1$
 
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -173,7 +177,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
+		save( );
 
 		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
@@ -196,5 +200,120 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		elementAttrs
 				.setDefaultScalarValue( "new default value for report param 1" ); //$NON-NLS-1$
 		elementAttrs.setOptional( true );
+	}
+
+	/**
+	 * Tests the algorithm to create unique data set parameter names.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testDataSetParamNames( ) throws Exception
+	{
+		DataSetDesign setDesign = createDataSetDesignForParamNames( );
+
+		createDesign( );
+		OdaDataSetHandle setHandle = new ModelOdaAdapter( )
+				.createDataSetHandle( setDesign, designHandle );
+
+		designHandle.getDataSets( ).add( setHandle );
+		save( );
+
+		assertTrue( compareTextFile( "DataSetParameterNameTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Creates a new <code>DataSetDesign</code>.
+	 * 
+	 * @return an object of <code>DataSetDesign</code>.
+	 */
+
+	static DataSetDesign createDataSetDesignForParamNames( )
+	{
+		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		setDesign.setName( "myDataSet1" ); //$NON-NLS-1$
+		setDesign.setDisplayName( "data set display name" ); //$NON-NLS-1$
+		setDesign
+				.setOdaExtensionDataSetId( OdaDataSetAdapterTest.DATA_SET_EXTENSIONID );
+
+		Properties props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new public query time out" ); //$NON-NLS-1$//$NON-NLS-2$
+		setDesign.setPublicProperties( props );
+
+		props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new private query time out" ); //$NON-NLS-1$ //$NON-NLS-2$
+		setDesign.setPrivateProperties( props );
+
+		DataSetParameters params = DesignFactory.eINSTANCE
+				.createDataSetParameters( );
+		ParameterDefinition paramDefn = DesignFactory.eINSTANCE
+				.createParameterDefinition( );
+		DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
+				.createDataElementAttributes( );
+		dataAttrs.setName( "nativeName1" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 1 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 2 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "nativeName1" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 3 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+		setDesign.setParameters( params );
+
+		setDesign.setPrimaryResultSetName( "resultset1" ); //$NON-NLS-1$
+
+		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
+
+		// create the corresponding data source design
+
+		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
+		return setDesign;
+	}
+
+	/**
+	 * Creates a new <code>DataSourceDesign</code>.
+	 * 
+	 * @return an object of <code>DataSourceDesign</code>.
+	 */
+
+	private static DataSourceDesign createDataSourceDesign( )
+	{
+		DataSourceDesign sourceDesign = DesignFactory.eINSTANCE
+				.createDataSourceDesign( );
+		sourceDesign.setName( "myDataSource1" ); //$NON-NLS-1$
+		sourceDesign.setDisplayName( "data source display name" ); //$NON-NLS-1$
+		sourceDesign
+				.setOdaExtensionId( OdaDataSetAdapterTest.DATA_SOURCE_EXTENSIONID );
+
+		Properties props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "odaDriverClass", "new drivers" ); //$NON-NLS-1$//$NON-NLS-2$
+		props.setProperty( "odaURL", "jdbc:sqlserver://localhost" ); //$NON-NLS-1$//$NON-NLS-2$
+		props.setProperty( "odaUser", "new user" ); //$NON-NLS-1$ //$NON-NLS-2$
+		sourceDesign.setPublicProperties( props );
+
+		props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "odaDriverClass", "new drivers" ); //$NON-NLS-1$ //$NON-NLS-2$
+		props.setProperty( "odaPassword", "new password" ); //$NON-NLS-1$ //$NON-NLS-2$
+		sourceDesign.setPrivateProperties( props );
+
+		return sourceDesign;
 	}
 }

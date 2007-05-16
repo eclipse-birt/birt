@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 import com.ibm.icu.util.ULocale;
@@ -157,6 +158,7 @@ public abstract class BaseTestCase extends TestCase
 				.newSessionHandle( locale );
 		designHandle = sessionHandle.createDesign( );
 
+		removeExtensionStyles( );
 		return designHandle;
 	}
 
@@ -461,15 +463,31 @@ public abstract class BaseTestCase extends TestCase
 	 */
 	protected boolean compareTextFile( String goldenFileName ) throws Exception
 	{
-		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+		String tmpFileName = GOLDEN_FOLDER + goldenFileName;
 
-		InputStream streamA = getResourceAStream( goldenFileName );
+		InputStream streamA = getResourceAStream( tmpFileName );
 		if ( os == null )
 			return false;
+
+		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
 		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
 		InputStreamReader readerA = new InputStreamReader( streamA );
 		InputStreamReader readerB = new InputStreamReader( streamB );
-		return compareTextFile( readerA, readerB );
+
+		boolean ok = true;
+		try
+		{
+			ok = compareTextFile( readerA, readerB );
+		}
+		catch ( Exception e )
+		{
+			String outFileName = goldenFileName.replaceAll( "golden", "out" );
+			saveOutputFile( outFileName, outContent );
+
+			throw e;
+		}
+
+		return ok;
 	}
 
 	/**
@@ -684,7 +702,7 @@ public abstract class BaseTestCase extends TestCase
 			moduleHandle.serialize( os );
 		os.close( );
 	}
-	
+
 	/**
 	 * Saves the output stream into the output file.
 	 * 
@@ -695,18 +713,32 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void saveOutputFile( String fileName ) throws Exception
 	{
+		String strDesign = os.toString( );
+		saveOutputFile( fileName, strDesign );
+	}
+
+	/**
+	 * Saves the output stream into the output file.
+	 * 
+	 * @param fileName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected void saveOutputFile( String fileName, String content )
+			throws Exception
+	{
 		String folder = getTempFolder( ) + OUTPUT_FOLDER;
 		File tmpFolder = new File( folder );
 		if ( !tmpFolder.exists( ) )
 			tmpFolder.mkdirs( );
 
-		String strDesign = os.toString( );
 		FileOutputStream fos = new FileOutputStream( folder + fileName );
-		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+		fos.write( content.getBytes( "UTF-8" ) ); //$NON-NLS-1$
 
 		fos.close( );
 	}
-	
+
 	/**
 	 * Gets the temp folder of this class.
 	 * 
@@ -719,9 +751,21 @@ public abstract class BaseTestCase extends TestCase
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 
-		String outputPath = tempDir + "org.eclipse.birt.report.model.adapter.oda" //$NON-NLS-1$
+		String outputPath = tempDir
+				+ "org.eclipse.birt.report.model.adapter.oda" //$NON-NLS-1$
 				+ getFullQualifiedClassName( );
 		return outputPath;
+	}
+
+	/**
+	 * 
+	 */
+
+	private void removeExtensionStyles( )
+	{
+		ContainerSlot styles = designHandle.getModule( ).getSlot(
+				ReportDesign.STYLE_SLOT );
+		styles.clear( );
 	}
 
 }
