@@ -123,4 +123,10 @@ public interface ReportDocumentConstants
 	static final int CHECKPOINT_INIT = 0;
 	static final int CHECKPOINT_END = -1;
 	static final int PAGECOUNT_INIT = 0;
+	
+	/**
+	 * merge the streams to one stream.
+	 */
+	static final String CORE_VERSION_PREFIX = "CORE_VERSION_";
+	static final String CORE_VERSION_0 = CORE_VERSION_PREFIX + 0;
 }

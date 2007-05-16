@@ -62,7 +62,8 @@ public class ReportDocumentReader
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
 	 */
-	private String version;
+	private String docVersion;
+	private int coreVersion = -1;
 	private HashMap parameters;
 	private HashMap globalVariables;
 	/**
@@ -170,13 +171,11 @@ public class ReportDocumentReader
 
 	public String getVersion( )
 	{
-		return version;
+		return docVersion;
 	}
 
 	protected class ReportDocumentCoreInfo
 	{
-
-		String version;
 		HashMap globalVariables;
 		HashMap parameters;
 		String systemId;
@@ -205,68 +204,133 @@ public class ReportDocumentReader
 		try
 		{
 			Object lock = archive.lock( CORE_STREAM );
+			RAInputStream in = archive.getStream( CORE_STREAM );
 			try
 			{
-				// load info into a document info object
-				ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
-				documentInfo.checkpoint = CHECKPOINT_INIT;
-				documentInfo.pageCount = PAGECOUNT_INIT;
-				RAInputStream in = archive.getStream( CHECKPOINT_STREAM );
-				if ( in == null )
+				DataInputStream di = new DataInputStream( in );
+
+				// check the document version and core stream version
+				checkVersion( di );
+
+				if ( coreVersion == -1 )
 				{
-					// no check point stream, old version, return -1
-					documentInfo.checkpoint = CHECKPOINT_END;
-					initializePageHintReader();
-					if ( pageHintReader != null )
-					{
-						documentInfo.pageCount = pageHintReader.getTotalPage( );
-					}
+					doOldRefresh( di );
+				}
+				else if ( coreVersion == 0 )
+				{
+					doRefreshV0( di );
 				}
 				else
 				{
-					try
-					{
-						DataInputStream di = new DataInputStream( in );
-						documentInfo.checkpoint = IOUtil.readInt( di );
-						documentInfo.pageCount = IOUtil.readLong( di );
-					}
-					finally
-					{
-						if ( in != null )
-						{
-							in.close( );
-						}
-					}
-					if ( documentInfo.checkpoint == checkpoint )
-					{
-						return;
-					}
+					throw new Exception( "unsupported document:" + docVersion
+							+ "  core stream version: " + coreVersion );
 				}
-				in = archive.getStream( CORE_STREAM );
+			}
+			finally
+			{
+				in.close( );
+				archive.unlock( lock );
+			}
+		}
+		catch ( EngineException ee )
+		{
+			throw ee;
+		}
+		catch ( Exception ex )
+		{
+			throw new EngineException( "document refresh failed", ex );
+		}
+	}
+
+	protected void doRefreshV0( DataInputStream di ) throws Exception
+	{
+		// load info into a document info object
+		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
+		documentInfo.checkpoint = CHECKPOINT_INIT;
+		documentInfo.pageCount = PAGECOUNT_INIT;
+
+		documentInfo.checkpoint = IOUtil.readInt( di );
+		documentInfo.pageCount = IOUtil.readLong( di );
+
+		if ( documentInfo.checkpoint == checkpoint )
+		{
+			return;
+		}
+
+		// load the report design name
+		String orgSystemId = IOUtil.readString( di );
+		if ( systemId == null )
+		{
+			documentInfo.systemId = orgSystemId;
+		}
+		else
+		{
+			documentInfo.systemId = systemId;
+		}
+		// load the report paramters
+		Map originalParameters = IOUtil.readMap( di );
+		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
+		// load the persistence object
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap( di );
+
+		// save the document info into the object.
+		checkpoint = documentInfo.checkpoint;
+		pageCount = documentInfo.pageCount;
+		systemId = documentInfo.systemId;
+		globalVariables = documentInfo.globalVariables;
+		parameters = documentInfo.parameters;
+
+		if ( documentInfo.checkpoint == CHECKPOINT_END )
+		{
+			bookmarks = readMap( di );
+			tocTree = new TOCTree( );
+			TOCBuilder.read( tocTree, di );
+			reportletsIndexById = readMap( di );
+			reportletsIndexByBookmark = readMap( di );
+		}
+	}
+
+	private HashMap readMap( DataInputStream di ) throws Exception
+	{
+		HashMap map = new HashMap( );
+		long count = IOUtil.readLong( di );
+		for ( long i = 0; i < count; i++ )
+		{
+			String bookmark = IOUtil.readString( di );
+			long pageNumber = IOUtil.readLong( di );
+			map.put( bookmark, new Long( pageNumber ) );
+		}
+		return map;
+	}
+
+	protected void doOldRefresh( DataInputStream coreStream )
+			throws EngineException
+	{
+		try
+		{
+			// load info into a document info object
+			ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
+			documentInfo.checkpoint = CHECKPOINT_INIT;
+			documentInfo.pageCount = PAGECOUNT_INIT;
+			if ( !archive.exists( CHECKPOINT_STREAM ) )
+			{
+				// no check point stream, old version, return -1
+				documentInfo.checkpoint = CHECKPOINT_END;
+				initializePageHintReader( );
+				if ( pageHintReader != null )
+				{
+					documentInfo.pageCount = pageHintReader.getTotalPage( );
+				}
+			}
+			else
+			{
+				RAInputStream in = archive.getStream( CHECKPOINT_STREAM );
+
 				try
 				{
 					DataInputStream di = new DataInputStream( in );
-
-					// check the design name
-					documentInfo.version = checkVersion( di );
-
-					// load the report design name
-					String orgSystemId = IOUtil.readString( di );
-					if ( systemId == null )
-					{
-						documentInfo.systemId = orgSystemId;
-					}
-					else
-					{
-						documentInfo.systemId = systemId;
-					}
-					// load the report paramters
-					Map originalParameters = IOUtil.readMap( di );
-					documentInfo.parameters = convertToCompatibleParameter( originalParameters );
-					// load the persistence object
-					documentInfo.globalVariables = (HashMap) IOUtil
-							.readMap( di );
-
+					documentInfo.checkpoint = IOUtil.readInt( di );
+					documentInfo.pageCount = IOUtil.readLong( di );
 				}
 				finally
 				{
@@ -275,23 +339,35 @@ public class ReportDocumentReader
 						in.close( );
 					}
 				}
+				if ( documentInfo.checkpoint == checkpoint )
+				{
+					return;
+				}
+			}
 
-				// save the document info into the object.
-				checkpoint = documentInfo.checkpoint;
-				pageCount = documentInfo.pageCount;
-				version = documentInfo.version;
-				systemId = documentInfo.systemId;
-				globalVariables = documentInfo.globalVariables;
-				parameters = documentInfo.parameters;
-			}
-			finally
+			// load the report design name
+			String orgSystemId = IOUtil.readString( coreStream );
+			if ( systemId == null )
 			{
-				archive.unlock( lock );
+				documentInfo.systemId = orgSystemId;
 			}
-		}
-		catch ( EngineException ee )
-		{
-			throw ee;
+			else
+			{
+				documentInfo.systemId = systemId;
+			}
+			// load the report paramters
+			Map originalParameters = IOUtil.readMap( coreStream );
+			documentInfo.parameters = convertToCompatibleParameter( originalParameters );
+			// load the persistence object
+			documentInfo.globalVariables = (HashMap) IOUtil
+					.readMap( coreStream );
+			// save the document info into the object.
+
+			checkpoint = documentInfo.checkpoint;
+			pageCount = documentInfo.pageCount;
+			systemId = documentInfo.systemId;
+			globalVariables = documentInfo.globalVariables;
+			parameters = documentInfo.parameters;
 		}
 		catch ( Exception ex )
 		{
@@ -336,11 +412,17 @@ public class ReportDocumentReader
 		return result;
 	}
 
-	protected String checkVersion( DataInputStream di ) throws IOException,
+	protected void checkVersion( DataInputStream di ) throws IOException,
 			EngineException
 	{
 		String tag = IOUtil.readString( di );
-		String version = IOUtil.readString( di );
+		docVersion = IOUtil.readString( di );
+		if ( CORE_VERSION_0.equals(docVersion) )
+		{
+			coreVersion = Integer.parseInt( CORE_VERSION_0.substring( CORE_VERSION_PREFIX.length( ) ) );
+			docVersion = IOUtil.readString( di );
+		}
+		
 		String[] supportedVersions = new String[]{
 				REPORT_DOCUMENT_VERSION_1_2_1, REPORT_DOCUMENT_VERSION_2_1_0,
 				REPORT_DOCUMENT_VERSION_2_1_3};
@@ -348,14 +430,14 @@ public class ReportDocumentReader
 		{
 			for ( int i = 0; i < supportedVersions.length; i++ )
 			{
-				if ( supportedVersions[i].equals( version ) )
+				if ( supportedVersions[i].equals( docVersion ) )
 				{
-					return version;
+					return;
 				}
 			}
 		}
 		throw new EngineException(
-				"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
+				"unsupport report document tag" + tag + " version " + docVersion ); //$NON-NLS-1$
 	}
 
 	public void close( )
@@ -659,6 +741,10 @@ public class ReportDocumentReader
 		{
 			return;
 		}
+		if ( coreVersion != -1 )
+		{
+			return;
+		}
 		synchronized ( this )
 		{
 			if ( tocTree != null )
@@ -699,6 +785,10 @@ public class ReportDocumentReader
 	private void intializeBookmarks( )
 	{
 		if ( bookmarks != null )
+		{
+			return;
+		}
+		if ( coreVersion != -1 )
 		{
 			return;
 		}
@@ -935,6 +1025,10 @@ public class ReportDocumentReader
 	private void initializeReportlet()
 	{
 		if ( reportletsIndexById != null )
+		{
+			return;
+		}
+		if ( coreVersion != -1 )
 		{
 			return;
 		}
