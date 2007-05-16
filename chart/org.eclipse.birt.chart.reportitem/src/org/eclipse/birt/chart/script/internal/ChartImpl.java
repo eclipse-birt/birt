@@ -19,15 +19,20 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.api.IChart;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.attribute.IText;
 import org.eclipse.birt.chart.script.api.component.ILegend;
 import org.eclipse.birt.chart.script.internal.component.LegendImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.MultiRowItem;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * 
@@ -129,6 +134,84 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 	public void setDimension( String dimensionName )
 	{
 		cm.setDimension( ChartDimension.getByName( dimensionName ) );
+	}
+
+	public void setWidth( double dimension ) throws SemanticException
+	{
+		super.setWidth( dimension );
+
+		// Update size in chart model
+		double dWidth = convertDimensionToPoints( eih.getWidth( ) );
+		if ( dWidth > 0 )
+		{
+			cm.getBlock( ).getBounds( ).setWidth( dWidth );
+		}
+	}
+
+	public void setWidth( String dimension ) throws SemanticException
+	{
+		super.setWidth( dimension );
+
+		// Update size in chart model
+		double dWidth = convertDimensionToPoints( eih.getWidth( ) );
+		if ( dWidth > 0 )
+		{
+			cm.getBlock( ).getBounds( ).setWidth( dWidth );
+		}
+	}
+
+	public void setHeight( double dimension ) throws SemanticException
+	{
+		super.setHeight( dimension );
+
+		// Update size in chart model
+		double dHeight = convertDimensionToPoints( eih.getHeight( ) );
+		if ( dHeight > 0 )
+		{
+			cm.getBlock( ).getBounds( ).setHeight( dHeight );
+		}
+	}
+
+	public void setHeight( String dimension ) throws SemanticException
+	{
+		super.setHeight( dimension );
+
+		// Update size in chart model
+		double dHeight = convertDimensionToPoints( eih.getHeight( ) );
+		if ( dHeight > 0 )
+		{
+			cm.getBlock( ).getBounds( ).setHeight( dHeight );
+		}
+	}
+
+	protected final double convertDimensionToPoints( DimensionHandle dh )
+			throws SemanticException
+	{
+		double dOriginalMeasure = dh.getMeasure( );
+		String sUnits = dh.getUnits( );
+
+		if ( sUnits != null )
+		{
+			// Pixel unit is not supported in Simple API, because can't get DPI
+			// from engine
+			// Percentage unit is not supported in Simple API, because can't get
+			// Figure's size to calculate relative value
+			if ( sUnits == DesignChoiceConstants.UNITS_PX
+					|| sUnits == DesignChoiceConstants.UNITS_PERCENTAGE )
+			{
+				throw new SemanticException( ChartReportItemPlugin.ID,
+						"ChartImpl.error.DimensionUnitNotSupported", //$NON-NLS-1$
+						new Object[]{
+							sUnits
+						},
+						Messages.getResourceBundle( ) );
+			}
+
+			return DimensionUtil.convertTo( dOriginalMeasure,
+					sUnits,
+					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+		}
+		return 0;
 	}
 
 }
