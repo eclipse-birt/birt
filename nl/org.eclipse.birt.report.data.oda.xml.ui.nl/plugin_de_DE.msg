@@ -1,18 +1,18 @@
 ###############################################################################
-# Copyright (c) 2004 Actuate Corporation.
+# Copyright (c) 2004, 2007 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
 # http://www.eclipse.org/legal/epl-v10.html
 #
 # Contributors:
-#  Actuate Corporation  - initial API and implementation
+#  Actuate Corporation - initial API and implementation
 ###############################################################################
 
 ###############################################################################
 # NLS String
 ###############################################################################
-oda.xml.datasource=XML-Datenquelle
+oda.xml.datasource=XML Data Source
 oda.xml.dataset=XML-Datensatz
 oda.xml.tablemapping=Tabellenzuordnung
 oda.xml.columnmapping=Spaltenzuordnung
@@ -23,14 +23,14 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS messages
 #
-plugin.name=BIRT XML File Designer
-oda.data.source.name=BIRT-XML-Dateien
-connection.profile.name=Verbindungsprofil für Datenquelle der BIRT-XML-Datei
-newwizard.name=Datenquelle der BIRT-XML-Datei
-newwizard.description=Verbindungsprofil für BIRT-XML-Datei erstellen
-wizard.window.title=Profil für Datenquelle der neuen XML-Datei
+plugin.name=BIRT ODA XML Designer
+oda.data.source.name=Legacy BIRT 2.1.x XML Data Source
+connection.profile.name=XML Data Source Connection Profile
+newwizard.name=Legacy BIRT 2.1.x XML Data Source
+newwizard.description=Create a BIRT 2.1.x XML data source connection profile
+wizard.window.title=New XML Data Source Profile
 wizard.data.source.page.title=Geben Sie die URLs und die Schemainformation für die XML-Datei an.
-profile.propertypage.name=Verbindungseigenschaften für Datenquelle der BIRT-XML-Datei
+profile.propertypage.name=XML Data Source Connection Properties
 preference.datasetpreview=XML-Datensatz
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

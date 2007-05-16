@@ -1,18 +1,18 @@
 ###############################################################################
-# Copyright (c) 2004 Actuate Corporation.
+# Copyright (c) 2004, 2007 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
 # http://www.eclipse.org/legal/epl-v10.html
 #
 # Contributors:
-#  Actuate Corporation  - initial API and implementation
+#  Actuate Corporation - initial API and implementation
 ###############################################################################
 
 ###############################################################################
 # NLS String
 ###############################################################################
-oda.xml.datasource=XML データソース
+oda.xml.datasource=XML Data Source
 oda.xml.dataset=XML データセット
 oda.xml.tablemapping=テーブルのマッピング
 oda.xml.columnmapping=列のマッピング
@@ -23,14 +23,14 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS messages
 #
-plugin.name=BIRT XML File Designer
-oda.data.source.name=BIRT XML ファイル
-connection.profile.name=BIRT XML ファイルのデータソースの接続プロファイル
-newwizard.name=BIRT XML ファイルのデータソース
-newwizard.description=BIRT XML ファイルの接続プロファイルを作成します。
-wizard.window.title=BIRT XML ファイルのデータソースのプロファイル
+plugin.name=BIRT ODA XML Designer
+oda.data.source.name=Legacy BIRT 2.1.x XML Data Source
+connection.profile.name=XML Data Source Connection Profile
+newwizard.name=Legacy BIRT 2.1.x XML Data Source
+newwizard.description=Create a BIRT 2.1.x XML data source connection profile
+wizard.window.title=New XML Data Source Profile
 wizard.data.source.page.title=XML ファイルとスキーマ情報への ULR を定義してください。
-profile.propertypage.name=BIRT XML ファイルのデータソースの接続プロパティ
+profile.propertypage.name=XML Data Source Connection Properties
 preference.datasetpreview=XML データセット
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
