@@ -125,7 +125,7 @@ public class Statement implements IQuery
 			 * call the JDBC Connection.prepareStatement(String) method to get
 			 * the preparedStatement
 			 */
-			this.preStat = conn.prepareStatement( SQLFormatter.formatQueryText( command ) );
+			this.preStat = conn.prepareStatement( command );
 		}
 		catch ( SQLException e )
 		{
