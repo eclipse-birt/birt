@@ -1,0 +1,601 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.SubTotalProvider.SubTotalInfo;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+/**
+ * 
+ */
+
+public class CrosstabSubTotalDialog extends BaseDialog
+{
+
+	protected Combo dataFieldCombo, functionCombo, levelCombo;
+	protected CrosstabReportItemHandle reportItemHandle;
+	private List measures = new ArrayList( );
+	protected int axis;
+	protected String[] FUNCTION_LIST_ARRAY;
+	protected String[] measureNames;
+	protected LevelViewHandle lastLevelView;
+
+	protected SubTotalInfo input;
+
+	public final static String TITLE = Messages.getString( "SubTotalDialog.Title" );
+
+	public void setInput( SubTotalInfo subTotalInfo )
+	{
+		this.input = subTotalInfo;
+	}
+
+	protected String[] getAllLevelNames( CrosstabReportItemHandle crosstab )
+	{
+		List list = new ArrayList( );
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axis );
+		if ( crosstabView == null )
+			return new String[0];
+		int dimCount = crosstabView.getDimensionCount( );
+		for ( int i = 0; i < dimCount; i++ )
+		{
+			DimensionViewHandle dimensionView = crosstabView.getDimension( i );
+			int levelCount = dimensionView.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				list.add( dimensionView.getLevel( j ).getCubeLevelName( ) );
+			}
+		}
+
+		if ( lastLevelView == null )
+		{
+			DimensionViewHandle lastDimensionView = crosstabView.getDimension( dimCount - 1 );
+			lastLevelView = lastDimensionView.getLevel( lastDimensionView.getLevelCount( ) - 1 );
+		}
+
+		list.remove( lastLevelView.getCubeLevelName( ) );
+
+		return (String[]) list.toArray( new String[list.size( )] );
+	}
+
+	protected LevelViewHandle getLevelFromName( String crosstabName )
+	{
+		if ( crosstabName == null || crosstabName.length( ) <= 0 )
+		{
+			return null;
+		}
+		CrosstabViewHandle crosstabView = reportItemHandle.getCrosstabView( axis );
+		int dimCount = crosstabView.getDimensionCount( );
+		for ( int i = 0; i < dimCount; i++ )
+		{
+			DimensionViewHandle dimensionView = crosstabView.getDimension( i );
+			int levelCount = dimensionView.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				if ( dimensionView.getLevel( j )
+						.getCubeLevelName( )
+						.equals( crosstabName ) )
+				{
+					return dimensionView.getLevel( j );
+				}
+			}
+		}
+		return null;
+	}
+
+	protected boolean isConditionOK( )
+	{
+		LevelViewHandle level = getLevelFromName( levelCombo.getText( ) );
+		if ( level == null || level == lastLevelView )
+		{
+			return false;
+		}
+
+		if ( dataFieldCombo.getText( ).length( ) <= 0 )
+		{
+			return false;
+		}
+
+		if ( functionCombo.getText( ).length( ) <= 0
+				|| functionCombo.getSelectionIndex( ) == -1 )
+		{
+			return false;
+		}
+		//
+		// SubTotalInfo newSubtTotalInfo = new SubTotalInfo( );
+		// newSubtTotalInfo.setMeasure( getMeasure( ) );
+		// newSubtTotalInfo.setLevel( getLevel( ) );
+		// newSubtTotalInfo.setFunction( getFunction( ) );
+		// if ( input == null
+		// || ( input.getMeasure( ) != newSubtTotalInfo.getMeasure( ) ||
+		// input.getLevel( ) != newSubtTotalInfo.getLevel( ) ) )
+		// {
+		// if ( inSubtotalList( reportItemHandle, newSubtTotalInfo ) )
+		// {
+		// return false;
+		// }
+		// }
+
+		return true;
+	}
+
+	public LevelViewHandle getLevel( )
+	{
+		return getLevelFromName( levelCombo.getText( ) );
+	}
+
+	public MeasureViewHandle getMeasure( )
+	{
+		if ( dataFieldCombo.getText( ).length( ) <= 0 )
+		{
+			return null;
+		}
+		return (MeasureViewHandle) measures.get( dataFieldCombo.getSelectionIndex( ) );
+	}
+
+	public String getFunction( )
+	{
+		if ( functionCombo.getText( ).length( ) <= 0
+				|| functionCombo.getSelectionIndex( ) == -1 )
+		{
+			return null;
+		}
+
+		return getFunctionNames( )[functionCombo.getSelectionIndex( )];
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getElements(java.lang.Object)
+	 */
+	public boolean inSubtotalList( CrosstabReportItemHandle reportItem,
+			SubTotalInfo subTotal )
+	{
+		// TODO Auto-generated method stub
+		CrosstabReportItemHandle crossTab = reportItem;
+		CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
+
+		int dimensionCount = crosstabView.getDimensionCount( );
+
+		for ( int i = 0; i < dimensionCount; i++ )
+		{
+			DimensionViewHandle dimension = crosstabView.getDimension( i );
+			int levelCount = dimension.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				LevelViewHandle levelHandle = dimension.getLevel( j );
+				if ( subTotal.getLevel( ) != levelHandle )
+				{
+					continue;
+				}
+				List aggMeasures = levelHandle.getAggregationMeasures( );
+				for ( int k = 0; k < aggMeasures.size( ); k++ )
+				{
+					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
+					if ( subTotal.getMeasure( ) == measure )
+					{
+						return true;
+					}
+				}
+
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Refreshes the OK button state.
+	 * 
+	 */
+	protected void updateButtons( )
+	{
+		getOkButton( ).setEnabled( isConditionOK( ) );
+	}
+
+	protected SelectionListener updateButtonListener = new SelectionListener( ) {
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( e.widget == levelCombo )
+				updateMeasures( );
+			updateButtons( );
+		}
+
+	};
+
+	protected CrosstabSubTotalDialog( String title )
+	{
+		this( UIUtil.getDefaultShell( ), title );
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void updateMeasures( )
+	{
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) reportItemHandle.getModelHandle( );
+		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
+				.getContents( );
+		measures = new ArrayList( );
+		List measureNames = new ArrayList( );
+		for ( int i = 0; i < tmpMeasures.size( ); i++ )
+		{
+			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
+			MeasureViewHandle measureViewHandle = null;
+			try
+			{
+				measureViewHandle = (MeasureViewHandle) extHandle.getReportItem( );
+			}
+			catch ( ExtendedElementException e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+
+			boolean flag = true;
+			// TODO:Edit
+			if ( input != null )
+			{
+				if ( input.getMeasure( ) != measureViewHandle )
+				{
+					List aggMeasures = getLevel( ).getAggregationMeasures( );
+					for ( int k = 0; k < aggMeasures.size( ); k++ )
+					{
+						MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
+						if ( measureViewHandle == measure )
+						{
+							flag = false;
+							break;
+						}
+					}
+				}
+			}
+			// TODO:New
+			else
+			{
+				if ( getLevel( ) != null )
+				{
+					List aggMeasures = getLevel( ).getAggregationMeasures( );
+					for ( int k = 0; k < aggMeasures.size( ); k++ )
+					{
+						MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
+						if ( measureViewHandle == measure )
+						{
+							flag = false;
+							break;
+						}
+					}
+				}
+			}
+			if ( flag )
+			{
+				measures.add( measureViewHandle );
+				measureNames.add( measureViewHandle.getCubeMeasureName( ) );
+			}
+		}
+
+		String[] items = new String[measures.size( )];
+		measureNames.toArray( items );
+		String measure = dataFieldCombo.getText( );
+		dataFieldCombo.setItems( items );
+		if ( measure != null && measureNames.contains( measure ) )
+			dataFieldCombo.setText( measure );
+		else if ( items.length > 0 )
+			dataFieldCombo.select( 0 );
+	}
+
+	protected CrosstabSubTotalDialog( Shell parentShell, String title )
+	{
+		super( parentShell, title );
+	}
+
+	public CrosstabSubTotalDialog( CrosstabReportItemHandle reportItem, int axis )
+	{
+		this( TITLE );
+		this.reportItemHandle = reportItem;
+		this.axis = axis;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	protected Control createContents( Composite parent )
+	{
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.INSERT_EDIT_SUB_TOTAL_DIALOG_ID );
+
+		GridData gdata;
+		GridLayout glayout;
+		Composite contents = new Composite( parent, SWT.NONE );
+		contents.setLayout( new GridLayout( ) );
+		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		createTitleArea( contents );
+
+		Composite composite = new Composite( contents, SWT.NONE );
+		glayout = new GridLayout( );
+		glayout.marginHeight = 0;
+		glayout.marginWidth = 0;
+		glayout.verticalSpacing = 0;
+		composite.setLayout( glayout );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		applyDialogFont( composite );
+		initializeDialogUnits( composite );
+
+		Composite innerParent = (Composite) createDialogArea( composite );
+		createButtonBar( composite );
+
+		createSubTotalContent( innerParent );
+
+		Composite space = new Composite( innerParent, SWT.NONE );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.widthHint = 200;
+		gdata.heightHint = 10;
+		space.setLayoutData( gdata );
+
+		Label lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		iniValue( );
+		updateButtons( );
+
+		return composite;
+	}
+
+	protected void iniValue( )
+	{
+		if ( input == null )
+		{
+			levelCombo.setItems( getAllLevelNames( reportItemHandle ) );
+			levelCombo.select( 0 );
+			updateMeasures( );
+			functionCombo.select( 0 );
+		}
+		else
+		{
+			levelCombo.add( input.getLevel( ).getCubeLevelName( ) );
+			levelCombo.select( 0 );
+			dataFieldCombo.add( input.getMeasure( ).getCubeMeasureName( ) );
+			dataFieldCombo.select( 0 );
+			if ( input.getFunction( ) == null )
+				functionCombo.select( 0 );
+			else
+				functionCombo.select( functionCombo.indexOf( getFunctionDisplayName( input.getFunction( ) ) ) );
+		}
+		updateButtons( );
+	};
+
+	protected void createSubTotalContent( Composite parent )
+	{
+		Composite container = new Composite( parent, SWT.NONE );
+		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridLayout glayout = new GridLayout( 2, false );
+		container.setLayout( glayout );
+
+		Label lb = new Label( container, SWT.NONE );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.AggregateOn" ) );
+		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
+		GridData gdata = new GridData( );
+		gdata.widthHint = 120;
+		levelCombo.setLayoutData( gdata );
+
+		levelCombo.addSelectionListener( updateButtonListener );
+
+		lb = new Label( container, SWT.NONE );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.DataField" ) );
+
+		dataFieldCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
+		gdata = new GridData( );
+		gdata.widthHint = 120;
+		dataFieldCombo.setLayoutData( gdata );
+
+		lb = new Label( container, SWT.NONE );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.Function" ) );
+
+		dataFieldCombo.addSelectionListener( updateButtonListener );
+
+		functionCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
+		gdata = new GridData( );
+		gdata.widthHint = 120;
+		functionCombo.setLayoutData( gdata );
+		FUNCTION_LIST_ARRAY = getFunctionDisplayNames( );
+		functionCombo.setItems( FUNCTION_LIST_ARRAY );
+		functionCombo.select( 0 );
+		functionCombo.addSelectionListener( updateButtonListener );
+
+	}
+
+	private Composite createTitleArea( Composite parent )
+	{
+		int heightMargins = 3;
+		int widthMargins = 8;
+		final Composite titleArea = new Composite( parent, SWT.NONE );
+		FormLayout layout = new FormLayout( );
+		layout.marginHeight = heightMargins;
+		layout.marginWidth = widthMargins;
+		titleArea.setLayout( layout );
+
+		Display display = parent.getDisplay( );
+		Color background = JFaceColors.getBannerBackground( display );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.heightHint = 20 + ( heightMargins * 2 );
+		titleArea.setLayoutData( layoutData );
+		titleArea.setBackground( background );
+
+		titleArea.addPaintListener( new PaintListener( ) {
+
+			public void paintControl( PaintEvent e )
+			{
+				e.gc.setForeground( titleArea.getDisplay( )
+						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				Rectangle bounds = titleArea.getClientArea( );
+				bounds.height = bounds.height - 2;
+				bounds.width = bounds.width - 1;
+				e.gc.drawRectangle( bounds );
+			}
+		} );
+
+		Label label = new Label( titleArea, SWT.NONE );
+		label.setBackground( background );
+		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
+				10,
+				SWT.BOLD ) );
+		label.setText( getTitle( ) ); //$NON-NLS-1$
+
+		return titleArea;
+	}
+
+	private String[] getFunctionDisplayNames( )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			displayNames[i] = choices[i].getDisplayName( );
+		}
+		return displayNames;
+
+	}
+
+	private String[] getFunctionNames( )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			displayNames[i] = choices[i].getName( );
+		}
+		return displayNames;
+	}
+
+	private String getFunctionDisplayName( String name )
+	{
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+				DEUtil.getMetaDataDictionary( )
+						.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+						.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+						.getAllowedChoices( ) );
+	}
+
+	private IChoice[] getFunctions( )
+	{
+		return DEUtil.getMetaDataDictionary( )
+				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+				.getAllowedChoices( )
+				.getChoices( );
+	}
+
+	private CommandStack getActionStack( )
+	{
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	}
+
+	protected void okPressed( )
+	{
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+
+		if ( input == null )
+		{
+			List measureList = new ArrayList( );
+			List functionList = new ArrayList( );
+			measureList.add( getMeasure( ) );
+			functionList.add( getFunction( ) );
+			try
+			{
+				CrosstabCellHandle cellHandle = getLevel( ).addSubTotal( measureList,
+						functionList );
+				if ( cellHandle != null )
+					CrosstabUIHelper.CreateSubTotalLabel( getLevel( ),
+							cellHandle );
+				stack.commit( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+			}
+
+		}
+		else
+		{
+			try
+			{
+				input.getLevel( ).setAggregationFunction( input.getMeasure( ),
+						getFunction( ) );
+				stack.commit( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+			}
+		}
+
+		super.okPressed( );
+	}
+
+}
