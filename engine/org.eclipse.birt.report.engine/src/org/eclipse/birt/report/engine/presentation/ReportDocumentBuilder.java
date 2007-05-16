@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.presentation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -54,31 +57,25 @@ import org.eclipse.birt.report.engine.toc.TOCTree;
 /**
  * Used in run task. To builder the report document.
  * 
- * In builder, will call IReportLayoutEngine to lay out the report and create the document. 
- * This means write page hint, page contents and all body contents to the document. 
- * And in each page closing, we will call page handler's onPage() to do some sepcial process, 
- * like write the current page's page hint, evaluate the OnpageBreak script, 
- * reset the page row count to be 0 in layout engine.
+ * In builder, will call IReportLayoutEngine to lay out the report and create
+ * the document. This means write page hint, page contents and all body contents
+ * to the document. And in each page closing, we will call page handler's
+ * onPage() to do some sepcial process, like write the current page's page hint,
+ * evaluate the OnpageBreak script, reset the page row count to be 0 in layout
+ * engine.
  * 
- * Here are several main fields used in this class: 
- *    CompositeContentEmitter, composite two emitters:
- *       PageEmitter: 
- *          used to write the the master page content  
- *       OnPageBreakHandler.PageContentEmitter: 
- *          used to collect the page mode which is used to call onPageBreak.
- *    CompositeLayoutPageHandler, composite three page handler:
- *       LayoutPageHandler: 
- *          used to write the page hint, created by the handler.
- *       OnPageBreakLayoutPageHandle: 
- *          used to call the onPageBreak script, collected by its PageContentEmitter.
- *       ContextPageBreakHandler: 
- *          used to call the onPageBreak of IPageBreakListener to reset the page row count.
- *    IContentEmitter:
- *       ContentEmitter:
- *          used to write the content stream.          
- *    IPageHandler:
- *       used to recevie the document page events, mostly implemented by user.
- *          
+ * Here are several main fields used in this class: CompositeContentEmitter,
+ * composite two emitters: PageEmitter: used to write the the master page
+ * content OnPageBreakHandler.PageContentEmitter: used to collect the page mode
+ * which is used to call onPageBreak. CompositeLayoutPageHandler, composite
+ * three page handler: LayoutPageHandler: used to write the page hint, created
+ * by the handler. OnPageBreakLayoutPageHandle: used to call the onPageBreak
+ * script, collected by its PageContentEmitter. ContextPageBreakHandler: used to
+ * call the onPageBreak of IPageBreakListener to reset the page row count.
+ * IContentEmitter: ContentEmitter: used to write the content stream.
+ * IPageHandler: used to recevie the document page events, mostly implemented by
+ * user.
+ * 
  */
 public class ReportDocumentBuilder
 {
@@ -152,21 +149,24 @@ public class ReportDocumentBuilder
 				context );
 		// output emitter is used to receive the layout content.
 		outputEmitters = new CompositeContentEmitter( );
-		// pageEmitter is used to write the the master page content  
+		// pageEmitter is used to write the the master page content
 		outputEmitters.addEmitter( new PageEmitter( ) );
-		// onPageBreakHandler's emitter is used to collect the page mode which is used to call onPageBreak.
+		// onPageBreakHandler's emitter is used to collect the page mode which
+		// is used to call onPageBreak.
 		outputEmitters.addEmitter( onPageBreakHandler.getEmitter( ) );
 
 		// page handler is used to receive the layout engine's page event.
 		layoutPageHandler = new CompositeLayoutPageHandler( );
 		// used to write the page hint, created by itself.
 		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
-		// used to call the onPageBreak script, collected by its PageContentEmitter.
+		// used to call the onPageBreak script, collected by its
+		// PageContentEmitter.
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
-		// used to call the onPageBreak of IPageBreakListener to reset the page row count.
+		// used to call the onPageBreak of IPageBreakListener to reset the page
+		// row count.
 		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 				executionContext ) );
-		// used to write the content stream.    
+		// used to write the content stream.
 		contentEmitter = new ContentEmitter( );
 	}
 
@@ -196,6 +196,71 @@ public class ReportDocumentBuilder
 	public void setPageHandler( IPageHandler handler )
 	{
 		pageHandler = handler;
+	}
+
+	protected void ensureContentSaved( IReportContentWriter writer,
+			IContent content ) throws IOException
+	{
+		DocumentExtension docExt = (DocumentExtension) content
+				.getExtension( IContent.DOCUMENT_EXTENSION );
+		if ( docExt == null )
+		{
+			IContent parent = (IContent) content.getParent( );
+
+			if ( parent != null
+					&& parent != parent.getReportContent( ).getRoot( ) )
+			{
+				ensureContentSaved( writer, parent );
+			}
+			writer.writeContent( content );
+		}
+	}
+
+	long writeContent( IReportContentWriter writer, IContent content )
+			throws IOException
+	{
+		IContent parent = (IContent) content.getParent( );
+		if ( parent != null && parent != parent.getReportContent( ).getRoot( ) )
+		{
+			ensureContentSaved( writer, parent );
+		}
+		return writer.writeContent( content );
+	}
+
+	long writeFullContent( IReportContentWriter writer, IContent content )
+			throws IOException
+	{
+		long offset = writeContent( writer, content );
+		Iterator iter = content.getChildren( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IContent child = (IContent) iter.next( );
+			writeFullContent( writer, child );
+		}
+		return offset;
+	}
+
+	private boolean needSave( IContent content )
+	{
+		InstanceID id = content.getInstanceID( );
+		if ( id == null || id.getComponentID( ) == -1 )
+		{
+			return true;
+		}
+		IContent parent = (IContent) content.getParent( );
+		if ( parent != null )
+		{
+			InstanceID pid = parent.getInstanceID( );
+			if ( pid == null || pid.getComponentID( ) == -1 )
+			{
+				return true;
+			}
+		}
+		if ( content instanceof AbstractContent )
+		{
+			return ( (AbstractContent) content ).needSave( );
+		}
+		return true;
 	}
 
 	/**
@@ -254,11 +319,13 @@ public class ReportDocumentBuilder
 		{
 			if ( writer != null )
 			{
+				if ( !needSave( content ) )
+				{
+					return;
+				}
 				try
 				{
-					// save the contents into the content stream.
-					long offset = writer.writeContent( content );
-
+					long offset = writeContent( writer, content );
 					// save the reportlet index
 					Object generateBy = content.getGenerateBy( );
 					if ( generateBy instanceof TableItemDesign
@@ -268,7 +335,7 @@ public class ReportDocumentBuilder
 						InstanceID iid = content.getInstanceID( );
 						if ( iid != null )
 						{
-							String strIID = iid.toString( );
+							String strIID = iid.toUniqueString( );
 							if ( reportletsIndexById.get( strIID ) == null )
 							{
 								reportletsIndexById.put( strIID, new Long(
@@ -303,14 +370,14 @@ public class ReportDocumentBuilder
 	class PageEmitter extends ContentEmitterAdapter
 	{
 
-		IReportContentWriter writer;
+		IReportContentWriter pageWriter;
 
 		protected void open( )
 		{
 			try
 			{
-				writer = new ReportContentWriterV3( document );
-				writer.open( ReportDocumentConstants.PAGE_STREAM );
+				pageWriter = new ReportContentWriterV3( document );
+				pageWriter.open( ReportDocumentConstants.PAGE_STREAM );
 			}
 			catch ( IOException ex )
 			{
@@ -322,11 +389,11 @@ public class ReportDocumentBuilder
 
 		protected void close( )
 		{
-			if ( writer != null )
+			if ( pageWriter != null )
 			{
-				writer.close( );
+				pageWriter.close( );
 			}
-			writer = null;
+			pageWriter = null;
 		}
 
 		public void start( IReportContent report )
@@ -349,7 +416,7 @@ public class ReportDocumentBuilder
 			// write the page contents
 			try
 			{
-				pageOffset = writer.writeFullContent( page );
+				pageOffset = writeFullContent( pageWriter, page );
 			}
 			catch ( IOException ex )
 			{
@@ -375,7 +442,7 @@ public class ReportDocumentBuilder
 	class LayoutPageHandler implements ILayoutPageHandler
 	{
 
-		IPageHintWriter writer;
+		IPageHintWriter hintWriter;
 
 		LayoutPageHandler( )
 		{
@@ -383,19 +450,17 @@ public class ReportDocumentBuilder
 
 		boolean ensureOpen( )
 		{
-			if ( writer != null )
+			if ( hintWriter != null )
 			{
 				return true;
 			}
-			writer = new PageHintWriterV2( document );
 			try
 			{
-				writer.open( );
+				hintWriter = new PageHintWriterV2( document.getArchive( ) );
 			}
 			catch ( IOException ex )
 			{
 				logger.log( Level.SEVERE, "Can't open the hint stream", ex );
-				close( );
 				return false;
 			}
 			return true;
@@ -403,11 +468,11 @@ public class ReportDocumentBuilder
 
 		protected void close( )
 		{
-			if ( writer != null )
+			if ( hintWriter != null )
 			{
-				writer.close( );
+				hintWriter.close( );
 			}
-			writer = null;
+			hintWriter = null;
 		}
 
 		void writeTotalPage( long pageNumber )
@@ -416,7 +481,7 @@ public class ReportDocumentBuilder
 			{
 				try
 				{
-					writer.writeTotalPage( pageNumber );
+					hintWriter.writeTotalPage( pageNumber );
 				}
 				catch ( IOException ex )
 				{
@@ -433,7 +498,7 @@ public class ReportDocumentBuilder
 			{
 				try
 				{
-					writer.writePageHint( pageHint );
+					hintWriter.writePageHint( pageHint );
 				}
 				catch ( IOException ex )
 				{
@@ -444,15 +509,45 @@ public class ReportDocumentBuilder
 			}
 		}
 
-		protected long getOffset( IContent content )
+		private long getContentIndex( IContent content )
 		{
 			DocumentExtension docExt = (DocumentExtension) content
 					.getExtension( IContent.DOCUMENT_EXTENSION );
 			if ( docExt != null )
 			{
-				return docExt.getIndex( );
+				long offset = docExt.getIndex( );
+				if ( offset != -1 )
+				{
+					return offset;
+				}
+				return docExt.getPrevious( );
 			}
 			return -1;
+
+		}
+
+		private InstanceIndex[] createInstanceIndexes( IContent content )
+		{
+			LinkedList indexes = new LinkedList( );
+
+			while ( content != null
+					&& content != content.getReportContent( ).getRoot( ) )
+			{
+				InstanceID id = content.getInstanceID( );
+				long offset = getContentIndex( content );
+				indexes.addFirst( new InstanceIndex( id, offset ) );
+				content = (IContent) content.getParent( );
+			}
+
+			return (InstanceIndex[]) indexes.toArray( new InstanceIndex[]{} );
+		}
+
+		private PageSection createPageSection( IContent start, IContent end )
+		{
+			PageSection section = new PageSection( );
+			section.starts = createInstanceIndexes( start );
+			section.ends = createInstanceIndexes( end );
+			return section;
 		}
 
 		public void onPage( long pageNumber, Object context )
@@ -483,9 +578,9 @@ public class ReportDocumentBuilder
 					for ( int i = 0; i < pageHint.size( ); i++ )
 					{
 						IContent[] range = (IContent[]) pageHint.get( i );
-						long startOffset = getOffset( range[0] );
-						long endOffset = getOffset( range[1] );
-						hint.addSection( startOffset, endOffset );
+						PageSection section = createPageSection( range[0],
+								range[1] );
+						hint.addSection( section );
 					}
 					writePageHint( hint );
 				}
@@ -525,8 +620,9 @@ public class ReportDocumentBuilder
 					if ( !htmlContext.getCancelFlag( ) )
 					{
 						IReportDocumentInfo docInfo = new ReportDocumentInfo(
-							executionContext, pageNumber, reportFinished );
-						pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+								executionContext, pageNumber, reportFinished );
+						pageHandler.onPage( (int) pageNumber, checkpoint,
+								docInfo );
 					}
 				}
 			}

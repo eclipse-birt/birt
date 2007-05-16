@@ -14,9 +14,13 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -30,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -37,11 +42,15 @@ import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * 
  * report item executor manager
- *
+ * 
  */
 public class ExecutorManager
 {
@@ -79,11 +88,13 @@ public class ExecutorManager
 	 * execution context
 	 */
 	protected ExecutionContext context;
-	
+
 	/**
-	 * the created content should pass out through this emitter
+	 * the report executor use this manager.
 	 */
-	protected IContentEmitter emitter;
+	protected ReportExecutor executor;
+
+	protected IExecutorContext executorContext;
 
 	/**
 	 * factory used to create the report executor
@@ -93,8 +104,6 @@ public class ExecutorManager
 	 * array of free list
 	 */
 	protected LinkedList[] freeList = new LinkedList[NUMBER];
-	
-	private IExecutorContext executorContext;
 
 	/**
 	 * constructor
@@ -102,16 +111,26 @@ public class ExecutorManager
 	 * @param context
 	 * @param visitor
 	 */
-	public ExecutorManager( ExecutionContext context, IContentEmitter emitter, IExecutorContext executorContext )
+	public ExecutorManager( ReportExecutor executor )
 	{
-		this.context = context;
-		this.emitter = emitter;
-		this.executorContext = executorContext;
+		this.executor = executor;
+		this.context = executor.getContext( );
+		this.executorContext = new ExecutorContext( context );
 		for ( int i = 0; i < NUMBER; i++ )
 		{
 			freeList[i] = new LinkedList( );
 		}
-		executorFactory = new ExecutorFactory();
+		executorFactory = new ExecutorFactory( );
+	}
+
+	long generateUniqueID( )
+	{
+		return executor.generateUniqueID( );
+	}
+
+	public IExecutorContext getExecutorContext( )
+	{
+		return executorContext;
 	}
 
 	/**
@@ -161,9 +180,9 @@ public class ExecutorManager
 				return new RowExecutor( this );
 			case CELLITEM :
 				return new CellExecutor( this );
-			case LISTGROUPITEM:
+			case LISTGROUPITEM :
 				return new ListGroupExecutor( this );
-			case TABLEGROUPITEM:
+			case TABLEGROUPITEM :
 				return new TableGroupExecutor( this );
 			default :
 				throw new UnsupportedOperationException(
@@ -177,20 +196,26 @@ public class ExecutorManager
 		ReportItemExecutor executor = executorFactory.createExecutor( design );
 		if ( executor != null )
 		{
-			executor.setContext( executorContext );
-			executor.setParent( parent );
-			executor.setDesign( design );
+			/*
+			 * if the parent is not ReportItemExecutor, that means the generated
+			 * executor is created by a extended item, the parent will be set in
+			 * parent's getChildExecutor()
+			 */
+			if ( parent instanceof ReportItemExecutor )
+			{
+				executor.setParent( parent );
+			}
+			executor.setModelObject( design );
 		}
 		return executor;
 	}
-	
-	public ReportItemExecutor createExecutor( IReportItemExecutor parent,
+
+	public ReportItemExecutor createExtendedExecutor( IReportItemExecutor parent,
 			IReportItemExecutor executor )
 	{
 		ExtendedItemExecutor wrapper = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
 		if ( wrapper != null )
 		{
-			wrapper.setContext( executorContext );
 			wrapper.setParent( parent );
 			wrapper.executor = executor;
 		}
@@ -207,90 +232,108 @@ public class ExecutorManager
 	 */
 	public void releaseExecutor( int type, ReportItemExecutor itemExecutor )
 	{
-		assert ( type >= 0 ) && ( type < NUMBER );
-		itemExecutor.reset( );
-		freeList[type].add( itemExecutor );
+		if ( type >= 0 && type < NUMBER )
+		{
+			freeList[type].add( itemExecutor );
+		}
 	}
-	
+
 	class ExecutorFactory extends DefaultReportItemVisitorImpl
 	{
-		public ReportItemExecutor createExecutor(ReportItemDesign design)
+
+		public ReportItemExecutor createExecutor( ReportItemDesign design )
 		{
-			return (ReportItemExecutor)design.accept( this, null );
+			return (ReportItemExecutor) design.accept( this, null );
 		}
-		public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
+
+		public Object visitAutoTextItem( AutoTextItemDesign autoText,
+				Object value )
 		{
-			return getItemExecutor(AUTOTEXTITEM);
+			return getItemExecutor( AUTOTEXTITEM );
 		}
 
 		public Object visitCell( CellDesign cell, Object value )
 		{
-			return getItemExecutor(CELLITEM);
+			return getItemExecutor( CELLITEM );
 		}
 
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
-			return getItemExecutor(DATAITEM);
+			return getItemExecutor( DATAITEM );
 		}
 
 		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
 		{
-			return getItemExecutor(EXTENDEDITEM);
+			ExtendedItemExecutor extExecutor = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
+
+			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
+			String tagName = handle.getExtensionName( );
+
+			IReportItemExecutor executor = ExtensionManager.getInstance( )
+					.createReportItemExecutor( ExecutorManager.this, tagName );
+			executor.setContext( executorContext );
+			executor.setModelObject( handle );
+
+			extExecutor.executor = executor;
+
+			return extExecutor;
 		}
 
-		public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
+		public Object visitFreeFormItem( FreeFormItemDesign container,
+				Object value )
 		{
 			return null;
 		}
 
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
-			return getItemExecutor(GRIDITEM);
+			return getItemExecutor( GRIDITEM );
 		}
 
 		public Object visitImageItem( ImageItemDesign image, Object value )
 		{
-			return getItemExecutor(IMAGEITEM);
+			return getItemExecutor( IMAGEITEM );
 		}
 
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
-			return getItemExecutor(LABELITEM);
+			return getItemExecutor( LABELITEM );
 		}
 
 		public Object visitListBand( ListBandDesign band, Object value )
 		{
-			return getItemExecutor(LISTBANDITEM);
+			return getItemExecutor( LISTBANDITEM );
 		}
 
 		public Object visitListItem( ListItemDesign list, Object value )
 		{
-			return getItemExecutor(LISTITEM);
+			return getItemExecutor( LISTITEM );
 		}
 
-		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText, Object value )
+		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
+				Object value )
 		{
-			return getItemExecutor(DYNAMICTEXTITEM);
+			return getItemExecutor( DYNAMICTEXTITEM );
 		}
 
 		public Object visitRow( RowDesign row, Object value )
 		{
-			return getItemExecutor(ROWITEM);
+			return getItemExecutor( ROWITEM );
 		}
 
 		public Object visitTableBand( TableBandDesign band, Object value )
 		{
-			return getItemExecutor(TABLEBANDITEM);
+			return getItemExecutor( TABLEBANDITEM );
 		}
 
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			return getItemExecutor(TABLEITEM);
+			return getItemExecutor( TABLEITEM );
 		}
 
 		public Object visitTemplate( TemplateDesign template, Object value )
 		{
-			return getItemExecutor(TEMPLATEITEM);
+			return getItemExecutor( TEMPLATEITEM );
 		}
 
 		public Object visitTextItem( TextItemDesign text, Object value )
@@ -307,9 +350,80 @@ public class ExecutorManager
 		{
 			return getItemExecutor( TABLEGROUPITEM );
 		}
-		
-	}
-	
-	
 
+	}
+
+	private class ExecutorContext extends ReportContextImpl
+			implements
+				IExecutorContext
+	{
+
+		public ExecutorContext( ExecutionContext context )
+		{
+			super( context );
+		}
+
+		public IReportItemExecutor createExecutor( IReportItemExecutor parent,
+				Object handle )
+		{
+			if ( handle instanceof ReportElementHandle )
+			{
+				Report report = context.getReport( );
+				ReportElementHandle reportElementHandle = (ReportElementHandle) handle;
+				ReportItemDesign design = report
+						.findDesign( reportElementHandle );
+				return ExecutorManager.this.createExecutor( parent, design );
+			}
+			return null;
+		}
+
+		public IBaseResultSet executeQuery( IBaseResultSet parent,
+				IDataQueryDefinition query )
+		{
+			return executeQuery( parent, query, null );
+		}
+
+		public IBaseResultSet executeQuery( IBaseResultSet parent,
+				IDataQueryDefinition query, Object handle )
+		{
+			IDataEngine dataEngine = context.getDataEngine( );
+			if ( query != null )
+			{
+				boolean useCache = false;
+
+				if ( handle instanceof ReportItemHandle )
+				{
+					ReportItemHandle referenceHandle = ( (ReportItemHandle) handle )
+							.getDataBindingReference( );
+					if ( referenceHandle != null )
+					{
+						useCache = true;
+					}
+				}
+				return dataEngine.execute( parent, query, useCache );
+			}
+			return null;
+		}
+
+		public IReportContent getReportContent( )
+		{
+			return context.getReportContent( );
+		}
+
+		public ClassLoader getApplicationClassLoader( )
+		{
+			return context.getApplicationClassLoader( );
+		}
+
+		public IDataQueryDefinition[] getQueries( Object handle )
+		{
+			if ( handle instanceof ReportElementHandle )
+			{
+				ReportElementHandle reportElementHandle = (ReportElementHandle) handle;
+				Report report = context.getReport( );
+				return report.getQueryByReportHandle( reportElementHandle );
+			}
+			return null;
+		}
+	}
 }

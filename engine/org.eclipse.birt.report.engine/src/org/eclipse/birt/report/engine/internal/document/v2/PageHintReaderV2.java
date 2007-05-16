@@ -16,37 +16,58 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
+import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 import org.eclipse.birt.report.engine.presentation.PageHint;
+import org.eclipse.birt.report.engine.presentation.PageSection;
 
 public class PageHintReaderV2 implements IPageHintReader
 {
 
-	protected IReportDocument document;
+	protected IDocArchiveReader reader;
 	protected RAInputStream indexStream;
 	protected RAInputStream hintsStream;
 	protected long totalPage = -1;
+	protected int version;
 
-	public PageHintReaderV2( IReportDocument reader )
+	public PageHintReaderV2( IDocArchiveReader reader ) throws IOException
 	{
-		document = reader;
+		this.reader = reader;
+		try
+		{
+			hintsStream = reader
+					.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
+			indexStream = reader
+					.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
+			version = readHintVersion( hintsStream );
+		}
+		catch ( IOException ex )
+		{
+			close( );
+			throw ex;
+		}
 	}
 
-	public void open( ) throws IOException
+	public int getVersion( )
 	{
-		IDocArchiveReader reader = document.getArchive( );
-		hintsStream = reader
-				.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
-		indexStream = reader
-				.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
-		if ( hintsStream == null || indexStream == null )
+		return version;
+	}
+
+	public static int readHintVersion( RAInputStream hintStream )
+			throws IOException
+	{
+		hintStream.seek( 0 );
+		int version = hintStream.readInt( );
+		if ( version == 0 )
 		{
-			close();
-			throw new IOException("failed to open the index stream");
+			return VERSION_1;
 		}
+		return version;
 	}
 
 	public void close( )
@@ -80,39 +101,91 @@ public class PageHintReaderV2 implements IPageHintReader
 
 	synchronized public long getTotalPage( ) throws IOException
 	{
-		indexStream.refresh();
+		indexStream.refresh( );
 		indexStream.seek( 0 );
 		totalPage = indexStream.readLong( );
 		return totalPage;
 	}
 
-	synchronized public IPageHint getPageHint( long pageNumber ) throws IOException
+	synchronized public IPageHint getPageHint( long pageNumber )
+			throws IOException
 	{
 		indexStream.seek( pageNumber * 8 );
 		long offset = indexStream.readLong( );
 		hintsStream.seek( offset );
-		PageHint hint = new PageHint( );
-		hint.readObject( new DataInputStream( hintsStream ) );
+		return readPageHint( version, new DataInputStream( hintsStream ) );
+	}
+
+	protected IPageHint readPageHint( int version, DataInputStream in )
+			throws IOException
+	{
+		switch ( version )
+		{
+			case IPageHintWriter.VERSION_1 :
+				return readPageHintV1( in );
+			case IPageHintWriter.VERSION_2 :
+				return readPageHintV2( in );
+			default :
+				throw new IOException( "Unsupported page hint version "
+						+ version );
+		}
+	}
+
+	public IPageHint readPageHintV1( DataInputStream in ) throws IOException
+	{
+		long pageNumber = IOUtil.readLong( in );
+		long offset = IOUtil.readLong( in );
+		PageHint hint = new PageHint( pageNumber, offset );
+		int sectionCount = IOUtil.readInt( in );
+		for ( int i = 0; i < sectionCount; i++ )
+		{
+			long startOffset = IOUtil.readLong( in );
+			long endOffset = IOUtil.readLong( in );
+			PageSection section = new PageSection( );
+			section.startOffset = startOffset;
+			section.endOffset = endOffset;
+			hint.addSection( section );
+		}
 		return hint;
 	}
 
-	synchronized public long findPage( long offset ) throws IOException
+	public IPageHint readPageHintV2( DataInputStream in ) throws IOException
 	{
-		getTotalPage();
-		for ( long page = 1; page <= totalPage; page++ )
+		long pageNumber = IOUtil.readLong( in );
+		long offset = IOUtil.readLong( in );
+		PageHint hint = new PageHint( pageNumber, offset );
+		int sectionCount = IOUtil.readInt( in );
+		for ( int i = 0; i < sectionCount; i++ )
 		{
-			IPageHint pageHint = getPageHint( page );
-			for ( int section = 0; section < pageHint.getSectionCount( ); section++ )
-			{
-				long start = pageHint.getSectionStart( section );
-				long end = pageHint.getSectionEnd( section );
-				if( start <= offset && offset <= end )
-				{
-					return page;
-				}
-			}
+			PageSection section = new PageSection( );
+			section.starts = readInstanceIndex( in );
+			section.ends = readInstanceIndex( in );
+			section.startOffset = section.starts[section.starts.length - 1]
+					.getOffset( );
+			section.endOffset = section.ends[section.ends.length - 1]
+					.getOffset( );
+			/*
+			 * section.startId = starts[0].getInstanceID().toString();
+			 * section.startOffset = starts[0].getOffset(); section.endId =
+			 * endId; section.endOffset = endOffset;
+			 */
+			hint.addSection( section );
 		}
-		return -1;
+		return hint;
+	}
+
+	protected InstanceIndex[] readInstanceIndex( DataInputStream in )
+			throws IOException
+	{
+		int length = IOUtil.readInt( in );
+		InstanceIndex[] indexes = new InstanceIndex[length];
+		for ( int i = 0; i < length; i++ )
+		{
+			String id = IOUtil.readString( in );
+			long offset = IOUtil.readLong( in );
+			indexes[i] = new InstanceIndex( InstanceID.parse( id ), offset );
+		}
+		return indexes;
 	}
 
 }

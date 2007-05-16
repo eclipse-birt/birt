@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -27,14 +26,15 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.script.internal.OnCreateScriptVisitor;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -59,18 +60,19 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
-
-	/**
-	 * the logger, log info, debug, and error message
-	 */
+	
 	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class
 			.getName( ) );
-
 	/**
 	 * executor manager used to create this executor.
 	 */
 	protected ExecutorManager manager;
 	
+	/**
+	 * the type of the executor
+	 */
+	protected int type;
+
 	/**
 	 * the report content
 	 */
@@ -88,11 +90,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected ReportItemDesign design;
 	
 	/**
-	 * emitter used to output the report content
-	 */
-	protected IContentEmitter emitter;
-	/**
-	 *  the create report content
+	 * the create report content
 	 */
 	protected IContent content;
 	
@@ -124,7 +122,18 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	/**
 	 * parent executor
 	 */
-	protected IReportItemExecutor parent;
+	protected ReportItemExecutor parent;
+	
+	/**
+	 * the sequence id of the child executor
+	 */
+	protected long uniqueId;
+
+	/**
+	 * the instance id of the generated content.
+	 */
+	protected InstanceID instanceId;
+
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -135,17 +144,22 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	protected ReportItemExecutor( ExecutorManager manager )
+	protected ReportItemExecutor( ExecutorManager manager, int type )
 	{
 		this.manager = manager;
-		this.emitter = manager.emitter;
+		this.type = type;
 		this.context = manager.context;
 		this.report = context.getReportContent( );
 		this.onCreateVisitor = new OnCreateScriptVisitor( context );
-	}
-	
-	protected ReportItemExecutor(  )
-	{
+		this.executorContext = null;
+		this.parent = null;
+		this.handle = null;
+		this.design = null;
+		this.content = null;
+		this.rset = null;
+		this.tocEntry = null;
+		this.uniqueId = 0;
+		this.instanceId = null;
 	}
 	
 	public void setContext( IExecutorContext context )
@@ -156,16 +170,27 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	public void setModelObject( Object handle )
 	{
 		this.handle = handle;
+		if ( handle instanceof ReportItemDesign )
+		{
+			this.design = (ReportItemDesign) handle;
+		}
+		if ( handle instanceof ReportElementHandle )
+		{
+			ReportElementHandle element = (ReportElementHandle) handle;
+			Report report = context.getReport( );
+			this.design = report.findDesign( element );
+		}
 	}
 
 	public void setParent( IReportItemExecutor parent )
 	{
-		this.parent = parent;
+		assert parent instanceof ReportItemExecutor;
+		this.parent = (ReportItemExecutor) parent;
 	}
 
 	public IExecutorContext getContext( )
 	{
-		return executorContext;
+		return manager.getExecutorContext( );
 	}
 
 	public Object getModelObject( )
@@ -176,37 +201,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	public IReportItemExecutor getParent( )
 	{
 		return parent;
-	}
-
-	/**
-	 * Execute a report item design and transfer report instance to emitter by
-	 * calling this method.
-	 * <p>
-	 * According to the report item design and current context information,
-	 * executor calculate expression in report item design, get data instance
-	 * from data source, and fill it into the report item instance, and set
-	 * property for the report item instance. At last pass the instance to
-	 * <code>emitter</code>
-	 * 
-	 * @param item
-	 *            the report item design
-	 * @param emitter
-	 *            the report emitter
-	 */
-	public void execute( ReportItemDesign item, IContentEmitter emitter )
-	{
-		execute( );
-		while ( hasNextChild( ) )
-		{
-			if ( context.isCanceled( ) )
-			{
-				break;
-			}
-			ReportItemExecutor child = (ReportItemExecutor) getNextChild( );
-			child.setContext( executorContext );
-			child.execute( child.getDesign( ), emitter );
-		}
-		close( );
 	}
 
 	/**
@@ -229,11 +223,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * all property of this object
 	 * 
 	 */
-	void reset( )
+	public void close( )
 	{
-		tocEntry = null;
+		this.executorContext = null;
+		this.parent = null;
+		this.handle = null;
+		this.content = null;
+		this.rset = null;
+		this.tocEntry = null;
+		this.uniqueId = 0;
+		this.instanceId = null;
+
+		manager.releaseExecutor( type, this );
 	}
-	
 
 	IContent getParentContent()
 	{
@@ -243,13 +245,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		return null;
 	}
-	
-	void setDesign(ReportItemDesign design)
-	{
-		this.design = design;
-		context.setItemDesign( design );
-	}
-	
 	ReportItemDesign getDesign()
 	{
 		return design;
@@ -292,11 +287,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			if ( tmp != null && !tmp.equals( "" ) )
 			{
 				itemContent.setBookmark( tmp.toString( ) );
-			}
-			else
-			{
-				context.addException( new EngineException(
-						"Bookmark can not be null or empty." ) );
 			}
 		}
 		String toc = item.getTOC( );
@@ -348,11 +338,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 						IHyperlinkAction obj = report.createActionContent( );
 						obj.setBookmark( value.toString( ) );
 						itemContent.setHyperlinkAction( obj );
-					}
-					else
-					{
-						context.addException( new EngineException(
-								"Bookmark in hyperlink can not be null or empty." ) );
 					}
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :
@@ -433,7 +418,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected void processVisibility( ReportItemDesign design, IContent content )
 	{
 		VisibilityDesign visibility = design.getVisibility( );
-		boolean isFirst = true;
 		if ( visibility != null )
 		{
 			StringBuffer buffer = new StringBuffer( );
@@ -448,11 +432,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
-					logger
-							.log(
-									Level.WARNING,
+					context
+							.addException( new EngineException(
 									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-									rule.getExpression( ) );
+									rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
@@ -463,17 +446,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					continue;
 				}
 				// we should use rule as the string as
-				if ( isFirst )
-				{
-					isFirst = false;
-				}
-				else
-				{
-					buffer.append( ", " ); //$NON-NLS-1$
-				}
 				buffer.append( rule.getFormat( ) );
+				buffer.append( "," ); //$NON-NLS-1$
 			}
-			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
+			if ( buffer.length( ) != 0 )
+			{
+				buffer.setLength( buffer.length( ) - 1 );
+				content.getStyle( ).setVisibleFormat( buffer.toString( ) );
+			}
 		}
 	}
 	
@@ -483,7 +463,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected void processColumnVisibility( ColumnDesign design, Column column )
 	{
 		VisibilityDesign visibility = design.getVisibility( );
-		boolean isFirst = true;
 		if ( visibility != null )
 		{
 			StringBuffer buffer = new StringBuffer( );
@@ -498,11 +477,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
-					logger
-							.log(
-									Level.WARNING,
-									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-									rule.getExpression( ) );
+					context
+					.addException( new EngineException(
+							"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+							rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
@@ -513,44 +491,89 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					continue;
 				}
 				// we should use rule as the string as
-				if ( isFirst )
-				{
-					isFirst = false;
-				}
-				else
-				{
-					buffer.append( ", " ); //$NON-NLS-1$
-				}
 				buffer.append( rule.getFormat( ) );
+				buffer.append( "," ); //$NON-NLS-1$
 			}
-			column.setVisibleFormat( buffer.toString( ) );
+			if ( buffer.length( ) != 0 )
+			{
+				buffer.setLength( buffer.length( ) - 1 );
+				column.setVisibleFormat( buffer.toString( ) );
+			}
 		}
 	}
-	
+
 	protected DataID getDataID( )
 	{
-		IQueryResultSet curRset = getResultSet( );
-		if ( curRset != null )
+		if ( parent != null )
 		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getRowIndex( );
-			return new DataID( dataSetID, position );
+			IBaseResultSet[] rsets = parent.getQueryResults( );
+			if ( ( rsets != null ) && ( rsets.length > 0 )
+					&& ( rsets[0] != null ) )
+			{
+				if ( rsets[0] instanceof IQueryResultSet )
+				{
+					IQueryResultSet rset = (IQueryResultSet) rsets[0];
+					DataSetID dataSetID = rset.getID( );
+					long position = rset.getRowIndex( );
+					return new DataID( dataSetID, position );
+				}
+				if ( rsets[0] instanceof ICubeResultSet )
+				{
+					ICubeResultSet rset = (ICubeResultSet) rsets[0];
+					DataSetID dataSetID = rset.getID( );
+					String cellId = rset.getCellIndex( );
+					return new DataID( dataSetID, cellId );
+				}
+			}
 		}
 		return null;
+	}
+	
+	protected long generateUniqueID( )
+	{
+		if ( parent != null )
+		{
+			return parent.uniqueId++;
+		}
+		return manager.generateUniqueID( );
+	}
+	
+	
+	protected long getElementId( )
+	{
+		if ( design != null )
+		{
+			return design.getID( );
+		}
+		if ( handle != null && handle instanceof DesignElementHandle )
+		{
+			return ( (DesignElementHandle) handle ).getID( );
+		}
+		return -1;
+	}
+	
+	protected InstanceID getInstanceID( )
+	{
+		if ( instanceId == null )
+		{
+			InstanceID pid = parent == null ? null : parent.getInstanceID( );
+			long uid = generateUniqueID( );
+			long id = getElementId( );
+			DataID dataId = getDataID( );
+			instanceId = new InstanceID( pid, uid, id, dataId );
+		}
+		return instanceId;
 	}
 
 	protected void initializeContent( ReportElementDesign design,
 			IContent content )
 	{
-		InstanceID pid = null;
 		IContent parent = getParentContent( );
 		if ( parent != null )
 		{
-			pid = parent.getInstanceID( );
 			content.setParent( parent );
 		}
-		InstanceID id = new InstanceID( pid, design == null ? -1 : design
-				.getID( ), getDataID( ) );
+		InstanceID id = getInstanceID( );
 		content.setInstanceID( id );
 		content.setGenerateBy( design );
 	}
@@ -589,7 +612,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				Object tocValue = content.getTOC( );
 				if ( tocValue != null )
 				{
-					long elementId = getElementId(content);
+					long elementId = getElementId( );
 					String bookmark = content.getBookmark( );
 					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
 							bookmark, hiddenFormats, elementId );
@@ -607,24 +630,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 			}
 		}
-	}
-	
-	protected long getElementId(IContent content)
-	{
-		Object generateBy = content.getGenerateBy( );
-		if(generateBy!=null && generateBy instanceof ReportElementDesign)
-		{
-			return ((ReportElementDesign)generateBy).getID( );
-		}
-		if(design!=null)
-		{
-			return design.getID( );
-		}
-		if(handle!=null && handle instanceof DesignElementHandle)
-		{
-			return ((DesignElementHandle)handle).getID();
-		}
-		return -1;
 	}
 
 	/**
@@ -653,7 +658,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			TOCEntry entry = getParentTOCEntry();
 			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
-			long elementId = getElementId(group);
+			long elementId = getElementId( );
 			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
 					group.getBookmark( ), hiddenFormats, elementId );
 			String tocId = tocEntry.getNode( ).getNodeID( );

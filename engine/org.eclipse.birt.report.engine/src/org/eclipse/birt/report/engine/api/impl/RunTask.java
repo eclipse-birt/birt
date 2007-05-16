@@ -26,8 +26,11 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
+import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 
 /**
@@ -212,9 +215,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				}
 
 				IContentEmitter emitter = documentBuilder.getContentEmitter( );
-				ReportExecutor executor = new ReportExecutor( executionContext,
-						report.getReportIR( ),
-						emitter );
+				IReportExecutor executor = new ReportExecutor( executionContext );
+				executor = new ReportEmitterExecutor(executor, emitter);
+				executor = new SuppressDuplciateReportExecutor( executor );
 //				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
 //						executor );
 				executionContext.setExecutor( executor );

@@ -110,6 +110,15 @@ public interface ReportDocumentConstants
 	 */
 	static final String REPORT_DOCUMENT_VERSION_2_1_0 = "2.1.0";
 	
+	/**
+	 * version used before 2.1.3 and 2.2rc0
+	 */
+	static final String REPORT_DOCUMENT_VERSION_2_1_3 = "2.1.3-2.2RC0";
+	
+	/**
+	 * the current report document version
+	 */
+	static final String REPORT_DOCUMENT_VERSION = REPORT_DOCUMENT_VERSION_2_1_3;
 
 	static final int CHECKPOINT_INIT = 0;
 	static final int CHECKPOINT_END = -1;

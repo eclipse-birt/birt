@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * 
@@ -299,13 +298,11 @@ abstract public class ReportItemExecutorTestAbs extends TestCase
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
 		DumpEmitter emitter = new DumpEmitter( out );
-		ReportDesignHandle reportDesign = runnable.getReport( ); 
-		ReportExecutor executor = new ReportExecutor( context, runnable
-				.getReportIR( ), emitter );
+		ReportExecutor executor = new ReportExecutor( context );
 		context.setExecutor( executor );
-
-		executor.execute( reportDesign,
-				emitter );
+		
+		ReportExecutorUtil.execute( executor, emitter );
+		
 		return out.toString( );
 	}
 

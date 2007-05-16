@@ -143,6 +143,22 @@ public class DataSetID
 		}
 		this.dataSetName = dataSetName;
 	}
+	public boolean equals( Object a )
+	{
+		if ( a instanceof DataSetID )
+		{
+			DataSetID aid = (DataSetID) a;
+			if ( dataSetName != null )
+			{
+				return dataSetName.equals( aid.dataSetName );
+			}
+			if ( rowId == aid.rowId && queryName.equals( aid.queryName ) )
+			{
+				return parent.equals( aid.parent );
+			}
+		}
+		return false;
+	}
 
 	void append( StringBuffer buffer )
 	{

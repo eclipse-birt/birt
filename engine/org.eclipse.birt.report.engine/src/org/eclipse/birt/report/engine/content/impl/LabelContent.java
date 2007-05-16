@@ -145,6 +145,21 @@ public class LabelContent extends TextContent implements ILabelContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		if ( helpTextKey != null )
+		{
+			return true;
+		}
+		if ( labelText != null ||
+
+		labelTextKey != null )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
+
 	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{

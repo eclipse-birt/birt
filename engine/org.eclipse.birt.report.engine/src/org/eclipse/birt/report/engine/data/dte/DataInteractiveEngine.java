@@ -11,9 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +21,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -33,10 +30,8 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -72,60 +67,51 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	public DataInteractiveEngine( ExecutionContext context,
 			IDocArchiveReader reader, IDocArchiveWriter writer )
+			throws Exception
 	{
 		super( context );
-		try
-		{	// create the DteData session.
-			DataSessionContext dteSessionContext;
-			if ( writer == null )
-			{
-				dteSessionContext = new DataSessionContext(
-						DataSessionContext.MODE_PRESENTATION, null, context
-								.getSharedScope( ) );
-				dteSessionContext.setDocumentReader( reader );
-			}
-			else
-			{
-				dteSessionContext = new DataSessionContext(
-						DataSessionContext.MODE_UPDATE, null, context
-								.getSharedScope( ) );
-				dteSessionContext.setDocumentReader( reader );
-				dteSessionContext.setDocumentWriter( writer );
-			}
-			DataEngineContext dteEngineContext = dteSessionContext
-					.getDataEngineContext( );
-			dteEngineContext.setLocale( context.getLocale( ) );
-
-			String tempDir = getTempDir( context );
-			if ( tempDir != null )
-			{
-				dteEngineContext.setTmpdir( tempDir );
-			}
-
-			dteSession = DataRequestSession.newSession( dteSessionContext );
-
-		}
-		catch ( Exception ex )
+		// create the DteData session.
+		DataSessionContext dteSessionContext;
+		if ( writer == null )
 		{
-			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
-			ex.printStackTrace( );
+			dteSessionContext = new DataSessionContext(
+					DataSessionContext.MODE_PRESENTATION, null, context
+							.getSharedScope( ) );
+			dteSessionContext.setDocumentReader( reader );
 		}
+		else
+		{
+			dteSessionContext = new DataSessionContext(
+					DataSessionContext.MODE_UPDATE, null, context
+							.getSharedScope( ) );
+			dteSessionContext.setDocumentReader( reader );
+			dteSessionContext.setDocumentWriter( writer );
+		}
+		DataEngineContext dteEngineContext = dteSessionContext
+				.getDataEngineContext( );
+		dteEngineContext.setLocale( context.getLocale( ) );
+
+		String tempDir = getTempDir( context );
+		if ( tempDir != null )
+		{
+			dteEngineContext.setTmpdir( tempDir );
+		}
+
+		dteSession = DataRequestSession.newSession( dteSessionContext );
 		this.reader = reader;
+
+		if ( writer != null && dos == null )
+		{
+			dos = new DataOutputStream(
+					writer
+							.createRandomAccessStream( ReportDocumentConstants.DATA_SNAP_META_STREAM ) );
+			// dos = new DataOutputStream( writer.createRandomAccessStream(
+			// ReportDocumentConstants.DATA_META_STREAM ) );
+			DteMetaInfoIOUtil.startMetaInfo( dos );
+		}
 		
-		try
-		{
-			if ( writer != null && dos == null )
-			{
-				dos = new DataOutputStream( writer.createRandomAccessStream( ReportDocumentConstants.DATA_SNAP_META_STREAM ) );
-				//dos = new DataOutputStream( writer.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
-				IOUtil.writeString( dos, VERSION_1 );
-			}
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			e.printStackTrace( );
-		}
+		loadDteMetaInfo( );
+
 	}
 	
 	
@@ -134,95 +120,52 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * 
 	 * @param key
 	 */
-	private void storeDteMetaInfo( String pRsetId, String rowId, String queryId,
-			String rsetId )
-	{		
-		
-		if ( null != dos )
+	private void storeDteMetaInfo( String pRsetId, String rowId,
+			String queryId, String rsetId )
+	{
+		if ( dos != null )
 		{
 			try
-			{				
-				IOUtil.writeString( dos, pRsetId );
-				
-				// top query in master page then set the page number as row id
-				if ( pRsetId == null && context.isExecutingMasterPage( ) )
+			{
+
+				// save the meta infomation
+				if ( context.isExecutingMasterPage( ) )
 				{
-					IOUtil.writeString( dos, String.valueOf( context.getPageNumber( ) ) );
+					if ( pRsetId == null )
+					{
+						rowId = String.valueOf( context.getPageNumber( ) );
+					}
 				}
-				else
-				{
-					IOUtil.writeString( dos, rowId );
-				}
-				IOUtil.writeString( dos, queryId );
-				IOUtil.writeString( dos, rsetId );
+				DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
+						rsetId );
 			}
 			catch ( IOException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ) );
-				e.printStackTrace( );
 			}
 		}
 	}
 	
-	private void loadDteMetaInfo()
+	private void loadDteMetaInfo( ) throws IOException
 	{
-		loadDteMetaInfo( ReportDocumentConstants.DATA_META_STREAM );
-		if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+		ArrayList result = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
+		if ( result != null )
 		{
-			loadDteMetaInfo( ReportDocumentConstants.DATA_SNAP_META_STREAM );
-		}
-	}
-	
-	private void loadDteMetaInfo( String metaDataStream)
-	{
-		DataInputStream dis = null;
-		try
-		{
-			dis = new DataInputStream( reader.getStream( metaDataStream) );
-
-			ArrayList result = super.loadDteMetaInfo( dis );
-			if ( result != null )
+			StringBuffer buffer = new StringBuffer( );
+			for ( int i = 0; i < result.size( ); i++ )
 			{
-				StringBuffer buffer = new StringBuffer( );
-				for ( int i = 0; i < result.size( ); i++ )
-				{
-					String[] rsetRelation = (String[])result.get( i );
-					String pRsetId = rsetRelation[0];
-					String rowId = rsetRelation[1];
-					String queryId = rsetRelation[2];
-					String rsetId = rsetRelation[3];
-					buffer.setLength( 0 );
-					buffer.append( pRsetId );
-					buffer.append( "." );
-					buffer.append( rowId );
-					buffer.append( "." );	
-					buffer.append( queryId );
-					rsetRelations.put( buffer.toString( ), rsetId );
-				}
-			}			
-		}
-		catch ( EOFException eofe )
-		{
-			// we expect that there should be an EOFexception
-		}
-		catch ( IOException ioe )
-		{
-			context.addException( new EngineException(
-					"Can't load the data in report document", ioe ) );
-			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
-		}
-		finally
-		{
-			if ( dis != null )
-			{
-				try
-				{
-					dis.close( );
-				}
-				catch ( IOException ex )
-				{
-
-				}
+				String[] rsetRelation = (String[]) result.get( i );
+				String pRsetId = rsetRelation[0];
+				String rowId = rsetRelation[1];
+				String queryId = rsetRelation[2];
+				String rsetId = rsetRelation[3];
+				buffer.setLength( 0 );
+				buffer.append( pRsetId );
+				buffer.append( "." );
+				buffer.append( rowId );
+				buffer.append( "." );
+				buffer.append( queryId );
+				rsetRelations.put( buffer.toString( ), rsetId );
 			}
 		}
 	}
@@ -265,7 +208,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		this.appContext = appContext;
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
-		loadDteMetaInfo( );
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
@@ -383,35 +325,36 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			{
 				parentQueryResults = parentResult.getQueryResults( );
 			}
-			
-			String resultSetID = loadResultSetID( parentResult, parentQueryResults, queryID );		
+
+			String resultSetID = loadResultSetID( parentResult,
+					parentQueryResults, queryID );
 			if ( resultSetID == null )
 			{
 				logger.log( Level.SEVERE, "Can't load the report query" );
 				return null;
 			}
-			
+
 			if ( useCache )
 			{
 				String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
-				( (CubeQueryDefinition)query ).setQueryResultsID( rsetId );
+				query.setQueryResultsID( rsetId );
 			}
 			else
 			{
-				( (CubeQueryDefinition)query ).setQueryResultsID( null );
+				query.setQueryResultsID( null );
 			}
-			
+
 			// Interactive do not support CUBE?
-			( (QueryDefinition) query ).setQueryResultsID( resultSetID );
+			query.setQueryResultsID( resultSetID );
 			IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
-			
+
 			Scriptable scope = context.getSharedScope( );
 
 			String pRsetId = null; // id of the parent query restuls
 			String rowId = "-1"; // row id of the parent query results
 			IBaseQueryResults dteResults; // the dteResults of this query
 			CubeResultSet resultSet = null;
-			
+
 			if ( parentQueryResults == null )
 			{
 				// this is the root query
@@ -431,17 +374,17 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				resultSet = new CubeResultSet( this, context, resultSet, query,
 						(ICubeQueryResults) dteResults );
 			}
-			// FIXME: 
+			// FIXME:
 			// resultSet.setBaseRSetID( resultSetID );
-			
+
 			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
-			
-			// persist the queryResults witch need cached. 
+
+			// persist the queryResults witch need cached.
 			if ( query.cacheQueryResults( ) )
 			{
 				cachedQueryIdMap.put( query, dteResults.getID( ) );
 			}
-			
+
 			return resultSet;
 		}
 		catch ( BirtException be )
@@ -454,6 +397,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	private String loadResultSetID( IBaseResultSet parentResult,
 			IBaseQueryResults queryResults, String queryID )
+			throws BirtException
 	{
 		String resultSetID = null;
 		if ( queryResults == null )
@@ -477,25 +421,17 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		else
 		{
-			try
+			String pRsetId;
+			if ( parentResult.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 			{
-				String pRsetId;
-				if ( parentResult.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-				{
-					pRsetId = ( (QueryResultSet) parentResult ).getBaseRSetID( );
-				}
-				else
-				{
-					pRsetId = queryResults.getID( );
-				}
-				String rowid = parentResult.getRawID( );
-				resultSetID = getResultID( pRsetId, rowid, queryID );
+				pRsetId = ( (QueryResultSet) parentResult ).getBaseRSetID( );
 			}
-			catch ( BirtException e )
+			else
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
+				pRsetId = queryResults.getID( );
+			}
+			String rowid = parentResult.getRawID( );
+			resultSetID = getResultID( pRsetId, rowid, queryID );
 		}
 		return resultSetID;
 	}

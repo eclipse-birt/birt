@@ -1,8 +1,12 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -83,4 +87,38 @@ public class ListContent extends ContainerContent implements IListContent
 		}
 		return null;
 	}
+	static final protected short FIELD_HEADER_REPEAT = 1300;
+
+	protected void writeFields( DataOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( headerRepeat != null )
+		{
+			IOUtil.writeShort( out, FIELD_HEADER_REPEAT);
+			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
+		}
+	}
+
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
+	{
+		switch ( filedId )
+		{
+			case FIELD_HEADER_REPEAT :
+				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
+	}
+	
+	public boolean needSave( )
+	{
+		if ( headerRepeat != null )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
+
 }

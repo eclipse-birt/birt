@@ -1,0 +1,37 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.internal.executor.doc;
+
+public class PooledReportItemReader extends ReportItemReader
+{
+
+	ReportItemReaderManager manager;
+
+	PooledReportItemReader( ReportItemReaderManager manager )
+	{
+		super( manager.context );
+		this.manager = manager;
+	}
+
+	ReportItemReader createExecutor( ReportItemReader parent, long offset,
+			Fragment fragment )
+	{
+		return manager.createExecutor( parent, offset, fragment );
+	}
+
+	public void close( )
+	{
+		super.close( );
+		manager.releaseExecutor( this );
+	}
+
+}

@@ -10,4 +10,5 @@ Export-Package: org.eclipse.birt.report.engine.api,
  org.eclipse.birt.report.engine.executor,
  org.eclipse.birt.report.engine.executor.buffermgr,
  org.eclipse.birt.report.engine.internal.document.v2,
- org.eclipse.birt.report.engine.internal.executor.doc
+ org.eclipse.birt.report.engine.internal.executor.doc,
+ org.eclipse.birt.report.engine.internal.executor.load

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -73,7 +74,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 	public boolean layout( )
 	{
-		if(context.getCancelFlag( ))
+		if ( context.getCancelFlag( ) )
 		{
 			close( );
 			isLastPage = true;
@@ -157,7 +158,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 		return false;
 	}
-	
+
 	public boolean isFinished( )
 	{
 		return isLastPage;
@@ -179,7 +180,8 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			MasterPageDesign pageDesign = getMasterPage( report );
 			pageNumber = pageNumber + 1;
 			context.setPageNumber( pageNumber );
-			pageContent = reportExecutor.createPage( pageNumber, pageDesign );
+			pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
+					pageNumber, pageDesign );
 			if ( emitter != null )
 			{
 				emitter.startPage( pageContent );

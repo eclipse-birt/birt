@@ -70,13 +70,12 @@ public class ReportletTest extends EngineCase
 
 		// for all the reportlets
 		String content = ostream.toString( "utf-8" );
-		Pattern iidPattern = Pattern.compile( "iid=\"(.*)\"" );
+		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
 		Matcher matcher = iidPattern.matcher( content );
 		while ( matcher.find( ) )
 		{
 			String strIid = matcher.group( 1 );
 			InstanceID iid = InstanceID.parse( strIid );
-			iidList.add( iid );
 			long designId = iid.getComponentID( );
 			runnable = render.getReportRunnable( );
 			ReportDesignHandle report = (ReportDesignHandle) runnable
@@ -85,17 +84,19 @@ public class ReportletTest extends EngineCase
 			if ( element instanceof TableHandle )
 			{
 				// we get the report let
+				iidList.add( iid );
 				render = engine.createRenderTask( document );
 				option = new HTMLRenderOption( );
 				option.setOutputFormat( "html" );
 				ByteArrayOutputStream out = new ByteArrayOutputStream( );
 				option.setOutputStream( out );
 				render.setRenderOption( option );
-				render.setInstanceID( iid.toString( ) );
+				render.setInstanceID( iid.toUniqueString( ) );
 
 				render.render( );
+				
+				assertTrue( render.getErrors( ).isEmpty( ) );
 				render.close( );
-				System.out.println( out.toString( "utf-8" ) );
 				assertTrue( out.toString( "utf-8" ).length( ) > 2048 );
 			}
 		}
@@ -107,7 +108,7 @@ public class ReportletTest extends EngineCase
 		int[] goldenPageNumbers = new int[]{1};/* is the first page */
 		InstanceID iidTemp = (InstanceID) iidList.get( 0 );
 		assertTrue( goldenPageNumbers[0] == document.getPageNumber( iidTemp ) );
-		assertTrue( document.getInstanceOffset( iidTemp ) > 0 );
+		assertTrue( document.getInstanceOffset( iidTemp ) != -1 );
 		render.close( );
 		document.close( );
 	}
@@ -195,7 +196,7 @@ public class ReportletTest extends EngineCase
 
 		// for all the reportlets
 		String content = ostream.toString( "utf-8" );
-		Pattern iidPattern = Pattern.compile( "iid=\"(.*)\"" );
+		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
 		Matcher matcher = iidPattern.matcher( content );
 		while ( matcher.find( ) )
 		{

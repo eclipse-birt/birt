@@ -38,9 +38,9 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	public TextItemExecutor( ExecutorManager manager)
+	public TextItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.TEXTITEM );
 	}
 
 	/**
@@ -59,17 +59,17 @@ public class TextItemExecutor extends QueryItemExecutor
 	 */
 	public IContent execute( )
 	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		TextItemDesign textDesign = (TextItemDesign) getDesign( );
 		String contentType = ForeignContent.getTextRawType( textDesign
 				.getTextType( ), textDesign.getText( ) );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
-			return executeHtmlText( emitter );
+			return executeHtmlText( );
 		}
 		else
 		{
-			return executePlainText(emitter );
+			return executePlainText( );
 		}
 	}
 
@@ -77,24 +77,24 @@ public class TextItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.TEXTITEM, this );
+		super.close( );
 	}
-	
+
 	/**
 	 * execute the html text.
 	 * 
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executeHtmlText( IContentEmitter emitter )
+	protected IContent executeHtmlText( )
 	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		TextItemDesign textDesign = (TextItemDesign) getDesign( );
 		IForeignContent textContent = report.createForeignContent( );
-		setContent(textContent);
+		setContent( textContent );
 
 		executeQuery( );
-		//accessQuery( );
-		
+		// accessQuery( );
+
 		initializeContent( textDesign, textContent );
 
 		processAction( textDesign, textContent );
@@ -110,7 +110,7 @@ public class TextItemExecutor extends QueryItemExecutor
 			while ( iter.hasNext( ) )
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
-				String expr = ( String ) entry.getValue( );
+				String expr = (String) entry.getValue( );
 				Object value = evaluate( expr );
 				results.put( entry.getKey( ), value );
 			}
@@ -129,13 +129,9 @@ public class TextItemExecutor extends QueryItemExecutor
 		{
 			handleOnCreate( textContent );
 		}
-		
+
 		startTOCEntry( content );
-		if ( emitter != null )
-		{
-			emitter.startForeign( textContent );
-		}
-		
+
 		return textContent;
 	}
 
@@ -145,16 +141,16 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executePlainText(IContentEmitter emitter)
+	protected IContent executePlainText( )
 	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign();
-		
+		TextItemDesign textDesign = (TextItemDesign) getDesign( );
+
 		ILabelContent textContent = report.createLabelContent( );
-		setContent(textContent);
+		setContent( textContent );
 
 		executeQuery( );
-		//accessQuery( design, emitter );
-		
+		// accessQuery( design, emitter );
+
 		initializeContent( textDesign, textContent );
 		textContent.setLabelText( textDesign.getText( ) );
 		textContent.setLabelKey( textDesign.getTextKey( ) );
@@ -170,11 +166,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( content );
-		if ( emitter != null )
-		{
-			emitter.startLabel( textContent );
-		}
-		
+
 		return textContent;
 	}
 }

@@ -1,78 +1,55 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
-import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
-import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
 public class ReportReader extends AbstractReportReader
 {
 
 	IReportExecutor executor = null;
-	protected long offset = 0;
 
-	public ReportReader( ExecutionContext context )
+	BodyReader bodyReader;
+
+	public ReportReader( ExecutionContext context ) throws IOException
 	{
 		super( context );
+		bodyReader = new BodyReader( this, null );
 	}
 
 	public IReportContent execute( )
 	{
-		try
-		{
-			openReaders( );
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.SEVERE, "Fail to open the readers", ex );
-			closeReaders( );
-		}
 		return reportContent;
 	}
 
-	public void close( )
-	{
-		closeReaders( );
-	}
-
-	protected void closeReaders()
-	{
-		super.closeReaders( );
-		offset = -1;
-	}
-	
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( hasNextChild( ) )
-		{
-			ReportItemReader childReader = manager
-					.createExecutor( null, offset );
-			offset = childReader.findNextSibling( );
-			return childReader;
-		}
-		return null;
+		return bodyReader.getNextChild( );
 	}
 
 	public boolean hasNextChild( )
 	{
-		return offset != -1;
+		return bodyReader.hasNextChild( );
 	}
 
-	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+	public void close( )
 	{
-		if ( executor == null )
-		{
-			executor = new ReportExecutor( context, context.getReport( ), null );
-			executor = new LocalizedReportExecutor( context, executor );
-		}
-		return executor.createPage( pageNumber, pageDesign );
+		bodyReader.close( );
+		super.close( );
+
 	}
 }

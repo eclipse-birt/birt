@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
@@ -10,62 +20,43 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
-public class ReportletReader extends ReportReader
+public class ReportletReader extends AbstractReportReader
 {
 
 	Fragment reportletFragment = null;
+	long offset;
+	BodyReader bodyExecutor;
 
 	public ReportletReader( ExecutionContext context, long offset )
+		throws IOException
 	{
 		super( context );
-		this.offset = offset;
+		Fragment fragment = loadFragment( offset );
+		bodyExecutor = new BodyReader( this, fragment );
 	}
 
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( hasNextChild( ) )
-		{
-			IReportItemExecutor reportlet = manager.createExecutor( null,
-					offset, reportletFragment );
-			offset = -1;
-			return reportlet;
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.internal.executor.doc.AbstractReportReader#openReaders()
-	 */
-	protected void openReaders( ) throws IOException
-	{
-		super.openReaders( );
-		initializeReportlet( );
+		return bodyExecutor.getNextChild( );
 	}
 
 	public boolean hasNextChild( )
 	{
-		if ( offset != -1 )
-		{
-			return true;
-		}
-		return false;
+		return bodyExecutor.hasNextChild( );
 	}
 
-	protected void initializeReportlet( ) throws IOException
+	protected Fragment loadFragment( long offset ) throws IOException
 	{
-		long[] leftEdge = createEdges( offset );
-		long[] rightEdge = new long[leftEdge.length + 1];
+		Object[] leftEdge = createEdges( offset );
+		Object[] rightEdge = new Object[leftEdge.length + 1];
 		System.arraycopy( leftEdge, 0, rightEdge, 0, leftEdge.length );
-		rightEdge[leftEdge.length] = Long.MAX_VALUE;
-		Fragment fragment = new Fragment( );
+		rightEdge[leftEdge.length] = Segment.RIGHT_MOST_EDGE;
+		Fragment fragment = new Fragment( new LongComparator( ) );
 		fragment.addFragment( leftEdge, rightEdge );
-		reportletFragment = fragment.getNextFragment( -1 );
-		offset = reportletFragment.offset;
+		return fragment;
 	}
 
-	protected long[] createEdges( long offset ) throws IOException
+	protected Long[] createEdges( long offset ) throws IOException
 	{
 		LinkedList parents = new LinkedList( );
 		IContent content = reader.loadContent( offset );
@@ -79,15 +70,14 @@ public class ReportletReader extends ReportReader
 			}
 			content = (IContent) content.getParent( );
 		}
-		long[] edges = new long[parents.size( )];
+		Long[] edges = new Long[parents.size( )];
 		Iterator iter = parents.iterator( );
 		int length = 0;
 		while ( iter.hasNext( ) )
 		{
 			Long value = (Long) iter.next( );
-			edges[length++] = value.longValue( );
+			edges[length++] = value;
 		}
 		return edges;
 	}
-
 }

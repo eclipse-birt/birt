@@ -48,12 +48,16 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			if ( group.isHeaderRepeat( ) && header != null )
 			{
 				boolean pageBreak = context.allowPageBreak( );
-				boolean skipPageHint = context.getSkipPageHint( );
+				//boolean skipPageHint = context.getSkipPageHint( );
 				context.setAllowPageBreak( false );
-				context.setSkipPageHint( true );
+				//context.setSkipPageHint( true );
 				engine.layout( this, header, emitter );
 				context.setAllowPageBreak( pageBreak );
-				context.setSkipPageHint( skipPageHint );
+				//context.setSkipPageHint( skipPageHint );
+				/**
+				 * call continue content to restart the page hint section
+				 */
+				context.continueContent( null );
 			}
 		}
 		isFirstLayout = false;

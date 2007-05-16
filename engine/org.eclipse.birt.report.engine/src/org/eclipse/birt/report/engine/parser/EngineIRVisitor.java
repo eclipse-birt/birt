@@ -290,7 +290,7 @@ public class EngineIRVisitor extends DesignVisitor
 		if ( pageSlot.getCount( ) < 1 )
 		{
 			MasterPageDesign masterPage = new SimpleMasterPageDesign( );
-			masterPage.setID( --newCellId );
+			masterPage.setID( generateUniqueID( ) );
 			masterPage.setName( DEFAULT_MASTERPAGE_NAME );
 			masterPage.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LETTER );		
 			masterPage.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_AUTO );
@@ -1233,6 +1233,7 @@ public class EngineIRVisitor extends DesignVisitor
 	private ListBandDesign createListBand( SlotHandle elements )
 	{
 		ListBandDesign band = new ListBandDesign( );
+		band.setID( generateUniqueID( ) );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
@@ -1413,6 +1414,7 @@ public class EngineIRVisitor extends DesignVisitor
 	private TableBandDesign createTableBand( SlotHandle elements )
 	{
 		TableBandDesign band = new TableBandDesign( );
+		band.setID( generateUniqueID( ) );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
@@ -2431,5 +2433,10 @@ public class EngineIRVisitor extends DesignVisitor
 	private void setupElementIDMap( ReportElementDesign rptElement )
 	{
 		report.setReportItemInstanceID( rptElement.getID( ), rptElement );
+	}
+	
+	protected long generateUniqueID( )
+	{
+		return newCellId--;
 	}
 }

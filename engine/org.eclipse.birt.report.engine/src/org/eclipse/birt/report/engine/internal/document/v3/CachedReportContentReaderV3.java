@@ -28,6 +28,10 @@ public class CachedReportContentReaderV3
 		this.reader = new ReportContentReaderV3(reportContent, stream);
 	}
 	
+	public boolean isEmpty()
+	{
+		return reader.isEmpty();
+	}
 	
 	public void close()
 	{

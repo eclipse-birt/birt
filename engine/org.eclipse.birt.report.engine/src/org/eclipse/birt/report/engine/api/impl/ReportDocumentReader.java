@@ -34,11 +34,13 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
-import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
-import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
+import org.eclipse.birt.report.engine.internal.document.PageHintReader;
+import org.eclipse.birt.report.engine.internal.document.v4.InstanceIDComparator;
+import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.ir.EngineIRReader;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -86,8 +88,9 @@ public class ReportDocumentReader
 	
 	private boolean sharedArchive;
 
-	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive, boolean sharedArchive )
-		throws EngineException
+	public ReportDocumentReader( IReportEngine engine,
+			IDocArchiveReader archive, boolean sharedArchive )
+			throws EngineException
 	{
 		this( null, engine, archive, sharedArchive );
 	}
@@ -103,7 +106,7 @@ public class ReportDocumentReader
 	{
 		this( systemId, engine, archive, false );
 	}
-	
+
 	public ReportDocumentReader( String systemId, IReportEngine engine,
 		IDocArchiveReader archive, boolean sharedArchive ) throws EngineException
 	{
@@ -239,7 +242,6 @@ public class ReportDocumentReader
 						return;
 					}
 				}
-
 				in = archive.getStream( CORE_STREAM );
 				try
 				{
@@ -339,14 +341,21 @@ public class ReportDocumentReader
 	{
 		String tag = IOUtil.readString( di );
 		String version = IOUtil.readString( di );
-		if ( !REPORT_DOCUMENT_TAG.equals( tag )
-				|| !( REPORT_DOCUMENT_VERSION_1_2_1.equals( version ) || REPORT_DOCUMENT_VERSION_2_1_0
-						.equals( version ) ) )
+		String[] supportedVersions = new String[]{
+				REPORT_DOCUMENT_VERSION_1_2_1, REPORT_DOCUMENT_VERSION_2_1_0,
+				REPORT_DOCUMENT_VERSION_2_1_3};
+		if ( REPORT_DOCUMENT_TAG.equals( tag ) )
 		{
-			throw new EngineException(
-					"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
+			for ( int i = 0; i < supportedVersions.length; i++ )
+			{
+				if ( supportedVersions[i].equals( version ) )
+				{
+					return version;
+				}
+			}
 		}
-		return version;
+		throw new EngineException(
+				"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
 	}
 
 	public void close( )
@@ -415,13 +424,10 @@ public class ReportDocumentReader
 					try
 					{
 						stream = archive.getStream( DESIGN_IR_STREAM );
-						if ( stream != null )
-						{
-							EngineIRReader reader = new EngineIRReader( );
-							Report reportIR = reader.read( stream );
-							reader.link( reportIR, reportRunnable.getReport( ) );
-							reportRunnable.setReportIR( reportIR );
-						}
+						EngineIRReader reader = new EngineIRReader( );
+						Report reportIR = reader.read( stream );
+						reader.link( reportIR, reportRunnable.getReport( ) );
+						reportRunnable.setReportIR( reportIR );
 					}
 					catch ( IOException ioex )
 					{
@@ -752,28 +758,15 @@ public class ReportDocumentReader
 			{
 				return;
 			}
-			if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
-			{
-				pageHintReader = new PageHintReaderV1( this );
-			}
-			else
-			{
-				pageHintReader = new PageHintReaderV2( this );
-			}
 			try
 			{
-				pageHintReader.open( );
+				pageHintReader = new PageHintReader( this );
 			}
 			catch ( IOException ex )
 			{
 				logger
 						.log( Level.SEVERE, "can't open the page hint stream",
 								ex );
-				if ( pageHintReader != null )
-				{
-					pageHintReader.close( );
-				}
-				pageHintReader = null;
 			}
 		}
 	}
@@ -809,22 +802,84 @@ public class ReportDocumentReader
 		{
 			return -1;
 		}
-		long offset = getInstanceOffset( iid );
-		if ( offset != -1 )
+		initializePageHintReader( );
+		if ( pageHintReader == null )
 		{
-			initializePageHintReader( );
-			if ( pageHintReader != null )
+			return -1;
+		}
+
+		int version = pageHintReader.getVersion( );
+
+		try
+		{
+			if ( version == IPageHintReader.VERSION_0 )
 			{
-				try
+				long offset = getInstanceOffset( iid );
+				if ( offset == -1 )
 				{
-					return pageHintReader.findPage( offset );
+					return -1;
 				}
-				catch ( IOException ex )
+				long totalPage = pageHintReader.getTotalPage( );
+				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
 				{
-					logger.log( Level.WARNING,
-							"Failed to find page which contains " + iid, ex );
+					IPageHint hint = pageHintReader.getPageHint( pageNumber );
+					PageSection section = hint.getSection( 0 );
+
+					if ( offset >= section.startOffset )
+					{
+						return pageNumber;
+					}
 				}
 			}
+
+			else if ( version == IPageHintReader.VERSION_1 )
+			{
+				long offset = getInstanceOffset( iid );
+				if ( offset == -1 )
+				{
+					return -1;
+				}
+				long totalPage = pageHintReader.getTotalPage( );
+				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
+				{
+					IPageHint hint = pageHintReader.getPageHint( pageNumber );
+					int sectionCount = hint.getSectionCount( );
+					for ( int i = 0; i < sectionCount; i++ )
+					{
+						PageSection section = hint.getSection( i );
+
+						if ( section.startOffset <= offset
+								&& offset <= section.endOffset )
+						{
+							return pageNumber;
+						}
+					}
+				}
+			}
+			else if ( version == IPageHintReader.VERSION_2 )
+			{
+				long totalPage = pageHintReader.getTotalPage( );
+				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
+				{
+					IPageHint hint = pageHintReader.getPageHint( pageNumber );
+					int sectionCount = hint.getSectionCount( );
+					Fragment fragment = new Fragment(
+							new InstanceIDComparator( ) );
+					for ( int i = 0; i < sectionCount; i++ )
+					{
+						PageSection section = hint.getSection( i );
+						fragment.addFragment( section.starts, section.ends );
+					}
+					if ( fragment.inFragment( iid ) )
+					{
+						return pageNumber;
+					}
+				}
+			}
+		}
+		catch ( IOException ex )
+		{
+
 		}
 		return -1;
 	}
@@ -839,8 +894,13 @@ public class ReportDocumentReader
 		{
 			return -1l;
 		}
-		initializeReportlet();
-		return getOffset( reportletsIndexById, iid.toString( ) );
+		initializeReportlet( );
+		long offset = getOffset( reportletsIndexById, iid.toUniqueString( ) );
+		if ( offset == -1 )
+		{
+			offset = getOffset( reportletsIndexById, iid.toString( ) );
+		}
+		return offset;
 	}
 
 	public long getBookmarkOffset( String bookmark )

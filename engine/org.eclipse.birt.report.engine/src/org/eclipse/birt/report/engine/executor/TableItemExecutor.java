@@ -48,20 +48,9 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	protected TableItemExecutor( ExecutorManager manager )
 	{
-		super( manager);
+		super( manager, ExecutorManager.TABLEITEM );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
-	 */
-	public void reset( )
-	{
-		super.reset( );
-		rowId = 0;
-	}
-	
 	public IContent execute( )
 	{
 		TableItemDesign tableDesign = ( TableItemDesign ) getDesign();
@@ -97,10 +86,6 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 
 		startTOCEntry( tableContent );
-		if ( emitter != null )
-		{
-			emitter.startTable( tableContent );
-		}
 
 		//prepare to execute the children
 		prepareToExecuteChildren();
@@ -109,15 +94,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	
 	public void close( )
 	{
-		super.close( );
-		ITableContent tableContent = (ITableContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endTable( tableContent );
-		}
-
 		finishTOCEntry( );
 		closeQuery( );
+		rowId = 0;
+		super.close( );
 	}
 	
 

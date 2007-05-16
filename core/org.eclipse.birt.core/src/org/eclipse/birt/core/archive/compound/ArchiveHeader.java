@@ -94,6 +94,10 @@ class ArchiveHeader implements ArchiveConstants
 
 		header.fileStatus = in.readInt( );
 		header.blockSize = in.readInt( );
+		if ( header.blockSize == 0 )
+		{
+			header.blockSize = DEFAULT_BLOCK_SIZE;
+		}
 		return header;
 	}
 

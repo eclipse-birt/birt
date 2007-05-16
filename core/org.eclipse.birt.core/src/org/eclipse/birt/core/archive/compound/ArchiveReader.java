@@ -95,7 +95,7 @@ public class ArchiveReader implements IDocArchiveReader
 		{
 			return new ArchiveEntryInputStream( entry );
 		}
-		return null;
+		throw new IOException( relativePath + " doesn't exist" );
 	}
 
 	public List listAllStreams( ) throws IOException

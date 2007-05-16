@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -38,7 +37,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 */
 	public GridItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.GRIDITEM );
 	}
 
 	/**
@@ -91,10 +90,6 @@ public class GridItemExecutor extends QueryItemExecutor
 		}
 		
 		startTOCEntry( tableContent );
-		if ( emitter != null )
-		{
-			emitter.startTable( tableContent );
-		}
 
 		// prepare to execute the children
 		curRowDesign = 0;
@@ -105,14 +100,9 @@ public class GridItemExecutor extends QueryItemExecutor
 	
 	public void close( )
 	{
-		ITableContent tableContent = (TableContent)getContent();
-		if ( emitter != null )
-		{
-			emitter.endTable( tableContent );
-		}
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.GRIDITEM, this );
+		super.close( );
 	}
 
 	int curRowDesign;

@@ -34,7 +34,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 	 */
 	DynamicTextItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.DYNAMICTEXTITEM );
 	}
 
 	/**
@@ -102,10 +102,6 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( textContent );
-		if ( emitter != null )
-		{
-			emitter.startForeign( textContent );
-		}
 		
 		return textContent;
 	}
@@ -114,7 +110,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.DYNAMICTEXTITEM, this );
+		super.close();
 	}
 	
 }

@@ -26,7 +26,6 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ITOCTree;
@@ -47,19 +46,15 @@ public class ReportDocumentTest extends EngineCase
 	static final String REPORT_DESIGN = "./test.xml";
 	static final String REPORT_DOCUMENT = "./reportdocument";
 
-	protected IReportEngine engine;
-
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
-		engine = createReportEngine( );
-
+		super.setUp( );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}
 
 	public void tearDown( )
 	{
-		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}

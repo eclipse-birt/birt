@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -54,7 +49,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected ExecutionContext context;
 
 	protected HashMap queryIDMap = new HashMap( );
-
+	
 	protected HashMap cachedQueryIdMap = new HashMap( );
 
 	protected Map appContext;
@@ -73,17 +68,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public AbstractDataEngine( ExecutionContext context )
 	{
 		this.context = context;
-		this.adapter = new ModelDteApiAdapter( context,
-				context.getSharedScope( ) );
-		/*
-		 * Use DataAdapterUtil to register the scriptable. See
-		 * ExecutionContext.setResultSets. try { Scriptable scope =
-		 * context.getScope( ); // register a js row object into the execution
-		 * context, so // we can use row["colName"] to get the column values
-		 * context.registerBean( "row", new NativeRowObject( scope, context ) ); }
-		 * catch ( Exception ex ) { logger.log( Level.SEVERE, "can't register
-		 * row object", ex ); ex.printStackTrace( ); }
-		 */
+		this.adapter = new ModelDteApiAdapter( context, context
+				.getSharedScope( ) );
 	}
 
 	/*
@@ -297,67 +283,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 		}
 		return null;
-	}
-
-	public ArrayList loadDteMetaInfo( DataInputStream dis )
-	{
-		ArrayList result = new ArrayList( );
-
-		try
-		{
-			String version = IOUtil.readString( dis );
-			boolean isFirst = true;
-			StringBuffer buffer = new StringBuffer( );
-			while ( true )
-			{
-				String pRsetId;
-				String rowId;
-
-				if ( isFirst && !VERSION_1.equals( version ) )
-				{
-					pRsetId = version;
-				}
-				else
-				{
-					pRsetId = IOUtil.readString( dis );
-				}
-				if ( VERSION_1.equals( version ) )
-				{
-					rowId = IOUtil.readString( dis );
-				}
-				else
-				{
-					rowId = String.valueOf( IOUtil.readLong( dis ) );
-				}
-
-				String queryId = IOUtil.readString( dis );
-				String rsetId = IOUtil.readString( dis );
-
-				buffer.setLength( 0 );
-				buffer.append( pRsetId );
-				buffer.append( "." ); //$NON-NLS-1$
-				buffer.append( rowId );
-				buffer.append( "." ); //$NON-NLS-1$
-				buffer.append( queryId );
-
-				result.add( new String[]{
-						pRsetId, rowId, queryId, rsetId
-				} );
-
-				isFirst = false;
-			}
-		}
-		catch ( EOFException eofe )
-		{
-			// we expect that there should be an EOFexception
-		}
-		catch ( IOException ioe )
-		{
-			context.addException( new EngineException( "Can't load the data in report document", //$NON-NLS-1$
-					ioe ) );
-			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
-		}
-		return result;
 	}
 
 	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )

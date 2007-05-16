@@ -111,4 +111,10 @@ public class TextContent extends AbstractContent implements ITextContent
 				super.readField( version, filedId, in );
 		}
 	}
+	
+	public boolean needSave()
+	{
+		return true;
+	}
+
 }

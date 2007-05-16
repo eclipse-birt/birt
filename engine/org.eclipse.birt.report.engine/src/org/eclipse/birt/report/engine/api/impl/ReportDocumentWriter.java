@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,7 +26,6 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -124,47 +122,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		{
 			logger.log( Level.SEVERE, "Save TOC failed!", ex );
 			ex.printStackTrace( );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
-		}
-	}
-
-	/**
-	 * save the page description into the stream.
-	 * 
-	 * @param hints
-	 */
-	public void savePageHints( ArrayList hints )
-	{
-		RAOutputStream out = null;
-		try
-		{
-			out = archive.createRandomAccessStream( PAGEHINT_STREAM );
-			DataOutputStream oo = new DataOutputStream(
-					new BufferedOutputStream( out ) );
-			IOUtil.writeLong( oo, hints.size( ) );
-			for ( int i = 0; i < hints.size( ); i++ )
-			{
-				PageHint hint = (PageHint) hints.get( i );
-				hint.writeObject( oo );
-			}
-			oo.close( );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to save the page hints!", ex );
 		}
 		finally
 		{
@@ -332,7 +289,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			coreStream = new DataOutputStream( new BufferedOutputStream(
 					out ) );
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
-			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_2_1_0 );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION );
 			IOUtil.writeString( coreStream, designName );
 			IOUtil.writeMap( coreStream, paramters );
 			IOUtil.writeMap( coreStream, globalVariables );

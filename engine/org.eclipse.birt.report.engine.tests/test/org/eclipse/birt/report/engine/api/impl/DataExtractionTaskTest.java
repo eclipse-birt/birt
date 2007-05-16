@@ -39,29 +39,33 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 
+/**
+ * in the report design, we define four listing elements:
+ * 219: table with query.
+ * 277: list of query
+ * 280: a table with sub query
+ * 289: a table with nest query.
+ */
 public class DataExtractionTaskTest extends EngineCase
 {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
 
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		// create the report engine using default config
-		engine = createReportEngine( );
 	}
 
 	public void tearDown( )
 	{
-		// shut down the engine.
-		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}
 
-	public void testDataExtraction( )
+	public void testDataExtraction( ) throws Exception
 	{
 		/*
 		 * API test on interface IDataExtractionTask
@@ -72,20 +76,12 @@ public class DataExtractionTaskTest extends EngineCase
 		 * 	- setFilters( IFilterDefinition[] )
 		 * 	- extract( )
 		 */
-		try
-		{
-			createReportDocument( );
-			doTestExtractionFromInstanceId( );
-			doDataExtractionFromRsetName( );
-			doDataExtractionWithFilters( );
-			doDataExtractionWithSelectedColumns( );
-			doTestExtractionFromInstanceIdWithFilter( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
-		};
+		createReportDocument( );
+		doTestExtractionFromInstanceId( );
+		doDataExtractionFromRsetName( );
+		doDataExtractionWithFilters( );
+		doDataExtractionWithSelectedColumns( );
+		doTestExtractionFromInstanceIdWithFilter( );
 	}
 
 	protected void doTestExtractionFromInstanceId( ) throws Exception
@@ -109,7 +105,7 @@ public class DataExtractionTaskTest extends EngineCase
 
 		String content = ostream.toString( "utf-8" );
 		// get all the instance ids
-		Pattern iidPattern = Pattern.compile( "iid=\"(.*)\"" );
+		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
 		Matcher matcher = iidPattern.matcher( content );
 		while ( matcher.find( ) )
 		{
@@ -129,11 +125,7 @@ public class DataExtractionTaskTest extends EngineCase
 				dataExTask.setInstanceID( iid );
 				ArrayList resultSetList = (ArrayList) dataExTask
 						.getResultSetList( );
-				if (iid.getComponentID( ) == 219)
-				{
-					assertEquals( 1, resultSetList.size( ) );
-				}
-
+				assertEquals( 1, resultSetList.size( ) );
 				IExtractionResults results = dataExTask.extract( );
 				int rowCount = checkExtractionResults( results );
 				assertTrue( rowCount > 0 );
@@ -165,7 +157,7 @@ public class DataExtractionTaskTest extends EngineCase
 
 		String content = ostream.toString( "utf-8" );
 		// get all the instance ids
-		Pattern iidPattern = Pattern.compile( "iid=\"(.*)\"" );
+		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
 		Matcher matcher = iidPattern.matcher( content );
 		while ( matcher.find( ) )
 		{
@@ -178,6 +170,7 @@ public class DataExtractionTaskTest extends EngineCase
 			DesignElementHandle element = report.getElementByID( designId );
 			if ( element instanceof TableHandle )
 			{
+				//it is a sub query
 				if (iid.getComponentID( ) == 280)
 				{
 					// we get the report let
@@ -204,6 +197,7 @@ public class DataExtractionTaskTest extends EngineCase
 			}
 			else if ( element instanceof ListHandle )
 			{
+				//it is the top most query.
 				if (iid.getComponentID( ) == 277)
 				{
 					// we get the report let
@@ -277,12 +271,11 @@ public class DataExtractionTaskTest extends EngineCase
 		IDataExtractionTask dataExTask = engine
 				.createDataExtractionTask( reportDoc );
 
-		// test the extractio
+		// we have total 3 rsets in the list (doesn't include the sub query)
 		ArrayList resultSetList = (ArrayList) dataExTask.getResultSetList( );
-		assertEquals( "Result set numer error", 2, resultSetList.size( ) );
+		assertEquals( "Result set numer error", 3, resultSetList.size( ) );
 
-		// in this list, we have two resutl set items, one is ELEMENT_219, the
-		// other is ELEMENT_277
+		// in this list, we have three resutl set items, one is ELEMENT_219, ELEMENT_277, ELEMENT_289
 		IResultSetItem resultItem1 = (IResultSetItem) resultSetList.get( 0 );
 		IResultSetItem resultItem2 = (IResultSetItem) resultSetList.get( 1 );
 		IResultSetItem resultItem = resultItem1;
@@ -407,6 +400,7 @@ public class DataExtractionTaskTest extends EngineCase
 		assertEquals( "OFFICECODE", columnName );
 		columnName = metaData.getColumnName( 1 );
 		assertEquals( "CITY", columnName );
+		reportDoc.close( );
 	}
 
 	/**

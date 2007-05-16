@@ -691,8 +691,20 @@ public class ExecutionContext
 	{
 		if ( dataEngine == null )
 		{
-			dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
-					this );
+			try
+			{
+				dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
+						this );
+			}
+			catch ( BirtException bex )
+			{
+				addException( bex );
+			}
+			catch ( Exception ex )
+			{
+				addException( new EngineException( ex.getLocalizedMessage( ),
+						ex ) );
+			}
 		}
 	}
 
@@ -703,8 +715,7 @@ public class ExecutionContext
 	{
 		if ( dataEngine == null )
 		{
-			dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
-					this );
+			openDataEngine( );
 		}
 		return dataEngine;
 	}

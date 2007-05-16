@@ -16,12 +16,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask;
-import org.eclipse.birt.report.engine.api.impl.ParameterGroupDefn;
-import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
-import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -40,22 +35,16 @@ public class ParameterPromptTextTest extends EngineCase
 	protected ScalarParameterDefn scalarParameter;
 	protected ArrayList parameters;
 
-	protected IReportEngine engine = null;
-
 	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		copyResource( REPORT_PROMPT_TEXT_SOURCE, REPORT_PROMPT_TEXT_DESIGN );
 		copyResource( REPORT_GROUP_PROMPT_TEXT_SOURCE,
 				REPORT_GROUP_PROMPT_TEXT_DESIGN );
-		engine = createReportEngine( );
 	}
 
 	public void tearDown( )
 	{
-		if ( engine != null )
-		{
-			engine.shutdown( );
-		}
 		removeFile( REPORT_PROMPT_TEXT_DESIGN );
 		removeFile( REPORT_GROUP_PROMPT_TEXT_DESIGN );
 	}

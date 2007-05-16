@@ -15,7 +15,6 @@ import java.util.Collection;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -28,19 +27,14 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestGetParameterTask.xml"; //$NON-NLS-1$
 	static final String REPORT_DESIGN = "GetParameterTaskTest.rptdesign"; //$NON-NLS-1$
 
-	protected IReportEngine engine;
-
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		// create the report engine using default config
-		engine = createReportEngine( );
 	}
 
 	public void tearDown( )
 	{
-		// shut down the engine.
-		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 	}
 

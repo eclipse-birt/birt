@@ -120,7 +120,6 @@ public class PlatformServletContext implements IPlatformContext
 					{
 						if ( newFile.createNewFile( ) )
 						{
-							//TODO: close stream 
 							is = context.getResourceAsStream( path );
 							os = new FileOutputStream( newFile );
 							byte[] buffer = new byte[8192];
@@ -130,8 +129,6 @@ public class PlatformServletContext implements IPlatformContext
 								os.write( buffer, 0, bytesRead );
 								bytesRead = is.read( buffer );
 							}
-							is.close( );
-							os.close( );
 						}
 					}
 					catch ( IOException e )

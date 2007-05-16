@@ -30,8 +30,9 @@ public class RunTaskTest extends EngineCase
 	static final String REPORT_DESIGN1 = "./utest/design.rptdesign";
 	static final String REPORT_DOCUMENT1 = "./utest/reportdocument.folder/";
 
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		removeFile( TEST_FOLDER );
 		removeFile( REPORT_DOCUMENT_ZIP );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
@@ -46,15 +47,12 @@ public class RunTaskTest extends EngineCase
 	{
 		try
 		{
-			EngineConfig config = new EngineConfig( );
-			ReportEngine engine = new ReportEngine( config );
 			IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
 			IRunTask task = engine.createRunTask( report );
 			task.run( REPORT_DOCUMENT );
 			task.close( );
 			IReportDocument doc = engine.openReportDocument( REPORT_DOCUMENT );
 			doc.close( );
-			engine.shutdown( );
 		}
 		catch ( Exception ex )
 		{

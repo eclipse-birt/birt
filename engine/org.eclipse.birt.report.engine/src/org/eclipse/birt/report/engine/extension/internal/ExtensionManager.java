@@ -24,6 +24,7 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
@@ -126,7 +127,8 @@ public class ExtensionManager
 	 * @param itemType 
 	 * @return an object that is used for generation time extended item processing 
 	 */
-	public IReportItemExecutor createReportItemExecutor(String itemType)
+	public IReportItemExecutor createReportItemExecutor(
+			ExecutorManager manager, String itemType )
 	{
 		IConfigurationElement config = (IConfigurationElement) generationExtensions
 				.get( itemType );
@@ -137,9 +139,10 @@ public class ExtensionManager
 			{
 				return (IReportItemExecutor) object;
 			}
-			else if (object instanceof IReportItemGeneration)
+			else if ( object instanceof IReportItemGeneration )
 			{
-				return new ExtendedGenerateExecutor( (IReportItemGeneration)object);
+				return new ExtendedGenerateExecutor( manager,
+						(IReportItemGeneration) object );
 			}
 		}
 		return null;
@@ -170,12 +173,12 @@ public class ExtensionManager
 	public IReportItemQuery createQueryItem(String itemType)
 	{
 		IConfigurationElement config = (IConfigurationElement)queryExtensions.get(itemType);
-		if (config != null)
+		if ( config != null )
 		{
-			Object object = createObject(config, "class"); //$NON-NLS-1$
-			if (object instanceof IReportItemQuery)
+			Object object = createObject( config, "class" ); //$NON-NLS-1$
+			if ( object instanceof IReportItemQuery )
 			{
-				return (IReportItemQuery)object;
+				return (IReportItemQuery) object;
 			}
 		}
 		return null;
@@ -293,16 +296,21 @@ public class ExtensionManager
 	{
 		try
 		{
-			Object object = config.createExecutableExtension(property);
-			if (object != null)
-				return object;
-		}
-		catch(FrameworkException ex)
-		{
-			if (logger.isLoggable( Level.WARNING ))
+			String value = config.getAttribute( property );
+			if ( value != null )
 			{
-				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	//$NON-NLS-1$ 
-						new String[] {config.getAttribute("class"), property} );	//$NON-NLS-1$
+				Object object = config.createExecutableExtension( property );
+				if ( object != null )
+					return object;
+			}
+		}
+		catch ( FrameworkException ex )
+		{
+			if ( logger.isLoggable( Level.WARNING ) )
+			{
+				logger.log( Level.WARNING,
+						"Can not instantiate class {0} with property {1}.", //$NON-NLS-1$ 
+						new String[]{config.getAttribute( "class" ), property} ); //$NON-NLS-1$
 			}
 		}
 		return null;

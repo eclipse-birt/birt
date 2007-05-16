@@ -87,4 +87,13 @@ public class AbstractBandContent extends ContainerContent
 				super.readField( version, filedId, in );
 		}
 	}
+
+	public boolean needSave( )
+	{
+		if ( bandType != -1 )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
 }

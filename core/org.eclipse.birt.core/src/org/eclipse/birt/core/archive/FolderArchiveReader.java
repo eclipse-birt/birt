@@ -88,8 +88,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 			RAFolderInputStream in = new RAFolderInputStream( file );
 			return in;
 		}
-
-		return null;
+		throw new IOException( relativePath + " doesn't exit" );
 	}
 
 	public boolean exists( String relativePath )

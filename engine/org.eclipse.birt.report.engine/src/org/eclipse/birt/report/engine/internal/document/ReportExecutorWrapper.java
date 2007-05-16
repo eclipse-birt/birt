@@ -1,0 +1,137 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.internal.document;
+
+import java.io.IOException;
+
+import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
+import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+
+public class ReportExecutorWrapper implements IReportExecutor
+{
+
+	public static final int EXECUTOR_VERSION_UNKNOWN = -1;
+	public static final int EXECUTOR_VERSION_1 = 1;
+	public static final int EXECUTOR_VERSION_2 = 2;
+	public static final int EXECUTOR_VERSION_3 = 3;
+	public static final int EXECUTOR_VERSION_4 = 4;
+
+	protected IReportExecutor executor;
+
+	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
+	{
+		IReportItemExecutor executor = createPageExecutor( pageNumber,
+				pageDesign );
+		IPageContent content = (IPageContent) executor.execute( );
+		DOMBuilderEmitter emitter = new DOMBuilderEmitter( content );
+		while ( executor.hasNextChild( ) )
+		{
+			IReportItemExecutor childExecutor = executor.getNextChild( );
+			IContent childContent = childExecutor.execute( );
+			if ( childContent != null )
+			{
+				ContentEmitterUtil.startContent( childContent, emitter );
+			}
+			executeAll( executor, emitter );
+			if ( childContent != null )
+			{
+				ContentEmitterUtil.endContent( childContent, emitter );
+			}
+			childExecutor.close( );
+		}
+		executor.close( );
+		return content;
+	}
+
+	protected void executeAll( IReportItemExecutor executor,
+			IContentEmitter emitter )
+	{
+		while ( executor.hasNextChild( ) )
+		{
+			IReportItemExecutor childExecutor = executor.getNextChild( );
+			IContent childContent = childExecutor.execute( );
+			if ( childContent != null )
+			{
+				ContentEmitterUtil.startContent( childContent, emitter );
+			}
+			executeAll( executor, emitter );
+			if ( childContent != null )
+			{
+				ContentEmitterUtil.endContent( childContent, emitter );
+			}
+			childExecutor.close( );
+		}
+
+	}
+
+	public IReportItemExecutor createPageExecutor( long pageNumber,
+			MasterPageDesign pageDesign )
+	{
+		return executor.createPageExecutor( pageNumber, pageDesign );
+	}
+
+	public IReportContent execute( )
+	{
+		return executor.execute( );
+	}
+
+	public void close( )
+	{
+		executor.close( );
+	}
+
+	public IReportItemExecutor getNextChild( )
+	{
+		return executor.getNextChild( );
+	}
+
+	public boolean hasNextChild( )
+	{
+		return executor.hasNextChild( );
+	}
+
+	public static int getVersion( IReportDocument document ) throws IOException
+	{
+		String docVersion = document.getVersion( );
+		int version = EXECUTOR_VERSION_UNKNOWN;
+		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
+				.equals( docVersion ) )
+		{
+			version = EXECUTOR_VERSION_1;
+		}
+		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_2_1
+				.equals( docVersion ) )
+		{
+			version = EXECUTOR_VERSION_2;
+		}
+		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0
+				.equals( docVersion ) )
+		{
+			version = EXECUTOR_VERSION_3;
+		}
+		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_3
+				.equals( docVersion ) )
+		{
+			version = EXECUTOR_VERSION_4;
+		}
+		return version;
+	}
+}

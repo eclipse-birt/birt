@@ -1,0 +1,103 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.internal.executor.wrap;
+
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+
+public class WrappedReportItemExecutor implements IReportItemExecutor
+{
+
+	protected WrappedReportExecutor reportExecutor;
+	protected IReportItemExecutor executor;
+
+	public WrappedReportItemExecutor( WrappedReportExecutor reportExecutor,
+			IReportItemExecutor executor )
+	{
+		this.reportExecutor = reportExecutor;
+		this.executor = executor;
+	}
+
+	public void setExecutor( IReportItemExecutor executor )
+	{
+		this.executor = executor;
+	}
+
+	public void close( )
+	{
+		executor.close( );
+		reportExecutor.closeWrappedExecutor( this );
+	}
+
+	public IContent execute( )
+	{
+		return executor.execute( );
+	}
+
+	public IContent getContent( )
+	{
+		return executor.getContent( );
+	}
+
+	public IExecutorContext getContext( )
+	{
+		return executor.getContext( );
+	}
+
+	public Object getModelObject( )
+	{
+		return executor.getModelObject( );
+	}
+
+	public IReportItemExecutor getNextChild( )
+	{
+		IReportItemExecutor child = executor.getNextChild( );
+		if ( child != null )
+		{
+			return reportExecutor.createWrappedExecutor( child );
+		}
+		return null;
+	}
+
+	public IReportItemExecutor getParent( )
+	{
+		return executor.getParent( );
+	}
+
+	public IBaseResultSet[] getQueryResults( )
+	{
+		return executor.getQueryResults( );
+	}
+
+	public boolean hasNextChild( )
+	{
+		return executor.hasNextChild( );
+	}
+
+	public void setContext( IExecutorContext context )
+	{
+		executor.setContext( context );
+	}
+
+	public void setModelObject( Object handle )
+	{
+		executor.setModelObject( handle );
+	}
+
+	public void setParent( IReportItemExecutor parent )
+	{
+		executor.setParent( parent );
+	}
+
+}

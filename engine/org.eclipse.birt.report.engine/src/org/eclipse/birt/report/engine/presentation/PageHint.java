@@ -11,27 +11,10 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.eclipse.birt.core.util.IOUtil;
 
 public class PageHint implements IPageHint
 {
-
-	static private class PageSection
-	{
-
-		PageSection( long start, long end )
-		{
-			this.start = start;
-			this.end = end;
-		}
-		long start;
-		long end;
-	}
 
 	ArrayList sections = new ArrayList( );
 	protected long pageNumber;
@@ -77,49 +60,32 @@ public class PageHint implements IPageHint
 
 	public long getSectionStart( int i )
 	{
-		assert i >= 0 && i < sections.size( );
 		PageSection section = (PageSection) sections.get( i );
-		return section.start;
+		return section.startOffset;
 	}
 
 	public long getSectionEnd( int i )
 	{
-		assert i >= 0 && i < sections.size( );
 		PageSection section = (PageSection) sections.get( i );
-		return section.end;
+		return section.endOffset;
 	}
 
 	public void addSection( long start, long end )
 	{
-		PageSection section = new PageSection( start, end );
+		PageSection section = new PageSection( );
+		section.startOffset = start;
+		section.endOffset = end;
 		sections.add( section );
 	}
 
-	public void writeObject( DataOutputStream out ) throws IOException
+	public PageSection getSection( int i )
 	{
-		IOUtil.writeLong( out, pageNumber );
-		IOUtil.writeLong( out, offset );
-		int sectionCount = sections.size( );
-		IOUtil.writeInt( out, sectionCount );
-		for ( int i = 0; i < sectionCount; i++ )
-		{
-			PageSection section = (PageSection) sections.get( i );
-			IOUtil.writeLong( out, section.start );
-			IOUtil.writeLong( out, section.end );
-		}
+		return (PageSection) sections.get( i );
 	}
 
-	public void readObject( DataInputStream in ) throws IOException
+	public void addSection( PageSection section )
 	{
-		pageNumber = IOUtil.readLong( in );
-		offset = IOUtil.readLong( in );
-		int sectionCount = IOUtil.readInt( in );
-		for ( int i = 0; i < sectionCount; i++ )
-		{
-			long start = IOUtil.readLong( in );
-			long end = IOUtil.readLong( in );
-			addSection( start, end );
-		}
+		sections.add( section );
 	}
 
 }

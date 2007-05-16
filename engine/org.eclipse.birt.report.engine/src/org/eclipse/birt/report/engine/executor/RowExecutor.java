@@ -14,16 +14,10 @@ public class RowExecutor extends QueryItemExecutor
 {
 	protected RowExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.ROWITEM );
 	}
 
 	int rowId;
-
-	public void reset( )
-	{
-		super.reset( );
-		this.rowId = 0;
-	}
 
 	void setRowId( int rowId )
 	{
@@ -78,10 +72,6 @@ public class RowExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( rowContent );
-		if ( emitter != null )
-		{
-			emitter.startRow( rowContent );
-		}
 
 		// prepare to execute the children
 		currentCell = 0;
@@ -102,14 +92,10 @@ public class RowExecutor extends QueryItemExecutor
 
 	public void close( )
 	{
-		IRowContent rowContent = (IRowContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endRow( rowContent );
-		}
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.ROWITEM, this );
+		this.rowId = 0;
+		super.close( );
 	}
 
 	int currentCell;

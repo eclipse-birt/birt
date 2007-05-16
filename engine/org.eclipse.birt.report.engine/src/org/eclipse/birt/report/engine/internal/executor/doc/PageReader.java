@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
@@ -5,42 +15,34 @@ import org.eclipse.birt.report.engine.content.IContent;
 
 class PageReader extends ReportItemReader
 {
-
-	ReportPageReader pageReader;
 	long pageNumber;
+	ReportItemReaderManager manager;
 
-	PageReader( ReportPageReader pageReader, long pageNumber, Fragment fragment )
+	PageReader( AbstractReportReader reportReader, long pageNumber )
 	{
-		super( pageReader.manager );
-		this.pageReader = pageReader;
-		this.pageNumber = pageNumber;
-		this.fragment = fragment;
+		super( reportReader.context );
+		this.reader = reportReader.pageReader;
+		this.manager = reportReader.manager;
 	}
 
 	public IContent execute( )
-	{	
-		pageReader.context.setPageNumber( pageNumber );
-		pageReader.context.setExecutingMasterPage( true );
-		// return the PageContent which is loaded from the content
-		IContent content = pageReader.loadLocalizedPageContent( pageNumber );
-		pageReader.initializeContent( content );
-		// execute extra intialization
-		pageReader.initalizeContentVisitor.visit( content, null );
-		pageReader.context.setExecutingMasterPage( false );
-		//setup the first child
-		Fragment childFrag = fragment.getNextFragment( -1 );
-		if (childFrag != null)
-		{
-			this.child = childFrag.offset;
-		}
-		else
-		{
-			this.child = -1;
-		}
+	{
+		context.setPageNumber( pageNumber );
+		context.setExecutingMasterPage( true );
+
+		content = super.execute( );
 		return content;
 	}
 
 	public void close( )
 	{
+		context.setExecutingMasterPage( false );
+		super.close( );
+	}
+	
+	ReportItemReader createExecutor( ReportItemReader parent, long offset,
+			Fragment fragment )
+	{
+		return manager.createExecutor( parent, offset, fragment );
 	}
 }

@@ -104,6 +104,37 @@ public class DataID
 		return buffer.toString( );
 	}
 
+	public boolean equals( Object a )
+	{
+		if ( a instanceof DataID )
+		{
+			DataID aid = (DataID) a;
+			if ( rowId == -1 && aid.rowId == -1 )
+			{
+				if ( cellId != null )
+				{
+					if ( !cellId.equals( aid.cellId ) )
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if ( aid.cellId != null )
+					{
+						return false;
+					}
+				}
+			}
+			else if ( rowId != aid.rowId )
+			{
+				return false;
+			}
+			return dataSet.equals( aid.dataSet );
+		}
+		return false;
+	}
+
 	/**
 	 * create a new data id instance from the string.
 	 * 
@@ -111,7 +142,7 @@ public class DataID
 	 *            string represetantion of the data id
 	 * @return data id instance.
 	 */
-	static DataID parse( String dataId )
+	public static DataID parse( String dataId )
 	{
 		return parse( dataId.toCharArray( ), 0, dataId.length( ) );
 	}
@@ -126,9 +157,9 @@ public class DataID
 			{
 				ptr--;
 			}
-			else 
+			else
 			{
-				if ( ptr > offset && buffer[ptr - 1] == ':' ) 
+				if ( ptr > offset && buffer[ptr - 1] == ':' )
 				{
 					ptr--;
 					ptr--;

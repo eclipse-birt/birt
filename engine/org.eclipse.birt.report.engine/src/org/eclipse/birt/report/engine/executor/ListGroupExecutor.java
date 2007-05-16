@@ -12,20 +12,15 @@ public class ListGroupExecutor extends GroupExecutor
 
 	protected ListGroupExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.LISTGROUPITEM );
 	}
 
 	public void close( )
 	{
 		handlePageBreakAfterExclusingLast( );
 		handlePageBreakAfter( );
-		IListGroupContent groupContent = (IListGroupContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endListGroup( groupContent );
-		}
 		finishGroupTOCEntry( );
-		manager.releaseExecutor( ExecutorManager.LISTGROUPITEM, this );
+		super.close( );
 	}
 
 	public IContent execute( )
@@ -45,10 +40,6 @@ public class ListGroupExecutor extends GroupExecutor
 		handlePageBreakAfterOfPreviousGroup( );
 		handlePageBreakBefore();
 		startGroupTOCEntry( groupContent );
-		if ( emitter != null )
-		{
-			emitter.startListGroup( groupContent );
-		}
 
 		// prepare to execute the children
 		prepareToExecuteChildren( );

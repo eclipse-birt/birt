@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -235,7 +236,8 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected void startPage( )
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
-		pageContent = reportExecutor.createPage( pageNumber, pageDesign );
+		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
+				pageNumber, pageDesign );
 		this.content = pageContent;
 	}
 

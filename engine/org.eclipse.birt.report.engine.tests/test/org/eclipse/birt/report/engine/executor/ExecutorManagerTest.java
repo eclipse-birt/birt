@@ -13,8 +13,6 @@ package org.eclipse.birt.report.engine.executor;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.report.engine.extension.internal.ExecutorContext;
-
 /**
  * 
  * 
@@ -24,9 +22,8 @@ public class ExecutorManagerTest extends TestCase
 
 	public void testGetItemExecutor( )
 	{
-		ExecutionContext context = new ExecutionContext( );
-		ExecutorManager manager = new ExecutorManager(
-				context, null, new ExecutorContext( context ) );
+		ExecutorManager manager = new ExecutorManager( new ReportExecutor(
+				new ExecutionContext( ) ) );
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
 			ReportItemExecutor executor = ExecutorManagerUtil.getItemExecutor(
@@ -93,9 +90,8 @@ public class ExecutorManagerTest extends TestCase
 
 	public void testReleaseExecutor( )
 	{
-		ExecutionContext context = new ExecutionContext( );
-		ExecutorManager manager = new ExecutorManager(
-				context, null, new ExecutorContext( context ) );
+		ExecutorManager manager = new ExecutorManager( new ReportExecutor(
+				new ExecutionContext( ) ) );
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
 			ReportItemExecutor executor1 = ExecutorManagerUtil.getItemExecutor( manager, i );

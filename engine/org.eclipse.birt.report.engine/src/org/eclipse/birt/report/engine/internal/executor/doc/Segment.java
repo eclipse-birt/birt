@@ -1,39 +1,60 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-class Segment
+public class Segment
 {
 
 	class SegmentEdge
 	{
 
-		SegmentEdge( long offset, boolean leftEdge )
+		SegmentEdge( Object offset, boolean leftEdge )
 		{
 			this.offset = offset;
 			this.leftEdge = leftEdge;
 		}
-		long offset;
+		Object offset;
 		boolean leftEdge;
 	}
 
 	LinkedList edges = new LinkedList( );
-	long[][] sections;
+	Object[][] sections;
+	Comparator comparator;
 
-	void startSegment( long left )
+	Segment( Comparator comparator )
+	{
+		if ( !( comparator instanceof FragmentComparator ) )
+		{
+			comparator = new FragmentComparator( comparator );
+		}
+		this.comparator = comparator;
+	}
+
+	void startSegment( Object left )
 	{
 		addEdge( left, true );
 	}
 
-	void endSegment( long right )
+	void endSegment( Object right )
 	{
 		addEdge( right, false );
 	}
 
-	boolean inSegment( long offset )
+	boolean inSegment( Object offset )
 	{
 		if ( sections == null )
 		{
@@ -41,16 +62,19 @@ class Segment
 		}
 		for ( int i = 0; i < sections.length; i++ )
 		{
-			long[] sect = sections[i];
-			if ( sect[0] <= offset && sect[1] >= offset )
+			Object[] sect = sections[i];
+			if ( comparator.compare( sect[0], offset ) <= 0 )
 			{
-				return true;
+				if ( comparator.compare( sect[1], offset ) >= 0 )
+				{
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	private void addEdge( long offset, boolean left )
+	private void addEdge( Object offset, boolean left )
 	{
 		// drop the normalize result
 		sections = null;
@@ -60,7 +84,7 @@ class Segment
 		while ( iter.hasPrevious( ) )
 		{
 			SegmentEdge next = (SegmentEdge) iter.previous( );
-			if ( next.offset <= offset )
+			if ( comparator.compare( next.offset, offset ) <= 0 )
 			{
 				// insert it after the next
 				edge = new SegmentEdge( offset, left );
@@ -77,9 +101,9 @@ class Segment
 		}
 	}
 
-	private static final long UNCLOSE_EDGE = -1;
-	private static final long LEFT_MOST_EDGE = Long.MIN_VALUE;
-	private static final long RIGHT_MOST_EDGE = Long.MAX_VALUE;
+	static final Object UNCLOSE_EDGE = new String( "UNCLOSE" );
+	public static final Object LEFT_MOST_EDGE = new String( "LEFT" );
+	public static final Object RIGHT_MOST_EDGE = new String( "RIGHT" );
 	private final static int STATUS_INIT = 0;
 	private final static int STATUS_START = 1;
 	private final static int STATUS_CLOSE = 2;
@@ -106,9 +130,9 @@ class Segment
 	 * </tr>
 	 * <tr>
 	 * <th>CLOSE</th>
-	 * <td> if the left is equals to the right, set the right to UNBOUND, change to START.
-	 * Otherwise, save the section, create a new section [left, unbound], change to
-	 * START</td>
+	 * <td> if the left is equals to the right, set the right to UNBOUND, change
+	 * to START. Otherwise, save the section, create a new section [left,
+	 * unbound], change to START</td>
 	 * <td>update the section as [left, right]</td>
 	 * <td>save the section</td>
 	 * </tr>
@@ -124,24 +148,24 @@ class Segment
 			SegmentEdge start = (SegmentEdge) edges.getFirst( );
 			if ( !start.leftEdge )
 			{
-				// assume it start from -1
-				start = new SegmentEdge( Long.MIN_VALUE, true );
+				// assume it start from left most edge
+				start = new SegmentEdge( LEFT_MOST_EDGE, true );
 				edges.addFirst( start );
 			}
 			SegmentEdge end = (SegmentEdge) edges.getLast( );
 			if ( end.leftEdge )
 			{
-				// assume we need end to Long.MAX_VALUE
-				end = new SegmentEdge( Long.MAX_VALUE, false );
+				// assume we need end to right most edge
+				end = new SegmentEdge( RIGHT_MOST_EDGE, false );
 				edges.addLast( end );
 			}
 		}
-		
+
 		ArrayList sects = new ArrayList( );
-		long leftEdge = UNCLOSE_EDGE;
-		long rightEdge = UNCLOSE_EDGE;
-		
-		//insert the last close edge in that segment if there is no close.
+		Object leftEdge = UNCLOSE_EDGE;
+		Object rightEdge = UNCLOSE_EDGE;
+
+		// insert the last close edge in that segment if there is no close.
 		int status = STATUS_INIT;
 		for ( int i = 0; i < edges.size( ); i++ )
 		{
@@ -172,13 +196,16 @@ class Segment
 				case STATUS_CLOSE :
 					if ( edge.leftEdge )
 					{
-						if (edge.offset == rightEdge)
+						if ( comparator.compare( edge.offset, rightEdge ) == 0 )
 						{
 							rightEdge = UNCLOSE_EDGE;
 						}
 						else
 						{
-							sects.add( new long[]{leftEdge, rightEdge} );
+							if ( !isSectEmpty( leftEdge, rightEdge ) )
+							{
+								sects.add( new Object[]{leftEdge, rightEdge} );
+							}
 							leftEdge = edge.offset;
 							rightEdge = UNCLOSE_EDGE;
 						}
@@ -195,35 +222,51 @@ class Segment
 		switch ( status )
 		{
 			case STATUS_START :
-				sects.add( new long[]{leftEdge, RIGHT_MOST_EDGE} );
+				if ( !isSectEmpty( leftEdge, RIGHT_MOST_EDGE ) )
+				{
+					sects.add( new Object[]{leftEdge, RIGHT_MOST_EDGE} );
+				}
 				break;
 			case STATUS_CLOSE :
-				sects.add( new long[]{leftEdge, rightEdge} );
+				if ( !isSectEmpty( leftEdge, rightEdge ) )
+				{
+					sects.add( new Object[]{leftEdge, rightEdge} );
+				}
 				break;
 		}
 
-		sections = new long[sects.size( )][];
+		sections = new Object[sects.size( )][];
 		for ( int i = 0; i < sects.size( ); i++ )
 		{
-			sections[i] = (long[]) sects.get( i );
+			Object[] sect = (Object[]) sects.get( i );;
+			sections[i] = sect;
 		}
+	}
+
+	private boolean isSectEmpty( Object leftEdge, Object rightEdge )
+	{
+		if ( rightEdge == LEFT_MOST_EDGE || leftEdge == RIGHT_MOST_EDGE )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public String toString( )
 	{
 		StringBuffer buffer = new StringBuffer( );
 
-		if (sections == null)
+		if ( sections == null )
 		{
 			normalize( );
 		}
-		if (sections.length == 0)
+		if ( sections.length == 0 )
 		{
 			return "[NONE]";
 		}
 		for ( int i = 0; i < sections.length; i++ )
 		{
-			long[] seg = sections[i];
+			Object[] seg = sections[i];
 			buffer.append( "[" );
 			if ( seg[0] == LEFT_MOST_EDGE && seg[1] == RIGHT_MOST_EDGE )
 			{

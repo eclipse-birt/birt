@@ -112,7 +112,15 @@ public class HTMLEmitterUtil
 		writer.attribute( "element_type", type );
 		if ( iid != null )
 		{
-			writer.attribute( "iid", iid.toString( ) );
+			if ( type == TYPE_TABLE || type == TYPE_LIST
+					|| type == TYPE_EXTENDED )
+			{
+				writer.attribute( "iid", iid.toUniqueString( ) );
+			}
+			else
+			{
+				writer.attribute( "iid", iid.toString( ) );
+			}
 		}
 	}
 
@@ -158,36 +166,43 @@ public class HTMLEmitterUtil
 		}
 	}
 
+	static final String TYPE_LABEL = "LABEL";
+	static final String TYPE_TEMPLATE = "TEMPLATE";
+	static final String TYPE_EXTENDED = "EXTENDED";
+	static final String TYPE_TABLE = "TABLE";
+	static final String TYPE_LIST = "LIST";
+	static final String TYPE_DATA = "DATA";
+	static final String TYPE_UNKNOWN = null;
+
 	private static String getActiveIdType( IContent content )
 	{
 		Object genBy = content.getGenerateBy( );
-		String type = null;
-		if (genBy instanceof LabelItemDesign)
+		if ( genBy instanceof LabelItemDesign )
 		{
-			type = "LABEL";
+			return TYPE_LABEL;
 		}
-		else if (genBy instanceof TemplateDesign)
+		if ( genBy instanceof TemplateDesign )
 		{
-			type = "TEMPLATE";
+			return TYPE_TEMPLATE;
 		}
-		
-		else if( genBy instanceof ExtendedItemDesign )
+
+		if ( genBy instanceof ExtendedItemDesign )
 		{
-			type = "EXTENDED" ;
+			return TYPE_EXTENDED;
 		}
-		else if ( genBy instanceof TableItemDesign )
+		if ( genBy instanceof TableItemDesign )
 		{
-			type = "TABLE";
+			return TYPE_TABLE;
 		}
-		else if (genBy instanceof ListItemDesign)
+		if ( genBy instanceof ListItemDesign )
 		{
-			type = "LIST";
+			return TYPE_LIST;
 		}
-		else if ( genBy instanceof DataItemDesign )
+		if ( genBy instanceof DataItemDesign )
 		{
-			type = "DATA";
+			return TYPE_DATA;
 		}
-		return type;
+		return TYPE_UNKNOWN;
 	}
 	
 	private static int getElementType( DimensionType x, DimensionType y,

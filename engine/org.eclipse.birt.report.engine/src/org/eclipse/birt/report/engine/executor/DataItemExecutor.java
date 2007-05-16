@@ -35,18 +35,6 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
-
-	class DataItemExecutionState
-	{
-		Object lastValue;
-	}
-
-	/**
-	 * does the data content duplicate with the previous data content which
-	 * genertated by the same design
-	 */
-	boolean duplicated;
-
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
@@ -58,7 +46,7 @@ public class DataItemExecutor extends QueryItemExecutor
 	 */
 	public DataItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.DATAITEM );
 	}
 
 	/**
@@ -132,27 +120,6 @@ public class DataItemExecutor extends QueryItemExecutor
 
 		}
 
-		// should we suppress the duplicate
-		duplicated = false;
-		if ( dataDesign.getSuppressDuplicate( ) )
-		{
-			DataItemExecutionState state = (DataItemExecutionState) dataDesign.getExecutionState( );
-			if ( state != null )
-			{
-				Object lastValue = state.lastValue;
-				if ( lastValue == value
-						|| ( lastValue != null && lastValue.equals( value ) ) )
-				{
-					duplicated = true;
-				}
-			}
-			if ( state == null )
-			{
-				state = new DataItemExecutionState( );
-				dataDesign.setExecutionState( state );
-			}
-			state.lastValue = value;
-		}
 		dataContent.setValue( value );
 
 		// get the mapping value
@@ -163,26 +130,15 @@ public class DataItemExecutor extends QueryItemExecutor
 			handleOnCreate( dataContent );
 		}
 
-		if ( !duplicated )
-		{
-			startTOCEntry( dataContent );
-			if ( emitter != null )
-			{
-				emitter.startData( dataContent );
-			}
-			return dataContent;
-		}
+		startTOCEntry( dataContent );
 
-		return null;
+		return content;
 	}
 
 	public void close( )
 	{
-		if ( !duplicated )
-		{
-			finishTOCEntry( );
-		}
+		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.DATAITEM, this );
+		super.close( );
 	}
 }

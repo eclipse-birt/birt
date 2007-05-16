@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 public interface IPageHint
 {
 
@@ -39,6 +35,8 @@ public interface IPageHint
 	 */
 	int getSectionCount( );
 
+	PageSection getSection( int section );
+
 	/**
 	 * get the start offset of the section.
 	 * 
@@ -54,20 +52,4 @@ public interface IPageHint
 	 * @return
 	 */
 	long getSectionEnd( int section );
-
-	/**
-	 * write the page hints into the stream.
-	 * 
-	 * @param out
-	 * @throws IOException
-	 */
-	public void writeObject( DataOutputStream out ) throws IOException;
-
-	/**
-	 * load the page hint from the stream
-	 * 
-	 * @param in
-	 * @throws IOException
-	 */
-	public void readObject( DataInputStream in ) throws IOException;
 }

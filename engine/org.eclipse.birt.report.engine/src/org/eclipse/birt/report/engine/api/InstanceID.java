@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
 /**
  * a class that wraps around an identifier for a report element instance
  */
@@ -19,12 +18,22 @@ public class InstanceID
 {
 
 	protected InstanceID parentId;
+	protected long uid;
 	protected long designId;
 	protected DataID dataId;
 
 	public InstanceID( InstanceID parent, long designId, DataID dataId )
 	{
 		this.parentId = parent;
+		this.uid = -1;
+		this.designId = designId;
+		this.dataId = dataId;
+	}
+
+	public InstanceID( InstanceID parent, long uid, long designId, DataID dataId )
+	{
+		this.parentId = parent;
+		this.uid = uid;
 		this.designId = designId;
 		this.dataId = dataId;
 	}
@@ -32,6 +41,11 @@ public class InstanceID
 	public InstanceID getParentID( )
 	{
 		return parentId;
+	}
+
+	public long getUniqueID( )
+	{
+		return uid;
 	}
 
 	/**
@@ -50,6 +64,11 @@ public class InstanceID
 	protected void append( StringBuffer buffer )
 	{
 		buffer.append( "/" );
+		if ( uid != -1 )
+		{
+			buffer.append( uid );
+			buffer.append( "." );
+		}
 		buffer.append( designId );
 		if ( dataId != null )
 		{
@@ -63,6 +82,23 @@ public class InstanceID
 	{
 		StringBuffer buffer = new StringBuffer( );
 		append( buffer );
+		return buffer.toString( );
+	}
+
+	protected void appendUniqueID( StringBuffer buffer )
+	{
+		InstanceID pid = parentId;
+		if ( pid != null )
+		{
+			pid.appendUniqueID( buffer );
+		}
+		append( buffer );
+	}
+
+	public String toUniqueString( )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		appendUniqueID( buffer );
 		return buffer.toString( );
 	}
 
@@ -110,9 +146,20 @@ public class InstanceID
 		}
 		if ( ptr >= offset && buffer[ptr] == '/' )
 		{
-			String strDesignId = new String( buffer, ptr + 1, offset + length
-					- ptr - 1 );
-			long designId = Long.parseLong( strDesignId );
+			long uid = -1;
+			long designId = -1;
+			String strId = new String( buffer, ptr + 1, offset + length - ptr
+					- 1 );
+			int dotPos = strId.indexOf( '.' );
+			if ( dotPos != -1 )
+			{
+				uid = Long.parseLong( strId.substring( 0, dotPos ) );
+				designId = Long.parseLong( strId.substring( dotPos + 1 ) );
+			}
+			else
+			{
+				designId = Long.parseLong( strId );
+			}
 			ptr--; // skip the current '/'
 			if ( ptr >= offset )
 			{
@@ -120,12 +167,12 @@ public class InstanceID
 				InstanceID parent = InstanceID.parse( buffer, offset, length );
 				if ( parent != null )
 				{
-					return new InstanceID( parent, designId, dataId );
+					return new InstanceID( parent, uid, designId, dataId );
 				}
 			}
 			else
 			{
-				return new InstanceID( null, designId, dataId );
+				return new InstanceID( null, uid, designId, dataId );
 			}
 		}
 		return null;

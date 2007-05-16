@@ -16,21 +16,17 @@ public class PageHandlerTest extends EngineCase
 	static final String REPORT_DESIGN = "page-handler.rptdesign";
 	static final String REPORT_DOCUMENT = "./reportdocument.rptdocument";
 
-	protected IReportEngine engine;
-
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		// create the report engine using default config
-		engine = createReportEngine( );
 	}
 
 	public void tearDown( )
 	{
 		// shut down the engine.
-		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}

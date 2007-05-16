@@ -25,9 +25,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
-import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -200,11 +198,11 @@ public class DteDataEngine extends AbstractDataEngine
 		if ( useCache )
 		{
 			String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
-			( (CubeQueryDefinition)query ).setQueryResultsID( rsetId );
+			query.setQueryResultsID( rsetId );
 		}
 		else
 		{
-			( (CubeQueryDefinition)query ).setQueryResultsID( null );
+			query.setQueryResultsID( null );
 		}
 		
 		// the cube query must be re-prepared before executing.

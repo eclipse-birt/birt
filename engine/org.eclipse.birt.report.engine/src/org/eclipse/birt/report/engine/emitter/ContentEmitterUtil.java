@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter;
 
@@ -29,41 +39,12 @@ public class ContentEmitterUtil
 
 	static public void startContent( IContent content, IContentEmitter emitter )
 	{
-		String vformat = content.getStyle( ).getVisibleFormat( );
-		
-		if ( vformat == null )
-		{
-			starter.visit( content, emitter );
-		}
-		else
-		{
-			if ( vformat.toLowerCase( ).indexOf(
-					emitter.getOutputFormat( ).toLowerCase( ) ) == -1
-					&& vformat.toLowerCase( ).indexOf( "all" ) == -1 )
-			{
-				starter.visit( content, emitter );
-			}
-		}
+		starter.visit( content, emitter);
 	}
-
-	static public void endContent( IContent content, IContentEmitter emitter )
+	
+	static public void endContent(IContent content, IContentEmitter emitter)
 	{
-        String vformat = content.getStyle( ).getVisibleFormat( );
-		
-        if ( vformat == null )
-		{
-			ender.visit( content, emitter );
-		}
-		else
-		{
-			if ( vformat.toLowerCase( ).indexOf(
-					emitter.getOutputFormat( ).toLowerCase( ) ) == -1
-					&& vformat.toLowerCase( ).indexOf( "all" ) == -1 )
-			{
-				ender.visit( content, emitter );
-			}
-		}
-		
+		ender.visit( content, emitter );
 	}
 
 	private static class StartContentVisitor implements IContentVisitor

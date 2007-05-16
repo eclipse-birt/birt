@@ -10,20 +10,15 @@ public class TableGroupExecutor extends GroupExecutor
 {
 	protected TableGroupExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.TABLEGROUPITEM );
 	}
 
 	public void close( )
 	{
 		handlePageBreakAfterExclusingLast( );
 		handlePageBreakAfter( );
-		ITableGroupContent groupContent = (ITableGroupContent) getContent( );
-		if ( emitter != null )
-		{
-			emitter.endTableGroup( groupContent );
-		}
 		finishGroupTOCEntry( );
-		manager.releaseExecutor( ExecutorManager.TABLEGROUPITEM, this );
+		super.close( );
 	}
 
 	public IContent execute( )
@@ -44,10 +39,6 @@ public class TableGroupExecutor extends GroupExecutor
 		handlePageBreakBefore( );
 
 		startGroupTOCEntry( groupContent );
-		if ( emitter != null )
-		{
-			emitter.startTableGroup( groupContent );
-		}
 
 		//prepare to execute the children
 		prepareToExecuteChildren();

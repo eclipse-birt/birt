@@ -31,11 +31,10 @@ import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -147,63 +146,56 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			Report reportDesign = executionContext.getReport( );
-			ReportExecutor executor = new ReportExecutor( executionContext,
-					reportDesign, null );
-			IReportExecutor lExecutor = new LocalizedReportExecutor(
+			IReportExecutor executor = new ReportExecutor( executionContext );
+			executor = new SuppressDuplciateReportExecutor( executor );
+			executor = new LocalizedReportExecutor(
 					executionContext, executor );
 			executionContext.setExecutor( executor );
 			initializeContentEmitter( emitter, executor );
 
 			// if we need do the paginate, do the paginate.
-			if ( ExtensionManager.NO_PAGINATION.equals( pagination ))
+			String format = executionContext.getOutputFormat( );
+			boolean paginate = true;
+			if ( FORMAT_HTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
-				HTMLTableLayoutNestEmitter tableLayoutEmitter = new HTMLTableLayoutNestEmitter(
-						emitter );
-				lExecutor.execute( reportDesign.getReportDesign( ),
-						tableLayoutEmitter );
+				HTMLRenderOption htmlOption = new HTMLRenderOption(
+						renderOptions );
+				paginate = htmlOption.getHtmlPagination( );
 			}
-			else
+			
+			if ( ExtensionManager.NO_PAGINATION.equals( pagination ) )
 			{
-				String format = executionContext.getOutputFormat( );
-				boolean paginate = true;
-				if ( FORMAT_HTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
+				paginate = false;
+			}
+
+			synchronized ( this )
+			{
+				if ( !executionContext.isCanceled( ) )
 				{
-					if ( renderOptions instanceof HTMLRenderOption )
-					{
-						HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
-						paginate = htmlOption.getHtmlPagination( );
-					}
+					layoutEngine = createReportLayoutEngine( pagination,
+							renderOptions );
 				}
+			}
 
-				synchronized ( this )
-				{
-					if ( !executionContext.isCanceled( ) )
-					{
-						layoutEngine = createReportLayoutEngine( pagination, renderOptions );
-					}
-				}
+			if ( layoutEngine != null )
+			{
+				layoutEngine.setLocale( executionContext.getLocale( ) );
 
-				if ( layoutEngine != null )
-				{
-					layoutEngine.setLocale( executionContext.getLocale( ) );
-					
-					CompositeLayoutPageHandler layoutPageHandler = new CompositeLayoutPageHandler( );
-					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-												executionContext );
-					layoutPageHandler.addPageHandler( handle );
-					layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
-							executionContext ) );
+				CompositeLayoutPageHandler layoutPageHandler = new CompositeLayoutPageHandler( );
+				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+						executionContext );
+				layoutPageHandler.addPageHandler( handle );
+				layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
+						executionContext ) );
 
-					layoutEngine.setPageHandler( layoutPageHandler );
+				layoutEngine.setPageHandler( layoutPageHandler );
 
-					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
-							format );
-					outputEmitters.addEmitter( emitter );
-					outputEmitters.addEmitter( handle.getEmitter( ) );
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+						format );
+				outputEmitters.addEmitter( emitter );
+				outputEmitters.addEmitter( handle.getEmitter( ) );
 
-					layoutEngine.layout( lExecutor, outputEmitters, paginate );
-				}
+				layoutEngine.layout( executor, outputEmitters, paginate );
 			}
 			closeRender( );
 			executionContext.closeDataEngine( );

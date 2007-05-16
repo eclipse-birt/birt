@@ -3,7 +3,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 

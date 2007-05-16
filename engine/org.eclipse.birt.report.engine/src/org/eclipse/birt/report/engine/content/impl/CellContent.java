@@ -222,6 +222,19 @@ public class CellContent extends AbstractContent implements ICellContent
 		}
 	}
 
+	public boolean needSave( )
+	{
+		if ( rowSpan != -1 || colSpan != -1 || column != -1 )
+		{
+			return true;
+		}
+		if ( displayGroupIcon )
+		{
+			return true;
+		}
+		return super.needSave( );
+	}
+
 	public boolean getDisplayGroupIcon( )
 	{
 		return displayGroupIcon;

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -157,16 +158,18 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IQueryDefinition query = (IQueryDefinition) iter.next( );
+			Map map = query.getBindings( );
+			String[] columns = (String[]) map.keySet( )
+					.toArray( new String[]{} );
+			Arrays.sort( columns );
 			resultSet = (IQueryResultSet) dataEngine.execute( query );
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
-				Map map = query.getBindings( );
-				Iterator it = map.keySet( ).iterator( );
-				while ( it.hasNext( ) )
+				for ( int j = 0; j < columns.length; j++ )
 				{
-					String next = (String) it.next( );
-					resultStr += resultSet.getResultIterator( ).getString( next );
+					resultStr += resultSet.getResultIterator( ).getString(
+							columns[j] );
 				}
 				i++;
 			}
@@ -192,16 +195,19 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IQueryDefinition query = (IQueryDefinition) iter.next( );
+			Map map = query.getBindings( );
+			String[] columns = (String[]) map.keySet( )
+					.toArray( new String[]{} );
+			Arrays.sort( columns );
+			
 			resultSet = (IQueryResultSet) dataEngine.execute( query );
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
-				Map map = query.getBindings( );
-				Iterator it = map.keySet( ).iterator( );
-				while ( it.hasNext( ) )
+				for ( int j = 0; j < columns.length; j++ )
 				{
-					String next = (String) it.next( );
-					resultStr += resultSet.getResultIterator( ).getString( next );
+					resultStr += resultSet.getResultIterator( ).getString(
+							columns[j] );
 				}
 				i++;
 			}
@@ -245,12 +251,13 @@ public class DataEngineTest extends TestCase
 					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
-				Map childMap = childQuery.getBindings( );
-				Iterator childIter = childMap.keySet( ).iterator( );
-				while ( childIter.hasNext( ) )
+				Map map = childQuery.getBindings( );
+				String[] columns = (String[]) map.keySet( ).toArray(
+						new String[]{} );
+				Arrays.sort( columns );
+				for ( int j = 0; j < columns.length; j++ )
 				{
-					String nextChi = (String) childIter.next( );
-					resultStr += childRSet.getString( nextChi );
+					resultStr += childRSet.getString( columns[j] );
 				}
 			}
 			childRSet.close( );
@@ -294,12 +301,13 @@ public class DataEngineTest extends TestCase
 					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
-				Map childMap = childQuery.getBindings( );
-				Iterator childIter = childMap.keySet( ).iterator( );
-				while ( childIter.hasNext( ) )
+				Map map = childQuery.getBindings( );
+				String[] columns = (String[]) map.keySet( ).toArray(
+						new String[]{} );
+				Arrays.sort( columns );
+				for ( int j = 0; j < columns.length; j++ )
 				{
-					String nextChi = (String) childIter.next( );
-					resultStr += childRSet.getString( nextChi );
+					resultStr += childRSet.getString( columns[j] );
 				}
 			}
 			childRSet.close( );
@@ -358,13 +366,14 @@ public class DataEngineTest extends TestCase
 			throws Exception
 	{
 		String res = "";
+		String[] columns = (String[]) columnsSet.toArray( new String[]{} );
+		Arrays.sort( columns );
 
 		while ( resultSet.next( ) )
 		{
-			Iterator columns = columnsSet.iterator( );
-			while ( columns.hasNext( ) )
+			for ( int j = 0; j < columns.length; j++ )
 			{
-				res += resultSet.getString( (String) columns.next( ) );
+				res += resultSet.getString( columns[j] );
 			}
 		}
 		return res;

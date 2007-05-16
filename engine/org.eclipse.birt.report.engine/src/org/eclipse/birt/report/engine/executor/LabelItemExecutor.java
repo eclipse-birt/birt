@@ -33,7 +33,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 	 */
 	public LabelItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.LABELITEM );
 	}
 
 	/**
@@ -70,11 +70,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 		}
 
 		startTOCEntry( labelContent );
-		
-		if (emitter != null)
-		{
-			emitter.startLabel( labelContent );
-		}
+
 		return labelContent;
 	}
 	
@@ -82,6 +78,6 @@ public class LabelItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.LABELITEM, this );
+		super.close( );
 	}
 }

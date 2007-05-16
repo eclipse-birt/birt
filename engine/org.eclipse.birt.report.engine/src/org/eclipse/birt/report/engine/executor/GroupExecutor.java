@@ -2,8 +2,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -22,35 +20,18 @@ abstract public class GroupExecutor extends ReportItemExecutor
 
 	ListingElementExecutor listingExecutor;
 
-	protected GroupExecutor( ExecutorManager manager )
+	protected GroupExecutor( ExecutorManager manager, int type )
 	{
-		super( manager );
+		super( manager, type );
 	}
 
-	protected DataID getDataID( )
+	public void close( )
 	{
-		// FIXME: overide the getDataId from the reportItemExecutor.
-		IQueryResultSet curRset = getResultSet( );
-		if ( curRset == null )
-		{
-			curRset = (IQueryResultSet) getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getRowIndex( );
-			return new DataID( dataSetID, position );
-		}
-		return null;
-	}
-
-	public void reset( )
-	{
-		super.reset( );
 		endOfGroup = false;
 		hiddenDetail = false;
 		needPageBreak = false;
 		listingExecutor = null;
+		super.close( );
 	}
 
 	void setLisingExecutor( ListingElementExecutor executor )
@@ -384,8 +365,8 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				.getGroupCount( ); i++ )
 		{
 			GroupDesign group = listingDesign.getGroup( i );
-			listingExecutor.clearDuplicateFlags( group );
+			SuppressDuplicateUtil.clearDuplicateFlags( group );
 		}
-		listingExecutor.clearDuplicateFlags( listingDesign.getDetail( ) );
+		SuppressDuplicateUtil.clearDuplicateFlags( listingDesign.getDetail( ) );
 	}
 }

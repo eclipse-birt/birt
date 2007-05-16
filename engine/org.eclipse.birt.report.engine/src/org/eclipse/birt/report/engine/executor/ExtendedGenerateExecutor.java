@@ -42,15 +42,17 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 	IReportItemGeneration itemGeneration;
 	IBaseResultSet[] rsets;
 
-	public ExtendedGenerateExecutor( IReportItemGeneration itemGeneration )
+	public ExtendedGenerateExecutor( ExecutorManager manager,
+			IReportItemGeneration itemGeneration )
 	{
-		super( );
+		super( manager, -1 );
 		this.itemGeneration = itemGeneration;
 	}
 	
 	public void close( )
 	{
 		closeQueries( );
+		super.close( );
 	}
 
 	public IContent execute( )

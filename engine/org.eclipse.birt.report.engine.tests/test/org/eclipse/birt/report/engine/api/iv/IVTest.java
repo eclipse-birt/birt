@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.RunnableMonitor;
 import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -42,7 +40,7 @@ public class IVTest extends EngineCase
 
 	public void tearDown( )
 	{
-		engine.shutdown( );
+		engine.destroy( );
 		removeFile( TEST_FOLDER );
 	}
 
@@ -96,7 +94,7 @@ public class IVTest extends EngineCase
 		createReportDocument( params );
 		new IVTask( engine, REPORT_DOCUMENT ).run( );
 	}
-
+/*
 	public void testRunWithNoReportDesign( ) throws Exception
 	{
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
@@ -131,7 +129,7 @@ public class IVTest extends EngineCase
 
 		new RenderTask( engine, REPORT_DOCUMENT ).run( );
 	}
-
+*/
 	static final String REPORT_DESIGN_NO_FILTER_RESOURCE = "org/eclipse/birt/report/engine/api/iv/IV_DesignNoFilter.rptdesign";
 	static final String REPORT_DESIGN_WITH_FILTER_RESOURCE = "org/eclipse/birt/report/engine/api/iv/IV_DesignWithFilter.rptdesign";
 

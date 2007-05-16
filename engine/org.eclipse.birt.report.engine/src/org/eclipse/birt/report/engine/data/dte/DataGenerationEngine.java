@@ -19,7 +19,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -28,7 +27,6 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
@@ -52,49 +50,34 @@ public class DataGenerationEngine extends AbstractDataEngine
 	 */
 	private DataOutputStream dos;
 
-	public DataGenerationEngine( ExecutionContext context, IDocArchiveWriter writer )
+	public DataGenerationEngine( ExecutionContext context,
+			IDocArchiveWriter writer ) throws Exception
 	{
 		super( context );
 
-		try
-		{			
-			// create the DteData session.
-			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_GENERATION, null, context
-							.getSharedScope( ) );
-			dteSessionContext.setDocumentWriter( writer );
-			DataEngineContext dteEngineContext = dteSessionContext
-					.getDataEngineContext( );
-			dteEngineContext.setLocale( context.getLocale( ) );
+		// create the DteData session.
+		DataSessionContext dteSessionContext = new DataSessionContext(
+				DataSessionContext.MODE_GENERATION, null, context
+						.getSharedScope( ) );
+		dteSessionContext.setDocumentWriter( writer );
+		DataEngineContext dteEngineContext = dteSessionContext
+				.getDataEngineContext( );
+		dteEngineContext.setLocale( context.getLocale( ) );
 
-			String tempDir = getTempDir( context );
-			if ( tempDir != null )
-			{
-				dteEngineContext.setTmpdir( tempDir );
-			}
-
-			dteSession = DataRequestSession.newSession( dteSessionContext );			
-			
-		}
-		catch ( Exception ex )
+		String tempDir = getTempDir( context );
+		if ( tempDir != null )
 		{
-			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
-			ex.printStackTrace( );
+			dteEngineContext.setTmpdir( tempDir );
 		}
 
-		try
-		{
-			dos = new DataOutputStream( writer
-					.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
-			
-			IOUtil.writeString( dos, VERSION_1 );
-			
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			e.printStackTrace( );
-		}
+		dteSession = DataRequestSession.newSession( dteSessionContext );
+
+		dos = new DataOutputStream(
+				writer
+						.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
+
+		DteMetaInfoIOUtil.startMetaInfo( dos );
+
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
@@ -216,11 +199,11 @@ public class DataGenerationEngine extends AbstractDataEngine
 		if ( useCache )
 		{
 			String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
-			( (CubeQueryDefinition)query ).setQueryResultsID( rsetId );
+			query.setQueryResultsID( rsetId );
 		}
 		else
 		{
-			( (CubeQueryDefinition)query ).setQueryResultsID( null );
+			query.setQueryResultsID( null );
 		}
 		
 		// the cube query must be re-prepared before executing.
@@ -308,32 +291,30 @@ public class DataGenerationEngine extends AbstractDataEngine
 	 * 
 	 * @param key
 	 */
-	private void storeDteMetaInfo( String pRsetId, String rowId, String queryId,
-			String rsetId )
+	private void storeDteMetaInfo( String pRsetId, String rowId,
+			String queryId, String rsetId )
 	{
-		if ( null != dos )
+		try
 		{
-			try
-			{				
-				IOUtil.writeString( dos, pRsetId );
-				// top query in master page then set the page number as row id
-				if ( pRsetId == null && context.isExecutingMasterPage( ) )
-				{
-					IOUtil.writeString( dos, String.valueOf( context.getPageNumber( ) ) );
-				}
-				else
-				{
-					IOUtil.writeString( dos, rowId );
-				}
-				
-				IOUtil.writeString( dos, queryId );
-				IOUtil.writeString( dos, rsetId );
-			}
-			catch ( IOException e )
+
+			// save the meta infomation
+			if ( context.isExecutingMasterPage( ) )
 			{
-				logger.log( Level.SEVERE, e.getMessage( ) );
-				e.printStackTrace( );
+				if ( pRsetId == null )
+				{
+					rowId = String.valueOf( context.getPageNumber( ) );
+				}
 			}
+			DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
+					rsetId );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ) );
+			e.printStackTrace( );
 		}
 	}
+	
+	
+
 }

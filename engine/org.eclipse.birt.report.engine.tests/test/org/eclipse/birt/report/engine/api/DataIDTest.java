@@ -28,7 +28,20 @@ public class DataIDTest extends TestCase
 
 	protected void checkParse( String value )
 	{
-		DataID id = DataIDUtil.parse( value );
+		DataID id = DataID.parse( value );
 		assertEquals( value, id.toString( ) );
+	}
+
+	public void testEquals( )
+	{
+		DataSetID dataSet = new DataSetID( "ABC" );
+		// test data id equals
+		assertEquals( new DataID( dataSet, 1 ), new DataID( dataSet, 1 ) );
+		// test cube id equals
+		assertEquals( new DataID( dataSet, "B" ), new DataID( dataSet, "B" ) );
+
+		// test data id != cube id
+		assertTrue( !new DataID( dataSet, 1 )
+				.equals( new DataID( dataSet, "A" ) ) );
 	}
 }

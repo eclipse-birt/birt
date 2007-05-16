@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +29,6 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -53,34 +49,30 @@ public class DataPresentationEngine extends AbstractDataEngine
 	protected HashMap rsetRelations = new HashMap( );
 
 	public DataPresentationEngine( ExecutionContext context,
-			IDocArchiveReader reader )
+			IDocArchiveReader reader ) throws Exception
 	{
 		super( context );
-		try
-		{			
-			// create the DteData session.
-			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_PRESENTATION, null, context.getSharedScope( ) );
-			dteSessionContext.setDocumentReader( reader );
-			DataEngineContext dteEngineContext = dteSessionContext
-					.getDataEngineContext( );
-			dteEngineContext.setLocale( context.getLocale( ) );
+		// create the DteData session.
+		DataSessionContext dteSessionContext = new DataSessionContext(
+				DataSessionContext.MODE_PRESENTATION, null, context
+						.getSharedScope( ) );
+		dteSessionContext.setDocumentReader( reader );
+		DataEngineContext dteEngineContext = dteSessionContext
+				.getDataEngineContext( );
+		dteEngineContext.setLocale( context.getLocale( ) );
 
-			String tempDir = getTempDir( context );
-			if ( tempDir != null )
-			{
-				dteEngineContext.setTmpdir( tempDir );
-			}
-
-			dteSession = DataRequestSession.newSession( dteSessionContext );
-
-		}
-		catch ( Exception ex )
+		String tempDir = getTempDir( context );
+		if ( tempDir != null )
 		{
-			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
-			ex.printStackTrace( );
+			dteEngineContext.setTmpdir( tempDir );
 		}
+
+		dteSession = DataRequestSession.newSession( dteSessionContext );
+
 		this.reader = reader;
+		
+		// try to load the meta data informations
+		loadDteMetaInfo( );
 	}
 
 	/**
@@ -98,67 +90,28 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
-		loadDteMetaInfo( );
 	}
 
-	private void loadDteMetaInfo()
+	private void loadDteMetaInfo( ) throws IOException
 	{
-		loadDteMetaInfo( ReportDocumentConstants.DATA_META_STREAM );
-		if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+		ArrayList result = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
+		if ( result != null )
 		{
-			loadDteMetaInfo( ReportDocumentConstants.DATA_SNAP_META_STREAM );
-		}
-	}
-	
-	private void loadDteMetaInfo( String metaDataStream)
-	{
-		DataInputStream dis = null;
-		try
-		{			
-			dis = new DataInputStream( reader.getStream( metaDataStream) );
-			ArrayList result = super.loadDteMetaInfo( dis );
-			if ( result != null )
+			StringBuffer buffer = new StringBuffer( );
+			for ( int i = 0; i < result.size( ); i++ )
 			{
-				StringBuffer buffer = new StringBuffer( );
-				for ( int i = 0; i < result.size( ); i++ )
-				{
-					String[] rsetRelation = (String[])result.get( i );
-					String pRsetId = rsetRelation[0];
-					String rowId = rsetRelation[1];
-					String queryId = rsetRelation[2];
-					String rsetId = rsetRelation[3];
-					buffer.setLength( 0 );
-					buffer.append( pRsetId );
-					buffer.append( "." );
-					buffer.append( rowId );
-					buffer.append( "." );	
-					buffer.append( queryId );
-					rsetRelations.put( buffer.toString( ), rsetId );
-				}
-			}			
-		}
-		catch ( EOFException eofe )
-		{
-			// we expect that there should be an EOFexception
-		}
-		catch ( IOException ioe )
-		{
-			context.addException( new EngineException(
-					"Can't load the data in report document", ioe ) );
-			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
-		}
-		finally
-		{
-			if ( dis != null )
-			{
-				try
-				{
-					dis.close( );
-				}
-				catch ( IOException ex )
-				{
-
-				}
+				String[] rsetRelation = (String[]) result.get( i );
+				String pRsetId = rsetRelation[0];
+				String rowId = rsetRelation[1];
+				String queryId = rsetRelation[2];
+				String rsetId = rsetRelation[3];
+				buffer.setLength( 0 );
+				buffer.append( pRsetId );
+				buffer.append( "." );
+				buffer.append( rowId );
+				buffer.append( "." );
+				buffer.append( queryId );
+				rsetRelations.put( buffer.toString( ), rsetId );
 			}
 		}
 	}
@@ -320,7 +273,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 						queryID );
 				if ( resultSetID == null )
 				{
-					resultSetID = getResultID( null, "-1", queryID );
+					// try to find the query defined in page 1
+					resultSetID = getResultID( null, "1", queryID );
 				}
 			}
 			else

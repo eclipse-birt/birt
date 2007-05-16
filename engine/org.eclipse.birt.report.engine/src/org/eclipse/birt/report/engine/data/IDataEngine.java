@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.data;
 
-import java.io.DataInputStream;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -96,6 +94,4 @@ public interface IDataEngine
 	 * @return retuan a dataSession of DTE.
 	 */
 	DataRequestSession getDTESession( );
-	
-	ArrayList loadDteMetaInfo( DataInputStream dis );
 }

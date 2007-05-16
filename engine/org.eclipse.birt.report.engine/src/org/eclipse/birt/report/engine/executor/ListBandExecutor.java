@@ -1,12 +1,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
@@ -18,87 +15,66 @@ public class ListBandExecutor extends StyledItemExecutor
 
 	protected ListBandExecutor( ExecutorManager manager )
 	{
-		super( manager );
-	}
-	
-	protected DataID getDataID( )
-	{
-		IQueryResultSet curRset = getResultSet( );
-		if ( curRset == null )
-		{
-			curRset = (IQueryResultSet) getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getRowIndex( );
-			return new DataID( dataSetID, position );
-		}
-		return null;
+		super( manager, ExecutorManager.LISTBANDITEM );
 	}
 
 	ListingElementExecutor listExecutor;
-	
-	void setListingExecutor(ListingElementExecutor listExecutor)
+
+	void setListingExecutor( ListingElementExecutor listExecutor )
 	{
 		this.listExecutor = listExecutor;
 	}
+
 	public IContent execute( )
 	{
-		ListBandDesign bandDesign = (ListBandDesign) getDesign();
+		ListBandDesign bandDesign = (ListBandDesign) getDesign( );
 
 		IListBandContent bandContent = report.createListBandContent( );
-		setContent(bandContent);
+		setContent( bandContent );
 
 		restoreResultSet( );
-		
+
 		initializeContent( bandDesign, bandContent );
 
 		int type = bandDesign.getBandType( );
-		if((type == BandDesign.BAND_DETAIL || type == BandDesign.GROUP_HEADER )&& listExecutor.needSoftBreakBefore( ))
+		if ( ( type == BandDesign.BAND_DETAIL || type == BandDesign.GROUP_HEADER )
+				&& listExecutor.needSoftBreakBefore( ) )
 		{
 			IStyle style = content.getStyle( );
-			if(style!=null)
+			if ( style != null )
 			{
-				CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
-				if(pageBreak==null || IStyle.AUTO_VALUE.equals( pageBreak ))
+				CSSValue pageBreak = style
+						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+				if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
 				{
-					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE );
+					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+							IStyle.SOFT_VALUE );
 				}
 			}
 		}
-		
-		startTOCEntry(bandContent);
-		if (emitter != null)
-		{
-			emitter.startListBand( bandContent );
-		}
-		
-		//prepare to execute the children
+
+		startTOCEntry( bandContent );
+
+		// prepare to execute the children
 		currentItem = 0;
 
 		return bandContent;
 	}
-	
+
 	public void close( )
 	{
-		IListBandContent bandContent = (IListBandContent) getContent();
-		if (emitter != null)
-		{
-			emitter.endListBand( bandContent );
-		}
 		finishTOCEntry( );
-		manager.releaseExecutor( ExecutorManager.LISTBANDITEM, this );
+		super.close( );
 	}
 
 	int currentItem;
 
-	public boolean hasNextChild()
+	public boolean hasNextChild( )
 	{
 		ListBandDesign bandDesign = (ListBandDesign) design;
 		return currentItem < bandDesign.getContentCount( );
 	}
-	
+
 	public IReportItemExecutor getNextChild( )
 	{
 		ListBandDesign bandDesign = (ListBandDesign) design;
@@ -106,7 +82,7 @@ public class ListBandExecutor extends StyledItemExecutor
 		{
 			ReportItemDesign itemDesign = bandDesign.getContent( currentItem++ );
 			ReportItemExecutor executor = manager.createExecutor( this,
-					itemDesign);
+					itemDesign );
 			return executor;
 		}
 		return null;

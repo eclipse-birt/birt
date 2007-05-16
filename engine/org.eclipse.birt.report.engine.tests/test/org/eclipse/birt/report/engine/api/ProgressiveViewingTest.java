@@ -25,21 +25,16 @@ public class ProgressiveViewingTest extends EngineCase
 	static final String REPORT_DESIGN = "progressive_viewing.rptdesign";
 	static final String REPORT_DOCUMENT = "./reportdocument";
 
-	protected IReportEngine engine;
-
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		// create the report engine using default config
-		engine = createReportEngine( );
 	}
 
 	public void tearDown( )
 	{
-		// shut down the engine.
-		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}
@@ -77,6 +72,7 @@ public class ProgressiveViewingTest extends EngineCase
 				renderTask.setRenderOption( options );
 				renderTask.setPageNumber( pageContent.page );
 				renderTask.render( );
+				assertTrue( renderTask.getErrors( ).isEmpty( ) );
 				renderTask.close( );
 				reportDocument.close( );
 				String content = ostream.toString( "utf-8" );
@@ -133,9 +129,8 @@ public class ProgressiveViewingTest extends EngineCase
 					renderTask.render( );
 					renderTask.close( );
 					reportDocument.close( );
+					assertTrue( renderTask.getErrors( ).isEmpty( ) );
 					String content = ostream.toString( "utf-8" );
-					System.out.println( pageNumber );
-					System.out.println( content );
 					assertTrue( content.length( ) > 1024 );
 					pages.add( new PageContent( pageNumber, content ) );
 				}

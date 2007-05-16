@@ -1,59 +1,38 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
-import org.eclipse.birt.report.engine.content.IAutoTextContent;
-import org.eclipse.birt.report.engine.content.IBandContent;
-import org.eclipse.birt.report.engine.content.IColumn;
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IContentVisitor;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IGroupContent;
-import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.IListBandContent;
-import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.extension.ICubeResultSet;
-import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
-import org.eclipse.birt.report.engine.ir.ColumnDesign;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.GroupDesign;
-import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
 import org.eclipse.birt.report.engine.toc.TOCTree;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public abstract class AbstractReportReader implements IReportExecutor
 {
@@ -64,15 +43,16 @@ public abstract class AbstractReportReader implements IReportExecutor
 	protected ExecutionContext context;
 	protected IDataEngine dataEngine;
 	protected CachedReportContentReaderV3 reader;
+	protected PageHintReader hintReader;
+	protected CachedReportContentReaderV3 pageReader;
 
 	protected Report report;
 	protected IReportDocument reportDoc;
 	protected ReportContent reportContent;
-	protected IContent dummyReportContent;
 
 	ReportItemReaderManager manager;
 
-	public AbstractReportReader( ExecutionContext context )
+	public AbstractReportReader( ExecutionContext context ) throws IOException
 	{
 		assert context.getDesign( ) != null;
 		assert context.getReportDocument( ) != null;
@@ -85,10 +65,8 @@ public abstract class AbstractReportReader implements IReportExecutor
 				.createReportContent( report );
 		context.setReportContent( reportContent );
 
-		dummyReportContent = new LabelContent( (ReportContent) reportContent );
-		dummyReportContent.setStyleClass( report.getRootStyleName( ) );
-
 		reportDoc = context.getReportDocument( );
+
 
 		TOCTree tocTree = new DocumentTOCTree(reportDoc);
 		reportContent.setTOCTree(tocTree);
@@ -100,38 +78,21 @@ public abstract class AbstractReportReader implements IReportExecutor
 		dataEngine = context.getDataEngine( );
 		dataEngine.prepare( report, context.getAppContext( ) );
 
-		manager = new ReportItemReaderManager( this );
+		manager = new ReportItemReaderManager( context );
+		try
+		{
+			openReaders( );
+		}
+		catch ( IOException ex )
+		{
+			closeReaders( );
+			throw ex;
+		}
 	}
 
 	public void close( )
 	{
 		closeReaders( );
-	}
-
-	IContent loadContent( long offset )
-	{
-		try
-		{
-			IContent content = reader.loadContent( offset );
-			if ( content != null )
-			{
-				if ( content.getParent( ) == null )
-				{
-					content.setParent( dummyReportContent );
-				}
-			}
-			return reader.loadContent( offset );
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.SEVERE, "Can't load the content", ex );
-		}
-		return null;
-	}
-
-	void unloadContent( long offset )
-	{
-		reader.unloadContent( offset );
 	}
 
 	protected void openReaders( ) throws IOException
@@ -140,6 +101,12 @@ public abstract class AbstractReportReader implements IReportExecutor
 		RAInputStream in = archive
 				.getStream( ReportDocumentConstants.CONTENT_STREAM );
 		reader = new CachedReportContentReaderV3( reportContent, in );
+
+		// open the page hints stream and the page content stream
+		hintReader = new PageHintReader( reportDoc );
+
+		in = archive.getStream( ReportDocumentConstants.PAGE_STREAM );
+		pageReader = new CachedReportContentReaderV3( reportContent, in );
 	}
 
 	protected void closeReaders( )
@@ -149,444 +116,61 @@ public abstract class AbstractReportReader implements IReportExecutor
 			reader.close( );
 			reader = null;
 		}
-	}
-
-	protected void initializeContent( IContent content )
-	{
-		// set up the report content
-		content.setReportContent( reportContent );
-
-		// set up the design object
-		InstanceID id = content.getInstanceID( );
-		if ( id != null )
+		if ( hintReader != null )
 		{
-			long designId = id.getComponentID( );
-			if ( designId != -1 )
-			{
-				Object generateBy = report.getReportItemByID( designId );
-				content.setGenerateBy( generateBy );
-				// System.out.println( generateBy.getClass( ));
-				if ( generateBy instanceof ReportItemDesign )
-				{
-					context.setItemDesign( (ReportItemDesign) generateBy );
-				}
-			}
+			hintReader.close( );
+			hintReader = null;
 		}
-		context.setContent( content );
-	}
-
-	protected IBaseResultSet[] openQueries( IBaseResultSet rset,
-			IContent content ) throws BirtException
-	{
-		IBaseResultSet[] rsets = null;
-		Object generateBy = content.getGenerateBy( );
-		// open the query associated with the current report item
-		if ( generateBy instanceof ReportItemDesign )
+		if ( pageReader != null )
 		{
-			ReportItemDesign design = (ReportItemDesign) generateBy;
-			IDataQueryDefinition[] queries = design.getQueries( );
-			if ( queries == null )
-			{
-				DesignElementHandle itemHandle = design.getHandle( );
-				if ( itemHandle instanceof ReportElementHandle )
-				{
-					queries = report
-							.getQueryByReportHandle( (ReportElementHandle) itemHandle );
-				}
-			}
-			if ( queries != null && queries.length > 0 )
-			{
-				InstanceID iid = content.getInstanceID( );
-				if ( iid != null )
-				{
-					// To the current report item,
-					// if the dataId exist and it's deteSet id is not null,
-					// and we can find it has parent,
-					// we'll try to skip to the current row of the parent
-					// query.
-					DataID dataId = iid.getDataID( );
-					if ( dataId != null )
-					{
-						DataSetID dataSetId = dataId.getDataSetID( );
-						if ( dataSetId != null )
-						{
-							DataSetID parentSetId = dataSetId.getParentID( );
-							// the parent exist.
-							if ( rset != null )
-							{
-								if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-								{
-									IQueryResultSet qRset = (IQueryResultSet) rset;
-									long parentRowId = dataSetId.getRowID( );
-									if ( parentSetId != null
-											&& parentRowId != -1 )
-									{
-										// the parent query's result set is not
-										// null, skip to the right row according
-										// row id.
-										if ( parentRowId != qRset.getRowIndex( ) )
-										{
-											qRset.skipTo( parentRowId );
-										}
-									}
-								}
-								else if ( rset.getType( ) == IBaseResultSet.CUBE_RESULTSET )
-								{
-									ICubeResultSet qRset = (ICubeResultSet) rset;
-									String cellId = dataSetId.getCellID( );
-									if ( cellId != null
-											&& !cellId.equals( qRset
-													.getCellIndex( ) ) )
-									{
-										qRset.skipTo( cellId );
-									}
-								}
-							}
-						}
-					}
-				}
-				rsets = new IBaseResultSet[queries.length];
-				for ( int i = 0; i < rsets.length; i++ )
-				{
-					// execute query
-					try
-					{
-						rsets[i] = context.executeQuery( rset, queries[i], false );
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( ex );
-					}
-				}
-				rset = rsets[0];
-			}
-		}
-		// locate the row position to the current position
-		InstanceID iid = content.getInstanceID( );
-		if ( iid != null )
-		{
-			DataID dataId = iid.getDataID( );
-			if ( dataId != null )
-			{
-				if ( rset != null )
-				{
-					if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-					{
-						IQueryResultSet qRset = (IQueryResultSet) rset;
-						long rowId = dataId.getRowID( );
-
-						// rowId should not be -1. If rowId equals to -1 that
-						// means the result set is empty.
-						// call IResultIterator.next() to force result set
-						// start.
-						if ( rowId == -1 )
-						{
-							qRset.next( );
-						}
-						if ( rowId != -1 && rowId != qRset.getRowIndex( ) )
-						{
-							qRset.skipTo( rowId );
-						}
-					}
-					else if ( rset.getType( ) == IBaseResultSet.CUBE_RESULTSET )
-					{
-						ICubeResultSet qRset = (ICubeResultSet) rset;
-						String cellId = dataId.getCellID( );
-						if ( cellId != null
-								&& !cellId.equals( qRset.getCellIndex( ) ) )
-						{
-							qRset.skipTo( cellId );
-						}
-					}
-				}
-			}
-		}
-		return rsets;
-	}
-
-	protected void closeQueries( IBaseResultSet[] rsets )
-	{
-		if ( rsets != null )
-		{
-			for ( int i = 0; i < rsets.length; i++ )
-			{
-				if ( rsets[i] != null )
-				{
-					rsets[i].close( );
-				}
-			}
+			pageReader.close( );
+			pageReader = null;
 		}
 	}
 
-	protected IContentVisitor initalizeContentVisitor = new ContentVisitorAdapter( ) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.executor.IReportExecutor#createPageExecutor(long,
+	 *      org.eclipse.birt.report.engine.ir.MasterPageDesign)
+	 */
+	public IReportItemExecutor createPageExecutor( long pageNumber,
+			MasterPageDesign pageDesign )
 
-		public Object visitLabel( ILabelContent label, Object value )
-		{
-			if ( label.getGenerateBy( ) instanceof TemplateDesign )
-			{
-				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
-				label.setLabelKey( design.getPromptTextKey( ) );
-				label.setLabelText( design.getPromptText( ) );
-			}
-			return value;
-		}
-
-		public Object visitAutoText( IAutoTextContent autoText, Object value )
-		{
-			if ( autoText.getType( ) == IAutoTextContent.TOTAL_PAGE )
-			{
-				autoText.setText( String.valueOf( reportDoc.getPageCount( ) ) );
-			}
-			return value;
-		}
-
-		public Object visitTable( ITableContent table, Object value )
-		{
-			int colCount = table.getColumnCount( );
-			for ( int i = 0; i < colCount; i++ )
-			{
-				IColumn col = table.getColumn( i );
-				InstanceID id = col.getInstanceID( );
-				if ( id != null )
-				{
-					long cid = id.getComponentID( );
-					ColumnDesign colDesign = (ColumnDesign) report
-							.getReportItemByID( cid );
-					col.setGenerateBy( colDesign );
-				}
-			}
-
-			return value;
-
-		}
-
-		public Object visitData( IDataContent data, Object value )
-		{
-			if ( data.getGenerateBy( ) instanceof DataItemDesign )
-			{
-				DataItemDesign design = (DataItemDesign) data.getGenerateBy( );
-				if ( design.getMap( ) == null )
-				{
-					String bindingColumn = design.getBindingColumn( );
-					if ( bindingColumn != null )
-					{
-						IBaseResultSet rset = context.getResultSet( );
-						if ( rset instanceof IQueryResultSet )
-						{
-							try
-							{
-								Object dataValue = ( (IQueryResultSet) rset )
-										.getValue( bindingColumn );
-								data.setValue( dataValue );
-							}
-							catch ( BirtException ex )
-							{
-								context.addException( ex );
-							}
-						}
-						else
-							if (rset instanceof ICubeResultSet)
-						{
-							try
-							{
-								Object dataValue = ( (ICubeResultSet) rset )
-										.getCubeCursor( ).getObject( bindingColumn );
-								data.setValue( dataValue );
-							}
-							catch ( Exception ex )
-							{
-								//context.addException( ex );
-							}
-						}
-					}
-					/*String valueExpr = design.getValue( );
-					if ( valueExpr != null )
-					{
-						Object dataValue = context.evaluate( valueExpr );
-						data.setValue( dataValue );
-					}*/
-				}
-			}
-			return value;
-		}
-
-		public Object visitTableBand( ITableBandContent tableBand, Object value )
-		{
-			int bandType = tableBand.getBandType( );
-			switch ( bandType )
-			{
-				case IBandContent.BAND_HEADER :
-					ITableContent table = getParentTable( tableBand );
-					Object genObj = table.getGenerateBy( );
-					if ( genObj instanceof TableItemDesign )
-					{
-						TableItemDesign tableDesign = (TableItemDesign) genObj;
-						tableBand.setGenerateBy( tableDesign.getHeader( ) );
-					}
-					break;
-
-				case IBandContent.BAND_FOOTER :
-					table = getParentTable( tableBand );
-					genObj = table.getGenerateBy( );
-					if ( genObj instanceof TableItemDesign )
-					{
-						TableItemDesign tableDesign = (TableItemDesign) genObj;
-						tableBand.setGenerateBy( tableDesign.getFooter( ) );
-					}
-					break;
-				case IBandContent.BAND_DETAIL :
-					table = getParentTable( tableBand );
-					genObj = table.getGenerateBy( );
-					if ( genObj instanceof TableItemDesign )
-					{
-						TableItemDesign tableDesign = (TableItemDesign) genObj;
-						tableBand.setGenerateBy( tableDesign.getDetail( ) );
-					}
-					break;
-
-				case IBandContent.BAND_GROUP_FOOTER :
-				case IBandContent.BAND_GROUP_HEADER :
-					setupGroupBand( tableBand );
-					break;
-				default :
-					assert false;
-			}
-			return value;
-		}
-
-		ITableContent getParentTable( ITableBandContent band )
-		{
-			IContent parent = (IContent) band.getParent( );
-			while ( parent != null )
-			{
-				if ( parent instanceof ITableContent )
-				{
-					return (ITableContent) parent;
-				}
-				parent = (IContent) parent.getParent( );
-			}
-			return null;
-		}
-
-		IListContent getParentList( IListBandContent band )
-		{
-			IContent parent = (IContent) band.getParent( );
-			while ( parent != null )
-			{
-				if ( parent instanceof IListContent )
-				{
-					return (IListContent) parent;
-				}
-				parent = (IContent) parent.getParent( );
-			}
-			return null;
-		}
-
-		public Object visitListBand( IListBandContent listBand, Object value )
-		{
-			int bandType = listBand.getBandType( );
-			switch ( bandType )
-			{
-				case IBandContent.BAND_HEADER :
-					IListContent list = getParentList( listBand );
-					Object genObj = list.getGenerateBy( );
-					if ( genObj instanceof ListItemDesign )
-					{
-						ListItemDesign listDesign = (ListItemDesign) genObj;
-						listBand.setGenerateBy( listDesign.getHeader( ) );
-					}
-					break;
-
-				case IBandContent.BAND_FOOTER :
-					list = getParentList( listBand );
-					genObj = list.getGenerateBy( );
-					if ( genObj instanceof ListItemDesign )
-					{
-						ListItemDesign listDesign = (ListItemDesign) genObj;
-						listBand.setGenerateBy( listDesign.getFooter( ) );
-					}
-					break;
-
-				case IBandContent.BAND_DETAIL :
-					list = getParentList( listBand );
-					genObj = list.getGenerateBy( );
-					if ( genObj instanceof ListItemDesign )
-					{
-						ListItemDesign listDesign = (ListItemDesign) genObj;
-						listBand.setGenerateBy( listDesign.getDetail( ) );
-					}
-					break;
-
-				case IBandContent.BAND_GROUP_FOOTER :
-				case IBandContent.BAND_GROUP_HEADER :
-					setupGroupBand( listBand );
-					break;
-				default :
-					assert false;
-			}
-			return value;
-		}
-
-		protected void setupGroupBand( IBandContent bandContent )
-		{
-			IContent parent = (IContent) bandContent.getParent( );
-			if ( parent instanceof IGroupContent )
-			{
-				IGroupContent group = (IGroupContent) parent;
-				Object genBy = group.getGenerateBy( );
-				if ( genBy instanceof GroupDesign )
-				{
-					GroupDesign groupDesign = (GroupDesign) genBy;
-					int bandType = bandContent.getBandType( );
-					if ( bandType == IBandContent.BAND_GROUP_HEADER )
-					{
-						bandContent.setGenerateBy( groupDesign.getHeader( ) );
-					}
-					else
-					{
-						bandContent.setGenerateBy( groupDesign.getFooter( ) );
-					}
-				}
-			}
-		}
-	};
-
-	public void execute( ReportDesignHandle reportDesign,
-			IContentEmitter emitter )
 	{
-		IReportContent reportContent = execute( );
-		if ( emitter != null )
+		try
 		{
-			emitter.start( reportContent );
+			IPageHint hint = hintReader.getPageHint( pageNumber );
+			if ( hint == null )
+			{
+				hint = hintReader.getPageHint( 1 );
+			}
+			if ( hint != null )
+			{
+				long offset = hint.getOffset( );
+
+				ReportItemReader pageExecutor = manager.createExecutor( null,
+						offset );
+				pageExecutor.reader = pageReader;
+
+				return pageExecutor;
+			}
 		}
-		while ( hasNextChild( ) )
+		catch ( IOException ex )
 		{
-			IReportItemExecutor executor = getNextChild( );
-			execute( executor, emitter );
+			context.addException( new EngineException( "can't load the page "
+					+ pageNumber, ex ) );
 		}
-		if ( emitter != null )
-		{
-			emitter.end( reportContent );
-		}
-		close( );
+		return null;
 	}
 
-	protected void execute( IReportItemExecutor executor,
-			IContentEmitter emitter )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.executor.IReportExecutor#execute()
+	 */
+	public IReportContent execute( )
 	{
-		IContent content = executor.execute( );
-		if ( emitter != null )
-		{
-			ContentEmitterUtil.startContent( content, emitter );
-		}
-		while ( executor.hasNextChild( ) )
-		{
-			IReportItemExecutor child = executor.getNextChild( );
-			execute( child, emitter );
-		}
-		if ( emitter != null )
-		{
-			ContentEmitterUtil.endContent( content, emitter );
-		}
+		return reportContent;
 	}
 }

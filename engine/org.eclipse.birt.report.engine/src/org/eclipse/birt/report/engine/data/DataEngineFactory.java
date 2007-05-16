@@ -62,6 +62,7 @@ public class DataEngineFactory
 	 * @return a data engine instance
 	 */
 	public IDataEngine createDataEngine( ExecutionContext context )
+			throws Exception
 	{
 		//first we must test if we have the data source
 		IDocArchiveReader dataSource = context.getDataSource( );

@@ -375,7 +375,7 @@ public class MutipleThreadRenderTest extends EngineCase
 				fail( );
 			}
 		}
-
+		reportDoc.close( );
 		String golden = renders[0].output.toString( );
 		assertTrue( golden.length( ) != 0 );
 		for ( int i = 1; i < THREAD_COUNT; i++ )

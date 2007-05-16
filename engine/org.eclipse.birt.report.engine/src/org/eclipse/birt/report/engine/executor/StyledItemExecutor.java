@@ -48,15 +48,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	protected StyledItemExecutor( ExecutorManager manager )
+	protected StyledItemExecutor( ExecutorManager manager, int type)
 	{
-		super( manager );
-		expressionUtil = new ExpressionUtil( );
-	}
-	
-	protected StyledItemExecutor()
-	{
-		super();
+		super( manager, type );
 		expressionUtil = new ExpressionUtil( );
 	}
 

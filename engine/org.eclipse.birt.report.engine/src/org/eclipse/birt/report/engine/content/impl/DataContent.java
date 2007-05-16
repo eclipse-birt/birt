@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.MapDesign;
 
 public class DataContent extends TextContent implements IDataContent
 {
@@ -151,6 +152,31 @@ public class DataContent extends TextContent implements IDataContent
 			IOUtil.writeShort( out, FIELD_HELPKEY );
 			IOUtil.writeString( out, helpKey );
 		}
+	}
+
+	public boolean needSave()
+	{
+		if ( value != null )
+		{
+			if ( this.generateBy instanceof DataItemDesign )
+			{
+				DataItemDesign design = (DataItemDesign) generateBy;
+				MapDesign map = design.getMap( );
+				if ( map != null && map.getRuleCount( ) != 0 )
+				{
+					return true;
+				}
+			}
+		}
+		if ( labelText != null || labelKey != null )
+		{
+			return true;
+		}
+		if ( helpKey != null )
+		{
+			return true;
+		}
+		return super.needSave( );
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )

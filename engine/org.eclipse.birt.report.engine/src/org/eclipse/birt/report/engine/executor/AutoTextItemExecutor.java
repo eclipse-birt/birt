@@ -32,7 +32,7 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 	 */
 	public AutoTextItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.AUTOTEXTITEM );
 	}
 
 
@@ -81,21 +81,6 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 				textContent.setText(String.valueOf(context.getTotalPage()));
 			}
 		}
-		
-		if ( context.isInFactory( ) )
-		{
-			handleOnCreate( textContent );
-		}
-
-		if ( emitter != null )
-		{
-			emitter.startAutoText( textContent );
-		}
 		return textContent;
-	}
-	
-	public void close( )
-	{
-		manager.releaseExecutor( ExecutorManager.AUTOTEXTITEM, this );
 	}
 }

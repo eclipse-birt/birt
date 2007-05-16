@@ -14,15 +14,11 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 {
 	protected boolean rsetEmpty;
 
-	protected QueryItemExecutor( ExecutorManager manager )
+	protected QueryItemExecutor( ExecutorManager manager, int type )
 	{
-		super( manager );
+		super( manager, type );
 	}
 	
-	protected QueryItemExecutor( )
-	{
-	}
-
 	/**
 	 * close dataset if the dataset is not null:
 	 * <p>
@@ -39,6 +35,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		if ( rset != null )
 		{
 			rset.close( );
+			rset = null;
 		}
 	}
 
@@ -102,10 +99,10 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 	}
 
-	public void reset( )
+	public void close( )
 	{
 		rset = null;
 		rsetEmpty = false;
-		super.reset( );
+		super.close( );
 	}
 }

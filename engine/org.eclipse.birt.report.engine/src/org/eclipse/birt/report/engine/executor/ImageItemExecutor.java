@@ -64,7 +64,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	 */
 	public ImageItemExecutor( ExecutorManager manager )
 	{
-		super( manager );
+		super( manager, ExecutorManager.IMAGEITEM );
 	}
 
 	/**
@@ -110,10 +110,6 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 		
 		startTOCEntry( imageContent );
-		if ( emitter != null )
-		{
-			emitter.startImage( imageContent );
-		}
 		
 		return imageContent;
 	}
@@ -122,7 +118,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	{
 		finishTOCEntry( );
 		closeQuery( );
-		manager.releaseExecutor( ExecutorManager.IMAGEITEM, this );
+		super.close( );
 	}
 
 	protected void handleImage( ImageItemDesign imageDesign,
