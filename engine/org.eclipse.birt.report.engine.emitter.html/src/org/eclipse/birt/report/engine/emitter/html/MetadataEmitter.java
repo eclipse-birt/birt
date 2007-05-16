@@ -508,8 +508,8 @@ public class MetadataEmitter
 			wrapperTableIID = table.getInstanceID( );
 
 			writer.openTag( HTMLTags.TAG_TABLE );
-			writer.attribute( HTMLTags.ATTR_STYLE, " border: medium none ;"
-					+ " border-collapse: collapse;" );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					" border: medium none ; border-collapse: collapse; width: 100%;" );
 			writer.openTag( HTMLTags.TAG_TBODY );
 			writer.openTag( HTMLTags.TAG_TR );
 			writer.attribute( HTMLTags.ATTR_STYLE, " vertical-align: top;" );
