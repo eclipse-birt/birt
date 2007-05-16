@@ -82,14 +82,18 @@ public class DNDService implements IRegistryChangeListener
 	{
 		if ( object instanceof Object[] )
 		{
-			boolean canDrag = false;
-			for ( int i = 0; i < ( (Object[]) object ).length; i++ )
+//			boolean canDrag = false;
+//			for ( int i = 0; i < ( (Object[]) object ).length; i++ )
+//			{
+//				canDrag = validDrag( ( (Object[]) object )[i] );
+//				if ( !canDrag )
+//					return false;
+//			}
+//			return canDrag;
+			if (((Object[]) object).length == 1)
 			{
-				canDrag = validDrag( ( (Object[]) object )[i] );
-				if ( !canDrag )
-					return false;
+				return validDrag(( (Object[]) object )[0]);
 			}
-			return canDrag;
 		}
 
 		for ( Iterator iterator = this.dragAdapterList.iterator( ); iterator.hasNext( ); )
@@ -122,17 +126,21 @@ public class DNDService implements IRegistryChangeListener
 	{
 		if ( transfer instanceof Object[] )
 		{
-			boolean canDrop = false;
-			for ( int i = 0; i < ( (Object[]) transfer ).length; i++ )
+//			boolean canDrop = false;
+//			for ( int i = 0; i < ( (Object[]) transfer ).length; i++ )
+//			{
+//				canDrop = validDrop( ( (Object[]) transfer )[i],
+//						target,
+//						operation,
+//						location );
+//				if ( !canDrop )
+//					return false;
+//			}
+//			return canDrop;
+			if (((Object[]) transfer).length == 1)
 			{
-				canDrop = validDrop( ( (Object[]) transfer )[i],
-						target,
-						operation,
-						location );
-				if ( !canDrop )
-					return false;
+				return validDrop(( (Object[]) transfer )[0],target,operation,location );
 			}
-			return canDrop;
 		}
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
@@ -154,17 +162,21 @@ public class DNDService implements IRegistryChangeListener
 	{
 		if ( transfer instanceof Object[] )
 		{
-			boolean result = false;
-			for ( int i = 0; i < ( (Object[]) transfer ).length; i++ )
+//			boolean result = false;
+//			for ( int i = 0; i < ( (Object[]) transfer ).length; i++ )
+//			{
+//				result = performDrop( ( (Object[]) transfer )[i],
+//						target,
+//						operation,
+//						location );
+//				if ( !result )
+//					return false;
+//			}
+//			return result;
+			if (((Object[]) transfer).length == 1)
 			{
-				result = performDrop( ( (Object[]) transfer )[i],
-						target,
-						operation,
-						location );
-				if ( !result )
-					return false;
+				return performDrop(( (Object[]) transfer )[0],target,operation,location );
 			}
-			return result;
 		}
 		
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
