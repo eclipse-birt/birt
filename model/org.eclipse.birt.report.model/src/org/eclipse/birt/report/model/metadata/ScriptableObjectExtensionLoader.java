@@ -33,6 +33,8 @@ public class ScriptableObjectExtensionLoader extends ExtensionLoader
 
 	private static final String ELEMENT_TAG = "scriptableClassInfo"; //$NON-NLS-1$
 
+	private static final String DEFAULT_ROM = "BIRT_ROM"; //$NON-NLS-1$
+
 	/**
 	 * Default constructor
 	 */
@@ -82,7 +84,8 @@ public class ScriptableObjectExtensionLoader extends ExtensionLoader
 						.createExecutableExtension( CLASS_ATTRIB );
 
 				MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-				if ( StringUtil.isBlank(extensionName) )
+				if ( StringUtil.isBlank( extensionName )
+						|| DEFAULT_ROM.equalsIgnoreCase( extensionName ) )
 				{
 					metaData.setScriptableFactory( factory );
 					return;

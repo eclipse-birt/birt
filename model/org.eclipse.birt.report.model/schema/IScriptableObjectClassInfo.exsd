@@ -56,12 +56,12 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="extensionName" type="string">
+         <attribute name="extensionName" type="string" use="default" value="BIRT_ROM">
             <annotation>
                <documentation>
                   Internal unique name for the extension element that can provide scriptable factory interfaces. In such case, the extension name should be same as the name in the extension of reportItem.extensionName.
 
-If this value is null or empty string, it is pre-defined scriptable factory for ROM elements.
+If this value is null, empty string or BIRT_ROM, it is pre-defined scriptable factory for ROM elements.
                </documentation>
             </annotation>
          </attribute>
