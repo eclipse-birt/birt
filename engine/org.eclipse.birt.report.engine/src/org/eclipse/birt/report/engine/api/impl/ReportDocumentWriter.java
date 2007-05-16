@@ -46,6 +46,11 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	private HashMap globalVariables = new HashMap( );
 	private int checkpoint = CHECKPOINT_INIT;
 	private long pageCount = PAGECOUNT_INIT;
+	
+	private HashMap bookmarks = new HashMap( );
+	private TOCTree tocTree = null;
+	private HashMap idToOffset = new HashMap( );
+	private HashMap bookmarkToOffset = new HashMap( );
 
 	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
 	{
@@ -111,32 +116,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 */
 	public void saveTOC( TOCTree tocTree )
 	{
-		RAOutputStream out = null;
-		try
-		{
-			out = archive.createRandomAccessStream( TOC_STREAM );
-			DataOutputStream output = new DataOutputStream( out );
-			TOCBuilder.write( tocTree, output );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Save TOC failed!", ex );
-			ex.printStackTrace( );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
-		}
+		this.tocTree = tocTree;
 	}
 
 	/**
@@ -151,44 +131,9 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		{
 			return;
 		}
-		RAOutputStream out = null;
-		try
-		{
-			out = archive.createRandomAccessStream( BOOKMARK_STREAM );
-			DataOutputStream oo = new DataOutputStream(
-					new BufferedOutputStream( out ) );
-			IOUtil.writeLong( oo, bookmarks.size( ) );
-			Iterator iter = bookmarks.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iter.next( );
-				String bookmark = (String) entry.getKey( );
-				Long pageNumber = (Long) entry.getValue( );
-				IOUtil.writeString( oo, bookmark );
-				IOUtil.writeLong( oo, pageNumber.longValue( ) );
-
-			}
-			oo.close( );
-
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to save the bookmarks!", ex );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
-		}
+		
+		this.bookmarks = new HashMap();
+		this.bookmarks.putAll( bookmarks );
 	}
 
 	/**
@@ -288,11 +233,28 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			out = archive.createRandomAccessStream( CORE_STREAM );
 			coreStream = new DataOutputStream( new BufferedOutputStream(
 					out ) );
-			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );			
+			IOUtil.writeString( coreStream, CORE_VERSION_0 );
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION );
+			
+			if ( checkpoint != CHECKPOINT_END )
+			{
+				checkpoint++;
+			}
+			IOUtil.writeInt( coreStream, checkpoint );
+			IOUtil.writeLong( coreStream, pageCount );
+			
 			IOUtil.writeString( coreStream, designName );
 			IOUtil.writeMap( coreStream, paramters );
 			IOUtil.writeMap( coreStream, globalVariables );
+			
+			if ( checkpoint == CHECKPOINT_END )
+			{
+				writeMap( coreStream, bookmarks );
+				TOCBuilder.write( tocTree, coreStream );
+				writeMap( coreStream, idToOffset );
+				writeMap( coreStream, bookmarkToOffset );
+			}
 			coreStream.flush( );
 		}
 		catch ( IOException ex )
@@ -314,41 +276,20 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				{
 				}
 			}
-		}
-		
-		DataOutputStream checkpointStream = null;
-		try
+		}	
+	}
+	
+	private void writeMap( DataOutputStream stream, HashMap map ) throws Exception
+	{
+		IOUtil.writeLong( stream, map.size( ) );
+		Iterator iter = map.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
 		{
-			out = archive.createRandomAccessStream( CHECKPOINT_STREAM );			
-			checkpointStream = new DataOutputStream( new BufferedOutputStream(
-					out ) );
-			if ( checkpoint != CHECKPOINT_END )
-			{
-				checkpoint++;
-			}
-			IOUtil.writeInt( checkpointStream, checkpoint );
-			IOUtil.writeLong( checkpointStream, pageCount );
-			checkpointStream.flush( );
-		}
-		catch ( IOException ex )
-		{
-			logger
-					.log( Level.SEVERE, "Failed to save the checkpoint stream!",
-							ex );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-					out = null;
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
+			Map.Entry entry = (Map.Entry) iter.next( );
+			String key = (String) entry.getKey( );
+			Long value = (Long) entry.getValue( );
+			IOUtil.writeString( stream, key );
+			IOUtil.writeLong( stream, value.longValue( ) );
 		}
 	}
 	
@@ -359,51 +300,13 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 
 	public void saveReprotletsBookmarkIndex( Map bookmarkToOffset)
 	{
-		saveReportletsIndex( bookmarkToOffset, REPORTLET_BOOKMARK_INDEX_STREAM );
+		this.bookmarkToOffset = new HashMap();
+		this.bookmarkToOffset.putAll( bookmarkToOffset );
 	}
 
 	public void saveReportletsIdIndex( Map idToOffset )
 	{
-		saveReportletsIndex( idToOffset, REPORTLET_ID_INDEX_STREAM );
-	}
-
-	private void saveReportletsIndex( Map index, String streamName )
-	{
-		RAOutputStream out = null;
-		try
-		{
-			out = archive.createRandomAccessStream( streamName );
-			DataOutputStream output = new DataOutputStream( out );
-			IOUtil.writeLong( output, index.size( ) );
-			Iterator iter = index.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iter.next( );
-				String instance = (String) entry.getKey( );
-				Long offset = (Long) entry.getValue( );
-				IOUtil.writeString( output, instance );
-				IOUtil.writeLong( output, offset.longValue( ) );
-
-			}
-			output.flush( );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to save design!", ex );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
-		}
+		this.idToOffset = new HashMap();
+		this.idToOffset.putAll( idToOffset );
 	}
 }
