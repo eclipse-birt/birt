@@ -765,7 +765,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 		if ( layout != null )
 		{
-			layout.updateRow( row, specifiedHeight, finished );
+			int originalHeight = getDimensionValue( row.getContent( ).getHeight( ) );
+			layout.updateRow( row, specifiedHeight, originalHeight, finished );
 		}
 	}
 

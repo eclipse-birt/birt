@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -786,7 +787,7 @@ public class TableAreaLayout
 		return false;
 	}
 	
-	public void updateRow(RowArea rowArea, int specifiedHeight, boolean finished)
+	public void updateRow(RowArea rowArea, int specifiedHeight, int originalHeight, boolean finished)
 	{
 		/*
 		 * 1. resolve drop conflict, formailize current row.
@@ -884,7 +885,7 @@ public class TableAreaLayout
 			}
 		}
 
-		if ( specifiedHeight == 0 && isEmptyRow( row ) )
+		if ( originalHeight == 0 && isEmptyRow( row ) )
 		{
 			height = getHeightOfEmptyRow( row );
 		}
