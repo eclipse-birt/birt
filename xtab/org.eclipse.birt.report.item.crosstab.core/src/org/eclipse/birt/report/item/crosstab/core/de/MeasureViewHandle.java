@@ -264,6 +264,18 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Gets the position index where this measure lies in the crosstab
+	 * container. The returned value is a 0-based integer if this level is in
+	 * the design tree. Otherwise return -1.
+	 * 
+	 * @return position index if found, otherwise -1
+	 */
+	public int getIndex( )
+	{
+		return handle.getIndex( );
+	}
+
+	/**
 	 * Gets measure header cell for specific dimension and level.
 	 * 
 	 * @param dimensionName
