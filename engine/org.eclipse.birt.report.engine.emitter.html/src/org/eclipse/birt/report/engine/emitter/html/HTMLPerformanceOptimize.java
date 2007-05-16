@@ -115,6 +115,8 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
 			boolean isInTableHead )
 	{
+		// implement the cell's clip.
+		styleBuffer.append( "overflow:hidden;" );
 		buildStyle( cell, styleBuffer );
 	}
 
