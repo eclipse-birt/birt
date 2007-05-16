@@ -13,6 +13,7 @@
 <%@ page import="org.eclipse.birt.report.context.ScalarParameterBean,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.IBirtConstants,
+				 org.eclipse.birt.report.service.api.ParameterSelectionChoice,
 				 org.eclipse.birt.report.utility.ParameterAccessor" %>
 
 <%-----------------------------------------------------------------------------
@@ -106,8 +107,9 @@
 		
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
-			String label = ( String ) parameterBean.getSelectionList( ).get( i );
-			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
+			ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( i );						
+			String label = selectionItem.getLabel( );
+			String value = ( String ) selectionItem.getValue( );
 
 			if ( paramValue != null && paramValue.equals( value ) )
 			{

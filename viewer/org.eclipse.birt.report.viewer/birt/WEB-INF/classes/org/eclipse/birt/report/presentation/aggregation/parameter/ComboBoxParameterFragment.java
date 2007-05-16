@@ -129,9 +129,9 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 
 				if ( label != null )
 				{
-					parameterBean.getSelectionList( ).add( label );
-					parameterBean.getSelectionTable( )
-							.put( label, displayValue );
+					selectionItem.setLabel( label );
+					selectionItem.setValue( displayValue );
+					parameterBean.getSelectionList( ).add( selectionItem );
 				}
 
 				// If parameter value is in the selection list

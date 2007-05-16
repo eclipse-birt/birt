@@ -12,6 +12,7 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.context.ScalarParameterBean,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.service.api.ParameterSelectionChoice,
 				 org.eclipse.birt.report.utility.ParameterAccessor" %>
 
 <%-----------------------------------------------------------------------------
@@ -54,8 +55,9 @@
 		boolean CHECKED = false;
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
-			String label = ( String ) parameterBean.getSelectionList( ).get( i );
-			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
+			ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( i );						
+			String label = selectionItem.getLabel( );
+			String value = ( String ) selectionItem.getValue( );
 			
 			CHECKED = ( parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) );
 			// if displayText is in request, use it

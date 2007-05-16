@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.context;
 
-import java.util.Hashtable;
 import java.util.Vector;
 
 import org.eclipse.birt.report.service.api.ParameterDefinition;
@@ -47,14 +46,9 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	private String displayText;
 
 	/**
-	 * Selection lable list. Label is HTML encoded.
+	 * Selection item list. Label is HTML encoded.
 	 */
 	private Vector selectionList = new Vector( );
-
-	/**
-	 * selection lable to value mapping. Label is HTML encoded.
-	 */
-	private Hashtable selectionTable = new Hashtable( );
 
 	/**
 	 * Whether current value is in the selection list.
@@ -273,23 +267,6 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public void setSelectionList( Vector selectionList )
 	{
 		this.selectionList = selectionList;
-	}
-
-	/**
-	 * @return Returns the selectionTable.
-	 */
-	public Hashtable getSelectionTable( )
-	{
-		return selectionTable;
-	}
-
-	/**
-	 * @param selectionTable
-	 *            The selectionTable to set.
-	 */
-	public void setSelectionTable( Hashtable selectionTable )
-	{
-		this.selectionTable = selectionTable;
 	}
 
 	/**

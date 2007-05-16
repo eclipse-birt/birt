@@ -97,10 +97,13 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 							paramDef.getPattern( ), value, locale );
 				}
 
-				label = ParameterAccessor.htmlEncode( label );
-
-				parameterBean.getSelectionList( ).add( label );
-				parameterBean.getSelectionTable( ).put( label, displayValue );
+				if ( label != null )
+				{
+					label = ParameterAccessor.htmlEncode( label );
+					selectionItem.setLabel( label );
+					selectionItem.setValue( displayValue );
+					parameterBean.getSelectionList( ).add( selectionItem );
+				}
 			}
 		}
 	}
