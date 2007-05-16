@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -146,9 +147,14 @@ public class FontConfigReaderTest extends TestCase
 
 	public void testConfigFilePriority( )
 	{
-		testPriority( "default_os" );
-		testPriority( "os_language" );
-		testPriority( "language_country" );
+		String osName = System.getProperty( "os.name" );
+		Locale locale = Locale.getDefault( );
+		if ( "Windows XP".equals( osName ) && locale.equals( Locale.SIMPLIFIED_CHINESE ) )
+		{
+			testPriority( "default_os" );
+			testPriority( "os_language" );
+			testPriority( "language_country" );
+		}
 	}
 
 	private void testPriority( final String testDir )

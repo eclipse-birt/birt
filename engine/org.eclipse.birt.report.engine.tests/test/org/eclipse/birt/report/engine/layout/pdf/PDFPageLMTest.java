@@ -84,7 +84,7 @@ public class PDFPageLMTest extends PDFLayoutTest
 		}
 		
 		pages = getPages(true, true);
-		scales = new float[]{0.75f, 0.75f, 0.75f, 0.229f};
+		scales = new float[]{0.75f, 0.75f, 0.75f, 0.234f};
 		assertTrue(pages.size( )==scales.length);
 		for(int i=0; i<pages.size( ); i++)
 		{

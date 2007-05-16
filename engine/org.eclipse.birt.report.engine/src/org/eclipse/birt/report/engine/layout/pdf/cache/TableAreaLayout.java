@@ -935,7 +935,8 @@ public class TableAreaLayout
 		for ( int i = 0; i < columnNumber; i++ )
 		{
 			CellArea cell = row.getCell( start + i );
-			if ( !isDropCell( cell ) && cell.getChildrenCount( ) > 0 )
+			if ( cell != null && !isDropCell( cell )
+					&& cell.getChildrenCount( ) > 0 )
 			{
 				return false;
 			}
@@ -945,7 +946,7 @@ public class TableAreaLayout
 
 	private boolean isDropCell( CellArea cell )
 	{
-		return cell.getRowSpan( ) < 0;
+		return cell != null && cell.getRowSpan( ) < 0;
 	}
 	
 	protected void mergeDropCell(RowArea row)
