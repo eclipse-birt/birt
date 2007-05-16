@@ -87,4 +87,9 @@ class WrapperedRAInputStream extends RAInputStream
 	{
 		return this.raIn.read( );
 	}
+	
+	public void close() throws IOException
+	{
+		this.raIn.close( );
+	}
 }
