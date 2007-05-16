@@ -1366,7 +1366,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			prevDataSourceDesign = curDataSourceDesign;
 			try 
 			{
-				if ( this.getDataSetDesign( ).getQueryText( ) == null
+				if ( metaDataProvider.getConnection( ) == null
+						|| this.getDataSetDesign( ).getQueryText( ) == null
 						|| this.getDataSetDesign( )
 								.getQueryText( )
 								.trim( )
