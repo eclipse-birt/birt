@@ -118,7 +118,8 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		{
 			handleCellFont( cell, styleBuffer );
 		}
-
+		// implement the cell's clip.
+		styleBuffer.append( "overflow:hidden;" );
 		buildStyle( cell, styleBuffer );
 	}
 	
