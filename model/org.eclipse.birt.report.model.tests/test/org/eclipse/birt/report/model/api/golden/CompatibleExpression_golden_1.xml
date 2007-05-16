@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <styles>
-        <style name="BoxStyle" id="2">
-            <property name="backgroundColor">#CCCCCC</property>
-            <property name="fontFamily">Tahoma</property>
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="fontStyle">italic</property>
-            <property name="color">#CCCCCC</property>
-            <property name="textLineThrough">line-through</property>
-            <property name="textOverline">overline</property>
-            <property name="textUnderline">underline</property>
-            <property name="borderBottomColor">#CCCCCC</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1pt</property>
-            <property name="borderLeftColor">#CCCCCC</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1pt</property>
-            <property name="borderRightColor">#CCCCCC</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1pt</property>
-            <property name="borderTopColor">#CCCCCC</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1pt</property>
-            <property name="marginTop">10pt</property>
-            <property name="marginLeft">10pt</property>
-            <property name="marginBottom">10pt</property>
-            <property name="marginRight">10pt</property>
-            <property name="paddingTop">10pt</property>
-            <property name="paddingLeft">10pt</property>
-            <property name="paddingBottom">10pt</property>
-            <property name="paddingRight">10pt</property>
-            <property name="textAlign">center</property>
-            <property name="verticalAlign">middle</property>
-            <property name="pageBreakAfter">always</property>
-            <property name="pageBreakBefore">always</property>
-            <property name="pageBreakInside">avoid</property>
-        </style>
-    </styles>
     <body>
-        <table name="table1" id="3">
+        <table name="table1" id="5">
             <list-property name="filter">
                 <structure>
                     <expression name="expr">row["filter1ValueExpr"]</expression>
@@ -47,31 +9,31 @@
                     <expression name="value2">row["filter1Value2"]</expression>
                 </structure>
             </list-property>
-            <column id="14"/>
-            <column id="15"/>
+            <column id="16"/>
+            <column id="17"/>
             <header>
-                <row id="4">
-                    <cell id="5">
-                        <data name="data1" id="6">
-                        	<structure name="toc">
-                        		<expression name="expressionValue">row["value1"]</expression>
-                        	</structure>
+                <row id="6">
+                    <cell id="7">
+                        <data name="data1" id="8">
+                            <structure name="toc">
+                                <expression name="expressionValue">row["value1"]</expression>
+                            </structure>
                             <property name="resultSetColumn">row["valueExpr"]</property>
                         </data>
                     </cell>
-                    <cell id="7"/>
+                    <cell id="9"/>
                 </row>
             </header>
             <detail>
-                <row id="8">
-                    <cell id="9"/>
-                    <cell id="10"/>
+                <row id="10">
+                    <cell id="11"/>
+                    <cell id="12"/>
                 </row>
             </detail>
             <footer>
-                <row id="11">
-                    <cell id="12"/>
-                    <cell id="13"/>
+                <row id="13">
+                    <cell id="14"/>
+                    <cell id="15"/>
                 </row>
             </footer>
         </table>

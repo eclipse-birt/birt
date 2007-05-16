@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <parameters>
-        <scalar-parameter name="param1" id="40">
+        <scalar-parameter name="param1" id="42">
             <expression name="valueExpr">row["param1ValueExpr"]</expression>
             <expression name="labelExpr">row["param1LabelExpr"]</expression>
             <list-property name="boundDataColumns">
@@ -15,51 +15,13 @@
                 </structure>
             </list-property>
         </scalar-parameter>
-        <scalar-parameter name="param2" id="41">
+        <scalar-parameter name="param2" id="43">
             <expression name="valueExpr">param2ValueExpr</expression>
             <expression name="labelExpr">param2LabelExpr</expression>
         </scalar-parameter>
     </parameters>
-    <styles>
-        <style name="BoxStyle" id="2">
-            <property name="backgroundColor">#CCCCCC</property>
-            <property name="fontFamily">Tahoma</property>
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="fontStyle">italic</property>
-            <property name="color">#CCCCCC</property>
-            <property name="textLineThrough">line-through</property>
-            <property name="textOverline">overline</property>
-            <property name="textUnderline">underline</property>
-            <property name="borderBottomColor">#CCCCCC</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1pt</property>
-            <property name="borderLeftColor">#CCCCCC</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1pt</property>
-            <property name="borderRightColor">#CCCCCC</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1pt</property>
-            <property name="borderTopColor">#CCCCCC</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1pt</property>
-            <property name="marginTop">10pt</property>
-            <property name="marginLeft">10pt</property>
-            <property name="marginBottom">10pt</property>
-            <property name="marginRight">10pt</property>
-            <property name="paddingTop">10pt</property>
-            <property name="paddingLeft">10pt</property>
-            <property name="paddingBottom">10pt</property>
-            <property name="paddingRight">10pt</property>
-            <property name="textAlign">center</property>
-            <property name="verticalAlign">middle</property>
-            <property name="pageBreakAfter">always</property>
-            <property name="pageBreakBefore">always</property>
-            <property name="pageBreakInside">avoid</property>
-        </style>
-    </styles>
     <body>
-        <data name="data1" id="3">
+        <data name="data1" id="5">
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">actionBookMark</property>
@@ -71,7 +33,7 @@
                 <expression name="targetBookmark">row["actionBookMark"]</expression>
             </structure>
         </data>
-        <table name="table1" id="4">
+        <table name="table1" id="6">
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">bookmark1</property>
@@ -102,25 +64,25 @@
                     <expression name="expression">dataSetRow["textData1ValueExpr"]</expression>
                 </structure>
             </list-property>
-            <column id="27"/>
-            <column id="28"/>
+            <column id="29"/>
+            <column id="30"/>
             <header>
-                <row id="5">
-                    <cell id="6">
-                        <image name="image1" id="7">
+                <row id="7">
+                    <cell id="8">
+                        <image name="image1" id="9">
                             <expression name="bookmark">row["bookmark1"] + row["bookmark2"]</expression>
                             <property name="source">expr</property>
                             <expression name="valueExpr">row["image1"] + row["valueExpr"]</expression>
                         </image>
                     </cell>
-                    <cell id="8"/>
+                    <cell id="10"/>
                 </row>
             </header>
             <detail>
-                <row id="9">
-                    <cell id="10"/>
-                    <cell id="11">
-                        <table name="table2" id="12">
+                <row id="11">
+                    <cell id="12"/>
+                    <cell id="13">
+                        <table name="table2" id="14">
                             <list-property name="paramBindings">
                                 <structure>
                                     <property name="paramName">binding1</property>
@@ -133,7 +95,7 @@
                                     <expression name="expression">dataSetRow["hide1Expr"]</expression>
                                 </structure>
                             </list-property>
-                            <column id="22">
+                            <column id="24">
                                 <list-property name="visibility">
                                     <structure>
                                         <property name="format">reportlet</property>
@@ -141,23 +103,23 @@
                                     </structure>
                                 </list-property>
                             </column>
-                            <column id="23"/>
+                            <column id="25"/>
                             <header>
-                                <row id="13">
-                                    <cell id="14"/>
-                                    <cell id="15"/>
+                                <row id="15">
+                                    <cell id="16"/>
+                                    <cell id="17"/>
                                 </row>
                             </header>
                             <detail>
-                                <row id="16">
-                                    <cell id="17"/>
-                                    <cell id="18"/>
+                                <row id="18">
+                                    <cell id="19"/>
+                                    <cell id="20"/>
                                 </row>
                             </detail>
                             <footer>
-                                <row id="19">
-                                    <cell id="20"/>
-                                    <cell id="21"/>
+                                <row id="21">
+                                    <cell id="22"/>
+                                    <cell id="23"/>
                                 </row>
                             </footer>
                         </table>
@@ -165,31 +127,31 @@
                 </row>
             </detail>
             <footer>
-                <row id="24">
-                    <cell id="25">
+                <row id="26">
+                    <cell id="27">
                         <method name="onCreate"><![CDATA[row["onCreateValueExpr"] + 1]]></method>
-                        <grid name="grid1" id="29">
-                            <column id="30"/>
-                            <column id="31"/>
-                            <row id="32">
-                                <cell id="33"/>
-                                <cell id="34"/>
-                            </row>
-                            <row id="35">
+                        <grid name="grid1" id="31">
+                            <column id="32"/>
+                            <column id="33"/>
+                            <row id="34">
+                                <cell id="35"/>
                                 <cell id="36"/>
-                                <cell id="37">
-                                    <text-data name="textData1" id="38">
+                            </row>
+                            <row id="37">
+                                <cell id="38"/>
+                                <cell id="39">
+                                    <text-data name="textData1" id="40">
                                         <expression name="valueExpr">row["textData1ValueExpr"]</expression>
                                     </text-data>
                                 </cell>
                             </row>
                         </grid>
                     </cell>
-                    <cell id="26"/>
+                    <cell id="28"/>
                 </row>
             </footer>
         </table>
-        <list name="list1" id="39">
+        <list name="list1" id="41">
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">filter1ValueExpr</property>
@@ -221,7 +183,7 @@
                 </structure>
             </list-property>
         </list>
-        <text-data name="textData2" id="42">
+        <text-data name="textData2" id="44">
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">New Column</property>

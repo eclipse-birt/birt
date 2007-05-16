@@ -587,30 +587,4 @@ public class ParameterValidationUtilTest extends BaseTestCase
 				Boolean.FALSE,
 				new ULocale( "aa" ) ) ); //$NON-NLS-1$
 	}
-
-	public void testValidatWithDifferentLocale( )
-	{
-
-		try
-		{
-			Object value = ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-					"18 avr. 95 00:00",
-					ULocale.FRENCH );
-			System.out.println( value.toString( ) );
-			System.out.println(  ((Date)value).getTime( ));
-			 value = ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-					 "dd/MM/yy HH:mm:ss",
-					"02/03/2004 12:11",
-					ULocale.FRENCH );
-			System.out.println( value.toString( ) );
-			System.out.println(  ((Date)value).getTime( ));
-		}
-		catch ( ValidationValueException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-
-	}
 }

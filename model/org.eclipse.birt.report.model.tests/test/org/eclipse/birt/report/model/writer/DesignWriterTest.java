@@ -201,7 +201,6 @@ public class DesignWriterTest extends BaseTestCase
 		designHandle.getBody( ).add( image );
 
 		save( );
-		System.out.println( os );
 		assertTrue( compareFile( "testWriter_golden.xml" ) ); //$NON-NLS-1$  
 
 	}

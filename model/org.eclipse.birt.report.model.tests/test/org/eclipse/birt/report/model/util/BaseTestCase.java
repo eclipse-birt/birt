@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -192,7 +193,22 @@ public abstract class BaseTestCase extends TestCase
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 
+		removeExtensionStyles( design );
 		return designHandle;
+	}
+
+	private void removeExtensionStyles( ReportDesign design )
+	{
+
+		ContainerSlot styles = design.getSlot( ReportDesign.STYLE_SLOT );
+		styles.clear( );
+//		if ( styles != null )
+//		{
+//			for ( int i = 0; i < styles.getCount( ); i++ )
+//			{
+//				styles.remove( i );
+//			}
+//		}
 	}
 
 	/**
@@ -282,8 +298,7 @@ public abstract class BaseTestCase extends TestCase
 		assertNotNull( sessionHandle );
 
 		if ( inSingleJarMode )
-			designHandle = sessionHandle.openDesign( getResource( fileName )
-					.toString( ) );
+			designHandle = sessionHandle.openDesign( getResource( fileName ).toString( ) );
 		else
 			designHandle = sessionHandle.openDesign( fileName );
 
@@ -424,8 +439,8 @@ public abstract class BaseTestCase extends TestCase
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		moduleHandle = sessionHandle.openModule( getResource( fileName )
-				.toString( ), getResourceAStream( fileName ) );
+		moduleHandle = sessionHandle.openModule( getResource( fileName ).toString( ),
+				getResourceAStream( fileName ) );
 	}
 
 	/**
@@ -492,8 +507,7 @@ public abstract class BaseTestCase extends TestCase
 			goldenFileName = GOLDEN_FOLDER + goldenFileName;
 			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
 
-			readerA = new InputStreamReader(
-					getResourceAStream( goldenFileName ) );
+			readerA = new InputStreamReader( getResourceAStream( goldenFileName ) );
 			readerB = new FileReader( outputFileName );
 
 			same = compareFile( readerA, readerB );
@@ -832,7 +846,7 @@ public abstract class BaseTestCase extends TestCase
 	protected boolean isWindowsPlatform( )
 	{
 		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
-				"windows" ) >= 0; //$NON-NLS-1$
+		"windows" ) >= 0; //$NON-NLS-1$
 	}
 
 	/**

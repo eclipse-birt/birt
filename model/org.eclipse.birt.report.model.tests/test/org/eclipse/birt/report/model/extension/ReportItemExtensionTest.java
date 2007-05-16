@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleGroupElementHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -630,7 +630,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 				( (MapRule) mapRules.get( 2 ) ).getOperator( ) );
 		assertEquals( "Unknown", ( (MapRule) mapRules.get( 2 ) ).getDisplay( ) ); //$NON-NLS-1$
 
-		NameSpace ns = design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( )
+				.getNameSpace( Module.STYLE_NAME_SPACE );
 		assertEquals( 4, ns.getCount( ) );
 
 		// Predefined style is defined by user.
@@ -991,8 +992,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testAddExtendedItem( ) throws Exception
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( (ULocale) null );
-		designHandle = sessionHandle.createDesign( );
+		createDesign( );
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle.getElementFactory( )
 				.newElement( TESTING_BOX_NAME, "box1" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( itemHandle );
@@ -1656,16 +1656,27 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		SessionHandle session = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
-		assertEquals( 1, designHandle.getStyles( ).getCount( ) );
+		boolean findboxStyle = false;
+		SlotHandle styles = designHandle.getStyles( );
+		StyleHandle boxDefaultStyle = null;
+		assert styles != null;
+		
+		for ( int i = 0; i < styles.getCount( ); i++ )
+		{
+
+			boxDefaultStyle = (StyleHandle) styles.get( i );
+			if ( boxDefaultStyle.getName( ).equals( "BoxStyle" ) )
+			{
+				findboxStyle = true;
+				break;
+			}
+
+		}
+		assertTrue( findboxStyle );
 
 		ExtendedItemHandle elementHandle = designHandle.getElementFactory( )
 				.newExtendedItem( null, TESTING_BOX_NAME );
 		assertNotNull( elementHandle.getName( ) );
-
-		assertEquals( 1, designHandle.getStyles( ).getCount( ) );
-
-		StyleHandle boxDefaultStyle = (StyleHandle) designHandle.getStyles( )
-				.get( 0 );
 
 		assertEquals( "BoxStyle", boxDefaultStyle.getName( ) );
 		assertEquals( "#CCCCCC", boxDefaultStyle.getColor( ).getStringValue( ) );
