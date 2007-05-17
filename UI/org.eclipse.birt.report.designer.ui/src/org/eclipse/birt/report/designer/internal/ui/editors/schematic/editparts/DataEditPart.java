@@ -64,40 +64,40 @@ public class DataEditPart extends LabelEditPart
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		DataItemBindingDialog dialog = new DataItemBindingDialog( handle.getResultSetColumn( ) == null );
-		if ( handle.getResultSetColumn( ) != null )
-		{
-			DataItemBindingAggregateOnProvider provider;
-			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-					handle.getResultSetColumn( ) );
-			if ( bindingColumn == null )
-			{
-				provider = new NODataItemBindingAggregateOnProvider( );
-				dialog.setProvider( provider );
-			}
-			else
-			{
-				Object obj = bindingColumn.getElementHandle( );
-				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
-						.get( obj );
-
-				if ( part == null )
-				{
-					provider = new NODataItemBindingAggregateOnProvider( );
-				}
-				else
-				{
-					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
-				}
-				if ( provider == null )
-				{
-					provider = new NODataItemBindingAggregateOnProvider( );
-				}
-				provider.setDataItemHandle( handle );
-
-				dialog.setProvider( provider );
-			}
-
-		}
+//		if ( handle.getResultSetColumn( ) != null )
+//		{
+//			DataItemBindingAggregateOnProvider provider;
+//			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+//					handle.getResultSetColumn( ) );
+//			if ( bindingColumn == null )
+//			{
+//				provider = new NODataItemBindingAggregateOnProvider( );
+//				dialog.setProvider( provider );
+//			}
+//			else
+//			{
+//				Object obj = bindingColumn.getElementHandle( );
+//				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
+//						.get( obj );
+//
+//				if ( part == null )
+//				{
+//					provider = new NODataItemBindingAggregateOnProvider( );
+//				}
+//				else
+//				{
+//					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
+//				}
+//				if ( provider == null )
+//				{
+//					provider = new NODataItemBindingAggregateOnProvider( );
+//				}
+//				provider.setDataItemHandle( handle );
+//
+//				dialog.setProvider( provider );
+//			}
+//
+//		}
 		dialog.setInput( handle );
 
 		// ColumnBindingDialog dialog = new ColumnBindingDialog( true );

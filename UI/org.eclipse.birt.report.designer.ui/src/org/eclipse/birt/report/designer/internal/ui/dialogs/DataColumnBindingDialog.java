@@ -6,7 +6,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -35,7 +34,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 			ComputedColumnHandle bindingHandle )
 	{
 		this.input = input;
-		setAggregateOns( DEUtil.getGroups( input ) );
+		//setAggregateOns( DEUtil.getGroups( input ) );
 		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		bindingColumn = bindingHandle;
 		try
@@ -50,11 +49,11 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 				// Add data set items.
 
 				setName( bindingColumn.getName( ) );
-//				setDisplayName( bindingColumn.getDisplayName( ) );
+				setDisplayName( bindingColumn.getDisplayName( ) );
 				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
-				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				//setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
 			}
 
 		}

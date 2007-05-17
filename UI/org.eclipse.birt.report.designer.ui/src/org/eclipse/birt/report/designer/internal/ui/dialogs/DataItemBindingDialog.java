@@ -1,10 +1,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -20,7 +18,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -28,8 +25,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -41,99 +36,33 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class DataItemBindingDialog extends BaseDialog
 {
-	DataItemBindingAggregateOnProvider provider;
-	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
 
-	// protected static final String DISPLAY_NAME = Messages.getString(
-	// "DataItemBindingDialog.text.displayName" );
+	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
+	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
 
 	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
 
 	protected static final String EXPRESSION = Messages.getString( "DataItemBindingDialog.text.Expression" );
 
-	protected static final String FUNCTION = Messages.getString( "DataItemBindingDialog.text.Function" );
 	protected static final String AGGREGATE_ON = Messages.getString( "DataItemBindingDialog.text.AggregateOn" );
-
-	protected static final String FILTER = Messages.getString( "DataItemBindingDialog.text.Filter" );
-
-	protected static final String ARGUMENT_LIST = Messages.getString( "DataItemBindingDialog.text.ArgumentList" );
-
-	protected static final String BTN_ADD = Messages.getString( "DataItemBindingDialog.Button.Add" );
-
-	protected static final String BTN_EDIT = Messages.getString( "DataItemBindingDialog.Button.Edit" );
-
-	protected static final String BTN_DELETE = Messages.getString( "DataItemBindingDialog.Button.Delete" );
 
 	protected static final String FORCE_BINDING_TEXT = Messages.getString( "DataItemBindingDialog.text.ForceBinding" );
 
 	protected static final String DEFAULT_ITEM_NAME = "data item";
 
-	protected static final String EMPTY_STRING = "";
-
 	protected static final String ALL = Messages.getString( "DataItemBindingDialog.text.All" );
 
 	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
-	
-	protected static final String NULL = Messages.getString( "DataItemBindingDialog.text.Null" );
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
-
-	private String[] getFunctionDisplayNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
-			return new String[0];
-
-		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getDisplayName( );
-		}
-		return displayNames;
-
-	}
-
-	private String[] getFunctionNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
-			return new String[0];
-
-		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getName( );
-		}
-		return displayNames;
-	}
-
-	private String getFunctionDisplayName( String name )
-	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-						.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
-						.getAllowedChoices( ) );
-	}
-
-	private IChoice[] getFunctions( )
-	{
-		return DEUtil.getMetaDataDictionary( )
-				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
-				.getAllowedChoices( )
-				.getChoices( );
-	}
 
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
 
@@ -149,7 +78,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected String[] itemNames;
 
-	protected String[] aggregateOns;
+	// protected String[] aggregateOns;
 
 	protected String expression;
 
@@ -157,33 +86,23 @@ public class DataItemBindingDialog extends BaseDialog
 
 	private Text itemName;
 
-	// private Text itemDisplayName;
+	private Text itemDisplayName;
 
-	private Combo itemAggregateOn;
-
-	private Combo itemFunction;
+	// private Combo itemAggregateOn;
 
 	private Text itemExpression;
 
 	private String typeSelect;
 
-	private String aggregateOnSelect;
-
-	private Button aggregateOnBtn, filterBtn, argumentBtn;
-
-	private org.eclipse.swt.widgets.List argumentList;
-
-	private Button filterExpBtn;
-
-	private Text filterText;
-
-	private Label hiddenLabel;
+	// private String aggregateOnSelect;
+	//
+	// private Label aggregateOnLabel;
+	//
+	// private Label hiddenLabel;
 
 	protected ComputedColumnHandle bindingColumn;
 
 	protected boolean isCreateNew;
-
-	protected Button addBtn, editBtn, deleteBtn;
 
 	public DataItemBindingDialog( boolean isCreateNew )
 	{
@@ -214,15 +133,12 @@ public class DataItemBindingDialog extends BaseDialog
 		UIUtil.bindHelp( composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG );
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.widthHint = 380;
-		composite.setLayoutData( gd );
-
 		new Label( composite, SWT.NONE ).setText( NAME );
 		itemName = new Text( composite, SWT.BORDER );
-
-		itemName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		GridData data = new GridData( );
+		int width = itemName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		data.widthHint = width < 250 ? 250 : width;
+		itemName.setLayoutData( data );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		itemName.addModifyListener( new ModifyListener( ) {
@@ -244,11 +160,11 @@ public class DataItemBindingDialog extends BaseDialog
 
 		} );
 
-		// new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
-		// itemDisplayName = new Text( composite, SWT.BORDER );
-		// itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-		// | GridData.GRAB_HORIZONTAL ) );
-		// WidgetUtil.createGridPlaceholder( composite, 1, false );
+		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
+		itemDisplayName = new Text( composite, SWT.BORDER );
+		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL ) );
+		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -266,7 +182,7 @@ public class DataItemBindingDialog extends BaseDialog
 		// GridData gd = new GridData( );
 		// gd.heightHint = 20;
 		// gd.widthHint = 20;
-		expressionButton.setLayoutData( gd );
+		// expressionButton.setLayoutData( gd );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -277,290 +193,54 @@ public class DataItemBindingDialog extends BaseDialog
 
 		setExpressionButtonImage( expressionButton );
 
-		itemExpression.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				if ( ExpressionUtil.hasAggregation( itemExpression.getText( ) ) )
-				{
-					String groupType = DEUtil.getGroupControlType( input );
-					if ( !( bindingColumn != null
-							&& bindingColumn.getExpression( ) != null && bindingColumn.getExpression( )
-							.equals( itemExpression.getText( ) ) ) )
-					{
-						if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						{
-							setAggregateOnSelect( ( (GroupHandle) DEUtil.getGroups( input )
-									.get( 0 ) ).getName( ) );
-						}
-						else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						{
-							setAggregateOnSelect( ALL );
-						}
-						else
-							setAggregateOnSelect( NONE );
-					}
-					else if ( groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-					{
-						setAggregateOnSelect( NONE );
-					}
-				}
-				// if ( ExpressionUtil.hasAggregation( itemExpression.getText( )
-				// ) )
-				// {
-				// aggregateOnBtn.setEnabled( true );
-				// aggregateOnBtn.setSelection( true );
-				// itemAggregateOn.setEnabled( true );
-				// hiddenLabel.setVisible( true );
-				// }
-				// else if ( !ExpressionUtil.hasAggregation(
-				// itemExpression.getText( ) ) )
-				// {
-				// aggregateOnBtn.setEnabled( false );
-				// aggregateOnBtn.setSelection( false );
-				// itemAggregateOn.setEnabled( false );
-				// }
-				if ( itemExpression.getText( ) == null
-						|| itemExpression.getText( ).trim( ).equals( "" ) )
-				{
-					if ( getOkButton( ) != null )
-						getOkButton( ).setEnabled( false );
-				}
-				else
-				{
-					if ( getOkButton( ) != null )
-						getOkButton( ).setEnabled( true );
-				}
-			}
-		} );
-
-		new Label( composite, SWT.NONE ).setText( FUNCTION );
-		itemFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		itemFunction.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
-
-		aggregateOnBtn = new Button( composite, SWT.CHECK );
-		aggregateOnBtn.setText( AGGREGATE_ON );
-		itemAggregateOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		itemAggregateOn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		aggregateOnBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				boolean bool = aggregateOnBtn.getSelection( );
-				itemAggregateOn.setEnabled( bool );
-			}
-		} );
-		aggregateOnBtn.setSelection( false );
-		itemAggregateOn.setEnabled( false );
-
-		hiddenLabel = WidgetUtil.createGridPlaceholder( composite, 1, false );
-		// aggregateOnBtn.setVisible( true );
-		// itemAggregateOn.setVisible( true );
-		hiddenLabel.setVisible( false );
-
-		filterBtn = new Button( composite, SWT.CHECK );
-		filterBtn.setText( FILTER );
-		filterBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				boolean bool = filterBtn.getSelection( );
-				setFilterSelect( bool );
-			}
-		} );
-		filterBtn.setSelection( false );
-
-		filterText = new Text( composite, SWT.BORDER );
-		filterText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		filterExpBtn = new Button( composite, SWT.PUSH );
-		filterExpBtn.setLayoutData( gd );
-		filterExpBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ExpressionBuilder expression = new ExpressionBuilder( filterText.getText( ) );
-				if ( expressionProvider == null )
-					expressionProvider = new BindingExpressionProvider( input );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == OK
-						&& expression.getResult( ) != null
-						&& expression.getResult( ).length( ) > 0 )
-				{
-					filterText.setText( expression.getResult( ) );
-				}
-			}
-		} );
-		setFilterSelect( false );
-
-		setExpressionButtonImage( filterExpBtn );
-
-		createArgumentList( composite );
-
+		/*
+		 * itemExpression.addModifyListener( new ModifyListener( ) {
+		 * 
+		 * public void modifyText( ModifyEvent e ) { if (
+		 * ExpressionUtil.hasAggregation( itemExpression.getText( ) ) ) { String
+		 * groupType = DEUtil.getGroupControlType( input ); if ( !(
+		 * bindingColumn != null && bindingColumn.getExpression( ) != null &&
+		 * bindingColumn.getExpression( ) .equals( itemExpression.getText( ) ) ) ) {
+		 * if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) ) {
+		 * setAggregateOnSelect( ( (GroupHandle) DEUtil.getGroups( input ) .get(
+		 * 0 ) ).getName( ) ); } else if ( groupType.equals(
+		 * DEUtil.TYPE_GROUP_LISTING ) ) { setAggregateOnSelect( ALL ); } else
+		 * setAggregateOnSelect( NONE ); } else if ( groupType.equals(
+		 * DEUtil.TYPE_GROUP_NONE ) ) { setAggregateOnSelect( NONE ); } } if (
+		 * ExpressionUtil.hasAggregation( itemExpression.getText( ) ) &&
+		 * !itemAggregateOn.getVisible( ) ) { aggregateOnLabel.setVisible( true );
+		 * itemAggregateOn.setVisible( true ); hiddenLabel.setVisible( true ); }
+		 * else if ( !ExpressionUtil.hasAggregation( itemExpression.getText( ) ) &&
+		 * itemAggregateOn.getVisible( ) ) { aggregateOnLabel.setVisible( false );
+		 * itemAggregateOn.setVisible( false ); hiddenLabel.setVisible( false ); } } } );
+		 * 
+		 * aggregateOnLabel = new Label( composite, SWT.NONE );
+		 * aggregateOnLabel.setText( AGGREGATE_ON ); itemAggregateOn = new
+		 * Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		 * itemAggregateOn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		 * hiddenLabel = WidgetUtil.createGridPlaceholder( composite, 1, false );
+		 * aggregateOnLabel.setVisible( false ); itemAggregateOn.setVisible(
+		 * false ); hiddenLabel.setVisible( false );
+		 */
 		init( );
 		return composite;
 	}
 
-	private void setFilterSelect( boolean bool )
+	private ComputedColumnHandle getInputBinding( ReportItemHandle input,
+			String bindingName )
 	{
-		filterText.setEnabled( bool );
-		filterExpBtn.setEnabled( bool );
-	}
-
-	private void createArgumentList( Composite parent )
-	{
-		argumentBtn = new Button( parent, SWT.CHECK );
-		argumentBtn.setText( ARGUMENT_LIST );
-		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gd.verticalSpan = 3;
-		argumentBtn.setLayoutData( gd );
-
-		argumentList = new org.eclipse.swt.widgets.List( parent, SWT.BORDER
-				| SWT.READ_ONLY
-				| SWT.V_SCROLL );
-		gd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
-		gd.heightHint = 80;
-		gd.verticalSpan = 3;
-		argumentList.setLayoutData( gd );
-		argumentList.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( argumentList.getSelectionIndex( ) != -1 )
-				{
-					editBtn.setEnabled( true );
-					deleteBtn.setEnabled( true );
-				}
-			}
-		} );
-		argumentList.addFocusListener( new FocusListener( ) {
-
-			public void focusGained( FocusEvent e )
-			{
-				// TODO Auto-generated method stub
-				if ( argumentList.getSelectionIndex( ) != -1 )
-				{
-					editBtn.setEnabled( true );
-					deleteBtn.setEnabled( true );
-				}
-			}
-
-			public void focusLost( FocusEvent e )
-			{
-				// TODO Auto-generated method stub
-				// argumentList.deselectAll( );
-				// editBtn.setEnabled( false );
-				// deleteBtn.setEnabled( false );
-			}
-		} );
-
-		addBtn = new Button( parent, SWT.NONE );
-		addBtn.setText( BTN_ADD );
-		gd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
-		addBtn.setLayoutData( gd );
-		addBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ExpressionBuilder expression = new ExpressionBuilder( EMPTY_STRING );
-				if ( expressionProvider == null )
-					expressionProvider = new BindingExpressionProvider( input );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == OK
-						&& expression.getResult( ) != null
-						&& expression.getResult( ).length( ) > 0 )
-				{
-					argumentList.add( expression.getResult( ) );
-				}
-			}
-		} );
-
-		editBtn = new Button( parent, SWT.NONE );
-		editBtn.setText( BTN_EDIT );
-		editBtn.setLayoutData( gd );
-		editBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ExpressionBuilder expression = new ExpressionBuilder( (String) argumentList.getItem( argumentList.getSelectionIndex( ) ) );
-				if ( expressionProvider == null )
-					expressionProvider = new BindingExpressionProvider( input );
-				expression.setExpressionProvier( expressionProvider );
-
-				if ( expression.open( ) == OK
-						&& expression.getResult( ) != null
-						&& expression.getResult( ).length( ) > 0 )
-				{
-					int index = argumentList.getSelectionIndex( );
-					argumentList.setItem( index, expression.getResult( ) );
-				}
-			}
-		} );
-
-		deleteBtn = new Button( parent, SWT.NONE );
-		deleteBtn.setText( BTN_DELETE );
-		deleteBtn.setLayoutData( gd );
-		deleteBtn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				int index = argumentList.getSelectionIndex( );
-				if ( index < 0 )
-				{
-					return;
-				}
-				int count = argumentList.getItemCount( );
-				argumentList.remove( index );
-				if ( count > 1 )
-				{
-					argumentList.select( index + 1 == count ? index - 1 : index );
-				}
-				if ( argumentList.getSelectionIndex( ) == -1 )
-				{
-					editBtn.setEnabled( false );
-					deleteBtn.setEnabled( false );
-				}
-			}
-		} );
-
-		argumentBtn.addListener( SWT.Selection, argumentListener );
-		argumentBtn.setSelection( false );
-		setArgumentSelect( false );
-	}
-
-	private Listener argumentListener = new Listener( ) {
-
-		public void handleEvent( Event event )
+		List elementsList = DEUtil.getVisiableColumnBindingsList( input );
+		if ( elementsList != null && elementsList.size( ) > 0 )
 		{
-			boolean bool = argumentBtn.getSelection( );
-			setArgumentSelect( bool );
+			for ( int i = 0; i < elementsList.size( ); i++ )
+			{
+				if ( ( (ComputedColumnHandle) elementsList.get( i ) ).getName( )
+						.equals( bindingName ) )
+					return (ComputedColumnHandle) elementsList.get( i );
+			}
 		}
-
-	};
-
-	private void setArgumentSelect( boolean bool )
-	{
-		argumentList.setEnabled( bool );
-		addBtn.setEnabled( bool );
-		if ( argumentList.isEnabled( )
-				&& argumentList.getSelectionIndex( ) != -1 )
-		{
-			editBtn.setEnabled( bool );
-			deleteBtn.setEnabled( bool );
-		}
-		else
-		{
-			editBtn.setEnabled( false );
-			deleteBtn.setEnabled( false );
-		}
-
+		return null;
 	}
-
-	
 
 	private int getItemIndex( String[] items, String item )
 	{
@@ -576,125 +256,34 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		initDataTypes( );
 		initName( );
-		// initDisplayName( );
-		initAggregateOns( );
+		initDisplayName( );
+		// initAggregateOns( );
 		initExpression( );
-		initFunction( );
-		initFilter( );
-		initArgument( );
 	}
 
-	private void initFunction( )
+	private String displayName;
+
+	private void initDisplayName( )
 	{
-		itemFunction.setItems( getFunctionDisplayNames( ) );
-		itemFunction.add( NULL, 0 );
-		if ( bindingColumn == null )
+		if ( displayName != null && itemDisplayName != null )
 		{
-			itemFunction.select( 0 );
-			return;
+			itemDisplayName.setText( displayName );
 		}
-		String functionString = bindingColumn.getAggregateFunction( );
-		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
-				getFunctionDisplayName( functionString ) );
-		itemFunction.select( itemIndex + 1 );
-
 	}
 
-	private void initFilter( )
+	public void setDisplayName( String displayName )
 	{
-		if ( bindingColumn == null )
-		{
-			filterBtn.setSelection( false );
-			setFilterSelect( false );
-		}
-		else
-		{
-			String filterString = bindingColumn.getFilterExpression( );
-			if ( filterString != null && filterString.length( ) > 0 )
-			{
-				filterBtn.setSelection( true );
-				setFilterSelect( true );
-				filterText.setText( filterString );
-			}
-
-		}
-
+		this.displayName = displayName;
+		initDisplayName( );
 	}
 
-	private void initArgument( )
-	{
-		if ( bindingColumn == null )
-		{
-			argumentBtn.setSelection( false );
-			return;
-		}
-
-		List list = bindingColumn.getArgumentList( );
-		if ( list != null && list.size( ) != 0 )
-		{
-			argumentBtn.setSelection( true );
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				argumentList.add( (String) list.get( i ) );
-			}
-
-			updateArgumentListEnabled( );
-		}
-		else
-		{
-			argumentBtn.setSelection( false );
-		}
-
-	}
-
-	private void updateArgumentListEnabled( )
-	{
-		boolean add = true;
-		boolean edit = true;
-		boolean del = true;
-		boolean list = true;
-		if ( argumentBtn.isEnabled( ) == false
-				|| argumentBtn.getSelection( ) == false )
-		{
-			add = false;
-			edit = false;
-			del = false;
-			list = false;
-		}
-		else if ( argumentList.getItemCount( ) <= 0
-				|| argumentList.getSelectionIndex( ) < 0 )
-		{
-			edit = false;
-			del = false;
-		}
-
-		addBtn.setEnabled( add );
-		editBtn.setEnabled( edit );
-		deleteBtn.setEnabled( del );
-		argumentList.setEnabled( list );
-	}
-
-	private void initAggregateOns( )
-	{
-		if ( aggregateOns != null && itemAggregateOn != null )
-		{
-			itemAggregateOn.setItems( aggregateOns );
-			if ( aggregateOnSelect != null )
-			{
-				itemAggregateOn.select( getItemIndex( itemAggregateOn.getItems( ),
-						aggregateOnSelect ) );
-				aggregateOnBtn.setSelection( true );
-				itemAggregateOn.setEnabled( true );
-			}
-			else
-			{
-				aggregateOnBtn.setSelection( false );
-				itemAggregateOn.setEnabled( false );
-			}
-
-		}
-	}
-
+	/*
+	 * private void initAggregateOns( ) { if ( aggregateOns != null &&
+	 * itemAggregateOn != null ) { itemAggregateOn.setItems( aggregateOns ); if (
+	 * aggregateOnSelect != null ) itemAggregateOn.select( getItemIndex(
+	 * itemAggregateOn.getItems( ), aggregateOnSelect ) ); else
+	 * itemAggregateOn.select( 0 ); } }
+	 */
 	private void initDataTypes( )
 	{
 		if ( dataTypes != null && itemType != null )
@@ -710,23 +299,7 @@ public class DataItemBindingDialog extends BaseDialog
 	private void initExpression( )
 	{
 		if ( expression != null && itemExpression != null )
-		{
 			itemExpression.setText( expression );
-		}
-	}
-
-	protected void createButtonsForButtonBar( Composite parent )
-	{
-		super.createButtonsForButtonBar( parent );
-		if ( itemExpression.getText( ) == null
-				|| itemExpression.getText( ).trim( ).equals( "" ) )
-		{
-			getOkButton( ).setEnabled( false );
-		}
-		else
-		{
-			getOkButton( ).setEnabled( true );
-		}
 	}
 
 	private String name;
@@ -737,16 +310,6 @@ public class DataItemBindingDialog extends BaseDialog
 			itemName.setText( name );
 	}
 
-	// private String displayName;
-	//
-	// private void initDisplayName( )
-	// {
-	// if ( displayName != null && itemDisplayName != null )
-	// {
-	// itemDisplayName.setText( displayName );
-	// }
-	// }
-
 	protected void save( ) throws SemanticException
 	{
 		if ( itemName.getText( ) != null
@@ -756,12 +319,12 @@ public class DataItemBindingDialog extends BaseDialog
 			if ( bindingColumn == null )
 			{
 				if ( itemExpression.getText( ) == null
-						|| itemExpression.getText( ).trim( ).length( ) == 0 )
+						|| itemExpression.getText( ).length( ) == 0 )
 				{
 					return;
 				}
 				newBinding.setName( itemName.getText( ) );
-				// newBinding.setDisplayName( itemDisplayName.getText( ) );
+				newBinding.setDisplayName( itemDisplayName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -772,37 +335,13 @@ public class DataItemBindingDialog extends BaseDialog
 					}
 				}
 				newBinding.setExpression( itemExpression.getText( ) );
-
-				if ( aggregateOnBtn.isEnabled( )
-						&& aggregateOnBtn.getSelection( )
-						&& !( itemAggregateOn.getText( ).equals( ALL ) || itemAggregateOn.getText( )
-								.equals( NONE ) ) )
-				{
-					newBinding.setAggregateOn( itemAggregateOn.getText( ) );
-				}
-				else
-					newBinding.setAggregateOn( null );
-				if ( itemFunction.getText( ).equals( NULL ) )
-					newBinding.setAggregateFunction( null );
-				else
-					newBinding.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
-							itemFunction.getText( ) )] );
-
-				if ( filterBtn.getSelection( )
-						&& filterText.getText( ).length( ) != 0 )
-				{
-					newBinding.setFilterExpression( filterText.getText( ) );
-				}
-
-				if ( argumentBtn.getSelection( )
-						&& argumentList.getItems( ).length > 0 )
-				{
-					for ( int i = 0; i < argumentList.getItemCount( ); i++ )
-					{
-						newBinding.addArgument( argumentList.getItems( )[i] );
-					}
-				}
-
+				/*
+				 * if ( itemAggregateOn.isVisible( ) && !(
+				 * itemAggregateOn.getText( ).equals( ALL ) ||
+				 * itemAggregateOn.getText( ) .equals( NONE ) ) ) {
+				 * newBinding.setAggregateOn( itemAggregateOn.getText( ) ); }
+				 * else newBinding.setAggregateOn( null );
+				 */
 				bindingColumn = DEUtil.addColumn( getBindingObject( ),
 						newBinding,
 						isForceBinding( ) );
@@ -810,7 +349,7 @@ public class DataItemBindingDialog extends BaseDialog
 			else
 			{
 				if ( itemExpression.getText( ) != null
-						&& itemExpression.getText( ).trim( ).length( ) == 0 )
+						&& itemExpression.getText( ).length( ) == 0 )
 				{
 					DataItemHandle itemHandle = (DataItemHandle) getBindingObject( );
 					String resultSetName = itemHandle.getResultSetColumn( );
@@ -828,15 +367,14 @@ public class DataItemBindingDialog extends BaseDialog
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
 
-				// if ( !( bindingColumn.getDisplayName( ) != null &&
-				// bindingColumn.getDisplayName( )
-				// .equals( itemDisplayName.getText( ).trim( ) ) ) )
-				// bindingColumn.setDisplayName( itemDisplayName.getText( ) );
+				if ( !( bindingColumn.getDisplayName( ) != null && bindingColumn.getDisplayName( )
+						.equals( itemDisplayName.getText( ).trim( ) ) ) )
+					bindingColumn.setDisplayName( itemDisplayName.getText( ) );
 
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-							.equals( itemType.getText( ) ) )
+							.endsWith( itemType.getText( ) ) )
 					{
 						bindingColumn.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 						break;
@@ -844,51 +382,13 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 
 				bindingColumn.setExpression( itemExpression.getText( ) );
-
-				if ( aggregateOnBtn.isEnabled( )
-						&& aggregateOnBtn.getSelection( )
-						&& !( itemAggregateOn.getText( ).equals( ALL ) || itemAggregateOn.getText( )
-								.equals( NONE ) ) )
-				{
-					bindingColumn.setAggregateOn( itemAggregateOn.getText( ) );
-				}
-				else
-					bindingColumn.setAggregateOn( null );
-				if ( itemFunction.getText( ).equals( NULL ) )
-					bindingColumn.setAggregateFunction( null );
-				else bindingColumn.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
-						itemFunction.getText( ) )] );
-
-				if ( filterBtn.getSelection( )
-						&& filterText.getText( ).length( ) != 0 )
-				{
-					bindingColumn.setFilterExpression( filterText.getText( ) );
-				}
-				else
-				{
-					bindingColumn.setFilterExpression( null );
-				}
-
-				// Remove the old arguments and add the new argument list.
-				List oldArgumentList = bindingColumn.getArgumentList( );
-				if ( oldArgumentList != null && oldArgumentList.size( ) > 0 )
-				{
-					List tmpList = new ArrayList( oldArgumentList );
-					for ( int i = 0; i < tmpList.size( ); i++ )
-					{
-						bindingColumn.removeArgument( (String) tmpList.get( i ) );
-					}
-				}
-
-				if ( argumentBtn.getSelection( )
-						&& argumentList.getItems( ).length > 0 )
-				{
-					for ( int i = 0; i < argumentList.getItemCount( ); i++ )
-					{
-						bindingColumn.addArgument( argumentList.getItems( )[i] );
-					}
-				}
-
+				/*
+				 * if ( itemAggregateOn.isVisible( ) && !(
+				 * itemAggregateOn.getText( ).equals( ALL ) ||
+				 * itemAggregateOn.getText( ) .equals( NONE ) ) ) {
+				 * bindingColumn.setAggregateOn( itemAggregateOn.getText( ) ); }
+				 * else bindingColumn.setAggregateOn( null );
+				 */
 			}
 		}
 	}
@@ -921,54 +421,25 @@ public class DataItemBindingDialog extends BaseDialog
 		super.okPressed( );
 	}
 
-	public void setAggregateOns( List aggregateOnList )
-	{
-		if ( aggregateOnList == null )
-			setAggregateOns( new String[0] );
-		String[] strings = new String[aggregateOnList.size( )];
-		for ( int i = 0; i < aggregateOnList.size( ); i++ )
-		{
-			strings[i] = ( (GroupHandle) aggregateOnList.get( i ) ).getName( );
-		}
-		setAggregateOns( strings );
-	}
-
-	public void setAggregateOns( String[] aggregateOns )
-	{
-		if ( aggregateOns == null || aggregateOns.length == 0 )
-		{
-			if ( input != null
-					&& DEUtil.getGroupControlType( input ) != DEUtil.TYPE_GROUP_NONE )
-			{
-				aggregateOns = new String[]{
-					ALL
-				};
-			}
-			else
-				aggregateOns = new String[]{
-					NONE
-				};
-			this.aggregateOns = aggregateOns;
-		}
-		else
-		{
-			this.aggregateOns = new String[aggregateOns.length + 1];
-			this.aggregateOns[0] = ALL;
-			System.arraycopy( aggregateOns,
-					0,
-					this.aggregateOns,
-					1,
-					aggregateOns.length );
-		}
-		initAggregateOns( );
-	}
-
-	public void setAggregateOnSelect( String aggregateOnSelect )
-	{
-		this.aggregateOnSelect = aggregateOnSelect;
-		initAggregateOns( );
-	}
-
+	/*
+	 * public void setAggregateOns( List aggregateOnList ) { if (
+	 * aggregateOnList == null ) setAggregateOns( new String[0] ); String[]
+	 * strings = new String[aggregateOnList.size( )]; for ( int i = 0; i <
+	 * aggregateOnList.size( ); i++ ) { strings[i] = ( (GroupHandle)
+	 * aggregateOnList.get( i ) ).getName( ); } setAggregateOns( strings ); }
+	 * 
+	 * public void setAggregateOns( String[] aggregateOns ) { if ( aggregateOns ==
+	 * null || aggregateOns.length == 0 ) { if ( input != null &&
+	 * DEUtil.getGroupControlType( input ) != DEUtil.TYPE_GROUP_NONE ) {
+	 * aggregateOns = new String[]{ ALL }; } else aggregateOns = new String[]{
+	 * NONE }; this.aggregateOns = aggregateOns; } else { this.aggregateOns =
+	 * new String[aggregateOns.length + 1]; this.aggregateOns[0] = ALL;
+	 * System.arraycopy( aggregateOns, 0, this.aggregateOns, 1,
+	 * aggregateOns.length ); } initAggregateOns( ); }
+	 * 
+	 * public void setAggregateOnSelect( String aggregateOnSelect ) {
+	 * this.aggregateOnSelect = aggregateOnSelect; initAggregateOns( ); }
+	 */
 	protected DesignElementHandle getBindingObject( )
 	{
 		return DEUtil.getBindingHolder( input );
@@ -992,12 +463,6 @@ public class DataItemBindingDialog extends BaseDialog
 		initName( );
 	}
 
-	// public void setDisplayName( String displayName )
-	// {
-	// this.displayName = displayName;
-	// initDisplayName( );
-	// }
-
 	private ComputedColumn newBinding;
 
 	protected void createColumnName( ReportItemHandle input, String name )
@@ -1009,13 +474,13 @@ public class DataItemBindingDialog extends BaseDialog
 	public void setInput( ReportItemHandle input )
 	{
 		this.input = input;
-		setAggregateOns( DEUtil.getGroups( input ) );
+		// setAggregateOns( DEUtil.getGroups( input ) );
 		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		try
 		{
 			if ( !isCreateNew )
 			{
-				bindingColumn = DEUtil.getInputBinding( input,
+				bindingColumn = getInputBinding( input,
 						( (DataItemHandle) input ).getResultSetColumn( ) );
 			}
 			if ( isCreateNew )
@@ -1028,11 +493,11 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( bindingColumn != null )
 				{
 					setName( bindingColumn.getName( ) );
-					// setDisplayName( bindingColumn.getDisplayName( ) );
+					setDisplayName( bindingColumn.getDisplayName( ) );
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 							.getDisplayName( ) );
 					setExpression( bindingColumn.getExpression( ) );
-					setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+					// setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
 				}
 				else
 				{
@@ -1065,11 +530,9 @@ public class DataItemBindingDialog extends BaseDialog
 		return itemExpression.getText( );
 	}
 
-	public String getAggregateOnSelect( )
-	{
-		return itemAggregateOn.getText( );
-	}
-
+	/*
+	 * public String getAggregateOnSelect( ) { return itemAggregateOn.getText( ); }
+	 */
 	public String getTypeSelect( )
 	{
 		return itemType.getText( );
@@ -1133,11 +596,5 @@ public class DataItemBindingDialog extends BaseDialog
 			button.getImage( ).setBackground( button.getBackground( ) );
 		}
 
-	}
-
-	
-	public void setProvider( DataItemBindingAggregateOnProvider provider )
-	{
-		this.provider = provider;
 	}
 }
