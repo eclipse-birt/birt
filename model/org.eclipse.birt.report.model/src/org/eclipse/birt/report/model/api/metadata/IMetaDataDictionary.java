@@ -54,6 +54,11 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 public interface IMetaDataDictionary
 {
 	/**
+	 * Name of the class for 'Total'.
+	 */
+	String TOTAL_CLASS_NAME = "Total"; //$NON-NLS-1$
+	
+	/**
 	 * Finds the element definition by its internal name.
 	 * 
 	 * @param name
