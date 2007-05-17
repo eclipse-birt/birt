@@ -56,11 +56,14 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 				if ( header != null )
 				{
 					boolean pageBreak = context.allowPageBreak( );
+					boolean pageEmpty = context.isPageEmpty( );
 					//boolean skipPageHint = context.getSkipPageHint( );
+					context.setPageEmpty( true );
 					context.setAllowPageBreak( pageBreak );
 					//context.setSkipPageHint( true );
 					engine.layout( header, emitter );
 					context.setAllowPageBreak( pageBreak );
+					context.setPageEmpty( pageEmpty );
 					//context.setSkipPageHint( skipPageHint );
 					context.endContentWithPageBreak( null );
 
