@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.css.CSSValue;
 
 
 
@@ -213,19 +215,26 @@ public class HTML2Content
 		if ( body != null )
 		{
 			htmlProcessor.execute( body, styleMap );
-			processNodes( body, checkEscapeSpace( doc ), styleMap, foreign );
+			IContainerContent container = new ContainerContent((ReportContent)foreign.getReportContent());
+			
+			// no style will be applied to <body>.
+			// <body> is block.
+			addBlockChild(foreign, container);
+			processNodes( body, checkEscapeSpace( doc ), styleMap, container );
 		}
 	}
 	
 	/**
 	 * Visits the children nodes of the specific node
 	 * 
-	 * @param visitor
-	 *            the ITextNodeVisitor instance
 	 * @param ele
 	 *            the specific node
 	 * @param needEscape
 	 *            the flag indicating the content needs escaping
+	 * @param cssStyles
+	 * @param content 
+	 * 			  the parent content of the element
+	 * 		       
 	 */
 	private void processNodes( Element ele, boolean needEscape, HashMap cssStyles, IContent content )
 	{
@@ -250,7 +259,7 @@ public class HTML2Content
 			else if(node.getNodeType() == Node.TEXT_NODE)
 			{
 				ILabelContent label = new LabelContent((ReportContent)content.getReportContent());
-				addChild(content, label);
+				addBlockChild(content, label);
 				label.setText(node.getNodeValue());
 				StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
 				inlineStyle.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
@@ -307,11 +316,13 @@ public class HTML2Content
 		if ( tagName.toLowerCase().equals( "a" ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			container.setParent(content);//FIXME addChild to replace?
+			addInlineChild( content, container);
 			handleStyle(ele, cssStyles, container);
 			ActionContent oldAction = action;
 			handleAnchor( ele, container );
-			processNodes( ele, needEscape, cssStyles, container );
+			inlineContainerStack.push( container );
+			processNodes( ele, needEscape, cssStyles, content );
+			inlineContainerStack.pop();
 			this.action = oldAction;
 		}
 		else if(tagName.toLowerCase().equals( "img" )) //$NON-NLS-1$
@@ -322,7 +333,7 @@ public class HTML2Content
 		{
 			
 			ILabelContent label = new LabelContent((ReportContent)content.getReportContent());
-			addChild(content, label);
+			addBlockChild(content, label);
 			label.setText("\n"); //$NON-NLS-1$
 			StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
 			inlineStyle.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
@@ -336,33 +347,42 @@ public class HTML2Content
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.MIDDLE_VALUE );
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
 			container.setInlineStyle(style);
-			addChild(content, container);
+			addBlockChild(content, container);
 			handleStyle(ele, cssStyles, container);
 			
-			TextContent text = new TextContent((ReportContent)content.getReportContent());
-			addChild(container, text);
-			if(ele.getParentNode().getNodeName().equals("ol")) //$NON-NLS-1$
-			{
-				text.setText(new Integer(index).toString()+".  "); //$NON-NLS-1$
-			}
-			else if(ele.getParentNode().getNodeName().equals("ul")) //$NON-NLS-1$
-			{
-				text.setText("  •  " ); //$NON-NLS-1$
-			}
+			//fix scr  157259In PDF <li> effect is incorrect when page break happens.
+			//add a container to number serial, keep consistent page-break
 			style = new StyleDeclaration(content.getCSSEngine());
 			style.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
+			
+			IContainerContent orderContainer = new ContainerContent((ReportContent)content.getReportContent());
+			CSSValue fontSizeValue = content.getComputedStyle( ).getProperty( IStyle.STYLE_FONT_SIZE ); 
+			orderContainer.setWidth( new DimensionType(2.1*PropertyUtil.getDimensionValue( fontSizeValue )/1000.0, EngineIRConstants.UNITS_PT) );
+			orderContainer.setInlineStyle( style );
+			addBlockChild(container, orderContainer);
+			TextContent text = new TextContent((ReportContent)content.getReportContent());
+			addBlockChild(orderContainer, text);
+			if(ele.getParentNode().getNodeName().equals("ol")) //$NON-NLS-1$
+			{
+				text.setText(new Integer(index).toString()+"."); //$NON-NLS-1$
+			}
+			else if(ele.getParentNode().getNodeName().equals("ul")) //$NON-NLS-1$
+			{
+				text.setText(new String(new char[]{'\u2022'}));
+			}
+
 			text.setInlineStyle(style);
 			
 			IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
-			addChild(container, childContainer);
+			addBlockChild(container, childContainer);
 			childContainer.setInlineStyle(style);
 			processNodes( ele, needEscape, cssStyles, childContainer );
 		}
 		else if (tagName.toLowerCase().equals("dd") || tagName.toLowerCase().equals("dt")) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			addChild(content, container);
+			addBlockChild(content, container);
 			handleStyle(ele, cssStyles, container);
 			
 			if (tagName.toLowerCase().equals("dd")) //$NON-NLS-1$
@@ -372,7 +392,7 @@ public class HTML2Content
 				style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
 				TextContent text = new TextContent((ReportContent) content
 						.getReportContent());
-				addChild(content, text);
+				addBlockChild(content, text);
 				if (ele.getParentNode().getNodeName().equals("dl")) //$NON-NLS-1$
 				{
 					text.setText(""); //$NON-NLS-1$
@@ -382,7 +402,7 @@ public class HTML2Content
 				
 				IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
 				childContainer.setInlineStyle(style);
-				addChild(container, childContainer);
+				addBlockChild(container, childContainer);
 				
 				processNodes( ele, needEscape, cssStyles, container );
 				
@@ -399,19 +419,13 @@ public class HTML2Content
 			handleStyle(ele, cssStyles, container);
 			if(htmlDisplayMode.contains(ele.getTagName()))
 			{
-				addChild(content, container);
+				addBlockChild(content, container);
 				processNodes( ele, needEscape, cssStyles, container );
 			}
 			else
 			{
-				if(inlineContainerStack.isEmpty( ))
-				{
-					container.setParent( content );
-				}
-				else
-				{
-					container.setParent( ( IContent) inlineContainerStack.peek( ));
-				}
+				addInlineChild(content, container);
+				//handleStyle(ele, cssStyles, container);
 				inlineContainerStack.push( container );
 				processNodes( ele, needEscape, cssStyles, content );
 				inlineContainerStack.pop( );
@@ -475,9 +489,13 @@ public class HTML2Content
 				}
 				else
 				{
-					action.setHyperlink(href, ele.getAttribute("target")); //$NON-NLS-1$
+					String target = ele.getAttribute("target");
+					if ("".equals(target))
+					{
+						target = "_blank";
+					}
+					action.setHyperlink(href, target);
 				}
-				content.setHyperlinkAction(action);
 				this.action = action;
 			}
 			
@@ -540,11 +558,11 @@ public class HTML2Content
 	 */
 	protected void outputImg( Element ele, HashMap cssStyles, IContent content )
 	{
-		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
+	 	String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if(src!=null)
 		{		
 			IImageContent image = new ImageContent(content);
-			addChild(content, image);
+			addBlockChild(content, image);
 			handleStyle(ele, cssStyles, image);
 			
 			if( !FileUtil.isLocalResource( src ) )
@@ -558,7 +576,7 @@ public class HTML2Content
 				URL url = handle.findResource( src, IResourceLocator.IMAGE );
 				if(url!=null)
 				{
-					src = url.getFile( );
+					src = url.toString( );
 				}
 				image.setImageSource(IImageContent.IMAGE_FILE);
 				image.setURI(src);
@@ -581,7 +599,7 @@ public class HTML2Content
 		}
 	}
 
-	protected void addChild(IContent parent, IContent child)
+	protected void addBlockChild(IContent parent, IContent child)
 	{
 		if(parent!=null && child!=null)
 		{
@@ -598,11 +616,23 @@ public class HTML2Content
 					child.setParent( ( IContent) inlineContainerStack.peek( ));
 				}
 			}
-			
+		}
+	}
+	
+	protected void addInlineChild(IContent parent, IContent child)
+	{
+		if(parent!=null && child!=null)
+		{
+			if(inlineContainerStack.isEmpty( ))
+			{
+				child.setParent( parent );
+			}
+			else
+			{
+				child.setParent( ( IContent) inlineContainerStack.peek( ));
+			}
 		}
 	}
 	
 	
-
-
 }
