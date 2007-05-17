@@ -78,7 +78,7 @@ public class MasterPageExecutor extends ContainerExecutor
 			long id = iid.getComponentID( );
 			masterPage = (SimpleMasterPageDesign) context.getReport( )
 					.getReportItemByID( id );
-			content.setGenerateBy( design );
+			content.setGenerateBy( masterPage );
 
 			IPageContent pageContent = (IPageContent) content;
 			pageContent.setPageNumber( pageNumber );
