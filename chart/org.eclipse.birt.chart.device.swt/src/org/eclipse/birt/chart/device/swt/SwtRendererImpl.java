@@ -65,7 +65,6 @@ import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * This class implements the SWT primitive rendering code for each primitive
@@ -311,6 +310,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		_gc.setLineStyle( iOldLineStyle );
 		_gc.setLineWidth( iOldLineWidth );
 		cFG.dispose( );
+
 
 	}
 

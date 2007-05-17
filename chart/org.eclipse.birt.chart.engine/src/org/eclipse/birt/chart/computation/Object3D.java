@@ -484,8 +484,8 @@ public class Object3D
 	{
 		int thisPointsNumber = viewVa.length;
 		int comparedPointsNumber = comparedObj.getViewerVectors( ).length ;
-		Vector[] thisPoints = viewVa;
-		Vector[] comparedPoints = comparedObj.getViewerVectors( );
+		//Vector[] thisPoints = viewVa;
+		//Vector[] comparedPoints = comparedObj.getViewerVectors( );
 		
 		if ( thisPointsNumber == 0 || comparedPointsNumber == 0 )
 		{
@@ -779,5 +779,99 @@ public class Object3D
 			}
 		}
 		return loa;
+	}
+
+	protected int getFollowingIndex( int index, boolean next )
+	{
+		
+		if ( next )
+		{
+			if ( index + 1 > va.length - 1 )
+			{
+				return 0;
+			}
+			else
+			return index + 1;
+
+		}
+	
+		else
+		{
+			if ( index - 1 < 0 )
+				return va.length -1 ;
+			else
+				return index - 1;
+			
+		}
+	}
+	public Object3D getSharedEdge( Object3D other )
+	{
+		for ( int i = 0; i < va.length; i++ )
+		{
+			for ( int j = 0; j < other.va.length; j++ )
+			{
+				if ( va[i].equals( other.va[j] ) )
+				{
+					int adjacentIndex = 0;
+					int otherAdjacentIndex = 0;
+					boolean next = true;
+					boolean otherNext = true;
+					for ( int k = 0; k < 4; k++ )
+					{
+						switch ( k )
+						{
+							case 0:
+								next = true;
+								otherNext = true;						
+								break;
+							case 1:
+								next = true;
+								otherNext = false;
+								break;
+							case 2:
+								next = false;
+								otherNext = true;
+								break;
+							case 3:
+								next = false;
+								otherNext = false;
+								break;
+						}
+						adjacentIndex = getFollowingIndex( i, next );
+						otherAdjacentIndex = other.getFollowingIndex( j, otherNext );
+						if ( va[adjacentIndex].equals( other.va[otherAdjacentIndex] ) )
+						{
+							// Polygon overlapping the two polygons with a shared edge.
+							Object3D sharedEdge = new Object3D( 6 );
+
+							sharedEdge.va[0] = va[i];
+							sharedEdge.va[1] = computeNextEdgePoint(i, !next);
+							sharedEdge.va[2] = computeNextEdgePoint(adjacentIndex, next);
+							sharedEdge.va[3] = va[adjacentIndex];
+							sharedEdge.va[4] = other.computeNextEdgePoint(otherAdjacentIndex, otherNext);
+							sharedEdge.va[5] = other.computeNextEdgePoint(j, !otherNext);
+							return sharedEdge;
+						}
+					}
+					
+
+				
+				}
+			}
+		}
+
+		return null;
+
+	}
+
+	// Computea point for the shared edge polygon. Near the edge, towards the next point
+	protected Vector computeNextEdgePoint( int i, boolean next )
+	{
+		Vector point = va[i];
+		Vector nextPoint = va[getFollowingIndex( i, next )];
+		Vector dir = nextPoint.getSub( point );
+		dir.normalize( );
+		
+		return point.getAdd( dir );
 	}
 }

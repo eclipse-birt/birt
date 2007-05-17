@@ -14,11 +14,9 @@ package org.eclipse.birt.chart.event;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.Object3D;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -43,15 +41,9 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	public Object3D getObject3D( ) throws ChartException
+	public Object3D getObject3D( ) 
 	{
-		throw new ChartException( ChartEnginePlugin.ID,
-				ChartException.UNSUPPORTED_FEATURE,
-				"exception.unsupported.area3d.getOjbect3D", //$NON-NLS-1$ 
-				new Object[]{
-					this
-				},
-				Messages.getResourceBundle( ) );
+		return ( (I3DRenderEvent) getElement( 0 ) ).getObject3D( );
 	}
 
 	/*

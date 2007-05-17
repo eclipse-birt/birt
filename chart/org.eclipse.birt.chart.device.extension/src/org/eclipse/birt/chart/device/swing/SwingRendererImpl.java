@@ -718,11 +718,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			final ColorDefinition cd = (ColorDefinition) flBackground;
 			_g2d.setColor( (Color) _ids.getColor( cd ) );
-			_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-			
-			_g2d.fill( new Polygon( i2a[0], i2a[1], loa.length ) );
-			_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			
+			_g2d.fill( new Polygon( i2a[0], i2a[1], loa.length ) );			
 		}
 		else if ( flBackground instanceof Gradient )
 		{

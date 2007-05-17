@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.computation.Object3D;
-import org.eclipse.birt.chart.exception.ChartException;
 
 /**
  * An interface that all 3D rendering events must extend.
@@ -26,7 +25,7 @@ public interface I3DRenderEvent
 	 * 
 	 * @return
 	 */
-	Object3D getObject3D( ) throws ChartException;
+	Object3D getObject3D( );
 
 	/**
 	 * Prepares the coordinates to render on 2D plane.

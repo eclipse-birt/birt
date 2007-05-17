@@ -320,4 +320,6 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	{
 		return null;
 	}
+	
+
 }

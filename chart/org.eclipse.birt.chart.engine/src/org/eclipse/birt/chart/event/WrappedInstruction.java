@@ -97,7 +97,7 @@ public final class WrappedInstruction implements Comparable
 				return 1;
 			}
 		}
-		return dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
+		return dc!= null && dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
 				bo )
 				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
 

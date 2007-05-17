@@ -368,5 +368,10 @@ public class Vector
 		}
 		
 	}
+	
+	public boolean equals( Vector other )
+	{
+		return v[0] == other.v[0] && v[1] == other.v[1] && v[2] == other.v[2];
+	}
 
 }

@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -284,4 +283,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	{
 		return object3D;
 	}
+
+
 }

@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.eclipse.birt.chart.event.Arc3DRenderEvent;
 import org.eclipse.birt.chart.event.Area3DRenderEvent;
@@ -27,12 +29,12 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.computations.Matrix;
-import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -140,7 +142,7 @@ public final class Engine3D implements IConstants
 	 */
 	private Matrix V2C_MATRIX;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
+	//private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
 	/**
 	 * @param rotation
@@ -509,7 +511,7 @@ public final class Engine3D implements IConstants
 	{
 		if ( p3dre.isDoubleSided( ) )
 			return false;
-
+		
 		Vector viewDirection = p3dre.getObject3D( ).getCenter( );
 		Vector normal = p3dre.getObject3D( ).getNormal( );
 
@@ -723,31 +725,25 @@ public final class Engine3D implements IConstants
 
 				if ( pre instanceof I3DRenderEvent )
 				{
-					try
+
+					Object3D object3D = ( (I3DRenderEvent) pre ).getObject3D( );
+
+					object3D.transform( transMatrix );
+					object3D.transform( M2V_MATRIX );
+
+					object3D.prepareZSort( );
+
+					object3D.clip( this );
+
+					if ( object3D.getVectors( ).length < 1 )
 					{
-						Object3D object3D = ( (I3DRenderEvent) pre ).getObject3D( );
-
-						object3D.transform( transMatrix );
-						object3D.transform( M2V_MATRIX );
-
-						object3D.prepareZSort( );
-
-						object3D.clip( this );
-
-						if ( object3D.getVectors( ).length < 1 )
-						{
-							itr.remove( );
-							continue;
-						}
-
-						object3D.perspective( PERSPECTIVE_VALUE );
-						object3D.transform( V2C_MATRIX );
-					}
-					catch ( ChartException ex )
-					{
-						logger.log( ex );
+						itr.remove( );
 						continue;
 					}
+
+					object3D.perspective( PERSPECTIVE_VALUE );
+					object3D.transform( V2C_MATRIX );
+
 				}
 			}
 
@@ -825,10 +821,117 @@ public final class Engine3D implements IConstants
 
 		zsort( rtList );
 		overlapSwap( rtList );
+		detectSharedEdges( rtList, xOffset, yOffset );
 		rtList.addAll( labels );
 		return rtList;
 	}
 
+	// Draw non-antialiased lines on shared edges
+	private void detectSharedEdges( List rtList, double xOffset, double yOffset )
+	{
+	
+
+		SortedMap sharedEdges = new TreeMap( );
+		
+		for ( int i = 0; i< rtList.size(); i++ )
+		{
+			
+			
+			Object obj = rtList.get( i );
+			while ( obj instanceof WrappedInstruction )
+			{
+				obj = ((WrappedInstruction)obj).getEvent();
+			}
+			if ( obj instanceof Polygon3DRenderEvent )
+			{
+
+				for ( int j = 0; j < i; j++ )
+				{
+
+					Object comparedEvent = rtList.get( j );
+					while ( comparedEvent instanceof WrappedInstruction )
+					{
+						comparedEvent = ( (WrappedInstruction) comparedEvent ).getEvent( );
+					}
+					if ( comparedEvent instanceof Polygon3DRenderEvent )
+							
+					{
+						I3DRenderEvent event = (I3DRenderEvent) comparedEvent;
+
+						WrappedInstruction edge = getSharedEdge( event, (I3DRenderEvent) obj,
+								xOffset,
+								yOffset );
+						if ( edge != null )
+						{
+							Integer index = new Integer( j );
+							if ( sharedEdges.containsKey( index ))
+							{
+								((List)sharedEdges.get( index )).add( edge ) ;
+							}
+							else
+							{
+								List list =  new ArrayList( );
+								list.add(  edge );
+								sharedEdges.put( index, list );
+							}
+							
+						}
+					}
+				}
+			}
+		}
+		int offset = 0;
+		// re-insert edge polygons just before the first polygon with the shared edge
+		for ( Iterator iter = sharedEdges.keySet( ).iterator( ); iter.hasNext(); )
+		{	
+			Integer position = (Integer)iter.next( );
+			
+			List lines = (List)sharedEdges.get(  position )  ;
+			for (Iterator iterList = lines.iterator( ); iterList.hasNext( ); )
+			{
+				rtList.add( position.intValue( ) + offset, iterList.next( )  );
+				offset++;
+			}
+			
+		}
+	}
+
+	public WrappedInstruction getSharedEdge( I3DRenderEvent event1, I3DRenderEvent event2, double xOffset, double yOffset )
+	{
+		PrimitiveRenderEvent primEvent = (PrimitiveRenderEvent)event2;
+		Fill background = primEvent.getBackground( );
+		if ( !( background instanceof ColorDefinition )
+				)
+			return null;
+
+		ColorDefinition backgroundColor = (ColorDefinition)background;
+		Polygon3DRenderEvent sharedPolygonEdge = null;
+		WrappedInstruction wi = null;
+
+		Object3D sharedEdgeObject = event1.getObject3D( ).getSharedEdge( event2.getObject3D( ) );
+		if ( sharedEdgeObject != null )
+		{
+			sharedPolygonEdge = new Polygon3DRenderEvent( primEvent.getSource( ) );
+			ColorDefinition sharedBackgroundColor = (ColorDefinition)EcoreUtil.copy( backgroundColor );
+			
+			sharedPolygonEdge.setBackground( sharedBackgroundColor  );
+			if (backgroundColor.isSetTransparency( ) && backgroundColor.getTransparency( ) < 255 )
+			{
+				int t=  backgroundColor.getTransparency( );
+				// Make the background more transparent than the original so it doesn't appear too much.
+				sharedBackgroundColor.setTransparency( t*t*t/(255*255 ) );
+			}
+			
+			//sharedPolygonEdge.setOutline( LineAttributesImpl.create( sharedBackgroundColor, LineStyle.SOLID_LITERAL, 1 ) );
+			
+			Location[] locations = sharedEdgeObject.getPoints2D( xOffset, yOffset ) ;
+			
+			sharedPolygonEdge.setPoints( locations);
+			wi = new WrappedInstruction( null, sharedPolygonEdge, PrimitiveRenderEvent.FILL );
+		}
+
+		return wi;
+	}
 	protected void overlapSwap( List rtList )
 	{
 		for ( int i = 0; i < rtList.size( ); i++ )
@@ -874,21 +977,17 @@ public final class Engine3D implements IConstants
 
 		if ( event instanceof I3DRenderEvent )
 		{
-			try
+			
+			if ( event instanceof Area3DRenderEvent )
 			{
-				if ( event instanceof Area3DRenderEvent )
-				{
-					return ( (I3DRenderEvent) ( (Area3DRenderEvent) event ).getElement( 0 ) ).getObject3D( );
-				}
-				else
-				{
-					return ( (I3DRenderEvent) event ).getObject3D( );
-				}
+				return ( (I3DRenderEvent) ( (Area3DRenderEvent) event ).getElement( 0 ) ).getObject3D( );
 			}
-			catch ( ChartException ex )
+			else
 			{
-				throw new RuntimeException( ex );
+				return ( (I3DRenderEvent) event ).getObject3D( );
 			}
+			
+	
 		}
 		else
 		{
