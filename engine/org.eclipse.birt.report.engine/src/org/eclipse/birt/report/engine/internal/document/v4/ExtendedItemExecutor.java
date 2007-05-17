@@ -30,16 +30,13 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 public class ExtendedItemExecutor extends ContainerExecutor
 {
 
-	protected boolean firstChild;
 	public ExtendedItemExecutor( ExecutorManager manager )
 	{
 		super( manager, ExecutorManager.EXTENDEDITEM );
-		firstChild = true;
 	}
 
 	public void close( )
 	{
-		firstChild = true;
 		closeQuery( );
 		super.close( );
 	}
@@ -47,30 +44,31 @@ public class ExtendedItemExecutor extends ContainerExecutor
 	protected IReportItemExecutor prepareChildExecutor( ) throws Exception
 	{
 		// prepare the offset of the next content
-		if ( fragment == null && nextOffset == -1 )
+		if ( prepareFirstChild )
 		{
-			if ( !firstChild )
+			if ( fragment == null && nextOffset == -1 )
 			{
-				return null;
+				DocumentExtension docExt = (DocumentExtension) content
+						.getExtension( IContent.DOCUMENT_EXTENSION );
+				if ( docExt != null )
+				{
+					nextOffset = docExt.getFirstChild( );
+				}
 			}
-			firstChild = false;
-			DocumentExtension docExt = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			if ( docExt != null )
+			if ( fragment != null )
 			{
-				nextOffset = docExt.getFirstChild( );
+				if ( sections == null )
+				{
+					sections = fragment.getSections( );
+					nextSection = -1;
+					useNextSection = true;
+				}
 			}
+			prepareFirstChild = false;
 		}
 
 		if ( fragment != null )
 		{
-			if ( sections == null )
-			{
-				sections = fragment.getSections( );
-				nextSection = -1;
-				useNextSection = true;
-			}
-
 			if ( useNextSection )
 			{
 				useNextSection = false;
@@ -103,6 +101,10 @@ public class ExtendedItemExecutor extends ContainerExecutor
 
 		// nextOffset points to the offset of next child in the document
 		// nextInstanceID points to the instance id of the next child
+		if ( nextOffset == -1 )
+		{
+			return null;
+		}
 
 		ReportItemExecutor childExecutor = doCreateExecutor( nextOffset );
 		if ( childExecutor != null )
@@ -153,13 +155,12 @@ public class ExtendedItemExecutor extends ContainerExecutor
 				if ( offset != -1 )
 				{
 					/*
-					 * we must reset the instance id as in the getInstanceID()
-					 * will increase the unique id automatically
+					 * increase the unique id
 					 */
-					InstanceID instanceId = getInstanceID( );
+					generateUniqueID( );
 					content = reader.loadContent( offset );
 					content.setGenerateBy( design );
-					//content.setInstanceID( instanceId );
+					// content.setInstanceID( instanceId );
 					IContent pContent = getParentContent( );
 					if ( pContent != null )
 					{

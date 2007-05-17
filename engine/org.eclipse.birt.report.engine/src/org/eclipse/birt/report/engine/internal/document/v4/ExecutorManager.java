@@ -279,7 +279,7 @@ public class ExecutorManager
 			return getItemExecutor( LISTITEM );
 		}
 
-		public Object visitMultiLineItem( DynamicTextItemDesign dynText,
+		public Object visitDynamicTextItem( DynamicTextItemDesign dynText,
 				Object value )
 		{
 			return getItemExecutor( DYNAMICTEXTITEM );

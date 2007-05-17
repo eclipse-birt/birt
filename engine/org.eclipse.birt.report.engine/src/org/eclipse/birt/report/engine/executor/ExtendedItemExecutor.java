@@ -48,6 +48,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 			if ( executor instanceof ExtendedGenerateExecutor )
 			{
 				ExtendedGenerateExecutor gExecutor = (ExtendedGenerateExecutor) executor;
+				gExecutor.parent = parent;
 				gExecutor.context = context;
 				gExecutor.report = report;
 				gExecutor.design = design;
@@ -73,6 +74,11 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 				{
 					iid = getInstanceID( );
 					content.setInstanceID( iid );
+				}
+				
+				if ( content.getParent( ) == null )
+				{
+					content.setParent( getParentContent( ) );
 				}
 
 				if ( context.isInFactory( ) )

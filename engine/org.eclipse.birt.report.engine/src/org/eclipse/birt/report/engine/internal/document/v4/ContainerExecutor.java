@@ -44,6 +44,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 	 */
 	private boolean needPrepareNext;
 
+	protected boolean prepareFirstChild;
 	/**
 	 * the sections defined in the fragment.
 	 */
@@ -63,6 +64,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 	{
 		super( manager, type );
 		needPrepareNext = true;
+		prepareFirstChild = true;
 		sections = null;
 		useNextSection = true;
 		nextSection = -1;
@@ -76,6 +78,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 			reader.unloadContent( nextOffset );
 			nextOffset = -1;
 		}
+		prepareFirstChild = true;
 		needPrepareNext = true;
 		sections = null;
 		useNextSection = true;
@@ -116,25 +119,31 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 	protected IReportItemExecutor prepareChildExecutor( ) throws Exception
 	{
 		// prepare the offset of the next content
-		if ( fragment == null && nextOffset == -1 )
+		if ( prepareFirstChild )
 		{
-			DocumentExtension docExt = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			if ( docExt != null )
+			if ( fragment == null && nextOffset == -1 )
 			{
-				nextOffset = docExt.getFirstChild( );
+				DocumentExtension docExt = (DocumentExtension) content
+						.getExtension( IContent.DOCUMENT_EXTENSION );
+				if ( docExt != null )
+				{
+					nextOffset = docExt.getFirstChild( );
+				}
 			}
+			if ( fragment != null )
+			{
+				if ( sections == null )
+				{
+					sections = fragment.getSections( );
+					nextSection = -1;
+					useNextSection = true;
+				}
+			}
+			prepareFirstChild = false;
 		}
 
 		if ( fragment != null )
 		{
-			if ( sections == null )
-			{
-				sections = fragment.getSections( );
-				nextSection = -1;
-				useNextSection = true;
-			}
-
 			if ( useNextSection )
 			{
 				useNextSection = false;
