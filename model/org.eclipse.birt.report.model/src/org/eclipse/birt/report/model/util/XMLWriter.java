@@ -56,7 +56,7 @@ public class XMLWriter
 	 * been written, but not the closing &gt.
 	 */
 
-	private boolean elementActive = false;
+	protected boolean elementActive = false;
 
 	/**
 	 * Counts the number of attribute seen so far for a tag. Used to control the
@@ -128,8 +128,9 @@ public class XMLWriter
 	private void init( String signature )
 	{
 		writeUTFSignature( signature );
-		out.println( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
+		out.print( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
 				+ OUTPUT_ENCODING + "\"?>" ); //$NON-NLS-1$ 
+		printLine( );
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class XMLWriter
 	 *            the unicode signature in the design file.
 	 */
 
-	protected void writeUTFSignature( String signature )
+	protected final void writeUTFSignature( String signature )
 	{
 		if ( UnicodeUtil.SIGNATURE_UTF_8.equals( signature ) )
 		{
@@ -169,7 +170,7 @@ public class XMLWriter
 			out.write( 0xFF );
 		}
 
-		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) ) 
+		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) )
 		{
 			out.write( 0x00 );
 			out.write( 0x00 );
@@ -183,7 +184,7 @@ public class XMLWriter
 	 * Close the write at the completion of the file.
 	 */
 
-	public void close( )
+	public final void close( )
 	{
 		assert elementStack.size( ) == 0;
 		out.close( );
@@ -197,7 +198,7 @@ public class XMLWriter
 	 *            the name of the element
 	 */
 
-	public void startElement( String tagName )
+	public final void startElement( String tagName )
 	{
 		flushPendingElements( );
 		closeTag( );
@@ -224,7 +225,7 @@ public class XMLWriter
 	 * Implementation method to prepare for writing an attribute.
 	 */
 
-	private void checkAttribute( )
+	protected void checkAttribute( )
 	{
 		// Write any conditional elements waiting for content. If we get
 		// here, we're about to write an attribute, so the elements do
@@ -236,7 +237,7 @@ public class XMLWriter
 
 		if ( attrCount++ == 3 )
 		{
-			out.print( '\n' );
+			printLine( );
 			attrCount = 0;
 		}
 	}
@@ -246,7 +247,7 @@ public class XMLWriter
 	 * started.
 	 */
 
-	private void flushPendingElements( )
+	protected final void flushPendingElements( )
 	{
 		while ( !pendingElementStack.isEmpty( ) )
 		{
@@ -289,11 +290,15 @@ public class XMLWriter
 				out.print( "&lt;" ); //$NON-NLS-1$ 
 			else if ( c == '"' )
 				out.print( "&quot;" ); //$NON-NLS-1$
-			else if ( c < 0x20 )  
+			else if ( c < 0x20 )
 			{
 				out.print( "&#x" ); //$NON-NLS-1$ 
 				out.print( Integer.toHexString( c ) );
-				out.print( ';' );  
+				out.print( ';' );
+			}
+			else if ( c == '\n' )
+			{
+				printLine( );
 			}
 			else
 				out.print( c );
@@ -310,7 +315,7 @@ public class XMLWriter
 	 *            the integer value
 	 */
 
-	public void attribute( String attrName, int value )
+	public final void attribute( String attrName, int value )
 	{
 		assert elementActive;
 		checkAttribute( );
@@ -330,7 +335,7 @@ public class XMLWriter
 	 *            double-precision floating point value
 	 */
 
-	public void attribute( String attrName, double value )
+	public final void attribute( String attrName, double value )
 	{
 		assert elementActive;
 		checkAttribute( );
@@ -350,7 +355,7 @@ public class XMLWriter
 	 *            Boolean value
 	 */
 
-	public void attribute( String attrName, boolean value )
+	public final void attribute( String attrName, boolean value )
 	{
 		assert elementActive;
 		checkAttribute( );
@@ -383,13 +388,15 @@ public class XMLWriter
 		String tagName = (String) elementStack.pop( );
 		if ( elementActive )
 		{
-			out.println( "/>" ); //$NON-NLS-1$ 
+			out.print( "/>" ); //$NON-NLS-1$ 
+			printLine( );
 		}
 		else
 		{
 			out.print( "</" ); //$NON-NLS-1$ 
 			out.print( tagName );
-			out.println( ">" ); //$NON-NLS-1$ 
+			out.print( ">" ); //$NON-NLS-1$ 
+			printLine( );
 		}
 		elementActive = false;
 	}
@@ -417,6 +424,10 @@ public class XMLWriter
 				out.print( "&amp;" ); //$NON-NLS-1$ 
 			else if ( c == '<' )
 				out.print( "&lt;" ); //$NON-NLS-1$ 
+			else if ( c == '\n' )
+			{
+				printLine( );
+			}
 			else
 				out.print( c );
 		}
@@ -462,7 +473,8 @@ public class XMLWriter
 		if ( !elementActive )
 			return;
 		elementActive = false;
-		out.println( ">" ); //$NON-NLS-1$ 
+		out.print( ">" ); //$NON-NLS-1$ 
+		printLine( );
 	}
 
 	/**
@@ -470,7 +482,7 @@ public class XMLWriter
 	 * text.
 	 */
 
-	protected void closeTextTag( )
+	protected final void closeTextTag( )
 	{
 		if ( !elementActive )
 			return;
@@ -487,7 +499,7 @@ public class XMLWriter
 	 *            the text to write
 	 */
 
-	public void taggedText( String tag, String text )
+	public final void taggedText( String tag, String text )
 	{
 		if ( text == null )
 			return;
@@ -506,7 +518,7 @@ public class XMLWriter
 	 *            element name
 	 */
 
-	public void conditionalStartElement( String element )
+	public final void conditionalStartElement( String element )
 	{
 		pendingElementStack.push( element );
 	}
@@ -520,7 +532,7 @@ public class XMLWriter
 	 *            RGB value
 	 */
 
-	public void rgbAttribute( String attrName, int rgb )
+	public final void rgbAttribute( String attrName, int rgb )
 	{
 		assert elementActive;
 		checkAttribute( );
@@ -529,6 +541,27 @@ public class XMLWriter
 		out.print( "=\"" ); //$NON-NLS-1$ 
 		out.print( StringUtil.toRgbText( rgb ) );
 		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+	
+	/**
+	 * Writes long text to the output.
+	 * 
+	 * @param text
+	 *            the text to write
+	 */
+
+	public void indentLongText( String text )
+	{
+		text( text );
+	}
+
+	/**
+	 * Prints '\n', and plus the line conter.
+	 */
+
+	protected void printLine( )
+	{
+		out.print( '\n' );
 	}
 
 }

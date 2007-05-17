@@ -100,6 +100,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.XMLWriter;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -133,7 +134,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The XML writer.
 	 */
 
-	protected IndentableXMLWriter writer = null;
+	protected XMLWriter writer = null;
 
 	/**
 	 * The base 64 codec for embedded images.
@@ -192,12 +193,10 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Implementation method to write the file header and contents.
 	 */
 
-	private void writeFile( )
+	protected final void writeFile( )
 	{
 		boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
 				.getVersionManager( ).getVersion( ) );
-
-		writer.literal( "<!-- Written by Eclipse BIRT 2.0 -->\r\n" ); //$NON-NLS-1$
 		getModule( ).apply( this );
 
 		getModule( ).getVersionManager( ).setVersion(
@@ -1061,9 +1060,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write property bindings
 
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
-		
+
 		// write script libs
-		
+
 		writeStructureList( obj, Module.SCRIPTLIBS_PROP );
 	}
 
@@ -1911,7 +1910,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_PROP );
 		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
-		
+
 		writeStructure( obj, ScalarParameter.FORMAT_PROP );
 		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
 		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
@@ -2119,7 +2118,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				HighlightRule rule = (HighlightRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-				
+
 				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, HighlightRule.OPERATOR_MEMBER );
 
@@ -2721,7 +2720,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				OdaDataSet.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
-		
+
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 
@@ -2734,7 +2733,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
 		writeOdaDesignerState( obj, OdaDataSet.DESIGNER_STATE_PROP );
 		propertyCDATA( obj, OdaDataSet.DESIGNER_VALUES_PROP );
-		
+
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,

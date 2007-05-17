@@ -198,7 +198,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 *            the text to write
 	 */
 
-	protected void indentLongText( String text )
+	public void indentLongText( String text )
 	{
 		assert text != null;
 		assert text.length( ) >= MAX_CHARS_PER_LINE;

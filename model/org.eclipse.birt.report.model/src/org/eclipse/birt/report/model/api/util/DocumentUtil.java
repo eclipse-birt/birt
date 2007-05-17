@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.ReportDesignSerializer;
+import org.eclipse.birt.report.model.writer.DocumentWriter;
 
 /**
  * Utility class for the serialize a report design in which all the elements
@@ -58,7 +59,8 @@ public class DocumentUtil
 				IModuleModel.LIBRARIES_PROP );
 		if ( list == null || list.size( ) == 0 )
 		{
-			designHandle.serialize( out );
+			new DocumentWriter( (ReportDesign) designHandle.getModule( ) )
+					.write( out );
 			return;
 		}
 
@@ -66,7 +68,8 @@ public class DocumentUtil
 
 		assert target != null;
 
-		target.handle( ).serialize( out );
+		// use the writer for the document, not the general design writer
+		new DocumentWriter( target ).write( out );
 	}
 
 	/**
