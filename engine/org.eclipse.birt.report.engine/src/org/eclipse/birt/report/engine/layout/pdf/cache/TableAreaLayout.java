@@ -919,6 +919,8 @@ public class TableAreaLayout
 		for ( int i = 0; i < columnNumber; i++ )
 		{
 			CellArea cell = row.getCell( start + i );
+			if ( cell == null )
+				continue;
 			IStyle style = cell.getStyle( );
 			int bottomBorderWidth = PropertyUtil.getDimensionValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
