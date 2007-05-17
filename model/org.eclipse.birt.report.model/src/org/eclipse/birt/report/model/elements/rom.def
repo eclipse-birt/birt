@@ -2747,8 +2747,9 @@
     <Property detailType="TOCStructure" name="toc" displayNameID="Element.ReportItem.toc"  since="2.2" type="structure" />
     <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="elementRef">
       <Trigger validator="DataSetRequiredValidator"/>
-	</Property>
-    <PropertyGroup displayNameID="Element.ReportItem">
+    </Property>
+	<Property detailType="Cube" displayNameID="Element.ReportItem.cube" name="cube" runtimeSettable="false" since="2.2" type="elementRef"/>
+	<PropertyGroup displayNameID="Element.ReportItem">
       <Property displayNameID="Element.ReportItem.x" name="x" since="reserved" type="dimension" />
       <Property displayNameID="Element.ReportItem.y" name="y" since="reserved" type="dimension" />
       <Property displayNameID="Element.ReportItem.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator" />
