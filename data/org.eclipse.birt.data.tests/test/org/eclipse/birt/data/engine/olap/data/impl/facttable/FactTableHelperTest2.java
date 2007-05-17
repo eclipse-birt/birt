@@ -22,18 +22,18 @@ import junit.framework.TestCase;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeElementFactory;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -710,9 +710,21 @@ public class FactTableHelperTest2 extends TestCase
 		iterator.setLevelMember( 2, FactTable2.L3Col );
 		
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
-		levelDefs[0] = CubeElementFactory.createLevelDefinition( "level11", new String[]{"level11"}, null );
-		levelDefs[1] = CubeElementFactory.createLevelDefinition( "level12", new String[]{"level12"}, null );
-		levelDefs[2] = CubeElementFactory.createLevelDefinition( "level13", new String[]{"level13"}, null );
+		levelDefs[0] = new CubeElementFactory( ).createLevelDefinition( "level11",
+				new String[]{
+					"level11"
+				},
+				null );
+		levelDefs[1] = new CubeElementFactory( ).createLevelDefinition( "level12",
+				new String[]{
+					"level12"
+				},
+				null );
+		levelDefs[2] = new CubeElementFactory( ).createLevelDefinition( "level13",
+				new String[]{
+					"level13"
+				},
+				null );
 		IHierarchy hierarchy = cubeMaterializer.createHierarchy( "dimension1",
 				"hir1", iterator,
 				levelDefs );

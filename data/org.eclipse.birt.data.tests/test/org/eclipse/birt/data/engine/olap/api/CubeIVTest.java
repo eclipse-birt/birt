@@ -37,23 +37,23 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
-import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeSortDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
 
 import testutil.BaseTestCase;
 
@@ -1312,7 +1312,7 @@ public class CubeIVTest extends BaseTestCase
 	
 	private void createCube( IDocArchiveWriter writter, DataEngine engine ) throws BirtException, IOException
 	{
-		CubeMaterializer cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( System.getProperty( "java.io.tmpdir" )+engine.hashCode( ),
+		CubeMaterializer cubeMaterializer = new CubeMaterializer( System.getProperty( "java.io.tmpdir" )+engine.hashCode( ),
 				"cube" );
 		
 		IDocumentManager documentManager = cubeMaterializer.getDocumentManager( );

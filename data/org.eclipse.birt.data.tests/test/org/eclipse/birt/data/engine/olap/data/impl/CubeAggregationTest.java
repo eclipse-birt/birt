@@ -30,23 +30,21 @@ import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
-import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
@@ -56,6 +54,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -180,7 +180,7 @@ public class CubeAggregationTest extends TestCase
 	 */
 	private void createCube1QueryDefn() throws DataException
 	{
-		cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
+		cubeQuery = new CubeElementFactory( ).createCubeQuery( "cube1" );
 		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IEdgeDefinition columnEdge = cubeQuery.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IDimensionDefinition dimension1 = rowEdge.createDimension( "dimension1" );

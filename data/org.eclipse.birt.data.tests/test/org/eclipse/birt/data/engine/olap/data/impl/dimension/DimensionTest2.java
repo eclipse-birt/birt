@@ -18,13 +18,13 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;

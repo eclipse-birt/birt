@@ -14,7 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 

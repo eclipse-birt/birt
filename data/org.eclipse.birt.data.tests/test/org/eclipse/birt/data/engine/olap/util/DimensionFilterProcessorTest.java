@@ -21,12 +21,12 @@ import junit.framework.TestCase;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.query.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.mozilla.javascript.Context;
@@ -59,7 +59,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	
 	private ICubeQueryDefinition createCubeQueryDefinition()
 	{
-		ICubeQueryDefinition cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
+		ICubeQueryDefinition cubeQuery = new CubeElementFactory( ).createCubeQuery( "cube1" );
 		IEdgeDefinition columnEdge = cubeQuery.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dimension1 = columnEdge.createDimension( "dim1" );
