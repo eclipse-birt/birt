@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;

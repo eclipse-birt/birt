@@ -13,8 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;

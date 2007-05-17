@@ -14,7 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.api;
 import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 /**

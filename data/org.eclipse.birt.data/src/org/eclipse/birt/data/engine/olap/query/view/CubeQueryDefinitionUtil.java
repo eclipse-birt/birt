@@ -25,9 +25,9 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.LevelDefiniton;
-import org.eclipse.birt.data.engine.olap.api.query.impl.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.impl.query.LevelDefiniton;
+import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 

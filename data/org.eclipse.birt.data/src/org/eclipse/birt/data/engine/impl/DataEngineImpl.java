@@ -39,7 +39,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.PreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Scriptable;
 

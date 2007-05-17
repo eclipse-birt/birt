@@ -15,9 +15,9 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 
 /**

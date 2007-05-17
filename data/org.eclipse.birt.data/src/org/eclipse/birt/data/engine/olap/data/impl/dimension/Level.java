@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;

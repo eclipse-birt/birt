@@ -13,8 +13,8 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 
 /**
  * validate cube query defintion with edge, measure definition.

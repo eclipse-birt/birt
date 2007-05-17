@@ -23,9 +23,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 
 /**
  * A <code>BirtCubeView</code> represents a multi-dimensional selection of

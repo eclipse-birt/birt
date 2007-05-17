@@ -13,7 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 
 
 /**

@@ -43,12 +43,12 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeElementFactory;
-import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
-import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
-import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
+import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -495,7 +495,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws DataException, IOException, BirtException
 	{
 		CubeMaterializer cubeMaterializer;
-		cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
+		cubeMaterializer = new CubeMaterializer( this.sessionContext.getDataEngineContext( )
 				.getTmpdir( ) + this.dataEngine.hashCode( ),
 				cubeHandle.getQualifiedName( ) );
 		return cubeMaterializer;
