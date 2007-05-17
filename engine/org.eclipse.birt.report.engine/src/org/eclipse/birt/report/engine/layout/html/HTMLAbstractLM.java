@@ -377,10 +377,12 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		assert content != null;
 		IStyle style = content.getStyle( );
 		String formats = style.getVisibleFormat( );
-		if ( formats != null
-				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
-						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0  || 
-						formats.indexOf(EngineIRConstants.FORMAT_TYPE_DOC) >= 0))
+		String format = null;
+		if(emitter!=null)
+		{
+			format = emitter.getOutputFormat( );
+		}
+		if ( format!=null && contains(formats, format))
 		{
 			return true;
 		}
@@ -391,14 +393,23 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			if ( column != null )
 			{
 				formats = column.getVisibleFormat( );
-				if ( formats != null
-						&& ( formats
-								.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
-								.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
+				if ( format!=null && contains(formats, format) )
 				{
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+	
+	private boolean contains(String formats, String format)
+	{
+		if ( formats != null
+				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0
+						|| formats.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 || formats
+						.indexOf( format ) >= 0 ) )
+		{
+			return true;
 		}
 		return false;
 	}
