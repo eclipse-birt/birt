@@ -1244,7 +1244,7 @@ public class ExecutionContext
 	{
 		if ( totalPage > pageNumber )
 		{
-			totalPage = pageNumber;
+			this.totalPage = totalPage;
 			scriptContext.registerBean( "totalPage", new Long( totalPage ) );
 			if ( reportContent instanceof ReportContent )
 			{
