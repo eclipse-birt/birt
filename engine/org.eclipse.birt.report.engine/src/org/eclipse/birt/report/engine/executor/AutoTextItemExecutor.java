@@ -81,6 +81,10 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 				textContent.setText(String.valueOf(context.getTotalPage()));
 			}
 		}
+		if ( context.isInFactory( ) )
+		{
+			handleOnCreate( textContent );
+		}
 		return textContent;
 	}
 }
