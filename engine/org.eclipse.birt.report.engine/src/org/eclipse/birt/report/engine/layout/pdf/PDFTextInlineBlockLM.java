@@ -45,23 +45,12 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM
 					root.getContentY( ): 0 );
 			// support user defined width
 			int maxWidth = parent.getCurrentMaxContentWidth( );
-			int leftWidth = maxWidth - parent.getCurrentIP( );
+			//int leftWidth = maxWidth - parent.getCurrentIP( );
 			calculateSpecifiedWidth( );
-			int width = 0;
+			int width = maxWidth;
 			if ( specifiedWidth > 0 )
 			{
 				width = Math.min( specifiedWidth, maxWidth );
-			}
-			else
-			{
-				if ( leftWidth > maxWidth / 4 )
-				{
-					width = leftWidth;
-				}
-				else
-				{
-					width = maxWidth;
-				}
 			}
 			root.setAllocatedWidth( width );
 			//can be removed?

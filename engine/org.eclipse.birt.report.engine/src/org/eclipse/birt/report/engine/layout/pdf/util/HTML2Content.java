@@ -215,19 +215,24 @@ public class HTML2Content
 		if ( body != null )
 		{
 			htmlProcessor.execute( body, styleMap );
-			processNodes( body, checkEscapeSpace( doc ), styleMap, foreign );
+			IContainerContent container = new ContainerContent((ReportContent)foreign.getReportContent());
+			
+			addChild(foreign, container);
+			processNodes( body, checkEscapeSpace( doc ), styleMap, container );
 		}
 	}
 	
 	/**
 	 * Visits the children nodes of the specific node
 	 * 
-	 * @param visitor
-	 *            the ITextNodeVisitor instance
 	 * @param ele
 	 *            the specific node
 	 * @param needEscape
 	 *            the flag indicating the content needs escaping
+	 * @param cssStyles
+	 * @param content 
+	 * 			  the parent content of the element
+	 * 		       
 	 */
 	private void processNodes( Element ele, boolean needEscape, HashMap cssStyles, IContent content )
 	{
@@ -309,11 +314,13 @@ public class HTML2Content
 		if ( tagName.toLowerCase().equals( "a" ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			addChild(content, container);
+			setInlineParent( content, container);
 			handleStyle(ele, cssStyles, container);
 			ActionContent oldAction = action;
 			handleAnchor( ele, container );
-			processNodes( ele, needEscape, cssStyles, container );
+			inlineContainerStack.push( container );
+			processNodes( ele, needEscape, cssStyles, content );
+			inlineContainerStack.pop();
 			this.action = oldAction;
 		}
 		else if(tagName.toLowerCase().equals( "img" )) //$NON-NLS-1$
@@ -415,14 +422,8 @@ public class HTML2Content
 			}
 			else
 			{
-				if(inlineContainerStack.isEmpty( ))
-				{
-					container.setParent( content );
-				}
-				else
-				{
-					container.setParent( ( IContent) inlineContainerStack.peek( ));
-				}
+				setInlineParent(content, container);
+				//handleStyle(ele, cssStyles, container);
 				inlineContainerStack.push( container );
 				processNodes( ele, needEscape, cssStyles, content );
 				inlineContainerStack.pop( );
@@ -486,9 +487,13 @@ public class HTML2Content
 				}
 				else
 				{
-					action.setHyperlink(href, ele.getAttribute("target")); //$NON-NLS-1$
+					String target = ele.getAttribute("target");
+					if ("".equals(target))
+					{
+						target = "_blank";
+					}
+					action.setHyperlink(href, target);
 				}
-				content.setHyperlinkAction(action);
 				this.action = action;
 			}
 			
@@ -609,11 +614,23 @@ public class HTML2Content
 					child.setParent( ( IContent) inlineContainerStack.peek( ));
 				}
 			}
-			
+		}
+	}
+	
+	protected void setInlineParent(IContent parent, IContent child)
+	{
+		if(parent!=null && child!=null)
+		{
+			if(inlineContainerStack.isEmpty( ))
+			{
+				child.setParent( parent );
+			}
+			else
+			{
+				child.setParent( ( IContent) inlineContainerStack.peek( ));
+			}
 		}
 	}
 	
 	
-
-
 }
