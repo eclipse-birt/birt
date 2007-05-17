@@ -145,16 +145,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( DataItemBindingDialog.this.getOkButton( ) != null )
-				{
-					if ( itemName.getText( ) == null
-							|| itemName.getText( ).trim( ).equals( "" ) )
-						DataItemBindingDialog.this.getOkButton( )
-								.setEnabled( false );
-					else
-						DataItemBindingDialog.this.getOkButton( )
-								.setEnabled( true );
-				}
+				updateButtonStatus( );
 
 			}
 
@@ -177,6 +168,15 @@ public class DataItemBindingDialog extends BaseDialog
 		itemExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
+		itemExpression.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtonStatus( );
+			}
+
+		} );
+		
 		Button expressionButton = new Button( composite, SWT.PUSH );
 		// expressionButton.setText( "..." );
 		// GridData gd = new GridData( );
@@ -596,5 +596,27 @@ public class DataItemBindingDialog extends BaseDialog
 			button.getImage( ).setBackground( button.getBackground( ) );
 		}
 
+	}
+
+	protected void updateButtonStatus( )
+	{
+		if ( DataItemBindingDialog.this.getOkButton( ) != null )
+		{
+			if ( itemName.getText( ) == null
+					|| itemName.getText( ).trim( ).equals( "" )
+					||itemExpression.getText( ) == null
+					|| itemExpression.getText( ).trim( ).equals( "" ))
+				DataItemBindingDialog.this.getOkButton( )
+						.setEnabled( false );
+			else
+				DataItemBindingDialog.this.getOkButton( )
+						.setEnabled( true );
+		}
+	}
+	
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		updateButtonStatus( );
 	}
 }
