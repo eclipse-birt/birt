@@ -111,7 +111,7 @@ public class DEUtil
 	 * Property name for element labelContent.
 	 */
 	public static final String ELEMENT_LABELCONTENT_PROPERTY = "labelContent"; //$NON-NLS-1$
-	
+
 	private static HashMap propertiesMap = new HashMap( );
 
 	private static ArrayList notSupportList = new ArrayList( );
@@ -127,7 +127,7 @@ public class DEUtil
 	 * The class info of total
 	 */
 	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( "Total" ); //$NON-NLS-1$
-	
+
 	static
 	{
 		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
@@ -1823,7 +1823,7 @@ public class DEUtil
 	{
 		List classes = new ArrayList( getMetaDataDictionary( ).getClasses( ) );
 		Collections.sort( classes, comp );
-		
+
 		// Fix bug 187178: Remove Total JS object
 		classes.remove( TOTAL_CLASS );
 		return classes;
@@ -2556,6 +2556,18 @@ public class DEUtil
 			}
 		}
 		return null;
+	}
+
+	public static boolean enableRowNum( Object parent )
+	{
+		if ( parent instanceof ExtendedItemHandle
+				&& ( (ExtendedItemHandle) parent ).getExtensionName( )
+						.equals( "Crosstab" ) )
+		{
+			return false;
+		}
+		else
+			return true;
 	}
 
 }

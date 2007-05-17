@@ -409,7 +409,7 @@ public class ExpressionProvider implements IExpressionProvider
 				childrenList.add( iter.next( ) );
 			}
 			// add hard code row count expression here
-			if(parent instanceof TableHandle)childrenList.add( rowNum );			
+			if(DEUtil.enableRowNum(parent))childrenList.add( rowNum );			
 			
 			// add edit option
 			childrenList.add( new Object[]{
@@ -661,7 +661,8 @@ public class ExpressionProvider implements IExpressionProvider
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
 			IClassInfo classInfo = (IClassInfo) iter.next( );
-			if ( classInfo.isNative( ) == isNative )
+			if ( classInfo.isNative( ) == isNative 
+					&& !classInfo.getName( ).equals( "Total" ))
 			{
 				resultList.add( classInfo );
 			}
