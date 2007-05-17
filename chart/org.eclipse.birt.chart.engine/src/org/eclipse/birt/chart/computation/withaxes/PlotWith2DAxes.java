@@ -179,12 +179,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final OneAxis oaxPrimaryOrthogonal = new OneAxis( axPrimaryOrthogonal );
 		oaxPrimaryOrthogonal.set( getOrientation( IConstants.ORTHOGONAL ),
 				transposeLabelPosition( IConstants.ORTHOGONAL,
-						getLabelPosition( !isTransposed
-								? axPrimaryOrthogonal.getLabelPosition( )
+						getLabelPosition( !isTransposed ? axPrimaryOrthogonal.getLabelPosition( )
 								: axPrimaryOrthogonal.getLabelPosition( ) ) ),
 				transposeLabelPosition( IConstants.ORTHOGONAL,
-						getLabelPosition( !isTransposed
-								? axPrimaryOrthogonal.getTitlePosition( )
+						getLabelPosition( !isTransposed ? axPrimaryOrthogonal.getTitlePosition( )
 								: axPrimaryOrthogonal.getTitlePosition( ) ) ),
 				axPrimaryOrthogonal.isSetCategoryAxis( )
 						&& axPrimaryOrthogonal.isCategoryAxis( ),
@@ -196,19 +194,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				axPrimaryOrthogonal.getMinorGrid( ).getTickAttributes( ),
 				transposeTickStyle( IConstants.ORTHOGONAL,
 						!isTransposed ? getTickStyle( axPrimaryOrthogonal,
-								MAJOR )
-								: getTickStyle( axPrimaryOrthogonal, MAJOR ) ),
+								MAJOR ) : getTickStyle( axPrimaryOrthogonal,
+								MAJOR ) ),
 				transposeTickStyle( IConstants.ORTHOGONAL,
 						!isTransposed ? getTickStyle( axPrimaryOrthogonal,
-								MINOR )
-								: getTickStyle( axPrimaryOrthogonal, MINOR ) ),
+								MINOR ) : getTickStyle( axPrimaryOrthogonal,
+								MINOR ) ),
 				axPrimaryOrthogonal.getScale( ).getMinorGridsPerUnit( ) );
 
 		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLabel( ),
 				axPrimaryOrthogonal.getTitle( ) );
 		oaxPrimaryOrthogonal.set(
 		// !isTransposed ?
-		 getIntersection( axPrimaryOrthogonal  )
+		getIntersection( axPrimaryOrthogonal )
 		// : getIntersection( axPrimaryOrthogonal )
 		);
 		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLineAttributes( ) );
@@ -229,12 +227,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			oaxOverlayOrthogonal = new OneAxis( axaOverlayOrthogonal[i] );
 			oaxOverlayOrthogonal.set( getOrientation( IConstants.ORTHOGONAL ),
 					transposeLabelPosition( IConstants.ORTHOGONAL,
-							getLabelPosition( !isTransposed
-									? axaOverlayOrthogonal[i].getLabelPosition( )
+							getLabelPosition( !isTransposed ? axaOverlayOrthogonal[i].getLabelPosition( )
 									: axaOverlayOrthogonal[i].getLabelPosition( ) ) ),
 					transposeLabelPosition( IConstants.ORTHOGONAL,
-							getLabelPosition( !isTransposed
-									? axaOverlayOrthogonal[i].getTitlePosition( )
+							getLabelPosition( !isTransposed ? axaOverlayOrthogonal[i].getTitlePosition( )
 									: axaOverlayOrthogonal[i].getTitlePosition( ) ) ),
 					axaOverlayOrthogonal[i].isSetCategoryAxis( )
 							&& axaOverlayOrthogonal[i].isCategoryAxis( ),
@@ -245,12 +241,16 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					axaOverlayOrthogonal[i].getMinorGrid( ).getLineAttributes( ),
 					axaOverlayOrthogonal[i].getMajorGrid( ).getTickAttributes( ),
 					axaOverlayOrthogonal[i].getMinorGrid( ).getTickAttributes( ),
-					transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
-							? getTickStyle( axaOverlayOrthogonal[i], MAJOR )
-							: getTickStyle( axaOverlayOrthogonal[i], MAJOR ) ),
-					transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
-							? getTickStyle( axaOverlayOrthogonal[i], MINOR )
-							: getTickStyle( axaOverlayOrthogonal[i], MINOR ) ),
+					transposeTickStyle( IConstants.ORTHOGONAL,
+							!isTransposed ? getTickStyle( axaOverlayOrthogonal[i],
+									MAJOR )
+									: getTickStyle( axaOverlayOrthogonal[i],
+											MAJOR ) ),
+					transposeTickStyle( IConstants.ORTHOGONAL,
+							!isTransposed ? getTickStyle( axaOverlayOrthogonal[i],
+									MINOR )
+									: getTickStyle( axaOverlayOrthogonal[i],
+											MINOR ) ),
 					axaOverlayOrthogonal[i].getScale( ).getMinorGridsPerUnit( ) );
 
 			oaxOverlayOrthogonal.set( axaOverlayOrthogonal[i].getLabel( ),
@@ -258,7 +258,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			oaxOverlayOrthogonal.set( axaOverlayOrthogonal[i].getLineAttributes( ) );
 			oaxOverlayOrthogonal.set(
 			// !isTransposed ?
-			 getIntersection( axaOverlayOrthogonal[i] ) 
+			getIntersection( axaOverlayOrthogonal[i] )
 			// : getIntersection( axaOverlayOrthogonal[i] )
 			);
 			aax.defineOverlay( i, oaxOverlayOrthogonal );
@@ -747,7 +747,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dStart,
 				dEnd,
 				sc,
-				oaxPrimaryBase.getModelAxis( ).getOrigin( ).getValue( ),
+				oaxPrimaryBase.getModelAxis( ).getOrigin( ),
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				AUTO,
@@ -954,8 +954,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 			}
 			// IF PRIMARY ORTHOGONAL AXIS IS NOT ON THE LEFT
-			else if ( oaxOrthogonal.getIntersectionValue( )
-							.getType( ) != IConstants.MIN  )
+			else if ( oaxOrthogonal.getIntersectionValue( ).getType( ) != IConstants.MIN )
 			{
 				// IF ANY OVERLAY ORTHOGONAL AXES ARE ON THE LEFT
 				if ( aax.anyOverlayPositionedAt( IConstants.MIN ) )
