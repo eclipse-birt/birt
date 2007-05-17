@@ -21,10 +21,16 @@ public class CellExecutor extends ContainerExecutor
 	{
 		return report.createCellContent( );
 	}
+	
+	protected void doExecute( ) throws Exception
+	{
+		executeQuery( );
+	}
 
 	public void close( )
 	{
 		nextItem = 0;
+		closeQuery( );
 		super.close( );
 	}
 
