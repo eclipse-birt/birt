@@ -39,10 +39,12 @@ public class RowExecutor extends ContainerExecutor
 	{
 		IRowContent rowContent = (IRowContent) content;
 		rowContent.setRowID( rowId );
+		executeQuery( );
 	}
 
 	public void close( )
 	{
+		closeQuery( );
 		rowId = 0;
 		nextItem = 0;
 		super.close( );
