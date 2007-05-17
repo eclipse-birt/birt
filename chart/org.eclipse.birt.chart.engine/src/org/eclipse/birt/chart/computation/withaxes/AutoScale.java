@@ -58,8 +58,6 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private Object oMaximum;
 
-	private Object oOriginal;
-
 	/**
 	 * Minimum without considering fixed value. Only valid if margin percent is
 	 * set and real minimum is less than fixed minimum.
@@ -1214,8 +1212,9 @@ public final class AutoScale extends Methods implements Cloneable
 				return;
 			}
 
-			final double dMinValue = asDouble( oMinValue ).doubleValue( );
-			final double dMaxValue = asDouble( oMaxValue ).doubleValue( );
+			double dMinValue = asDouble( oMinValue ).doubleValue( );
+			double dMaxValue = asDouble( oMaxValue ).doubleValue( );
+
 			final double dAbsMax = Math.abs( dMaxValue );
 			final double dAbsMin = Math.abs( dMinValue );
 			final double dStep = asDouble( oStep ).doubleValue( );
@@ -1225,6 +1224,7 @@ public final class AutoScale extends Methods implements Cloneable
 			double dMaxAxis = Math.pow( dStep, iPow );
 			iPow = (int) Math.floor( Math.log( dAbsMin ) / dStepLog ) - 1;
 			double dMinAxis = Math.pow( dStep, iPow + 1 );
+
 			if ( !bMaximumFixed )
 			{
 				oMaximum = new Double( dMaxAxis );
@@ -1942,8 +1942,8 @@ public final class AutoScale extends Methods implements Cloneable
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
-		final DataElement oMinimum = scModel.getMin( );
-		final DataElement oMaximum = scModel.getMax( );
+		DataElement oMinimum = scModel.getMin( );
+		DataElement oMaximum = scModel.getMax( );
 		final Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
 				: null;
 		final Integer oStepNumber = scModel.isSetStepNumber( ) ? new Integer( scModel.getStepNumber( ) )
@@ -2003,6 +2003,18 @@ public final class AutoScale extends Methods implements Cloneable
 						rtc.getULocale( ) );
 			}
 
+			if ( axisOriginal instanceof NumberDataElement )
+			{
+				double origin = asDouble( axisOriginal ).doubleValue( );
+				if ( oMinimum == null && origin < dMinValue )
+				{
+					oMinimum = axisOriginal;
+				}
+				if ( oMaximum == null && origin > dMaxValue )
+				{
+					oMaximum = axisOriginal;
+				}
+			}
 			final double dAbsMax = Math.abs( dMaxValue );
 			final double dAbsMin = Math.abs( dMinValue );
 			double dStep = Math.max( dAbsMax, dAbsMin );
@@ -2037,11 +2049,6 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
 			sc.iMarginPercent = iMarginPercent;
-
-			if ( axisOriginal instanceof NumberDataElement )
-			{
-				sc.oOriginal = new Double( ( (NumberDataElement) axisOriginal ).getValue( ) );
-			}
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2079,6 +2086,18 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( dValue > dMaxValue )
 						dMaxValue = dValue;
 				}
+				if ( axisOriginal instanceof NumberDataElement )
+				{
+					double origin = asDouble( axisOriginal ).doubleValue( );
+					if ( oMinimum == null && origin < dMinValue )
+					{
+						oMinimum = axisOriginal;
+					}
+					if ( oMaximum == null && origin > dMaxValue )
+					{
+						oMaximum = axisOriginal;
+					}
+				}
 				// Avoid the number that will be multiplied is zero
 				if ( dMinValue == 0 )
 				{
@@ -2098,11 +2117,6 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iMarginPercent = iMarginPercent;
 			sc.setData( dsi );
 			sc.setDirection( direction );
-
-			if ( axisOriginal instanceof NumberDataElement )
-			{
-				sc.oOriginal = new Double( ( (NumberDataElement) axisOriginal ).getValue( ) );
-			}
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2159,6 +2173,19 @@ public final class AutoScale extends Methods implements Cloneable
 
 			oMinValue = new CDateTime( caMin );
 			oMaxValue = new CDateTime( caMax );
+			if ( axisOriginal instanceof DateTimeDataElement )
+			{
+				CDateTime origin = asDateTime( axisOriginal );
+				if ( oMinimum == null && origin.before( oMinValue ) )
+				{
+					oMinimum = axisOriginal;
+				}
+				if ( oMaximum == null && origin.after( oMaxValue ) )
+				{
+					oMaximum = axisOriginal;
+				}
+			}
+
 			int iUnit;
 			if ( oStep != null || oStepNumber != null )
 			{
@@ -2191,11 +2218,6 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
-
-			if ( axisOriginal instanceof DateTimeDataElement )
-			{
-				sc.oOriginal = ( (DateTimeDataElement) axisOriginal ).getValueAsCDateTime( );
-			}
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -2251,37 +2273,6 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-			}
-
-			if ( sc.oOriginal != null )
-			{
-				if ( sc.bMaximumFixed && sc.bMinimumFixed )
-				{
-					if ( ( (CDateTime) sc.oMinimum ).after( sc.oOriginal )
-							&& ( (CDateTime) sc.oMaximum ).after( sc.oOriginal ) )
-					{
-						sc.oMinimum = sc.oOriginal;
-					}
-					if ( ( (CDateTime) sc.oMinimum ).before( sc.oOriginal )
-							&& ( (CDateTime) sc.oMaximum ).before( sc.oOriginal ) )
-					{
-						sc.oMaximum = sc.oOriginal;
-					}
-				}
-				else if ( sc.bMaximumFixed )
-				{
-					if ( ( (CDateTime) sc.oMaximum ).before( sc.oOriginal ) )
-					{
-						sc.oMaximum = sc.oOriginal;
-					}
-				}
-				else if ( sc.bMinimumFixed )
-				{
-					if ( ( (CDateTime) sc.oMinimum ).after( sc.oOriginal ) )
-					{
-						sc.oMinimum = sc.oOriginal;
-					}
 				}
 			}
 
@@ -3841,15 +3832,12 @@ public final class AutoScale extends Methods implements Cloneable
 			Object oMaximum, final RunTimeContext rtc, final OneAxis ax )
 			throws ChartException
 	{
-		double min, max;
-		min = max = 0;
 		// OVERRIDE MINIMUM IF SPECIFIED
 		if ( oMinimum != null )
 		{
 			if ( oMinimum instanceof NumberDataElement )
 			{
-				min = ( (NumberDataElement) oMinimum ).getValue( );
-				sc.oMinimum = new Double( min );
+				sc.oMinimum = new Double( ( (NumberDataElement) oMinimum ).getValue( ) );
 			}
 			/*
 			 * else if (oMinimum instanceof DateTimeDataElement) { sc.oMinimum =
@@ -3874,8 +3862,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			if ( oMaximum instanceof NumberDataElement )
 			{
-				max = ( (NumberDataElement) oMaximum ).getValue( );
-				sc.oMaximum = new Double( max );
+				sc.oMaximum = new Double( ( (NumberDataElement) oMaximum ).getValue( ) );
 			}
 			/*
 			 * else if (oMaximum instanceof DateTimeDataElement) { sc.oMaximum =
@@ -3907,36 +3894,6 @@ public final class AutoScale extends Methods implements Cloneable
 								sc.oMinimum, sc.oMaximum
 						},
 						Messages.getResourceBundle( rtc.getULocale( ) ) );
-			}
-		}
-
-		if ( sc.oOriginal != null )
-		{
-			double original = ( (Double) sc.oOriginal ).doubleValue( );
-			if ( sc.bMaximumFixed && sc.bMinimumFixed )
-			{
-				if ( original < min && original < max )
-				{
-					sc.oMinimum = sc.oOriginal;
-				}
-				if ( original > min && original > max )
-				{
-					sc.oMaximum = sc.oOriginal;
-				}
-			}
-			else if ( sc.bMaximumFixed )
-			{
-				if ( original > max )
-				{
-					sc.oMaximum = sc.oOriginal;
-				}
-			}
-			else if ( sc.bMinimumFixed )
-			{
-				if ( original < min )
-				{
-					sc.oMinimum = sc.oOriginal;
-				}
 			}
 		}
 	}
