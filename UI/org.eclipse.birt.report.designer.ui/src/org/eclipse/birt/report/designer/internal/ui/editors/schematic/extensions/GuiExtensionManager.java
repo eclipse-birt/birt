@@ -180,7 +180,7 @@ public class GuiExtensionManager
 			else if ( PALETTE_MASTERPAGE.equals( type ) )
 			{
 				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
-				if ( !bool.booleanValue( ) )
+				//if ( !bool.booleanValue( ) )
 				{
 					continue;
 				}
@@ -215,6 +215,10 @@ public class GuiExtensionManager
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < entries.length; i++ )
 		{
+			if ( PALETTE_MASTERPAGE.equals( type ) )
+			{
+				continue;
+			}
 			String category = entries[i].getCategory( );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
