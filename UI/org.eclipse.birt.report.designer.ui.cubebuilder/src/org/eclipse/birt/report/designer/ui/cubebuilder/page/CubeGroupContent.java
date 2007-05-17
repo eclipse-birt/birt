@@ -752,6 +752,7 @@ public class CubeGroupContent extends Composite implements Listener
 																DATE_TIME_LEVEL_TYPE_ALL[i].getDisplayName( ) );
 												level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 												level.setDateTimeLevelType( DATE_TIME_LEVEL_TYPE_ALL[i].getName( ) );
+												level.setColumnName( dataField.getColumnName( ) );
 												hierarchy.add( HierarchyHandle.LEVELS_PROP,
 														level );
 											}
@@ -1502,6 +1503,7 @@ public class CubeGroupContent extends Composite implements Listener
 													DATE_TIME_LEVEL_TYPE_ALL[i].getName( ));
 									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 									level.setDateTimeLevelType( DATE_TIME_LEVEL_TYPE_ALL[i].getName( ) );
+									level.setColumnName( dataField.getColumnName( ) );
 									hierarchy.add( HierarchyHandle.LEVELS_PROP,
 											level );
 								}
