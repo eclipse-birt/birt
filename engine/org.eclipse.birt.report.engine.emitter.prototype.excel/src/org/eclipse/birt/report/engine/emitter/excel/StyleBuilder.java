@@ -10,20 +10,22 @@ import org.eclipse.birt.report.engine.content.IStyle;
 
 public class StyleBuilder
 {
+
 	public static final String C_PATTERN = "(rgb\\()(\\d+)\\,(\\s?\\d+)\\,(\\s?\\d+)\\)";
-	
-	public static int[] UNHERITABLE = new int[] { StyleConstant.BORDER_BOTTOM_COLOR_PROP,
-	                                  StyleConstant.BORDER_BOTTOM_STYLE_PROP,
-	                                  StyleConstant.BORDER_BOTTOM_STYLE_PROP,
-	                                  StyleConstant.BORDER_TOP_COLOR_PROP,
-	                                  StyleConstant.BORDER_TOP_STYLE_PROP,
-	                                  StyleConstant.BORDER_TOP_STYLE_PROP,
-	                                  StyleConstant.BORDER_LEFT_COLOR_PROP,
-	                                  StyleConstant.BORDER_LEFT_STYLE_PROP,
-	                                  StyleConstant.BORDER_LEFT_STYLE_PROP,
-	                                  StyleConstant.BORDER_RIGHT_COLOR_PROP,
-	                                  StyleConstant.BORDER_RIGHT_STYLE_PROP,
-	                                  StyleConstant.BORDER_RIGHT_STYLE_PROP};
+
+	public static int[] UNHERITABLE = new int[]{
+			StyleConstant.BORDER_BOTTOM_COLOR_PROP,
+			StyleConstant.BORDER_BOTTOM_STYLE_PROP,
+			StyleConstant.BORDER_BOTTOM_STYLE_PROP,
+			StyleConstant.BORDER_TOP_COLOR_PROP,
+			StyleConstant.BORDER_TOP_STYLE_PROP,
+			StyleConstant.BORDER_TOP_STYLE_PROP,
+			StyleConstant.BORDER_LEFT_COLOR_PROP,
+			StyleConstant.BORDER_LEFT_STYLE_PROP,
+			StyleConstant.BORDER_LEFT_STYLE_PROP,
+			StyleConstant.BORDER_RIGHT_COLOR_PROP,
+			StyleConstant.BORDER_RIGHT_STYLE_PROP,
+			StyleConstant.BORDER_RIGHT_STYLE_PROP};
 
 	public static final Pattern colorp = Pattern.compile( C_PATTERN,
 			Pattern.CASE_INSENSITIVE );
@@ -38,42 +40,58 @@ public class StyleBuilder
 		entry.setProperty( StyleConstant.BACKGROUND_COLOR_PROP,
 				convertColor( style.getBackgroundColor( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP,
-				convertColor( style.getBorderBottomColor( ) ) );
+		float width = Float.parseFloat( style.getBorderBottomWidth( ) );
+		if ( width > 0 )
+		{
+			entry.setProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP,
+					convertColor( style.getBorderBottomColor( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP,
-				convertBorderStyle( style.getBorderBottomStyle( ) ) );
+			entry.setProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP,
+					convertBorderStyle( style.getBorderBottomStyle( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP,
-				convertBorderWeight( style.getBorderBottomWidth( ) ) );
+			entry.setProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP,
+					convertBorderWeight( style.getBorderBottomWidth( ) ) );
+		}
 
-		entry.setProperty( StyleConstant.BORDER_TOP_COLOR_PROP,
-				convertColor( style.getBorderTopColor( ) ) );
+		width = Float.parseFloat( style.getBorderTopWidth( ) );
+		if ( width > 0 )
+		{
+			entry.setProperty( StyleConstant.BORDER_TOP_COLOR_PROP,
+					convertColor( style.getBorderTopColor( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_TOP_STYLE_PROP,
-				convertBorderStyle( style.getBorderTopStyle( ) ) );
+			entry.setProperty( StyleConstant.BORDER_TOP_STYLE_PROP,
+					convertBorderStyle( style.getBorderTopStyle( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_TOP_WIDTH_PROP,
-				convertBorderWeight( style.getBorderTopWidth( ) ) );
+			entry.setProperty( StyleConstant.BORDER_TOP_WIDTH_PROP,
+					convertBorderWeight( style.getBorderTopWidth( ) ) );
+		}
 
-		entry.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP,
-				convertColor( style.getBorderLeftColor( ) ) );
+		width = Float.parseFloat( style.getBorderLeftWidth( ) );
+		if ( width > 0 )
+		{
+			entry.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP,
+					convertColor( style.getBorderLeftColor( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP,
-				convertBorderStyle( style.getBorderLeftStyle( ) ) );
+			entry.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP,
+					convertBorderStyle( style.getBorderLeftStyle( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP,
-				convertBorderWeight( style.getBorderLeftWidth( ) ) );
+			entry.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP,
+					convertBorderWeight( style.getBorderLeftWidth( ) ) );
+		}
 
-		entry.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP,
-				convertColor( style.getBorderRightColor( ) ) );
+		width = Float.parseFloat( style.getBorderRightWidth( ) );
+		if ( width > 0 )
+		{
+			entry.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP,
+					convertColor( style.getBorderRightColor( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP,
-				convertBorderStyle( style.getBorderRightStyle( ) ) );
+			entry.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP,
+					convertBorderStyle( style.getBorderRightStyle( ) ) );
 
-		entry.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP,
-				convertBorderWeight( style.getBorderRightWidth( ) ) );
-
+			entry.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP,
+					convertBorderWeight( style.getBorderRightWidth( ) ) );
+		}
+		
 		entry.setProperty( StyleConstant.COLOR_PROP, convertColor( style
 				.getColor( ) ) );
 
@@ -108,22 +126,22 @@ public class StyleBuilder
 
 		return entry;
 	}
-	
-	public static StyleEntry createEmptyStyleEntry()
+
+	public static StyleEntry createEmptyStyleEntry( )
 	{
-		StyleEntry entry = new StyleEntry();
-		
-		for(int i = 0; i < StyleEntry.COUNT; i++)
+		StyleEntry entry = new StyleEntry( );
+
+		for ( int i = 0; i < StyleEntry.COUNT; i++ )
 		{
 			entry.setProperty( i, StyleEntry.NULL );
 		}
-		
+
 		return entry;
 	}
 
 	public static String convertColor( String value )
 	{
-		if ( value == null || "transparent".equalsIgnoreCase( value ))
+		if ( value == null || "transparent".equalsIgnoreCase( value ) )
 		{
 			return StyleConstant.NULL;
 		}
@@ -139,8 +157,8 @@ public class StyleBuilder
 
 			for ( int i = 2; i <= 4; i++ )
 			{
-				String hex = Integer.toHexString( Integer
-						.parseInt( ExcelUtil.getValue( m.group( i ) ).trim()) );
+				String hex = Integer.toHexString( Integer.parseInt( ExcelUtil
+						.getValue( m.group( i ) ).trim( ) ) );
 
 				if ( hex.length( ) < 2 )
 				{
@@ -178,6 +196,7 @@ public class StyleBuilder
 		String w = StyleConstant.NULL;
 
 		if ( weight != null && !"0".equalsIgnoreCase( weight ) )
+
 		{
 			weight = ExcelUtil.getValue( weight );
 
@@ -202,7 +221,7 @@ public class StyleBuilder
 	{
 		String bs = ExcelUtil.getValue( style );
 
-		if ( bs != StyleConstant.NULL  )
+		if ( bs != StyleConstant.NULL )
 		{
 			if ( "dotted".equalsIgnoreCase( bs ) )
 			{
@@ -258,20 +277,20 @@ public class StyleBuilder
 
 		return va;
 	}
-	
-	public static boolean isHeritable(int id)
+
+	public static boolean isHeritable( int id )
 	{
-		for(int i = 0; i < UNHERITABLE.length; i++)
+		for ( int i = 0; i < UNHERITABLE.length; i++ )
 		{
-			if(id == UNHERITABLE[i])
+			if ( id == UNHERITABLE[i] )
 			{
 				return false;
-			}	
+			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public static void mergeInheritableProp( StyleEntry cEntry, StyleEntry entry )
 	{
 		for ( int i = 0; i < StyleConstant.COUNT; i++ )
@@ -283,7 +302,7 @@ public class StyleBuilder
 			}
 		}
 	}
-	
+
 	public static void applyRightBorder( StyleEntry cEntry, StyleEntry entry )
 	{
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_RIGHT_COLOR_PROP );
@@ -297,7 +316,7 @@ public class StyleBuilder
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_LEFT_STYLE_PROP );
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_LEFT_WIDTH_PROP );
 	}
-	
+
 	public static void applyTopBorder( StyleEntry cEntry, StyleEntry entry )
 	{
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_TOP_COLOR_PROP );
@@ -312,21 +331,22 @@ public class StyleBuilder
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
 	}
 
-	public static void overwriteProp( StyleEntry cEntry, StyleEntry entry, int id )
+	public static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
+			int id )
 	{
 		if ( !( StyleConstant.NULL == cEntry.getProperty( id ) ) )
 		{
 			entry.setProperty( id, cEntry.getProperty( id ) );
 		}
 	}
-	
-	public static void main(String[] args)
+
+	public static void main( String[] args )
 	{
 		Matcher m = colorp.matcher( "rgb(0,15, 0)" );
-		
-		if(m.matches( ))
+
+		if ( m.matches( ) )
 		{
-			System.out.println(m.group( ));
-		}	
+			System.out.println( m.group( ) );
+		}
 	}
 }
