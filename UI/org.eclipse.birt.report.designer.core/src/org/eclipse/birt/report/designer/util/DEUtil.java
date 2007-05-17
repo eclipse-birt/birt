@@ -2101,9 +2101,10 @@ public class DEUtil
 			}
 			if ( handle instanceof ReportItemHandle )
 			{
-				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
-						|| ( (ReportItemHandle) handle ).getCube( ) != null
-						|| ( (ReportItemHandle) handle ).getDataSet( ) != null
+				// if ( ( (ReportItemHandle) handle ).getDataBindingReference( )
+				// != null
+				// || ( (ReportItemHandle) handle ).getCube( ) != null
+				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
 						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
 								.hasNext( ) )
 				{
