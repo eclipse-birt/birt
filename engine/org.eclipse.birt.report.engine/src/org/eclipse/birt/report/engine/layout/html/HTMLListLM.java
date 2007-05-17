@@ -51,11 +51,14 @@ public class HTMLListLM extends HTMLBlockStackingLM
 				{
 					boolean pageBreak = context.allowPageBreak( );
 					//boolean skipPageHint = context.getSkipPageHint( );
+					boolean isEmpty = context.isPageEmpty( );
+					context.setPageEmpty( true );
 					context.setAllowPageBreak( pageBreak );
 					//context.setSkipPageHint( true );
 					engine.layout( this, header, emitter );
 					context.setAllowPageBreak( pageBreak );
 					//context.setSkipPageHint( skipPageHint );
+					context.setPageEmpty( isEmpty );
 					/**
 					 * call continue content to restart the page hint section
 					 */

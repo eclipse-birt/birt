@@ -49,10 +49,13 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			{
 				boolean pageBreak = context.allowPageBreak( );
 				//boolean skipPageHint = context.getSkipPageHint( );
+				boolean isEmpty = context.isPageEmpty( );
+				context.setPageEmpty( true );
 				context.setAllowPageBreak( false );
 				//context.setSkipPageHint( true );
 				engine.layout( this, header, emitter );
 				context.setAllowPageBreak( pageBreak );
+				context.setPageEmpty( isEmpty );
 				//context.setSkipPageHint( skipPageHint );
 				/**
 				 * call continue content to restart the page hint section
