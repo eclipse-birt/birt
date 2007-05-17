@@ -32,8 +32,10 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -462,18 +464,39 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		return displayNames;
 	}
 
+//	public String getFunctionDisplayName( String name )
+//	{
+//		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+//				DEUtil.getMetaDataDictionary( )
+//						.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
+//	}
+//
+//	private IChoice[] getFunctions( )
+//	{
+//		return DEUtil.getMetaDataDictionary( )
+//				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
+//				.getChoices( );
+//	}
 	public String getFunctionDisplayName( String name )
+
 	{
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
 				DEUtil.getMetaDataDictionary( )
-						.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
+						.getElement( ReportDesignConstants.MEASURE_ELEMENT )
+						.getProperty( IMeasureModel.FUNCTION_PROP )
+						.getAllowedChoices( ) );
+
 	}
 
 	private IChoice[] getFunctions( )
+
 	{
 		return DEUtil.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
+				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
+				.getProperty( IMeasureModel.FUNCTION_PROP )
+				.getAllowedChoices( )
 				.getChoices( );
+
 	}
 
 	public boolean isAddEnable( )
