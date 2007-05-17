@@ -511,7 +511,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			DimLevel[] aggrLevels = filter.getAggrLevels( );
 			for ( int j = 0; j < aggregations.length; j++ )
 			{
-				if ( isEqualLevels( aggregations[j].getLevels( ), aggrLevels ) )
+				if ( aggregations[j].getAggregationFunctions( ) != null
+						&& isEqualLevels( aggregations[j].getLevels( ),
+								aggrLevels ) )
 				{
 					// generate axis filter according to the cube filter definition
 					DimLevel[] axisLevels = filter.getAxisQualifierLevels( );

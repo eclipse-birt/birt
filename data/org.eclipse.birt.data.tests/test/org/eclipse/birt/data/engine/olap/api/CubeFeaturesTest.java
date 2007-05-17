@@ -52,6 +52,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
 
@@ -305,6 +306,287 @@ public class CubeFeaturesTest extends BaseTestCase
 		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
 	
 	}
+	
+	/**
+	 * Filter2, filter out all level11 = CN and level21 > 2000.
+	 * @throws Exception
+	 */
+	public void testFilter3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+				
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		cqd.addBinding( binding5 );
+		
+		IFilterDefinition filter1 = new FilterDefinition( new ConditionalExpression( "data[\"edge1level1\"]",
+				IConditionalExpression.OP_EQ,
+				"\"CN\"" ) );
+		IFilterDefinition filter2 = new FilterDefinition( new ConditionalExpression( "data[\"edge2level1\"]",
+				IConditionalExpression.OP_GE,
+				"2000" ) );
+		
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+	
+	}
+	
+	/**
+	 * Filter2, filter out all level11 = CN and level21 > 2000.
+	 * @throws Exception
+	 */
+	public void testFilter4( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+				
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		cqd.addBinding( binding5 );
+		
+		IFilterDefinition filter1 = new FilterDefinition( new ConditionalExpression( "data[\"edge1level1\"]",
+				IConditionalExpression.OP_EQ,
+				"\"CNK\"" ) );
+		
+		cqd.addFilter( filter1 );
+		
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		try
+		{
+			this.createCube( engine );
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults queryResults = pcq.execute( null );
+			queryResults.getCubeCursor( );
+
+		}catch ( Exception e)
+		{
+			e.printStackTrace( );
+		}
+	}
+	
+	/**
+	 * Test grand total
+	 * @throws Exception
+	 */
+	public void testAggrFilter( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+		
+		createSortTestBindings( cqd );
+		
+		//filter on year
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ScriptExpression("data[\"rowGrandTotal\"] > 420"));
+		filter1.setAxisQualifierLevels( null );
+		filter1.setAxisQualifierValues( null );
+		filter1.setTargetLevel( level21 );
+				
+		//sort on country
+		CubeFilterDefinition filter2 = new CubeFilterDefinition( new ScriptExpression("data[\"city_year_total\"] < 65"));
+
+		filter2.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		filter2.setAxisQualifierValues( new Object[]{"2002"} );
+		filter2.setTargetLevel( level12 );
+		
+		
+		CubeFilterDefinition filter3 = new CubeFilterDefinition( new ScriptExpression( "data[\"country_year_total\"] < 300"));
+		
+		filter3.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		filter3.setAxisQualifierValues( new Object[]{"2002"} );
+		filter3.setTargetLevel( level11 );
+		
+		CubeSortDefinition sorter4 = new CubeSortDefinition();
+		sorter4.setExpression( "dimension[\"dimension1\"][\"level13\"]" );
+		sorter4.setAxisQualifierLevel( null );
+		sorter4.setAxisQualifierValue( null );
+		sorter4.setTargetLevel( level13 );
+		sorter4.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		//Make UN before China.
+		CubeSortDefinition sorter5 = new CubeSortDefinition();
+		sorter5.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
+		sorter5.setAxisQualifierLevel( null );
+		sorter5.setAxisQualifierValue( null );
+		sorter5.setTargetLevel( level11 );
+		sorter5.setSortDirection( ISortDefinition.SORT_DESC );
+		
+	/*	//sort on city.
+		SortDefinition sorter3 = new SortDefinition();
+		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+	*/	
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
+		cqd.addFilter( filter3 );
+		cqd.addSort( sorter4 );
+		cqd.addSort( sorter5 );
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		printCube( cursor, "country_year_total",
+				"city_year_total", "dist_total", "city_total", "country_total","rowGrandTotal", "grandTotal",
+				new String[] {"edge1level1","edge1level2","edge1level3"}, "edge2level1", "measure1" );
+		
+	
+	}
+	
+	/*public void testAggrFilter1( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+		
+		createSortTestBindings( cqd );
+		
+		//filter on year
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ScriptExpression("data[\"rowGrandTotal\"] > 420"));
+		filter1.setAxisQualifierLevels( null );
+		filter1.setAxisQualifierValues( null );
+		filter1.setTargetLevel( level21 );
+				
+		//sort on country
+		CubeFilterDefinition filter2 = new CubeFilterDefinition( new ScriptExpression("data[\"city_year_total\"] < 65"));
+
+		filter2.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		filter2.setAxisQualifierValues( new Object[]{"2002"} );
+		filter2.setTargetLevel( level12 );
+		
+		
+		CubeFilterDefinition filter3 = new CubeFilterDefinition( new ConditionalExpression( "data[\"country_year_total\"] < 300",
+				IConditionalExpression.OP_TOP_N,
+				"2" ) );
+		
+		filter3.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		filter3.setAxisQualifierValues( new Object[]{"2002"} );
+		filter3.setTargetLevel( level11 );
+		
+				
+		//sort on city.
+		SortDefinition sorter3 = new SortDefinition();
+		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
+		cqd.addFilter( filter3 );
+
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		printCube( cursor, "country_year_total",
+				"city_year_total", "dist_total", "city_total", "country_total","rowGrandTotal", "grandTotal",
+				new String[] {"edge1level1","edge1level2","edge1level3"}, "edge2level1", "measure1" );
+		
+	
+	}*/
 	/**
 	 * Simple sort on 1 level
 	 * @throws Exception

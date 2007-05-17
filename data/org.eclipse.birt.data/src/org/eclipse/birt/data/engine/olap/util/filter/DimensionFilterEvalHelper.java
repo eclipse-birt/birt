@@ -12,8 +12,10 @@
 package org.eclipse.birt.data.engine.olap.util.filter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -48,7 +50,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 	//
 	private Scriptable scope;
 	private DummyJSLevels dimObj;
-	private DummyJSDataAccessor dataObj;
+	private DummyJSAggregationAccessor dataObj;
 	private IBaseExpression expr;
 	private String dimName;
 	private DimLevel[] aggrLevels;
@@ -59,7 +61,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 	private ILevelDefinition[] axisLevels;
 	private Object[] axisValues;
 	private boolean isAxisFilter;
-	
+
 	/**
 	 * @param parentScope
 	 * @param queryDefn
@@ -74,10 +76,10 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 		{
 			this.scope = cx.initStandardObjects( );
 			this.scope.setParentScope( parentScope );
-			this.dataObj = new DummyJSDataAccessor();
+			this.dataObj = new DummyJSAggregationAccessor();
 			
 			this.expr = cubeFilter.getExpression( );
-			this.dimName = OlapExpressionCompiler.getReferencedScriptObject( expr, "dimension" );
+			this.dimName = getReferencedDimensionName( this.expr, queryDefn.getBindings());
 			this.dimObj = new DummyJSLevels( this.dimName);
 			this.queryDefn = queryDefn;
 			if ( cubeFilter instanceof ICubeFilterDefinition )
@@ -90,7 +92,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			}
 			
 			this.aggrLevels = populateAggrLevels( );
-			
+		
 			axisLevels = this.cubeFilter.getAxisQualifierLevels( );
 			axisValues = this.cubeFilter.getAxisQualifierValues( );			
 			this.isAxisFilter = ( axisLevels != null && axisValues != null && axisLevels.length == axisValues.length );
@@ -105,13 +107,58 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 					this.scope,
 					new DummyJSDimensionAccessor( this.dimName, dimObj ) );
 			}	
-			this.scope.put( "data", this.scope, this.dataObj );
+
+			if( this.aggrLevels!= null && this.aggrLevels.length > 0 )
+			{
+				this.scope.put( "data", this.scope, this.dataObj );	
+			}else
+			{
+				this.scope.put( "data",
+						this.scope,
+						new DummyJSDataAccessor( queryDefn.getBindings( ),
+								this.scope ) );
+			}
+			
 			OLAPExpressionCompiler.compile( cx, this.expr );
 		}
 		finally
 		{
 			Context.exit( );
 		}
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	private String getReferencedDimensionName( IBaseExpression expr,
+			List bindings ) throws DataException
+	{
+		String result = OlapExpressionCompiler.getReferencedScriptObject( expr,
+				"dimension" );
+		if ( result == null )
+		{
+			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
+					"data" );
+			if ( bindingName == null )
+				return null;
+			else
+			{
+				for ( int i = 0; i < bindings.size( ); i++ )
+				{
+					IBinding binding = (IBinding) bindings.get( i );
+					if ( binding.getBindingName( ).equals( bindingName ) )
+					{
+						return getReferencedDimensionName( binding.getExpression( ),
+								bindings );
+					}
+				}
+			}
+		}
+		return result;
 	}
 	
 	/**
@@ -133,7 +180,11 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			{
 				List aggrs = binding.getAggregatOns( );
 				if ( aggrs.size( ) == 0 )
-				{// get all level names in the query definition
+				{
+					if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
+							"dimension" ) != null )
+						return null;
+					// get all level names in the query definition
 					List levelList = new ArrayList( );
 					// get all levels from the row edge and column edge
 					IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -547,30 +598,78 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 		 * 
 		 */
 		private static final long serialVersionUID = 6434908701820853543L;
-		private IResultRow resultRow;
+	
+		private Map bindingMap;
+		private Scriptable scope;
 		
-		public String getClassName( )
+		public DummyJSDataAccessor( List bindings, Scriptable scope ) throws DataException
 		{
-			return "DummyJSDataAccessor";
-		}
-		
-		public void setResultRow( IResultRow resultRow )
-		{
-			this.resultRow = resultRow;
-		}
-		
-		public Object get( String aggrName, Scriptable scope )
-		{
-			try
+			this.bindingMap = new HashMap();
+			for( int i = 0; i < bindings.size(); i++ )
 			{
-				return this.resultRow.getAggrValue( aggrName );
+				this.bindingMap.put(((IBinding) bindings.get(i)).getBindingName(),
+						bindings.get(i));
 			}
-			catch ( DataException e )
+			this.scope = scope;
+		}
+
+		public Object get(String aggrName, Scriptable scope) 
+		{
+			try 
+			{
+				Context cx = Context.enter();
+				if ( !this.bindingMap.containsKey(aggrName))
+					return null;
+				return ScriptEvalUtil.evalExpr( ((IBinding)this.bindingMap.get(aggrName)).getExpression(), cx, this.scope, null,
+						0);
+			} 
+			catch (DataException e) 
 			{
 				return null;
 			}
+			finally 
+			{
+				Context.exit();
+			}
+
+		}
+
+		public String getClassName() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
-	
+	private class DummyJSAggregationAccessor extends ScriptableObject
+	{
+		private IResultRow resultRow;
+		
+		public Object get(String aggrName, Scriptable scope) 
+		{
+			if( this.resultRow != null )
+			{	
+				try
+				{
+					return this.resultRow.getAggrValue( aggrName );
+				}
+				catch ( DataException e )
+				{
+					return null;
+				}
+			}
+			else
+				return null;
+		}
+		
+		public void setResultRow( IResultRow row )
+		{
+			this.resultRow = row;
+		}
+		
+		public String getClassName( )
+		{
+			return "DummyJSAggregationAccessor";
+		}
+		
+	}
 }

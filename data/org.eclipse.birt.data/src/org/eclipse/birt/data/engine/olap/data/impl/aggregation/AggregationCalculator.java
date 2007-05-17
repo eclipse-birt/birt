@@ -150,7 +150,10 @@ public class AggregationCalculator
 				accumulators[i].start( );
 			}
 		}
-		result.add( currentResultObj );
+		if ( currentResultObj != null )
+			result.add( currentResultObj );
+		else
+			result.add( new AggregationResultRow( ) );
 		return this.result;
 	}
 	
