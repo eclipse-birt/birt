@@ -9,7 +9,6 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
-import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
@@ -73,7 +72,7 @@ public class MasterPageExecutor extends ContainerExecutor
 			long id = iid.getComponentID( );
 			masterPage = (SimpleMasterPageDesign) context.getReport( )
 					.getReportItemByID( id );
-			content.setGenerateBy( design );
+			content.setGenerateBy( masterPage );
 
 			IPageContent pageContent = (IPageContent) content;
 			pageContent.setPageNumber( pageNumber );
