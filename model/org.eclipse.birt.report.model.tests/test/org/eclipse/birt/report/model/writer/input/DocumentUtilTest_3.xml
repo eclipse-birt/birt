@@ -14,7 +14,8 @@ here>></property>
     <body>
         <text id="59">
             <property name="style">NewStyle</property>
-            <text-property name="content"><![CDATA[Text 1]]></text-property>
+            <text-property name="content"><![CDATA[Text
+             1]]></text-property>
         </text>
         <text id="67">
             <property name="style">NewStyle</property>

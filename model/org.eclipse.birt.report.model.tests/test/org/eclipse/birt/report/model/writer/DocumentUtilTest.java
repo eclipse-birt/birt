@@ -210,4 +210,15 @@ public class DocumentUtilTest extends BaseTestCase
 		serializeDocument( );
 		assertTrue( compareFile( "DocumentUtilTest_ElementProps_golden.xml" ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Tests a design file that is serialized by the document util.
+	 * 
+	 * @throws Exception
+	 */
+	public void testParserForSerializer( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_parser.xml" ); //$NON-NLS-1$
+		assertNotNull( designHandle );
+	}
 }

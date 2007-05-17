@@ -118,6 +118,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 *            the unicode signature of the design file
 	 * @param signature
 	 *            the unicode signature of the design file
+	 * @param needMarkLineNumber 
 	 * @throws IOException
 	 *             if write error occurs
 	 */
@@ -236,7 +237,7 @@ public class IndentableXMLWriter extends XMLWriter
 	 *            the text to write
 	 */
 
-	protected void indentLongText( String text )
+	public void indentLongText( String text )
 	{
 		assert text != null;
 		assert text.length( ) >= MAX_CHARS_PER_LINE;

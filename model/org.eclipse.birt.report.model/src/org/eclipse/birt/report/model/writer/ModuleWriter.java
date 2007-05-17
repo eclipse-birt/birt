@@ -184,6 +184,7 @@ import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.XMLWriter;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -217,7 +218,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The XML writer.
 	 */
 
-	protected IndentableXMLWriter writer = null;
+	protected XMLWriter writer = null;
 
 	/**
 	 * The base 64 codec for embedded images.
@@ -293,7 +294,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Implementation method to write the file header and contents.
 	 */
 
-	private void writeFile( )
+	protected final void writeFile( )
 	{
 		boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
 				.getVersionManager( ).getVersion( ) );
