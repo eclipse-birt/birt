@@ -49,6 +49,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -1120,82 +1121,76 @@ public class PDFEmitter implements IContentEmitter
 		 * Draws the borders of a container.
 		 * @param borders		the border info
 		 */
-		private void drawBorder(BorderInfo border)
+		private void drawBorder( BorderInfo border)
 		{
-			if(IStyle.SOLID_VALUE.equals( border.borderStyle ))
+			int width = border.borderWidth;
+			Color color = border.borderColor;
+			int startX = border.startX;
+			int startY = border.startY;
+			int endX = border.endX;
+			int endY = border.endY;
+			CSSValue style = border.borderStyle;
+			String lineStyle = "solid";
+			if ( IStyle.DOUBLE_VALUE.equals( style ) )
 			{
-				drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY ), 
- 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY ), 
- 						pdfMeasure(border.borderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
-				return;
+				int lineWidth = width / 3;
+				int offset = width / 2 - lineWidth / 2;
+				switch ( border.borderType )
+				{
+					case BorderInfo.TOP_BORDER :
+					case BorderInfo.BOTTOM_BORDER :
+						drawHorizitalLine( startX, startY, endX, endY, offset,
+								lineStyle, color, lineWidth );
+						break;
+					case BorderInfo.RIGHT_BORDER :
+					case BorderInfo.LEFT_BORDER :
+						drawVerticalLine( color, startX, startY, endX, endY,
+								lineStyle, lineWidth, offset );
+						break;
+				}
 			}
-			
-			if(IStyle.DOTTED_VALUE.equals( border.borderStyle ))
+			else
 			{
-				drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY ), 
- 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY ), 
- 						pdfMeasure(border.borderWidth), border.borderColor, "dotted", cb ); //$NON-NLS-1$
-				return;
+				if ( IStyle.DOTTED_VALUE.equals( style ) )
+				{
+					lineStyle = "dotted";
+				}
+				else if ( IStyle.DASHED_VALUE.equals( style ) )
+				{
+					lineStyle = "dashed";
+				}
+				drawOriginalLine( startX, startY, endX, endY, width, color,
+						lineStyle );
 			}
-			if(IStyle.DASHED_VALUE.equals( border.borderStyle ))
-			{
-				drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY ), 
- 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY ), 
- 						pdfMeasure(border.borderWidth), border.borderColor, "dashed", cb ); //$NON-NLS-1$
-				return;
-			}
-			if(IStyle.DOUBLE_VALUE.equals( border.borderStyle ))
-			{
- 				int outerBorderWidth=border.borderWidth/3;
- 				int innerBorderWidth=border.borderWidth/3;
- 				
- 				switch (border.borderType)
- 				{
- 				case BorderInfo.TOP_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY-border.borderWidth/2+outerBorderWidth/2 ), 
- 	 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY-border.borderWidth/2+outerBorderWidth/2 ), 
- 	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				drawLine( layoutPointX2PDF( border.startX+2*border.borderWidth/3 ), 
- 	 						layoutPointY2PDF( border.startY+border.borderWidth/2-innerBorderWidth/2 ), 
- 	 						layoutPointX2PDF( border.endX-2*border.borderWidth/3 ), 
- 	 						layoutPointY2PDF( border.endY+border.borderWidth/2-innerBorderWidth/2 ), 
- 	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				return;
- 				case BorderInfo.RIGHT_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX+border.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( border.startY ), 
- 	 						layoutPointX2PDF( border.endX+border.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( border.endY ), 
- 	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				drawLine( layoutPointX2PDF( border.startX-border.borderWidth/2+innerBorderWidth/2 ), 
- 	 						layoutPointY2PDF( border.startY+2*border.borderWidth/3 ), 
- 	 						layoutPointX2PDF( border.endX-border.borderWidth/2+innerBorderWidth/2 ), 
- 	 						layoutPointY2PDF( border.endY-2*border.borderWidth/3 ), 
- 	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				return;
- 				case BorderInfo.BOTTOM_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY+border.borderWidth/2-outerBorderWidth/2 ), 
- 	 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY+border.borderWidth/2-outerBorderWidth/2 ), 
- 	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				drawLine( layoutPointX2PDF( border.startX+2*border.borderWidth/3 ), 
- 	 						layoutPointY2PDF( border.startY-border.borderWidth/2+innerBorderWidth/2 ), 
- 	 						layoutPointX2PDF( border.endX-2*border.borderWidth/3 ), 
- 	 						layoutPointY2PDF( border.endY-border.borderWidth/2+innerBorderWidth/2 ), 
- 	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				return;
- 				case BorderInfo.LEFT_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX-border.borderWidth/2+outerBorderWidth/2 ), layoutPointY2PDF( border.startY ), 
- 	 						layoutPointX2PDF( border.endX-border.borderWidth/2+outerBorderWidth/2 ), layoutPointY2PDF( border.endY ), 
- 	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				drawLine( layoutPointX2PDF( border.startX+border.borderWidth/2-innerBorderWidth/2 ), 
- 	 						layoutPointY2PDF( border.startY+2*border.borderWidth/3 ), 
- 	 						layoutPointX2PDF( border.endX+border.borderWidth/2-innerBorderWidth/2 ), 
- 	 						layoutPointY2PDF( border.endY-2*border.borderWidth/3 ), 
- 	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
- 	 				return;
- 				}
-	 		}
 		}
-		
-		
+
+		private void drawVerticalLine( Color color, int startX, int startY,
+				int endX, int endY, String lineStyle, int lineWidth, int offset )
+		{
+			drawOriginalLine( startX + offset, startY, endX + offset, endY,
+					lineWidth, color, lineStyle );
+			drawOriginalLine( startX - offset, startY, endX - offset, endY,
+					lineWidth, color, lineStyle );
+		}
+
+		private void drawHorizitalLine( int startX, int startY, int endX,
+				int endY, int offset, String lineStyle, Color color,
+				int lineWidth )
+		{
+			drawOriginalLine( startX, startY - offset, endX, endY - offset,
+					lineWidth, color, lineStyle );
+			drawOriginalLine( startX, startY + offset, endX, endY + offset,
+					lineWidth, color, lineStyle );
+		}
+
+		private void drawOriginalLine( int startX, int startY, int endX,
+				int endY, int width, Color color, String lineStyle )
+		{
+			drawLine( layoutPointX2PDF( startX ), layoutPointY2PDF( startY ),
+					layoutPointX2PDF( endX ), layoutPointY2PDF( endY ),
+					pdfMeasure( width ), color, lineStyle, cb );
+		}
+
 		/**
 		 * Draws a line from the start position to the end position with the given
 		 * linewidth, color, and style at the given pdf layer.
@@ -1983,5 +1978,4 @@ public class PDFEmitter implements IContentEmitter
 		// TODO Auto-generated method stub
 		
 	}
-
 }
