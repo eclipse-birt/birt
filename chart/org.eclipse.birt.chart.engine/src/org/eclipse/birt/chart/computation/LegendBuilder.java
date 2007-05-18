@@ -478,18 +478,8 @@ public final class LegendBuilder implements IConstants
 				}
 				
 				boolean isStack = true;
-				boolean hasOptionalGrouping = false;
-				exitStackCheck: for ( int i = 0; i < seda.length; i++ )
+				for ( int i = 0; i < seda.length; i++ )
 				{					
-					if ( !hasOptionalGrouping && seda[i].getQuery( ) != null )
-					{
-						//check if the chart has a optional grouping
-						String query = seda[i].getQuery( ).getDefinition( );
-						if ( query != null && query.trim( ).length( ) != 0 )
-						{
-							hasOptionalGrouping = true;
-						}
-					}
 					if ( isStack )
 					{
 						//check if the chart is stacked
@@ -501,18 +491,13 @@ public final class LegendBuilder implements IConstants
 							{
 								
 								isStack = false;
-								if ( hasOptionalGrouping )
-								{
-									break exitStackCheck;
-								}
 								break;
 							}
 						}
 					}
 				}
-				// invert when the chart is stacked and doesn't has optional
-				// grouping.
-				if ( !hasOptionalGrouping & isStack )
+				// invert when the chart is stacked
+				if ( isStack )
 				{
 					// prevent duplicated invert
 					needInvert = !needInvert;
