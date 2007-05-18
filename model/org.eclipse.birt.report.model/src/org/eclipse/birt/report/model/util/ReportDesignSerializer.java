@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
@@ -130,6 +131,8 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
+		localizeExternalSelectors( );
+
 		addExternalElements( );
 		addExternalStructures( );
 
@@ -225,7 +228,7 @@ public class ReportDesignSerializer extends ElementVisitor
 					tmpElement );
 
 			assert tmpContainer != null;
-			
+
 			tmpContainer.getSlot( slotId ).add( tmpElement );
 			tmpElement.setContainer( tmpContainer, slotId );
 
@@ -318,25 +321,64 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		localizeSelfStyleProperties( target, source, notEmptyProperties );
 
-		// handle only when the style is not local one but a library resource
+		notEmptyProperties.clear( );
+	}
 
-		String selector = ( (ElementDefn) target.getDefn( ) ).getSelector( );
-		if ( selector != null )
+	/**
+	 * Copies values of selector in the library into the target design. If the
+	 * selector doesn't exist, localize to the report design. Otherwise, merge
+	 * values in external and local selectors.
+	 */
+
+	private void localizeExternalSelectors( )
+	{
+		assert elements.isEmpty( );
+
+		elements.push( targetDesign );
+
+		Theme theme = sourceDesign.getTheme( sourceDesign );
+		if ( theme == null )
 		{
-			Style style = (Style) sourceDesign.resolveElement( selector,
-					Module.STYLE_NAME_SPACE, null );
+			elements.pop( );
+			return;
+		}
 
-			if ( style != null )
+		Module tmpRoot = theme.getRoot( );
+		ContainerSlot styles = theme.getSlot( Theme.STYLES_SLOT );
+		for ( int i = 0; i < styles.getCount( ); i++ )
+		{
+			Style tmpStyle = (Style) styles.getContent( i );
+
+			String tmpStyleName = tmpStyle.getName( ).toLowerCase( );
+
+			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
+					tmpStyleName ) == null )
+				continue;
+
+			Style sourceDesignStyle = (Style) targetDesign
+					.findNativeStyle( tmpStyleName );
+
+			if ( sourceDesignStyle == null )
 			{
-				Module tmpRoot = style.getRoot( );
-				if ( tmpRoot != sourceDesign )
-					localizePrivateStyleProperties( target, style, tmpRoot,
-							notEmptyProperties );
+				sourceDesignStyle = (Style) localize( tmpStyle );
+				sourceDesignStyle.setName( tmpStyleName );
+				continue;
+			}
 
+			Iterator iter1 = tmpStyle.propertyWithLocalValueIterator( );
+			while ( iter1.hasNext( ) )
+			{
+				String elem = (String) iter1.next( );
+
+				if ( sourceDesignStyle.getLocalProperty( targetDesign, elem ) != null )
+					continue;
+
+				Object value = tmpStyle.getLocalProperty( tmpRoot, elem );
+				sourceDesignStyle.setProperty( elem, value );
 			}
 		}
 
-		notEmptyProperties.clear( );
+		elements.pop( );
 	}
 
 	/**
@@ -568,7 +610,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		elements.push( newElement );
 		for ( int i = 0; i < slotCount; i++ )
-			visitContents( obj.getSlot( i )  );
+			visitContents( obj.getSlot( i ) );
 		elements.pop( );
 	}
 
