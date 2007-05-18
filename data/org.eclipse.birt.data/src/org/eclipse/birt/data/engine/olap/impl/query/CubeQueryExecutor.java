@@ -101,8 +101,6 @@ public class CubeQueryExecutor
 		List result = new ArrayList( );
 		for ( int i = 0; i < l.size( ); i++ )
 		{
-			if ( !( l.get( i ) instanceof ICubeSortDefinition ) )
-				continue;
 			ICubeSortDefinition sort = (ICubeSortDefinition) l.get( i );
 			if ( this.defn.getEdge( edgeType )
 					.getDimensions( )

@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
@@ -603,12 +604,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -631,9 +632,10 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		cqd.addBinding( binding5 );
 		
-		SortDefinition sorter = new SortDefinition();
+		CubeSortDefinition sorter = new CubeSortDefinition();
 		sorter.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter.setTargetLevel( level21 );
 		cqd.addSort( sorter );
 		
 		
@@ -659,12 +661,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -688,20 +690,21 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding5 );
 		
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter1.setTargetLevel( level21 );
 		
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter2.setTargetLevel( level11 );
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter3.setTargetLevel( level12 );
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3);
@@ -732,12 +735,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -761,19 +764,22 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding5 );
 		
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "data[\"edge2level1\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter1.setTargetLevel( level21 );
 		
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "data[\"edge1level1\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter2.setTargetLevel( level11 );
 		
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "data[\"edge1level2\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter3.setTargetLevel( level12 );
 		
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
@@ -804,12 +810,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12=  hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -851,19 +857,22 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding8 );
 		
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter1.setTargetLevel( level21 );
 		
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter2.setTargetLevel( level11 );
 		
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter3.setTargetLevel( level12 );
 		
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
@@ -1206,12 +1215,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -1269,19 +1278,22 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding12 );
 				
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter1.setTargetLevel( level21 );
 		
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter2.setTargetLevel( level11 );
 		
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter3.setTargetLevel( level12 );
 		
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
@@ -1591,12 +1603,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -1619,9 +1631,10 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		cqd.addBinding( binding5 );
 		
-		SortDefinition sorter = new SortDefinition();
+		CubeSortDefinition sorter = new CubeSortDefinition();
 		sorter.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter.setTargetLevel( level21 );
 		cqd.addSort( sorter );
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
@@ -1659,12 +1672,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -1688,20 +1701,20 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding5 );
 		
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter1.setTargetLevel( level21 );
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter2.setTargetLevel( level11 );
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter3.setTargetLevel( level12 );
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3);
@@ -1741,12 +1754,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -1788,20 +1801,20 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding8 );
 		
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter1.setTargetLevel( level21 );
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter2.setTargetLevel( level11 );
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter3.setTargetLevel( level12 );
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3);
@@ -2195,12 +2208,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
 		
 		cqd.createMeasure( "measure1" );
 		
@@ -2258,19 +2271,20 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding12 );
 				
 		//sort on year
-		SortDefinition sorter1 = new SortDefinition();
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter1.setTargetLevel( level21 );
 		//sort on country
-		SortDefinition sorter2 = new SortDefinition();
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-		
+		sorter2.setTargetLevel( level11 );
 		//sort on city.
-		SortDefinition sorter3 = new SortDefinition();
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter3.setTargetLevel( level12 );
 		
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );

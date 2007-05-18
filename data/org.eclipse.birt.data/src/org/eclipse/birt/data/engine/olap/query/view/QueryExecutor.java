@@ -200,8 +200,8 @@ public class QueryExecutor
 				}
 			}
 
-			if ( aggrOns == null )
-				throw new DataException( "Invalid" );
+			if ( aggrOns == null || aggrOns.size( ) == 0 )
+				return;
 			DimLevel[] aggrOnLevels = new DimLevel[aggrOns.size( )];
 			for ( int j = 0; j < aggrOnLevels.length; j++ )
 			{
