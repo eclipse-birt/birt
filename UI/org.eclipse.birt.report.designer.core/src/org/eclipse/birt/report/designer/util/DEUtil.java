@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -122,11 +123,6 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd";
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm";
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss";
-
-	/**
-	 * The class info of total
-	 */
-	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( "Total" ); //$NON-NLS-1$
 
 	static
 	{
@@ -1821,11 +1817,9 @@ public class DEUtil
 	 */
 	public static List getClasses( Comparator comp )
 	{
-		List classes = new ArrayList( getMetaDataDictionary( ).getClasses( ) );
+		List classes = getMetaDataDictionary( ).getClasses( );
 		Collections.sort( classes, comp );
 
-		// Fix bug 187178: Remove Total JS object
-		classes.remove( TOTAL_CLASS );
 		return classes;
 	}
 
@@ -1850,8 +1844,9 @@ public class DEUtil
 	 */
 	public static List getMethods( IClassInfo classInfo, Comparator comp )
 	{
-		List methods = new ArrayList( classInfo.getMethods( ) );
+		List methods = classInfo.getMethods( );
 		Collections.sort( methods, comp );
+
 		return methods;
 	}
 
@@ -2558,7 +2553,7 @@ public class DEUtil
 		}
 		return null;
 	}
-
+	
 	public static boolean enableRowNum( Object parent )
 	{
 		if ( parent instanceof ExtendedItemHandle
@@ -2570,5 +2565,4 @@ public class DEUtil
 		else
 			return true;
 	}
-
 }
