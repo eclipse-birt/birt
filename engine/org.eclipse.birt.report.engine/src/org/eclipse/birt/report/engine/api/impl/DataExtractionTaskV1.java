@@ -466,8 +466,8 @@ public class DataExtractionTaskV1 extends EngineTask
 			IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 			if ( metaData != null )
 			{
-				rsetList.add( new ResultSetItem( "InstanceId:" + instanceId,
-						metaData ) );
+				rsetList.add( new ResultSetItem( "InstanceId:"
+						+ instanceId.toUniqueString( ), metaData ) );
 			}
 			return rsetList;
 		}
