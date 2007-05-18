@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -211,6 +213,35 @@ public class ExtendedItemExecutor extends ContainerExecutor
 			}
 		}
 		executeQuery( );
+	}
+	
+	protected void executeQuery( )
+	{
+		/*
+		 * we needn't skip to the first row as other report items.
+		 */
+		if ( design != null )
+		{
+			IDataQueryDefinition[] queries = design.getQueries( );
+			if ( queries != null )
+			{
+				rsets = new IBaseResultSet[queries.length];
+				try
+				{
+					IBaseResultSet prset = getParentResultSet( );
+					for ( int i = 0; i < queries.length; i++ )
+					{
+						rsets[i] = context.executeQuery( prset, queries[i],
+								false );
+					}
+					context.setResultSets( rsets );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( ex );
+				}
+			}
+		}
 	}
 
 	protected IContent doCreateContent( )
