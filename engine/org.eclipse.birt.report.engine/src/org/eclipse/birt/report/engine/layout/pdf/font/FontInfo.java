@@ -134,7 +134,7 @@ public class FontInfo
 	 */
 	public float getWordWidth( String word )
 	{
-		if ( bf == null )
+		if ( bf == null || word == null )
 			return 0;
 		return bf.getWidthPoint( word, fontSize );
 	}
