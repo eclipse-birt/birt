@@ -152,8 +152,8 @@ public class AggregationCalculator
 		}
 		if ( currentResultObj != null )
 			result.add( currentResultObj );
-		else
-			result.add( new AggregationResultRow( ) );
+		/*else
+			result.add( new AggregationResultRow( ) );*/
 		return this.result;
 	}
 	

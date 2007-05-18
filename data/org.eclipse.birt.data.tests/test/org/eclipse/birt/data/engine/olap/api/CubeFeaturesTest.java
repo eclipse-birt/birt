@@ -430,7 +430,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		}catch ( Exception e)
 		{
-			e.printStackTrace( );
+			fail("Should not arrive here");
 		}
 	}
 	

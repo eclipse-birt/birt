@@ -68,6 +68,8 @@ public class AggregationResultSet implements IAggregationResultSet
 		produceaggregationNameMap( );
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
+		if( aggregationResultRow.size( ) == 0 )
+			return;
 		this.resultObject = (IAggregationResultRow) aggregationResultRow.get( 0 );
 		if ( resultObject.getLevelMembers() != null )
 		{
