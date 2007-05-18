@@ -423,6 +423,8 @@ public class ReportEngineService
 	public IReportDocument openReportDocument( String systemId, String docName,
 			Map options )
 	{
+		if ( docName == null )
+			return null;
 
 		IReportDocument document = null;
 
