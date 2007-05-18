@@ -1923,7 +1923,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param dStart
 	 * @param dEnd
 	 * @param scModel
-	 * @param axisOriginal
+	 * @param axisOrigin
 	 * @param fs
 	 * @param rtc
 	 * @param direction
@@ -1937,7 +1937,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			Scale scModel, AxisOrigin axisOriginal, FormatSpecifier fs,
+			Scale scModel, AxisOrigin axisOrigin, FormatSpecifier fs,
 			RunTimeContext rtc, int direction, double zoomFactor,
 			int iMarginPercent ) throws ChartException
 	{
@@ -2005,18 +2005,19 @@ public final class AutoScale extends Methods implements Cloneable
 						rtc.getULocale( ) );
 			}
 
-			if ( axisOriginal.getType( )
-					.equals( IntersectionType.VALUE_LITERAL )
-					&& axisOriginal.getValue( ) instanceof NumberDataElement )
+			if ( axisOrigin != null
+					&& axisOrigin.getType( )
+							.equals( IntersectionType.VALUE_LITERAL )
+					&& axisOrigin.getValue( ) instanceof NumberDataElement )
 			{
-				double origin = asDouble( axisOriginal.getValue( ) ).doubleValue( );
+				double origin = asDouble( axisOrigin.getValue( ) ).doubleValue( );
 				if ( oMinimum == null && origin < dMinValue )
 				{
-					oMinimum = axisOriginal.getValue( );
+					oMinimum = axisOrigin.getValue( );
 				}
 				if ( oMaximum == null && origin > dMaxValue )
 				{
-					oMaximum = axisOriginal.getValue( );
+					oMaximum = axisOrigin.getValue( );
 				}
 			}
 			final double dAbsMax = Math.abs( dMaxValue );
@@ -2090,18 +2091,19 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( dValue > dMaxValue )
 						dMaxValue = dValue;
 				}
-				if ( axisOriginal.getType( )
-						.equals( IntersectionType.VALUE_LITERAL )
-						&& axisOriginal.getValue( ) instanceof NumberDataElement )
+				if ( axisOrigin != null
+						&& axisOrigin.getType( )
+								.equals( IntersectionType.VALUE_LITERAL )
+						&& axisOrigin.getValue( ) instanceof NumberDataElement )
 				{
-					double origin = asDouble( axisOriginal.getValue( ) ).doubleValue( );
+					double origin = asDouble( axisOrigin.getValue( ) ).doubleValue( );
 					if ( oMinimum == null && origin < dMinValue )
 					{
-						oMinimum = axisOriginal.getValue( );
+						oMinimum = axisOrigin.getValue( );
 					}
 					if ( oMaximum == null && origin > dMaxValue )
 					{
-						oMaximum = axisOriginal.getValue( );
+						oMaximum = axisOrigin.getValue( );
 					}
 				}
 				// Avoid the number that will be multiplied is zero
@@ -2179,18 +2181,19 @@ public final class AutoScale extends Methods implements Cloneable
 
 			oMinValue = new CDateTime( caMin );
 			oMaxValue = new CDateTime( caMax );
-			if ( axisOriginal.getType( )
-					.equals( IntersectionType.VALUE_LITERAL )
-					&& axisOriginal.getValue( ) instanceof DateTimeDataElement )
+			if ( axisOrigin != null
+					&& axisOrigin.getType( )
+							.equals( IntersectionType.VALUE_LITERAL )
+					&& axisOrigin.getValue( ) instanceof DateTimeDataElement )
 			{
-				CDateTime origin = asDateTime( axisOriginal.getValue( ) );
+				CDateTime origin = asDateTime( axisOrigin.getValue( ) );
 				if ( oMinimum == null && origin.before( oMinValue ) )
 				{
-					oMinimum = axisOriginal.getValue( );
+					oMinimum = axisOrigin.getValue( );
 				}
 				if ( oMaximum == null && origin.after( oMaxValue ) )
 				{
-					oMaximum = axisOriginal.getValue( );
+					oMaximum = axisOrigin.getValue( );
 				}
 			}
 
