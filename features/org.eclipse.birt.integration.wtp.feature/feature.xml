@@ -24,10 +24,23 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
    </url>
 
-   <includes
-         id="org.eclipse.birt.chart.integration.wtp"
-         version="0.0.0"/>
-
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.commands"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import feature="org.eclipse.emf" version="2.2" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.common_ui.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.enterprise_ui.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.web_core.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+   
    <plugin
          id="org.eclipse.birt.integration.wtp.ui"
          download-size="0"
