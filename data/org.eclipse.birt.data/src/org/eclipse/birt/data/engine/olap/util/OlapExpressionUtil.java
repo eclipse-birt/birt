@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -164,6 +165,40 @@ public class OlapExpressionUtil
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param expr
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	public static String getReferencedDimensionName( IBaseExpression expr,
+			List bindings ) throws DataException
+	{
+		String result = OlapExpressionCompiler.getReferencedScriptObject( expr,
+				"dimension" );
+		if ( result == null )
+		{
+			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
+					"data" );
+			if ( bindingName == null )
+				return null;
+			else
+			{
+				for ( int i = 0; i < bindings.size( ); i++ )
+				{
+					IBinding binding = (IBinding) bindings.get( i );
+					if ( binding.getBindingName( ).equals( bindingName ) )
+					{
+						return getReferencedDimensionName( binding.getExpression( ),
+								bindings );
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 	private static List convertToDimLevel( List dimLevelExpressions ) throws DataException
 	{
 		List result = new ArrayList();

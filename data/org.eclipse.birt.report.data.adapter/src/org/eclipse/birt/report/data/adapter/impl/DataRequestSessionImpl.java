@@ -52,6 +52,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -716,6 +717,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		return this.dataEngine.getCachedDataSetMetaData( dataSource, dataSet );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCubeQueryUtil()
+	 */
+	public ICubeQueryUtil getCubeQueryUtil( )
+	{
+		return new CubeQueryUtil();
 	}
 	
 }

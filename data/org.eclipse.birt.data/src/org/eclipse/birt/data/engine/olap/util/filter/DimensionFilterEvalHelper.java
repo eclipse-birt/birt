@@ -79,7 +79,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 			this.dataObj = new DummyJSAggregationAccessor();
 			
 			this.expr = cubeFilter.getExpression( );
-			this.dimName = getReferencedDimensionName( this.expr, queryDefn.getBindings());
+			this.dimName = OlapExpressionUtil.getReferencedDimensionName( this.expr, queryDefn.getBindings());
 			this.dimObj = new DummyJSLevels( this.dimName);
 			this.queryDefn = queryDefn;
 			if ( cubeFilter instanceof ICubeFilterDefinition )
@@ -127,39 +127,7 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 		}
 	}
 	
-	/**
-	 * 
-	 * @param expr
-	 * @param bindings
-	 * @return
-	 * @throws DataException
-	 */
-	private String getReferencedDimensionName( IBaseExpression expr,
-			List bindings ) throws DataException
-	{
-		String result = OlapExpressionCompiler.getReferencedScriptObject( expr,
-				"dimension" );
-		if ( result == null )
-		{
-			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
-					"data" );
-			if ( bindingName == null )
-				return null;
-			else
-			{
-				for ( int i = 0; i < bindings.size( ); i++ )
-				{
-					IBinding binding = (IBinding) bindings.get( i );
-					if ( binding.getBindingName( ).equals( bindingName ) )
-					{
-						return getReferencedDimensionName( binding.getExpression( ),
-								bindings );
-					}
-				}
-			}
-		}
-		return result;
-	}
+
 	
 	/**
 	 * @return
@@ -642,6 +610,10 @@ public class DimensionFilterEvalHelper implements IJsFilterHelper
 
 	private class DummyJSAggregationAccessor extends ScriptableObject
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private IResultRow resultRow;
 		
 		public Object get(String aggrName, Scriptable scope) 

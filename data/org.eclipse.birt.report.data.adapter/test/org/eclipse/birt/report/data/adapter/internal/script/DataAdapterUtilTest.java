@@ -37,8 +37,8 @@ public class DataAdapterUtilTest extends TestCase
 		try
 		{
 			//TODO:Add test cases.
-			/*Context cx = Context.enter( );
-
+			Context cx = Context.enter( );
+			/*
 			Scriptable target = new ImporterTopLevel( cx );
 			Scriptable source = new ImporterTopLevel( cx );
 			

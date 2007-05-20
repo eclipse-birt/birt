@@ -48,8 +48,8 @@ public class DataAdapterTopLevelScopeTest extends TestCase
 		
 		setUpParam( "string_1", true, true, DesignChoiceConstants.PARAM_TYPE_STRING, "1_default");
 		setUpParam( "string_2", true, true, DesignChoiceConstants.PARAM_TYPE_STRING, null);
-		setUpParam( "string_3", false, true, DesignChoiceConstants.PARAM_TYPE_STRING, null);
-		setUpParam( "string_4", false, false, DesignChoiceConstants.PARAM_TYPE_STRING, null);
+		setUpParam( "string_3", false, true, DesignChoiceConstants.PARAM_TYPE_STRING, "");
+		setUpParam( "string_4", false, false, DesignChoiceConstants.PARAM_TYPE_STRING, " ");
 		
 		setUpParam( "date_1", true, false, DesignChoiceConstants.PARAM_TYPE_DATETIME, "1/20/2006");
 		setUpParam( "date_2", true, false, DesignChoiceConstants.PARAM_TYPE_DATETIME, null);

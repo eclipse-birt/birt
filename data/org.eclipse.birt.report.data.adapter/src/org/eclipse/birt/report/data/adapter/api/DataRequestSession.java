@@ -89,6 +89,12 @@ public abstract class DataRequestSession
 	public abstract IModelAdapter getModelAdaptor( );
 	
 	/**
+	 * Get the cube query util.
+	 * @return
+	 */
+	public abstract ICubeQueryUtil getCubeQueryUtil( );
+	
+	/**
 	 * Defines a data source using the provided IBaseDataSourceDesign
 	 * definition. If the data source is already defined, its definition will be
 	 * updated.
@@ -381,5 +387,4 @@ public abstract class DataRequestSession
 	 * Shuts down this session, and releases all associated resources.
 	 */
 	public abstract void shutdown( );
-
 }

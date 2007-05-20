@@ -29,6 +29,7 @@ public class AllTests
 		
 		suite.addTestSuite( org.eclipse.birt.report.data.adapter.internal.script.DataAdapterTopLevelScopeTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.adapter.internal.script.DataAdapterUtilTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.data.adapter.internal.script.DataRequestSessionTest.class );
 		return suite;
 	}
 	
