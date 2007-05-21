@@ -162,5 +162,5 @@ CrosstabPageGenerator.List.SubTotals=Sub Totals
 CrosstabPageGenerator.List.GrandTotals=Grand Totals
 CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
-PageLayoutPropertyDescriptorProvider.PageLayout=Page Layout:
-CrosstabSectionPage.RepeatColumnHeader=Repeat Column Header
+PageLayoutPropertyDescriptorProvider.PageLayout=페이지 레이아웃:
+CrosstabSectionPage.RepeatColumnHeader=열 머리글 반복

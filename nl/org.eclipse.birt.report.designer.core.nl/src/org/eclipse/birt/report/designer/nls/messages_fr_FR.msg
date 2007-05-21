@@ -2466,7 +2466,7 @@ ParameterDialog.Label.DisplayType=&Type d'affichage :
 ParameterDialog.Label.Format=For&mat :
 ParameterDialog.Label.HelpText=&Texte d'aide :
 ParameterDialog.Label.ListOfValue=Liste de valeurs
-ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortGroup=Trier
 ParameterDialog.Label.Name=&Nom :
 ParameterDialog.Label.None=<Aucun>
 ParameterDialog.Label.Null=Nul
@@ -2487,9 +2487,9 @@ ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
 ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
-ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
-ParameterDialog.date.prompt=Please enter date values as: {0}
-ParameterDialog.time.prompt=Please enter time values as: {0}
+ParameterDialog.datetime.prompt=Entrez les valeurs de date et d''heure selon le modèle suivant : {0}
+ParameterDialog.date.prompt=Entrez les valeurs de date selon le modèle suivant : {0}
+ParameterDialog.time.prompt=Entrez les valeurs d''heure selon le modèle suivant : {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Sélectionner une valeur
@@ -3030,19 +3030,19 @@ SelectCssStyleWizard.wizardPage.title=Importer le style depuis un fichier CSS
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Use CSS
+UseCssInReportDialog.Wizard.Title=Utiliser CSS
 UseCssInReportDialog.Wizard.Filename=&Nom de fichier :
 UseCssInReportDialog.Label.Styles=&Styles disponibles à partir de {0}
 UseCssInReportDialog.Label.notifications=&Notifications :
-UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
-UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
-UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.TitleArea.Title=Utiliser le fichier CSS dans le modèle d'état
+UseCssInReportDialog.TitleArea.Message=Sélectionnez un fichier CSS dans le dossier des bibliothèques partagées et utilisez ses styles dans le modèle d'état.
+UseCssInReportDialog.Label.No.File=Aucun fichier CSS sélectionné
 UseCssInReportDialog.Dialog.Browse=Parcourir
-UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
-UseCssInReportDialog.Error.Already.Include={0} was included already
+UseCssInReportDialog.Dialog.Browse.Title=Sélectionnez un fichier CSS à inclure dans l'état
+UseCssInReportDialog.Error.Already.Include={0} avait déjà été inclus
 
-UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
-UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
+UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
+UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
 
 ###########################################################
 #SelectValueDialog properties

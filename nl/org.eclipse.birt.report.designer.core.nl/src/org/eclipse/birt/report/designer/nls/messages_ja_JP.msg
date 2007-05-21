@@ -2466,7 +2466,7 @@ ParameterDialog.Label.DisplayType=表示の種類(&T) :
 ParameterDialog.Label.Format=書式設定(&M) :
 ParameterDialog.Label.HelpText=ヘルプテキスト(&H) :
 ParameterDialog.Label.ListOfValue=値リスト
-ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortGroup=ソート
 ParameterDialog.Label.Name=名前(&N) :
 ParameterDialog.Label.None=<なし>
 ParameterDialog.Label.Null=Null
@@ -2487,9 +2487,9 @@ ParameterDialog.Label.Listlimit=一覧の制限(&I) :
 ParameterDialog.Radio.Dynamic=動的(&Y)
 ParameterDialog.Radio.Static=静的(&S)
 ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
-ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
-ParameterDialog.date.prompt=Please enter date values as: {0}
-ParameterDialog.time.prompt=Please enter time values as: {0}
+ParameterDialog.datetime.prompt=日時は、{0} の形式で入力してください
+ParameterDialog.date.prompt=日付は、{0} の形式で入力してください
+ParameterDialog.time.prompt=時間は、{0} の形式で入力してください
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=値の選択
@@ -3030,19 +3030,19 @@ SelectCssStyleWizard.wizardPage.title=CSS ファイルからスタイルをインポート
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Use CSS
+UseCssInReportDialog.Wizard.Title=CSS の使用
 UseCssInReportDialog.Wizard.Filename=ファイル名(&F) :
 UseCssInReportDialog.Label.Styles={0} の使用可能なスタイル(&A)
 UseCssInReportDialog.Label.notifications=通知(&N) :
-UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
-UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
-UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.TitleArea.Title=レポートデザインで CSS ファイルを使用
+UseCssInReportDialog.TitleArea.Message=共有ライブラリフォルダから CSS ファイルを選択し、レポートデザインのスタイルとして使用します。
+UseCssInReportDialog.Label.No.File=CSS ファイルが選択されていません。
 UseCssInReportDialog.Dialog.Browse=参照
-UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
-UseCssInReportDialog.Error.Already.Include={0} was included already
+UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
+UseCssInReportDialog.Error.Already.Include={0} はすでに追加されています。
 
-UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
-UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
+UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
+UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
 
 ###########################################################
 #SelectValueDialog properties

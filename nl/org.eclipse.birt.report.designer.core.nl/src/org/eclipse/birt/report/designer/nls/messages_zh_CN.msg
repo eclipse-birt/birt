@@ -2466,7 +2466,7 @@ ParameterDialog.Label.DisplayType=显示类型(&T):
 ParameterDialog.Label.Format=格式为(&M):
 ParameterDialog.Label.HelpText=帮助文本(&H):
 ParameterDialog.Label.ListOfValue=值列表
-ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortGroup=排序
 ParameterDialog.Label.Name=名称(&N):
 ParameterDialog.Label.None=<无>
 ParameterDialog.Label.Null=NULL
@@ -2487,9 +2487,9 @@ ParameterDialog.Label.Listlimit=列表限制(&I):
 ParameterDialog.Radio.Dynamic=动态(&Y)
 ParameterDialog.Radio.Static=静态(&S)
 ParameterDialog.toolTipText.OpenExprButton=打开表达式生成器
-ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
-ParameterDialog.date.prompt=Please enter date values as: {0}
-ParameterDialog.time.prompt=Please enter time values as: {0}
+ParameterDialog.datetime.prompt=请输入以下形式的日期时间值: {0}
+ParameterDialog.date.prompt=请输入以下形式的日期值: {0}
+ParameterDialog.time.prompt=请输入以下形式的时间值: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=选择值
@@ -3030,19 +3030,19 @@ SelectCssStyleWizard.wizardPage.title=从 CSS 文件导入样式
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Use CSS
+UseCssInReportDialog.Wizard.Title=使用 CSS
 UseCssInReportDialog.Wizard.Filename=文件名(&F):
 UseCssInReportDialog.Label.Styles=来自 {0} 的可用样式(&A)
 UseCssInReportDialog.Label.notifications=通知(&N):
-UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
-UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
-UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.TitleArea.Title=在报表设计中使用 CSS 文件
+UseCssInReportDialog.TitleArea.Message=从共享库文件夹中选择一个 CSS 文件并在报表设计中使用其样式。
+UseCssInReportDialog.Label.No.File=未选择 CSS 文件
 UseCssInReportDialog.Dialog.Browse=浏览
-UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
-UseCssInReportDialog.Error.Already.Include={0} was included already
+UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
+UseCssInReportDialog.Error.Already.Include=已包括 {0}
 
-UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
-UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
+UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
+UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
 
 ###########################################################
 #SelectValueDialog properties

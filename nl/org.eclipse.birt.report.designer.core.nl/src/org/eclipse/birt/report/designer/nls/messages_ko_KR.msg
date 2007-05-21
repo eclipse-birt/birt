@@ -2466,7 +2466,7 @@ ParameterDialog.Label.DisplayType=표시 형식(&T):
 ParameterDialog.Label.Format=다음으로 형식 지정(&M):
 ParameterDialog.Label.HelpText=도움말 텍스트(&H):
 ParameterDialog.Label.ListOfValue=값 목록
-ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortGroup=정렬
 ParameterDialog.Label.Name=이름(&N):
 ParameterDialog.Label.None=<없음>
 ParameterDialog.Label.Null=널(null)
@@ -2487,9 +2487,9 @@ ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
 ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
-ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
-ParameterDialog.date.prompt=Please enter date values as: {0}
-ParameterDialog.time.prompt=Please enter time values as: {0}
+ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
+ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
+ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=값 선택
@@ -3030,19 +3030,19 @@ SelectCssStyleWizard.wizardPage.title=CSS 파일의 스타일 가져오기
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Use CSS
+UseCssInReportDialog.Wizard.Title=CSS 사용
 UseCssInReportDialog.Wizard.Filename=파일 이름(&F):
 UseCssInReportDialog.Label.Styles={0}에 있는 스타일(&A)
 UseCssInReportDialog.Label.notifications=알림(&N):
-UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
-UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
-UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.TitleArea.Title=보고서 디자인에 CSS 파일 사용...
+UseCssInReportDialog.TitleArea.Message=공유 라이브러리 폴더에서 CSS 파일을 선택해 그 파일의 스타일을 보고서 디자인에 사용합니다.
+UseCssInReportDialog.Label.No.File=선택된 CSS 파일이 없습니다.
 UseCssInReportDialog.Dialog.Browse=찾아보기
-UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
-UseCssInReportDialog.Error.Already.Include={0} was included already
+UseCssInReportDialog.Dialog.Browse.Title=보고서에 포함할 CSS 파일 선택
+UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
 
-UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
-UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
+UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
+UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
 
 ###########################################################
 #SelectValueDialog properties

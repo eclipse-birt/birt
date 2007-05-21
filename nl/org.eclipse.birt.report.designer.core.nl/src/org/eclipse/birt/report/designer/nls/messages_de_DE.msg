@@ -2433,7 +2433,7 @@ ParameterDialog.CheckBox.Distinct=Doppelte Werte zulassen
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Choice.NullValue=Null-Wert
 ParameterDialog.Choice.BlankValue=Leerwert
-ParameterDialog.Choice.None=Keine
+ParameterDialog.Choice.None=Ohne
 ParameterDialog.Choice.DisplayText=Text anzeigen
 ParameterDialog.Choice.ValueColumn=Wertespalte
 ParameterDialog.Choice.ASCENDING=Aufsteigend
@@ -2466,7 +2466,7 @@ ParameterDialog.Label.DisplayType=&Anzeigetyp:
 ParameterDialog.Label.Format=For&matieren als:
 ParameterDialog.Label.HelpText=&Hilfetext:
 ParameterDialog.Label.ListOfValue=Werteliste
-ParameterDialog.Label.SortGroup=Sort
+ParameterDialog.Label.SortGroup=Sortieren
 ParameterDialog.Label.Name=&Name:
 ParameterDialog.Label.None=<Keine>
 ParameterDialog.Label.Null=Null
@@ -2487,9 +2487,9 @@ ParameterDialog.Label.Listlimit=L&istenbegrenzung:
 ParameterDialog.Radio.Dynamic=D&ynamisch
 ParameterDialog.Radio.Static=&Statisch
 ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
-ParameterDialog.datetime.prompt=Please enter datetime values as: {0}
-ParameterDialog.date.prompt=Please enter date values as: {0}
-ParameterDialog.time.prompt=Please enter time values as: {0}
+ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingeben: {0}
+ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
+ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Wert auswählen
@@ -3030,19 +3030,19 @@ SelectCssStyleWizard.wizardPage.title=Stile aus CSS-Datei importieren
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Use CSS
+UseCssInReportDialog.Wizard.Title=CSS verwenden
 UseCssInReportDialog.Wizard.Filename=&Dateiname:
 UseCssInReportDialog.Label.Styles=&Verfügbare Stile von {0}
 UseCssInReportDialog.Label.notifications=&Benachrichtigungen:
-UseCssInReportDialog.TitleArea.Title=Use CSS file in report design
-UseCssInReportDialog.TitleArea.Message=Selecte a CSS file from shared libraries folder and use its styles in report design.
-UseCssInReportDialog.Label.No.File=No CSS file selected
+UseCssInReportDialog.TitleArea.Title=CSS-Datei in Berichtdesign verwenden
+UseCssInReportDialog.TitleArea.Message=Wählen Sie eine CSS-Datei aus dem Ordner "Gemeinsam genutzte Bibliotheken", und verwenden Sie die Stile im Berichtdesign.
+UseCssInReportDialog.Label.No.File=Keine CSS-Datei ausgewählt
 UseCssInReportDialog.Dialog.Browse=Durchsuchen
-UseCssInReportDialog.Dialog.Browse.Title=Select a CSS file to be included in the report
-UseCssInReportDialog.Error.Already.Include={0} was included already
+UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
+UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
 
-UseCssInThemeDialog.TitleArea.Title=Use CSS file in report library
-UseCssInThemeDialog.TitleArea.Message=Select a theme to which styles of CSS file are to be placed.
+UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
+UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
 
 ###########################################################
 #SelectValueDialog properties
