@@ -21,5 +21,5 @@ datasource.exid.error=データソースの定義 {0} に拡張 ID がありません。
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
-
+adapter.invalid.datetimetype=The datetime type "{0}" is invalid.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.

@@ -21,5 +21,5 @@ datasource.exid.error=Fehlende Erweiterungs-ID in Definition der Datenquelle: {0
 
 datasethandle.null.error=Datensatz-Handle darf nicht Null sein.
 datasethandle.invalidColumnIndex=Ungültiger Spaltenindex.
-
+adapter.invalid.datetimetype=The datetime type "{0}" is invalid.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
