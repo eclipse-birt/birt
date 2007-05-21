@@ -68,7 +68,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 
 		DesignElement e = cell.getContainer( );
 		while ( e != null )
-		{			
+		{
 			// check property values on the columns.
 
 			DesignElement tmpContainer = e.getContainer( );
@@ -155,7 +155,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 				columnNum );
 
 		if ( column != null )
-			return getPropertyFromElement( module, column, prop );
+			return column.getStrategy( ).getPropertyFromElement( module,
+					column, prop );
 
 		return null;
 	}
@@ -192,7 +193,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 				columnNum );
 
 		if ( column != null )
-			return getPropertyFromElement( module, column, prop );
+			return column.getStrategy( ).getPropertyFromElement( module,
+					column, prop );
 
 		return null;
 	}
