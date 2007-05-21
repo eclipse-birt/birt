@@ -125,4 +125,14 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 		return IReportGraphicConstants.ICON_ELEMENT_LIBRARY;
 	}
 
+	public String getNodeTooltip( Object model )
+	{
+		LibraryHandle handle = ( (LibraryHandle) model );
+		if ( handle.getNamespace( ) != null )
+		{
+			return handle.getRelativeFileName( );
+		}
+		return super.getNodeTooltip( model );
+	}
+
 }
