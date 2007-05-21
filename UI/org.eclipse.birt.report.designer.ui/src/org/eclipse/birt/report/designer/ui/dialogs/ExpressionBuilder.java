@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSSourceViewerConfiguration;
@@ -20,7 +24,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -37,8 +43,10 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -67,6 +75,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
 
@@ -104,9 +113,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private class TableContentProvider implements IStructuredContentProvider
 	{
 
-		private TableViewer viewer;
+		private Viewer viewer;
 
-		public TableContentProvider( TableViewer viewer )
+		private final Object[] EMPTY = new Object[0];
+
+		public TableContentProvider( Viewer viewer )
 		{
 			this.viewer = viewer;
 		}
@@ -117,7 +128,30 @@ public class ExpressionBuilder extends TitleAreaDialog
 			{
 				return provider.getCategory( );
 			}
+			//does not show groups/measures in third column. 
+			if ( inputElement instanceof PropertyHandle )
+			{
+				return EMPTY;
+			}
+			else if ( inputElement instanceof TabularDimensionHandle )
+			{
+				List childrenList = new ArrayList( );
+				childrenList.addAll( getChildren( inputElement ) );
+				return childrenList.toArray( );
+			}
 			return provider.getChildren( inputElement );
+		}
+
+		private List getChildren( Object inputElement )
+		{
+			List childrenList = new ArrayList( );
+			Object[] children = provider.getChildren( inputElement );
+			childrenList.addAll( Arrays.asList( children ) );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				childrenList.addAll( getChildren( children[i] ) );
+			}
+			return childrenList;
 		}
 
 		public void dispose( )
@@ -143,7 +177,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			{
 				return;
 			}
-			TableViewer target = null;
+			Viewer target = null;
 			if ( event.getSource( ) == categoryTable )
 			{
 				target = subCategoryTable;
@@ -239,7 +273,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		}
 	};
 	private Composite buttonBar;
-	private TableViewer categoryTable, subCategoryTable, functionTable;
+	private TableViewer categoryTable, functionTable;
+	private TreeViewer subCategoryTable;
 	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private String expression = null;
@@ -547,13 +582,58 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		int style = SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE;
 		categoryTable = new TableViewer( listArea, style );
-		subCategoryTable = new TableViewer( listArea, style );
+		subCategoryTable = new TreeViewer( listArea, style );
 		functionTable = new TableViewer( listArea, style );
 
 		initTable( categoryTable );
-		initTable( subCategoryTable );
+		initTree( subCategoryTable );
 		initTable( functionTable );
 
+	}
+
+	private void initTree( TreeViewer treeViewer )
+	{
+		final Tree tree = treeViewer.getTree( );
+
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.heightHint = 150;
+		tree.setLayoutData( gd );
+		tree.setToolTipText( null );
+
+		treeViewer.setLabelProvider( tableLabelProvider );
+		treeViewer.setContentProvider( new ITreeContentProvider( ) {
+
+			public Object[] getChildren( Object parentElement )
+			{
+				return provider.getChildren( parentElement );
+			}
+
+			public Object getParent( Object element )
+			{
+				return null;
+			}
+
+			public boolean hasChildren( Object element )
+			{
+				return provider.hasChildren( element );
+			}
+
+			public Object[] getElements( Object inputElement )
+			{
+				return getChildren( inputElement );
+			}
+
+			public void dispose( )
+			{
+			}
+
+			public void inputChanged( Viewer viewer, Object oldInput,
+					Object newInput )
+			{
+			}
+		} );
+		treeViewer.addSelectionChangedListener( selectionListener );
+		treeViewer.addDoubleClickListener( doubleClickListener );
 	}
 
 	private void initTable( TableViewer tableViewer )

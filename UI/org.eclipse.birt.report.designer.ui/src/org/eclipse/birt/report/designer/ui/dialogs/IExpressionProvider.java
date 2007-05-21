@@ -95,4 +95,6 @@ public interface IExpressionProvider
 	 *         element
 	 */
 	public String getInsertText( Object element );
+
+	public boolean hasChildren( Object element );
 }

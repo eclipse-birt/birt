@@ -24,21 +24,28 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Image;
 
@@ -48,9 +55,10 @@ import org.eclipse.swt.graphics.Image;
 
 public class ExpressionProvider implements IExpressionProvider
 {
-	
+
 	private static class Expression
 	{
+
 		/**
 		 * The tooltip of the operator
 		 */
@@ -65,8 +73,7 @@ public class ExpressionProvider implements IExpressionProvider
 		 */
 		public String insertString;
 
-
-		Expression(String symbol,String insertString,String tooltip)
+		Expression( String symbol, String insertString, String tooltip )
 		{
 			Assert.isNotNull( symbol );
 			this.symbol = symbol;
@@ -136,11 +143,10 @@ public class ExpressionProvider implements IExpressionProvider
 			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
-	
-	private static final Expression rowNum = new Expression(
-			Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
+
+	private static final Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
 			"row.__rownum", //$NON-NLS-1$
-			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ));//$NON-NLS-1$
+			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
 
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
@@ -156,6 +162,8 @@ public class ExpressionProvider implements IExpressionProvider
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
+	public static final String CURRENT_CUBE = "Current Data cube";
+
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
@@ -250,6 +258,11 @@ public class ExpressionProvider implements IExpressionProvider
 		if ( !DEUtil.getAllColumnBindingList( elementHandle ).isEmpty( ) )
 		{
 			categoryList.add( COLUMN_BINDINGS );
+		}
+		if ( elementHandle instanceof ReportItemHandle
+				&& ( (ReportItemHandle) elementHandle ).getCube( ) != null )
+		{
+			categoryList.add( CURRENT_CUBE );
 		}
 		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
 		{
@@ -346,6 +359,16 @@ public class ExpressionProvider implements IExpressionProvider
 						}
 					}
 				}
+				else if ( CURRENT_CUBE.equals( parent ) )
+				{
+					CubeHandle cube = ( (ReportItemHandle) elementHandle ).getCube( );
+					Object nodeProviderAdapter = ElementAdapterManager.getAdapter( cube,
+							INodeProvider.class );
+					if ( nodeProviderAdapter != null )
+					{
+						return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( cube ) );
+					}
+				}
 				else if ( BIRT_OBJECTS.equals( parent ) )
 				{
 					childrenList.addAll( getClassList( false ) );
@@ -380,7 +403,8 @@ public class ExpressionProvider implements IExpressionProvider
 				} );
 			}
 
-			for ( Iterator iter = AggregationUtil.getMethods( classInfo ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = AggregationUtil.getMethods( classInfo )
+					.iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMethodInfo) iter.next( )
@@ -409,11 +433,22 @@ public class ExpressionProvider implements IExpressionProvider
 				childrenList.add( iter.next( ) );
 			}
 			// add hard code row count expression here
-			if(DEUtil.enableRowNum(parent))childrenList.add( rowNum );			
-			
+			if ( DEUtil.enableRowNum( parent ) )
+			{
+				childrenList.add( rowNum );
+			}
 			// add edit option
 			childrenList.add( new Object[]{
 					Messages.getString( "ExpressionProvider.EditBindings" ), parent} ); //$NON-NLS-1$
+		}
+		else
+		{
+			Object nodeProviderAdapter = ElementAdapterManager.getAdapter( parent,
+					INodeProvider.class );
+			if ( nodeProviderAdapter != null )
+			{
+				return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) );
+			}
 		}
 		return childrenList;
 	}
@@ -425,6 +460,13 @@ public class ExpressionProvider implements IExpressionProvider
 	 */
 	public String getDisplayText( Object element )
 	{
+		Object nodeProviderAdapter = ElementAdapterManager.getAdapter( element,
+				INodeProvider.class );
+		if ( nodeProviderAdapter != null )
+		{
+			return ( (INodeProvider) nodeProviderAdapter ).getNodeDisplayName( element );
+		}
+
 		if ( element instanceof Object[] )
 		{
 			if ( element instanceof Operator[] )
@@ -517,9 +559,9 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (ComputedColumnHandle) element ).getName( );
 		}
-		else if (element instanceof Expression)
+		else if ( element instanceof Expression )
 		{
-			return ((Expression)element).symbol;
+			return ( (Expression) element ).symbol;
 		}
 		return element.toString( );
 	}
@@ -535,9 +577,9 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (Operator) element ).tooltip;
 		}
-		else if(element instanceof Expression)
+		else if ( element instanceof Expression )
 		{
-			return ((Expression)element).tooltip;
+			return ( (Expression) element ).tooltip;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{
@@ -558,6 +600,13 @@ public class ExpressionProvider implements IExpressionProvider
 	 */
 	public Image getImage( Object element )
 	{
+		Object nodeProviderAdapter = ElementAdapterManager.getAdapter( element,
+				INodeProvider.class );
+		if ( nodeProviderAdapter != null )
+		{
+			return ( (INodeProvider) nodeProviderAdapter ).getNodeIcon( element );
+		}
+
 		if ( element instanceof Operator )
 		{
 			return IMAGE_OPERATOR;
@@ -584,8 +633,8 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof ComputedColumnHandle
 				|| element instanceof ResultSetColumnHandle
-				|| element instanceof DataSetItemModel 
-				|| element instanceof Expression)
+				|| element instanceof DataSetItemModel
+				|| element instanceof Expression )
 		{
 			return IMAGE_COLUMN;
 		}
@@ -607,9 +656,9 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (Operator) element ).insertString;
 		}
-		else if (element instanceof Expression)
+		else if ( element instanceof Expression )
 		{
-			return ((Expression)element).insertString;
+			return ( (Expression) element ).insertString;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{
@@ -645,6 +694,11 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return DEUtil.getBindingexpression( elementHandle,
 					(ComputedColumnHandle) element );
+		}
+		else if ( element instanceof LevelHandle
+				|| element instanceof MeasureHandle )
+		{
+			return DEUtil.getExpression( element );
 		}
 		return null;
 	}
@@ -737,6 +791,16 @@ public class ExpressionProvider implements IExpressionProvider
 			return;
 		}
 		filterList.clear( );
+	}
+
+	public boolean hasChildren( Object element )
+	{
+		if ( element instanceof PropertyHandle
+				|| element instanceof TabularMeasureGroupHandle
+				|| element instanceof TabularDimensionHandle
+				|| element instanceof LevelHandle )
+			return true;
+		return false;
 	}
 
 }
