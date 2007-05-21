@@ -17,8 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -37,20 +35,15 @@ import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * 
@@ -250,7 +243,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		Label labelKey = new Label( content, SWT.NONE );
 		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) );
-		textKey = new Combo( content, SWT.BORDER );
+		textKey = new Combo( content, SWT.BORDER | SWT.READ_ONLY);
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
 		textKey.addListener( SWT.Selection, ComboKeyModify );
@@ -266,29 +259,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			textKey.add( DEUtil.resolveNull( null ) );
 		}
 		
-		Button btnExpression = new Button( content, SWT.NONE );
-		btnExpression.setToolTipText( Messages.getString( "SortkeyBuilder.DialogTitle.Button.ExpressionBuilder" ) ); //$NON-NLS-1$
-		setExpressionButtonImage( btnExpression );
-
-		btnExpression.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				String oldValue = textKey.getText( );
-				ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
-						oldValue );
-				dialog.setExpressionProvier( new ExpressionProvider( handle ) );
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					String newValue = dialog.getResult( );
-					if ( !newValue.equals( oldValue ) )
-					{
-						textKey.setText( newValue );
-					}
-				}
-				updateButtons( );
-			}
-		} );
+		new Label( content, SWT.NONE );
 
 		Label labelDirection = new Label( content, SWT.NONE );
 		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) );
