@@ -1214,7 +1214,10 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// Create a Column, mostly used in Table or Grid
 		ColumnDesign col = new ColumnDesign( );
-		setupStyledElement( col, handle );
+		// do not process column's style since 2.1.3, because model has transfer
+		// the column style to cell. Also for hightlight
+		// setupStyledElement( col, handle );
+		setupReportElement( col, handle );
 
 		// Column Width
 		DimensionType width = createDimension( handle.getWidth( ) );
@@ -1228,7 +1231,7 @@ class EngineIRVisitor extends DesignVisitor
 				.visibilityRulesIterator( ) );
 		col.setVisibility( visibility );
 
-		setHighlight( col, null );
+		//setHighlight( col, null );
 
 		currentElement = col;
 	}
