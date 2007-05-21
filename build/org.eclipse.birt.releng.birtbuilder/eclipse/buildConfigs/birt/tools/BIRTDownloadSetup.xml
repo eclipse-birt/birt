@@ -425,6 +425,7 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.*.sdk*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
@@ -468,6 +469,7 @@
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.rcp*/**"/>
+				<exclude name="org.eclipse.birt.*.sdk*/**" />
 			</tarfileset>
 			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />

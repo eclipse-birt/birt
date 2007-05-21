@@ -55,5 +55,5 @@ fragment@org.eclipse.datatools.connectivity.oda.template.ui.nl=HEAD,:pserver:ano
 fragment@org.eclipse.datatools.connectivity.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.ui.nl
 fragment@org.eclipse.datatools.enablement.oda.xml.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.oda.xml.nl
 fragment@org.eclipse.datatools.enablement.oda.xml.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.oda.xml.ui.nl
-
- 
+fragment@org.eclipse.datatools.enablement.oda.ws.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.oda.ws.nl
+fragment@org.eclipse.datatools.enablement.oda.ws.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.oda.ws.ui.nl
