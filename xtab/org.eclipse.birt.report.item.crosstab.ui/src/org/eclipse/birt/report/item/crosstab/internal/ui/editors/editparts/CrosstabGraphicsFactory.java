@@ -63,6 +63,12 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 				{
 					return new MeasureHandleDataItemEditPart(model);
 				}
+				else if (//ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position )
+						//|| 
+						ICrosstabCellAdapterFactory.CELL_MEASURE_AGGREGATION.equals( position ))
+				{
+					return new MeasureAggregationEditPart(model);
+				}
 			}
 		}
 		if ( model instanceof VirtualCrosstabCellAdapter )
