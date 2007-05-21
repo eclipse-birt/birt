@@ -12,19 +12,19 @@
 ###############################################################################
 # BIRT Wizard Configuration Page
 ###############################################################################
-BIRTProjectCreationWizard_title=New BIRT Charting Web Project
+BIRTProjectCreationWizard_title=Nouveau projet Web de création de graphiques BIRT
 
 ###############################################################################
 # Overwrite Query Dialog
 ###############################################################################
-BIRTOverwriteQuery_title=Overwrite Dialog
-BIRTOverwriteQuery_message=Do you want to overwrite {0}?
+BIRTOverwriteQuery_title=Boîte de dialogue Ecrasement
+BIRTOverwriteQuery_message=Voulez-vous écraser {0} ?
 
-BIRTOverwriteQuery_webartifact_title=Deployment Descriptor Overwrite Dialog
-BIRTOverwriteQuery_webartifact_message={0} existed in web.xml.Do you want to overwrite it?
+BIRTOverwriteQuery_webartifact_title=Boîte de dialogue Ecraser le descripteur de déploiement
+BIRTOverwriteQuery_webartifact_message={0} existe dans web.xml. Souhaitez-vous l'écraser ?
 
 ###############################################################################
 # Error Message
 ###############################################################################
-BIRTErrors_miss_source=Importing terminated.Can not get correct source zip file.
-BIRTErrors_wrong_webcontent=Can not get correct web content folder.
+BIRTErrors_miss_source=Importation terminée. Impossible d'obtenir le fichier zip source correct.
+BIRTErrors_wrong_webcontent=Impossible d'obtenir le dossier de contenu Web correct.

@@ -12,19 +12,19 @@
 ###############################################################################
 # BIRT Wizard Configuration Page
 ###############################################################################
-BIRTProjectCreationWizard_title=New BIRT Charting Web Project
+BIRTProjectCreationWizard_title=Neues BIRT-Diagramm-Webprojekt
 
 ###############################################################################
 # Overwrite Query Dialog
 ###############################################################################
-BIRTOverwriteQuery_title=Overwrite Dialog
-BIRTOverwriteQuery_message=Do you want to overwrite {0}?
+BIRTOverwriteQuery_title=Dialogfeld "Überschreiben"
+BIRTOverwriteQuery_message={0} überschreiben?
 
-BIRTOverwriteQuery_webartifact_title=Deployment Descriptor Overwrite Dialog
-BIRTOverwriteQuery_webartifact_message={0} existed in web.xml.Do you want to overwrite it?
+BIRTOverwriteQuery_webartifact_title=Dialogfeld "Bereitstellungs-Deskriptor überschreiben"
+BIRTOverwriteQuery_webartifact_message={0} ist in der Datei "web.xml" bereits vorhanden. Überschreiben?
 
 ###############################################################################
 # Error Message
 ###############################################################################
-BIRTErrors_miss_source=Importing terminated.Can not get correct source zip file.
-BIRTErrors_wrong_webcontent=Can not get correct web content folder.
+BIRTErrors_miss_source=Import beendet. Richtige Quell-ZIP-Datei kann nicht abgerufen werden.
+BIRTErrors_wrong_webcontent=Richtiger Webinhaltsordner kann nicht abgerufen werden.
