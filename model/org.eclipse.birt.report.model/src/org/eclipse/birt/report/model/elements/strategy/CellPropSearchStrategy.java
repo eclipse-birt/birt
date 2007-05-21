@@ -72,11 +72,6 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		DesignElement e = cell.getContainer( );
 		while ( e != null )
 		{
-			Object value = e.getStrategy( ).getPropertyFromElement( module, e,
-					prop );
-			if ( value != null )
-				return value;
-
 			// check property values on the columns.
 
 			DesignElement tmpContainer = e.getContainer( );
@@ -255,15 +250,15 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		{
 			selector = "table-" //$NON-NLS-1$
 					+ rowContainer.getDefn( ).getSlot(
-							row.getContainerInfo( ).getSlotID( ) )
-							.getName( ) + "-" + selector; //$NON-NLS-1$
+							row.getContainerInfo( ).getSlotID( ) ).getName( )
+					+ "-" + selector; //$NON-NLS-1$
 		}
 		else if ( rowContainer instanceof TableGroup )
 		{
 			selector = "table-group-" //$NON-NLS-1$
 					+ rowContainer.getDefn( ).getSlot(
-							row.getContainerInfo( ).getSlotID( ) )
-							.getName( ) + "-" + selector; //$NON-NLS-1$
+							row.getContainerInfo( ).getSlotID( ) ).getName( )
+					+ "-" + selector; //$NON-NLS-1$
 		}
 		else
 			return null;

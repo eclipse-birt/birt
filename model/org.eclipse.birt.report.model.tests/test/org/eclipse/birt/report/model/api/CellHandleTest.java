@@ -66,22 +66,25 @@ public class CellHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table2" ); //$NON-NLS-1$
 		cell = getCellInTableSlot( table, TableItem.DETAIL_SLOT, 0, 0 );
-		assertEquals( IColorConstants.NAVY, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// some properties cannot be inherited.
 
 		assertNull( cell.getProperty( Style.BACKGROUND_COLOR_PROP ) );
 		assertEquals( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT, cell
 				.getProperty( Style.BACKGROUND_REPEAT_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( null, cell
+				.getFactoryPropertyHandle( Style.BACKGROUND_COLOR_PROP ) );
 
 		// color defined on the column.
 
 		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
 		cell = getCellInTableSlot( table, TableItem.DETAIL_SLOT, 0, 0 );
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// color defined on the table.
 
@@ -95,7 +98,7 @@ public class CellHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table6" ); //$NON-NLS-1$
 		cell = getCellInTableSlot( table, TableItem.DETAIL_SLOT, 0, 0 );
-		assertEquals( IColorConstants.NAVY, cell.getProperty( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
 		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
 
 		/* for cases that considers dropping header effects */
@@ -108,7 +111,8 @@ public class CellHandleTest extends BaseTestCase
 		// shared style in the column.
 
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		/* ensure things right on GROUP_HEADER */
 
@@ -119,12 +123,14 @@ public class CellHandleTest extends BaseTestCase
 		// shared style in the column.
 
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		cell = getCellInGroup( group, TableItem.HEADER_SLOT, 0, 1 );
 		assertEquals( IColorConstants.YELLOW, cell
 				.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.YELLOW, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// test cells in the DETAIL, HEADER, FOOTER. And different cells have
 		// different column numbers.
@@ -132,24 +138,29 @@ public class CellHandleTest extends BaseTestCase
 		table = (TableHandle) designHandle.findElement( "My table13" ); //$NON-NLS-1$
 		cell = getCellInTableSlot( table, TableItem.HEADER_SLOT, 0, 0 );
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		cell = getCellInTableSlot( table, TableItem.HEADER_SLOT, 0, 3 );
 		assertEquals( IColorConstants.GREEN, cell
 				.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.GREEN, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		cell = getCellInTableSlot( table, TableItem.FOOTER_SLOT, 0, 0 );
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		cell = getCellInTableSlot( table, TableItem.FOOTER_SLOT, 0, 1 );
 		assertEquals( IColorConstants.AQUA, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.AQUA, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		cell = getCellInTableSlot( table, TableItem.DETAIL_SLOT, 0, 0 );
 		assertEquals( IColorConstants.AQUA, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.AQUA, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// style for nested tables that ignores dropping effects.
 
@@ -170,7 +181,8 @@ public class CellHandleTest extends BaseTestCase
 		cell = getCellInGroup( group, TableGroup.FOOTER_SLOT, 0, 0 );
 		assertEquals( IColorConstants.GREEN, cell
 				.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.GREEN, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// style for nested tables with dropping effects.
 
@@ -191,7 +203,8 @@ public class CellHandleTest extends BaseTestCase
 		cell = getCellInGroup( group, TableGroup.FOOTER_SLOT, 0, 0 );
 		assertEquals( IColorConstants.GREEN, cell
 				.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.GREEN, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// Style property set on column take effect for cells.
 		table = new ElementFactory( design ).newTableItem( null, 1 );
@@ -256,11 +269,13 @@ public class CellHandleTest extends BaseTestCase
 		assertEquals( IColorConstants.LIME, cell.getProperty( Style.COLOR_PROP ) );
 		assertEquals( IColorConstants.LIME, cell.getFactoryPropertyHandle(
 				Style.COLOR_PROP ).getStringValue( ) );
-		
+
 		SlotHandle slotHandle = cell.getContent( );
-		AutoTextHandle autoTextHandle = (AutoTextHandle)slotHandle.getContents( ).get( 1 );
-		assertEquals( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE ,  autoTextHandle.getProperty( AutoText.AUTOTEXT_TYPE_PROP ));
-		
+		AutoTextHandle autoTextHandle = (AutoTextHandle) slotHandle
+				.getContents( ).get( 1 );
+		assertEquals( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE,
+				autoTextHandle.getProperty( AutoText.AUTOTEXT_TYPE_PROP ) );
+
 		LabelHandle label = (LabelHandle) designHandle
 				.findElement( "My label1" ); //$NON-NLS-1$
 		assertEquals( IColorConstants.LIME, label
@@ -290,7 +305,8 @@ public class CellHandleTest extends BaseTestCase
 		row = (RowHandle) ( grid.getRows( ).get( 0 ) );
 		cell = (CellHandle) ( row.getCells( ).get( 0 ) );
 		assertEquals( IColorConstants.RED, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// default color in the style.
 
@@ -301,7 +317,8 @@ public class CellHandleTest extends BaseTestCase
 
 		cell = (CellHandle) ( row.getCells( ).get( 2 ) );
 		assertEquals( IColorConstants.LIME, cell.getProperty( Style.COLOR_PROP ) );
-		assertEquals( null, cell.getFactoryPropertyHandle( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.LIME, cell.getFactoryPropertyHandle(
+				Style.COLOR_PROP ).getStringValue( ) );
 
 		// the color on the column.
 

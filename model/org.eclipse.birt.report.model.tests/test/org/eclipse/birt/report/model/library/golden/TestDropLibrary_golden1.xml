@@ -25,7 +25,9 @@
                     <property name="style">new_style</property>
                     <property name="color">blue</property>
                     <cell id="10"/>
-                    <cell id="11"/>
+                    <cell id="11">
+                        <property name="fontFamily">"serial"</property>
+                    </cell>
                 </row>
             </header>
             <group id="34">
@@ -40,6 +42,7 @@
                         </label>
                     </cell>
                     <cell id="15">
+                        <property name="fontFamily">"serial"</property>
                         <label name="label_1_2" id="16">
                             <text-property name="text">Cell 1-2</text-property>
                         </label>
@@ -60,7 +63,9 @@
                             </header>
                         </table>
                     </cell>
-                    <cell id="23"/>
+                    <cell id="23">
+                        <property name="fontFamily">"serial"</property>
+                    </cell>
                 </row>
             </detail>
         </table>
