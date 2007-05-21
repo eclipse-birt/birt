@@ -86,10 +86,17 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			{
 				new File(dirName).mkdirs( );
 			}	
-			
-			if ( !file.createNewFile( ) )
+			try
 			{
-				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
+				if ( !file.createNewFile( ) )
+				{
+					throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
+							file.getAbsolutePath( ) );
+				}
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL, e,
 						file.getAbsolutePath( ) );
 			}
 		}

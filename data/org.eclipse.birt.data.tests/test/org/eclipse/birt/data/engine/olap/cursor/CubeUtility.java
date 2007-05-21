@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,15 @@ public class CubeUtility
 
 	public static String documentPath = System.getProperty( "java.io.tmpdir" );
 	public static String cubeName = "cube";
-
+	
+	static
+	{
+		if( !documentPath.endsWith( File.separator ))
+		{
+			documentPath += File.separator;
+		}
+	}
+	
 	CubeUtility( )
 	{
 	}

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +67,16 @@ public class CubeIVTest extends BaseTestCase
 {
 	private static String cubeName = "cube";
 	
+	private static String documentPath = System.getProperty( "java.io.tmpdir" );
+	
+	static
+	{
+		if( !documentPath.endsWith( File.separator ))
+		{
+			documentPath += File.separator;
+		}
+	}
+	
 	/**
 	 * Test use all dimension levels.
 	 * @throws Exception
@@ -112,7 +123,7 @@ public class CubeIVTest extends BaseTestCase
 		cqd.addBinding( binding5 );
 		
 		cqd.setCacheQueryResults( true );
-		FileArchiveWriter writter = new FileArchiveWriter(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
@@ -134,7 +145,7 @@ public class CubeIVTest extends BaseTestCase
 		engine.shutdown( );
 		
 		//Load from RD
-		FileArchiveReader reader = new FileArchiveReader(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
 		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
@@ -198,7 +209,7 @@ public class CubeIVTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level2" );
 		
 		cqd.setCacheQueryResults( true );
-		FileArchiveWriter writter = new FileArchiveWriter(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
@@ -220,7 +231,7 @@ public class CubeIVTest extends BaseTestCase
 		engine.shutdown( );
 		
 		//Load from RD
-		FileArchiveReader reader = new FileArchiveReader(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
 		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
@@ -283,7 +294,7 @@ public class CubeIVTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level2" );
 	
 		cqd.setCacheQueryResults( true );
-		FileArchiveWriter writter = new FileArchiveWriter(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveWriter writter = new FileArchiveWriter(documentPath + "testTemp" );
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
@@ -305,7 +316,7 @@ public class CubeIVTest extends BaseTestCase
 		engine.shutdown( );
 		
 		//Load from RD
-		FileArchiveReader reader = new FileArchiveReader(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
 		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
@@ -674,7 +685,7 @@ public class CubeIVTest extends BaseTestCase
 		cqd.addSort( sorter5 );
 
 		cqd.setCacheQueryResults( true );
-		FileArchiveWriter writter = new FileArchiveWriter(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveWriter writter = new FileArchiveWriter(documentPath + "testTemp" );
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
@@ -696,7 +707,7 @@ public class CubeIVTest extends BaseTestCase
 		engine.shutdown( );
 		
 		//Load from RD
-		FileArchiveReader reader = new FileArchiveReader(System.getProperty( "java.io.tmpdir" ) + "testTemp" );
+		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
 		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
@@ -1312,7 +1323,7 @@ public class CubeIVTest extends BaseTestCase
 	
 	private void createCube( IDocArchiveWriter writter, DataEngine engine ) throws BirtException, IOException
 	{
-		CubeMaterializer cubeMaterializer = new CubeMaterializer( System.getProperty( "java.io.tmpdir" )+engine.hashCode( ),
+		CubeMaterializer cubeMaterializer = new CubeMaterializer( documentPath+engine.hashCode( ),
 				"cube" );
 		
 		IDocumentManager documentManager = cubeMaterializer.getDocumentManager( );

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +69,14 @@ public class CubeFeaturesTest extends BaseTestCase
 {
 	private static String documentPath = System.getProperty( "java.io.tmpdir" );
 	private static String cubeName = "cube";
+	
+	static
+	{
+		if( !documentPath.endsWith( File.separator ))
+		{
+			documentPath += File.separator;
+		}
+	}
 	
 	/**
 	 * Test use all dimension levels.
