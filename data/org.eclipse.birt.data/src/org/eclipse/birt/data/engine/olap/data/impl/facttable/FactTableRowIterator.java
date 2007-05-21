@@ -281,7 +281,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				for ( int j = 0; j < selectedSubDimension.end
 						- selectedSubDimension.start + 1; j++ )
 				{
-					selectedPosOfCurSegment[i][j] = ( (Integer) selectedPos[dimensionIndex[i]].get( j ) ).intValue( );
+					selectedPosOfCurSegment[i][j] = ( (Integer) selectedPos[dimensionIndex[i]].get( selectedSubDimension.start + j ) ).intValue( );
 				}
 			}
 		}
