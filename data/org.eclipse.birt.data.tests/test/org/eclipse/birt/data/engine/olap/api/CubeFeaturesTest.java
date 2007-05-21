@@ -34,15 +34,15 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
@@ -2658,13 +2658,30 @@ public class CubeFeaturesTest extends BaseTestCase
 		measureColumnName[0] = "measure1";
 		Cube cube = new Cube( cubeName, documentManager );
 
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.create( getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		
 		cube.close( );
 		documentManager.close( );
 
 	}
 	
+	/**
+	 * 
+	 * @param dimensions
+	 * @return
+	 */
+	private static String[][] getKeyColNames( IDimension[] dimensions )
+	{
+		String[][] keyColumnName = new String[dimensions.length][];
+		for ( int i = 0; i < dimensions.length; i++ )
+		{
+			ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
+			ILevel detailLevel = levels[levels.length-1];
+			keyColumnName[i] = detailLevel.getKeyNames( );
+		}
+		return keyColumnName;
+	}
+
 	private String[] distinct( String[] values )
 	{
 		String[] lValues = new String[values.length];

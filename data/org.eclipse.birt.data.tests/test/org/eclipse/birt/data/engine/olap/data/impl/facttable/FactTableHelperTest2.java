@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -156,6 +157,7 @@ public class FactTableHelperTest2 extends TestCase
 		measureColumnName[1] = "measure2";
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
 				factTable1,
 				dimensions,
 				measureColumnName,
@@ -305,6 +307,7 @@ public class FactTableHelperTest2 extends TestCase
 		measureColumnName[1] = "measure2";
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
 				factTable2,
 				dimensions,
 				measureColumnName,
@@ -437,6 +440,7 @@ public class FactTableHelperTest2 extends TestCase
 		measureColumnName[1] = "measure2";
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
 				factTable2,
 				dimensions,
 				measureColumnName,
@@ -614,7 +618,7 @@ public class FactTableHelperTest2 extends TestCase
 		measureColumnName[1] = "measure2";
 		Cube cube = new Cube( "cube", documentManager );
 		
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.create( CubeUtility.getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( 1 )},
@@ -775,7 +779,7 @@ public class FactTableHelperTest2 extends TestCase
 		String[] measureColumnName = new String[2];
 		measureColumnName[0] = "measure1";
 		measureColumnName[1] = "measure2";
-		cubeMaterializer.createCube( "cube", dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cubeMaterializer.createCube( "cube", CubeUtility.getKeyColNames(dimensions),dimensions, factTable2, measureColumnName, new StopSign( ) );
 		
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = 
 			new CubeQueryExecutorHelper( CubeQueryExecutorHelper.loadCube( "cube", cubeMaterializer.getDocumentManager( ), new StopSign( ) ) );

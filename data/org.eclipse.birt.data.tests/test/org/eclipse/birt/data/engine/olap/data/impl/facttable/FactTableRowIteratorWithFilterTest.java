@@ -19,6 +19,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
@@ -128,6 +129,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		measureColumnName[1] = "measure2";
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "threeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
 				factTableIterator,
 				dimensions,
 				measureColumnName,

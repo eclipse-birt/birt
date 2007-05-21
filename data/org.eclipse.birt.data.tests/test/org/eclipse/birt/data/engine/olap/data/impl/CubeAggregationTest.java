@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -315,7 +316,7 @@ public class CubeAggregationTest extends TestCase
 		measureColumnName[1] = "measure2";
 		Cube cube = new Cube( "cube1", documentManager );
 		
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.create( CubeUtility.getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		documentManager.flush( );
 	}
 
@@ -871,7 +872,7 @@ public class CubeAggregationTest extends TestCase
 		measureColumnName[1] = "measure2";
 		Cube cube = new Cube( "cube2", documentManager );
 		
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.create( CubeUtility.getKeyColNames( dimensions ), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		documentManager.flush( );	
 		
 	}

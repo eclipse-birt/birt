@@ -27,7 +27,9 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
@@ -186,7 +188,7 @@ public class CubeUtility
 		measureColumnName[0] = "measure1";
 		Cube cube = new Cube( cubeName, documentManager );
 
-		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.create( getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		cube.close( );
 		documentManager.close( );
 	}
@@ -495,6 +497,23 @@ public class CubeUtility
 		output += "\n" + lines[0];
 		System.out.print( output );
 		return output;
+	}
+    
+    /**
+	 * 
+	 * @param dimensions
+	 * @return
+	 */
+	public static String[][] getKeyColNames( IDimension[] dimensions )
+	{
+		String[][] keyColumnName = new String[dimensions.length][];
+		for ( int i = 0; i < dimensions.length; i++ )
+		{
+			ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
+			ILevel detailLevel = levels[levels.length-1];
+			keyColumnName[i] = detailLevel.getKeyNames( );
+		}
+		return keyColumnName;
 	}
 }
 

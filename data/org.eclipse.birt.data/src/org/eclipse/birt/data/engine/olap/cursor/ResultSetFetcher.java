@@ -87,4 +87,13 @@ public class ResultSetFetcher
 	{
 		return rs.getLevelKeyValue( levelIndex );
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IAggregationResultSet getAggrResultSet( )
+	{
+		return this.rs;
+	}
 }

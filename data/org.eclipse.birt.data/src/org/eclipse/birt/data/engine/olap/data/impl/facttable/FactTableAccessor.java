@@ -22,9 +22,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
@@ -39,7 +38,6 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * This a accessor class for fact table which can be used to save or load a FactTable.
@@ -70,13 +68,11 @@ public class FactTableAccessor
 	 * @throws BirtException
 	 * @throws IOException
 	 */
-	public FactTable saveFactTable( String factTableName,
+	public FactTable saveFactTable( String factTableName, String[][] keyColumnNames,
 			IDatasetIterator iterator, Dimension[] dimensions,
 			String[] measureColumnName, StopSign stopSign )
 			throws BirtException, IOException
 	{
-		String[][] keyColumnNames = getKeyColNames( dimensions );
-
 		DiskSortedStack sortedFactTableRows = getSortedFactTableRows( iterator,
 				keyColumnNames,
 				measureColumnName,
@@ -268,23 +264,6 @@ public class FactTableAccessor
 		// write segment count
 		documentObject.writeInt( segmentNumber );
 		documentObject.close( );
-	}
-
-	/**
-	 * 
-	 * @param dimensions
-	 * @return
-	 */
-	private static String[][] getKeyColNames( IDimension[] dimensions )
-	{
-		String[][] keyColumnName = new String[dimensions.length][];
-		for ( int i = 0; i < dimensions.length; i++ )
-		{
-			ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
-			ILevel detailLevel = levels[levels.length-1];
-			keyColumnName[i] = detailLevel.getKeyNames( );
-		}
-		return keyColumnName;
 	}
 
 	/**

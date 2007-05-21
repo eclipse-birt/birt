@@ -66,7 +66,7 @@ public class Cube implements ICube
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void create( IDimension[] dimension, IDatasetIterator iterator,
+	public void create( String[][] keyColumnNames, IDimension[] dimension, IDatasetIterator iterator,
 			String[] measureColumnName, StopSign stopSign ) throws IOException,
 			BirtException
 	{
@@ -84,7 +84,7 @@ public class Cube implements ICube
 			tDimensions[i] = (Dimension) dimension[i];
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
-		factTable = factTableConstructor.saveFactTable( name,
+		factTable = factTableConstructor.saveFactTable( name,keyColumnNames,
 				iterator,
 				tDimensions,
 				measureColumnName,

@@ -116,7 +116,7 @@ public class DimensionAxis
 			catch ( IOException e )
 			{
 			}
-			valueSet.add( this.rs.getLevelKeyValue( levelIndex )[0] );
+			valueSet.add( this.rs.getLevelKeyValue( levelIndex )[ this.rs.getLevelKeyColCount( levelIndex )-1] );
 		}
 		
 		final int sortType = this.rs.getSortType( levelIndex );

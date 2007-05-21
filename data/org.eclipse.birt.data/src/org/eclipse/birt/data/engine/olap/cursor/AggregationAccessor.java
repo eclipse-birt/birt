@@ -184,7 +184,7 @@ public class AggregationAccessor implements Accessor
 			DimLevel level = (DimLevel) levelList.get( start );
 
 			Object value1 = valueMap.get( level );
-			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[0];
+			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];
 			int sortType = rs.getSortType( rs.getLevelIndex( level ) ) == IDimensionSortDefn.SORT_DESC
 					? -1 : 1;
 			int direction = sortType

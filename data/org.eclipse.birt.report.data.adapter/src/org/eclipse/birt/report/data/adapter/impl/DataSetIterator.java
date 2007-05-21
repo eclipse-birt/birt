@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -42,6 +41,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -97,7 +97,7 @@ public class DataSetIterator implements IDatasetIterator
 
 		List metaList = new ArrayList();
 		this.prepareLevels( query,
-				hierHandle, metaList, timeLevelName, leafLevelName );
+				hierHandle, metaList );
 
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
 		this.metadata = new ResultMeta( metaList );
@@ -111,7 +111,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSession session,
-			TabularCubeHandle cubeHandle, Map extraTimeLevelHolder ) throws BirtException
+			TabularCubeHandle cubeHandle ) throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
 
@@ -140,12 +140,7 @@ public class DataSetIterator implements IDatasetIterator
 				{
 					prepareLevels( query,
 							hierHandle,
-							metaList,
-							extraTimeLevelHolder.get( dimension ) == null
-									? null
-									: extraTimeLevelHolder.get( dimension )
-											.toString( ),
-							null );
+							metaList );
 				}
 				else
 				{
@@ -156,18 +151,24 @@ public class DataSetIterator implements IDatasetIterator
 
 						if ( dimCondHandle.getHierarchy( ).equals( hierHandle ) )
 						{
-							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) dimCondHandle.getJoinConditions( )
-									.iterator( )
-									.next( );
-							String cubeKey = joinCondition.getCubeKey( );
-							String hierKey = joinCondition.getHierarchyKey( );
-							metaList.add( new ColumnMeta( hierKey, true, null ) );
-							query.addBinding( new Binding(hierKey,
-									new ScriptExpression(  ExpressionUtil.createJSDataSetRowExpression( cubeKey ) )) );
+							Iterator conditionIt = dimCondHandle.getJoinConditions( )
+									.iterator( );
+							while ( conditionIt.hasNext( ) )
+							{
+								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+								String cubeKey = joinCondition.getCubeKey( );
+								String hierKey = joinCondition.getHierarchyKey( );
+								metaList.add( new ColumnMeta( hierKey,
+										true,
+										null ) );
+								query.addBinding( new Binding( hierKey,
+										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
 
-							GroupDefinition gd = new GroupDefinition( String.valueOf(query.getGroups( ).size( )));
-							gd.setKeyExpression( ExpressionUtil.createJSRowExpression( hierKey ) );
-							query.addGroup( gd );
+								GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
+										.size( ) ) );
+								gd.setKeyExpression( ExpressionUtil.createJSRowExpression( hierKey ) );
+								query.addGroup( gd );
+							}
 						}
 					}
 				}
@@ -243,8 +244,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws AdapterException
 	 */
 	private void prepareLevels( QueryDefinition query,
-			TabularHierarchyHandle hierHandle, List metaList,
-			String timeLevelName, String leafLevelName )
+			TabularHierarchyHandle hierHandle, List metaList )
 			throws AdapterException
 	{
 		try
@@ -339,62 +339,67 @@ public class DataSetIterator implements IDatasetIterator
 					gd.setIntervalStart( level.getIntervalBase( ) );
 					gd.setInterval( GroupAdapter.intervalFromModel( level.getInterval( ) ) );
 				}
+				if ( level.getDateTimeLevelType( ) != null )
+				{
+					gd.setIntervalRange( 1 );
+					gd.setInterval( getTimeInterval( level.getDateTimeLevelType( ))  );
+				}
 				query.addGroup( gd );
 			}
-
-			if ( timeLevelName != null )
-			{
-				populateSpecialLevel( query,
-						metaList,
-						timeLevelName,
-						DataType.DATE_TYPE );
-			}
-
-			if ( leafLevelName != null )
-			{
-				populateSpecialLevel( query,
-						metaList,
-						leafLevelName,
-						DataType.STRING_TYPE );
-			}
 		}
 		catch ( DataException e )
 		{
 			throw new AdapterException( e.getLocalizedMessage( ) );
 		}
 	}
-
+	
 	/**
-	 * Populate special data type, either be time level type or leaf level type.
-	 * @param query
-	 * @param metaList
-	 * @param timeLevelName
-	 * @param dataType
-	 * @throws DataException 
+	 * 
+	 * @param timeType
+	 * @return
+	 * @throws AdapterException
 	 */
-	private void populateSpecialLevel( QueryDefinition query, List metaList,
-			String timeLevelName, int dataType ) throws AdapterException
+	private int getTimeInterval( String timeType ) throws AdapterException
 	{
-		try
+		if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType )
+			 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType )
+			 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ))
 		{
-			ColumnMeta temp = new ColumnMeta( timeLevelName, true, null );
-			temp.setDataType( dataType );
-			metaList.add( temp );
-			String exprString = ExpressionUtil.createJSDataSetRowExpression( timeLevelName );
-
-			query.addBinding( new Binding( timeLevelName,
-					new ScriptExpression( exprString ) ) );
-
-			GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( ) ) );
-			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( timeLevelName ) );
-			query.addGroup( gd );
+			return IGroupDefinition.DAY_INTERVAL;
 		}
-		catch ( DataException e )
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType )
+				|| DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
 		{
-			throw new AdapterException( e.getLocalizedMessage( ) );
+			return IGroupDefinition.WEEK_INTERVAL;
 		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ))
+		{
+			return IGroupDefinition.QUARTER_INTERVAL;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ))
+		{
+			return IGroupDefinition.YEAR_INTERVAL;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ))
+		{
+			return IGroupDefinition.HOUR_INTERVAL;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ))
+		{
+			return IGroupDefinition.MINUTE_INTERVAL;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ))
+		{
+			return IGroupDefinition.SECOND_INTERVAL;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ))
+		{
+			return IGroupDefinition.MONTH_INTERVAL;
+		}
+		else
+			throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE,
+					timeType );
 	}
-
 	/**
 	 * 
 	 * @param type
