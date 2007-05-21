@@ -19,6 +19,8 @@
                showInMasterPage="false"
                canResize="false"
                showInDesigner="true"/>
+      <outline
+      		   icon="icons/pal/palette_icon.gif"/>         
     </extension>
 	
 	<extension
