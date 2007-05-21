@@ -88,6 +88,8 @@ public class OlapExpressionCompiler
 	 */
 	public static String getReferencedScriptObject( String expr, String objectName )
 	{
+		if( expr == null )
+			return null;
 		Context cx = Context.enter();
 		CompilerEnvirons ce = new CompilerEnvirons();
 		Parser p = new Parser( ce, cx.getErrorReporter( ) );

@@ -31,7 +31,7 @@ public interface ICubeQueryUtil
 	 * @return
 	 * @throws AdapterException
 	 */
-	public abstract List getReferableBindings( String targetLevel,
+	public List getReferableBindings( String targetLevel,
 			ICubeQueryDefinition cubeQueryDefn, boolean isSort ) throws AdapterException;
 	
 	/**
@@ -43,6 +43,15 @@ public interface ICubeQueryUtil
 	 * @return
 	 * @throws AdapterException
 	 */
-	public abstract List getReferencedLevels( String targetLevel,
+	public List getReferencedLevels( String targetLevel,
 			String bindingExpr, ICubeQueryDefinition queryDefn ) throws AdapterException;
+
+	/**
+	 * Return the measure name referenced by the expression.
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws AdapterException
+	 */
+	public String getReferencedMeasureName( String expr ) throws AdapterException;
 }

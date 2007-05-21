@@ -198,5 +198,13 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		return ICubeQueryDefinition.COLUMN_EDGE;
 	}
 
-
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public String getReferencedMeasureName( String expr )
+	{
+		return OlapExpressionCompiler.getReferencedScriptObject( expr, "measure" );
+	}
 }
