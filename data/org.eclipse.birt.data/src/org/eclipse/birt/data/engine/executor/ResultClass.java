@@ -219,8 +219,10 @@ public class ResultClass implements IResultClass
 		{
 			String columnName = projectedCols[i].getName( );
 			String columnAlias = projectedCols[i].getAlias( );
-			if ( resultSetNameSet.contains( columnName )
-					&& resultSetNameSet.contains( columnAlias ) )
+			if ( columnName != null &&
+					!columnName.equals( columnAlias ) &&
+					resultSetNameSet.contains( columnName ) &&
+					resultSetNameSet.contains( columnAlias ) )
 				size--;
 		}
 
