@@ -140,8 +140,8 @@ data.engine.GetLoadStreamError=Se ha producido un error en el documento de infor
 data.engine.NullExpr=La expresión no puede ser nula para recuperar el valor en presentaciones.
 data.engine.InValidExpr=Expresión no válida al recuperar el valor en la presentación.
 data.engine.BadGroupExpr=La expresión de grupo no puede estar vacía. 
-data.engine.filterExprContainRowNum=Filter expression cannot reference to java script object "row.__num".
-data.engine.sortExprContainRowNum=Sort expression cannot reference to java script object "row.__num".
+data.engine.filterExprContainRowNum=La expresión de filtro no puede hacer referencia a un objeto de java script "row.__num".
+data.engine.sortExprContainRowNum=La expresión de ordenación no puede hacer referencia a un objeto de java script "row.__num".
 
 
 data.engine.ResultSetNotStart=El conjunto de resultados no se ha iniciado todavía.
@@ -321,7 +321,7 @@ data.olap.FacttableNullMeasureValue=El valor de la columna de medida es nulo. "{
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
-data.olap.dimensionNameNotFound=The dimension name "{0}" is not found.
+data.olap.dimensionNameNotFound=No se ha encontrado el nombre de dimensión "{0}".
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
 data.olap.CannotGetMeasureValue=No se puede encontrar la definición "{0}" de medida en el cubo, la medida no existe o no es válida.
@@ -329,5 +329,5 @@ data.olap.CannotFindLevel=No se puede encontrar el nivel de definición "{0}" en 
 data.olap.tryToAddIdenticalAggrGroup=El valor "{0}" ya existe en la adición de la lista de enlace "{1}";
 data.olap.NoEdgeDefinitionFound=Error al ejecutar la consulta, ya que no contiene ni extremo de fila, ni extremo de columna. Se precisa la definición de un extremo como mínimo.
 data.olap.invalidSortDefinition=La definición de orden no es válida. 
-data.olap.invalidMeasureRef="{0}" is not a valid measure reference expression.
-data.olap.invalidLevelAttr=The attribute is invalid:
+data.olap.invalidMeasureRef="{0}" no es una expresión de referencia de medida válida.
+data.olap.invalidLevelAttr=El atributo no es válido:
