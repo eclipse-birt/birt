@@ -539,8 +539,8 @@ Choices.reportLayoutPreference.fixedLayout=Fixed Layout
 Choices.reportLayoutPreference.autoLayout=Auto Layout
 
 #71. paramSortValues
-Choices.paramSortValues.value=Value
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.value=값
+Choices.paramSortValues.label=표시 텍스트
 
 ###########################################################
 # Classes
@@ -2241,9 +2241,9 @@ Element.ScalarParameter.promptText=프롬프트 텍스트
 Element.ScalarParameter.promptTextID=프롬프트 텍스트 키
 Element.ScalarParameter.listLimit=목록 제한
 Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=고유
+Element.ScalarParameter.sortDirection=정렬 방향
+Element.ScalarParameter.sortBy=정렬 기준
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

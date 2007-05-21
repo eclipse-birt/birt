@@ -539,8 +539,8 @@ Choices.reportLayoutPreference.fixedLayout=Fixed Layout
 Choices.reportLayoutPreference.autoLayout=Auto Layout
 
 #71. paramSortValues
-Choices.paramSortValues.value=Value
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.value=值
+Choices.paramSortValues.label=显示文本
 
 ###########################################################
 # Classes
@@ -2241,9 +2241,9 @@ Element.ScalarParameter.promptText=提示文本
 Element.ScalarParameter.promptTextID=提示文本关键字
 Element.ScalarParameter.listLimit=列表限制
 Element.ScalarParameter.boundDataColumns=绑定的数据列
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=特异
+Element.ScalarParameter.sortDirection=排序方向
+Element.ScalarParameter.sortBy=排序依据
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开

@@ -539,8 +539,8 @@ Choices.reportLayoutPreference.fixedLayout=Fixed Layout
 Choices.reportLayoutPreference.autoLayout=Auto Layout
 
 #71. paramSortValues
-Choices.paramSortValues.value=Value
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.value=Valor
+Choices.paramSortValues.label=Mostrar texto
 
 ###########################################################
 # Classes
@@ -2241,9 +2241,9 @@ Element.ScalarParameter.promptText=Texto de solicitud
 Element.ScalarParameter.promptTextID=Solicitar clave de texto
 Element.ScalarParameter.listLimit=Límite de lista
 Element.ScalarParameter.boundDataColumns=Columnas de datos enlazados
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=Diferenciación
+Element.ScalarParameter.sortDirection=Dirección de orden
+Element.ScalarParameter.sortBy=Ordenar por
 
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido
