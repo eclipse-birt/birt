@@ -605,11 +605,11 @@ Choices.reportLayoutPreference.autoLayout=자동 레이아웃
 Choices.dateTimeLevelType.year=연
 Choices.dateTimeLevelType.month=월
 Choices.dateTimeLevelType.quarter=분기
-Choices.dateTimeLevelType.weekOfMonth=Week Of Month
-Choices.dateTimeLevelType.weekOfYear=Week Of Year
-Choices.dateTimeLevelType.dayOfWeek=Day Of Week
-Choices.dateTimeLevelType.dayOfMonth=Day Of Month
-Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.weekOfMonth=한 달의 주
+Choices.dateTimeLevelType.weekOfYear=한 해의 주
+Choices.dateTimeLevelType.dayOfWeek=한 주의 날
+Choices.dateTimeLevelType.dayOfMonth=한 달의 날
+Choices.dateTimeLevelType.dayOfYear=한 해의 날
 Choices.dateTimeLevelType.hour=시
 Choices.dateTimeLevelType.minute=분
 Choices.dateTimeLevelType.second=초
@@ -2241,9 +2241,9 @@ Element.OdaHierarchy=ODA 계층
 Element.OdaLevel=ODA 수준
 Element.OdaMeasure=ODA 측정
 Element.OdaMeasureGroup=ODA 측정 그룹
-Element.MemberValue=Member Value
-Element.SortElement=Sort Element
-Element.FilterConditionElement=Filter Condition Element
+Element.MemberValue=구성원 값
+Element.SortElement=정렬 요소
+Element.FilterConditionElement=필터 조건 요소
 
 ###########################################################
 # Element property names
@@ -3086,20 +3086,20 @@ Element.OdaLevel.attributes=특성
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=값
 Element.MemberValue.level=수준
-Element.MemberValue.memberValues=Member Values
+Element.MemberValue.memberValues=구성원 값
 
 #61. SortElement ( prefix Element.SortElement )
-Element.SortElement.key=Key
-Element.SortElement.direction=Direction
-Element.SortElement.member=Member
+Element.SortElement.key=키
+Element.SortElement.direction=방향
+Element.SortElement.member=구성원
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=연산자
 Element.FilterConditionElement.expr=식
-Element.FilterConditionElement.value1=value1
-Element.FilterConditionElement.value2=value2
+Element.FilterConditionElement.value1=Value1
+Element.FilterConditionElement.value2=Value2
 Element.FilterConditionElement.filterTarget=대상 필터
-Element.FilterConditionElement.member=Member 
+Element.FilterConditionElement.member=구성원 
 
 ###########################################################
 # Predefined style
@@ -3398,7 +3398,7 @@ Error.NameException.NAME_REQUIRED={0}의 이름이 필요합니다.
 Error.NameException.NAME_FORBIDDEN={0}은(는) 이름을 가질 수 없습니다.
 Error.NameException.DUPLICATE=이름 "{0}"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
 Error.NameException.HAS_REFERENCES={0}에 파생된 요소가 있어 이름을 지울 수 없습니다.
-Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_NAME=이름 "{0}"이(가) 잘못되었습니다. 다음과 같은 문자를 포함하면 안 됩니다. ".", "/", "\", "!", ";", ","
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=속성 "{0}"은(는) 요소 "{1}"에 알맞지 않습니다.

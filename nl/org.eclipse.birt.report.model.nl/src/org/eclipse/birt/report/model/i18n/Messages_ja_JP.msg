@@ -605,11 +605,11 @@ Choices.reportLayoutPreference.autoLayout=自動レイアウト
 Choices.dateTimeLevelType.year=年
 Choices.dateTimeLevelType.month=月
 Choices.dateTimeLevelType.quarter=四半期
-Choices.dateTimeLevelType.weekOfMonth=Week Of Month
-Choices.dateTimeLevelType.weekOfYear=Week Of Year
-Choices.dateTimeLevelType.dayOfWeek=Day Of Week
-Choices.dateTimeLevelType.dayOfMonth=Day Of Month
-Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.weekOfMonth=暦週 (月)
+Choices.dateTimeLevelType.weekOfYear=暦週 (年)
+Choices.dateTimeLevelType.dayOfWeek=通日 (週)
+Choices.dateTimeLevelType.dayOfMonth=通日 (月)
+Choices.dateTimeLevelType.dayOfYear=通日 (年)
 Choices.dateTimeLevelType.hour=時
 Choices.dateTimeLevelType.minute=分
 Choices.dateTimeLevelType.second=秒
@@ -2241,9 +2241,9 @@ Element.OdaHierarchy=ODA 階層
 Element.OdaLevel=ODA レベル
 Element.OdaMeasure=ODA 計測
 Element.OdaMeasureGroup=ODA 計測グループ
-Element.MemberValue=Member Value
-Element.SortElement=Sort Element
-Element.FilterConditionElement=Filter Condition Element
+Element.MemberValue=メンバ値
+Element.SortElement=ソート要素
+Element.FilterConditionElement=フィルタの条件要素
 
 ###########################################################
 # Element property names
@@ -3086,12 +3086,12 @@ Element.OdaLevel.attributes=属性
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=値
 Element.MemberValue.level=レベル
-Element.MemberValue.memberValues=Member Values
+Element.MemberValue.memberValues=メンバ値
 
 #61. SortElement ( prefix Element.SortElement )
-Element.SortElement.key=Key
-Element.SortElement.direction=Direction
-Element.SortElement.member=Member
+Element.SortElement.key=キー
+Element.SortElement.direction=方向
+Element.SortElement.member=メンバ
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=演算子
@@ -3099,7 +3099,7 @@ Element.FilterConditionElement.expr=式
 Element.FilterConditionElement.value1=値 1
 Element.FilterConditionElement.value2=値 2
 Element.FilterConditionElement.filterTarget=フィルタのターゲット
-Element.FilterConditionElement.member=Member 
+Element.FilterConditionElement.member=メンバ 
 
 ###########################################################
 # Predefined style
@@ -3398,7 +3398,7 @@ Error.NameException.NAME_REQUIRED={0} に名前を指定する必要があります。
 Error.NameException.NAME_FORBIDDEN={0} には名前を指定できません。
 Error.NameException.DUPLICATE=この名前 "{0}" は、すでに使用されています。別の名前を付けてください。
 Error.NameException.HAS_REFERENCES={0} には、派生した要素があります。名前をクリアできません。
-Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_NAME="{0}" は無効な名前です。名前には "." (ピリオド)、"/" (スラッシュ)、"\" (円マーク)、"!" (感嘆符)、";" (セミコロン)、"," (コンマ) を使用できません。
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=プロパティ "{0}" は、要素 "{1}" では使用できません。

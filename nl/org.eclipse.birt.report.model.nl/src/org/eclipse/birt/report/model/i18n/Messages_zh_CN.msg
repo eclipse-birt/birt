@@ -605,11 +605,11 @@ Choices.reportLayoutPreference.autoLayout=自动布局
 Choices.dateTimeLevelType.year=年
 Choices.dateTimeLevelType.month=月
 Choices.dateTimeLevelType.quarter=季
-Choices.dateTimeLevelType.weekOfMonth=Week Of Month
-Choices.dateTimeLevelType.weekOfYear=Week Of Year
-Choices.dateTimeLevelType.dayOfWeek=Day Of Week
-Choices.dateTimeLevelType.dayOfMonth=Day Of Month
-Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.weekOfMonth=月中第几周
+Choices.dateTimeLevelType.weekOfYear=年中第几周
+Choices.dateTimeLevelType.dayOfWeek=星期几
+Choices.dateTimeLevelType.dayOfMonth=月中第几天
+Choices.dateTimeLevelType.dayOfYear=年中第几天
 Choices.dateTimeLevelType.hour=小时
 Choices.dateTimeLevelType.minute=分钟
 Choices.dateTimeLevelType.second=秒
@@ -2241,9 +2241,9 @@ Element.OdaHierarchy=ODA 层次结构
 Element.OdaLevel=ODA 级别
 Element.OdaMeasure=ODA 度量
 Element.OdaMeasureGroup=ODA 度量组
-Element.MemberValue=Member Value
-Element.SortElement=Sort Element
-Element.FilterConditionElement=Filter Condition Element
+Element.MemberValue=成员值
+Element.SortElement=排序元素
+Element.FilterConditionElement=筛选条件元素
 
 ###########################################################
 # Element property names
@@ -3086,12 +3086,12 @@ Element.OdaLevel.attributes=属性
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=值
 Element.MemberValue.level=级别
-Element.MemberValue.memberValues=Member Values
+Element.MemberValue.memberValues=成员值
 
 #61. SortElement ( prefix Element.SortElement )
-Element.SortElement.key=Key
-Element.SortElement.direction=Direction
-Element.SortElement.member=Member
+Element.SortElement.key=关键字
+Element.SortElement.direction=方向
+Element.SortElement.member=成员
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=运算符
@@ -3099,7 +3099,7 @@ Element.FilterConditionElement.expr=表达式
 Element.FilterConditionElement.value1=值 1
 Element.FilterConditionElement.value2=值 2
 Element.FilterConditionElement.filterTarget=筛选目标
-Element.FilterConditionElement.member=Member 
+Element.FilterConditionElement.member=成员 
 
 ###########################################################
 # Predefined style
@@ -3398,7 +3398,7 @@ Error.NameException.NAME_REQUIRED=要求提供 {0} 的名称。
 Error.NameException.NAME_FORBIDDEN={0} 不允许具有名称。
 Error.NameException.DUPLICATE=名称 "{0}" 与现有名称重复。请选择一个不同的名称。
 Error.NameException.HAS_REFERENCES={0} 具有衍生元素，因此无法清除该名称。
-Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_NAME=名称“{0}”无效，因为它包含字符 "."、"/"、"\"、"!"、";" 和 ","。
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=属性 "{0}" 对元素 "{1}" 无效。

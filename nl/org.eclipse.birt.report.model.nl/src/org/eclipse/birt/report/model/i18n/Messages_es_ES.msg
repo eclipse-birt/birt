@@ -605,11 +605,11 @@ Choices.reportLayoutPreference.autoLayout=Diseño automático
 Choices.dateTimeLevelType.year=Año
 Choices.dateTimeLevelType.month=Mes
 Choices.dateTimeLevelType.quarter=Trimestre
-Choices.dateTimeLevelType.weekOfMonth=Week Of Month
-Choices.dateTimeLevelType.weekOfYear=Week Of Year
-Choices.dateTimeLevelType.dayOfWeek=Day Of Week
-Choices.dateTimeLevelType.dayOfMonth=Day Of Month
-Choices.dateTimeLevelType.dayOfYear=Day Of Year
+Choices.dateTimeLevelType.weekOfMonth=Semana del mes
+Choices.dateTimeLevelType.weekOfYear=Semana del año
+Choices.dateTimeLevelType.dayOfWeek=Día de la semana
+Choices.dateTimeLevelType.dayOfMonth=Día del mes
+Choices.dateTimeLevelType.dayOfYear=Día del año
 Choices.dateTimeLevelType.hour=Hora
 Choices.dateTimeLevelType.minute=Minuto
 Choices.dateTimeLevelType.second=Segundo
@@ -2241,9 +2241,9 @@ Element.OdaHierarchy=Jerarquía ODA
 Element.OdaLevel=Nivel ODA
 Element.OdaMeasure=Medida ODA
 Element.OdaMeasureGroup=Grupo de medida ODA
-Element.MemberValue=Member Value
-Element.SortElement=Sort Element
-Element.FilterConditionElement=Filter Condition Element
+Element.MemberValue=Valor de miembro
+Element.SortElement=Elemento de ordenación
+Element.FilterConditionElement=Elemento de condición de filtro
 
 ###########################################################
 # Element property names
@@ -3086,20 +3086,20 @@ Element.OdaLevel.attributes=Atributos
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=Valor
 Element.MemberValue.level=Nivel
-Element.MemberValue.memberValues=Member Values
+Element.MemberValue.memberValues=Valores de miembro
 
 #61. SortElement ( prefix Element.SortElement )
-Element.SortElement.key=Key
-Element.SortElement.direction=Direction
-Element.SortElement.member=Member
+Element.SortElement.key=Clave
+Element.SortElement.direction=Dirección
+Element.SortElement.member=Miembro
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
-Element.FilterConditionElement.operator=operador
+Element.FilterConditionElement.operator=Operador
 Element.FilterConditionElement.expr=Expresión
-Element.FilterConditionElement.value1=valor1
-Element.FilterConditionElement.value2=valor2
-Element.FilterConditionElement.filterTarget=Destino del filtro
-Element.FilterConditionElement.member=Member 
+Element.FilterConditionElement.value1=Valor1
+Element.FilterConditionElement.value2=Valor2
+Element.FilterConditionElement.filterTarget=Destino de filtro
+Element.FilterConditionElement.member=Miembro 
 
 ###########################################################
 # Predefined style
@@ -3398,7 +3398,7 @@ Error.NameException.NAME_REQUIRED=Es necesario el nombre de {0}.
 Error.NameException.NAME_FORBIDDEN=No se permite al valor "{0}" tener nombre.
 Error.NameException.DUPLICATE=El nombre "{0}" duplica un nombre existente. Elija un nombre diferente.
 Error.NameException.HAS_REFERENCES=El valor {0} tiene un elemento derivado, el nombre no puede eliminarse.
-Error.NameException.INVALID_NAME=The name "{0}" is invalid for it contains character ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_NAME=El nombre "{0}" no es válido, ya que contiene uno de los siguientes caracteres ".", "/", "\", "!", ";", "," .
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propiedad "{0}" no es válida para el elemento "{1}".
