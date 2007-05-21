@@ -1187,11 +1187,13 @@ public class BirtViewerReportService implements IViewerReportService
 				? false
 				: scalarParamHandle.isMustMatch( );
 		boolean concealValue = engineParam.isValueConcealed( );
-
+		boolean distinct = scalarParamHandle == null
+				? false
+				: scalarParamHandle.distinct( );
 		ParameterDefinition param = new ParameterDefinition( id, name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				valueExpr, controlType, hidden, allowNull, allowBlank,
-				isRequired, mustMatch, concealValue, group, null );
+				isRequired, mustMatch, concealValue, distinct, group, null );
 		return param;
 	}
 

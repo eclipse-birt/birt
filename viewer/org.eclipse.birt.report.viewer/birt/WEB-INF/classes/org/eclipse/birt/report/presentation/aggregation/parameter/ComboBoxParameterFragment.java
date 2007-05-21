@@ -97,6 +97,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		parameterBean.setValueInList( false );
 		if ( selectionList != null )
 		{
+			boolean isDisplayTextInList = false;
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -127,17 +128,32 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 							paramDef.getPattern( ), value, locale );
 				}
 
-				if ( label != null )
-				{
-					selectionItem.setLabel( label );
-					selectionItem.setValue( displayValue );
-					parameterBean.getSelectionList( ).add( selectionItem );
-				}
+				if ( label == null )
+					continue;
+
+				selectionItem.setLabel( label );
+				selectionItem.setValue( displayValue );
+				parameterBean.getSelectionList( ).add( selectionItem );
 
 				// If parameter value is in the selection list
 				if ( displayValue.equals( parameterBean.getValue( ) ) )
 				{
 					parameterBean.setValueInList( true );
+
+					// check whether parameter display text is in the label list
+					if ( !label.equals( parameterBean.getDisplayText( ) ) )
+					{
+						if ( parameterBean.getParameter( ).isDistinct( ) )
+						{
+							selectionItem.setLabel( parameterBean
+									.getDisplayText( ) );
+							isDisplayTextInList = true;
+						}
+					}
+					else
+					{
+						isDisplayTextInList = true;
+					}
 				}
 
 				// If parameter default value is in the selection list
@@ -145,6 +161,18 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				{
 					parameterBean.setDefaultValueInList( true );
 				}
+			}
+
+			// add new item
+			if ( parameterBean.isValueInList( )
+					&& parameterBean.isDisplayTextInReq( )
+					&& !isDisplayTextInList )
+			{
+				parameterBean.getSelectionList( )
+						.add(
+								new ParameterSelectionChoice( parameterBean
+										.getDisplayText( ), parameterBean
+										.getValue( ) ) );
 			}
 		}
 	}

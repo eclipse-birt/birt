@@ -105,19 +105,16 @@
 <%	
 		}
 		
+		boolean isSelected = false;
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
 			ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( i );						
 			String label = selectionItem.getLabel( );
 			String value = ( String ) selectionItem.getValue( );
 
-			if ( paramValue != null && paramValue.equals( value ) )
+			if ( !isSelected && paramValue != null && paramValue.equals( value ) && label.equals( displayText ) )
 			{
-				// if displayText is in request, use it
-				if( parameterBean.isDisplayTextInReq( ) )
-				{
-					label = displayText;
-				}
+				isSelected = true;				
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%

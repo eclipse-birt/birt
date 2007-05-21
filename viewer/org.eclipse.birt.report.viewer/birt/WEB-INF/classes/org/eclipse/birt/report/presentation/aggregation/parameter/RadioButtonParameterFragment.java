@@ -67,6 +67,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 		ParameterDefinition paramDef = parameterBean.getParameter( );
 		if ( selectionList != null )
 		{
+			boolean isDisplayTextInList = false;
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -97,13 +98,38 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 							paramDef.getPattern( ), value, locale );
 				}
 
-				if ( label != null )
+				if ( label == null )
+					continue;
+
+				label = ParameterAccessor.htmlEncode( label );
+				selectionItem.setLabel( label );
+				selectionItem.setValue( displayValue );
+				parameterBean.getSelectionList( ).add( selectionItem );
+
+				// check whether parameter display text is in the label list
+				if ( !label.equals( parameterBean.getDisplayText( ) ) )
 				{
-					label = ParameterAccessor.htmlEncode( label );
-					selectionItem.setLabel( label );
-					selectionItem.setValue( displayValue );
-					parameterBean.getSelectionList( ).add( selectionItem );
+					if ( parameterBean.getParameter( ).isDistinct( ) )
+					{
+						selectionItem
+								.setLabel( parameterBean.getDisplayText( ) );
+						isDisplayTextInList = true;
+					}
 				}
+				else
+				{
+					isDisplayTextInList = true;
+				}
+			}
+
+			// add new item
+			if ( parameterBean.isDisplayTextInReq( ) && !isDisplayTextInList )
+			{
+				parameterBean.getSelectionList( )
+						.add(
+								new ParameterSelectionChoice( parameterBean
+										.getDisplayText( ), parameterBean
+										.getValue( ) ) );
 			}
 		}
 	}
