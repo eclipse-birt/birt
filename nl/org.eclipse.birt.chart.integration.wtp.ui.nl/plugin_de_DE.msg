@@ -1,12 +1,12 @@
-birt.web.category.name=Business Intelligence and Reporting Tools
-birt.web.project.name=BIRT Charting Web Project
-birt.web.project.description=Create a web project containing BIRT Chart Component
-birt.web.actionsets.description=Actions for BIRT Charting Web Project
-create.birt.web.module=Create a BIRT Charting Web Module
+birt.web.category.name=Business Intelligence & Reporting Tools
+birt.web.project.name=BIRT-Diagramm-Webprojekt
+birt.web.project.description=Ein Webprojekt mit der BIRT-Diagrammkomponente erstellen
+birt.web.actionsets.description=Aktionen für BIRT-Diagramm-Webprojekt
+create.birt.web.module=BIRT-Diagramm-Webmodul erstellen
 
-BIRT_FACET_LABEL=BIRT Charting Runtime Component
-BIRT_FACET_DESCRIPTION=BIRT Charting Runtime Component
-BIRT_FACET_TEMPLATE_LABEL=BIRT Charting Web Project
+BIRT_FACET_LABEL=BIRT-Diagramm-Runtime-Komponente
+BIRT_FACET_DESCRIPTION=BIRT-Diagramm-Runtime-Komponente
+BIRT_FACET_TEMPLATE_LABEL=BIRT-Diagramm-Webprojekt
 
-JSP_New_context_type_Extension_Element.name=New JSP With BIRT Charting Tag
-JSP_Tag_context_type_Extension_Element.name=New BIRT Charting JSP Tag
+JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Diagramm-Tag
+JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-Diagramm-JSP-Tag
