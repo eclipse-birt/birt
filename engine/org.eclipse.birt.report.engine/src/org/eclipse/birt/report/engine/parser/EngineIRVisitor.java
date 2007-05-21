@@ -2437,6 +2437,7 @@ public class EngineIRVisitor extends DesignVisitor
 	
 	protected long generateUniqueID( )
 	{
-		return newCellId--;
+		newCellId = newCellId - 1;
+		return newCellId;
 	}
 }
