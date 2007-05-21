@@ -407,7 +407,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 			Object oValue;
 			int iSeriesPerGroup;
-			double dGroupMin, dGroupMax, dValue, dAbsTotal, dPercentMax = 0, dPercentMin = 0;
+			double dPercentMax = 0, dPercentMin = 0;
 			double dAxisMin = Double.MAX_VALUE, dAxisMax = -Double.MAX_VALUE;
 			ArrayList alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
 			ArrayList alSeriesPerGroup;
@@ -434,7 +434,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 			for ( int k = 0; k < iDataSetCount; k++ ) // PER UNIT
 			{
-				dAbsTotal = 0;
 				iSeriesIndex = 0;
 				for ( int i = 0; i < alSeriesGroupsPerAxis.size( ); i++ )
 				{
@@ -461,13 +460,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						// ALL SERIES MUST HAVE THE SAME DATASET ELEMENT COUNT
 						iDataSetCount = dsi[iSeriesIndex].size( );
 
-						dGroupMin = 0;
-						dGroupMax = 0;
-						if ( ax.isPercent( ) )
-						{
-							dAbsTotal = 0;
-						}
-
+						final AxisSubUnit au = ssl.getSubUnit( sg, k );
 						for ( int j = 0; j < iSeriesPerGroup; j++ )
 						{
 							se = (Series) alSeriesPerGroup.get( j );
@@ -491,34 +484,25 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							if ( oValue != null ) // NULL CHECK
 							{
 								// EXTRACT WRAPPED VALUE
-								dValue = ( (Double) oValue ).doubleValue( );
-								dAbsTotal += Math.abs( dValue );
-								if ( dValue > 0 )
-								{
-									dGroupMax += dValue; // UPDATE MAX
-								}
-								else if ( dValue < 0 )
-								{
-									dGroupMin += dValue; // UPDATE MIN
-								}
+								double dValue = ( (Double) oValue ).doubleValue( );
+								au.computeTotal( dValue );
 							}
 							iSeriesIndex++;
 						}
-						final AxisSubUnit au = ssl.getSubUnit( sg, k );
-						au.setPositiveTotal( dGroupMax );
-						au.setNegativeTotal( dGroupMin );
 
 						// FOR EACH UNIT, UPDATE THE MIN/MAX BASED ON ALL
 						// STACKED SERIES
-						dAxisMax = Math.max( dGroupMax, dAxisMax );
-						dAxisMin = Math.min( dGroupMin, dAxisMin );
+						dAxisMax = Math.max( au.getPositiveTotal( ), dAxisMax );
+						dAxisMin = Math.min( au.getNegativeTotal( ), dAxisMin );
 						if ( ax.isPercent( ) )
 						{
+							double dAbsTotal = au.getPositiveTotal( )
+									- au.getNegativeTotal( );
 							if ( dAbsTotal != 0d )
 							{
-								dPercentMax = Math.max( ( dGroupMax / dAbsTotal ) * 100d,
+								dPercentMax = Math.max( ( au.getPositiveTotal( ) / dAbsTotal ) * 100d,
 										dPercentMax );
-								dPercentMin = Math.min( ( dGroupMin / dAbsTotal ) * 100d,
+								dPercentMin = Math.min( ( au.getNegativeTotal( ) / dAbsTotal ) * 100d,
 										dPercentMin );
 							}
 						}

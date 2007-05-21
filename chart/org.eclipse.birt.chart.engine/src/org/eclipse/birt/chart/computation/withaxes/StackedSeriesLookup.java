@@ -114,7 +114,7 @@ public final class StackedSeriesLookup
 		// IF NOT YET CONTAINED, ADD LAZILY
 		if ( sg.alUnitPositions.size( ) <= iUnitIndex )
 		{
-			sg.alUnitPositions.add( new AxisSubUnit( ) );
+			sg.alUnitPositions.add( new AxisSubUnit( sg.bStackTogether ) );
 		}
 
 		return (AxisSubUnit) sg.alUnitPositions.get( iUnitIndex );
@@ -135,24 +135,7 @@ public final class StackedSeriesLookup
 	{
 		// LOOKUP STACKED GROUP FOR SERIES
 		StackGroup sg = (StackGroup) htSeriesToStackGroup.get( se );
-		if ( sg == null )
-		{
-			return null;
-		}
-
-		// IF NOT YET INITIALIZED, DO SO LAZILY
-		if ( sg.alUnitPositions == null )
-		{
-			sg.alUnitPositions = new ArrayList( 8 );
-		}
-
-		// IF NOT YET CONTAINED, ADD LAZILY
-		if ( sg.alUnitPositions.size( ) <= iUnitIndex )
-		{
-			sg.alUnitPositions.add( new AxisSubUnit( ) );
-		}
-
-		return (AxisSubUnit) sg.alUnitPositions.get( iUnitIndex );
+		return getSubUnit( sg, iUnitIndex );
 	}
 
 	/**

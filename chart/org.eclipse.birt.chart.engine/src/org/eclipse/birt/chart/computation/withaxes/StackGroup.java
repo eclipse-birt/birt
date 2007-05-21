@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.type.LineSeries;
 
 /**
  * StackGroup
@@ -28,6 +29,9 @@ public class StackGroup
 	final int iSharedUnitIndex;
 
 	int iSharedUnitCount = 1;
+	
+	/** Return positive and negative values should be accumulated together or not */
+	boolean bStackTogether = false;
 
 	/**
 	 * The constructor.
@@ -53,6 +57,12 @@ public class StackGroup
 	final void addSeries( Series se )
 	{
 		alSeries.add( se );
+		
+		// If having one series stack together, that's it.
+		if ( !bStackTogether )
+		{
+			bStackTogether = isStackTogether( se );
+		}
 	}
 
 	/**
@@ -80,5 +90,17 @@ public class StackGroup
 	public final int getSharedCount( )
 	{
 		return iSharedUnitCount;
+	}
+	
+	/**
+	 * Returns current series is stacked together
+	 * 
+	 * @TODO need to add api in Series to return the result
+	 * @param series
+	 * @return
+	 */
+	private boolean isStackTogether( Series series )
+	{
+		return series instanceof LineSeries;
 	}
 }

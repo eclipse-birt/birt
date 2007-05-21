@@ -17,15 +17,17 @@ package org.eclipse.birt.chart.computation.withaxes;
 public final class AxisSubUnit
 {
 
-	private double dValueMax = 0;
+	/** Value to accumulate all values or positive values */
+	private double dValueLast = 0;
+	/** Value to accumulate negative values */
+	private double dValueLastNegative = 0;
 
-	private double dValueMin = 0;
-
+	/** Total value of all positive values */
 	private double dPositiveTotal = 0;
-
+	/** Total value of all negative values */
 	private double dNegativeTotal = 0;
-
-	private double dLastValue = 0;
+	/** Total value of all values, only used when stack together */
+	private double dTotal = 0;
 
 	/** The field stores max position of series in axes. */
 	private double dLastMaxPosition = Double.NaN;
@@ -33,68 +35,110 @@ public final class AxisSubUnit
 	/** The field stores min position of series in axes. */
 	private double dLastMinPosition = Double.NaN;
 	
-	AxisSubUnit( )
+	/** Return positive and negative values should be accumulated together or not */
+	private final boolean bStackTogether;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param bStackTogether
+	 *            indicates if stack together
+	 */
+	AxisSubUnit( boolean bStackTogether )
 	{
+		this.bStackTogether = bStackTogether;
 	}
 
 	public final void reset( )
 	{
-		dValueMax = 0;
-		dValueMin = 0;
-		dLastValue = 0;
+		dValueLastNegative = 0;
+		dValueLast = 0;
 	}
-
-	public final double getLastValue( )
-	{
-		return dLastValue;
-	}
-
-	public final void setLastValue( double dLastValue )
-	{
-		this.dLastValue = dLastValue;
-	}
-
+	
 	/**
-	 * @return Returns the valueMax.
-	 */
-	public final double getValueMax( )
-	{
-		return dValueMax;
-	}
-
-	/**
-	 * @param dValueMax
-	 *            The valueMax to set.
-	 */
-	public final void setValueMax( double dValueMax )
-	{
-		this.dValueMax = dValueMax;
-	}
-
-	/**
-	 * @return Returns the valueMin.
-	 */
-	public final double getValueMin( )
-	{
-		return dValueMin;
-	}
-
-	/**
-	 * @param dValueMin
-	 *            The valueMin to set.
-	 */
-	public final void setValueMin( double dValueMin )
-	{
-		this.dValueMin = dValueMin;
-	}
-
-	/**
+	 * Returns if current positive and negative values are aggregated together
+	 * or not
 	 * 
-	 * @param dPositiveTotal
+	 * @return true: together, false: by sign respectively
 	 */
-	public final void setPositiveTotal( double dPositiveTotal )
+	public boolean isStackTogether( )
 	{
-		this.dPositiveTotal = dPositiveTotal;
+		return bStackTogether;
+	}
+	
+	/**
+	 * Accumulates the value and returns the result.
+	 * 
+	 * @param dValue
+	 *            the value to accumulate
+	 * @return the result value after accumulating
+	 * @see #isStackTogether()
+	 * @see #getStackedValue(double)
+	 */
+	public final double stackValue( double dValue )
+	{
+		if ( bStackTogether )
+		{
+			// Stack values together
+			this.dValueLast += dValue;
+		}
+		else
+		{
+			if ( dValue > 0 )
+			{
+				// POSITIVE STACK ACCUMULATION
+				this.dValueLast += dValue;
+			}
+			else if ( dValue < 0 )
+			{
+				// NEGATIVE STACK ACCUMULATION
+				this.dValueLastNegative += dValue;
+			}
+		}
+		return getStackedValue( dValue );
+	}
+
+	/**
+	 * Returns the current accumulated value.
+	 * 
+	 * @param dValue
+	 *            value to check the sign. If stack together, it's no use.
+	 * @return the current accumulated value.
+	 */
+	public final double getStackedValue( double dValue )
+	{
+		if ( bStackTogether )
+		{
+			return dValueLast;
+		}
+
+		if ( dValue > 0 )
+		{
+			return dValueLast;
+		}
+		if ( dValue < 0 )
+		{
+			return dValueLastNegative;
+		}
+		return dValueLast;
+	}
+	
+	
+	public final void computeTotal( double dValue )
+	{
+		if ( bStackTogether )
+		{
+			this.dTotal += dValue;
+		}
+
+		if ( dValue > 0 )
+		{
+			this.dPositiveTotal += dValue;
+		}
+		else if ( dValue < 0 )
+		{
+			this.dNegativeTotal += dValue;
+		}
 	}
 
 	/**
@@ -103,16 +147,11 @@ public final class AxisSubUnit
 	 */
 	public final double getPositiveTotal( )
 	{
+		if ( bStackTogether )
+		{
+			return Math.max( dTotal, 0 );
+		}
 		return dPositiveTotal;
-	}
-
-	/**
-	 * 
-	 * @param dPositiveTotal
-	 */
-	public final void setNegativeTotal( double dNegativeTotal )
-	{
-		this.dNegativeTotal = dNegativeTotal;
 	}
 
 	/**
@@ -121,6 +160,10 @@ public final class AxisSubUnit
 	 */
 	public final double getNegativeTotal( )
 	{
+		if ( bStackTogether )
+		{
+			return Math.min( dTotal, 0 );
+		}
 		return dNegativeTotal;
 	}
 
@@ -135,26 +178,61 @@ public final class AxisSubUnit
 		{
 			return 0;
 		}
+		// Do not use dTotal to compute percentage to avoid data out of bound
 		return ( dValue * 100d ) / ( dPositiveTotal - dNegativeTotal );
 	}
 
-	public final double getLastMaxPosition( )
+	/**
+	 * Saves the last position and uses to compute current position by adding
+	 * margin
+	 * 
+	 * @param dValue
+	 *            value to check the max or min location
+	 * @param dBaseLocation
+	 *            base location when last position is null
+	 * @param dMargin
+	 *            margin location
+	 * @see "https://bugs.eclipse.org/bugs/show_bug.cgi?id=182279"
+	 */
+	public final void setLastPosition( double dValue, double dBaseLocation,
+			double dMargin )
 	{
-		return dLastMaxPosition;
-	}
+		if ( bStackTogether || dValue >= 0 )
+		{
+			if ( !Double.isNaN( dLastMaxPosition ) )
+			{
+				dBaseLocation = dLastMaxPosition;
+			}
 
-	public final void setLastMaxPosition( double dLastMaxPosition )
-	{
-		this.dLastMaxPosition = dLastMaxPosition;
-	}
+			dBaseLocation += dMargin;
+			dLastMaxPosition = dBaseLocation;
+		}
+		else
+		{
+			if ( !Double.isNaN( dLastMinPosition ) )
+			{
+				dBaseLocation = dLastMinPosition;
+			}
 
-	public final double getLastMinPosition( )
+			dBaseLocation += dMargin;
+			dLastMinPosition = dBaseLocation;
+		}
+	}
+	
+	/**
+	 * Gets the last position
+	 * 
+	 * @param dValue
+	 *            value to check the max or min location
+	 * @return
+	 */
+	public final double getLastPosition( double dValue )
 	{
+		if ( bStackTogether || dValue >= 0 )
+		{
+			return dLastMaxPosition;
+		}
 		return dLastMinPosition;
 	}
-
-	public final void setLastMinPosition( double dLastMinPosition )
-	{
-		this.dLastMinPosition = dLastMinPosition;
-	}
+	
 }
