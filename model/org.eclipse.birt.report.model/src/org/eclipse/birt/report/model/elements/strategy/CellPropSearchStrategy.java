@@ -68,12 +68,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 
 		DesignElement e = cell.getContainer( );
 		while ( e != null )
-		{
-			Object value = e.getStrategy( ).getPropertyFromElement( module, e,
-					prop );
-			if ( value != null )
-				return value;
-
+		{			
 			// check property values on the columns.
 
 			DesignElement tmpContainer = e.getContainer( );

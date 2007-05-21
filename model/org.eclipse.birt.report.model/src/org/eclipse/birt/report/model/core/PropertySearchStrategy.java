@@ -94,12 +94,6 @@ public class PropertySearchStrategy
 					|| !tmpStrategy.isInheritableProperty( e, prop ) )
 				break;
 
-			// for the special case that may relates to the container.
-
-			value = tmpStrategy.getPropertyRelatedToContainer( module, e, prop );
-			if ( value != null )
-				return value;
-
 			// Try to get the value of this property from container
 			// hierarchy.
 
@@ -131,8 +125,8 @@ public class PropertySearchStrategy
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getPropertyFromElement( Module module, DesignElement element,
-			ElementPropertyDefn prop )
+	public final Object getPropertyFromElement( Module module,
+			DesignElement element, ElementPropertyDefn prop )
 	{
 		if ( prop.isIntrinsic( ) )
 		{
@@ -206,11 +200,16 @@ public class PropertySearchStrategy
 			value = getPropertyFromSlotSelector( module, element, prop );
 			if ( value != null )
 				return value;
+
+			// for the special case that may relates to the container.
+			value = getPropertyRelatedToContainer( module, element, prop );
+			if ( value != null )
+				return value;
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * Returns the property value from this element. The value is only from
 	 * local properties or local style of this element.
