@@ -47,6 +47,23 @@
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
 		<link href="birt/styles/dialogbase.css" media="screen" rel="stylesheet" type="text/css"/>	
 		
+		<script type="text/javascript">
+			<%
+			if( request.getAttribute("SoapURL") != null )
+			{
+			%>
+			var soapURL = "<%= (String)request.getAttribute("SoapURL")%>";
+			<%
+			}
+			else
+			{
+			%>
+			var soapURL = document.location.href;
+			<%
+			}
+			%>
+		</script>
+		
 		<script src="birt/ajax/utility/Debug.js" type="text/javascript"></script>
 		<script src="birt/ajax/lib/prototype.js" type="text/javascript"></script>
 		

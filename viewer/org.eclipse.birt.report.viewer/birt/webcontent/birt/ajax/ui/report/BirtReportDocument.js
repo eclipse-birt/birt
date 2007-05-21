@@ -77,7 +77,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		}
         birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
         							  "CacheParameter", null, birtParameterDialog.__parameter );
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},
@@ -181,7 +181,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			divObj.appendChild( formObj );
 
 			// Replace "html" to "pdf"
-			var action = window.location.href;
+			var action = soapURL;
 			var reg = new RegExp( "([&|?]{1}__format\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
@@ -218,7 +218,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	__beh_cancelTask : function( id, object )
 	{	
         birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "CancelTask", null, object );
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},
@@ -248,7 +248,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
         							       { name : "svg", value : this.__has_svg_support? "true" : "false" },
 	        							   { name : this.__task_id, value : taskid } );			
 		}
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},

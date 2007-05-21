@@ -404,7 +404,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var hiddenForm = document.createElement( 'form' );
 		hiddenForm.method = 'post';
 		hiddenForm.target = '_self';
-		var url = document.location.href;
+		var url = soapURL;
 		url = url.replace( /[\/][a-zA-Z]+[?]/, '/download?' );
 		hiddenForm.action = url;
 		

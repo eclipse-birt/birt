@@ -122,7 +122,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
 										  { name : this.__task_id, value : taskid } );			
 		}
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},
@@ -138,7 +138,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	    birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
 	    							 "GetCascadingParameter", null, object,
 	    							 { name : this.__task_id, value : taskid } );
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},
@@ -167,7 +167,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		// set task id
 		var taskid = birtUtility.setTaskId( );
 		
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		if ( object )
 		{
 			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
@@ -203,7 +203,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		// Get current page number
 		var pageNum = birtUtility.getPageNumber( );
 		
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		if ( object )
 		{
 			if( pageNum > 0 )
@@ -255,7 +255,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_export : function( id )
 	{
-		birtSoapRequest.setURL( document.location);
+		birtSoapRequest.setURL( soapURL);
 		birtSoapRequest.addOperation( "Document", Constants.Document, "QueryExport", null );
 		return true;
 	}

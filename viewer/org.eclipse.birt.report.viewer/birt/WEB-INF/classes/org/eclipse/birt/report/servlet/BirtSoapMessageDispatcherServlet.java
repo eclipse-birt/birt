@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -43,7 +44,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 */
 	protected IFragment viewer = null;
 	protected IFragment run = null;
-	
+
 	/**
 	 * Abstract methods.
 	 */
@@ -149,6 +150,34 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		{
 			return;
 		}
+
+		// create SOAP URL with post parameters
+		StringBuilder builder = new StringBuilder( );
+		Iterator it = request.getParameterMap( ).keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			String paramName = (String) it.next( );
+			if ( paramName != null && paramName.startsWith( "__" ) ) //$NON-NLS-1$
+			{
+				String paramValue = ParameterAccessor.urlEncode(
+						ParameterAccessor.getParameter( request, paramName ),
+						ParameterAccessor.UTF_8_ENCODE );
+				builder.append( "&" + paramName + "=" + paramValue ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+		}
+		String soapURL = request.getRequestURL( ).toString( );
+		if ( request.getQueryString( ) != null )
+		{
+			soapURL += "?" //$NON-NLS-1$
+					+ request.getQueryString( ) + builder.toString( );
+		}
+		else
+		{
+			builder.deleteCharAt( 0 );
+			soapURL += "?" + builder.toString( ); //$NON-NLS-1$
+		}
+
+		request.setAttribute( "SoapURL", soapURL ); //$NON-NLS-1$
 
 		// init context
 		IContext context = null;

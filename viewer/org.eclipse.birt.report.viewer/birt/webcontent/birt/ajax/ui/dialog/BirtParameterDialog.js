@@ -812,7 +812,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		if( birtParameterDialog.collect_parameter( ) )
 		{
-			var action = window.location.href.toLowerCase( );
+			var action = soapURL.toLowerCase( );
 			
 			if ( this.__mode == 'parameter' )
 			{
@@ -865,7 +865,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__doSubmitWithPattern : function( )
 	{
-		var url = window.location.href;
+		var url = soapURL;
 		
 		// parse pattern
 		var reg = new RegExp( "[&|?]{1}__pattern\s*=([^&|^#]*)", "gi" );
@@ -901,7 +901,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		var action = url;
 		if( !action )
-			action = window.location.href;
+			action = soapURL;
 		
 		var divObj = document.createElement( "DIV" );
 		document.body.appendChild( divObj );

@@ -263,7 +263,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__neh_click_broadcast : function( query, realId )
 	{
-		birtSoapRequest.setURL( document.location );
+		birtSoapRequest.setURL( soapURL );
 		if( query == '0' )
 		{
 			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
@@ -373,7 +373,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		if( root.query != 1 )
 		{
 			root.query = '1';
-			birtSoapRequest.setURL( document.location );
+			birtSoapRequest.setURL( soapURL );
 			birtSoapRequest.addOperation( Constants.documentId,  Constants.Document, "GetToc", null );
 			return true;
 		}

@@ -97,7 +97,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			divObj.appendChild( formObj );
 
 			// Set selected output format
-			var action = window.location.href;
+			var action = soapURL;
 			var reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FORMAT + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
