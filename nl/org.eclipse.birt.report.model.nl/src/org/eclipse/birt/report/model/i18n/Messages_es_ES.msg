@@ -2167,6 +2167,11 @@ Structure.OdaLevelAttribute.nativeDataType=Código de tipo de datos nativo
 Structure.DimensionJoinCondition.cubeKey=Clave de cubo
 Structure.DimensionJoinCondition.hierarchyKey=Clave de jerarquía
 
+#34. AggregationArgument
+Structure.AggregationArgument=Aggregation Argument
+Structure.AggregationArgument.name=Argument Name
+Structure.AggregationArgument.value=Argument Value
+
 ###########################################################
 # Element names
 
