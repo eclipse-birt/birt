@@ -689,7 +689,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	public void renderReport( IProgressMonitor monitor )
 	{
-		if ( !assignParamValues )
+		if ( hasParas && !assignParamValues )
 			return;
 		assignParamValues = false;
 
