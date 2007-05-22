@@ -86,7 +86,7 @@
 		<param-value>ON</param-value>
 	</context-param>
 
-	<!-- If force optimized HTML output. Defalult to true -->
+	<!-- If force optimized HTML output. Default to true -->
 	<context-param>
 		<param-name>HTML_ENABLE_AGENTSTYLE_ENGINE</param-name>
 		<param-value>true</param-value>
