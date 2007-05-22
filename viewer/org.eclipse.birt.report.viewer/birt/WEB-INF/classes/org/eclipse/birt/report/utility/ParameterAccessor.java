@@ -191,6 +191,12 @@ public class ParameterAccessor
 	public static final String PARAM_RESOURCE_FOLDER = "__resourceFolder"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate if force optimized HTML output.
+	 */
+
+	public static final String PARAM_AGENTSTYLE_ENGINE = "__agentstyle"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -303,6 +309,12 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
 
 	/**
+	 * Servlet parameter name that if force optimized HTML output.
+	 */
+
+	public static final String INIT_PARAM_AGENTSTYLE_ENGINE = "HTML_ENABLE_AGENTSTYLE_ENGINE"; //$NON-NLS-1$
+
+	/**
 	 * UTF-8 encode constants.
 	 */
 
@@ -390,6 +402,11 @@ public class ParameterAccessor
 	 * Overwrite flag
 	 */
 	public static boolean isOverWrite;
+
+	/**
+	 * Optimized HTML output flag
+	 */
+	public static boolean isAgentStyle;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1148,6 +1165,18 @@ public class ParameterAccessor
 			isOverWrite = false;
 		}
 
+		// get agent style flag
+		String s_agentstyle = context
+				.getInitParameter( INIT_PARAM_AGENTSTYLE_ENGINE );
+		if ( "true".equalsIgnoreCase( s_agentstyle ) ) //$NON-NLS-1$
+		{
+			isAgentStyle = true;
+		}
+		else
+		{
+			isAgentStyle = false;
+		}
+
 		clearDocuments( );
 
 		// Finish init context
@@ -1846,5 +1875,29 @@ public class ParameterAccessor
 		}
 
 		return resourcePath;
+	}
+
+	/**
+	 * Check If force optimized HTML output.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isAgentStyle( HttpServletRequest request )
+	{
+		boolean flag = isAgentStyle;
+
+		String urlParam = getParameter( request, PARAM_AGENTSTYLE_ENGINE );
+		if ( "true".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
+		{
+			flag = true;
+		}
+		else if ( "false".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
+		{
+			flag = false;
+		}
+
+		return flag;
 	}
 }

@@ -453,10 +453,11 @@ public class ReportEngineService
 	 * 
 	 * @param svgFlag
 	 * @param servletPath
+	 * @param request
 	 * @return HTML render context from the given arguments
 	 */
 	private HTMLRenderContext createHTMLrenderContext( boolean svgFlag,
-			String servletPath )
+			String servletPath, HttpServletRequest request )
 	{
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( imageDirectory );
@@ -470,6 +471,11 @@ public class ReportEngineService
 			renderContext.setBaseURL( this.contextPath
 					+ IBirtConstants.SERVLET_PATH_RUN );
 		}
+
+		HTMLRenderOption renderOption = new HTMLRenderOption( );
+		renderOption.setEnableAgentStyleEngine( ParameterAccessor
+				.isAgentStyle( request ) );
+		renderContext.SetRenderOption( renderOption );
 
 		renderContext.setImageDirectory( imageDirectory );
 		renderContext.setSupportedImageFormats( svgFlag
@@ -712,10 +718,9 @@ public class ReportEngineService
 		}
 		else
 		{
-			context
-					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-							createHTMLrenderContext( svgFlag, request
-									.getServletPath( ) ) );
+			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					createHTMLrenderContext( svgFlag,
+							request.getServletPath( ), request ) );
 		}
 
 		runAndRenderTask.setAppContext( context );
@@ -895,10 +900,9 @@ public class ReportEngineService
 		}
 		else
 		{
-			context
-					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-							createHTMLrenderContext( svgFlag, request
-									.getServletPath( ) ) );
+			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					createHTMLrenderContext( svgFlag,
+							request.getServletPath( ), request ) );
 		}
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
@@ -1009,10 +1013,9 @@ public class ReportEngineService
 		}
 		else
 		{
-			context
-					.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-							createHTMLrenderContext( svgFlag, request
-									.getServletPath( ) ) );
+			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					createHTMLrenderContext( svgFlag,
+							request.getServletPath( ), request ) );
 		}
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
