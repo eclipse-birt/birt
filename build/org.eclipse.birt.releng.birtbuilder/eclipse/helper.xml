@@ -494,7 +494,6 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-			<include name="org.wsdl4j_*/**"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>

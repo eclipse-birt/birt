@@ -207,6 +207,7 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="javax.wsdl_1.4.0*.jar"/>
 		</patternset>
 		<!--Exclude jar file pattern set-->
 
@@ -538,7 +539,7 @@
 		<zip destfile="${OutputDir}/${birt.dtp.integration.name}">
 			<zipfileset dir="${baseLocation}/plugins" prefix="eclipse/plugins">
 				<include name="org.eclipse.datatools*/**" />
-				<include name="org.wsdl4j_1.4.1*/**"/>
+				<include name="javax.wsdl_1.4.0*.jar"/>
 			</zipfileset>
 			<zipfileset dir="${baseLocation}/features" prefix="eclipse/features">
 				<include name="org.eclipse.datatools*/**" />
