@@ -169,6 +169,12 @@ public class GroupUtil implements ICrosstabConstants
 		// TODO skip invisible levels
 
 		int mCount = crosstabItem.getMeasureCount( );
+
+		if ( mCount == 0 )
+		{
+			return !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE;
+		}
+
 		int rdCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
 		int cdCount = crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE );
 

@@ -21,7 +21,7 @@ interface IColumnWalker
 
 	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = true;
 
-	boolean IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE = false;
+	boolean IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE = true;
 
 	/**
 	 * Returns if has next column for this walker
