@@ -13,11 +13,15 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -30,7 +34,7 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 
 	private DataSetColumnBindingsFormHandleProvider provider;
 
-	public DataSetColumnBindingsFormDescriptor( boolean formStyle)
+	public DataSetColumnBindingsFormDescriptor( boolean formStyle )
 	{
 		super( formStyle );
 		super.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
@@ -49,15 +53,40 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#createControl()
 	 */
+
+	protected Button btnRefresh;
+
 	public Control createControl( Composite parent )
 	{
 		Control control = super.createControl( parent );
 		provider.setTableViewer( getTableViewer( ) );
+
+		if ( isFormStyle( ) )
+			btnRefresh = FormWidgetFactory.getInstance( )
+					.createButton( (Composite) control, "", SWT.PUSH );
+		else
+			btnRefresh = new Button( (Composite) control, SWT.BORDER );
+
+		btnRefresh.setText( Messages.getString( "FormPage.Button.Binding.Refresh" ) ); //$NON-NLS-1$
+		btnRefresh.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleRefreshSelectEvent( );
+			}
+		} );
+		btnRefresh.setEnabled( true );
+		fullLayout( );
+
 		btnUp.setVisible( false );
 		btnDown.setVisible( false );
 		return control;
 	}
 
+	protected void handleRefreshSelectEvent( )
+	{
+		provider.generateAllBindingColumns( );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -74,8 +103,18 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 				SWT.DEFAULT,
 				true ).x );
 		btnDel.setLayoutData( data );
-	}
 
+		if ( btnRefresh != null )
+		{
+			data = new FormData( );
+			data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
+			data.width = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnRefresh.setLayoutData( data );
+		}
+	}
 
 	public void setInput( Object object )
 	{
@@ -84,7 +123,7 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 		{
 			Object element = DEUtil.getInputFirstElement( object );
 			setBindingObject( (ReportElementHandle) element );
-		
+
 		}
 
 	}

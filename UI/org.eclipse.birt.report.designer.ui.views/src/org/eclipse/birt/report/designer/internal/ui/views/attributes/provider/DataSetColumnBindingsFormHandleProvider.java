@@ -55,18 +55,21 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
+	
+	private boolean showAggregation = false;
+	
+	
 	private String[] columnNames = new String[]{
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),			
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
 	private CellEditor[] editors;
 
 	private static int[] columnWidth = new int[]{
-			150, 150, 150, 150, 150
+			150, 150, 150, 150
 	};
 
 	// object to add data binding.
@@ -535,6 +538,22 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	public void setTableViewer( TableViewer viewer )
 	{
 		this.viewer = viewer;
+	}
+
+	
+	public void setShowAggregation( boolean showAggregation )
+	{
+		this.showAggregation = showAggregation;
+		columnNames = new String[]{
+				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
+				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
+				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),			
+				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		};
+		columnWidth = new int[]{
+				150, 150, 150, 150, 150
+		};
 	}
 
 }

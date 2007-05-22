@@ -14,6 +14,12 @@ public class AggregateOnBindingsFormHandleProvider extends
 		DataSetColumnBindingsFormHandleProvider
 {
 
+	public AggregateOnBindingsFormHandleProvider( )
+	{
+		super( );
+		setShowAggregation( true );
+	}
+
 	public boolean doAddAggregateOnItem( int pos )
 	{
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );

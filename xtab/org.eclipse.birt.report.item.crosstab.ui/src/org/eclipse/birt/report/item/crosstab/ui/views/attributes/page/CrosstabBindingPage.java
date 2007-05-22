@@ -21,6 +21,8 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.Crosst
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * 
@@ -42,7 +44,15 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		addSection( PageSectionId.BINDING_DATASET, cubeSection );
 
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = new AggregateOnBindingsFormHandleProvider( );
-		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
+		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
+
+			public Control createControl( Composite parent )
+			{
+				Control control = super.createControl( parent );
+				btnRefresh.setVisible( false );
+				return control;
+			}
+		} );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
 	}
 

@@ -26,13 +26,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import sun.security.action.GetBooleanAction;
-
 /**
  * Data set binding page.
  */
 
-public class AggregateOnBindingsFormDescriptor extends FormPropertyDescriptor
+public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsFormDescriptor
 {
 
 	private AggregateOnBindingsFormHandleProvider provider;
@@ -63,8 +61,10 @@ public class AggregateOnBindingsFormDescriptor extends FormPropertyDescriptor
 		else
 			btnAddAggregateOn = new Button( (Composite) control, SWT.BORDER );
 
-		if(bAddWithDialog)btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.AddWithDialog.AggregateOn" ) ); //$NON-NLS-1$
-		else btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) );
+		if ( bAddWithDialog )
+			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.AddWithDialog.AggregateOn" ) ); //$NON-NLS-1$
+		else
+			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) );
 		btnAddAggregateOn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -73,11 +73,9 @@ public class AggregateOnBindingsFormDescriptor extends FormPropertyDescriptor
 			}
 		} );
 		btnAddAggregateOn.setEnabled( false );
+
 		fullLayout( );
-		
-		provider.setTableViewer( getTableViewer( ) );
-		btnUp.setVisible( false );
-		btnDown.setVisible( false );
+
 		return control;
 	}
 
@@ -149,5 +147,10 @@ public class AggregateOnBindingsFormDescriptor extends FormPropertyDescriptor
 	private void setBindingObject( ReportElementHandle bindingObject )
 	{
 		provider.setBindingObject( bindingObject );
+	}
+	
+	protected void handleRefreshSelectEvent( )
+	{
+		provider.generateAllBindingColumns( );
 	}
 }
