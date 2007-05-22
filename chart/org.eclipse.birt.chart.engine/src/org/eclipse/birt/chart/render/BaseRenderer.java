@@ -130,6 +130,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * This key is to reference the fixed index value of last stacked series.
 	 */
 	protected final static String FIXED_STACKED_SERIES_INDEX_KEY = "fixed_stacked_series_index_key"; //$NON-NLS-1$
+	
+	/** The key is to reference the size information of stacked cone or triangle series. */
+	protected final static String STACKED_SERIES_SIZE_KEY = "stacked_series_size_key"; //$NON-NLS-1$
 
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 

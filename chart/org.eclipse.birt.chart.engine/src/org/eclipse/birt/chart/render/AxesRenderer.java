@@ -773,18 +773,24 @@ public abstract class AxesRenderer extends BaseRenderer
 				bb.setLeft( xs );
 				bb.setTop( ys );
 
-				if ( ChartUtil.isShadowDefined( lb ) )
-				{
-					renderLabel( StructureSource.createSeries( getSeries( ) ),
-							TextRenderEvent.RENDER_SHADOW_AT_LOCATION,
-							lb,
-							Position.RIGHT_LITERAL,
-							LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
-							BoundsImpl.create( bb.getLeft( ),
-									bb.getTop( ),
-									bb.getWidth( ),
-									bb.getHeight( ) ) );
-				}
+				// Bugzilla bug 182675
+				// Remove code below to avoid painting additional shadow of
+				// label. This code is not needed, the shadow of label will be
+				// painted when painting whole label. - Henry
+				// ***
+//				if ( ChartUtil.isShadowDefined( lb ) )
+//				{
+//					renderLabel( StructureSource.createSeries( getSeries( ) ),
+//							TextRenderEvent.RENDER_SHADOW_AT_LOCATION,
+//							lb,
+//							Position.RIGHT_LITERAL,
+//							LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
+//							BoundsImpl.create( bb.getLeft( ),
+//									bb.getTop( ),
+//									bb.getWidth( ),
+//									bb.getHeight( ) ) );
+//				}
+				// ***
 
 				renderLabel( StructureSource.createSeries( getSeries( ) ),
 						TextRenderEvent.RENDER_TEXT_IN_BLOCK,
