@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -130,7 +129,19 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.removeItem( memberRef, posn );
+
+		try
+		{
+			cmd.removeItem( memberRef, posn );
+		}
+		catch ( PropertyValueException e )
+		{
+			throw e;
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
 
 	}
 
@@ -143,14 +154,11 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		if ( item == null )
 			return;
-		if ( item instanceof IStructure )
-			super.addItem( (IStructure) item );
-		else
-		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
-					getModule( ), getElement( ) );
-			cmd.addItem( memberRef, item );
-		}
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.addItem( memberRef, item );
+
 	}
 
 	// Implementation of abstract method defined in base class.

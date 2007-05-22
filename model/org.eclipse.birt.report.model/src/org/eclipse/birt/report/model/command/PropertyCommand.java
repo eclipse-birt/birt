@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -221,16 +222,29 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( prop.isIntrinsic( ) )
 		{
 			setIntrinsicProperty( prop, value );
+			return;
 		}
-		else
+		if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
+				.getName( ) )
+				&& value == null )
 		{
-			if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
-					.getName( ) )
-					&& value == null )
-				clearRefTemplateParameterProp( prop, value );
-			else
-				doSetProperty( prop, value );
+			clearRefTemplateParameterProp( prop, value );
+			return;
 		}
+
+		if ( element instanceof ContentElement )
+		{
+			if ( !( (ContentElement) element ).isLocal( ) )
+			{
+				ContentElementCommand attrCmd = new ContentElementCommand(
+						module, element, ( (ContentElement) element )
+								.getValueContainer( ) );
+
+				attrCmd.doSetProperty( prop, value );
+				return;
+			}
+		}
+		doSetProperty( prop, value );
 	}
 
 	/**

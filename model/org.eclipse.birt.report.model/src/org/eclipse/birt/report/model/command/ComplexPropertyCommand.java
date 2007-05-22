@@ -28,9 +28,9 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.css.CssStyle;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -77,7 +77,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             if the item to add is invalid.
 	 */
 
-	public void addItem( MemberRef ref, IStructure item )
+	private void addItem( MemberRef ref, IStructure item )
 			throws SemanticException
 	{
 		assert ref != null;
@@ -162,21 +162,45 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		// this method is not called for structure list property
 
 		assert !( item instanceof IStructure );
-		ElementPropertyDefn prop = ref.getPropDefn( );
+		PropertyDefn prop = ref.getPropDefn( );
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		assertExtendedElement( module, element, prop );
 
+		if ( memberDefn != null )
+			prop = memberDefn;
+
 		// check the property type is list and do some validation about the item
 
-		checkListProperty( memberDefn );
-		Object value = checkItem( memberDefn, item );
+		checkListProperty( prop );
+		Object value = checkItem( prop, item );
+
+		if ( element instanceof ContentElement )
+		{
+			if ( !( (ContentElement) element ).isLocal( ) )
+			{
+				ContentElementCommand attrCmd = new ContentElementCommand(
+						module, element, ( (ContentElement) element )
+								.getValueContainer( ) );
+
+				attrCmd.addItem( ref, value );
+				return;
+			}
+		}
+
+		// check whether the value in the list is unique when the sub-type is
+		// element reference value
+
+		List list = ref.getList( module, element );
+		if ( prop.getTypeCode( ) == IPropertyType.LIST_TYPE )
+			element.checkSimpleList( module, prop, list, value );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
-		List list = (List) ref.getValue( module, element );
+
+		list = ref.getList( module, element );
 		if ( null == list )
 		{
 			list = new ArrayList( );
@@ -185,78 +209,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			stack.execute( memberRecord );
 		}
 
-		SimplePropertyListRecord record = new SimplePropertyListRecord(
-				element, prop, list, value, list.size( ) );
+		PropertyListRecord record = new PropertyListRecord( element,
+				new CachedMemberRef( ref, list.size( ) ), list, value );
 		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
-
-		stack.execute( record );
-
-		stack.commit( );
-	}
-
-	/**
-	 * Adds an item to a property list.
-	 * <ul>
-	 * <li>If the property is currently unset anywhere up the inheritance
-	 * hierarchy, then a new list is created on this element, and the list
-	 * contains the only the new item.</li>
-	 * <li>If the property is currently set on this element, then the item is
-	 * added to the existing list.</li>
-	 * <li>If the list is not set on this element, but is set by an ancestor
-	 * element, then the list is <strong>copied </strong> onto this element, and
-	 * the new element is then appended to the copy.</li>
-	 * </ul>
-	 * 
-	 * @param prop
-	 *            the property definition whose type is list
-	 * @param item
-	 *            the item to add to the list
-	 * @throws PropertyValueException
-	 *             if the item to add is invalid.
-	 */
-
-	public void addItem( ElementPropertyDefn prop, Object item )
-			throws PropertyValueException
-	{
-		assert prop != null;
-		checkAllowedOperation( );
-		if ( item == null )
-			return;
-
-		// this method is not called for structure list property
-		// TODO: compitibility about the memberRef
-		assert !( item instanceof IStructure );
-
-		assertExtendedElement( module, element, prop );
-
-		// check the property type is list and do some validation about the item
-
-		checkListProperty( prop );
-
-		Object value = checkItem( prop, item );
-
-		// check whether the value in the list is unique when the sub-type is
-		// element reference value
-
-		List list = element.getListProperty( module, prop.getName( ) );
-		element.checkSimpleList( module, prop, list, value );
-
-		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ModelMessages
-				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
-
-		makeLocalCompositeValue( prop );
-		list = element.getListProperty( module, prop.getName( ) );
-		if ( null == list )
-		{
-			list = new ArrayList( );
-			PropertyRecord propRecord = new PropertyRecord( element, prop, list );
-			stack.execute( propRecord );
-		}
-
-		SimplePropertyListRecord record = new SimplePropertyListRecord(
-				element, prop, list, value, list.size( ) );
-		record.setEventTarget( getEventTarget( prop ) );
 
 		stack.execute( record );
 
@@ -363,24 +318,17 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *            reference to the list in which to remove an item.
 	 * @param posn
 	 *            position of the item to be removed from the list.
-	 * @throws PropertyValueException
+	 * @throws SemanticException
 	 *             if the item to remove is not found.
 	 * @throws IndexOutOfBoundsException
 	 *             if the given posn is out of range
 	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
-	public void removeItem( MemberRef ref, int posn )
-			throws PropertyValueException
+	public void removeItem( MemberRef ref, int posn ) throws SemanticException
 	{
 		assert ref != null;
 		PropertyDefn propDefn = ref.getPropDefn( );
-
-		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-		{
-			removeItem( (ElementPropertyDefn) propDefn, posn );
-			return;
-		}
 
 		checkAllowedOperation( );
 
@@ -389,11 +337,15 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		List list = null;
-		if ( memberDefn != null
-				&& memberDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+
+		if ( memberDefn != null )
+			propDefn = memberDefn;
+
+		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 		{
 			// do not need to do checkListProperty( memberDefn );
-			list = (List) ref.getValue( module, element );
+
+			list = ref.getList( module, element );
 		}
 		else
 		{
@@ -410,11 +362,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		if ( memberDefn != null
-				&& memberDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-			doRemoveItem( ref, propDefn, posn );
-		else
-			doRemoveItem( new CachedMemberRef( ref, posn ) );
+		if ( element instanceof ContentElement )
+		{
+			if ( !( (ContentElement) element ).isLocal( ) )
+			{
+				ContentElementCommand attrCmd = new ContentElementCommand(
+						module, element, ( (ContentElement) element )
+								.getValueContainer( ) );
+
+				attrCmd.removeItem( new CachedMemberRef( ref, posn ) );
+				return;
+			}
+		}
+
+		doRemoveItem( new CachedMemberRef( ref, posn ) );
 	}
 
 	/**
@@ -463,62 +424,13 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	}
 
 	/**
-	 * Removes a value item from a simple value list.
-	 * <ul>
-	 * <li>The item must exist in the current effective value for the list.
-	 * This means the list must be set on this element or a ancestor element.
-	 * </li>
-	 * <li>If the property is set on this element, then the item is simply
-	 * removed.</li>
-	 * <li>If the property is set on an ancestor element, then the inherited
-	 * list is first <strong>copied </strong> into this element. Then, the copy
-	 * of the target item is removed from the copy of the list.</li>
-	 * </ul>
-	 * 
-	 * @param prop
-	 *            definition of the simple value list property
-	 * @param posn
-	 *            position of the item to be removed from the list.
-	 * @throws PropertyValueException
-	 *             if the item to remove is not found.
-	 * @throws IndexOutOfBoundsException
-	 *             if the given posn is out of range
-	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
-	 */
-
-	public void removeItem( ElementPropertyDefn prop, int posn )
-			throws PropertyValueException
-	{
-		assert prop != null;
-		checkAllowedOperation( );
-		// TODO: if the property is "style", jump to the style command
-
-		assertExtendedElement( module, element, prop );
-
-		checkListProperty( prop );
-
-		List list = element.getListProperty( module, prop.getName( ) );
-		if ( list == null )
-			throw new PropertyValueException( element, prop.getName( ), null,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		if ( posn < 0 || posn >= list.size( ) )
-			throw new IndexOutOfBoundsException(
-					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
-
-		Object obj = list.get( posn );
-
-		doRemoveItem( prop, posn, obj );
-	}
-
-	/**
 	 * Removes structure from structure list.
 	 * 
 	 * @param structRef
 	 *            reference to the item to remove
 	 */
 
-	private void doRemoveItem( ElementPropertyDefn prop, int posn, Object item )
+	private void doRemoveItem( MemberRef memberRef )
 	{
 		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
@@ -526,15 +438,25 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( label );
 
-		makeLocalCompositeValue( prop );
-		List list = element.getListProperty( module, prop.getName( ) );
+		makeLocalCompositeValue( memberRef );
+		List list = memberRef.getList( module, element );
 		assert list != null;
 
-		SimplePropertyListRecord record = new SimplePropertyListRecord(
-				element, prop, list, posn );
+		Structure struct = memberRef.getStructure( module, element );
+		if ( struct != null && struct.isReferencable( ) )
+		{
+			adjustReferenceClients( (ReferencableStructure) struct );
 
-		record.setEventTarget( getEventTarget( prop ) );
+			// handle the structure member refers to other elements.
 
+			adjustReferenceClients( struct, memberRef );
+		}
+
+		Object item = list.get( memberRef.getIndex( ) );
+
+		PropertyListRecord record = new PropertyListRecord( element, memberRef,
+				list );
+		record.setEventTarget( getEventTarget( memberRef.getPropDefn( ) ) );
 		stack.execute( record );
 
 		if ( item instanceof ElementRefValue )
@@ -543,79 +465,13 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			if ( refValue.isResolved( ) )
 			{
 				ElementRefRecord refRecord = new ElementRefRecord( element,
-						refValue.getTargetElement( ), prop.getName( ), false );
+						refValue.getTargetElement( ), memberRef.getPropDefn( )
+								.getName( ), false );
 				stack.execute( refRecord );
 
 			}
 		}
 
-		stack.commit( );
-	}
-
-	/**
-	 * Removes item from a simple value list.
-	 * 
-	 * @param structRef
-	 *            reference to the item to remove
-	 */
-
-	private void doRemoveItem( MemberRef ref, PropertyDefn propDefn, int posn )
-			throws PropertyValueException
-	{
-		assert ref != null;
-
-		String label = ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
-
-		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( label );
-
-		makeLocalCompositeValue( ref );
-
-		List list = (List) ref.getValue( module, element );
-		assert list != null;
-
-		SimplePropertyListRecord record = new SimplePropertyListRecord(
-				element, propDefn, list, posn );
-
-		record.setEventTarget( getEventTarget( propDefn ) );
-
-		stack.execute( record );
-
-		stack.commit( );
-	}
-
-	/**
-	 * Removes structure from structure list.
-	 * 
-	 * @param structRef
-	 *            reference to the item to remove
-	 */
-
-	private void doRemoveItem( MemberRef structRef )
-	{
-		String label = ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
-
-		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( label );
-
-		makeLocalCompositeValue( structRef );
-		List list = structRef.getList( module, element );
-		assert list != null;
-
-		Structure struct = structRef.getStructure( module, element );
-		if ( struct.isReferencable( ) )
-			adjustReferenceClients( (ReferencableStructure) struct );
-
-		// handle the structure member refers to other elements.
-
-		adjustReferenceClients( struct, structRef );
-
-		PropertyListRecord record = new PropertyListRecord( element, structRef,
-				list );
-		record.setEventTarget( getEventTarget( structRef.getPropDefn( ) ) );
-		stack.execute( record );
 		stack.commit( );
 	}
 

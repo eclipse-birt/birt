@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
+import org.eclipse.birt.report.model.api.activity.TransactionOption;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 /**
@@ -672,6 +673,26 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
+	 * Starts a transaction. The application provides the message ID for a label
+	 * to associate with the transaction.
+	 * 
+	 * @param label
+	 *            localized label for the transaction
+	 * @param options
+	 *            the transaction options
+	 * 
+	 * @see #commit
+	 */
+
+	public void startTrans( String label, TransactionOption options )
+	{
+		startTrans( label );
+
+		CompoundRecord tmpRecord = (CompoundRecord) transStack.peek( );
+		tmpRecord.setOptions( options );
+	}
+
+	/**
 	 * Commits the current transaction. There must be an active transaction. If
 	 * nested transactions are active, this method will finish the inner- most
 	 * transaction.
@@ -731,7 +752,6 @@ public class ActivityStack implements CommandStack
 		}
 
 	}
-	
 
 	/**
 	 * Undoes all actions done so far in the innermost transaction. Does not

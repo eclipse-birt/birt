@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -55,6 +57,7 @@ public class TabularCubeParserTest extends BaseTestCase
 {
 
 	private final String FILE_NAME = "CubeParserTest.xml"; //$NON-NLS-1$
+	private final String FILE_NAME_EXTENDS = "CubeParserTest_3.xml"; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -374,7 +377,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
 		level
 				.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
-//		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
+		// level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
 		level.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
@@ -438,6 +441,7 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		save( );
 
+		saveOutputFile( "CubeParserTest_golden.xml" );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
@@ -470,11 +474,79 @@ public class TabularCubeParserTest extends BaseTestCase
 				clonedCube.getHandle( design ) );
 
 		// save
+
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden_1.xml" ) ); //$NON-NLS-1$		
 	}
 
 	/**
+	 * Tests cases for cube1 extends another cube2.
+	 * 
+	 * <ul>
+	 * <li>if one new access control is added to the cube1. Access controls on
+	 * cube2 will be copies to cube1 first.
+	 * <li>if one new value access control is added to the level in the cube1.
+	 * Value access controls on the level cube2 will be copies to the level of
+	 * cube1 first.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtends( ) throws Exception
+	{
+		openDesign( FILE_NAME_EXTENDS );
+		assertNotNull( designHandle );
+
+		// cube
+
+		libraryHandle = designHandle.getLibrary( "Lib1" ); //$NON-NLS-1$
+		TabularCubeHandle cube = (TabularCubeHandle) libraryHandle
+				.findCube( "testCube" ); //$NON-NLS-1$
+
+		TabularCubeHandle newCube = (TabularCubeHandle) designHandle
+				.getElementFactory( ).newElementFrom( cube, null );
+
+		designHandle.getCubes( ).add( newCube );
+
+		save( );
+		assertTrue( compareFile( "TabularCubeParserTest_extends_golden_1.xml" ) ); //$NON-NLS-1$
+
+		AccessControlHandle control = designHandle.getElementFactory( )
+				.newAccessControl( );
+		control.addUserName( "new user name 1" ); //$NON-NLS-1$
+
+		newCube.add( ICubeModel.ACCESS_CONTROLS_PROP, control );
+
+		save( );
+		assertTrue( compareFile( "TabularCubeParserTest_extends_golden_2.xml" ) ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		LevelHandle level = designHandle.findLevel( "testDimension1/testLevel" ); //$NON-NLS-1$
+
+		ValueAccessControlHandle valueAccess = designHandle.getElementFactory( )
+				.newValueAccessControl( );
+		valueAccess.addValue( "new value 1" ); //$NON-NLS-1$
+
+		level.add( ILevelModel.VALUE_ACCESS_CONTROLS_PROP, valueAccess );
+
+		save( );
+		assertTrue( compareFile( "TabularCubeParserTest_extends_golden_3.xml" ) ); //$NON-NLS-1$
+
+		valueAccess
+				.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
+	}
+
+	/**
+	 * Notification should be only sent to cube if access control/value access
+	 * controls are changed. It should be only one PROPERTY event.
+	 * 
+	 * <ul>
+	 * <li>for local value change.
+	 * <li>for extends case.
+	 * </ul>
+	 * 
 	 * @throws Exception
 	 */
 
@@ -553,6 +625,133 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		assertEquals( 1, cube.getListProperty(
 				TabularCubeHandle.ACCESS_CONTROLS_PROP ).size( ) );
+
+		// for extends cases.
+
+		openDesign( FILE_NAME_EXTENDS );
+
+		cube = (TabularCubeHandle) designHandle.findCube( "testCube1" ); //$NON-NLS-1$
+		cube.addListener( listener );
+
+		// set property on cube access control
+
+		Iterator cubeAccess = cube.accessControlsIterator( );
+		AccessControlHandle tmpAccess = (AccessControlHandle) cubeAccess.next( );
+
+		tmpAccess.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
+		checkNotificationStatus( listener );
+	}
+
+	/**
+	 * When cube1 extends another cube2. Get access control from cube1.
+	 * 
+	 * <ul>
+	 * <li>set permission
+	 * <li>add role
+	 * <li>remove role
+	 * </ul>
+	 * 
+	 * will copies access controls from cube2 first. Then change the
+	 * corresponding value. Undo is also tested.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testContentElementCommandOnCube( ) throws Exception
+	{
+		openDesign( FILE_NAME_EXTENDS );
+
+		// cube
+
+		TabularCubeHandle cube = (TabularCubeHandle) designHandle
+				.findCube( "testCube1" ); //$NON-NLS-1$
+
+		// set property on cube access control
+
+		Iterator cubeAccess = cube.accessControlsIterator( );
+		AccessControlHandle tmpAccess = (AccessControlHandle) cubeAccess.next( );
+
+		tmpAccess.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
+
+		save( );
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_1.xml" ) ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		save( );
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_2.xml" ) ); //$NON-NLS-1$
+
+		tmpAccess.addRole( "new 2nd role" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_3.xml" ) ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		tmpAccess.removeRole( "cube role1" ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_4.xml" ) ); //$NON-NLS-1$
+		
+		designHandle.getCommandStack( ).undo( );
+		tmpAccess.removeRole( "cube role1" ); //$NON-NLS-1$
+		
+		tmpAccess.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
+		save();
+		
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_5.xml" ) );  //$NON-NLS-1$
+		
+	}
+
+	/**
+	 * When cube1 extends another cube2. Get access control from cube1.
+	 * 
+	 * <ul>
+	 * <li>set permission
+	 * <li>add role
+	 * <li>remove role
+	 * </ul>
+	 * 
+	 * will copies value access controls from the level of cube2 first. Then
+	 * change the corresponding value. Undo is also tested.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testContentElementCommandOnLevel( ) throws Exception
+	{
+		openDesign( FILE_NAME_EXTENDS );
+
+		// cube
+
+		TabularLevelHandle cube = (TabularLevelHandle) designHandle
+				.findLevel( "testDimension/testLevel" ); //$NON-NLS-1$
+
+		// set property on cube access control
+
+		Iterator cubeAccess = cube.valueAccessControlsIterator( );
+		ValueAccessControlHandle tmpAccess = (ValueAccessControlHandle) cubeAccess
+				.next( );
+
+		tmpAccess.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
+
+		save( );
+		assertTrue( compareFile( "TabularLevelAccessControl_golden_1.xml" ) );//$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		save( );
+		assertTrue( compareFile( "TabularLevelAccessControl_golden_2.xml" ) );//$NON-NLS-1$
+
+		tmpAccess.addRole( "new 2nd role" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "TabularLevelAccessControl_golden_3.xml" ) );//$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		tmpAccess.removeRole( "level role1" ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "TabularLevelAccessControl_golden_4.xml" ) );//$NON-NLS-1$
 
 	}
 

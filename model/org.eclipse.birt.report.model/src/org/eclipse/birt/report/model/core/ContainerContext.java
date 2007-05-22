@@ -298,7 +298,7 @@ public final class ContainerContext
 		}
 
 		ElementPropertyDefn defn = container.getPropertyDefn( containerProp );
-		Object value = container.getProperty( module, defn );
+		Object value = container.getLocalProperty( module, defn );
 		if ( defn == null || value == null )
 			return Collections.EMPTY_LIST;
 		if ( defn.isList( ) )
@@ -309,7 +309,7 @@ public final class ContainerContext
 		result.add( value );
 		return result;
 	}
-
+	
 	/**
 	 * 
 	 * @param module

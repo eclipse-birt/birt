@@ -65,7 +65,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="11">
+                                        <value-access-control>
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -86,14 +86,14 @@
                                             </simple-property-list>
                                             <property name="permission">allow</property>
                                         </value-access-control>
-                                        <value-access-control id="22"/>
+                                        <value-access-control/>
                                     </property>
                                     <property name="columnName">updated column1</property>
                                 </tabular-level>
-                                <tabular-level name="NewTabularLevel" id="21"/>
+                                <tabular-level name="NewTabularLevel" id="16"/>
                             </property>
                             <property name="accessControls">
-                                <access-control id="12">
+                                <access-control>
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -108,7 +108,7 @@
                                     </simple-property-list>
                                     <property name="permission">disallow</property>
                                 </access-control>
-                                <access-control id="20"/>
+                                <access-control/>
                             </property>
                             <property name="dataSet">firstDataSet</property>
                             <simple-property-list name="primaryKeys">
@@ -117,32 +117,32 @@
                                 <value>updated key</value>
                             </simple-property-list>
                         </tabular-hierarchy>
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="19"/>
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="15"/>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="NewTabularDimension" id="17">
+                <tabular-dimension name="NewTabularDimension" id="13">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="18"/>
+                        <tabular-hierarchy name="NewTabularHierarchy" id="14"/>
                     </property>
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="newtestMeasureGroup" id="13">
+                <tabular-measure-group name="newtestMeasureGroup" id="11">
                     <property name="measures">
-                        <tabular-measure name="newtestMeasure" id="14">
+                        <tabular-measure name="newtestMeasure" id="12">
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
                             <property name="dataType">boolean</property>
                         </tabular-measure>
-                        <tabular-measure name="NewTabularMeasure" id="24"/>
+                        <tabular-measure name="NewTabularMeasure" id="18"/>
                     </property>
                 </tabular-measure-group>
-                <tabular-measure-group name="Summary Field" id="23"/>
+                <tabular-measure-group name="Summary Field" id="17"/>
             </property>
             <property name="accessControls">
-                <access-control id="15">
+                <access-control>
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>
@@ -157,7 +157,7 @@
                     </simple-property-list>
                     <property name="permission">allow</property>
                 </access-control>
-                <access-control id="16"/>
+                <access-control/>
             </property>
             <property name="dataSet">secondDataSet</property>
             <list-property name="dimensionConditions">

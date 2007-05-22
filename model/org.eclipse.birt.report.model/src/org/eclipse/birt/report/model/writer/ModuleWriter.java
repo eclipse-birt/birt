@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
@@ -2463,8 +2464,15 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		// if there is "extends" element, do not write out the conent.
 
-		if ( containerInfor.getElement( ).getExtendsElement( ) != null )
-			return;
+		DesignElement tmpElement = containerInfor.getElement( );
+		if ( tmpElement.getExtendsElement( ) != null )
+		{
+			PropertyDefn propDefn = tmpElement.getPropertyDefn( containerInfor
+					.getPropertyName( ) );
+			if ( propDefn == null
+					|| propDefn.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+				return;
+		}
 
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
@@ -3202,18 +3210,35 @@ public abstract class ModuleWriter extends ElementVisitor
 				}
 				else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
+				else if ( propDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+					writeContentElement( virtualElement, propDefn );
 				else
 					writeProperty( virtualElement, ModelUtil
 							.getTagByPropertyType( propDefn ), propDefn
 							.getName( ), cdata );
 			}
 
-			writer.endElement( ); // end ��ref-entry��
+			writer.endElement( ); // end of ref-entry
 
 		}
 
-		writer.endElement( ); // end ��Overridden-values��
+		writer.endElement( ); // end of Overridden-values
 
+	}
+
+	private void writeContentElement( DesignElement virtualElement,
+			PropertyDefn propDefn )
+	{
+		List values = (List) virtualElement.getLocalProperty( getModule( ),
+				(ElementPropertyDefn) propDefn );
+		if ( values == null || values.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			ContentElement tmpElement = (ContentElement) values.get( i );
+			tmpElement.apply( this );
+		}
 	}
 
 	/*
@@ -3455,8 +3480,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.ACCESS_CONTROL_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
 
 		super.visitAccessControl( obj );
 		writeSimplePropertyList( obj, IAccessControlModel.USER_NAMES_PROP );
@@ -3476,8 +3499,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.VALUE_ACCESS_CONTROL_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
 
 		super.visitAccessControl( obj );
 		writeSimplePropertyList( obj, IValueAccessControlModel.USER_NAMES_PROP );

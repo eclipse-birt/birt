@@ -955,8 +955,8 @@ public class PropertyCommandTest extends BaseTestCase
 		PropertyHandle propHandle = shareHandle
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 		assertNotNull( propHandle );
-		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
-				.getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
+				shareHandle.getElement( ) );
 		command.removeAllItems( propHandle.getReference( ) );
 
 		assertNull( shareHandle.getProperty( Style.MAP_RULES_PROP ) );
@@ -981,7 +981,7 @@ public class PropertyCommandTest extends BaseTestCase
 	 *             if any exception
 	 */
 
-	public void testRemoveItemWithPositino( ) throws PropertyValueException
+	public void testRemoveItemWithPositino( ) throws SemanticException
 	{
 		SharedStyleHandle shareHandle = designHandle.findStyle( "Style2" );//$NON-NLS-1$
 		PropertyHandle propHandle = shareHandle
@@ -993,8 +993,8 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Design", ( (MapRule) list.get( 1 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the second one
-		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
-				.getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
+				shareHandle.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 1 );
 
@@ -1012,7 +1012,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 		try
 		{
-			command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
+			command = new ComplexPropertyCommand( design, shareHandle
+					.getElement( ) );
 			command.removeItem( new CachedMemberRef(
 					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 4 );
 			fail( );
@@ -1043,8 +1044,8 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Design", ( (MapRule) list.get( 1 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the second one
-		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
-				.getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
+				shareHandle.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
 				(MapRule) list.get( 1 ) );
@@ -1064,7 +1065,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 		try
 		{
-			command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
+			command = new ComplexPropertyCommand( design, shareHandle
+					.getElement( ) );
 			command.removeItem( new CachedMemberRef(
 					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
 					new MapRule( ) );
@@ -1217,10 +1219,10 @@ public class PropertyCommandTest extends BaseTestCase
 		SharedStyleHandle styleHandle1 = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
 		SharedStyleHandle styleHandle2 = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
 
-		ComplexPropertyCommand command1 = new ComplexPropertyCommand( design, styleHandle1
-				.getElement( ) );
-		ComplexPropertyCommand command2 = new ComplexPropertyCommand( design, styleHandle2
-				.getElement( ) );
+		ComplexPropertyCommand command1 = new ComplexPropertyCommand( design,
+				styleHandle1.getElement( ) );
+		ComplexPropertyCommand command2 = new ComplexPropertyCommand( design,
+				styleHandle2.getElement( ) );
 
 		CommandStack cs = designHandle.getCommandStack( );
 
@@ -1412,8 +1414,8 @@ public class PropertyCommandTest extends BaseTestCase
 		paramBinding.setParamName( "param1" ); //$NON-NLS-1$
 		paramBinding.setExpression( "expr1" ); //$NON-NLS-1$
 
-		ComplexPropertyCommand command = new ComplexPropertyCommand( design, imageHandle
-				.getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
+				imageHandle.getElement( ) );
 		command.addItem( memberHandle.getReference( ), paramBinding );
 
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
@@ -1504,8 +1506,8 @@ public class PropertyCommandTest extends BaseTestCase
 				.getMember( Action.SEARCH_MEMBER );
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
-		ComplexPropertyCommand command = new ComplexPropertyCommand( design, imageHandle
-				.getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
+				imageHandle.getElement( ) );
 		command.moveItem( memberHandle.getReference( ), 0, 2 );
 
 		assertEquals(

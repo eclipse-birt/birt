@@ -123,7 +123,6 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 
 		refType = PROPERTY;
 		index[0] = -1;
@@ -146,8 +145,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
-		assert propDefn.isList( );
+		assert propDefn.isListType( );
 		assert n >= 0;
 
 		refType = PROPERTY_LISTn;
@@ -173,7 +171,7 @@ public class MemberRef
 
 		assert propDefn != null;
 		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
-		assert !propDefn.isList( );
+		assert !propDefn.isListType( );
 
 		IPropertyDefn memberDefn = propDefn.getStructDefn( ).getMember(
 				memberName );
@@ -297,7 +295,7 @@ public class MemberRef
 		assert n >= 0;
 		assert ref.isListRef( );
 
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			if ( ref.refType == PROPERTY )
 			{
@@ -312,7 +310,7 @@ public class MemberRef
 				// property.list[n].member.list[n]
 
 				assert ref.refType == PROPERTY_LISTn_MEMBER;
-				assert ref.member[0].isList( );
+				assert ref.member[0].isListType( );
 
 				refType = PROPERTY_LISTn_MEMBER_LISTn;
 				index[0] = ref.index[0];
@@ -360,7 +358,7 @@ public class MemberRef
 		assert n >= 0;
 		assert memberDefn != null;
 
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			if ( ref.refType == PROPERTY_LISTn_MEMBER )
 			{
@@ -457,7 +455,7 @@ public class MemberRef
 
 		propDefn = ref.propDefn;
 
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			if ( ref.refType == PROPERTY_LISTn )
 			{
@@ -577,10 +575,7 @@ public class MemberRef
 
 	public Object getValue( Module module, DesignElement element )
 	{
-		Structure struct = getStructure( module, element );
-		if ( struct == null )
-			return null;
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			// property
 			// property.list[n]
@@ -589,18 +584,29 @@ public class MemberRef
 			// property.list[n].member.list[n].member
 			// property.list[n].member.member
 
+			List list = getList( module, element );
 			switch ( refType )
 			{
 				case PROPERTY :
-					return getList( module, element );
+					return list;
 				case PROPERTY_LISTn :
 				case PROPERTY_LISTn_MEMBER_LISTn :
-					return struct;
+					return getValue( list, 0 );
 				case PROPERTY_LISTn_MEMBER : // reference the list itself.
+				{
+					Structure struct = getStructure( module, element );
+					if ( struct == null )
+						return null;
 					return struct.getProperty( module, member[0] );
+				}
 				case PROPERTY_LISTn_MEMBER_MEMBER :
 				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
+				{
+					Structure struct = getStructure( module, element );
+					if ( struct == null )
+						return null;
 					return struct.getProperty( module, member[1] );
+				}
 				default :
 				{
 					assert false;
@@ -615,6 +621,10 @@ public class MemberRef
 		// property.member.member
 		// property.member.list[n]
 		// property.member.list[n].member
+
+		Structure struct = getStructure( module, element );
+		if ( struct == null )
+			return null;
 
 		switch ( refType )
 		{
@@ -650,7 +660,7 @@ public class MemberRef
 		Structure struct = getStructure( module, element );
 		if ( struct == null )
 			return null;
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			// property
 			// property.list[n]
@@ -754,42 +764,55 @@ public class MemberRef
 
 	public Structure getStructure( Module module, DesignElement element )
 	{
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			ArrayList list = (ArrayList) element.getProperty( module, propDefn );
 			if ( list == null )
 				return null;
 
+			Object tmpValue = null;
 			switch ( refType )
 			{
 				case PROPERTY_LISTn :
 				case PROPERTY_LISTn_MEMBER :
-					return getStructure( list, 0 );
+					tmpValue = getValue( list, 0 );
+					if ( !( tmpValue instanceof Structure ) )
+						return null;
+
+					return (Structure) tmpValue;
 				case PROPERTY_LISTn_MEMBER_LISTn :
 				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
 
 					// If the top-level index is out of range, then there
 					// is no value.
 
-					Structure struct = getStructure( list, 0 );
-					if ( struct == null )
+					tmpValue = getValue( list, 0 );
+					if ( !( tmpValue instanceof Structure ) )
 						return null;
+
+					Structure struct = (Structure) tmpValue;
 
 					// Check the second-level list if needed.
 
-					assert member[0].isList( );
+					assert member[0].isListType( );
 					list = (ArrayList) struct.getProperty( module, member[0] );
 
-					return getStructure( list, 1 );
+					tmpValue = getValue( list, 1 );
+					if ( !( tmpValue instanceof Structure ) )
+						return null;
+
+					return (Structure) tmpValue;
 
 				case PROPERTY_LISTn_MEMBER_MEMBER :
 
 					// If the top-level index is out of range, then there
 					// is no value.
 
-					struct = getStructure( list, 0 );
-					if ( struct == null )
+					tmpValue = getValue( list, 0 );
+					if ( !( tmpValue instanceof Structure ) )
 						return null;
+
+					struct = (Structure) tmpValue;
 
 					assert member[0].getStructDefn( ) != null;
 
@@ -811,17 +834,21 @@ public class MemberRef
 			// property.member.list[n]
 			// property.member.list[n].member
 
-			assert member[0].isList( );
+			assert member[0].isListType( );
 			ArrayList list = (ArrayList) struct.getProperty( module, member[0] );
 
-			return getStructure( list, 0 );
+			Object tmpValue = getValue( list, 0 );
+			if ( !( tmpValue instanceof Structure ) )
+				return null;
+
+			return (Structure) tmpValue;
 		}
 
 		if ( member[1] != null )
 		{
 			// property.member.member
 
-			assert !member[0].isList( );
+			assert !member[0].isListType( );
 			return (Structure) struct.getProperty( module, member[0] );
 		}
 
@@ -884,7 +911,7 @@ public class MemberRef
 
 	public int getIndex( )
 	{
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 			return index[depth - 1];
 
 		return index[0];
@@ -927,7 +954,7 @@ public class MemberRef
 
 	public List getList( Module module, DesignElement element )
 	{
-		if ( propDefn.isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			// Get the property list. If the list is null, there
 			// is no value.
@@ -945,19 +972,21 @@ public class MemberRef
 				case PROPERTY_LISTn_MEMBER :
 				case PROPERTY_LISTn_MEMBER_LISTn :
 
-					if ( !member[0].isList( ) )
+					if ( !member[0].isListType( ) )
 						return list;
 
 					// If the top-level index is out of range, then there
 					// is no value.
 
-					Structure struct = getStructure( list, 0 );
+					Structure struct = (Structure) getValue( list, 0 );
 					if ( struct == null )
+					{
 						return null;
+					}
 
 					// Check the second-level list if needed.
 
-					assert member[0].isList( );
+					assert member[0].isListType( );
 					list = (List) struct.getProperty( module, member[0] );
 
 					return list;
@@ -994,15 +1023,15 @@ public class MemberRef
 		switch ( refType )
 		{
 			case PROPERTY :
-				return propDefn.isList( );
+				return propDefn.isListType( );
 			case PROPERTY_MEMBER :
 			case PROPERTY_LISTn_MEMBER :
-				return member[0].isList( );
+				return member[0].isListType( );
 			case PROPERTY_MEMBER_MEMBER :
 			case PROPERTY_MEMBER_LISTn_MEMBER :
 			case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
 			case PROPERTY_LISTn_MEMBER_MEMBER :
-				return member[1].isList( );
+				return member[1].isListType( );
 			default :
 				return false;
 		}
@@ -1020,7 +1049,7 @@ public class MemberRef
 	 *         null.
 	 */
 
-	Structure getStructure( List list, int level )
+	protected Object getValue( List list, int level )
 	{
 		assert level == 0 || level == 1;
 
@@ -1028,7 +1057,10 @@ public class MemberRef
 			return null;
 		if ( index[level] < 0 || index[level] >= list.size( ) )
 			return null;
-		return (Structure) list.get( index[level] );
+
+		Object retValue = list.get( index[level] );
+
+		return retValue;
 	}
 
 	/*
@@ -1095,7 +1127,7 @@ public class MemberRef
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Compare two object array value.
 	 * 
@@ -1154,12 +1186,11 @@ public class MemberRef
 		hash = 7 * hash;
 		for ( int i = 0; i < array.length; ++i )
 		{
-			if( array[i] == null )
+			if ( array[i] == null )
 				continue;
 			hash += array[i].hashCode( );
 		}
 		return hash;
 	}
 
-	
 }

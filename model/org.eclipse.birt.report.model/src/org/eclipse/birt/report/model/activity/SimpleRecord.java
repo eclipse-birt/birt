@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.command.EventTarget;
+import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -38,7 +38,7 @@ public abstract class SimpleRecord extends AbstractElementRecord
 	 * The destination of the event. 
 	 */
 	
-	protected EventTarget eventTarget;
+	protected ContentElementInfo eventTarget;
 
 	/*
 	 * (non-Javadoc)
@@ -121,7 +121,7 @@ public abstract class SimpleRecord extends AbstractElementRecord
 	 *            the target
 	 */
 
-	public void setEventTarget( EventTarget eventTarget )
+	public void setEventTarget( ContentElementInfo eventTarget )
 	{
 		this.eventTarget = eventTarget;
 	}

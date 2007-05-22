@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -440,7 +441,9 @@ public abstract class ReportElementState extends DesignParseState
 			else
 			{
 				// id is empty or null, then add it to the unhandle element list
-				handler.unhandleIDElements.add( element );
+
+				if ( !( element instanceof ContentElement ) )
+					handler.unhandleIDElements.add( element );
 			}
 		}
 		catch ( NumberFormatException e )

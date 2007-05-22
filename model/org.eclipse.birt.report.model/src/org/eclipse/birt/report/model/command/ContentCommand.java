@@ -561,6 +561,8 @@ public class ContentCommand extends AbstractContentCommand
 						(ElementPropertyDefn) propDefn );
 				if ( valueList != null )
 				{
+					CachedMemberRef tmpMemberRef = new CachedMemberRef(
+							(ElementPropertyDefn) propDefn );
 					for ( int i = valueList.size( ) - 1; i >= 0; i-- )
 					{
 						ElementRefValue item = (ElementRefValue) valueList
@@ -574,8 +576,7 @@ public class ContentCommand extends AbstractContentCommand
 
 								ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 										module, element );
-								cmd.removeItem( (ElementPropertyDefn) propDefn,
-										i );
+								cmd.removeItem( tmpMemberRef, i );
 							}
 							catch ( SemanticException e )
 							{

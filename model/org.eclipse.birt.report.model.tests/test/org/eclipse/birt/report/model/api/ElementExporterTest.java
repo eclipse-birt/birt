@@ -706,32 +706,6 @@ public class ElementExporterTest extends BaseTestCase
 		ElementExportUtil
 				.exportDesign( designHandle, libraryHandle, true, true );
 
-		DataItemHandle dataItem = (DataItemHandle) libraryHandle
-				.findElement( "QUANTITYORDERED1" ); //$NON-NLS-1$
-		assertNotNull( dataItem );
-
-		assertEquals( "QUANTITYORDERED", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
-
-		dataItem = (DataItemHandle) libraryHandle.findElement( "OrderYear1" ); //$NON-NLS-1$
-		assertNotNull( dataItem );
-
-		assertEquals( "OrderYear", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
-
-		dataItem = (DataItemHandle) libraryHandle.findElement( "COUNTRY1" ); //$NON-NLS-1$
-		assertNotNull( dataItem );
-
-		assertEquals( "COUNTRY", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
-
-		dataItem = (DataItemHandle) libraryHandle.findElement( "STATE1" ); //$NON-NLS-1$
-		assertNotNull( dataItem );
-
-		assertEquals( "STATE", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
-
-		dataItem = (DataItemHandle) libraryHandle.findElement( "CITY1" );//$NON-NLS-1$
-		assertNotNull( dataItem );
-
-		assertEquals( "CITY", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
-
 		save( libraryHandle );
 		
 		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" );

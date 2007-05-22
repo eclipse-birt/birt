@@ -281,8 +281,8 @@ public class PropertyHandle extends SimpleValueHandle
 				if ( !propDefn.isVisible( ) )
 					isVisible = false;
 				break;
-			case IPropertyDefn.USER_PROPERTY:
-				if( ! propDefn.isVisible( ) )
+			case IPropertyDefn.USER_PROPERTY :
+				if ( !propDefn.isVisible( ) )
 					isVisible = false;
 				break;
 		}
@@ -297,17 +297,19 @@ public class PropertyHandle extends SimpleValueHandle
 	 */
 	public void removeItem( int posn ) throws PropertyValueException
 	{
-		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
-					getModule( ), getElement( ) );
-			cmd.removeItem( propDefn, posn );
-		}
-		else
+		try
 		{
 			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 					getModule( ), getElement( ) );
 			cmd.removeItem( getReference( ), posn );
+		}
+		catch ( PropertyValueException e )
+		{
+			throw e;
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
 		}
 	}
 
@@ -320,14 +322,16 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( item == null )
 			return;
+
 		if ( item instanceof IStructure )
-			super.addItem( (IStructure) item );
-		else
 		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
-					getModule( ), getElement( ) );
-			cmd.addItem( propDefn, item );
+			super.addItem( (IStructure) item );
+			return;
 		}
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.addItem( getReference( ), item );
 	}
 
 	/**
@@ -392,6 +396,7 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( content == null )
 			return;
+
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), propDefn.getName( ) ) );
 		cmd.add( content.getElement( ), newPos );

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
@@ -58,7 +59,7 @@ public class PropertyListRecord extends SimpleRecord
 	 * The item to add or remove.
 	 */
 
-	protected IStructure value = null;
+	protected Object value = null;
 
 	/**
 	 * Whether the operation is an add or remove.
@@ -80,12 +81,12 @@ public class PropertyListRecord extends SimpleRecord
 	 */
 
 	public PropertyListRecord( DesignElement obj, MemberRef ref, List theList,
-			IStructure struct )
+			Object value )
 	{
 		assert obj != null;
 		assert ref != null;
 		assert theList != null;
-		assert struct != null;
+		assert value != null;
 
 		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
 				.getPropDefn( );
@@ -93,7 +94,7 @@ public class PropertyListRecord extends SimpleRecord
 		this.element = obj;
 		this.listRef = ref;
 		this.list = theList;
-		this.value = struct;
+		this.value = value;
 		this.isAdd = true;
 
 	}
@@ -126,7 +127,7 @@ public class PropertyListRecord extends SimpleRecord
 		this.list = theList;
 		this.isAdd = false;
 
-		this.value = (IStructure) list.get( listRef.getIndex( ) );
+		this.value = list.get( listRef.getIndex( ) );
 
 		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{listRef
@@ -152,8 +153,9 @@ public class PropertyListRecord extends SimpleRecord
 			// Now only support level one case.
 
 			IPropertyDefn propDefn = listRef.getPropDefn( );
-			if ( listRef.getDepth( ) == 1 && propDefn.isList( )
-					&& propDefn.getStructDefn( ) != null )
+			if ( listRef.getDepth( ) == 1
+					&& ( propDefn.isList( ) || propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+					&& value instanceof Structure )
 			{
 				CachedMemberRef memberRef = new CachedMemberRef( listRef
 						.getPropDefn( ), listRef.getIndex( ) );
@@ -161,7 +163,7 @@ public class PropertyListRecord extends SimpleRecord
 						element, memberRef );
 				( (Structure) value ).setContext( structContext );
 			}
-			else
+			else if ( value instanceof Structure )
 			{
 				Structure.StructureContext structContext = new Structure.StructureContext(
 						element, listRef.getPropDefn( ).getName( ) );
@@ -221,7 +223,8 @@ public class PropertyListRecord extends SimpleRecord
 		// if the structure is referencable, then send notification to the
 		// clients
 
-		if ( value != null && value.isReferencable( ) )
+		if ( value != null && value instanceof IStructure
+				&& ( (IStructure) value ).isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) value;
 			retList.add( new NotificationRecordTask( refValue, getEvent( ) ) );

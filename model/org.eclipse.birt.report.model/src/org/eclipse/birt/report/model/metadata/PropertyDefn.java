@@ -1636,4 +1636,20 @@ public abstract class PropertyDefn
 
 		return false;
 	}
+	
+	/**
+	 * Checks whether the property type is a kind of element types.
+	 * 
+	 * @return <code>true</code> if the type is element/content element type.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public final boolean isListType( )
+	{
+		if (isList)
+			return true;
+		
+		int typeCode = type.getTypeCode( );
+		return  typeCode == IPropertyType.LIST_TYPE;
+	}
 }

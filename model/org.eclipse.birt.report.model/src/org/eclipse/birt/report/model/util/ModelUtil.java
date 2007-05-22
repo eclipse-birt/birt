@@ -55,7 +55,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
-import org.eclipse.birt.report.model.command.EventTarget;
+import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -1543,35 +1543,53 @@ public class ModelUtil
 	/**
 	 * Returns the target element for the notification event.
 	 * 
-	 * @param element
+	 * @param content
 	 *            the design element
 	 * @param propDefn
-	 *            the property definition
+	 *            the property definition. The property that contains the
+	 *            <code>element</code>.
 	 * 
 	 * @return the event target.
 	 */
 
-	public static EventTarget getEventTarget( DesignElement element,
-			PropertyDefn propDefn )
+	public static ContentElementInfo getContentContainer(
+			DesignElement content, PropertyDefn propDefn )
 	{
-		DesignElement tmpElement = element;
+		Module root = content.getRoot( );
+
+		DesignElement tmpElement = content;
 		PropertyDefn tmpPropDefn = propDefn;
 
+		ContentElementInfo retTarget = new ContentElementInfo( true );
 		while ( tmpElement != null && tmpPropDefn != null )
 		{
+			DesignElement tmpContainer = tmpElement.getContainer( );
+			if ( tmpContainer == null )
+				return null;
+
+			int index = -1;
+			if ( tmpPropDefn.isList( ) )
+			{
+				List tmplist = (List) tmpContainer.getLocalProperty( root,
+						(ElementPropertyDefn) tmpPropDefn );
+				if ( tmplist != null )
+					index = tmplist.indexOf( tmpElement );
+			}
+
+			retTarget.pushStep( tmpPropDefn, index );
 			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
 			{
-				return new EventTarget( tmpElement, tmpPropDefn );
+				retTarget.setTopElement( tmpContainer );
+				return retTarget;
 			}
 
 			ContainerContext context = tmpElement.getContainerInfo( );
 			if ( context == null )
-				return null;
-
-			String propName = context.getPropertyName( );
+				break;
 
 			tmpElement = tmpElement.getContainer( );
-			tmpPropDefn = tmpElement.getPropertyDefn( propName );
+			tmpPropDefn = tmpElement
+					.getPropertyDefn( context.getPropertyName( ) );
 		}
 
 		return null;

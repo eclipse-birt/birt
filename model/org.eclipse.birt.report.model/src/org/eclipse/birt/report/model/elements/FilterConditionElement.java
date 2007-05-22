@@ -14,14 +14,13 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 
 /**
  *
  */
-public class FilterConditionElement extends DesignElement
+public class FilterConditionElement extends ContentElement
 {
 
 	/**

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.AccessControlHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -28,7 +27,7 @@ import org.eclipse.birt.report.model.core.Module;
  * </ul>
  */
 
-public class AccessControl extends DesignElement
+public class AccessControl extends ContentElement
 {
 
 	/**

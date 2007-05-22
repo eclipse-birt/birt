@@ -65,7 +65,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="11">
+                                        <value-access-control>
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -85,7 +85,7 @@
                                 </tabular-level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="12">
+                                <access-control>
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -108,9 +108,9 @@
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="testMeasureGroup" id="13">
+                <tabular-measure-group name="testMeasureGroup" id="11">
                     <property name="measures">
-                        <tabular-measure name="testMeasure" id="14">
+                        <tabular-measure name="testMeasure" id="12">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -120,7 +120,7 @@
                 </tabular-measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="15">
+                <access-control>
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>
@@ -162,7 +162,7 @@
                 </structure>
             </list-property>
         </tabular-cube>
-        <tabular-cube name="testCube1" id="16">
+        <tabular-cube name="testCube1" id="13">
             <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <list-property name="filter">
                 <structure>
@@ -173,11 +173,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <tabular-dimension name="testDimension1" id="17">
+                <tabular-dimension name="testDimension1" id="14">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="testHierarchy1" id="18">
+                        <tabular-hierarchy name="testHierarchy1" id="15">
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -187,7 +187,7 @@
                                 </structure>
                             </list-property>
                             <property name="levels">
-                                <tabular-level name="testLevel1" id="19">
+                                <tabular-level name="testLevel1" id="16">
                                     <property name="dataType">integer</property>
                                     <property name="dateTimeLevelType">month</property>
                                     <property name="intervalBase">Jan</property>
@@ -215,7 +215,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="11">
+                                        <value-access-control>
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -235,7 +235,7 @@
                                 </tabular-level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="12">
+                                <access-control>
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -258,9 +258,9 @@
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="testMeasureGroup1" id="20">
+                <tabular-measure-group name="testMeasureGroup1" id="17">
                     <property name="measures">
-                        <tabular-measure name="testMeasure1" id="21">
+                        <tabular-measure name="testMeasure1" id="18">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -270,7 +270,7 @@
                 </tabular-measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="15">
+                <access-control>
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>

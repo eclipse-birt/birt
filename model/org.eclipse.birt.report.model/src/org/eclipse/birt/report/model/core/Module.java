@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -2248,6 +2249,9 @@ public abstract class Module extends DesignElement
 		if ( element == null )
 			return;
 
+		if (element instanceof ContentElement)
+			return;
+		
 		// if the element is hanging and not in the module, return
 
 		if ( element.getRoot( ) != this )

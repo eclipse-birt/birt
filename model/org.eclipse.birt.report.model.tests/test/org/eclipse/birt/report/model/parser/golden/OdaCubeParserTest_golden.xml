@@ -46,18 +46,18 @@
                                         <structure>
                                             <property name="name">var3</property>
                                             <property name="dataType">boolean</property>
-											<property name="nativeName">new native name 3</property>
-											<property name="nativeDataType">100</property>
+                                            <property name="nativeName">new native name 3</property>
+                                            <property name="nativeDataType">100</property>
                                         </structure>
                                         <structure>
                                             <property name="name">var1</property>
-            								<property name="dataType">string</property>											
-											<property name="nativeName">native var1</property>
-											<property name="nativeDataType">10</property>
+                                            <property name="dataType">string</property>
+                                            <property name="nativeName">native var1</property>
+                                            <property name="nativeDataType">10</property>
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="8">
+                                        <value-access-control>
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -78,13 +78,13 @@
                                             </simple-property-list>
                                             <property name="permission">allow</property>
                                         </value-access-control>
-                                        <value-access-control id="19"/>
+                                        <value-access-control/>
                                     </property>
                                 </oda-level>
-                                <oda-level name="NewOdaLevel" id="18"/>
+                                <oda-level name="NewOdaLevel" id="13"/>
                             </property>
                             <property name="accessControls">
-                                <access-control id="9">
+                                <access-control>
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -99,33 +99,33 @@
                                     </simple-property-list>
                                     <property name="permission">disallow</property>
                                 </access-control>
-                                <access-control id="17"/>
+                                <access-control/>
                             </property>
                         </oda-hierarchy>
-                        <oda-hierarchy name="NewOdaHierarchy1" id="16"/>
+                        <oda-hierarchy name="NewOdaHierarchy1" id="12"/>
                     </property>
                 </oda-dimension>
-                <oda-dimension name="NewOdaDimension" id="14">
+                <oda-dimension name="NewOdaDimension" id="10">
                     <property name="hierarchies">
-                        <oda-hierarchy name="NewOdaHierarchy" id="15"/>
+                        <oda-hierarchy name="NewOdaHierarchy" id="11"/>
                     </property>
                 </oda-dimension>
             </property>
             <property name="measureGroups">
-                <oda-measure-group name="newtestMeasureGroup" id="10">
+                <oda-measure-group name="newtestMeasureGroup" id="8">
                     <property name="measures">
-                        <oda-measure name="newtestMeasure" id="11">
+                        <oda-measure name="newtestMeasure" id="9">
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
                         </oda-measure>
-                        <oda-measure name="NewOdaMeasure" id="21"/>
+                        <oda-measure name="NewOdaMeasure" id="15"/>
                     </property>
                 </oda-measure-group>
-                <oda-measure-group name="NewOdaMeasureGroup" id="20"/>
+                <oda-measure-group name="NewOdaMeasureGroup" id="14"/>
             </property>
             <property name="accessControls">
-                <access-control id="12">
+                <access-control>
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>
@@ -140,7 +140,7 @@
                     </simple-property-list>
                     <property name="permission">allow</property>
                 </access-control>
-                <access-control id="13"/>
+                <access-control/>
             </property>
         </oda-cube>
     </cubes>

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -25,7 +26,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -54,7 +54,13 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 * Where to send the event.
 	 */
 
-	protected EventTarget eventTarget;
+	protected ContentElementInfo eventTarget;
+
+	public AbstractContentCommand( Module module, DesignElement obj )
+	{
+		super( module, obj );
+		focus = null;
+	}
 
 	/**
 	 * Constructs the content command with container element.
@@ -98,9 +104,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		assert content.getContainer( ) == null;
 
-		if ( eventTarget != null && !( this instanceof ElementContentCommand ) )
+		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
-			ElementContentCommand attrCmd = new ElementContentCommand( module,
+			ContentElementCommand attrCmd = new ContentElementCommand( module,
 					focus );
 
 			attrCmd.add( content, newPos );
@@ -248,9 +254,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		assert content != null;
 
-		if ( eventTarget != null && !( this instanceof ElementContentCommand ) )
+		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
-			ElementContentCommand attrCmd = new ElementContentCommand( module,
+			ContentElementCommand attrCmd = new ContentElementCommand( module,
 					focus );
 
 			attrCmd.remove( content );
@@ -389,9 +395,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			ContainerContext toContainerInfor, int newPos )
 			throws ContentException
 	{
-		if ( eventTarget != null && !( this instanceof ElementContentCommand ) )
+		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
-			ElementContentCommand attrCmd = new ElementContentCommand( module,
+			ContentElementCommand attrCmd = new ContentElementCommand( module,
 					focus );
 
 			attrCmd.move( content, toContainerInfor, newPos );
@@ -525,9 +531,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	{
 		assert content != null;
 
-		if ( eventTarget != null && !( this instanceof ElementContentCommand ) )
+		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
-			ElementContentCommand attrCmd = new ElementContentCommand( module,
+			ContentElementCommand attrCmd = new ContentElementCommand( module,
 					focus );
 
 			attrCmd.movePosition( content, newPosn );
@@ -613,13 +619,35 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 * @return the event target
 	 */
 
-	private EventTarget getEventTarget( )
+	private ContentElementInfo getEventTarget( )
 	{
 		IContainerDefn tmpContainerDefn = focus.getContainerDefn( );
 		if ( tmpContainerDefn instanceof SlotDefn )
 			return null;
 
-		return ModelUtil.getEventTarget( focus.getElement( ),
-				(PropertyDefn) tmpContainerDefn );
+		DesignElement tmpElement = focus.getElement( );
+		PropertyDefn tmpPropDefn = (PropertyDefn) tmpContainerDefn ;
+
+		ContentElementInfo retTarget = new ContentElementInfo( true );
+		while ( tmpElement != null && tmpPropDefn != null )
+		{
+			retTarget.pushStep( tmpPropDefn, -1 );
+			
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+			{
+				retTarget.setTopElement( tmpElement );
+				return retTarget;
+			}
+
+			ContainerContext context = tmpElement.getContainerInfo( );
+			if ( context == null )
+				break;
+
+			tmpElement = tmpElement.getContainer( );
+			tmpPropDefn = tmpElement
+					.getPropertyDefn( context.getPropertyName( ) );
+		}
+
+		return null;
 	}
 }

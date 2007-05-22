@@ -44,6 +44,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
+import org.eclipse.birt.report.model.command.ContentElementInfo;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -927,9 +929,70 @@ public abstract class DesignElement
 		Object value = getStrategy( ).getPropertyExceptRomDefault( module,
 				this, prop );
 		if ( value != null )
+		{
+			updateContainerForContentElement( module, prop, value );
 			return value;
+		}
 
 		return prop.getDefault( );
+	}
+
+	/**
+	 * Updates the container information for the content element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            definition of the property to get
+	 * @param value
+	 *            the property value, or null if no value is set.
+	 */
+
+	private void updateContainerForContentElement( Module module,
+			ElementPropertyDefn prop, Object value )
+	{
+		ContentElementInfo info = null;
+		if ( this instanceof ContentElement )
+			info = ( (ContentElement) this ).getValueContainer( );
+		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+				|| prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+			info = new ContentElementInfo( this, prop );
+
+		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
+				&& prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+			return;
+
+		if ( value instanceof ContentElement )
+		{
+			Module root = ( (ContentElement) value ).getRoot( );
+
+			ContentElementInfo tmpInfo = null;
+			if ( root != module )
+			{
+				tmpInfo = info;
+			}
+			( (ContentElement) value ).setValueContainer( tmpInfo );
+		}
+		else if ( value instanceof List )
+		{
+			List items = (List) value;
+			Module root = null;
+
+			ContentElementInfo tmpInfo = null;
+
+			for ( int i = 0; i < items.size( ); i++ )
+			{
+				ContentElement item = (ContentElement) items.get( i );
+
+				if ( root == null )
+				{
+					root = item.getRoot( );
+					if ( root != module )
+						tmpInfo = info;
+				}
+				item.setValueContainer( tmpInfo );
+			}
+		}
 	}
 
 	/**

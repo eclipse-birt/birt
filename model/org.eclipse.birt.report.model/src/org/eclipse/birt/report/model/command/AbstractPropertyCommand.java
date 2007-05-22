@@ -357,7 +357,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		assert ref != null;
 		ElementPropertyDefn propDefn = ref.getPropDefn( );
 
-		if ( ref.getPropDefn( ).isList( ) )
+		if ( propDefn.isListType( ) )
 		{
 			// Top level property is a list.
 
@@ -503,8 +503,17 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 * @return the event target.
 	 */
 
-	protected EventTarget getEventTarget( PropertyDefn propDefn )
+	protected ContentElementInfo getEventTarget( PropertyDefn propDefn )
 	{
-		return ModelUtil.getEventTarget( element, propDefn );
+		DesignElement tmpContainer = element.getContainer( );
+		if ( tmpContainer == null )
+			return null;
+
+		String tmpPropName = element.getContainerInfo( ).getPropertyName( );
+		if ( tmpPropName == null )
+			return null;
+
+		return ModelUtil.getContentContainer( element, tmpContainer
+				.getPropertyDefn( tmpPropName ) );
 	}
 }

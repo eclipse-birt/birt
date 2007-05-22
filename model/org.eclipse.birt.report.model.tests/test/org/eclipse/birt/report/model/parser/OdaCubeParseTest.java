@@ -355,7 +355,6 @@ public class OdaCubeParseTest extends BaseTestCase
 		measure.setCalculated( true );
 
 		save( );
-
 		assertTrue( compareFile( "OdaCubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 

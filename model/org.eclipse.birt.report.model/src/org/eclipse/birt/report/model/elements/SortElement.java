@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * 
  */
-public class SortElement extends DesignElement
+public class SortElement extends ContentElement
 {
 
 	/**

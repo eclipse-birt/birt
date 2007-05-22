@@ -9,7 +9,7 @@
     <list-property name="libraries">
         <structure>
             <property name="fileName">ExportXtabLib.xml</property>
-            <property name="namespace">new_library_4</property>
+            <property name="namespace">new_library</property>
         </structure>
     </list-property>
     <styles>
@@ -42,45 +42,19 @@
         </simple-master-page>
     </page-setup>
     <body>
-        <label name="NewLabel1" id="115" extends="new_library_4.NewLabel1"/>
-        <extended-item extensionName="Crosstab" name="NewCross Table" extends="new_library_4.NewCross Table"
+        <extended-item extensionName="TestingBox" name="NewTestingBox" extends="new_library.NewTestingBox"
  id="116">
             <overridden-values>
-                <ref-entry baseId="73" name="NewMeasure View1" id="117">
-                    <property name="measure">new_library_4.QUANTITYORDERED</property>
+                <ref-entry baseId="11" name="NewMeasure View1" id="117">
+                    <property name="test2">51</property>
+                </ref-entry>               
+                <ref-entry baseId="13" name="NewLevel View11" id="13">
+                    <property name="usage">new usage</property>
                 </ref-entry>
-                <ref-entry baseId="74" id="74"/>
-                <ref-entry baseId="76" name="QUANTITYORDERED1" id="76"/>
-                <ref-entry baseId="75" id="75"/>
-                <ref-entry baseId="77" name="NewLabel2" id="77"/>
-                <ref-entry baseId="68" name="NewCrosstab View11" id="118"/>
-                <ref-entry baseId="69" name="NewDimension View11" id="69">
-                    <property name="dimension">new_library_4.Year</property>
+                <ref-entry baseId="15" id="71">
+                	<property name="text">new resultset column</property>
                 </ref-entry>
-                <ref-entry baseId="70" name="NewLevel View11" id="70">
-                    <property name="level">new_library_4.OrderYear</property>
-                </ref-entry>
-                <ref-entry baseId="71" id="71"/>
-                <ref-entry baseId="72" name="OrderYear1" id="72"/>
-                <ref-entry baseId="63" name="NewCrosstab View2" id="119"/>
-                <ref-entry baseId="64" name="NewDimension View2" id="64">
-                    <property name="dimension">new_library_4.Location</property>
-                </ref-entry>
-                <ref-entry baseId="65" name="NewLevel View4" id="65">
-                    <property name="level">new_library_4.COUNTRY</property>
-                </ref-entry>
-                <ref-entry baseId="66" id="66"/>
-                <ref-entry baseId="67" name="COUNTRY1" id="67"/>
-                <ref-entry baseId="102" name="NewLevel View21" id="102">
-                    <property name="level">new_library_4.STATE</property>
-                </ref-entry>
-                <ref-entry baseId="103" id="103"/>
-                <ref-entry baseId="104" name="STATE1" id="104"/>
-                <ref-entry baseId="105" name="NewLevel View31" id="105">
-                    <property name="level">new_library_4.CITY</property>
-                </ref-entry>
-                <ref-entry baseId="106" id="106"/>
-                <ref-entry baseId="107" name="CITY1" id="107"/>
+                <ref-entry baseId="16" id="66"/>
             </overridden-values>
         </extended-item>
     </body>
