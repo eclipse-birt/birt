@@ -35,7 +35,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest
 	/*
 	 * @see TestCase#setUp()
 	 */
-	
+
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -301,4 +301,19 @@ public class MetaDataDictionaryTest extends AbstractMetaTest
 		assertEquals( i, IPropertyType.TYPE_COUNT );
 	}
 
+	/**
+	 * test Get functions.
+	 * 
+	 */
+
+	public void testGetFunctions( )
+	{
+		List methods = dict.getFunctions( );
+
+		assertEquals( 25, methods.size( ) );
+
+		IMethodInfo method = (IMethodInfo) methods.get( 0 );
+		assertEquals( "sum", method.getName( ) ); //$NON-NLS-1$
+		assertEquals( "Class.Total.sum", method.getDisplayNameKey( ) ); //$NON-NLS-1$
+	}
 }

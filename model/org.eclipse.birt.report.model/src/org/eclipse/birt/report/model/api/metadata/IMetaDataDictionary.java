@@ -214,4 +214,13 @@ public interface IMetaDataDictionary
      */
 
 	public List getPropertyTypes( );
+	
+	/**
+	 * Returns the function list. Each one is the instance of
+	 * <code>IMethodInfo</code>.
+	 * 
+	 * @return the method list.
+	 */
+
+	public List getFunctions( );
 }
