@@ -317,6 +317,7 @@ data.olap.OlapFileDataError=Es gibt ungültige Daten in Datenobjekt {0}.
 data.olap.DocumentObjectAlreadyExists =Das Dokumentobjekt ist bereits vorhanden. Datenobjekt konnte nicht erstellt werden: {0}.
 data.olap.DocumentObjectNotExists =Fehler beim Laden von Quader "{0}" aus Dokument. Das Dokumentobjekt existiert nicht.
 data.olap.FacttableRowNotDistinct=Die Zeilen sollten in der Faktentabelle eindeutig sein. "{0}" tritt mehr als einmal auf.
+data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte beträgt null. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.

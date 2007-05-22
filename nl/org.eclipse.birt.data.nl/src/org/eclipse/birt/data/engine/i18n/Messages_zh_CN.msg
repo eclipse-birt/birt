@@ -317,6 +317,7 @@ data.olap.OlapFileDataError=数据对象 {0} 中存在无效数据。
 data.olap.DocumentObjectAlreadyExists =文档对象已存在。无法创建数据对象: {0}。
 data.olap.DocumentObjectNotExists =无法从文档加载多维数据集“{0}”。文档对象不存在。
 data.olap.FacttableRowNotDistinct=行在事实表中应各不相同。“{0}”出现多次。
+data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=度量列的值为空。“{0}” 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=找不到度量名称“{0}”。

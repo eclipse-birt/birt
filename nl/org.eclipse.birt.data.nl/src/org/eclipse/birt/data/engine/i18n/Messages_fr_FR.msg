@@ -317,6 +317,7 @@ data.olap.OlapFileDataError=L''objet de données contient des données non valides
 data.olap.DocumentObjectAlreadyExists =L''objet du document existe déjà. Echec de la création de l''objet de données : {0}.
 data.olap.DocumentObjectNotExists =Echec du chargement du cube "{0}" à partir du document. L''objet du document n''existe pas.
 data.olap.FacttableRowNotDistinct=Les lignes de la table des faits doivent être distinctes. "{0}" apparaît plusieurs fois.
+data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=Une des colonnes de mesures comporte une valeur vide. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.

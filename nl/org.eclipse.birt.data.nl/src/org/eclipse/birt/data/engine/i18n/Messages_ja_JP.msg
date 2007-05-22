@@ -317,6 +317,7 @@ data.olap.OlapFileDataError=データオブジェクト {0} のデータが無効です。
 data.olap.DocumentObjectAlreadyExists =ドキュメントオブジェクトがすでに存在するため、データオブジェクト {0} を作成できませんでした。
 data.olap.DocumentObjectNotExists =キューブ "{0}" を文書から読み込めできません。文書オブジェクトが存在しません。
 data.olap.FacttableRowNotDistinct=ファクトテーブルでは行が固有でなければなりませんが、"{0}" が複数あります。
+data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=計測列の値が NULL です。"{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=計測名 "{0}" が見つかりません。
