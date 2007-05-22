@@ -311,6 +311,7 @@ public class ResourceConstants
 	public final static String OLAPFILE_DATA_ERROR = "data.olap.OlapFileDataError";
 	public final static String DOCUMENTOBJECT_ALWAYS_EXIST = "data.olap.DocumentObjectAlreadyExists";
 	public final static String FACTTABLE_ROW_NOT_DISTINCT = "data.olap.FacttableRowNotDistinct";
+	public final static String FACTTABLE_JOINT_COL_NOT_EXIST = "data.olap.FacttableJointColumnNotExist";
 	public final static String FACTTABLE_NULL_MEASURE_VALUE = "data.olap.FacttableNullMeasureValue";
 	public final static String INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW = "data.olap.InvalidDimensionPositionFacttableRow";
 	public final static String MEASURE_NAME_NOT_FOUND = "data.olap.measureNameNotFound";

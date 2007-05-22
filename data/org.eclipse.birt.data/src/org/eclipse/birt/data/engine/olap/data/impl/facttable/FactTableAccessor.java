@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
@@ -90,11 +91,13 @@ public class FactTableAccessor
 
 		DimensionDivision[] subDimensions = calculateDimensionDivision( getDimensionMemberCount( dimensions ),
 				segmentCount );
-
+		
+		int[][][] columnIndex = getColumnIndex( keyColumnNames, dimensions );
 		DimensionPositionSeeker[] dimensionSeekers = new DimensionPositionSeeker[dimensions.length];
 		for ( int i = 0; i < dimensionSeekers.length; i++ )
 		{
-			dimensionSeekers[i] = new DimensionPositionSeeker( getDimCombinatedKey( dimensions[i].getAllRows( ) ) );
+			dimensionSeekers[i] = new DimensionPositionSeeker( getDimCombinatedKey( columnIndex[i],
+					dimensions[i].getAllRows( ) ) );
 		}
 
 		FactTableRow currentRow = null;
@@ -155,6 +158,73 @@ public class FactTableAccessor
 				subDimensions);
 		
 	}
+
+	private int[][][] getColumnIndex( String[][] keyColumnNames,
+			Dimension[] dimensions ) throws DataException
+	{
+		int[][][] columnIndex = new int[keyColumnNames.length][][];
+		for ( int i = 0; i < keyColumnNames.length; i++ )
+		{
+			columnIndex[i] = new int[keyColumnNames[i].length][];
+			ILevel[] levels = dimensions[i].getHierarchy( ).getLevels( );
+			for ( int j = 0; j < keyColumnNames[i].length; j++ )
+			{
+				columnIndex[i][j] = new int[3];
+				columnIndex[i][j][0] = -1;
+				for( int k = 0; k < levels.length; k++ )
+				{
+					String[] columns = levels[k].getKeyNames( );
+					int index = find( columns, keyColumnNames[i][j] );
+					if( index >= 0 )
+					{
+						//is key column
+						columnIndex[i][j][0] = 0;
+						columnIndex[i][j][1] = k;
+						columnIndex[i][j][2] = index;
+						break;
+					}
+					columns = levels[k].getAttributeNames( );
+					index = find( columns, keyColumnNames[i][j] );
+					if( index >= 0 )
+					{
+						//is key column
+						columnIndex[i][j][0] = 1;
+						columnIndex[i][j][1] = k;
+						columnIndex[i][j][2] = index;
+						break;
+					}
+				}
+				if ( columnIndex[i][j][0] == -1 )
+				{
+					throw new DataException( ResourceConstants.FACTTABLE_JOINT_COL_NOT_EXIST,
+							keyColumnNames[i][j] );
+				}
+			}
+		}
+		return columnIndex;
+	}
+	
+	/**
+	 * 
+	 * @param strArray
+	 * @param str
+	 * @return
+	 */
+	private int find( String[] strArray, String str )
+	{
+		if( strArray == null )
+		{
+			return -1;
+		}
+		for( int i = 0; i < strArray.length; i++ )
+		{
+			if( strArray[i].equals( str ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	/**
 	 * 
@@ -162,18 +232,28 @@ public class FactTableAccessor
 	 * @return
 	 * @throws IOException
 	 */
-	private static IDiskArray getDimCombinatedKey( IDiskArray dimRowArray ) throws IOException
+	private static IDiskArray getDimCombinatedKey( int[][] columnIndex , IDiskArray dimRowArray ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
 				Constants.LIST_BUFFER_SIZE );
-		DimensionRow dimRow = (DimensionRow)dimRowArray.get( 0 );
-		int lowestLevelIndex = dimRow.getMembers().length-1;
-		int keyCount = 1;
 		for ( int i = 0; i < dimRowArray.size( ); i++ )
 		{
-			dimRow = (DimensionRow)dimRowArray.get( i );
-			DimensionKey key = new DimensionKey( keyCount );
-			key.setKeyValues( dimRow.getMembers()[lowestLevelIndex].getKeyValues() );
+			DimensionRow dimRow = (DimensionRow)dimRowArray.get( i );
+			DimensionKey key = new DimensionKey( columnIndex.length );
+			Object[] values = new Object[columnIndex.length];
+			for( int j = 0; j < columnIndex.length; j++)
+			{
+				if( columnIndex[j][0] == 0 )
+				{
+					// this is a key column
+					values[j] = dimRow.getMembers()[columnIndex[j][1]].getKeyValues( )[columnIndex[j][2]];
+				}
+				else
+				{
+					values[j] = dimRow.getMembers()[columnIndex[j][1]].getAttributes( )[columnIndex[j][2]];
+				}
+			}
+			key.setKeyValues( values );
 			key.setDimensionPos( i );
 			resultArray.add( key );
 		}
