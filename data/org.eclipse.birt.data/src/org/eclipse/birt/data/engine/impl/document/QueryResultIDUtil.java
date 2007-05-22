@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+
 /**
  * Manage the operation related with query result id.
  */
 public class QueryResultIDUtil
 {
-	private static int qursStart = 0;
-
 	private final static String QURE_ID_PREFIX = "QuRs";
-	private final static String CACHE_QUERY_RESULT_ID = "CacheQuRs";
 	private final static String QURE_ID_SEPARATOR = "_";
 	private final static String STREAM_ID_SEPARATOR = "/";
 	
@@ -32,12 +30,23 @@ public class QueryResultIDUtil
 	{
 	}
 
+
+	private static ThreadLocal qursStart = new ThreadLocal( ) 
+	{
+		protected Object initialValue( )
+		{
+			return new Integer(0);
+		}
+	};
+
 	/**
 	 * @return
 	 */
-	public synchronized static String nextID( )
+	public static String nextID( )
 	{
-		return QURE_ID_PREFIX + ( qursStart++ );
+		int id = ((Integer)qursStart.get( )).intValue( );
+		qursStart.set( new Integer(id+1) );
+		return QURE_ID_PREFIX + ( id );
 	}
 
 	/**
