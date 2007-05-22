@@ -1502,10 +1502,10 @@ FormPage.Button.Down=아래로(&N)
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
 FormPage.Button.Up=위로(&U)
+FormPage.Button.Binding.Refresh=Re&fresh
 FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
 FormPage.toolTipText.Down=아래로 이동
-
 ###########################################################
 #GeneralInsertMenuAction properties
 
@@ -2386,7 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.toolTipText.Edit=출력 열 편집
 OutputColumnPage.title.OutputColumnInputDialog=출력 열
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
+OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
 
 ###########################################################
 #OutputColumnsPage properties

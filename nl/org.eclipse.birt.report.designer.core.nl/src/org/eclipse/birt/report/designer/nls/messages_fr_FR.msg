@@ -1502,10 +1502,10 @@ FormPage.Button.Down=&Bas
 FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
 FormPage.Button.Up=&Vers le haut
+FormPage.Button.Binding.Refresh=Re&fresh
 FormPage.Menu.ModifyProperty=modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
 FormPage.toolTipText.Down=Déplacer vers le bas
-
 ###########################################################
 #GeneralInsertMenuAction properties
 
@@ -2386,7 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
+OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
 
 ###########################################################
 #OutputColumnsPage properties

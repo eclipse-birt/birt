@@ -1502,10 +1502,10 @@ FormPage.Button.Down=下へ(&N)
 FormPage.Button.Edit=編集(&D)
 FormPage.Button.EditWithDialog=編集(&D)...
 FormPage.Button.Up=上へ(&U)
+FormPage.Button.Binding.Refresh=Re&fresh
 FormPage.Menu.ModifyProperty=プロパティの変更
 FormPage.toolTipText.Up=上に移動
 FormPage.toolTipText.Down=下に移動
-
 ###########################################################
 #GeneralInsertMenuAction properties
 
@@ -2386,7 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに使用されています。
 OutputColumnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
 OutputColumnPage.toolTipText.Edit=出力列の編集
 OutputColumnPage.title.OutputColumnInputDialog=出力列
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
+OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに使用されています。
 
 ###########################################################
 #OutputColumnsPage properties

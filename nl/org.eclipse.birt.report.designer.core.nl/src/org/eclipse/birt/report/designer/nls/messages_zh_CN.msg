@@ -1502,10 +1502,10 @@ FormPage.Button.Down=下移(&N)
 FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
 FormPage.Button.Up=上移(&U)
+FormPage.Button.Binding.Refresh=Re&fresh
 FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
 FormPage.toolTipText.Down=下移
-
 ###########################################################
 #GeneralInsertMenuAction properties
 
@@ -2386,7 +2386,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.toolTipText.Edit=编辑输出列
 OutputColumnPage.title.OutputColumnInputDialog=输出列
-OutputColumnPage.OutputColumns.DuplicatedName=The name has already existed!
+OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
 
 ###########################################################
 #OutputColumnsPage properties
