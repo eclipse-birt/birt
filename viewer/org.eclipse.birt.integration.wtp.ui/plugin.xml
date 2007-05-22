@@ -248,6 +248,16 @@
 				name="BIRT_VIEWER_CONFIG_FILE"
 				value="WEB-INF/viewer.properties"
 				description="BIRT viewer extended configuration file"/>
+
+			<context-param 
+				name="BIRT_VIEWER_PRINT_SERVERSIDE"
+				value="ON"
+				description="If turn on the function that supports print on the server side(ON|OFF).Default to on."/>
+
+			<context-param 
+				name="HTML_ENABLE_AGENTSTYLE_ENGINE"
+				value="true"
+				description="If force optimized HTML output.Default to true"/>
 			
 			<listener class="org.eclipse.birt.report.listener.ViewerServletContextListener"/>
 			<listener class="org.eclipse.birt.report.listener.ViewerHttpSessionListener"/>
