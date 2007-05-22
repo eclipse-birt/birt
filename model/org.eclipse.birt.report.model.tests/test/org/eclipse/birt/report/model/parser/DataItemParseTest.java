@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -125,8 +126,14 @@ public class DataItemParseTest extends BaseTestCase
 		assertEquals( "column1 aggre1, column1 aggre2", //$NON-NLS-1$
 				serializeStringList( column.getAggregateOnList( ) ) );
 
-		assertEquals( "column1 argument1, column1 argument2", //$NON-NLS-1$
-				serializeStringList( column.getArgumentList( ) ) );
+		Iterator iter = column.argumentsIterator( );
+		AggregationArgumentHandle argument = (AggregationArgumentHandle) iter
+				.next( );
+		assertEquals( "arg_1", argument.getName( ) ); //$NON-NLS-1$
+		assertEquals( "argument_value", argument.getValue( ) ); //$NON-NLS-1$
+		argument = (AggregationArgumentHandle) iter.next( );
+		assertEquals( "arg_2", argument.getName( ) ); //$NON-NLS-1$
+		assertEquals( "argument_value", argument.getValue( ) ); //$NON-NLS-1$
 
 		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_SUM, column
 				.getAggregateFunction( ) );
@@ -203,8 +210,17 @@ public class DataItemParseTest extends BaseTestCase
 		column.setDisplayName( "New Display Name" );//$NON-NLS-1$
 		column
 				.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
+
+		data = (DataItem) design.findElement( "Body Data" ); //$NON-NLS-1$
+		columnBindings = dataHandle.columnBindingsIterator( );
+		column = (ComputedColumnHandle) columnBindings.next( );
+		AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) column
+				.argumentsIterator( ).next( );
+		argumentHandle.setName( "new_" + argumentHandle.getName( ) ); //$NON-NLS-1$
+		argumentHandle.setValue( "new_" + argumentHandle.getValue( ) ); //$NON-NLS-1$
 		save( );
-		
+
+		System.out.println( os );
 		assertTrue( compareFile( goldenFileName ) );
 	}
 

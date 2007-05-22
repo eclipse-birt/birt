@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -52,15 +54,18 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 		ComputedColumnHandle columnHandle = data.addColumnBinding( column,
 				false );
+		AggregationArgument argument = new AggregationArgument( );
+		argument.setName( "arg_1" ); //$NON-NLS-1$
+		argument.setValue( "argument 1" ); //$NON-NLS-1$
 
-		columnHandle.addArgument( "argument 1" ); //$NON-NLS-1$
+		columnHandle.addArgument( argument );
 
-		List arguments = columnHandle.getArgumentList( );
-		assertEquals( 1, arguments.size( ) );
+		Iterator iter = columnHandle.argumentsIterator( );
+		assertTrue( iter.hasNext( ) );
 
-		columnHandle.removeArgument( "argument 1" ); //$NON-NLS-1$
-		arguments = columnHandle.getArgumentList( );
-		assertEquals( 0, arguments.size( ) );
+		columnHandle.removeArgument( argument );
+		iter = columnHandle.argumentsIterator( );
+		assertFalse( iter.hasNext( ) );
 
 		columnHandle.addAggregateOn( "group 1" ); //$NON-NLS-1$
 		List aggregates = columnHandle.getAggregateOnList( );

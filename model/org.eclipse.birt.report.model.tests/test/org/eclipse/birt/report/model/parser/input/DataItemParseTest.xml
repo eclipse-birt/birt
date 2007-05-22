@@ -36,8 +36,6 @@
         <free-form>
             <report-items>
                 <data name="My First Data">
-                    <property name="distinct">repeatOnPage</property>
-                    <property name="distinctReset">abc</property>
                     <property name="resultSetColumn">First data value</property>
 					<list-property name="boundDataColumns">
 						<structure>
@@ -53,8 +51,6 @@
             </report-items>
         </free-form>
         <data name="Body Data">
-            <property name="distinct">repeat</property>
-            <property name="distinctReset">abc</property>
             <text-property name="helpText" key="help">data help</text-property>
             <structure name="action">
                 <expression name="hyperlink">http://localhost:80/</expression>
@@ -72,10 +68,16 @@
 					</simple-property-list>	
 					<property name="aggregateFunction">sum</property>							
 					<property name="filterExpr">colmn1 filter expr</property>												
-					<simple-property-list name="arguments">
-						<value>column1 argument1</value>
-						<value>column1 argument2</value>
-					</simple-property-list>						
+					<list-property name="arguments">
+						<structure>
+							<property name="name">arg_1</property>
+							<property name="value">argument_value</property>
+						</structure>
+						<structure>
+							<property name="name">arg_2</property>
+							<property name="value">argument_value</property>
+						</structure>
+					</list-property>						
 				</structure>
 			</list-property>
         </data>
