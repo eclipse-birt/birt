@@ -902,16 +902,6 @@ public class FeaturesTest extends APITestCase
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
 		
-		String[] bindingNameSort = new String[1];
-		bindingNameSort[0] = "SORT_SALE_DATE";
-		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
-		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );
-		SortDefinition[] sortDefn = new SortDefinition[]{
-			new SortDefinition( )
-		};
-		sortDefn[0].setColumn( "SORT_SALE_DATE" );
-		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
-
 		String[] bindingNameFilter = new String[1];
 		bindingNameFilter[0] = "SORT_SALE_DATE";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
@@ -941,9 +931,9 @@ public class FeaturesTest extends APITestCase
 		createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
-				bindingNameSort,
-				bindingExprSort,
-				sortDefn,
+				null,
+				null,
+				null,
 				bindingNameFilter,
 				bindingExprFilter,
 				filterDefn,
