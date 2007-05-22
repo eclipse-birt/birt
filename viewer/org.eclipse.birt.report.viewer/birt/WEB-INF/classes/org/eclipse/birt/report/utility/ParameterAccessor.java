@@ -258,6 +258,11 @@ public class ParameterAccessor
 	public static final String PARAM_CLEAN_SESSION = "__clean"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate if force optimized HTML output.
+	 */
+	public static final String PARAM_AGENTSTYLE_ENGINE = "__agentstyle"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -362,6 +367,11 @@ public class ParameterAccessor
 	 * Context parameter name that if support print on the server
 	 */
 	public static final String INIT_PARAM_PRINT_SERVERSIDE = "BIRT_VIEWER_PRINT_SERVERSIDE"; //$NON-NLS-1$
+
+	/**
+	 * Context parameter name that if force optimized HTML output.
+	 */
+	public static final String INIT_PARAM_AGENTSTYLE_ENGINE = "HTML_ENABLE_AGENTSTYLE_ENGINE"; //$NON-NLS-1$
 
 	/**
 	 * UTF-8 encode constants.
@@ -493,6 +503,11 @@ public class ParameterAccessor
 	 * Flag that indicated if clean session files.
 	 */
 	public static boolean isCleanSessionFiles = true;
+
+	/**
+	 * Optimized HTML output flag
+	 */
+	public static boolean isAgentStyle;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1323,6 +1338,18 @@ public class ParameterAccessor
 		else if ( IBirtConstants.VAR_OFF.equalsIgnoreCase( flag ) )
 		{
 			isSupportedPrintOnServer = false;
+		}
+
+		// get agent style flag
+		String s_agentstyle = context
+				.getInitParameter( INIT_PARAM_AGENTSTYLE_ENGINE );
+		if ( "true".equalsIgnoreCase( s_agentstyle ) ) //$NON-NLS-1$
+		{
+			isAgentStyle = true;
+		}
+		else
+		{
+			isAgentStyle = false;
 		}
 
 		// clear temp files
@@ -2544,5 +2571,28 @@ public class ParameterAccessor
 			isCleanSessionFiles = false;
 		else if ( "true".equalsIgnoreCase( isClean ) ) //$NON-NLS-1$
 			isCleanSessionFiles = true;
+	}
+
+	/**
+	 * Check If force optimized HTML output.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isAgentStyle( HttpServletRequest request )
+	{
+		boolean flag = isAgentStyle;
+
+		String urlParam = getParameter( request, PARAM_AGENTSTYLE_ENGINE );
+		if ( "true".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
+		{
+			flag = true;
+		}
+		else if ( "false".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
+		{
+			flag = false;
+		}
+
+		return flag;
 	}
 }

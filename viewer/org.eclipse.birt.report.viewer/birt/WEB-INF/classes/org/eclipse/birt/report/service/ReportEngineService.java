@@ -505,6 +505,8 @@ public class ReportEngineService
 		{
 			renderOption.setBaseURL( baseURL + IBirtConstants.SERVLET_PATH_RUN );
 		}
+		renderOption.setEnableAgentStyleEngine( ParameterAccessor
+				.isAgentStyle( request ) );
 		renderOption.setSupportedImageFormats( svgFlag
 				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderOption;

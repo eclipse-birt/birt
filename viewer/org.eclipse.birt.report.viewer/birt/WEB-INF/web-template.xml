@@ -85,7 +85,13 @@
 		<param-name>BIRT_VIEWER_PRINT_SERVERSIDE</param-name>
 		<param-value>ON</param-value>
 	</context-param>
-			
+
+	<!-- If force optimized HTML output. Defalult to true -->
+	<context-param>
+		<param-name>HTML_ENABLE_AGENTSTYLE_ENGINE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+				
 	<!-- Viewer Servlet Context Listener -->
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListener</listener-class>
