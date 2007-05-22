@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -2220,9 +2219,7 @@ public class DEUtil
 			ComputedColumnHandle column )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
-		if ( baseElement instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) baseElement ).getExtensionName( )
-						.equals( "Crosstab" ) )
+		if ( isCrosstabElement( baseElement ) )
 		{
 			exp = ExpressionUtil.DATA_INDICATOR;
 		}
@@ -2233,6 +2230,19 @@ public class DEUtil
 		}
 		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]";
 		return exp;
+	}
+
+	private static boolean isCrosstabElement( DesignElementHandle element )
+	{
+		if ( element instanceof ExtendedItemHandle
+				&& ( (ExtendedItemHandle) element ).getExtensionName( )
+						.equals( "Crosstab" ) )
+		{
+			return true;
+		}
+		if ( element.getContainer( ) != null )
+			return isCrosstabElement( element.getContainer( ) );
+		return false;
 	}
 
 	/**
@@ -2553,7 +2563,7 @@ public class DEUtil
 		}
 		return null;
 	}
-	
+
 	public static boolean enableRowNum( Object parent )
 	{
 		if ( parent instanceof ExtendedItemHandle
