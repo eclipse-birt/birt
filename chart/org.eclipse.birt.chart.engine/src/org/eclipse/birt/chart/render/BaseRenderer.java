@@ -2984,7 +2984,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected static List filterNull( List ll )
+	protected List filterNull( List ll )
 	{
 		ArrayList al = new ArrayList( );
 		for ( int i = 0; i < ll.size( ); i++ )
@@ -3008,7 +3008,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected static Location[] filterNull( Location[] ll )
+	protected Location[] filterNull( Location[] ll )
 	{
 		ArrayList al = new ArrayList( );
 		for ( int i = 0; i < ll.length; i++ )
@@ -3025,10 +3025,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
 		}
-		else
-		{
-			return (Location[]) al.toArray( new Location[al.size( )] );
-		}
+		return (Location[]) al.toArray( new Location[al.size( )] );
 	}
 
 	/**

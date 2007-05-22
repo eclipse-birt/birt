@@ -26,7 +26,6 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -220,37 +219,6 @@ public final class CurveRenderer
 	}
 
 	/**
-	 * Fixes null values with the coordinates in baseline.
-	 * 
-	 * @param ll
-	 * @param boClientArea
-	 * @return
-	 */
-	private static Location[] fixNull( Location[] ll, Bounds boClientArea )
-	{
-		List al = new ArrayList( );
-		for ( int i = 0; i < ll.length; i++ )
-		{
-			if ( Double.isNaN( ll[i].getX( ) ) )
-			{
-				ll[i].setX( boClientArea.getLeft( ) );
-			}
-			if ( Double.isNaN( ll[i].getY( ) ) )
-			{
-				ll[i].setY( boClientArea.getTop( ) + boClientArea.getHeight( ) );
-			}
-
-			al.add( ll[i] );
-		}
-
-		if ( ll instanceof Location3D[] )
-		{
-			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
-		}
-		return (Location[]) al.toArray( new Location[al.size( )] );
-	}
-
-	/**
 	 * 
 	 * @param ipr
 	 * @throws RenderingException
@@ -368,7 +336,7 @@ public final class CurveRenderer
 		else
 		{
 			// Fix null values
-			tempPoints = fixNull( loPoints, this.iRender.getPlotBounds( ) );
+			tempPoints = this.iRender.filterNull( loPoints );
 			faX = LocationImpl.getXArray( tempPoints );
 			faY = LocationImpl.getYArray( tempPoints );
 			if ( bRendering3D )
@@ -1260,7 +1228,7 @@ public final class CurveRenderer
 		else
 		{
 			// Fix null values
-			tempPoints = fixNull( loPoints, _render.getPlotBounds( ) );
+			tempPoints = _render.filterNull( loPoints );
 			faX = LocationImpl.getXArray( tempPoints );
 			faY = LocationImpl.getYArray( tempPoints );
 
