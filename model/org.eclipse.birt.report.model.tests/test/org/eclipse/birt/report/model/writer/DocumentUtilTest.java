@@ -52,6 +52,12 @@ public class DocumentUtilTest extends BaseTestCase
 	private static final String DESIGN_WITH_SHARED_STYLE = "DocumentUtilTest_3.xml"; //$NON-NLS-1$
 
 	/**
+	 * Design file name.
+	 */
+
+	private static final String DESIGN_WITH_EXTERNAL_SELECTORS = "DocumentUtilTest_4.xml"; //$NON-NLS-1$
+
+	/**
 	 * Tests the element property value localization.
 	 * 
 	 * @throws Exception
@@ -94,6 +100,8 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
+
+		System.out.println( os );
 		assertTrue( compareFile( "DocumentUtilTest_golden_2.xml" ) ); //$NON-NLS-1$ 
 	}
 
@@ -221,4 +229,22 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( "DocumentUtilTest_parser.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
 	}
+
+	/**
+	 * If two non-named element refers the same shared style, their names should
+	 * not be style names.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSerializeExternalSelectors( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_EXTERNAL_SELECTORS );
+		assertNotNull( designHandle );
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_external_selectors_golden.xml" ) ); //$NON-NLS-1$
+	}
+
 }

@@ -85,35 +85,34 @@ public class GraphicMasterPageState extends MasterPageState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if (  ParserSchemaConstants.LABEL_TAG == tagValue )
 				return new LabelState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.DATA_TAG == tagValue  )
 				return new DataItemState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.TEXT_TAG == tagValue  )
 				return new TextItemState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.IMAGE_TAG == tagValue  )
 				return new ImageState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.LINE_TAG == tagValue )
 				return new LineItemState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.RECTANGLE_TAG == tagValue  )
 				return new RectangleState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if (  ParserSchemaConstants.GRID_TAG == tagValue  )
 				return new GridItemState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if ( ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue  )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			if (  ParserSchemaConstants.FREE_FORM_TAG == tagValue  )
 				return new FreeFormState( handler, element,
-						IGraphicMaterPageModel.CONTENT_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
+						GraphicMasterPage.CONTENT_SLOT );
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue  )
 				return new AnyElementState( handler );
 			return super.startElement( tagName );
 		}

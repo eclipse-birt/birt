@@ -16,23 +16,25 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -42,6 +44,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -53,7 +56,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -70,6 +72,47 @@ import org.xml.sax.SAXException;
 
 class PropertyState extends AbstractPropertyState
 {
+
+	/* cached hash codes of string for comparision */
+
+	private static final int GROUP_START_PROP = ListGroup.GROUP_START_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int CHEET_SHEET = "cheetSheet".toLowerCase( ).hashCode( ); //$NON-NLS-1$
+	private static final int FILTER_OPERATOR_MEMBER = FilterCondition.OPERATOR_MEMBER
+			.toLowerCase( ).hashCode( );
+	private static final int MAPRULE_OPERATOR_MEMBER = MapRule.OPERATOR_MEMBER
+			.toLowerCase( ).hashCode( );
+	private static final int DATE_TIME_FORMAT_STRUCT = DateTimeFormatValue.FORMAT_VALUE_STRUCT
+			.toLowerCase( ).hashCode( );
+	private static final int NUMBER_FORMAT_STRUCT = NumberFormatValue.FORMAT_VALUE_STRUCT
+			.toLowerCase( ).hashCode( );
+	private static final int STRING_FORMAT_STRUCT = StringFormatValue.FORMAT_VALUE_STRUCT
+			.toLowerCase( ).hashCode( );
+	private static final int PARAM_FORMAT_STRUCT = ParameterFormatValue.FORMAT_VALUE_STRUCT
+			.toLowerCase( ).hashCode( );
+
+	private static final int HEADER_HEIGHT = "headerHeight".toLowerCase( ).hashCode( ); //$NON-NLS-1$
+	private static final int FOOTER_HEIGHT = "footerHeight".toLowerCase( ).hashCode( ); //$NON-NLS-1$
+
+	private static final int THUMBNAIL_PROP = IReportDesignModel.THUMBNAIL_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int DATA_MEMBER = EmbeddedImage.DATA_MEMBER
+			.toLowerCase( ).hashCode( );
+	private static final int CONTENT_AS_BLOB_MEMBER = OdaDesignerState.CONTENT_AS_BLOB_MEMBER
+			.toLowerCase( ).hashCode( );
+
+	private static final int ON_CREATE_METHOD = ICellModel.ON_CREATE_METHOD
+			.toLowerCase( ).hashCode( );
+
+	private static final int CACHED_ROW_COUNT_PROP = ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int CHOICE_VERTICAL_ALIGN = DesignChoiceConstants.CHOICE_VERTICAL_ALIGN
+			.toLowerCase( ).hashCode( );
+	private static final int DEFAULT_VALUE_PROP = ScalarParameter.DEFAULT_VALUE_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int DATA_TYPE_MEMBER = DataSetParameter.DATA_TYPE_MEMBER
+			.toLowerCase( ).hashCode( );
 
 	/**
 	 * Property defn.
@@ -212,100 +255,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( element instanceof ListGroup
-				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, IGroupElementModel.GROUP_START_PROP );
-			state.setName( IGroupElementModel.INTERVAL_BASE_PROP );
-			return state;
-		}
-
-		if ( element instanceof ReportDesign
-				&& "cheetSheet".equalsIgnoreCase( name ) ) //$NON-NLS-1$
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, "cheetSheet" ); //$NON-NLS-1$
-			state.setName( IReportDesignModel.CHEAT_SHEET_PROP );
-			return state;
-		}
-
-		if ( element instanceof Module && "msgBaseName".equalsIgnoreCase( name ) ) //$NON-NLS-1$
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, "msgBaseName" ); //$NON-NLS-1$
-			state.setName( IModuleModel.INCLUDE_RESOURCE_PROP );
-			return state;
-		}
-
-		if ( jmpDefn != null
-				&& struct != null
-				&& ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( jmpDefn
-						.getName( ) ) || StyleRule.OPERATOR_MEMBER
-						.equalsIgnoreCase( jmpDefn.getName( ) ) ) )
-		{
-			CompatibleOperatorState state = new CompatibleOperatorState(
-					handler, element, propDefn, struct );
-			state.setName( name );
-			return state;
-		}
-
-		if ( ( jmpDefn != null ) && ( jmpDefn.getStructDefn( ) != null ) )
-		{
-			if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
-					.equalsIgnoreCase( jmpDefn.getStructDefn( ).getName( ) )
-					|| NumberFormatValue.FORMAT_VALUE_STRUCT
-							.equalsIgnoreCase( jmpDefn.getStructDefn( )
-									.getName( ) )
-					|| StringFormatValue.FORMAT_VALUE_STRUCT
-							.equalsIgnoreCase( jmpDefn.getStructDefn( )
-									.getName( ) )
-					|| ParameterFormatValue.FORMAT_VALUE_STRUCT
-							.equalsIgnoreCase( jmpDefn.getStructDefn( )
-									.getName( ) ) )
-			{
-				CompatibleFormatPropertyState state = new CompatibleFormatPropertyState(
-						handler, element, propDefn, struct );
-				state.setName( name );
-				state.createStructure( );
-				return state;
-			}
-		}
-
-		if ( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT
-				.equalsIgnoreCase( element.getDefn( ).getName( ) )
-				&& ( name.equalsIgnoreCase( "headerHeight" ) || name //$NON-NLS-1$
-						.equalsIgnoreCase( "footerHeight" ) ) ) //$NON-NLS-1$
-			return new CompatibleIgnorePropertyState( handler, element );
-
-		if ( ( element instanceof ListingElement || element instanceof GroupElement ) )
-		{
-			// now 'pageBreakInterval' is supported on table/list
-			if ( IListingElementModel.PAGE_BREAK_INTERVAL_PROP
-					.equalsIgnoreCase( name )
-					&& element instanceof GroupElement )
-				return new CompatibleIgnorePropertyState( handler, element );
-
-			if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$
-					.equalsIgnoreCase( "onFinish" ) ) //$NON-NLS-1$
-				return new CompatibleIgnorePropertyState( handler, element );
-
-			if ( "onRow".equalsIgnoreCase( name ) //$NON-NLS-1$
-					&& !( element instanceof TableItem ) )
-				return new CompatibleIgnorePropertyState( handler, element );
-
-			if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
-				return new CompatibleOnRowPropertyState( handler, element );
-		}
-		if ( element instanceof GroupElement )
-		{
-			if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
-					"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
-				return new CompatibleIgnorePropertyState( handler, element );
-		}
-
-		if ( element instanceof ReportDesign
-				&& IReportDesignModel.THUMBNAIL_PROP.equalsIgnoreCase( name ) )
+		if ( element instanceof ReportDesign && THUMBNAIL_PROP == nameValue )
 		{
 			Base64PropertyState state = new Base64PropertyState( handler,
 					element, IReportDesignModel.CHARSET );
@@ -313,8 +263,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( struct instanceof EmbeddedImage
-				&& EmbeddedImage.DATA_MEMBER.equalsIgnoreCase( name ) )
+		if ( struct instanceof EmbeddedImage && DATA_MEMBER == nameValue )
 		{
 			Base64PropertyState state = new Base64PropertyState( handler,
 					element, propDefn, struct, EmbeddedImage.CHARSET );
@@ -323,16 +272,15 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( struct instanceof OdaDesignerState
-				&& OdaDesignerState.CONTENT_AS_BLOB_MEMBER
-						.equalsIgnoreCase( name ) )
+				&& CONTENT_AS_BLOB_MEMBER == nameValue )
 		{
 			Base64PropertyState state = new Base64PropertyState( handler,
 					element, propDefn, struct, OdaDesignerState.CHARSET );
 			state.setName( name );
 			return state;
 		}
-		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || ITableRowModel.ON_CREATE_METHOD
-				.equalsIgnoreCase( name ) ) )
+		if ( ON_CREATE_METHOD == nameValue
+				&& ( element instanceof Cell || element instanceof TableRow ) )
 		{
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 					handler, element );
@@ -351,6 +299,105 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_7 )
+		{
+			IPropertyDefn jmpDefn = null;
+
+			if ( struct != null )
+				jmpDefn = struct.getDefn( ).getMember( name );
+			else
+				jmpDefn = element.getPropertyDefn( name );
+
+			if ( element instanceof ListGroup && GROUP_START_PROP == nameValue )
+			{
+				CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+						handler, element, ListGroup.GROUP_START_PROP );
+				state.setName( ListGroup.INTERVAL_BASE_PROP );
+				return state;
+			}
+
+			if ( element instanceof ReportDesign && CHEET_SHEET == nameValue )
+			{
+				CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+						handler, element, "cheetSheet" ); //$NON-NLS-1$
+				state.setName( ReportDesign.CHEAT_SHEET_PROP );
+				return state;
+			}
+
+			if ( element instanceof Module
+					&& "msgBaseName".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+			{
+				CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+						handler, element, "msgBaseName" ); //$NON-NLS-1$
+				state.setName( IModuleModel.INCLUDE_RESOURCE_PROP );
+				return state;
+			}
+
+			int jmpDefnValue = -1;
+			int jmpStructDefnValue = -1;
+			if ( jmpDefn != null )
+			{
+				jmpDefnValue = jmpDefn.getName( ).toLowerCase( ).hashCode( );
+				IStructureDefn structDefn = jmpDefn.getStructDefn( );
+				if ( structDefn != null )
+					jmpStructDefnValue = structDefn.getName( ).toLowerCase( )
+							.hashCode( );
+			}
+
+			if ( FILTER_OPERATOR_MEMBER == jmpDefnValue
+					|| MAPRULE_OPERATOR_MEMBER == jmpDefnValue )
+			{
+				CompatibleOperatorState state = new CompatibleOperatorState(
+						handler, element, propDefn, struct );
+				state.setName( name );
+				return state;
+			}
+
+			if ( DATE_TIME_FORMAT_STRUCT == jmpStructDefnValue
+					|| NUMBER_FORMAT_STRUCT == jmpStructDefnValue
+					|| STRING_FORMAT_STRUCT == jmpStructDefnValue
+					|| PARAM_FORMAT_STRUCT == jmpStructDefnValue )
+			{
+				CompatibleFormatPropertyState state = new CompatibleFormatPropertyState(
+						handler, element, propDefn, struct );
+				state.setName( name );
+				state.createStructure( );
+				return state;
+			}
+
+			if ( element instanceof GraphicMasterPage
+					&& ( HEADER_HEIGHT == nameValue || FOOTER_HEIGHT == nameValue ) )
+				return new CompatibleIgnorePropertyState( handler, element );
+
+			if ( ( element instanceof ListingElement || element instanceof GroupElement ) )
+			{
+				// now 'pageBreakInterval' is supported on table/list
+
+				if ( IListingElementModel.PAGE_BREAK_INTERVAL_PROP
+						.equalsIgnoreCase( name )
+						&& element instanceof GroupElement )
+					return new CompatibleIgnorePropertyState( handler, element );
+
+				if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$
+						.equalsIgnoreCase( "onFinish" ) ) //$NON-NLS-1$
+					return new CompatibleIgnorePropertyState( handler, element );
+
+				if ( "onRow".equalsIgnoreCase( name ) //$NON-NLS-1$
+						&& !( element instanceof TableItem ) )
+					return new CompatibleIgnorePropertyState( handler, element );
+
+				if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
+					return new CompatibleOnRowPropertyState( handler, element );
+			}
+			if ( element instanceof GroupElement )
+			{
+				if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
+						"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+					return new CompatibleIgnorePropertyState( handler, element );
+			}
+
+		}
+
 		// change 'week' to 'week-of-year' and change 'day' to 'day-of-year'.
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_14
@@ -380,8 +427,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_12
 				&& element instanceof DataSet
-				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
-						.equalsIgnoreCase( name ) )
+				&& CACHED_ROW_COUNT_PROP == nameValue )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
@@ -453,7 +499,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
-				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
+				&& CHOICE_VERTICAL_ALIGN == nameValue  )
 		{
 			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
 					handler, element );
@@ -463,8 +509,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& ( element instanceof ScalarParameter )
-				&& ( IScalarParameterModel.DEFAULT_VALUE_PROP
-						.equalsIgnoreCase( name ) ) )
+				&&  DEFAULT_VALUE_PROP == nameValue )
 		{
 			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
 					handler, element );
@@ -481,7 +526,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( ( IReportItemModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) )
+		if (  ON_CREATE_METHOD == nameValue
 				&& handler.versionNumber < VersionUtil.VERSION_3_2_0 )
 		{
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
@@ -491,7 +536,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( struct instanceof ComputedColumn
-				&& "aggregrateOn".equalsIgnoreCase( name ) //$NON-NLS-1$
+				&& "aggregrateOn".toLowerCase( ).hashCode( ) == nameValue //$NON-NLS-1$
 				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
 				& handler.versionNumber <= VersionUtil.VERSION_3_2_2 )
 		{
@@ -503,7 +548,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_6
 				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
-				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
+				&& DATA_TYPE_MEMBER == nameValue  )
 		{
 			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
 					handler, element, propDefn, struct );

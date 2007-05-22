@@ -14,8 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -86,18 +84,15 @@ public class ListItemState extends ListingItemState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-			return new ListBandState( handler, element,
-					IListingElementModel.HEADER_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GROUP_TAG ) )
-			return new ListGroupState( handler, element,
-					IListingElementModel.GROUP_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DETAIL_TAG ) )
-			return new ListBandState( handler, element,
-					IListingElementModel.DETAIL_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-			return new ListBandState( handler, element,
-					IListingElementModel.FOOTER_SLOT );
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.HEADER_TAG == tagValue )
+			return new ListBandState( handler, element, ListItem.HEADER_SLOT );
+		if ( ParserSchemaConstants.GROUP_TAG == tagValue )
+			return new ListGroupState( handler, element, ListItem.GROUP_SLOT );
+		if ( ParserSchemaConstants.DETAIL_TAG == tagValue )
+			return new ListBandState( handler, element, ListItem.DETAIL_SLOT );
+		if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
+			return new ListBandState( handler, element, ListItem.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -146,12 +141,11 @@ public class ListItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-				return new ListBandState( handler, group,
-						IGroupElementModel.HEADER_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-				return new ListBandState( handler, group,
-						IGroupElementModel.FOOTER_SLOT );
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.HEADER_TAG == tagValue )
+				return new ListBandState( handler, group, ListGroup.HEADER_SLOT );
+			if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
+				return new ListBandState( handler, group, ListGroup.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
 	}
@@ -199,36 +193,33 @@ public class ListItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
 				return new TextItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+			if ( ParserSchemaConstants.GRID_TAG == tagValue )
 				return new GridItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue )
 				return new FreeFormState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
+			if ( ParserSchemaConstants.LIST_TAG == tagValue )
 				return new ListItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
+			if ( ParserSchemaConstants.TABLE_TAG == tagValue )
 				return new TableItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+			if ( ParserSchemaConstants.DATA_TAG == tagValue )
 				return new DataItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
 				return new ImageState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
 				return new LabelState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
+			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
+			if ( ParserSchemaConstants.TOC_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
 				return new ExtendedItemState( handler, container, slotID );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
-					|| tagName
-							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
 				return new TextDataItemState( handler, container, slotID );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue )
 				return new TemplateReportItemState( handler, container, slotID );
 			return super.startElement( tagName );
 		}

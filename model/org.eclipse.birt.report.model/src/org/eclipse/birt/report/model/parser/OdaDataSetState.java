@@ -131,7 +131,8 @@ public class OdaDataSetState extends SimpleDataSetState
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 		{
 			if ( handler.isVersion( VersionUtil.VERSION_0 )
 					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )

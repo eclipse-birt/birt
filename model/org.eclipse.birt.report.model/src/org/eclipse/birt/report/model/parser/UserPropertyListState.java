@@ -43,7 +43,8 @@ public class UserPropertyListState extends ListPropertyState
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue  )
 			return new UserPropertyStructureState( handler, element, list );
 
 		return super.startElement( tagName );

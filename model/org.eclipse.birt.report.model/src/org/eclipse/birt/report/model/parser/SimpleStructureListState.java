@@ -58,12 +58,14 @@ public class SimpleStructureListState extends CompatibleListPropertyState
 
 		assert memberName != null;
 
-		if ( DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase( tagName ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 		{
 			AbstractPropertyState state = new SimpleStructureState( handler,
 					element, propDefn, list );
 			return state;
 		}
+
 
 		return super.startElement( tagName );
 	}

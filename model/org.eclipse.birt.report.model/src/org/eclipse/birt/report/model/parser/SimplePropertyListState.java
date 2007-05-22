@@ -237,7 +237,8 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( DesignSchemaConstants.VALUE_TAG.equalsIgnoreCase( tagName ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.VALUE_TAG == tagValue )
 			return new ValueState( );
 		return super.startElement( tagName );
 	}

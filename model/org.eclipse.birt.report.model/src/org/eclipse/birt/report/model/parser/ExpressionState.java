@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
@@ -39,6 +38,25 @@ import org.xml.sax.Attributes;
 
 class ExpressionState extends PropertyState
 {
+
+	private static final int HIGHLIGHT_TEST_EXPR = "highlightTestExpr" //$NON-NLS-1$
+			.toLowerCase( ).hashCode( );
+	private static final int VALUE_EXPR = "valueExpr".toLowerCase( ).hashCode( );  //$NON-NLS-1$
+	private static final int IMAGE_NAME_PROP = ImageItem.IMAGE_NAME_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int EXPRESSION_MEMBER = ComputedColumn.EXPRESSION_MEMBER
+			.toLowerCase( ).hashCode( );
+
+	private static final int CONTENT_TYPE_EXPR = "contentTypeExpr"
+			.toLowerCase( ).hashCode( );
+	private static final int MAP_TEST_EXPR = "mapTestExpr".toLowerCase( )
+			.hashCode( );
+	private static final int TOC_PROP = IReportItemModel.TOC_PROP.toLowerCase( )
+			.hashCode( );
+
+	private static final int GROUP_TOC_PROP = IGroupElementModel.TOC_PROP
+			.toLowerCase( ).hashCode( );
 
 	/**
 	 * 
@@ -83,15 +101,16 @@ class ExpressionState extends PropertyState
 
 	protected AbstractParseState generalJumpTo( )
 	{
+		int nameValue = name.toLowerCase( ).hashCode( );
 		if ( ( element instanceof TextDataItem )
-				&& "contentTypeExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+				&& CONTENT_TYPE_EXPR == nameValue )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "contentTypeExpr" ); //$NON-NLS-1$
 			state.setName( ITextDataItemModel.CONTENT_TYPE_PROP );
 			return state;
 		}
-		if ( "mapTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		if ( MAP_TEST_EXPR == nameValue )
 			return new CompatibleTestExpreState( handler, element,
 					IStyleModel.MAP_RULES_PROP );
 		return super.generalJumpTo( );
@@ -105,36 +124,37 @@ class ExpressionState extends PropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
-		if( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
 		{
-			if( element instanceof ReportItem )
+			if ( element instanceof ReportItem )
 			{
-				if( IReportItemModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				if ( TOC_PROP == nameValue )
 				{
-					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState(
+							handler, element );
 					state.setName( IReportItemModel.TOC_PROP );
 					return state;
 				}
 			}
-			if( element instanceof GroupElement )
+			if ( element instanceof GroupElement )
 			{
-				if( IGroupElementModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				if ( GROUP_TOC_PROP == nameValue )
 				{
-					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState(
+							handler, element );
 					state.setName( IGroupElementModel.TOC_PROP );
 					return state;
 				}
 			}
 		}
-		if ( "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		if ( HIGHLIGHT_TEST_EXPR == nameValue )
 		{
 			if ( handler.isVersion( VersionUtil.VERSION_0 )
 					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 				return new CompatibleTestExpreState( handler, element,
 						IStyleModel.HIGHLIGHT_RULES_PROP );
 		}
-		if ( element instanceof DataItem
-				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
+		if ( element instanceof DataItem && VALUE_EXPR == nameValue
 				&& struct == null
 				&& handler.versionNumber < VersionUtil.VERSION_3_1_0 )
 		{
@@ -148,7 +168,7 @@ class ExpressionState extends PropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
 				&& element instanceof ImageItem && struct == null
-				&& IImageItemModel.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
+				&& IMAGE_NAME_PROP == nameValue )
 		{
 			PropertyState state = new PropertyState( handler, element );
 			state.setName( name );
@@ -168,7 +188,7 @@ class ExpressionState extends PropertyState
 		{
 			if ( struct instanceof ComputedColumn
 					&& element instanceof ReportItem
-					&& ComputedColumn.EXPRESSION_MEMBER.equals( name ) )
+					&& EXPRESSION_MEMBER == nameValue )
 			{
 				CompatibleBoundColumnExprState state = new CompatibleBoundColumnExprState(
 						handler, element, propDefn, struct );

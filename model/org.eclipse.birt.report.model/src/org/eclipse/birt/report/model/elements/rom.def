@@ -3948,7 +3948,8 @@
   <Style displayNameID="Style.Toc7" name="TOC-level-7" reference="Table-of-contents level 7" />
   <Style displayNameID="Style.Toc8" name="TOC-level-8" reference="Table-of-contents level 8" />
   <Style displayNameID="Style.Toc9" name="TOC-level-9" reference="Table-of-contents level 9" />
-  
+  <Style displayNameID="Style.Page" name="page" reference="Master page" />
+   
   <!--
   <Style displayNameID="Style.Chart" name="chart" reference="Chart" />
   <Style displayNameID="Style.ChartTitle" name="chart-title" reference="Chart Title" />
@@ -3999,7 +4000,6 @@
   <Style displayNameID="Style.Line" name="line" reference="Line item" />
   <Style displayNameID="Style.Rectangle" name="rectangle" reference="Rectangel item" />
   <Style displayNameID="Style.ExtendedItem" name="extended-item" reference="Extended item" />
-  <Style displayNameID="Style.Page" name="page" reference="Master page" />
   <Style displayNameID="Style.GroupHeader1" name="group-header-1" reference="List or table group header for level 1" />
   <Style displayNameID="Style.GroupHeader2" name="group-header-2" reference="List or table group header for level 2" />
   <Style displayNameID="Style.GroupHeader3" name="group-header-3" reference="List or table group header for level 3" />

@@ -18,9 +18,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -92,17 +90,18 @@ public class TableItemState extends ListingItemState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.COLUMN_TAG == tagValue )
 			return new TableColumnState( handler, element,
-					ITableItemModel.COLUMN_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-			return new TableBandState( element, IListingElementModel.HEADER_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GROUP_TAG ) )
-			return new TableGroupState( handler, element, IListingElementModel.GROUP_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DETAIL_TAG ) )
-			return new TableBandState( element, IListingElementModel.DETAIL_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-			return new TableBandState( element, IListingElementModel.FOOTER_SLOT );
+					TableItem.COLUMN_SLOT );
+		if ( ParserSchemaConstants.HEADER_TAG == tagValue )
+			return new TableBandState( element, TableItem.HEADER_SLOT );
+		if ( ParserSchemaConstants.GROUP_TAG == tagValue )
+			return new TableGroupState( handler, element, TableItem.GROUP_SLOT );
+		if ( ParserSchemaConstants.DETAIL_TAG == tagValue )
+			return new TableBandState( element, TableItem.DETAIL_SLOT );
+		if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
+			return new TableBandState( element, TableItem.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -194,10 +193,11 @@ public class TableItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-				return new TableBandState( group, IGroupElementModel.HEADER_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-				return new TableBandState( group, IGroupElementModel.FOOTER_SLOT );
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.HEADER_TAG == tagValue )
+				return new TableBandState( group, TableGroup.HEADER_SLOT );
+			if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
+				return new TableBandState( group, TableGroup.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
 
@@ -233,7 +233,8 @@ public class TableItemState extends ListingItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ROW_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.ROW_TAG == tagValue )
 				return new TableRowState( handler, table, rowSlotID );
 			return super.startElement( tagName );
 		}

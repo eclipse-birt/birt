@@ -126,54 +126,51 @@ public class FreeFormState extends ReportItemState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+
+			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
 				return new LabelState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.DATA_TAG == tagValue )
 				return new DataItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
 				return new TextItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
 				return new ImageState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.LINE_TAG == tagValue )
 				return new LineItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.RECTANGLE_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+			if ( ParserSchemaConstants.GRID_TAG == tagValue )
 				return new GridItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
+			if ( ParserSchemaConstants.LIST_TAG == tagValue )
 				return new ListItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.TABLE_TAG == tagValue )
 				return new TableItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue )
 				return new FreeFormState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
 				return new ExtendedItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
-					|| tagName
-							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
 				return new TextDataItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+						FreeForm.REPORT_ITEMS_SLOT );
+			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue )
 				return new TemplateReportItemState( handler, element,
-						IFreeFormModel.REPORT_ITEMS_SLOT );
+						FreeForm.REPORT_ITEMS_SLOT );
 			return super.startElement( tagName );
 		}
 	}

@@ -77,25 +77,21 @@ public class ParametersState extends AbstractParseState
 
 	public AbstractParseState startElement( String tagName )
 	{
+		int tagValue = tagName.toLowerCase( ).hashCode( );
 		if ( isReport )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.PARAMETER_GROUP_TAG ) )
+			if ( ParserSchemaConstants.PARAMETER_GROUP_TAG == tagValue )
 				return new ParameterGroupState( handler );
-			if( tagName.equalsIgnoreCase( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG ) )
+			if ( ParserSchemaConstants.CASCADING_PARAMETER_GROUP_TAG == tagValue )
 				return new CascadingParameterGroupState( handler );
 		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.SCALAR_PARAMETER_TAG ) )
+		if ( ParserSchemaConstants.SCALAR_PARAMETER_TAG == tagValue )
 			return new ScalarParameterState( handler, container, slotID );
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.FILTER_PARAMETER_TAG ) )
+		if ( ParserSchemaConstants.FILTER_PARAMETER_TAG == tagValue )
 			return new AnyElementState( handler );
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.LIST_PARAMETER_TAG ) )
+		if ( ParserSchemaConstants.LIST_PARAMETER_TAG == tagValue )
 			return new AnyElementState( handler );
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.TABLE_PARAMETER_TAG ) )
+		if ( ParserSchemaConstants.TABLE_PARAMETER_TAG == tagValue )
 			return new AnyElementState( handler );
 		return super.startElement( tagName );
 	}

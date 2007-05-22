@@ -29,10 +29,8 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -50,6 +48,30 @@ import org.xml.sax.SAXException;
 
 public class ListPropertyState extends AbstractPropertyState
 {
+
+	private static final int USER_PROPERTIES_PROP = DesignElement.USER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int INCLUDE_SCRIPTS_PROP = Module.INCLUDE_SCRIPTS_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int LIBRARIES_PROP = Module.LIBRARIES_PROP
+			.toLowerCase( ).hashCode( );
+	private static final int INCLUDE_LIBRARIES_PROP = "includeLibraries" //$NON-NLS-1$
+			.toLowerCase( ).hashCode( );
+
+	private static final int BOUND_DATA_COLUMNS_PROP = IReportItemModel.BOUND_DATA_COLUMNS_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int PARAM_BOUND_DATA_COLUMNS_PROP = IReportItemModel.BOUND_DATA_COLUMNS_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int PRIVATE_DRIVER_PROPERTIES_PROP = OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int PUBLIC_DRIVER_PROPERTIES_PROP = OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
+			.toLowerCase( ).hashCode( );
+
+	private static final int RESULT_SET_PROP = "resultSet".toLowerCase( ) //$NON-NLS-1$
+			.hashCode( );
 
 	/**
 	 * The temporary list which holds the structures in one structure list.
@@ -238,7 +260,7 @@ public class ListPropertyState extends AbstractPropertyState
 	 */
 
 	public void end( ) throws SAXException
-	{	
+	{
 		if ( struct != null )
 		{
 			// Ensure that the member is defined.
@@ -261,7 +283,8 @@ public class ListPropertyState extends AbstractPropertyState
 
 	protected AbstractParseState generalJumpTo( )
 	{
-		if ( IDesignElementModel.USER_PROPERTIES_PROP.equalsIgnoreCase( name ) )
+
+		if ( USER_PROPERTIES_PROP == nameValue )
 		{
 			AbstractPropertyState state = new UserPropertyListState( handler,
 					element );
@@ -270,7 +293,7 @@ public class ListPropertyState extends AbstractPropertyState
 		}
 		if ( element instanceof Module )
 		{
-			if ( IModuleModel.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
+			if ( INCLUDE_SCRIPTS_PROP == nameValue )
 			{
 				SimpleStructureListState state = new SimpleStructureListState(
 						handler, element );
@@ -279,8 +302,8 @@ public class ListPropertyState extends AbstractPropertyState
 				return state;
 			}
 
-			if ( ( IModuleModel.LIBRARIES_PROP.equalsIgnoreCase( name ) )
-					|| ( "includeLibraries".equals( name ) ) ) //$NON-NLS-1$
+			if ( LIBRARIES_PROP == nameValue
+					|| INCLUDE_LIBRARIES_PROP == nameValue )
 			{
 				AbstractPropertyState state = new IncludedLibrariesStructureListState(
 						handler, element );
@@ -290,8 +313,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 		}
 
-		if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP
-				.equalsIgnoreCase( name )
+		if ( PARAM_BOUND_DATA_COLUMNS_PROP == nameValue
 				&& element instanceof ScalarParameter )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -300,7 +322,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+		if ( BOUND_DATA_COLUMNS_PROP == nameValue
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -334,10 +356,8 @@ public class ListPropertyState extends AbstractPropertyState
 	{
 		if ( element instanceof OdaDataSource )
 		{
-			if ( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP
-					.equalsIgnoreCase( name )
-					|| IOdaDataSourceModel.PUBLIC_DRIVER_PROPERTIES_PROP
-							.equalsIgnoreCase( name ) )
+			if ( PRIVATE_DRIVER_PROPERTIES_PROP == nameValue
+					|| PUBLIC_DRIVER_PROPERTIES_PROP == nameValue )
 			{
 				if ( handler.isVersion( VersionUtil.VERSION_0 ) )
 				{
@@ -349,8 +369,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&& ( IReportItemModel.BOUND_DATA_COLUMNS_PROP
-						.equalsIgnoreCase( name ) )
+				&&  BOUND_DATA_COLUMNS_PROP == nameValue
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -377,7 +396,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& element instanceof ScriptDataSet
-				&& "resultSet".equals( name ) && struct == null ) //$NON-NLS-1$
+				&& RESULT_SET_PROP == nameValue )
 		{
 			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
 					handler, element, name );

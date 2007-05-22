@@ -89,6 +89,12 @@ public class AbstractPropertyState extends AbstractParseState
 	protected String name = null;
 
 	/**
+	 * The hash code for the name member. Used for performance tuning. 
+	 */
+	
+	protected int nameValue = -1;
+	
+	/**
 	 * The library which the element reference is using.
 	 */
 
@@ -143,6 +149,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
+		nameValue = name.toLowerCase( ).hashCode( );	
 		super.parseAttrs( attrs );
 	}
 

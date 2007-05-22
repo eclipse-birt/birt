@@ -267,37 +267,37 @@ public class StructureState extends AbstractPropertyState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 			return new PropertyState( handler, element, propDefn, struct );
 
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue )
 			return new EncryptedPropertyState( handler, element, propDefn,
 					struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new ExpressionState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.XML_PROPERTY_TAG == tagValue )
 			return new XmlPropertyState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
 			return new ListPropertyState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
+		if ( ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue )
 			return new TextPropertyState( handler, element, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new StructureState( handler, element, propDefn, struct );
 
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
+		if (  ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue)
 			return new SimplePropertyListState( handler, element, propDefn,
 					struct );
 
+		
 		return super.startElement( tagName );
 	}
 

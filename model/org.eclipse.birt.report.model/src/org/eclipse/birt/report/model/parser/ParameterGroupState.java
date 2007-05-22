@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
-import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -62,9 +61,10 @@ public class ParameterGroupState extends ReportElementState
     
     public AbstractParseState startElement( String tagName )
     {
-        if( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
+    	int tagValue = tagName.toLowerCase( ).hashCode( );
+        if(  ParserSchemaConstants.PARAMETERS_TAG == tagValue )
             return new ParametersState( handler, paramGroup,
-                    IParameterGroupModel.PARAMETERS_SLOT );
+                    ParameterGroup.PARAMETERS_SLOT );
 
         return super.startElement( tagName );
     }

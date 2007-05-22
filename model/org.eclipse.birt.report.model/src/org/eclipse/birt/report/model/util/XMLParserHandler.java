@@ -33,7 +33,6 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 public abstract class XMLParserHandler extends DefaultHandler
-		
 {
 
 	/**
@@ -55,6 +54,12 @@ public abstract class XMLParserHandler extends DefaultHandler
 
 	protected final ErrorHandler errorHandler;
 
+	/**
+	 * 
+	 */
+	
+	protected AbstractParseState topState;
+	
 	/**
 	 * Constructs the parser handler with the error handler.
 	 * 
@@ -91,7 +96,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 	{
 		super.endDocument( );
 		assert stateStack.size( ) == 1;
-		topState( ).end( );
+		topState.end( );
 		popState( );
 	}
 
@@ -118,6 +123,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 		assert state != null;
 		state.context = errorHandler.getCurrentElement( );
 		stateStack.push( state );
+		topState = state;
 	}
 
 	/**
@@ -132,21 +138,10 @@ public abstract class XMLParserHandler extends DefaultHandler
 		AbstractParseState state = (AbstractParseState) stateStack.pop( );
 		if ( stateStack.size( ) > 0 )
 		{
-			topState( ).endElement( state );
+			topState = (AbstractParseState) stateStack.lastElement( );
+			topState.endElement( state );
 		}
 		return state;
-	}
-
-	/**
-	 * Private method to return the top of the state stack.
-	 * 
-	 * @return the state at the top of the state stack
-	 */
-
-	protected AbstractParseState topState( )
-	{
-		assert !stateStack.isEmpty( );
-		return (AbstractParseState) stateStack.lastElement( );
 	}
 
 	/**
@@ -161,7 +156,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 			String qName, Attributes atts ) throws SAXException
 	{
 		errorHandler.setCurrentElement( qName );
-		AbstractParseState newState = topState( ).startElement( qName );
+		AbstractParseState newState = topState.startElement( qName );
 		newState.elementName = qName;
 		pushState( newState );
 		newState.parseAttrs( atts );
@@ -177,11 +172,11 @@ public abstract class XMLParserHandler extends DefaultHandler
 	public void endElement( String namespaceURI, String localName, String qName )
 			throws SAXException
 	{
-		AbstractParseState state = topState( );
+		AbstractParseState state = topState;
 		state.end( );
 		popState( );
 		if ( !stateStack.isEmpty( ) )
-			topState( ).endElement( state );
+			topState.endElement( state );
 	}
 
 	/**
@@ -192,7 +187,9 @@ public abstract class XMLParserHandler extends DefaultHandler
 			throws SAXException
 	{
 		if ( !stateStack.isEmpty( ) )
-			topState( ).text.append( ch, start, length );
+		{
+			topState.text.append( ch, start, length );
+		}
 	}
 
 	/**

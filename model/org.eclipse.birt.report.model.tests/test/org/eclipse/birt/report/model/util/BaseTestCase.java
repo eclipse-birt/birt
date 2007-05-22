@@ -555,15 +555,32 @@ public abstract class BaseTestCase extends TestCase
 	 */
 	protected boolean compareFile( String goldenFileName ) throws Exception
 	{
-		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
-		InputStream streamA = getResourceAStream( goldenFileName );
+		InputStream streamA = getResourceAStream( tmpGoldenFileName );
 		if ( os == null )
 			return false;
+		
+		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
+		
 		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
 		InputStreamReader readerA = new InputStreamReader( streamA );
 		InputStreamReader readerB = new InputStreamReader( streamB );
-		return compareFile( readerA, readerB );
+
+		boolean ok = true;
+		try
+		{
+			ok = compareFile( readerA, readerB );
+		}
+		catch ( Exception e )
+		{
+			String outFileName = goldenFileName.replaceAll( "golden", "out" );
+			saveOutputFile( outFileName, outContent );
+
+			throw e;
+		}
+
+		return ok;
 	}
 
 	/**
@@ -909,14 +926,28 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void saveOutputFile( String fileName ) throws Exception
 	{
+		String strDesign = os.toString( );
+		saveOutputFile( fileName, strDesign );
+	}
+
+	/**
+	 * Saves the output stream into the output file.
+	 * 
+	 * @param fileName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected void saveOutputFile( String fileName, String content )
+			throws Exception
+	{
 		String folder = getTempFolder( ) + OUTPUT_FOLDER;
 		File tmpFolder = new File( folder );
 		if ( !tmpFolder.exists( ) )
 			tmpFolder.mkdirs( );
 
-		String strDesign = os.toString( );
 		FileOutputStream fos = new FileOutputStream( folder + fileName );
-		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+		fos.write( content.getBytes( "UTF-8" ) ); //$NON-NLS-1$
 
 		fos.close( );
 	}

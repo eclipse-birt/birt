@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -77,8 +76,9 @@ public class TableRowState extends ReportElementState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CELL_TAG ) )
-			return new CellState( handler, element, ITableRowModel.CONTENT_SLOT );
+		int tagValue = tagName.toLowerCase( ).hashCode( );
+		if ( ParserSchemaConstants.CELL_TAG == tagValue )
+			return new CellState( handler, element, TableRow.CONTENT_SLOT );
 		return super.startElement( tagName );
 	}
 

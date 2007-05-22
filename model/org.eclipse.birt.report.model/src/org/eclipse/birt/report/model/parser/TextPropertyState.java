@@ -79,6 +79,7 @@ public class TextPropertyState extends AbstractPropertyState
 			return;
 		}
 
+		nameValue = name.toLowerCase( ).hashCode( );
 		String keyName = name + IDesignElementModel.ID_SUFFIX;
 
 		if ( struct != null )
