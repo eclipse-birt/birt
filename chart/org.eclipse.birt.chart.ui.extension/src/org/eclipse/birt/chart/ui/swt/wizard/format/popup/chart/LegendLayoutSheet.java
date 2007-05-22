@@ -292,14 +292,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private void populateLists( )
 	{
-		// Set block Anchor property
-		NameSet ns = LiteralHelper.anchorSet;
-		cmbAnchor.setItems( ns.getDisplayNames( ) );
-		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
-				.getName( ) ) );
-
 		// Set the block Stretch property
-		ns = LiteralHelper.stretchSet;
+		NameSet ns = LiteralHelper.stretchSet;
 		cmbStretch.setItems( ns.getDisplayNames( ) );
 		cmbStretch.select( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
 				.getName( ) ) );
@@ -321,7 +315,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbPosition.setItems( ns.getDisplayNames( ) );
 		cmbPosition.select( ns.getSafeNameIndex( getBlockForProcessing( ).getPosition( )
 				.getName( ) ) );
-
+		
+		// Set block Anchor property
+		getAnchorSet( );
 	}
 
 	/*
@@ -422,11 +418,36 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		else if ( oSource.equals( cmbPosition ) )
 		{
 			getBlockForProcessing( ).setPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			getAnchorSet( );
 		}
 	}
 
 	private Legend getBlockForProcessing( )
 	{
 		return getChart( ).getLegend( );
+	}
+	
+	private void getAnchorSet( )
+	{
+		String positionValue = getBlockForProcessing( ).getPosition( ).getLiteral( );
+		NameSet ns;
+		if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
+				|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) )
+				|| positionValue.equals( Position.OUTSIDE_LITERAL.getLiteral( ) ) )
+		{
+			ns = LiteralHelper.verticalAnchorSet;
+		}
+		else if ( positionValue.equals( Position.ABOVE_LITERAL.getLiteral( ) )
+				|| positionValue.equals( Position.BELOW_LITERAL.getLiteral( ) ) )
+		{
+			ns = LiteralHelper.horizontalAnchorSet;
+		}
+		else
+		{
+			ns = LiteralHelper.anchorSet;
+		}
+		cmbAnchor.setItems( ns.getDisplayNames( ) );
+		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
+				.getName( ) ) );
 	}
 }

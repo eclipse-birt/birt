@@ -119,6 +119,14 @@ public class LiteralHelper
 	 */
 	public static final NameSet anchorSet = getAnchorSet( );
 	/**
+	 * Comment for <code>verticalAnchorSet</code>
+	 */
+	public static final NameSet verticalAnchorSet = getVerticalAnchorSet( );
+	/**
+	 * Comment for <code>horizontalAnchorSet</code>
+	 */
+	public static final NameSet horizontalAnchorSet = getHorizontalAnchorSet( );
+	/**
 	 * Comment for <code>dateFormatDetailSet</code>
 	 */
 	public static final NameSet dateFormatDetailSet = getDateFormatDetailSet( );
@@ -386,6 +394,31 @@ public class LiteralHelper
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet( prefix, suffix, toStringNameArray( Anchor.VALUES ) );
+	}
+	
+	private static NameSet getVerticalAnchorSet( )
+	{
+		String prefix = "Anchor."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, new String[]
+		                                               {
+				Anchor.NORTH_LITERAL.getName( ),
+				Anchor.SOUTH_LITERAL.getName( ),
+				Anchor.WEST_LITERAL.getName( ),
+		                                               });
+	}
+	
+	private static NameSet getHorizontalAnchorSet( )
+	{
+		String prefix = "Anchor."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, new String[]{
+				Anchor.WEST_LITERAL.getName( ),
+				Anchor.EAST_LITERAL.getName( ),
+				Anchor.SOUTH_LITERAL.getName( ),
+		} );
 	}
 
 	private static NameSet getHorizontalPositionSet( )
