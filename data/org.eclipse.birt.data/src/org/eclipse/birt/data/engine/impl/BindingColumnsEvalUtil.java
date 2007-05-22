@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
@@ -221,7 +222,7 @@ class BindingColumnsEvalUtil
 							scope );
 				
 				if ( exprValue!= null )
-					exprValue = DataTypeUtil.convert( exprValue, bindingColumn.type );
+					exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ), bindingColumn.type );
 			}
 		}
 		catch ( BirtException e )

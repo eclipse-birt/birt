@@ -319,9 +319,9 @@ public class ExprEvaluateUtil
 						} );
 			}
 		}
-		else if ( handle instanceof ConditionalExpression )
+		else if ( dataExpr instanceof ConditionalExpression )
 		{
-			ConditionalExpression ce = (ConditionalExpression) handle;
+			ConditionalExpression ce = (ConditionalExpression) dataExpr;
 			Object resultExpr = evaluateValue( ce.getExpression( ),
 					index,
 					roObject,
