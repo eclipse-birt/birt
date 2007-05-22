@@ -76,8 +76,6 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 			addColumn( ce, report, table );
 
-			System.out.println( ce );
-
 			logger.log( Level.INFO, ce.toString( ) );
 		}
 	}
