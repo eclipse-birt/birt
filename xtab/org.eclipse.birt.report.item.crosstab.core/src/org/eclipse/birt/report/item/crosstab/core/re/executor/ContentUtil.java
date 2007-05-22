@@ -378,9 +378,15 @@ class ContentUtil
 
 	static IStyle setupRuleStyle( StructureHandle highlight, IStyle style )
 	{
+		String value;
+
 		// Background
-		style.setBackgroundColor( getMemberProperty( highlight,
-				HighlightRule.BACKGROUND_COLOR_MEMBER ) );
+		value = getMemberProperty( highlight,
+				HighlightRule.BACKGROUND_COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setBackgroundColor( value );
+		}
 		// style.setBackgroundPositionX(getMemberProperty(highlight,
 		// HighlightRule.BACKGROUND_POSITION_X_MEMBER));
 		// style.setBackgroundPositionY(getMemberProperty(highlight,
@@ -389,24 +395,43 @@ class ContentUtil
 		// HighlightRule.BACKGROUND_REPEAT_MEMBER));
 
 		// Text related
-		style.setTextAlign( getMemberProperty( highlight,
-				HighlightRule.TEXT_ALIGN_MEMBER ) );
-		style.setTextIndent( getMemberProperty( highlight,
-				HighlightRule.TEXT_INDENT_MEMBER ) );
-		style.setTextUnderline( getMemberProperty( highlight,
-				Style.TEXT_UNDERLINE_PROP ) );
-		style.setTextLineThrough( getMemberProperty( highlight,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getMemberProperty( highlight,
-				Style.TEXT_OVERLINE_PROP ) );
+		value = getMemberProperty( highlight, HighlightRule.TEXT_ALIGN_MEMBER );
+		if ( value != null )
+		{
+			style.setTextAlign( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.TEXT_INDENT_MEMBER );
+		if ( value != null )
+		{
+			style.setTextIndent( value );
+		}
+		value = getMemberProperty( highlight, Style.TEXT_UNDERLINE_PROP );
+		if ( value != null )
+		{
+			style.setTextUnderline( value );
+		}
+		value = getMemberProperty( highlight, Style.TEXT_LINE_THROUGH_PROP );
+		if ( value != null )
+		{
+			style.setTextLineThrough( value );
+		}
+		value = getMemberProperty( highlight, Style.TEXT_OVERLINE_PROP );
+		if ( value != null )
+		{
+			style.setTextOverline( value );
+		}
 		// style.setLetterSpacing(getMemberProperty(highlight,
 		// HighlightRule.LETTER_SPACING_MEMBER));
 		// style.setLineHeight(getMemberProperty(highlight,
 		// HighlightRule.LINE_HEIGHT_MEMBER));
 		// style.setOrphans(getMemberProperty(highlight,
 		// HighlightRule.ORPHANS_MEMBER));
-		style.setTextTransform( getMemberProperty( highlight,
-				HighlightRule.TEXT_TRANSFORM_MEMBER ) );
+		value = getMemberProperty( highlight,
+				HighlightRule.TEXT_TRANSFORM_MEMBER );
+		if ( value != null )
+		{
+			style.setTextTransform( value );
+		}
 		// style.setVerticalAlign(getMemberProperty(highlight,
 		// HighlightRule.VERTICAL_ALIGN_MEMBER));
 		// style.setWhiteSpace(getMemberProperty(highlight,
@@ -429,44 +454,110 @@ class ContentUtil
 		// HighlightRule.PAGE_BREAK_INSIDE_MEMBER));
 
 		// Font related
-		style.setFontFamily( getMemberProperty( highlight,
-				HighlightRule.FONT_FAMILY_MEMBER ) );
-		style.setColor( getMemberProperty( highlight,
-				HighlightRule.COLOR_MEMBER ) );
-		style.setFontSize( getMemberProperty( highlight,
-				HighlightRule.FONT_SIZE_MEMBER ) );
-		style.setFontStyle( getMemberProperty( highlight,
-				HighlightRule.FONT_STYLE_MEMBER ) );
-		style.setFontWeight( getMemberProperty( highlight,
-				HighlightRule.FONT_WEIGHT_MEMBER ) );
-		style.setFontVariant( getMemberProperty( highlight,
-				HighlightRule.FONT_VARIANT_MEMBER ) );
+		value = getMemberProperty( highlight, HighlightRule.FONT_FAMILY_MEMBER );
+		if ( value != null )
+		{
+			style.setFontFamily( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setColor( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.FONT_SIZE_MEMBER );
+		if ( value != null )
+		{
+			style.setFontSize( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.FONT_STYLE_MEMBER );
+		if ( value != null )
+		{
+			style.setFontStyle( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.FONT_WEIGHT_MEMBER );
+		if ( value != null )
+		{
+			style.setFontWeight( value );
+		}
+		value = getMemberProperty( highlight, HighlightRule.FONT_VARIANT_MEMBER );
+		if ( value != null )
+		{
+			style.setFontVariant( value );
+		}
 
 		// Border
-		style.setBorderBottomColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER ) );
-		style.setBorderBottomStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER ) );
-		style.setBorderBottomWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER ) );
-		style.setBorderLeftColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_COLOR_MEMBER ) );
-		style.setBorderLeftStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_STYLE_MEMBER ) );
-		style.setBorderLeftWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_WIDTH_MEMBER ) );
-		style.setBorderRightColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_COLOR_MEMBER ) );
-		style.setBorderRightStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_STYLE_MEMBER ) );
-		style.setBorderRightWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER ) );
-		style.setBorderTopColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_COLOR_MEMBER ) );
-		style.setBorderTopStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_STYLE_MEMBER ) );
-		style.setBorderTopWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_WIDTH_MEMBER ) );
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderBottomColor( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderBottomStyle( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderBottomWidth( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderLeftColor( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_STYLE_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderLeftStyle( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_WIDTH_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderLeftWidth( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderRightColor( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_STYLE_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderRightStyle( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderRightWidth( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_COLOR_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderTopColor( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_STYLE_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderTopStyle( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_WIDTH_MEMBER );
+		if ( value != null )
+		{
+			style.setBorderTopWidth( value );
+		}
 
 		// Margin
 		// style.setMarginTop(getMemberProperty(highlight,
@@ -489,14 +580,29 @@ class ContentUtil
 		// HighlightRule.PADDING_RIGHT_MEMBER));
 
 		// Data Formatting
-		style.setNumberAlign( getMemberProperty( highlight,
-				HighlightRule.NUMBER_ALIGN_MEMBER ) );
-		style.setDateFormat( getMemberProperty( highlight,
-				HighlightRule.DATE_TIME_FORMAT_MEMBER ) );
-		style.setNumberFormat( getMemberProperty( highlight,
-				HighlightRule.NUMBER_FORMAT_MEMBER ) );
-		style.setStringFormat( getMemberProperty( highlight,
-				HighlightRule.STRING_FORMAT_MEMBER ) );
+		value = getMemberProperty( highlight, HighlightRule.NUMBER_ALIGN_MEMBER );
+		if ( value != null )
+		{
+			style.setNumberAlign( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.DATE_TIME_FORMAT_MEMBER );
+		if ( value != null )
+		{
+			style.setDateFormat( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.NUMBER_FORMAT_MEMBER );
+		if ( value != null )
+		{
+			style.setNumberFormat( value );
+		}
+		value = getMemberProperty( highlight,
+				HighlightRule.STRING_FORMAT_MEMBER );
+		if ( value != null )
+		{
+			style.setStringFormat( value );
+		}
 
 		// Others
 		// style.setCanShrink(getMemberProperty(highlight,
