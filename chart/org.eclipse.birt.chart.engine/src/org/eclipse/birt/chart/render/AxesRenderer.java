@@ -3127,7 +3127,10 @@ public abstract class AxesRenderer extends BaseRenderer
 	 */
 	protected boolean isShowOutside( )
 	{
-		return getAxis( ).getScale( ).isShowOutside( );
+		// If it's percent type, always to clip rather than change outside
+		// values
+		return getAxis( ).isPercent( ) ? false : getAxis( ).getScale( )
+				.isShowOutside( );
 	}
 	
 	/**
@@ -3150,17 +3153,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			final SeriesRenderingHints srh, final double[] faX,
 			final double[] faY, final boolean bShowAsTape )
 	{
-		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );
-		if ( ( scaleOrth.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
-		{
-			// Always inside in percent type
-			return;
-		}
-		
-		final boolean bHideOutside = !isShowOutside( );
-		final DataPointHints[] dpha = srh.getDataPoints( );
-		final boolean isCategory = srh.isCategoryScale( );
-		final boolean bTransposed = isTransposed( );
+		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );	
 		final Bounds boClientArea = srh.getClientAreaBounds( true );
 		// Adjust the position in 2d+
 		if ( bShowAsTape )
@@ -3170,6 +3163,17 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 		
 		renderClipping( ipr, boClientArea );
+		
+		if ( ( scaleOrth.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
+		{
+			// Always clip in percent type
+			return;
+		}
+		
+		final boolean bHideOutside = !isShowOutside( );
+		final DataPointHints[] dpha = srh.getDataPoints( );
+		final boolean isCategory = srh.isCategoryScale( );
+		final boolean bTransposed = isTransposed( );
 		
 		for ( int i = 0; i < dpha.length; i++ )
 		{
