@@ -1116,5 +1116,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 		return null;
 	}
+	protected void setActivePage( int pageIndex )
+	{
+		super.setActivePage( pageIndex );
+		//setFocus( );
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
+			public void run( )
+			{  
+				setFocus( );
+			}
+		} );
+	}
 }
