@@ -151,8 +151,8 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			return;
 		}
 
-		// create SOAP URL with post parameters
-		StringBuilder builder = new StringBuilder( );
+		// create SOAP URL with post parameters		
+		StringBuffer builder = new StringBuffer( );
 		Iterator it = request.getParameterMap( ).keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
