@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertyStructure;
 import org.eclipse.birt.report.model.core.Structure;
 
 /**
@@ -44,7 +45,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class ComputedColumn extends Structure
+public class ComputedColumn extends PropertyStructure
 {
 
 	/**
@@ -115,50 +116,6 @@ public class ComputedColumn extends Structure
 	 */
 	public static final String FILTER_MEMBER = "filterExpr"; //$NON-NLS-1$
 
-	/**
-	 * The column display name.
-	 */
-
-	private String columnDisplayName = null;
-
-	/**
-	 * The column name.
-	 */
-
-	private String columnName = null;
-
-	/**
-	 * The expression for this computed column.
-	 */
-
-	private String expression = null;
-
-	/**
-	 * The data type of this column.
-	 */
-
-	private String dataType = null;
-
-	/**
-	 * The column name.
-	 */
-	private String aggregateFunc = null;
-
-	/**
-	 * The aggregrateOn expression for the computed column.
-	 */
-	private List aggregateOn = null;
-
-	/**
-	 * The column display name.
-	 */
-	private List arguments = null;
-
-	/**
-	 * The expression for this computed column.
-	 */
-	private String filterexpr = null;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -168,83 +125,6 @@ public class ComputedColumn extends Structure
 	public String getStructName( )
 	{
 		return COMPUTED_COLUMN_STRUCT;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
-	 */
-
-	protected Object getIntrinsicProperty( String memberName )
-	{
-		if ( NAME_MEMBER.equals( memberName ) )
-			return columnName;
-		else if ( EXPRESSION_MEMBER.equals( memberName ) )
-			return expression;
-		else if ( DATA_TYPE_MEMBER.equals( memberName ) )
-			return dataType;
-		else if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
-		{
-			if ( aggregateOn == null || aggregateOn.isEmpty( ) )
-				return null;
-			return aggregateOn.get( 0 );
-		}
-		else if ( DISPLAY_NAME_MEMBER.equalsIgnoreCase( memberName ) )
-			return columnDisplayName;
-		else if ( AGGREGATEON_MEMBER.equals( memberName ) )
-			return aggregateOn;
-		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( memberName ) )
-			return aggregateFunc;
-		else if ( ARGUMENTS_MEMBER.equalsIgnoreCase( memberName ) )
-			return arguments;
-		else if ( FILTER_MEMBER.equalsIgnoreCase( memberName ) )
-			return filterexpr;
-
-		assert false;
-		return null;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
-	 */
-
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( NAME_MEMBER.equals( propName ) )
-			columnName = (String) value;
-		else if ( EXPRESSION_MEMBER.equals( propName ) )
-			expression = (String) value;
-		else if ( DATA_TYPE_MEMBER.equals( propName ) )
-			dataType = (String) value;
-		else if ( DISPLAY_NAME_MEMBER.equalsIgnoreCase( propName ) )
-			columnDisplayName = (String) value;
-		else if ( AGGREGATEON_MEMBER.equals( propName )
-				|| AGGREGRATEON_MEMBER.equals( propName ) )
-		{
-			List tmpList = null;
-			if ( value instanceof String )
-			{
-				tmpList = new ArrayList( );
-				tmpList.add( value );
-			}
-			else if ( value instanceof List )
-				tmpList = (List) value;
-
-			aggregateOn = tmpList;
-		}
-		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( propName ) )
-			aggregateFunc = (String) value;
-		else if ( ARGUMENTS_MEMBER.equalsIgnoreCase( propName ) )
-			arguments = (List) value;
-		else if ( FILTER_MEMBER.equalsIgnoreCase( propName ) )
-			filterexpr = (String) value;
-		else
-			assert false;
 	}
 
 	/**
@@ -481,7 +361,7 @@ public class ComputedColumn extends Structure
 		if ( value == null )
 			return Collections.EMPTY_LIST;
 
-		return (List) value;
+		return value;
 	}
 
 	/**
@@ -493,7 +373,14 @@ public class ComputedColumn extends Structure
 
 	public void setAggregateOn( String aggregateOn )
 	{
-		setProperty( AGGREGATEON_MEMBER, aggregateOn );
+		if ( aggregateOn == null )
+		{
+			setProperty( AGGREGATEON_MEMBER, null );
+			return;
+		}
+		List value = new ArrayList( );
+		value.add( aggregateOn );
+		setProperty( AGGREGATEON_MEMBER, value );
 	}
 
 	/**
@@ -506,10 +393,12 @@ public class ComputedColumn extends Structure
 
 	public void addAggregateOn( String aggreValue )
 	{
-		if ( aggregateOn == null )
-			aggregateOn = new ArrayList( );
+		List aggregationOn = (List) getProperty( null, AGGREGATEON_MEMBER );
+		if ( aggregationOn == null )
+			aggregationOn = new ArrayList( );
 
-		aggregateOn.add( aggreValue );
+		aggregationOn.add( aggreValue );
+		propValues.put( AGGREGATEON_MEMBER, aggregationOn );
 	}
 
 	/**
@@ -522,10 +411,11 @@ public class ComputedColumn extends Structure
 
 	public void removeAggregateOn( String aggreValue )
 	{
-		if ( aggregateOn == null )
+		List aggregationOn = (List) getProperty( null, AGGREGATEON_MEMBER );
+		if ( aggregationOn == null )
 			return;
 
-		aggregateOn.remove( aggreValue );
+		aggregationOn.remove( aggreValue );
 	}
 
 	/**
@@ -541,7 +431,8 @@ public class ComputedColumn extends Structure
 	}
 
 	/**
-	 * Returns additional arguments to the aggregate function.
+	 * Returns additional arguments to the aggregate function. Each item in the
+	 * list is intance of <code>AggregationArgument</code>.
 	 * 
 	 * @return a list containing additional arguments
 	 */
@@ -552,18 +443,20 @@ public class ComputedColumn extends Structure
 	}
 
 	/**
-	 * Adds an arguments to list.
+	 * Adds an aggregation argument to list.
 	 * 
 	 * @param argument
 	 *            the aggregate function argument
 	 */
 
-	public void addArgument( String argument )
+	public void addArgument( AggregationArgument argument )
 	{
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
 		if ( arguments == null )
 			arguments = new ArrayList( );
 
 		arguments.add( argument );
+		propValues.put( ARGUMENTS_MEMBER, arguments );
 	}
 
 	/**
@@ -573,8 +466,9 @@ public class ComputedColumn extends Structure
 	 *            the aggregate function argument
 	 */
 
-	public void removeArgument( String argument )
+	public void removeArgument( AggregationArgument argument )
 	{
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
 		if ( arguments == null )
 			return;
 
@@ -631,6 +525,6 @@ public class ComputedColumn extends Structure
 
 	public void clearAggregateOnList( )
 	{
-		aggregateOn = null;
+		setProperty( AGGREGATEON_MEMBER, null );
 	}
 }

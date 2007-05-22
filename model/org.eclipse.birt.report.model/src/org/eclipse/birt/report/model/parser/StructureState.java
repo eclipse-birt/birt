@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -533,6 +534,8 @@ public class StructureState extends AbstractPropertyState
 				OdaLevelAttribute.class );
 		structDict.put( DimensionJoinCondition.DIMENSION_JOIN_CONDITION_STRUCT
 				.toLowerCase( ), DimensionJoinCondition.class );
+		structDict.put( AggregationArgument.STRUCTURE_NAME.toLowerCase( ),
+				AggregationArgument.class );
 
 	}
 }

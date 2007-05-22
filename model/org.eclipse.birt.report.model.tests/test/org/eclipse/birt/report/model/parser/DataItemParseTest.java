@@ -220,7 +220,6 @@ public class DataItemParseTest extends BaseTestCase
 		argumentHandle.setValue( "new_" + argumentHandle.getValue( ) ); //$NON-NLS-1$
 		save( );
 
-		System.out.println( os );
 		assertTrue( compareFile( goldenFileName ) );
 	}
 

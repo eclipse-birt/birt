@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
@@ -243,7 +245,8 @@ public class ComputedColumnHandle extends StructureHandle
 	 * @throws SemanticException
 	 */
 
-	public void addArgument( String argument ) throws SemanticException
+	public void addArgument( AggregationArgument argument )
+			throws SemanticException
 	{
 		MemberHandle aggreHandle = getMember( ComputedColumn.ARGUMENTS_MEMBER );
 		aggreHandle.addItem( argument );
@@ -299,18 +302,17 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
-	 * Returns additional arguments to the aggregate function.
+	 * Returns additional arguments to the aggregate function. Each item in the
+	 * list is instance of <code>AggregationArgumentHandle</code>.
 	 * 
 	 * @return a list containing additional arguments
 	 */
 
-	public List getArgumentList( )
+	public Iterator argumentsIterator( )
 	{
-		List aggregateOns = (List) getProperty( ComputedColumn.ARGUMENTS_MEMBER );
-		if ( aggregateOns == null )
-			return null;
-
-		return Collections.unmodifiableList( aggregateOns );
+		MemberHandle propHandle = getMember( ComputedColumn.ARGUMENTS_MEMBER );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 
 	/**
@@ -347,7 +349,8 @@ public class ComputedColumnHandle extends StructureHandle
 	 * @throws SemanticException
 	 */
 
-	public void removeArgument( String argument ) throws SemanticException
+	public void removeArgument( AggregationArgument argument )
+			throws SemanticException
 	{
 		MemberHandle aggreHandle = getMember( ComputedColumn.ARGUMENTS_MEMBER );
 		aggreHandle.removeItem( argument );
@@ -440,7 +443,7 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setProperty( ComputedColumn.AGGREGATEON_MEMBER, null );
 	}
-	
+
 	/**
 	 * Clears the argument list.
 	 * 

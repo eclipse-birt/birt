@@ -98,10 +98,14 @@ public class ListPropertyType extends PropertyType
 				Object item = items.get( i );
 				validatedItems.add( type.validateValue( module, defn, item ) );
 			}
-			
+
 			return validatedItems;
-		}		
-		return type.validateValue( module, defn, value );
+		}
+
+		List listValue = new ArrayList( );
+		Object validatedValue = type.validateValue( module, defn, value );
+		listValue.add( validatedValue );
+		return listValue;
 	}
 
 	/*

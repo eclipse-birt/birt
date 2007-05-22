@@ -1896,18 +1896,18 @@
     <Member displayNameID="Structure.OdaResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
-    <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
-  	<Member displayNameID="Structure.ComputedColumn.displayName" isIntrinsic="true" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
-  	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" isIntrinsic="true" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
-  	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
+    <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
+  	<Member displayNameID="Structure.ComputedColumn.displayName" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
+  	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
+  	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
 	</Member>
-    <Member displayNameID="Structure.ComputedColumn.aggregateOn" isIntrinsic="true" name="aggregateOn" since="2.2" subType="string" type="list" />	  
-    <Member detailType="measureFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" isIntrinsic="true" name="aggregateFunction" since="2.2" type="choice" >
+    <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
+    <Member detailType="measureFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="choice" >
     	<Allowed>sum,average,count,weighted-avg,max,min</Allowed>
     </Member>	  	  
-    <Member displayNameID="Structure.ComputedColumn.arguments" isIntrinsic="true" name="arguments" since="2.2" subType="expression" type="list" />	  	  	  	  
-    <Member displayNameID="Structure.ComputedColumn.filterExpr" isIntrinsic="true" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
+    <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
+    <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
@@ -2046,6 +2046,10 @@
 	</Member>
     <Member displayNameID="Structure.OdaLevelAttribute.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>	  
     <Member displayNameID="Structure.OdaLevelAttribute.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.2" type="integer" />	  
+  </Structure>
+  <Structure displayNameID="Structure.AggregationArgument" name="AggregationArgument" since="2.2">
+    <Member displayNameID="Structure.AggregationArgument.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.AggregationArgument.value" isIntrinsic="true" name="value" runtimeSettable="false" since="2.2" type="expression"/>
   </Structure>		
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
