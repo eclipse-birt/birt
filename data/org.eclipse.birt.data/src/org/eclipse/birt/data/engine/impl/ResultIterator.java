@@ -215,7 +215,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private File getMetaCacheFile( )
 	{
-		File file = new File(context.getTmpdir() + File.separator
+		File file = new File(context.getTmpdir()
 				+ CACHED_FILE_PREFIX
 				+ resultService.getQueryResults().getID()+"meta");
 		return file;
@@ -227,7 +227,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private File getRowCacheFile( )
 	{
-		File file = new File(context.getTmpdir() + File.separator
+		File file = new File(context.getTmpdir()
 				+ CACHED_FILE_PREFIX
 				+ resultService.getQueryResults().getID()+"row");
 		return file;

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -409,6 +410,10 @@ public class DataEngineContext
 	 */
 	public String getTmpdir( )
 	{
+		if( !tmpDir.endsWith( File.separator ))
+		{
+			return tmpDir + File.separator;
+		}
 		return tmpDir;
 	}
 
