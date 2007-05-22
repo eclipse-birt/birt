@@ -391,7 +391,7 @@
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
-			<include name="org.wsdl4j_1.4.1*/**"/>
+			<include name="javax.wsdl_1.4.0*.jar"/>
 			<!-- orbit project -->
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
