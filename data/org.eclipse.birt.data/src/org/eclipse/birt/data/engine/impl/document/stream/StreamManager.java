@@ -139,22 +139,26 @@ public class StreamManager
 	 * @return
 	 * @throws DataException
 	 */
-	public OutputStream getOutStream( int streamType, int streamPos, int streamScope )
-			throws DataException
+	public OutputStream getOutStream( int streamType, int streamPos,
+			int streamScope ) throws DataException
 	{
 		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
-		if ( ! useTempStream( streamType ) )
+		if ( !useTempStream( streamType ) )
 		{
 			return context.getOutputStream( streamID.getStartStream( ),
-				streamID.getSubQueryStream( ),
-				streamType );
-		}	
+					streamID.getSubQueryStream( ),
+					streamType );
+		}
 		else
 		{
-			return this.getTempStreamManager( getStreamID( DataEngineContext.META_STREAM,
+			int sType = DataEngineContext.META_STREAM;
+			if ( streamType == DataEngineContext.DATASET_DATA_STREAM
+					|| streamType == DataEngineContext.DATASET_META_STREAM )
+				sType = DataEngineContext.DATASET_DATA_STREAM;
+
+			return this.getTempStreamManager( getStreamID( sType,
 					streamPos,
-					streamScope ) )
-					.getOutputStream( streamType );
+					streamScope ) ).getOutputStream( streamType );
 		}
 	}
 	
@@ -214,7 +218,7 @@ public class StreamManager
 		}
 		else
 		{
-			return this.getMetaManager( streamID ).getRAInputStream( streamType );
+			return this.getMetaManager( streamID, streamType ).getRAInputStream( streamType );
 		}
 	}
 	
@@ -224,11 +228,16 @@ public class StreamManager
 	 * @return
 	 * @throws DataException
 	 */
-	private StreamReader getMetaManager( StreamID id ) throws DataException
+	private StreamReader getMetaManager( StreamID id, int sType ) throws DataException
 	{
 		if ( this.metaManagers.get( id ) == null )
 		{
-			this.metaManagers.put( id, new StreamReader( this.context, id ) );
+			if ( sType == DataEngineContext.DATASET_DATA_STREAM
+					|| sType == DataEngineContext.DATASET_META_STREAM )
+				this.metaManagers.put( id, new DataStreamReader( this.context, id ) );
+			else
+				this.metaManagers.put( id, new MetaStreamReader( this.context, id ) );
+				
 		}
 		
 		return (StreamReader)this.metaManagers.get( id );
@@ -247,7 +256,7 @@ public class StreamManager
 		{
 			if ( this.metaManagers.get( streamID ) == null )
 				return false;
-			return this.getMetaManager( streamID ).hasInputStream( streamType );
+			return this.getMetaManager( streamID, streamType ).hasInputStream( streamType );
 		}
 		else
 			return context.hasInStream( streamID.getStartStream( ),
@@ -425,9 +434,9 @@ public class StreamManager
 		switch ( streamType )
 		{
 			case DataEngineContext.DATASET_DATA_STREAM :
-				return false;
+				return !(this.version < VersionManager.VERSION_2_2_0 );
 			case DataEngineContext.DATASET_META_STREAM :
-				return false;
+				return !(this.version < VersionManager.VERSION_2_2_0 );
 			case DataEngineContext.EXPR_VALUE_STREAM :
 				return false;
 			case DataEngineContext.EXPR_ROWLEN_STREAM :
