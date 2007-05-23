@@ -342,7 +342,6 @@ public final class LayoutManager
 						boTitle.setWidth( bo.getWidth( ) );
 						break;
 				}
-				boLegend.setLeft( plotLeft + boPlot.getWidth( ) );
 
 				// adjust plot left.
 				switch ( titleAnchor.getValue( ) )
@@ -438,6 +437,7 @@ public final class LayoutManager
 
 				boPlot.setLeft( plotLeft );
 				boPlot.setTop( plotTop );
+				boLegend.setLeft( plotLeft + boPlot.getWidth( ) );
 
 				break;
 
@@ -842,8 +842,7 @@ public final class LayoutManager
 						boTitle.setWidth( bo.getWidth( ) );
 						plotTop = bo.getTop( ) + szTitle.getHeight( );
 						break;
-				}
-				boLegend.setTop( plotTop + boPlot.getHeight( ) );
+				}			
 
 				// adjust plot left.
 				switch ( titleAnchor.getValue( ) )
@@ -939,6 +938,8 @@ public final class LayoutManager
 				boPlot.setLeft( plotLeft );
 				boPlot.setTop( plotTop );
 
+				boLegend.setTop( plotTop + boPlot.getHeight( ) );
+				
 				break;
 		}
 
