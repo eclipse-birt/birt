@@ -343,48 +343,41 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				{
 					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars
 							.next( );
-					if ( configVar != null && configVar.getName( ) != null )
+					if ( configVar != null )
 					{
-						String paramName = configVar.getName( );
-						Object paramValue = configVar.getValue( );
+						String varName = configVar.getName( );
+						Object varValue = configVar.getValue( );
+
+						if ( varName == null || varValue == null )
+							continue;
+
+						String tempName = varName;
+						String paramName = null;
 
 						// check if null parameter
-						if ( paramName.toLowerCase( ).startsWith(
-								ParameterAccessor.PARAM_ISNULL )
-								&& paramValue != null )
+						if ( varName.toLowerCase( ).startsWith(
+								ParameterAccessor.PARAM_ISNULL ) )
 						{
-							String nullParamName = getParameterName(
-									(String) paramValue, parameterList );
-							if ( nullParamName != null )
-								this.configMap.put( nullParamName, null );
-
-							continue;
+							tempName = (String) varValue;
 						}
 						// check if display text of select parameter
 						else if ( ( displayTextParam = ParameterAccessor
-								.isDisplayText( paramName ) ) != null )
+								.isDisplayText( varName ) ) != null )
 						{
-							paramName = getParameterName( displayTextParam,
-									parameterList );
-							if ( paramName != null )
-							{
-								this.displayTexts.put( paramName, paramValue );
-							}
-
-							continue;
+							tempName = displayTextParam;
 						}
 
 						// check the parameter whether exist or not
-						paramName = getParameterName( paramName, parameterList );
+						paramName = getParameterName( tempName, parameterList );
 
 						ParameterDefinition parameter = BirtUtility
 								.findParameterDefinition( parameterList,
 										paramName );
 
-						if ( paramValue != null && parameter != null )
+						if ( parameter != null )
 						{
 							// find cached parameter type
-							String typeVarName = configVar.getName( )
+							String typeVarName = tempName
 									+ "_" + IBirtConstants.PROP_TYPE; //$NON-NLS-1$
 							ConfigVariable typeVar = handle
 									.findConfigVariable( typeVarName );
@@ -403,7 +396,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 								continue;
 
 							// find cached parameter value expression
-							String exprVarName = configVar.getName( ) + "_" //$NON-NLS-1$
+							String exprVarName = tempName + "_" //$NON-NLS-1$
 									+ IBirtConstants.PROP_EXPR;
 							ConfigVariable exprVar = handle
 									.findConfigVariable( exprVarName );
@@ -421,7 +414,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							if ( !cachedExpr.equals( expr ) )
 								continue;
 
-							this.configMap.put( paramName, paramValue );
+							// check if null parameter
+							if ( varName.toLowerCase( ).startsWith(
+									ParameterAccessor.PARAM_ISNULL ) )
+							{
+								this.configMap.put( paramName, null );
+							}
+							// check if display text of select parameter
+							else if ( ( displayTextParam = ParameterAccessor
+									.isDisplayText( varName ) ) != null )
+							{
+								this.displayTexts.put( paramName, varValue );
+							}
+							else
+							{
+								this.configMap.put( paramName, varValue );
+							}
 						}
 					}
 				}

@@ -54,6 +54,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		super( context, operation, response );
 	}
 
+	/**
+	 * execute action
+	 */
 	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
@@ -124,6 +127,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						configVar.setValue( paramValue
 								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						handle.addConfigVariable( configVar );
+
+						// update parameter information
+						updateParameterInfo( handle, parameter );
 					}
 
 					continue;
@@ -190,22 +196,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			configVar.setValue( paramValue );
 			handle.addConfigVariable( configVar );
 
-			// add parameter type
-			ConfigVariable typeVar = new ConfigVariable( );
-			typeVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-					+ IBirtConstants.PROP_TYPE );
-			typeVar.setValue( dataType );
-			handle.addConfigVariable( typeVar );
-
-			// add parameter value expression
-			if ( parameter.getValueExpr( ) != null )
-			{
-				ConfigVariable exprVar = new ConfigVariable( );
-				exprVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-						+ IBirtConstants.PROP_EXPR );
-				exprVar.setValue( parameter.getValueExpr( ) );
-				handle.addConfigVariable( exprVar );
-			}
+			// update parameter information
+			updateParameterInfo( handle, parameter );
 		}
 
 		// save config file
@@ -215,6 +207,43 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		handleUpdate( );
 	}
 
+	/**
+	 * update parameter related information in config file
+	 * 
+	 * @param handle
+	 * @param parameter
+	 */
+	private void updateParameterInfo( ReportDesignHandle handle,
+			ParameterDefinition parameter ) throws Exception
+	{
+		assert handle != null;
+		assert parameter != null;
+
+		String paramName = parameter.getName( );
+		String dataType = ParameterDataTypeConverter.ConvertDataType( parameter
+				.getDataType( ) );
+
+		// add parameter type
+		ConfigVariable typeVar = new ConfigVariable( );
+		typeVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+				+ IBirtConstants.PROP_TYPE );
+		typeVar.setValue( dataType );
+		handle.addConfigVariable( typeVar );
+
+		// add parameter value expression
+		if ( parameter.getValueExpr( ) != null )
+		{
+			ConfigVariable exprVar = new ConfigVariable( );
+			exprVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+					+ IBirtConstants.PROP_EXPR );
+			exprVar.setValue( parameter.getValueExpr( ) );
+			handle.addConfigVariable( exprVar );
+		}
+	}
+
+	/**
+	 * Handle response
+	 */
 	protected void handleUpdate( )
 	{
 		Data data = new Data( );
