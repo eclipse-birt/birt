@@ -400,7 +400,9 @@ public class ExecutorManager
 						useCache = true;
 					}
 				}
-				return dataEngine.execute( parent, query, useCache );
+				IBaseResultSet rset = dataEngine.execute( parent, query, useCache );
+				context.setResultSet( rset );
+				return rset;
 			}
 			return null;
 		}
