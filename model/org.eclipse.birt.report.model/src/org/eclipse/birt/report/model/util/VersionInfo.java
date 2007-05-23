@@ -40,7 +40,7 @@ public class VersionInfo implements IVersionInfo
 	 * exsit.
 	 */
 
-	public final static String INVALID_DESIGN_FILE_MSG = MessageConstants.VERSION_INFO_INVALID_DESIGN_FILE;
+	private final static String INVALID_DESIGN_FILE_MSG = MessageConstants.VERSION_INFO_INVALID_DESIGN_FILE;
 
 	/**
 	 * Information for user that the opening design file holds a version number
@@ -48,7 +48,7 @@ public class VersionInfo implements IVersionInfo
 	 * need convert the original file automatically.
 	 */
 
-	public final static String CONVERT_INFO_MSG = MessageConstants.VERSION_INFO_CONVERT_INFO;
+	private final static String CONVERT_INFO_MSG = MessageConstants.VERSION_INFO_CONVERT_INFO;
 
 	/**
 	 * Code for the opening design file is not a valid design file or the file
@@ -66,6 +66,19 @@ public class VersionInfo implements IVersionInfo
 	public final static int CONVERT_FOR_COLUMN_BINDING = 0x01;
 
 	/**
+	 * Code for the invalid design version.
+	 */
+
+	public final static int INVALID_VERSION = 0x02;
+
+	/**
+	 * The opening design file is not a valid design file or the file does not
+	 * exsit.
+	 */
+
+	private final static String INVALID_VERSION_MSG = MessageConstants.VERSION_INFO_INVALID_VERSION;
+
+	/**
 	 * BIRT version from which BIRT began to support column binding feature.
 	 */
 
@@ -79,6 +92,9 @@ public class VersionInfo implements IVersionInfo
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param version 
+	 * @param convertCode 
 	 */
 
 	public VersionInfo( String version, int convertCode )
@@ -95,12 +111,20 @@ public class VersionInfo implements IVersionInfo
 
 	public String getLocalizedMessage( )
 	{
-		if ( infoCode == CONVERT_FOR_COLUMN_BINDING )
+		switch ( infoCode )
 		{
-			return ModelMessages.getMessage( CONVERT_INFO_MSG );
-		}
+			case CONVERT_FOR_COLUMN_BINDING :
+				return ModelMessages.getMessage( CONVERT_INFO_MSG );
+			case INVALID_DESIGN_FILE :
+				return ModelMessages.getMessage( INVALID_DESIGN_FILE_MSG );
+			case INVALID_VERSION :
+				return ModelMessages.getMessage( INVALID_VERSION_MSG,
+						new String[]{version} );
 
-		return ModelMessages.getMessage( INVALID_DESIGN_FILE_MSG );
+			default :
+				assert false;
+				return null;
+		}
 	}
 
 	/*

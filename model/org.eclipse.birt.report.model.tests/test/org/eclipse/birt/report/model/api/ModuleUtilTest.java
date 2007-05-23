@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -164,6 +165,8 @@ public class ModuleUtilTest extends BaseTestCase
 
 	public void testCheckVersion( ) throws Exception
 	{
+		ThreadResources.setLocale( ULocale.ENGLISH );
+		
 		List infos = ModuleUtil.checkVersion( getResource(
 				INPUT_FOLDER + "DesignWithoutLibrary.xml" ).toString( ) );//$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
@@ -176,5 +179,15 @@ public class ModuleUtilTest extends BaseTestCase
 		infos = ModuleUtil.checkVersion( getResource(
 				INPUT_FOLDER + "ScalarParameterHandleTest.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( 0, infos.size( ) );
+
+		infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "CheckVersionDesign.xml" ).toString( ) ); //$NON-NLS-1$
+		assertEquals( 1, infos.size( ) );
+		versionInfo = (IVersionInfo) infos.get( 0 );
+
+		assertEquals( "3.2.19", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
+		assertEquals(
+				"The report file of version \"3.2.19\" is not supported.", //$NON-NLS-1$
+				versionInfo.getLocalizedMessage( ) ); 
 	}
 }

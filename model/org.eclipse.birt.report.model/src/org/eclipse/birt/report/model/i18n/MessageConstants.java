@@ -298,5 +298,6 @@ public interface MessageConstants
 	// VersionInfo
 	public static final String VERSION_INFO_INVALID_DESIGN_FILE = "Info.VersionInfo.INVALID_DESIGN_FILE"; //$NON-NLS-1$
 	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$	
+	public static final String VERSION_INFO_INVALID_VERSION = "Info.VersionInfo.INVALID_VERSION"; //$NON-NLS-1$	
 	
 }

@@ -1135,7 +1135,26 @@ public class ModelUtil
 	{
 		List rtnList = new ArrayList( );
 
-		if ( VersionUtil.parseVersion( version ) <= VersionInfo.COLUMN_BINDING_FROM_VERSION
+		int versionNo = -1;
+
+		try
+		{
+			versionNo = VersionUtil.parseVersion( version );
+		}
+		catch ( NumberFormatException e )
+		{
+		}
+		catch ( IllegalArgumentException e )
+		{
+
+		}
+
+		if ( versionNo < 0
+				|| versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
+			rtnList
+					.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
+
+		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION
 				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
 			rtnList.add( new VersionInfo( version,
 					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
