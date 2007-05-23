@@ -89,6 +89,7 @@
                                         <value-access-control/>
                                     </property>
                                     <property name="columnName">updated column1</property>
+                                    <expression name="displayColumnName">displayColumnName</expression>
                                 </tabular-level>
                                 <tabular-level name="NewTabularLevel" id="16"/>
                             </property>

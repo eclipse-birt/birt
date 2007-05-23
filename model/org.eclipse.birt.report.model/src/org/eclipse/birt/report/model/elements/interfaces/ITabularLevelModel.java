@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
-
 /**
- * 
- *
+ * Defines constants for TabularLevel.
  */
 
 public interface ITabularLevelModel
@@ -25,4 +23,9 @@ public interface ITabularLevelModel
 	 */
 
 	String COLUMN_NAME_PROP = "columnName"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defined the display column expression.
+	 */
+	String DISPLAY_COLUMN_NAME_PROP = "displayColumnName"; //$NON-NLS-1$
 }

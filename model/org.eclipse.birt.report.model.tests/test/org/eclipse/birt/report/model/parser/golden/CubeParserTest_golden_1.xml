@@ -82,6 +82,7 @@
                                         </value-access-control>
                                     </property>
                                     <property name="columnName">column1</property>
+                                    <expression name="displayColumnName">displayColumnName</expression>
                                 </tabular-level>
                             </property>
                             <property name="accessControls">
@@ -232,6 +233,7 @@
                                         </value-access-control>
                                     </property>
                                     <property name="columnName">column1</property>
+                                    <expression name="displayColumnName">displayColumnName</expression>
                                 </tabular-level>
                             </property>
                             <property name="accessControls">

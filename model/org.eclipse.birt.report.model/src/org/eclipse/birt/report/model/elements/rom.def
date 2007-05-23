@@ -3790,7 +3790,8 @@
   	</Property>      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
-  	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />	  
+  	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
+  	<Property displayNameID="Element.TabularLevel.displayColumnName" name="displayColumnName" runtimeSettable="false" since="2.2" type="expression" />	  
   	<Property detailType="LevelAttribute" displayNameID="Element.TabularLevel.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />	  
   </Element>  
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaLevel" name="OdaLevel" since="2.2" xmlName="oda-level">

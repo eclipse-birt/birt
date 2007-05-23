@@ -3565,6 +3565,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitTabularLevel( obj );
 
 		property( obj, ITabularLevelModel.COLUMN_NAME_PROP );
+		property( obj, ITabularLevelModel.DISPLAY_COLUMN_NAME_PROP );
 		writer.endElement( );
 	}
 

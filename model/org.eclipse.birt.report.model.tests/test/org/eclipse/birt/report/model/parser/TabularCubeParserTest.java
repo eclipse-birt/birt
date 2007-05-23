@@ -441,8 +441,6 @@ public class TabularCubeParserTest extends BaseTestCase
 		measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 
 		save( );
-
-		saveOutputFile( "CubeParserTest_golden.xml" );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 

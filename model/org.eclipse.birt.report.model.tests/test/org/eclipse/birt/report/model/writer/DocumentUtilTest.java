@@ -101,7 +101,6 @@ public class DocumentUtilTest extends BaseTestCase
 
 		serializeDocument( );
 
-		System.out.println( os );
 		assertTrue( compareFile( "DocumentUtilTest_golden_2.xml" ) ); //$NON-NLS-1$ 
 	}
 

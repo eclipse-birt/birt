@@ -82,6 +82,7 @@
     						<property name="levels">
     							<tabular-level name="testLevel">
     								<property name="columnName">column1</property>
+    								<property name="displayColumnName">displayColumnName</property>
     								<property name="dataType">integer</property>
     								<property name="dateTimeLevelType">month</property>
     								<property name="interval">week</property>

@@ -67,4 +67,28 @@ public class TabularLevelHandle extends LevelHandle
 		setStringProperty( COLUMN_NAME_PROP, columnName );
 	}
 
+	/**
+	 * Gets the display column name of this level.
+	 * 
+	 * @return display column name of this level
+	 */
+	public String getDisplayColumnName( )
+	{
+		return getStringProperty( DISPLAY_COLUMN_NAME_PROP );
+	}
+
+	/**
+	 * Sets the display column name for this level.
+	 * 
+	 * @param columnName
+	 *            the display column name to set
+	 * @throws SemanticException
+	 *             property is locked
+	 */
+
+	public void setDisplayColumnName( String columnName )
+			throws SemanticException
+	{
+		setStringProperty( DISPLAY_COLUMN_NAME_PROP, columnName );
+	}
 }
