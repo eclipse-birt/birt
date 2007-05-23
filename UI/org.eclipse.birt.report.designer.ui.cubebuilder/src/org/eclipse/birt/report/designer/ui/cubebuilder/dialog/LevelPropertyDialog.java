@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -25,9 +24,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -37,6 +36,7 @@ import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -45,7 +45,8 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
-import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -59,23 +60,19 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
@@ -83,42 +80,87 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-public class LevelPropertyDialog extends BaseDialog
+public class LevelPropertyDialog extends TitleAreaDialog
 {
 
-	private Label infoLabel;
-	final private static IChoice[] intervalChoicesAll = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
-			.getChoices( );
-
-	private static IChoice[] intervalChoices = intervalChoicesAll;
 	private Text intervalRange;
-	private Combo intervalType;
 	private Button intervalBaseButton;
 	private Text intervalBaseText;
 	private Composite dynamicArea;
 	private DataSetHandle dataset;
 
-	public LevelPropertyDialog( )
+	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
+			.getElement( ReportDesignConstants.LEVEL_ELEMENT )
+			.getProperty( ILevelModel.DATA_TYPE_PROP )
+			.getAllowedChoices( )
+			.getChoices( );
+
+	public String[] getDataTypeNames( )
 	{
-		super( Messages.getString( "LevelPropertyDialog.Title" ) );
+		IChoice[] choices = dataTypes;
+		if ( choices == null )
+			return new String[0];
+
+		String[] names = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			names[i] = choices[i].getName( );
+		}
+		return names;
+	}
+
+	public String getDataTypeDisplayName( String name )
+	{
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+				DEUtil.getMetaDataDictionary( )
+						.getElement( ReportDesignConstants.LEVEL_ELEMENT )
+						.getProperty( ILevelModel.DATA_TYPE_PROP )
+						.getAllowedChoices( ) );
+	}
+
+	private String[] getDataTypeDisplayNames( )
+	{
+		IChoice[] choices = dataTypes;
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			displayNames[i] = choices[i].getDisplayName( );
+		}
+		return displayNames;
+	}
+
+	public LevelPropertyDialog( boolean isNew )
+	{
+		super( UIUtil.getDefaultShell( ) );
+		if ( isNew )
+			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) );
+		else this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Edit" ) );
 	}
 
 	protected Control createDialogArea( Composite parent )
 	{
-		createTitleArea( parent );
+		// createTitleArea( parent );
+		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DimensionLevel_ID" ); //$NON-NLS-1$
 
-		Composite contents = new Composite( parent, SWT.NONE );
+		getShell( ).setText( Messages.getString( "LevelPropertyDialog.Shell.Title" ) ); //$NON-NLS-1$
+		this.setMessage( Messages.getString( "LevelPropertyDialog.Message" ) ); //$NON-NLS-1$
+
+		Composite area = (Composite) super.createDialogArea( parent );
+
+		Composite contents = new Composite( area, SWT.NONE );
 		GridLayout layout = new GridLayout( );
-		layout.verticalSpacing = 10;
+		// layout.verticalSpacing = 10;
 		layout.marginWidth = 20;
 		contents.setLayout( layout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.widthHint = convertWidthInCharsToPixels( 80 );
-		data.heightHint = 350;
+		data.heightHint = 400;
 		contents.setLayoutData( data );
 
-		createInfoArea( contents );
+		// createInfoArea( contents );
 		createChoiceArea( contents );
 
 		dynamicArea = createDynamicArea( contents );
@@ -137,76 +179,84 @@ public class LevelPropertyDialog extends BaseDialog
 	{
 		if ( input != null )
 		{
-			infoLabel.setText( infoLabel.getText( ) + " " + input.getFullName( ) );
 			expressionEditor.setExpressionProvider( new CubeExpressionProvider( input ) );
 		}
-
-		Iterator valuesIter = input.staticValuesIterator( );
-		if ( ( valuesIter == null || !valuesIter.hasNext( ) )
-				|| dynamicButton.getSelection( ) )
+		if ( input.getLevelType( ) == null )
 		{
 			try
 			{
 				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
-				refreshDynamicViewer( );
-				// while ( attrIter.hasNext( ) )
-				// {
-				// dynamicAttributes.add( ( (LevelAttributeHandle)
-				// attrIter.next( ) ).getName( ) );
-				// }
-				dataset = ( (TabularHierarchyHandle) input.getContainer( ) ).getDataSet( );
-				if ( dataset != null )
-					attributeItems = OlapUtil.getDataFieldNames( dataset );
-				resetEditorItems( );
-
-				dynamicButton.setSelection( true );
-				if ( input.getName( ) != null )
-					nameText.setText( input.getName( ) );
-				PropertyHandle property = input.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
-				String range = property == null ? null
-						: property.getStringValue( );
-				intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
-				int width = intervalRange.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-				( (GridData) intervalRange.getLayoutData( ) ).widthHint = width < 60 ? 60
-						: width;
-				int index = getIntervalTypeIndex( input.getInterval( ) );
-				if ( index != -1 )
-					intervalType.select( index );
-				else
-					intervalType.select( 0 );
-				if ( index == 0 )
-				{
-					intervalRange.setEnabled( false );
-					intervalBaseButton.setEnabled( false );
-					intervalBaseText.setEnabled( false );
-				}
-				else
-				{
-					intervalRange.setEnabled( true );
-					intervalBaseButton.setEnabled( true );
-					intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
-					intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-					if ( input.getIntervalBase( ) != null )
-					{
-						intervalBaseText.setText( input.getIntervalBase( ) );
-					}
-				}
-
-				updateButtonStatus( dynamicButton );
 			}
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
 			}
 		}
+		if ( input.getLevelType( )
+				.equals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC ) )
+		{
+			refreshDynamicViewer( );
+			dataset = ( (TabularHierarchyHandle) input.getContainer( ) ).getDataSet( );
+			if ( dataset != null )
+				attributeItems = OlapUtil.getDataFieldNames( dataset );
+			resetEditorItems( );
+
+			dynamicButton.setSelection( true );
+			if ( input.getName( ) != null )
+				nameText.setText( input.getName( ) );
+			dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+			dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
+
+			fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+			if ( input.getColumnName( ) != null )
+				fieldCombo.setText( input.getColumnName( ) );
+			else
+				fieldCombo.select( 0 );
+
+			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+			displayKeyCombo.setItem( 0,
+					Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
+			if ( input.getDisplayNameKey( ) != null )
+				displayKeyCombo.setText( input.getDisplayNameKey( ) );
+			else
+				displayKeyCombo.select( 0 );
+
+			PropertyHandle property = input.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
+			String range = property == null ? null : property.getStringValue( );
+			intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
+			int width = intervalRange.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+			( (GridData) intervalRange.getLayoutData( ) ).widthHint = width < 60 ? 60
+					: width;
+			String interval = input.getInterval( );
+			if ( interval == null
+					|| interval.equals( DesignChoiceConstants.INTERVAL_TYPE_NONE ) )
+			{
+				updateRadioButtonStatus( noneIntervalButton );
+			}
+			else if ( interval.equals( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL ) )
+				updateRadioButtonStatus( intervalButton );
+			else if ( interval.equals( DesignChoiceConstants.INTERVAL_TYPE_PREFIX ) )
+				updateRadioButtonStatus( prefixButton );
+			if ( !noneIntervalButton.getSelection( ) )
+			{
+				intervalRange.setEnabled( true );
+				intervalBaseButton.setEnabled( true );
+				intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
+				intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
+				if ( input.getIntervalBase( ) != null )
+				{
+					intervalBaseText.setText( input.getIntervalBase( ) );
+				}
+			}
+
+			updateButtonStatus( dynamicButton );
+
+		}
 		else
 		{
-			// while ( valuesIter.hasNext( ) )
-			// {
-			// RuleHandle value = ( (RuleHandle) valuesIter.next( ) );
-			// staticAttributes.put( value.getDisplayExpression( ),
-			// value.getRuleExpression( ) );
-			// }
+			staticDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+			staticNameText.setText( input.getName( ) );
+			staticDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
 			refreshStaticViewer( );
 			// dynamicViewer.setInput( dynamicAttributes );
 			staticButton.setSelection( true );
@@ -236,19 +286,19 @@ public class LevelPropertyDialog extends BaseDialog
 		staticViewer.setInput( valuesList );
 	}
 
-	private int getIntervalTypeIndex( String interval )
-	{
-		int index = 0;
-		for ( int i = 0; i < intervalChoices.length; i++ )
-		{
-			if ( intervalChoices[i].getName( ).equals( interval ) )
-			{
-				index = i;
-				break;
-			}
-		}
-		return index;
-	}
+	// private int getIntervalTypeIndex( String interval )
+	// {
+	// int index = 0;
+	// for ( int i = 0; i < intervalChoices.length; i++ )
+	// {
+	// if ( intervalChoices[i].getName( ).equals( interval ) )
+	// {
+	// index = i;
+	// break;
+	// }
+	// }
+	// return index;
+	// }
 
 	protected void okPressed( )
 	{
@@ -258,13 +308,32 @@ public class LevelPropertyDialog extends BaseDialog
 			{
 				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
 				if ( nameText.getText( ) != null
-						&& !nameText.getText( ).trim( ).equals( "" ) )
+						&& !nameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 				{
 					input.setName( nameText.getText( ) );
 				}
-				int index = intervalType.getSelectionIndex( );
-				input.setInterval( intervalChoices[index].getName( ) );
-				if ( index != 0 )
+				if ( fieldCombo.getText( ) != null )
+				{
+					input.setColumnName( fieldCombo.getText( ) );
+				}
+				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
+				{
+					input.setDisplayNameKey( displayKeyCombo.getText( ) );
+				}
+				else
+					input.setDisplayNameKey( null );
+				if ( dynamicDataTypeCombo.getText( ) != null )
+				{
+					input.setDataType( getDataTypeNames( )[dynamicDataTypeCombo.getSelectionIndex( )] );
+				}
+				if ( noneIntervalButton.getSelection( ) )
+					input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_NONE );
+				else if ( intervalButton.getSelection( ) )
+					input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL );
+				else if ( prefixButton.getSelection( ) )
+					input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_PREFIX );
+
+				if ( !noneIntervalButton.getSelection( ) )
 				{
 					input.setIntervalRange( intervalRange.getText( ) );
 				}
@@ -295,6 +364,15 @@ public class LevelPropertyDialog extends BaseDialog
 			try
 			{
 				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
+				if ( staticNameText.getText( ) != null
+						&& !staticNameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+				{
+					input.setName( staticNameText.getText( ) );
+				}
+				if ( staticDataTypeCombo.getText( ) != null )
+				{
+					input.setDataType( getDataTypeNames( )[staticDataTypeCombo.getSelectionIndex( )] );
+				}
 				input.setInterval( null );
 				input.setIntervalRange( null );
 				input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
@@ -363,32 +441,34 @@ public class LevelPropertyDialog extends BaseDialog
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			if ( columnIndex == 0 )
+			if ( columnIndex == 1 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
+					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof RuleHandle )
 					{
 						return ( (RuleHandle) element ).getDisplayExpression( );
 					}
-					return "";
+					return ""; //$NON-NLS-1$
 				}
 			}
-			else
+			else if ( columnIndex == 2 )
 			{
 				if ( element == dummyChoice )
-					return "";
+					return ""; //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof RuleHandle )
 					{
 						return ( (RuleHandle) element ).getRuleExpression( );
 					}
-					return "";
+					return ""; //$NON-NLS-1$
 				}
 			}
+			else
+				return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -422,7 +502,7 @@ public class LevelPropertyDialog extends BaseDialog
 			if ( columnIndex == 1 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
+					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof LevelAttributeHandle )
@@ -431,7 +511,7 @@ public class LevelPropertyDialog extends BaseDialog
 					}
 				}
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -554,7 +634,7 @@ public class LevelPropertyDialog extends BaseDialog
 					if ( element instanceof RuleHandle )
 						return ( (RuleHandle) element ).getDisplayExpression( );
 				}
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 			else
 			{
@@ -563,10 +643,10 @@ public class LevelPropertyDialog extends BaseDialog
 					if ( element instanceof RuleHandle )
 					{
 						String result = ( (RuleHandle) element ).getRuleExpression( );
-						return result == null ? "" : result;
+						return result == null ? "" : result; //$NON-NLS-1$
 					}
 				}
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		}
 
@@ -577,7 +657,7 @@ public class LevelPropertyDialog extends BaseDialog
 				element = ( (Item) element ).getData( );
 			}
 			if ( property.equals( Prop_Name )
-					&& !( value.toString( ).trim( ).equals( "" ) || value.equals( dummyChoice ) ) )
+					&& !( value.toString( ).trim( ).equals( "" ) || value.equals( dummyChoice ) ) ) //$NON-NLS-1$
 			{
 				if ( element instanceof RuleHandle )
 				{
@@ -588,7 +668,7 @@ public class LevelPropertyDialog extends BaseDialog
 					Rule rule = StructureFactory.createRule( );
 					rule.setProperty( Rule.DISPLAY_EXPRE_MEMBER,
 							value.toString( ) );
-					rule.setProperty( Rule.RULE_EXPRE_MEMBER, "" );
+					rule.setProperty( Rule.RULE_EXPRE_MEMBER, "" ); //$NON-NLS-1$
 					try
 					{
 						input.getPropertyHandle( ILevelModel.STATIC_VALUES_PROP )
@@ -604,7 +684,7 @@ public class LevelPropertyDialog extends BaseDialog
 			else if ( property.equals( prop_Expression ) )
 			{
 				if ( element != dummyChoice
-						&& !( value.toString( ).trim( ).equals( "" ) ) )
+						&& !( value.toString( ).trim( ).equals( "" ) ) ) //$NON-NLS-1$
 				{
 					if ( element instanceof RuleHandle )
 					{
@@ -631,47 +711,95 @@ public class LevelPropertyDialog extends BaseDialog
 
 		Group groupGroup = new Group( contents, SWT.NONE );
 		layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 4;
 		groupGroup.setLayout( layout );
 
 		groupGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Label nameLabel = new Label( groupGroup, SWT.NONE );
-		nameLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Name" ) );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.horizontalSpan = 2;
-		nameLabel.setLayoutData( data );
-
+		nameLabel.setText( Messages.getString( "LevelDialog.Label.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( groupGroup, SWT.BORDER );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.horizontalSpan = 2;
-		nameText.setLayoutData( data );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		nameText.setLayoutData( gd );
+		nameText.addModifyListener( new ModifyListener( ) {
 
-		// Creates intervalRange labels
-		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Label.Interval" ) );
-		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Label.Range" ) );
+			public void modifyText( ModifyEvent e )
+			{
+				checkOkButtonStatus( );
+			}
 
-		intervalType = new Combo( groupGroup, SWT.READ_ONLY | SWT.DROP_DOWN );
-		intervalType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		} );
 
-		for ( int i = 0; i < intervalChoices.length; i++ )
-		{
-			intervalType.add( intervalChoices[i].getDisplayName( ) );
-		}
-		intervalType.setData( intervalChoices );
-
-		intervalType.addSelectionListener( new SelectionAdapter( ) {
+		Label fieldLabel = new Label( groupGroup, SWT.NONE );
+		fieldLabel.setText( Messages.getString( "LevelPropertyDialog.KeyField" ) ); //$NON-NLS-1$
+		fieldCombo = new Combo( groupGroup, SWT.BORDER | SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		fieldCombo.setLayoutData( gd );
+		fieldCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				intervalRange.setEnabled( intervalType.getSelectionIndex( ) != 0 );
-				intervalBaseButton.setEnabled( intervalType.getSelectionIndex( ) != 0 );
-				intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
-						&& intervalBaseButton.getSelection( ) );
+				checkOkButtonStatus( );
 			}
+
 		} );
 
-		// Creates intervalRange range chooser
+		Label displayKeyLabel = new Label( groupGroup, SWT.NONE );
+		displayKeyLabel.setText( Messages.getString( "LevelPropertyDialog.DisplayField" ) ); //$NON-NLS-1$
+		displayKeyCombo = new Combo( groupGroup, SWT.BORDER | SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		displayKeyCombo.setLayoutData( gd );
+
+		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
+		dynamicDataTypeCombo = new Combo( groupGroup, SWT.BORDER
+				| SWT.READ_ONLY );
+		dynamicDataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		dynamicDataTypeCombo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				checkOkButtonStatus( );
+			}
+
+		} );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		dynamicDataTypeCombo.setLayoutData( gd );
+
+		// Creates intervalRange labels
+		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.GroupBy" ) ); //$NON-NLS-1$
+
+		noneIntervalButton = new Button( groupGroup, SWT.RADIO );
+		noneIntervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.None" ) ); //$NON-NLS-1$
+		noneIntervalButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateRadioButtonStatus( noneIntervalButton );
+			}
+		} );
+		intervalButton = new Button( groupGroup, SWT.RADIO );
+		intervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.Interval" ) ); //$NON-NLS-1$
+		intervalButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateRadioButtonStatus( intervalButton );
+			}
+		} );
+		prefixButton = new Button( groupGroup, SWT.RADIO );
+		prefixButton.setText( Messages.getString( "LevelPropertyDialog.Button.Prefix" ) ); //$NON-NLS-1$
+		prefixButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateRadioButtonStatus( prefixButton );
+			}
+		} );
+		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Label.Range" ) ); //$NON-NLS-1$
 
 		intervalRange = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
 		intervalRange.setLayoutData( new GridData( ) );
@@ -714,11 +842,14 @@ public class LevelPropertyDialog extends BaseDialog
 				}
 			}
 		} );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		intervalRange.setLayoutData( gd );
 
 		intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Interval.Base" ) ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 4;
 		intervalBaseButton.setLayoutData( gd );
 		intervalBaseButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -730,7 +861,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		intervalBaseText = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 4;
 		intervalBaseText.setLayoutData( gd );
 
 		dynamicTable = new Table( contents, SWT.SINGLE
@@ -772,7 +903,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		dynamicViewer = new TableViewer( dynamicTable );
 		String[] columns = new String[]{
-				" ", Messages.getString( "LevelPropertyDialog.Label.Attribute" )
+				" ", Messages.getString( "LevelPropertyDialog.Label.Attribute" ) //$NON-NLS-1$ //$NON-NLS-2$
 		};
 
 		TableColumn column = new TableColumn( dynamicTable, SWT.LEFT );
@@ -803,6 +934,31 @@ public class LevelPropertyDialog extends BaseDialog
 		return contents;
 	}
 
+	protected void updateRadioButtonStatus( Button button )
+	{
+		if ( button == noneIntervalButton )
+		{
+			noneIntervalButton.setSelection( true );
+			intervalButton.setSelection( false );
+			prefixButton.setSelection( false );
+		}
+		else if ( button == intervalButton )
+		{
+			noneIntervalButton.setSelection( false );
+			intervalButton.setSelection( true );
+			prefixButton.setSelection( false );
+		}
+		else if ( button == prefixButton )
+		{
+			noneIntervalButton.setSelection( false );
+			intervalButton.setSelection( false );
+			prefixButton.setSelection( true );
+		}
+		intervalRange.setEnabled( !noneIntervalButton.getSelection( ) );
+		intervalBaseButton.setEnabled( !noneIntervalButton.getSelection( ) );
+		intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
+				&& intervalBaseButton.getSelection( ) );
+	}
 	String[] attributeItems = new String[0];
 
 	private void resetEditorItems( )
@@ -874,22 +1030,6 @@ public class LevelPropertyDialog extends BaseDialog
 
 	}
 
-	private Composite createInfoArea( Composite parent )
-	{
-		Composite contents = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		contents.setLayout( layout );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		contents.setLayoutData( data );
-
-		infoLabel = new Label( contents, SWT.NONE );
-		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ) );
-		return contents;
-
-	}
-
 	private void createChoiceArea( Composite parent )
 	{
 		Composite contents = new Composite( parent, SWT.NONE );
@@ -938,8 +1078,8 @@ public class LevelPropertyDialog extends BaseDialog
 			}
 
 		} );
-		dynamicButton.setText( Messages.getString( "LevelPropertyDialog.Button.Dynamic" ) );
-		staticButton.setText( Messages.getString( "LevelPropertyDialog.Button.Static" ) );
+		dynamicButton.setText( Messages.getString( "LevelPropertyDialog.Button.Dynamic" ) ); //$NON-NLS-1$
+		staticButton.setText( Messages.getString( "LevelPropertyDialog.Button.Static" ) ); //$NON-NLS-1$
 	}
 
 	protected void updateButtonStatus( Button button )
@@ -950,6 +1090,14 @@ public class LevelPropertyDialog extends BaseDialog
 			dynamicButton.setSelection( true );
 			setExcludeGridData( staticArea, true );
 			setExcludeGridData( dynamicArea, false );
+			try
+			{
+				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		else if ( button == staticButton )
 		{
@@ -957,54 +1105,17 @@ public class LevelPropertyDialog extends BaseDialog
 			staticButton.setSelection( true );
 			setExcludeGridData( dynamicArea, true );
 			setExcludeGridData( staticArea, false );
+			try
+			{
+				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		this.getShell( ).layout( );
-	}
-
-	private Composite createTitleArea( Composite parent )
-	{
-		Composite contents = new Composite( parent, SWT.NONE );
-		contents.setLayout( new GridLayout( ) );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		contents.setLayoutData( data );
-
-		int heightMargins = 3;
-		int widthMargins = 8;
-		final Composite titleArea = new Composite( contents, SWT.NONE );
-		FormLayout layout = new FormLayout( );
-		layout.marginHeight = heightMargins;
-		layout.marginWidth = widthMargins;
-		titleArea.setLayout( layout );
-
-		Display display = parent.getDisplay( );
-		Color background = JFaceColors.getBannerBackground( display );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( heightMargins * 2 );
-		titleArea.setLayoutData( layoutData );
-		titleArea.setBackground( background );
-
-		titleArea.addPaintListener( new PaintListener( ) {
-
-			public void paintControl( PaintEvent e )
-			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				Rectangle bounds = titleArea.getClientArea( );
-				bounds.height = bounds.height - 2;
-				bounds.width = bounds.width - 1;
-				e.gc.drawRectangle( bounds );
-			}
-		} );
-
-		Label label = new Label( titleArea, SWT.NONE );
-		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		label.setText( Messages.getString( "LevelPropertyDialog.Label.Property" ) ); //$NON-NLS-1$
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DimensionLevel_ID" );
-		return titleArea;
-
+		checkOkButtonStatus( );
 	}
 
 	private TabularLevelHandle input;
@@ -1017,18 +1128,58 @@ public class LevelPropertyDialog extends BaseDialog
 	private Button dynamicButton;
 	private Button staticButton;
 	protected int staticSelectIndex;
-	private static final String Prop_Name = "Name";
-	private static final String prop_Expression = "Expression";
+	private static final String Prop_Name = "Name"; //$NON-NLS-1$
+	private static final String prop_Expression = "Expression"; //$NON-NLS-1$
 	private Table dynamicTable;
 	private ExpressionCellEditor expressionEditor;
+	private Combo staticDataTypeCombo;
+	private Text staticNameText;
+	private Combo fieldCombo;
+	private Combo dynamicDataTypeCombo;
+	private Combo displayKeyCombo;
+	private Button noneIntervalButton;
+	private Button intervalButton;
+	private Button prefixButton;
 
 	protected Composite createStaticArea( Composite parent )
 	{
-		Group contents = new Group( parent, SWT.NONE );
+		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		container.setLayout( layout );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		Group properties = new Group( container, SWT.NONE );
+		layout = new GridLayout( );
+		layout.numColumns = 2;
+		properties.setLayout( layout );
+		properties.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( properties, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Name" ) ); //$NON-NLS-1$
+		staticNameText = new Text( properties, SWT.BORDER );
+		staticNameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		staticNameText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				checkOkButtonStatus( );
+			}
+
+		} );
+		new Label( properties, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
+		staticDataTypeCombo = new Combo( properties, SWT.BORDER | SWT.READ_ONLY );
+		staticDataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		staticDataTypeCombo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				checkOkButtonStatus( );
+			}
+
+		} );
+		Group contents = new Group( container, SWT.NONE );
+		layout = new GridLayout( );
 		contents.setLayout( layout );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		contents.setLayoutData( data );
+		contents.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		final Table staticTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -1069,12 +1220,13 @@ public class LevelPropertyDialog extends BaseDialog
 
 		staticViewer = new TableViewer( staticTable );
 		String[] columns = new String[]{
-				Messages.getString( "LevelPropertyDialog.Label.Name" ),
-				Messages.getString( "LevelPropertyDialog.Label.Expression" )
+				"", //$NON-NLS-1$
+				Messages.getString( "LevelPropertyDialog.Label.Name" ), //$NON-NLS-1$
+				Messages.getString( "LevelPropertyDialog.Label.Expression" ) //$NON-NLS-1$
 		};
 
 		int[] widths = new int[]{
-				150, 150
+				15, 150, 150
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
@@ -1092,7 +1244,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		expressionEditor = new ExpressionCellEditor( staticTable );
 		CellEditor[] cellEditors = new CellEditor[]{
-				new TextCellEditor( staticTable ), expressionEditor
+				null, new TextCellEditor( staticTable ), expressionEditor
 
 		};
 		staticViewer.setCellEditors( cellEditors );
@@ -1101,7 +1253,7 @@ public class LevelPropertyDialog extends BaseDialog
 		staticViewer.setLabelProvider( staticLabelProvider );
 		staticViewer.setCellModifier( staticCellModifier );
 
-		return contents;
+		return container;
 
 	}
 
@@ -1129,5 +1281,60 @@ public class LevelPropertyDialog extends BaseDialog
 		control.setLayoutData( data );
 		control.getParent( ).layout( );
 		control.setVisible( !exclude );
+	}
+
+	protected void checkOkButtonStatus( )
+	{
+		if ( dynamicButton.getSelection( ) )
+		{
+			if ( nameText.getText( ) == null
+					|| nameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
+					|| fieldCombo.getSelectionIndex( ) == -1
+					|| dynamicDataTypeCombo.getSelectionIndex( ) == -1 )
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			}
+			else
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			}
+		}
+		else
+		{
+			if ( staticNameText.getText( ) == null
+					|| staticNameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
+					|| staticDataTypeCombo.getSelectionIndex( ) == -1 )
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			}
+			else
+			{
+				if ( getButton( IDialogConstants.OK_ID ) != null )
+					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			}
+		}
+	}
+
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		checkOkButtonStatus( );
+		if ( input != null && input.getLevelType( ) != null )
+		{
+			if ( input.getLevelType( )
+					.equals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC ) )
+			{
+				dynamicButton.setSelection( true );
+				staticButton.setSelection( false );
+			}
+			else
+			{
+				dynamicButton.setSelection( false );
+				staticButton.setSelection( true );
+			}
+		}
 	}
 }
