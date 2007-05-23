@@ -51,7 +51,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterato
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IJsFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSDimensionFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 
 /**
@@ -859,7 +859,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		
 		for ( int j = 0; j < filterList.size( ); j++ )
 		{
-			IJsFilterHelper filterHelper = (IJsFilterHelper) filterList.get( j );
+			IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) filterList.get( j );
 			if( !filterHelper.evaluateFilter( rowForFilter ) )
 			{
 				return false;
@@ -1093,7 +1093,7 @@ class IntRange
 class AggrFilter
 {
 	private DimLevel[] aggrLevels;
-	private IJsFilterHelper aggrFilterHelper;
+	private IJSDimensionFilterHelper aggrFilterHelper;
 	private DimLevel targetLevel;
 	private DimLevel[] axisQualifierLevels;
 	private Object[] axisQualifierValues;
@@ -1145,7 +1145,7 @@ class AggrFilter
 	/**
 	 * @return the aggrFilter
 	 */
-	IJsFilterHelper getAggrFilter( )
+	IJSDimensionFilterHelper getAggrFilter( )
 	{
 		return aggrFilterHelper;
 	}

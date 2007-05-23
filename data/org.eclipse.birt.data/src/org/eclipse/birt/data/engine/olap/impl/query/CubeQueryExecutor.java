@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
-import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -53,7 +53,7 @@ public class CubeQueryExecutor
 		List results = new ArrayList( );
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
-			results.add( new DimensionFilterEvalHelper( this.scope,
+			results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.scope,
 					defn,
 					(IFilterDefinition) filters.get( i ) ) );
 		}
