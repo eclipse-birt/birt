@@ -77,14 +77,6 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		content.setColSpan( colSpan );
 		content.setColumn( colIndex );
 
-		// user crosstab style for blank cells
-		processStyle( cellHandle );
-		processVisibility( cellHandle );
-		processBookmark( cellHandle );
-		processAction( cellHandle );
-
-		currentChild = 0;
-
 		if ( position != -1 )
 		{
 			try
@@ -103,6 +95,14 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 						e );
 			}
 		}
+		
+		// user crosstab style for blank cells
+		processStyle( cellHandle );
+		processVisibility( cellHandle );
+		processBookmark( cellHandle );
+		processAction( cellHandle );
+
+		currentChild = 0;
 
 		ICubeResultSet cubeRset = getCubeResultSet( );
 
