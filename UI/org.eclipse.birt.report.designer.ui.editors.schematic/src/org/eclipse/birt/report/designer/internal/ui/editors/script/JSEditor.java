@@ -104,6 +104,8 @@ public class JSEditor extends StatusTextEditor implements
 	JSEditorInput editorInput = new JSEditorInput( "" ); //$NON-NLS-1$
 
 	Combo cmbExpList = null;
+	
+	Combo extendedItemExpList = null;
 
 	public ComboViewer cmbExprListViewer;
 
@@ -458,7 +460,7 @@ public class JSEditor extends StatusTextEditor implements
 		mainPane.setLayout( layout );
 
 		final Composite barPane = new Composite( mainPane, SWT.NONE );
-		layout = new GridLayout( 4, false );
+		layout = new GridLayout( 5, false );
 		barPane.setLayout( layout );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		barPane.setLayoutData( gdata );
@@ -467,6 +469,9 @@ public class JSEditor extends StatusTextEditor implements
 		cmbExpList = new Combo( barPane, SWT.READ_ONLY );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		cmbExpList.setLayoutData( layoutData );
+		
+		extendedItemExpList = new Combo( barPane, SWT.READ_ONLY );
+		extendedItemExpList.setLayoutData( layoutData );
 
 		// Creates Reset button
 		butReset = new Button( barPane, SWT.PUSH );
@@ -614,10 +619,8 @@ public class JSEditor extends StatusTextEditor implements
 
 	private void checkDirty( )
 	{
-
 		// ( (AbstractMultiPageLayoutEditor) editingDomainEditor ).checkDirty(
 		// );
-
 	}
 
 	private void selectItemInComboExpList( ISelection selection )
@@ -696,7 +699,6 @@ public class JSEditor extends StatusTextEditor implements
 				}
 				else if ( cmbItemLastSelected != null )
 				{
-
 					desHdl.setStringProperty( cmbItemLastSelected.getName( ),
 							getEditorText( ) );
 
@@ -892,7 +894,8 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 			if ( eleHandle.getDefn( ) != null )
 			{
 				// Add methods only
-				return eleHandle.getDefn( ).getMethods( ).toArray( );
+				// return eleHandle.getDefn( ).getMethods( ).toArray( );
+				return eleHandle.getMethods( ).toArray( );
 			}
 		}
 		return new Object[]{};
