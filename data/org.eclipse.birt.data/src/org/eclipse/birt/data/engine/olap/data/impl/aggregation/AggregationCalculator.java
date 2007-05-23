@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -40,39 +41,51 @@ public class AggregationCalculator
 	private int[] measureIndex;
 	private IDiskArray result = null;
 	private IAggregationResultRow currentResultObj = null;
+	private int[] parameterColIndex;
 	
 	private static Logger logger = Logger.getLogger( AggregationCalculator.class.getName( ) );
 
 	/**
 	 * 
-	 * @param aggregation
+	 * @param aggregationDef
 	 * @param facttableRowIterator
 	 * @throws DataException 
 	 */
-	AggregationCalculator( AggregationDefinition aggregation, IFactTableRowIterator facttableRowIterator ) throws DataException
+	AggregationCalculator( AggregationDefinition aggregationDef, String[] paramterColNames, IFactTableRowIterator facttableRowIterator ) throws DataException
 	{
 		Object[] params = {
-				aggregation, facttableRowIterator
+				aggregationDef, facttableRowIterator
 		};
 		logger.entering( AggregationCalculator.class.getName( ),
 				"AggregationCalculator",
 				params );
-		this.aggregation = aggregation;
-		AggregationFunctionDefinition[] aggregationFunction = aggregation.getAggregationFunctions( );
-		if(aggregation.getLevels( )==null)
+		this.aggregation = aggregationDef;
+		AggregationFunctionDefinition[] aggregationFunction = aggregationDef.getAggregationFunctions( );
+		if(aggregationDef.getLevels( )==null)
 			this.levelCount = 0;
 		else
-			this.levelCount = aggregation.getLevels( ).length;
+			this.levelCount = aggregationDef.getLevels( ).length;
 		if ( aggregationFunction != null )
 		{
 			this.accumulators = new Accumulator[aggregationFunction.length];
 			this.measureIndex = new int[aggregationFunction.length];
-
+			this.parameterColIndex = new int[aggregationFunction.length];
+				
 			for ( int i = 0; i < aggregationFunction.length; i++ )
 			{
-				this.accumulators[i] = BuiltInAggregationFactory.getInstance( )
-						.getAggregation( aggregationFunction[i].getFunctionName( ) )
-						.newAccumulator( );
+				IAggregation aggregation = BuiltInAggregationFactory.getInstance( )
+						.getAggregation( aggregationFunction[i].getFunctionName( ) );
+				if ( aggregation.getParameterDefn( ) != null &&
+						aggregation.getParameterDefn( ).length > 1 )
+				{
+					this.parameterColIndex[i] = find( paramterColNames,
+							aggregationFunction[i].getParaColName( ) );
+				}
+				else
+				{
+					this.parameterColIndex[i] = -1;
+				}
+				this.accumulators[i] = aggregation.newAccumulator( );
 				this.accumulators[i].start( );
 				this.measureIndex[i] = facttableRowIterator.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
 				if ( this.measureIndex[i] == -1 )
@@ -85,6 +98,28 @@ public class AggregationCalculator
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
+	}
+	
+	/**
+	 * 
+	 * @param strArray
+	 * @param str
+	 * @return
+	 */
+	private static int find( String[] strArray, String str )
+	{
+		if( strArray == null || str == null )
+		{
+			return -1;
+		}
+		for ( int i = 0; i < strArray.length; i++ )
+		{
+			if ( str.equals( strArray[i] ) )
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**
@@ -108,9 +143,7 @@ public class AggregationCalculator
 				{
 					for ( int i = 0; i < accumulators.length; i++ )
 					{
-						accumulators[i].onRow( new Object[]{
-							row.getMeasures()[measureIndex[i]]
-						} );
+						accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 					}
 				}
 			}
@@ -178,11 +211,26 @@ public class AggregationCalculator
 		{
 			for ( int i = 0; i < accumulators.length; i++ )
 			{
-				accumulators[i].onRow( new Object[]{
-					row.getMeasures()[measureIndex[i]]
-				} );
+				accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 			}
 		}
+	}
+	
+	private Object[] getAccumulatorParameter( Row4Aggregation row, int funcIndex )
+	{
+		Object[] parameters = null;
+		if( parameterColIndex[funcIndex] == -1 )
+		{
+			parameters = new Object[1];
+			parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+		}
+		else
+		{
+			parameters = new Object[2];
+			parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+			parameters[1] = row.getParameterValues( )[parameterColIndex[funcIndex]];
+		}
+		return parameters;
 	}
 	
 	/**

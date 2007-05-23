@@ -24,6 +24,8 @@ public class Row4Aggregation implements IStructure
 {
 	private Member[] levelMembers;
 	private Object[] measures;
+	private Object[] parameterValues;
+	
 	
 	/*
 	 * (non-Javadoc)
@@ -31,12 +33,13 @@ public class Row4Aggregation implements IStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[getLevelMembers().length+1][];
+		Object[][] objectArrays = new Object[getLevelMembers().length+2][];
 		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
 			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
 		}
-		objectArrays[objectArrays.length-1] = getMeasures();
+		objectArrays[objectArrays.length-2] = measures;
+		objectArrays[objectArrays.length-1] = parameterValues;
 		return ObjectArrayUtil.convert( objectArrays );
 	}
 	
@@ -67,6 +70,18 @@ public class Row4Aggregation implements IStructure
 	{
 		return measures;
 	}
+
+	
+	Object[] getParameterValues( )
+	{
+		return parameterValues;
+	}
+
+	
+	void setParameterValues( Object[] parameterValues )
+	{
+		this.parameterValues = parameterValues;
+	}
 }
 
 /**
@@ -92,7 +107,8 @@ class Row4AggregationCreator implements IStructureCreator
 		{
 			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
-		result.setMeasures( objectArrays[objectArrays.length-1] );
+		result.setMeasures( objectArrays[objectArrays.length-2] );
+		result.setParameterValues( objectArrays[objectArrays.length-1] );
 		
 		return result;
 	}

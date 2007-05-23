@@ -340,6 +340,13 @@ public class CubeAggregationTest extends TestCase
 		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[2];
+		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( "measure1",
+				IBuildInAggregation.TOTAL_SUM_FUNC );
+		funcitonsWithParameterCol[1] = new AggregationFunctionDefinition( null,
+				"measure1",
+				"col12",
+				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -347,7 +354,7 @@ public class CubeAggregationTest extends TestCase
 		levelsForFilter = new DimLevel[]{dimLevel31};
 		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		
-		aggregations[2] = new AggregationDefinition( null, null, funcitons );
+		aggregations[2] = new AggregationDefinition( null, null, funcitonsWithParameterCol );
 		
 		aggregations[3] = new AggregationDefinition( levelsForFilter, sortType, null );
 		
@@ -402,6 +409,7 @@ public class CubeAggregationTest extends TestCase
 		resultSet[2].seek( 0 );
 		assertEquals( resultSet[2].getLevelKeyValue( 0 ), null );
 		assertEquals( resultSet[2].getAggregationValue( 0 ), new Double(28) );
+		assertEquals( resultSet[2].getAggregationValue( 1 ), new Double(3.8333333333333335) );
 		
 		//result set for aggregation 3
 		assertEquals( resultSet[3].length( ), 8 );
@@ -427,6 +435,50 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(7) );
 		resultSet[3].seek( 7 );
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(8) );
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
+	}
+	
+	public void testCube1AggregationWithColPara( ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		ISelection[][] filter = new ISelection[1][1];
+		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
+				 new Object[]{"3"},
+				true,
+				false );
+		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
+		
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[1];
+		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( "measure1",
+				IBuildInAggregation.TOTAL_SUM_FUNC );
+		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( null,
+				"measure1",
+				"col12",
+				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		aggregations[0] = new AggregationDefinition( null, null, funcitonsWithParameterCol );
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel31 ), -1 );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 ), null );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(3.8333333333333335) );
+		
 		for ( int i = 0; i < resultSet.length; i++ )
 		{
 			resultSet[i].close( );

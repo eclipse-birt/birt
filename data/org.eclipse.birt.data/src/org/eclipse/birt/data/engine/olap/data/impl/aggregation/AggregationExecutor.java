@@ -19,13 +19,17 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
@@ -43,6 +47,8 @@ public class AggregationExecutor
 	private DiskSortedStackWrapper[] sortedFactRows = null;
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
+	private String[] parameterColNames = null;
+	private int[][] parameterColIndexs = null;
 
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
@@ -65,16 +71,20 @@ public class AggregationExecutor
 				"AggregationExecutor",
 				params );
 		this.dimesionResultIterators = dimesionResultIterators;
+		
+		getParameterColIndex( aggregations );
+		
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
-			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i],
+			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], parameterColNames, 
 					facttableRowIterator );
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
 		this.facttableRowIterator = facttableRowIterator;
-
-		getAllAggregationLevelIndex( );
+		
+		getAggregationLevelIndex( );
+		
 		logger.exiting( AggregationExecutor.class.getName( ),
 				"AggregationExecutor" );
 	}
@@ -145,6 +155,7 @@ public class AggregationExecutor
 					levelCount );
 		}
 		result.setMeasures( row.getMeasures() );
+		result.setParameterValues( row.getParameterValues( ) );
 		return result;
 	}
 
@@ -194,7 +205,7 @@ public class AggregationExecutor
 			BirtException
 	{
 		Row4AggregationPopulator aggregationRowPopulator = new Row4AggregationPopulator( dimesionResultIterators,
-				facttableRowIterator );
+				facttableRowIterator, parameterColIndexs );
 
 		prepareSortedStacks( );
 		int measureCount = facttableRowIterator.getMeasureCount( );
@@ -218,6 +229,7 @@ public class AggregationExecutor
 				{
 					aggregationRow.getMeasures()[j] = facttableRowIterator.getMeasure( j );
 				}
+				aggregationRow.setParameterValues( aggregationRowPopulator.getParameterValues( ) );
 				diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 			}
 		}
@@ -237,9 +249,10 @@ public class AggregationExecutor
 			int[] levelSortType = null;
 			for ( int i = 0; i < aggregationCalculators.length; i++ )
 			{
-				if ( sortedFactRows[i] == null
-						&& aggregationCalculators[i].aggregation.getLevels( ) != null
-						&& aggregationCalculators[i].aggregation.getLevels( ).length > maxLevelCount )
+				if ( sortedFactRows[i] == null &&
+						( ( aggregationCalculators[i].aggregation.getLevels( ) != null 
+							&& aggregationCalculators[i].aggregation.getLevels( ).length > maxLevelCount ) 
+								|| aggregationCalculators[i].aggregation.getLevels( ) == null ) )
 				{
 					aggregationIndex = i;
 					maxLevelCount = levelIndex[i].length;
@@ -302,8 +315,12 @@ public class AggregationExecutor
 	 * 
 	 * 
 	 */
-	private void getAllAggregationLevelIndex( )
+	private void getAggregationLevelIndex( )
 	{
+		if( aggregationCalculators == null )
+		{
+			return;
+		}
 		levelIndex = new int[aggregationCalculators.length][];
 		for ( int i = 0; i < aggregationCalculators.length; i++ )
 		{
@@ -321,6 +338,138 @@ public class AggregationExecutor
 			}
 			levelIndex[i] = tmpLevelIndex;
 		}
+	}
+	
+	private void getParameterColIndex( AggregationDefinition[] aggregations ) throws DataException
+	{
+		List colNameList = new ArrayList( );
+		for ( int i = 0; i < aggregations.length; i++ )
+		{
+			AggregationFunctionDefinition[] functions = aggregations[i].getAggregationFunctions( );
+			if( functions == null )
+			{
+				continue;
+			}
+			for ( int j = 0; j < functions.length; j++ )
+			{
+				String colName = functions[j].getParaColName( );
+				if( colName != null )
+				{
+					if( !exist( colNameList, colName ))
+					{
+						colNameList.add( colName );
+					}
+				}
+			}
+		}
+		if( colNameList.size( ) == 0 )
+		{
+			return;
+		}
+		parameterColNames = new String[colNameList.size( )];
+		for( int i=0;i<colNameList.size( );i++)
+		{
+			parameterColNames[i] = ( String )( colNameList.get( i ) );
+		}
+		parameterColIndexs = new int[colNameList.size( )][4];
+		findColumnIndex( );
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void findColumnIndex( ) throws DataException
+	{
+		if( parameterColNames == null )
+		{
+			return;
+		}
+		for ( int i = 0; i < parameterColNames.length; i++ )
+		{
+			parameterColIndexs[i][0] = -1;
+			for ( int j = 0; j < dimesionResultIterators.length; j++ )
+			{
+				ILevel[] levels = dimesionResultIterators[j].getDimesion( )
+						.getHierarchy( )
+						.getLevels( );
+
+				for ( int k = 0; k < levels.length; k++ )
+				{
+					String[] columns = levels[k].getKeyNames( );
+					int index = find( columns, parameterColNames[i] );
+					if ( index >= 0 )
+					{
+						// is key column
+						parameterColIndexs[i][0] = 0;
+						parameterColIndexs[i][1] = j;
+						parameterColIndexs[i][2] = k;
+						parameterColIndexs[i][3] = index;
+						break;
+					}
+					columns = levels[k].getAttributeNames( );
+					index = find( columns, parameterColNames[i] );
+					if ( index >= 0 )
+					{
+						// is key column
+						parameterColIndexs[i][0] = 1;
+						parameterColIndexs[i][1] = j;
+						parameterColIndexs[i][2] = k;
+						parameterColIndexs[i][3] = index;
+						break;
+					}
+				}
+				if ( parameterColIndexs[i][0] != -1 )
+				{
+					break;
+				}
+			}
+			if ( parameterColIndexs[i][0] == -1 )
+			{
+				throw new DataException( ResourceConstants.PARAMETER_COL_OF_AGGREGATION_NOT_EXIST,
+						parameterColNames[i] );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param strArray
+	 * @param str
+	 * @return
+	 */
+	private int find( String[] strArray, String str )
+	{
+		if ( strArray == null )
+		{
+			return -1;
+		}
+		for ( int i = 0; i < strArray.length; i++ )
+		{
+			if ( strArray[i].equals( str ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * 
+	 * @param strList
+	 * @param str
+	 * @return
+	 */
+	private boolean exist( List strList, String str )
+	{
+		for ( int i = 0; i < strList.size( ); i++ )
+		{
+			if ( str.equals( strList.get( i ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -353,6 +502,7 @@ class Row4AggregationPopulator
 	private IDimensionResultIterator[] dimesionResultIterators = null;
 	private IFactTableRowIterator facttableRowIterator = null;
 	private int[] dimensionIndexs = null;
+	private int[][] parameterColIndex = null;
 
 	/**
 	 * 
@@ -360,19 +510,44 @@ class Row4AggregationPopulator
 	 * @param facttableRowIterator
 	 */
 	Row4AggregationPopulator( IDimensionResultIterator[] dimesionResultIterators,
-			IFactTableRowIterator facttableRowIterator )
+			IFactTableRowIterator facttableRowIterator, int[][] parameterColIndex )
 	{
 		this.dimesionResultIterators = dimesionResultIterators;
 		this.facttableRowIterator = facttableRowIterator;
 		this.position = new int[dimesionResultIterators.length];
 		this.dimensionIndexs = new int[dimesionResultIterators.length];
-		for ( int i = 0; i < dimensionIndexs.length; i++ )
+		for ( int i = 0; i < dimesionResultIterators.length; i++ )
 		{
 			dimensionIndexs[i] = facttableRowIterator.getDimensionIndex( 
 					dimesionResultIterators[i].getDimesion( ).getName( ) );
 		}
+		this.parameterColIndex = parameterColIndex;
 	}
 
+	Object[] getParameterValues( ) throws BirtException, IOException
+	{
+		if( parameterColIndex == null || parameterColIndex.length == 0 )
+		{
+			return null;
+		}
+		Object[] reValues = new Object[parameterColIndex.length];
+		for ( int i = 0; i < reValues.length; i++ )
+		{
+			Member member = getLevelObject( parameterColIndex[i][1],
+					parameterColIndex[i][2],
+					facttableRowIterator.getDimensionPosition( dimensionIndexs[parameterColIndex[i][1]] ) );
+			if( parameterColIndex[i][0] == 0 )
+			{
+				reValues[i] = member.getKeyValues( )[parameterColIndex[i][3]];
+			}
+			else
+			{
+				reValues[i] = member.getAttributes( )[parameterColIndex[i][3]];
+			}
+		}
+		return reValues;
+	}
+	
 	/**
 	 * 
 	 * @param levelIndex

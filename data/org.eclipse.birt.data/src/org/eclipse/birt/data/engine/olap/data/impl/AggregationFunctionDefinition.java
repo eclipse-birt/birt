@@ -21,27 +21,42 @@ public class AggregationFunctionDefinition
 {
 	private String name;
 	private String measureName;
+	private String paraColName;
 	private String functionName;
 
 	private static Logger logger = Logger.getLogger( AggregationFunctionDefinition.class.getName( ) );
-
+	
 	/**
 	 * 
 	 * @param name
-	 * @param measurename
+	 * @param measureName
 	 * @param functionName
 	 */
-	public AggregationFunctionDefinition( String name, String measurename,
+	public AggregationFunctionDefinition( String name, String measureName,
+			String functionName )
+	{
+		this( name , measureName, null, functionName );
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param measureName
+	 * @param paraColNames
+	 * @param functionName
+	 */
+	public AggregationFunctionDefinition( String name, String measureName, String paraColName,
 			String functionName )
 	{
 		Object[] params = {
-				name, measurename, functionName
+				name, measureName, functionName
 		};
 		logger.entering( AggregationFunctionDefinition.class.getName( ),
 				"AggregationFunctionDefinition",
 				params );
 		this.name = name;
-		this.measureName = measurename;
+		this.paraColName = paraColName;
+		this.measureName = measureName;
 		this.functionName = functionName;
 		logger.exiting( AggregationFunctionDefinition.class.getName( ),
 				"AggregationFunctionDefinition" );
@@ -83,8 +98,21 @@ public class AggregationFunctionDefinition
 		return measureName;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName( )
 	{
 		return name;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getParaColName( )
+	{
+		return paraColName;
 	}
 }
