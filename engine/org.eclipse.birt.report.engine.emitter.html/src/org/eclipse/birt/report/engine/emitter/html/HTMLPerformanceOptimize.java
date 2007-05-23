@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.util.Stack;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -32,6 +33,11 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 public class HTMLPerformanceOptimize extends HTMLEmitter
 {
 
+	/**
+	 * The <code>cellDisplayStack</code> that stores the display value of cell.
+	 */
+	private Stack cellDisplayStack = new Stack( );
+	
 	public HTMLPerformanceOptimize( HTMLReportEmitter parentEmitter,
 			HTMLWriter writer, boolean isEmbeddable )
 	{
@@ -133,6 +139,19 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 */
 	public void openContainerTag( IContainerContent container )
 	{
+		DimensionType x = container.getX( );
+		DimensionType y = container.getY( );
+		DimensionType width = container.getWidth( );
+		DimensionType height = container.getHeight( );
+		int display = getElementType( x, y, width, height, container.getStyle( ) );
+		// The display value is pushed in Stack. It will be popped when close the container tag.
+		cellDisplayStack.push( new Integer( display ) );
+		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		{
+			// Open the inlineBox tag when implement the inline box.
+			openInlineBoxTag( );
+		}
 		writer.openTag( HTMLTags.TAG_DIV );
 	}
 
@@ -142,6 +161,13 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	public void closeContainerTag( )
 	{
 		writer.closeTag( HTMLTags.TAG_DIV );
+		int display = ( (Integer) cellDisplayStack.pop( ) ).intValue( );
+		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
+				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		{
+			// Close the inlineBox tag when implement the inline box.
+			closeInlineBoxTag( );
+		}
 	}
 
 	/**
