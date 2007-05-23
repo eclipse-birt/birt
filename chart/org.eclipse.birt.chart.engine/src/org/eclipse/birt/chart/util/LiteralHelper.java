@@ -161,6 +161,10 @@ public class LiteralHelper
 	 */
 	public static final NameSet inoutPositionSet = getInoutPositionSet( );
 	/**
+	 * Comment for <code>notoutPositionSet</code>
+	 */
+	public static final NameSet notOutPositionSet = getNotOutPositionSet( );
+	/**
 	 * Comment for <code>fullPositionSet</code>
 	 */
 	public static final NameSet fullPositionSet = getFullPositionSet( );
@@ -398,20 +402,20 @@ public class LiteralHelper
 	
 	private static NameSet getVerticalAnchorSet( )
 	{
-		String prefix = "Anchor."; //$NON-NLS-1$
+		String prefix = "AnchorVertical."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet( prefix, suffix, new String[]
 		                                               {
-				Anchor.NORTH_LITERAL.getName( ),
-				Anchor.SOUTH_LITERAL.getName( ),
-				Anchor.WEST_LITERAL.getName( ),
+				Anchor.NORTH_LITERAL.getName( ), 
+				Anchor.SOUTH_LITERAL.getName( ), 
+				Anchor.WEST_LITERAL.getName( ), 
 		                                               });
 	}
 	
 	private static NameSet getHorizontalAnchorSet( )
 	{
-		String prefix = "Anchor."; //$NON-NLS-1$
+		String prefix = "AnchorHorizontal."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet( prefix, suffix, new String[]{
@@ -451,6 +455,20 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, new String[]{
 				Position.INSIDE_LITERAL.getName( ),
 				Position.OUTSIDE_LITERAL.getName( ),
+		} );
+	}
+	
+	private static NameSet getNotOutPositionSet( )
+	{
+		String prefix = "Position."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, new String[]{
+				Position.ABOVE_LITERAL.getName( ),
+				Position.BELOW_LITERAL.getName( ),
+				Position.INSIDE_LITERAL.getName( ),
+				Position.LEFT_LITERAL.getName( ),
+				Position.RIGHT_LITERAL.getName( ),
 		} );
 	}
 

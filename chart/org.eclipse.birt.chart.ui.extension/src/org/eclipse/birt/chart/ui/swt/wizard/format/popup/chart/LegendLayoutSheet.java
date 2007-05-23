@@ -311,7 +311,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 				.getName( ) ) );
 
 		// Set Legend Position property
-		ns = LiteralHelper.fullPositionSet;
+		ns = LiteralHelper.notOutPositionSet;
 		cmbPosition.setItems( ns.getDisplayNames( ) );
 		cmbPosition.select( ns.getSafeNameIndex( getBlockForProcessing( ).getPosition( )
 				.getName( ) ) );
@@ -432,8 +432,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		String positionValue = getBlockForProcessing( ).getPosition( ).getLiteral( );
 		NameSet ns;
 		if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
-				|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) )
-				|| positionValue.equals( Position.OUTSIDE_LITERAL.getLiteral( ) ) )
+				|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )
 		{
 			ns = LiteralHelper.verticalAnchorSet;
 		}
