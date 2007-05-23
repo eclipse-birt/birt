@@ -161,4 +161,42 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 				.getStructure( );
 		propertyHandle.removeItem( struct );
 	}
+
+	/**
+	 * Finds the dimension condition defined for the hierarchy element with the
+	 * specified name.
+	 * 
+	 * @param hierarchyName
+	 * @return the first dimeneison condition handle if found, otherwise null
+	 */
+	public DimensionConditionHandle findDimensionCondition( String hierarchyName )
+	{
+		Iterator iter = getPropertyHandle( DIMENSION_CONDITIONS_PROP )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter
+					.next( );
+			String tempHierarchy = condition.getHierarchyName( );
+			if ( ( tempHierarchy == null && hierarchyName == null )
+					|| ( tempHierarchy != null && tempHierarchy
+							.equals( hierarchyName ) ) )
+				return condition;
+		}
+		return null;
+	}
+
+	/**
+	 * Finds the dimension condition defined for the given hierarchy element.
+	 * 
+	 * @param hierarchy
+	 * @return the first dimeneison condition handle if found, otherwise null
+	 */
+	public DimensionConditionHandle findDimensionCondition(
+			HierarchyHandle hierarchy )
+	{
+		String hierarchyName = hierarchy == null ? null : hierarchy
+				.getQualifiedName( );
+		return findDimensionCondition( hierarchyName );
+	}
 }

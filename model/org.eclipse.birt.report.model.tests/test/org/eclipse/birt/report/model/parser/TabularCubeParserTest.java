@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondit
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -691,15 +692,15 @@ public class TabularCubeParserTest extends BaseTestCase
 		tmpAccess.removeRole( "cube role1" ); //$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( "TabularCubeAccessControl_golden_4.xml" ) ); //$NON-NLS-1$
-		
+
 		designHandle.getCommandStack( ).undo( );
 		tmpAccess.removeRole( "cube role1" ); //$NON-NLS-1$
-		
+
 		tmpAccess.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
-		save();
-		
-		assertTrue( compareFile( "TabularCubeAccessControl_golden_5.xml" ) );  //$NON-NLS-1$
-		
+		save( );
+
+		assertTrue( compareFile( "TabularCubeAccessControl_golden_5.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -753,6 +754,25 @@ public class TabularCubeParserTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "TabularLevelAccessControl_golden_4.xml" ) );//$NON-NLS-1$
 
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testMergeDimensionConditions( ) throws Exception
+	{
+		openDesign( "CubeParserTest_4.xml" ); //$NON-NLS-1$
+
+		TabularCubeHandle cube = (TabularCubeHandle) designHandle
+				.findCube( "testCube" ); //$NON-NLS-1$
+
+		assertNotNull( cube.findDimensionCondition( "testHierarchy" ) ); //$NON-NLS-1$
+		assertEquals(
+				cube.findDimensionCondition( "testHierarchy" ).getStructure( ), cube.findDimensionCondition( (HierarchyHandle) design.findOLAPElement( "testHierarchy" ).getHandle( design ) ).getStructure( ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		save( );
+		assertTrue( compareFile( "CubeParserTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
 	private static void checkNotificationStatus( MyListener listener )

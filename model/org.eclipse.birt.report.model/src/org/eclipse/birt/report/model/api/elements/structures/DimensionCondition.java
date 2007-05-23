@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.PropertyStructure;
-import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.olap.Hierarchy;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * The DimensionCondition structure defines a list of join conditions between
