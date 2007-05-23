@@ -3070,6 +3070,7 @@ Element.TabularHierarchy.primaryKeys=主键
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名
+Element.TabularLevel.displayColumnName=Display Column Name
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
@@ -3591,3 +3592,4 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Info.VersionInfo.INVALID_VERSION=不支持版本 "{0}" 的报表文件。

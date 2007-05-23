@@ -3070,6 +3070,7 @@ Element.TabularHierarchy.primaryKeys=Clé principale
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=Nom de colonne
+Element.TabularLevel.displayColumnName=Display Column Name
 Element.TabularLevel.attributes=Attributs
 
 #56. OdaCube ( prefix Element.OdaCube )
@@ -3591,3 +3592,4 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.

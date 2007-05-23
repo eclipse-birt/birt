@@ -3070,6 +3070,7 @@ Element.TabularHierarchy.primaryKeys=기본 키
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=열 이름
+Element.TabularLevel.displayColumnName=Display Column Name
 Element.TabularLevel.attributes=특성
 
 #56. OdaCube ( prefix Element.OdaCube )
@@ -3591,3 +3592,4 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Info.VersionInfo.INVALID_VERSION=버전 "{0}"의 보고서 파일이 지원되지 않습니다.
