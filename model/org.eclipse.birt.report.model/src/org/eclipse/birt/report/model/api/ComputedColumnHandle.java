@@ -242,14 +242,15 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param argument
 	 *            the aggregate function argument
+	 * @return 
 	 * @throws SemanticException
 	 */
 
-	public void addArgument( AggregationArgument argument )
+	public AggregationArgumentHandle addArgument( AggregationArgument argument )
 			throws SemanticException
 	{
 		MemberHandle aggreHandle = getMember( ComputedColumn.ARGUMENTS_MEMBER );
-		aggreHandle.addItem( argument );
+		return (AggregationArgumentHandle) aggreHandle.addItem( argument );
 	}
 
 	/**
