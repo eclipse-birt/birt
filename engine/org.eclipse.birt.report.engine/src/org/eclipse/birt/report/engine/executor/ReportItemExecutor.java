@@ -233,6 +233,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.tocEntry = null;
 		this.uniqueId = 0;
 		this.instanceId = null;
+		this.design = null;
 
 		manager.releaseExecutor( type, this );
 	}
