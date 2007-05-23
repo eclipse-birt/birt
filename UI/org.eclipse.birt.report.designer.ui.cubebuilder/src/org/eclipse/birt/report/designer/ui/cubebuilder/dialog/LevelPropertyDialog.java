@@ -220,8 +220,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
 			displayKeyCombo.setItem( 0,
 					Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
-			if ( input.getDisplayNameKey( ) != null )
-				displayKeyCombo.setText( input.getDisplayNameKey( ) );
+			if ( input.getDisplayColumnName( ) != null )
+				displayKeyCombo.setText( input.getDisplayColumnName( ) );
 			else
 				displayKeyCombo.select( 0 );
 
@@ -322,10 +322,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
 				{
-					input.setDisplayNameKey( displayKeyCombo.getText( ) );
+					input.setDisplayColumnName( displayKeyCombo.getText( ) );
 				}
 				else
-					input.setDisplayNameKey( null );
+					input.setDisplayColumnName( null );
 				if ( dynamicDataTypeCombo.getText( ) != null )
 				{
 					input.setDataType( getDataTypeNames( )[dynamicDataTypeCombo.getSelectionIndex( )] );
