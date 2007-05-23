@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.api.IChart;
+import org.eclipse.birt.chart.script.api.IComponentFactory;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
 import org.eclipse.birt.chart.script.api.attribute.IText;
 import org.eclipse.birt.chart.script.api.component.ILegend;
@@ -212,6 +213,11 @@ public abstract class ChartImpl extends MultiRowItem implements IChart
 					DesignChoiceConstants.UNITS_PT ).getMeasure( );
 		}
 		return 0;
+	}
+	
+	public IComponentFactory getFactory( )
+	{
+		return new ChartComponentFactory( );
 	}
 
 }

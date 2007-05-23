@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.tests.script.component;
 
-import org.eclipse.birt.chart.script.api.ChartComponentFactory;
 import org.eclipse.birt.chart.script.api.component.IMarkerLine;
 import org.eclipse.birt.chart.script.api.data.INumberDataElement;
 import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
@@ -50,7 +49,8 @@ public class MarkerLineTest extends BaseChartTestCase
 		INumberDataElement data = (INumberDataElement) line.getValue( );
 		assertTrue( data.getValue( ) == 10105 );
 
-		line.setValue( ChartComponentFactory.createNumberElement( 10106 ) );
+		line.setValue( getChartWithAxes( ).getFactory( )
+				.createNumberElement( 10106 ) );
 		data = (INumberDataElement) line.getValue( );
 		assertTrue( data.getValue( ) == 10106 );
 	}

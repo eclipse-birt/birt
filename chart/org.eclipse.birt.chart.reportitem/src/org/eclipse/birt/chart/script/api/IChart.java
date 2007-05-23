@@ -104,5 +104,12 @@ public interface IChart extends IMultiRowItem
 	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
 	 */
 	void setDimension( String dimensionName );
+	
+	/**
+	 * Gets factory to create simple API classes.
+	 * 
+	 * @return factory class
+	 */
+	IComponentFactory getFactory( );
 
 }

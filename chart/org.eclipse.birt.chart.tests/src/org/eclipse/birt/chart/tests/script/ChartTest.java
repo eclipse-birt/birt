@@ -76,7 +76,15 @@ public class ChartTest extends BaseChartTestCase
 		assertEquals( "IChart.SetDescription",
 				getChartWithAxes( ).getDescription( ).getValue( ),
 				newDesc );
-
+		
+		// Description is null by default, simpe api will create a new one
+		assertEquals( "IChart.getDescription test null",
+				getChartWithoutAxes( ).getDescription( ).getValue( ),
+				"" );
+		getChartWithoutAxes( ).getDescription( ).setValue( newDesc );
+		assertEquals( "IChart.SetDescription test null",
+				getChartWithoutAxes( ).getDescription( ).getValue( ),
+				newDesc );
 	}
 
 	public void testColorByCategory( )
@@ -122,6 +130,11 @@ public class ChartTest extends BaseChartTestCase
 	{
 		assertNotNull( "IChart.getCategorySeries",
 				getChartWithAxes( ).getCategory( ) );
+	}
+	
+	public void testFactory( )
+	{
+		assertNotNull( "IChart.getFactory", getChartWithAxes( ).getFactory( ) );
 	}
 
 }
