@@ -346,8 +346,8 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 	}
 
 	/**
-	 * Creates a new <code>DataSetDesign</code>. Parameters positions are
-	 * duplicate.
+	 * Creates a new <code>DataSetDesign</code>.  Parameter positions are not
+	 * set.
 	 * 
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
@@ -405,8 +405,8 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 	}
 
 	/**
-	 * Creates a new <code>DataSetDesign</code>. Parameter positions are not
-	 * set.
+	 * Creates a new <code>DataSetDesign</code>. Parameters positions are
+	 * duplicate.
 	 * 
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
