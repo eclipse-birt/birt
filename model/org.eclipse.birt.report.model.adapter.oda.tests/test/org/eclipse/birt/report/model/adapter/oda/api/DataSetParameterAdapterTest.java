@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.adapter.oda.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
@@ -220,6 +222,32 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareTextFile( "DataSetParameterNameTest_golden.xml" ) ); //$NON-NLS-1$
+		
+		setDesign = createDataSetDesignForParamNames1( );
+
+		setHandle = new ModelOdaAdapter( )
+				.createDataSetHandle( setDesign, designHandle );
+
+		List params = (List) setHandle
+				.getProperty( OdaDataSetHandle.PARAMETERS_PROP );
+		OdaDataSetParameter param = (OdaDataSetParameter) params.get( 0 );
+		assertEquals( 1, param.getPosition( ).intValue( ) );
+
+		param = (OdaDataSetParameter) params.get( 1 );
+		assertEquals( 2, param.getPosition( ).intValue( ) );
+
+		setDesign = createDataSetDesignForParamNames1( );
+
+		try
+		{
+			setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
+					designHandle );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
+					e.getErrorCode( ) );
+		}
 	}
 
 	/**
@@ -315,5 +343,131 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		sourceDesign.setPrivateProperties( props );
 
 		return sourceDesign;
+	}
+
+	/**
+	 * Creates a new <code>DataSetDesign</code>. Parameters positions are
+	 * duplicate.
+	 * 
+	 * @return an object of <code>DataSetDesign</code>.
+	 */
+
+	static DataSetDesign createDataSetDesignForParamNames1( )
+	{
+		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		setDesign.setName( "myDataSet1" ); //$NON-NLS-1$
+		setDesign.setDisplayName( "data set display name" ); //$NON-NLS-1$
+		setDesign
+				.setOdaExtensionDataSetId( OdaDataSetAdapterTest.DATA_SET_EXTENSIONID );
+
+		Properties props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new public query time out" ); //$NON-NLS-1$//$NON-NLS-2$
+		setDesign.setPublicProperties( props );
+
+		props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new private query time out" ); //$NON-NLS-1$ //$NON-NLS-2$
+		setDesign.setPrivateProperties( props );
+
+		DataSetParameters params = DesignFactory.eINSTANCE
+				.createDataSetParameters( );
+		ParameterDefinition paramDefn = DesignFactory.eINSTANCE
+				.createParameterDefinition( );
+		DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
+				.createDataElementAttributes( );
+		dataAttrs.setName( "nativeName1" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 0 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 0 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+		setDesign.setParameters( params );
+
+		setDesign.setPrimaryResultSetName( "resultset1" ); //$NON-NLS-1$
+
+		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
+
+		// create the corresponding data source design
+
+		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
+		return setDesign;
+	}
+
+	/**
+	 * Creates a new <code>DataSetDesign</code>. Parameter positions are not
+	 * set.
+	 * 
+	 * @return an object of <code>DataSetDesign</code>.
+	 */
+
+	static DataSetDesign createDataSetDesignForParamNames2( )
+	{
+		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		setDesign.setName( "myDataSet1" ); //$NON-NLS-1$
+		setDesign.setDisplayName( "data set display name" ); //$NON-NLS-1$
+		setDesign
+				.setOdaExtensionDataSetId( OdaDataSetAdapterTest.DATA_SET_EXTENSIONID );
+
+		Properties props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new public query time out" ); //$NON-NLS-1$//$NON-NLS-2$
+		setDesign.setPublicProperties( props );
+
+		props = DesignFactory.eINSTANCE.createProperties( );
+		props.setProperty( "queryTimeOut", "new private query time out" ); //$NON-NLS-1$ //$NON-NLS-2$
+		setDesign.setPrivateProperties( props );
+
+		DataSetParameters params = DesignFactory.eINSTANCE
+				.createDataSetParameters( );
+		ParameterDefinition paramDefn = DesignFactory.eINSTANCE
+				.createParameterDefinition( );
+		DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
+				.createDataElementAttributes( );
+		dataAttrs.setName( "nativeName1" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 1 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 1 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+		params.getParameterDefinitions( ).add( paramDefn );
+
+		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
+		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		dataAttrs.setName( "nativeName1" ); //$NON-NLS-1$
+		dataAttrs.setPosition( 3 );
+		dataAttrs.setNativeDataTypeCode( 1 );
+		paramDefn.setAttributes( dataAttrs );
+		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
+
+		params.getParameterDefinitions( ).add( paramDefn );
+		setDesign.setParameters( params );
+
+		setDesign.setPrimaryResultSetName( "resultset1" ); //$NON-NLS-1$
+
+		setDesign.setQueryText( "new query text" ); //$NON-NLS-1$
+
+		// create the corresponding data source design
+
+		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
+		return setDesign;
 	}
 }
