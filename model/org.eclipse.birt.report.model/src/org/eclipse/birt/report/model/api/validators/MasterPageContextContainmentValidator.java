@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -117,8 +118,8 @@ public class MasterPageContextContainmentValidator
 
 		List list = new ArrayList( );
 
-		if ( ModelUtil
-				.containElement( module,page, ReportDesignConstants.LISTING_ITEM )
+		if ( ModelUtil.containElement( module, page,
+				ReportDesignConstants.LISTING_ITEM )
 				|| isAddListing )
 		{
 			list
@@ -145,11 +146,12 @@ public class MasterPageContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( Module module, ContainerContext containerInfo,
-			DesignElement toAdd )
+	public List validateForAdding( Module module,
+			ContainerContext containerInfo, DesignElement toAdd )
 	{
 		boolean isAddListing = false;
 		if ( toAdd instanceof ListingElement
+				|| toAdd instanceof ExtendedItem
 				|| ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
@@ -193,6 +195,7 @@ public class MasterPageContextContainmentValidator
 	{
 		boolean isAddListing = false;
 		if ( toAdd instanceof ListingElement
+				|| toAdd instanceof ExtendedItem
 				|| ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
@@ -229,9 +232,19 @@ public class MasterPageContextContainmentValidator
 	public List validateForAdding( Module module, DesignElement element,
 			IElementDefn toAdd )
 	{
-		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.LISTING_ITEM );
-		boolean isAddListing = toAdd.isKindOf( defn );
+		IElementDefn ListingDefn = MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.LISTING_ITEM );
+
+		boolean isAddListing = toAdd.isKindOf( ListingDefn );
+		if ( isAddListing )
+			return doValidate( module, element, isAddListing );
+
+		//see bugzilla 188196. chart and crosstab can't be inserted into master page
+		// now every extended item is forbidden
+		IElementDefn extendedItemDefn = MetaDataDictionary.getInstance( )
+				.getExtension( toAdd.getName( ) );
+		isAddListing = toAdd.isKindOf( extendedItemDefn );
+
 		return doValidate( module, element, isAddListing );
 	}
 }

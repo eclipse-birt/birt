@@ -82,7 +82,7 @@ public class LibraryWithTableTest extends BaseTestCase
 							.getErrorCode( ) );
 		}
 		assertFalse( tableHandle.canInsertAndPasteColumn( data, 1 ) );
-		
+
 		try
 		{
 			tableHandle.insertAndPasteColumn( data, 1 );
@@ -97,7 +97,7 @@ public class LibraryWithTableTest extends BaseTestCase
 		assertFalse( tableHandle.canShiftColumn( 1, 2 ) );
 		try
 		{
-			tableHandle.shiftColumn( 1 , 2  );
+			tableHandle.shiftColumn( 1, 2 );
 			fail( "forbidden do action on column " ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
@@ -115,14 +115,13 @@ public class LibraryWithTableTest extends BaseTestCase
 		assertFalse( tableHandle.canPasteRow( row, parameters ) );
 		try
 		{
-			tableHandle.pasteRow( row , parameters );
+			tableHandle.pasteRow( row, parameters );
 			fail( "forbidden do action on row " ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN, e
-							.getErrorCode( ) );
+			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN, e
+					.getErrorCode( ) );
 		}
 		assertFalse( tableHandle.canInsertRow( parameters ) );
 		try
@@ -132,21 +131,20 @@ public class LibraryWithTableTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN, e
-							.getErrorCode( ) );
+			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN,
+					e.getErrorCode( ) );
 		}
 		assertFalse( tableHandle.canInsertAndPasteRow( row, parameters ) );
 		try
 		{
-			tableHandle.insertAndPasteRow( row , parameters );
+			tableHandle.insertAndPasteRow( row, parameters );
 			fail( "forbidden do action on row " ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
 		{
 			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN, e
-							.getErrorCode( ) );
+					SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN,
+					e.getErrorCode( ) );
 		}
 		parameters.setDestIndex( 2 );
 		parameters.setSourceIndex( 0 );
@@ -158,10 +156,24 @@ public class LibraryWithTableTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN, e
-							.getErrorCode( ) );
+			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN, e
+					.getErrorCode( ) );
 		}
 	}
 
+	/**
+	 * Test extends a grid that contains table. see bugzilla 187761
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGridContainTableInLib( ) throws Exception
+	{
+		openDesign( "LibraryWithTableTest_GridContainTable.xml" ); //$NON-NLS-1$
+
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "NewTable" ); //$NON-NLS-1$
+		assertNotNull( tableHandle );
+
+	}
 }

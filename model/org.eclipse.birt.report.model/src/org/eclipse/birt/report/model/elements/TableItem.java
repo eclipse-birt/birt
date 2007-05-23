@@ -195,6 +195,9 @@ public class TableItem extends ListingElement implements ITableItemModel
 		if ( target == null )
 			return 0;
 
+		if ( table == null )
+			refreshRenderModel( module );
+		
 		int slotId = target.getContainer( ).getContainerInfo( ).getSlotID( );
 
 		TableRow row = (TableRow) target.getContainer( );

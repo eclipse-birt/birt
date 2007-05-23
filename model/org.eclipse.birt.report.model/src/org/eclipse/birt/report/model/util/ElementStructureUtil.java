@@ -373,6 +373,11 @@ public class ElementStructureUtil
 
 				// recusively duplicates the slots of the content
 				duplicateStructure( sourceContent, targetContent, targetModule );
+				
+				if( targetContent instanceof TableItem )
+				{
+					((TableItem)targetContent).refreshRenderModel( targetModule );
+				}
 			}
 		}
 	}
