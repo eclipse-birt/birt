@@ -20,10 +20,12 @@ import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -32,6 +34,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
@@ -1371,6 +1374,92 @@ class DataSetParameterAdapter
 	}
 
 	/**
+	 * Merge Rom data set parameter with new values. see bugzilla 187775.
+	 * 
+	 * @param setHandle
+	 * @param newParams
+	 * @throws SemanticException
+	 */
+
+	public void updateRomDataSetParamsWithNewValues( DataSetHandle setHandle,
+			List newParams ) throws SemanticException
+	{
+		PropertyHandle propertyHandle = setHandle
+				.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
+
+		Iterator iterator = setDefinedParams.iterator( );
+
+		List nameList = new ArrayList( );
+		while ( iterator.hasNext( ) )
+		{
+			DataSetParameterHandle dsParamHandle = (DataSetParameterHandle) iterator
+					.next( );
+			
+			// Check if new values exist the same name as DataSetParameterHandle's.
+			String name = dsParamHandle.getName( );
+			OdaDataSetParameter odaDsParam = null;
+			for ( int i = 0; i < newParams.size( ); ++i )
+			{
+				odaDsParam = (OdaDataSetParameter) newParams.get( i );
+				String odaName = odaDsParam.getName( );
+				if ( name.equalsIgnoreCase( odaName ) )
+				{
+					nameList.add( odaDsParam );
+					break;
+				}
+				odaDsParam = null;
+			}
+
+			if ( odaDsParam != null )
+			{
+				// update dsParamHandle with odaDsParam
+				updateDataSetParameterHandle( odaDsParam, dsParamHandle );
+			}
+			else
+			{
+				// drop dsParamhandle
+				propertyHandle.removeItem( dsParamHandle.getStructure( ) );
+			}
+		}
+
+		for ( int i = 0; i < newParams.size( ); ++i )
+		{
+			OdaDataSetParameter odaDsParam = (OdaDataSetParameter) newParams
+					.get( i );
+			if ( !nameList.contains( odaDsParam ) )
+			{
+				// add odaDsParam
+				propertyHandle.addItem( odaDsParam );
+			}
+		}
+
+	}
+
+	/**
+	 * Update dsParamHandle with odaDsParam.
+	 * 
+	 * @param odaDsParam
+	 * @param dsParamHandle
+	 * @throws SemanticException
+	 */
+
+	private void updateDataSetParameterHandle( OdaDataSetParameter odaDsParam,
+			DataSetParameterHandle dsParamHandle ) throws SemanticException
+	{
+		// update dsParamHandle with odaDsParam
+		Iterator propIterator = odaDsParam.getDefn( ).propertiesIterator( );
+		while ( propIterator.hasNext( ) )
+		{
+			PropertyDefn propDefn = (PropertyDefn) propIterator.next( );
+			String memberName = propDefn.getName( );
+			if ( memberName.equals( DataSetHandle.NAME_PROP ) )
+				continue;
+			Object value = odaDsParam.getLocalProperty( null, memberName );
+			dsParamHandle.setProperty( memberName, value );
+		}
+	}
+
+	/**
 	 * Compare the DesignerValue and OdaDataSetParameter, if one param does not
 	 * exist in DesignerValue, it must be user-defined one. Keep it in
 	 * user-defined-param-list.
@@ -1382,13 +1471,14 @@ class DataSetParameterAdapter
 
 	void updateUserDefinedParameter( DataSetParameters parameters )
 	{
-		List tmpParams = new ArrayList( );
+		userDefinedParams = new ArrayList( );
 		if ( parameters == null )
 		{
 			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{
-				tmpParams.add( ( (OdaDataSetParameterHandle) setDefinedParams
-						.get( i ) ).getStructure( ) );
+				userDefinedParams
+						.add( ( (OdaDataSetParameterHandle) setDefinedParams
+								.get( i ) ).getStructure( ) );
 			}
 		}
 
@@ -1410,20 +1500,11 @@ class DataSetParameterAdapter
 				{
 					// User-defined parameter.
 
-					tmpParams.add( paramHandle.getStructure( ) );
+					userDefinedParams.add( paramHandle.getStructure( ) );
 				}
 			}
 		}
 
-		// get copies of user define parameters
-		userDefinedParams = new ArrayList( );
-		for ( int i = 0; i < tmpParams.size( ); i++ )
-		{
-			userDefinedParams.add( ( (OdaDataSetParameter) tmpParams.get( i ) )
-					.copy( ) );
-		}
-
-		tmpParams.clear( );
 	}
 
 	/**

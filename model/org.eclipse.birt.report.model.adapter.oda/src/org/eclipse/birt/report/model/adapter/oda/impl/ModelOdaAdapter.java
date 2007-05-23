@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -1034,22 +1033,17 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		// Merge all parameter list with data set handle.
 
-		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
-
 		// If the name is the same , should rename it.
 		// when you have three driver-defined parameter in DataSetDesign,but you
 		// remove two of them
 		// in handle, then when you back to 'parameter' page, you can get three
 		// parameter and in this
 		// time it's easy to duplicate name.
-
-		propHandle.clearValue( );
+		
 		IdentifierUtility.updateParams2UniqueName( newParams );
-		for ( int i = 0; i < newParams.size( ); i++ )
-		{
-			propHandle.addItem( (OdaDataSetParameter) newParams.get( i ) );
-		}
+
+		setParamAdapter.updateRomDataSetParamsWithNewValues( setHandle,
+				newParams );
 	}
 
 	/*
