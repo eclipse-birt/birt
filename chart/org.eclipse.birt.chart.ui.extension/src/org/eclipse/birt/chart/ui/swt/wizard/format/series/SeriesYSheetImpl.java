@@ -108,7 +108,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 		cbVisible = new Button( cmpBottom, SWT.CHECK );
 		{
-			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
 			cbVisible.addSelectionListener( this );
 			cbVisible.setSelection( isMeterSeries( ) ? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
 					.getLabel( )
@@ -116,6 +115,14 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					: getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getLabel( )
 							.isVisible( ) );
+		}
+		if ( isMeterSeries( ) )
+		{
+			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDialLabels" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
 		}
 
 		if ( isGanttSeries( ) )
@@ -161,11 +168,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		if ( isMeterSeries( ) )
 		{
 			// Label
-			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
+			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.DialLabels" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			btnDialLabel = createToggleButton( cmp,
-					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
+					Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
 					popup );
 			btnDialLabel.addSelectionListener( this );
 			btnDialLabel.setEnabled( cbVisible.getSelection( ) );
