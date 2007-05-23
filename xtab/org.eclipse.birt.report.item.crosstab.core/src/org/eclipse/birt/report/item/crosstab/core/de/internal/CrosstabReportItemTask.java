@@ -500,7 +500,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			if ( transferMeasureList.size( ) > 0
 					&& clonedDimensionView.getLevelCount( ) > 0 )
 			{
-				addMeasureAggregations( clonedDimensionView.getLevel( 0 ),
+				addMeasureAggregations( clonedDimensionView.getLevel( clonedDimensionView.getLevelCount( ) - 1 ),
 						transferMeasureList,
 						transferFunctionList,
 						false );
