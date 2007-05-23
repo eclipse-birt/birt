@@ -34,8 +34,8 @@ plugin@org.eclipse.birt.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsr
 
 feature@org.eclipse.birt.integration.wtp=v20070519,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.rcp.feature
-feature@org.eclipse.birt.chart.integration.wtp=v20070514,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.feature
-feature@org.eclipse.birt.integration.wtp.sdk=v20070519,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.sdk.feature
+feature@org.eclipse.birt.chart.integration.wtp=v20070523,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp.sdk=v20070523,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.sdk.feature
 
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
@@ -48,7 +48,7 @@ plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/c
 !*** Apache Xerces**************************************************************************** 
 
 feature@com.lowagie.itext=v20070511,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
-plugin@com.lowagie.itext=v20070518,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+plugin@com.lowagie.itext=v20070522,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.commons.codec=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
 plugin@org.apache.commons.codec=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
