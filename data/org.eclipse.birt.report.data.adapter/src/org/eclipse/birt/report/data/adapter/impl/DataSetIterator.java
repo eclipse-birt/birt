@@ -89,7 +89,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSession session,
-			TabularHierarchyHandle hierHandle, String timeLevelName, String leafLevelName ) throws BirtException
+			TabularHierarchyHandle hierHandle ) throws AdapterException
 	{
 		QueryDefinition query = new QueryDefinition( );
 		query.setUsesDetails( false );
@@ -101,7 +101,14 @@ public class DataSetIterator implements IDatasetIterator
 				hierHandle, metaList );
 		
 		popualteFilter( session, hierHandle.filtersIterator( ), query );
-		this.it = session.prepare( query ).execute( null ).getResultIterator( );
+		try
+		{
+			this.it = session.prepare( query ).execute( null ).getResultIterator( );
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
 		
 		this.metadata = new ResultMeta( metaList );
 	}

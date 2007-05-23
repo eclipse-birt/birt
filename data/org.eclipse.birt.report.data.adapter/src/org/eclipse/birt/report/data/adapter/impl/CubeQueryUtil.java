@@ -12,10 +12,15 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -23,10 +28,16 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 
 
 /**
@@ -35,7 +46,13 @@ import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 
 public class CubeQueryUtil implements ICubeQueryUtil
 {
-
+	private DataRequestSession session;
+	
+	public CubeQueryUtil( DataRequestSession session )
+	{
+		this.session = session;
+	}
+	
 	/**
 	 * @throws DataException 
 	 * 
@@ -128,7 +145,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				}
 			}
 			
-			if( bindingName == null )
+			if( binding == null )
 			{
 				return result;
 			}
@@ -152,6 +169,12 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 	
+	/**
+	 * 
+	 * @param dimLevel
+	 * @param edge
+	 * @return
+	 */
 	private ILevelDefinition getAxisQualifierLevel( DimLevel dimLevel, IEdgeDefinition edge )
 	{
 		if( edge == null )
@@ -206,5 +229,157 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	public String getReferencedMeasureName( String expr )
 	{
 		return OlapExpressionCompiler.getReferencedScriptObject( expr, "measure" );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn )
+			throws AdapterException
+	{
+		try
+		{
+			if ( cubeHandle == null
+					|| dataBindingExpr == null || queryDefn == null )
+				return null;
+
+			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( dataBindingExpr ),
+					queryDefn.getBindings( ),
+					true );
+			if ( dimLevels.size( ) == 0 || dimLevels.size( ) > 1 )
+				return null;
+
+			DimLevel target = (DimLevel) dimLevels.iterator( ).next( );
+
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
+					0 ) );
+
+			Map levelValueMap = new HashMap( );
+
+			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
+			return new MemberValueIterator( it,
+					levelValueMap,
+					target.getLevelName( ) );
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition[], java.lang.Object[])
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, ILevelDefinition[] higherLevelDefns,
+			Object[] values ) throws AdapterException
+	{
+		try
+		{
+			if ( ( higherLevelDefns == null && values != null )
+					|| ( higherLevelDefns != null && values == null )
+					|| ( higherLevelDefns.length != values.length )
+					|| cubeHandle == null || targetLevel == null )
+				return null;
+			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
+					0 ) );
+
+			Map levelValueMap = new HashMap( );
+			for ( int i = 0; i < higherLevelDefns.length; i++ )
+			{
+				if ( target.getDimensionName( )
+						.equals( higherLevelDefns[i].getHierarchy( )
+								.getDimension( )
+								.getName( ) ) )
+				{
+					levelValueMap.put( higherLevelDefns[i].getName( ),
+							values[i] );
+				}
+			}
+			DataSetIterator it = new DataSetIterator( this.session,
+					hierHandle );
+			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ));
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @author Administrator
+	 *
+	 */
+	private class MemberValueIterator implements Iterator
+	{
+		private IDatasetIterator dataSetIterator;
+		private boolean hasNext;
+		private Map levelValueMap;
+		private String targetLevelName;
+		private Object currentValue;
+		
+		public MemberValueIterator( IDatasetIterator it, Map levelValueMap, String targetLevelName )
+		{
+			this.dataSetIterator = it;
+			this.hasNext = true;
+			this.levelValueMap = levelValueMap;
+			this.targetLevelName = targetLevelName;
+			this.next( );
+		}
+		
+		public boolean hasNext( )
+		{
+			return this.hasNext;
+		}
+
+		public Object next( )
+		{
+			try
+			{
+				if( !this.hasNext )
+					return null;
+				Object result = this.currentValue;
+				boolean accept = false;
+				while( this.dataSetIterator.next( ) )
+				{
+					accept = true;
+					Iterator it = this.levelValueMap.keySet( ).iterator( );
+					
+					while( it.hasNext())
+					{
+						String key = it.next( ).toString( );
+						Object value = this.levelValueMap.get( key );
+						if( ScriptEvalUtil.compare( value, this.dataSetIterator.getValue( this.dataSetIterator.getFieldIndex( key ) ) ) != 0)
+						{
+							accept = false;
+							break;
+						}
+					}
+					if( accept )
+					{
+						this.currentValue = this.dataSetIterator.getValue( this.dataSetIterator.getFieldIndex( this.targetLevelName ) );
+					}
+				}
+								
+				this.hasNext = accept;
+				return result;
+			}
+			catch ( BirtException e )
+			{
+				return null;
+			}
+		}
+
+		public void remove( )
+		{
+			throw new UnsupportedOperationException();
+		}
+		
 	}
 }

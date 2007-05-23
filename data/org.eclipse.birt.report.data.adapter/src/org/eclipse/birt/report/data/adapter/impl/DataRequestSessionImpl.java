@@ -651,13 +651,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
 		
 			iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ), hierhandle.getName( ),
-					new DataSetIterator( this, hierhandle, null, null ),
+					new DataSetIterator( this, hierhandle ),
 					levelInHier ) );
 		}
 		return cubeMaterializer.createDimension( dim.getName( ),
 				(IHierarchy) iHiers.get( 0 ) ) ;
 	}
 
+	/**
+	 * 
+	 * @param levels
+	 * @param levelInHier
+	 * @param leafLevelKeyColumn
+	 */
 	private void createLeafLevel( List levels, ILevelDefn[] levelInHier,
 			String[] leafLevelKeyColumn )
 	{
@@ -711,7 +717,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public ICubeQueryUtil getCubeQueryUtil( )
 	{
-		return new CubeQueryUtil();
+		return new CubeQueryUtil( this );
 	}
 	
 }

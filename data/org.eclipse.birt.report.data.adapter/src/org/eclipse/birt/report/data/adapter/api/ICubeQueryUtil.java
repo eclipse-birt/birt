@@ -11,9 +11,12 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
  * 
@@ -54,4 +57,30 @@ public interface ICubeQueryUtil
 	 * @throws AdapterException
 	 */
 	public String getReferencedMeasureName( String expr ) throws AdapterException;
+	
+	/**
+	 * Return cascading member values.
+	 * 
+	 * @param cubeHandle
+	 * @param targetLevel
+	 * @param higherLevelDefns
+	 * @param values
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, ILevelDefinition[] higherLevelDefns,
+			Object[] values ) throws AdapterException;
+	
+	/**
+	 * Return member value of a given level.
+	 * @param cubeHandle
+	 * @param dataBindingExpr
+	 * @param queryDefn
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn )
+			throws AdapterException;
 }
