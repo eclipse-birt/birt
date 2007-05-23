@@ -123,6 +123,11 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm";
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss";
 
+	/**
+	 * The class info of total
+	 */
+	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( IMetaDataDictionary.TOTAL_CLASS_NAME ); //$NON-NLS-1$
+	
 	static
 	{
 		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
@@ -1819,6 +1824,8 @@ public class DEUtil
 		List classes = getMetaDataDictionary( ).getClasses( );
 		Collections.sort( classes, comp );
 
+		// Fix bug 187178: Remove Total JS object
+		classes.remove( TOTAL_CLASS );
 		return classes;
 	}
 
