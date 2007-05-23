@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
-import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * Represents one computed column. A computed column is a ¡°virtual¡± column
@@ -428,51 +427,6 @@ public class ComputedColumn extends PropertyStructure
 	{
 		return (String) getProperty( null,
 				ComputedColumn.AGGREGATEON_FUNCTION_MEMBER );
-	}
-
-	/**
-	 * Returns additional arguments to the aggregate function. Each item in the
-	 * list is intance of <code>AggregationArgument</code>.
-	 * 
-	 * @return a list containing additional arguments
-	 */
-
-	public List getArgumentList( )
-	{
-		return (List) getProperty( null, ARGUMENTS_MEMBER );
-	}
-
-	/**
-	 * Adds an aggregation argument to list.
-	 * 
-	 * @param argument
-	 *            the aggregate function argument
-	 */
-
-	public void addArgument( AggregationArgument argument )
-	{
-		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
-		if ( arguments == null )
-			arguments = new ArrayList( );
-
-		arguments.add( argument );
-		propValues.put( ARGUMENTS_MEMBER, arguments );
-	}
-
-	/**
-	 * Removes an arguments from list.
-	 * 
-	 * @param argument
-	 *            the aggregate function argument
-	 */
-
-	public void removeArgument( AggregationArgument argument )
-	{
-		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
-		if ( arguments == null )
-			return;
-
-		arguments.remove( argument );
 	}
 
 	/**
