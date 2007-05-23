@@ -277,6 +277,14 @@ Anchor.SouthWest.displayName=左下
 Anchor.West.displayName=左
 Anchor.NorthWest.displayName=左上
 
+AnchorVertical.North.displayName=上
+AnchorVertical.South.displayName=下
+AnchorVertical.West.displayName=Middle
+
+AnchorHorizontal.East.displayName=右侧
+AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.West.displayName=左侧
+
 Stretch.Horizontal.displayName=水平
 Stretch.Vertical.displayName=垂直
 Stretch.Both.displayName=水平和垂直

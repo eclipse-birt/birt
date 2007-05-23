@@ -277,6 +277,14 @@ Anchor.SouthWest.displayName=왼쪽 아래
 Anchor.West.displayName=왼쪽
 Anchor.NorthWest.displayName=왼쪽 위
 
+AnchorVertical.North.displayName=위쪽
+AnchorVertical.South.displayName=아래쪽
+AnchorVertical.West.displayName=Middle
+
+AnchorHorizontal.East.displayName=오른쪽
+AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.West.displayName=왼쪽
+
 Stretch.Horizontal.displayName=가로
 Stretch.Vertical.displayName=세로
 Stretch.Both.displayName=모두

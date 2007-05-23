@@ -277,6 +277,14 @@ Anchor.SouthWest.displayName=Unten links
 Anchor.West.displayName=Links
 Anchor.NorthWest.displayName=Oben links
 
+AnchorVertical.North.displayName=Oben
+AnchorVertical.South.displayName=Unten
+AnchorVertical.West.displayName=Middle
+
+AnchorHorizontal.East.displayName=Rechts
+AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.West.displayName=Links
+
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertikal
 Stretch.Both.displayName=Beides

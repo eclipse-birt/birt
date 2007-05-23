@@ -277,6 +277,14 @@ Anchor.SouthWest.displayName=En bas à gauche
 Anchor.West.displayName=Gauche
 Anchor.NorthWest.displayName=En haut à gauche
 
+AnchorVertical.North.displayName=Haut
+AnchorVertical.South.displayName=Bas
+AnchorVertical.West.displayName=Middle
+
+AnchorHorizontal.East.displayName=Droite
+AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.West.displayName=Gauche
+
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertical
 Stretch.Both.displayName=Les deux

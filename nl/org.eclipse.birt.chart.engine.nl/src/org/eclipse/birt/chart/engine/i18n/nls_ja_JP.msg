@@ -277,6 +277,14 @@ Anchor.SouthWest.displayName=ç∂â∫
 Anchor.West.displayName=ç∂
 Anchor.NorthWest.displayName=ç∂è„
 
+AnchorVertical.North.displayName=è„
+AnchorVertical.South.displayName=â∫
+AnchorVertical.West.displayName=Middle
+
+AnchorHorizontal.East.displayName=âE
+AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.West.displayName=ç∂
+
 Stretch.Horizontal.displayName=â°
 Stretch.Vertical.displayName=èc
 Stretch.Both.displayName=óºï˚
