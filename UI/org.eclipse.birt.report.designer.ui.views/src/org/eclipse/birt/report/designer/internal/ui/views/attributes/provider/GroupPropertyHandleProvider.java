@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * This handler is used to access the underlying IR model properties for the
@@ -40,125 +41,125 @@ public class GroupPropertyHandleProvider
 	}
 
 	//
-	//	/**
-	//	 * @param input
-	//	 * @return the measure of demension.
-	//	 */
-	//	public Double getMeasureFormDimension( Object input )
-	//	{
-	//		Double measure = null;
-	//		if ( input instanceof DimensionValue )
-	//		{
-	//			measure = new Double( ( (DimensionValue) input ).getMeasure( ) );
-	//		}
-	//		else if ( input instanceof String )
-	//		{
-	//			try
-	//			{
-	//				measure = new Double( DimensionValue.parse( (String) input )
-	//						.getMeasure( ) );
-	//			}
-	//			catch ( PropertyValueException e )
-	//			{
-	//			}
-	//		}
-	//		return measure;
-	//	}
+	// /**
+	// * @param input
+	// * @return the measure of demension.
+	// */
+	// public Double getMeasureFormDimension( Object input )
+	// {
+	// Double measure = null;
+	// if ( input instanceof DimensionValue )
+	// {
+	// measure = new Double( ( (DimensionValue) input ).getMeasure( ) );
+	// }
+	// else if ( input instanceof String )
+	// {
+	// try
+	// {
+	// measure = new Double( DimensionValue.parse( (String) input )
+	// .getMeasure( ) );
+	// }
+	// catch ( PropertyValueException e )
+	// {
+	// }
+	// }
+	// return measure;
+	// }
 	//
-	//	/**
-	//	 * @param input
-	//	 * @return unit of dimension.
-	//	 */
-	//	public String getUnitFormDimension( Object input )
-	//	{
-	//		String unit = ""; //$NON-NLS-1$
-	//		if ( input instanceof DimensionValue )
-	//		{
-	//			unit = ( (DimensionValue) input ).getUnits( );
-	//		}
-	//		else if ( input instanceof String )
-	//		{
-	//			try
-	//			{
-	//				unit = DimensionValue.parse( (String) input ).getUnits( );
-	//			}
-	//			catch ( PropertyValueException e )
-	//			{
-	//			}
-	//		}
-	//		return unit;
-	//	}
+	// /**
+	// * @param input
+	// * @return unit of dimension.
+	// */
+	// public String getUnitFormDimension( Object input )
+	// {
+	// String unit = ""; //$NON-NLS-1$
+	// if ( input instanceof DimensionValue )
+	// {
+	// unit = ( (DimensionValue) input ).getUnits( );
+	// }
+	// else if ( input instanceof String )
+	// {
+	// try
+	// {
+	// unit = DimensionValue.parse( (String) input ).getUnits( );
+	// }
+	// catch ( PropertyValueException e )
+	// {
+	// }
+	// }
+	// return unit;
+	// }
 	//
-	//	/**
-	//	 * Get the value's position in the choice list it belongs to.
-	//	 *
-	//	 * @param o
-	//	 * the property model to inspect
-	//	 * @param value
-	//	 * the specified value
-	//	 * @return the position
-	//	 */
-	//	private Object getIndexByValue( Object o, Object value )
-	//	{
-	//		int index = 0;
+	// /**
+	// * Get the value's position in the choice list it belongs to.
+	// *
+	// * @param o
+	// * the property model to inspect
+	// * @param value
+	// * the specified value
+	// * @return the position
+	// */
+	// private Object getIndexByValue( Object o, Object value )
+	// {
+	// int index = 0;
 	//
-	//		Object values[] = getChoiceValues( o );
+	// Object values[] = getChoiceValues( o );
 	//
-	//		for ( int i = 0; values != null && i < values.length; i++ )
-	//		{
-	//			if ( values[i].equals( value ) )
-	//			{
-	//				index = i;
-	//			}
-	//		}
-	//		return new Integer( index );
-	//	}
+	// for ( int i = 0; values != null && i < values.length; i++ )
+	// {
+	// if ( values[i].equals( value ) )
+	// {
+	// index = i;
+	// }
+	// }
+	// return new Integer( index );
+	// }
 	//
-	//	/*
-	//	 * (non-Javadoc)
-	//	 *
-	//	 * @see
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see
 	// org.eclipse.birt.modeler.facade.IPropertyHandle#setPropertyValue(java.lang.Object)
-	//	 */
-	//	public void setPropertyValue( Object id, Object value )
-	//	{
-	//		if ( isBooleanProperty( id ) )
-	//		{
-	//			int selection = ( (Integer) value ).intValue( );
+	// */
+	// public void setPropertyValue( Object id, Object value )
+	// {
+	// if ( isBooleanProperty( id ) )
+	// {
+	// int selection = ( (Integer) value ).intValue( );
 	//
-	//			value = new Boolean( selection == 0 ? false : true );
+	// value = new Boolean( selection == 0 ? false : true );
 	//
-	//		}
-	//		else if ( isColorProperty( id ) )
-	//		{
-	//			if ( value instanceof RGB )
-	//			{
-	//				RGB rgb = (RGB) value;
-	//				value = new Integer( ColorUtil.formRGB( rgb.red, rgb.green,
-	//						rgb.blue ) );
-	//			}
-	//		}
-	//		else if ( isFontSizeProperty( id ) )
-	//		{
+	// }
+	// else if ( isColorProperty( id ) )
+	// {
+	// if ( value instanceof RGB )
+	// {
+	// RGB rgb = (RGB) value;
+	// value = new Integer( ColorUtil.formRGB( rgb.red, rgb.green,
+	// rgb.blue ) );
+	// }
+	// }
+	// else if ( isFontSizeProperty( id ) )
+	// {
 	//
-	//		}
-	//		else if ( isChoiceProperty( id ) )
-	//		{
-	//			value = getChoiceValue( id, ( (Integer) value ).intValue( ) );
-	//		}
+	// }
+	// else if ( isChoiceProperty( id ) )
+	// {
+	// value = getChoiceValue( id, ( (Integer) value ).intValue( ) );
+	// }
 	//
-	//		try
-	//		{
-	//			if ( id instanceof SimpleValueHandle )
-	//			{
-	//				( (SimpleValueHandle) id ).setValue( value );
-	//			}
-	//		}
-	//		catch ( SemanticException e )
-	//		{
-	//			ExceptionHandler.handle( e );
-	//		}
-	//	}
+	// try
+	// {
+	// if ( id instanceof SimpleValueHandle )
+	// {
+	// ( (SimpleValueHandle) id ).setValue( value );
+	// }
+	// }
+	// catch ( SemanticException e )
+	// {
+	// ExceptionHandler.handle( e );
+	// }
+	// }
 
 	// /**
 	// * Gets the value at the specified index of the choice list.
@@ -190,8 +191,9 @@ public class GroupPropertyHandleProvider
 		{
 			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( ).getChoices( ) != null )
 			{
-				IChoice[] choices = ( (GroupPropertyHandle) o )
-						.getPropertyDefn( ).getChoices( ).getChoices( );
+				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
+						.getChoices( )
+						.getChoices( );
 				if ( choices.length > 0 )
 				{
 					values = new Object[choices.length];
@@ -224,8 +226,9 @@ public class GroupPropertyHandleProvider
 		{
 			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( ).getChoices( ) != null )
 			{
-				IChoice[] choices = ( (GroupPropertyHandle) o )
-						.getPropertyDefn( ).getChoices( ).getChoices( );
+				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
+						.getChoices( )
+						.getChoices( );
 				if ( choices.length > 0 )
 				{
 					choice = true;
@@ -443,9 +446,27 @@ public class GroupPropertyHandleProvider
 	{
 		if ( o instanceof GroupPropertyHandle )
 		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).isEncryptable( );
+			return ( (GroupPropertyHandle) o ).getPropertyDefn( )
+					.isEncryptable( );
 		}
 
+		return false;
+	}
+
+	/**
+	 * Determines whether this is a background image property.
+	 * 
+	 * @param o
+	 *            the property model to inspect
+	 * @return true if it is a background image property
+	 */
+	public boolean isBackgroundImageProperty( Object o )
+	{
+		if ( o instanceof GroupPropertyHandle )
+		{
+			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getName( )
+					.equals( IStyleModel.BACKGROUND_IMAGE_PROP );
+		}
 		return false;
 	}
 }
