@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * CrosstabViewHandle.
@@ -46,28 +45,29 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 		super( element );
 	}
 
-	/**
-	 * Returns the mirrored starting level for current view.
-	 * 
-	 * @return
-	 */
-	public LevelHandle getMirroredStartingLevel( )
-	{
-		return (LevelHandle) handle.getElementProperty( MIRRORED_STARTING_LEVEL_PROP );
-	}
-
-	/**
-	 * Sets mirrrored starting level property for current view.
-	 * 
-	 * @param value
-	 * @throws SemanticException
-	 */
-	public void setMirroredStartingLevel( LevelHandle value )
-			throws SemanticException
-	{
-		handle.setProperty( MIRRORED_STARTING_LEVEL_PROP, value == null ? null
-				: value.getQualifiedName( ) );
-	}
+	// /**
+	// * Returns the mirrored starting level for current view.
+	// *
+	// * @return
+	// */
+	// public LevelHandle getMirroredStartingLevel( )
+	// {
+	// return (LevelHandle) handle.getElementProperty( MIRRORED_STARTING_LEVEL_PROP
+	// );
+	// }
+	//
+	// /**
+	// * Sets mirrrored starting level property for current view.
+	// *
+	// * @param value
+	// * @throws SemanticException
+	// */
+	// public void setMirroredStartingLevel( LevelHandle value )
+	// throws SemanticException
+	// {
+	// handle.setProperty( MIRRORED_STARTING_LEVEL_PROP, value == null ? null
+	// : value.getQualifiedName( ) );
+	// }
 
 	/**
 	 * Gets the property handle for grand total.

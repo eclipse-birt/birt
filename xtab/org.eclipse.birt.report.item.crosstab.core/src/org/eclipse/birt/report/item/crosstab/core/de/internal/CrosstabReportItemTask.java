@@ -32,7 +32,6 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * CrosstabReportItemTask
@@ -50,56 +49,57 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 		this.crosstab = focus;
 	}
 
-	/**
-	 * Returns the mirrored starting level in specific axis.
-	 * 
-	 * @return
-	 */
-	public LevelHandle getMirroredStartingLevel( int axisType )
-	{
-		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
-
-		if ( crosstabView != null )
-		{
-			return crosstabView.getMirroredStartingLevel( );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Sets mirrrored starting level property for specific axis.
-	 */
-	public void setMirroredStartingLevel( int axisType, LevelHandle value )
-			throws SemanticException
-	{
-		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
-		{
-			return;
-		}
-
-		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.set.mirroredStartingLevel" ) ); //$NON-NLS-1$
-
-		try
-		{
-			CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
-
-			if ( crosstabView == null )
-			{
-				crosstabView = crosstab.addCrosstabView( axisType );
-			}
-
-			crosstabView.setMirroredStartingLevel( value );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-
-		stack.commit( );
-	}
+	// /**
+	// * Returns the mirrored starting level in specific axis.
+	// *
+	// * @return
+	// */
+	// public LevelHandle getMirroredStartingLevel( int axisType )
+	// {
+	// CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
+	//
+	// if ( crosstabView != null )
+	// {
+	// return crosstabView.getMirroredStartingLevel( );
+	// }
+	//
+	// return null;
+	// }
+	//
+	// /**
+	// * Sets mirrrored starting level property for specific axis.
+	// */
+	// public void setMirroredStartingLevel( int axisType, LevelHandle value )
+	// throws SemanticException
+	// {
+	// if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
+	// {
+	// return;
+	// }
+	//
+	// CommandStack stack = crosstab.getCommandStack( );
+	// stack.startTrans( Messages.getString(
+	// "CrosstabReportItemTask.msg.set.mirroredStartingLevel" ) ); //$NON-NLS-1$
+	//
+	// try
+	// {
+	// CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
+	//
+	// if ( crosstabView == null )
+	// {
+	// crosstabView = crosstab.addCrosstabView( axisType );
+	// }
+	//
+	// crosstabView.setMirroredStartingLevel( value );
+	// }
+	// catch ( SemanticException e )
+	// {
+	// stack.rollback( );
+	// throw e;
+	// }
+	//
+	// stack.commit( );
+	// }
 
 	/**
 	 * 
