@@ -16,9 +16,9 @@ import org.eclipse.gef.tools.ConnectionDragCreationTool;
 public class ConnectionCreation extends ConnectionDragCreationTool
 {
 
-	private ColumnEditPart editpart;
+	private EditPart editpart;
 
-	public ConnectionCreation( ColumnEditPart owner )
+	public ConnectionCreation( EditPart owner )
 	{
 		editpart = owner;
 		//set the cursor style in different connection situation

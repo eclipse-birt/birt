@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
+import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
@@ -34,6 +35,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	// "org.eclipse.birt.datasource.editor.cubebuilder.measurespage";
 	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage";
 	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage";
+	public static final String LINKGROUPSPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.linkgroupspage";
 
 	public CubeBuilder( Shell parentShell, TabularCubeHandle input )
 	{
@@ -42,15 +44,27 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	}
 
 	private DatasetSelectionPage datasetPage = null;
-	// private DimensionPage dimensionPage = null;
 	private GroupsPage groupsPage = null;
+	private LinkGroupsPage linkGroupsPage = null;
 
 	private void addCommonPage( TabularCubeHandle model )
 	{
-		addPageTo( "/", DATASETSELECTIONPAGE, Messages.getString( "DatasetPage.Title" ), null, datasetPage = new DatasetSelectionPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		addPageTo( "/", GROUPPAGE, Messages.getString( "GroupsPage.Title" ), null, groupsPage = new GroupsPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		datasetNode = new PropertyNode( DATASETSELECTIONPAGE,
+				Messages.getString( "DatasetPage.Title" ),
+				null,
+				datasetPage = new DatasetSelectionPage( this, model ) );
+		groupsNode = new PropertyNode( GROUPPAGE,
+				Messages.getString( "GroupsPage.Title" ),
+				null,
+				groupsPage = new GroupsPage( this, model ) );
+		linkGroupNode = new PropertyNode( LINKGROUPSPAGE,
+				Messages.getString( "LinkGroupsPage.Title" ),
+				null,
+				linkGroupsPage = new LinkGroupsPage( this, model ) );
+		addNodeTo( "/", datasetNode );
+		addNodeTo( "/", groupsNode );
+		addNodeTo( "/", linkGroupNode );
 	}
-
 	private String showNodeId;
 
 	public void showPage( String nodeId )
@@ -86,9 +100,15 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	}
 
 	private boolean okEnable = true;
-	public void setOKEnable(boolean okEnable){
+	private PropertyNode datasetNode;
+	private PropertyNode groupsNode;
+	private PropertyNode linkGroupNode;
+
+	public void setOKEnable( boolean okEnable )
+	{
 		this.okEnable = okEnable;
-		if(getOkButton( )!=null)getOkButton( ).setEnabled( this.okEnable );
+		if ( getOkButton( ) != null )
+			getOkButton( ).setEnabled( this.okEnable );
 	}
 
 	protected void createButtonsForButtonBar( Composite parent )
@@ -140,6 +160,24 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	protected Point getInitialSize( )
 	{
 		return new Point( 820, 600 );
+	}
+
+	
+	public PropertyNode getLinkGroupNode( )
+	{
+		return linkGroupNode;
+	}
+
+	
+	public PropertyNode getDatasetNode( )
+	{
+		return datasetNode;
+	}
+
+	
+	public PropertyNode getGroupsNode( )
+	{
+		return groupsNode;
 	}
 
 }

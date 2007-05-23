@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.AddJoinConditionCommand;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.ConnectionCommand;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConnection;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.gef.EditPart;
@@ -52,7 +53,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 
 		ConnectionCommand command = (ConnectionCommand) request.getStartCommand( );
 
-		ColumnEditPart sourcePart = command.getSource( );
+		LevelEditPart sourcePart = command.getSource( );
 		if ( command == null
 				|| !( getHost( ) instanceof ColumnEditPart )
 				|| getHost( ) == sourcePart
@@ -67,14 +68,10 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 		return addJoinConditionCommand;
 	}
 
-	protected Object getColumn( )
-	{
-		return getColumnEditPart( ).getModel( );
-	}
 
-	protected ColumnEditPart getColumnEditPart( )
+	protected LevelEditPart getLevelEditPart( )
 	{
-		return (ColumnEditPart) getHost( );
+		return (LevelEditPart) getHost( );
 	}
 
 	/*
@@ -87,7 +84,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	{
 
 		ConnectionCommand command = new ConnectionCommand( );
-		command.setSource( getColumnEditPart( ) );
+		command.setSource( getLevelEditPart( ) );
 		request.setStartCommand( command );
 		return command;
 	}

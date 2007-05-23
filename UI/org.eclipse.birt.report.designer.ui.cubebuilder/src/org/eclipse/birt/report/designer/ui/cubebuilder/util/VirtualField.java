@@ -19,7 +19,9 @@ public class VirtualField
 {
 
 	public final static String TYPE_MEASURE = "measure";
+	public final static String TYPE_MEASURE_GROUP = "measureGroup";
 	public final static String TYPE_LEVEL = "level";
+	public final static String TYPE_DIMENSION = "dimension";
 	public final static String TYPE_OTHER_DATASETS = "other";
 	private String type;
 
@@ -46,8 +48,12 @@ public class VirtualField
 			return Messages.getString( "GroupsPage.VirtualField.Measure" );
 		if ( type.equals( TYPE_LEVEL ) )
 			return Messages.getString( "GroupsPage.VirtualField.Level" );
+		if ( type.equals( TYPE_MEASURE_GROUP ) )
+			return Messages.getString( "GroupsPage.VirtualField.MeasureGroup" );
+		if ( type.equals( TYPE_DIMENSION ) )
+			return Messages.getString( "GroupsPage.VirtualField.Dimension" );
 		if ( type.equals( TYPE_OTHER_DATASETS ) )
-			return Messages.getString( "GroupsPage.VirtualField.Other.Datasets" );
+			return Messages.getString( "Cube.Other.Datasets" );
 		return super.toString( );
 	}
 

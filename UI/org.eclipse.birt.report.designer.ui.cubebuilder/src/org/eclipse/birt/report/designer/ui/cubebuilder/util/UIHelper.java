@@ -199,7 +199,7 @@ public final class UIHelper
 					+ BuilderConstancts.PROPERTY_SEPARATOR
 					+ ( ( (DesignElementHandle) model ).getName( ) );
 		}
-		return null;
+		return "";
 	}
 
 	public static void dropDimensionProperties( DimensionHandle dimension )

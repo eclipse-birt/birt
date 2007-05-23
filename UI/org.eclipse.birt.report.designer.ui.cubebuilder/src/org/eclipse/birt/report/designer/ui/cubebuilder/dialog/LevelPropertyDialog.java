@@ -132,20 +132,24 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		return displayNames;
 	}
 
+	private boolean isNew;
+
 	public LevelPropertyDialog( boolean isNew )
 	{
 		super( UIUtil.getDefaultShell( ) );
-		if ( isNew )
-			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) );
-		else this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Edit" ) );
+		this.isNew = isNew;
+
 	}
 
 	protected Control createDialogArea( Composite parent )
 	{
 		// createTitleArea( parent );
 		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DimensionLevel_ID" ); //$NON-NLS-1$
-
 		getShell( ).setText( Messages.getString( "LevelPropertyDialog.Shell.Title" ) ); //$NON-NLS-1$
+		if ( isNew )
+			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) );
+		else
+			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Edit" ) );
 		this.setMessage( Messages.getString( "LevelPropertyDialog.Message" ) ); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea( parent );

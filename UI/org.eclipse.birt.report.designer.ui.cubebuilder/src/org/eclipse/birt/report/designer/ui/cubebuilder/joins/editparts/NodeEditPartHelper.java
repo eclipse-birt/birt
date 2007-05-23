@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConnectionAnchor;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.ConnectionEditPart;
@@ -137,5 +139,19 @@ public abstract class NodeEditPartHelper extends AbstractGraphicalEditPart imple
 		super.addTargetConnection( connection, index );
 		if ( isActive( ) )
 			connection.activate( );
+	}
+	
+	public boolean isDelete( )
+	{
+		boolean bool = false;
+		if ( getModel( ) instanceof DesignElementHandle )
+		{
+			if ( !( getModel( ) instanceof ModuleHandle ) )
+			{
+				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null
+						|| ( (DesignElementHandle) getModel( ) ).getRoot( ) == null;
+			}
+		}
+		return bool;
 	}
 }

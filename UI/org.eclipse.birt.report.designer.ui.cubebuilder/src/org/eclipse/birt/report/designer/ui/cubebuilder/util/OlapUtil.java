@@ -11,15 +11,23 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ui.PlatformUI;
 
 public class OlapUtil
 {
@@ -143,6 +151,37 @@ public class OlapUtil
 				return (DataSetHandle)slot.get( i );
 		}
 		return null;
+	}
+	
+	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "GroupsPage.Reference" ); //$NON-NLS-1$
+	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "GroupsPage.Clients" ); //$NON-NLS-1$
+	public static final String DLG_CONFIRM_MSG = Messages.getString( "GroupsPage.Dlg.Confirm" ); //$NON-NLS-1$
+	
+	public static boolean enableDrop( Object model )
+	{
+		if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
+			ArrayList referenceList = new ArrayList( );
+			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
+			{
+				referenceList.add( itor.next( ) );
+			}
+			if ( !referenceList.isEmpty( ) )
+			{
+				DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						DLG_REFERENCE_FOUND_TITLE,
+						referenceList );
+				dialog.setPreString( DEUtil.getDisplayLabel( handle )
+						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
+				dialog.setSufString( DLG_CONFIRM_MSG );
+				return dialog.open( ) != Dialog.CANCEL;
+			}
+			return true;
+		}
+		return true;
 	}
 
 }

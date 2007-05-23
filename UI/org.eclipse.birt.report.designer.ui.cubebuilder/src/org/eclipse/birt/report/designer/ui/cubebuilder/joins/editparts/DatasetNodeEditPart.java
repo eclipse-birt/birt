@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
@@ -48,7 +48,6 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	public TableNodeFigure tableNode;
 
 	private TabularCubeHandle cube;
-	private DataSetHandle dataset;
 
 	/**
 	 * @param impl
@@ -57,9 +56,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		setModel( dataset );
 		setParent( parent );
-		dataset.getModuleHandle( ).addListener( this );
+
 		this.cube = (TabularCubeHandle) parent.getModel( );
-		this.dataset = dataset;
 	}
 
 	/*
@@ -69,9 +67,10 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 */
 	protected IFigure createFigure( )
 	{
-		String name = ( (DataSetHandle) dataset ).getName( ) + "(Cube Dataset)";
-		tableNode = new TableNodeFigure( name,true );
-		scrollPane = new TablePaneFigure( name,true );
+		String name = ( (DataSetHandle) cube.getDataSet( ) ).getName( )
+				+ Messages.getString("DatasetNodeEditPart.Primary.Dataset"); //$NON-NLS-1$
+		tableNode = new TableNodeFigure( name, true );
+		scrollPane = new TablePaneFigure( name, true );
 		scrollPane.setContents( tableNode );
 		return scrollPane;
 	}
@@ -87,7 +86,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 		List childList = new ArrayList( );
 
-		ResultSetColumnHandle[] columns = OlapUtil.getDataFields( dataset );
+		ResultSetColumnHandle[] columns = OlapUtil.getDataFields( cube.getDataSet( ) );
 		if ( columns != null )
 		{
 			for ( int i = 0; i < columns.length; i++ )
@@ -114,11 +113,15 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		{
 			int width = getWidth( );
 			int height = getHeight( );
-			int posX = JointDatasetsDialog.DIALOG_WIDTH/2-width/2-40;
-			int posY = JointDatasetsDialog.DIALOG_HEIGHT/2-height/2-20;
-			r = new Rectangle( setPosX(posX), setPosY(posY) , getWidth( ), getHeight( ) );
+			int posX = 250 - width / 2 - 40;
+			int posY = 200 - height / 2 - 20;
+			r = new Rectangle( setPosX( posX ),
+					setPosY( posY ),
+					getWidth( ),
+					getHeight( ) );
 		}
-		else r = new Rectangle( getPosX( ), getPosY( ), getWidth( ), getHeight( ) );
+		else
+			r = new Rectangle( getPosX( ), getPosY( ), getWidth( ), getHeight( ) );
 		getFigure( ).setBounds( r );
 		( (GraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
@@ -129,7 +132,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	private int getWidth( )
 	{
 		int width = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-				UIHelper.getId( dataset, cube ),
+				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.SIZE_WIDTH );
 		return width == 0 ? 150 : width;
 	}
@@ -137,7 +140,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	private int getHeight( )
 	{
 		int height = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-				UIHelper.getId( dataset, cube ),
+				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.SIZE_HEIGHT );
 		return height == 0 ? 200 : height;
 	}
@@ -145,7 +148,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	private int getPosX( )
 	{
 		int x = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-				UIHelper.getId( dataset, cube ),
+				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.POSITION_X );
 		return x;
 	}
@@ -153,12 +156,12 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	private int getPosY( )
 	{
 		int y = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-				UIHelper.getId( dataset, cube ),
+				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.POSITION_Y );
 		return y;
 	}
 
-	private int setPosX(  int x )
+	private int setPosX( int x )
 	{
 		try
 		{
@@ -174,7 +177,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		return x;
 	}
 
-	private int setPosY(  int y )
+	private int setPosY( int y )
 	{
 		try
 		{
@@ -189,7 +192,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		}
 		return y;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -200,6 +203,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 		installEditPolicy( EditPolicy.SELECTION_FEEDBACK_ROLE,
 				new TableSelectionEditPolicy( ) );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -223,14 +227,26 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( getRoot( ).getViewer( ).getControl( ) == null
-				|| getRoot( ).getViewer( ).getControl( ).isDisposed( ) )
+		if ( isActive( ) && !isDelete( ))
 		{
-			( (ReportElementHandle) getModel( ) ).getModuleHandle( )
-					.removeListener( this );
+			refresh( );
 		}
-		else
-			refreshVisuals( );
+	}
+
+	public void deactivate( )
+	{
+		// TODO Auto-generated method stub
+		super.deactivate( );
+		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+				.removeListener( this );
+	}
+
+	public void activate( )
+	{
+		// TODO Auto-generated method stub
+		super.activate( );
+		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+				.addListener( this );
 	}
 
 	public DragTracker getDragTracker( Request req )

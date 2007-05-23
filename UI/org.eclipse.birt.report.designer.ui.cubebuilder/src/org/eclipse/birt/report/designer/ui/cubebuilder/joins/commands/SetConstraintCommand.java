@@ -11,6 +11,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -51,7 +52,7 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command
 			ModuleHandle module = element.getModuleHandle( );
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
-			stack.startTrans( "setUserProperty" );
+			stack.startTrans( Messages.getString("SetConstraintCommand.setUserProperty") ); //$NON-NLS-1$
 			try
 			{
 				UIHelper.setIntProperty( module,

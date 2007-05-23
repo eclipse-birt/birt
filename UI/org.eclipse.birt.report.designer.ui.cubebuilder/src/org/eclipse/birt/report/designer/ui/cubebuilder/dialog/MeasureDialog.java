@@ -134,20 +134,6 @@ public class MeasureDialog extends BaseDialog
 		return displayNames;
 	}
 
-//	private String getFunctionDisplayName( String name )
-//	{
-//		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-//				DEUtil.getMetaDataDictionary( )
-//						.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
-//	}
-//
-//	private IChoice[] getFunctions( )
-//	{
-//		return DEUtil.getMetaDataDictionary( )
-//				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
-//				.getChoices( );
-//	}
-	
 	private String getFunctionDisplayName( String name )
 
 	{
@@ -458,10 +444,7 @@ public class MeasureDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		if ( !isEdit )
-			label.setText( Messages.getString( "MeasureDialog.Label.Add" ) ); //$NON-NLS-1$
-		else
-			label.setText( Messages.getString( "MeasureDialog.Label.Edit" ) ); //$NON-NLS-1$
+		label.setText( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
 		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "Measure_ID" );
 		return titleArea;
 

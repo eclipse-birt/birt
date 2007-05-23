@@ -16,24 +16,23 @@ import java.util.List;
 import java.util.Random;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Polygon;
 import org.eclipse.draw2d.geometry.Point;
@@ -57,8 +56,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	public TableNodeFigure tableNode;
 
 	private TabularCubeHandle cube;
-	private DataSetHandle dataset;
 	private TabularDimensionHandle dimension;
+	private TabularHierarchyHandle hierarchy;
 
 	/**
 	 * @param impl
@@ -68,10 +67,9 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		setModel( hierarchy );
 		setParent( parent );
-		hierarchy.getModuleHandle( ).addListener( this );
 		this.dimension = (TabularDimensionHandle) hierarchy.getContainer( );
 		this.cube = (TabularCubeHandle) parent.getModel( );
-		this.dataset = hierarchy.getDataSet( );
+		this.hierarchy = hierarchy;
 	}
 
 	/*
@@ -81,9 +79,9 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	 */
 	protected IFigure createFigure( )
 	{
-		String name = ( (DataSetHandle) dataset ).getName( )
+		String name = dimension.getName( )
 				+ "("
-				+ dimension.getName( )
+				+ ( (DataSetHandle) hierarchy.getDataSet( ) ).getName( )
 				+ ")";
 		tableNode = new TableNodeFigure( name );
 		scrollPane = new TablePaneFigure( name );
@@ -102,17 +100,17 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 		List childList = new ArrayList( );
 
-		ResultSetColumnHandle[] columns = OlapUtil.getDataFields( dataset );
-		if ( columns != null )
+		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
+				.toArray( new TabularLevelHandle[0] );
+		if ( levels != null )
 		{
-			for ( int i = 0; i < columns.length; i++ )
+			for ( int i = 0; i < levels.length; i++ )
 			{
-				childList.add( columns[i] );
+				if ( levels[i].getColumnName( ) != null )
+					childList.add( levels[i] );
 			}
 		}
-		// childrenColumnNumber = childList.size( );
 		return childList;
-
 	}
 
 	/*
@@ -127,8 +125,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 				UIHelper.getId( getModel( ), cube ),
 				BuilderConstancts.POSITION_X ) )
 		{
-			int displayWidth = JointDatasetsDialog.DIALOG_WIDTH-40;
-			int displayHeight = JointDatasetsDialog.DIALOG_HEIGHT-20;
+			int displayWidth = 500 - 40;
+			int displayHeight = 400 - 20;
 
 			List childList = new ArrayList( );
 			if ( getCube( ) != null )
@@ -174,7 +172,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 						break;
 					contain = false;
 				}
-				if ( !contain ){
+				if ( !contain )
+				{
 					break;
 				}
 			}
@@ -207,10 +206,10 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 		int y = getPosY( model );
 		int width = getWidth( model );
 		int height = getHeight( model );
-		polygon.addPoint( new Point( x-50, y-50 ) );
-		polygon.addPoint( new Point( x + width+50, y-50 ) );
-		polygon.addPoint( new Point( x + width+50, y + height+50 ) );
-		polygon.addPoint( new Point( x-50, y + height+50 ) );
+		polygon.addPoint( new Point( x - 50, y - 50 ) );
+		polygon.addPoint( new Point( x + width + 50, y - 50 ) );
+		polygon.addPoint( new Point( x + width + 50, y + height + 50 ) );
+		polygon.addPoint( new Point( x - 50, y + height + 50 ) );
 		return polygon;
 	}
 
@@ -277,7 +276,6 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 		}
 		return y;
 	}
-	
 
 	private boolean existPosX( Object model )
 	{
@@ -320,25 +318,30 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( getRoot( ).getViewer( ).getControl( ) == null
-				|| getRoot( ).getViewer( ).getControl( ).isDisposed( ) )
+		if ( isActive( ) && !isDelete( ))
 		{
-			( (ReportElementHandle) getModel( ) ).getModuleHandle( )
-					.removeListener( this );
+			refresh( );
 		}
-		else
-			refreshVisuals( );
+	}
+
+	public void deactivate( )
+	{
+		super.deactivate( );
+		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+				.removeListener( this );
+	}
+
+	public void activate( )
+	{
+		super.activate( );
+		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+				.addListener( this );
 	}
 
 	public DragTracker getDragTracker( Request req )
 	{
 		DragEditPartsTracker track = new DragEditPartsTracker( this );
 		return track;
-	}
-
-	public DataSetHandle getDataset( )
-	{
-		return dataset;
 	}
 
 	public TabularCubeHandle getCube( )

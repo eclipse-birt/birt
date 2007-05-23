@@ -14,12 +14,15 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -41,6 +44,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	private Combo dataSetCombo;
 	private Text nameText;
 	private CubeBuilder builder;
+	private Button filterButton;
 
 	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
 	{
@@ -99,15 +103,19 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				if ( dataSetCombo.getSelectionIndex( ) == -1 )
+				if ( dataSetCombo.getSelectionIndex( ) == -1 ){
 					builder.setOKEnable( false );
-				else
+					filterButton.setEnabled( false );
+				}
+				else{
 					builder.setOKEnable( true );
+					filterButton.setEnabled( true );
+				}
 			}
 
 		} );
 
-		Button filterButton = new Button( container, SWT.PUSH );
+		filterButton = new Button( container, SWT.PUSH );
 		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) );
 		data = new GridData( );
 		data.widthHint = Math.max( 60, filterButton.computeSize( SWT.DEFAULT,
@@ -117,7 +125,11 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( );
+				expressionBuilder.setExpressionProvier( new CubeExpressionProvider( (TabularCubeHandle)input ) );
+				if(expressionBuilder.open( ) == Window.OK){
+					//OlapUtil.getDataset( dataSetCombo.getText( ) ).set
+				}
 			}
 
 		} );
@@ -144,8 +156,14 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		{
 			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
 			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ( (TabularCubeHandle) input ).getDataSet( ) ) );
-			if ( dataSetCombo.getSelectionIndex( ) == -1 )
+			if ( dataSetCombo.getSelectionIndex( ) == -1 ){
 				builder.setOKEnable( false );
+				filterButton.setEnabled( false );
+			}
+			else{
+				builder.setOKEnable( true );
+				filterButton.setEnabled( true );
+			}
 		}
 	}
 

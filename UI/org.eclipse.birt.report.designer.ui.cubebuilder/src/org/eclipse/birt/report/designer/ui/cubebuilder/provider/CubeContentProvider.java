@@ -11,21 +11,17 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -77,14 +73,29 @@ public class CubeContentProvider implements ITreeContentProvider
 			if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 			{
 				CubeHandle cube = (CubeHandle) property.getElementHandle( );
-				return cube.getContents( CubeHandle.DIMENSIONS_PROP ).toArray( );
+				VirtualField virtualDimsnion = new VirtualField( VirtualField.TYPE_DIMENSION );
+				virtualDimsnion.setModel( parentElement );
+				List dimensionList = new ArrayList( );
+				if ( cube.getContentCount( CubeHandle.DIMENSIONS_PROP ) > 0 )
+				{
+					dimensionList.addAll( cube.getContents( CubeHandle.DIMENSIONS_PROP ) );
+				}
+				dimensionList.add( 0, virtualDimsnion );
+				return dimensionList.toArray( );
 
 			}
 			else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 			{
 				CubeHandle cube = (CubeHandle) property.getElementHandle( );
-				return cube.getContents( CubeHandle.MEASURE_GROUPS_PROP )
-						.toArray( );
+				VirtualField virtualMeasureGroup = new VirtualField( VirtualField.TYPE_MEASURE_GROUP );
+				virtualMeasureGroup.setModel( parentElement );
+				List measureGroupList = new ArrayList( );
+				if ( cube.getContentCount( CubeHandle.MEASURE_GROUPS_PROP ) > 0 )
+				{
+					measureGroupList.addAll( cube.getContents( CubeHandle.MEASURE_GROUPS_PROP ) );
+				}
+				measureGroupList.add( 0, virtualMeasureGroup );
+				return measureGroupList.toArray( );
 			}
 		}
 		if ( parentElement instanceof LevelHandle )
@@ -193,41 +204,47 @@ public class CubeContentProvider implements ITreeContentProvider
 			String name = property.getPropertyDefn( ).getName( );
 			if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 			{
-				CubeHandle cube = (CubeHandle) property.getElementHandle( );
-				List dimensionList = cube.getContents( CubeHandle.DIMENSIONS_PROP );
-				if ( dimensionList == null || dimensionList.size( ) == 0 )
-				{
-					TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
-							.newTabularDimension( "Group" );
-					try
-					{
-						cube.add( CubeHandle.DIMENSIONS_PROP, dimension );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-				return dimensionList != null && dimensionList.size( ) > 0;
+				// CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				// List dimensionList = cube.getContents(
+				// CubeHandle.DIMENSIONS_PROP );
+				// if ( dimensionList == null || dimensionList.size( ) == 0 )
+				// {
+				// TabularDimensionHandle dimension =
+				// DesignElementFactory.getInstance( )
+				// .newTabularDimension( "Group" );
+				// try
+				// {
+				// cube.add( CubeHandle.DIMENSIONS_PROP, dimension );
+				// }
+				// catch ( SemanticException e )
+				// {
+				// ExceptionHandler.handle( e );
+				// }
+				// }
+				// return dimensionList != null && dimensionList.size( ) > 0;
+				return true;
 			}
 			else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 			{
-				CubeHandle cube = (CubeHandle) property.getElementHandle( );
-				List measureList = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-				if ( measureList == null || measureList.size( ) == 0 )
-				{
-					TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-							.newTabularMeasureGroup( "Summary Field" );
-					try
-					{
-						cube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-				return measureList != null && measureList.size( ) > 0;
+				// CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				// List measureList = cube.getContents(
+				// CubeHandle.MEASURE_GROUPS_PROP );
+				// if ( measureList == null || measureList.size( ) == 0 )
+				// {
+				// TabularMeasureGroupHandle measureGroup =
+				// DesignElementFactory.getInstance( )
+				// .newTabularMeasureGroup( "Summary Field" );
+				// try
+				// {
+				// cube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
+				// }
+				// catch ( SemanticException e )
+				// {
+				// ExceptionHandler.handle( e );
+				// }
+				// }
+				// return measureList != null && measureList.size( ) > 0;
+				return true;
 			}
 		}
 		return false;
