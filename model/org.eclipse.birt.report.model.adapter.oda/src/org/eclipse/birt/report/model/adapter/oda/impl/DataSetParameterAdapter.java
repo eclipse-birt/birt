@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -861,6 +862,8 @@ class DataSetParameterAdapter
 		if ( odaParams == null || odaParams.isEmpty( ) )
 			return null;
 
+		List positions = new ArrayList( );
+
 		for ( int i = 0; i < odaParams.size( ); i++ )
 		{
 			ParameterDefinition odaParamDefn = (ParameterDefinition) odaParams
@@ -916,6 +919,8 @@ class DataSetParameterAdapter
 							.getOdaExtensionDataSourceId( ), setDesign
 							.getOdaExtensionDataSetId( ) );
 
+			updateAndCheckPosition( positions, setParam, i + 1 );
+
 			updateROMDataSetParameterFromInputParamAttrs( odaParamDefn
 					.getInputAttributes( ), cachedParamDefn == null
 					? null
@@ -936,6 +941,51 @@ class DataSetParameterAdapter
 		}
 
 		return retList;
+	}
+
+	/**
+	 * Updates the position first if the value is null or less than 1. Checks
+	 * whether the position duplicates with others. If so, throw exception.
+	 * 
+	 * @param positions
+	 *            a list containing positions
+	 * @param setParam
+	 *            the current data set parameter
+	 * @param newPos
+	 *            the optional new position
+	 * @throws SemanticException
+	 *             if the position duplicates with others
+	 */
+
+	private void updateAndCheckPosition( List positions,
+			DataSetParameter setParam, int newPos ) throws SemanticException
+	{
+
+		// if the position is still null. This is possible in the oda design
+		// spec. we should make the position as index+1.
+
+		Integer pos = setParam.getPosition( );
+		if ( pos == null || pos.intValue( ) <= 0 )
+		{
+			pos = new Integer( newPos );
+			setParam.setPosition( pos );
+		}
+
+		// it is ok to require that an ODA designer consistently define all
+		// its parameters. That is, either define position for *all* its
+		// parameters definitions which would then get used, even if native
+		// names are also defined. Or define name only for *all* its
+		// parameter definitions. So for your use case, it is ok for the
+		// model oda adapter to throw an exception.
+
+		if ( !positions.contains( pos ) )
+			positions.add( pos );
+		else
+		{
+			throw new PropertyValueException( setHandle.getElement( ),
+					OdaDataSetHandle.PARAMETERS_PROP, pos,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
+		}
 	}
 
 	/**
@@ -1320,7 +1370,7 @@ class DataSetParameterAdapter
 	 * exist in DesignerValue, it must be user-defined one. Keep it in
 	 * user-defined-param-list.
 	 * 
-	 * @param parameters 
+	 * @param parameters
 	 * 
 	 * @throws SemanticException
 	 */
