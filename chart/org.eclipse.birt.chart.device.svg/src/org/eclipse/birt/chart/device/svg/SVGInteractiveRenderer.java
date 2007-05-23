@@ -21,8 +21,8 @@ import java.util.Vector;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
-import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
+import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -441,7 +441,7 @@ public class SVGInteractiveRenderer
 
 					switch ( tg.getAction( ).getType( ).getValue( ) )
 					{
-						case ActionType.SHOW_TOOLTIP :
+						case ActionType.SHOW_TOOLTIP :							
 							String tooltipText = ( (TooltipValue) tg.getAction( )
 									.getValue( ) ).getText( );
 							// make sure the tooltip text is not empty
@@ -453,13 +453,26 @@ public class SVGInteractiveRenderer
 								elm.appendChild( title );
 								// on mouse over is actually two events to show
 								// the tooltip
+								String componentId = null;
+								if (src instanceof WrappedStructureSource){
+									componentId = findFirstComponentId((WrappedStructureSource)src);
+								}
+								
 								if ( scriptEvent.equals( "onmouseover" ) ) {//$NON-NLS-1$
 									elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
-									elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+									if (componentId != null)
+										elm.setAttribute( "onmousemove", "TM.show(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$
+									else
+										elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
 								}
-								else
+								else{
+									if (componentId != null)
 									elm.setAttribute( scriptEvent,
-											"TM.toggleToolTip(evt)" ); //$NON-NLS-1$ 
+											"TM.toggleToolTip(evt,"+componentId+")" ); //$NON-NLS-1$
+									else
+									elm.setAttribute( scriptEvent,
+											"TM.toggleToolTip(evt)" ); //$NON-NLS-1$
+								}
 							}
 							break;
 						case ActionType.URL_REDIRECT :
@@ -828,6 +841,49 @@ public class SVGInteractiveRenderer
 		return this._iun.getRunTimeModel( ).getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL;
 	}
 
+	private String findFirstComponentId(WrappedStructureSource src){
+		final Series seRT = (Series) getElementFromSource( src.getParent(),
+				StructureType.SERIES );
+		if ( seRT != null )
+		{
+			Series seDT = null;
+			String groupIdentifier = null;
+
+			// Create Group identifiers. Differs for color by categories or
+			// series
+			if ( isColoredByCategories( ) )
+			{
+				seDT = findCategorySeries( seRT );
+				final int baseIndex = ( (DataPointHints) src.getSource( ) ).getIndex( );
+				StringBuffer sb = new StringBuffer( );
+				sb.append( "'" );//$NON-NLS-1$
+				sb.append( seDT.hashCode( ) );
+				sb.append( "index" ); //$NON-NLS-1$
+				sb.append( baseIndex );
+				sb.append( "'" );//$NON-NLS-1$
+				groupIdentifier = sb.toString( );
+			}
+			else
+			{
+				try
+				{
+					seDT = findDesignTimeSeries( seRT );
+				}
+				catch ( ChartException e )
+				{
+					logger.log( e );
+					return null;
+				}
+				groupIdentifier = String.valueOf( seDT.hashCode( ) );
+			}
+			List components = (List) componentPrimitives.get( seDT );
+			//return the first element
+			if ((components != null) && (components.size()>0)){
+				return "'"+groupIdentifier+"_"+components.get(0)+"'";
+			}
+		}
+		return null;
+	}
 	private void addJSCodeOnElement( StructureSource src, Trigger tg,
 			Element elm, String scriptEvent, int type )
 	{

@@ -100,7 +100,16 @@ public final class EventHandlers
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "		\n" ) //$NON-NLS-1$
-			.append( "			TM.show = function TooltiplManager_showTooltip(evt){	\n" ) //$NON-NLS-1$
+			.append( "			TM.show = function TooltiplManager_showTooltip(evt,id){	\n" ) //$NON-NLS-1$
+			.append( "        if (typeof id != 'undefined'){	\n" ) //$NON-NLS-1$
+			.append( "     	       var mainSvg = evt.target.ownerDocument;	\n" ) //$NON-NLS-1$
+			.append( "               var comp = mainSvg.getElementById(id);	\n" ) //$NON-NLS-1$
+			.append( "               var styleStr = comp.getAttribute(\"style\");	\n" ) //$NON-NLS-1$
+			.append( "               rHiddenExp=/visibility:[ ]*hidden/g;	\n" ) //$NON-NLS-1$
+			.append( "               results = styleStr.search(rHiddenExp);	\n" ) //$NON-NLS-1$
+			.append( "               if (results != -1)	\n" ) //$NON-NLS-1$
+			.append( "     		       return;	\n" ) //$NON-NLS-1$
+			.append( "     }	\n" ) //$NON-NLS-1$
 			.append( "		var text = TM.getText(TM.getTitleElement(evt));	\n" ) //$NON-NLS-1$
 			.append( "		x = evt.clientX;	\n" ) //$NON-NLS-1$
 			.append( "		y = evt.clientY;	\n" ) //$NON-NLS-1$
