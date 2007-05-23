@@ -37,7 +37,7 @@
 					if ( !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( supportedFormats[i] ) )
 					{
 			%>
-						<OPTION VALUE="<%= supportedFormats[i] %>"><%=supportedFormats[i]%></OPTION>
+						<OPTION VALUE="<%= supportedFormats[i] %>"><%= ParameterAccessor.getOutputFormatLabel( supportedFormats[i] ) %></OPTION>
 			<%
 					}
 				}

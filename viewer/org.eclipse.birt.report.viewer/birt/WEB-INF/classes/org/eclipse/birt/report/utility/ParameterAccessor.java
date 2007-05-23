@@ -2219,8 +2219,27 @@ public class ParameterAccessor
 		if ( format == null )
 			return null;
 
-		String key = "viewer.extension." + format; //$NON-NLS-1$
+		String key = "viewer.extension." + format.replaceAll( " ", "_" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return DataUtil.trimString( getInitProp( key ) );
+	}
+
+	/**
+	 * Returns the output format label name
+	 * 
+	 * @param format
+	 * @return
+	 */
+	public static String getOutputFormatLabel( String format )
+	{
+		if ( format == null )
+			return null;
+
+		String key = "viewer.label." + format.replaceAll( " ", "_" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String label = DataUtil.trimString( getInitProp( key ) );
+		if ( label.length( ) <= 0 )
+			label = format;
+
+		return label;
 	}
 
 	/**
