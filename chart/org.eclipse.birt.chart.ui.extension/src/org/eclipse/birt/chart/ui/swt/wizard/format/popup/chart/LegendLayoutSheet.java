@@ -401,7 +401,23 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
-			getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+			String positionValue = getBlockForProcessing( ).getPosition( ).getLiteral( );
+			NameSet ns;
+			if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
+					|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )
+			{
+				ns = LiteralHelper.verticalAnchorSet;
+			}
+			else if ( positionValue.equals( Position.ABOVE_LITERAL.getLiteral( ) )
+					|| positionValue.equals( Position.BELOW_LITERAL.getLiteral( ) ) )
+			{
+				ns = LiteralHelper.horizontalAnchorSet;
+			}
+			else
+			{
+				ns = LiteralHelper.anchorSet;
+			}
+			getBlockForProcessing( ).setAnchor( Anchor.getByName( ns.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
 		}
 		else if ( oSource.equals( cmbStretch ) )
 		{
@@ -417,7 +433,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 		else if ( oSource.equals( cmbPosition ) )
 		{
-			getBlockForProcessing( ).setPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			getBlockForProcessing( ).setPosition( Position.getByName( LiteralHelper.notOutPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
 			getAnchorSet( );
 		}
 	}

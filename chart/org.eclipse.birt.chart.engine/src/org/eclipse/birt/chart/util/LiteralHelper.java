@@ -407,9 +407,9 @@ public class LiteralHelper
 
 		return new NameSet( prefix, suffix, new String[]
 		                                               {
-				Anchor.NORTH_LITERAL.getName( ), 
-				Anchor.SOUTH_LITERAL.getName( ), 
 				Anchor.WEST_LITERAL.getName( ), 
+				Anchor.NORTH_LITERAL.getName( ), 
+				Anchor.SOUTH_LITERAL.getName( ), 	
 		                                               });
 	}
 	
@@ -419,9 +419,9 @@ public class LiteralHelper
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet( prefix, suffix, new String[]{
-				Anchor.WEST_LITERAL.getName( ),
-				Anchor.EAST_LITERAL.getName( ),
 				Anchor.SOUTH_LITERAL.getName( ),
+				Anchor.WEST_LITERAL.getName( ),
+				Anchor.EAST_LITERAL.getName( ),				
 		} );
 	}
 
