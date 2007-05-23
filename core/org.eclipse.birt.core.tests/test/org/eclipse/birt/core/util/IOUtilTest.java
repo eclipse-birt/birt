@@ -14,6 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -293,7 +297,99 @@ public class IOUtilTest extends TestCase
 	}
 
 	/*
-	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readList(DataInputStream)'
+	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readObject(DataInputStream)'
+	 * Test method for 'org.eclipse.birt.core.util.IOUtil.writeObject(DataInputStream)'
+	 * particularly, the read and write object is a String with length more than 65535
+	 */
+	public void testRWLongString( )
+	{
+		String begin = "≤‚ ‘”√¿˝The first several words for test";
+		StringBuffer buffer = new StringBuffer( begin );
+		for ( int i = 1; i < 65537; i++ )
+		{
+			buffer.append( i );
+		}
+		DataOutputStream dos = null;
+		DataInputStream dis = null;
+		try
+		{
+			boolean correct = true;
+
+			final int size = 600000;
+			byte[] content = null;
+			ByteArrayOutputStream bos = new ByteArrayOutputStream( size );
+			dos = new DataOutputStream( bos );
+			IOUtil.writeString( dos, buffer.toString( ) );
+
+			content = bos.toByteArray( );
+			ByteArrayInputStream bis = new ByteArrayInputStream( content );
+			dis = new DataInputStream( bis );
+
+			String ret = IOUtil.readString( dis );
+			StringBuffer buf = new StringBuffer( ret );
+			if ( buf.length( ) != buffer.length( ) )
+				correct = false;
+
+			else
+			{
+				for ( int i = 1; i < buf.length( ); i++ )
+				{
+					if ( buffer.charAt( i ) != buf.charAt( i ) )
+					{
+						correct = false;
+						break;
+					}
+				}
+			}
+			assertTrue( "I/O failed!!", correct );
+
+			final int size2 = 600005;
+			bos = new ByteArrayOutputStream( size2 );
+			dos = new DataOutputStream( bos );
+
+			IOUtil.writeObject( dos, ret );
+
+			content = bos.toByteArray( );
+			bis = new ByteArrayInputStream( content );
+			dis = new DataInputStream( bis );
+
+			Object obj = IOUtil.readObject( dis );
+
+			assertTrue( "IOUtil test failed!!", ( (String) obj ).startsWith( begin ) );
+
+			buf = new StringBuffer( (String) obj );
+			if ( buf.length( ) != buffer.length( ) )
+				correct = false;
+			else
+			{
+				for ( int i = 1; i < buf.length( ); i++ )
+				{
+					if ( buffer.charAt( i ) != buf.charAt( i ) )
+					{
+						correct = false;
+						break;
+					}
+				}
+			}
+			assertTrue( "IOUtil test failed!!", correct );
+		}
+		catch ( FileNotFoundException e )
+		{
+			System.out.println( "FileNotFoundException" );
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+		catch ( IOException e )
+		{
+			System.out.println( "IOException" );
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+	}
+	
+	/*
+	 * Test method for
+	 * 'org.eclipse.birt.core.util.IOUtil.readList(DataInputStream)'
 	 */
 	public void testRWList( ) throws IOException
 	{
