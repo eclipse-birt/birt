@@ -34,6 +34,11 @@ public abstract class BaseChartTestCase extends TestCase
 	private IReportDesign design;
 
 	private static final String REPORT_PATH = "api_test.rptdesign"; //$NON-NLS-1$
+	
+	protected static final String CHART_NAME_WITHAXES = "ChartWithAxes";//$NON-NLS-1$
+	protected static final String CHART_NAME_WITHOUTAXES = "ChartWithoutAxes";//$NON-NLS-1$
+	protected static final String CHART_NAME_PIE = "Stock";//$NON-NLS-1$
+	protected static final String CHART_NAME_GROUPING = "Grouping";//$NON-NLS-1$
 
 	protected void setUp( ) throws Exception
 	{
@@ -49,8 +54,8 @@ public abstract class BaseChartTestCase extends TestCase
 			// ExtendedItemHandle eih = (ExtendedItemHandle)
 			// designHandle.findElement( elementName );
 			// return (IChart) eih.getReportItem( ).getSimpleElement( );
-			cwa = (IChart) getReportDesign( ).getReportElement( "ChartWithAxes" ); //$NON-NLS-1$
-			cwo = (IChart) getReportDesign( ).getReportElement( "ChartWithoutAxes" ); //$NON-NLS-1$
+			cwa = (IChart) getReportDesign( ).getReportElement( CHART_NAME_WITHAXES ); 
+			cwo = (IChart) getReportDesign( ).getReportElement( CHART_NAME_WITHOUTAXES );
 		}
 	}
 

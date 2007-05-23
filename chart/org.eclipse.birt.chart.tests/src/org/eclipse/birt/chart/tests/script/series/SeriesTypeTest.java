@@ -45,8 +45,8 @@ public class SeriesTypeTest extends BaseChartTestCase
 		assertTrue( stock.getDataExpr( ) instanceof IStockData );
 
 		IStockData data = (IStockData) stock.getDataExpr( );
-		assertEquals( data.getHighExpr( ), "" );
-		assertEquals( data.getLowExpr( ), "2" );
+		assertEquals( "row.__rownum/2+10", data.getHighExpr( ) );
+		assertEquals( "0", data.getLowExpr( ) );
 
 		data.setOpenExpr( "3" );
 		assertEquals( data.getOpenExpr( ), "3" );

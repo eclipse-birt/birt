@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.tests.script.component;
 
 import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.script.api.IChart;
 import org.eclipse.birt.chart.script.api.series.data.ISimpleData;
 import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
 
@@ -61,5 +62,9 @@ public class CategoryTest extends BaseChartTestCase
 				.setOptionalValueGroupingExpr( "grouping" );
 		assertEquals( getChartWithoutAxes( ).getCategory( )
 				.getOptionalValueGroupingExpr( ), "grouping" );
+
+		IChart chart = (IChart) getReportDesign( ).getReportElement( CHART_NAME_GROUPING );
+		assertEquals( "row[\"COUNTRY\"]", chart.getCategory( )
+				.getOptionalValueGroupingExpr( ) );
 	}
 }

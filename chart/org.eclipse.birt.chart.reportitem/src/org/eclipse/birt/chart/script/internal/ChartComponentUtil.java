@@ -11,17 +11,25 @@
 
 package org.eclipse.birt.chart.script.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.script.api.attribute.ILabel;
@@ -35,6 +43,7 @@ import org.eclipse.birt.chart.script.internal.data.DateTimeElementImpl;
 import org.eclipse.birt.chart.script.internal.data.NumberElementImpl;
 import org.eclipse.birt.report.model.api.extension.IColor;
 import org.eclipse.birt.report.model.api.extension.IFont;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Utility class for internal use.
@@ -239,5 +248,39 @@ public class ChartComponentUtil
 				color.getBlue( ) );
 		cd.setTransparency( color.getTransparency( ) );
 		return cd;
+	}
+
+	/**
+	 * Return series definitions of specified axis index.
+	 * 
+	 * @param chart
+	 *            chart
+	 * @param axisIndex
+	 *            If chart is without axis type, it always return all orthogonal
+	 *            series definition. -1 to return all
+	 * @return specified axis definitions or all series definitions
+	 */
+	public static List getOrthogonalSeriesDefinitions( Chart chart,
+			int axisIndex )
+	{
+		List seriesList = new ArrayList( );
+		if ( chart instanceof ChartWithAxes )
+		{
+			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 ) ).getAssociatedAxes( );
+			for ( int i = 0; i < axisList.size( ); i++ )
+			{
+				if ( axisIndex < 0 || axisIndex == i )
+				{
+					seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+				}
+			}
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ) );
+		}
+		return seriesList;
 	}
 }
