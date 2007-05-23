@@ -26,6 +26,7 @@
 <%
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
 	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
+	boolean isDisplayTextInList = parameterBean.isDisplayTextInList( );
 %>
 <TR>
 	<TD NOWRAP>
@@ -60,7 +61,8 @@
 			String label = selectionItem.getLabel( );
 			String value = ( String ) selectionItem.getValue( );
 			
-			CHECKED = ( parameterBean.getValue( ) != null && parameterBean.getValue( ).equals( value ) && label.equals( parameterBean.getDisplayText( ) ) );						
+			CHECKED = ( parameterBean.getValue( ) != null && parameterBean.getValue( ).equals( value ) 
+						&& ( !isDisplayTextInList || ( isDisplayTextInList && label.equals( parameterBean.getDisplayText( ) ) ) ) );						
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
@@ -69,8 +71,8 @@
 		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
 		<%= !isSelected && CHECKED ? "CHECKED" : "" %>>
 		<LABEL ID="<%= (encodedParameterName + i) + "_label" %>" 
-		   TITLE="<%= label %>" 
-		   FOR="<%= encodedParameterName + i %>"><%= label %></LABEL>
+		   TITLE="<%= ParameterAccessor.htmlEncode( label ) %>" 
+		   FOR="<%= encodedParameterName + i %>"><%= ParameterAccessor.htmlEncode( label ) %></LABEL>
 	</INPUT>
 	<BR>
 <%

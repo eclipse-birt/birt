@@ -31,6 +31,7 @@
 	String displayText = parameterBean.getDisplayText( );
 	String defaultValue = parameterBean.getDefaultValue( );
 	String defaultDisplayText = parameterBean.getDefaultDisplayText( );
+	boolean isDisplayTextInList = parameterBean.isDisplayTextInList( );
 %>
 <TR>
 	<TD NOWRAP>
@@ -112,7 +113,8 @@
 			String label = selectionItem.getLabel( );
 			String value = ( String ) selectionItem.getValue( );
 
-			if ( !isSelected && paramValue != null && paramValue.equals( value ) && label.equals( displayText ) )
+			if ( !isSelected && paramValue != null && paramValue.equals( value ) 
+				 && ( !isDisplayTextInList || ( isDisplayTextInList && label.equals( displayText ) ) ) )
 			{
 				isSelected = true;				
 %>

@@ -27,7 +27,6 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.utility.DataUtil;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering scalar parameter.
@@ -101,7 +100,6 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 				if ( label == null )
 					continue;
 
-				label = ParameterAccessor.htmlEncode( label );
 				selectionItem.setLabel( label );
 				selectionItem.setValue( displayValue );
 				parameterBean.getSelectionList( ).add( selectionItem );
@@ -130,7 +128,10 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 								new ParameterSelectionChoice( parameterBean
 										.getDisplayText( ), parameterBean
 										.getValue( ) ) );
+				isDisplayTextInList = true;
 			}
+			
+			parameterBean.setDisplayTextInList( true );
 		}
 	}
 }

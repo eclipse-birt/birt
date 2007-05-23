@@ -81,6 +81,11 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	private boolean displayTextInReq = false;
 
 	/**
+	 * If display text is in list
+	 */
+	private boolean displayTextInList = false;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param parameter
@@ -369,6 +374,23 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public void setDisplayTextInReq( boolean displayTextInReq )
 	{
 		this.displayTextInReq = displayTextInReq;
+	}
+
+	/**
+	 * @return the displayTextInList
+	 */
+	public boolean isDisplayTextInList( )
+	{
+		return displayTextInList;
+	}
+
+	/**
+	 * @param displayTextInList
+	 *            the displayTextInList to set
+	 */
+	public void setDisplayTextInList( boolean displayTextInList )
+	{
+		this.displayTextInList = displayTextInList;
 	}
 
 }

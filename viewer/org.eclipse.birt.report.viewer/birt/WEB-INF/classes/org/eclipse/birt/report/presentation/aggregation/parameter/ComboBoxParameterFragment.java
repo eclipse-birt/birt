@@ -173,7 +173,10 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 								new ParameterSelectionChoice( parameterBean
 										.getDisplayText( ), parameterBean
 										.getValue( ) ) );
+				isDisplayTextInList = true;
 			}
+			
+			parameterBean.setDisplayTextInList( isDisplayTextInList );
 		}
 	}
 
