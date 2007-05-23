@@ -318,6 +318,7 @@ data.olap.DocumentObjectAlreadyExists =El objeto del documento ya existe. Error 
 data.olap.DocumentObjectNotExists =No se ha podido cargar el cubo "{0}" del documento. El objeto de documento no existe.
 data.olap.FacttableRowNotDistinct=Las filas deben ser diferentes en la tabla de hechos. "{0}" aparece más de una vez.
 data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
+data.olap.ParameterColumnOfAggregationNotExist=The parameter column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=El valor de la columna de medida es nulo. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".

@@ -318,6 +318,7 @@ data.olap.DocumentObjectAlreadyExists =ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ª‚·‚Å‚É‘¶İ‚·‚é‚
 data.olap.DocumentObjectNotExists =ƒLƒ…[ƒu "{0}" ‚ğ•¶‘‚©‚ç“Ç‚İ‚ß‚Å‚«‚Ü‚¹‚ñB•¶‘ƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.FacttableRowNotDistinct=ƒtƒ@ƒNƒgƒe[ƒuƒ‹‚Å‚Ís‚ªŒÅ—L‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñ‚ªA"{0}" ‚ª•¡”‚ ‚è‚Ü‚·B
 data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
+data.olap.ParameterColumnOfAggregationNotExist=The parameter column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=Œv‘ª—ñ‚Ì’l‚ª NULL ‚Å‚·B"{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=Œv‘ª–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB

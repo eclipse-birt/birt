@@ -318,6 +318,7 @@ data.olap.DocumentObjectAlreadyExists =문서 개체가 이미 있습니다. 데이터 개체 {0
 data.olap.DocumentObjectNotExists =문서로부터 큐브 "{0}"을(를) 로드하지 못했습니다. 문서 개체가 없습니다.
 data.olap.FacttableRowNotDistinct=행은 팩트 테이블에서 고유해야 합니다. "{0}"이(가) 여러 개 있습니다.
 data.olap.FacttableJointColumnNotExist=The joint column "{0}" does not exist in dimensions.
+data.olap.ParameterColumnOfAggregationNotExist=The parameter column "{0}" does not exist in dimensions.
 data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have no valid dimension information for dimension: {1}.
 data.olap.measureNameNotFound=측정값 이름 "{0}"을(를) 찾을 수 없습니다.
