@@ -1904,7 +1904,7 @@
 	</Member>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
     <Member detailType="measureFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="choice" >
-    	<Allowed>sum,average,count,weighted-avg,max,min</Allowed>
+    	<Allowed>sum,average,count,weighted-avg,max,min,stddev,first,last,mode,median,variance,irr,mirr,npv,count-distinct</Allowed>
     </Member>	  	  
     <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
     <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
