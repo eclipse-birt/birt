@@ -45,6 +45,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -98,8 +99,10 @@ public class DataSetIterator implements IDatasetIterator
 		List metaList = new ArrayList();
 		this.prepareLevels( query,
 				hierHandle, metaList );
-
+		
+		popualteFilter( session, hierHandle.filtersIterator( ), query );
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
+		
 		this.metadata = new ResultMeta( metaList );
 	}
 
@@ -176,10 +179,26 @@ public class DataSetIterator implements IDatasetIterator
 		}
 
 		prepareMeasure( cubeHandle, query, metaList );
-
+		this.popualteFilter( session, cubeHandle.filtersIterator( ), query );
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
 		this.metadata = new ResultMeta( metaList );
 
+	}
+
+	/**
+	 * 
+	 * @param session
+	 * @param filterIterator
+	 * @param query
+	 */
+	private void popualteFilter( DataRequestSession session,
+			Iterator filterIterator, QueryDefinition query )
+	{
+		while( filterIterator.hasNext( ) )
+		{
+			FilterConditionHandle filter = (FilterConditionHandle) filterIterator.next( );
+			query.addFilter( session.getModelAdaptor( ).adaptFilter( filter ) );
+		}
 	}
 
 	/**
