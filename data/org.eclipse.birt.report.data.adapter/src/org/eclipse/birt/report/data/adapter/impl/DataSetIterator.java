@@ -352,7 +352,18 @@ public class DataSetIterator implements IDatasetIterator
 					query.addBinding( new Binding( meta.getName( ),
 							new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) ) );
 				}
-
+				
+				if( level.getDisplayColumnName( )!= null )
+				{
+					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getDisplayColumnName( level.getName( )),
+							false,
+							null );
+					meta.setDataType( DataType.STRING_TYPE );
+					metaList.add( meta );
+					query.addBinding( new Binding( meta.getName( ),
+							new ScriptExpression( level.getDisplayColumnName( ) ) ) );
+				}
+				
 				query.addBinding( new Binding(level.getName( ),
 						new ScriptExpression( exprString ) ));
 

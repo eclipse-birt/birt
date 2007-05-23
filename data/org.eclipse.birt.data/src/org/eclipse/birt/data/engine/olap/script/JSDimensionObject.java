@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.script;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -33,7 +34,7 @@ public class JSDimensionObject extends ScriptableObject
 	private static final long serialVersionUID = 1L;
 	private HashMap levels;
 	
-	JSDimensionObject( List levelNames, List dimensionCursor )
+	JSDimensionObject( List levelNames, List dimensionCursor ) throws OLAPException
 	{
 		assert levelNames.size( ) == dimensionCursor.size( );
 		

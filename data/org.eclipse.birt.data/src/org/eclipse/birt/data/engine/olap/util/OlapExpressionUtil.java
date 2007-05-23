@@ -128,6 +128,16 @@ public class OlapExpressionUtil
 	}
 	
 	/**
+	 * 
+	 * @param level
+	 * @return
+	 */
+	public static String getDisplayColumnName( String level )
+	{
+		return level + "/" + "/_${DISPLAYNAME}$_/";
+	}
+	
+	/**
 	 * This method returns a list of ICubeAggrDefn instances which describes the
 	 * aggregations that need to be calcualted in cube query.
 	 * 

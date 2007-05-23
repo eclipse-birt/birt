@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -636,9 +637,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 				while( it.hasNext( ) )
 				{
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle)it.next( );
-					levelKeys.add( level.getName( ) + "/" + levelAttr.getName( ));
+					levelKeys.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+							levelAttr.getName( ) ) );
 				}
-				
+				if ( level.getDisplayColumnName( ) != null )
+				{
+					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
+				}
 				leafLevelKeyColumn[k] = level.getName( );
 				
 				levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
