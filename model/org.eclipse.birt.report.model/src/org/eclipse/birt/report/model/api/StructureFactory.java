@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -535,7 +536,7 @@ public class StructureFactory
 	{
 		return new DimensionCondition( );
 	}
-	
+
 	/**
 	 * Creates an empty dimension join condition structure.
 	 * 
@@ -546,7 +547,7 @@ public class StructureFactory
 	{
 		return new DimensionJoinCondition( );
 	}
-	
+
 	/**
 	 * Creates a Rule structure.
 	 * 
@@ -577,5 +578,15 @@ public class StructureFactory
 	public static OdaLevelAttribute createOdaLevelAttribute( )
 	{
 		return new OdaLevelAttribute( );
+	}
+
+	/**
+	 * Creates an aggregation argument for computed column.
+	 * 
+	 * @return an aggregation argument
+	 */
+	public static AggregationArgument createAggregationArgument( )
+	{
+		return new AggregationArgument( );
 	}
 }
