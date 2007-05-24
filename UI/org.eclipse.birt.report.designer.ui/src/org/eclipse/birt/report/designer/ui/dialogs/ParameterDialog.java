@@ -1953,7 +1953,7 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 
-			if ( sorttingArea != null && sorttingArea.isVisible( ) )
+			if ( sorttingArea != null && !sorttingArea.isDisposed( ) && sorttingArea.isVisible( ) )
 			{
 				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
 				{
