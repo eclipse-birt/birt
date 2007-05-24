@@ -46,7 +46,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=차원 설정
 ChartElementCommandImpl.setProperty.plot.transposed=바꿈 설정
 ChartElementCommandImpl.setProperty.script=차트 스크립트 편집
 
-ChartImpl.error.DimensionUnitNotSupported=Dimension unit ({0}) is not supported in Chart Simple API
+ChartImpl.error.DimensionUnitNotSupported=차원 단위({0})가 Chart Simple API에서 지원되지 않습니다.
 
 ################################################
 # Display names for report model extension 

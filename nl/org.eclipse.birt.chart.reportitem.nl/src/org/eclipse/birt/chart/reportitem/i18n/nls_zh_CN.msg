@@ -46,7 +46,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=设置维
 ChartElementCommandImpl.setProperty.plot.transposed=设置转置
 ChartElementCommandImpl.setProperty.script=编辑图表脚本
 
-ChartImpl.error.DimensionUnitNotSupported=Dimension unit ({0}) is not supported in Chart Simple API
+ChartImpl.error.DimensionUnitNotSupported=Chart Simple API 不支持维单位 ({0})
 
 ################################################
 # Display names for report model extension 

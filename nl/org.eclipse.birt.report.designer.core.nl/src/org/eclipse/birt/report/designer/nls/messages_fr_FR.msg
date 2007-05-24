@@ -414,7 +414,7 @@ dataset.editor.error.noDataSource=Aucune source de données disponible pour le je
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
 dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur renseignée par défaut.
 dataset.editor.error.title=Avertissement
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT tente de mettre à jour un paramètre de jeu de données incorrect.
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
 dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vierge. Voulez-vous laisser cette valeur vierge ?
 dataset.editor.filters=Filtres
@@ -1498,9 +1498,9 @@ FormatStringPreferencePage.formatString.title=Chaîne
 
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
-FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.Add.AggregateOn=&Ajouter l'agrégation
 FormPage.Button.AddWithDialog=&Ajouter...
-FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
+FormPage.Button.AddWithDialog.AggregateOn=&Ajouter l'agrégation...
 FormPage.Button.Delete=&Supprimer
 FormPage.Button.Down=&Bas
 FormPage.Button.Edit=&Modifier
@@ -2387,7 +2387,7 @@ NoneAction.text=Aucun
 
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
-OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
+OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 
 ###########################################################
 #OutputColumnPage properties
@@ -2395,7 +2395,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
-OutputColumnPage.OutputColumns.DuplicatedName=Le nom est déjà utilisé.
+OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 
 ###########################################################
 #OutputColumnsPage properties

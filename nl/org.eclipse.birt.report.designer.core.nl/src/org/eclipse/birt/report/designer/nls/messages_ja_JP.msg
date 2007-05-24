@@ -414,7 +414,7 @@ dataset.editor.error.noDataSource=ƒf[ƒ^ƒZƒbƒg {0} ‚Éƒf[ƒ^ƒ\[ƒX‚ª‚ ‚è‚Ü‚¹‚ñBƒ
 dataset.editor.error.noEditorsFound=ƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ {0}B
 dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É‹ó”’ˆÈŠO‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.error.title=Œx
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=ŠÔˆá‚Á‚½ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ğXV‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
 dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?
 dataset.editor.filters=ƒtƒBƒ‹ƒ^
@@ -1498,9 +1498,9 @@ FormatStringPreferencePage.formatString.title=•¶š—ñ‚Ì‘®
 
 FormPage.Button.Add=’Ç‰Á(&A)
 FormPage.Button.AddWithDialog=’Ç‰Á(&A)...
-FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.Add.AggregateOn=‘Œv‚Ì’Ç‰Á(&A)
 FormPage.Button.AddWithDialog=’Ç‰Á(&A)...
-FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
+FormPage.Button.AddWithDialog.AggregateOn=‘Œv‚Ì’Ç‰Á(&A)...
 FormPage.Button.Delete=íœ(&R)
 FormPage.Button.Down=‰º‚Ö(&N)
 FormPage.Button.Edit=•ÒW(&D)
@@ -2387,7 +2387,7 @@ NoneAction.text=‚È‚µ
 
 OutputColumnDefnPage.description=ƒtƒFƒbƒ`ƒXƒNƒŠƒvƒg‚É‚æ‚Á‚Äì¬‚³‚ê‚éo—Í—ñ‚Ì’è‹`‚ğ“ü—Í : 
 OutputColumnDefnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹` 
-OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚Ég—p‚³‚ê‚Ä‚¢‚Ü‚·B
+OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 
 ###########################################################
 #OutputColumnPage properties
@@ -2395,7 +2395,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚Ég—p‚³‚ê‚Ä‚¢‚Ü‚·B
 OutputColumnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹` 
 OutputColumnPage.toolTipText.Edit=o—Í—ñ‚Ì•ÒW
 OutputColumnPage.title.OutputColumnInputDialog=o—Í—ñ
-OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚Ég—p‚³‚ê‚Ä‚¢‚Ü‚·B
+OutputColumnPage.OutputColumns.DuplicatedName=‚±‚Ì–¼‘O‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 
 ###########################################################
 #OutputColumnsPage properties

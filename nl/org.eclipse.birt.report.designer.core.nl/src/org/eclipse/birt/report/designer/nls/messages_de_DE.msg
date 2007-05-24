@@ -414,7 +414,7 @@ dataset.editor.error.noDataSource=Keine Datenquelle verfügbar für den Datensatz 
 dataset.editor.error.noEditorsFound=Keinen Editor für Datensatz gefunden {0}.
 dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss einen Standardwert aufweisen, der ungleich Null ist.
 dataset.editor.error.title=Warnung
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT versucht, falsche Datensatzparameter zu aktualisieren.
 dataset.editor.error.unsupportedDataSet=Nicht unterstützter Datensatztyp - {0}.
 dataset.editor.error.validationParameter=Für den Eingabeparameter [{0}] liegt kein Wert vor. Soll der Parameter ohne Wert bleiben?
 dataset.editor.filters=Filter
@@ -1498,9 +1498,9 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
-FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.Add.AggregateOn=Aggregat &hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
-FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
+FormPage.Button.AddWithDialog.AggregateOn=Aggregat &hinzufügen...
 FormPage.Button.Delete=&Entfernen
 FormPage.Button.Down=Nach-&unten
 FormPage.Button.Edit=&Bearbeiten
@@ -2387,7 +2387,7 @@ NoneAction.text=Keine
 
 OutputColumnDefnPage.description=Definition für Ausgabespalten eingeben, die vom Abrufskript erstellt werden: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
-OutputColumnPage.OutputColumns.DuplicatedName=Der Name wurde bereits verwendet!
+OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 
 ###########################################################
 #OutputColumnPage properties
@@ -2395,7 +2395,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=Der Name wurde bereits verwendet!
 OutputColumnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
 OutputColumnPage.toolTipText.Edit=Ausgabespalte bearbeiten
 OutputColumnPage.title.OutputColumnInputDialog=Ausgabespalte
-OutputColumnPage.OutputColumns.DuplicatedName=Der Name wurde bereits verwendet!
+OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 
 ###########################################################
 #OutputColumnsPage properties

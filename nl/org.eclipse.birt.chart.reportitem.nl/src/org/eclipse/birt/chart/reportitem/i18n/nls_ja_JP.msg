@@ -46,7 +46,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=次元の設定
 ChartElementCommandImpl.setProperty.plot.transposed=置き換え後の設定
 ChartElementCommandImpl.setProperty.script=グラフスクリプトの編集
 
-ChartImpl.error.DimensionUnitNotSupported=Dimension unit ({0}) is not supported in Chart Simple API
+ChartImpl.error.DimensionUnitNotSupported=Chart Simple API では次元の単位 ({0}) を使用できません。
 
 ################################################
 # Display names for report model extension 

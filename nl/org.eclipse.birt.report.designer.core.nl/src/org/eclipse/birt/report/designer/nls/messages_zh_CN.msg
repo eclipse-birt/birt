@@ -414,7 +414,7 @@ dataset.editor.error.noDataSource=没有可用于数据集的数据源 {0}，请在属性视图的“
 dataset.editor.error.noEditorsFound=未找到可用于数据集的编辑器 {0}。
 dataset.editor.error.noInputParameterDefaultValue=输入参数 {0} 应具有非空默认值。
 dataset.editor.error.title=警告
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT 尝试更新不正确的数据集参数。
 dataset.editor.error.unsupportedDataSet=不支持的数据集类型 - {0}。
 dataset.editor.error.validationParameter=输入参数 [{0}] 具有空值。是否要保留为空?
 dataset.editor.filters=筛选器
@@ -1498,9 +1498,9 @@ FormatStringPreferencePage.formatString.title=字符串格式
 
 FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
-FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.Add.AggregateOn=添加聚合(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
-FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
+FormPage.Button.AddWithDialog.AggregateOn=添加聚合(&A)...
 FormPage.Button.Delete=删除(&R)
 FormPage.Button.Down=下移(&N)
 FormPage.Button.Edit=编辑(&D)
@@ -2387,7 +2387,7 @@ NoneAction.text=无
 
 OutputColumnDefnPage.description=输入取数脚本生成的输出列的定义: 
 OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
-OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
+OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 
 ###########################################################
 #OutputColumnPage properties
@@ -2395,7 +2395,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.toolTipText.Edit=编辑输出列
 OutputColumnPage.title.OutputColumnInputDialog=输出列
-OutputColumnPage.OutputColumns.DuplicatedName=该名称已被使用!
+OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 
 ###########################################################
 #OutputColumnsPage properties

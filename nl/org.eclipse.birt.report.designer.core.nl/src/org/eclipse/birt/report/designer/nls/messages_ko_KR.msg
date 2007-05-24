@@ -414,7 +414,7 @@ dataset.editor.error.noDataSource=데이터 집합 {0}에 사용할 수 있는 데이터 원본이
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
 dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 비어 있지 않은 기본값이 있어야 합니다.
 dataset.editor.error.title=경고
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT가 잘못된 데이터 집합 매개 변수 업데이트를 시도했습니다.
 dataset.editor.error.unsupportedDataSet=지원되지 않는 데이터 집합 형식 - {0}.
 dataset.editor.error.validationParameter=입력 매개 변수 [{0}]의 값이 비어 있습니다. 값을 그대로 비워두시겠습니까?
 dataset.editor.filters=필터
@@ -1498,9 +1498,9 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.Add.AggregateOn=&Add Aggregation
+FormPage.Button.Add.AggregateOn=집계 추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.AddWithDialog.AggregateOn=&Add Aggregation...
+FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&A)...
 FormPage.Button.Delete=제거(&R)
 FormPage.Button.Down=아래로(&N)
 FormPage.Button.Edit=편집(&D)
@@ -2387,7 +2387,7 @@ NoneAction.text=없음
 
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
-OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
+OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 
 ###########################################################
 #OutputColumnPage properties
@@ -2395,7 +2395,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.toolTipText.Edit=출력 열 편집
 OutputColumnPage.title.OutputColumnInputDialog=출력 열
-OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 사용되었습니다.
+OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 
 ###########################################################
 #OutputColumnsPage properties

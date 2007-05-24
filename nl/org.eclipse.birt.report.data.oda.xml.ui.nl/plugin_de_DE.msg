@@ -12,7 +12,7 @@
 ###############################################################################
 # NLS String
 ###############################################################################
-oda.xml.datasource=XML Data Source
+oda.xml.datasource=XML-Datenquelle
 oda.xml.dataset=XML-Datensatz
 oda.xml.tablemapping=Tabellenzuordnung
 oda.xml.columnmapping=Spaltenzuordnung
@@ -23,14 +23,14 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS messages
 #
-plugin.name=BIRT ODA XML Designer
-oda.data.source.name=Legacy BIRT 2.1.x XML Data Source
-connection.profile.name=XML Data Source Connection Profile
-newwizard.name=Legacy BIRT 2.1.x XML Data Source
-newwizard.description=Create a BIRT 2.1.x XML data source connection profile
-wizard.window.title=New XML Data Source Profile
+plugin.name=BIRT-ODA-XML-Designer
+oda.data.source.name=Alte BIRT 2.1.x-XML-Datenquelle
+connection.profile.name=XML-Datenquellen-Verbindungsprofil
+newwizard.name=Alte BIRT 2.1.x-XML-Datenquelle
+newwizard.description=BIRT 2.1.x-XML-Datenquellen-Verbindungsprofil erstellen
+wizard.window.title=Neues XML-Datenquellenprofil
 wizard.data.source.page.title=Geben Sie die URLs und die Schemainformation für die XML-Datei an.
-profile.propertypage.name=XML Data Source Connection Properties
+profile.propertypage.name=XML-Datenquellen-Verbindungseigenschaften
 preference.datasetpreview=XML-Datensatz
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

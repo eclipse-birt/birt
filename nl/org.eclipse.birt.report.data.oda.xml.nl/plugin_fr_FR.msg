@@ -13,8 +13,8 @@
 ###############################################################################
 # NLS String
 ###############################################################################
-datasource.name=Legacy BIRT 2.1.x XML Data Source
-dataset.name=BIRT 2.1.x XML Data Set
+datasource.name=Source de données XML héritée BIRT 2.1.x 
+dataset.name=Jeu de données XML BIRT 2.1.x
 
 datasource.property.xmlFile=Fichier de source de données XML
 datasource.property.schemaFile=Fichier de schéma XML

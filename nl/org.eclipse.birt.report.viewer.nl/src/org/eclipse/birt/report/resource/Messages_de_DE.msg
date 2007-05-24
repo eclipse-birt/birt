@@ -137,8 +137,8 @@ birt.viewer.dialog.exportdata.addall=Alle hinzufügen
 birt.viewer.dialog.exportdata.add=Hinzuf
 birt.viewer.dialog.exportdata.removeall=Alles entfernen
 birt.viewer.dialog.exportdata.remove=Entfernen
-birt.viewer.dialog.exportdata.up=Up
-birt.viewer.dialog.exportdata.down=Down
+birt.viewer.dialog.exportdata.up=Aufwärts
+birt.viewer.dialog.exportdata.down=Abwärts
 birt.viewer.dialog.exportdata.separator=Trennzeichen:
 
 birt.viewer.sep.0=Komma (,)

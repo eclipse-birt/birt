@@ -137,8 +137,8 @@ birt.viewer.dialog.exportdata.addall=全部添加
 birt.viewer.dialog.exportdata.add=添加
 birt.viewer.dialog.exportdata.removeall=全部删除
 birt.viewer.dialog.exportdata.remove=删除
-birt.viewer.dialog.exportdata.up=Up
-birt.viewer.dialog.exportdata.down=Down
+birt.viewer.dialog.exportdata.up=上移
+birt.viewer.dialog.exportdata.down=下移
 birt.viewer.dialog.exportdata.separator=分隔符:
 
 birt.viewer.sep.0=逗号 ( , )

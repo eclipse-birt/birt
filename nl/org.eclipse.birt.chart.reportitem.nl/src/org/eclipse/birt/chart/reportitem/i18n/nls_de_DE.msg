@@ -46,7 +46,7 @@ ChartElementCommandImpl.setProperty.chart.dimension=Dimension festlegen
 ChartElementCommandImpl.setProperty.plot.transposed=Zustand "Transponiert" festlegen
 ChartElementCommandImpl.setProperty.script=Diagrammskript bearbeiten
 
-ChartImpl.error.DimensionUnitNotSupported=Dimension unit ({0}) is not supported in Chart Simple API
+ChartImpl.error.DimensionUnitNotSupported=Dimensionseinheit ({0}) wird in Diagramm „Simple API“ nicht unterstützt
 
 ################################################
 # Display names for report model extension 
