@@ -33,7 +33,6 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
@@ -46,9 +45,9 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 
 public class CubeQueryUtil implements ICubeQueryUtil
 {
-	private DataRequestSession session;
+	private DataRequestSessionImpl session;
 	
-	public CubeQueryUtil( DataRequestSession session )
+	public CubeQueryUtil( DataRequestSessionImpl session )
 	{
 		this.session = session;
 	}

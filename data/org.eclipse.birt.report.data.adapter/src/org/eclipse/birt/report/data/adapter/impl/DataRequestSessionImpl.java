@@ -725,4 +725,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return new CubeQueryUtil( this );
 	}
 	
+	public Scriptable getScope() throws AdapterException
+	{
+		try
+		{
+			return this.sessionContext.getDataEngineContext( ).getJavaScriptScope( );
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+	}
 }

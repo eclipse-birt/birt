@@ -41,7 +41,6 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
-import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -57,6 +56,11 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * This is an implementation of IDatasetIterator interface.
@@ -88,7 +92,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param hierHandle
 	 * @throws BirtException
 	 */
-	public DataSetIterator( DataRequestSession session,
+	public DataSetIterator( DataRequestSessionImpl session,
 			TabularHierarchyHandle hierHandle ) throws AdapterException
 	{
 		QueryDefinition query = new QueryDefinition( );
@@ -101,16 +105,26 @@ public class DataSetIterator implements IDatasetIterator
 				hierHandle, metaList );
 		
 		popualteFilter( session, hierHandle.filtersIterator( ), query );
+		executeQuery( session, query );
+		
+		this.metadata = new ResultMeta( metaList );
+	}
+
+	private void executeQuery( DataRequestSessionImpl session, QueryDefinition query )
+			throws AdapterException
+	{
 		try
 		{
-			this.it = session.prepare( query ).execute( null ).getResultIterator( );
+			
+			Scriptable scope = session.getScope( );
+			TempDateTransformer tt = new TempDateTransformer();
+			ScriptableObject.putProperty( scope, tt.getClassName( ), tt );
+			this.it = session.prepare( query ).execute( scope ).getResultIterator( );
 		}
 		catch ( BirtException e )
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
-		
-		this.metadata = new ResultMeta( metaList );
 	}
 
 	/**
@@ -120,7 +134,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param cubeHandle
 	 * @throws BirtException
 	 */
-	public DataSetIterator( DataRequestSession session,
+	public DataSetIterator( DataRequestSessionImpl session,
 			TabularCubeHandle cubeHandle ) throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
@@ -187,7 +201,7 @@ public class DataSetIterator implements IDatasetIterator
 
 		prepareMeasure( cubeHandle, query, metaList );
 		this.popualteFilter( session, cubeHandle.filtersIterator( ), query );
-		this.it = session.prepare( query ).execute( null ).getResultIterator( );
+		executeQuery( session, query );
 		this.metadata = new ResultMeta( metaList );
 
 	}
@@ -261,6 +275,58 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 
+	private int getDefaultStartValue( String timeType, String value ) throws AdapterException
+	{
+		if( value != null && Double.valueOf( value ).doubleValue( )!= 0 )
+			return Integer.valueOf( value ).intValue( );
+		if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
+		{
+			return 0;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
+		{
+			return 0;
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
+		{
+			return 0;
+		}
+		else
+			throw new AdapterException( "Error" );
+	}
+	
 	/**
 	 * 
 	 * @param query
@@ -290,12 +356,16 @@ public class DataSetIterator implements IDatasetIterator
 				int type = DataAdapterUtil.adaptModelDataType( level.getDataType( ) );
 				if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
 					type = DataType.STRING_TYPE;
-				if ( isTimeType( type ) )
+				if ( level.getDateTimeLevelType( ) != null )
 				{
 					temp = new ColumnMeta( level.getName( ),
 							true,
-							new TimeValueProcessor( level.getDateTimeLevelType( ) ) );
+							new DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( IGroupDefinition.NUMERIC_INTERVAL,
+									DataType.INTEGER_TYPE,
+									String.valueOf( getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))),
+									level.getIntervalRange( )))) ;
 					temp.setDataType( DataType.INTEGER_TYPE );
+					exprString = this.createDateTransformerExpr( level.getDateTimeLevelType( ), exprString );
 				}
 				else
 				{
@@ -336,6 +406,7 @@ public class DataSetIterator implements IDatasetIterator
 					temp = new ColumnMeta( level.getName( ), true, processor );
 					temp.setDataType( type );
 				}
+				
 				metaList.add( temp );
 				Iterator it = level.attributesIterator( );
 				while ( it.hasNext( ) )
@@ -370,7 +441,7 @@ public class DataSetIterator implements IDatasetIterator
 				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
 				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
 
-				if ( level.getLevelType( ) != null )
+				if ( level.getLevelType( ) != null && level.getDateTimeLevelType( ) == null )
 				{
 					gd.setIntervalRange( level.getIntervalRange( ) );
 					gd.setIntervalStart( level.getIntervalBase( ) );
@@ -378,8 +449,10 @@ public class DataSetIterator implements IDatasetIterator
 				}
 				if ( level.getDateTimeLevelType( ) != null )
 				{
-					gd.setIntervalRange( 1 );
-					gd.setInterval( getTimeInterval( level.getDateTimeLevelType( ))  );
+					gd.setIntervalRange( level.getIntervalRange( ) == 0 ? 1
+							: level.getIntervalRange( ) );
+					gd.setIntervalStart( String.valueOf( getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))) );
+					gd.setInterval( IGroupDefinition.NUMERIC_INTERVAL  );
 				}
 				query.addGroup( gd );
 			}
@@ -390,67 +463,6 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 	
-	/**
-	 * 
-	 * @param timeType
-	 * @return
-	 * @throws AdapterException
-	 */
-	private int getTimeInterval( String timeType ) throws AdapterException
-	{
-		if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType )
-			 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType )
-			 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ))
-		{
-			return IGroupDefinition.DAY_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType )
-				|| DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
-		{
-			return IGroupDefinition.WEEK_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ))
-		{
-			return IGroupDefinition.QUARTER_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ))
-		{
-			return IGroupDefinition.YEAR_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ))
-		{
-			return IGroupDefinition.HOUR_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ))
-		{
-			return IGroupDefinition.MINUTE_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ))
-		{
-			return IGroupDefinition.SECOND_INTERVAL;
-		}
-		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ))
-		{
-			return IGroupDefinition.MONTH_INTERVAL;
-		}
-		else
-			throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE,
-					timeType );
-	}
-	/**
-	 * 
-	 * @param type
-	 * @return
-	 */
-	private boolean isTimeType( int type )
-	{
-		if ( type == DataType.DATE_TYPE 
-			 || type == DataType.SQL_DATE_TYPE	)
-		{
-			return true;
-		}	
-		return false;
-	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#close()
@@ -735,189 +747,172 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 	
-	private class YearProcessor implements IDataProcessor
+	private String createDateTransformerExpr( String timeType, String value )
 	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.YEAR ));
-		}
+		return "TempDateTransformer.transform(\""
+				+ timeType + "\"," + value
+				+ ")";
 		
 	}
 	
-	private class QuarterProcessor implements IDataProcessor
+	private class TempDateTransformer extends ScriptableObject
 	{
-		public Object process( Object d )
+
+		public TempDateTransformer( )
 		{
-			int month = getCalendar( d ).get( Calendar.MONTH );
-			int quarter = -1;
-			switch ( month )
-			{
-				case Calendar.JANUARY :
-				case Calendar.FEBRUARY :
-				case Calendar.MARCH :
-					quarter = 1;
-					break;
-				case Calendar.APRIL :
-				case Calendar.MAY :
-				case Calendar.JUNE :
-					quarter = 2;
-					break;
-				case Calendar.JULY :
-				case Calendar.AUGUST :
-				case Calendar.SEPTEMBER :
-					quarter = 3;
-					break;
-				case Calendar.OCTOBER :
-				case Calendar.NOVEMBER :
-				case Calendar.DECEMBER :
-					quarter = 4;
-					break;
-				default :
-					quarter = -1;
-			}
-			return new Integer(quarter);
+			this.defineProperty( "transform", new Function_Transform( ), 0 );
 		}
+
+		/**
+		 * 
+		 */
+		public String getClassName( )
+		{
+			return "TempDateTransformer";
+		}
+
 	}
 
-	private class MonthProcessor implements IDataProcessor
+	private class Function_Transform extends Function_temp
 	{
-		public Object process( Object d )
-		{
-			int month = getCalendar( d ).get( Calendar.MONTH ) + 1;
-			return new Integer(month);
-		}
-		
-	}
 
-	private class WeekOfMonthProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.data.adapter.impl.DataSetIterator.TimeValueProcessor.Function_temp#getValue(java.lang.Object[])
+		 */
+		protected Object getValue( Object[] args ) throws BirtException
 		{
-			return new Integer(getCalendar( d ).get( Calendar.WEEK_OF_MONTH ));
-		}
-		
-	}
-
-	private class WeekOfYearProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.WEEK_OF_YEAR ));
-		}
-		
-	}
-	
-	
-	private class DayOfWeekProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.DAY_OF_WEEK ));
-		}
-		
-	}
-	
-	private class DayOfMonthProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.DAY_OF_MONTH ));
-		}
-		
-	}
-	
-	private class DayOfYearProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.DAY_OF_YEAR ));
-		}
-		
-	}
-	
-	private class HourProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.HOUR_OF_DAY ));
-		}
-	}
-	
-	private class MinuteProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.MINUTE ));
-		}
-	}
-	
-	private class SecondProcessor implements IDataProcessor
-	{
-		public Object process( Object d )
-		{
-			return new Integer(getCalendar( d ).get( Calendar.SECOND ));
-		}
-	}
-	
-	private class TimeValueProcessor implements IDataProcessor
-	{
-		private IDataProcessor processor;
-		TimeValueProcessor( String timeType ) throws AdapterException
-		{
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ))
+			assert args.length == 2;
+			String timeType = args[0].toString( );
+			Object d = args[1];
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) )
 			{
-				this.processor = new DayOfMonthProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_MONTH ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType ) )
 			{
-				this.processor = new DayOfWeekProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_WEEK ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ) )
 			{
-				this.processor = new DayOfYearProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_YEAR ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType ) )
 			{
-				this.processor = new WeekOfMonthProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.WEEK_OF_MONTH ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ) )
 			{
-				this.processor = new WeekOfYearProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.WEEK_OF_YEAR ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
 			{
-				this.processor = new MonthProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.MONTH ) + 1 );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
 			{
-				this.processor = new QuarterProcessor();
+				int month = getCalendar( d ).get( Calendar.MONTH );
+				int quarter = -1;
+				switch ( month )
+				{
+					case Calendar.JANUARY :
+					case Calendar.FEBRUARY :
+					case Calendar.MARCH :
+						quarter = 1;
+						break;
+					case Calendar.APRIL :
+					case Calendar.MAY :
+					case Calendar.JUNE :
+						quarter = 2;
+						break;
+					case Calendar.JULY :
+					case Calendar.AUGUST :
+					case Calendar.SEPTEMBER :
+						quarter = 3;
+						break;
+					case Calendar.OCTOBER :
+					case Calendar.NOVEMBER :
+					case Calendar.DECEMBER :
+						quarter = 4;
+						break;
+					default :
+						quarter = -1;
+				}
+				return new Integer( quarter );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
 			{
-				this.processor = new YearProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.YEAR ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
 			{
-				this.processor = new HourProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.HOUR_OF_DAY ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
 			{
-				this.processor = new MinuteProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.MINUTE ) );
 			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ))
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
 			{
-				this.processor = new SecondProcessor();
+				return new Integer( getCalendar( d ).get( Calendar.SECOND ) );
 			}
 			else
-				throw new AdapterException("Error");
+				throw new AdapterException( "Error" );
 		}
-		
-		public Object process( Object d ) throws AdapterException
+
+		private Calendar getCalendar( Object d )
 		{
-			return this.processor.process( d );
+			if ( d == null )
+				throw new java.lang.IllegalArgumentException( "date value is null!" );
+			
+			Date date;
+			try
+			{
+				date = DataTypeUtil.toDate( d );
+				Calendar c = Calendar.getInstance( );
+				c.setTime( date );
+				return c;
+			}
+			catch ( BirtException e )
+			{
+				throw new java.lang.IllegalArgumentException( "date value is invalid");
+			}
+			
+			
 		}
-		
-		
+	}
+
+	abstract class Function_temp extends BaseFunction implements Function
+	{
+
+		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
+				java.lang.Object[] args )
+		{
+			args = convertToJavaObjects( args );
+
+			try
+			{
+				return getValue( args );
+			}
+			catch ( BirtException e )
+			{
+				throw new IllegalArgumentException( "The type of arguement is incorrect." );
+			}
+		}
+
+		protected abstract Object getValue( Object[] args )
+				throws BirtException;
+
+		private Object[] convertToJavaObjects( Object[] args )
+		{
+			for ( int i = 0; i < args.length; i++ )
+			{
+				args[i] = JavascriptEvalUtil.convertJavascriptValue( args[i] );
+			}
+			return args;
+		}
+
 	}
 	
 	private class DataProcessorWrapper implements IDataProcessor
@@ -942,26 +937,4 @@ public class DataSetIterator implements IDatasetIterator
 		}
 		
 	}
-	
-	private Calendar getCalendar( Object d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
-		
-		Date date;
-		try
-		{
-			date = DataTypeUtil.toDate( d );
-			Calendar c = Calendar.getInstance( );
-			c.setTime( date );
-			return c;
-		}
-		catch ( BirtException e )
-		{
-			throw new java.lang.IllegalArgumentException( "date value is invalid");
-		}
-		
-		
-	}
-	
 }

@@ -22,6 +22,7 @@ class NumericGroupCalculator extends GroupCalculator
 {
 
 	double doubleStartValue;
+	private double firstValue = Double.MIN_VALUE;
 
 	/**
 	 * 
@@ -46,21 +47,22 @@ class NumericGroupCalculator extends GroupCalculator
 	 */
 	public Object calculate( Object value ) throws BirtException
 	{
-		if ( value == null )
-		{
-			return new Double( -1 );
-		}
-
-		double dValue = ( DataTypeUtil.toDouble( value ) ).doubleValue( );
+		double dValue = -1;
+		if( value!= null )
+			dValue = ( DataTypeUtil.toDouble( value ) ).doubleValue( );
 
 		if ( dValue < doubleStartValue )
 		{
-			return new Double( -1 );
+			if( this.firstValue == Double.MIN_VALUE )
+			{
+				this.firstValue = dValue;
+			}
+			return new Double( this.firstValue );
 		}
 		else
 		{
-			return new Double( Math.floor( ( dValue - doubleStartValue )
-					/ intervalRange ) );
+			return new Double( doubleStartValue + Math.floor( ( dValue - doubleStartValue )
+					/ intervalRange ) * intervalRange );
 		}
 	}
 }
