@@ -3220,7 +3220,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			// Check base value(only for non-category)
 			final OneAxis axisBase = getInternalBaseAxis( );
-			if ( iOutside == 0 && !axisBase.isCategoryScale( ) )
+			if ( iOutside == 0 && !srh.isCategoryScale( ) )
 			{
 				iOutside = checkEntryByType( axisBase.getScale( ),
 						dpha[i].getBaseValue( ) );
