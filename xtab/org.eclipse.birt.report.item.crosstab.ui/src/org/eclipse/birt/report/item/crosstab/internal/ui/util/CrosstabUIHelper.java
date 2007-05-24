@@ -148,8 +148,8 @@ public class CrosstabUIHelper
 		LabelHandle dataHandle = DesignElementFactory.getInstance( )
 		.newLabel(null );
 		//Label name is a compand name.
-		dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" + DISPALY_NAME);
-		
+		//dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" + DISPALY_NAME);
+		dataHandle.setText( "[" + levelView.getCubeLevel( ).getName( )+ "]" + DISPALY_NAME);
 		cellHandle.addContent( dataHandle );
 	}
 }
