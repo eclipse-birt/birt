@@ -1374,15 +1374,24 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Merge Rom data set parameter with new values. see bugzilla 187775.
+	 * Updates data set parameters on data set handle with updated values.
 	 * 
-	 * @param setHandle
+	 * <ul>
+	 * <li>if one parameter in newParams has the corresponding data set
+	 * parameter in data set handle, use it to update the one on set handle.
+	 * <li>if the new parameter on set handle doesn't exist, add it.
+	 * <li>Otherwise, the parameter on the set handle should be removed.
+	 * </ul>
+	 * <p>
+	 * see bugzilla 187775.
+	 * 
 	 * @param newParams
+	 *            the updated data set parameter
 	 * @throws SemanticException
 	 */
 
-	public void updateRomDataSetParamsWithNewValues( DataSetHandle setHandle,
-			List newParams ) throws SemanticException
+	public void updateRomDataSetParamsWithNewParams( List newParams )
+			throws SemanticException
 	{
 		PropertyHandle propertyHandle = setHandle
 				.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
@@ -1390,17 +1399,33 @@ class DataSetParameterAdapter
 		Iterator iterator = setDefinedParams.iterator( );
 
 		List nameList = new ArrayList( );
+
+		Iterator propIterator = null;
+
+		// notice that this iterator is different that in the property handle.
+		// So, there will no concurrent modification exception.
+		
 		while ( iterator.hasNext( ) )
 		{
 			DataSetParameterHandle dsParamHandle = (DataSetParameterHandle) iterator
 					.next( );
-			
-			// Check if new values exist the same name as DataSetParameterHandle's.
+
+			// initialize the property iterator
+
+			if ( propIterator == null )
+			{
+				propIterator = dsParamHandle.getDefn( ).propertiesIterator( );
+			}
+
+			// Check if new values exist the same name as
+			// DataSetParameterHandle's.
+
 			String name = dsParamHandle.getName( );
 			OdaDataSetParameter odaDsParam = null;
 			for ( int i = 0; i < newParams.size( ); ++i )
 			{
 				odaDsParam = (OdaDataSetParameter) newParams.get( i );
+
 				String odaName = odaDsParam.getName( );
 				if ( name.equalsIgnoreCase( odaName ) )
 				{
@@ -1413,14 +1438,19 @@ class DataSetParameterAdapter
 			if ( odaDsParam != null )
 			{
 				// update dsParamHandle with odaDsParam
-				updateDataSetParameterHandle( odaDsParam, dsParamHandle );
+
+				updateROMDataSetParamWithNewParam( odaDsParam, dsParamHandle,
+						propIterator );
 			}
 			else
 			{
 				// drop dsParamhandle
+
 				propertyHandle.removeItem( dsParamHandle.getStructure( ) );
 			}
 		}
+
+		// for others, should add them.
 
 		for ( int i = 0; i < newParams.size( ); ++i )
 		{
@@ -1436,23 +1466,28 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Update dsParamHandle with odaDsParam.
+	 * Updates the parameter on the data set handle with the updated data set
+	 * parameter.
 	 * 
 	 * @param odaDsParam
+	 *            the updated data set parameter
 	 * @param dsParamHandle
+	 *            the parameter on the data set handle
 	 * @throws SemanticException
 	 */
 
-	private void updateDataSetParameterHandle( OdaDataSetParameter odaDsParam,
-			DataSetParameterHandle dsParamHandle ) throws SemanticException
+	private void updateROMDataSetParamWithNewParam(
+			OdaDataSetParameter odaDsParam,
+			DataSetParameterHandle dsParamHandle, Iterator propIterator )
+			throws SemanticException
 	{
 		// update dsParamHandle with odaDsParam
-		Iterator propIterator = odaDsParam.getDefn( ).propertiesIterator( );
+
 		while ( propIterator.hasNext( ) )
 		{
 			PropertyDefn propDefn = (PropertyDefn) propIterator.next( );
 			String memberName = propDefn.getName( );
-			if ( memberName.equals( DataSetHandle.NAME_PROP ) )
+			if ( DataSetHandle.NAME_PROP.equals( memberName ) )
 				continue;
 			Object value = odaDsParam.getLocalProperty( null, memberName );
 			dsParamHandle.setProperty( memberName, value );

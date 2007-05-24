@@ -1029,8 +1029,6 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	{
 		List newParams = setParamAdapter.newROMSetParams( cachedParameters );
 
-		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
-
 		// Merge all parameter list with data set handle.
 
 		// If the name is the same , should rename it.
@@ -1039,11 +1037,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		// in handle, then when you back to 'parameter' page, you can get three
 		// parameter and in this
 		// time it's easy to duplicate name.
-		
+
 		IdentifierUtility.updateParams2UniqueName( newParams );
 
-		setParamAdapter.updateRomDataSetParamsWithNewValues( setHandle,
-				newParams );
+		// if one parameter in newParams has the corresponding data set
+		// parameter in data set handle, use the new parameter to update the one
+		// on set handle. 
+		
+		setParamAdapter.updateRomDataSetParamsWithNewParams( newParams );
 	}
 
 	/*
