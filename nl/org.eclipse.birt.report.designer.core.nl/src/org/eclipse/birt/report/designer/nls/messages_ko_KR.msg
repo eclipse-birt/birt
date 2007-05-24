@@ -431,6 +431,9 @@ dataset.editor.title.direction=방향
 dataset.editor.title.displayName=표시 이름
 dataset.editor.title.displayNameKey=표시 이름 키
 dataset.editor.title.expression=식
+dataset.editor.title.aggrFunc=Aggregation
+dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.filter=필터
 dataset.editor.title.helpText=도움말 텍스트
 dataset.editor.title.isInput=입력입니다.
 dataset.editor.title.isNullable=널(null) 값 허용
@@ -1004,6 +1007,7 @@ Element.ParameterGroup.helpTextID=도움말 텍스트 키
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -2146,6 +2150,8 @@ MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=새 정렬 키
 SortkeyBuilder.DialogTitle.Edit=정렬 키 편집
+SortkeyBuilder.DialogMessage.New=새 정렬 키
+SortkeyBuilder.DialogMessage.Edit=정렬 키 편집
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키:
 SortkeyBuilder.DialogTitle.Label.Direction=방향:
@@ -2156,10 +2162,13 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=새 필터 조건
 FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
+FilterConditionBuilder.DialogMessage.New=새 필터 조건
+FilterConditionBuilder.DialogMessage.Edit=필터 조건 편집
 FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
 FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
+FilterConditionBuilder.Shell.Title=Filter Condition
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3526,6 +3535,7 @@ SaveReportAsWizard.SettingPage.message=이 속성은 보고서를 템플릿으로 저장하는 경
 SaveReportAsWizard.SaveAsWizardWindowTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageDesc=다른 위치에 파일을 저장합니다.
+SaveReportAsWizard.SettingPage.Messages=Please set the template properties
 
 ###########################################################
 #WizardReportSettingPage properties

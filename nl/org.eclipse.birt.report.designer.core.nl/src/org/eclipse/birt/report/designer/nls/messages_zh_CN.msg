@@ -431,6 +431,9 @@ dataset.editor.title.direction=方向
 dataset.editor.title.displayName=显示名称
 dataset.editor.title.displayNameKey=显示名称关键字
 dataset.editor.title.expression=表达式
+dataset.editor.title.aggrFunc=Aggregation
+dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.filter=筛选器
 dataset.editor.title.helpText=帮助文本
 dataset.editor.title.isInput=输入
 dataset.editor.title.isNullable=允许 Null
@@ -1004,6 +1007,7 @@ Element.ParameterGroup.helpTextID=帮助文本关键字
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=关闭文档后:
 Element.ReportDesign.afterFactory.toolTip=在生成阶段结束时并且在关闭报表文档（如果有）之后调用。这是生成阶段调用的最后一个方法。
 Element.ReportDesign.afterFactory=出厂后:
@@ -2146,6 +2150,8 @@ MapRuleBuilderDialog.text.Title=添加/编辑映射规则
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=新建排序关键字
 SortkeyBuilder.DialogTitle.Edit=编辑排序关键字
+SortkeyBuilder.DialogMessage.New=新建排序关键字
+SortkeyBuilder.DialogMessage.Edit=编辑排序关键字
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
@@ -2156,10 +2162,13 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=新建筛选条件
 FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
+FilterConditionBuilder.DialogMessage.New=新建筛选条件
+FilterConditionBuilder.DialogMessage.Edit=编辑筛选条件
 FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
 FilterConditionBuilder.tooltip.ExpBuilder=单击以调用表达式生成器。
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=输入筛选条件:
+FilterConditionBuilder.Shell.Title=Filter Condition
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3526,6 +3535,7 @@ SaveReportAsWizard.SettingPage.message=如果报表另存为模板，使用这些属性。
 SaveReportAsWizard.SaveAsWizardWindowTitle=另存为
 SaveReportAsWizard.SaveAsWizardPageTitle=另存为
 SaveReportAsWizard.SaveAsWizardPageDesc=将文件保存至另一个位置。
+SaveReportAsWizard.SettingPage.Messages=Please set the template properties
 
 ###########################################################
 #WizardReportSettingPage properties

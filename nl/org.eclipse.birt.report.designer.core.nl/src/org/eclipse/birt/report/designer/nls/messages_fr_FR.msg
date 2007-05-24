@@ -431,6 +431,9 @@ dataset.editor.title.direction=Direction
 dataset.editor.title.displayName=Nom d'affichage
 dataset.editor.title.displayNameKey=Clé de nom d'affichage
 dataset.editor.title.expression=Expression
+dataset.editor.title.aggrFunc=Aggregation
+dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.filter=Filtre
 dataset.editor.title.helpText=Texte d'aide
 dataset.editor.title.isInput=Est une entrée
 dataset.editor.title.isNullable=Autorise une valeur nulle
@@ -1004,6 +1007,7 @@ Element.ParameterGroup.helpTextID=Clé du texte d'aide
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération.
 Element.ReportDesign.afterFactory=Après génération :
@@ -2146,6 +2150,8 @@ MapRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de mappage
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Nouvelle clé de tri
 SortkeyBuilder.DialogTitle.Edit=Modifier clé de tri
+SortkeyBuilder.DialogMessage.New=Nouvelle clé de tri
+SortkeyBuilder.DialogMessage.Edit=Modifier clé de tri
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=Direction :
@@ -2156,10 +2162,13 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Nouvelle condition de filtre
 FilterConditionBuilder.DialogTitle.Edit=Modifier la condition de filtre
+FilterConditionBuilder.DialogMessage.New=Nouvelle condition de filtre
+FilterConditionBuilder.DialogMessage.Edit=Modifier la condition de filtre
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valeur de l'élément de données
 FilterConditionBuilder.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur d'expression.
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=Entrez une condition de filtre :
+FilterConditionBuilder.Shell.Title=Filter Condition
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3526,6 +3535,7 @@ SaveReportAsWizard.SettingPage.message=Ces propriétés sont utilisées dans les ca
 SaveReportAsWizard.SaveAsWizardWindowTitle=Enregistrer sous
 SaveReportAsWizard.SaveAsWizardPageTitle=Enregistrer sous
 SaveReportAsWizard.SaveAsWizardPageDesc=Enregistrer le fichier à un autre emplacement.
+SaveReportAsWizard.SettingPage.Messages=Please set the template properties
 
 ###########################################################
 #WizardReportSettingPage properties

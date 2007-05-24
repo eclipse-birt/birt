@@ -431,6 +431,9 @@ dataset.editor.title.direction=•ûŒü
 dataset.editor.title.displayName=•\¦–¼
 dataset.editor.title.displayNameKey=•\¦–¼‚ÌƒL[
 dataset.editor.title.expression=®
+dataset.editor.title.aggrFunc=Aggregation
+dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.filter=ƒtƒBƒ‹ƒ^
 dataset.editor.title.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg
 dataset.editor.title.isInput=“ü—Í
 dataset.editor.title.isNullable=Null ‚ğ‹–‰Â‚·‚é
@@ -1004,6 +1007,7 @@ Element.ParameterGroup.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[
 Element.ParameterGroup.slot.parameters=ƒpƒ‰ƒƒ^ :
 Element.ParameterGroup.startExpanded=ŠJn‚É“WŠJ :
 Element.ReportDesign.afterCloseDoc.toolTip=¶¬ƒtƒF[ƒY‚ÅƒŒƒ|[ƒg•¶‘ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚½’¼Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=•¶‘‚ğ•Â‚¶‚½Œã :
 Element.ReportDesign.afterFactory.toolTip=¶¬ƒtƒF[ƒY‚Å‚Ìˆ—‚ªI—¹‚µ‚½Û‚ÉAƒŒƒ|[ƒg•¶‘ (ŠY“–‚·‚éê‡) ‚ğ•Â‚¶‚½Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B‚±‚ê‚ÍA¶¬ƒtƒF[ƒY‚ÅŒÄ‚Ño‚³‚ê‚éÅŒã‚Ìƒƒ\ƒbƒh‚Å‚·B
 Element.ReportDesign.afterFactory=Factory ‚Å‚Ìˆ—Œã :
@@ -2146,6 +2150,8 @@ MapRuleBuilderDialog.text.Title=ƒ}ƒbƒv‹K‘¥‚Ì’Ç‰Á‚Æ•ÒW
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=ƒ\[ƒgƒL[‚ÌV‹Kì¬
 SortkeyBuilder.DialogTitle.Edit=ƒ\[ƒgƒL[‚Ì•ÒW
+SortkeyBuilder.DialogMessage.New=ƒ\[ƒgƒL[‚ÌV‹Kì¬
+SortkeyBuilder.DialogMessage.Edit=ƒ\[ƒgƒL[‚Ì•ÒW
 SortkeyBuilder.DialogTitle.Label.Prompt=ƒ\[ƒgƒL[‚Ì“ü—Í :
 SortkeyBuilder.DialogTitle.Label.Key=ƒL[ :
 SortkeyBuilder.DialogTitle.Label.Direction=•ûŒü :
@@ -2156,10 +2162,13 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=ƒGƒ‰[
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=ƒtƒBƒ‹ƒ^‚ÌğŒ‚ÌV‹Kì¬
 FilterConditionBuilder.DialogTitle.Edit=ƒtƒBƒ‹ƒ^‚ÌğŒ‚Ì•ÒW
+FilterConditionBuilder.DialogMessage.New=ƒtƒBƒ‹ƒ^‚ÌğŒ‚ÌV‹Kì¬
+FilterConditionBuilder.DialogMessage.Edit=ƒtƒBƒ‹ƒ^‚ÌğŒ‚Ì•ÒW
 FilterConditionBuilder.choice.ValueOfThisDataItem=‚±‚Ìƒf[ƒ^€–Ú‚Ì’l
 FilterConditionBuilder.tooltip.ExpBuilder=®ƒrƒ‹ƒ_‚ğ‹N“®‚·‚é‚É‚ÍA‚±‚±‚ğƒNƒŠƒbƒN‚µ‚Ä‚µ‚Ä‚­‚¾‚³‚¢
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=ƒtƒBƒ‹ƒ^‚ÌğŒ‚Ì“ü—Í :
+FilterConditionBuilder.Shell.Title=Filter Condition
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3526,6 +3535,7 @@ SaveReportAsWizard.SettingPage.message=ƒŒƒ|[ƒg‚ğƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Ä•Û‘¶‚·‚é‚ÆA‚
 SaveReportAsWizard.SaveAsWizardWindowTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageDesc=ƒtƒ@ƒCƒ‹‚ğ•Ê‚ÌêŠ‚É•Û‘¶‚µ‚Ü‚·B
+SaveReportAsWizard.SettingPage.Messages=Please set the template properties
 
 ###########################################################
 #WizardReportSettingPage properties
