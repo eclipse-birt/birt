@@ -399,7 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É NULL ˆÈŠO‚
 dataset.editor.error.title=Œx
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
 dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=ŠÔˆá‚Á‚½ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ğXV‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B
 dataset.editor.filters=ƒtƒBƒ‹ƒ^
 dataset.editor.label.selectDataSource=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ(&D) :
 dataset.editor.outputColumns=o—Í—ñ
@@ -2428,15 +2428,15 @@ ParameterDialog.Label.Sample=ƒTƒ“ƒvƒ‹
 ParameterDialog.Label.Listlimit=ˆê——‚Ì§ŒÀ(&I) :
 ParameterDialog.Radio.Dynamic=“®“I(&Y)
 ParameterDialog.Radio.Static=Ã“I(&S)
-ParameterDialog.Label.SortGroup=Sort
-ParameterDialog.Label.SortKey=Sort by:
-ParameterDialog.Label.SortDirection=Sort direction:
-ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
-ParameterDialog.Choice.DisplayText=Display Text
-ParameterDialog.Choice.ValueColumn=Value Column
-ParameterDialog.Choice.ASCENDING=Ascending
-ParameterDialog.Choice.DESCENDING=Descending
-ParameterDialog.Choice.None=None
+ParameterDialog.Label.SortGroup=ƒ\[ƒg
+ParameterDialog.Label.SortKey=Å—Dæ‚³‚ê‚éƒL[ :
+ParameterDialog.Label.SortDirection=ƒ\[ƒg•ûŒü :
+ParameterDialog.CheckBox.Distinct=’l‚Ìd•¡‚ğ‹–‰Â‚·‚é
+ParameterDialog.Choice.DisplayText=•\¦ƒeƒLƒXƒg
+ParameterDialog.Choice.ValueColumn=’l‚ÌƒJƒ‰ƒ€
+ParameterDialog.Choice.ASCENDING=¸‡
+ParameterDialog.Choice.DESCENDING=~‡
+ParameterDialog.Choice.None=‚È‚µ
 
 ###########################################################
 #ParameterDropListener properties

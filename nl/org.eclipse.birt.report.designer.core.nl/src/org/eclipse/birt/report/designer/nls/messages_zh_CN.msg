@@ -399,7 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=ÊäÈë²ÎÊı {0} Ó¦¾ßÓĞ·Ç¿ÕÄ¬ÈÏÖµ¡
 dataset.editor.error.title=¾¯¸æ
 dataset.editor.error.unsupportedDataSet=²»Ö§³ÖµÄÊı¾İ¼¯ÀàĞÍ - {0}¡£
 dataset.editor.error.validationParameter=ÊäÈë²ÎÊı [{0}] ¾ßÓĞ¿ÕÖµ¡£ÊÇ·ñÒª±£ÁôÎª¿Õ?
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT ³¢ÊÔ¸üĞÂ²»ÕıÈ·µÄÊı¾İ¼¯²ÎÊı¡£
 dataset.editor.filters=É¸Ñ¡Æ÷
 dataset.editor.label.selectDataSource=Ñ¡ÔñÊı¾İÔ´(&D):
 dataset.editor.outputColumns=Êä³öÁĞ
@@ -2428,15 +2428,15 @@ ParameterDialog.Label.Sample=Ê¾Àı
 ParameterDialog.Label.Listlimit=ÁĞ±íÏŞÖÆ(&I):
 ParameterDialog.Radio.Dynamic=¶¯Ì¬(&Y)
 ParameterDialog.Radio.Static=¾²Ì¬(&S)
-ParameterDialog.Label.SortGroup=Sort
-ParameterDialog.Label.SortKey=Sort by:
-ParameterDialog.Label.SortDirection=Sort direction:
-ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
-ParameterDialog.Choice.DisplayText=Display Text
-ParameterDialog.Choice.ValueColumn=Value Column
-ParameterDialog.Choice.ASCENDING=Ascending
-ParameterDialog.Choice.DESCENDING=Descending
-ParameterDialog.Choice.None=None
+ParameterDialog.Label.SortGroup=ÅÅĞò
+ParameterDialog.Label.SortKey=ÅÅĞòÒÀ¾İ:
+ParameterDialog.Label.SortDirection=ÅÅĞò·½Ïò:
+ParameterDialog.CheckBox.Distinct=ÔÊĞíÖØ¸´Öµ
+ParameterDialog.Choice.DisplayText=ÏÔÊ¾ÎÄ±¾
+ParameterDialog.Choice.ValueColumn=ÖµÁĞ
+ParameterDialog.Choice.ASCENDING=ÉıĞò
+ParameterDialog.Choice.DESCENDING=½µĞò
+ParameterDialog.Choice.None=ÎŞ
 
 ###########################################################
 #ParameterDropListener properties
