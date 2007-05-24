@@ -172,6 +172,41 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public void makeUniqueName( DesignElement element )
+	{
+		if ( element == null )
+			return;
+
+		ElementDefn eDefn = (ElementDefn) element.getDefn( );
+		if ( !getElement( ).getDefn( ).isKindOf(
+				eDefn.getNameConfig( ).getNameContainer( ) ) )
+		{
+			INameHelper nameHelper = new NameExecutor( element )
+					.getNameHelper( getElement( ).getRoot( ) );
+			if ( nameHelper != null )
+				nameHelper.makeUniqueName( element );
+			return;
+		}
+
+		String name = getUniqueName( element );
+		if ( name == null )
+			return;
+
+		// if element already has the unique name.
+		if ( name.equals( element.getName( ) ) )
+			return;
+
+		// set the unique name and add the element to the name manager
+		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
+		element.setName( name.trim( ) );
+		nameSpace.insert( element );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(java.lang.String,
 	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)

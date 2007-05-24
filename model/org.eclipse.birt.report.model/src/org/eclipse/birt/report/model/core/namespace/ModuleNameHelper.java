@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 
 /**
@@ -120,7 +121,8 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		// if the element does not reside in the module, then get name helper
 		// for the element and generate unique name from there
-		if ( !module.getDefn( ).isKindOf( eDefn.getNameConfig( ).getNameContainer( ) ) )
+		if ( !module.getDefn( ).isKindOf(
+				eDefn.getNameConfig( ).getNameContainer( ) ) )
 		{
 			INameHelper nameHelper = new NameExecutor( element )
 					.getNameHelper( module );
@@ -129,6 +131,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 		}
 
 		String name = StringUtil.trimString( element.getName( ) );
+
+		// replace all the illegal chars with '_'
+		name = NamePropertyType.validateName( name );
 
 		// Some elements can have a blank name.
 		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
@@ -215,9 +220,6 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 */
 	public void makeUniqueName( DesignElement element )
 	{
-		if ( element == null )
-			return;
-
 		// if element is groupelement , set unique group name.
 		if ( element instanceof GroupElement )
 		{
@@ -228,28 +230,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 			return;
 		}
 
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-		if ( !module.getDefn( ).isKindOf( eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( module );
-			if ( nameHelper != null )
-				nameHelper.makeUniqueName( element );
-			return;
-		}
-
-		String name = getUniqueName( element );
-		if ( name == null )
-			return;
-
-		// if element already has the unique name.
-		if ( name.equals( element.getName( ) ) )
-			return;
-
-		// set the unique name and add the element to the name manager
-		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
-		element.setName( name.trim( ) );
-		nameSpace.insert( element );
+		super.makeUniqueName( element );
 	}
 
 	/**
@@ -301,6 +282,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		String groupName = (String) group.getLocalProperty( module,
 				IGroupElementModel.GROUP_NAME_PROP );
+
+		// replace all the illegal chars with '_'
+		groupName = NamePropertyType.validateName( groupName );
 
 		if ( StringUtil.isBlank( groupName ) )
 		{
@@ -451,5 +435,5 @@ public class ModuleNameHelper extends AbstractNameHelper
 			Library lib = (Library) libs.get( i );
 			( (ModuleNameHelper) lib.getNameHelper( ) ).cachedLevelNames = null;
 		}
-	}	
+	}
 }

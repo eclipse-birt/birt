@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 
 /**
  * 
@@ -89,6 +90,9 @@ public class DimensionNameHelper extends AbstractNameHelper
 		}
 
 		String name = StringUtil.trimString( element.getName( ) );
+		
+		// replace all the illegal chars with '_'
+		name = NamePropertyType.validateName( name );
 
 		// Some elements can have a blank name.
 		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
@@ -127,44 +131,6 @@ public class DimensionNameHelper extends AbstractNameHelper
 		}
 
 		return name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void makeUniqueName( DesignElement element )
-	{
-		if ( element == null )
-			return;
-
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-
-		// check dimension is the legal name holder
-		if ( !dimension.getDefn( ).isKindOf(
-				eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( dimension.getRoot( ) );
-			if ( nameHelper != null )
-				nameHelper.makeUniqueName( element );
-			return;
-		}
-
-		String name = getUniqueName( element );
-		if ( name == null )
-			return;
-
-		// if element already has the unique name.
-		if ( name.equals( element.getName( ) ) )
-			return;
-
-		// set the unique name and add the element to the name manager
-		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
-		element.setName( name.trim( ) );
-		nameSpace.insert( element );
-
 	}
 
 	/*

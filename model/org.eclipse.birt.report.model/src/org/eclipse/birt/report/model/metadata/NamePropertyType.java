@@ -130,7 +130,7 @@ public class NamePropertyType extends TextualPropertyType
 	private boolean isValidName( String value )
 	{
 		assert value != null;
-		
+
 		// can not contain: / \ . : ! ; ,
 		for ( int i = 0; i < value.length( ); i++ )
 		{
@@ -140,5 +140,24 @@ public class NamePropertyType extends TextualPropertyType
 				return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Validates the name. Replace all the illegal chars with '_'.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static String validateName( String name )
+	{
+		if ( name == null )
+			return null;
+
+		String value = StringUtil.trimString( name );
+		if ( value == null )
+			return null;
+
+		value = value.replaceAll( "/|\\\\|\\.|:|!|;|,", "_" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return value;
 	}
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -477,6 +478,10 @@ public class ElementFactoryTest extends BaseTestCase
 
 		TableHandle tableHandle3 = factory.newTableItem( null );
 		assertNull( tableHandle3.getName( ) );
+
+		DimensionHandle dimension = factory
+				.newTabularDimension( "a/b\\c.d:1!2;3,f" ); //$NON-NLS-1$
+		assertEquals( "a_b_c_d_1_2_3_f", dimension.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**
