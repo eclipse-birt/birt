@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -127,5 +128,34 @@ public class FilterAndSortParseTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * MemberValueHandle.add should not throw exception.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testMemberValue( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		assertNotNull( testTable );
+
+		// test filter properties
+		List valueList = testTable.getListProperty( "filters" ); //$NON-NLS-1$
+		assertEquals( 2, valueList.size( ) );
+		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
+				.get( 0 );
+
+		// test member value in filter
+
+		MemberValueHandle memberValue = filter.getMember( );
+
+		MemberValueHandle newValue = designHandle.getElementFactory( )
+				.newMemberValue( );
+		newValue.setLevel( designHandle
+				.findLevel( "testDimension/testLevel_one" ) ); //$NON-NLS-1$
+		memberValue.add( MemberValueHandle.MEMBER_VALUES_PROP, newValue );
 	}
 }

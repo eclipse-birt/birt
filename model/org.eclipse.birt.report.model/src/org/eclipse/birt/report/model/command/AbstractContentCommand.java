@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -626,14 +627,15 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			return null;
 
 		DesignElement tmpElement = focus.getElement( );
-		PropertyDefn tmpPropDefn = (PropertyDefn) tmpContainerDefn ;
+		PropertyDefn tmpPropDefn = (PropertyDefn) tmpContainerDefn;
 
 		ContentElementInfo retTarget = new ContentElementInfo( true );
 		while ( tmpElement != null && tmpPropDefn != null )
 		{
 			retTarget.pushStep( tmpPropDefn, -1 );
-			
-			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+					&& !( tmpElement instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpElement );
 				return retTarget;
