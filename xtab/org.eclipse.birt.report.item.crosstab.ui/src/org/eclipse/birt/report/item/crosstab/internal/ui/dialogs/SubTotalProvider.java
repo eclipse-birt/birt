@@ -11,25 +11,17 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 
 public class SubTotalProvider extends TotalProvider implements
-		ICellModifier,
 		ITableLabelProvider,
 		IStructuredContentProvider
 {
@@ -46,11 +38,12 @@ public class SubTotalProvider extends TotalProvider implements
 		return columnNames;
 	}
 
-	private CellEditor[] editors;
+	//private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	};
 
+	/*
 	public CellEditor[] getEditors( Table table )
 	{
 		if ( editors == null )
@@ -66,7 +59,8 @@ public class SubTotalProvider extends TotalProvider implements
 		}
 		return editors;
 	}
-
+*/
+	/*
 	public boolean canModify( Object element, String property )
 	{
 		int index = Arrays.asList( columnNames ).indexOf( property );
@@ -107,7 +101,7 @@ public class SubTotalProvider extends TotalProvider implements
 		}
 
 	}
-
+*/
 	public Image getColumnImage( Object element, int columnIndex )
 	{
 		// TODO Auto-generated method stub
@@ -122,15 +116,8 @@ public class SubTotalProvider extends TotalProvider implements
 			case 0 :
 				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getLevel( ).getName( );
-			case 2 :
-				return info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
-						: info.getAggregateOnMeasure( ).getName( );
-			case 3 :
-				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
-					info.setFunction( getFunctionNames( )[0] );
-				return getFunctionDisplayName( info.getFunction( ) );
+				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
+						: info.getAggregateOnMeasure( ).getName( ));
 			default :
 				break;
 		}
@@ -152,7 +139,7 @@ public class SubTotalProvider extends TotalProvider implements
 	public int[] columnWidths( )
 	{
 		return new int[]{
-				20, 120, 120, 120
+				20, 300
 		};
 	}
 

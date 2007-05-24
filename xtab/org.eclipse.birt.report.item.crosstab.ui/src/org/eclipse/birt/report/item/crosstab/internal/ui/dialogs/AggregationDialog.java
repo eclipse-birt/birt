@@ -115,8 +115,8 @@ public class AggregationDialog extends BaseDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION
 				| SWT.CHECK );
-		table.setLinesVisible( true );
-		table.setHeaderVisible( true );
+		table.setLinesVisible( false );
+		table.setHeaderVisible( false );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
@@ -136,10 +136,10 @@ public class AggregationDialog extends BaseDialog
 
 		grandTableViewer.setUseHashlookup( true );
 		grandTableViewer.setColumnProperties( provider.getColumnNames( ) );
-		grandTableViewer.setCellEditors( provider.getEditors( table ) );
+		//grandTableViewer.setCellEditors( provider.getEditors( table ) );
 		grandTableViewer.setContentProvider( provider );
 		grandTableViewer.setLabelProvider( provider );
-		grandTableViewer.setCellModifier( provider );
+		//grandTableViewer.setCellModifier( provider );
 
 		grandTableViewer.addCheckStateListener( new ICheckStateListener( ) {
 
@@ -180,8 +180,8 @@ public class AggregationDialog extends BaseDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION
 				| SWT.CHECK );
-		table.setLinesVisible( true );
-		table.setHeaderVisible( true );
+		table.setLinesVisible( false );
+		table.setHeaderVisible( false );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
@@ -201,10 +201,10 @@ public class AggregationDialog extends BaseDialog
 
 		subTableViewer.setUseHashlookup( true );
 		subTableViewer.setColumnProperties( provider.getColumnNames( ) );
-		subTableViewer.setCellEditors( provider.getEditors( table ) );
+		//subTableViewer.setCellEditors( provider.getEditors( table ) );
 		subTableViewer.setContentProvider( provider );
 		subTableViewer.setLabelProvider( provider );
-		subTableViewer.setCellModifier( provider );
+		//subTableViewer.setCellModifier( provider );
 
 		subTableViewer.addCheckStateListener( new ICheckStateListener( ) {
 

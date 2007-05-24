@@ -457,7 +457,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				AggregationDialog.SubTotalInfo info = new AggregationDialog.SubTotalInfo( );
 				info.setLevel( tempHandle );
 				info.setAggregateOnMeasure( tempMeasureHandle );
-				info.setFunction( tempViewHandle.getAggregationFunction( (MeasureViewHandle) measures.get( j ) ) );
+				//info.setFunction( tempViewHandle.getAggregationFunction( (MeasureViewHandle) measures.get( j ) ) );
+				info.setFunction(tempMeasureHandle.getFunction( ));
+				//tempMeasureHandle.getFunction( );
 				// info.setFunction(
 				// DesignChoiceConstants.MEASURE_FUNCTION_SUM);
 				replaceInfo( info, retValue );
@@ -501,8 +503,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
 			info.setMeasure( measureViewHandle.getCubeMeasure( ) );
-			info.setFunction( reportHandle.getAggregationFunction( viewHandle.getAxisType( ),
-					measureViewHandle ) );
+//			info.setFunction( reportHandle.getAggregationFunction( viewHandle.getAxisType( ),
+//					measureViewHandle ) );
+			
+			info.setFunction( measureViewHandle.getCubeMeasure( ).getFunction( ));
 			replaceInfo( info, retValue );
 		}
 

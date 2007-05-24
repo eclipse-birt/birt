@@ -11,25 +11,17 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 
 public class GrandTotalProvider extends TotalProvider implements
-		ICellModifier,
 		ITableLabelProvider,
 		IStructuredContentProvider
 {
@@ -46,11 +38,11 @@ public class GrandTotalProvider extends TotalProvider implements
 		return columnNames;
 	}
 
-	private CellEditor[] editors;
+	//private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString("GrandTotalProvider.Column.DataField"), Messages.getString("GrandTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			"", Messages.getString("GrandTotalProvider.Column.DataField"),// Messages.getString("GrandTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
-
+/*
 	public CellEditor[] getEditors( Table table )
 	{
 		if ( editors == null )
@@ -109,6 +101,7 @@ public class GrandTotalProvider extends TotalProvider implements
 		}
 
 	}
+	*/
 
 	public Image getColumnImage( Object element, int columnIndex )
 	{
@@ -126,11 +119,6 @@ public class GrandTotalProvider extends TotalProvider implements
 			case 1 :
 				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
 						.getName( );
-			case 2 :
-				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
-					info.setFunction( getFunctionNames( )[0] );
-				return getFunctionDisplayName( info.getFunction( ) );
 			default :
 				break;
 		}
@@ -152,7 +140,7 @@ public class GrandTotalProvider extends TotalProvider implements
 	public int[] columnWidths( )
 	{
 		return new int[]{
-				20, 120, 120, 120
+				20, 300
 		};
 	}
 
