@@ -126,3 +126,4 @@ DateLevelDialog.Interval.Base=对间隔使用固定基值:
 DateGroupDialog.Name=名称:
 DateLevelDialog.Name=名称:
 DateLevelDialog.Type=Type:
+FilterListDialog.Shell.Title=Filter

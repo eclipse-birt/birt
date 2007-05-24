@@ -126,3 +126,4 @@ DateLevelDialog.Interval.Base=丸めた数値を間隔の基準値として使用する :
 DateGroupDialog.Name=名前 :
 DateLevelDialog.Name=名前 :
 DateLevelDialog.Type=Type:
+FilterListDialog.Shell.Title=Filter

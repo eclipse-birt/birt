@@ -126,3 +126,4 @@ DateLevelDialog.Interval.Base=고정된 기본값을 간격으로 사용:
 DateGroupDialog.Name=이름:
 DateLevelDialog.Name=이름:
 DateLevelDialog.Type=Type:
+FilterListDialog.Shell.Title=Filter

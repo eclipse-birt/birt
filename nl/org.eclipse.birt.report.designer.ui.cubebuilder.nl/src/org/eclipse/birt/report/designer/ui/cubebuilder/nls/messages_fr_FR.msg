@@ -126,3 +126,4 @@ DateLevelDialog.Interval.Base=Utiliser une valeur de base fixe pour l'intervalle
 DateGroupDialog.Name=Nom :
 DateLevelDialog.Name=Nom :
 DateLevelDialog.Type=Type:
+FilterListDialog.Shell.Title=Filter
