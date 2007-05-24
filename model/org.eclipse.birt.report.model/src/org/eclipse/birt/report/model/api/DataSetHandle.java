@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -996,4 +997,33 @@ public abstract class DataSetHandle extends ReportElementHandle
 		return getIntProperty( ROW_FETCH_LIMIT_PROP );
 	}
 
+	/**
+	 * Adds the filter condition.
+	 * 
+	 * @param fc
+	 *            the filter condition structure
+	 * @throws SemanticException
+	 *             if the expression of filter condition is empty or null
+	 */
+
+	public void addFilter( FilterCondition fc ) throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		propHandle.addItem( fc );
+	}
+
+	/**
+	 * Removes the filter condition.
+	 * 
+	 * @param fc
+	 *            the filter condition structure
+	 * @throws SemanticException
+	 *             if the given condition doesn't exist in the filters
+	 */
+
+	public void removeFilter( FilterCondition fc ) throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		propHandle.removeItem( fc );
+	}
 }

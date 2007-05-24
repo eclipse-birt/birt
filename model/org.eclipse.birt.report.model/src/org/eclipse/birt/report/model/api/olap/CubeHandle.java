@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -133,5 +134,35 @@ public abstract class CubeHandle extends ReportElementHandle
 	{
 		PropertyHandle propHandle = getPropertyHandle( ACCESS_CONTROLS_PROP );
 		return propHandle.getContents( ).iterator( );
+	}
+
+	/**
+	 * Adds the filter condition.
+	 * 
+	 * @param fc
+	 *            the filter condition structure
+	 * @throws SemanticException
+	 *             if the expression of filter condition is empty or null
+	 */
+
+	public void addFilter( FilterCondition fc ) throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		propHandle.addItem( fc );
+	}
+
+	/**
+	 * Removes the filter condition.
+	 * 
+	 * @param fc
+	 *            the filter condition structure
+	 * @throws SemanticException
+	 *             if the given condition doesn't exist in the filters
+	 */
+
+	public void removeFilter( FilterCondition fc ) throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		propHandle.removeItem( fc );
 	}
 }
