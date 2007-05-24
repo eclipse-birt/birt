@@ -84,7 +84,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	 * given name.
 	 * 
 	 * @param name
-	 *            name of the cube level to find
+	 *            the qualified name of the cube level to find
 	 * @return level view handle if found, otherwise null
 	 */
 	public LevelViewHandle getLevel( String name )
@@ -98,6 +98,36 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 				if ( ( cubeLevelName != null && cubeLevelName.equals( name ) )
 						|| ( cubeLevelName == null && name == null ) )
 					return levelView;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the level view handle that refers a cube level element with the
+	 * given name.
+	 * 
+	 * @param name
+	 *            the short name of the cube level to find
+	 * @return level view handle if found, otherwise null
+	 */
+	public LevelViewHandle findLevel( String name )
+	{
+		for ( int i = 0; i < getLevelCount( ); i++ )
+		{
+			LevelViewHandle levelView = getLevel( i );
+			if ( levelView != null )
+			{
+				LevelHandle handle = levelView.getCubeLevel( );
+				if ( handle != null )
+				{
+					String cubeLevelName = handle.getName( );
+					if ( ( cubeLevelName != null && cubeLevelName.equals( name ) )
+							|| ( cubeLevelName == null && name == null ) )
+					{
+						return levelView;
+					}
+				}
 			}
 		}
 		return null;
