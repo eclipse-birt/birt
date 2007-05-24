@@ -75,7 +75,7 @@ public class ScaleContext extends Methods
 	{
 		this.oStepNumber = oStepNumber;
 
-		bStepFixed = bStepFixed || oStepNumber != null;
+		this.bStepFixed = bStepFixed || oStepNumber != null;
 	}
 
 	public Object getMin( )

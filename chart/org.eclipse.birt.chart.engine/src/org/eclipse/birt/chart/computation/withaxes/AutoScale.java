@@ -3975,16 +3975,25 @@ public final class AutoScale extends Methods implements Cloneable
 		// Use a more precise pattern
 		String valuePattern = getNumericPattern( dAxisValue );
 		String stepPattern = getNumericPattern( dAxisStep );
-		if ( valuePattern.length( ) < stepPattern.length( ) )
+		
+		// If step is more precise or value has number error, such as
+		// 2.0000000005, use step to produce pattern
+		// See Bugzilla#185883
+		int iPoint = valuePattern.indexOf( '.' );
+		final int PRECISE_DIGIT_NUMBER = 7;
+		if ( valuePattern.length( ) < stepPattern.length( )
+				|| iPoint >= 0 && valuePattern.length( ) - iPoint > PRECISE_DIGIT_NUMBER )
 		{
 			valuePattern = stepPattern;
 		}
 
-		// Use 3 digits as default precision
-		int iPoint = valuePattern.indexOf( '.' );
-		if ( iPoint >= 0 && valuePattern.length( ) - iPoint > 4 )
+		// If precise number is too long, use the default value
+		iPoint = valuePattern.indexOf( '.' );
+		if ( iPoint >= 0
+				&& valuePattern.length( ) - iPoint > PRECISE_DIGIT_NUMBER )
 		{
-			valuePattern = valuePattern.substring( 0, iPoint + 4 );
+			valuePattern = valuePattern.substring( 0, iPoint
+					+ PRECISE_DIGIT_NUMBER );
 		}
 		return new DecimalFormat( valuePattern );
 	}
