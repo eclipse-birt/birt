@@ -62,7 +62,8 @@ public class CrosstabAdaptUtil
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
 				levelHandle.getName( ));
 		
-		bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
+		//bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
+		bindingColumn.setDataType( levelHandle.getDataType( ));
 		bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
 		
 		return bindingColumn;
@@ -78,7 +79,8 @@ public class CrosstabAdaptUtil
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
 				measureHandle.getName( ));
 		
-		bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
+		//bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
+		bindingColumn.setDataType( measureHandle.getDataType( ));
 		bindingColumn.setExpression( DEUtil.getExpression( measureHandle ) );
 		
 		return bindingColumn;
