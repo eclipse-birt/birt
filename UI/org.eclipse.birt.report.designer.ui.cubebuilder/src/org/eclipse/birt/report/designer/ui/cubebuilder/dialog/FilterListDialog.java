@@ -47,7 +47,7 @@ public class FilterListDialog extends BaseDialog
 
 	public FilterListDialog( )
 	{
-		super( Messages.getString("FilterListDialog.Shell.Title") ); //$NON-NLS-1$
+		super( Messages.getString( "FilterListDialog.Shell.Title" ) ); //$NON-NLS-1$
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -101,9 +101,9 @@ public class FilterListDialog extends BaseDialog
 						if ( item instanceof DesignElementHandle )
 						{
 							FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-									FilterConditionBuilder.DLG_TITLE_NEW,
 									FilterConditionBuilder.DLG_TITLE_NEW );
-							dialog.setDesignHandle( (DesignElementHandle) item,new CubeExpressionProvider( (DesignElementHandle) item ) );
+							dialog.setDesignHandle( (DesignElementHandle) item,
+									new CubeExpressionProvider( (DesignElementHandle) item ) );
 							dialog.setInput( null );
 							dialog.setBindingParams( bindingParams );
 							if ( item instanceof ReportItemHandle )
@@ -143,7 +143,6 @@ public class FilterListDialog extends BaseDialog
 							}
 
 							FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-									FilterConditionBuilder.DLG_TITLE_EDIT,
 									FilterConditionBuilder.DLG_TITLE_EDIT );
 							dialog.setDesignHandle( (DesignElementHandle) item,
 									new CubeExpressionProvider( (DesignElementHandle) item ) );
