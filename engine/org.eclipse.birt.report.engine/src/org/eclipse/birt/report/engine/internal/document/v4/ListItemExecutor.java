@@ -33,7 +33,7 @@ public class ListItemExecutor extends ListingElementExecutor
 
 	protected IContent doCreateContent( )
 	{
-		return report.createContainerContent( );
+		return report.createListContent( );
 	}
 
 	protected void doExecute( ) throws Exception
