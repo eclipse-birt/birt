@@ -279,6 +279,22 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			style = element.getInlineStyle( );
 		}
 		buildStyle( style, styleBuffer );
+		
+		if ( !isEmbeddable )
+		{
+			// Build the display for no embeddable view
+			String value = style.getDisplay( );
+			if ( null == value )
+			{
+				value = element.getStyle( ).getDisplay( );
+				if ( null != value )
+				{
+					styleBuffer.append( " display:" );
+					styleBuffer.append( value );
+					styleBuffer.append( ";" );
+				}
+			}
+		}
 	}
 
 	protected void buildStyle( IStyle style, StringBuffer styleBuffer )
