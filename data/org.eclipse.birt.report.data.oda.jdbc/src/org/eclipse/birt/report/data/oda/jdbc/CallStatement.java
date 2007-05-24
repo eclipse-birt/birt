@@ -1457,6 +1457,7 @@ public class CallStatement implements IAdvancedQuery
 			// handles schema.package.storedprocedure for databases such as
 			// Oracle
 			if ( !metaData.supportsCatalogsInProcedureCalls( )
+					&& schemaPattern != null
 					&& schemaPattern.indexOf( "." ) != -1 )
 			{
 				packagePattern = schemaPattern.substring( schemaPattern.lastIndexOf( "." ) + 1 );
