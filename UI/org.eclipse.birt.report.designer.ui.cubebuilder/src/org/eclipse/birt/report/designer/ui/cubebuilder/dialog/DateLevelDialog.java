@@ -11,6 +11,19 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -65,6 +78,8 @@ public class DateLevelDialog extends TitleAreaDialog
 			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
 			.getAllowedChoices( )
 			.getChoices( );
+	private Button noneIntervalButton;
+	private Button intervalButton;
 
 	private List getDateTypeNames( )
 	{
@@ -149,21 +164,35 @@ public class DateLevelDialog extends TitleAreaDialog
 		nameText.setText( input.getName( ) );
 		typeCombo.setItems( getAvailableDateTypeDisplayNames( ) );
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
+		
 		PropertyHandle property = input.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
 		String range = property == null ? null : property.getStringValue( );
 		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
 		int width = intervalRange.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		( (GridData) intervalRange.getLayoutData( ) ).widthHint = width < 60 ? 60
 				: width;
-
-		intervalRange.setEnabled( true );
-		intervalBaseButton.setEnabled( true );
-		intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
-		intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-		if ( input.getIntervalBase( ) != null )
+		String interval = input.getInterval( );
+		if ( interval == null
+				|| interval.equals( DesignChoiceConstants.INTERVAL_TYPE_NONE ) )
 		{
-			intervalBaseText.setText( input.getIntervalBase( ) );
+			updateRadioButtonStatus( noneIntervalButton );
 		}
+		else if ( interval.equals( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL ) )
+			updateRadioButtonStatus( intervalButton );
+		
+		
+		if ( !noneIntervalButton.getSelection( ) )
+		{
+			intervalRange.setEnabled( true );
+			intervalBaseButton.setEnabled( true );
+			intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
+			intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
+			if ( input.getIntervalBase( ) != null )
+			{
+				intervalBaseText.setText( input.getIntervalBase( ) );
+			}
+		}
+
 
 	}
 
@@ -206,6 +235,27 @@ public class DateLevelDialog extends TitleAreaDialog
 		gd.horizontalSpan = 2;
 		groupGroup.setLayoutData( gd );
 
+		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.GroupBy" ) ); //$NON-NLS-1$
+
+		noneIntervalButton = new Button( groupGroup, SWT.RADIO );
+		noneIntervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.None" ) ); //$NON-NLS-1$
+		noneIntervalButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateRadioButtonStatus( noneIntervalButton );
+			}
+		} );
+		intervalButton = new Button( groupGroup, SWT.RADIO );
+		intervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.Interval" ) ); //$NON-NLS-1$
+		intervalButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateRadioButtonStatus( intervalButton );
+			}
+		} );
+		
 		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Label.Range" ) ); //$NON-NLS-1$
 
 		intervalRange = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
@@ -272,6 +322,24 @@ public class DateLevelDialog extends TitleAreaDialog
 		intervalBaseText.setLayoutData( gd );
 	}
 
+	protected void updateRadioButtonStatus( Button button )
+	{
+		if ( button == noneIntervalButton )
+		{
+			noneIntervalButton.setSelection( true );
+			intervalButton.setSelection( false );
+		}
+		else if ( button == intervalButton )
+		{
+			noneIntervalButton.setSelection( false );
+			intervalButton.setSelection( true );
+		}
+		intervalRange.setEnabled( !noneIntervalButton.getSelection( ) );
+		intervalBaseButton.setEnabled( !noneIntervalButton.getSelection( ) );
+		intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
+				&& intervalBaseButton.getSelection( ) );
+	}
+
 	protected void checkOkButtonStatus( )
 	{
 
@@ -305,7 +373,19 @@ public class DateLevelDialog extends TitleAreaDialog
 						.toString( ) );
 			}
 
-			input.setIntervalRange( intervalRange.getText( ) );
+			if ( noneIntervalButton.getSelection( ) )
+				input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_NONE );
+			else if ( intervalButton.getSelection( ) )
+				input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL );
+
+			if ( !noneIntervalButton.getSelection( ) )
+			{
+				input.setIntervalRange( intervalRange.getText( ) );
+			}
+			else
+			{
+				input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
+			}
 
 			if ( intervalBaseText.getEnabled( ) )
 			{

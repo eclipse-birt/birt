@@ -12,24 +12,24 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalEditPartsFactory;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalViewerKeyHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -79,12 +79,14 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( );
-				expressionBuilder.setExpressionProvier( new CubeExpressionProvider( (TabularCubeHandle) input ) );
-				if ( expressionBuilder.open( ) == Window.OK )
-				{
-					// OlapUtil.getDataset( dataSetCombo.getText( ) ).set
-				}
+				EditPart editPart = (EditPart) viewer.getSelectedEditParts( )
+						.get( 0 );
+				FilterListDialog dialog = new FilterListDialog( );
+				if ( editPart instanceof DatasetNodeEditPart )
+					dialog.setInput( (ReportElementHandle) ( editPart.getParent( ).getModel( ) ) );
+				else if ( editPart instanceof HierarchyNodeEditPart )
+					dialog.setInput( (ReportElementHandle) ( editPart.getModel( ) ) );
+				dialog.open( );
 			}
 
 		} );

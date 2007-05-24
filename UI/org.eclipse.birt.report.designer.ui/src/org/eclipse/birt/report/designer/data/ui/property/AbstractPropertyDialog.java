@@ -56,7 +56,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/09/08 06:24:32 $
+ * @version $Revision: 1.5 $ $Date: 2007/03/21 06:59:18 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -447,6 +447,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		propertyPaneLayout.topControl = node.getPageControl( );
 		//Call the activated method to indicate that this page is activated
 		node.getPage( ).pageActivated( );
+		viewer.setSelection( new StructuredSelection( node ) );
 		propertyPane.layout( );
 		return true;
 

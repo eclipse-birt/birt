@@ -754,7 +754,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			if ( classInfo.isNative( )
 					&& OBJECTS_TYPE_BIRT.equals( objectType )
 					|| !classInfo.isNative( )
-					&& OBJECTS_TYPE_NATIVE.equals( objectType ) )
+					&& OBJECTS_TYPE_NATIVE.equals( objectType ) 
+					|| classInfo.getName( ).equals( "Total" ))
 			{
 				continue;
 			}

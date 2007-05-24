@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -51,7 +52,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/**
 	 * The current selections in outline or Editor.
 	 */
-	private List input;
+	protected List input;
 
 	/**
 	 * Column properties.
@@ -87,7 +88,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 	private List columnList = new ArrayList( );
 
-	private ParamBindingHandle[] bindingParams = null;
+	protected ParamBindingHandle[] bindingParams = null;
 
 	/**
 	 * Gets all dataSet columns
@@ -192,6 +193,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 		if ( item instanceof DesignElementHandle )
 		{
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
+					FilterConditionBuilder.DLG_TITLE_NEW,
 					FilterConditionBuilder.DLG_TITLE_NEW );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
@@ -233,6 +235,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			}
 
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
+					FilterConditionBuilder.DLG_TITLE_EDIT,
 					FilterConditionBuilder.DLG_TITLE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( filterHandle );
@@ -293,7 +296,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			input = new ArrayList( );
 			input.add( inputElement );
 		}
-		getDataSetColumns( input.get( 0 ) );
+		getDataSetColumns( DEUtil.getInputFirstElement( input ) );
 		Object[] elements = modelAdapter.getElements( input );
 		return elements;
 	}
@@ -441,4 +444,5 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 		return null;
 	}
+
 }

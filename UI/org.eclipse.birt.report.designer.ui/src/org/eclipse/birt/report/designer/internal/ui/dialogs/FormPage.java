@@ -98,7 +98,7 @@ public class FormPage extends Composite implements Listener
 	 * The prompted text that present the FormPage served as Filters, Sorting,
 	 * Groups and Hight-lights.
 	 */
-	private Label title;
+	protected Label title;
 
 	/**
 	 * Buttons for moving operations.
@@ -114,7 +114,7 @@ public class FormPage extends Composite implements Listener
 	 * The table widget that present the data of Filters, Sorting, Groups or
 	 * Hight-lights.
 	 */
-	private Table table;
+	protected Table table;
 
 	/**
 	 * The TableViewer of the table widget.
@@ -228,10 +228,7 @@ public class FormPage extends Composite implements Listener
 		updateBindingParameters( );
 	}
 
-	/**
-	 * Creates UI widgets
-	 * 
-	 */
+	
 	protected void createControl( )
 	{
 		title = new Label( this, SWT.NONE );

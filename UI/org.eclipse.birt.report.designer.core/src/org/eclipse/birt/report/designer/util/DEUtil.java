@@ -2102,15 +2102,14 @@ public class DEUtil
 			}
 			if ( handle instanceof ReportItemHandle )
 			{
-				// if ( ( (ReportItemHandle) handle ).getDataBindingReference( )
-				// != null
-				// || ( (ReportItemHandle) handle ).getCube( ) != null
-				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-								.hasNext( ) )
-				{
-					return (ReportItemHandle) handle;
-				}
+				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
+						|| ( (ReportItemHandle) handle ).getCube( ) != null )
+					if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
+							|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
+									.hasNext( ) )
+					{
+						return (ReportItemHandle) handle;
+					}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
 			if ( result == null
@@ -2573,13 +2572,15 @@ public class DEUtil
 
 	public static boolean enableRowNum( Object parent )
 	{
-		if ( parent instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) parent ).getExtensionName( )
-						.equals( "Crosstab" ) )
+		if ( parent instanceof ReportItemHandle )
 		{
-			return false;
+			if ( ( (ReportItemHandle) parent ).getDataBindingReference( ) != null )
+				return enableRowNum( ( (ReportItemHandle) parent ).getDataBindingReference( ) );
+			else if ( ( (ReportItemHandle) parent ).getCube( ) != null )
+				return false;
+			else if ( ( (ReportItemHandle) parent ).getDataSet( ) != null )
+				return true;
 		}
-		else
-			return true;
+		return false;
 	}
 }

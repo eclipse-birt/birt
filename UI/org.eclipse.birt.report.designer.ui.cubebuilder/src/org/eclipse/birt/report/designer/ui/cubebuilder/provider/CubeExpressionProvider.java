@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -37,16 +38,15 @@ public class CubeExpressionProvider extends ExpressionProvider
 
 	private DataSetHandle dataSetHandle = null;
 
-	public CubeExpressionProvider( TabularCubeHandle handle )
+	public CubeExpressionProvider( DesignElementHandle handle )
 	{
 		super( handle );
-		dataSetHandle = handle.getDataSet( );
-	}
-
-	public CubeExpressionProvider( TabularLevelHandle handle )
-	{
-		super( handle );
-		dataSetHandle = ( (TabularHierarchyHandle) handle.getContainer( ) ).getDataSet( );
+		if ( handle instanceof TabularCubeHandle )
+			dataSetHandle = ( (TabularCubeHandle) handle ).getDataSet( );
+		else if ( handle instanceof TabularHierarchyHandle )
+			dataSetHandle = ( (TabularHierarchyHandle) handle ).getDataSet( );
+		else if ( handle instanceof TabularLevelHandle )
+			dataSetHandle = ( (TabularHierarchyHandle) handle.getContainer( ) ).getDataSet( );
 	}
 
 	protected List getCategoryList( )
