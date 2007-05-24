@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -50,12 +52,13 @@ class ContentUtil
 	}
 
 	static void processStyle( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
-			throws BirtException
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator,
+			Map styleCache ) throws BirtException
 	{
 		IStyle style = processStyle( context.getReportContent( ),
 				handle,
-				evaluator );
+				evaluator,
+				styleCache );
 
 		if ( style != null && !style.isEmpty( ) )
 		{
@@ -64,8 +67,8 @@ class ContentUtil
 	}
 
 	static IStyle processStyle( IReportContent reportContent,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
-			throws BirtException
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator,
+			Map styleCache ) throws BirtException
 	{
 		ReportElementHandle modelHandle = getReportElementHandle( handle );
 
@@ -78,7 +81,26 @@ class ContentUtil
 
 		IStyle style = reportContent.createStyle( );
 
-		setupPrivateStyle( modelHandle, style );
+		if ( styleCache != null && handle instanceof CrosstabCellHandle )
+		{
+			// only cache crosstab cell styles
+			IStyle cachedStyle = (IStyle) styleCache.get( modelHandle );
+
+			if ( cachedStyle != null )
+			{
+				style.setProperties( cachedStyle );
+			}
+			else
+			{
+				setupPrivateStyle( modelHandle, style );
+
+				styleCache.put( modelHandle, style );
+			}
+		}
+		else
+		{
+			setupPrivateStyle( modelHandle, style );
+		}
 
 		// process highlight
 		if ( evaluator != null )

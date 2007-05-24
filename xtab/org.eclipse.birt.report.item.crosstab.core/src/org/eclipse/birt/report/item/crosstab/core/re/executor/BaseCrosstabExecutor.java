@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +54,7 @@ public abstract class BaseCrosstabExecutor implements
 	protected ICubeResultSet cubeRset;
 	protected CubeCursor cubeCursor;
 
+	protected Map styleCache;
 	protected List rowGroups, columnGroups;
 
 	private Object modelHandle;
@@ -81,6 +83,7 @@ public abstract class BaseCrosstabExecutor implements
 
 		this.columnGroups = parent.columnGroups;
 		this.rowGroups = parent.rowGroups;
+		this.styleCache = parent.styleCache;
 	}
 
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
@@ -122,7 +125,8 @@ public abstract class BaseCrosstabExecutor implements
 			ContentUtil.processStyle( context,
 					content,
 					handle,
-					getCubeResultSet( ) );
+					getCubeResultSet( ),
+					styleCache );
 		}
 		catch ( BirtException e )
 		{

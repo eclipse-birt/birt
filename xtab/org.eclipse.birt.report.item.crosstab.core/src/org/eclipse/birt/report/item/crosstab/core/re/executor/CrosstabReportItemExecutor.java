@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,6 +118,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 		if ( getCubeCursor( ) != null )
 		{
+			// prepare style cache
+			styleCache = new HashMap( );
+
 			// generate table columns
 			try
 			{
