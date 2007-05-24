@@ -657,6 +657,61 @@ public class Methods implements IConstants
 				);
 			}
 		}
+		else if ( iLabelLocation == INSIDE )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX - dW / 2, dY - dH / 2, // TL
+						dX + dW / 2,
+						dY - dH / 2, // TR
+						dX + dW / 2,
+						dY + dH / 2, // BR
+						dX - dW / 2,
+						dY + dH / 2 // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dH / 2 * dSineTheta - dW / 2 * dCosTheta, dY
+						- dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TL
+						dX - dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY - dH / 2 * dCosTheta - dW / 2 * dSineTheta, // TR
+						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY + dH / 2 * dCosTheta - dW / 2 * dSineTheta, // BR
+						dX + dH / 2 * dSineTheta - dW / 2 * dCosTheta,
+						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dW / 2 * dCosTheta + dH / 2 * dSineTheta, dY
+						- dW / 2 * dSineTheta - dH / 2 * dCosTheta, // TL
+						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY - dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TR
+						dX + dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta, // BR
+						dX - dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+						dY - dW / 2 * dSineTheta + dH / 2 * dCosTheta // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX - dH / 2, dY - dW / 2, // TL
+						dX + dH / 2,
+						dY - dW / 2, // TR
+						dX + dH / 2,
+						dY + dW / 2, // BR
+						dX - dH / 2,
+						dY + dW / 2 // BL
+				);
+			}
+		}
 		itm.dispose( );
 		return rr;
 	}
