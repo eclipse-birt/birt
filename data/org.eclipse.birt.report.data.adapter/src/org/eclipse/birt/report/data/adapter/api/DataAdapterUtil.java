@@ -136,8 +136,7 @@ public class DataAdapterUtil
 			return IBuildInAggregation.TOTAL_VARIANCE_FUNC;
 		if( DesignChoiceConstants.MEASURE_FUNCTION_WEIGHTEDAVG.equals( modelAggrType ) )
 			return IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC;
-		
-		throw new AdapterException( ResourceConstants.INVALID_AGGREGATION_NAME, modelAggrType );
+		return null;
 	}
 	private static class JSResultIteratorObject extends ScriptableObject
 	{

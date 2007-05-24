@@ -71,9 +71,10 @@ public interface IModelAdapter
 
 	/**
 	 * Adapts a Model computed column definition
+	 * @throws AdapterException 
 	 * 
 	 */
-	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle );
+	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle ) throws AdapterException;
 
 	/**
 	 * Adapts a Model condition

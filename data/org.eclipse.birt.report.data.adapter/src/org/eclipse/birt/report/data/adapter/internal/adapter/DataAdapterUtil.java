@@ -172,8 +172,9 @@ class DataAdapterUtil
 	 * 
 	 * @param modelDataSet
 	 * @param dteDataSet
+	 * @throws AdapterException 
 	 */
-	private static void populateComputedColumn( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	private static void populateComputedColumn( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws AdapterException
 	{
 		// computed columns
 		Iterator elmtIter = modelDataSet.computedColumnsIterator( );

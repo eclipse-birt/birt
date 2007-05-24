@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ColumnAdapter;
@@ -203,9 +204,10 @@ public class ModelAdapter implements IModelAdapter
 	}
 	
 	/**
+	 * @throws AdapterException 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptComputedColumn(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle )
+	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle ) throws AdapterException
 	{
 		return new ComputedColumnAdapter( modelHandle);
 	}
