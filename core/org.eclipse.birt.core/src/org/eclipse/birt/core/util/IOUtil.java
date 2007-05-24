@@ -330,6 +330,7 @@ public class IOUtil
 	private static final int TYPE_SERIALIZABLE = 13;
 	
 	private static final int TYPE_JSObject = 14;
+	private static final int TYPE_LONG_STRING = 15;
 
 	static
 	{
@@ -362,6 +363,18 @@ public class IOUtil
 	{
 		if ( obValue == null )
 			return TYPE_NULL;
+		
+		if ( obValue instanceof String )
+		{
+			if ( isLongString( (String)obValue )  )
+			{
+				return TYPE_LONG_STRING;
+			}
+			else
+			{
+				return TYPE_STRING;
+			}
+		}
 		
 		Integer indexOb = (Integer) type2IndexMap.get( obValue.getClass( ) );
 		if ( indexOb == null )
@@ -432,8 +445,11 @@ public class IOUtil
 				obValue = new Boolean( dis.readBoolean( ) );
 				break;
 			case TYPE_STRING :
-				obValue = readUTF( dis );
+				obValue = dis.readUTF( );
 				break;
+			case TYPE_LONG_STRING :
+				obValue = readUTF( dis );
+				break;				
 			case TYPE_BYTES :
 				int len = readInt( dis );
 				byte[] bytes = new byte[len];
@@ -527,6 +543,9 @@ public class IOUtil
 				dos.writeBoolean( ( (Boolean) obValue ).booleanValue( ) );
 				break;
 			case TYPE_STRING :
+				dos.writeUTF( obValue.toString( ) );
+				break;
+			case TYPE_LONG_STRING :
 				writeUTF( dos, obValue.toString( ) );
 				break;
 			case TYPE_BYTES :
@@ -606,10 +625,19 @@ public class IOUtil
 	public final static String readString( DataInputStream dis )
 			throws IOException
 	{
-		if ( readInt( dis ) == TYPE_NULL )
+		int type = readInt( dis );
+		if ( type == TYPE_NULL )
+		{
 			return null;
-
-		return readUTF( dis );
+		}
+		else if ( type == TYPE_STRING )
+		{
+			return dis.readUTF( );
+		}
+		else
+		{
+			return readUTF( dis );
+		}
 	}
 
 	/**
@@ -629,10 +657,17 @@ public class IOUtil
 		}
 		else
 		{
-			writeInt( dos, TYPE_STRING );
+			if ( isLongString( str ) )
+			{
+				writeInt( dos, TYPE_LONG_STRING );
+				writeUTF( dos, str );
+			}
+			else
+			{
+				writeInt( dos, TYPE_STRING );
+				dos.writeUTF( str );
+			}
 		}
-
-		writeUTF( dos, str );
 	}
 
 	/**
@@ -816,6 +851,45 @@ public class IOUtil
 			Object value = map.get( key );
 			writeObject( dos, key );
 			writeObject( dos, value );
+		}
+	}
+	
+	/**
+	 * private utility method to check whether it is a long string 
+	 * 
+	 * @param str
+	 * @return true if it is a long string
+	 */
+	private static boolean isLongString( String str )
+	{
+		int strlen = str.length( );
+		int utflen = 0;
+		int c = 0;
+
+		/* use charAt instead of copying String to char array */
+		for ( int i = 0; i < strlen; i++ )
+		{
+			c = str.charAt( i );
+			if ( ( c >= 0x0001 ) && ( c <= 0x007F ) )
+			{
+				utflen++;
+			}
+			else if ( c > 0x07FF )
+			{
+				utflen += 3;
+			}
+			else
+			{
+				utflen += 2;
+			}
+		}
+		if ( utflen > 65535 )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
