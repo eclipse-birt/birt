@@ -175,6 +175,12 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		tocEntry = null;
 		uniqueId = 0;
 		instanceId = null;
+		
+		design = null;
+		parent = null;
+		rset = null;
+		tocEntry = null;
+		content = null;
 	}
 
 	void setParent( ReportItemExecutor parent )
