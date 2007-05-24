@@ -28,9 +28,12 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 {
 	
-	private BufferedRandomAccessFile objectFile = null;
-	private BufferedRandomAccessFile OatFile = null;
-	private BufferedRandomAccessFile dataFile = null;
+	private BufferedRandomAccessFile objectAccessFile = null;
+	private BufferedRandomAccessFile oatAccessFile = null;
+	private BufferedRandomAccessFile dataAccessFile = null;
+	private File objectFile = null;
+	private File oatFile = null;
+	private File dataFile = null;
 	private HashMap documentObjectMap = null;
 	
 	/**
@@ -79,8 +82,8 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	{
 		documentObjectMap = new HashMap( );
 		
-		File file = new File( dirName + File.separatorChar + managerName + "obj" );
-		if ( !file.exists( ) )
+		objectFile = new File( dirName + File.separatorChar + managerName + "obj" );
+		if ( !objectFile.exists( ) )
 		{
 			if ( !new File(dirName).exists( ) )
 			{
@@ -88,42 +91,42 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			}	
 			try
 			{
-				if ( !file.createNewFile( ) )
+				if ( !objectFile.createNewFile( ) )
 				{
 					throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-							file.getAbsolutePath( ) );
+							objectFile.getAbsolutePath( ) );
 				}
 			}
 			catch ( IOException e )
 			{
 				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL, e,
-						file.getAbsolutePath( ) );
+						objectFile.getAbsolutePath( ) );
 			}
 		}
-		objectFile = new BufferedRandomAccessFile( file, "rw", 1024 );
-		objectFile.setLength( 0 );
-		file = new File( dirName + File.separatorChar + managerName + "Oat" );
-		if ( !file.exists( ) )
+		objectAccessFile = new BufferedRandomAccessFile( objectFile, "rw", 1024 );
+		objectAccessFile.setLength( 0 );
+		oatFile = new File( dirName + File.separatorChar + managerName + "Oat" );
+		if ( !oatFile.exists( ) )
 		{
-			if ( !file.createNewFile( ) )
+			if ( !oatFile.createNewFile( ) )
 			{
 				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-						file.getAbsolutePath( ) );
+						oatFile.getAbsolutePath( ) );
 			}
 		}
-		OatFile = new BufferedRandomAccessFile( file, "rw", 1024 );
-		OatFile.setLength( 0 );
-		file = new File( dirName + File.separatorChar + managerName + "data" );
-		if ( !file.exists( ) )
+		oatAccessFile = new BufferedRandomAccessFile( oatFile, "rw", 1024 );
+		oatAccessFile.setLength( 0 );
+		dataFile = new File( dirName + File.separatorChar + managerName + "data" );
+		if ( !dataFile.exists( ) )
 		{
-			if ( !file.createNewFile( ) )
+			if ( !dataFile.createNewFile( ) )
 			{
 				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-						file.getAbsolutePath( ) );
+						dataFile.getAbsolutePath( ) );
 			}
 		}
-		dataFile = new BufferedRandomAccessFile( file, "rw", 1024 );
-		dataFile.setLength( 0 );
+		dataAccessFile = new BufferedRandomAccessFile( dataFile, "rw", 1024 );
+		dataAccessFile.setLength( 0 );
 	}
 	
 	/**
@@ -138,7 +141,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		documentObjectMap = new HashMap( );
 		
 		File file = new File( dirName + File.separatorChar + managerName + "obj" );
-		objectFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		objectAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
 		if ( !file.exists( ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
@@ -151,7 +154,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
-		OatFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		oatAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
 		
 		file = new File( dirName + File.separatorChar + managerName + "data" );
 		if ( !file.exists( ) )
@@ -159,9 +162,9 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
-		dataFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		dataAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
 		
-		objectFile.seek( 0 );
+		objectAccessFile.seek( 0 );
 		while(true)
 		{
 			try
@@ -183,9 +186,32 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	public void close( ) throws IOException
 	{
-		objectFile.close( );
-		OatFile.close( );
-		dataFile.close( );
+		objectAccessFile.close( );
+		oatAccessFile.close( );
+		dataAccessFile.close( );
+		clearTmpFile( );
+	}
+	
+	/**
+	 * 
+	 */
+	public void clearTmpFile( ) 
+	{
+		if( objectFile != null )
+		{
+			objectFile.deleteOnExit( );
+			objectFile = null;
+		}
+		if( oatFile != null )
+		{
+			oatFile.deleteOnExit( );
+			oatFile = null;
+		}
+		if( dataFile != null )
+		{
+			dataFile.deleteOnExit( );
+			dataFile = null;
+		}
 	}
 
 	/*
@@ -200,7 +226,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		objectStructure.length = 0;
 		writeObjectStructure( objectStructure );
 		this.documentObjectMap.put( objectStructure.name, objectStructure );
-		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataFile,
+		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataAccessFile,
 				documentObjectName,
 				objectStructure.firstBlock,
 				objectStructure.length,
@@ -215,11 +241,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	private void writeObjectStructure( ObjectStructure structure ) throws IOException
 	{
-		objectFile.seek( objectFile.length( ) );
-		structure.fileOffset = ( int )objectFile.getFilePointer( );
-		objectFile.writeLong( structure.length );
-		objectFile.writeInt( structure.firstBlock );
-		objectFile.writeUTF( structure.name );
+		objectAccessFile.seek( objectAccessFile.length( ) );
+		structure.fileOffset = ( int )objectAccessFile.getFilePointer( );
+		objectAccessFile.writeLong( structure.length );
+		objectAccessFile.writeInt( structure.firstBlock );
+		objectAccessFile.writeUTF( structure.name );
 	}
 	
 	/**
@@ -230,10 +256,10 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	private ObjectStructure readObjectStructure( ) throws IOException
 	{
 		ObjectStructure structure = new ObjectStructure( );
-		structure.fileOffset = (int) objectFile.getFilePointer( );
-		structure.length = objectFile.readLong( );
-		structure.firstBlock = objectFile.readInt( );
-		structure.name = objectFile.readUTF( );
+		structure.fileOffset = (int) objectAccessFile.getFilePointer( );
+		structure.length = objectAccessFile.readLong( );
+		structure.firstBlock = objectAccessFile.readInt( );
+		structure.name = objectAccessFile.readUTF( );
 		return structure;
 	}
 	
@@ -244,8 +270,8 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	private int findFreeBlock() throws IOException
 	{
-		int oldLength = (int) OatFile.length( );
-		OatFile.setLength( oldLength + 4 );
+		int oldLength = (int) oatAccessFile.length( );
+		oatAccessFile.setLength( oldLength + 4 );
 		return (int) ( oldLength / 4 );
 	}
 
@@ -261,7 +287,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		{
 			return null;
 		}
-		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataFile,
+		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataAccessFile,
 				documentObjectName,
 				objectStructure.firstBlock,
 				objectStructure.length,
@@ -284,8 +310,8 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	public int getNextBlock( int blockNo ) throws IOException
 	{
-		OatFile.seek( blockNo * 4 );
-		return OatFile.readInt( );
+		oatAccessFile.seek( blockNo * 4 );
+		return oatAccessFile.readInt( );
 	}
 
 	/*
@@ -295,8 +321,8 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	public int allocateBlock( int blockNo ) throws IOException
 	{
 		int newBlock = findFreeBlock( );
-		OatFile.seek( blockNo * 4 );
-		OatFile.writeInt( newBlock );
+		oatAccessFile.seek( blockNo * 4 );
+		oatAccessFile.writeInt( newBlock );
 		return newBlock;
 	}
 
@@ -312,16 +338,17 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			return;
 		}
 		objectStructure.length = length;
-		objectFile.seek( objectStructure.fileOffset );
-		objectFile.writeLong( length );
+		objectAccessFile.seek( objectStructure.fileOffset );
+		objectAccessFile.writeLong( length );
 	}
 
 	public void flush( ) throws IOException
 	{
-		objectFile.flush( );
-		OatFile.flush( );
-		dataFile.flush( );
+		objectAccessFile.flush( );
+		oatAccessFile.flush( );
+		dataAccessFile.flush( );
 	}
+	
 }
 
 class ObjectStructure
