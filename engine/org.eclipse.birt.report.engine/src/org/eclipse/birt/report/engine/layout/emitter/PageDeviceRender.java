@@ -211,8 +211,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			pageGraphic.clipSave( );
-			clip( container );
 			drawContainer( container );
 			ContainerPosition pos;
 			if ( !containerStack.isEmpty( ) )
@@ -230,16 +228,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
-	private void clip( IContainerArea container )
-	{
-		ContainerPosition curPos = getContainerPosition( );
-		int startX = curPos.x + getX( container );
-		int startY = curPos.y + getY( container );
-		int width = getWidth( container );
-		int height = getHeight( container );
-		pageGraphic.clip( startX, startY, width, height );
-	}
-
 	/**
 	 * This method will be invoked while a containerArea ends.
 	 * 
@@ -251,10 +239,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		if ( container instanceof PageArea )
 		{
 			pageGraphic.dispose( );
-		}
-		else
-		{
-			pageGraphic.clipRestore( );
 		}
 		if ( !containerStack.isEmpty( ) )
 		{
