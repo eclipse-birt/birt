@@ -1400,11 +1400,11 @@ class DataSetParameterAdapter
 
 		List nameList = new ArrayList( );
 
-		Iterator propIterator = null;
+		List propList = null;
 
 		// notice that this iterator is different that in the property handle.
 		// So, there will no concurrent modification exception.
-		
+
 		while ( iterator.hasNext( ) )
 		{
 			DataSetParameterHandle dsParamHandle = (DataSetParameterHandle) iterator
@@ -1412,9 +1412,14 @@ class DataSetParameterAdapter
 
 			// initialize the property iterator
 
-			if ( propIterator == null )
+			if ( propList == null )
 			{
-				propIterator = dsParamHandle.getDefn( ).propertiesIterator( );
+				Iterator propIterator = dsParamHandle.getDefn( )
+						.getPropertyIterator( );
+				propList = new ArrayList( );
+
+				while ( propIterator.hasNext( ) )
+					propList.add( propIterator.next( ) );
 			}
 
 			// Check if new values exist the same name as
@@ -1440,7 +1445,7 @@ class DataSetParameterAdapter
 				// update dsParamHandle with odaDsParam
 
 				updateROMDataSetParamWithNewParam( odaDsParam, dsParamHandle,
-						propIterator );
+						propList );
 			}
 			else
 			{
@@ -1478,14 +1483,14 @@ class DataSetParameterAdapter
 
 	private void updateROMDataSetParamWithNewParam(
 			OdaDataSetParameter odaDsParam,
-			DataSetParameterHandle dsParamHandle, Iterator propIterator )
+			DataSetParameterHandle dsParamHandle, List propList )
 			throws SemanticException
 	{
 		// update dsParamHandle with odaDsParam
 
-		while ( propIterator.hasNext( ) )
+		for ( int i = 0; i < propList.size( ); i++ )
 		{
-			PropertyDefn propDefn = (PropertyDefn) propIterator.next( );
+			PropertyDefn propDefn = (PropertyDefn) propList.get( i );
 			String memberName = propDefn.getName( );
 			if ( DataSetHandle.NAME_PROP.equals( memberName ) )
 				continue;
