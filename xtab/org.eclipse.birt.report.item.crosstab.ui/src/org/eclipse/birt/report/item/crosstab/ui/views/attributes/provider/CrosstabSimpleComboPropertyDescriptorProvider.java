@@ -47,10 +47,15 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			return items;
 		}
 
+		String[] tmpItems = null;
 		if (IReportItemModel.CUBE_PROP.equals(getProperty())) {
-			items = ChoiceSetFactory.getCubes();
+			tmpItems = ChoiceSetFactory.getCubes();
 		}
-
+		
+		items = new String[tmpItems.length + 1];
+		items[0] = Messages.getString( "ChoiceSetFactory.choice.None" );
+		System.arraycopy( tmpItems, 0, items, 1, tmpItems.length );
+		
 		return items;
 	}
 

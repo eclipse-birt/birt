@@ -78,7 +78,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				
 				if (newObject instanceof LevelHandle)
 				{
-					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDeDimensionHandle( (LevelHandle)newObject );
+					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle)newObject );
 					AddDimensionViewHandleCommand command = new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
 							type,dimensionHandle , afterObj );
 					command.setLevelHandle( (LevelHandle)newObject );

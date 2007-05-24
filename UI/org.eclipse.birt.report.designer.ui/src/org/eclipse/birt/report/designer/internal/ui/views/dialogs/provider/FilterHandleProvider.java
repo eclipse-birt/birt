@@ -193,7 +193,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 		if ( item instanceof DesignElementHandle )
 		{
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW);
+					FilterConditionBuilder.DLG_TITLE_NEW,FilterConditionBuilder.DLG_MESSAGE_NEW);
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			dialog.setBindingParams( bindingParams );
@@ -234,7 +234,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			}
 
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT);
+					FilterConditionBuilder.DLG_TITLE_EDIT,FilterConditionBuilder.DLG_MESSAGE_EDIT);
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( filterHandle );
 			dialog.setBindingParams( bindingParams );

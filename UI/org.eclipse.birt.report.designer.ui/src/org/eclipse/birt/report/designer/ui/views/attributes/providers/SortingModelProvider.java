@@ -282,7 +282,7 @@ public class SortingModelProvider
 		if ( item instanceof DesignElementHandle )
 		{
 			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_NEW );
+					SortkeyBuilder.DLG_TITLE_NEW,SortkeyBuilder.DLG_MESSAGE_NEW );
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
@@ -316,7 +316,7 @@ public class SortingModelProvider
 				return false;
 			}
 			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_EDIT );
+					SortkeyBuilder.DLG_TITLE_EDIT , SortkeyBuilder.DLG_MESSAGE_EDIT);
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( sortKeyHandle );
 			if ( dialog.open( ) == Dialog.CANCEL )

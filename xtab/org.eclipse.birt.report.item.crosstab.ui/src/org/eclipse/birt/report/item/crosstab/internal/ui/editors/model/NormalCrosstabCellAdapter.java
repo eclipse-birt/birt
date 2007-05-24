@@ -91,7 +91,7 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 		}
 		if (obj instanceof LevelHandle)
 		{
-			return handleValidate( CrosstabAdaptUtil.getDeDimensionHandle((LevelHandle)obj) );
+			return handleValidate( CrosstabAdaptUtil.getDimensionHandle((LevelHandle)obj) );
 		}
 
 		if (obj instanceof MeasureHandle)

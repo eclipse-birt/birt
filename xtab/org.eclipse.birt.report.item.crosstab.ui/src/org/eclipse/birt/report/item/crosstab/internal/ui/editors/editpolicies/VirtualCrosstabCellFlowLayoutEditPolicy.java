@@ -59,7 +59,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 			}
 			if (newObject instanceof LevelHandle)
 			{
-				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDeDimensionHandle( (LevelHandle)newObject );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle)newObject );
 				CreateDimensionViewCommand command = new CreateDimensionViewCommand(adapter, type, dimensionHandle);
 				command.setLevelHandle( (LevelHandle)newObject );
 				return command;

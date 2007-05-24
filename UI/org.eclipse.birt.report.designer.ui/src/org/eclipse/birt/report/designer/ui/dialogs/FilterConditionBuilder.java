@@ -18,19 +18,16 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -48,28 +45,23 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
@@ -82,13 +74,16 @@ import org.eclipse.ui.PlatformUI;
  * Dialog for adding or editing map rule.
  */
 
-public class FilterConditionBuilder extends BaseDialog
+public class FilterConditionBuilder extends TitleAreaDialog
 {
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "FilterConditionBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "FilterConditionBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+	public static final String DLG_MESSAGE_NEW = Messages.getString( "FilterConditionBuilder.DialogMessage.New" ); //$NON-NLS-1$
+	public static final String DLG_MESSAGE_EDIT = Messages.getString( "FilterConditionBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
 
-	private transient String[] popupItems = null;
+	
+	protected transient String[] popupItems = null;
 
 	private static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
@@ -106,9 +101,9 @@ public class FilterConditionBuilder extends BaseDialog
 
 	private transient boolean refreshItems = true;
 
-	private transient ReportElementHandle currentItem = null;
+	protected transient ReportElementHandle currentItem = null;
 
-	private static String[] EMPTY_ARRAY = new String[]{};
+	protected static String[] EMPTY_ARRAY = new String[]{};
 
 	private List columnList;
 
@@ -142,18 +137,23 @@ public class FilterConditionBuilder extends BaseDialog
 	/**
 	 * @param title
 	 */
-	public FilterConditionBuilder( String title )
+	public FilterConditionBuilder( String title, String message )
 	{
-		this( UIUtil.getDefaultShell( ), title );
+		this( UIUtil.getDefaultShell( ), title, message );		
 	}
-
+	
+	protected String title, message;
+	protected IChoiceSet choiceSet;
 	/**
 	 * @param parentShell
 	 * @param title
 	 */
-	public FilterConditionBuilder( Shell parentShell, String title )
+	public FilterConditionBuilder( Shell parentShell, String title,
+			String message )
 	{
-		super( parentShell, title );
+		super( parentShell );
+		this.title = title;
+		this.message = message;
 	}
 
 	static
@@ -272,19 +272,6 @@ public class FilterConditionBuilder extends BaseDialog
 
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
-	/**
-	 * Default constructor.
-	 * 
-	 * @param parentShell
-	 *            Parent Shell
-	 * @param title
-	 *            Window Title
-	 */
-	public FilterConditionBuilder( Shell parentShell, String title,
-			FilterHandleProvider provider )
-	{
-		super( parentShell, title );
-	}
 
 	private String[] getDataSetColumns( )
 	{
@@ -305,37 +292,27 @@ public class FilterConditionBuilder extends BaseDialog
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createContents( Composite parent )
+	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent,
 				IHelpContextIds.INSERT_EDIT_FILTER_CONDITION_DIALOG_ID );
 
-		GridData gdata;
-		GridLayout glayout;
-		Composite contents = new Composite( parent, SWT.NONE );
-		contents.setLayout( new GridLayout( ) );
+		Composite area = (Composite) super.createDialogArea( parent );
+		Composite contents = new Composite( area, SWT.NONE );
 		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		contents.setLayout( new GridLayout( ) );
 
-		createTitleArea( contents );
+		this.setTitle( title );
+		this.setMessage( message );
+		getShell( ).setText(title);
 
-		Composite composite = new Composite( contents, SWT.NONE );
-		glayout = new GridLayout( );
-		glayout.marginHeight = 0;
-		glayout.marginWidth = 0;
-		glayout.verticalSpacing = 0;
-		composite.setLayout( glayout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		applyDialogFont( composite );
-		initializeDialogUnits( composite );
+		applyDialogFont( contents );
+		initializeDialogUnits( area );
 
-		Composite innerParent = (Composite) createDialogArea( composite );
-		createButtonBar( composite );
+		createFilterConditionContent( contents );
 
-		createFilterConditionContent( innerParent );
 
-		updateButtons( );
-
-		return composite;
+		return area;
 	}
 
 	protected void createFilterConditionContent( Composite innerParent )
@@ -518,45 +495,6 @@ public class FilterConditionBuilder extends BaseDialog
 		return null;
 	}
 
-	private Composite createTitleArea( Composite parent )
-	{
-		int heightMargins = 3;
-		int widthMargins = 8;
-		final Composite titleArea = new Composite( parent, SWT.NONE );
-		FormLayout layout = new FormLayout( );
-		layout.marginHeight = heightMargins;
-		layout.marginWidth = widthMargins;
-		titleArea.setLayout( layout );
-
-		Display display = parent.getDisplay( );
-		Color background = JFaceColors.getBannerBackground( display );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( heightMargins * 2 );
-		titleArea.setLayoutData( layoutData );
-		titleArea.setBackground( background );
-
-		titleArea.addPaintListener( new PaintListener( ) {
-
-			public void paintControl( PaintEvent e )
-			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				Rectangle bounds = titleArea.getClientArea( );
-				bounds.height = bounds.height - 2;
-				bounds.width = bounds.width - 1;
-				e.gc.drawRectangle( bounds );
-			}
-		} );
-
-		Label label = new Label( titleArea, SWT.NONE );
-		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		label.setText( getTitle( ) ); //$NON-NLS-1$
-
-		return titleArea;
-	}
 
 	protected Composite createDummy( Composite parent, int colSpan )
 	{
@@ -627,7 +565,11 @@ public class FilterConditionBuilder extends BaseDialog
 	protected void updateButtons( )
 	{
 		enableInput( isExpressionOK( ) );
-		getOkButton( ).setEnabled( isConditionOK( ) );
+		if(getButton( IDialogConstants.OK_ID ) != null)
+		{
+			getButton( IDialogConstants.OK_ID ).setEnabled( isConditionOK( ) );
+		}
+		
 	}
 
 	protected void enableInput( boolean val )
@@ -895,6 +837,17 @@ public class FilterConditionBuilder extends BaseDialog
 		return selectValueList;
 	}
 
+	public int open( )
+	{
+		if ( getShell( ) == null )
+		{
+			// create the window
+			create( );
+		}
+		updateButtons( );
+		return super.open( );
+	}
+	
 	private class ExpressionValue
 	{
 

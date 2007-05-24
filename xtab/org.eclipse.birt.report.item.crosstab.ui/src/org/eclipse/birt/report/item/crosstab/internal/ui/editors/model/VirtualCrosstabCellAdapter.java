@@ -112,7 +112,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 			}
 			if (obj instanceof LevelHandle)
 			{
-				return handleValidate( CrosstabAdaptUtil.getDeDimensionHandle((LevelHandle)obj) );
+				return handleValidate( CrosstabAdaptUtil.getDimensionHandle((LevelHandle)obj) );
 			}
 			
 		}

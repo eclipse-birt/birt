@@ -79,7 +79,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 			SortElementHandle sortKey = levelSortKeyHandle.getSortKeyHandle( );
 			
 			CrosstabSortKeyBuilder dialog = new CrosstabSortKeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_EDIT );
+					SortkeyBuilder.DLG_TITLE_EDIT, SortkeyBuilder.DLG_MESSAGE_EDIT);
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( sortKey, level );
 			if ( dialog.open( ) == Dialog.CANCEL )
@@ -147,7 +147,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		if ( item instanceof ExtendedItemHandle && ((ExtendedItemHandle)item).getExtensionName( ).equals( "Crosstab" ) )
 		{
 			CrosstabSortKeyBuilder dialog = new CrosstabSortKeyBuilder( UIUtil.getDefaultShell( ),
-					SortkeyBuilder.DLG_TITLE_NEW );
+					SortkeyBuilder.DLG_TITLE_NEW, SortkeyBuilder.DLG_MESSAGE_NEW );
 			dialog.setHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
