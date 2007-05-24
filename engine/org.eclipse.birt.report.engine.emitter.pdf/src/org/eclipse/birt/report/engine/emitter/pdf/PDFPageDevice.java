@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
+import org.eclipse.birt.report.engine.util.BundleVersionUtil;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -63,6 +64,11 @@ public class PDFPageDevice implements IPageDevice
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
 					output ) );
+			String creator = "BIRT Report Engine " 
+				+ BundleVersionUtil.getBundleVersion( "org.eclipse.birt.report.engine" )
+				+ " using iText "
+				+ BundleVersionUtil.getBundleVersion( "com.lowagie.itext" );
+			doc.addCreator( creator );
 			if ( null != title )
 				doc.addTitle( title );
 		}
