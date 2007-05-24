@@ -126,14 +126,14 @@ class ContentElementCommand extends AbstractContentCommand
 	{
 		// Top level property is a list.
 
-		ArrayList list = (ArrayList) topElement.getLocalProperty( module, prop );
+		Object localValue = topElement.getLocalProperty( module, prop );
 
-		if ( list != null )
+		if ( localValue != null )
 			return content;
 
 		// Make a local copy of the inherited list value.
 
-		ArrayList inherited = (ArrayList) topElement.getProperty( module, prop );
+		Object inherited = topElement.getProperty( module, prop );
 
 		// if the action is add, the inherited can be null.
 
@@ -142,31 +142,42 @@ class ContentElementCommand extends AbstractContentCommand
 
 		int index = -1;
 
-		if ( content != null )
-			index = inherited.indexOf( content );
+		if ( content != null && inherited instanceof List )
+			index = ( (List) inherited ).indexOf( content );
 
-		List value = (List) ModelUtil.copyValue( prop, inherited );
+		Object newValue = ModelUtil.copyValue( prop, inherited );
 		ActivityStack activityStack = module.getActivityStack( );
-
-		list = new ArrayList( );
-		PropertyRecord propRecord = new PropertyRecord( topElement, prop, list );
-		activityStack.execute( propRecord );
 
 		ContainerContext context = new ContainerContext( topElement, prop
 				.getName( ) );
 
-		for ( int i = 0; i < value.size( ); i++ )
+		if ( newValue instanceof List )
 		{
-			DesignElement tmpContent = (DesignElement) value.get( i );
-			ContentRecord addRecord = new ContentRecord( module, context,
-					tmpContent, i );
-			activityStack.execute( addRecord );
+			List list = new ArrayList( );
+			PropertyRecord propRecord = new PropertyRecord( topElement, prop,
+					list );
+			activityStack.execute( propRecord );
+
+			list = (List) newValue;
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				DesignElement tmpContent = (DesignElement) list.get( i );
+				ContentRecord addRecord = new ContentRecord( module, context,
+						tmpContent, i );
+				activityStack.execute( addRecord );
+			}
+		}
+		else
+		{
+			PropertyRecord propRecord = new PropertyRecord( topElement, prop,
+					newValue );
+			activityStack.execute( propRecord );
 		}
 
 		if ( index != -1 )
-			return (DesignElement) value.get( index );
+			return (DesignElement) ( (List) newValue ).get( index );
 
-		return null;
+		return content;
 	}
 
 	protected void doAdd( int newPos, DesignElement content )
