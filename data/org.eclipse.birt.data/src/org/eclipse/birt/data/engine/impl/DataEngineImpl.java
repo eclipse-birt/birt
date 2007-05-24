@@ -12,6 +12,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -508,7 +509,29 @@ public class DataEngineImpl extends DataEngine
 
 		dataSetDesigns = null;
 		dataSources = null;
+		clearTempFile( );
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
+	}
+	
+	private void clearTempFile( )
+	{
+		File tmpDir = new File( context.getTmpdir( ) + this.hashCode( ) );
+		if( !tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		{
+			return;
+		}
+		File[] tmpFiles = tmpDir.listFiles( );
+		for ( int i = 0; i < tmpFiles.length; i++ )
+		{
+			if( !tmpFiles[i].delete( ) )
+			{
+				tmpFiles[i].deleteOnExit( );
+			}
+		}
+		if( !tmpDir.delete( ) )
+		{
+			tmpDir.deleteOnExit( );
+		}
 	}
 
 	/**
