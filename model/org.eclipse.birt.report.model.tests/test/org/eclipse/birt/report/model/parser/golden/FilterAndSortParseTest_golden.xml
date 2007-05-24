@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.13" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <cubes>
         <tabular-cube name="testCube" id="3">
             <property name="dimensions">
@@ -25,45 +25,45 @@
     <body>
         <extended-item extensionName="TestingTable" name="testTable" id="8">
             <property name="filters">
-                <filter-condition-element id="9">
+                <filter-condition-element>
                     <expression name="expr">new filter expression</expression>
                     <property name="operator">ge</property>
                     <expression name="value1">new value1 expression</expression>
                     <expression name="value2">new null</expression>
                     <property name="filterTarget">DataSet</property>
                     <property name="member">
-                        <member-value id="10">
+                        <member-value>
                             <property name="value">new value_1</property>
                             <property name="level">testDimension/testLevel_one</property>
                             <property name="memberValues">
-                                <member-value id="11">
+                                <member-value>
                                     <property name="value">value_2</property>
                                 </member-value>
                             </property>
                         </member-value>
                     </property>
                 </filter-condition-element>
-                <filter-condition-element id="12">
+                <filter-condition-element>
                     <property name="operator">lt</property>
                 </filter-condition-element>
             </property>
             <property name="sorts">
-                <sort-element id="13">
+                <sort-element>
                     <expression name="key">new key_1</expression>
                     <property name="direction">asc</property>
                     <property name="member">
-                        <member-value id="14">
+                        <member-value>
                             <property name="value">new value_1</property>
                             <property name="level">testDimension/testLevel_one</property>
                             <property name="memberValues">
-                                <member-value id="15">
+                                <member-value>
                                     <property name="value">value_2</property>
                                 </member-value>
                             </property>
                         </member-value>
                     </property>
                 </sort-element>
-                <sort-element id="16">
+                <sort-element>
                     <expression name="key">key_2</expression>
                 </sort-element>
             </property>

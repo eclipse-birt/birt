@@ -3689,8 +3689,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.FILTER_CONDITION_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
 
 		super.visitFilterConditionElement( obj );
 		property( obj, IFilterConditionElementModel.EXPR_PROP );
@@ -3712,8 +3710,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.MEMBER_VALUE_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
 
 		super.visitMemberValue( obj );
 		property( obj, IMemberValueModel.VALUE_PROP );
@@ -3732,8 +3728,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.SORT_ELEMENT_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
 
 		super.visitSortElement( obj );
 		property( obj, ISortElementModel.KEY_PROP );

@@ -133,6 +133,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
 				|| element.getRoot( ) instanceof Library
+				|| getElement( ).getRoot( ) instanceof Library
 				|| element.getName( ) != null )
 		{
 			// if element holder is just this

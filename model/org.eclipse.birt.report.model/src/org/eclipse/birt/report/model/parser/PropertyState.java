@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
@@ -344,8 +345,8 @@ class PropertyState extends AbstractPropertyState
 							.hashCode( );
 			}
 
-			if ( FILTER_OPERATOR_MEMBER == jmpDefnValue
-					|| MAPRULE_OPERATOR_MEMBER == jmpDefnValue )
+			if ( ( FILTER_OPERATOR_MEMBER == jmpDefnValue && struct instanceof FilterCondition )
+					|| ( MAPRULE_OPERATOR_MEMBER == jmpDefnValue && ( struct instanceof MapRule || struct instanceof HighlightRule ) ) )
 			{
 				CompatibleOperatorState state = new CompatibleOperatorState(
 						handler, element, propDefn, struct );
@@ -499,7 +500,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
-				&& CHOICE_VERTICAL_ALIGN == nameValue  )
+				&& CHOICE_VERTICAL_ALIGN == nameValue )
 		{
 			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
 					handler, element );
@@ -509,7 +510,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& ( element instanceof ScalarParameter )
-				&&  DEFAULT_VALUE_PROP == nameValue )
+				&& DEFAULT_VALUE_PROP == nameValue )
 		{
 			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
 					handler, element );
@@ -526,7 +527,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if (  ON_CREATE_METHOD == nameValue
+		if ( ON_CREATE_METHOD == nameValue
 				&& handler.versionNumber < VersionUtil.VERSION_3_2_0 )
 		{
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
@@ -548,7 +549,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_6
 				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
-				&& DATA_TYPE_MEMBER == nameValue  )
+				&& DATA_TYPE_MEMBER == nameValue )
 		{
 			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
 					handler, element, propDefn, struct );
@@ -579,5 +580,4 @@ class PropertyState extends AbstractPropertyState
 
 		return super.versionConditionalJumpTo( );
 	}
-
 }

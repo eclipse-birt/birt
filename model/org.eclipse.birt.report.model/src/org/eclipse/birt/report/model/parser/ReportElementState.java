@@ -413,52 +413,54 @@ public abstract class ReportElementState extends DesignParseState
 			handler.tempLineNumbers.put( element, new Integer( handler
 					.getCurrentLineNo( ) ) );
 
-		// get the "id" of the element
-
-		try
+		if ( !( element instanceof ContentElement ) )
 		{
-			String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
+			// get the "id" of the element
 
-			if ( !StringUtil.isBlank( theID ) )
+			try
 			{
-				// if the id is not null, parse it
+				String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
 
-				long id = Long.parseLong( theID );
-				if ( id <= 0 )
+				if ( !StringUtil.isBlank( theID ) )
 				{
-					handler
-							.getErrorHandler( )
-							.semanticError(
-									new DesignParserException(
-											new String[]{
-													element.getIdentifier( ),
-													attrs
-															.getValue( DesignSchemaConstants.ID_ATTRIB )},
-											DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+					// if the id is not null, parse it
+
+					long id = Long.parseLong( theID );
+					if ( id <= 0 )
+					{
+						handler
+								.getErrorHandler( )
+								.semanticError(
+										new DesignParserException(
+												new String[]{
+														element.getIdentifier( ),
+														attrs
+																.getValue( DesignSchemaConstants.ID_ATTRIB )},
+												DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+					}
+					element.setID( id );
 				}
-				element.setID( id );
-			}
-			else
-			{
-				// id is empty or null, then add it to the unhandle element list
+				else
+				{
+					// id is empty or null, then add it to the unhandle element
+					// list
 
-				if ( !( element instanceof ContentElement ) )
 					handler.unhandleIDElements.add( element );
+				}
+			}
+			catch ( NumberFormatException e )
+			{
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										new String[]{
+												element.getIdentifier( ),
+												attrs
+														.getValue( DesignSchemaConstants.ID_ATTRIB )},
+										DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
 			}
 		}
-		catch ( NumberFormatException e )
-		{
-			handler
-					.getErrorHandler( )
-					.semanticError(
-							new DesignParserException(
-									new String[]{
-											element.getIdentifier( ),
-											attrs
-													.getValue( DesignSchemaConstants.ID_ATTRIB )},
-									DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
-		}
-
 		// read view action
 
 		String viewAction = attrs

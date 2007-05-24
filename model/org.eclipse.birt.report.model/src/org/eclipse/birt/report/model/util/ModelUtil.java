@@ -66,6 +66,7 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -1596,7 +1597,8 @@ public class ModelUtil
 			}
 
 			retTarget.pushStep( tmpPropDefn, index );
-			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+					&& !(tmpContainer instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpContainer );
 				return retTarget;

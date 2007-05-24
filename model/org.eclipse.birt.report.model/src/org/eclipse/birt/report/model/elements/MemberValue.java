@@ -14,14 +14,12 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
-
 /**
- *
+ * 
  */
-public class MemberValue extends DesignElement
+public class MemberValue extends ContentElement
 {
 
 	/**

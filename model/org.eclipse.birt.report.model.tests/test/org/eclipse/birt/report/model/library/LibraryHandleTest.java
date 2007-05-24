@@ -31,7 +31,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -98,6 +97,14 @@ public class LibraryHandleTest extends BaseTestCase
 		assertEquals( "NewTable21", tableHandle.getName( ) ); //$NON-NLS-1$
 
 		libraryHandle.getComponents( ).add( tableHandle );
+
+		tableHandle = libraryHandle.getElementFactory( ).newTableItem( null );
+		tableHandle.setName( null );
+
+		assertNull( tableHandle.getName( ) );
+
+		libraryHandle.rename( tableHandle );
+		assertEquals( "NewTable4", tableHandle.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -317,18 +324,8 @@ public class LibraryHandleTest extends BaseTestCase
 		LabelHandle copied = (LabelHandle) original.copy( ).getHandle(
 				libraryHandle.getModule( ) );
 		libraryHandle.rename( copied );
-		try
-		{
-			libraryHandle.getComponents( ).add( copied );
-		}
-		catch ( ContentException e )
-		{
-			assert false;
-		}
-		catch ( NameException e )
-		{
-			assert false;
-		}
+
+		libraryHandle.getComponents( ).add( copied );
 	}
 
 	/**
