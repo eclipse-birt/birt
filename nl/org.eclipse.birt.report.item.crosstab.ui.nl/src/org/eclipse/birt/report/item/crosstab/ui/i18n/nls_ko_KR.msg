@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
 AddMesureViewHandleAction.TransName=측정 표시/숨기기
 AddSubTotalAction.LabelName=총합계
 AddSubTotalAction.TransName=집계
-AddSubTotalAction.DisplayName=집계
+AddSubTotalAction.DisplayName=Totals
 AddSubTotalAction.TotalName=합계
 CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
 DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle 삭제
@@ -164,3 +164,17 @@ CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
 PageLayoutPropertyDescriptorProvider.PageLayout=페이지 레이아웃:
 CrosstabSectionPage.RepeatColumnHeader=열 머리글 반복
+
+###########################################################
+#ExpressionValueCellEditor properties
+
+ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
+ExpressionValueCellEditor.selectValueAction=<Select value...>
+ExpressionValueCellEditor.title=Select value
+SelectValueDialog.selectValue=Select value
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
+SelColumnMemberValue.Column.Level=Level
+SelColumnMemberValue.Column.Value=Value
+ChoiceSetFactory.choice.None=없음

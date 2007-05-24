@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=Afficher/Masquer les mesures
 AddMesureViewHandleAction.TransName=Afficher/Masquer les mesures
 AddSubTotalAction.LabelName=Total global
 AddSubTotalAction.TransName=Agrégation
-AddSubTotalAction.DisplayName=Agrégation
+AddSubTotalAction.DisplayName=Totals
 AddSubTotalAction.TotalName=TOTAL
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Modifier cube de données
 DeleteDimensionViewHandleAction.TransName=Supprimer Dimensionviewhandle
@@ -164,3 +164,17 @@ CrosstabPageGenerator.List.PageBreak=Saut de page
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Mise en page :
 CrosstabSectionPage.RepeatColumnHeader=Répéter l'en-tête de colonne
+
+###########################################################
+#ExpressionValueCellEditor properties
+
+ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
+ExpressionValueCellEditor.selectValueAction=<Select value...>
+ExpressionValueCellEditor.title=Select value
+SelectValueDialog.selectValue=Select value
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
+SelColumnMemberValue.Column.Level=Level
+SelColumnMemberValue.Column.Value=Value
+ChoiceSetFactory.choice.None=Aucun

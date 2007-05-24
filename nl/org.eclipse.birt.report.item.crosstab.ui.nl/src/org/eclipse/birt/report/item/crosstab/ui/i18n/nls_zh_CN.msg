@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=显示/隐藏度量
 AddMesureViewHandleAction.TransName=显示/隐藏度量
 AddSubTotalAction.LabelName=总计
 AddSubTotalAction.TransName=聚合
-AddSubTotalAction.DisplayName=聚合
+AddSubTotalAction.DisplayName=Totals
 AddSubTotalAction.TotalName=合计
 CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
 DeleteDimensionViewHandleAction.TransName=删除维视图句柄
@@ -164,3 +164,17 @@ CrosstabPageGenerator.List.PageBreak=分页符
 
 PageLayoutPropertyDescriptorProvider.PageLayout=页面布局:
 CrosstabSectionPage.RepeatColumnHeader=重复列标题
+
+###########################################################
+#ExpressionValueCellEditor properties
+
+ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
+ExpressionValueCellEditor.selectValueAction=<Select value...>
+ExpressionValueCellEditor.title=Select value
+SelectValueDialog.selectValue=Select value
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
+SelColumnMemberValue.Column.Level=Level
+SelColumnMemberValue.Column.Value=Value
+ChoiceSetFactory.choice.None=无

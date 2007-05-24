@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=計測の表示/非表示
 AddMesureViewHandleAction.TransName=計測の表示/非表示
 AddSubTotalAction.LabelName=総計
 AddSubTotalAction.TransName=総計
-AddSubTotalAction.DisplayName=総計
+AddSubTotalAction.DisplayName=Totals
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
 DeleteDimensionViewHandleAction.TransName=DimensionViewHandle の削除
@@ -164,3 +164,17 @@ CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ページ配置 :
 CrosstabSectionPage.RepeatColumnHeader=列のヘッダの繰り返し
+
+###########################################################
+#ExpressionValueCellEditor properties
+
+ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
+ExpressionValueCellEditor.selectValueAction=<Select value...>
+ExpressionValueCellEditor.title=Select value
+SelectValueDialog.selectValue=Select value
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
+SelColumnMemberValue.Column.Level=Level
+SelColumnMemberValue.Column.Value=Value
+ChoiceSetFactory.choice.None=なし
