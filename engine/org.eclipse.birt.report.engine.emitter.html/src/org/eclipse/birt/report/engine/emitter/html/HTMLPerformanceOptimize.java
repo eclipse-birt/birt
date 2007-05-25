@@ -282,11 +282,16 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		
 		if ( !isEmbeddable )
 		{
+			IStyle elementStyle = element.getStyle( );
+			// Build the Text Decoration for no embeddable view
+			AttributeBuilder.checkHyperlinkTextDecoration( elementStyle,
+					styleBuffer );
+
 			// Build the display for no embeddable view
 			String value = style.getDisplay( );
 			if ( null == value )
 			{
-				value = element.getStyle( ).getDisplay( );
+				value = elementStyle.getDisplay( );
 				if ( null != value )
 				{
 					styleBuffer.append( " display:" );
