@@ -709,16 +709,10 @@ public class DataExtractionTaskV1 extends EngineTask
 			rsetIter = executeSubQuery( dataSet.getParentID( ), dataSet
 					.getRowID( ), (ISubqueryDefinition) query.getParentQuery( ) );
 		}
-		while ( rsetIter.next( ) )
-		{
-			if ( rsetIter.getRowId( ) == rowId )
-			{
-				String queryName = query.getName( );
-				Scriptable scope = executionContext.getSharedScope( );
-				return rsetIter.getSecondaryIterator( queryName, scope );
-			}
-		}
-		return null;
+		rsetIter.moveTo( (int) rowId );
+		String queryName = query.getName( );
+		Scriptable scope = executionContext.getSharedScope( );
+		return rsetIter.getSecondaryIterator( queryName, scope );
 	}
 
 	/**
