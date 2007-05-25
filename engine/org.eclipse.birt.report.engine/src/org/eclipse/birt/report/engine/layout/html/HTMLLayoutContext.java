@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,14 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class HTMLLayoutContext
 {
@@ -29,6 +35,37 @@ public class HTMLLayoutContext
 	protected long pageNumber;
 
 	protected HTMLReportLayoutEngine engine;
+	
+	protected HashMap layoutHint = new HashMap();
+	
+	public void reset()
+	{
+		pageEmpty = true;
+		layoutHint = new HashMap();
+		finished = false;
+		allowPageBreak = true;
+		masterPage = null;
+	}
+	
+	public void addLayoutHint(IContent content, boolean finished)
+	{
+		layoutHint.put( content, new Boolean(finished) );
+	}
+	
+	public boolean getLayoutHint(IContent content)
+	{
+		Object finished = layoutHint.get( content );
+		if(finished!=null && finished instanceof Boolean)
+		{
+			return ((Boolean)finished).booleanValue( );
+		}
+		return true;
+	}
+	
+	public void removeLayoutHint()
+	{
+		layoutHint.clear( );
+	}
 
 	public String getMasterPage( )
 	{
@@ -167,10 +204,45 @@ public class HTMLLayoutContext
 		}
 		return hint;
 	}
+	
+	protected ArrayList hints = new ArrayList();
+	protected ArrayList currentHints = new ArrayList();
+	
+	public List getUnresolvedRowHints()
+	{
+		return hints;
+	}
+	
+	public UnresolvedRowHint getUnresolvedRowHint(ITableContent table)
+	{
+		if(hints.size( )>0)
+		{
+			String idStr = table.getInstanceID( ).toString( );
+			Iterator iter = hints.iterator( );
+			while(iter.hasNext())
+			{
+				UnresolvedRowHint rowHint = (UnresolvedRowHint) iter.next();
+				if(idStr.equals( rowHint.getTableId( ).toString( ) ))
+				{
+					return rowHint;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void addUnresolvedRowHint(UnresolvedRowHint hint)
+	{
+		currentHints.add( hint );
+	}
+	
 
 	public void clearPageHint( )
 	{
 		pageHint.clear( );
+		hints.clear( );
+		hints.addAll( currentHints );
+		currentHints.clear();
 		startContent = null;
 		currentContent = null;
 	}
@@ -190,6 +262,19 @@ public class HTMLLayoutContext
 	public void setPageNumber( long pageNumber )
 	{
 		this.pageNumber = pageNumber;
+	}
+	
+	public void setLayoutPageHint(IPageHint pageHint)
+	{
+		if(pageHint!=null)
+		{
+			pageNumber = pageHint.getPageNumber( );
+			int count = pageHint.getUnresolvedRowCount( );
+			for(int i=0; i<count; i++)
+			{
+				hints.add(  pageHint.getUnresolvedRowHint( i ) );
+			}
+		}
 	}
 
 }

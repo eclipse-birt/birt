@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class PDFReportLayoutEngine implements IReportLayoutEngine
 {
@@ -64,11 +65,11 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 	}
 
-	public void layout( IReportExecutor executor, IContentEmitter output, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination )
 	{
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
-		IReportContent report = executor.execute( );
+		
 		context.setReport( report );
 		setupLayoutOptions();
 		if(locale!=null)
@@ -82,14 +83,9 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		if ( output != null )
 		{
 			context.setFormat( output.getOutputFormat( ) );
-			output.start( report );
-			
 		}
 		layoutReport( report, executor, output );
-		if ( output != null )
-		{
-			output.end( report );
-		}
+
 		executor.close( );
 	}
 
@@ -161,6 +157,11 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
+	}
+
+	public void setLayoutPageHint( IPageHint pageHint )
+	{
+		context.setLayoutPageHint( pageHint );
 	}
 
 }

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,6 +42,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		this.report = report;
 		this.reportExecutor = executor;
 		this.emitter = emitter;
+		this.pageNumber = Math.max(  context.getPageNumber( ) - 1, 0);
 		this.executor = new ReportItemExecutorBase( ) {
 
 			public void close( )
@@ -182,7 +183,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.setPageNumber( pageNumber );
 			pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
 					pageNumber, pageDesign );
-			if ( emitter != null )
+			if ( emitter != null && pageContent!=null )
 			{
 				emitter.startPage( pageContent );
 			}
@@ -207,8 +208,8 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 		if ( !context.isPageEmpty( ) )
 		{
-			assert pageContent != null;
-			if ( emitter != null )
+			//assert pageContent != null;
+			if ( emitter != null && pageContent!=null )
 			{
 				emitter.endPage( pageContent );
 			}
@@ -217,5 +218,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.setPageEmpty( true );
 			context.clearPageHint( );
 		}
+		context.removeLayoutHint( );
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -946,7 +946,7 @@ public class ReportDocumentReader
 					}
 				}
 			}
-			else if ( version == IPageHintReader.VERSION_2 )
+			else if ( version == IPageHintReader.VERSION_2 || version == IPageHintReader.VERSION_3 )
 			{
 				long totalPage = pageHintReader.getTotalPage( );
 				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )

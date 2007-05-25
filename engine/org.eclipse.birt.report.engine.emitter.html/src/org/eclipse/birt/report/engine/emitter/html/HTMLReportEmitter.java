@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -444,62 +444,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return report;
 	}
 
-	/**
-	 * Pushes the Boolean indicating whether or not the item is hidden according
-	 * to the style
-	 * 
-	 * @param style
-	 */
-	public void push( IStyle style )
-	{
-		stack.push( new Boolean( peek( style ) ) );
-	}
 
-	/**
-	 * Pops the element of the stack
-	 * 
-	 * @return the boolean indicating whether or not the item is hidden
-	 */
-	public boolean pop( )
-	{
-		return ( (Boolean) stack.pop( ) ).booleanValue( );
-	}
 
-	/**
-	 * Peeks the element of stack
-	 * 
-	 * @param style
-	 * @return the boolean indicating whether or not the item is hidden
-	 */
-	public boolean peek( IStyle style )
-	{
-		boolean isHidden = false;
-		if ( !stack.empty( ) )
-		{
-			isHidden = ( (Boolean) stack.peek( ) ).booleanValue( );
-		}
-		if ( !isHidden )
-		{
-			String formats = style.getVisibleFormat( );
-			if ( formats != null
-					&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
-							.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
-			{
-				isHidden = true;
-			}
-		}
-		return isHidden;
-	}
-
-	/**
-	 * Checks if the current item is hidden
-	 * 
-	 * @return a boolean value
-	 */
-	public boolean isHidden( )
-	{
-		return ( (Boolean) stack.peek( ) ).booleanValue( );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -1093,12 +1039,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		assert table != null;
 
-		IStyle mergedStyle = table.getStyle( );
-		push( mergedStyle );
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		if ( enableMetadata )
 		{
@@ -1178,23 +1118,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	/**
-	 * Pushes the Boolean indicating whether or not the item is hidden according	 
-	 * @param hidden
-	 */
-	public void push( boolean hidden )
-	{		
-		boolean isHidden = false;
-		if ( !stack.empty( ) )
-		{
-			isHidden = ( (Boolean) stack.peek( ) ).booleanValue( );
-		}
-		if ( !isHidden )
-		{
-			isHidden = hidden;
-		}
-		stack.push( new Boolean( isHidden ) );		
-	}
 	
 	/**
 	 * check whether to hide the column.
@@ -1220,10 +1143,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endTable( ITableContent table )
 	{
-		if ( pop( ) )
-		{
-			return;
-		}
 
 		//	include select handle table
 		if ( enableMetadata )
@@ -1248,10 +1167,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startTableHeader( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.openTag( HTMLTags.TAG_THEAD );
 	}
 
@@ -1262,10 +1177,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endTableHeader( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.closeTag( HTMLTags.TAG_THEAD );
 	}
 
@@ -1276,10 +1187,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startTableBody( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.openTag( HTMLTags.TAG_TBODY );
 	}
 
@@ -1290,10 +1197,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endTableBody( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.closeTag( HTMLTags.TAG_TBODY );
 	}
 
@@ -1304,10 +1207,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startTableFooter( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.openTag( HTMLTags.TAG_TFOOT );
 	}
 
@@ -1318,10 +1217,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endTableFooter( ITableBandContent band )
 	{
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		writer.closeTag( HTMLTags.TAG_TFOOT );
 	}
 
@@ -1333,12 +1228,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startRow( IRowContent row )
 	{
 		assert row != null;
-		IStyle mergedStyle = row.getStyle( );
-		push( mergedStyle );
-		if ( isHidden( ) )
-		{
-			return;
-		}
 
 		writer.openTag( HTMLTags.TAG_TR );
 		if ( enableMetadata )
@@ -1411,11 +1300,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endRow( IRowContent row )
 	{
-		if ( pop( ) )
-		{
-			return;
-		}
-
 		if ( enableMetadata )
 		{
 			metadataEmitter.endRow( row );
@@ -1453,13 +1337,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{				
 		leafCell = cell;
 		cellFilled = false;
-
-		push( false );
 		
-		if ( isHidden( ) )
-		{
-			return;
-		}			
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
 			
@@ -1524,10 +1402,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		leafCell = null;
 		cellFilled = false;
 		
-		if ( pop( ) )
-		{
-			return;
-		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
 
 		if ( enableMetadata )
@@ -1552,11 +1426,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startContainer( IContainerContent container )
 	{
 		IStyle mergedStyle = container.getStyle( );
-		push( mergedStyle );
-		if ( isHidden( ) )
-		{
-			return;
-		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start container" ); //$NON-NLS-1$
 
 		htmlEmitter.openContainerTag( container );
@@ -1592,11 +1461,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endContainer( IContainerContent container )
 	{
-		if ( pop( ) )
-		{
-			return;
-		}
-
 		htmlEmitter.closeContainerTag( );
 
 		logger.log( Level.FINE, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
@@ -1610,10 +1474,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startText( ITextContent text )
 	{
 		IStyle mergedStyle = text.getStyle( );
-		if ( peek( mergedStyle ) )
-		{
-			return;
-		}
 
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start text" ); //$NON-NLS-1$
 
@@ -1701,11 +1561,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startForeign( IForeignContent foreign )
 	{
 		IStyle mergedStyle = foreign.getStyle( );
-
-		if ( peek( mergedStyle ) )
-		{
-			return;
-		}
 
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start foreign" ); //$NON-NLS-1$
 
@@ -2023,10 +1878,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		assert image != null;
 		IStyle mergedStyle = image.getStyle( );
 
-		if ( peek( mergedStyle ) )
-		{
-			return;
-		}
 
 		logger.log( Level.FINE, "[HTMLImageEmitter] Start image" ); //$NON-NLS-1$ 
 

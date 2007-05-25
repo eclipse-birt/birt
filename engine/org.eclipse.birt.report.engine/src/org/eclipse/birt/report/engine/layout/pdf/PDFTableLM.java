@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -224,6 +224,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		{
 			layout = new TableAreaLayout( tableContent, layoutInfo, 0,
 					columnNumber );
+			layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
 		if ( parent != null )
 		{
@@ -765,8 +766,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 		if ( layout != null )
 		{
-			int originalHeight = getDimensionValue( row.getContent( ).getHeight( ) );
-			layout.updateRow( row, specifiedHeight, originalHeight, finished );
+			layout.updateRow( row, specifiedHeight, finished );
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
-import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
+import org.eclipse.birt.report.engine.internal.document.v3.PageHintWriterV3;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -181,7 +181,10 @@ public class ReportDocumentBuilder
 		engine = LayoutEngineFactory
 				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
 		engine.setPageHandler( layoutPageHandler );
-		engine.layout( executor, outputEmitters, true );
+		IReportContent report = executor.execute( );
+		outputEmitters.start( report );
+		engine.layout( executor, report, outputEmitters, true );
+		outputEmitters.end( report );
 		engine = null;
 	}
 
@@ -456,7 +459,7 @@ public class ReportDocumentBuilder
 			}
 			try
 			{
-				hintWriter = new PageHintWriterV2( document.getArchive( ) );
+				hintWriter = new PageHintWriterV3( document.getArchive( ) );
 			}
 			catch ( IOException ex )
 			{
@@ -582,6 +585,7 @@ public class ReportDocumentBuilder
 								range[1] );
 						hint.addSection( section );
 					}
+					hint.addUnresolvedRowHints( htmlContext.getUnresolvedRowHints( ) );
 					writePageHint( hint );
 				}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,12 +24,17 @@ public interface IPageHintConstant
 	static final int VERSION_1 = 1;
 
 	/**
-	 * this is the version used by 2.1.3 and 2.2RC0 and future release.
+	 * this is the version used by 2.1.3 and 2.2RC0 release.
 	 */
 	static final int VERSION_2 = 2;
+	
 	/**
-	 * the current release is version 1.
+	 * this is the version used by 2.2RC2 release.
 	 */
-	static final int VERSION = VERSION_2;
+	static final int VERSION_3 = 3;
+	/**
+	 * the current release is version 3.
+	 */
+	static final int VERSION = VERSION_3;
 
 }

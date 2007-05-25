@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -11,9 +11,8 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -26,30 +25,26 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
-import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
-import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.ReportPageExecutor;
 import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
 import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
 
 	IReportDocument reportDoc;
-	String emitterID;
 	private InnerRender innerRender;
 
 	/**
@@ -107,66 +102,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		setPageNumber( pageNumber );
 		render( );
-	}
-
-	protected IContentEmitter createContentEmitter( ) throws EngineException
-	{
-		assert renderOptions != null;
-		String format = renderOptions.getOutputFormat( );
-		assert format != null;
-
-		// try to load the output emitters
-		ExtensionManager extManager = ExtensionManager.getInstance( );
-		boolean supported = false;
-		Collection supportedFormats = extManager.getSupportedFormat( );
-		Iterator iter = supportedFormats.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String supportedFormat = (String) iter.next( );
-			if ( supportedFormat != null
-					&& supportedFormat.equalsIgnoreCase( format ) )
-			{
-				supported = true;
-				break;
-			}
-		}
-
-		if ( !supported )
-		{
-			log.log( Level.SEVERE,
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-			throw new UnsupportedFormatException(
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-		}
-
-		IContentEmitter emitter;
-		try
-		{
-			emitter = extManager.createEmitter( format, emitterID );
-		}
-		catch ( Throwable t )
-		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format, t );
-		}
-		if ( emitter == null )
-		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format );
-		}
-
-		pagination = extManager.getPagination( format );
-		// the output will be paginate.
-		if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
-		{
-			emitter = new HTMLTableLayoutNestEmitter( emitter );
-		}
-
-		return emitter;
 	}
 
 	public void close( )
@@ -386,7 +321,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void setPageRange( String pageRange ) throws EngineException
 	{
 		innerRender = new PageRangeRender( parsePageSequence( pageRange,
-				reportDoc.getPageCount( ) ) );
+					reportDoc.getPageCount( ) ) );
 	}
 
 	/*
@@ -454,7 +389,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 				paged = false;
 			}
-			layoutEngine.layout( executor, outputEmitters, paged );
+			IReportContent report = executor.execute( );
+			outputEmitters.start( report );
+			layoutEngine.layout( executor, report, outputEmitters, paged );
+			outputEmitters.end( report );
 			closeRender( );
 			executor.close( );
 		}
@@ -464,14 +402,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Renders a range of pages.
 	 */
 	private class PageRangeRender extends InnerRender
 	{
 
-		private List pageSequences;
+		protected List pageSequences;
 
 		public PageRangeRender( long[] arrayRange )
 		{
@@ -484,26 +422,69 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.pageSequences = pageRange;
 		}
 
+		protected boolean isPagedExecutor()
+		{
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+			{
+				return false;
+			}
+			boolean paged = true;
+			IRenderOption renderOption = executionContext.getRenderOption( );
+			HTMLRenderOption htmlRenderOption = new HTMLRenderOption(
+					renderOption );
+			boolean htmlPagination = htmlRenderOption.getHtmlPagination( );
+			if ( !htmlPagination )
+			{
+				paged = false;
+			}
+			return paged;
+		}
+		
+		protected boolean needPaginate()
+		{
+			return false;
+		}
+		
+		protected IPageHint getPageHint(ReportPageExecutor executor, long pageNumber)
+		{
+			try
+			{
+				return executor.getLayoutPageHint( pageNumber );
+			}
+			catch(IOException ex)
+			{
+				executionContext.addException( new EngineException(
+						"can't load the page hint", ex ) );
+				return null;
+			}
+		}
+		
 		void render( ) throws Exception
 		{
 			// start the render
 			setupRenderOption( );
 			IContentEmitter emitter = createContentEmitter( );
 			String format = executionContext.getOutputFormat( );
+			boolean paged = isPagedExecutor();
+			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
+					executionContext, pageSequences, paged );
+			IReportExecutor executor = new SuppressDuplciateReportExecutor( pagesExecutor );
+			executor = new LocalizedReportExecutor( executionContext,
+					executor );
+			executionContext.setExecutor( executor );
+			initializeContentEmitter( emitter, executor );
+
+			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
+					pagination, renderOptions );
+
+			layoutEngine.setLocale( executionContext.getLocale( ) );
+			
+			PageRangeIterator iter = new PageRangeIterator(
+					pageSequences );
+			
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				IReportExecutor executor = new ReportPageExecutor(
-						executionContext, pageSequences, false );
-				executor = new SuppressDuplciateReportExecutor( executor );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-
-				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-						pagination, renderOptions );
-
-				layoutEngine.setLocale( executionContext.getLocale( ) );
+				
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
@@ -512,72 +493,57 @@ public class RenderTask extends EngineTask implements IRenderTask
 						format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
-
 				startRender( );
-				layoutEngine.layout( executor, outputEmitters, true );
+				IReportContent report = executor.execute( );
+				outputEmitters.start( report );
+				long pageNumber = iter.next( );
+				layoutEngine.setLayoutPageHint( getPageHint(pagesExecutor, pageNumber)  );
+				layoutEngine.layout( executor, report, outputEmitters, true );
+				outputEmitters.end( report );
 				closeRender( );
 				executor.close( );
 			}
-			else
+			else if ( ExtensionManager.PAGE_BREAK_PAGINATION.equals( pagination ))
 			{
-				boolean paged = true;
-				IRenderOption renderOption = executionContext.getRenderOption( );
-				HTMLRenderOption htmlRenderOption = new HTMLRenderOption(
-						renderOption );
-				boolean htmlPagination = htmlRenderOption.getHtmlPagination( );
-				if ( !htmlPagination )
-				{
-					paged = false;
-				}
-
-				IReportExecutor executor = new ReportPageExecutor(
-						executionContext, pageSequences, paged );
-				executor = new SuppressDuplciateReportExecutor( executor );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				// executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-
+				startRender( );
 				IReportContent report = executor.execute( );
 				emitter.start( report );
-				startRender( );
 				if ( paged )
 				{
-					PageRangeIterator iter = new PageRangeIterator(
-							pageSequences );
+					//FIXME test it
 					while ( iter.hasNext( ) )
 					{
 						long pageNumber = iter.next( );
-						IPageContent pageContent = ReportExecutorUtil
-								.executeMasterPage( executor, pageNumber, null );
-						emitter.startPage( pageContent );
 						// here the pageExecutor will returns a report.root.
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
 						if ( pageExecutor != null )
 						{
-							ReportExecutorUtil.execute( pageExecutor, emitter );
+							IReportExecutor pExecutor = new ReportExecutorWrapper(pageExecutor, executor);
+							layoutEngine.setLayoutPageHint( getPageHint(pagesExecutor, pageNumber));
+							layoutEngine.layout( pExecutor, report, emitter, false );
 						}
-						emitter.endPage( pageContent );
 					}
 				}
 				else
 				{
-					PageRangeIterator iter = new PageRangeIterator(
-							pageSequences );
 					long pageNumber = iter.next( );
-					IPageContent pageContent = ReportExecutorUtil
-							.executeMasterPage( executor, pageNumber, null );
-					emitter.startPage( pageContent );
-					while ( executor.hasNextChild( ) )
-					{
-						IReportItemExecutor itemExecutor = executor
-								.getNextChild( );
-						ReportExecutorUtil.execute( itemExecutor, emitter );
-					}
-					emitter.endPage( pageContent );
+					layoutEngine.setLayoutPageHint( getPageHint(pagesExecutor, pageNumber)  );
+					layoutEngine.layout( executor, report, emitter, needPaginate() );
 				}
 
+				emitter.end( report );
+				closeRender( );
+				executor.close( );
+			}
+			else if ( ExtensionManager.NO_PAGINATION.equals( pagination ))
+			{
+				startRender( );
+				IReportContent report = executor.execute( );
+				emitter.start( report );
+				long pageNumber = iter.next( );
+				layoutEngine.setLayoutPageHint( getPageHint(pagesExecutor, pageNumber) );
+				layoutEngine.layout( executor, report, emitter, false );
 				emitter.end( report );
 				closeRender( );
 				executor.close( );
@@ -614,19 +580,21 @@ public class RenderTask extends EngineTask implements IRenderTask
 			setupRenderOption( );
 			IContentEmitter emitter = createContentEmitter( );
 			String format = executionContext.getOutputFormat( );
+			IReportExecutor executor = new ReportletExecutor(
+					executionContext, offset );
+			executor = new SuppressDuplciateReportExecutor( executor );
+			executor = new LocalizedReportExecutor( executionContext,
+					executor );
+			executionContext.setExecutor( executor );
+			initializeContentEmitter( emitter, executor );
+			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
+					pagination, renderOptions );
+
+			layoutEngine.setLocale( executionContext.getLocale( ) );
+			
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				IReportExecutor executor = new ReportletExecutor(
-						executionContext, offset );
-				executor = new SuppressDuplciateReportExecutor( executor );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-						pagination, renderOptions );
 
-				layoutEngine.setLocale( executionContext.getLocale( ) );
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
@@ -635,38 +603,57 @@ public class RenderTask extends EngineTask implements IRenderTask
 						format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
-
-				startRender( );
-				layoutEngine.layout( executor, outputEmitters, false );
-				closeRender( );
-				executor.close( );
+				emitter = outputEmitters;
 			}
-			else
-			{
-				IReportExecutor executor = new ReportletExecutor(
-						executionContext, offset );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executor = new SuppressDuplciateReportExecutor( executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
 
-				startRender( );
-				IReportContent report = executor.execute( );
-				emitter.start( report );
-				while ( executor.hasNextChild( ) )
-				{
-					IReportItemExecutor itemExecutor = executor.getNextChild( );
-					if ( itemExecutor != null )
-					{
-						ReportExecutorUtil.execute( itemExecutor, emitter );
-					}
-				}
-				emitter.end( report );
-				closeRender( );
-				executor.close( );
-			}
+			startRender( );
+			IReportContent report = executor.execute( );
+			emitter.start( report );
+			layoutEngine.layout( executor, report, emitter, false );
+			emitter.end( report );
+			closeRender( );
+			executor.close( );
 		}
+	}
+	
+	private static class ReportExecutorWrapper implements IReportExecutor
+	{
+		IReportItemExecutor executor;
+		IReportExecutor reportExecutor;
+		ReportExecutorWrapper(IReportItemExecutor itemExecutor, IReportExecutor reportExecutor)
+		{
+			executor = itemExecutor;
+			this.reportExecutor = reportExecutor;
+		}
+
+		public void close( )
+		{
+			executor.close( );
+			
+		}
+
+		public IReportItemExecutor createPageExecutor( long pageNumber,
+				MasterPageDesign pageDesign )
+		{
+			return reportExecutor.createPageExecutor( pageNumber, pageDesign );
+		}
+
+		public IReportContent execute( )
+		{
+			//FIXME: create the report content only once.
+			return reportExecutor.execute( );
+		}
+
+		public IReportItemExecutor getNextChild( )
+		{
+			return executor.getNextChild( );
+		}
+
+		public boolean hasNextChild( )
+		{
+			return executor.hasNextChild( );
+		}
+		
 	}
 
 	public void setInstanceID( String iid ) throws EngineException

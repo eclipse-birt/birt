@@ -70,6 +70,10 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 	{
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );
+		if(hasNext)
+		{
+			context.addLayoutHint( content, !hasNext );
+		}
 		return hasNext;
 	}
 

@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Copyright (c) 2004,2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.html;
 
@@ -46,15 +56,19 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	 * emitter used to cache the content in current cell.
 	 */
 	protected IContentEmitter cellEmitter;
+	
+	protected HTMLLayoutContext context; 
+
 
 	/**
 	 * the group level information used to resovle the drop cells.
 	 */
 	protected Stack groupStack = new Stack( );
 
-	public HTMLTableLayoutEmitter( IContentEmitter emitter )
+	public HTMLTableLayoutEmitter( IContentEmitter emitter,HTMLLayoutContext context  )
 	{
 		this.emitter = emitter;
+		this.context = context;
 	}
 	
 	public void end( IReportContent report )
@@ -84,6 +98,24 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			return ( (Integer) groupStack.peek( ) ).intValue( );
 		}
 		return -1;
+	}
+	
+	protected boolean isContentFinished(IContent content)
+	{
+		if(context!=null)
+		{
+				return context.getLayoutHint( content );
+		}
+		return true;
+	}
+	
+	protected boolean allowPageBreak()
+	{
+		if(context!=null)
+		{
+				return context.allowPageBreak( );
+		}
+		return false;
 	}
 
 	public void startContent( IContent content )
@@ -125,6 +157,11 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				EngineIRConstants.FORMAT_TYPE_VIEWER );
 		this.layoutEvents = new Stack( );
 	}
+	
+	public boolean isLayoutStarted()
+	{
+		return layout!=null;
+	}
 
 	protected boolean hasDropCell( )
 	{
@@ -151,26 +188,26 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		return dropId;
 	}
 
-	public void resolveAll( )
+	public void resolveAll(boolean finished )
 	{
 		if ( hasDropCell )
 		{
-			layout.resolveDropCells( );
+			layout.resolveDropCells( finished );
 			hasDropCell = layout.hasDropCell( );
 		}
 	}
 
-	public void resolveCellsOfDrop( int groupLevel, boolean dropAll )
+	public void resolveCellsOfDrop( int groupLevel, boolean dropAll, boolean finished )
 	{
 		if ( hasDropCell )
 		{
 			if ( dropAll )
 			{
-				layout.resolveDropCells( createDropID( groupLevel, "all" ) ); //$NON-NLS-1$
+				layout.resolveDropCells( createDropID( groupLevel, "all" ), finished ); //$NON-NLS-1$
 			}
 			else
 			{
-				layout.resolveDropCells( createDropID( groupLevel, "detail" ) ); //$NON-NLS-1$
+				layout.resolveDropCells( createDropID( groupLevel, "detail" ), finished ); //$NON-NLS-1$
 			}
 			hasDropCell = layout.hasDropCell( );
 		}
@@ -193,21 +230,36 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		int eventType;
 		Object value;
 	}
+	
+	protected static class StartInfo
+	{
+		StartInfo(int rowId, int cellId)
+		{
+			this.rowId = rowId;
+			this.cellId = cellId;
+		}
+		int rowId;
+		int cellId;
+	}
 
-	protected class CellContent implements Cell.Content
+	public static class CellContent implements Cell.Content
 	{
 
 		protected ICellContent cell;
 
 		protected BufferedReportEmitter buffer;
 
-		protected CellContent( ICellContent cell, BufferedReportEmitter buffer )
+		public CellContent( ICellContent cell, BufferedReportEmitter buffer )
 		{
 			this.cell = cell;
 			this.buffer = buffer;
 
 		}
 
+		public ICellContent getContent()
+		{
+			return cell;
+		}
 		public boolean isEmpty( )
 		{
 			return buffer == null || buffer.isEmpty( );
@@ -242,17 +294,18 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 							emitter );
 					break;
 				case LayoutEvent.ON_ROW :
-					flushRow( ( (Integer) event.value ).intValue( ) , true);
+					flushRow( ( (StartInfo) event.value ).rowId , 0, true );
 					break;
 				case LayoutEvent.ON_FIRST_DROP_CELL:
-					flushRow( ( (Integer) event.value ).intValue( ) , false);
+					flushRow( ( (StartInfo) event.value ).rowId,
+							( (StartInfo) event.value ).cellId, false );
 					break;
 			}
 		}
 		resetLayout();
 	}
 	
-	protected void flushRow( int rowId, boolean withStart)
+	protected void flushRow( int rowId, int colId, boolean withStart )
 	{
 		int colCount = layout.getColCount( );
 		Row row = layout.getRow( rowId );
@@ -261,7 +314,7 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			emitter.startRow( rowContent );
 		}
-		for ( int j = 0; j < colCount; j++ )
+		for ( int j = colId; j < colCount; j++ )
 		{
 			Cell cell = row.getCell( j );
 			if ( cell.getStatus( ) == Cell.CELL_USED )
@@ -273,12 +326,12 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				tempCell.setRowSpan( cell.getRowSpan( ) );
 				tempCell.setColSpan( cell.getColSpan( ) );
 
+				emitter.startCell( tempCell );
 				if ( content.buffer != null )
 				{
-					emitter.startCell( tempCell );
 					content.buffer.flush( );
-					emitter.endCell( tempCell );
 				}
+				emitter.endCell( tempCell );
 			}
 			if ( cell.getStatus( ) == Cell.CELL_EMPTY )
 			{

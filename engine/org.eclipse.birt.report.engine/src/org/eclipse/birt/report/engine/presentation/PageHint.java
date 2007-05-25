@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.presentation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class PageHint implements IPageHint
 {
@@ -19,6 +20,7 @@ public class PageHint implements IPageHint
 	ArrayList sections = new ArrayList( );
 	protected long pageNumber;
 	protected long offset;
+	ArrayList hints = new ArrayList();
 
 	public PageHint( )
 	{
@@ -86,6 +88,27 @@ public class PageHint implements IPageHint
 	public void addSection( PageSection section )
 	{
 		sections.add( section );
+	}
+
+	public void addUnresolvedRowHints( Collection hints )
+	{
+		this.hints.addAll( hints );
+	}
+	
+	public int getUnresolvedRowCount( )
+	{
+		return hints.size( );
+	}
+
+	public UnresolvedRowHint getUnresolvedRowHint( int index )
+	{
+		assert index >= 0 && index < hints.size( );
+		return (UnresolvedRowHint)hints.get( index );
+	}
+	
+	public void addUnresolvedRowHint(UnresolvedRowHint hint)
+	{
+		hints.add( hint );
 	}
 
 }

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.html;
+
+import org.eclipse.birt.report.engine.content.IRowContent;
 
 
 public class HTMLRowLM extends HTMLInlineStackingLM
@@ -34,10 +36,26 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 		return hasNext;
 	}
 	
+	protected  boolean layoutChildren( )
+	{
+		boolean hasNext = super.layoutChildren( );
+		if(hasNext)
+		{
+			context.addLayoutHint( content, !hasNext );
+		}
+		return hasNext;
+		
+	}
+	
 	protected boolean handleVisibility( )
 	{
+		//handle visibility in table layout
 		boolean ret = super.handleVisibility( );
-		// tbl.skipHiddenRow();
+		if(ret && ((HTMLTableLayoutNoNestEmitter)emitter).isLayoutStarted( ))
+		{
+			emitter.startRow( (IRowContent)content );
+			emitter.endRow( (IRowContent)content );
+		}
 		return ret;
 	}
 }

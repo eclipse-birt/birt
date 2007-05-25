@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,14 +14,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Properties;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -32,6 +34,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 import org.w3c.dom.css.CSSValue;
 
 
@@ -68,13 +71,36 @@ public class TableAreaLayout
 	
 	protected boolean firstRow = true;
 
-	public TableAreaLayout(ITableContent tableContent, TableLayoutInfo layoutInfo, int start, int columnNubmer)
+	public TableAreaLayout(ITableContent tableContent, TableLayoutInfo layoutInfo, int start, int columnNumber)
 	{
 		this.tableContent = tableContent;
 		this.layoutInfo = layoutInfo;
 		this.start = start;
 		this.end = start + columnNumber;
-		this.columnNumber = columnNubmer;
+		this.columnNumber = columnNumber;
+	}
+	
+	public void initTableLayout(UnresolvedRowHint hint)
+	{
+		if(hint!=null)
+		{
+			IReportContent report = tableContent.getReportContent( );
+			IRowContent rowContent = report.createRowContent( );
+			InstanceID rowId = hint.getRowId( );
+			rowContent.setInstanceID( rowId );
+			rowContent.setParent( tableContent );
+			RowArea rowArea = AreaFactory.createRowArea( rowContent );
+			unresolvedRow = new Row(rowArea, start, end - start, false);
+			for(int i=start; i<end; i++)
+			{
+				ICellContent cellContent = report.createCellContent( );
+				hint.initUnresolvedCell( cellContent, rowId, i );
+				cellContent.setParent( rowContent );
+				CellArea cellArea = AreaFactory.createCellArea( cellContent );
+				unresolvedRow.addArea( cellArea );
+				i = i + cellArea.getColSpan( ) - 1;
+			}
+		}
 	}
 	
 	public void setUnresolvedRow(Row row)
@@ -153,7 +179,6 @@ public class TableAreaLayout
 	{
 		IContent cellContent = cellArea.getContent( );
 		int columnID = cellArea.getColumnID( );
-		int rowID = cellArea.getRowID( );
 		int colSpan = cellArea.getColSpan( );
 		IRowContent row = (IRowContent) cellContent.getParent( );
 		IStyle cellContentStyle = cellContent.getComputedStyle( );
@@ -787,7 +812,7 @@ public class TableAreaLayout
 		return false;
 	}
 	
-	public void updateRow(RowArea rowArea, int specifiedHeight, int originalHeight, boolean finished)
+	public void updateRow(RowArea rowArea, int specifiedHeight,  boolean finished)
 	{
 		/*
 		 * 1. resolve drop conflict, formailize current row.
@@ -796,7 +821,7 @@ public class TableAreaLayout
 		 */
 		hasDropCell = !finished;
 		Row lastRow = getPreviousRow();
-		if(lastRow==null && existDropCells())
+		if(lastRow==null && existDropCells() &&(!LayoutUtil.isRepeatableRow( (IRowContent)rowArea.getContent( ))))
 		{
 			lastRow = unresolvedRow;
 		}
@@ -880,14 +905,14 @@ public class TableAreaLayout
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
 					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
 					rowArea.addChild( emptyCell );
-					 i = i + emptyCell.getColSpan( ) -1;
+					i = i + emptyCell.getColSpan( ) -1;
 				}
 			}
 		}
 
-		if ( originalHeight == 0 && isEmptyRow( row ) )
+		if ( specifiedHeight == 0 && isEmptyRow( row ) )
 		{
-			height = getHeightOfEmptyRow( row );
+			height = Math.max( height, getHeightOfEmptyRow( row ));
 		}
 		
 		//update row height
@@ -906,7 +931,7 @@ public class TableAreaLayout
 			rowArea.setHeight( height );
 		}
 		
-		if(firstRow && existDropCells())
+		if(firstRow && existDropCells()&&(!LayoutUtil.isRepeatableRow( (IRowContent)rowArea.getContent( ))))
 		{
 			mergeDropCell(rowArea);
 		}
@@ -1007,12 +1032,12 @@ public class TableAreaLayout
 	{
 		int rowSpan = cell.getRowSpan();
 		IContent rowContent = (IContent)cell.getContent( ).getParent( );
-		if(row!=rowContent)
+		
+		if ( rowSpan > 1
+				&& ( !row.getInstanceID( ).toString( ).equals(
+						rowContent.getInstanceID( ).toString( ) ) ) )
 		{
-			if(rowSpan>1)
-			{
-				return rowSpan -1;
-			}
+			return rowSpan - 1;
 		}
 		return rowSpan;
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,20 +11,22 @@
 
 package org.eclipse.birt.report.engine.executor.buffermgr;
 
-
 /**
  * CELL in table layout
  * 
  */
 public class Cell
 {
+
 	public interface Content
 	{
-		boolean isEmpty();
+
+		boolean isEmpty( );
+
 		void reset( );
 	};
-	
-	final static Cell EMPTY_CELL = new Cell(Cell.CELL_EMPTY);
+
+	final static Cell EMPTY_CELL = new Cell( Cell.CELL_EMPTY );
 	/**
 	 * CELL is empty
 	 */
@@ -75,8 +77,11 @@ public class Cell
 
 	Cell getCell( )
 	{
-		assert status == CELL_SPANED;
-		return (Cell) content;
+		if ( status == CELL_SPANED )
+		{
+			return (Cell) content;
+		}
+		return this;
 	}
 
 	public int getStatus( )
@@ -84,26 +89,83 @@ public class Cell
 		return this.status;
 	}
 
-	public Object getContent( )
+	public Content getContent( )
 	{
-		assert status == CELL_USED;
-		return content;
+		Cell cell = getCell( );
+		return (Content) cell.content;
 	}
-	
-	public int getRowId()
+
+	public int getRowId( )
 	{
 		return rowId;
 	}
-	public int getColId()
+
+	public int getColId( )
 	{
 		return colId;
 	}
-	public int getRowSpan()
+
+	public int getLeftRowSpan( )
 	{
+		if ( status == CELL_USED )
+		{
+			return rowSpan;
+		}
+		else if ( status == CELL_SPANED )
+		{
+			Cell cell = getCell( );
+			if ( cell != null )
+			{
+				int originalRowSpan = cell.getRowSpan( );
+				if ( originalRowSpan > 0 )
+				{
+					return originalRowSpan + cell.getRowId( ) - rowId;
+				}
+				return originalRowSpan;
+
+			}
+		}
 		return rowSpan;
 	}
-	public int getColSpan()
+
+	public int getRowSpan( )
 	{
+		if ( status == CELL_USED )
+		{
+			return rowSpan;
+		}
+		else if ( status == CELL_SPANED )
+		{
+			Cell cell = getCell( );
+			if ( cell != null )
+			{
+				int originalRowSpan = cell.getRowSpan( );
+				if ( originalRowSpan > 0 )
+				{
+					return originalRowSpan + cell.getRowId( ) - rowId;
+				}
+				return originalRowSpan;
+
+			}
+		}
+		return rowSpan;
+	}
+
+	public int getColSpan( )
+	{
+		if ( status == CELL_USED )
+		{
+			return colSpan;
+		}
+		else if ( status == CELL_SPANED )
+		{
+			Cell cell = getCell( );
+			if ( cell != null )
+			{
+				return cell.getColSpan( );
+
+			}
+		}
 		return colSpan;
 	}
 }

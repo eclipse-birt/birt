@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,7 +42,7 @@ public class PDFRowLM extends PDFInlineStackingLM
 		calculateSpecifiedHeight( );
 	}
 
-	protected void calculateSpecifiedHeight( )
+	/*protected void calculateSpecifiedHeight( )
 	{
 		super.calculateSpecifiedHeight( );
 		if ( specifiedHeight == 0 )
@@ -52,7 +52,7 @@ public class PDFRowLM extends PDFInlineStackingLM
 					.getProperty( IStyle.STYLE_FONT_SIZE ) );
 			specifiedHeight = fontSize;
 		}
-	}
+	}*/
 
 	protected void createRoot( )
 	{
@@ -128,10 +128,10 @@ public class PDFRowLM extends PDFInlineStackingLM
 		
 	}
 
-	protected boolean isHidden( )
+	/*protected boolean isHidden( )
 	{
 		return isHiddenByVisibility( );
-	}
+	}*/
 
 	public boolean addArea( IArea area, boolean keepWithPrevious,
 			boolean keepWithNext )

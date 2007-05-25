@@ -366,13 +366,27 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		}
 		return null;
 	}
+	
+	protected boolean isHidden( IContent content )
+	{
+		if ( content != null )
+		{
+			IStyle style = content.getStyle( );
+			if(!IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
+			{
+				return isHiddenByVisibility( content );
+			}
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * if the content is hidden
 	 * 
 	 * @return
 	 */
-	private boolean isHidden( IContent content )
+	private boolean isHiddenByVisibility( IContent content )
 	{
 		assert content != null;
 		IStyle style = content.getStyle( );

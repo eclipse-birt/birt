@@ -1040,11 +1040,11 @@ public class ReportEngineService
 
 			// Fix 180435
 			// If exported with word format, set to pagination.
-			if ( IBirtConstants.DOC_RENDER_FORMAT.equalsIgnoreCase( format ) )
+			/*if ( IBirtConstants.DOC_RENDER_FORMAT.equalsIgnoreCase( format ) )
 			{
 				( (IHTMLRenderOption) renderOption ).setOption(
 						IHTMLRenderOption.HTML_PAGINATION, Boolean.TRUE );
-			}
+			}*/
 
 			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
 					new Boolean( rtl ) );

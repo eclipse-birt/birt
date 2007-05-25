@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PageHintReaderV2 implements IPageHintReader
 {
@@ -125,10 +126,40 @@ public class PageHintReaderV2 implements IPageHintReader
 				return readPageHintV1( in );
 			case IPageHintWriter.VERSION_2 :
 				return readPageHintV2( in );
+			case IPageHintWriter.VERSION_3 :
+				return readPageHintV3( in );
 			default :
 				throw new IOException( "Unsupported page hint version "
 						+ version );
 		}
+	}
+	
+	public IPageHint readPageHintV3( DataInputStream in ) throws IOException
+	{
+		long pageNumber = IOUtil.readLong( in );
+		long offset = IOUtil.readLong( in );
+		PageHint hint = new PageHint( pageNumber, offset );
+		int sectionCount = IOUtil.readInt( in );
+		for ( int i = 0; i < sectionCount; i++ )
+		{
+			PageSection section = new PageSection( );
+			section.starts = readInstanceIndex( in );
+			section.ends = readInstanceIndex( in );
+			section.startOffset = section.starts[section.starts.length - 1]
+					.getOffset( );
+			section.endOffset = section.ends[section.ends.length - 1]
+					.getOffset( );
+			hint.addSection( section );
+		}
+		
+		int hintSize = IOUtil.readInt( in );
+		for(int i=0; i < hintSize; i++)
+		{
+			UnresolvedRowHint rowHint= new UnresolvedRowHint();
+			rowHint.readObject( new DataInputStream( in ) );
+			hint.addUnresolvedRowHint( rowHint );
+		}
+		return hint;
 	}
 
 	public IPageHint readPageHintV1( DataInputStream in ) throws IOException

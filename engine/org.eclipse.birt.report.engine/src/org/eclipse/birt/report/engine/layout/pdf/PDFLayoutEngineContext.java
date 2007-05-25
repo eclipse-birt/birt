@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -34,6 +37,8 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PDFLayoutEngineContext
 {
@@ -66,6 +71,43 @@ public class PDFLayoutEngineContext
 	protected boolean autoPageBreak = false;
 	
 	protected Locale locale;
+	
+	protected ArrayList hints = new ArrayList();
+	
+	public void setLayoutPageHint(IPageHint pageHint)
+	{
+		if(pageHint!=null)
+		{
+			int count = pageHint.getUnresolvedRowCount( );
+			for(int i=0; i<count; i++)
+			{
+				hints.add(  pageHint.getUnresolvedRowHint( i ) );
+			}
+		}
+	}
+	
+	public UnresolvedRowHint getUnresolvedRowHint(ITableContent table)
+	{
+		if(hints.size( )>0)
+		{
+			String idStr = table.getInstanceID( ).toString( );
+			Iterator iter = hints.iterator( );
+			while(iter.hasNext())
+			{
+				UnresolvedRowHint rowHint = (UnresolvedRowHint) iter.next();
+				if(idStr.equals( rowHint.getTableId( ).toString( ) ))
+				{
+					return rowHint;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void addUnresolvedRowHints(Collection hints)
+	{
+		this.hints.addAll( hints );
+	}
 	
 	public void setAutoPageBreak(boolean autoBreak)
 	{

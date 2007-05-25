@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class HTMLReportLayoutEngine implements IReportLayoutEngine
 {
@@ -49,6 +50,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	protected HashMap options;
 	
 	protected Locale locale;
+	
+	protected IPageHint pageHint;
 
 	public HTMLReportLayoutEngine( )
 	{
@@ -67,19 +70,18 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return factory;
 	}
 
-	public void layout( IReportExecutor executor, IContentEmitter emitter, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter emitter, boolean pagination )
 	{
 		this.executor = executor;
 		
-		this.context.setAllowPageBreak( pagination );
+		context.setAllowPageBreak( pagination );
 		
-		IReportContent report = executor.execute( );
-		if ( emitter != null )
-		{
-			emitter.start( report );
-		}
 
 		context.setFinish(  false );
+		if(pageHint!=null)
+		{
+			context.setLayoutPageHint( pageHint );
+		}
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );
 
 		boolean finished = false;
@@ -91,16 +93,14 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		
 		pageLM.close( );
 
-		if ( emitter != null )
-		{
-			emitter.end( report );
-		}
 		context.setFinish(  true );
 		if ( pageHandler != null )
 		{
 			pageHandler.onPage( context.getPageNumber( ), context );
 		}
 		executor.close( );
+		context.reset( );
+		pageHint = null;
 	}
 
 	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
@@ -162,6 +162,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
+	}
+
+	public void setLayoutPageHint( IPageHint pageHint )
+	{
+		this.pageHint = pageHint;
 	}
 
 }

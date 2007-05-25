@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,16 +13,18 @@ package org.eclipse.birt.report.engine.layout;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 
 public interface IReportLayoutEngine
 {
 	void setPageHandler( ILayoutPageHandler handle );
 	
-	void layout(IReportExecutor executor, IContentEmitter output, boolean pagination);
+	void layout(IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination);
 	
 	void layout(ILayoutManager parent, IContent content, IContentEmitter output);
 	
@@ -35,5 +37,7 @@ public interface IReportLayoutEngine
 	Object getOption(String name);
 	
 	void setLocale(Locale locale);
+	
+	void setLayoutPageHint(IPageHint pageHint);
 
 }

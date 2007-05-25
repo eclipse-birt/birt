@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
@@ -56,60 +57,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		super( engine, runnable, IEngineTask.TASK_RUNANDRENDER );
 	}
 
-	protected IContentEmitter createContentEmitter( ) throws EngineException
-	{
-
-		String format = renderOptions.getOutputFormat( );
-		if ( format == null )
-		{
-			format = RenderOption.OUTPUT_FORMAT_HTML;
-		}
-
-		ExtensionManager extManager = ExtensionManager.getInstance( );
-		boolean supported = false;
-		Collection supportedFormats = extManager.getSupportedFormat( );
-		Iterator iter = supportedFormats.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String supportedFormat = (String) iter.next( );
-			if ( supportedFormat != null
-					&& supportedFormat.equalsIgnoreCase( format ) )
-			{
-				supported = true;
-				break;
-			}
-		}
-		if ( !supported )
-		{
-			log.log( Level.SEVERE,
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-			throw new UnsupportedFormatException(
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-		}
-
-		pagination = extManager.getPagination( format );
-		IContentEmitter emitter = null;
-		try
-		{
-			emitter = extManager.createEmitter( format, emitterID );
-		}
-		catch ( Throwable t )
-		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format, t );
-		}
-		if ( emitter == null )
-		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format );
-		}
-
-		return emitter;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -195,7 +142,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 
-				layoutEngine.layout( executor, outputEmitters, paginate );
+				startRender( );
+				IReportContent report = executor.execute( );
+				outputEmitters.start( report );
+				layoutEngine.layout( executor, report, outputEmitters, paginate );
+				outputEmitters.end( report );
 			}
 			closeRender( );
 			executionContext.closeDataEngine( );
