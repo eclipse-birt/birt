@@ -788,6 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=Insérer un bloc de texte 
 DesignerPaletteFactory.toolTip.tableReportItem=Insérer une présentation en colonne composée de lignes de jeu de données dans la partie en-tête/détail/pied de page
 DesignerPaletteFactory.toolTip.textDataReportItem=Insérer un bloc de texte avec insertion optionnelle d'expression(s) de données CLOB
 DesignerPaletteFactory.toolTip.textReportItem=Insérez un bloc de texte (texte brut/HTML) avec insertion optionnelle d'expression(s).
+DesignerPaletteFactory.quicktool.title=Quick Tools
+DesignerPaletteFactory.quicktool.agg.title=Aggregation
+DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -3822,3 +3825,26 @@ PageGenerator.TabItem.Groups=Groupes
 PageGenerator.TabItem.Highlights=Surbrillances
 PageGenerator.TabItem.map=Mappage
 PageGenerator.TabItem.Sorting=Tri en cours
+
+###########################################################
+#AggDataDropAdapter
+AggDataDropAdapter.Trans.Name=Create aggregation data item
+
+###########################################################
+#BindingDialogHelper
+BindingDialogHelper.text.Name=Nom :
+BindingDialogHelper.text.DataType=Type de données :
+BindingDialogHelper.text.Function=Fonction :
+BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.Filter=Filtre :
+BindingDialogHelper.text.AggOn=Regrouper par :
+BindingDialogHelper.text.Table=Table
+BindingDialogHelper.text.List=Liste
+BindingDialogHelper.text.Group=Groupe
+BindingDialogHelper.text.Expression=Expression :
+BindingDialogHelper.text.displayName=Nom d'affichage :
+
+###########################################################
+#Scripts Node
+Scripts.Node.DisplayName=Scripts
+ScriptElementNode.Action.Text=Go to Report Element

@@ -788,6 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=ƒtƒ@ƒCƒ‹Aƒf[ƒ^ƒZƒbƒg—ñ
 DesignerPaletteFactory.toolTip.tableReportItem=ƒwƒbƒ_AÚ×Aƒtƒbƒ^‚Ìƒf[ƒ^ƒZƒbƒgs‚ÉA—ñ‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.toolTip.textDataReportItem=ƒIƒvƒVƒ‡ƒ“‚Å CLOB ƒf[ƒ^®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.toolTip.textReportItem=ƒIƒvƒVƒ‡ƒ“‚ÅƒCƒ“ƒ‰ƒCƒ“®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN (•W€‚ÌƒeƒLƒXƒg‚Ü‚½‚Í HTML) ‚ğ‘}“ü‚µ‚Ü‚·B
+DesignerPaletteFactory.quicktool.title=Quick Tools
+DesignerPaletteFactory.quicktool.agg.title=Aggregation
+DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -3822,3 +3825,26 @@ PageGenerator.TabItem.Groups=ƒOƒ‹[ƒv
 PageGenerator.TabItem.Highlights=ƒnƒCƒ‰ƒCƒg
 PageGenerator.TabItem.map=ƒ}ƒbƒv
 PageGenerator.TabItem.Sorting=ƒ\[ƒg
+
+###########################################################
+#AggDataDropAdapter
+AggDataDropAdapter.Trans.Name=Create aggregation data item
+
+###########################################################
+#BindingDialogHelper
+BindingDialogHelper.text.Name=–¼‘O :
+BindingDialogHelper.text.DataType=ƒf[ƒ^Œ^ :
+BindingDialogHelper.text.Function=ŠÖ” :
+BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.Filter=ƒtƒBƒ‹ƒ^ :
+BindingDialogHelper.text.AggOn=WŒvğŒ :
+BindingDialogHelper.text.Table=ƒe[ƒuƒ‹
+BindingDialogHelper.text.List=ƒŠƒXƒg
+BindingDialogHelper.text.Group=ƒOƒ‹[ƒv
+BindingDialogHelper.text.Expression=® :
+BindingDialogHelper.text.displayName=•\¦–¼ :
+
+###########################################################
+#Scripts Node
+Scripts.Node.DisplayName=Scripts
+ScriptElementNode.Action.Text=Go to Report Element

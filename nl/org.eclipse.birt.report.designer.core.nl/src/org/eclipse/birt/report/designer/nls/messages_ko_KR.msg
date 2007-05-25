@@ -788,6 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=파일, 데이터 집합 열 또는
 DesignerPaletteFactory.toolTip.tableReportItem=머리글/상세 정보/바닥글 밴드에 데이터 집합 행의 열 프리젠테이션 삽입
 DesignerPaletteFactory.toolTip.textDataReportItem=옵션 CLOB 데이터 식을 사용하여 텍스트 블록 삽입
 DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 블록(일반 텍스트/HTML)을 삽입합니다.
+DesignerPaletteFactory.quicktool.title=Quick Tools
+DesignerPaletteFactory.quicktool.agg.title=Aggregation
+DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -3822,3 +3825,26 @@ PageGenerator.TabItem.Groups=그룹
 PageGenerator.TabItem.Highlights=강조
 PageGenerator.TabItem.map=맵
 PageGenerator.TabItem.Sorting=정렬
+
+###########################################################
+#AggDataDropAdapter
+AggDataDropAdapter.Trans.Name=Create aggregation data item
+
+###########################################################
+#BindingDialogHelper
+BindingDialogHelper.text.Name=이름:
+BindingDialogHelper.text.DataType=데이터 형식:
+BindingDialogHelper.text.Function=함수:
+BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.Filter=필터:
+BindingDialogHelper.text.AggOn=집계 대상:
+BindingDialogHelper.text.Table=테이블
+BindingDialogHelper.text.List=목록
+BindingDialogHelper.text.Group=그룹
+BindingDialogHelper.text.Expression=식:
+BindingDialogHelper.text.displayName=표시 이름:
+
+###########################################################
+#Scripts Node
+Scripts.Node.DisplayName=Scripts
+ScriptElementNode.Action.Text=Go to Report Element
