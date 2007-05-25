@@ -64,6 +64,82 @@ public class ReportItem extends ReportElement implements IReportItem
 		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
 				.getY( );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(java.lang.String)
+	 */
+
+	public void setX( String dimension ) throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
+					.setX( dimension );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(double)
+	 */
+
+	public void setX( double dimension ) throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
+					.setX( dimension );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(java.lang.String)
+	 */
+
+	public void setY( String dimension ) throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
+					.setY( dimension );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(double)
+	 */
+
+	public void setY( double dimension ) throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
+					.setY( dimension );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -86,6 +86,52 @@ public class ReportItem extends ReportElement implements IReportItem
 		DimensionHandle y = ( (ReportItemHandle) handle ).getY( );
 		return ( y == null ? null : y.getStringValue( ) );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(java.lang.String)
+	 */
+
+	public void setX( String dimension ) throws SemanticException
+	{
+		( (ReportItemHandle) handle ).setX( dimension );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(double)
+	 */
+
+	public void setX( double dimension ) throws SemanticException
+	{
+
+		( (ReportItemHandle) handle ).setX( dimension );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(java.lang.String)
+	 */
+
+	public void setY( String dimension ) throws SemanticException
+	{
+		( (ReportItemHandle) handle ).setY( dimension );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(double)
+	 */
+
+	public void setY( double dimension ) throws SemanticException
+	{
+
+		( (ReportItemHandle) handle ).setY( dimension );
+	}
 
 	/*
 	 * (non-Javadoc)
