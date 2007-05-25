@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.element.List;
+import org.eclipse.birt.report.engine.script.internal.element.MasterPage;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ReportElement;
 import org.eclipse.birt.report.engine.script.internal.element.ReportItem;
@@ -57,6 +58,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -68,6 +70,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IGrid;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
+import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
@@ -200,6 +203,9 @@ public class ElementUtil
 
 		if ( element instanceof TextDataHandle )
 			return new DynamicText( (TextDataHandle) element );
+		
+		if ( element instanceof MasterPageHandle )
+			return new MasterPage( (MasterPageHandle) element );
 
 		if ( element instanceof TextItemHandle )
 			return new TextItem( (TextItemHandle) element );
@@ -240,6 +246,9 @@ public class ElementUtil
 
 		if ( element instanceof ITextItem )
 			return new TextItem( (ITextItem) element );
+		
+		if ( element instanceof IMasterPage )
+			return new MasterPage( (IMasterPage) element );
 
 		if ( element instanceof IReportItem )
 			return new ReportItem( (IReportItem) element );

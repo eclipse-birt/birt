@@ -335,54 +335,6 @@ public class SimpleRowItem implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setX(double)
-	 */
-	public void setX( double dimension ) throws SemanticException
-	{
-
-		item.setX( dimension );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setX(java.lang.String)
-	 */
-	public void setX( String dimension ) throws SemanticException
-	{
-
-		item.setX( dimension );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setY(double)
-	 */
-	public void setY( double dimension ) throws SemanticException
-	{
-
-		item.setY( dimension );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setY(java.lang.String)
-	 */
-	public void setY( String dimension ) throws SemanticException
-	{
-
-		item.setY( dimension );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportElement#getComments()
 	 */
 	public String getComments( )

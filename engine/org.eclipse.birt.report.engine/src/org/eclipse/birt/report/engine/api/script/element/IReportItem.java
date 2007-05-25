@@ -29,60 +29,6 @@ public interface IReportItem
 	String getY( );
 
 	/**
-	 * Sets the item's x position using a dimension string with optional unit
-	 * suffix such as "10" or "10pt". If no suffix is provided, then the units
-	 * are assumed to be in the design's default units. Call this method to set
-	 * a string typed in by the user.
-	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws ScriptException
-	 *             if the string is not valid
-	 */
-
-	void setX( String dimension ) throws ScriptException;
-
-	/**
-	 * Sets the item's x position to a value in default units. The default unit
-	 * may be defined by the property in BIRT or the application unit defined in
-	 * the design session.
-	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws ScriptException
-	 *             if the property is locked.
-	 */
-
-	void setX( double dimension ) throws ScriptException;
-
-	/**
-	 * Sets the item's y position using a dimension string with optional unit
-	 * suffix such as "10" or "10pt". If no suffix is provided, then the units
-	 * are assumed to be in the design's default units. Call this method to set
-	 * a string typed in by the user.
-	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws ScriptException
-	 *             if the string is not valid
-	 */
-
-	void setY( String dimension ) throws ScriptException;
-
-	/**
-	 * Sets the item's y position to a value in default units. The default unit
-	 * may be defined by the property in BIRT or the application unit defined in
-	 * the design session.
-	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws ScriptException
-	 *             if the property is locked.
-	 */
-
-	void setY( double dimension ) throws ScriptException;
-
-	/**
 	 * Sets the item's height using a dimension string with optional unit suffix
 	 * such as "10" or "10pt". If no suffix is provided, then the units are
 	 * assumed to be in the design's default units. Call this method to set a

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -85,6 +86,11 @@ public class ElementUtil
 		if ( element instanceof ColumnHandle )
 			return new Column( (ColumnHandle) element );
 
+		if( element instanceof MasterPageHandle )
+		{
+			return new MasterPage( (MasterPageHandle)element );
+		}
+
 		if ( element instanceof ExtendedItemHandle )
 		{
 			org.eclipse.birt.report.model.api.simpleapi.IReportItem item = null;
@@ -106,7 +112,7 @@ public class ElementUtil
 
 			return item;
 		}
-
+		
 		return new ReportElement( (ReportElementHandle) element );
 	}
 

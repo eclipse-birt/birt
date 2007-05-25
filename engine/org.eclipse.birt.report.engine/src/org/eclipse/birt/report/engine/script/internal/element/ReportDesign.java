@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.element.IList;
+import org.eclipse.birt.report.engine.api.script.element.IMasterPage;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
@@ -162,5 +163,12 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	{
 		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
 				.getDisplayName( );
+	}
+
+	public IMasterPage getMasterPage( String name )
+	{
+		return new MasterPage(
+				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+						.getMasterPage( name ) );
 	}
 }

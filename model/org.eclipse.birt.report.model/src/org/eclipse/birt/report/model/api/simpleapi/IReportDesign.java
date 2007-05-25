@@ -24,6 +24,15 @@ public interface IReportDesign extends IDesignElement
 {
 
 	/**
+	 * Gets master page script instance.
+	 * 
+	 * @param name
+	 * @return master page script instance
+	 */
+	
+	IMasterPage getMasterPage( String name );
+	
+	/**
 	 * method to get data set design by name
 	 * 
 	 * @param name

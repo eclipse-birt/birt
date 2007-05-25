@@ -16,6 +16,7 @@ import java.io.IOException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IGrid;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
+import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
@@ -47,11 +49,26 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	 * 
 	 * @param report
 	 */
-	
+
 	public ReportDesign( ReportDesignHandle report )
 	{
 		super( report );
 		this.report = report;
+	}
+
+	/**
+	 * Gets master page script instance.
+	 * 
+	 * @param name
+	 * @return master page script instance
+	 */
+	
+	public IMasterPage getMasterPage( String name )
+	{
+		MasterPageHandle masterPage = report.findMasterPage( name );
+		if ( masterPage == null )
+			return null;
+		return new MasterPage( masterPage );
 	}
 
 	public IDataSet getDataSet( String name )
