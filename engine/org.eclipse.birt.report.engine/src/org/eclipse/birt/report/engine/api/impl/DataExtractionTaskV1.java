@@ -162,7 +162,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		while ( iter.hasNext( ) )
 		{
 			Map.Entry entry = (Map.Entry) iter.next( );
-			IBaseQueryDefinition baseQuery = (IBaseQueryDefinition) entry
+			IDataQueryDefinition baseQuery = (IDataQueryDefinition) entry
 					.getKey( );
 			if ( baseQuery instanceof IQueryDefinition )
 			{
@@ -263,7 +263,7 @@ public class DataExtractionTaskV1 extends EngineTask
 					{
 						ResultMetaData metaData = (ResultMetaData) query2ResultMetaData
 								.get( query );
-						if ( metaData.getColumnCount( ) > 0 )
+						if ( metaData != null && metaData.getColumnCount( ) > 0 )
 						{
 							IResultSetItem resultItem = new ResultSetItem(
 									rsetName, metaData );
