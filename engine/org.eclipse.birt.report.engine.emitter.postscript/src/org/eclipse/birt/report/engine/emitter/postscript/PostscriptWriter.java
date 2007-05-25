@@ -179,7 +179,7 @@ public class PostscriptWriter
 	public void clipRect( float x, float y, float width, float height )
 	{
 		y = transformY( y );
-
+		
 		out.println( x + " " + y + " moveto" );
 		out.println( ( x + width ) + " " + y + " lineto" );
 		out.println( ( x + width ) + " " + ( y - height ) + " lineto" );
@@ -543,13 +543,6 @@ public class PostscriptWriter
 	public void drawLine( float startX, float startY, float endX, float endY,
 			float width, Color color, String lineStyle )
 	{
-		gSave( );
-		if ( color != null )
-		{
-			setColor( color );
-		}
-		setLineWidth( width );
-		// don't need to paint
 		if ( null == color || 0f == width
 				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
@@ -560,6 +553,12 @@ public class PostscriptWriter
 		{
 			return;
 		}
+		gSave( );
+		if ( color != null )
+		{
+			setColor( color );
+		}
+		setLineWidth( width );
 		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
 			setDashLine( width );

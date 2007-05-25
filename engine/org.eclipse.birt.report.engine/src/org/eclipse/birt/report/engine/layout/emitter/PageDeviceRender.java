@@ -44,6 +44,8 @@ import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -211,6 +213,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
+			if ( needClip( container ) )
+			{
+				pageGraphic.clipSave( );
+				clip( container );
+			}
 			drawContainer( container );
 			ContainerPosition pos;
 			if ( !containerStack.isEmpty( ) )
@@ -228,6 +235,16 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
+	private void clip( IContainerArea container )
+	{
+		ContainerPosition curPos = getContainerPosition( );
+		int startX = curPos.x + getX( container );
+		int startY = curPos.y + getY( container );
+		int width = getWidth( container );
+		int height = getHeight( container );
+		pageGraphic.clip( startX, startY, width, height );
+	}
+
 	/**
 	 * This method will be invoked while a containerArea ends.
 	 * 
@@ -240,10 +257,22 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			pageGraphic.dispose( );
 		}
+		else
+		{
+			if ( needClip( container ) )
+			{
+				pageGraphic.clipRestore( );
+			}
+		}
 		if ( !containerStack.isEmpty( ) )
 		{
 			containerStack.pop( );
 		}
+	}
+
+	private boolean needClip( IContainerArea container )
+	{
+		return !( container instanceof RowArea );
 	}
 
 	/**
