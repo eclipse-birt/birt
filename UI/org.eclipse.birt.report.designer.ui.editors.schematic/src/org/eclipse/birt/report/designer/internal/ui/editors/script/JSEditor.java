@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -104,7 +105,7 @@ public class JSEditor extends StatusTextEditor implements
 	JSEditorInput editorInput = new JSEditorInput( "" ); //$NON-NLS-1$
 
 	Combo cmbExpList = null;
-	
+
 	Combo extendedItemExpList = null;
 
 	public ComboViewer cmbExprListViewer;
@@ -469,7 +470,7 @@ public class JSEditor extends StatusTextEditor implements
 		cmbExpList = new Combo( barPane, SWT.READ_ONLY );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		cmbExpList.setLayoutData( layoutData );
-		
+
 		extendedItemExpList = new Combo( barPane, SWT.READ_ONLY );
 		extendedItemExpList.setLayoutData( layoutData );
 
@@ -564,10 +565,17 @@ public class JSEditor extends StatusTextEditor implements
 		{
 			settingText = true;
 			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
-			if ( sel.length == 1 && sel[0] instanceof DesignElementHandle )
+			if ( sel.length == 1 )
+			{
+				editObject = sel[0];
+				if ( sel[0] instanceof ScriptElementNode )
+				{
+					editObject = ( (ScriptElementNode) editObject ).getParent( );
+				}
+			}
+			if ( editObject instanceof DesignElementHandle )
 			{
 				// set the combo viewer input to the the selected element.
-				editObject = sel[0];
 				palettePage.getSupport( ).setCurrentEditObject( editObject );
 				if ( editObject instanceof ExtendedItemHandle )
 				{

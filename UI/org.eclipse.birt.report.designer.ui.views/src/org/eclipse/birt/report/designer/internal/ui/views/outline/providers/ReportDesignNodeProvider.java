@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004 2007 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.LibraryNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishTemplateViewAction;
@@ -70,6 +71,8 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 		}
 
 		list.add( new LibraryNode( handle ) );
+
+		list.add( new ScriptsNode( handle ) );
 
 		return list.toArray( );
 	}
