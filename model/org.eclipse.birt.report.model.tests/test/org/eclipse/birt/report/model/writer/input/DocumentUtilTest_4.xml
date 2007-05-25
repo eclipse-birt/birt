@@ -99,7 +99,7 @@
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="6">
+        <table id="76">
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -338,12 +337,12 @@ class ContentElementCommand extends AbstractContentCommand
 
 	private DesignElement matchElement( DesignElement topElement )
 	{
-		Iterator path = eventTarget.stepIterator( );
+		List steps = eventTarget.stepIterator( );
 
 		DesignElement tmpElement = topElement;
-		while ( path.hasNext( ) )
+		for ( int i = steps.size( ) - 1; i >= 0; i-- )
 		{
-			Step step = (Step) path.next( );
+			Step step = (Step) steps.get( i );
 			PropertyDefn stepPropDefn = step.stepPropDefn;
 			int index = step.index;
 
@@ -354,6 +353,8 @@ class ContentElementCommand extends AbstractContentCommand
 			{
 				tmpElement = (DesignElement) ( (List) stepValue ).get( index );
 			}
+			else 
+				tmpElement = (DesignElement) stepValue;
 		}
 
 		return tmpElement;

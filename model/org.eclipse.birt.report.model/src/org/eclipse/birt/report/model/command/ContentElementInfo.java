@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.Stack;
+import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ContentElement;
@@ -31,7 +31,7 @@ public class ContentElementInfo
 
 	private PropertyDefn propDefn;
 
-	private Stack path = null;
+	private List path = null;
 
 	private boolean enablePath = false;
 
@@ -53,16 +53,14 @@ public class ContentElementInfo
 	/**
 	 * Constructor.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param propDefn
-	 *            the property definition
+	 * @param enablePath
+	 *            <code>true</code> to enable path trace
 	 */
 
 	public ContentElementInfo( boolean enablePath )
 	{
 		this.enablePath = enablePath;
-		path = new Stack( );
+		path = new ArrayList( );
 	}
 
 	/**
@@ -93,7 +91,7 @@ public class ContentElementInfo
 		if ( path.isEmpty( ) )
 			return null;
 
-		Step topStep = (Step) path.peek( );
+		Step topStep = (Step) path.get( path.size( ) - 1 );
 		propDefn = topStep.stepPropDefn;
 		return propDefn.getName( );
 
@@ -109,7 +107,7 @@ public class ContentElementInfo
 	public void pushStep( PropertyDefn stepPropDefn, int index )
 	{
 		if ( enablePath )
-			path.push( new Step( stepPropDefn, index ) );
+			path.add( new Step( stepPropDefn, index ) );
 	}
 
 	/**
@@ -129,13 +127,13 @@ public class ContentElementInfo
 	 * 
 	 * @return
 	 */
-	
-	public Iterator stepIterator( )
+
+	public List stepIterator( )
 	{
 		if ( path == null )
-			return Collections.EMPTY_LIST.iterator( );
+			return Collections.EMPTY_LIST;
 
-		return path.iterator( );
+		return path;
 	}
 
 	/**
@@ -143,7 +141,7 @@ public class ContentElementInfo
 	 * 
 	 * @param target
 	 */
-	
+
 	public void copyPath( ContentElementInfo target )
 	{
 		if ( target == null )
@@ -162,6 +160,11 @@ public class ContentElementInfo
 
 		protected PropertyDefn stepPropDefn;
 		protected int index = -1;
+
+		/**
+		 * @param propDefn
+		 * @param index
+		 */
 
 		Step( PropertyDefn propDefn, int index )
 		{

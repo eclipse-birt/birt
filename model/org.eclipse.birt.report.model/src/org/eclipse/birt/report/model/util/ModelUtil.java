@@ -1609,7 +1609,10 @@ public class ModelUtil
 				break;
 
 			tmpElement = tmpElement.getContainer( );
-			tmpPropDefn = tmpElement
+			context = tmpElement.getContainerInfo( );
+			
+			tmpContainer = tmpElement.getContainer( );
+			tmpPropDefn = tmpContainer
 					.getPropertyDefn( context.getPropertyName( ) );
 		}
 

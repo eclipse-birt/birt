@@ -242,7 +242,6 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-
 		assertTrue( compareFile( "DocumentUtilTest_external_selectors_golden.xml" ) ); //$NON-NLS-1$
 	}
 

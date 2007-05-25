@@ -83,6 +83,7 @@ public class AllApiTests
 		test.addTestSuite( TranslationHandleTest.class );
 		test.addTestSuite( UserPropertyHandleTest.class );
 		test.addTestSuite( ComputedColumnHandleTest.class );
+		test.addTestSuite( MemberValueHandleTest.class );
 
 		return test;
 	}
