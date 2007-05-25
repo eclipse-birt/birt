@@ -79,6 +79,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var oSC = Event.element( event );
 		if( oSC.id == 'exportDataEncoding_other' )
 		{
+			this.__updateButtons( );
 			$( 'exportDataOtherEncoding_input' ).focus( );
 		}
 		else
@@ -131,9 +132,9 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					break;
 				}
 			}
-		}
-		
-		this.__updateButtons( );
+			
+			this.__updateButtons( );
+		}				
 	},
 
 	/**
