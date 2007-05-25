@@ -16,12 +16,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -30,7 +33,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 
 /**
- * One of implemenation of IResultObjectEvent interface. Used to calculate the
+ * One of implementation of IResultObjectEvent interface. Used to calculate the
  * computed columns value in the time window from fetching data to do
  * grouping/sorting data.
  */
@@ -39,6 +42,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 {
 	private ComputedColumnHelperInstance dataSetInstance;
 	private ComputedColumnHelperInstance resultSetInstance;
+	private ComputedColumnHelperInstance availableModeInstance;
 	private int currentModel;
 	private List allCC;
 
@@ -50,9 +54,10 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 * @param dataSet
 	 * @param dataSetCCList
 	 * @param resultSetCCList
+	 * @throws  
 	 */
 	ComputedColumnHelper( DataSetRuntime dataSet, List dataSetCCList,
-			List resultSetCCList )
+			List resultSetCCList ) throws DataException
 	{
 		Object[] params = { dataSet, dataSetCCList, resultSetCCList };
 		logger.entering( ComputedColumnHelper.class.getName( ),
@@ -63,6 +68,12 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				dataSetCCList );
 		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet,
 				resultSetCCList );
+		List availableCCList = new ArrayList( );
+		getAvailableComputedList( getComputedNameList( dataSetCCList ),
+				dataSetCCList,
+				availableCCList );
+		this.availableModeInstance = new ComputedColumnHelperInstance( dataSet,
+				availableCCList );
 		this.currentModel = TransformationConstants.DATA_SET_MODEL;
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
@@ -80,6 +91,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			return this.dataSetInstance;
 		else if ( this.currentModel == TransformationConstants.RESULT_SET_MODEL )
 			return this.resultSetInstance;
+		else if ( this.currentModel == TransformationConstants.PRE_CALCULATE_MODEL )
+			return this.availableModeInstance;
 		return null;
 	}
 
@@ -145,6 +158,130 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	public void setModel( int model )
 	{
 		this.currentModel = model;
+	}
+		
+	/**
+	 * 
+	 * @param dataSetCCList
+	 * @return
+	 */
+	private List getComputedNameList( List dataSetCCList )
+	{
+		List result = new ArrayList( );
+		for ( int i = 0; i < dataSetCCList.size( ); i++ )
+		{
+			IComputedColumn column = (IComputedColumn) dataSetCCList.get( i );
+			result.add( column.getName( ) );
+		}
+		return result;
+	}	
+	/**
+	 * 
+	 * @param dataSetCCList
+	 * @return
+	 * @throws DataException 
+	 */
+	private void getAvailableComputedList( List refernceNameList,
+			List dataSetCCList, List result ) throws DataException
+	{
+		try
+		{
+			for ( int i = 0; i < dataSetCCList.size( ); i++ )
+			{
+				IComputedColumn column = (IComputedColumn) dataSetCCList.get( i );
+				if ( !refernceNameList.contains( column.getName( ) ) )
+				{
+					continue;
+				}
+
+				if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) )
+				{
+					continue;
+				}
+				else
+				{
+					List referedList = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) column.getExpression( ) ).getText( ) );
+					if ( referedList.size( ) == 0 )
+					{
+						result.add( column );
+					}
+					else
+					{
+						List newList = new ArrayList( );
+						for ( int j = 0; j < referedList.size( ); j++ )
+						{
+							IColumnBinding binding = (IColumnBinding) referedList.get( j );
+							String name = binding.getResultSetColumnName( );
+							newList.add( name );
+						}
+						if ( !hasAggregation( newList, dataSetCCList ) )
+						{
+							result.add( column );
+						}
+					}
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+
+	/**
+	 * 
+	 * @param nameList
+	 * @param dataSetCCList
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean hasAggregation( List nameList, List dataSetCCList )
+			throws DataException
+	{
+		try
+		{
+			for ( int k = 0; k < nameList.size( ); k++ )
+			{
+				IComputedColumn column = null;
+				for ( int i = 0; i < dataSetCCList.size( ); i++ )
+				{
+					column = (IComputedColumn) dataSetCCList.get( i );
+					if ( column.getName( ) != null &&
+							column.getName( ).equals( nameList.get( k ) ) )
+						break;
+					else
+						column = null;
+				}
+				if ( column != null )
+				{
+					if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) )
+					{
+						return true;
+					}
+					else
+					{
+						List referedList = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) column.getExpression( ) ).getText( ) );
+						List newList = new ArrayList( );
+						for ( int j = 0; j < referedList.size( ); j++ )
+						{
+							IColumnBinding binding = (IColumnBinding) referedList.get( j );
+							String name = binding.getResultSetColumnName( );
+							newList.add( name );
+						}
+						return hasAggregation( newList, dataSetCCList );
+					}
+				}
+				else
+				{
+					continue;
+				}
+			}
+			return false;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 }
 

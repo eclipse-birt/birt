@@ -223,9 +223,35 @@ class DataSetProcessUtil extends RowProcessUtil
 		// if no group pass has been made, made one.
 		if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
 		{
+			if ( iccState != null )
+			{
+				for ( int i = 0; i < iccState.getCount( ); i++ )
+				{
+					if ( iccState.isValueAvailable( i ) )
+					{
+						for ( int k = 0; k < this.populator.getQuery( )
+								.getFetchEvents( )
+								.size( ); k++ )
+						{
+							if ( this.populator.getQuery( )
+									.getFetchEvents( )
+									.get( k ) instanceof ComputedColumnHelper )
+							{
+								ComputedColumnHelper helper = (ComputedColumnHelper) this.populator.getQuery( )
+										.getFetchEvents( )
+										.get( k );
+								helper.getComputedColumnList( )
+										.remove( iccState.getComputedColumn( i ) );
+								break;
+							}
+						}
+					}
+				}
+			}
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false, this.session );
+					false,
+					this.session );
 		}
 		computedColumnHelper.getComputedColumnList( ).clear( );
 		computedColumnHelper.getComputedColumnList( ).addAll( aggCCList );

@@ -20,4 +20,6 @@ public class TransformationConstants
 	public static final int ALL_MODEL = 2;
 	
 	public static final int NONE_MODEL = 4;
+	
+	public static final int PRE_CALCULATE_MODEL =5;
 }

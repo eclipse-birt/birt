@@ -303,7 +303,7 @@ public class PassManager
 		int max = 0;
 		
 		if ( computedColumnHelper != null )
-			computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
+			computedColumnHelper.setModel( TransformationConstants.PRE_CALCULATE_MODEL );
 
 		if ( filterByRow != null )
 		{
