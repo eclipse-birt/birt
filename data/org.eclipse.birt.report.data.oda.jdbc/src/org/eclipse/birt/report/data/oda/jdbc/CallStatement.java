@@ -1472,7 +1472,9 @@ public class CallStatement implements IAdvancedQuery
 			}
 			else
 			{
-				schemaList = createSchemaList( metaData.getSchemas( ) );
+				java.sql.ResultSet rs = metaData.getSchemas( );
+				schemaList = createSchemaList( rs );
+				rs.close( );
 			}
 			
 			if ( schemaList == null || schemaList.size( ) == 0 )
@@ -1512,6 +1514,7 @@ public class CallStatement implements IAdvancedQuery
 					if ( p.getParamInOutType( ) != 5 )
 						paramMetaDataList.add( p );
 				}
+				rs.close( );
 			}
 		}
 		catch ( SQLException e )

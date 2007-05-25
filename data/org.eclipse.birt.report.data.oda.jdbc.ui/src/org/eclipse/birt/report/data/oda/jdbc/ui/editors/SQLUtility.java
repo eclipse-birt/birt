@@ -50,6 +50,7 @@ public class SQLUtility
 		// obtain query's result set metadata, and update
 		// the dataSetDesign with it
 		IConnection conn = null;
+		IQuery query = null;
 		try
 		{
 			IDriver jdbcDriver = new OdaJdbcDriver( );
@@ -80,7 +81,7 @@ public class SQLUtility
 										.getProperty( Constants.ODAPassword ) );
 			}
 			conn.open( prop );
-			IQuery query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
+			query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
 			query.prepare( design.getQueryText( ) );
 
 			setParameterMetaData( design, query );
@@ -96,6 +97,14 @@ public class SQLUtility
 		}
 		finally
 		{
+			if ( query != null )
+				try
+				{
+					query.close( );
+				}
+				catch ( OdaException e )
+				{
+				}
 			if ( conn != null )
 				try
 				{
@@ -103,8 +112,7 @@ public class SQLUtility
 				}
 				catch ( OdaException e )
 				{
-					e.printStackTrace( );
-				};
+				}
 		}
 	}
 
