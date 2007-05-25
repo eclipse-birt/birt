@@ -87,7 +87,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	/**
 	 * the instance id of the content
 	 */
-	private InstanceID instanceId;
+	protected InstanceID instanceId;
 
 	/**
 	 * the created report content

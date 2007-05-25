@@ -48,9 +48,10 @@ public class StyleDesignTest extends AbstractDesignTestCase
 		assertEquals( style.getColor( ), "red" );
 		assertEquals( style.getBorderBottomStyle( ), "solid" );
 
-		ColumnDesign column = grid.getColumn(0);
-		style = report.findStyle( column.getStyleName( ) );
-		assertEquals( style.getColor( ), "yellow" );
+		// Since column style has been transfer to cell style. Engine need process column style now
+//		ColumnDesign column = grid.getColumn(0);
+//		style = report.findStyle( column.getStyleName( ) );
+//		assertEquals( style.getColor( ), "yellow" );
 		
 		RowDesign row = grid.getRow(0);
 		style = report.findStyle( row.getStyleName( ) );

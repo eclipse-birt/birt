@@ -124,7 +124,7 @@ public class ReportQueryBuilderTest extends TestCase
 		IQueryDefinition query = (IQueryDefinition)item.getQuery( );
 		assertTrue( query.getSorts( ).size( ) == 2 );
 		assertTrue( query.getFilters( ).size( ) == 1 );
-		assertTrue( query.getBindings( ).size( ) == 29 );
+		assertTrue( query.getBindings( ).size( ) == 24 );
 		
 		GroupDefinition grp = (GroupDefinition)( (QueryDefinition)item.getQuery( ) ).getGroups( ).get( 0 );
 		assertTrue( grp.getSorts( ).size( ) == 2 );

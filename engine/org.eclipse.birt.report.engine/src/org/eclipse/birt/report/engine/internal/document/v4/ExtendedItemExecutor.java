@@ -163,6 +163,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 					content = reader.loadContent( offset );
 					content.setGenerateBy( design );
 					// content.setInstanceID( instanceId );
+					instanceId = content.getInstanceID( );
 					IContent pContent = getParentContent( );
 					if ( pContent != null )
 					{
