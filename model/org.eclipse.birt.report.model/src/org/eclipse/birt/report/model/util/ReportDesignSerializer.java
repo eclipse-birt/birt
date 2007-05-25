@@ -360,7 +360,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 			if ( sourceDesignStyle == null )
 			{
-				sourceDesignStyle = (Style) localize( tmpStyle );
+				sourceDesignStyle = visitExternalSelector( tmpStyle );
 				sourceDesignStyle.setName( tmpStyleName );
 				continue;
 			}
@@ -729,6 +729,32 @@ public class ReportDesignSerializer extends ElementVisitor
 		return newElement;
 	}
 
+	/**
+	 * Creates am element by the given element. The given element must be the
+	 * one that is not directly defined in the source design.
+	 * 
+	 * @param struct
+	 *            the source element
+	 * @return the new element
+	 */
+
+	private Style visitExternalSelector( Style element )
+	{
+		ElementFactory factory = new ElementFactory( targetDesign );
+		DesignElement newElement = factory.newElement(
+				element.getDefn( ).getName( ), element.getName( ) )
+				.getElement( );
+
+		localizePropertyValues( element, newElement );
+
+		newElement.setContainer( targetDesign, IReportDesignModel.STYLE_SLOT );
+		targetDesign.getSlot( IReportDesignModel.STYLE_SLOT ).add( newElement );
+
+		targetDesign.manageId( newElement, true );
+
+		return (Style) newElement;
+	}
+	
 	/**
 	 * Copies user property definitions from element to newElement.
 	 * 
