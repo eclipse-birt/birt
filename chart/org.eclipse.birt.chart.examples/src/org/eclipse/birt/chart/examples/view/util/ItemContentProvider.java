@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -137,14 +138,14 @@ public class ItemContentProvider
 			{
 				bThisCategory = true;
 			}
-			else if ( bThisCategory && token.charAt( 0 ) != '/' )
-			{
-				iTypes.add( token.substring( 0, token.indexOf( ">" ) ) ); //$NON-NLS-1$
-			}
 			else if ( endCategory.equals( token ) )
 			{
 				break;
 			}
+			else if ( bThisCategory )
+			{
+				iTypes.add( token.substring( 0, token.indexOf( ">" ) ) ); //$NON-NLS-1$
+			}			
 		}
 	}
 
@@ -155,12 +156,8 @@ public class ItemContentProvider
 	 */
 	private void parseDescription( String itemName )
 	{
-		String sTmp = dFile.toString( );
-		String startItem = "<" + itemName + ">"; //$NON-NLS-1$ //$NON-NLS-2$ 
-		String endItem = "</" + itemName + ">"; //$NON-NLS-1$ //$NON-NLS-2$ 
-
-		description = sTmp.substring( sTmp.indexOf( startItem  ) + startItem.length( ),
-				sTmp.indexOf( endItem ) );
+		String key = itemName.trim( ).replaceAll( " ", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		description = Messages.getDescription( key );
 	}
 
 	/**
@@ -235,7 +232,7 @@ public class ItemContentProvider
 	 */
 	public String getDefaultDescription( )
 	{
-		return "Please select an example from the categories";//$NON-NLS-1$
+		return Messages.getDescription( "DefaultDescription" );//$NON-NLS-1$
 	}
 
 	/**

@@ -1,0 +1,77 @@
+###########################################################
+#Primitive Charts
+
+SideBySideBar=Side-by-side Bar charts show bars from each series one beside the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
+StackedBar=Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+PercentStackedBar=Percent Stacked Bar charts show bars stacked one over the other in such a way that the total height of the stacked bar (from its lowest point to its highest) is 100.
+OverlayLine=Overlay Line charts show lines from each series independent of the others. The lines are shown joining the values for the series.
+StackedLine=Stacked Line charts show lines stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+PercentStackedLine=Percent Stacked Line charts show lines stacked one over the other in such a way that the total height of the stacked lines (from the lowest point to the highest in each unit) is 100.
+OverlayArea=Overlay Area charts show areas from each series independent of the others. The areas are shown joining the values for the series.
+StackedArea=Stacked Area charts show areas stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+PercentStackedArea=Percent Stacked Area charts show areas stacked one over the other in such a way that the total height of the stacked areas (from the lowest point to the highest in each unit) is 100.
+Pie=Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.
+StandardMeter=Standard Meter charts contain a single dial with region(s). The background of the dial can be divided into regions with different colors.
+SuperImposedMeter=Super imposed Meter charts contain multiple dials with identical regions. The dials overlap together so that it can represent multiple needles within a single region.
+Scatter=Scatter charts show the values arranged on the plot using the category and value data as co-ordinates. Each data value is indicated by a marker.
+BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines sticking to it. The upper and lower points of the vertical line are the stock open and close values. The two horizontal lines are the high and low values.
+CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values. 
+
+###########################################################
+#3D Charts
+
+Bar=3 Dimension Side-by-side Bar Chart.
+Line=3 Dimension Overlay Line Chart.
+Area=3 Dimension Overlay Area Chart.
+
+###########################################################
+#Combination Charts
+
+BarAndLine=Bar and Line combination charts contains 2 series. They share the same category value.
+
+
+###########################################################
+#Formatted Charts
+
+AxisLabelFormat=Specify the format for axis labels: Y-Axis($###,###) and X-Axis(MM/dd/yyyy). Also the users could set the label color, font, outline and other attributes.
+AxisTitleFormat=All the label attributes can be applied to Axis Title.
+ColoredByCategorySeries=Set Legend Item Type as category.
+ColoredByValueSeries=Set Legend Item Type as series.
+CurveFittingArea=Enable the curve fitting attribute of area series.
+CurveFittingBar=Create a curve fitting line for bar series.
+CurveFittingLine=Enable the curve fitting attribute of area series.
+CurveFittingStock=Create a curve fitting line for stock series.
+LegendFormat=Legend can be placed on Left, Right, Top and Bottom and Inside. Client Area is located within Legend. It contains the legend items.
+MarkerLine=MarkerLine can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
+MarkerRange=MarkerRange can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
+MultiplePie=An individual pie chart contains several pie series. They can constitute a pie group to present the value comparison.
+MDialSRegionMeter=Multiple needle in an individual dial board.
+SDialSRegionMeter=A needle in an individual dial board.
+PercentageValueFormat=Present the series value as percentage figure.
+PlotFormat=Specify the appearance for plot and client area.
+SeriesValueFormat=Specify the format for value data ($###,###.00) and category data (MM/dd/yyyy).
+
+###########################################################
+#Scripted Charts
+
+AxisLabelScript=beforeDrawAxisLabel() allows the users to manipulate Axis and Label(Axis.getLabel()) attributes.
+AxisTitleScript=beforeDrawAxisTitle() allows the users to manipulate Axis and Label(Axis.getTitle()) attributes.
+BlockScript=beforeDrawBlock() allows the users to manipulate Block (E.g. Plot, Title, Legend) attributes.
+CurveFittingScript=beforeDrawFittingCurve() allows the users to manipulate CurveFitting attributes.
+DataPointLabelScript=beforeDrawDataPointLabel() allows the users to manipulate DataPointHints and Label attributes.
+LegendScript=beforeDrawLegendEntry() allows the users to manipulate Label(for each legend) attributes.
+MarkerLineScript=beforeDrawMarkerLine() allows the users to manipulate Axis and MarkerLine attributes.
+MarkerRangeScript=beforeDrawMarkerRange() allows the users to manipulate Axis and MarkerRange attributes.
+SeriesScript=beforeDrawSeries() allows the users to manipulate Series and ISeriesRenderer(BaseRenderer or AxesRenderer) attributes.
+SeriesTitleScript=beforeDrawSeriesTitle() allows the users to manipulate Series and Label(Series.getTitle()) attributes. It is only applied to Pie Chart.
+
+###########################################################
+#Data Operations
+
+MinSlice=The user has the ability to specify the minimum value (absolute or percentage) for a slice. Pie chart slice can be exploded by setting expression to explosion attribute.
+MultipleYAxes=A chart can contain more than a Y Axis.
+MultipleYSeries=A chart can contain more than a Y (Value) Series. 
+
+###########################################################
+#Default
+DefaultDescription=Please select an example from the categories

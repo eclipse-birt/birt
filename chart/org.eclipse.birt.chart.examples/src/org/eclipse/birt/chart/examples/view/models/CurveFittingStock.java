@@ -78,8 +78,8 @@ public class CurveFittingStock
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );
 
-		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 25.0 ) );
-		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 27.5 ) );
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 24.0 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 28.5 ) );
 		yAxisPrimary.getScale( ).setStep( 0.5 );
 		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 
@@ -99,14 +99,14 @@ public class CurveFittingStock
 		} );
 
 		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
-				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
-				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
-				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
-				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
-				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
-				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
-				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
-				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+				new StockEntry( 27.01, 27.00, 28.42, 27.85 ),
+				new StockEntry( 26.87, 25.15, 27.83, 27.01 ),
+				new StockEntry( 26.84, 26.00, 27.78, 26.97 ),
+				new StockEntry( 27.00, 25.17, 27.94, 27.07 ),
+				new StockEntry( 26.01, 25.15, 28.39, 26.95 ),
+				new StockEntry( 27.00, 24.76, 27.80, 26.96 ),
+				new StockEntry( 27.15, 25.28, 28.01, 27.16 ),
+				new StockEntry( 27.22, 24.80, 28.07, 27.11 ),
 		} );
 		
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
