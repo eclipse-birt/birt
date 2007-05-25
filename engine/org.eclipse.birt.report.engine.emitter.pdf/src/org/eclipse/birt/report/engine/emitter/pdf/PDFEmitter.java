@@ -49,7 +49,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -60,6 +59,7 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
+import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -590,6 +590,11 @@ public class PDFEmitter implements IContentEmitter
 			}
 			else
 			{
+				if ( needClip( container ) )
+				{
+					cb.saveState( );
+					clip( container );
+				}
 				drawContainer(container);
 				ContainerPosition pos;
 				if ( ! containerStack.isEmpty() )
@@ -613,10 +618,46 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public void endContainer(IContainerArea container)
 		{
+			if ( needClip( container ) )
+			{
+				cb.restoreState( );
+			}
 			if (!containerStack.isEmpty())
 			{
 				containerStack.pop();	
 			}
+		}
+
+		private void clip( IContainerArea container )
+		{
+			ContainerPosition curPos;
+			if ( !containerStack.isEmpty( ) )
+				curPos = (ContainerPosition) containerStack.peek( );
+			else
+				curPos = new ContainerPosition( 0, 0 );
+			int startX = curPos.x + container.getX( );
+			int startY = curPos.y + container.getY( );
+			int width = container.getWidth( );
+			int height = container.getHeight( );
+			clip( startX, startY, width, height );
+		}
+
+		private boolean needClip( IContainerArea container )
+		{
+			return container instanceof CellArea ;
+		}
+
+		public void clip( int startX, int startY, int width, int height )
+		{
+			clip( pdfMeasure( startX ), layoutAreaY2PDF( startY, height ),
+					pdfMeasure( width ), pdfMeasure( height ) );
+		}
+
+		private void clip( float startX, float startY, float width, float height )
+		{
+			cb.clip( );
+			cb.rectangle( startX, startY, width, height );
+			cb.newPath( );
 		}
 
 		/**
