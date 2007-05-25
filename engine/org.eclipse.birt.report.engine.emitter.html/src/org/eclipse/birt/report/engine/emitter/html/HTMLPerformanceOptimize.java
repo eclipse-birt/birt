@@ -269,48 +269,18 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 */
 	public void buildStyle( IContent element, StringBuffer styleBuffer )
 	{
-		IStyle style;
+		IStyle style = element.getStyle( );
 		if ( isEmbeddable )
 		{
-			style = element.getStyle( );
+			buildStyle( style, styleBuffer );
 		}
 		else
 		{
-			style = element.getInlineStyle( );
+			IStyle inlineStyle = element.getInlineStyle( );
+			buildStyle( inlineStyle, styleBuffer );
 		}
-		buildStyle( style, styleBuffer );
-		
-		if ( !isEmbeddable )
-		{
-			IStyle elementStyle = element.getStyle( );
-			// Build the Text Decoration for no embeddable view
-			AttributeBuilder.checkHyperlinkTextDecoration( elementStyle,
-					styleBuffer );
 
-			// Build the display for no embeddable view
-			String value = style.getDisplay( );
-			if ( null == value )
-			{
-				value = elementStyle.getDisplay( );
-				if ( null != value )
-				{
-					styleBuffer.append( " display:" );
-					styleBuffer.append( value );
-					styleBuffer.append( ";" );
-				}
-			}
-		}
-	}
-
-	protected void buildStyle( IStyle style, StringBuffer styleBuffer )
-	{
-		if ( null == style )
-		{
-			return;
-		}
-		
-		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
-
+		// Build the Text Decoration for no embeddable view
 		AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
 
 		// Build the display
@@ -321,9 +291,19 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			styleBuffer.append( value );
 			styleBuffer.append( ";" );
 		}
+	}
+
+	protected void buildStyle( IStyle style, StringBuffer styleBuffer )
+	{
+		if ( null == style )
+		{
+			return;
+		}
+
+		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
 
 		// Build the vertical-align
-		value = style.getVerticalAlign( );
+		String value = style.getVerticalAlign( );
 		if ( null != value )
 		{
 			styleBuffer.append( " vertical-align:" );
