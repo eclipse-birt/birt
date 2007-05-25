@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.views;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 
@@ -31,8 +33,19 @@ public class RenameInputDialog extends InputDialog
 
 	public int open( )
 	{
-		Button okButton = getButton( IDialogConstants.OK_ID );
-		okButton.setEnabled( false );
+		getText( ).addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				if ( getText( ).getText( ).trim( ).length( ) == 0 )
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+				else
+					getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			}
+
+		} );
+		if ( getText( ).getText( ).trim( ).length( ) == 0 )
+			getButton( IDialogConstants.OK_ID ).setEnabled( false );
 		return super.open( );
 	}
 }
