@@ -111,6 +111,10 @@ public class BirtBaseFragment extends AbstractBaseFragment
 	protected String doPostService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
+		response.setHeader("Cache-Control","no-store");  //$NON-NLS-1$//$NON-NLS-2$
+		response.setHeader("Pragma","no-cache");  //$NON-NLS-1$//$NON-NLS-2$
+		response.setDateHeader("Expires", 0);    //$NON-NLS-1$
+
 		String className = getClass( ).getName( ).substring( getClass( ).getName( ).lastIndexOf ( '.' ) + 1 );
 		return JSPRootPath + "/pages/layout/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
