@@ -275,21 +275,20 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_THEME, ICONS_PATH
 				+ OBJ16_PATH
 				+ "theme.gif" ); //$NON-NLS-1$	
-		
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET, ICONS_PATH
-				+ OBJ16_PATH
-				+ "css.gif" ); //$NON-NLS-1$	
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET,
+				ICONS_PATH + OBJ16_PATH + "css.gif" ); //$NON-NLS-1$	
 
 		// library element icons
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_LINK,
 				ICONS_PATH + LINK_PATH + "data_link.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET_LINK,
 				ICONS_PATH + LINK_PATH + "css_link.gif" ); //$NON-NLS-1$		
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_STYLE_LINK,
 				ICONS_PATH + LINK_PATH + "style_link.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_SET_LINK,
 				ICONS_PATH + LINK_PATH + "data_set_link.gif" ); //$NON-NLS-1$
 
@@ -307,7 +306,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK,
 				ICONS_PATH + LINK_PATH + "data_source_link.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_JOINT_DATA_SET_LINK,
 				ICONS_PATH + LINK_PATH + "data_set_link.gif" ); //$NON-NLS-1$
 
@@ -585,16 +584,21 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW,
 				ICONS_PATH + MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
-		
+
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION,
 				ICONS_PATH + OBJ16_PATH + "aggregation.gif" ); //$NON-NLS-1$
+
+		// Scripts Node Icon
+		declareImage( IReportGraphicConstants.ICON_SCRIPTS_NODE, ICONS_PATH
+				+ OBJ16_PATH
+				+ "script-16.gif" );
 	}
 
 	/**
@@ -694,7 +698,8 @@ public class ReportPlatformUIImages
 						.getDefn( )
 						.getName( ) );
 			}
-		}else if (model instanceof CssStyleSheetHandle)
+		}
+		else if ( model instanceof CssStyleSheetHandle )
 		{
 			if ( isCSSLinkImg( (CssStyleSheetHandle) model ) == true )
 			{
@@ -713,14 +718,14 @@ public class ReportPlatformUIImages
 
 	private static boolean isCSSLinkImg( CssStyleSheetHandle handle )
 	{
-		if(handle.getContainerHandle( ) instanceof ReportDesignHandle
-		|| handle.getContainerHandle( ) instanceof ThemeHandle)
+		if ( handle.getContainerHandle( ) instanceof ReportDesignHandle
+				|| handle.getContainerHandle( ) instanceof ThemeHandle )
 		{
 			return true;
 		}
 		return false;
 	}
-	
+
 	private static boolean isLinkImg( DesignElementHandle handle )
 	{
 		if ( !( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )
