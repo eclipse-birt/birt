@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
@@ -438,16 +436,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				eb = new ExpressionBuilder( shell, value );
 				ExpressionProvider ep = new ExpressionProvider( (ExtendedItemHandle) context );
-				ep.addFilter( new ExpressionFilter( ) {
-
-					public boolean select( Object parentElement, Object element )
-					{
-						// Remove unsupported expression. See bugzilla#132768
-						return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
-								&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
-								.equals( "Total" ) ); //$NON-NLS-1$
-					}
-				} );
 				eb.setExpressionProvier( ep );
 				if ( sTitle != null )
 				{
