@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2005,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -233,7 +233,10 @@ public class ReportDesignWriter
 		 */
 		private void writeReportElement( ReportElementDesign elem )
 		{
-			attribute( "id", elem.getID( ) );
+			if ( elem.getID( ) > 0 )
+			{
+				attribute( "id", elem.getID( ) );
+			}
 			attribute( "name", elem.getName( ) ); //$NON-NLS-1$
 			attribute( "extends", elem.getExtends( ) ); //$NON-NLS-1$
 			attribute( "javaClass", elem.getJavaClass( ) );
