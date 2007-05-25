@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
+import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
@@ -99,7 +100,7 @@ public final class AxesRenderHelper
 	private Label la;
 
 	private double[] daEndPoints;
-	private double[] da;
+	private AxisTickCoordinates da;
 	private double[] daMinor;
 	private String sText;
 
@@ -134,7 +135,7 @@ public final class AxesRenderHelper
 	private boolean bTransposed;
 
 	private double[] daEndPoints3D;
-	private double[] da3D;
+	private AxisTickCoordinates da3D;
 	private Location3D lo3d;
 	private Text3DRenderEvent t3dre;
 	private Line3DRenderEvent l3dre;
@@ -313,10 +314,10 @@ public final class AxesRenderHelper
 			// ONE LAST TICK
 			if ( context.isVertical )
 			{
-				int y = (int) da[da.length - 1];
+				int y = (int) da.getEnd( );
 				if ( bRendering3D )
 				{
-					context.y3d = (int) da3D[da3D.length - 1];
+					context.y3d = (int) da3D.getEnd( );
 				}
 				if ( context.dTick1 != context.dTick2 )
 				{
@@ -349,7 +350,7 @@ public final class AxesRenderHelper
 			}
 			else
 			{
-				int x = (int) da[da.length - 1];
+				int x = (int) da.getEnd( );
 				if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 				{
 					if ( context.dTick1 != context.dTick2 )
@@ -440,7 +441,7 @@ public final class AxesRenderHelper
 
 		public void handlePostEachTick( int i ) throws ChartException
 		{
-			if ( i == da.length - 2 )
+			if ( i == da.size( ) - 2 )
 			{
 				// This is the last tick, use pre-computed value to
 				// handle non-equal scale unit case.
@@ -628,8 +629,8 @@ public final class AxesRenderHelper
 				&& bTickBetweenCategories ? iDirection * sc.getUnitSize( ) / 2
 				: 0;
 		// Tick size
-		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
-				: da.length;
+		final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
+				: da.size( );
 
 		final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
 				: context.dTick2 + 1;
@@ -637,10 +638,10 @@ public final class AxesRenderHelper
 		{
 			computation.handlePreEachTick( i );
 
-			int y = (int) da[i];
+			int y = (int) da.getCoordinate( i );
 			if ( bRendering3D )
 			{
-				context.y3d = (int) da3D[i];
+				context.y3d = (int) da3D.getCoordinate( i );
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
@@ -653,7 +654,7 @@ public final class AxesRenderHelper
 				{
 					// RENDER THE MINOR TICKS FIRST (For ALL but the
 					// last Major tick)
-					if ( i != da.length - 1 )
+					if ( i != da.size( ) - 1 )
 					{
 						if ( bRenderOrthogonal3DAxis )
 						{
@@ -667,9 +668,9 @@ public final class AxesRenderHelper
 								if ( computation instanceof LinearAxisTypeComputation )
 								{
 									// Special case for linear type
-									if ( ( iDirection == -1 && y - daMinor[k] <= da[i + 1] )
+									if ( ( iDirection == -1 && y - daMinor[k] <= da.getCoordinate( i + 1 ) )
 											|| ( iDirection == 1 && y
-													+ daMinor[k] >= da[i + 1] ) )
+													+ daMinor[k] >= da.getCoordinate( i + 1 ) ) )
 									{
 										// if current minor tick exceed
 										// the range of current unit, skip
@@ -804,8 +805,8 @@ public final class AxesRenderHelper
 				: 0;
 
 		// Tick size
-		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
-				: da.length;
+		final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
+				: da.size( );
 
 		double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? context.dTick1 + 1
 				: context.dTick1 - 1 )
@@ -814,11 +815,11 @@ public final class AxesRenderHelper
 		{
 			computation.handlePreEachTick( i );
 
-			int x = (int) da[i];
+			int x = (int) da.getCoordinate( i );
 			if ( bRendering3D )
 			{
-				context.x3d = (int) da3D[i];
-				context.z3d = (int) da3D[i];
+				context.x3d = (int) da3D.getCoordinate( i );
+				context.z3d = (int) da3D.getCoordinate( i );
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
@@ -834,7 +835,7 @@ public final class AxesRenderHelper
 				{
 					// RENDER THE MINOR TICKS FIRST (For ALL but the
 					// last Major tick)
-					if ( i != da.length - 1 )
+					if ( i != da.size( ) - 1 )
 					{
 						if ( bRenderBase3DAxis )
 						{
@@ -852,9 +853,9 @@ public final class AxesRenderHelper
 								// Special case for linear type
 								if ( computation instanceof LinearAxisTypeComputation )
 								{
-									if ( ( iDirection == 1 && x + daMinor[k] >= da[i + 1] )
+									if ( ( iDirection == 1 && x + daMinor[k] >= da.getCoordinate( i + 1 ) )
 											|| ( iDirection == -1 && x
-													- daMinor[k] <= da[i + 1] ) )
+													- daMinor[k] <= da.getCoordinate( i + 1 ) ) )
 									{
 										// if current minor tick exceed the
 										// range of current unit, skip

@@ -980,8 +980,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 		final boolean bZCategoryTextStyle = scAncillary.isCategoryScale( )
 				|| scAncillary.getType( ) == IConstants.TEXT;
 
-		double[] daXTickCoordinates = scBase.getTickCordinates( );
-		double[] daZTickCoordinates = scAncillary.getTickCordinates( );
+		AxisTickCoordinates daXTickCoordinates = scBase.getTickCordinates( );
+		AxisTickCoordinates daZTickCoordinates = scAncillary.getTickCordinates( );
 		Object oDataBase = null;
 		DataSetIterator dsiDataBase = scBase.getData( );
 		Object oDataOrthogonal;
@@ -1161,11 +1161,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 				{
 					if ( aax.areAxesSwapped( ) )
 					{
-						dY = daXTickCoordinates[0] + dXUnitSize * i;
+						dY = daXTickCoordinates.getStart( ) + dXUnitSize * i;
 
 						if ( bZCategoryTextStyle )
 						{
-							dZ = daZTickCoordinates[0]
+							dZ = daZTickCoordinates.getStart( )
 									+ dZUnitSize
 									* seriesIndex;
 							if ( !scAncillary.isTickBetweenCategories( ) )
@@ -1205,14 +1205,14 @@ public class PlotWith3DAxes extends PlotWithAxes
 					}
 					else
 					{
-						dX = daXTickCoordinates[0] + dXUnitSize * i;
+						dX = daXTickCoordinates.getStart( ) + dXUnitSize * i;
 						if ( !oaxBase.isTickBwtweenCategories( ) )
 						{
 							dX += dXUnitSize / 2;
 						}
 						if ( bZCategoryTextStyle )
 						{
-							dZ = daZTickCoordinates[0]
+							dZ = daZTickCoordinates.getStart( )
 									+ dZUnitSize
 									* seriesIndex;
 							if ( !scAncillary.isTickBetweenCategories( ) )
@@ -1261,10 +1261,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 				}
 
 				lo3d = Location3DImpl.create( dX, dY, dZ );
-				dXLength = ( i < iXTickCount - 1 ) ? daXTickCoordinates[i + 1]
-						- daXTickCoordinates[i] : 0;
-				dZLength = ( seriesIndex < iZTickCount - 1 ) ? daZTickCoordinates[seriesIndex + 1]
-						- daZTickCoordinates[seriesIndex]
+				dXLength = ( i < iXTickCount - 1 )
+						? daXTickCoordinates.getCoordinate( i + 1 )
+								- daXTickCoordinates.getCoordinate( i ) : 0;
+				dZLength = ( seriesIndex < iZTickCount - 1 )
+						? daZTickCoordinates.getCoordinate( seriesIndex + 1 )
+								- daZTickCoordinates.getCoordinate( seriesIndex )
 						: 0;
 
 				Object percentileValue = null;

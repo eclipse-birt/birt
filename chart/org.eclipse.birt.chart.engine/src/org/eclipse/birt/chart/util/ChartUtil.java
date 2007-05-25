@@ -555,4 +555,36 @@ public class ChartUtil
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks a double value is double precise. If value is 2.1, then return
+	 * true; if value is 2.1000000001 or 2.099999999999, then return false.
+	 * 
+	 * @param dValue
+	 * @return
+	 */
+	public static boolean checkDoublePrecise( double dValue )
+	{
+		if ( dValue - (int) dValue == 0 )
+		{
+			return true;
+		}
+		String sValue = String.valueOf( dValue );
+		if ( sValue.length( ) < 8 )
+		{
+			return true;
+		}
+		int iPoint = sValue.indexOf( '.' );
+		int iZero = sValue.lastIndexOf( "00000000" ); //$NON-NLS-1$
+		if ( iZero >= iPoint )
+		{
+			return false;
+		}
+		int iNine = sValue.lastIndexOf( "99999999" ); //$NON-NLS-1$
+		if ( iNine >= iPoint )
+		{
+			return false;
+		}
+		return true;
+	}
 }

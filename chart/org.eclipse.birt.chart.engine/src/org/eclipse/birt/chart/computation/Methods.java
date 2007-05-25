@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
+import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
@@ -107,20 +108,20 @@ public class Methods implements IConstants
 	 */
 	public static final double getLocation( AutoScale sc, IntersectionValue iv )
 	{
-		double[] da = sc.getTickCordinates( );
+		AxisTickCoordinates da = sc.getTickCordinates( );
 		if ( iv.getType( ) == IntersectionValue.MIN )
 		{
-			return da[0];
+			return da.getStart( );
 		}
 		else if ( iv.getType( ) == IntersectionValue.MAX )
 		{
-			return da[da.length - 1];
+			return da.getEnd( );
 		}
 
 		if ( ( sc.getType( ) & TEXT ) == TEXT || sc.isCategoryScale( ) )
 		{
 			double dValue = iv.getValueAsDouble( sc );
-			return da[0] + ( da[1] - da[0] ) * dValue;
+			return da.getStart( ) + da.getStep( ) * dValue;
 		}
 		else if ( ( sc.getType( ) & DATE_TIME ) == DATE_TIME )
 		{
@@ -129,13 +130,13 @@ public class Methods implements IConstants
 			int iUnit = asInteger( sc.getUnit( ) );
 			int iStep = asInteger( sc.getStep( ) );
 
-			for ( int i = 0; i < da.length; i++ )
+			for ( int i = 0; i < da.size( ); i++ )
 			{
 				if ( cdt.after( cdtValue ) )
 				{
 					if ( cdtPrev == null )
 					{
-						return da[i];
+						return da.getCoordinate( i );
 					}
 					/*
 					 * SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy
@@ -147,16 +148,16 @@ public class Methods implements IConstants
 					long l1 = cdtPrev.getTimeInMillis( );
 					long l2 = cdt.getTimeInMillis( );
 					long l = cdtValue.getTimeInMillis( );
-					double dUnitSize = da[i] - da[i - 1];
+					double dUnitSize = da.getStep( );
 
 					double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
-					return da[i - 1] + dOffset;
+					return da.getCoordinate( i - 1 ) + dOffset;
 
 				}
 				cdtPrev = cdt;
 				cdt = cdt.forward( iUnit, iStep );
 			}
-			return da[da.length - 1];
+			return da.getEnd( );
 		}
 		else if ( ( sc.getType( ) & LOGARITHMIC ) == LOGARITHMIC )
 		{
@@ -174,8 +175,8 @@ public class Methods implements IConstants
 			double dStepLog = Math.log( asDouble( sc.getStep( ) ).doubleValue( ) )
 					/ LOG_10;
 			double dValueLog = Math.log( dValue ) / LOG_10;
-			return da[0]
-					- ( ( ( dValueLog - dMinimumLog ) / dStepLog ) * ( da[0] - da[1] ) );
+			return da.getStart( )
+					+ ( ( ( dValueLog - dMinimumLog ) / dStepLog ) * da.getStep( ) );
 		}
 		else
 		{
@@ -277,8 +278,8 @@ public class Methods implements IConstants
 		if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
 				|| sc.isCategoryScale( ) )
 		{
-			double[] da = sc.getTickCordinates( );
-			return da[0] + ( da[1] - da[0] ) * dValue;
+			AxisTickCoordinates da = sc.getTickCordinates( );
+			return da.getStart( ) + da.getEnd( ) * dValue;
 		}
 		else if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
 		{
@@ -316,9 +317,9 @@ public class Methods implements IConstants
 			double dStepLog = Math.log( asDouble( sc.getStep( ) ).doubleValue( ) )
 					/ LOG_10;
 			double dValueLog = Math.log( dValue ) / LOG_10;
-			double[] da = sc.getTickCordinates( );
-			return da[0]
-					- ( ( ( dValueLog - dMinimumLog ) / dStepLog ) * ( da[0] - da[1] ) );
+			AxisTickCoordinates da = sc.getTickCordinates( );
+			return da.getStart( )
+					+ ( ( ( dValueLog - dMinimumLog ) / dStepLog ) * da.getStep( ) );
 		}
 		return 0;
 	}
@@ -331,18 +332,18 @@ public class Methods implements IConstants
 	 */
 	static final double getDateLocation( AutoScale sc, CDateTime cdtValue )
 	{
-		double[] da = sc.getTickCordinates( );
+		AxisTickCoordinates da = sc.getTickCordinates( );
 		CDateTime cdt = asDateTime( sc.getMinimum( ) ), cdtPrev = null;
 		int iUnit = asInteger( sc.getUnit( ) );
 		int iStep = asInteger( sc.getStep( ) );
 
-		for ( int i = 0; i < da.length; i++ )
+		for ( int i = 0; i < da.size( ); i++ )
 		{
 			if ( cdt.after( cdtValue ) )
 			{
 				if ( cdtPrev == null )
 				{
-					return da[i];
+					return da.getCoordinate( i );
 				}
 				/*
 				 * SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy
@@ -354,16 +355,16 @@ public class Methods implements IConstants
 				long l1 = cdtPrev.getTimeInMillis( );
 				long l2 = cdt.getTimeInMillis( );
 				long l = cdtValue.getTimeInMillis( );
-				double dUnitSize = da[i] - da[i - 1];
+				double dUnitSize = da.getStep( );
 
 				double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
-				return da[i - 1] + dOffset;
+				return da.getCoordinate( i - 1 ) + dOffset;
 
 			}
 			cdtPrev = cdt;
 			cdt = cdt.forward( iUnit, iStep );
 		}
-		return da[da.length - 1];
+		return da.getEnd( );
 	}
 
 	/**

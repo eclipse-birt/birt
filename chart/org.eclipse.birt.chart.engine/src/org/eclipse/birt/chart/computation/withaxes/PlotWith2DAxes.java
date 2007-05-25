@@ -1581,7 +1581,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			// TBD: HANDLE DATETIME VALUE VS TEXT AXIS
 		}
 
-		double[] daTickCoordinates = scBase.getTickCordinates( );
+		AxisTickCoordinates daTickCoordinates = scBase.getTickCordinates( );
 		Object oDataBase = null;
 		DataSetIterator dsiDataBase = scBase.getData( );
 		Object oDataOrthogonal;
@@ -1723,7 +1723,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				{
 					if ( aax.areAxesSwapped( ) )
 					{
-						dY = daTickCoordinates[0] + dUnitSize * i;
+						dY = daTickCoordinates.getStart( ) + dUnitSize * i;
 						if ( !oaxBase.isTickBwtweenCategories( ) )
 						{
 							dY += dUnitSize / 2;
@@ -1745,7 +1745,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					else
 					{
 
-						dX = daTickCoordinates[0] + dUnitSize * i;
+						dX = daTickCoordinates.getStart( ) + dUnitSize * i;
 						if ( !oaxBase.isTickBwtweenCategories( ) )
 						{
 							dX += dUnitSize / 2;
@@ -1811,22 +1811,22 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					if ( aax.areAxesSwapped( ) )
 					{
 						// Coordinates array is ordered by descending
-						if ( ( dY <= daTickCoordinates[j] && dY >= daTickCoordinates[j + 1] )
-								|| ( dY <= daTickCoordinates[j + 1] && dY >= daTickCoordinates[j] ) )
+						if ( ( dY <= daTickCoordinates.getCoordinate( j ) && dY >= daTickCoordinates.getCoordinate( j + 1 ) )
+								|| ( dY <= daTickCoordinates.getCoordinate( j + 1 ) && dY >= daTickCoordinates.getCoordinate( j ) ) )
 						{
 							// Keep the negative value
-							dLength = daTickCoordinates[j + 1]
-									- daTickCoordinates[j];
+							dLength = daTickCoordinates.getCoordinate( j + 1 )
+									- daTickCoordinates.getCoordinate( j );
 							break;
 						}
 					}
 					else
 					{
-						if ( ( dX <= daTickCoordinates[j + 1] && dX >= daTickCoordinates[j] )
-								|| ( dX <= daTickCoordinates[j] && dX >= daTickCoordinates[j + 1] ) )
+						if ( ( dX <= daTickCoordinates.getCoordinate( j + 1 ) && dX >= daTickCoordinates.getCoordinate( j ) )
+								|| ( dX <= daTickCoordinates.getCoordinate( j ) && dX >= daTickCoordinates.getCoordinate( j + 1 ) ) )
 						{
-							dLength = daTickCoordinates[j + 1]
-									- daTickCoordinates[j];
+							dLength = daTickCoordinates.getCoordinate( j + 1 )
+									- daTickCoordinates.getCoordinate( j );
 							break;
 						}
 					}

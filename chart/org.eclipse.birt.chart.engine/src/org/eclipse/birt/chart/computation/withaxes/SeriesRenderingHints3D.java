@@ -44,9 +44,9 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 
 	private final double dPlotHeight;
 
-	private final double[] daXTickCoordinates;
+	private final AxisTickCoordinates daXTickCoordinates;
 
-	private final double[] daZTickCoordinates;
+	private final AxisTickCoordinates daZTickCoordinates;
 
 	private final DataPointHints[] dpa;
 
@@ -83,7 +83,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public SeriesRenderingHints3D( PlotWith3DAxes _pwa, double _dXAxisLocation,
 			double _dZAxisLocation, double _dPlotBaseLocation,
 			double _dPlotZeroLocation, double _dPlotHeight,
-			double[] _daXTickCoordinates, double[] _daZTickCoordinates,
+			AxisTickCoordinates _daXTickCoordinates, AxisTickCoordinates _daZTickCoordinates,
 			DataPointHints[] _dpa, AutoScale _scBase, AutoScale _scOrthogonal,
 			AutoScale _scAncillary, DataSetIterator _dsiBase,
 			DataSetIterator _dsiOrthogonal, DataSetIterator _dsiAncillary )
@@ -242,7 +242,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 *         or vertical category axis. The other fixed co-ordinate is
 	 *         obtained via the axis location.
 	 */
-	public final double[] getXTickCoordinates( )
+	public final AxisTickCoordinates getXTickCoordinates( )
 	{
 		return daXTickCoordinates;
 	}
@@ -252,7 +252,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 * @return The ticks' co-ordinates specified as a values along the Z axis.
 	 *         The other fixed co-ordinate is obtained via the axis location.
 	 */
-	public final double[] getZTickCoordinates( )
+	public final AxisTickCoordinates getZTickCoordinates( )
 	{
 		return daZTickCoordinates;
 	}

@@ -42,7 +42,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 
 	private final double dPlotBaseLocation;
 
-	private final double[] daTickCoordinates;
+	private final AxisTickCoordinates daTickCoordinates;
 
 	private final DataPointHints[] dpa;
 
@@ -67,7 +67,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 */
 	public SeriesRenderingHints( PlotWith2DAxes _pwa, double _dAxisLocation,
 			double _dPlotBaseLocation, double _dZeroLocation,
-			double _dSeriesThickness, double[] _daTickCoordinates,
+			double _dSeriesThickness, AxisTickCoordinates _daTickCoordinates,
 			DataPointHints[] _dpa, AutoScale _scBase, AutoScale _scOrthogonal,
 			StackedSeriesLookup _ssl, DataSetIterator _dsiBase,
 			DataSetIterator _dsiOrthogonal )
@@ -165,7 +165,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 *         or vertical category axis. The other fixed co-ordinate is
 	 *         obtained via the axis location.
 	 */
-	public final double[] getTickCoordinates( )
+	public final AxisTickCoordinates getTickCoordinates( )
 	{
 		return daTickCoordinates;
 	}

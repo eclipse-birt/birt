@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
+import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.Grid;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
@@ -1252,9 +1253,9 @@ public abstract class AxesRenderer extends BaseRenderer
 			dYEnd = scPrimaryOrthogonal.getEnd( );
 			dZEnd = scAncillaryBase.getEnd( );
 
-			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
-			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).length;
-			orthogonalTickCount = scPrimaryOrthogonal.getTickCordinates( ).length;
+			baseTickCount = scPrimaryBase.getTickCordinates( ).size( );
+			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).size( );
+			orthogonalTickCount = scPrimaryOrthogonal.getTickCordinates( ).size( );
 
 			xStep = scPrimaryBase.getUnitSize( );
 			yStep = scPrimaryOrthogonal.getUnitSize( );
@@ -1541,28 +1542,28 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					case IConstants.BASE_AXIS :
 
-						double[] xa = scPrimaryBase.getTickCordinates( );
+						AxisTickCoordinates xa = scPrimaryBase.getTickCordinates( );
 						if ( floorFill )
 						{
-							for ( int k = 0; k < xa.length - 1; k++ )
+							for ( int k = 0; k < xa.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( xa[k]
-												+ doaMinor[j], xa[k + 1] ) )
+										if ( ChartUtil.mathGE( xa.getCoordinate( k )
+												+ doaMinor[j], xa.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( xa[k]
+										lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart,
 												dZStart + n * zStep ) );
-										lre3d.setEnd3D( Location3DImpl.create( xa[k]
+										lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart,
 												dZStart + ( n + 1 ) * zStep ) );
@@ -1574,25 +1575,25 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < xa.length - 1; k++ )
+							for ( int k = 0; k < xa.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( xa[k]
-												+ doaMinor[j], xa[k + 1] ) )
+										if ( ChartUtil.mathGE( xa.getCoordinate( k )
+												+ doaMinor[j], xa.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( xa[k]
+										lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart + n * yStep,
 												dZStart ) );
-										lre3d.setEnd3D( Location3DImpl.create( xa[k]
+										lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart + ( n + 1 ) * yStep,
 												dZStart ) );
@@ -1603,17 +1604,17 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ORTHOGONAL_AXIS :
-						double[] ya = scPrimaryOrthogonal.getTickCordinates( );
+						AxisTickCoordinates ya = scPrimaryOrthogonal.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < ya.length - 1; k++ )
+							for ( int k = 0; k < ya.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( ya[k]
-												+ doaMinor[j], ya[k + 1] ) )
+										if ( ChartUtil.mathGE( ya.getCoordinate( k )
+												+ doaMinor[j], ya.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
@@ -1621,10 +1622,10 @@ public abstract class AxesRenderer extends BaseRenderer
 										}
 
 										lre3d.setStart3D( Location3DImpl.create( dXStart,
-												ya[k] + doaMinor[j],
+												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart + n * zStep ) );
 										lre3d.setEnd3D( Location3DImpl.create( dXStart,
-												ya[k] + doaMinor[j],
+												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart + ( n + 1 ) * zStep ) );
 										getDeferredCache( ).addLine( lre3d );
 									}
@@ -1634,14 +1635,14 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < ya.length - 1; k++ )
+							for ( int k = 0; k < ya.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < baseTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( ya[k]
-												+ doaMinor[j], ya[k + 1] ) )
+										if ( ChartUtil.mathGE( ya.getCoordinate( k )
+												+ doaMinor[j], ya.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
@@ -1650,11 +1651,11 @@ public abstract class AxesRenderer extends BaseRenderer
 
 										lre3d.setStart3D( Location3DImpl.create( dXStart
 												+ n * xStep,
-												ya[k] + doaMinor[j],
+												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart ) );
 										lre3d.setEnd3D( Location3DImpl.create( dXStart
 												+ ( n + 1 ) * xStep,
-												ya[k] + doaMinor[j],
+												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart ) );
 										getDeferredCache( ).addLine( lre3d );
 									}
@@ -1663,17 +1664,17 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ANCILLARY_AXIS :
-						double[] za = scAncillaryBase.getTickCordinates( );
+						AxisTickCoordinates za = scAncillaryBase.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < za.length - 1; k++ )
+							for ( int k = 0; k < za.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( za[k]
-												+ doaMinor[j], za[k + 1] ) )
+										if ( ChartUtil.mathGE( za.getCoordinate( k )
+												+ doaMinor[j], za.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
@@ -1682,10 +1683,10 @@ public abstract class AxesRenderer extends BaseRenderer
 
 										lre3d.setStart3D( Location3DImpl.create( dXStart,
 												dYStart + n * yStep,
-												za[k] + doaMinor[j] ) );
+												za.getCoordinate( k ) + doaMinor[j] ) );
 										lre3d.setEnd3D( Location3DImpl.create( dXStart,
 												dYStart + ( n + 1 ) * yStep,
-												za[k] + doaMinor[j] ) );
+												za.getCoordinate( k ) + doaMinor[j] ) );
 										getDeferredCache( ).addLine( lre3d );
 									}
 								}
@@ -1694,14 +1695,14 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( floorFill )
 						{
-							for ( int k = 0; k < za.length - 1; k++ )
+							for ( int k = 0; k < za.size( ) - 1; k++ )
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
 									for ( int n = 0; n < baseTickCount - 1; n++ )
 									{
-										if ( ChartUtil.mathGE( za[k]
-												+ doaMinor[j], za[k + 1] ) )
+										if ( ChartUtil.mathGE( za.getCoordinate( k )
+												+ doaMinor[j], za.getCoordinate( k + 1 ) ) )
 										{
 											// if current minor tick exceeds the
 											// range of current unit, skip
@@ -1711,11 +1712,11 @@ public abstract class AxesRenderer extends BaseRenderer
 										lre3d.setStart3D( Location3DImpl.create( dXStart
 												+ n * xStep,
 												dYStart,
-												za[k] + doaMinor[j] ) );
+												za.getCoordinate( k ) + doaMinor[j] ) );
 										lre3d.setEnd3D( Location3DImpl.create( dXStart
 												+ ( n + 1 ) * xStep,
 												dYStart,
-												za[k] + doaMinor[j] ) );
+												za.getCoordinate( k ) + doaMinor[j] ) );
 										getDeferredCache( ).addLine( lre3d );
 									}
 								}
@@ -1730,21 +1731,21 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				int iDirection = sc.getDirection( ) == IConstants.BACKWARD ? -1
 						: 1;
-				double[] da = sc.getTickCordinates( );
+				AxisTickCoordinates da = sc.getTickCordinates( );
 				double dY2 = bo.getTop( ) + 1, dY1 = bo.getTop( )
 						+ bo.getHeight( ) - 2;
 				if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 				{
-					for ( int j = 0; j < da.length - 1; j++ )
+					for ( int j = 0; j < da.size( ) - 1; j++ )
 					{
-						x = da[j];
+						x = da.getCoordinate( j );
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
 							if ( ( iDirection == 1 && ChartUtil.mathGE( x
-									+ doaMinor[k], da[j + 1] ) )
+									+ doaMinor[k], da.getCoordinate( j + 1 ) ) )
 									|| ( iDirection == -1 && ChartUtil.mathLE( x
 											- doaMinor[k],
-											da[j + 1] ) ) )
+											da.getCoordinate( j + 1 ) ) ) )
 							{
 								// if current minor tick exceeds the
 								// range of current unit, skip
@@ -1765,10 +1766,10 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 				}
 
-				for ( int j = 0; j < da.length - 1; j++ )
+				for ( int j = 0; j < da.size( ) - 1; j++ )
 				{
-					x = da[j];
-					vnext = da[j + 1];
+					x = da.getCoordinate( j );
+					vnext = da.getCoordinate( j + 1 );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						x += pwa.getSeriesThickness( );
@@ -1801,15 +1802,15 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				int iDirection = sc.getDirection( ) != IConstants.FORWARD ? -1
 						: 1;
-				double[] da = sc.getTickCordinates( );
+				AxisTickCoordinates da = sc.getTickCordinates( );
 				double dX1 = bo.getLeft( ) + 1, dX2 = bo.getLeft( )
 						+ bo.getWidth( ) - 2;
 				if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 				{
-					for ( int j = 0; j < da.length - 1; j++ )
+					for ( int j = 0; j < da.size( ) - 1; j++ )
 					{
-						y = da[j] - pwa.getSeriesThickness( );
-						vnext = da[j + 1] - pwa.getSeriesThickness( );
+						y = da.getCoordinate( j ) - pwa.getSeriesThickness( );
+						vnext = da.getCoordinate( j + 1 ) - pwa.getSeriesThickness( );
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
 							if ( ( iDirection == 1 && ChartUtil.mathGE( y
@@ -1836,10 +1837,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 				}
-				for ( int j = 0; j < da.length - 1; j++ )
+				for ( int j = 0; j < da.size( ) - 1; j++ )
 				{
-					y = da[j];
-					vnext = da[j + 1];
+					y = da.getCoordinate( j );
+					vnext = da.getCoordinate( j + 1 );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						y -= pwa.getSeriesThickness( );
@@ -1892,17 +1893,17 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					case IConstants.BASE_AXIS :
 
-						double[] xa = scPrimaryBase.getTickCordinates( );
+						AxisTickCoordinates xa = scPrimaryBase.getTickCordinates( );
 						if ( floorFill )
 						{
-							for ( int k = 0; k < xa.length; k++ )
+							for ( int k = 0; k < xa.size( ); k++ )
 							{
 								for ( int j = 0; j < ancillaryTickCount - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( xa[k],
+									lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
 											dYStart,
 											dZStart + j * zStep ) );
-									lre3d.setEnd3D( Location3DImpl.create( xa[k],
+									lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k ),
 											dYStart,
 											dZStart + ( j + 1 ) * zStep ) );
 									getDeferredCache( ).addLine( lre3d );
@@ -1912,14 +1913,14 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < xa.length; k++ )
+							for ( int k = 0; k < xa.size( ); k++ )
 							{
 								for ( int j = 0; j < orthogonalTickCount - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( xa[k],
+									lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
 											dYStart + j * yStep,
 											dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( xa[k],
+									lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k ),
 											dYStart + ( j + 1 ) * yStep,
 											dZStart ) );
 									getDeferredCache( ).addLine( lre3d );
@@ -1928,18 +1929,18 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ORTHOGONAL_AXIS :
-						double[] ya = scPrimaryOrthogonal.getTickCordinates( );
+						AxisTickCoordinates ya = scPrimaryOrthogonal.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < ya.length; k++ )
+							for ( int k = 0; k < ya.size( ); k++ )
 							{
 								for ( int j = 0; j < ancillaryTickCount - 1; j++ )
 								{
 									lre3d.setStart3D( Location3DImpl.create( dXStart,
-											ya[k],
+											ya.getCoordinate( k ),
 											dZStart + j * zStep ) );
 									lre3d.setEnd3D( Location3DImpl.create( dXStart,
-											ya[k],
+											ya.getCoordinate( k ),
 											dZStart + ( j + 1 ) * zStep ) );
 									getDeferredCache( ).addLine( lre3d );
 								}
@@ -1948,17 +1949,17 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( rightWallFill )
 						{
-							for ( int k = 0; k < ya.length; k++ )
+							for ( int k = 0; k < ya.size( ); k++ )
 							{
 								for ( int j = 0; j < baseTickCount - 1; j++ )
 								{
 									lre3d.setStart3D( Location3DImpl.create( dXStart
 											+ j * xStep,
-											ya[k],
+											ya.getCoordinate( k ),
 											dZStart ) );
 									lre3d.setEnd3D( Location3DImpl.create( dXStart
 											+ ( j + 1 ) * xStep,
-											ya[k],
+											ya.getCoordinate( k ),
 											dZStart ) );
 									getDeferredCache( ).addLine( lre3d );
 								}
@@ -1966,19 +1967,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ANCILLARY_AXIS :
-						double[] za = scAncillaryBase.getTickCordinates( );
+						AxisTickCoordinates za = scAncillaryBase.getTickCordinates( );
 						if ( leftWallFill )
 						{
-							for ( int k = 0; k < za.length; k++ )
+							for ( int k = 0; k < za.size( ); k++ )
 							{
 								for ( int j = 0; j < orthogonalTickCount - 1; j++ )
 								{
 									lre3d.setStart3D( Location3DImpl.create( dXStart,
 											dYStart + j * yStep,
-											za[k] ) );
+											za.getCoordinate( k ) ) );
 									lre3d.setEnd3D( Location3DImpl.create( dXStart,
 											dYStart + ( j + 1 ) * yStep,
-											za[k] ) );
+											za.getCoordinate( k ) ) );
 									getDeferredCache( ).addLine( lre3d );
 								}
 							}
@@ -1986,18 +1987,18 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( floorFill )
 						{
-							for ( int k = 0; k < za.length; k++ )
+							for ( int k = 0; k < za.size( ); k++ )
 							{
 								for ( int j = 0; j < baseTickCount - 1; j++ )
 								{
 									lre3d.setStart3D( Location3DImpl.create( dXStart
 											+ j * xStep,
 											dYStart,
-											za[k] ) );
+											za.getCoordinate( k ) ) );
 									lre3d.setEnd3D( Location3DImpl.create( dXStart
 											+ ( j + 1 ) * xStep,
 											dYStart,
-											za[k] ) );
+											za.getCoordinate( k ) ) );
 									getDeferredCache( ).addLine( lre3d );
 								}
 							}
@@ -2009,20 +2010,20 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 			else if ( oaxa[i].getOrientation( ) == IConstants.HORIZONTAL )
 			{
-				double[] da = sc.getTickCordinates( );
+				AxisTickCoordinates da = sc.getTickCordinates( );
 				double dY2 = bo.getTop( ) + 1, dY1 = bo.getTop( )
 						+ bo.getHeight( ) - 2;
 				if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 				{
-					for ( int j = 0; j < da.length; j++ )
+					for ( int j = 0; j < da.size( ); j++ )
 					{
 						if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 							continue;
-						if ( j == da.length - 1
+						if ( j == da.size( ) - 1
 								&& insCA.getTop( ) < lia.getThickness( ) )
 							continue;
 
-						x = da[j];
+						x = da.getCoordinate( j );
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
@@ -2033,15 +2034,15 @@ public abstract class AxesRenderer extends BaseRenderer
 						ipr.drawLine( lre );
 					}
 				}
-				for ( int j = 0; j < da.length; j++ )
+				for ( int j = 0; j < da.size( ); j++ )
 				{
 					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 						continue;
-					if ( j == da.length - 1
+					if ( j == da.size( ) - 1
 							&& insCA.getTop( ) < lia.getThickness( ) )
 						continue;
 
-					x = da[j];
+					x = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						x += pwa.getSeriesThickness( );
@@ -2056,20 +2057,20 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 			else if ( oaxa[i].getOrientation( ) == IConstants.VERTICAL )
 			{
-				double[] da = sc.getTickCordinates( );
+				AxisTickCoordinates da = sc.getTickCordinates( );
 				double dX1 = bo.getLeft( ) + 1, dX2 = bo.getLeft( )
 						+ bo.getWidth( ) - 2;
 				if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 				{
-					for ( int j = 0; j < da.length; j++ )
+					for ( int j = 0; j < da.size( ); j++ )
 					{
 						if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
 							continue;
-						if ( j == da.length - 1
+						if ( j == da.size( ) - 1
 								&& insCA.getRight( ) < lia.getThickness( ) )
 							continue;
 
-						y = ( da[j] - pwa.getSeriesThickness( ) );
+						y = ( da.getCoordinate( j ) - pwa.getSeriesThickness( ) );
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
@@ -2080,15 +2081,15 @@ public abstract class AxesRenderer extends BaseRenderer
 						ipr.drawLine( lre );
 					}
 				}
-				for ( int j = 0; j < da.length; j++ )
+				for ( int j = 0; j < da.size( ); j++ )
 				{
 					if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
 						continue;
-					if ( j == da.length - 1
+					if ( j == da.size( ) - 1
 							&& insCA.getRight( ) < lia.getThickness( ) )
 						continue;
 
-					y = da[j];
+					y = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						y -= pwa.getSeriesThickness( );

@@ -87,8 +87,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private int iMarginPercent = 0;
 
 	private transient double dStart, dEnd;
-
-	private transient double[] daTickCoordinates;
+	
+	private AxisTickCoordinates atcTickCoordinates;
 
 	private transient boolean[] baTickLabelVisible;
 
@@ -255,7 +255,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.oMaximumWithMargin = oMaximumWithMargin;
 		sc.oMinimumWithMargin = oMinimumWithMargin;
 		sc.iMarginPercent = iMarginPercent;
-		sc.daTickCoordinates = daTickCoordinates;
+		sc.atcTickCoordinates = atcTickCoordinates;
 		sc.dStartShift = dStartShift;
 		sc.dEndShift = dEndShift;
 		sc.dsiData = dsiData;
@@ -767,20 +767,16 @@ public final class AutoScale extends Methods implements Cloneable
 		return dsiData;
 	}
 
-	/**
-	 * 
-	 * @param da
-	 */
-	final void setTickCordinates( double[] da )
+	final void setTickCordinates( AxisTickCoordinates atc )
 	{
-		if ( da != null && da.length == 1 )
+		if ( atc != null && atc.size( ) == 1 )
 		{
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.tick.computations", //$NON-NLS-1$ 
 					Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
-		daTickCoordinates = da;
+		this.atcTickCoordinates = atc;
 	}
 
 	/**
@@ -836,33 +832,9 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @return
 	 */
-	public final double[] getTickCordinates( )
+	public final AxisTickCoordinates getTickCordinates( )
 	{
-		return daTickCoordinates;
-	}
-
-	/**
-	 * Returns the normalized tick coordinates. that means the start point is
-	 * always zero, and the array lines forward.
-	 * 
-	 * @return
-	 */
-	public final double[] getNormalizedTickCoordinates( )
-	{
-		if ( daTickCoordinates != null )
-		{
-			double[] daNomTickCoordinates = new double[daTickCoordinates.length];
-
-			for ( int i = 0; i < daNomTickCoordinates.length; i++ )
-			{
-				daNomTickCoordinates[i] = daTickCoordinates[i]
-						- daTickCoordinates[0];
-			}
-
-			return daNomTickCoordinates;
-		}
-
-		return null;
+		return this.atcTickCoordinates;
 	}
 
 	/**
@@ -926,18 +898,9 @@ public final class AutoScale extends Methods implements Cloneable
 			dEnd = _dEnd;
 		}
 
-		if ( daTickCoordinates != null )
+		if ( atcTickCoordinates != null )
 		{
-			int n = daTickCoordinates.length - 1;
-			double dDelta = ( dEnd - dStart ) / n;
-			double d = dStart;
-
-			for ( int i = 0; i < n; i++ )
-			{
-				daTickCoordinates[i] = d;
-				d += dDelta;
-			}
-			daTickCoordinates[n] = dEnd;
+			atcTickCoordinates.setEndPoints( dStart, dEnd );
 		}
 	}
 
@@ -1040,14 +1003,14 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final double getUnitSize( )
 	{
-		if ( daTickCoordinates == null )
+		if ( atcTickCoordinates == null )
 		{
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.unit.size.failure", //$NON-NLS-1$ 
 					Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 		}
-		return Math.abs( daTickCoordinates[1] - daTickCoordinates[0] );
+		return Math.abs( atcTickCoordinates.getStep( ) );
 	}
 
 	/**
@@ -1336,7 +1299,7 @@ public final class AutoScale extends Methods implements Cloneable
 						: 3;
 			}
 		}
-		double[] da = daTickCoordinates;
+		AxisTickCoordinates da = atcTickCoordinates;
 		RotatedRectangle rrPrev = null, rrPrev2 = null, rr;
 
 		if ( ( iType & ( NUMERICAL | LINEAR ) ) == ( NUMERICAL | LINEAR ) )
@@ -1351,7 +1314,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 
-			for ( int i = 0; i < da.length - 1; i++ )
+			for ( int i = 0; i < da.size( ); i++ )
 			{
 				// TODO special logic for last datapoint in non-equal scale unit
 				// case.
@@ -1373,11 +1336,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = da[i] * dZoomFactor;
+					x = da.getCoordinate( i ) * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = da[i] * dZoomFactor;
+					y = da.getCoordinate( i ) * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1429,7 +1392,7 @@ public final class AutoScale extends Methods implements Cloneable
 			NumberDataElement nde = NumberDataElementImpl.create( 0 );
 			DecimalFormat df = null;
 
-			for ( int i = 0; i < da.length - 1; i++ )
+			for ( int i = 0; i < da.size( ) - 1; i++ )
 			{
 				nde.setValue( dAxisValue );
 				if ( fs == null )
@@ -1451,11 +1414,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = da[i] * dZoomFactor;
+					x = da.getCoordinate( i ) * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = da[i] * dZoomFactor;
+					y = da.getCoordinate( i ) * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1508,17 +1471,17 @@ public final class AutoScale extends Methods implements Cloneable
 			String sText;
 			cdt = cdtAxisValue;
 
-			for ( int i = 0; i < da.length - 1; i++ )
+			for ( int i = 0; i < da.size( ) - 1; i++ )
 			{
 				sText = ValueFormatter.format( cdt, fs, rtc.getULocale( ), sdf );
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = da[i] * dZoomFactor;
+					x = da.getCoordinate( i ) * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = da[i] * dZoomFactor;
+					y = da.getCoordinate( i ) * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -1578,13 +1541,13 @@ public final class AutoScale extends Methods implements Cloneable
 	final protected boolean[] checkTickLabelsVisibility( IDisplayServer xs,
 			Label la, int iLabelLocation ) throws ChartException
 	{
-		boolean[] ba = new boolean[daTickCoordinates.length];
+		boolean[] ba = new boolean[atcTickCoordinates.size( )];
 
 		boolean vis = la.isSetVisible( ) && la.isVisible( );
 		Arrays.fill( ba, vis );
 
 		// initialize stagger state.
-		baTickLabelStaggered = new boolean[daTickCoordinates.length];
+		baTickLabelStaggered = new boolean[atcTickCoordinates.size( )];
 		boolean staggerEnabled = isAxisLabelStaggered( );
 
 		// all non-visible label, skip checking.
@@ -1675,7 +1638,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 		dsi.reset( );
 
-		for ( int i = 0; i < daTickCoordinates.length - 1; i++ )
+		for ( int i = 0; i < atcTickCoordinates.size( ) - 1; i++ )
 		{
 			Object oValue = null;
 
@@ -1691,11 +1654,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = this.daTickCoordinates[i] * dZoomFactor;
+					x = this.atcTickCoordinates.getCoordinate( i ) * dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = this.daTickCoordinates[i] * dZoomFactor;
+					y = this.atcTickCoordinates.getCoordinate( i ) * dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -2334,7 +2297,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					if ( !bFits && sc.getTickCordinates( ).length == 2 )
+					if ( !bFits && sc.getTickCordinates( ).size( ) == 2 )
 					{
 						break;
 					}
@@ -2353,7 +2316,7 @@ public final class AutoScale extends Methods implements Cloneable
 						false,
 						null );
 				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCordinates( ).length == 2 )
+				if ( !bFits && sc.getTickCordinates( ).size( ) == 2 )
 				{
 					sc = scCloned;
 					break;
@@ -2555,18 +2518,13 @@ public final class AutoScale extends Methods implements Cloneable
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
-		double d = dStart + dTickGap;
-		final double[] da = new double[nTicks];
-
-		for ( int i = 1; i < nTicks; i++, d += dTickGap )
-		{
-			da[i] = d;
-		}
-		da[0] = dStart;
-		da[nTicks - 1] = dEnd;
+		AxisTickCoordinates atc = new AxisTickCoordinates( nTicks,
+				dStart,
+				dEnd,
+				dTickGap );
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
-		setTickCordinates( da );
+		setTickCordinates( atc );
 
 		baTickLabelVisible = checkTickLabelsVisibility( xs, la, iLabelLocation );
 
@@ -3101,7 +3059,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		String sText;
-		double[] da = getTickCordinates( );
+		AxisTickCoordinates da = getTickCordinates( );
 
 		if ( iOrientation == VERTICAL )
 		{
@@ -3141,7 +3099,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					nde.setValue( dAxisValue );
 					try
@@ -3176,7 +3134,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				DecimalFormat df = null;
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					if ( fs == null )
 					{
@@ -3219,7 +3177,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
 							rtc.getULocale( ) );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					try
 					{
@@ -3286,7 +3244,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					nde.setValue( dAxisValue );
 					try
@@ -3320,7 +3278,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				DecimalFormat df = null;
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					if ( fs == null )
 					{
@@ -3363,7 +3321,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
 							rtc.getULocale( ) );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					try
 					{
@@ -3422,7 +3380,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		String sText;
-		double[] da = getTickCordinates( );
+		AxisTickCoordinates da = getTickCordinates( );
 
 		if ( iOrientation == VERTICAL )
 		{
@@ -3461,7 +3419,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					nde.setValue( dAxisValue );
 					try
@@ -3496,7 +3454,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				DecimalFormat df = null;
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					if ( fs == null )
 					{
@@ -3540,7 +3498,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
 							rtc.getULocale( ) );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					try
 					{
@@ -3609,7 +3567,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					nde.setValue( dAxisValue );
 					try
@@ -3644,7 +3602,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				DecimalFormat df = null;
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					if ( fs == null )
 					{
@@ -3688,7 +3646,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
 							rtc.getULocale( ) );
 				}
-				for ( int i = 0; i < da.length; i++ )
+				for ( int i = 0; i < da.size( ); i++ )
 				{
 					try
 					{
@@ -3784,7 +3742,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final double[] getMinorCoordinates( int iMinorUnitsPerMajor )
 	{
-		if ( daTickCoordinates == null || iMinorUnitsPerMajor <= 0 )
+		if ( atcTickCoordinates == null || iMinorUnitsPerMajor <= 0 )
 		{
 			return null;
 		}
@@ -3958,7 +3916,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 	}
-
+	
 	/**
 	 * Computes the default DecimalFormat pattern for axis according to axis
 	 * value and scale steps.
@@ -3975,25 +3933,29 @@ public final class AutoScale extends Methods implements Cloneable
 		// Use a more precise pattern
 		String valuePattern = getNumericPattern( dAxisValue );
 		String stepPattern = getNumericPattern( dAxisStep );
-		
-		// If step is more precise or value has number error, such as
-		// 2.0000000005, use step to produce pattern
-		// See Bugzilla#185883
-		int iPoint = valuePattern.indexOf( '.' );
-		final int PRECISE_DIGIT_NUMBER = 7;
-		if ( valuePattern.length( ) < stepPattern.length( )
-				|| iPoint >= 0 && valuePattern.length( ) - iPoint > PRECISE_DIGIT_NUMBER )
-		{
-			valuePattern = stepPattern;
-		}
 
-		// If precise number is too long, use the default value
-		iPoint = valuePattern.indexOf( '.' );
-		if ( iPoint >= 0
-				&& valuePattern.length( ) - iPoint > PRECISE_DIGIT_NUMBER )
+		boolean bValuePrecise = ChartUtil.checkDoublePrecise( dAxisValue );
+		boolean bStepPrecise = ChartUtil.checkDoublePrecise( dAxisStep );
+
+		// See Bugzilla#185883
+		if ( bValuePrecise )
 		{
-			valuePattern = valuePattern.substring( 0, iPoint
-					+ PRECISE_DIGIT_NUMBER );
+			if ( bStepPrecise )
+			{
+				// If they are both double-precise, use the more precise one
+				if ( valuePattern.length( ) < stepPattern.length( ) )
+				{
+					return new DecimalFormat( stepPattern );
+				}
+			}
+		}
+		else
+		{
+			if ( bStepPrecise )
+			{
+				return new DecimalFormat( stepPattern );
+			}
+			// If they are neither double-precise, use the default value
 		}
 		return new DecimalFormat( valuePattern );
 	}
