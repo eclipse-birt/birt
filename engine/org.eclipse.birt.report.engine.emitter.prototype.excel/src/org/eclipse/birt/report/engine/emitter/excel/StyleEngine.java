@@ -69,10 +69,11 @@ public class StyleEngine implements IListVisitor
 	{
 		if ( styles.size( ) > 0 )
 		{
-			StyleEntry style = (StyleEntry)styles.peek( );
-			
-			if(((Boolean)style2top.get( style )).booleanValue( )) 
-			{	
+			StyleEntry style = (StyleEntry) styles.peek( );
+
+			Boolean value = (Boolean) style2top.get( style );
+			if ( value != null && value.booleanValue( ) )
+			{
 				Span span = (Span) spans.peek( );
 
 				int start = ( (Integer) pos.peek( ) ).intValue( );
