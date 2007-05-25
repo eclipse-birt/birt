@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.integration.wtp.ui.internal.dialogs;
 
+import java.io.File;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -87,7 +89,7 @@ public class FolderSelectionGroup
 	/**
 	 * DELIMITER Contants
 	 */
-	private final static String DELIMITER = ";"; //$NON-NLS-1$
+	private final static String DELIMITER = File.pathSeparator;
 
 	/**
 	 * Default Constructor

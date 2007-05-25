@@ -26,7 +26,7 @@ import org.eclipse.birt.chart.script.ScriptClassLoaderAdapter;
 public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 {
 
-	public static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$
+	public static final String PROPERTYSEPARATOR = File.pathSeparator; 
 
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
 
