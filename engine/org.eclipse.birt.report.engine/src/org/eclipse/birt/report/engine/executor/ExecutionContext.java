@@ -97,7 +97,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExecutionContext
 {
-	public static final String PROPERTYSEPARATOR = ";";
+	public static final String PROPERTYSEPARATOR = System.getProperty( "path.separator" );
 
 	// engines used to create the context
 	/** the engine used to create this context */

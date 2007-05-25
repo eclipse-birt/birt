@@ -29,7 +29,7 @@ public class EngineConstants {
 	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = APPCONTEXT_CHART_RESOLUTION;	 //$NON-NLS-1$
 	
 	//used by ScriptExecutor
-	public static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$
+	public static final String PROPERTYSEPARATOR = System.getProperty( "path.separator" ); //$NON-NLS-1$
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
