@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-
 /**
  * 
  */
@@ -88,9 +86,9 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 				{
 					for ( Iterator iter = adapters.iterator( ); iter.hasNext( ); )
 					{
-						Object result = method.invoke( iter.next( ), args );
-						if ( result != null )
-							return result;
+						return method.invoke( iter.next( ), args );
+//						if ( result != null )
+//							return result;
 					}
 				}
 			}
@@ -100,7 +98,7 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 			//should not use ExceptionHandler to handle exception
 			//because this will raise annoying dialog
 //			ExceptionHandler.handle( e );
-			e.printStackTrace( );
+//			e.printStackTrace( );
 		}
 		return null;
 	}

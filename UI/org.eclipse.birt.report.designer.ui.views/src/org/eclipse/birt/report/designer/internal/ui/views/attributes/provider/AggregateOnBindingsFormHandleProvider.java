@@ -23,8 +23,8 @@ public class AggregateOnBindingsFormHandleProvider extends
 	public boolean doAddAggregateOnItem( int pos )
 	{
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		dialog.setAggreate( true );
 		dialog.setInput( (ReportItemHandle) getBindingObject( ) );
-
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			if ( viewer != null )

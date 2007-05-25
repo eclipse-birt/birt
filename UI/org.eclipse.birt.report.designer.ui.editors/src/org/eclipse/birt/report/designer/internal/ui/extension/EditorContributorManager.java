@@ -255,9 +255,15 @@ public class EditorContributorManager implements IExtensionConstants
 		return editorContributor;
 	}
 
+	/**
+	 * Sort all form pages in the relative order.
+	 * @param formPageList
+	 * @return
+	 */
 	private static List sortFormPageList( List formPageList )
 	{
 		List list = new ArrayList( formPageList.size( ) );
+		//a map to store all pages(in array list) relativize to another page(map key)
 		Map relativeMap = new HashMap( );
 		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 		{
@@ -270,7 +276,7 @@ public class EditorContributorManager implements IExtensionConstants
 			else
 			{
 				int relativePosition = getRelativeElementPosition( element,
-						list );
+						list );//get relatived page position 
 				if ( relativePosition > -1 )
 				{
 

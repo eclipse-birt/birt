@@ -187,8 +187,6 @@ public class ElementAdapter
 	{
 		if ( obj instanceof ElementAdapter )
 		{
-			if ( this.getId( ) == null )
-				return ( (ElementAdapter) obj ).getId( ) == null;
 			return this.getId( ).equals( ( (ElementAdapter) obj ).getId( ) );
 		}
 		return super.equals( obj );

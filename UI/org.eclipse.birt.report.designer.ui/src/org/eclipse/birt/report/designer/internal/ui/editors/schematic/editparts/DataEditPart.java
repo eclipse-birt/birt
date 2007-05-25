@@ -9,18 +9,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingAggregateOnProvider;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -62,44 +60,81 @@ public class DataEditPart extends LabelEditPart
 	public void performDirectEdit( )
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-		DataItemBindingDialog dialog = new DataItemBindingDialog( handle.getResultSetColumn( ) == null );
-//		if ( handle.getResultSetColumn( ) != null )
-//		{
-//			DataItemBindingAggregateOnProvider provider;
-//			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-//					handle.getResultSetColumn( ) );
-//			if ( bindingColumn == null )
-//			{
-//				provider = new NODataItemBindingAggregateOnProvider( );
-//				dialog.setProvider( provider );
-//			}
-//			else
-//			{
-//				Object obj = bindingColumn.getElementHandle( );
-//				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
-//						.get( obj );
-//
-//				if ( part == null )
-//				{
-//					provider = new NODataItemBindingAggregateOnProvider( );
-//				}
-//				else
-//				{
-//					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
-//				}
-//				if ( provider == null )
-//				{
-//					provider = new NODataItemBindingAggregateOnProvider( );
-//				}
-//				provider.setDataItemHandle( handle );
-//
-//				dialog.setProvider( provider );
-//			}
-//
-//		}
-		dialog.setInput( handle );
-
+		/*
+		 Object dialogAdapter = ElementAdapterManager.getAdapter( handle, AbstractDataBindingDialog.class );
+		 if ( dialogAdapter != null )
+		 {
+		 AbstractDataBindingDialog dialog = (AbstractDataBindingDialog) dialogAdapter;
+		 dialog.setTitle( "Edit data item binding" );
+		 dialog.setInput( handle );
+		 dialog.setBindingHolder( getBindingHolder(handle) );
+		 dialog.setBindingHandle( DEUtil.getInputBinding( handle,
+		 handle.getResultSetColumn( ) ) );
+		 dialog.setEdit( true );
+		 handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		 if ( dialog.open( ) == Dialog.OK )
+		 {
+		 try
+		 {
+		 if ( dialog.getBindingColumn( ) != null )
+		 {
+		 handle.setResultSetColumn( dialog.getBindingColumn( )
+		 .getName( ) );
+		 }
+		 handle.getModuleHandle( ).getCommandStack( ).commit( );
+		 }
+		 catch ( SemanticException e )
+		 {
+		 ExceptionHandler.handle( e );
+		 handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+		 }
+		 }
+		 else
+		 {
+		 handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+		 }
+		 }
+		 */
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( handle.getResultSetColumn( ) == null );
+		if ( handle.getResultSetColumn( ) != null )
+		{
+			//			DataItemBindingAggregateOnProvider provider;
+			//			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+			//					handle.getResultSetColumn( ) );
+			//			if ( bindingColumn == null )
+			//			{
+			//				provider = new NODataItemBindingAggregateOnProvider( );
+			//				dialog.setProvider( provider );
+			//			}
+			//			else
+			//			{
+			//				Object obj = bindingColumn.getElementHandle( );
+			//				EditPart part = (EditPart) getViewer( ).getEditPartRegistry( )
+			//						.get( obj );
+			//
+			//				if ( part == null )
+			//				{
+			//					provider = new NODataItemBindingAggregateOnProvider( );
+			//				}
+			//				else
+			//				{
+			//					provider = (DataItemBindingAggregateOnProvider) part.getAdapter( DataItemBindingAggregateOnProvider.class );
+			//				}
+			//				if ( provider == null )
+			//				{
+			//					provider = new NODataItemBindingAggregateOnProvider( );
+			//				}
+			//				provider.setDataItemHandle( handle );
+			//
+			////				dialog.setProvider( provider );
+			//			}
+			dialog.setInput( handle, DEUtil.getInputBinding( handle,
+					handle.getResultSetColumn( ) ) );
+		}
+		else
+		{
+			dialog.setInput( handle );
+		}
 		// ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 		// dialog.setInput( handle );
 		// dialog.setGroupList( DEUtil.getGroups( handle ) );
@@ -177,58 +212,4 @@ public class DataEditPart extends LabelEditPart
 		return ( text != null && text.length( ) > 0 );
 	}
 
-	private static class NODataItemBindingAggregateOnProvider implements
-			DataItemBindingAggregateOnProvider
-	{
-
-		public Object[] getAggregateInfObjects( )
-		{
-			return null;
-		}
-
-//		public String[] getLabel( )
-//		{
-//			return new String[]{
-//				AGGREGATE_ON
-//			};
-//		}
-
-		public void setDataItemHandle( DataItemHandle handle )
-		{
-
-		}
-	}
-
-	static class DefaultDataItemBindingAggregateOnProvider implements
-			DataItemBindingAggregateOnProvider
-	{
-
-		DataItemHandle handle;
-
-		public Object[] getAggregateInfObjects( )
-		{
-			AggregateOnProviderInfo info = new AggregateOnProviderInfo();
-			info.setAggregateList( DEUtil.getGroups( handle ) );
-			info.setLabel( AGGREGATE_ON );
-			
-			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-					handle.getResultSetColumn( ) );
-			info.setValue( bindingColumn.getAggregateOn( ) );
-			return new Object[]{
-					info
-			};
-		}
-
-//		public String[] getLabel( )
-//		{
-//			return new String[]{
-//				AGGREGATE_ON
-//			};
-//		}
-
-		public void setDataItemHandle( DataItemHandle handle )
-		{
-			this.handle = handle;
-		}
-	}
 }

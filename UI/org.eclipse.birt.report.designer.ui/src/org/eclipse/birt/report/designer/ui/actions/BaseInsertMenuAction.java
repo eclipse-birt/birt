@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.model.LibRootModel;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -104,6 +105,10 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 			return null;
 		}
 		model = models.getFirstElement( );
+		if ( model instanceof LibRootModel )
+		{
+			model = ( (LibRootModel) model ).getModel( );
+		}
 		if ( model instanceof SlotHandle )
 		{
 			return (SlotHandle) model;

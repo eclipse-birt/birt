@@ -378,4 +378,7 @@ public interface IReportGraphicConstants
 	};
 
 	public static final String REPORT_KEY_WORD = "report";
+	
+	//Quick tools aggregation icon
+	public static final String ICON_ELEMENT_AGGREGATION = "aggregation";//$NON-NLS-1$
 }

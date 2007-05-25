@@ -91,6 +91,7 @@ import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -472,6 +473,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				{
 					menuBuilder.buildMenu( menuManager, getElements( ) );
 				}
+			}
+			Object menuAdapter = Platform.getAdapterManager( ).getAdapter( firstSelectedElement, IMenuListener.class );
+			if(menuAdapter!=null){
+				((IMenuListener)menuAdapter).menuAboutToShow( menuManager );
 			}
 		}
 	}

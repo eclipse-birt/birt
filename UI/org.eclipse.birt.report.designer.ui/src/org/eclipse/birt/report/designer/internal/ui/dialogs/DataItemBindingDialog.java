@@ -39,6 +39,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @deprecated use {@link DataColumnBindingDialog} instead
+ */
 public class DataItemBindingDialog extends BaseDialog
 {
 

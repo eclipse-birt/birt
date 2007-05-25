@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.core.commands.AbstractHandler;
@@ -83,7 +84,25 @@ public class CreateCrosstabHandler extends AbstractHandler
 		}
 		else
 		{
-			command.setParent( UIUtil.getCurrentEditPart( ).getModel( ) );
+			Object parentModel = UIUtil.getCurrentEditPart( ).getModel( );
+			if ( parentModel instanceof DesignElementHandle )
+			{
+				DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
+				if ( parentHandle.getDefn( ).isContainer( ) )
+				{
+					command.setParent( parentModel );
+				}
+				else
+				{
+					command.setParent( SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ) );
+				}
+			}
+			else
+			{
+				command.setParent( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) );
+			}
 		}
 
 		try

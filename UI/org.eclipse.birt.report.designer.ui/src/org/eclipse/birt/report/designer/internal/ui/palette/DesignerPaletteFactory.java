@@ -13,15 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.swt.dnd.DND;
 
 /**
  * Factory to populate report graphical editor palette root.
@@ -73,6 +79,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	{
 		PaletteRoot root = BasePaletteFactory.createPalette( );
 		root.addAll( createCategories( ) );
+		root.add( createQuickTools( ) );
 
 		IExtension extension = new IExtension.Stub( ) {
 
@@ -83,6 +90,70 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 		};
 		GuiExtensionManager.doExtension( extension, root );
 		return root;
+	}
+
+	private static PaletteContainer createQuickTools( )
+	{
+
+		PaletteCategory quickTools = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
+				Messages.getString( "DesignerPaletteFactory.quicktool.title" ), //$NON-NLS-1$
+				null );
+		ReportElementFactory factory = new ReportElementFactory( "DATA_AGG" ); //$NON-NLS-1$
+		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry( Messages.getString( "DesignerPaletteFactory.quicktool.agg.title" ), //$NON-NLS-1$
+				Messages.getString( "DesignerPaletteFactory.quicktool.agg.toolTip" ), //$NON-NLS-1$
+				"DATA_AGG", //$NON-NLS-1$
+				factory,
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION ),
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION ) ) {
+
+			public Tool createTool( )
+			{
+				return new ReportCreationTool( factory, null ) {
+
+					protected void performCreation( int button )
+					{
+						DNDService.getInstance( ).performDrop( "DATA_AGG",
+								getTargetEditPart( ),
+								DND.DROP_DEFAULT,
+								new DNDLocation( getLocation( ) ) );
+					}
+
+					public void performCreation( EditPart editPart )
+					{
+						DNDService.getInstance( ).performDrop( "DATA_AGG",
+								editPart,
+								DND.DROP_DEFAULT,
+								new DNDLocation( getLocation( ) ) );
+					}
+
+					protected boolean handleMove( )
+					{
+						updateTargetUnderMouse( );
+						boolean canMove = DNDService.getInstance( )
+								.validDrop( getTemplate( ),
+										getTargetEditPart( ),
+										DND.DROP_DEFAULT,
+										new DNDLocation( getLocation( ) ) );
+						if ( canMove )
+						{
+							updateTargetRequest( );
+							setCurrentCommand( getCommand( ) );
+							showTargetFeedback( );
+						}
+						else
+						{
+							setCurrentCommand( null );
+						}
+						
+						return canMove;
+					}
+
+				};
+			}
+
+		};
+		quickTools.add( combined );
+		return quickTools;
 	}
 
 	/**

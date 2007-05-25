@@ -13,14 +13,12 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingAggregateOnProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart;
@@ -36,19 +34,14 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -870,76 +863,4 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		return new NonResizableEditPolicy( );
 	}
 	
-	public Object getAdapter( Class key )
-	{
-		if (key == DataItemBindingAggregateOnProvider.class)
-		{
-			return new CrosstabDataItemBindingAggregateOnProvider();
-		}
-		return super.getAdapter( key );
-	}
-	
-	class CrosstabDataItemBindingAggregateOnProvider implements DataItemBindingAggregateOnProvider
-	{
-		DataItemHandle handle;
-		public Object[] getAggregateInfObjects()
-		{
-			//Object[] retValue = new Object[2];
-			
-			CrosstabReportItemHandle reportHandle = getCrosstabHandleAdapter( ).getCrosstabItemHandle( ).getCrosstab( );
-			AggregateOnProviderInfo row = fillInfo( reportHandle, ICrosstabConstants.ROW_AXIS_TYPE , handle);
-			row.setLabel( AGGREGATE_ON_ROW );
-			//List rows = new ArrayList();
-			
-			//row.setLabel( AGGREGATE_ON_ROW );
-			
-			AggregateOnProviderInfo column = fillInfo( reportHandle, ICrosstabConstants.COLUMN_AXIS_TYPE, handle );
-			column.setLabel(AGGREGATE_ON_COLUMN  );
-			
-			return new Object[]{row, column};
-		}
-
-		private AggregateOnProviderInfo fillInfo(CrosstabReportItemHandle reportHandle, int type, DataItemHandle handle )
-		{
-			AggregateOnProviderInfo retValue = new AggregateOnProviderInfo();
-			int count = reportHandle.getDimensionCount( type );
-			List list = new ArrayList();
-			for (int i=0; i<count; i++)
-			{
-				DimensionViewHandle viewHandle = reportHandle.getDimension( type, i );
-				int levelCount = viewHandle.getLevelCount( );
-				for (int j=0; j<levelCount; j++)
-				{
-					LevelViewHandle levelHandle = viewHandle.getLevel( j );
-					list.add( levelHandle.getCubeLevelName( ) );
-				}
-			}
-			
-			retValue.setAggregateList( list );
-			
-			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-					handle.getResultSetColumn( ) );
-			
-			List values = bindingColumn.getAggregateOnList( );
-			for (int i=0; i<values.size( ); i++)
-			{
-				if (list.contains( values.get( i ) ))
-				{
-					retValue.setValue( ( String)values.get( i ));
-				}
-			}
-			
-			return retValue;
-		}
-		
-		public String[] getLabel( )
-		{
-			return new String[]{AGGREGATE_ON_ROW, AGGREGATE_ON_COLUMN};
-		}
-
-		public void setDataItemHandle( DataItemHandle handle )
-		{
-			this.handle = handle;
-		}
-	}
 }

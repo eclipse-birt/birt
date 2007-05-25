@@ -133,7 +133,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				return;
 			}
 			setEdited( true );
-			performDirectEdit( );
+			try
+			{
+				performDirectEdit( );
+			}
+			catch ( RuntimeException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			setEdited( false );
 		}
 	}

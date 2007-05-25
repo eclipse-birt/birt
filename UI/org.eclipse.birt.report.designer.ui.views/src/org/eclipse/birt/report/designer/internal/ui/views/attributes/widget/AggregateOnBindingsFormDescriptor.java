@@ -72,7 +72,7 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 				handleAddAggregateOnSelectEvent( );
 			}
 		} );
-		btnAddAggregateOn.setEnabled( false );
+//		btnAddAggregateOn.setEnabled( false );
 
 		fullLayout( );
 

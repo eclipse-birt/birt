@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingAggregateOnProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ListLayoutEditPolicy;
@@ -311,12 +310,4 @@ public class ListEditPart extends ReportElementEditPart
 		return new NonResizableEditPolicy( );
 	}
 	
-	public Object getAdapter( Class key )
-	{
-		if (key == DataItemBindingAggregateOnProvider.class)
-		{
-			return new DataEditPart.DefaultDataItemBindingAggregateOnProvider();
-		}
-		return super.getAdapter( key );
-	}
 }

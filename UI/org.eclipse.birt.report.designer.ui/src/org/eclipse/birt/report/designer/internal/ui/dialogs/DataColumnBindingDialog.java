@@ -5,15 +5,33 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class DataColumnBindingDialog extends DataItemBindingDialog
+public class DataColumnBindingDialog extends BaseDialog
 {
+
+	protected static final String DEFAULT_ITEM_NAME = "data column"; //$NON-NLS-1$
+
+	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.CreateNewDataBinding" ); //$NON-NLS-1$
+
+	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ); //$NON-NLS-1$
+
+	IBindingDialogHelper dialogHelper;
+
+	private ReportItemHandle bindingObject;
+
+	private ComputedColumnHandle bindingColumn;
+
+	private ExpressionProvider expressionProvider;
+
+	private boolean isAggregate;
 
 	public DataColumnBindingDialog( boolean isCreateNew )
 	{
@@ -25,42 +43,71 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 		setInput( input, null );
 	}
 
-	protected DesignElementHandle getBindingObject( )
+	public DesignElementHandle getBindingObject( )
 	{
-		return input;
+		return bindingObject;
 	}
 
-	public void setInput( ReportItemHandle input,
-			ComputedColumnHandle bindingHandle )
+	public ComputedColumnHandle getBindingColumn( )
 	{
-		this.input = input;
+		return this.bindingColumn;
+	}
+
+	public void setInput( ReportItemHandle bindingObject,
+			ComputedColumnHandle bindingColumn )
+	{
+		this.bindingObject = bindingObject;
 		//setAggregateOns( DEUtil.getGroups( input ) );
-		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
-		bindingColumn = bindingHandle;
-		try
-		{
-			if ( isCreateNew || bindingColumn == null )
-			{
-				createColumnName( input, DEFAULT_ITEM_NAME );
-				setTypeSelect( dataTypes[0] );
-			}
-			else
-			{
-				// Add data set items.
+		//		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
+		this.bindingColumn = bindingColumn;
+		//		try
+		//		{
+		//			if ( isCreateNew || bindingColumn == null )
+		//			{
+		//				createColumnName( input, DEFAULT_ITEM_NAME );
+		//				setTypeSelect( dataTypes[0] );
+		//			}
+		//			else
+		//			{
+		//				// Add data set items.
+		//
+		//				setName( bindingColumn.getName( ) );
+		//				setDisplayName( bindingColumn.getDisplayName( ) );
+		//				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
+		//						.getDisplayName( ) );
+		//				setExpression( bindingColumn.getExpression( ) );
+		//				//setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+		//			}
+		//
+		//		}
+		//		catch ( Exception e )
+		//		{
+		//			ExceptionHandler.handle( e );
+		//		}
 
-				setName( bindingColumn.getName( ) );
-				setDisplayName( bindingColumn.getDisplayName( ) );
-				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
-						.getDisplayName( ) );
-				setExpression( bindingColumn.getExpression( ) );
-				//setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
-			}
-
-		}
-		catch ( Exception e )
+		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
+				IBindingDialogHelper.class );
+		dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
+		dialogHelper.setBinding( bindingColumn );
+		dialogHelper.setDialog( this );
+		if ( isAggregate )
 		{
-			ExceptionHandler.handle( e );
+			dialogHelper.setAggregate( isAggregate );
 		}
+	}
+
+	public void setAggreate( boolean isAggregate )
+	{
+		this.isAggregate = isAggregate;
+		if ( this.dialogHelper != null )
+		{
+			this.dialogHelper.setAggregate( isAggregate );
+		}
+	}
+
+	public void setExpressionProvider( ExpressionProvider expressionProvider )
+	{
+		this.expressionProvider = expressionProvider;
 	}
 
 	protected boolean isForceBinding( )
@@ -70,14 +117,43 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Control control = super.createDialogArea( parent );
-		UIUtil.bindHelp( control, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
-		return control;
+		Composite composite = (Composite) super.createDialogArea( parent );
+
+		dialogHelper.setExpressionProvider( expressionProvider );
+		dialogHelper.createContent( composite );
+		UIUtil.bindHelp( composite, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		return composite;
 	}
-	protected static final String DEFAULT_ITEM_NAME = "data column";
 
-	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.CreateNewDataBinding" );
+	protected void okPressed( )
+	{
+		try
+		{
+			dialogHelper.save( );
+			this.bindingColumn = dialogHelper.getBindingColumn( );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		super.okPressed( );
+	}
 
-	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" );
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		dialogHelper.validate( );
+	}
 
+	protected boolean initDialog( )
+	{
+		dialogHelper.initDialog( );
+		return super.initDialog( );
+	}
+
+	public void setCanFinish( boolean canFinish )
+	{
+		if ( getOkButton( ) != null )
+			getOkButton( ).setEnabled( canFinish );
+	}
 }

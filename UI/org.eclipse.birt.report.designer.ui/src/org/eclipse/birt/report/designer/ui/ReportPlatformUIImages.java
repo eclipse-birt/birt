@@ -589,9 +589,12 @@ public class ReportPlatformUIImages
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$
-	
+
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION,
+				ICONS_PATH + OBJ16_PATH + "aggregation.gif" ); //$NON-NLS-1$
 	}
 
 	/**
