@@ -600,6 +600,51 @@ public class ComputedColumnTest extends APITestCase
 		
 	}
 	
+	/**
+	 * test nested computed column
+	 * @throws Exception
+	 */
+	public void testNestedComputedColumn( ) throws Exception
+	{
+		ccName = new String[] { "cc1", "cc2", "cc3" };
+		ccExpr = new String[] {
+				"row.COL0+row.COL1",
+				"row.cc1*100",
+				"Total.runningSum(row.cc1/Total.sum(row.cc1))*100" };
+
+		for (int i = 0; i < ccName.length; i++) {
+			ComputedColumn computedColumn = new ComputedColumn(ccName[i],
+					ccExpr[i], DataType.ANY_TYPE);
+			((BaseDataSetDesign) this.dataSet)
+					.addComputedColumn(computedColumn);
+		}
+		
+		String[] bindingNameRow = new String[7];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		bindingNameRow[4] = "ROW_cc1";
+		bindingNameRow[5] = "ROW_cc2";
+		bindingNameRow[6] = "ROW_cc3";
+		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
+				new ScriptExpression("dataSetRow." + "COL0", 0),
+				new ScriptExpression("dataSetRow." + "COL1", 0),
+				new ScriptExpression("dataSetRow." + "COL2", 0),
+				new ScriptExpression("dataSetRow." + "COL3", 0),
+				new ScriptExpression("dataSetRow." + ccName[0], 0),
+				new ScriptExpression("dataSetRow." + ccName[1], 0),
+				new ScriptExpression("dataSetRow." + ccName[2], 0) };
+
+		IResultIterator resultIt = this.executeQuery(this.createQuery(null,
+				null, null, null, null, null, null, null, null, bindingNameRow,
+				bindingExprRow));
+
+		printResult(resultIt, bindingNameRow, bindingExprRow);
+		// assert
+		checkOutputFile();
+		
+	}	
 	
 	/**
 	 * test aggregation contains filter computed column
