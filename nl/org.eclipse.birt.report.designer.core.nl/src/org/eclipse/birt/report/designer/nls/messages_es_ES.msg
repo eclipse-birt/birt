@@ -399,7 +399,7 @@ dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} de
 dataset.editor.error.title=Advertencia
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
-dataset.editor.warning.correctParameter=BIRT makes a try to update incorrect data set parameter.
+dataset.editor.warning.correctParameter=BIRT intenta actualizar los parámetros incorrectos del conjunto de datos.
 dataset.editor.filters=Filtros
 dataset.editor.label.selectDataSource=Seleccionar &fuente de datos:
 dataset.editor.outputColumns=Columnas de salida
@@ -2428,15 +2428,15 @@ ParameterDialog.Label.Sample=Muestra
 ParameterDialog.Label.Listlimit=Límite de &lista:
 ParameterDialog.Radio.Dynamic=&Dinámico
 ParameterDialog.Radio.Static=&Estático
-ParameterDialog.Label.SortGroup=Sort
-ParameterDialog.Label.SortKey=Sort by:
-ParameterDialog.Label.SortDirection=Sort direction:
-ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
-ParameterDialog.Choice.DisplayText=Display Text
-ParameterDialog.Choice.ValueColumn=Value Column
-ParameterDialog.Choice.ASCENDING=Ascending
-ParameterDialog.Choice.DESCENDING=Descending
-ParameterDialog.Choice.None=None
+ParameterDialog.Label.SortGroup=Orden
+ParameterDialog.Label.SortKey=Ordenar por:
+ParameterDialog.Label.SortDirection=Dirección de orden:
+ParameterDialog.CheckBox.Distinct=Permitir valores duplicados
+ParameterDialog.Choice.DisplayText=Mostrar texto
+ParameterDialog.Choice.ValueColumn=Columna de valores
+ParameterDialog.Choice.ASCENDING=Ascendente
+ParameterDialog.Choice.DESCENDING=Descendente
+ParameterDialog.Choice.None=Ninguno
 
 ###########################################################
 #ParameterDropListener properties
