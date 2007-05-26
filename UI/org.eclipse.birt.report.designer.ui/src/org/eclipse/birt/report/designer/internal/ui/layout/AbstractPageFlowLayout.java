@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PrecisionDimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -37,6 +38,7 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 	private GraphicalEditPart owner;
 
 	private Rectangle initSize = new Rectangle( );
+	private Insets initInsets = new Insets( );
 	private Rectangle comsiteBounds = new Rectangle( );
 
 	/**
@@ -237,5 +239,19 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 		}
 
 		return revValue;
+	}
+
+	/**
+	 * @return
+	 */
+	public Insets getInitInsets() {
+		return initInsets;
+	}
+
+	/**
+	 * @param initInsets
+	 */
+	public void setInitInsets(Insets initInsets) {
+		this.initInsets = initInsets;
 	}
 }

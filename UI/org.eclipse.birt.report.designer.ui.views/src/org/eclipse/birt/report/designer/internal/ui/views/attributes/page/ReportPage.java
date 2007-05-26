@@ -15,7 +15,9 @@ import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndTwoButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -44,6 +46,16 @@ public class ReportPage extends ModulePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
+		
+		ComboPropertyDescriptorProvider layoutProvider = new ComboPropertyDescriptorProvider( ReportDesignHandle.LAYOUT_PREFERENCE_PROP,
+				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+		ComboSection layoutSection = new ComboSection( layoutProvider.getDisplayName( ),
+				container,
+				true );
+		layoutSection.setProvider( layoutProvider );
+		layoutSection.setWidth( 500 );
+		layoutSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.REPORT_LAYOUT_PREFERENCE, layoutSection );
 		
 		TextPropertyDescriptorProvider displayProvider = new TextPropertyDescriptorProvider( ModuleHandle.DISPLAY_NAME_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );

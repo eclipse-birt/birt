@@ -219,6 +219,8 @@ public class PageSectionId
 
 	public static final String AUTOTEXT_STYLE = "AUTOTEXT_STYLE";
 
+	public static final String REPORT_LAYOUT_PREFERENCE = "REPORT_LAYOUT_PREFERENCE";
+
 
 
 

@@ -603,7 +603,7 @@ public class EditorRulerComposite extends Composite
 					}
 
 				}
-				else if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( property ) )
+				else if ( DeferredGraphicalViewer.RULER_SIZE.equals( property ) )
 				{
 					processProvider( );
 				}
@@ -652,7 +652,7 @@ public class EditorRulerComposite extends Composite
 	private void processProvider( )
 	{
 		org.eclipse.draw2d.geometry.Rectangle rect = (org.eclipse.draw2d.geometry.Rectangle) diagramViewer
-				.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
+				.getProperty( DeferredGraphicalViewer.RULER_SIZE );
 		if ( rect == null )
 		{
 			return;
@@ -752,7 +752,7 @@ public class EditorRulerComposite extends Composite
 	public org.eclipse.draw2d.geometry.Rectangle getLayoutSize( )
 	{
 		Object obj = diagramViewer
-				.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
+				.getProperty( DeferredGraphicalViewer.RULER_SIZE );
 
 		if ( obj instanceof org.eclipse.draw2d.geometry.Rectangle )
 		{

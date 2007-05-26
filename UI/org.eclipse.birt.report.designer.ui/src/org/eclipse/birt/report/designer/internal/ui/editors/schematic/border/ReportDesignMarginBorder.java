@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -85,27 +84,31 @@ public class ReportDesignMarginBorder extends MarginBorder
 				.crop( DEFAULT_CROP ) );
 		graphics.setForegroundColor( oldForegroundColor );
 	}
-
-//	public void setBackgroundColor( Object obj )
-//	{
-//		if ( obj != null )
-//		{
-//			if ( obj instanceof String )
-//			{
-//				backgroundColor = ColorUtil.parseColor( (String) obj );
-//			}
-//			else
-//			{
-//				backgroundColor = ( (Integer) obj ).intValue( );
-//			}
-//		}
-//	}
 	
+	/**
+	 * @param color
+	 */
 	public void setBackgroundColor( int color )
 	{
 		if ( color != 0 )
 		{
 			backgroundColor = color;
 		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getBackgroundColor()
+	{
+		return backgroundColor;
+	}
+	
+	/**
+	 * @param insets
+	 */
+	public void setInset(Insets insets)
+	{
+		this.insets = insets;
 	}
 }

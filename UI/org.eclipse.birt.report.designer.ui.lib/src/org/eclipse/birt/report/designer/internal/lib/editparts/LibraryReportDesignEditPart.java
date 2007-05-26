@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
+import org.eclipse.birt.report.designer.internal.lib.lalyout.LibraryReportDesignLayout;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor;
@@ -71,7 +72,8 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		figure.setOpaque(true);
 		figure.setShowMargin(showMargin);
 
-		ReportDesignLayout layout = new ReportDesignLayout(this);
+		LibraryReportDesignLayout layout = new LibraryReportDesignLayout(this);
+		//ReportDesignLayout layout = new ReportDesignLayout(this);
 
 		Dimension size = DEFAULTSIZE;
 

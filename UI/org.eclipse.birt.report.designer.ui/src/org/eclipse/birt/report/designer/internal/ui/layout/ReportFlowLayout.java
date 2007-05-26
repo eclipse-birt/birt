@@ -205,7 +205,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 	public void layout( IFigure parent )
 	{
 		data = new WorkingData( );
-		Rectangle relativeArea = parent.getClientArea( );
+		Rectangle relativeArea = parent.getClientArea( ).getCopy( );
 		data.area = relativeArea;
 
 		Iterator iterator = parent.getChildren( ).iterator( );
@@ -402,11 +402,17 @@ public class ReportFlowLayout extends AbstractHintLayout
 						.crop( data.margin[j] ) );
 			}
 		}
+		
 		data.rowPos = data.rowCount;
 		data.rowY += getMajorSpacing( ) + data.rowHeight;
+		postLayoutRow(data);
 		initRow( );
 	}
 
+	void postLayoutRow(WorkingData data)
+	{
+		
+	}
 	/**
 	 * Sets the given bounds for the child figure input.
 	 * 

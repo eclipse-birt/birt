@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
@@ -25,12 +26,15 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -51,6 +55,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 {
 
 	protected boolean showMargin = true;
+//	private final double wScale = 1.3;
+//	private final double hScale = 1.0;
 
 	/**
 	 * constructor
@@ -77,12 +83,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 
 		ReportDesignLayout layout = new ReportDesignLayout( this );
 
-		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
-		Iterator iter = slotHandle.iterator( );
-		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+		SimpleMasterPageHandle masterPageHandle = getSimpleMasterPageHandle( );
 
-		// MasterPageHandle masterPageHandle =
-		// SessionHandleAdapter.getInstance().getMasterPageHandle();
 		Dimension size = getMasterPageSize( masterPageHandle );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
@@ -145,9 +147,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	 */
 	public void refreshFigure( )
 	{
-		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
-		Iterator iter = slotHandle.iterator( );
-		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+		
+		SimpleMasterPageHandle masterPageHandle = getSimpleMasterPageHandle();
 
 		Dimension size = getMasterPageSize( masterPageHandle );
 
@@ -155,6 +156,9 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 
 		ReportRootFigure figure = (ReportRootFigure) getFigure( );
 		figure.setShowMargin( showMargin );
+		
+		((ReportDesignLayout)(figure.getLayoutManager())).setAuto(DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.
+				equals(( (ReportDesignHandle) getModel( ) ).getLayoutPreference()));
 		if ( !showMargin )
 		{
 			Insets mg = getMasterPageInsets( masterPageHandle );
@@ -162,14 +166,10 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 			bounds.width -= mg.getWidth( );
 			bounds.height -= mg.getHeight( );
 		}
-
+		Insets initInsets = getMasterPageInsets( masterPageHandle ) ;
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitInsets(initInsets);
 		// getFigure( ).setBounds( bounds );
-
-		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
-		// reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
-		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( ) );
-		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		int color = getBackgroundColor( masterPageHandle );
 		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
@@ -177,6 +177,13 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		refreshBackground( masterPageHandle );
 	}
 
+	private SimpleMasterPageHandle getSimpleMasterPageHandle()
+	{
+		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
+		Iterator iter = slotHandle.iterator( );
+		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+		return masterPageHandle;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -202,6 +209,11 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 				}
 			}
 		} );
+		if (getModel() instanceof ReportDesignHandle)
+		{
+			getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
+					((ReportDesignHandle)getModel()).getLayoutPreference());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -210,6 +222,51 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	public boolean isinterest( Object model )
 	{
 		return super.isinterest( model ) || model instanceof MasterPageHandle;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#propertyChange(java.util.Map)
+	 */
+	protected void propertyChange(Map info) 
+	{
+		super.propertyChange(info);
+		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null)
+		{
+			getFigure( ).invalidateTree( );
+			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
+			getFigure( ).revalidate( );
+			if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) instanceof ReportDesignHandle)
+			{
+				getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
+						((ReportDesignHandle)info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP)).getLayoutPreference());
+			}
+		}
+		if (info.get(IMasterPageModel.TOP_MARGIN_PROP) != null
+				||info.get(IMasterPageModel.BOTTOM_MARGIN_PROP) != null
+				||info.get(IMasterPageModel.LEFT_MARGIN_PROP) != null
+				||info.get(IMasterPageModel.RIGHT_MARGIN_PROP) != null
+				
+				||info.get(IMasterPageModel.TYPE_PROP) != null
+				||info.get(IMasterPageModel.WIDTH_PROP) != null
+				||info.get(IMasterPageModel.HEIGHT_PROP) != null
+				||info.get(IMasterPageModel.ORIENTATION_PROP) != null
+					)
+		{				
+			SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
+			Iterator iter = slotHandle.iterator( );
+			SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+
+			Dimension size = getMasterPageSize( masterPageHandle );
+
+			Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
+
+			((ReportDesignLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
+
+
+			figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+
+			figure.setBounds( bounds.getCopy( ) );
+		}
 	}
 	
 }
