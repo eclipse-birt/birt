@@ -27,6 +27,13 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 {
 
 	/**
+	 * The proposal is to extend the extension schema to allow extended items to
+	 * override some predefined properties such as "onRender".
+	 */
+
+	protected boolean useOwnModel = false;
+
+	/**
 	 * The message ID for the property group name.
 	 */
 
@@ -236,7 +243,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 		return null;
 	}
-	
+
 	/**
 	 * Returns <code>true</code> indicating if the xml property value
 	 * represents the extesion-defined model.
@@ -248,5 +255,16 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	public boolean hasOwnModel( )
 	{
 		return false;
+	}
+
+	/**
+	 * Gets useOwnModel property value.
+	 * 
+	 * @return useOwnModel property value.
+	 */
+
+	public boolean isUseOwnModel( )
+	{
+		return useOwnModel;
 	}
 }

@@ -524,6 +524,14 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="useOwnModel" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  The proposal of &apos;useOwnModel&apos; property is to extend the extension schema to allow extended items to 
+override some predefined properties such as &quot;onRender&quot;,&quot;onCreate&quot; property.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

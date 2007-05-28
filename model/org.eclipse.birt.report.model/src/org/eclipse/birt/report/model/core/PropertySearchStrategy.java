@@ -65,7 +65,7 @@ public class PropertySearchStrategy
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public final Object getPropertyExceptRomDefault( Module module,
+	public Object getPropertyExceptRomDefault( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		if ( prop.isIntrinsic( ) )

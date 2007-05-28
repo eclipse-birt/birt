@@ -79,7 +79,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_5 = "PeerExtensionTest_5.xml";//$NON-NLS-1$
 	private static final String FILE_NAME_6 = "PeerExtensionTest_6.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
-
+	private static final String FILE_NAME_9 = "PeerExtensionTest_9.xml"; //$NON-NLS-1$
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
 	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
@@ -547,7 +547,6 @@ public class PeerExtensionTest extends BaseTestCase
 		openDesign( FILE_NAME_4 );
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testTable" ); //$NON-NLS-1$
-
 		defn = extendedItem.getPropertyDefn( "width" ); //$NON-NLS-1$
 		set = defn.getAllowedChoices( );
 
@@ -684,8 +683,8 @@ public class PeerExtensionTest extends BaseTestCase
 
 		DesignElementHandle cubeHandle = (DesignElementHandle) designHandle
 				.getCubes( ).get( 0 );
-		
-		extendedItem.setProperty( "cube" , "Customer Cube" );//$NON-NLS-1$//$NON-NLS-2$
+
+		extendedItem.setProperty( "cube", "Customer Cube" );//$NON-NLS-1$//$NON-NLS-2$
 
 		Iterator iterator = cubeHandle.clientsIterator( );
 		assertTrue( iterator.hasNext( ) );
@@ -796,6 +795,24 @@ public class PeerExtensionTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "PeerExtensionTest_golden_3.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Test useOwnModel function.
+	 * @throws Exception
+	 */
+	
+	public void testUseOwnModel( ) throws Exception
+	{
+		openDesign(  FILE_NAME_9 );
+
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "headerMatrix" ); //$NON-NLS-1$
+		assertNotNull( extendedItem );
+		
+		assertEquals( "12pt", extendedItem//$NON-NLS-1$
+				.getProperty( "width" ) );//$NON-NLS-1$
 
 	}
 }

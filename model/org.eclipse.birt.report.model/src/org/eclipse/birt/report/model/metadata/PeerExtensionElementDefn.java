@@ -54,10 +54,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	protected IReportItemFactory reportItemFactory = null;
 
 	/**
-	 * Extension defined allowed units.
+	 * Override property information map.key is property name, value is
+	 * <code>OverridePropertyInfo</code>.
 	 */
 
-	protected Map overrideAllowedUnits = new HashMap( );
+	protected Map overridePropertyInfoMap = new HashMap( );
 
 	/**
 	 * The factory to create scriptable classes.
@@ -166,31 +167,44 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 	private void overrideProperty( )
 	{
-		Set set = overrideAllowedUnits.keySet( );
+		// set override property value
+		Set set = overridePropertyInfoMap.keySet( );
 		Iterator iterator = set.iterator( );
 		while ( iterator.hasNext( ) )
 		{
 			String propName = (String) iterator.next( );
-			String units = (String) overrideAllowedUnits.get( propName );
-
+			
 			// don't support override local property.
 
 			if ( properties.get( propName ) != null )
 				continue;
 
-			ChoiceSet choiceSet = buildChoiceSet( units );
-			if ( choiceSet == null )
+			OverridePropertyInfo propInfo = (OverridePropertyInfo) overridePropertyInfoMap
+			.get( propName );
+
+			if( propInfo == null )
 				continue;
-			PropertyDefn defn = (PropertyDefn) cachedProperties.get( propName );
+			
+			String units = propInfo.getAllowedUnits( );
+			boolean isOwn = propInfo.isUseOwnModel( );
+			
+			ChoiceSet choiceSet = buildChoiceSet( units );
+			
+			if( choiceSet == null && !isOwn )
+				continue;
+			
+			ElementPropertyDefn defn = (ElementPropertyDefn) cachedProperties
+					.get( propName );
 			if ( defn == null )
 				continue;
-
-			PropertyDefn clonedDefn = reflectClass( defn );
+			
+			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( defn );
 			if ( clonedDefn == null )
 				continue;
-			clonedDefn.allowedChoices = choiceSet;
+			if( choiceSet != null )
+				clonedDefn.allowedChoices = choiceSet;
+			clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );
-
 		}
 	}
 
@@ -324,17 +338,16 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	}
 
 	/**
-	 * Sets extended allowed choices
+	 * Sets override property information.
 	 * 
 	 * @param prop
-	 *            property name
-	 * @param allowedUnits
-	 *            allowed units. for example: in,cm,pt,%
+	 * @param propInfo
 	 */
 
-	protected void setExtendedAllowedChoices( String prop, String allowedUnits )
+	protected void setOverridePropertyInfo( String prop,
+			OverridePropertyInfo propInfo )
 	{
-		overrideAllowedUnits.put( prop, allowedUnits );
+		overridePropertyInfoMap.put( prop, propInfo );
 	}
 
 	/*

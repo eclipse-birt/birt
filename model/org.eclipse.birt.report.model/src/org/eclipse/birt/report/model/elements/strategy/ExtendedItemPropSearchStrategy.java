@@ -101,6 +101,7 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 	 * @param prop
 	 * @return
 	 */
+
 	private Object getPropertyFromPredefinedStyles( Module module,
 			ExtendedItem extendedItem, ElementPropertyDefn prop )
 	{
@@ -162,5 +163,48 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 		}
 
 		return null;
+	}
+
+	/**
+	 * Gets a property value given its definition. This version does the
+	 * property search with style reference, extends reference and containment.
+	 * The default value style property defined in session is also searched, but
+	 * the default value defined in ROM will not be returned.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element to start search
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 */
+
+	public Object getPropertyExceptRomDefault( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		assert element instanceof ExtendedItem;
+		ExtendedItem extendedItem = (ExtendedItem) element;
+
+		// find useOwnModel property.
+
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) extendedItem
+				.getPropertyDefn( prop.getName( ) );;
+		if ( propDefn != null )
+		{
+			boolean useOwnModel = propDefn.isUseOwnModel( );
+			if ( useOwnModel )
+			{
+				IReportItem reportItem = extendedItem.getExtendedElement( );
+				if ( reportItem != null )
+				{
+					// if useOwnModel is true, get property from extended
+					// item.
+					return reportItem.getProperty( prop.getName( ) );
+				}
+			}
+		}
+
+		return super.getPropertyExceptRomDefault( module, element, prop );
 	}
 }
