@@ -97,10 +97,14 @@ public class CreateCommand extends Command
 							slotID,
 							pos );
 				}
-				else
+				else if (DEUtil.getDefaultSlotID( parent ) != -1)
 				{
 					( (DesignElementHandle) parent ).addElement( newObject,
 							DEUtil.getDefaultSlotID( parent ) );
+				}
+				else
+				{
+					( (DesignElementHandle) parent ).add(DEUtil.getDefaultContentName( parent ) , newObject);
 				}
 			}
 			if ( DesignerConstants.TRACING_COMMANDS )
