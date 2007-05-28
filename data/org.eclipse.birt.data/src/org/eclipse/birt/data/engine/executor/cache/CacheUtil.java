@@ -19,18 +19,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * 
@@ -177,81 +175,15 @@ public class CacheUtil
 	 */
 	public static int compareObjects( Object ob1, Object ob2 )
 	{
-		// default value is 0
-		int result = 0;
-
-		// 1: the case of reference is the same
-		if ( ob1 == ob2 )
+		try
 		{
-			return result;
+			return ScriptEvalUtil.compare( ob1, ob2 );
 		}
-
-		// 2: the case of one of two object is null
-		if ( ob1 == null || ob2 == null )
+		catch ( DataException e )
 		{
-			// keep null value at the first position in ascending order
-			if ( ob1 == null )
-			{
-				result = -1;
-			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			//should never get here
+			return -1;
 		}
-
-		// 3: other cases
-		if ( ob1.equals( ob2 ) )
-		{
-			return result;
-		}
-		else if ( ob1 instanceof Comparable && ob2 instanceof Comparable )
-		{
-			Comparable comp1 = (Comparable) ob1;
-			Comparable comp2 = (Comparable) ob2;
-
-			// Integer can not be compared with Double.
-			if ( ob1.getClass( ) != ob2.getClass( ) )
-			{
-				try
-				{
-					if ( ob1 instanceof Number && ob2 instanceof Number )
-					{
-
-						comp1 = DataTypeUtil.toDouble( ob1 );
-						comp2 = DataTypeUtil.toDouble( ob2 );
-					}
-					else if ( ob1 instanceof Date && ob2 instanceof Date )
-					{
-						comp1 = DataTypeUtil.toDate( ob1 );
-						comp2 = DataTypeUtil.toDate( ob1 );
-					}
-				}
-				catch ( BirtException ex )
-				{
-					// impossible
-				}
-			}
-
-			result = comp1.compareTo( comp2 );
-		}
-		else if ( ob1 instanceof Boolean && ob2 instanceof Boolean )
-		{
-			// false is less than true
-			Boolean bool = (Boolean) ob1;
-			if ( bool.equals( Boolean.TRUE ) )
-				result = 1;
-			else
-				result = -1;
-		}
-		else
-		{
-			// Should never get here
-			// throw new UnsupportedOperationException( );
-		}
-
-		return result;
 	}
 
 	// ------------------------service for DiskCache-------------------------
