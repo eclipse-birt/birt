@@ -374,7 +374,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		{
 			getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL ); //$NON-NLS-1$
 			startAdapt.setWidth( startWidth + value );
-			endAdapt.setWidth( endWidth - value );
+			//endAdapt.setWidth( endWidth - value );
 			getTableAdapter( ).transEnd( );
 		}
 		catch ( SemanticException e )

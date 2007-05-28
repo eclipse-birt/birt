@@ -198,7 +198,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		// getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL );
 		// //$NON-NLS-1$
 		crosstabAdapter.setColumnWidth( start, startWidth + value );
-		crosstabAdapter.setColumnWidth( end, endWidth - value );
+		//crosstabAdapter.setColumnWidth( end, endWidth - value );
 
 		part.getCrosstabHandleAdapter( )
 				.getCrosstabItemHandle( )
