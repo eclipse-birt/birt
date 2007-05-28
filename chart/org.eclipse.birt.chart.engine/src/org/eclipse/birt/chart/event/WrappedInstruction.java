@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,41 +66,26 @@ public final class WrappedInstruction implements Comparable
 	public int compareTo( Object o )
 	{
 		Bounds bo = null;
-		if ( this.isModel( ) )
-		{
-			if ( o instanceof PrimitiveRenderEvent )
-			{
-				try
-				{
-					bo = ( (PrimitiveRenderEvent) o ).getBounds( );
-				}
-				catch ( ChartException e )
-				{
-					assert false;
-					return -1;
-				}
-			}
-			else if ( o instanceof WrappedInstruction )
-			{
-				bo = ( (WrappedInstruction) o ).getBounds( );
-			}
-		}
-		else
+
+		if ( o instanceof PrimitiveRenderEvent )
 		{
 			try
 			{
-				bo = pre.getBounds( );
+				bo = ( (PrimitiveRenderEvent) o ).getBounds( );
 			}
 			catch ( ChartException e )
 			{
 				assert false;
-				return 1;
+				return -1;
 			}
 		}
-		return dc!= null && dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
-				bo )
-				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
+		else if ( o instanceof WrappedInstruction )
+		{
+			bo = ( (WrappedInstruction) o ).getBounds( );
+		}
 
+		return (dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ), bo )
+				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
 	}
 
 	/**
