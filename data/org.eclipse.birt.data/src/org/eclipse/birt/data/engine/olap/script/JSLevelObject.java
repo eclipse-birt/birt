@@ -41,7 +41,7 @@ public class JSLevelObject extends ScriptableObject
 		this.levelName = levelName;
 		RowDataMetaData meta = this.cursor.getMetaData( );
 		String defaultName = OlapExpressionUtil.getDisplayColumnName( this.levelName );
-		for( int i = 1; i <= meta.getColumnCount( ); i++ )
+		for( int i = 0; i < meta.getColumnCount( ); i++ )
 		{
 			if ( meta.getColumnName( i ).equals( defaultName ) )
 			{

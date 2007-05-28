@@ -71,18 +71,7 @@ class CubeQueryDefinitionUtil
 		List calculatedMemberList = new ArrayList();
 		if ( !measureList.isEmpty( ) )
 		{
-			List levelList = new ArrayList( );
-			ILevelDefinition[] rowLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
-			ILevelDefinition[] columnLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
-
-			for ( int i = 0; i < rowLevels.length; i++ )
-			{
-				levelList.add( new DimLevel( rowLevels[i] ) );
-			}
-			for ( int i = 0; i < columnLevels.length; i++ )
-			{
-				levelList.add( new DimLevel( columnLevels[i] ) );
-			}
+			List levelList = populateMeasureAggrOns( queryDefn );
 
 			Iterator measureIter = measureList.iterator( );
 			while ( measureIter.hasNext( ) )
@@ -125,6 +114,28 @@ class CubeQueryDefinitionUtil
 		}
 
 		return calculatedMember;
+	}
+
+	/**
+	 * Populate the list of measure aggregation ons.
+	 * @param queryDefn
+	 * @return
+	 */
+	public static List populateMeasureAggrOns( ICubeQueryDefinition queryDefn )
+	{
+		List levelList = new ArrayList( );
+		ILevelDefinition[] rowLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
+		ILevelDefinition[] columnLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
+
+		for ( int i = 0; i < rowLevels.length; i++ )
+		{
+			levelList.add( new DimLevel( rowLevels[i] ) );
+		}
+		for ( int i = 0; i < columnLevels.length; i++ )
+		{
+			levelList.add( new DimLevel( columnLevels[i] ) );
+		}
+		return levelList;
 	}
 	
 	/**

@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefi
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
@@ -190,25 +191,44 @@ public class QueryExecutor
 				continue;
 			List bindings = executor.getCubeQueryDefinition( ).getBindings( );
 			List aggrOns = null;
+			IBinding binding = null;
 			for ( int j = 0; j < bindings.size( ); j++ )
 			{
-				IBinding binding = (IBinding) bindings.get( j );
+				binding = (IBinding) bindings.get( j );
 				if ( binding.getBindingName( ).equals( bindingName ) )
 				{
 					aggrOns = binding.getAggregatOns( );
 					break;
 				}
 			}
+			
+			DimLevel[] aggrOnLevels = null;
 
 			if ( aggrOns == null || aggrOns.size( ) == 0 )
-				return;
-			DimLevel[] aggrOnLevels = new DimLevel[aggrOns.size( )];
-			for ( int j = 0; j < aggrOnLevels.length; j++ )
 			{
-				aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
-						.toString( ) );
+				if ( binding == null )
+					continue;
+				
+				String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), "measure");
+				if( measureName == null )
+					continue;
+				
+				List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( executor.getCubeQueryDefinition( ) );
+				aggrOnLevels = new DimLevel[measureAggrOns.size( )];
+				for ( int k = 0; k < measureAggrOns.size( ); k++ )
+				{
+					aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
+				}
 			}
-			
+			else
+			{
+				aggrOnLevels = new DimLevel[aggrOns.size( )];
+				for ( int j = 0; j < aggrOnLevels.length; j++ )
+				{
+					aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
+							.toString( ) );
+				}
+			}
 			DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevel( ).length];
 			for ( int k = 0; k < axisLevels.length; k++ )
 			{

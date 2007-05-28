@@ -17,8 +17,10 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.Blob;
@@ -32,10 +34,17 @@ import javax.olap.cursor.Timestamp;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -58,6 +67,8 @@ public class CubeCursorImpl implements ICubeCursor
 		this.scope = scope;
 		this.queryDefn = queryDefn;
 		
+		this.validateBindings( );
+		
 		this.bindingMap = new HashMap();
 		for( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
 		{
@@ -70,6 +81,84 @@ public class CubeCursorImpl implements ICubeCursor
 		}
 		
 		this.scope.put( "data", this.scope, new JSCubeBindingObject( this ));
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void validateBindings( ) throws DataException
+	{
+		Set validMeasures = new HashSet();
+		for( int i = 0; i < this.queryDefn.getMeasures( ).size( ); i++ )
+		{
+			IMeasureDefinition measure = (IMeasureDefinition) this.queryDefn.getMeasures( ).get( i );
+			validMeasures.add( measure.getName( ) );
+		}
+		
+		Set validDimLevels = new HashSet();
+
+		populateLevel( validDimLevels, ICubeQueryDefinition.COLUMN_EDGE );
+		populateLevel( validDimLevels, ICubeQueryDefinition.ROW_EDGE );
+		
+		for( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
+		{
+			IBinding binding = (IBinding)this.queryDefn.getBindings( ).get(i);
+			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ), this.queryDefn.getBindings( ) );
+			if( ! validDimLevels.containsAll( levels ))
+				throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
+						binding.getBindingName( ) );
+			
+			String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
+					"measure" );
+			if ( measureName != null && !validMeasures.contains( measureName ) )
+				throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_MEASURE,
+						binding.getBindingName( ) );
+
+			if ( binding.getAggregatOns( ).size( ) > 0
+					&& binding.getAggrFunction( ) == null )
+				throw new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
+						binding.getBindingName( ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param validDimLevels
+	 * @param edgeType
+	 */
+	private void populateLevel( Set validDimLevels, int edgeType )
+	{
+		for( int i = 0; i < this.queryDefn.getEdge( edgeType ).getDimensions( ).size( ); i++ )
+		{
+			for( int j = 0; j < getHierarchy( edgeType, i ).getLevels( ).size( );j++)
+			{
+				ILevelDefinition level = (ILevelDefinition)getHierarchy( edgeType, i ).getLevels( ).get( j );
+				validDimLevels.add( new DimLevel( this.getDimension( edgeType, i ).getName( ), level.getName( )) );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param edgeType
+	 * @param i
+	 * @return
+	 */
+	private IHierarchyDefinition getHierarchy( int edgeType, int i )
+	{
+		return ((IHierarchyDefinition)(getDimension( edgeType, i )).getHierarchy( ).get( 0 ));
+	}
+
+	/**
+	 * 
+	 * @param edgeType
+	 * @param i
+	 * @return
+	 */
+	private IDimensionDefinition getDimension( int edgeType, int i )
+	{
+		return (IDimensionDefinition)this.queryDefn.getEdge( edgeType ).getDimensions( ).get( i );
 	}
 	
 	public List getOrdinateEdge( ) throws OLAPException

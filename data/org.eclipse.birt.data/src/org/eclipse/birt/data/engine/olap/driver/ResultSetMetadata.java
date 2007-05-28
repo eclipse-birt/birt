@@ -41,7 +41,7 @@ public class ResultSetMetadata implements IResultSetMetaData
 
 	public int getColumnCount( ) throws OLAPException
 	{
-		return 0;
+		return this.rs.getLevelAttributeColCount( this.levelIndex );
 	}
 
 	public int getColumnDisplaySize( int arg0 ) throws OLAPException

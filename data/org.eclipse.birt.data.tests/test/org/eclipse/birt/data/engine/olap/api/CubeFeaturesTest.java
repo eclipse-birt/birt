@@ -266,7 +266,79 @@ public class CubeFeaturesTest extends BaseTestCase
 				"rowGrandTotal",
 				null );
 	}
-	
+
+	/**
+	 * Test use aggregation with one more arguments
+	 * @throws Exception
+	 */
+	public void testInvalidBinding( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+		//Invalid binding 1, invalid dim name
+		binding1.setExpression( new ScriptExpression( "dimension[\"bad\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+		//Invalid binding 2, invalid level name
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"bad\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		//Invalid binding 3 invalid measure name
+		binding5.setExpression( new ScriptExpression( "measure[\"bad\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "rowGrandTotal" );
+		//Invalid binding 4 missing aggr function.
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		
+		binding6.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
+		cqd.addBinding( binding6 );
+
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		
+
+		try
+		{
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults queryResults = pcq.execute( null );
+			queryResults.getCubeCursor( );
+			fail( "Should not arrive here");
+		}
+		catch ( Exception e )
+		{
+		}
+	}
 	/**
 	 * Filter1, filter out all level11 == CN.
 	 * @throws Exception
@@ -2497,10 +2569,11 @@ public class CubeFeaturesTest extends BaseTestCase
 		
 		IBinding binding5 = new Binding( "measure1" );
 		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		/*binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
-		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );*/
 		
 		cqd.addBinding( binding5 );
 		
