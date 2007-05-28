@@ -245,7 +245,7 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getCubeFiterDefinition()
 	 */
-	public ICubeFilterDefinition getCubeFiterDefinition( )
+	public ICubeFilterDefinition getCubeFilterDefinition( )
 	{
 		return cubeFilter;
 	}

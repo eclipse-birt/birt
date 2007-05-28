@@ -26,8 +26,10 @@ import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -49,7 +51,6 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.TopBottomFilterDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
@@ -57,7 +58,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
@@ -280,12 +283,12 @@ public class CubeAggregationTest extends TestCase
 		
 		//dimension2
 		colNames = new String[1];
-		colNames[0] = "col21";
+		colNames[0] = "level21";
 		iterator = new DimensionForTest( colNames );
 		iterator.setLevelMember( 0, distinct( TestFactTable.L1Col ) );
 		
 		levelDefs = new ILevelDefn[1];
-		levelDefs[0] = new LevelDefinition( "level21", new String[]{"col21"}, null );
+		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
 		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
@@ -333,7 +336,6 @@ public class CubeAggregationTest extends TestCase
 				false );
 		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
 		
-		
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -355,7 +357,7 @@ public class CubeAggregationTest extends TestCase
 		levelsForFilter = new DimLevel[]{dimLevel31};
 		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		
-		aggregations[2] = new AggregationDefinition( null, null, funcitonsWithParameterCol );
+		aggregations[2] = new AggregationDefinition( null, null, funcitons );
 		
 		aggregations[3] = new AggregationDefinition( levelsForFilter, sortType, null );
 		
@@ -367,7 +369,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
@@ -410,7 +412,6 @@ public class CubeAggregationTest extends TestCase
 		resultSet[2].seek( 0 );
 		assertEquals( resultSet[2].getLevelKeyValue( 0 ), null );
 		assertEquals( resultSet[2].getAggregationValue( 0 ), new Double(28) );
-		assertEquals( resultSet[2].getAggregationValue( 1 ), new Double(3.8333333333333335) );
 		
 		//result set for aggregation 3
 		assertEquals( resultSet[3].length( ), 8 );
@@ -486,7 +487,6 @@ public class CubeAggregationTest extends TestCase
 			resultSet[i].close( );
 		}
 	}
-	
 	/**
 	 * test simiple aggregation with only expression such as data["level21_sum"]>30.
 	 * this will filter out the levels that does not qualify this condition.
@@ -528,7 +528,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].length( ), 1 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );//
@@ -592,7 +592,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel31 ), 1 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		/*aggregation result table
 		 *index	level21	level31	sum(measure1)
 		 *0		1		1		0
@@ -719,7 +719,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].length( ), 1 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( 6 ) );//	
@@ -780,7 +780,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel31 ), 1 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(3) );	
 		
@@ -808,36 +808,38 @@ public class CubeAggregationTest extends TestCase
 		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cubeQuery.addBinding( level21_sum );
 		
-		ScriptExpression expr = new ScriptExpression( "data[\"level21_sum\"]>0" );
-		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr );
+		// top/bottom filters
+		// top 2 filter
+		IConditionalExpression expr1 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_TOP_N,
+				"2" );
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
 		cubeFilter.setTargetLevel( level21 );
-		//
-		DimensionFilterEvalHelper filterHelper = new DimensionFilterEvalHelper(baseScope, cubeQuery, cubeFilter);
+		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter );
 		cubeQueryExcutorHelper.addJSFilter( filterHelper );
-		// before apply top/bottom filters, the aggregation result set size is 3, which is shown below
-		// level21	aggregationValue
-		// "1"		6.0
-		// "2"		22.0
-		// "3"		38.0
-		DimLevel[] aggrLevels = new DimLevel[]{
-			dimLevel21
-		};
-		TopBottomFilterDefn[] tbFilters = new TopBottomFilterDefn[]{
-				// select top 100 rows: overflow and will be truncated
-				// automatically
-				new TopBottomFilterDefn( 100, dimLevel21, aggrLevels ),
-				// select top 2 rows
-				new TopBottomFilterDefn( 2, dimLevel21, aggrLevels ),
-				// select bottom 2 rows
-				new TopBottomFilterDefn( -2, dimLevel21, aggrLevels ),
-				// select bottom 200 rows: underflow and will be truncated
-				// automatically
-				new TopBottomFilterDefn( -200, dimLevel21, aggrLevels )
-		};
-		for ( int i = 0; i < tbFilters.length; i++ )
-		{
-			cubeQueryExcutorHelper.addTopBottomFilter( tbFilters[i] );
-		}
+
+		IConditionalExpression expr2 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_BOTTOM_N,
+				"2" );
+		CubeFilterDefinition cubeFilter2 = new CubeFilterDefinition( expr2 );
+		cubeFilter2.setTargetLevel( level21 );
+		// bottom 2 filter
+		IJSFilterHelper filterHelper2 = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter2 );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper2 );
+		// top 3 filter
+		IConditionalExpression expr3 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_BOTTOM_N,
+				"3" );
+		CubeFilterDefinition cubeFilter3 = new CubeFilterDefinition( expr3 );
+		cubeFilter3.setTargetLevel( level21 );
+		IJSFilterHelper filterHelper3 = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter3 );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper3 );
 		
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
@@ -855,34 +857,154 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].length( ), 1 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
-		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(22) );//
-		// critical test case
-		try
-		{// illegal argument
-			cubeQueryExcutorHelper.addTopBottomFilter( new TopBottomFilterDefn( 0 ) );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			assertTrue( true );
-		}
-		// add another top filter and the result set will be empty
-		cubeQueryExcutorHelper.addTopBottomFilter( new TopBottomFilterDefn( 1,
-				dimLevel21,
-				aggrLevels ) );
-		resultSet = cubeQueryExcutorHelper.execute( aggregations,
-				new StopSign( ) );
-		assertEquals( resultSet[0].length( ), 0 );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(22) );//		
 		
 		for ( int i = 0; i < resultSet.length; i++ )
 		{
 			resultSet[i].close( );
 		}
-		
 	}
+	
+	
+	/**
+	 * test top/bottom percentage filter on aggregation result.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter7(  ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		cubeQuery.addBinding( level21_sum );
+		
+		// top/bottom filters
+		// top 2 filter
+		IConditionalExpression expr1 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_TOP_PERCENT,
+				"70" );
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
+		cubeFilter.setTargetLevel( level21 );
+		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper );
+
+		IConditionalExpression expr2 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_BOTTOM_PERCENT,
+				"70" );
+		CubeFilterDefinition cubeFilter2 = new CubeFilterDefinition( expr2 );
+		cubeFilter2.setTargetLevel( level21 );
+		// bottom 2 filter
+		IJSFilterHelper filterHelper2 = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter2 );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper2 );
+		// top 3 filter
+		IConditionalExpression expr3 = new ConditionalExpression( "data[\"level21_sum\"]",
+				IConditionalExpression.OP_TOP_PERCENT,
+				"90" );
+		CubeFilterDefinition cubeFilter3 = new CubeFilterDefinition( expr3 );
+		cubeFilter3.setTargetLevel( level21 );
+		IJSFilterHelper filterHelper3 = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter3 );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper3 );
+		
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(22) );//		
+		
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
+	}
+	
+	
+	/**
+	 * top/bottom dimension filter.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter8(  ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		cubeQuery.addBinding( level21_sum );
+		
+		// top/bottom filters
+		// top 2 filter
+		IConditionalExpression expr1 = new ConditionalExpression( "dimension[\"dimension2\"][\"level21\"]",
+				IConditionalExpression.OP_TOP_N,
+				"1" );
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
+		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper );
+		
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );//		
+		
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
+	}
+	
+	
 	
 	private void createCube2( ) throws IOException, BirtException
 	{
@@ -909,12 +1031,12 @@ public class CubeAggregationTest extends TestCase
 		
 		//dimension2
 		ColNames = new String[1];
-		ColNames[0] = "col21";
+		ColNames[0] = "level21";
 		iterator = new DimensionForTest( ColNames );
 		iterator.setLevelMember( 0, distinct( TestFactTable.L1Col ) );
 		
 		levelDefs = new ILevelDefn[1];
-		levelDefs[0] = new LevelDefinition( "level21", new String[]{"col21"}, null );
+		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
 		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
@@ -984,7 +1106,7 @@ public class CubeAggregationTest extends TestCase
 		
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
@@ -1023,7 +1145,7 @@ public class CubeAggregationTest extends TestCase
 		
 		assertEquals( resultSet[2].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[2].getLevelIndex( dimLevel21 ), 0 );
-		assertEquals( resultSet[2].getLevelKeyDataType( dimLevel21, "col21" ), DataType.STRING_TYPE );
+		assertEquals( resultSet[2].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
 		resultSet[2].seek( 0 );
 		assertEquals( resultSet[2].getLevelKeyValue( 0 )[0], "1" );
 		assertEquals( resultSet[2].getAggregationValue( 0 ), new Double(6) );
@@ -1051,7 +1173,7 @@ public class CubeAggregationTest extends TestCase
 }
 
 /*
-	col11	col12	col13	col21	col31	measure1	measure2
+	col11	col12	col13	level21	col31	measure1	measure2
 	String	Unknown	Integer	String	Integer	Integer		Double	
 	1				1		1		1		0			0.0	
 	1				2		1		2		1			1.0	
@@ -1125,7 +1247,7 @@ class TestFactTable implements IDatasetIterator
 		{
 			return 2;
 		}
-		else if ( name.equals( "col21" ) )
+		else if ( name.equals( "level21" ) )
 		{
 			return 3;
 		}
@@ -1158,7 +1280,7 @@ class TestFactTable implements IDatasetIterator
 		{
 			return DataType.INTEGER_TYPE;
 		}
-		else if ( name.equals( "col21" ) )
+		else if ( name.equals( "level21" ) )
 		{
 			return DataType.STRING_TYPE;
 		}

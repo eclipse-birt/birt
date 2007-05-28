@@ -21,8 +21,6 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
-import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
@@ -573,35 +571,5 @@ public class AggregationResultSet implements IAggregationResultSet
 	public void clear( ) throws IOException
 	{
 		aggregationResultRows.clear( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#selectRange(java.lang.String, int, int)
-	 */
-	public void subset( DimLevel level, int start, int end ) throws IOException
-	{
-		IDiskArray subset = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-				4096 );
-		int levelIndex = this.getLevelIndex( level );
-		int levelPosition = -1; 
-		Object[] preKey = new Object[getLevelCount( )];
-		for ( int j = 0; j < this.length( ); j++ )
-		{
-			seek( j );
-			IAggregationResultRow temp = getCurrentRow( );
-			Object[] key = this.getLevelKeyValue( levelIndex );
-			if ( CompareUtil.compare( preKey, key ) != 0 )
-			{
-				levelPosition++;
-			}
-			if ( levelPosition >= start && levelPosition < end )
-			{
-				subset.add( temp );
-			}
-		}
-		aggregationResultRows.close( );
-		aggregationResultRows = subset;
-		seek( 0 );
 	}
 }

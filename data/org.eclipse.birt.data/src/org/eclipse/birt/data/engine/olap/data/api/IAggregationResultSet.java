@@ -211,11 +211,5 @@ public interface IAggregationResultSet
 	 * 
 	 * @throws IOException
 	 */
-	public void clear( ) throws IOException;
-
-	/**
-	 * change the current result set to be its subset based on specified level and range.
-	 * @thows IOException
-     */
-	public void subset( DimLevel level, int start, int end ) throws IOException;
+	public void clear( ) throws IOException;	
 }

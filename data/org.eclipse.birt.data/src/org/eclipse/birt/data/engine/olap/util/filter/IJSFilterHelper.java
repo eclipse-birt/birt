@@ -36,7 +36,7 @@ public interface IJSFilterHelper
 	 * 
 	 * @return
 	 */
-	public abstract ICubeFilterDefinition getCubeFiterDefinition( );
+	public abstract ICubeFilterDefinition getCubeFilterDefinition( );
 
 	/**
 	 * 

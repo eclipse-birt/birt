@@ -73,6 +73,4 @@ public class DimensionFilterHelper
 		}
 		return resultStack;
 	}
-	
-	
 }

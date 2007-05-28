@@ -22,13 +22,21 @@ public class SelectionFactory
 	private SelectionFactory( )
 	{
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public static ISelection createEmptySelection( )
+	{
+		return new EmptySelection( );
+	}
 	
 	/**
 	 * create an OneKeySelection instance.
 	 * @param key
 	 * @return
 	 */
-	public static ISelection createOneRowSelection( Object[] key )
+	public static ISelection createOneKeySelection( Object[] key )
 	{
 		return new OneKeySelection( key );
 	}
@@ -38,7 +46,7 @@ public class SelectionFactory
 	 * @param selectedObjects
 	 * @return
 	 */
-	public static ISelection createMutiRowSelection( Object[][] selectedObjects )
+	public static ISelection createMutiKeySelection( Object[][] selectedObjects )
 	{
 		return new MultiKeySelection( selectedObjects );
 	}

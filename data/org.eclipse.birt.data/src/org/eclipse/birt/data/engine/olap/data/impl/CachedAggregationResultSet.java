@@ -475,11 +475,4 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		inputStream.close( );
 		length = 0;
 	}
-
-	public void subset( DimLevel level, int start, int end )
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }

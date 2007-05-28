@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.olap.data.api;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
-import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 
 /**
  * 
@@ -27,24 +27,25 @@ import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 
 public interface ICubeQueryExcutorHelper
 {
+
 	/**
 	 * 
 	 * @param levelFilter
 	 */
 	public void addFilter( LevelFilter levelFilter );
-	
+
 	/**
 	 * 
 	 * @param filterEvalHelper
 	 */
-	public void addJSFilter( DimensionFilterEvalHelper filterEvalHelper );
-	
+	public void addJSFilter( IJSFilterHelper filterEvalHelper );
+
 	/**
 	 * 
 	 * @param filterEvalHelperList
 	 */
 	public void addJSFilter( List filterEvalHelperList );
-	
+
 	/**
 	 * 
 	 * @param stopSign
@@ -53,15 +54,16 @@ public interface ICubeQueryExcutorHelper
 	 * @throws BirtOlapException 
 	 * @throws BirtException 
 	 */
-	public IAggregationResultSet[] execute( AggregationDefinition[] aggregation,
-			StopSign stopSign ) throws DataException, IOException, BirtException;
-	
+	public IAggregationResultSet[] execute(
+			AggregationDefinition[] aggregation, StopSign stopSign )
+			throws DataException, IOException, BirtException;
+
 	/**
 	 * 
 	 *
 	 */
 	public void clear( );
-	
+
 	/**
 	 * 
 	 *

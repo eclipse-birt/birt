@@ -66,7 +66,7 @@ public class TopBottomDimensionFilterEvalHelper
 	 */
 	private void populateN( Context cx ) throws DataException
 	{
-		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getExpression( ),
+		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getOperand1( ),
 					cx,
 					scope,
 					null,
@@ -168,5 +168,14 @@ public class TopBottomDimensionFilterEvalHelper
 			}
 		}
 		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isAxisFilter()
+	 */
+	public boolean isAxisFilter( )
+	{
+		return this.isAxisFilter;
 	}
 }

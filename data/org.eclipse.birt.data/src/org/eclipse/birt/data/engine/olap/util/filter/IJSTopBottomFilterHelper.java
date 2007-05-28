@@ -54,4 +54,10 @@ public interface IJSTopBottomFilterHelper extends IJSFilterHelper
 	 */
 	public double getN();
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isAxisFilter( );
+	
 }

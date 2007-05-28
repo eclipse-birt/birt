@@ -116,4 +116,22 @@ public class RangeSelection implements ISelection
 		return minKey;
 	}
 
+	
+	/**
+	 * @return the containsMinKey
+	 */
+	public boolean isContainsMinKey( )
+	{
+		return containsMinKey;
+	}
+
+	
+	/**
+	 * @return the containsMaxKey
+	 */
+	public boolean isContainsMaxKey( )
+	{
+		return containsMaxKey;
+	}
+
 }

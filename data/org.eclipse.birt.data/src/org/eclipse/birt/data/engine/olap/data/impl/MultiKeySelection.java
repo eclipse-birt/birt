@@ -22,11 +22,20 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
 public class MultiKeySelection implements ISelection
 {
-	private Object[][] keys;
+	private Object[][] keyValues;
 	private Object[] minKey = null;
 	private Object[] maxKey = null;
 	private static Logger logger = Logger.getLogger( MultiKeySelection.class.getName( ) );
 	
+	
+	/**
+	 * @return the keys
+	 */
+	public Object[][] getKeyValues( )
+	{
+		return keyValues;
+	}
+
 	/**
 	 * 
 	 * @param keys
@@ -50,7 +59,7 @@ public class MultiKeySelection implements ISelection
 				maxKey = keys[i];
 			}
 		}
-		this.keys = keys;
+		this.keyValues = keys;
 		logger.exiting( MultiKeySelection.class.getName( ), "MultiKeySelection" );
 	}
 	
@@ -78,9 +87,9 @@ public class MultiKeySelection implements ISelection
 	 */
 	public boolean isSelected( Object[] key )
 	{
-		for( int i=0;i<keys.length;i++)
+		for( int i=0;i<keyValues.length;i++)
 		{
-			if( CompareUtil.compare( keys[i], key ) == 0 )
+			if( CompareUtil.compare( keyValues[i], key ) == 0 )
 			{
 				return true;
 			}
