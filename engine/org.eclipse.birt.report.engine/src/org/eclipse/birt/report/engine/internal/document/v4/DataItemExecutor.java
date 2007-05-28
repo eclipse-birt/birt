@@ -70,7 +70,7 @@ public class DataItemExecutor extends ReportItemExecutor
 				IBaseResultSet rset = getResultSet( );
 				if ( rset == null )
 				{
-					rset = getParentResultSet( );
+					rset = restoreParentResultSet( );
 				}
 
 				if ( rset != null )

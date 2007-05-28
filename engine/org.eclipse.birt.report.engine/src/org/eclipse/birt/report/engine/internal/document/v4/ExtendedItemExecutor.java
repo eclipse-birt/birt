@@ -189,7 +189,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 			IBaseResultSet rset = getResultSet( );
 			if ( rset == null )
 			{
-				rset = getParentResultSet( );
+				rset = restoreParentResultSet( );
 			}
 			if ( rset != null )
 			{
@@ -229,7 +229,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 				rsets = new IBaseResultSet[queries.length];
 				try
 				{
-					IBaseResultSet prset = getParentResultSet( );
+					IBaseResultSet prset = restoreParentResultSet( );
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						rsets[i] = context.executeQuery( prset, queries[i],

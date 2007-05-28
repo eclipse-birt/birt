@@ -379,7 +379,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				rsets = new IBaseResultSet[queries.length];
 				try
 				{
-					IBaseResultSet prset = getParentResultSet( );
+					IBaseResultSet prset = restoreParentResultSet( );
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						rsets[i] = context.executeQuery( prset, queries[i],
@@ -410,17 +410,45 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return null;
 	}
 
-	IBaseResultSet getParentResultSet( )
+	IBaseResultSet restoreParentResultSet( )
 	{
 		ReportItemExecutor pExecutor = parent;
+		DataID dataId = getContent( ).getInstanceID( ).getDataID( );
 		while ( pExecutor != null )
 		{
+			if ( dataId == null )
+			{
+				IContent pContent = pExecutor.getContent( );
+				if ( pContent != null )
+				{
+					InstanceID pIID = pContent.getInstanceID( );
+					if ( pIID != null )
+					{
+						dataId = pIID.getDataID( );
+					}
+				}
+			}
 			IBaseResultSet[] rsets = pExecutor.getQueryResults( );
 			if ( rsets != null )
 			{
 				if ( rsets.length > 0 )
 				{
-					return rsets[0];
+					IBaseResultSet rset = rsets[0];
+					if ( dataId != null )
+					{
+						if ( rset instanceof ICubeResultSet )
+						{
+							ICubeResultSet cset = (ICubeResultSet) rset;
+							String cellId = dataId.getCellID( );
+							if ( cellId != null )
+							{
+								cset.skipTo( dataId.getCellID( ) );
+							}
+						}
+						// we need handle the IQueryResultSet in future if we
+						// support horz-page-break.
+					}
+					return rset;
 				}
 				return null;
 			}
