@@ -36,7 +36,7 @@
             id="org.eclipse.birt.integration.wtp.ui.actionset">
             <action
                label="%create.birt.web.module"
-               icon="icons/create_project_wizard.gif"
+               icon="icons/web_module.gif"
                tooltip="%create.birt.web.module"
                toolbarPath="J2EEMain"
                class="org.eclipse.birt.integration.wtp.ui.internal.actions.NewBirtWebComponentAction"
