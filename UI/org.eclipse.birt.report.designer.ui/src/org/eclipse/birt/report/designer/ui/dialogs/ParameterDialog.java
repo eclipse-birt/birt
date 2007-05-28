@@ -134,9 +134,11 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_DATETIME_PROMPT = Messages.getFormattedString( "ParameterDialog.datetime.prompt", new String[]{"MM/DD/YYYY hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	//private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"YYYY-MM-DD"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	//private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private static final String LABEL_PROMPT_TEXT = Messages.getString( "ParameterDialog.Label.PromptText" ); //$NON-NLS-1$
 
