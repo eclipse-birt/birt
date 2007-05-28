@@ -242,12 +242,17 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	protected boolean processOnClick( ShapedAction sa, HTMLTag tag )
 	{
-		// 3. onclick
+		// 3. onclick (including Click and DoubleClick event)
 		Action ac = sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL );
+		if ( ac == null )
+		{
+			// Bugzilla #132645, Since Double Click event is not supported in
+			// HTML, just replace it with Click.
+			ac = sa.getActionForCondition( TriggerCondition.ONDBLCLICK_LITERAL );
+		}
 		if ( checkSupportedAction( ac ) )
 		{
 			switch ( ac.getType( ).getValue( ) )
-
 			{
 				case ActionType.URL_REDIRECT :
 					URLValue uv = (URLValue) ac.getValue( );
@@ -306,10 +311,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								eval( tv.getText( ) ) );
 						return true;
 					}
-					else
-					{
-						return false;
-					}
+					return false;
 				case ActionType.INVOKE_SCRIPT :
 					// not for onmouseover.
 					return false;
