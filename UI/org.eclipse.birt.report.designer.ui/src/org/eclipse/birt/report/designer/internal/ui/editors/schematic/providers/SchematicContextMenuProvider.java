@@ -474,9 +474,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuBuilder.buildMenu( menuManager, getElements( ) );
 				}
 			}
-			Object menuAdapter = Platform.getAdapterManager( ).getAdapter( firstSelectedElement, IMenuListener.class );
-			if(menuAdapter!=null){
-				((IMenuListener)menuAdapter).menuAboutToShow( menuManager );
+			Object menuAdapter = Platform.getAdapterManager( )
+					.getAdapter( firstSelectedElement, IMenuListener.class );
+			if ( menuAdapter != null )
+			{
+				if ( menuAdapter instanceof ISchematicMenuListener )
+				{
+					( (ISchematicMenuListener) menuAdapter ).setActionRegistry( getActionRegistry( ) );
+				}
+				( (IMenuListener) menuAdapter ).menuAboutToShow( menuManager );
 			}
 		}
 	}
