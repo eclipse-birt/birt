@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
@@ -47,7 +46,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -94,9 +92,9 @@ public class TaskSelectType extends SimpleTask implements
 	private transient Composite cmpType = null;
 
 	private transient Composite cmpMisc = null;
-	
+
 	private transient Composite cmpRight = null;
-	
+
 	private transient Composite cmpLeft = null;
 
 	private transient Composite cmpTypeButtons = null;
@@ -114,7 +112,7 @@ public class TaskSelectType extends SimpleTask implements
 	private transient String sSubType = null;
 
 	private transient String sType = null;
-	
+
 	private transient String sOldType = null;
 
 	// Stored in IChartType
@@ -246,14 +244,14 @@ public class TaskSelectType extends SimpleTask implements
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createTypeTable( );
 		addChartTypes( );
-		
+
 		createDetails( );
 	}
-	
+
 	private void createDetails( )
 	{
 		cmpRight = new Composite( cmpType, SWT.NONE );
-		cmpRight.setLayout( new GridLayout(  ) );
+		cmpRight.setLayout( new GridLayout( ) );
 		cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		createComposite( new Vector( ) );
 		createMiscArea( );
@@ -346,14 +344,14 @@ public class TaskSelectType extends SimpleTask implements
 	private void createTypeTable( )
 	{
 		cmpLeft = new Composite( cmpType, SWT.NONE );
-		cmpLeft.setLayout( new GridLayout(  ) );
+		cmpLeft.setLayout( new GridLayout( ) );
 		cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
+
 		Label lblTypes = new Label( cmpLeft, SWT.NO_FOCUS );
 		{
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
-		
+
 		table = new Table( cmpLeft, SWT.BORDER );
 		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		gdTable.heightHint = 205;
@@ -413,7 +411,7 @@ public class TaskSelectType extends SimpleTask implements
 			gd.horizontalIndent = 5;
 			lblSubtypes.setLayoutData( gd );
 		}
-		
+
 		GridData gdTypes = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_FILL );
 		cmpSubTypes = new Composite( cmpRight, SWT.NONE );
@@ -616,11 +614,11 @@ public class TaskSelectType extends SimpleTask implements
 							cmpTypeButtons.redraw( );
 						}
 					}
-					
+
 					// Cache label position for stacked or non-stacked case.
-					ChartUIUtil.saveLabelPositionIntoCache( getSeriesDefinitionForProcessing() );
-					
-					sSubType = getSubtypeFromButton( btn );	
+					ChartUIUtil.saveLabelPositionIntoCache( getSeriesDefinitionForProcessing( ) );
+
+					sSubType = getSubtypeFromButton( btn );
 					ChartCacheManager.getInstance( ).cacheSubtype( sType,
 							sSubType );
 				}
@@ -646,7 +644,17 @@ public class TaskSelectType extends SimpleTask implements
 				// Get the cached orientation
 				this.orientation = ChartCacheManager.getInstance( )
 						.findOrientation( sType );
-				
+
+				if ( chartModel != null
+						&& chartModel instanceof ChartWithAxes
+						&& ChartCacheManager.getInstance( )
+								.findCategory( sType ) != null )
+				{
+					boolean bCategory = ChartCacheManager.getInstance( )
+							.findCategory( sType )
+							.booleanValue( );
+					( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).setCategoryAxis( bCategory );
+				}
 				sSubType = null;
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
@@ -747,7 +755,7 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				// Ensure populate list after chart model generated
 				populateSeriesTypesList( );
-				
+
 				// Auto rotates Axis title when changing chart type that may
 				// cause transposition
 				if ( chartModel instanceof ChartWithAxes )
@@ -782,8 +790,6 @@ public class TaskSelectType extends SimpleTask implements
 			}
 		}
 	}
-
-
 
 	/**
 	 * Updates the dimension combo according to chart type and axes number
@@ -909,7 +915,7 @@ public class TaskSelectType extends SimpleTask implements
 			// ENABLE NOTIFICATIONS IN CASE EXCEPTIONS OCCUR
 			ChartAdapter.endIgnoreNotifications( );
 		}
-		
+
 		if ( !bException )
 		{
 			ChartWizard.removeException( );
@@ -986,8 +992,8 @@ public class TaskSelectType extends SimpleTask implements
 		cbOrientation.setEnabled( chartType.supportsTransposition( ) && !is3D( ) );
 
 		// Update dimension
-		updateDimensionCombo( sSelectedType );		
-		
+		updateDimensionCombo( sSelectedType );
+
 		if ( this.sDimension == null )
 		{
 			this.sDimension = chartType.getDefaultDimension( );
@@ -1009,16 +1015,27 @@ public class TaskSelectType extends SimpleTask implements
 			this.sDimension = chartType.getDefaultDimension( );
 			this.orientation = chartType.getDefaultOrientation( );
 		}
-		
+
 		// If two orientations are not supported, to get the default.
 		if ( !cbOrientation.isEnabled( ) )
 		{
 			this.orientation = chartType.getDefaultOrientation( );
 		}
 		//Cache the orientation for each chart type.
-		ChartCacheManager.getInstance( ).cacheOrientation( sType,
-				orientation );
-
+		ChartCacheManager.getInstance( ).cacheOrientation( sType, orientation );
+		
+		if ( chartModel == null )
+		{
+			ChartCacheManager.getInstance( ).cacheCategory( sType, true );
+		}
+		else if ( chartModel instanceof ChartWithAxes )
+		{
+			ChartCacheManager.getInstance( )
+					.cacheCategory( sType,
+							( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+									.get( 0 ) ).isCategoryAxis( ) );
+		}
+		
 		// Update the UI with information for selected type
 		createGroups( vSubTypes );
 		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
@@ -1232,7 +1249,8 @@ public class TaskSelectType extends SimpleTask implements
 		this.chartModel = ( (ChartWizardContext) context ).getModel( );
 		if ( chartModel != null )
 		{
-			this.sType = ( (ChartWizardContext) context ).getChartType( ).getName( );
+			this.sType = ( (ChartWizardContext) context ).getChartType( )
+					.getName( );
 			this.sSubType = chartModel.getSubType( );
 			this.sDimension = translateDimensionString( chartModel.getDimension( )
 					.getName( ) );
@@ -1389,10 +1407,11 @@ public class TaskSelectType extends SimpleTask implements
 					bException = true;
 					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
-									ce.getLocalizedMessage( ), series.getDisplayName( )
+									ce.getLocalizedMessage( ),
+									series.getDisplayName( )
 							} ) );
 				}
-				
+
 				if ( !bException )
 				{
 					WizardBase.removeException( );
@@ -1549,7 +1568,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		return UIHelper.getImage( "icons/obj16/selecttype.gif" ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Rotates Axis Title when transposing
 	 * 
@@ -1575,8 +1594,10 @@ public class TaskSelectType extends SimpleTask implements
 			if ( aY.getTitle( ).isVisible( ) )
 			{
 				bRender = true;
-				aY.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical
-						? 90 : 0 );
+				aY.getTitle( )
+						.getCaption( )
+						.getFont( )
+						.setRotation( bVertical ? 90 : 0 );
 			}
 		}
 		ChartAdapter.endIgnoreNotifications( );

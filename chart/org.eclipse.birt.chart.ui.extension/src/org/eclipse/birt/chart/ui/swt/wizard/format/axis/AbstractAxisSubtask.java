@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTitleSheet;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -76,7 +77,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Listener,
 		SelectionListener
 {
-	
+
 	private Button btnCategoryAxis;
 
 	private transient ExternalizedTextEditorComposite txtTitle;
@@ -133,7 +134,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			cmpBasic.setLayout( new GridLayout( 3, false ) );
 			cmpBasic.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
-		
+
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
 			btnCategoryAxis = new Button( cmpBasic, SWT.CHECK );
@@ -597,6 +598,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
 			getAxisForProcessing( ).setCategoryAxis( btnCategoryAxis.getSelection( ) );
+			ChartCacheManager.getInstance( )
+					.cacheCategory( ( (ChartWithAxes) getChart( ) ).getType( ),
+							btnCategoryAxis.getSelection( ) );
 			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )

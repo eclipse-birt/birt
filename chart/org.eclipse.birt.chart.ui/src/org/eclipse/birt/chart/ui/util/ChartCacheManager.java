@@ -48,6 +48,8 @@ public final class ChartCacheManager
 	private static final String PREFIX_SUBTYPE = "s_"; //$NON-NLS-1$
 
 	private static final String PREFIX_ORIENTATION = "o_"; //$NON-NLS-1$
+	
+	private static final String PREFIX_CATEGORY = "c_"; //$NON-NLS-1$
 
 	private ChartCacheManager( )
 	{
@@ -270,5 +272,29 @@ public final class ChartCacheManager
 	public Orientation findOrientation( String chartType )
 	{
 		return (Orientation) cacheCharts.get( PREFIX_ORIENTATION + chartType );
+	}
+	
+	/**
+	 * Caches the latest selection of axis category.
+	 * 
+	 * @param chartType
+	 *            Chart type
+	 * @param bCategory
+	 */
+	public void cacheCategory( String chartType, boolean bCategory )
+	{
+		cacheCharts.put( PREFIX_CATEGORY + chartType, new Boolean( bCategory ) );
+	}
+
+	/**
+	 * Returns the latest selection of axis category.
+	 * 
+	 * @param chartType
+	 *            Chart type
+	 * @return the latest selection of axis category. Returns null if not found
+	 */
+	public Boolean findCategory( String chartType )
+	{
+		return (Boolean) cacheCharts.get( PREFIX_CATEGORY + chartType ) ;
 	}
 }
