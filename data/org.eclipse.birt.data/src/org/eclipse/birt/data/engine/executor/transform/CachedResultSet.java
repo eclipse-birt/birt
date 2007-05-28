@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -231,12 +232,21 @@ public class CachedResultSet implements IResultIterator
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
 					resultSetPopulator.getEventHandler( ).getAllColumnBindings( ) );
-		}
-
-		if ( streamsWrapper.getStreamForDataSet( ) != null )
-		{
-			this.resultSetPopulator.getCache( )
-					.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getAllColumnBindings( )  );
+			try
+			{
+				streamsWrapper.getStreamForResultClass( ).close( );
+				if ( streamsWrapper.getStreamForDataSet( ) != null )
+				{
+					this.resultSetPopulator.getCache( )
+							.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getAllColumnBindings( )  );
+				}
+				streamsWrapper.getStreamForDataSet( ).close( );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

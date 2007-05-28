@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.data.engine.impl.document.stream;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
@@ -145,9 +147,24 @@ public class StreamManager
 		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
 		if ( !useTempStream( streamType ) )
 		{
-			return context.getOutputStream( streamID.getStartStream( ),
+			RAOutputStream outputStream = context.getOutputStream( streamID.getStartStream( ),
 					streamID.getSubQueryStream( ),
 					streamType );
+			if( streamType == DataEngineContext.DATASET_DATA_STREAM && this.version >= VersionManager.VERSION_2_2_0 )
+			{
+				try
+				{
+					outputStream.seek( outputStream.length( ));
+					outputStream.writeInt( 0 );
+					outputStream.writeInt( 0 );
+				}
+				catch ( IOException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return outputStream;
 		}
 		else
 		{
@@ -212,9 +229,26 @@ public class StreamManager
 	{
 		if ( !useTempStream( streamType ) )
 		{
-			return (RAInputStream) context.getInputStream( streamID.getStartStream( ),
+			RAInputStream stream = (RAInputStream) context.getInputStream( streamID.getStartStream( ),
 					streamID.getSubQueryStream( ),
 					streamType );
+			if( streamType == DataEngineContext.DATASET_DATA_STREAM && this.version >= VersionManager.VERSION_2_2_0 )
+			{
+				try
+				{
+					stream.readInt( );
+					int size = stream.readInt( );
+					stream.skip( size );
+					stream.readInt( );
+					stream.readInt( );
+				}
+				catch ( IOException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return stream;
 		}
 		else
 		{
@@ -434,7 +468,7 @@ public class StreamManager
 		switch ( streamType )
 		{
 			case DataEngineContext.DATASET_DATA_STREAM :
-				return !(this.version < VersionManager.VERSION_2_2_0 );
+				return false;
 			case DataEngineContext.DATASET_META_STREAM :
 				return !(this.version < VersionManager.VERSION_2_2_0 );
 			case DataEngineContext.EXPR_VALUE_STREAM :

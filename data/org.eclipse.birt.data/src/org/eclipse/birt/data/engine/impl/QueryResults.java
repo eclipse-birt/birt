@@ -320,9 +320,17 @@ public class QueryResults implements IQueryResults, IQueryService
 			try
 			{
 				if ( streamsWrapper.getStreamForResultClass( ) != null )
-					IOUtil.writeInt( streamsWrapper.getStreamForResultClass( ), 0 );
-				if ( streamsWrapper.getStreamForDataSet( ) != null )
-					IOUtil.writeInt( streamsWrapper.getStreamForDataSet( ), 0 );
+				{
+					IOUtil.writeInt( streamsWrapper.getStreamForResultClass( ),
+							0 );
+					streamsWrapper.getStreamForResultClass( ).close( );
+					if ( streamsWrapper.getStreamForDataSet( ) != null )
+					{
+						IOUtil.writeInt( streamsWrapper.getStreamForDataSet( ),
+								0 );
+						streamsWrapper.getStreamForDataSet( ).close( );
+					}
+				}
 				IOUtil.writeInt( streamsWrapper.getStreamForGroupInfo( ), 0 );
 			}
 			catch ( IOException e )

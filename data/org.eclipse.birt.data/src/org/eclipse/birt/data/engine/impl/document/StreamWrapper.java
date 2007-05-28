@@ -13,6 +13,10 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.OutputStream;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+
 /**
  * 
  */
@@ -23,23 +27,23 @@ public class StreamWrapper
 	private OutputStream streamForGroupInfo;
 	private OutputStream streamForRowIndexInfo;
 	private OutputStream streamForParentIndex;
-
+	private StreamManager manager;
 	/**
 	 * @param streamForResultClass
 	 * @param streamForDataSet
 	 * @param streamForGroupInfo
 	 * @param streamForRowIndexInfo
 	 */
-	public StreamWrapper( OutputStream streamForDataSet,
+	public StreamWrapper( StreamManager manager,
 			OutputStream streamForResultClass, OutputStream streamForGroupInfo,
 			OutputStream streamForRowIndexInfo,
 			OutputStream streamForParentIndex )
 	{
 		this.streamForResultClass = streamForResultClass;
-		this.streamForDataSet = streamForDataSet;
 		this.streamForGroupInfo = streamForGroupInfo;
 		this.streamForRowIndexInfo = streamForRowIndexInfo;
 		this.streamForParentIndex = streamForParentIndex;
+		this.manager = manager;
 	}
 
 	/**
@@ -52,9 +56,16 @@ public class StreamWrapper
 
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	public OutputStream getStreamForDataSet( )
+	public OutputStream getStreamForDataSet( ) throws DataException
 	{
+		if( this.streamForResultClass!= null && this.streamForDataSet == null )
+		{
+			this.streamForDataSet = manager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE );
+		}
 		return this.streamForDataSet;
 	}
 
