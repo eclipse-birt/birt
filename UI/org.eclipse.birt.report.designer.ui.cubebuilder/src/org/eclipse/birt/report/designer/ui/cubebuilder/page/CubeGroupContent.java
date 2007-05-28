@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -1198,6 +1199,7 @@ public class CubeGroupContent extends Composite implements Listener
 						.getName( )
 						.equals( ICubeModel.DIMENSIONS_PROP ) )
 				{
+					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( "Group" ); //$NON-NLS-1$
 					try
@@ -1222,11 +1224,21 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
 									.trim( ) );
+							SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
 						}
 						catch ( NameException e1 )
 						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.rollback( );
 							ExceptionHandler.handle( e1 );
 						}
+					}
+					else
+					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.rollback( );
 					}
 					refresh( );
 				}
@@ -1234,6 +1246,7 @@ public class CubeGroupContent extends Composite implements Listener
 						.getName( )
 						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				{
+					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( "Summary Field" ); //$NON-NLS-1$
 					try
@@ -1259,11 +1272,21 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
 									.trim( ) );
+							SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
 						}
 						catch ( NameException e1 )
 						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.rollback( );
 							ExceptionHandler.handle( e1 );
 						}
+					}
+					else
+					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.rollback( );
 					}
 
 					refresh( );
