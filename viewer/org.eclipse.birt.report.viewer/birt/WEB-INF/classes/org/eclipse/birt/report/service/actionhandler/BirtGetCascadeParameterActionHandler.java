@@ -277,11 +277,12 @@ public class BirtGetCascadeParameterActionHandler
 
 			if ( !parameter.isRequired( ) )
 			{
-				if ( defaultValue.length( ) > 0 )
+				if ( defaultValue.trim( ).length( ) > 0 )
 				{
 					// if default value isn't blank string, add blank value item
 					selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
+
 				// add null value item
 				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
 						IBirtConstants.NULL_VALUE ) );
@@ -293,6 +294,10 @@ public class BirtGetCascadeParameterActionHandler
 			{
 				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
 						IBirtConstants.NULL_VALUE ) );
+				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
 				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}

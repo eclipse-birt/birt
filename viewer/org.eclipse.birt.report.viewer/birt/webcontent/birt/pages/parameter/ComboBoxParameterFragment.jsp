@@ -14,7 +14,8 @@
 				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.IBirtConstants,
 				 org.eclipse.birt.report.service.api.ParameterSelectionChoice,
-				 org.eclipse.birt.report.utility.ParameterAccessor" %>
+				 org.eclipse.birt.report.utility.ParameterAccessor,
+				 org.eclipse.birt.report.utility.DataUtil" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
@@ -85,14 +86,14 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
-		if( !parameterBean.isRequired( ) )
+		if( !parameterBean.isRequired( ) || ( parameterBean.isCascade( ) && DataUtil.trimString( defaultValue ).length( )<=0 ) )
 		{
 %>
 		<OPTION></OPTION>
 <%
 		}
 		
-		if ( defaultValue != null && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
+		if ( DataUtil.trimString( defaultValue ).length( ) > 0 && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
 		{
 			boolean flag = CHECKED && !parameterBean.isValueInList( );
 			// if displayText is in request, use it
