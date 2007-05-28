@@ -82,9 +82,6 @@ class RDSaveUtil
 			boolean isSubQuery = streamManager.isSubquery( );
 			if ( isSubQuery == false )
 			{
-				streamForDataSet = streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
-						StreamManager.ROOT_STREAM,
-						StreamManager.SELF_SCOPE );
 				streamForResultClass = streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM,
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE );
@@ -93,17 +90,11 @@ class RDSaveUtil
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			
-			odiResult.doSave( new StreamWrapper( streamForDataSet,
+			odiResult.doSave( new StreamWrapper( streamManager,
 					streamForResultClass,
 					streamForGroupInfo,
 					null,
 					null ), isSubQuery );
-			
-			if ( streamForDataSet != null )
-			{
-				streamForDataSet.close( );
-				streamForResultClass.close( );
-			}
 			
 			streamForGroupInfo.close( );
 			

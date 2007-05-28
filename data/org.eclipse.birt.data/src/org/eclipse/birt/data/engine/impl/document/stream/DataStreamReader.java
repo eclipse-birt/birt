@@ -47,19 +47,14 @@ public class DataStreamReader extends StreamReader
 			DataInputStream metaIndexStream = new DataInputStream( is );
 			
 			
-			while ( is.getOffset( ) < is.length( ) )
-			{
-				int type = is.readInt( );
-				int size = is.readInt( );
-				long offset = is.getOffset( );
-				this.streamMap.put( new Integer( type ),
-						new WrapperedRAInputStream( (RAInputStream)context.getInputStream( id.getStartStream( ),
-								id.getSubQueryStream( ),
-								DataEngineContext.DATASET_DATA_STREAM ),offset,size) );
-				is.skip( size );
-				
-
-			}
+			
+			int type = is.readInt( );
+			int size = is.readInt( );
+			long offset = is.getOffset( );
+			this.streamMap.put( new Integer( type ),
+					new WrapperedRAInputStream( (RAInputStream)context.getInputStream( id.getStartStream( ),
+							id.getSubQueryStream( ),
+							DataEngineContext.DATASET_DATA_STREAM ),offset,size) );
 			metaIndexStream.close( );
 			
 		}

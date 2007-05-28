@@ -883,9 +883,16 @@ public class PreparedDummyQuery implements IPreparedQuery
 			try
 			{
 				if ( streamWrapper.getStreamForResultClass( ) != null )
+				{
 					IOUtil.writeInt( streamWrapper.getStreamForResultClass( ), 0 );
-				if ( streamWrapper.getStreamForDataSet( ) != null )
-					IOUtil.writeInt( streamWrapper.getStreamForDataSet( ), 0 );
+					streamWrapper.getStreamForResultClass( ).close( );
+					if ( streamWrapper.getStreamForDataSet( ) != null )
+					{
+						IOUtil.writeInt( streamWrapper.getStreamForDataSet( ),
+							0 );
+						streamWrapper.getStreamForDataSet( ).close( );
+					}
+				}
 				IOUtil.writeInt( streamWrapper.getStreamForGroupInfo( ), 0 );
 			}
 			catch ( IOException e )
