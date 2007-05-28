@@ -43,7 +43,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.20 $ $Date: 2007/03/07 03:11:49 $
+ * @version $Revision: 1.21 $ $Date: 2007/03/19 02:43:25 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -241,7 +241,8 @@ public class SelectValueDialog extends BaseDialog
 					if ( candiateValue != null )
 					{
 						String displayCandiateValue;
-						if ( candiateValue instanceof Date )
+						if ( candiateValue instanceof Date &&
+								!( candiateValue instanceof java.sql.Date || candiateValue instanceof java.sql.Time ) )
 						{
 							DateFormatter formatter = new DateFormatter( ULocale.US );
 							formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.S" );
