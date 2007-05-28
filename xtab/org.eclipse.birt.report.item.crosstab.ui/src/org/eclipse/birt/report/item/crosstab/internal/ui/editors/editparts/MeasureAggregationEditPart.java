@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 
 public class MeasureAggregationEditPart extends DataEditPart
 {
-	private static final String PREFIX = "\u2211"; //$NON-NLS-1$
+	
 	/**Constructor
 	 * @param model
 	 */
@@ -49,26 +49,6 @@ public class MeasureAggregationEditPart extends DataEditPart
 			return super.getText( );
 		}
 		return PREFIX+ "[" + retValue + "]"; //$NON-NLS-1$
-	}
-	
-	private boolean hasBindingFunction()
-	{
-		DataItemHandle handle = (DataItemHandle) getModel( );
-		String name = handle.getResultSetColumn( );
-		if (name == null)
-		{
-			return false;
-		}
-		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, name );
-		if (bindingColumn == null)
-		{
-			return false;
-		}
-		if (bindingColumn.getAggregateFunction( ) != null)
-		{
-			return true;
-		}
-		return false;
 	}
 	
 	private String getMeasureName()

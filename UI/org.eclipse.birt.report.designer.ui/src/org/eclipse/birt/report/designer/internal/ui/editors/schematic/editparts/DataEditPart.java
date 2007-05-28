@@ -14,6 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.La
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -30,7 +31,7 @@ public class DataEditPart extends LabelEditPart
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
 	protected static final String AGGREGATE_ON = Messages.getString( "DataEditPart.text.AggregateOn" );
-
+	protected static final String PREFIX = "\u2211"; //$NON-NLS-1$
 	/**
 	 * Constructor
 	 * 
@@ -197,9 +198,33 @@ public class DataEditPart extends LabelEditPart
 			}
 			text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
+		if (hasBindingFunction( ))
+		{
+			text = PREFIX + text;
+		}
 		return text;
 	}
 
+	protected boolean hasBindingFunction()
+	{
+		DataItemHandle handle = (DataItemHandle) getModel( );
+		String name = handle.getResultSetColumn( );
+		if (name == null)
+		{
+			return false;
+		}
+		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, name );
+		if (bindingColumn == null)
+		{
+			return false;
+		}
+		if (bindingColumn.getAggregateFunction( ) != null)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
