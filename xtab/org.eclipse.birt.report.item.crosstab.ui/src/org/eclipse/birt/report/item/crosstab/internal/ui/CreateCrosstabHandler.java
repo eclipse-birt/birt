@@ -81,7 +81,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 
 		if ( targetEditPart != null )
 		{
-			command.setParent( targetEditPart.getModel( ) );
+			command.setParent(  DNDUtil.unwrapToModel(targetEditPart.getModel( ) ));
 		}
 		else
 		{
