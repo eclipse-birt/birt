@@ -108,23 +108,16 @@ class CubeQueryDefinitionUtil
 			{
 				int id = getResultSetIndex( calculatedMemberList,
 						( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ) );
-				List aggrLevels = ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( );
 				if ( id == -1 )
 				{
-					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
-							aggrLevels,
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
+					calculatedMember[index] = new CalculatedMember( (ICubeAggrDefn) cubeAggrBindingList.get( i ),
 							rsID );
 					calculatedMemberList.add( calculatedMember[index] );
 					rsID++;
 				}
 				else
 				{
-					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
-							aggrLevels,
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
+					calculatedMember[index] = new CalculatedMember( (ICubeAggrDefn) cubeAggrBindingList.get( i ),
 							id );
 				}
 				index++;

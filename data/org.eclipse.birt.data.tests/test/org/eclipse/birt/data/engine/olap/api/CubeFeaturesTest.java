@@ -194,6 +194,80 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 	
 	/**
+	 * Test use aggregation with one more arguments
+	 * @throws Exception
+	 */
+	public void testBasic3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "rowGrandTotal" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
+		cqd.addBinding( binding6 );
+
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				"edge2level1",
+				"measure1",
+				null,
+				"rowGrandTotal",
+				null );
+	}
+	
+	/**
 	 * Filter1, filter out all level11 == CN.
 	 * @throws Exception
 	 */
@@ -2635,15 +2709,19 @@ public class CubeFeaturesTest extends BaseTestCase
 		assertEquals( dimensions[0].length( ), 13 );
 
 		// dimension1
-		levelNames = new String[1];
-		levelNames[0] = "level21";
+		levelNames = new String[]{
+				"level21", "attr21"
+		};
 		iterator = new DimensionForTest( levelNames );
 		iterator.setLevelMember( 0, distinct( TestFactTable.DIM1_L1Col ) );
-
+		iterator.setLevelMember( 1, TestFactTable.ATTRIBUTE_Col );
+		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{
 			"level21"
-		}, null );
+		}, new String[]{
+			"attr21"
+		} );
 		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2",
 				documentManager,
 				iterator,
@@ -2785,6 +2863,22 @@ class TestFactTable implements IDatasetIterator
 		51,52,53,54,55,
 		56,57,58,59,60,
 		61,62,63,65,65
+    };
+	
+	static int[] ATTRIBUTE_Col = {
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
+		1,2,3,4,5,
     };
 	
 	public void close( ) throws BirtException

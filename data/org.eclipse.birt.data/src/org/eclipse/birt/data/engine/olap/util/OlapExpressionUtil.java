@@ -66,6 +66,32 @@ public class OlapExpressionUtil
 	}
 	
 	/**
+	 * This method is used to get the dimension,level,attributes name that reference by a level&attribute
+	 * reference expression of following format:
+	 * dimension["dimensionName"]["levelName"]["attributeName"].
+	 * 
+	 * String[0] dimensionName;
+	 * String[1] levelName;
+	 * String[2] attributeName;
+	 * @param expr
+	 * @return String[]
+	 */
+	private static String[] getTargetAttribute( String expr )
+	{
+		if ( expr == null )
+			return null;
+		if ( !expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+			return null;
+
+		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
+		String[] result = expr.split( "\\Q\"][\"\\E" );
+		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
+		result[2] = result[2].replaceAll( "\\Q\"]\\E", "" );
+
+		return result;
+	}
+	
+	/**
 	 * 
 	 * @param expr
 	 * @return
@@ -139,7 +165,7 @@ public class OlapExpressionUtil
 	
 	/**
 	 * This method returns a list of ICubeAggrDefn instances which describes the
-	 * aggregations that need to be calcualted in cube query.
+	 * aggregations that need to be calculated in cube query.
 	 * 
 	 * @param bindings
 	 * @return
@@ -158,11 +184,12 @@ public class OlapExpressionUtil
 			{
 				//TODO fix me. together with CursorModelTest and CursorNavigatorTest.
 				//String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
-				if ( binding.getAggrFunction( ) != null  )
+				if ( binding.getAggrFunction( ) != null )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
-							convertToDimLevel(binding.getAggregatOns( )),
-							binding.getAggrFunction( ) ) );
+							convertToDimLevel( binding.getAggregatOns( ) ),
+							binding.getAggrFunction( ),
+							convertToDimLevelAttribute( binding.getArguments( ) ) ) );
 			}
 		}
 
@@ -219,20 +246,31 @@ public class OlapExpressionUtil
 		return result;
 	}
 	
+	private static List convertToDimLevelAttribute( List dimLevelExpressions )
+			throws DataException
+	{
+		List result = new ArrayList( );
+		for ( int i = 0; i < dimLevelExpressions.size( ); i++ )
+		{
+			result.add( getTargetAttribute( ( (IScriptExpression) dimLevelExpressions.get( i ) ).getText( ) ) );
+		}
+		return result;
+	}
+	
 	private static class CubeAggrDefn implements ICubeAggrDefn
 	{
 
 		//
 		private String name;
 		private String measure;
-		private List aggrLevels;
+		private List aggrLevels, arguments;
 		private String aggrName;
 
 		/*
 		 * 
 		 */
 		CubeAggrDefn( String name, String measure, List aggrLevels,
-				String aggrName )
+				String aggrName, List arguments )
 		{
 			assert name != null;
 			assert measure != null;
@@ -242,6 +280,7 @@ public class OlapExpressionUtil
 			this.measure = measure;
 			this.aggrLevels = aggrLevels;
 			this.aggrName = aggrName;
+			this.arguments = arguments;
 		}
 
 		/*
@@ -252,6 +291,16 @@ public class OlapExpressionUtil
 		public List getAggrLevels( )
 		{
 			return this.aggrLevels;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getArguments()
+		 */
+		public List getArguments( )
+		{
+			return this.arguments;
 		}
 
 		/*

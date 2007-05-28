@@ -166,15 +166,19 @@ public class CubeUtility
 		allRow = dimensions[4].getAllRows( );
 		
 		// dimension5
-        levelNames = new String[1];
-		levelNames[0] = "level22";
+		levelNames = new String[]{
+				"level22", "attributes220"
+		};
 		iterator = new DimensionForTest( levelNames );
 		iterator.setLevelMember( 0, TestFactTable1.DIM1_L2Col );
+		iterator.setLevelMember( 1, TestFactTable1.ATTRIBUTE_Col );
 
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level22", new String[]{
 			"level22"
-		}, null );
+		}, new String[]{
+			"attributes220"
+		} );
 		dimensions[5] = (Dimension) DimensionFactory.createDimension( "dimension6",
 				documentManager,
 				iterator,
@@ -615,6 +619,19 @@ class TestFactTable1 implements IDatasetIterator
 		  	56,
 		  	61,64,65
       };
+      static int[] ATTRIBUTE_Col = {
+    	  	1,2,3,
+    	  	1,2,3,
+    	  	1,
+    	  	1,
+    	  	1,2,3,
+    	  	1,2,3,1,2,
+    	  	1,
+    	  	2,3,
+		  	1,
+		  	2,
+		  	2,3,1
+    };
 
 		public void close( ) throws BirtException
 		{

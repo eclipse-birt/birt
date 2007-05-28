@@ -386,7 +386,64 @@ public class CursorModelTest extends BaseTestCase
 			fail( "fail to get here!" );
 		}
 	}
-	
+		
+	/**
+	 * Test aggregation on measure with arguments
+	 * 
+	 * @throws OLAPException
+	 * @throws BirtException
+	 */
+	public void testCursorModel7( ) throws OLAPException, BirtException
+	{
+		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
+
+		IBinding rowGrandAvg = new Binding( "rowWightedave" );
+		rowGrandAvg.setAggrFunction( IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		rowGrandAvg.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		rowGrandAvg.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandAvg.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+		rowGrandAvg.addArgument( new ScriptExpression( "dimension[\"dimension6\"][\"level22\"][\"attributes220\"]" ) );
+		
+		cqd.addBinding( rowGrandAvg );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( );
+
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "level11" );
+		columnEdgeBindingNames.add( "level12" );
+		columnEdgeBindingNames.add( "level13" );
+		columnEdgeBindingNames.add( "level14" );		
+		
+		List rowEdgeBindingNames = new ArrayList();
+		rowEdgeBindingNames.add( "level21" );
+		rowEdgeBindingNames.add( "level22" );
+		
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+		
+		List rowGrandTotalNames = new ArrayList( );
+		rowGrandTotalNames.add( "rowWightedave" );
+		
+		try
+		{
+			testOut.print( creator.printCubeAlongEdge( dataCursor,
+					columnEdgeBindingNames,
+					rowEdgeBindingNames,
+					measureBindingNames,
+					rowGrandTotalNames,
+					null,
+					null,
+					null));
+			this.checkOutputFile( );
+		}
+		catch ( Exception e )
+		{
+			fail( "fail to get here!" );
+		}
+	}
 	
 	/**
 	 * 

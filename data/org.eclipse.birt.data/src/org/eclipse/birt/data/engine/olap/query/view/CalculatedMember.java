@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+
 /**
  * A CalculatedMember is an Aggregation Object which need to be calculated in
  * olap.data
@@ -22,7 +24,7 @@ public class CalculatedMember
 {
 
 	private String aggrFunction, onMeasureName, name;
-	private List aggrOnList;
+	private List aggrOnList, arguments;
 	private int rsID;
 
 	/**
@@ -42,6 +44,21 @@ public class CalculatedMember
 		this.rsID = rsID;
 	}
 
+	/**
+	 * 
+	 * @param aggrDefn
+	 * @param rsID
+	 */
+	CalculatedMember( ICubeAggrDefn aggrDefn, int rsID )
+	{
+		this.name = aggrDefn.getName( );
+		this.onMeasureName = aggrDefn.getMeasure( );
+		this.aggrOnList = aggrDefn.getAggrLevels( );
+		this.aggrFunction = aggrDefn.getAggrName( );
+		this.arguments = aggrDefn.getArguments( );
+		this.rsID = rsID;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -69,6 +86,20 @@ public class CalculatedMember
 		return this.aggrOnList;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String[] getFirstArgumentInfo( )
+	{
+		if ( this.arguments == null || this.arguments.isEmpty( ) )
+		{
+			return new String[0];
+		}
+		else
+			return (String[]) this.arguments.get( 0 );
+	}
+	
 	/**
 	 * 
 	 * @return

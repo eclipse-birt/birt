@@ -341,8 +341,22 @@ public class QueryExecutor
 				AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[list.size( )];
 				for ( int index = 0; index < list.size( ); index++ )
 				{
+					String[] dimInfo = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( );
+					String dimName = null;
+					String levelName = null;
+					String attributeName = null;
+					DimLevel dimLevel = null;
+					if ( dimInfo != null && dimInfo.length == 3 )
+					{
+						dimName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[0];
+						levelName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[1];
+						attributeName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[2];
+						dimLevel = new DimLevel( dimName, levelName );
+					}
 					funcitons[index] = new AggregationFunctionDefinition( ( (CalculatedMember) list.get( index ) ).getName( ),
 							( (CalculatedMember) list.get( index ) ).getMeasureName( ),
+							dimLevel,
+							attributeName,
 							( (CalculatedMember) list.get( index ) ).getAggrFunction( ) );
 				}
 
