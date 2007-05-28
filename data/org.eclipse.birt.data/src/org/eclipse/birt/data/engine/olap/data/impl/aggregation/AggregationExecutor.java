@@ -29,7 +29,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
+import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
@@ -47,7 +47,7 @@ public class AggregationExecutor
 	private DiskSortedStackWrapper[] sortedFactRows = null;
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
-	private String[] parameterColNames = null;
+	private DimColumn[] paraColumns = null;
 	private int[][] parameterColIndexs = null;
 
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
@@ -77,7 +77,7 @@ public class AggregationExecutor
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
-			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], parameterColNames, 
+			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
 					facttableRowIterator );
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
@@ -342,7 +342,7 @@ public class AggregationExecutor
 	
 	private void getParameterColIndex( AggregationDefinition[] aggregations ) throws DataException
 	{
-		List colNameList = new ArrayList( );
+		List paraColList = new ArrayList( );
 		for ( int i = 0; i < aggregations.length; i++ )
 		{
 			AggregationFunctionDefinition[] functions = aggregations[i].getAggregationFunctions( );
@@ -352,26 +352,26 @@ public class AggregationExecutor
 			}
 			for ( int j = 0; j < functions.length; j++ )
 			{
-				String colName = functions[j].getParaColName( );
-				if( colName != null )
+				DimColumn paraCol = functions[j].getParaCol( );
+				if( paraCol != null )
 				{
-					if( !exist( colNameList, colName ))
+					if( !exist( paraColList, paraCol ))
 					{
-						colNameList.add( colName );
+						paraColList.add( paraCol );
 					}
 				}
 			}
 		}
-		if( colNameList.size( ) == 0 )
+		if( paraColList.size( ) == 0 )
 		{
 			return;
 		}
-		parameterColNames = new String[colNameList.size( )];
-		for( int i=0;i<colNameList.size( );i++)
+		paraColumns = new DimColumn[paraColList.size( )];
+		for( int i=0;i<paraColList.size( );i++)
 		{
-			parameterColNames[i] = ( String )( colNameList.get( i ) );
+			paraColumns[i] = ( DimColumn )( paraColList.get( i ) );
 		}
-		parameterColIndexs = new int[colNameList.size( )][4];
+		parameterColIndexs = new int[paraColList.size( )][4];
 		findColumnIndex( );
 	}
 	
@@ -381,23 +381,31 @@ public class AggregationExecutor
 	 */
 	private void findColumnIndex( ) throws DataException
 	{
-		if( parameterColNames == null )
+		if( paraColumns == null )
 		{
 			return;
 		}
-		for ( int i = 0; i < parameterColNames.length; i++ )
+		for ( int i = 0; i < paraColumns.length; i++ )
 		{
 			parameterColIndexs[i][0] = -1;
 			for ( int j = 0; j < dimesionResultIterators.length; j++ )
 			{
+				if( !dimesionResultIterators[j].getDimesion( ).getName( ).equals( paraColumns[i].getDimensionName( ) ))
+				{
+					continue;
+				}
 				ILevel[] levels = dimesionResultIterators[j].getDimesion( )
 						.getHierarchy( )
 						.getLevels( );
 
 				for ( int k = 0; k < levels.length; k++ )
 				{
+					if( !levels[k].getName( ).equals( paraColumns[i].getLevelName( ) ))
+					{
+						continue;
+					}
 					String[] columns = levels[k].getKeyNames( );
-					int index = find( columns, parameterColNames[i] );
+					int index = find( columns, paraColumns[i].getColumnName( ) );
 					if ( index >= 0 )
 					{
 						// is key column
@@ -408,7 +416,7 @@ public class AggregationExecutor
 						break;
 					}
 					columns = levels[k].getAttributeNames( );
-					index = find( columns, parameterColNames[i] );
+					index = find( columns, paraColumns[i].getColumnName( ) );
 					if ( index >= 0 )
 					{
 						// is key column
@@ -427,7 +435,7 @@ public class AggregationExecutor
 			if ( parameterColIndexs[i][0] == -1 )
 			{
 				throw new DataException( ResourceConstants.PARAMETER_COL_OF_AGGREGATION_NOT_EXIST,
-						parameterColNames[i] );
+						paraColumns[i] );
 			}
 		}
 	}
@@ -456,15 +464,15 @@ public class AggregationExecutor
 	
 	/**
 	 * 
-	 * @param strList
-	 * @param str
+	 * @param colList
+	 * @param col
 	 * @return
 	 */
-	private boolean exist( List strList, String str )
+	private boolean exist( List colList, DimColumn col )
 	{
-		for ( int i = 0; i < strList.size( ); i++ )
+		for ( int i = 0; i < colList.size( ); i++ )
 		{
-			if ( str.equals( strList.get( i ) ) )
+			if ( col.equals( colList.get( i ) ) )
 			{
 				return true;
 			}

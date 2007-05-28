@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
+import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -51,7 +52,7 @@ public class AggregationCalculator
 	 * @param facttableRowIterator
 	 * @throws DataException 
 	 */
-	AggregationCalculator( AggregationDefinition aggregationDef, String[] paramterColNames, IFactTableRowIterator facttableRowIterator ) throws DataException
+	AggregationCalculator( AggregationDefinition aggregationDef, DimColumn[] paramterColNames, IFactTableRowIterator facttableRowIterator ) throws DataException
 	{
 		Object[] params = {
 				aggregationDef, facttableRowIterator
@@ -79,7 +80,7 @@ public class AggregationCalculator
 						aggregation.getParameterDefn( ).length > 1 )
 				{
 					this.parameterColIndex[i] = find( paramterColNames,
-							aggregationFunction[i].getParaColName( ) );
+							aggregationFunction[i].getParaCol( ) );
 				}
 				else
 				{
@@ -102,19 +103,19 @@ public class AggregationCalculator
 	
 	/**
 	 * 
-	 * @param strArray
-	 * @param str
+	 * @param colArray
+	 * @param col
 	 * @return
 	 */
-	private static int find( String[] strArray, String str )
+	private static int find( DimColumn[] colArray, DimColumn col )
 	{
-		if( strArray == null || str == null )
+		if( colArray == null || col == null )
 		{
 			return -1;
 		}
-		for ( int i = 0; i < strArray.length; i++ )
+		for ( int i = 0; i < colArray.length; i++ )
 		{
-			if ( str.equals( strArray[i] ) )
+			if ( col.equals( colArray[i] ) )
 			{
 				return i;
 			}

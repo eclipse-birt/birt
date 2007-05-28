@@ -345,6 +345,7 @@ public class CubeAggregationTest extends TestCase
 				IBuildInAggregation.TOTAL_SUM_FUNC );
 		funcitonsWithParameterCol[1] = new AggregationFunctionDefinition( null,
 				"measure1",
+				new DimLevel( "dimension1", "level12" ),
 				"col12",
 				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
@@ -464,6 +465,7 @@ public class CubeAggregationTest extends TestCase
 				IBuildInAggregation.TOTAL_SUM_FUNC );
 		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( null,
 				"measure1",
+				new DimLevel( "dimension1", "level12" ),
 				"col12",
 				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
 		aggregations[0] = new AggregationDefinition( null, null, funcitonsWithParameterCol );

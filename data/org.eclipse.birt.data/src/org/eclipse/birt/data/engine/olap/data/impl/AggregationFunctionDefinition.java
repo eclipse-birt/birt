@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+
 /**
  * Defines a function which is used in cube aggregation.
  */
@@ -23,6 +25,7 @@ public class AggregationFunctionDefinition
 	private String measureName;
 	private String paraColName;
 	private String functionName;
+	private DimLevel paraLevel;
 
 	private static Logger logger = Logger.getLogger( AggregationFunctionDefinition.class.getName( ) );
 	
@@ -35,7 +38,7 @@ public class AggregationFunctionDefinition
 	public AggregationFunctionDefinition( String name, String measureName,
 			String functionName )
 	{
-		this( name , measureName, null, functionName );
+		this( name , measureName, null, null, functionName );
 	}
 	
 	/**
@@ -45,7 +48,7 @@ public class AggregationFunctionDefinition
 	 * @param paraColNames
 	 * @param functionName
 	 */
-	public AggregationFunctionDefinition( String name, String measureName, String paraColName,
+	public AggregationFunctionDefinition( String name, String measureName, DimLevel paraLevel, String paraColName,
 			String functionName )
 	{
 		Object[] params = {
@@ -55,6 +58,7 @@ public class AggregationFunctionDefinition
 				"AggregationFunctionDefinition",
 				params );
 		this.name = name;
+		this.paraLevel = paraLevel;
 		this.paraColName = paraColName;
 		this.measureName = measureName;
 		this.functionName = functionName;
@@ -111,8 +115,21 @@ public class AggregationFunctionDefinition
 	 * 
 	 * @return
 	 */
-	public String getParaColName( )
+	public DimColumn getParaCol( )
 	{
-		return paraColName;
+		if( paraLevel == null)
+			return null;
+		return new DimColumn( paraLevel.getDimensionName( ),
+				paraLevel.getLevelName( ),
+				paraColName );
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public DimLevel getParaLevel( )
+	{
+		return paraLevel;
 	}
 }
