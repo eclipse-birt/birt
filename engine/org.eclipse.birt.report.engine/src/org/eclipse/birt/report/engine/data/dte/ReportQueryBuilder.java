@@ -42,6 +42,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
@@ -834,6 +835,10 @@ public class ReportQueryBuilder
 			{
 				if ( columnBinding.getAggregateOn( ) != null )
 					binding.addAggregateOn( columnBinding.getAggregateOn( ) );
+				if ( columnBinding.getAggregateFunction( ) != null )
+				{
+					binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
+				}
 				transfer.addBinding( binding );
 			}
 			catch ( DataException ex )
@@ -929,6 +934,11 @@ public class ReportQueryBuilder
 				{
 					// return the parentQuery as the current query.
 					return parentQuery;
+				}
+				
+				if ( value instanceof CubeQueryDefinition )
+				{
+					return null;
 				}
 
 				// we have column binding, create a sub query.
