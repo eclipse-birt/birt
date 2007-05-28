@@ -21,10 +21,10 @@ import org.eclipse.swt.widgets.Control;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
+ * @version $Revision: 1.2 $ $Date: 2006/06/15 07:40:09 $
  */
 
-public final class PropertyNode
+public class PropertyNode
 {
 
 	private transient ArrayList subNodes = null;
@@ -240,6 +240,11 @@ public final class PropertyNode
 		return pageControl;
 	}
 
+	public void removePageControl( )
+	{
+		this.pageControl = null;
+	}
+	
 	public final Control getPageControl( )
 	{
 		return pageControl;
