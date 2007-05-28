@@ -1067,7 +1067,7 @@ public final class DataSetProvider
 		if ( classPath == null || classPath.length( ) == 0  )
 			return parent;
 		
-		String[] classPathArray = classPath.split( ";", -1 );
+		String[] classPathArray = classPath.split( File.pathSeparator, -1 );
 		int count = classPathArray.length; 
 		URL[] urls = new URL[count];
 		for ( int i = 0; i < count; i++ )
