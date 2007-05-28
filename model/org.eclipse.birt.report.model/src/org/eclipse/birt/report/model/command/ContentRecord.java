@@ -282,6 +282,20 @@ public class ContentRecord extends SimpleRecord
 		retValue.addAll( super.getPostTasks( ) );
 
 		DesignElement container = containerInfo.getElement( );
+
+		// if the element works like properties, return property event instead
+		// of content event.
+		if ( eventTarget != null )
+		{
+			NotificationEvent event = new PropertyEvent( eventTarget
+					.getElement( ), eventTarget.getPropName( ) );
+
+			retValue.add( new NotificationRecordTask( container, event ) );
+			content.clearListeners( );
+
+			return retValue;
+		}
+
 		if ( container instanceof TableItem || container instanceof GridItem
 				|| container instanceof TableGroup
 				|| container instanceof TableRow )
@@ -292,20 +306,6 @@ public class ContentRecord extends SimpleRecord
 			{
 				retValue.add( new LayoutRecordTask( module, compoundElement ) );
 			}
-		}
-
-		// if the element works like properties, return property event instead
-		// of content event.
-		
-		if ( eventTarget != null )
-		{
-			NotificationEvent event = new PropertyEvent( eventTarget
-					.getElement( ), eventTarget.getPropName( ) );
-
-			retValue.add( new NotificationRecordTask( container, event ) );
-			content.clearListeners( );
-
-			return retValue;
 		}
 
 		// Send the content changed event to the container.

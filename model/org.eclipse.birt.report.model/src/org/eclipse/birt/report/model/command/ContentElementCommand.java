@@ -222,12 +222,10 @@ class ContentElementCommand extends AbstractContentCommand
 	 *            the content to remove
 	 * @param unresolveReference
 	 *            status whether to un-resolve the references
-	 * @throws SemanticException
 	 */
 
 	protected void doMove( DesignElement content,
 			ContainerContext toContainerInfor, int newPos )
-			throws ContentException
 	{
 		ActivityStack stack = getActivityStack( );
 
@@ -284,7 +282,6 @@ class ContentElementCommand extends AbstractContentCommand
 	 */
 
 	protected void doSetProperty( ElementPropertyDefn prop, Object value )
-			throws SemanticException
 	{
 
 		ActivityStack stack = getActivityStack( );
@@ -319,7 +316,7 @@ class ContentElementCommand extends AbstractContentCommand
 	 *            a reference to a list property or member.
 	 */
 
-	private DesignElement copyTopCompositeValue( ) throws SemanticException
+	private DesignElement copyTopCompositeValue( )
 	{
 		if ( !( element instanceof ContentElement ) )
 		{
@@ -363,11 +360,9 @@ class ContentElementCommand extends AbstractContentCommand
 	/**
 	 * @param ref
 	 * @param value
-	 * @throws SemanticException
 	 */
 
 	protected void addItem( MemberRef ref, Object value )
-			throws SemanticException
 	{
 		ActivityStack stack = getActivityStack( );
 
@@ -396,10 +391,9 @@ class ContentElementCommand extends AbstractContentCommand
 	/**
 	 * @param ref
 	 * @param value
-	 * @throws SemanticException
 	 */
 
-	protected void removeItem( MemberRef ref ) throws SemanticException
+	protected void removeItem( MemberRef ref )
 	{
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( ModelMessages

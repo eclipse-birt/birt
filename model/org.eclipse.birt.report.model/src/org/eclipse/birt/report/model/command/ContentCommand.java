@@ -1034,12 +1034,10 @@ public class ContentCommand extends AbstractContentCommand
 	 *            the content to remove
 	 * @param unresolveReference
 	 *            status whether to un-resolve the references
-	 * @throws SemanticException
 	 */
 
 	protected void doMove( DesignElement content,
 			ContainerContext toContainerInfor, int newPos )
-			throws ContentException
 	{
 		ActivityStack stack = getActivityStack( );
 

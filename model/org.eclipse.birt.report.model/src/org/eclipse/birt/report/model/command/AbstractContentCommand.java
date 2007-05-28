@@ -57,6 +57,11 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 	protected ContentElementInfo eventTarget;
 
+	/**
+	 * 
+	 * @param module
+	 * @param obj
+	 */
 	public AbstractContentCommand( Module module, DesignElement obj )
 	{
 		super( module, obj );
@@ -396,6 +401,12 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			ContainerContext toContainerInfor, int newPos )
 			throws ContentException
 	{
+		// if the source and destination is the same, then do the move position
+		if ( focus.equals( toContainerInfor ) )
+		{
+			movePosition( content, newPos );
+			return;
+		}
 		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
 			ContentElementCommand attrCmd = new ContentElementCommand( module,
@@ -424,24 +435,17 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 *            the position in the target slot to which the content will be
 	 *            moved. If it is -1 or greater than the size of the target
 	 *            slot, the content will be appended at the end of the slot.
-	 * @throws ContentException
-	 *             if the content cannot be moved to new container.
 	 */
 
 	protected void doMove( DesignElement content,
 			ContainerContext toContainerInfor, int newPos )
-			throws ContentException
 	{
-		ActivityStack stack = getActivityStack( );
-
-		ContentRecord record = new ContentRecord( module, focus, content, false );
-		record.setEventTarget( eventTarget );
-
-		stack.execute( record );
-		record = new ContentRecord( module, toContainerInfor, content, newPos );
-		stack.execute( record );
+		MoveContentRecord record = new MoveContentRecord( module, focus,
+				toContainerInfor, content, newPos );
 
 		record.setEventTarget( eventTarget );
+
+		getActivityStack( ).execute( record );
 	}
 
 	/**
@@ -501,11 +505,7 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			throw ContentExceptionFactory.createContentException(
 					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
-
-		// Do nothing if source and destination are the same.
-
-		if ( focus.equals( toContainerInfor ) )
-			return;
+		return;
 	}
 
 	/**

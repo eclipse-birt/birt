@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
@@ -64,8 +65,10 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -854,8 +857,10 @@ public class ContentCommandTest extends BaseTestCase
 		// Initialization
 
 		FreeForm toContainer = new FreeForm( );
-		GraphicMasterPage page = new GraphicMasterPage( );
+		designHandle.getBody( ).add( toContainer );
+		GraphicMasterPage page = new GraphicMasterPage( "test_page" ); //$NON-NLS-1$
 		GraphicMasterPageHandle pageHandle = page.handle( design );
+		designHandle.getMasterPages( ).add( pageHandle );
 
 		Label label1 = new Label( );
 		Label label2 = new Label( );
@@ -910,12 +915,46 @@ public class ContentCommandTest extends BaseTestCase
 
 		Label label5 = new Label( );
 		sHandle.add( label5.getHandle( design ) );
+		MyContentListener listener = new MyContentListener( );
+		label5.addListener( listener );
 		sHandle.move( label5.handle( design ), toContainer.handle( design ),
 				FreeForm.REPORT_ITEMS_SLOT, 1 );
 		assertEquals( 5, toContainer.handle( design ).getReportItems( )
 				.getCount( ) );
 		assertEquals( label5, toContainer.handle( design ).getReportItems( )
 				.get( 1 ).getElement( ) );
+		// the listerner is not cleared
+		label5.getHandle( design ).setProperty( ILabelModel.HELP_TEXT_PROP,
+				"helptext" ); //$NON-NLS-1$
+		assertNotNull( listener.event );
+		assertEquals( MyContentListener.CHANGE, listener.recieveChangeEvent );
+
+		// test the event notification for move action
+		libraryHandle = sessionHandle.createLibrary( );
+		ElementFactory factory = libraryHandle.getElementFactory( );
+		ThemeHandle newTheme = factory.newTheme( "testTheme" ); //$NON-NLS-1$
+		libraryHandle.getThemes( ).add( newTheme );
+		StyleHandle style = factory.newStyle( "style" ); //$NON-NLS-1$
+		newTheme.addElement( style, IThemeModel.STYLES_SLOT );
+		style = factory.newStyle( "style_1" ); //$NON-NLS-1$
+		newTheme.addElement( style, IThemeModel.STYLES_SLOT );
+		style = factory.newStyle( "table" ); //$NON-NLS-1$
+		newTheme.addElement( style, IThemeModel.STYLES_SLOT );
+
+		TableHandle table = factory.newTableItem( "testTable" ); //$NON-NLS-1$
+		libraryHandle.getComponents( ).add( table );
+		listener = new MyContentListener( );
+		table.addListener( listener );
+
+		// move style to the fist position in the same theme
+		style.moveTo( 0 );
+		assertNull( listener.event );
+
+		newTheme = factory.newTheme( "them_one" ); //$NON-NLS-1$
+		libraryHandle.getThemes( ).add( newTheme );
+		libraryHandle.setTheme( newTheme );
+		style.moveTo( newTheme, IThemeModel.STYLES_SLOT );
+		assertNotNull( listener.event );
 	}
 
 	/**
@@ -1546,7 +1585,8 @@ public class ContentCommandTest extends BaseTestCase
 		designHandle.rename( clonedCasHandle );
 		designHandle.getParameters( ).paste( clonedCasHandle );
 
-		NameSpace ns = design.getNameHelper( ).getNameSpace( Module.PARAMETER_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				Module.PARAMETER_NAME_SPACE );
 		assertEquals( "param11", clonedCasHandle.getParameters( ).get( 0 ) //$NON-NLS-1$
 				.getName( ) );
 		assertEquals( "param21", clonedCasHandle.getParameters( ).get( 1 ) //$NON-NLS-1$
@@ -1597,7 +1637,7 @@ public class ContentCommandTest extends BaseTestCase
 		command.add( groupHandle.getElement( ) );
 
 		assertEquals( PropertyEvent.PROPERTY_EVENT, groupListener.action );
-		assertTrue( groupListener.event instanceof PropertyEvent );
+		assertNotNull( groupListener );
 		assertEquals( IGroupElementModel.GROUP_NAME_PROP, groupListener.name );
 
 	}
@@ -1741,7 +1781,7 @@ public class ContentCommandTest extends BaseTestCase
 		{
 			if ( ev.getEventType( ) == NotificationEvent.CONTENT_EVENT )
 			{
-				event = (ContentEvent) ev;
+				event = ev;
 				int newAcion = ( (ContentEvent) ev ).getAction( );
 				content = ( (ContentEvent) ev ).getContent( );
 
@@ -1765,12 +1805,16 @@ public class ContentCommandTest extends BaseTestCase
 			}
 			else if ( ev.getEventType( ) == NotificationEvent.ELEMENT_DELETE_EVENT )
 			{
-				event = (ElementDeletedEvent) ev;
+				event = ev;
 			}
 			else if ( ev.getEventType( ) == NotificationEvent.PROPERTY_EVENT )
 			{
-				event = (PropertyEvent) ev;
+				event = ev;
 				recieveChangeEvent = CHANGE;
+			}
+			else if ( ev.getEventType( ) == NotificationEvent.STYLE_EVENT )
+			{
+				event = ev;
 			}
 		}
 

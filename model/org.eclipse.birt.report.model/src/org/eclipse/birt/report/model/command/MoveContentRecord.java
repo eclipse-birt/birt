@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
+import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
@@ -23,12 +24,18 @@ import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
  * Moves a content element within its container.
@@ -50,10 +57,15 @@ public class MoveContentRecord extends SimpleRecord
 	protected DesignElement content = null;
 
 	/**
-	 * The slot within the container that holds the content.
+	 * The source of this move action where the content is moved from.
 	 */
 
-	protected ContainerContext focus = null;
+	protected ContainerContext from = null;
+
+	/**
+	 * The destination of this move action where the content is moved to.
+	 */
+	protected ContainerContext to = null;
 
 	/**
 	 * The new position of the content.
@@ -68,7 +80,8 @@ public class MoveContentRecord extends SimpleRecord
 	protected int oldPosn = 0;
 
 	/**
-	 * Constructor.
+	 * Constructor.The move action is done to move the position in the same
+	 * container context.
 	 * 
 	 * @param theModule
 	 * 
@@ -83,22 +96,48 @@ public class MoveContentRecord extends SimpleRecord
 	public MoveContentRecord( Module theModule,
 			ContainerContext containerInfor, DesignElement obj, int posn )
 	{
+		init( theModule, containerInfor, containerInfor, obj, posn );
+	}
+
+	/**
+	 * Constructs the move content record. The move action is done between
+	 * diffrent container context.
+	 * 
+	 * @param theModule
+	 * @param from
+	 * @param to
+	 * @param obj
+	 * @param posn
+	 */
+	public MoveContentRecord( Module theModule, ContainerContext from,
+			ContainerContext to, DesignElement obj, int posn )
+	{
+		init( theModule, from, to, obj, posn );
+	}
+
+	private void init( Module theModule, ContainerContext from,
+			ContainerContext to, DesignElement obj, int posn )
+	{
 		module = theModule;
-		focus = containerInfor;
+		this.from = from;
+		this.to = to;
 		content = obj;
 		newPosn = posn;
 
-		assert focus != null;
-		assert focus.getContainerDefn( ) != null;
+		assert from != null;
+		assert to != null;
+		assert from.getContainerDefn( ) != null;
+		assert to.getContainerDefn( ) != null;
 		assert content != null;
-		assert focus.canContain( module, content );
-		assert newPosn >= 0 && newPosn < focus.getContentCount( module );
+		assert from.contains( module, content );
+		assert from == to || !to.contains( module, content );
 
-		oldPosn = focus.indexOf( module, content );
+		this.oldPosn = from.indexOf( module, content );
+		int count = to.getContentCount( module );
+		this.newPosn = ( posn == -1 || count < posn ) ? count : posn;
 
 		label = ModelMessages
 				.getMessage( MessageConstants.MOVE_CONTENT_MESSAGE );
-
 	}
 
 	/*
@@ -109,9 +148,25 @@ public class MoveContentRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		int from = undo ? newPosn : oldPosn;
-		int to = undo ? oldPosn : newPosn;
-		focus.move( module, from, to );
+		if ( this.from == this.to )
+		{
+			int from = undo ? newPosn : oldPosn;
+			int to = undo ? oldPosn : newPosn;
+			this.from.move( module, from, to );
+		}
+		else
+		{
+			if ( !undo )
+			{
+				from.remove( module, content );
+				to.add( module, content, newPosn );
+			}
+			else
+			{
+				from.add( module, content, oldPosn );
+				to.remove( module, content );
+			}
+		}
 	}
 
 	/*
@@ -125,7 +180,7 @@ public class MoveContentRecord extends SimpleRecord
 		if ( eventTarget != null )
 			return eventTarget.getElement( );
 
-		return focus.getElement( );
+		return to.getElement( );
 	}
 
 	/*
@@ -136,16 +191,30 @@ public class MoveContentRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		// if the element works like properties, return property event instead
-		// of content event.
+		return null;
+	}
 
-		if ( eventTarget != null )
-		{
-			return new PropertyEvent( eventTarget.getElement( ), eventTarget
-					.getPropName( ) );
-		}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 */
 
-		return new ContentEvent( focus, content, ContentEvent.SHIFT );
+	public List getValidators( )
+	{
+		List list = ValidationExecutor.getValidationNodes( from.getElement( ),
+				from.getTriggerSetForContainerDefn( ), false );
+		if ( to != from )
+			list.addAll( ValidationExecutor.getValidationNodes(
+					to.getElement( ), to.getTriggerSetForContainerDefn( ),
+					false ) );
+		// Validate the content.
+
+		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
+		list.addAll( ValidationExecutor.getValidationNodes( content,
+				contentDefn.getTriggerDefnSet( ), false ) );
+
+		return list;
 	}
 
 	/*
@@ -156,20 +225,157 @@ public class MoveContentRecord extends SimpleRecord
 
 	protected List getPostTasks( )
 	{
+		if ( from == to )
+		{
+			List retValue = new ArrayList( );
+			retValue.addAll( super.getPostTasks( ) );
+			NotificationEvent event = null;
+
+			// if the element works like properties, return property event
+			// instead of content event.
+			if ( eventTarget != null )
+			{
+				event = new PropertyEvent( eventTarget.getElement( ),
+						eventTarget.getPropName( ) );
+			}
+			else
+			{
+				event = new ContentEvent( from, content, ContentEvent.SHIFT );
+			}
+			retValue.add( new NotificationRecordTask( getTarget( ), event ) );
+
+			if ( !( content instanceof TableGroup
+					|| content instanceof TableRow || content instanceof Cell ) )
+				return retValue;
+
+			ReportItem compoundElement = LayoutUtil.getCompoundContainer( from
+					.getElement( ) );
+			if ( compoundElement == null )
+				return retValue;
+
+			retValue.add( new LayoutRecordTask( compoundElement.getRoot( ),
+					compoundElement ) );
+			return retValue;
+		}
+
+		// now the source and destination container context is different
 		List retValue = new ArrayList( );
 		retValue.addAll( super.getPostTasks( ) );
 
-		if ( !( content instanceof TableGroup || content instanceof TableRow || content instanceof Cell ) )
-			return retValue;
+		// if the element works like properties, return property event
+		// instead of content event.
+		if ( eventTarget != null )
+		{
+			NotificationEvent event = new PropertyEvent( eventTarget
+					.getElement( ), eventTarget.getPropName( ) );
 
-		ReportItem compoundElement = LayoutUtil.getCompoundContainer( focus
-				.getElement( ) );
-		if ( compoundElement == null )
-			return retValue;
+			retValue
+					.add( new NotificationRecordTask( from.getElement( ), event ) );
 
-		retValue.add( new LayoutRecordTask( compoundElement.getRoot( ),
-				compoundElement ) );
+			// TODO: the eventTarget is calculated for from, it is wrong, we
+			// should get event target for 'to'
+			retValue
+					.add( new NotificationRecordTask( to.getElement( ), event ) );
+
+			return retValue;
+		}
+
+		// if from and to is related some layout changes in table or grid, then
+		// send the layout event
+		ReportItem fromLayout = getLayoutElement( from );
+		ReportItem toLayout = getLayoutElement( to );
+		if ( fromLayout != null )
+			retValue.add( new LayoutRecordTask( module, fromLayout ) );
+		if ( toLayout != null && toLayout != fromLayout )
+			retValue.add( new LayoutRecordTask( module, toLayout ) );
+
+		// Send the content changed event to the container.
+		NotificationEvent event = null;
+
+		// if do or redo, then send content remove to 'from', otherwise the
+		// reverse
+		boolean isDo = isDo( );
+		NotificationEvent styleSelectorEvent = null;
+		int action = isDo ? ContentEvent.REMOVE : ContentEvent.ADD;
+
+		event = new ContentEvent( from, content, action );
+		// if undo, then the 'from' recieve content add notification, therefore,
+		// the style selector should be this event
+		if ( !isDo )
+			styleSelectorEvent = event;
+		if ( state == DONE_STATE )
+			event.setSender( sender );
+		retValue.add( new NotificationRecordTask( from.getElement( ), event ) );
+		// if do or redo, send content add to 'from', otherwise the reverse
+		action = isDo ? ContentEvent.ADD : ContentEvent.REMOVE;
+		event = new ContentEvent( to, content, action );
+		// if do or redo, then the 'to' recieve content add notification,
+		// therefore, the style selector should be this event
+		if ( isDo )
+			styleSelectorEvent = event;
+		if ( state == DONE_STATE )
+			event.setSender( sender );
+		retValue.add( new NotificationRecordTask( to.getElement( ), event ) );
+
+		// If the content was added, then send an element added
+		// event to the content.
+		if ( isSelector( content ) )
+		{
+			assert styleSelectorEvent != null;
+			retValue.add( new NotificationRecordTask( content, event, from
+					.getElement( ).getRoot( ) ) );
+		}
+
 		return retValue;
 	}
 
+	/**
+	 * Indicate whether the given <code>content</code> is a CSS-selecter.
+	 * 
+	 * @param content
+	 *            a given design element
+	 * @return <code>true</code> if it is a predefined style.
+	 */
+
+	private boolean isSelector( DesignElement content )
+	{
+		if ( !( content instanceof StyleElement ) )
+			return false;
+
+		return MetaDataDictionary.getInstance( ).getPredefinedStyle(
+				content.getName( ) ) != null;
+	}
+
+	/**
+	 * Determines the record is done or undone.
+	 * 
+	 * @return
+	 */
+	boolean isDo( )
+	{
+		if ( state == DONE_STATE || state == REDONE_STATE )
+			return true;
+		return false;
+	}
+
+	/**
+	 * Gets the layout element that the focus will affect.
+	 * 
+	 * @param focus
+	 * @return
+	 */
+	private ReportItem getLayoutElement( ContainerContext focus )
+	{
+		DesignElement container = focus.getElement( );
+		if ( container instanceof TableItem || container instanceof GridItem
+				|| container instanceof TableGroup
+				|| container instanceof TableRow )
+		{
+			ReportItem compoundElement = LayoutUtil
+					.getCompoundContainer( container );
+			return compoundElement;
+		}
+
+		return null;
+	}
 }
