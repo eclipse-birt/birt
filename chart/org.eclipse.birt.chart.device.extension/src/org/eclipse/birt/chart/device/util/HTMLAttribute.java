@@ -18,6 +18,7 @@ public class HTMLAttribute
 	public static final HTMLAttribute ONFOCUS = new HTMLAttribute("onfocus"); //$NON-NLS-1$
 	public static final HTMLAttribute ONBLUR = new HTMLAttribute("onblur"); //$NON-NLS-1$
 	public static final HTMLAttribute ONCLICK = new HTMLAttribute("onclick"); //$NON-NLS-1$
+	public static final HTMLAttribute ONDBLCLICK = new HTMLAttribute("ondblclick"); //$NON-NLS-1$
 	public static final HTMLAttribute TARGET = new HTMLAttribute("target"); //$NON-NLS-1$
 	public static final HTMLAttribute HREF = new HTMLAttribute("href"); //$NON-NLS-1$
 	public static final HTMLAttribute ALT = new HTMLAttribute("alt"); //$NON-NLS-1$
