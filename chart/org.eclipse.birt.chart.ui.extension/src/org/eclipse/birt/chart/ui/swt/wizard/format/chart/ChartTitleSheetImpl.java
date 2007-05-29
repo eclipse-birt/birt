@@ -1,11 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+/***********************************************************************
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
@@ -46,15 +48,15 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener,
 		Listener
 {
-	private transient ExternalizedTextEditorComposite txtTitle = null;
+	private ExternalizedTextEditorComposite txtTitle = null;
 	
-	private transient FontDefinitionComposite fdcFont;
+	private FontDefinitionComposite fdcFont;
 	
-	private transient Button btnTitleProp;
+	private Button btnTitleProp;
 	
-	private transient Button btnVisible;
+	private Button btnVisible;
 //	
-//	private transient Button btnTooltip;
+//	private Button btnTooltip;
 
 	public void createControl( Composite parent )
 	{
@@ -156,7 +158,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 4, false ) );
+			cmp.setLayout( new GridLayout( 5, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;

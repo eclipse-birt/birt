@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -85,63 +85,66 @@ public class TaskSelectType extends SimpleTask implements
 		ITaskChangeListener
 {
 
-	private transient Chart chartModel = null;
+	private Chart chartModel = null;
 
-	private transient Composite cmpPreview = null;
+	private Composite cmpPreview = null;
 
-	private transient Composite cmpType = null;
+	private Composite cmpType = null;
 
-	private transient Composite cmpMisc = null;
+	private Composite cmpMisc = null;
 
-	private transient Composite cmpRight = null;
+	private Composite cmpRight = null;
 
-	private transient Composite cmpLeft = null;
+	private Composite cmpLeft = null;
 
-	private transient Composite cmpTypeButtons = null;
+	private Composite cmpTypeButtons = null;
 
-	private transient Composite cmpSubTypes = null;
+	private Composite cmpSubTypes = null;
 
-	private transient Canvas previewCanvas = null;
+	private Canvas previewCanvas = null;
 
-	private transient ChartPreviewPainter previewPainter = null;
+	private ChartPreviewPainter previewPainter = null;
 
-	private transient LinkedHashMap htTypes = null;
+	private LinkedHashMap htTypes = null;
 
-	private transient RowData rowData = new RowData( 80, 80 );
+	private RowData rowData = new RowData( 80, 80 );
 
-	private transient String sSubType = null;
+	private String sSubType = null;
 
-	private transient String sType = null;
+	private String sType = null;
 
-	private transient String sOldType = null;
+	private String sOldType = null;
 
 	// Stored in IChartType
-	private transient String sDimension = null;
+	private String sDimension = null;
 
-	private transient Table table = null;
+	private Table table = null;
 
-	private transient Vector vSubTypeNames = null;
+	private Vector vSubTypeNames = null;
 
-	private transient Orientation orientation = null;
+	private Orientation orientation = null;
 
-	private transient Label lblOrientation = null;
-	private transient Button cbOrientation = null;
+	private Label lblOrientation = null;
+	private Button cbOrientation = null;
 
-	private transient Label lblMultipleY = null;
-	private transient Combo cbMultipleY = null;
+	private Label lblMultipleY = null;
+	private Combo cbMultipleY = null;
 
-	private transient Label lblSeriesType = null;
-	private transient Combo cbSeriesType = null;
+	private Label lblSeriesType = null;
+	private Combo cbSeriesType = null;
 
-	private transient Label lblDimension = null;
-	private transient Combo cbDimension = null;
+	private Label lblDimension = null;
+	private Combo cbDimension = null;
 
-	private transient Label lblOutput = null;
-	private transient Combo cbOutput = null;
+	private Label lblOutput = null;
+	private Combo cbOutput = null;
 
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
 	private static Hashtable htSeriesNames = null;
+	
+	private static final int LABEL_WIDTH_HINT = 80;
+	private static final int CHART_TABLE_WIDTH_HINT = 150;
 
 	public TaskSelectType( )
 	{
@@ -263,34 +266,49 @@ public class TaskSelectType extends SimpleTask implements
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		GridData gridData = null;
-
-		lblDimension = new Label( cmpMisc, SWT.NONE );
-		lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
-
+		lblDimension = new Label( cmpMisc, SWT.WRAP );
+		{
+			GridData gd = new GridData();
+			gd.widthHint = LABEL_WIDTH_HINT;
+			lblDimension.setLayoutData( gd );
+			lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
+		}
+		
 		// Add the ComboBox for Dimensions
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		gridData = new GridData( GridData.GRAB_HORIZONTAL );
-		cbDimension.setLayoutData( gridData );
-		cbDimension.addSelectionListener( this );
-
-		lblOutput = new Label( cmpMisc, SWT.NONE );
 		{
-			gridData = new GridData( );
-			gridData.horizontalIndent = 10;
-			lblOutput.setLayoutData( gridData );
+			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			gd.widthHint = LABEL_WIDTH_HINT;
+			cbDimension.setLayoutData( gd );
+			cbDimension.addSelectionListener( this );
+		}
+
+		lblOutput = new Label( cmpMisc, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 10;
+			gd.widthHint = LABEL_WIDTH_HINT;
+			lblOutput.setLayoutData( gd );
 			lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
 		}
 
 		// Add the ComboBox for Output Format
 		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		gridData = new GridData( GridData.GRAB_HORIZONTAL );
-		cbOutput.setLayoutData( gridData );
-		cbOutput.addSelectionListener( this );
+		{
+			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			gd.widthHint = LABEL_WIDTH_HINT;
+			cbOutput.setLayoutData( gd );
+			cbOutput.addSelectionListener( this );
+		}
 
-		lblMultipleY = new Label( cmpMisc, SWT.NONE );
-		lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
-
+		lblMultipleY = new Label( cmpMisc, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = LABEL_WIDTH_HINT;
+			lblMultipleY.setLayoutData( gd );
+			lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
+		}
+		
 		// Add the checkBox for Multiple Y Axis
 		cbMultipleY = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
@@ -299,17 +317,21 @@ public class TaskSelectType extends SimpleTask implements
 					Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
 					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
 			} );
+			GridData gd = new GridData( );
+			gd.widthHint = LABEL_WIDTH_HINT;
+			cbMultipleY.setLayoutData( gd );
 			cbMultipleY.addSelectionListener( this );
 
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 			selectMultipleAxis( axisNum );
 		}
 
-		lblSeriesType = new Label( cmpMisc, SWT.NONE );
+		lblSeriesType = new Label( cmpMisc, SWT.WRAP );
 		{
-			gridData = new GridData( );
-			gridData.horizontalIndent = 10;
-			lblSeriesType.setLayoutData( gridData );
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 10;
+			gd.widthHint = LABEL_WIDTH_HINT;
+			lblSeriesType.setLayoutData( gd );
 			lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
 			lblSeriesType.setEnabled( false );
 		}
@@ -318,21 +340,29 @@ public class TaskSelectType extends SimpleTask implements
 		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			gd.widthHint = LABEL_WIDTH_HINT;
 			cbSeriesType.setLayoutData( gd );
 			cbSeriesType.setEnabled( false );
 			cbSeriesType.addSelectionListener( this );
 		}
 
-		lblOrientation = new Label( cmpMisc, SWT.NONE );
-		lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
-
+		lblOrientation = new Label( cmpMisc, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = LABEL_WIDTH_HINT;
+			lblOrientation.setLayoutData( gd );
+			lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
+		}
+		
 		// Add the CheckBox for Orientation
 		cbOrientation = new Button( cmpMisc, SWT.CHECK );
-		cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
-		gridData = new GridData( );
-		gridData.horizontalSpan = 3;
-		cbOrientation.setLayoutData( gridData );
-		cbOrientation.addSelectionListener( this );
+		{
+			cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 3;
+			cbOrientation.setLayoutData( gd );
+			cbOrientation.addSelectionListener( this );
+		}
 
 		populateLists( );
 	}
@@ -347,17 +377,22 @@ public class TaskSelectType extends SimpleTask implements
 		cmpLeft.setLayout( new GridLayout( ) );
 		cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Label lblTypes = new Label( cmpLeft, SWT.NO_FOCUS );
+		Label lblTypes = new Label( cmpLeft, SWT.WRAP );
 		{
+			GridData gd = new GridData();
+			gd.widthHint = CHART_TABLE_WIDTH_HINT;
+			lblTypes.setLayoutData( gd );
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
 
 		table = new Table( cmpLeft, SWT.BORDER );
-		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gdTable.heightHint = 205;
-		table.setLayoutData( gdTable );
-		table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
-		table.addSelectionListener( this );
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.widthHint = CHART_TABLE_WIDTH_HINT;
+			table.setLayoutData( gd );
+			table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
+			table.addSelectionListener( this );
+		}
 	}
 
 	/**

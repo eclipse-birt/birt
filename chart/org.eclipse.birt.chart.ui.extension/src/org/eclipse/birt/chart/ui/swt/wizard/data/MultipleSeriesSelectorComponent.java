@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,19 +33,19 @@ import org.eclipse.swt.widgets.Label;
 public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 {
 
-	private transient EList[] seriesDefnsArray;
+	private EList[] seriesDefnsArray;
 
-	private transient ChartWizardContext wizardContext = null;
+	private ChartWizardContext wizardContext = null;
 
-	private transient String sTitle = null;
+	private String sTitle = null;
 
-	private transient Group cmpLeft;
+	private Group cmpLeft;
 
-	private transient DataDefinitionSelector[] selectors;
+	private DataDefinitionSelector[] selectors;
 
-	private transient ISelectDataCustomizeUI selectDataUI = null;
+	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private transient String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
+	private String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
 
 	public MultipleSeriesSelectorComponent( EList[] seriesDefnsArray,
 			ChartWizardContext wizardContext, String sTitle,
@@ -72,7 +72,9 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpLeft.setLayout( gridLayout );
-			cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+//			gd.minimumWidth = 150;
+			cmpLeft.setLayoutData( gd );
 			cmpLeft.setText( areaTitle );
 		}
 

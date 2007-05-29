@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
@@ -71,14 +73,21 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private static Hashtable htSeriesNames = null;
 
-	private transient Combo cmbColorBy;
+	private Combo cmbColorBy;
 
-	private transient ITaskPopupSheet popup = null;
+	private ITaskPopupSheet popup = null;
+	
+	private static final int SERIES_WIDTH_HINT = 100;
+	private static final int LABEL_WIDTH_HINT = 80;
+	private static final int HORIZONTAL_SPACING = 5;
 
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
-		final int COLUMN_CONTENT = 4;
+		final int COLUMN_CONTENT = 4;		
+		final int COLUMN_DETAIL = 6;
+		final int COMPOSITE_WIDTH = ( LABEL_WIDTH_HINT + HORIZONTAL_SPACING )
+				* COLUMN_DETAIL;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
 			public Point computeSize( int wHint, int hHint, boolean changed )
@@ -86,12 +95,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				// Return a fixed height as preferred size of scrolled composite
 				Point p = super.computeSize( wHint, hHint, changed );
 				p.y = 200;
+				p.x = COMPOSITE_WIDTH;
 				return p;
 			}
 		};
 		{
 			GridLayout glContent = new GridLayout( COLUMN_CONTENT, false );
-			glContent.horizontalSpacing = 10;
+			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -112,10 +122,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			cmbColorBy.addSelectionListener( this );
 		}
 
-		final int COLUMN_DETAIL = 6;
-
 		ScrolledComposite cmpScroll = new ScrolledComposite( cmpContent,
-				SWT.V_SCROLL );
+				SWT.V_SCROLL | SWT.H_SCROLL );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = COLUMN_CONTENT;
@@ -124,6 +132,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			cmpScroll.setMinHeight( ( ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) )
 					.size( ) + 1 ) * 24 + 40 );
+			cmpScroll.setMinWidth( COMPOSITE_WIDTH );
 			cmpScroll.setExpandVertical( true );
 			cmpScroll.setExpandHorizontal( true );
 		}
@@ -131,61 +140,67 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		Composite cmpList = new Composite( cmpScroll, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( COLUMN_DETAIL, false );
-			glContent.horizontalSpacing = 10;
+			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpList.setLayout( glContent );
 
 			cmpScroll.setContent( cmpList );
 		}
 
-		Label lblSeries = new Label( cmpList, SWT.NONE );
+		Label lblSeries = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = SERIES_WIDTH_HINT;
 			lblSeries.setLayoutData( gd );
 			lblSeries.setFont( JFaceResources.getBannerFont( ) );
 			lblSeries.setText( Messages.getString( "SeriesSheetImpl.Label.Series" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTitle = new Label( cmpList, SWT.NONE );
+		Label lblTitle = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblTitle.setLayoutData( gd );
 			lblTitle.setFont( JFaceResources.getBannerFont( ) );
 			lblTitle.setText( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpList, SWT.NONE );
+		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblType.setLayoutData( gd );
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.NONE );
+		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT - 25;
 			lblVisible.setLayoutData( gd );
 			lblVisible.setFont( JFaceResources.getBannerFont( ) );
 			lblVisible.setText( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblStack = new Label( cmpList, SWT.NONE );
+		Label lblStack = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT - 20;
 			lblStack.setLayoutData( gd );
 			lblStack.setFont( JFaceResources.getBannerFont( ) );
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTranslucent = new Label( cmpList, SWT.NONE );
+		Label lblTranslucent = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblTranslucent.setLayoutData( gd );
 			lblTranslucent.setFont( JFaceResources.getBannerFont( ) );
 			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
@@ -275,19 +290,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	private class SeriesOptionChoser implements SelectionListener, Listener
 	{
 
-		private transient SeriesDefinition seriesDefn;
-		private transient String seriesName;
+		private SeriesDefinition seriesDefn;
+		private String seriesName;
 
-		private transient Link linkSeries;
-		private transient ExternalizedTextEditorComposite txtTitle;
-		private transient Combo cmbTypes;
-		private transient Button btnVisible;
-		private transient Button btnStack;
-		private transient Button btnTranslucent;
+		private Link linkSeries;
+		private ExternalizedTextEditorComposite txtTitle;
+		private Combo cmbTypes;
+		private Button btnVisible;
+		private Button btnStack;
+		private Button btnTranslucent;
 
-		private transient int iSeriesDefinitionIndex = 0;
+		private int iSeriesDefinitionIndex = 0;
 		// Index of tree item in the navigator tree
-		private transient int treeIndex = 0;
+		private int treeIndex = 0;
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex )
@@ -304,6 +319,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			linkSeries = new Link( parent, SWT.NONE );
 			{
+				GridData gd = new GridData( );
+				gd.widthHint = SERIES_WIDTH_HINT;
+				linkSeries.setLayoutData( gd );
 				linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
 				linkSeries.addSelectionListener( this );
 			}
@@ -318,7 +336,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			txtTitle = new ExternalizedTextEditorComposite( parent,
 					SWT.BORDER | SWT.SINGLE,
 					-1,
-					-1,
+					LABEL_WIDTH_HINT,
 					keys,
 					getContext( ).getUIServiceProvider( ),
 					series.getSeriesIdentifier( ).toString( ) );
@@ -330,7 +348,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				GridData gd = new GridData( );
+				gd.widthHint = LABEL_WIDTH_HINT;
 				cmbTypes.setLayoutData( gd );
 				cmbTypes.addSelectionListener( this );
 				// Disable the conversion of the first series

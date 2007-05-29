@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -85,23 +85,23 @@ public class TaskSelectData extends SimpleTask implements
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
-	private transient ChartPreviewPainter previewPainter = null;
+	private ChartPreviewPainter previewPainter = null;
 
-	private transient Composite cmpPreview = null;
-	private transient Canvas previewCanvas = null;
+	private Composite cmpPreview = null;
+	private Canvas previewCanvas = null;
 
-	private transient Button btnUseReportData = null;
-	private transient Button btnUseDataSet = null;
-	private transient Combo cmbDataSet = null;
-	private transient Button btnNewData = null;
+	private Button btnUseReportData = null;
+	private Button btnUseDataSet = null;
+	private Combo cmbDataSet = null;
+	private Button btnNewData = null;
 
-	private transient CustomPreviewTable tablePreview = null;
-	private transient Button btnFilters = null;
-	private transient Button btnParameters = null;
-	private transient Button btnBinding = null;
+	private CustomPreviewTable tablePreview = null;
+	private Button btnFilters = null;
+	private Button btnParameters = null;
+	private Button btnBinding = null;
 
-	private transient SelectDataDynamicArea dynamicArea;
-	private transient String BLANK_DATASET = ""; //$NON-NLS-1$
+	private SelectDataDynamicArea dynamicArea;
+	private String BLANK_DATASET = ""; //$NON-NLS-1$
 
 	public TaskSelectData( )
 	{
@@ -309,8 +309,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 		Label description = new Label( composite, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
-			gd.widthHint = CENTER_WIDTH_HINT;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			description.setLayoutData( gd );
 			description.setText( Messages.getString( "TaskSelectData.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 		}
@@ -335,7 +334,8 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Composite composite = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			composite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
+			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_END ) );
 		}
 
 		btnFilters = new Button( composite, SWT.NONE );

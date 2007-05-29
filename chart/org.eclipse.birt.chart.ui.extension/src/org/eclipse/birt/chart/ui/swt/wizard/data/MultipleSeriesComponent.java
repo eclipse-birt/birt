@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -30,12 +29,10 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -48,25 +45,25 @@ import org.eclipse.swt.widgets.Listener;
 public class MultipleSeriesComponent extends DefaultSelectDataComponent
 {
 
-	private transient EList[] seriesDefnsArray;
+	private EList[] seriesDefnsArray;
 
-	private transient ChartWizardContext context = null;
+	private ChartWizardContext context = null;
 
-	private transient String sTitle = null;
+	private String sTitle = null;
 
 	private static final String LABEL_GROUPING_YSERIES = Messages.getString( "MultipleSeriesComponent.Label.OptionalYSeriesGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_OVERLAY = Messages.getString( "MultipleSeriesComponent.Label.OptionalOverlayGrouping" ); //$NON-NLS-1$
 	private static final String LABEL_GROUPING_WITHOUTAXIS = Messages.getString( "MultipleSeriesComponent.Label.OptionalGrouping" ); //$NON-NLS-1$
 
-	private transient ISelectDataCustomizeUI selectDataUI = null;
+	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private transient ArrayList components = new ArrayList( );
+	private ArrayList components = new ArrayList( );
 
-	private transient boolean isSingle = false;
+	private boolean isSingle = false;
 
 	// THIS FLAG TO INDICATE ONLY FIRST SERIES GROUPING IS VALID. CHART ENGINE
 	// NOT SUPPORT MULIPLE GROUPING.
-	private transient boolean useFirstOnly = true;
+	private boolean useFirstOnly = true;
 
 	public MultipleSeriesComponent( EList[] seriesDefnsArray,
 			ChartWizardContext context, String sTitle,
@@ -135,8 +132,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 				Label lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
 				{
-					GridData gd = new GridData( );
-					gd.widthHint = getStandardWidth( ) * 14;
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 					lblRightYGrouping.setLayoutData( gd );
 					lblRightYGrouping.setText( strDesc );
 				}
@@ -162,16 +158,10 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 						{
 							final String query = event.text;
 							// Copy the group query to other query definitions.
-							ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-								public Object run( )
-								{
-									ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
-											query );
-									return null;
-								}
-
-							} );
+							ChartAdapter.beginIgnoreNotifications( );
+							ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
+									query );
+							ChartAdapter.endIgnoreNotifications( );
 
 						}
 					} );
@@ -179,12 +169,20 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					components.add( subUI );
 				}
 
-				Label lblSorting = new Label( cmpGroup, SWT.NONE );
-				lblSorting.setText( Messages.getString( "MultipleSeriesComponent.Label.GroupSorting" ) ); //$NON-NLS-1$
+				Label lblSorting = new Label( cmpGroup, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblSorting.setLayoutData( gd );
+					lblSorting.setText( Messages.getString( "MultipleSeriesComponent.Label.GroupSorting" ) ); //$NON-NLS-1$
+				}
 
 				final Combo cmbSorting = new Combo( cmpGroup, SWT.DROP_DOWN
 						| SWT.READ_ONLY );
-				cmbSorting.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					gd.widthHint = 60;
+					cmbSorting.setLayoutData( gd );
+				}
 
 				// populate sorting combo
 				String[] nss = LiteralHelper.sortOptionSet.getDisplayNames( );
@@ -207,24 +205,19 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 						sd.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
 
 						// Update the query sortings of other series.
-						ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-							public Object run( )
+						ChartAdapter.beginIgnoreNotifications( );
+						List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+						for ( int i = 0; i < sds.size( ); i++ )
+						{
+							if ( i != 0 )
 							{
-								List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
-								for ( int i = 0; i < sds.size( ); i++ )
-								{
-									if ( i != 0 )
-									{
-										// Except for the first, which should be
-										// changed manually.
-										SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
-										sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
-									}
-								}
-								return null;
+								// Except for the first, which should be
+								// changed manually.
+								SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
+								sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
 							}
-						} );
+						}
+						ChartAdapter.endIgnoreNotifications( );
 					}
 				} );
 
@@ -242,27 +235,14 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	 */
 	private void initSorting( )
 	{
-		ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-			public Object run( )
-			{
-				List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
-				for ( int i = 0; i < sds.size( ); i++ )
-				{
-					SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
-					sdf.setSorting( SortOption.ASCENDING_LITERAL );
-				}
-				return null;
-			}
-		} );
-	}
-
-	private int getStandardWidth( )
-	{
-		GC gc = new GC( Display.getCurrent( ) );
-		int width = gc.textExtent( "X" ).x; //$NON-NLS-1$
-		gc.dispose( );
-		return width;
+		ChartAdapter.beginIgnoreNotifications( );
+		List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
+		for ( int i = 0; i < sds.size( ); i++ )
+		{
+			SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
+			sdf.setSorting( SortOption.ASCENDING_LITERAL );
+		}
+		ChartAdapter.endIgnoreNotifications( );
 	}
 
 	public void selectArea( boolean selected, Object data )

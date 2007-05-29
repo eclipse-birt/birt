@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
@@ -48,11 +50,11 @@ import org.eclipse.swt.widgets.TreeItem;
  * 
  */
 public class AxisSheetImpl extends SubtaskSheetImpl
-
 {
 
-	private static final int HORIZONTAL_SPACING = 30;
-
+	private static final int LABEL_WIDTH_HINT = 100;
+	private static final int HORIZONTAL_SPACING = 10;
+	
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
@@ -67,7 +69,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				p.y = 200;
 				return p;
 			}
-		};;
+		};
 		{
 			GridLayout glContent = new GridLayout( 1, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
@@ -83,7 +85,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			cmpScroll.setLayoutData( gd );
 
 			cmpScroll.setMinHeight( ( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) + ( ChartUIUtil.is3DType( getChart( ) ) ? 2
-					: 1 ) ) * 24 + 40 );
+					: 1 ) ) * 24 + 80 );
 			cmpScroll.setExpandVertical( true );
 			cmpScroll.setExpandHorizontal( true );
 		}
@@ -97,37 +99,41 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			cmpScroll.setContent( cmpList );
 		}
 
-		Label lblAxis = new Label( cmpList, SWT.NONE );
+		Label lblAxis = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblAxis.setLayoutData( gd );
 			lblAxis.setFont( JFaceResources.getBannerFont( ) );
 			lblAxis.setText( Messages.getString( "AxisSheetImpl.Label.Axis" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.NONE );
+		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblVisible.setLayoutData( gd );
 			lblVisible.setFont( JFaceResources.getBannerFont( ) );
 			lblVisible.setText( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpList, SWT.NONE );
+		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblType.setLayoutData( gd );
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "AxisSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblColor = new Label( cmpList, SWT.NONE );
+		Label lblColor = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
+			gd.widthHint = LABEL_WIDTH_HINT;
 			lblColor.setLayoutData( gd );
 			lblColor.setFont( JFaceResources.getBannerFont( ) );
 			lblColor.setText( Messages.getString( "AxisSheetImpl.Label.Color" ) ); //$NON-NLS-1$
@@ -162,17 +168,17 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	private class AxisOptionChoser implements SelectionListener, Listener
 	{
 
-		private transient Link linkAxis;
-		private transient Combo cmbTypes;
-		private transient Button btnVisible;
-		private transient FillChooserComposite cmbColor;
-//		private transient IntegerSpinControl iscRotation;
-		private transient Axis axis;
-		private transient String axisName;
-		private transient int angleType;
+		private Link linkAxis;
+		private Combo cmbTypes;
+		private Button btnVisible;
+		private FillChooserComposite cmbColor;
+//		private IntegerSpinControl iscRotation;
+		private Axis axis;
+		private String axisName;
+		private int angleType;
 
-		// Index of tree item in the navigator tee
-		private transient int treeIndex = 0;
+		// Index of tree item in the navigator tree
+		private int treeIndex = 0;
 
 		public AxisOptionChoser( Axis axis, String axisName, int angleType,
 				int treeIndex )
@@ -187,6 +193,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			linkAxis = new Link( parent, SWT.NONE );
 			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.widthHint = LABEL_WIDTH_HINT;
+				linkAxis.setLayoutData( gd );
 				linkAxis.setText( "<a>" + axisName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
 				linkAxis.addSelectionListener( this );
 			}
@@ -202,8 +211,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
-				GridData gd = new GridData( );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalAlignment = SWT.CENTER;
+				gd.widthHint = LABEL_WIDTH_HINT;
 				cmbTypes.setLayoutData( gd );
 				NameSet ns = LiteralHelper.axisTypeSet;
 				cmbTypes.setItems( ns.getDisplayNames( ) );
@@ -219,8 +229,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			cmbColor = new FillChooserComposite( parent, SWT.DROP_DOWN
 					| SWT.READ_ONLY, getContext( ), clrCurrent, false, false );
 			{
-				GridData gd = new GridData( );
-				gd.widthHint = 200;
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.widthHint = LABEL_WIDTH_HINT;
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
 			}

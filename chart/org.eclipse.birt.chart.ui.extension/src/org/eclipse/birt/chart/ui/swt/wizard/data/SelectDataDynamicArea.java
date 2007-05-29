@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,7 +33,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
@@ -44,21 +43,21 @@ import org.eclipse.swt.widgets.Composite;
 public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 {
 
-	private transient ITask task = null;
-	private transient Hashtable htSeriesUIProviders = null;
+	private ITask task = null;
+	private Hashtable htSeriesUIProviders = null;
 
-	private transient CustomPreviewTable customTable = null;
+	private CustomPreviewTable customTable = null;
 
-	protected transient List subLeftAreas = new ArrayList( );
-	protected transient List subRightAreas = new ArrayList( );
+	protected List subLeftAreas = new ArrayList( );
+	protected List subRightAreas = new ArrayList( );
 
-	protected transient Composite cmpLeftArea = null;
-	protected transient Composite cmpRightArea = null;
-	protected transient Composite cmpBottomArea = null;
+	protected Composite cmpLeftArea = null;
+	protected Composite cmpRightArea = null;
+	protected Composite cmpBottomArea = null;
 
-	protected transient ISelectDataComponent bottomArea;
+	protected ISelectDataComponent bottomArea;
 
-	private transient int[] seriesIndex = new int[0];
+	private int[] seriesIndex = new int[0];
 
 	public SelectDataDynamicArea( ITask task )
 	{
@@ -177,8 +176,10 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	{
 		cmpLeftArea = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			cmpLeftArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-					| GridData.VERTICAL_ALIGN_CENTER ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_CENTER );
+			gd.minimumWidth = 100;
+			cmpLeftArea.setLayoutData( gd );
 		}
 
 		if ( getChartModel( ) instanceof ChartWithAxes )
@@ -257,7 +258,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	private EList getYAxisListForProcessing( )
 	{
-		Assert.isTrue( getChartModel( ) instanceof ChartWithAxes );
 		return ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( ).get( 0 ) ).getAssociatedAxes( );
 	}
 

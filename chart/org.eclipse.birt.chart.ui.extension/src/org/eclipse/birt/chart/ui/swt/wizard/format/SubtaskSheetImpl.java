@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,31 +49,31 @@ import org.eclipse.swt.widgets.Widget;
 public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 {
 
-	private transient String sNodePath = ""; //$NON-NLS-1$
+	private String sNodePath = ""; //$NON-NLS-1$
 
-	private transient String sTitle = ""; //$NON-NLS-1$
+	private String sTitle = ""; //$NON-NLS-1$
 
-	private transient int subtaskIndex = 0;
+	private int subtaskIndex = 0;
 
-	protected transient Composite cmpContent = null;
+	protected Composite cmpContent = null;
 
-	private transient ChartWizardContext context = null;
+	private ChartWizardContext context = null;
 
-	private transient WizardBase wizard;
+	private WizardBase wizard;
 
-	private transient Shell popupShell;
+	private Shell popupShell;
 
-	private transient ITaskPopupSheet popupSheet;
+	private ITaskPopupSheet popupSheet;
 
-	private transient ITask parentTask;
+	private ITask parentTask;
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private transient Map popupButtonRegistry = new HashMap( 6 );
+	private Map popupButtonRegistry = new HashMap( 6 );
 
-	private transient Map popupSheetRegistry = new HashMap( 6 );
+	private Map popupSheetRegistry = new HashMap( 6 );
 
-	private transient Map lastPopupRegistry = new HashMap( 3 );
+	private Map lastPopupRegistry = new HashMap( 3 );
 
 	public SubtaskSheetImpl( )
 	{
@@ -264,9 +264,13 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		GC gc = new GC( parent );
 		int width = Math.max( 80, gc.textExtent( popupName ).x + 8 );
 		gc.dispose( );
+		
+		// To set the span for Button if width is too long
+		int horizontalSpan = width / 66;
 
 		GridData gd = new GridData( );
 		gd.widthHint = width;
+		gd.horizontalSpan = horizontalSpan;
 		button.setLayoutData( gd );
 
 		popupButtonRegistry.put( popupName, button );
