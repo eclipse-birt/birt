@@ -356,7 +356,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				Object[][] keys = new Object[selectedKeyList.size( )][];
 				for ( int k = 0; k < keys.length; k++ )
 				{
-					keys[k] = (Object[]) selectedKeyList.get( k );
+					keys[k] = ( (MultiKey) selectedKeyList.get( k ) ).levelKey;
 				}
 				ISelection selection = SelectionFactory.createMutiKeySelection( keys );
 				LevelFilter filter = new LevelFilter( target, new ISelection[]{
@@ -380,9 +380,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		int i = 0, j = 0;
 		while ( i < levelKeyArray1.size( ) && j < levelKeyArray2.size( ) )
 		{
-			Object[] key1 = (Object[]) levelKeyArray1.get( i );
-			Object[] key2 = (Object[]) levelKeyArray2.get( j );
-			int ret = CompareUtil.compare( key1, key2 );
+			MultiKey key1 = (MultiKey) levelKeyArray1.get( i );
+			MultiKey key2 = (MultiKey) levelKeyArray2.get( j );
+			int ret = key1.compareTo( key2 );
 			if ( ret == 0 )
 			{
 				result.add( key1 );
@@ -693,7 +693,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			if ( levelKey!=null && filterHelper.isQualifiedRow( row ) )
 			{
 				Object aggrValue = filterHelper.evaluateFilterExpr( row );
-				aggrValueArray.add( new ValueObject( aggrValue, levelKey ) );
+				aggrValueArray.add( new ValueObject( aggrValue,
+						new MultiKey( levelKey ) ) );
 			}
 		}
 		
@@ -1504,6 +1505,33 @@ class ValueObject implements Comparable
 	}
 }
 
+/**
+ * 
+ */
+class MultiKey implements Comparable
+{
+	Object[] levelKey;
+	MultiKey( Object[] key )
+	{
+		this.levelKey = key;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(T)
+	 */
+	public int compareTo( Object obj )
+	{
+		if ( obj == null )
+			return -1;
+		else if ( obj instanceof MultiKey )
+		{
+			MultiKey key = (MultiKey) obj;
+			return CompareUtil.compare( levelKey, key.levelKey );
+		}
+		return -1;
+	}
+}
 /**
  * 
  *
