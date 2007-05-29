@@ -1,9 +1,9 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
-feature@org.eclipse.birt.sdk=v20070519,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk.feature
-plugin@org.eclipse.birt.sdk=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
+feature@org.eclipse.birt.sdk=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk.feature
+plugin@org.eclipse.birt.sdk=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
-plugin@org.eclipse.birt=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
+feature@org.eclipse.birt=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
+plugin@org.eclipse.birt=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
 feature@org.eclipse.birt.chart.cshelp=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.cshelp.feature
@@ -14,17 +14,17 @@ feature@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.example=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
-plugin@org.eclipse.birt.chart.runtime=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
+feature@org.eclipse.birt.chart.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
+plugin@org.eclipse.birt.chart.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
-feature@org.eclipse.birt.chart=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
+feature@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
+plugin@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20070510,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
-plugin@org.eclipse.birt.report.designer=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
+feature@org.eclipse.birt.report.designer=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
+plugin@org.eclipse.birt.report.designer=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
-feature@org.eclipse.birt.report.runtime=v20070510,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
-plugin@org.eclipse.birt.report.runtime=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
+feature@org.eclipse.birt.report.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
+plugin@org.eclipse.birt.report.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
 feature@org.eclipse.birt.crosstab=v20070322,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.crosstab.feature
 
@@ -32,15 +32,15 @@ feature@org.eclipse.birt.testhelper=v20070202,:pserver:anonymous@dev.eclipse.org
 feature@org.eclipse.birt.tests=v20070508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
-feature@org.eclipse.birt.integration.wtp=v20070519,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.rcp.feature
-feature@org.eclipse.birt.chart.integration.wtp=v20070523,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.feature
-feature@org.eclipse.birt.integration.wtp.sdk=v20070523,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.sdk.feature
+feature@org.eclipse.birt.chart.integration.wtp=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp.sdk=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.sdk.feature
 
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
-feature@org.eclipse.birt.nl=v20070528,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 
 plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
@@ -50,14 +50,14 @@ plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/c
 feature@com.lowagie.itext=v20070511,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20070522,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
-feature@org.apache.commons.codec=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
-plugin@org.apache.commons.codec=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
+feature@org.apache.commons.codec=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
+plugin@org.apache.commons.codec=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
 
-feature@org.apache.derby.core=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
-plugin@org.apache.derby.core=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
+feature@org.apache.derby.core=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
+plugin@org.apache.derby.core=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
 feature@org.mozilla.rhino=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino.feature 
-plugin@org.mozilla.rhino=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
+plugin@org.mozilla.rhino=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
 feature@org.w3c.sac=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
-plugin@org.w3c.sac=v20070510,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
+plugin@org.w3c.sac=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
