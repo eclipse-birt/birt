@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -74,6 +74,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -896,42 +897,65 @@ public class SwingRendererImpl extends DeviceAdapter
 				&& are.getOuterRadius( ) > 0
 				&& are.getInnerRadius( ) < are.getOuterRadius( ) )
 		{
-			Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+			// Fix bugzilla 156318.
+			Bounds rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( )
 					+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
-					/ 2,
-					are.getTopLeft( ).getY( )
-							+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-							/ 2,
-					2 * are.getOuterRadius( ),
-					2 * are.getOuterRadius( ),
-					are.getStartAngle( ),
-					are.getAngleExtent( ),
-					Arc2D.PIE );
-			Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+					/ 2, are.getTopLeft( ).getY( )
+					+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+					/ 2, 2 * are.getOuterRadius( ), 2 * are.getOuterRadius( ) );
+
+			Bounds rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
 					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-					/ 2,
-					are.getTopLeft( ).getY( )
-							+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
-							/ 2,
-					2 * are.getInnerRadius( ),
-					2 * are.getInnerRadius( ),
+					/ 2, are.getTopLeft( ).getY( )
+					+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+					/ 2, 2 * are.getInnerRadius( ), 2 * are.getInnerRadius( ) );
+			Shape outerArc = new Arc2D.Double( rctOuter.getLeft( ),
+					rctOuter.getTop( ),
+					rctOuter.getWidth( ),
+					rctOuter.getHeight( ),
 					are.getStartAngle( ),
 					are.getAngleExtent( ),
-					Arc2D.PIE );
+					Arc2D.OPEN );
+			Shape innerArc = new Arc2D.Double( rctInner.getLeft( ),
+					rctInner.getTop( ),
+					rctInner.getWidth( ),
+					rctInner.getHeight( ),
+					are.getStartAngle( ) + are.getAngleExtent( ),
+					-are.getAngleExtent( ),
+					Arc2D.OPEN );
 
-			Area fArea = new Area( outerArc );
-			fArea.exclusiveOr( new Area( innerArc ) );
+			double startAngle = Math.toRadians( -are.getStartAngle( ) );
+			double stopAngle = Math.toRadians( -are.getStartAngle( )
+					- are.getAngleExtent( ) );
 
+			double xsOuter = ( rctOuter.getLeft( ) + ( Math.cos( startAngle ) * 0.5 + 0.5 )
+					* rctOuter.getWidth( ) );
+			double ysOuter = ( rctOuter.getTop( ) + ( Math.sin( startAngle ) * 0.5 + 0.5 )
+					* rctOuter.getHeight( ) );
+
+			double xeInner = ( rctInner.getLeft( ) + ( Math.cos( stopAngle ) * 0.5 + 0.5 )
+					* rctInner.getWidth( ) );
+			double yeInner = ( rctInner.getTop( ) + ( Math.sin( stopAngle ) * 0.5 + 0.5 )
+					* rctInner.getHeight( ) );
+
+			GeneralPath gp = new GeneralPath( );
+			gp.append( outerArc, false );
+			gp.lineTo( (float) xeInner, (float) yeInner );
+			gp.append( innerArc, false );
+			gp.lineTo( (float) xsOuter, (float) ysOuter );
+
+			Area area = new Area( gp );
 			Shape prevClip = _g2d.getClip( );
-			Area ar2 = new Area( fArea );
+			Area ar2 = new Area( area );
 			if ( prevClip != null )
 			{
 				Area ar1 = new Area( prevClip );
 				ar2.intersect( ar1 );
 			}
 			_g2d.setClip( ar2 );
-			_g2d.draw( fArea );
+			_g2d.draw( area );
 			_g2d.setClip( prevClip );
+			
 		}
 		else
 		{
