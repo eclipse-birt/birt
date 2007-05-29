@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -29,6 +30,8 @@ import org.eclipse.birt.report.model.css.CssNameManager;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -41,7 +44,9 @@ public class Theme extends ReferenceableElement
 			IThemeModel,
 			ICssStyleSheetOperation
 {
-	
+
+	private List cachedStyleNames = new ArrayList( );
+
 	private ICssStyleSheetOperation operation = null;
 
 	/**
@@ -141,17 +146,17 @@ public class Theme extends ReferenceableElement
 		List styleList = new ArrayList( );
 
 		// add style in css file
-		
-		styleList.addAll( CssNameManager.getStyles( this ));
-		
+
+		styleList.addAll( CssNameManager.getStyles( this ) );
+
 		// add style in theme slot
 
 		for ( int i = 0; i < slots[STYLES_SLOT].getCount( ); i++ )
 		{
 			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
 					.getContent( i );
-			int pos = ModelUtil
-					.getStylePotision( styleList, tmpStyle.getFullName( ) );
+			int pos = ModelUtil.getStylePotision( styleList, tmpStyle
+					.getFullName( ) );
 			if ( pos == -1 )
 			{
 				styleList.add( tmpStyle );
@@ -221,7 +226,7 @@ public class Theme extends ReferenceableElement
 
 	public int dropCss( CssStyleSheet css )
 	{
-		if( operation == null )
+		if ( operation == null )
 			return -1;
 		return operation.dropCss( css );
 	}
@@ -235,21 +240,22 @@ public class Theme extends ReferenceableElement
 
 	public void addCss( CssStyleSheet css )
 	{
-		if( operation == null )
-			operation = new CssStyleSheetAdapter() ;
+		if ( operation == null )
+			operation = new CssStyleSheetAdapter( );
 		operation.addCss( css );
 	}
-	
+
 	/**
 	 * Insert the given css to the given position
+	 * 
 	 * @param css
 	 * @param index
 	 */
-	
-	public void insertCss( CssStyleSheet css , int index )
+
+	public void insertCss( CssStyleSheet css, int index )
 	{
-		if( operation == null )
-			operation = new CssStyleSheetAdapter() ;
+		if ( operation == null )
+			operation = new CssStyleSheetAdapter( );
 		operation.insertCss( css, index );
 	}
 
@@ -261,9 +267,64 @@ public class Theme extends ReferenceableElement
 
 	public List getCsses( )
 	{
-		if( operation == null )
+		if ( operation == null )
 			return Collections.EMPTY_LIST;
 		return operation.getCsses( );
 	}
 
+	/**
+	 * Makes a unique name for this element.
+	 * 
+	 * @param element
+	 */
+
+	public void makeUniqueName( DesignElement element )
+	{
+		if ( element == null )
+			return;
+
+		if ( !( element instanceof StyleElement ) )
+			return;
+
+		// if style is on the tree already, return
+		if ( element.getRoot( ) != null )
+			return;
+
+		String name = StringUtil.trimString( element.getName( ) );
+
+		// replace all the illegal chars with '_'
+		name = NamePropertyType.validateName( name );
+
+		if ( name == null )
+			name = ModelMessages.getMessage( "New." //$NON-NLS-1$
+					+ element.getDefn( ).getName( ) ).trim( );
+
+		List styles = slots[STYLES_SLOT].getContents( );
+		List ns = new ArrayList( styles.size( ) );
+		for ( int i = 0; i < styles.size( ); i++ )
+			ns.add( ( (StyleElement) styles.get( i ) ).getName( ) );
+
+		int index = 0;
+		String baseName = name;
+		while ( cachedStyleNames.contains( name ) || ns.contains( name ) )
+		{
+			name = baseName + ++index;
+		}
+
+		// set the unique name and add the element to the name manager
+		element.setName( name.trim( ) );
+		cachedStyleNames.add( name );
+	}
+
+	/**
+	 * Remove some cached name.
+	 * 
+	 * @param name
+	 *            the name of style element.
+	 */
+
+	public void dropCachedName( String name )
+	{
+		cachedStyleNames.remove( name );
+	}
 }

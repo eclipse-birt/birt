@@ -393,6 +393,25 @@ public class ElementFactory
 	}
 
 	/**
+	 * Creates a new style element, and the style element is supposed to be
+	 * adding to some theme in Library. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param theme
+	 *            the theme to add the style
+	 * @param name
+	 *            the required style name
+	 * @return a handle to the style
+	 */
+
+	public SharedStyleHandle newStyle( ThemeHandle theme, String name )
+	{
+		Style element = new Style( name );
+		( (Theme) theme.getElement( ) ).makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
 	 * Creates a new text item.
 	 * 
 	 * @param name

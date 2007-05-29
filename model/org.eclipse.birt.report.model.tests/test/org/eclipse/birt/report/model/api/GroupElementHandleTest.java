@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -553,7 +552,6 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		// The name of masterPage is required .
 
-		ElementFactory elemFactory = new ElementFactory( design );
 		DesignElementHandle masterPage1 = elemFactory
 				.newGraphicMasterPage( "page1" ); //$NON-NLS-1$
 		designHandle.getMasterPages( ).add( masterPage1 );
@@ -564,6 +562,56 @@ public class GroupElementHandleTest extends BaseTestCase
 				elements );
 
 		groupElementHandle.clearLocalProperties( );
+
+		// test extended item
+
+		DesignElementHandle parentExtendedItem = elemFactory.newExtendedItem(
+				"parent", "TestingMatrix" ); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.getComponents( ).add( parentExtendedItem );
+		DesignElementHandle childExtendedItem = elemFactory.newElementFrom(
+				parentExtendedItem, "child" ); //$NON-NLS-1$ 
+		designHandle.getBody( ).add( childExtendedItem );
+		
+		assertEquals( new Integer( 0 ), parentExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		assertEquals( new Integer( 0 ), childExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+
+		elements.clear( );
+		elements.add( childExtendedItem );
+		groupElementHandle = new SimpleGroupElementHandle( designHandle,
+				elements );
+
+		childExtendedItem.setProperty( "xScale", "3" ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( new Integer( 0 ), parentExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		assertEquals( new Integer( 3 ), childExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+
+		assertTrue( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		groupElementHandle.clearLocalProperties( );
+
+		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );
+		assertEquals( new Integer( 0 ), parentExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		assertEquals( new Integer( 0 ), childExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+
+		design.getActivityStack( ).undo( );
+		
+		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );
+		assertEquals( new Integer( 0 ), parentExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		assertEquals( new Integer( 3 ), childExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		
+		design.getActivityStack( ).redo( );
+
+		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );		
+		assertEquals( new Integer( 0 ), parentExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
+		assertEquals( new Integer( 0 ), childExtendedItem
+				.getProperty( "xScale" ) ); //$NON-NLS-1$
 	}
 
 	/**

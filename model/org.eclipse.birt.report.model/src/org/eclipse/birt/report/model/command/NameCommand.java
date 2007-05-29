@@ -222,6 +222,14 @@ public class NameCommand extends AbstractElementCommand
 		if ( element.getName( ) == null )
 			return;
 
+		// add a style into theme
+		DesignElement container = element.getContainer( );
+		if ( container instanceof Theme )
+		{
+			( (Theme) container ).dropCachedName( element.getName( ) );
+			return;
+		}
+
 		// if it is a style in the theme, no need to check duplicate names.
 		// In the library, style names can be duplicate.
 

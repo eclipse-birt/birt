@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -502,6 +503,34 @@ public class ElementFactoryTest extends BaseTestCase
 				.newElementFrom( extendedItem, "NewMatrix" );//$NON-NLS-1$
 		assertNotNull( handle );
 		assertEquals( "NewMatrix", handle.getName( ) );//$NON-NLS-1$
+	}
+
+	/**
+	 * New extended item from library.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testNewStyleNameForTheme( ) throws Exception
+	{
+		openLibrary( "LibraryWithTheme.xml" );//$NON-NLS-1$
+		ThemeHandle theme = (ThemeHandle) libraryHandle
+				.findTheme( "defaultTheme" ); //$NON-NLS-1$
+		assertNotNull( theme.getElement( ) );
+
+		SharedStyleHandle newCreatedStyle = libraryHandle.getElementFactory( )
+				.newStyle( theme, null );
+		assertNotNull( newCreatedStyle );
+		assertEquals( "NewStyle1", newCreatedStyle.getName( ) );//$NON-NLS-1$
+		theme.addElement( newCreatedStyle, IThemeModel.STYLES_SLOT );
+
+		// delete the original style in default theme, the name of the deleted
+		// style should be available for default theme.
+
+		newCreatedStyle.dropAndClear( );
+		SharedStyleHandle style2 = libraryHandle.getElementFactory( ).newStyle(
+				theme, null );
+		assertEquals( "NewStyle1", style2.getName( ) );//$NON-NLS-1$
 	}
 
 }
