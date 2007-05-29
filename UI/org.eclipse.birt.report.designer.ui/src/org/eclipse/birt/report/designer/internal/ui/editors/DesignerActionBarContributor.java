@@ -325,7 +325,7 @@ public class DesignerActionBarContributor extends
 			for ( int i = 0; i < entries.length; i++ )
 			{
 				RegisterActions extAction = new RegisterActions( entries[i].getItemName( ),
-						entries[i].getLabel( ) );
+						entries[i].getMenuLabel( ) );
 				insertElementActions[insertActions.length
 						+ extensionPoints.size( )
 						+ i] = extAction;

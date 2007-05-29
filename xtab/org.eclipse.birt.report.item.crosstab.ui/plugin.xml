@@ -21,7 +21,8 @@
                icon="icons/pal/crosstab.gif"
                itemName="Crosstab"
                label="Cross Tab"
-               largeIcon="icons/pal/crosstab.gif">
+               largeIcon="icons/pal/crosstab.gif"
+               menuLabel="%crosstab.menu">
          </paletteEntry></reportItemEditPart>
    </extension>
    <extension

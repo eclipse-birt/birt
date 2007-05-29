@@ -121,7 +121,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					for ( int i = 0; i < entries.length; i++ )
 					{
 						action = getAction( entries[i].getItemName( ) );
-						action.setText( entries[i].getLabel( ) );
+						action.setText( entries[i].getMenuLabel( ) );
 						subMenu.add( action );
 					}
 					

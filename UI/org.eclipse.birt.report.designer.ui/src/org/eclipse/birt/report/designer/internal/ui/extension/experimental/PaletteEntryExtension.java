@@ -24,6 +24,7 @@ public class PaletteEntryExtension
 
 	private String itemName;
 	private String label;
+	private String menuLabel;
 	private String description;
 	private ImageDescriptor icon;
 	private ImageDescriptor iconLarge;
@@ -112,5 +113,17 @@ public class PaletteEntryExtension
 	public void setItemName( String itemName )
 	{
 		this.itemName = itemName;
+	}
+
+	
+	public String getMenuLabel( )
+	{
+		return menuLabel;
+	}
+
+	
+	public void setMenuLabel( String menuLabel )
+	{
+		this.menuLabel = menuLabel;
 	}
 }

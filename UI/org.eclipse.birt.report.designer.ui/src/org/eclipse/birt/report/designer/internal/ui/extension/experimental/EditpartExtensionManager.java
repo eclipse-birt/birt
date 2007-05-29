@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.core.expressions.EvaluationContext;
 import org.eclipse.core.expressions.EvaluationResult;
 import org.eclipse.core.expressions.Expression;
@@ -69,13 +70,18 @@ public class EditpartExtensionManager
 				{
 					PaletteEntryExtension entry = new PaletteEntryExtension( );
 					entry.setItemName( paletteEntries[0].getAttribute( "itemName" ) );
-					//TODO label can't be empty
-					entry.setLabel( paletteEntries[0].getAttribute( "label" ) );
+
+					String displayName = DEUtil.getMetaDataDictionary( )
+							.getExtension( entry.getItemName( ) )
+							.getDisplayName( );
+					
+					entry.setLabel( displayName );
+					entry.setMenuLabel( paletteEntries[0].getAttribute( "menuLabel" ) );
 					entry.setDescription( paletteEntries[0].getAttribute( "description" ) );
 					entry.setIcon( getImageDescriptor( paletteEntries[0],
 							paletteEntries[0].getAttribute( "icon" ) ) );
 					entry.setIconLarge( getImageDescriptor( paletteEntries[0],
-							paletteEntries[0].getAttribute( "iconLarge" ) ) );
+							paletteEntries[0].getAttribute( "largeIcon" ) ) );
 					//TODO category can't be empty
 					entry.setCategory( paletteEntries[0].getAttribute( "category" ) );
 					//TODO command can't be empty
