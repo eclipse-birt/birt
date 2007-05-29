@@ -126,11 +126,9 @@ public class AggregationSortHelper
 					values,
 					direction,
 					key );
-			if ( row == null )
-				continue;
 			for ( int j = 0; j < key.getAggrKeys( ).length; j++ )
 			{
-				keyValues.add( row.getAggregationValues( )[j] );
+				keyValues.add( row == null ? null:row.getAggregationValues( )[j] );
 			}
 		}
 		return keyValues;
