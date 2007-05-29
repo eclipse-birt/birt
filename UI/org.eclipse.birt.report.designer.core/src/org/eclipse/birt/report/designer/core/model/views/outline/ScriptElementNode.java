@@ -55,6 +55,22 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener
 	{
 		manager.add( new GotoReportElementAction( getParent( ) ) );
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object arg0 )
+	{
+		if ( arg0 == this )
+		{
+			return true;
+		}
+		if ( arg0 instanceof ScriptElementNode )
+		{
+			return ( (ScriptElementNode) arg0 ).parent == parent;
+		}
+		return false;
+	}
 
 }
 

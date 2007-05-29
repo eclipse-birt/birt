@@ -48,4 +48,20 @@ public class ScriptsNode implements IScriptTreeNode
 	{
 		return reportDesignHandle;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object arg0 )
+	{
+		if ( arg0 == this )
+		{
+			return true;
+		}
+		if ( arg0 instanceof ScriptsNode )
+		{
+			return ( (ScriptsNode) arg0 ).reportDesignHandle == reportDesignHandle;
+		}
+		return false;
+	}
 }

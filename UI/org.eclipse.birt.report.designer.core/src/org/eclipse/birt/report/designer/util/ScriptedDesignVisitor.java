@@ -38,6 +38,7 @@ public class ScriptedDesignVisitor extends DesignVisitor
 
 	public List getScriptNodes( ReportDesignHandle handle )
 	{
+		scriptNodes.clear( );
 		apply( handle );
 		return scriptNodes;
 	}
@@ -50,16 +51,18 @@ public class ScriptedDesignVisitor extends DesignVisitor
 	public void visitDesignElement( DesignElementHandle elementHandle )
 	{
 		List scriptMethods = elementHandle.getMethods( );
-
-		for ( Iterator ite = scriptMethods.iterator( ); ite.hasNext( ); )
-		{
-			IElementPropertyDefn elementPropDefn = (IElementPropertyDefn) ite.next( );
-			String methodName = elementPropDefn.getMethodInfo( ).getName( );
-			if ( elementHandle.getStringProperty( methodName ) != null )
+		if (scriptMethods != null)
+		{			
+			for ( Iterator ite = scriptMethods.iterator( ); ite.hasNext( ); )
 			{
-				ScriptElementNode scriptElementNode = new ScriptElementNode( elementHandle );
-				scriptNodes.add( scriptElementNode );
-				break;
+				IElementPropertyDefn elementPropDefn = (IElementPropertyDefn) ite.next( );
+				String methodName = elementPropDefn.getMethodInfo( ).getName( );
+				if ( elementHandle.getStringProperty( methodName ) != null )
+				{
+					ScriptElementNode scriptElementNode = new ScriptElementNode( elementHandle );
+					scriptNodes.add( scriptElementNode );
+					break;
+				}
 			}
 		}
 
