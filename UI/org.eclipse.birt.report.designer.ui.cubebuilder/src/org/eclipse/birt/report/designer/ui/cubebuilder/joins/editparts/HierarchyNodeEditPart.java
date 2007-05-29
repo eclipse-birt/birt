@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -20,10 +21,13 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableS
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -108,6 +112,15 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 			{
 				if ( levels[i].getColumnName( ) != null )
 					childList.add( levels[i] );
+				Iterator attrIter = levels[i].attributesIterator( );
+				while ( attrIter.hasNext( ) )
+				{
+					LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next( );
+					ResultSetColumnHandle column = OlapUtil.getDataField( hierarchy.getDataSet( ),
+							handle.getName( ) );
+					if ( column != null )
+						childList.add( column );
+				}
 			}
 		}
 		return childList;
@@ -318,7 +331,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( isActive( ) && !isDelete( ))
+		if ( isActive( ) && !isDelete( ) )
 		{
 			refresh( );
 		}

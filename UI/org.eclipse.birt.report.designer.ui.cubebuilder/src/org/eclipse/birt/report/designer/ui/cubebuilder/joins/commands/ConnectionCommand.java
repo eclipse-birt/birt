@@ -10,7 +10,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 public class ConnectionCommand extends Command
 {
 
-	protected LevelEditPart source;
+	protected EditPart source;
 	protected ColumnEditPart target;
 
 	/**
@@ -47,7 +47,7 @@ public class ConnectionCommand extends Command
 	/**
 	 * @return The Source ColumnEditPart
 	 */
-	public LevelEditPart getSource( )
+	public EditPart getSource( )
 	{
 		return source;
 	}
@@ -60,7 +60,7 @@ public class ConnectionCommand extends Command
 		return target;
 	}
 
-	public void setSource( LevelEditPart newSource )
+	public void setSource( EditPart newSource )
 	{
 		source = newSource;
 	}

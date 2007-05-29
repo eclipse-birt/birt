@@ -11,7 +11,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinConditionEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConnection;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
@@ -28,7 +27,7 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 	{
 		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 1 );
-		if ( part.getSource( ) instanceof LevelEditPart
+		if ( part.getSource( ) instanceof EditPart
 				&& part.getTarget( ) instanceof ColumnEditPart )
 		{
 			part.getSource( ).setSelected( EditPart.SELECTED_NONE );
@@ -45,7 +44,7 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 	{
 		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 2 );
-		if ( part.getSource( ) instanceof LevelEditPart
+		if ( part.getSource( ) instanceof EditPart
 				&& part.getTarget( ) instanceof ColumnEditPart )
 		{
 			part.getSource( ).setSelected( EditPart.SELECTED );

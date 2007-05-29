@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -34,7 +35,7 @@ import org.eclipse.gef.commands.Command;
 public class AddJoinConditionCommand extends Command
 {
 
-	protected LevelEditPart source;
+	protected EditPart source;
 	protected ColumnEditPart target;
 
 	/**
@@ -47,7 +48,7 @@ public class AddJoinConditionCommand extends Command
 	 * @param value
 	 *            The value to "set"
 	 */
-	public AddJoinConditionCommand( final LevelEditPart source,
+	public AddJoinConditionCommand( final EditPart source,
 			final ColumnEditPart target )
 	{
 		super( );
@@ -78,8 +79,10 @@ public class AddJoinConditionCommand extends Command
 
 		DimensionJoinCondition joinCondition = StructureFactory.createDimensionJoinCondition( );
 		joinCondition.setCubeKey( target.getColumnName( ) );
-		joinCondition.setHierarchyKey( source.getLevelColumnName( ) );
-
+		if ( source instanceof LevelEditPart )
+			joinCondition.setHierarchyKey( ( (LevelEditPart) source ).getLevelColumnName( ) );
+		else if ( source instanceof ColumnEditPart )
+			joinCondition.setHierarchyKey( ( (ColumnEditPart) source ).getColumnName( ) );
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) source.getParent( ) ).getModel( );
 
 		try

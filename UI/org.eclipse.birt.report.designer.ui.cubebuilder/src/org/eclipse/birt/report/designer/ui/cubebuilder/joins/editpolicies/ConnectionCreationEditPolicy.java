@@ -35,9 +35,6 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	protected org.eclipse.draw2d.Connection createDummyConnection(
 			org.eclipse.gef.Request req )
 	{
-		//PolylineConnection conn = new PolylineConnection( );
-		//conn.setConnectionRouter( new BendpointConnectionRouter( ) );
-		//conn.setTargetDecoration( new PolygonDecoration( ) );
 		ColumnConnection conn = new ColumnConnection( );
 		return conn;
 	}
@@ -53,7 +50,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 
 		ConnectionCommand command = (ConnectionCommand) request.getStartCommand( );
 
-		LevelEditPart sourcePart = command.getSource( );
+		EditPart sourcePart = command.getSource( );
 		if ( command == null
 				|| !( getHost( ) instanceof ColumnEditPart )
 				|| getHost( ) == sourcePart
@@ -69,9 +66,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	}
 
 
-	protected LevelEditPart getLevelEditPart( )
+	protected EditPart getSourceEditPart( )
 	{
-		return (LevelEditPart) getHost( );
+		return  getHost( );
 	}
 
 	/*
@@ -84,7 +81,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	{
 
 		ConnectionCommand command = new ConnectionCommand( );
-		command.setSource( getLevelEditPart( ) );
+		command.setSource( getSourceEditPart( ) );
 		request.setStartCommand( command );
 		return command;
 	}
