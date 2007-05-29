@@ -22,3 +22,4 @@ Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui,
  org.eclipse.birt.report.data.oda.jdbc.ui.profile,
  org.eclipse.birt.report.data.oda.jdbc.ui.provider,
  org.eclipse.birt.report.data.oda.jdbc.ui.util
+Bundle-RequiredExecutionEnvironment: J2SE-1.4

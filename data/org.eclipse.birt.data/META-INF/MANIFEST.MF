@@ -53,3 +53,4 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:
  com.ibm.icu;bundle-version="[3.4.4,4.0.0)";visibility:=reexport,
  org.mozilla.rhino;bundle-version="[1.6.0,2.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
