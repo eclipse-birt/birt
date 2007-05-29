@@ -22,9 +22,9 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
-import org.eclipse.birt.report.engine.util.BundleVersionUtil;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
