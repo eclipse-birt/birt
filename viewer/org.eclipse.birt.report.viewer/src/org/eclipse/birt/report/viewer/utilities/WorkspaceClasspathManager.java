@@ -16,8 +16,6 @@ package org.eclipse.birt.report.viewer.utilities;
 public class WorkspaceClasspathManager
 {
 
-	public static final String PROPERTYSEPARATOR = ";";
-
 	private static IWorkspaceClasspathFinder finder;
 
 	public static String getClassPath( )
