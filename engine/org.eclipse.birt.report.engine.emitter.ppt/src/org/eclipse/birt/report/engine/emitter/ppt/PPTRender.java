@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
+import java.awt.image.ImageConsumer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -355,15 +357,15 @@ public class PPTRender implements IAreaVisitor
 		pptOutput.write( "</p:slide></body></html>\n".getBytes( ) ); //$NON-NLS-1$
 	}
 
-	private void exportImageHeader( String imageURI ) throws IOException
+	private void exportImageHeader( String imagekey ) throws IOException
 	{
 		pptOutput.write( "\n".getBytes( ) );
 		pptOutput.write( "--___Actuate_Content_Boundary___\n".getBytes( ) ); //$NON-NLS-1$
 		pptOutput.write( ( "Content-Location: file:///C:/___Actuate___/"
-				+ (String) imageNames.get( imageURI ) + "\n" ).getBytes( ) );
+				+ (String) imageNames.get( imagekey ) + "\n" ).getBytes( ) );
 		pptOutput.write( "Content-Transfer-Encoding: base64\n".getBytes( ) );
 		pptOutput.write( ( "Content-Type: image/"
-				+ (String) imageExtensions.get( imageURI ) + "\n\n" ).getBytes( ) );
+				+ (String) imageExtensions.get( imagekey ) + "\n\n" ).getBytes( ) );
 	}
 
 	private void generateImageBytes( String imageURI ) throws IOException
@@ -432,7 +434,14 @@ public class PPTRender implements IAreaVisitor
 	private void generateImageBytes( IImageContent imageContent )
 			throws IOException
 	{
-		exportImageHeader( imageContent.getURI( ) );
+		if ( imageContent.getURI( ) == null )
+		{
+			exportImageHeader( imageContent.getName( ) );
+		}
+		else
+		{
+			exportImageHeader( imageContent.getURI( ) );
+		}
 
 		boolean isSvg = false;
 		TranscoderInput transInput = null;
@@ -441,46 +450,63 @@ public class PPTRender implements IAreaVisitor
 
 		try
 		{
-			// lookup the source type of the image area
-			switch ( imageContent.getImageSource( ) )
+			if ( imageContent.getURI( ) == null )
 			{
-				case IImageContent.IMAGE_FILE :
-					if ( imageContent.getURI( ) == null )
-						return;
+				imageData = imageContent.getData( );
+				if ( imageContent.getExtension( ) != null
+						&& imageContent.getExtension( )
+								.equalsIgnoreCase( "svg" ) )
+				{
+					isSvg = true;
+				}
+			}
+			else
+			{
+				// lookup the source type of the image area
+				switch ( imageContent.getImageSource( ) )
+				{
+					case IImageContent.IMAGE_FILE :
+						if ( imageContent.getURI( ) == null )
+							return;
 
-					URL url = reportDesign.findResource( imageContent.getURI( ),
-							IResourceLocator.IMAGE );
-					InputStream imageInput = url.openStream( );
-					if ( imageContent.getURI( ).endsWith( ".svg" ) ) //$NON-NLS-1$
-					{
-						isSvg = true;
-						transInput = new TranscoderInput( imageInput );
-					}
-					imageData = new byte[imageInput.available( )];
-					imageInput.read( imageData );
-					break;
-				case IImageContent.IMAGE_URL :
-					if ( imageContent.getURI( ) == null )
-						return;
+						URL url = reportDesign.findResource( imageContent.getURI( ),
+								IResourceLocator.IMAGE );
+						InputStream imageInput = url.openStream( );
+						if ( imageContent.getURI( ).endsWith( ".svg" ) ) //$NON-NLS-1$
+						{
+							isSvg = true;
+							transInput = new TranscoderInput( imageInput );
+						}
+						imageData = new byte[imageInput.available( )];
+						imageInput.read( imageData );
+						break;
+					case IImageContent.IMAGE_URL :
+						if ( imageContent.getURI( ) == null )
+							return;
 
-					if ( imageContent.getURI( ).endsWith( ".svg" ) )
-					{
-						isSvg = true;
-						transInput = new TranscoderInput( imageContent.getURI( ) );
-					}
-					imageData = imageContent.getData( );
-					break;
-				case IImageContent.IMAGE_NAME :
-				case IImageContent.IMAGE_EXPRESSION :
-					if ( imageContent.getData( ) == null )
-						return;
-					if ( imageContent.getURI( ).endsWith( ".svg" ) )
-					{
-						isSvg = true;
-						transInput = new TranscoderInput( new ByteArrayInputStream( imageContent.getData( ) ) );
-					}
-					imageData = imageContent.getData( );
-					break;
+						if ( imageContent.getURI( ).endsWith( ".svg" ) )
+						{
+							isSvg = true;
+							transInput = new TranscoderInput( imageContent.getURI( ) );
+						}
+						imageData = imageContent.getData( );
+						break;
+					case IImageContent.IMAGE_NAME :
+					case IImageContent.IMAGE_EXPRESSION :
+						if ( imageContent.getData( ) == null
+								|| imageContent.getURI( ) == null )
+							return;
+						if ( imageContent.getURI( ).endsWith( ".svg" ) )
+						{
+							isSvg = true;
+							transInput = new TranscoderInput( new ByteArrayInputStream( imageContent.getData( ) ) );
+						}
+						imageData = imageContent.getData( );
+						break;
+					default :
+						imageData = imageContent.getData( );
+						break;
+				}
 			}
 
 			if ( !isSvg )
@@ -1321,19 +1347,40 @@ public class PPTRender implements IAreaVisitor
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
 
 		String imageTitle = "slide" + currentPageNum + "_image" + shapeCount;
-		if ( imageNames.containsKey( imageContent.getURI( ) ) )
+		if ( imageContent.getURI( ) != null )
 		{
-			imageName = (String) imageNames.get( imageContent.getURI( ) );
+			if ( imageNames.containsKey( imageContent.getURI( ) ) )
+			{
+				imageName = (String) imageNames.get( imageContent.getURI( ) );
+			}
+			else
+			{
+				// Save in global image names map
+				String extension = getImageExtension( imageContent.getURI( ) );
+				imageName = imageTitle + "." + extension;
+				imageNames.put( imageContent.getURI( ), imageName );
+				imageExtensions.put( imageContent.getURI( ), extension );
+				recordFileLists( imageName );
+				currentImageContents.add( imageContent );
+			}
 		}
 		else
+		// Chart is render as a image, but hasn't URI
 		{
-			// Save in global image names map
-			String extension = getImageExtension( imageContent.getURI( ) );
-			imageName = imageTitle + "." + extension;
-			imageNames.put( imageContent.getURI( ), imageName );
-			imageExtensions.put( imageContent.getURI( ), extension );
-			recordFileLists( imageName );
-			currentImageContents.add( imageContent );
+			if ( imageNames.containsKey( imageContent.getName( ) ) )
+			{
+				imageName = (String) imageNames.get( imageContent.getName( ) );
+			}
+			else
+			{
+				// Save in global image names map
+				String extension = imageContent.getExtension( );
+				imageName = imageTitle + "." + extension;
+				imageNames.put( imageContent.getName( ), imageName );
+				imageExtensions.put( imageContent.getName( ), extension );
+				recordFileLists( imageName );
+				currentImageContents.add( imageContent );
+			}
 		}
 
 		double width = pptMeasure( image.getWidth( ) );
