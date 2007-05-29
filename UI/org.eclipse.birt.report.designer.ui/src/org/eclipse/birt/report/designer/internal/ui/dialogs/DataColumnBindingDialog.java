@@ -22,6 +22,8 @@ public class DataColumnBindingDialog extends BaseDialog
 	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.CreateNewDataBinding" ); //$NON-NLS-1$
 
 	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ); //$NON-NLS-1$
+	
+	protected static final String AGG_BUILDER_TITLE = Messages.getString( "DataColumBindingDialog.title.AggBuilder" ); //$NON-NLS-1$
 
 	IBindingDialogHelper dialogHelper;
 
@@ -94,11 +96,22 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			dialogHelper.setAggregate( isAggregate );
 		}
+		if ( isAggregate
+				|| ( bindingColumn != null
+						&& bindingColumn.getAggregateFunction( ) != null && !bindingColumn.getAggregateFunction( )
+						.equals( "" ) ) )
+		{
+			setTitle( AGG_BUILDER_TITLE );
+		}
 	}
 
 	public void setAggreate( boolean isAggregate )
 	{
 		this.isAggregate = isAggregate;
+		if ( isAggregate )
+		{
+			setTitle( AGG_BUILDER_TITLE );
+		}
 		if ( this.dialogHelper != null )
 		{
 			this.dialogHelper.setAggregate( isAggregate );
