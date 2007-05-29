@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
-import java.awt.image.ImageConsumer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
