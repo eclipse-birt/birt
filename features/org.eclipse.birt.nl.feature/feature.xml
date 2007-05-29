@@ -444,5 +444,20 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
+
+    <plugin
+         id="org.eclipse.datatools.enablement.oda.ws.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
          
+    <plugin
+         id="org.eclipse.datatools.enablement.oda.ws.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>         
 </feature>
