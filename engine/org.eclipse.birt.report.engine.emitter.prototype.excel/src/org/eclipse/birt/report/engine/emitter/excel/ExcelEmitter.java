@@ -144,7 +144,6 @@ public class ExcelEmitter implements IContentEmitter
 
 	public void endContainer( IContainerContent container )
 	{
-		endCase( );
 	}
 
 	public void endContent( IContent content )
