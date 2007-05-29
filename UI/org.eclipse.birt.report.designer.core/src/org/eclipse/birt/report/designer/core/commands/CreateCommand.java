@@ -84,7 +84,7 @@ public class CreateCommand extends Command
 				( (DesignElementHandle) parent ).addElement( newObject,
 						ReportDesignHandle.DATA_SOURCE_SLOT );
 			}
-			else
+			else if (DEUtil.getDefaultSlotID( parent ) != -1)
 			{
 				// calculate the position of added element
 				if ( after != null )
@@ -97,16 +97,28 @@ public class CreateCommand extends Command
 							slotID,
 							pos );
 				}
-				else if (DEUtil.getDefaultSlotID( parent ) != -1)
+				else
 				{
 					( (DesignElementHandle) parent ).addElement( newObject,
-							DEUtil.getDefaultSlotID( parent ) );
+							DEUtil.getDefaultSlotID( parent ) );	
+				}
+			}
+			else if (DEUtil.getDefaultSlotID( parent ) == -1)
+			{
+				if ( after != null )
+				{
+					int pos = DEUtil.findInsertPosition( (DesignElementHandle) parent,
+							(DesignElementHandle) after,  DEUtil.getDefaultContentName( parent ));
+
+					( (DesignElementHandle) parent ).add( DEUtil.getDefaultContentName( parent ),newObject,
+							pos );
 				}
 				else
 				{
 					( (DesignElementHandle) parent ).add(DEUtil.getDefaultContentName( parent ) , newObject);
 				}
 			}
+			
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "CreateCommand >> Finished. " //$NON-NLS-1$

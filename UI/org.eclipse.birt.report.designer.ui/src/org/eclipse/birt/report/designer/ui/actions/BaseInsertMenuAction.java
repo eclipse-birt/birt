@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditPart;
@@ -62,6 +63,8 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	private String insertType;
 
 	protected SlotHandle slotHandle;
+	
+	protected PropertyHandle propertyHandle;
 
 	private Object model;
 
@@ -88,11 +91,39 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	protected boolean calculateEnabled( )
 	{
 		slotHandle = getDefaultSlotHandle( insertType );
-		return DNDUtil.handleValidateTargetCanContainType( slotHandle,
+		propertyHandle = getDefaultPropertyHandle(insertType);
+		Object obj = slotHandle;
+		if (obj == null)
+		{
+			obj = model;
+		}
+//		return DNDUtil.handleValidateTargetCanContainType( slotHandle,
+//				insertType )
+//				&& DNDUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
+		return DNDUtil.handleValidateTargetCanContainType( obj,
 				insertType )
-				&& DNDUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
+				&& DNDUtil.handleValidateTargetCanContainMore( obj, 0 );
 	}
 
+	private PropertyHandle getDefaultPropertyHandle(String insertType)
+	{
+		IStructuredSelection models = InsertInLayoutUtil.editPart2Model( getSelection( ) );
+		if ( models.isEmpty( ) )
+		{
+			return null;
+		}
+		model = DNDUtil.unwrapToModel( models.getFirstElement( ));
+		if (model instanceof DesignElementHandle)
+		{
+			DesignElementHandle handle = (DesignElementHandle)model;
+			String contentName = DEUtil.getDefaultContentName( handle );
+			if (handle.canContain( contentName, insertType ));
+			{
+				return handle.getPropertyHandle( contentName ) ;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Returns the container slotHandle.
 	 * 
@@ -104,7 +135,8 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 		{
 			return null;
 		}
-		model = models.getFirstElement( );
+		//model = models.getFirstElement( );
+		model = DNDUtil.unwrapToModel( models.getFirstElement( ));
 		if ( model instanceof LibRootModel )
 		{
 			model = ( (LibRootModel) model ).getModel( );
@@ -134,7 +166,14 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	{
 		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
 		Map extendsData = new HashMap( );
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
+		if (slotHandle != null)
+		{
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
+		}
+		else if (propertyHandle != null)
+		{
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY, propertyHandle );
+		}
 
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE, insertType );
 
@@ -143,7 +182,14 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		request.setExtendedData( extendsData );
 
-		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
+//		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
+//				.performRequest( model, request ) )
+		Object obj = model;
+		if (slotHandle != null)
+		{
+			obj = slotHandle.getElementHandle( );
+		}
+		if ( ProviderFactory.createProvider( obj )
 				.performRequest( model, request ) )
 		{
 			return request;
