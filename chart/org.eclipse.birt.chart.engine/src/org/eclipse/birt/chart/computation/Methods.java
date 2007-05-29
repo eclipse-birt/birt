@@ -279,7 +279,7 @@ public class Methods implements IConstants
 				|| sc.isCategoryScale( ) )
 		{
 			AxisTickCoordinates da = sc.getTickCordinates( );
-			return da.getStart( ) + da.getEnd( ) * dValue;
+			return da.getStart( ) + da.getStep( ) * dValue;
 		}
 		else if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
 		{
