@@ -194,10 +194,7 @@ public class ClassDefnTest extends AbstractMetaTest
 		assertTrue( arguments.hasNext( ) );
 		ArgumentInfo argument = (ArgumentInfo) arguments.next( );
 		assertEquals( "number", argument.getType( ) ); //$NON-NLS-1$ 
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
+		//for bug 189573,remove filter and group method.
 		assertFalse( arguments.hasNext( ) );
 
 		arguments = ( (ArgumentInfoList) argumentList.next( ) )
@@ -205,10 +202,6 @@ public class ClassDefnTest extends AbstractMetaTest
 		assertTrue( arguments.hasNext( ) );
 		argument = (ArgumentInfo) arguments.next( );
 		assertEquals( "String", argument.getType( ) ); //$NON-NLS-1$ 
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
 		assertFalse( arguments.hasNext( ) );
 
 		arguments = ( (ArgumentInfoList) argumentList.next( ) )
@@ -216,10 +209,6 @@ public class ClassDefnTest extends AbstractMetaTest
 		assertTrue( arguments.hasNext( ) );
 		argument = (ArgumentInfo) arguments.next( );
 		assertEquals( "Date", argument.getType( ) ); //$NON-NLS-1$ 
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
-		assertTrue( arguments.hasNext( ) );
-		arguments.next( );
 		assertFalse( arguments.hasNext( ) );
 
 		assertFalse( argumentList.hasNext( ) );
