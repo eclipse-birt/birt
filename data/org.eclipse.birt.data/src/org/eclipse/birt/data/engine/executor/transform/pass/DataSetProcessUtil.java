@@ -147,7 +147,7 @@ class DataSetProcessUtil extends RowProcessUtil
 				else
 					exprs = new IBaseExpression[args.size( )];
 
-				for ( int j = offset; j < args.size( ); j++ )
+				for ( int j = offset; j < args.size( )+offset; j++ )
 				{
 					exprs[j] = (IBaseExpression) args.get( j - offset );
 				}
@@ -157,6 +157,8 @@ class DataSetProcessUtil extends RowProcessUtil
 					compiler.compile( exprs[j], cx );
 				}
 
+				if ( cc.getAggregateFilter( )!= null )
+					compiler.compile( cc.getAggregateFilter( ), cx );
 				IAggregation aggrFunction = AggregationFactory.getInstance( )
 						.getAggregation( cc.getAggregateFunction( ) );
 				IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),
