@@ -13,9 +13,12 @@ package org.eclipse.birt.report.item.crosstab.ui.preference;
 
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,7 +33,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  */
 
 public class CrosstabPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+		IWorkbenchPreferencePage,IPropertyChangeListener
 {
 
 	private transient IntegerFieldEditor txtMaxLimit;
@@ -68,6 +71,7 @@ public class CrosstabPreferencePage extends PreferencePage implements
 				.getPluginPreferences( )
 				.getString( CrosstabPlugin.PREFERENCE_FILTER_LIMIT ) );
 		txtMaxLimit.setPage( this );
+		txtMaxLimit.setPropertyChangeListener( this );
 
 		return cmpTop;
 	}
@@ -105,6 +109,14 @@ public class CrosstabPreferencePage extends PreferencePage implements
 						txtMaxLimit.getIntValue( ) );
 		CrosstabPlugin.getDefault( ).savePluginPreferences( );
 		return super.performOk( );
+	}
+	
+	public void propertyChange( PropertyChangeEvent event )
+	{
+		if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+		{
+			setValid( txtMaxLimit.isValid( ) );
+		}
 	}
 
 }
