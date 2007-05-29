@@ -242,7 +242,8 @@ public class SelectionHandler extends AbstractHandler
 		
 		if(selList == null || selList.size( ) < 1)
 		{
-			 selList = getSelectedObjects( );
+			 // selList = getSelectedObjects( );
+			return Collections.EMPTY_LIST;
 		}
 		for ( int i = 0; i < selList.size( ); i++ )
 		{
