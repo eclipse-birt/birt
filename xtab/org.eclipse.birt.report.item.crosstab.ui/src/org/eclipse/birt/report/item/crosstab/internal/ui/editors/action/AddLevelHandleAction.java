@@ -81,17 +81,25 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		{
 			LevelViewDialog dialog = new LevelViewDialog(UIUtil.getDefaultShell( ));
 			List showLevels = new ArrayList();
+			List nullLevelHandle = new ArrayList();
 			int viewCount = viewHandle.getLevelCount( );
 			for (int i=0; i<viewCount; i++)
 			{
 				LevelViewHandle levelHandle = viewHandle.getLevel( i );
-				showLevels.add( levelHandle.getCubeLevel( ) );
+				if (levelHandle.getCubeLevel( ) == null)
+				{
+					nullLevelHandle.add( new Integer(levelHandle.getIndex( )));
+				}
+				else
+				{
+					showLevels.add( levelHandle.getCubeLevel( ) );
+				}
 			}
 			dialog.setInput( viewHandle.getCubeDimension( ), showLevels );
 			if ( dialog.open( ) == Window.OK )
 			{
 				List result = (List)dialog.getResult( );
-				processor( showLevels, result  );
+				processor( showLevels, result, nullLevelHandle );
 			}
 		}
 		catch ( SemanticException e )
@@ -102,9 +110,16 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		}
 		transEnd( );
 	}
-
-	private void processor(List ori, List newList)throws SemanticException
+	
+	private void processor(List ori, List newList, List nullLevelHandle)throws SemanticException
 	{
+	
+		for (int i=nullLevelHandle.size( )-1; i>=0; i--)
+		{
+			int index = ((Integer)nullLevelHandle.get( i )).intValue( );
+			viewHandle.removeLevel( index );
+		}
+		
 		for (int i=0; i<ori.size( ); i++)
 		{
 			LevelHandle tempHandle = (LevelHandle)ori.get(i );
