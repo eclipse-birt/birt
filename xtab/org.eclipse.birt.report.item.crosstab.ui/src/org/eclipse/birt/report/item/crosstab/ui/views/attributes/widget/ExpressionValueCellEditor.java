@@ -12,22 +12,31 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -51,11 +60,10 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.2 $ $Date: 2006/11/21 10:21:02 $
+ * @version $Revision: 1.1 $ $Date: 2007/05/24 13:02:10 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -66,17 +74,23 @@ public class ExpressionValueCellEditor extends CellEditor
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
-
+	private MemberValueHandle memberValue;
 	private transient String bindingName;
 	private transient Text expressionText;
 	private transient Button btnPopup;
-	private transient ReportElementHandle currentItem = null;
+	private transient ExtendedItemHandle currentItem = null;
 	private transient String[] popupItems = null;
 	private transient boolean refreshItems = true;
-
+	private List referencedLevelList;
+	private LevelHandle level;
 	private static String[] EMPTY_ARRAY = new String[]{};
 
 	private IExpressionProvider provider;
+
+	public void setMemberValue( MemberValueHandle memberValue )
+	{
+		this.memberValue = memberValue;
+	}
 
 	private class ExpressionCellLayout extends Layout
 	{
@@ -221,39 +235,25 @@ public class ExpressionValueCellEditor extends CellEditor
 					if ( value.equals( ( actions[0] ) ) )
 					{
 						// This action will update later.
-						if ( bindingName != null )
-						{
-							try
-							{
-								List selectValueList = getSelectValueList( );
-								SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-										.getDisplay( )
-										.getActiveShell( ),
-										Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-								dialog.setSelectedValueList( selectValueList );
-								if ( bindingParams != null )
-								{
-									dialog.setBindingParams( bindingParams );
-								}
-								if ( dialog.open( ) == IDialogConstants.OK_ID )
-								{
-									newValue = dialog.getSelectedExprValue( );
-								}
-							}
-							catch ( Exception ex )
-							{
-								MessageDialog.openError( null,
-										Messages.getString( "SelectValueDialog.selectValue" ),
-										Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-												+ "\n"
-												+ ex.getMessage( ) );
-							}
-						}
-						else
+						List valueList = getSelectMemberValueList( );
+						if ( valueList == null || valueList.size( ) == 0 )
 						{
 							MessageDialog.openInformation( null,
 									Messages.getString( "SelectValueDialog.selectValue" ),
 									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+						}
+						else
+						{
+							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+									.getDisplay( )
+									.getActiveShell( ),
+									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+							dialog.setSelectedValueList( valueList );
+
+							if ( dialog.open( ) == IDialogConstants.OK_ID )
+							{
+								newValue = dialog.getSelectedExprValue( );
+							}
 						}
 					}
 					else if ( value.equals( actions[1] ) )
@@ -272,7 +272,8 @@ public class ExpressionValueCellEditor extends CellEditor
 					}
 					else if ( selectionIndex > 3 )
 					{
-						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$
+						// //$NON-NLS-2$
 						newValue = ExpressionUtil.createJSParameterExpression( value );
 					}
 					if ( newValue != null )
@@ -291,28 +292,6 @@ public class ExpressionValueCellEditor extends CellEditor
 		setValueValid( true );
 
 		return editorComposite;
-	}
-
-	private List getSelectValueList( ) throws BirtException
-	{
-		List selectValueList = new ArrayList( );
-		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
-		if ( bindingName != null && reportItem != null )
-		{
-						
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					reportItem.getModuleHandle( ) ) );
-			selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-					reportItem.paramBindingsIterator( ),
-					reportItem.columnBindingsIterator( ),
-					bindingName ) );
-			session.shutdown( );
-		}
-		else
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return selectValueList;
 	}
 
 	/*
@@ -396,7 +375,7 @@ public class ExpressionValueCellEditor extends CellEditor
 		this.bindingName = bindingName;
 	}
 
-	public void setReportElement( ReportElementHandle reportItem )
+	public void setReportElement( ExtendedItemHandle reportItem )
 	{
 		currentItem = reportItem;
 	}
@@ -435,6 +414,155 @@ public class ExpressionValueCellEditor extends CellEditor
 	{
 		this.provider = provider;
 
+	}
+
+	public void setReferencedLevelList( List referencedLevelList )
+	{
+		this.referencedLevelList = referencedLevelList;
+	}
+
+	private TabularCubeHandle getCubeHandle( )
+	{
+		TabularCubeHandle tabularCube = null;
+		CrosstabReportItemHandle crosstab = null;
+		if ( currentItem != null )
+		{
+			try
+			{
+				crosstab = (CrosstabReportItemHandle) currentItem.getReportItem( );
+				CubeHandle cube = crosstab.getCube( );
+				if ( cube != null && cube instanceof TabularCubeHandle )
+				{
+					tabularCube = (TabularCubeHandle) cube;
+				}
+			}
+			catch ( Exception e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace( );
+			}
+
+		}
+		return tabularCube;
+	}
+
+	private List getExistValueList( )
+	{
+		List valueList = new ArrayList( );
+		MemberValueHandle tmpMemberValue = memberValue;
+		while ( true )
+		{
+			Object container = tmpMemberValue.getContainer( );
+			if ( container == null
+					|| ( !( container instanceof MemberValueHandle ) ) )
+			{
+				break;
+			}
+			tmpMemberValue = (MemberValueHandle) container;
+			valueList.add( 0, tmpMemberValue );
+		}
+
+		return valueList;
+	}
+
+	private List getSelectMemberValueList( )
+	{
+		// get CubeHandle
+		TabularCubeHandle tabularCube = getCubeHandle( );
+
+		// get Level;
+		DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level );
+		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
+				level.getName( ) );
+
+		// getValueList
+		List valueList = new ArrayList( );
+		List extValueList = getExistValueList( );
+		for ( int i = 0; i < extValueList.size( ); i++ )
+		{
+			MemberValueHandle tmpMemberValue = (MemberValueHandle) extValueList.get( i );
+			String value = tmpMemberValue.getValue( );
+			if ( value == null || value.length( ) == 0 )
+			{
+				// assert all the parent have values.
+				return new ArrayList( );
+			}
+
+			valueList.add( value );
+		}
+		Object[] values = valueList.toArray( new Object[valueList.size( )] );
+		if ( values.length == 0 )
+		{
+			values = null;
+		}
+
+		// get List of ILevelDefinition
+		ILevelDefinition[] levelDens = null;
+		if ( values != null )
+		{
+			levelDens = new ILevelDefinition[values.length];
+			for ( int i = 0; i < values.length; i++ )
+			{
+				Object obj = referencedLevelList.get( i );
+				if ( obj == null || ( !( obj instanceof ILevelDefinition ) ) )
+				{
+					return new ArrayList( );
+				}
+				levelDens[i] = (ILevelDefinition) obj;
+			}
+		}else		
+		{
+			levelDens = null;
+		}
+
+		// validate value
+		if ( tabularCube == null
+				|| ( targetLevel == null || targetLevel.length( ) == 0 ) )
+		{
+			return new ArrayList( );
+		}
+
+		// get value iterator
+		Iterator iter = null;
+		DataRequestSession session = null;
+		try
+		{
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			iter = session.getCubeQueryUtil( )
+					.getMemberValueIterator( tabularCube,
+							targetLevel,
+							levelDens,
+							values );
+		}
+		catch ( Exception e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+		// iterator to list
+		List retList = new ArrayList( );
+		int count = 0;
+		while ( iter.hasNext( ) )
+		{
+			Object obj = iter.next( );
+			if(obj != null)
+			{
+				retList.add( obj );
+				if ( ++count >= 100 )
+				{
+					break;
+				}
+			}
+
+		}
+
+		return retList;
+	}
+
+	public void setLevel( LevelHandle level )
+	{
+		this.level = level;
 	}
 
 }

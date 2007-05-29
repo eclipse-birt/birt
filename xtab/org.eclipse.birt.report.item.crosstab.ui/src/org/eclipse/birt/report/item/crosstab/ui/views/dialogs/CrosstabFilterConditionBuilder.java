@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -48,8 +50,10 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -58,8 +62,12 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
@@ -105,7 +113,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	
 	protected Table memberValueTable;
 	protected TableViewer dynamicViewer;
-
+	protected ExpressionValue expressionValue1,expressionValue2;
+	
 	protected String[] columns = new String[]{
 			" ",
 			Messages.getString( "SelColumnMemberValue.Column.Level" ),
@@ -135,8 +144,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		super.setDesignHandle( handle );
 		if(editor != null)
 		{
-			editor.setExpressionProvider( new ExpressionProvider(handle) );
+			editor.setExpressionProvider( new ExpressionProvider(handle) );			
 		}
+		
 	}
 	
 	/**
@@ -218,6 +228,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			public void modifyText( ModifyEvent e )
 			{
 				updateMemberValues( );
+				expressionValue1.setNeedRefresh( true );
+				expressionValue2.setNeedRefresh( true );
 				updateButtons( );
 			}
 		} );
@@ -245,7 +257,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 		operator.addSelectionListener( OpoertorSelection );
 
-		ExpressionValue expressionValue1 = new ExpressionValue( condition,
+		expressionValue1 = new ExpressionValue( condition,
 				SWT.NONE,
 				null );
 		value1 = expressionValue1.getValueText( );
@@ -258,7 +270,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		andLable.setVisible( false );
 		createDummy( condition, 3 );
 
-		ExpressionValue expressionValue2 = new ExpressionValue( condition,
+		expressionValue2 = new ExpressionValue( condition,
 				SWT.NONE,
 				null );
 		value2 = expressionValue2.getValueText( );
@@ -359,6 +371,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		if(designHandle != null)
 		{
 			editor.setExpressionProvider( new ExpressionProvider(designHandle) );
+			editor.setReportElement((ExtendedItemHandle)designHandle);
 		}
 		
 		dynamicViewer.setCellEditors( cellEditors );
@@ -366,7 +379,25 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		dynamicViewer.setContentProvider( contentProvider );
 		dynamicViewer.setLabelProvider( labelProvider );
 		dynamicViewer.setCellModifier( cellModifier );
+		dynamicViewer.addSelectionChangedListener( selectionChangeListener );
 	}
+	
+	private ISelectionChangedListener selectionChangeListener = new ISelectionChangedListener(){
+
+		public void selectionChanged( SelectionChangedEvent event )
+		{
+			// TODO Auto-generated method stub
+			ISelection selection = event.getSelection( );
+			if(selection instanceof StructuredSelection)
+			{
+				Object obj = ((StructuredSelection) selection).getFirstElement( );
+				if(obj != null && obj instanceof MemberValueHandle && editor != null)
+				{
+					editor.setMemberValue( (MemberValueHandle)obj );
+				}
+			}
+			
+		}};
 
 	private String[] valueItems = new String[0];
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
@@ -486,11 +517,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				e.printStackTrace();
 			}
 
-			dynamicViewer.refresh( );
+			dynamicViewer.refresh( );			
 		}
 	};
 	private ExpressionValueCellEditor editor;
 
+	
+	
 	/**
 	 * SYNC the control value according to the handle.
 	 */
@@ -563,10 +596,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 	private class ExpressionValue
 	{
-
+		private transient boolean needRefreshList = true;
 		Text valueText;
 		Button btnPopup;
-
+		List valueList = new ArrayList();
+		
 		Text getValueText( )
 		{
 			return valueText;
@@ -575,8 +609,83 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		Button getPopupButton( )
 		{
 			return btnPopup;
-		}
+		}		
 
+		public void setNeedRefresh(boolean bool)
+		{
+			needRefreshList = bool;
+		}
+				
+		private List getSelectedValueList()
+		{
+			if(needRefreshList == false)
+			{
+				return valueList;
+			}
+			CubeHandle cube = null;
+			CrosstabReportItemHandle crosstab= null;
+			if(designHandle instanceof ExtendedItemHandle )
+			{				
+				try
+				{
+					Object obj = ((ExtendedItemHandle)designHandle).getReportItem( );
+					if(obj instanceof CrosstabReportItemHandle)
+					{
+						crosstab = (CrosstabReportItemHandle)obj;
+					}
+					
+					crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle)designHandle).getReportItem( );
+					cube = crosstab.getCube( );
+				}
+				catch ( ExtendedElementException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			if(cube == null || (! (cube instanceof TabularCubeHandle)) || expression.getText( ).length( ) == 0)
+			{
+				return new ArrayList();
+			}
+			Iterator iter = null;
+			
+			// get cubeQueryDefn
+			ICubeQueryDefinition cubeQueryDefn = null;
+			DataRequestSession session = null;
+			try
+			{
+				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+				cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+				iter = session.getCubeQueryUtil( )
+						.getMemberValueIterator( (TabularCubeHandle)cube, expression.getText( ), cubeQueryDefn );
+			}
+			catch ( Exception e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace( );
+			}
+			valueList = new ArrayList();
+			int count = 0;
+			while(iter != null && iter.hasNext( ))
+			{
+				valueList.add( iter.next( ) );
+				if(++ count  >= 100)
+				{
+					break;
+				}
+				
+			}
+//			// test begin
+//			for(int i =0; i < 5; i ++)
+//			{
+//				valueList.add( new Integer(i) );
+//			}
+//			// test end
+			needRefreshList = false;
+			return valueList;
+		}
+		
 		ExpressionValue( Composite parent, int style, final Combo expressionText )
 		{
 			Composite composite = new Composite( parent, SWT.NONE );
@@ -620,9 +729,27 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						if ( value.equals( ( actions[0] ) ) )
 						{
 
+							List selectValueList = getSelectedValueList();
+							if(selectValueList == null || selectValueList.size( ) == 0)
+							{
 								MessageDialog.openInformation( null,
 										Messages.getString( "SelectValueDialog.selectValue" ),
 										Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+					
+							}else
+							{
+								SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+										.getDisplay( )
+										.getActiveShell( ),
+										Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+								dialog.setSelectedValueList( selectValueList );
+
+								if ( dialog.open( ) == IDialogConstants.OK_ID )
+								{
+									newValue = dialog.getSelectedExprValue( );
+								}
+							}
+							
 	
 						}
 						else if ( value.equals( actions[1] ) )
@@ -660,6 +787,25 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		}
 
+		private void refreshList( )
+		{
+			if ( refreshItems )
+			{
+				ArrayList finalItems = new ArrayList( 10 );
+				for ( int n = 0; n < actions.length; n++ )
+				{
+					finalItems.add( actions[n] );
+				}
+
+				if ( currentItem != null )
+				{
+					// addParamterItems( finalItems );
+				}
+				popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
+			}
+			refreshItems = false;
+		}
+		
 		private class ExpressionLayout extends Layout
 		{
 
@@ -1158,7 +1304,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			memberValueTable.setEnabled( false );
 			return;
 		}
-
+		
+		editor.setLevel( level.getCubeLevel( ) );
+		editor.setReferencedLevelList( referencedLevelList );
+		
 		// for ( int i = 0; i < levelList.size( ); i++ )
 		// {
 		// LevelDefiniton levelDefn = (LevelDefiniton)levelList.get( i );
@@ -1179,7 +1328,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		memberValueHandle = updateMemberValuesFromLevelList( referencedLevelList,
 				memberValueHandle );
 		List memList = getMemberValueList(memberValueHandle);
-		dynamicViewer.setInput( memList );
+		dynamicViewer.setInput( memList );	
 	}
 	
 	
@@ -1256,23 +1405,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		return null;
 	}
 	
-	private void refreshList( )
-	{
-		if ( refreshItems )
-		{
-			ArrayList finalItems = new ArrayList( 10 );
-			for ( int n = 0; n < actions.length; n++ )
-			{
-				finalItems.add( actions[n] );
-			}
 
-			if ( currentItem != null )
-			{
-				// addParamterItems( finalItems );
-			}
-			popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
-		}
-		refreshItems = false;
-	}
 	
 }

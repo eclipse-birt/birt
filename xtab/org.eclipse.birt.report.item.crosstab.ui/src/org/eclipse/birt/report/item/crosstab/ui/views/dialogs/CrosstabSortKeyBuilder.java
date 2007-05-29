@@ -56,8 +56,12 @@ import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
@@ -382,7 +386,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		Label labelKey = new Label( content, SWT.NONE );
 		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) );
-		textKey = new Combo( content, SWT.NONE | SWT.READ_ONLY );
+		textKey = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
 		textKey.addListener( SWT.Selection, ComboKeyModify );
@@ -486,14 +490,33 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		if(handle != null)
 		{
 			editor.setExpressionProvider( new ExpressionProvider(handle) );
+			editor.setReportElement((ExtendedItemHandle)handle);
 		}
 		dynamicViewer.setCellEditors( cellEditors );
 
 		dynamicViewer.setContentProvider( contentProvider );
 		dynamicViewer.setLabelProvider( labelProvider );
 		dynamicViewer.setCellModifier( cellModifier );
+		dynamicViewer.addSelectionChangedListener( selectionChangeListener );
 	}
 
+	private ISelectionChangedListener selectionChangeListener = new ISelectionChangedListener(){
+
+		public void selectionChanged( SelectionChangedEvent event )
+		{
+			// TODO Auto-generated method stub
+			ISelection selection = event.getSelection( );
+			if(selection instanceof StructuredSelection)
+			{
+				Object obj = ((StructuredSelection) selection).getFirstElement( );
+				if(obj != null && obj instanceof MemberValueHandle && editor != null)
+				{
+					editor.setMemberValue( (MemberValueHandle)obj );
+				}
+			}
+			
+		}};
+		
 	private String[] valueItems = new String[0];
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -778,6 +801,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			return;
 		}
 
+		editor.setLevel( level.getCubeLevel( ) );
+		editor.setReferencedLevelList( referencedLevelList );
+		
 		memberValueTable.setEnabled( true );
 		if ( level == levelViewHandle )
 		{
