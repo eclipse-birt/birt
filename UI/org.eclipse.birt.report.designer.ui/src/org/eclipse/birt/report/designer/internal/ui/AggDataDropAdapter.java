@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -33,7 +34,7 @@ public class AggDataDropAdapter implements IDropAdapter
 
 	public static final String TEMPLATE = "DATA_AGG"; //$NON-NLS-1$
 	public static final String TRANS_NAME = Messages.getString( "AggDataDropAdapter.Trans.Name" ); //$NON-NLS-1$
-	
+
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
@@ -41,8 +42,7 @@ public class AggDataDropAdapter implements IDropAdapter
 		{
 
 		}
-		if ( transfer.equals( TEMPLATE )
-				&& target instanceof TableCellEditPart )
+		if ( transfer.equals( TEMPLATE ) && target instanceof TableCellEditPart )
 		{
 			CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
 			int slotId = cellHandle.getContainer( )
@@ -69,8 +69,7 @@ public class AggDataDropAdapter implements IDropAdapter
 		{
 
 		}
-		if ( transfer.equals( TEMPLATE )
-				&& target instanceof TableCellEditPart )
+		if ( transfer.equals( TEMPLATE ) && target instanceof TableCellEditPart )
 		{
 			//create data item, and pass it to AggregationDataBindingDialog
 			//start transaction
@@ -98,19 +97,23 @@ public class AggDataDropAdapter implements IDropAdapter
 							.getCommandStack( )
 							.commit( );
 				}
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
+				else
+				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.rollback( );
+				}
 			}
-			catch ( Exception e1 )
+			catch ( Exception e )
 			{
 				SessionHandleAdapter.getInstance( )
 						.getCommandStack( )
 						.rollback( );
+				ExceptionHandler.handle( e );
 			}
 
 		}
-		return false;
+		return true;
 	}
 
 }
