@@ -90,12 +90,12 @@ public class PDFLayoutEngineContext
 	{
 		if(hints.size( )>0)
 		{
-			String idStr = table.getInstanceID( ).toString( );
+			String idStr = table.getInstanceID( ).toUniqueString( );
 			Iterator iter = hints.iterator( );
 			while(iter.hasNext())
 			{
 				UnresolvedRowHint rowHint = (UnresolvedRowHint) iter.next();
-				if(idStr.equals( rowHint.getTableId( ).toString( ) ))
+				if(idStr.equals( rowHint.getTableId( ) ))
 				{
 					return rowHint;
 				}

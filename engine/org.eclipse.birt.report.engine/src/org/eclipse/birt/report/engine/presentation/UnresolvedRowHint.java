@@ -30,15 +30,15 @@ public class UnresolvedRowHint
 	final static short FIELD_ROW_ID = 1;
 	final static short FIELD_SPAN_CELL_INFO = 2;
 	final static short FIELD_NONE = 100;
-	protected InstanceID tableId;
-	protected InstanceID rowId;
+	protected String tableId;
+	protected String rowId;
 	protected ArrayList cells = new ArrayList();
 	
 	public UnresolvedRowHint( )
 	{
 	}
 	
-	public UnresolvedRowHint( InstanceID tableId, InstanceID rowId)
+	public UnresolvedRowHint( String tableId, String rowId)
 	{
 		this.tableId = tableId;
 		this.rowId = rowId;
@@ -109,21 +109,21 @@ public class UnresolvedRowHint
 		return null;
 	}
 	
-	protected boolean equals(InstanceID rowId, InstanceID id)
+	protected boolean equals(InstanceID rowId, String id)
 	{
 		if(rowId!=null && id!=null)
 		{
-			return rowId.toString( ).equals( id.toString( ) );
+			return rowId.toUniqueString( ).equals( id );
 		}
 		return false;
 	}
 	
-	public InstanceID getTableId()
+	public String getTableId()
 	{
 		return this.tableId;
 	}
 	
-	public InstanceID getRowId()
+	public String getRowId()
 	{
 		return this.rowId;
 	}
@@ -163,10 +163,10 @@ public class UnresolvedRowHint
 			switch ( filedId )
 			{
 				case FIELD_TABLE_ID :
-					tableId = InstanceID.parse( IOUtil.readString( in ) );
+					tableId = IOUtil.readString( in );
 					break;
 				case FIELD_ROW_ID :
-					rowId = InstanceID.parse( IOUtil.readString( in ) );
+					rowId = IOUtil.readString( in );
 					break;
 				case FIELD_SPAN_CELL_INFO :
 					SpannedCellInfo cell = new SpannedCellInfo();

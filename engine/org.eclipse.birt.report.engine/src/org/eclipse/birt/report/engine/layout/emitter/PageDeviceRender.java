@@ -43,9 +43,9 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
+import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -272,7 +272,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	private boolean needClip( IContainerArea container )
 	{
-		return !( container instanceof RowArea );
+		//only cell and inline container(image, inline text etc) need clip
+		return ( container instanceof CellArea  ) || (container instanceof InlineContainerArea);
 	}
 
 	/**

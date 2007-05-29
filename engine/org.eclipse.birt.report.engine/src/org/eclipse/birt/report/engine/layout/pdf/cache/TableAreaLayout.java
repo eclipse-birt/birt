@@ -86,7 +86,7 @@ public class TableAreaLayout
 		{
 			IReportContent report = tableContent.getReportContent( );
 			IRowContent rowContent = report.createRowContent( );
-			InstanceID rowId = hint.getRowId( );
+			InstanceID rowId = InstanceID.parse( hint.getRowId( ));
 			rowContent.setInstanceID( rowId );
 			rowContent.setParent( tableContent );
 			RowArea rowArea = AreaFactory.createRowArea( rowContent );
@@ -1034,8 +1034,8 @@ public class TableAreaLayout
 		IContent rowContent = (IContent)cell.getContent( ).getParent( );
 		
 		if ( rowSpan > 1
-				&& ( !row.getInstanceID( ).toString( ).equals(
-						rowContent.getInstanceID( ).toString( ) ) ) )
+				&& ( !row.getInstanceID( ).toUniqueString( ).equals(
+						rowContent.getInstanceID( ).toUniqueString( ) ) ) )
 		{
 			return rowSpan - 1;
 		}

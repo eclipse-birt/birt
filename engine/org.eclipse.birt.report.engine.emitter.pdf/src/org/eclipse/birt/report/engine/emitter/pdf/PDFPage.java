@@ -108,15 +108,20 @@ public class PDFPage implements IPage
 		contentByte.clip( );
 		contentByte.rectangle( startX, startY, width, height );
 		contentByte.newPath( );
+		cbUnder.clip( );
+		cbUnder.rectangle( startX, startY, width, height );
+		cbUnder.newPath( );
 	}
 
 	public void clipRestore( )
 	{
+		cbUnder.restoreState( );
 		contentByte.restoreState( );
 	}
 
 	public void clipSave( )
 	{
+		cbUnder.saveState( );
 		contentByte.saveState( );
 	}
 

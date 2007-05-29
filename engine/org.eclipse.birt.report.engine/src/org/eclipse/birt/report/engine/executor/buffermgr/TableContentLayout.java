@@ -525,7 +525,7 @@ public class TableContentLayout
 			ITableContent table = rowContent.getTable( );
 			InstanceID tableId = table.getInstanceID( );
 			InstanceID rowId = rowContent.getInstanceID( );
-			UnresolvedRowHint hint = new UnresolvedRowHint( tableId, rowId);
+			UnresolvedRowHint hint = new UnresolvedRowHint( tableId.toUniqueString( ), rowId.toUniqueString( ));
 			for ( int cellId = 0; cellId < realColCount; cellId++ )
 			{
 				if(cells[cellId]!=null)
