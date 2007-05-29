@@ -43,8 +43,8 @@ public class Cell
 	int status;
 	int rowId;
 	int colId;
-	int rowSpan;
-	int colSpan;
+	int rowSpan = 1;
+	int colSpan = 1;
 	Object content;
 	Cell cell;
 

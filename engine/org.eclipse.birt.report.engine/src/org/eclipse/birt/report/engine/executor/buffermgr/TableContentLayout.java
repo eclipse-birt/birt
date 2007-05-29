@@ -528,13 +528,25 @@ public class TableContentLayout
 			UnresolvedRowHint hint = new UnresolvedRowHint( tableId.toUniqueString( ), rowId.toUniqueString( ));
 			for ( int cellId = 0; cellId < realColCount; cellId++ )
 			{
-				if(cells[cellId]!=null)
+				if ( cells[cellId] != null )
 				{
-					ICellContent cc =((CellContent)cells[cellId].getContent( )).getContent();
-					String style = cc.getStyle( ).getCssText( );
-					hint.addUnresolvedCell( style, cells[cellId]
-							.getColId( ), cells[cellId].getColSpan( ),
-							cells[cellId].getRowSpan( ) );
+					// FIXME: Since cell maybe has a child which does not be started
+					// because it has a page-break-before, we do not process its
+					// style now. So we should start the cell when layout it.
+					String style = null;
+					CellContent cellContent = (CellContent) cells[cellId]
+							.getContent( );					
+					if ( cellContent != null )
+					{
+						ICellContent cc = cellContent.getContent( );
+						if ( cc != null )
+						{
+							style = cc.getStyle( ).getCssText( );
+						}
+					}
+					hint.addUnresolvedCell( style, cells[cellId].getColId( ),
+							cells[cellId].getColSpan( ), cells[cellId]
+									.getRowSpan( ) );
 				}
 			}
 			this.rowHint = hint;
