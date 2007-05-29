@@ -805,6 +805,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		editor.setReferencedLevelList( referencedLevelList );
 		
 		memberValueTable.setEnabled( true );
+		memberValueHandle = null;
 		if ( level == levelViewHandle )
 		{
 			memberValueHandle = input.getMember( );

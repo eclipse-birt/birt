@@ -211,19 +211,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			expression.add( DEUtil.resolveNull( null ) );
 		}
-		expression.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
-						&& designHandle instanceof DataItemHandle )
-				{
-					expression.setText( ExpressionUtil.createJSDataExpression( expression.getText( ) ) );
-				}
-				updateMemberValues( );
-				updateButtons( );
-			}
-		} );
 		expression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -1343,6 +1331,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		// }
 
 		memberValueTable.setEnabled( true );
+		memberValueHandle = null;
 		if ( level == levelViewHandle )
 		{
 			memberValueHandle = inputHandle.getMember( );
