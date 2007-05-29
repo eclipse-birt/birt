@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.plugin;
 
+import org.eclipse.birt.report.item.crosstab.ui.preference.CrosstabPreferencePage;
 import org.eclipse.core.runtime.Plugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * 
@@ -19,10 +21,12 @@ import org.eclipse.core.runtime.Plugin;
 
 public class CrosstabPlugin extends Plugin
 {
-	/**
-	 * Plugin ID.
-	 */
-	public static final String ID = "org.eclipse.birt.core.ui"; //$NON-NLS-1$
+	
+	/** Plugin ID */
+	public static final String ID = "org.eclipse.birt.report.item.crosstab.ui"; //$NON-NLS-1$
+	
+	/** Preference ID */
+	public static final String PREFERENCE_FILTER_LIMIT = "Filter.Limit"; //$NON-NLS-1$
 
 	// The shared instance.
 	private static CrosstabPlugin plugin;
@@ -43,5 +47,27 @@ public class CrosstabPlugin extends Plugin
 	{
 		return plugin;
 	}
+	
+	/**
+	 * This method is called upon plug-in activation
+	 */
+	public void start( BundleContext context ) throws Exception
+	{
+		super.start( context );
+
+		// Initializes all chart related preference values
+		CrosstabPreferencePage.init( );
+	}
+
+	/**
+	 * This method is called when the plug-in is stopped
+	 */
+	public void stop( BundleContext context ) throws Exception
+	{
+		super.stop( context );
+		plugin = null;
+	}
+
+
 
 }

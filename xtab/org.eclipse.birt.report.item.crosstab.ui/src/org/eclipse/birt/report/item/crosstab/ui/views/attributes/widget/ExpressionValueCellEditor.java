@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
@@ -63,7 +64,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.1 $ $Date: 2007/05/24 13:02:10 $
+ * @version $Revision: 1.2 $ $Date: 2007/05/29 03:43:27 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -470,11 +471,6 @@ public class ExpressionValueCellEditor extends CellEditor
 		// get CubeHandle
 		TabularCubeHandle tabularCube = getCubeHandle( );
 
-		// get Level;
-		DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level );
-		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
-				level.getName( ) );
-
 		// getValueList
 		List valueList = new ArrayList( );
 		List extValueList = getExistValueList( );
@@ -510,10 +506,29 @@ public class ExpressionValueCellEditor extends CellEditor
 				}
 				levelDens[i] = (ILevelDefinition) obj;
 			}
-		}else		
+		}
+		else
 		{
 			levelDens = null;
 		}
+
+		// get Level;
+		String targetLevel = null;
+		int index = 0;
+		if ( values != null
+				&& values.length > 0
+				&& values.length + 1 <= referencedLevelList.size( ) )
+		{
+			index = values.length;
+		}
+
+		ILevelDefinition levelDefn = (ILevelDefinition) referencedLevelList.get( index );
+		String levelName = levelDefn.getName( );
+		String dimensionName = levelDefn.getHierarchy( )
+				.getDimension( )
+				.getName( );
+		targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionName,
+				levelName );
 
 		// validate value
 		if ( tabularCube == null
@@ -543,16 +558,23 @@ public class ExpressionValueCellEditor extends CellEditor
 		// iterator to list
 		List retList = new ArrayList( );
 		int count = 0;
+		int MAX_COUNT = CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
 		while ( iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
-			if(obj != null)
+			if ( obj != null )
 			{
-				retList.add( obj );
-				if ( ++count >= 100 )
+				if ( retList.indexOf( obj ) < 0 )
 				{
-					break;
+					retList.add( obj );
+					if ( ++count >= MAX_COUNT )
+					{
+						break;
+					}
 				}
+
 			}
 
 		}

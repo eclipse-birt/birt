@@ -302,4 +302,13 @@
          </adapter>
       </factory>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            class="org.eclipse.birt.report.item.crosstab.ui.preference.CrosstabPreferencePage"
+            id="org.eclipse.birt.report.item.crosstab.ui.preferencepage"
+            name="%preference.crosstabPage">
+      </page>
+   </extension>
 </plugin>
