@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
@@ -55,6 +53,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
@@ -81,10 +80,12 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	private static final int LABEL_WIDTH_HINT = 80;
 	private static final int HORIZONTAL_SPACING = 5;
 
+	private transient Composite cmpList = null;
+
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
-		final int COLUMN_CONTENT = 4;		
+		final int COLUMN_CONTENT = 4;
 		final int COLUMN_DETAIL = 6;
 		final int COMPOSITE_WIDTH = ( LABEL_WIDTH_HINT + HORIZONTAL_SPACING )
 				* COLUMN_DETAIL;
@@ -123,7 +124,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		ScrolledComposite cmpScroll = new ScrolledComposite( cmpContent,
-				SWT.V_SCROLL | SWT.H_SCROLL );
+				SWT.V_SCROLL  | SWT.H_SCROLL );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = COLUMN_CONTENT;
@@ -137,16 +138,34 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			cmpScroll.setExpandHorizontal( true );
 		}
 
-		Composite cmpList = new Composite( cmpScroll, SWT.NONE );
+		createSeriesOptions( cmpScroll );
+
+		createButtonGroup( cmpContent );
+	}
+
+	private void createSeriesOptions( ScrolledComposite cmpScroll )
+	{
+		final int COLUMN_DETAIL = 6;
+		if ( cmpList == null || cmpList.isDisposed( ) )
 		{
+			cmpList = new Composite( cmpScroll, SWT.NONE );
+
 			GridLayout glContent = new GridLayout( COLUMN_DETAIL, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpList.setLayout( glContent );
-
+			cmpList.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			cmpScroll.setContent( cmpList );
 		}
+		else
+		{
+			Control[] children = cmpList.getChildren( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				children[i].dispose( );
+			}
+		}
 
-		Label lblSeries = new Label( cmpList, SWT.WRAP );
+		Label lblSeries = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -156,7 +175,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblSeries.setText( Messages.getString( "SeriesSheetImpl.Label.Series" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTitle = new Label( cmpList, SWT.WRAP );
+		Label lblTitle = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -166,7 +185,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblTitle.setText( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpList, SWT.WRAP );
+		Label lblType = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -176,7 +195,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.WRAP );
+		Label lblVisible = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -186,7 +205,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblVisible.setText( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblStack = new Label( cmpList, SWT.WRAP );
+		Label lblStack = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -196,7 +215,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTranslucent = new Label( cmpList, SWT.WRAP );
+		Label lblTranslucent = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -208,7 +227,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		int treeIndex = 0;
-		
+
 		if ( getValueSeriesDefinition( )[0].getSeries( ).get( 0 ) instanceof PieSeries )
 		{
 			for ( int i = 0; i < seriesDefns.size( ); i++ )
@@ -221,15 +240,24 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+
+		boolean canStack = true;
+		for ( int i = 0; i < seriesDefns.size( ); i++ )
+		{
+			if ( !( ( (SeriesDefinition) seriesDefns.get( i ) ).getDesignTimeSeries( ) ).canBeStacked( ) )
+			{
+				canStack = false;
+				break;
+			}
+		}
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$		
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
-							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
+							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++, canStack ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
 
-		createButtonGroup( cmpContent );
 	}
 
 	private void createButtonGroup( Composite parent )
@@ -299,6 +327,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private Button btnVisible;
 		private Button btnStack;
 		private Button btnTranslucent;
+		
+		private boolean canStack;
 
 		private int iSeriesDefinitionIndex = 0;
 		// Index of tree item in the navigator tree
@@ -307,10 +337,21 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex )
 		{
+			new SeriesOptionChoser( seriesDefn,
+					seriesName,
+					iSeriesDefinitionIndex,
+					treeIndex );
+		}
+
+		public SeriesOptionChoser( SeriesDefinition seriesDefn,
+				String seriesName, int iSeriesDefinitionIndex, int treeIndex,
+				boolean canStack )
+		{
 			this.seriesDefn = seriesDefn;
 			this.seriesName = seriesName;
 			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
 			this.treeIndex = treeIndex;
+			this.canStack = canStack;
 		}
 
 		public void placeComponents( Composite parent )
@@ -375,9 +416,18 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					GridData gd = new GridData( );
 					gd.horizontalAlignment = SWT.CENTER;
 					btnStack.setLayoutData( gd );
-					btnStack.setEnabled( series.canBeStacked( )
+					btnStack.setEnabled( canStack
+							&& series.canBeStacked( )
 							&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL );
-					btnStack.setSelection( series.isStacked( ) );
+					if ( series.isStacked( ) && !canStack )
+					{
+						btnStack.setSelection( false );
+						series.setStacked( false );
+					}
+					else
+					{
+						btnStack.setSelection( series.isStacked( ) );
+					}
 					btnStack.addSelectionListener( this );
 				}
 
@@ -411,20 +461,35 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				if ( seriesDefn.getDesignTimeSeries( )
 						.canParticipateInCombination( ) )
 				{
-					// Get a new series of the selected type by using as much
+
+					// Get a new series of the selected type by using as
+					// much
 					// information as possible from the existing series
+
 					Series newSeries = getNewSeries( cmbTypes.getText( ),
 							series );
+
+					ChartAdapter.beginIgnoreNotifications( );
+					if ( !newSeries.canBeStacked( ) )
+					{
+						for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
+						{
+							if ( ( (SeriesDefinition) getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+									.isStacked( ) )
+							{
+								( (SeriesDefinition) getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+										.setStacked( false );
+							}
+						}
+					}
+					ChartAdapter.endIgnoreNotifications( );
+
 					newSeries.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
 					seriesDefn.getSeries( ).set( 0, newSeries );
 
-					// Refresh UI
-					btnVisible.setSelection( newSeries.isVisible( ) );
-					btnStack.setEnabled( newSeries.canBeStacked( ) );
-					btnStack.setSelection( newSeries.isStacked( ) );
-					btnTranslucent.setSelection( newSeries.isTranslucent( ) );
-					txtTitle.setText( newSeries.getSeriesIdentifier( )
-							.toString( ) );
+					createSeriesOptions( (ScrolledComposite) cmpList.getParent( ) );
+
+					cmpList.layout( );
 				}
 			}
 			else if ( e.getSource( ).equals( btnVisible ) )
@@ -434,7 +499,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			else if ( e.getSource( ).equals( btnStack ) )
 			{
 				series.setStacked( btnStack.getSelection( ) );
-				
+
 				// Default label position is inside if Stacked checkbox is
 				// selected.
 				if ( series instanceof BarSeries && series.isStacked( ) )
@@ -610,7 +675,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
 						&& isGroupedSeries( ) )
 				{
-					//Update color palette of base series
+					// Update color palette of base series
 					SeriesDefinition[] osds = getValueSeriesDefinition( );
 					SeriesDefinition bsd = getCategorySeriesDefinition( );
 					bsd.getSeriesPalette( ).shift( 0 );
