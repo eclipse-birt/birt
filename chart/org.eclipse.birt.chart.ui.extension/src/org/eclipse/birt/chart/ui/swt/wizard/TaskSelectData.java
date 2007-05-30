@@ -631,7 +631,7 @@ public class TaskSelectData extends SimpleTask implements
 			catch ( ChartException e1 )
 			{
 				bException = true;
-				ChartWizard.displayException( e1 );
+				ChartWizard.showException( e1.getLocalizedMessage( ) );
 			}
 			if ( !bException )
 			{
