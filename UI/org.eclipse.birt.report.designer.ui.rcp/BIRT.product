@@ -27,6 +27,7 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
@@ -196,7 +197,6 @@
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.navigator"/>
       <plugin id="org.eclipse.ui.views"/>
-      <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
@@ -211,7 +211,8 @@
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
-      <plugin id="org.wsdl4j"/>
+      <plugin id="javax.wsdl"/>
+      <plugin id="org.eclipse.datatools.help"/>
    </plugins>
 
 </product>
