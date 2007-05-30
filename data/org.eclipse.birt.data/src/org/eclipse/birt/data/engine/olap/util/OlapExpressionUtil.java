@@ -75,13 +75,32 @@ public class OlapExpressionUtil
 	 * String[2] attributeName;
 	 * @param expr
 	 * @return String[]
+	 * @throws DataException 
 	 */
-	private static String[] getTargetAttribute( String expr )
+	private static String[] getTargetAttribute( String expr, List bindings ) throws DataException
 	{
 		if ( expr == null )
 			return null;
 		if ( !expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
-			return null;
+		{
+			String bindingName = getBindingName( expr );
+			if( bindingName != null )
+			{
+				for( int i = 0; i < bindings.size( ); i++ )
+				{
+					IBinding binding = (IBinding)bindings.get( i );
+					if( bindingName.equals( binding.getBindingName( ) ))
+					{
+						if( binding.getExpression( ) instanceof IScriptExpression )
+						{
+							return getTargetAttribute( ((IScriptExpression)binding.getExpression( )).getText( ),bindings );
+						}
+					}
+				}
+			}
+			
+			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+		}
 
 		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
 		String[] result = expr.split( "\\Q\"][\"\\E" );
@@ -189,7 +208,7 @@ public class OlapExpressionUtil
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
-							convertToDimLevelAttribute( binding.getArguments( ) ) ) );
+							convertToDimLevelAttribute( binding.getArguments( ), bindings ) ) );
 			}
 		}
 
@@ -246,13 +265,13 @@ public class OlapExpressionUtil
 		return result;
 	}
 	
-	private static List convertToDimLevelAttribute( List dimLevelExpressions )
+	private static List convertToDimLevelAttribute( List dimLevelExpressions, List bindings )
 			throws DataException
 	{
 		List result = new ArrayList( );
 		for ( int i = 0; i < dimLevelExpressions.size( ); i++ )
 		{
-			result.add( getTargetAttribute( ( (IScriptExpression) dimLevelExpressions.get( i ) ).getText( ) ) );
+			result.add( getTargetAttribute( ( (IScriptExpression) dimLevelExpressions.get( i ) ).getText( ), bindings ) );
 		}
 		return result;
 	}
