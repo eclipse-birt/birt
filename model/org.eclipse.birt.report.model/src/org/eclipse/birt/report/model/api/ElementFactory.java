@@ -1083,13 +1083,6 @@ public class ElementFactory
 	{
 		TabularCube element = new TabularCube( name );
 		module.makeUniqueName( element );
-
-		// add a measure group and set default
-		TabularMeasureGroup measureGroup = new TabularMeasureGroup( );
-		module.makeUniqueName( measureGroup );
-		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
-		element.setDefaultMeasureGroup( measureGroup );
-
 		return element.handle( module );
 	}
 
@@ -1242,12 +1235,6 @@ public class ElementFactory
 	{
 		OdaCube element = new OdaCube( name );
 		module.makeUniqueName( element );
-
-		// add a measure group
-		OdaMeasureGroup measureGroup = new OdaMeasureGroup( );
-		module.makeUniqueName( measureGroup );
-		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
-
 		return element.handle( module );
 	}
 
