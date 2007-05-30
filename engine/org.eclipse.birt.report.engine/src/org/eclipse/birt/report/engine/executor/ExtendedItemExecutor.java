@@ -58,27 +58,34 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 
 			if ( content != null )
 			{
+				IContent pContent = (IContent) content.getParent( );
+				if ( pContent == null )
+				{
+					pContent = getParentContent( );
+					content.setParent( pContent );
+				}
+
 				InstanceID iid = content.getInstanceID( );
 				if ( iid != null )
 				{
+					InstanceID pid = iid.getParentID( );
+					if ( pid == null && pContent != null )
+					{
+						pid = pContent.getInstanceID( );
+					}
 					long uid = iid.getUniqueID( );
 					if ( uid == -1 )
 					{
 						uid = generateUniqueID( );
-						iid = new InstanceID( iid.getParentID( ), uid, iid
-								.getComponentID( ), iid.getDataID( ) );
-						content.setInstanceID( iid );
 					}
+					iid = new InstanceID( pid, uid, iid.getComponentID( ), iid
+							.getDataID( ) );
+					content.setInstanceID( iid );
 				}
 				else
 				{
 					iid = getInstanceID( );
 					content.setInstanceID( iid );
-				}
-				
-				if ( content.getParent( ) == null )
-				{
-					content.setParent( getParentContent( ) );
 				}
 
 				if ( context.isInFactory( ) )

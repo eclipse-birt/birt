@@ -168,6 +168,11 @@ public class ExtendedItemExecutor extends ContainerExecutor
 					if ( pContent != null )
 					{
 						content.setParent( pContent );
+						instanceId = new InstanceID( pContent.getInstanceID( ),
+								instanceId.getUniqueID( ), instanceId
+										.getComponentID( ), instanceId
+										.getDataID( ) );
+						content.setInstanceID( instanceId );
 					}
 					doExecute( );
 				}
