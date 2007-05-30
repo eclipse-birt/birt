@@ -273,7 +273,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest
 		for ( int i = 0; i < methods.size( ); i++ )
 		{
 			String method = ( (IMethodInfo) methods.get( i ) ).getName( );
-			if ( "countDistinct".equalsIgnoreCase( method ) ) //$NON-NLS-1$
+			if ( "count-distinct".equalsIgnoreCase( method ) ) //$NON-NLS-1$
 			{
 				++count;
 			}
@@ -310,7 +310,9 @@ public class MetaDataDictionaryTest extends AbstractMetaTest
 	{
 		List methods = dict.getFunctions( );
 
-		assertEquals( 25, methods.size( ) );
+		// running-npv is not supported yet.
+		
+		assertEquals( 19, methods.size( ) );
 
 		IMethodInfo method = (IMethodInfo) methods.get( 0 );
 		assertEquals( "sum", method.getName( ) ); //$NON-NLS-1$

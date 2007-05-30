@@ -22,10 +22,12 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -222,6 +224,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * The predefined style instance list
 	 */
 	private Map extensionFactoryStyles = null;
+
+	/**
+	 * 
+	 */
+
+	private Map functions = null;
 
 	/**
 	 * Singleton class, constructor is private.
@@ -988,7 +996,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			extensionFactoryStyles = new HashMap( );
 		if ( extensionFactoryStyles.containsKey( style.getName( ) ) )
 			MetaLogManager
-					.log( "the extension predefined style has duplicated name, will be ignored." );
+					.log( "the extension predefined style has duplicated name, will be ignored." ); //$NON-NLS-1$
 		else
 			extensionFactoryStyles.put( style.getName( ), style );
 
@@ -1002,7 +1010,54 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public List getFunctions( )
 	{
-		IClassInfo clazz = getClass( TOTAL_CLASS_NAME ); //$NON-NLS-1$
-		return clazz.getMethods( );
+		if ( functions == null )
+		{
+			functions = new HashMap( );
+			List names = new ArrayList( );
+			IChoice[] choices = getChoiceSet( "measureFunction" ).getChoices( ); //$NON-NLS-1$
+			for ( int i = 0; i < choices.length; i++ )
+			{
+				IChoice choice = choices[i];
+				names.add( choice.getName( ) );
+			}
+
+			IClassInfo clazz = getClass( TOTAL_CLASS_NAME );
+			addMatchedFunctions( functions, clazz.getMethods( ), names );
+
+			clazz = getClass( FINANCE_CLASS_NAME );
+			addMatchedFunctions( functions, clazz.getMethods( ), names );
+			
+			names.clear( );
+		}
+
+		assert functions != null;
+
+		List retList = new ArrayList( );
+		retList.addAll( functions.values( ) );
+		return retList;
+	}
+
+	/**
+	 * Adds functions in <code>clazzMethods</code> to <code>methods</code>
+	 * if methods names exist in <code>names</code>.
+	 * 
+	 * @param methods
+	 *            the return methods
+	 * @param clazzMethods
+	 *            the methods on the class
+	 * @param names
+	 *            the possible method names
+	 */
+
+	private static void addMatchedFunctions( Map methods, List clazzMethods,
+			List names )
+	{
+		for ( int i = 0; i < clazzMethods.size( ); i++ )
+		{
+			IMethodInfo info = (IMethodInfo) clazzMethods.get( i );
+			if ( names.contains( info.getName( ) ) )
+				methods.put( info.getName( ), info );
+		}
+
 	}
 }

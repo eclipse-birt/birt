@@ -1139,20 +1139,20 @@
 	<Method displayNameID="Class.Total.sum" isStatic="true" name="sum" returnType="number" toolTipID="Class.Total.sum.toolTip">
 		<Argument name="expr" tagID="Class.Total.sum.expr" type="number"/>			 			
 	</Method>
-	<Method displayNameID="Class.Total.runningSum" isStatic="true" name="runningSum" returnType="number" toolTipID="Class.Total.runningSum.toolTip">
+	<Method displayNameID="Class.Total.runningSum" isStatic="true" name="running-sum" returnType="number" toolTipID="Class.Total.runningSum.toolTip">
 		<Argument name="expr" tagID="Class.Total.runningSum.expr" type="number"/>		 			
 	</Method>
 	<Method displayNameID="Class.Total.count" isStatic="true" name="count" returnType="number" toolTipID="Class.Total.count.toolTip">	 			
 	</Method>
-	<Method displayNameID="Class.Total.runningCount" isStatic="true" name="runningCount" returnType="number" toolTipID="Class.Total.runningCount.toolTip">	 			
+	<Method displayNameID="Class.Total.runningCount" isStatic="true" name="running-count" returnType="number" toolTipID="Class.Total.runningCount.toolTip">	 			
 	</Method>
-	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="countDistinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
+	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="count-distinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
 		<Argument name="expr" tagID="Class.Total.countDistinct.expr" type="number"/>	 			
 	</Method>
-	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="countDistinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
+	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="count-distinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
 		<Argument name="expr" tagID="Class.Total.countDistinct.expr" type="String"/>	 			
 	</Method>
-	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="countDistinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
+	<Method displayNameID="Class.Total.countDistinct" isStatic="true" name="count-distinct" returnType="number" toolTipID="Class.Total.countDistinct.toolTip">
 		<Argument name="expr" tagID="Class.Total.countDistinct.expr" type="Date"/>		 			
 	</Method>
 	<Method displayNameID="Class.Total.max" isStatic="true" name="max" returnType="number" toolTipID="Class.Total.max.toolTip">
@@ -1173,17 +1173,17 @@
 	<Method displayNameID="Class.Total.min" isStatic="true" name="min" returnType="number" toolTipID="Class.Total.min.toolTip">
 		<Argument name="expr" tagID="Class.Total.min.expr" type="Date"/>	 			
 	</Method>
-	<Method displayNameID="Class.Total.ave" isStatic="true" name="ave" returnType="number" toolTipID="Class.Total.ave.toolTip">
+	<Method displayNameID="Class.Total.ave" isStatic="true" name="average" returnType="number" toolTipID="Class.Total.ave.toolTip">
 		<Argument name="expr" tagID="Class.Total.ave.expr" type="number"/>		 			
 	</Method>
-	<Method displayNameID="Class.Total.ave" isStatic="true" name="ave" returnType="number" toolTipID="Class.Total.ave.toolTip">
+	<Method displayNameID="Class.Total.ave" isStatic="true" name="average" returnType="number" toolTipID="Class.Total.ave.toolTip">
 		<Argument name="expr" tagID="Class.Total.ave.expr" type="Date"/>	 			
 	</Method>
-	<Method displayNameID="Class.Total.weightedAve" isStatic="true" name="weightedAve" returnType="number" toolTipID="Class.Total.weightedAve.toolTip">
+	<Method displayNameID="Class.Total.weightedAve" isStatic="true" name="weighted-avg" returnType="number" toolTipID="Class.Total.weightedAve.toolTip">
 		<Argument name="expr" tagID="Class.Total.weightedAve.expr" type="number"/>
 		<Argument name="weight" tagID="Class.Total.weightedAve.weight" type="number"/>		 			
 	</Method>
-	<Method displayNameID="Class.Total.movingAve" isStatic="true" name="movingAve" returnType="number" toolTipID="Class.Total.movingAve.toolTip">
+	<Method displayNameID="Class.Total.movingAve" isStatic="true" name="moving-ave" returnType="number" toolTipID="Class.Total.movingAve.toolTip">
 		<Argument name="expr" tagID="Class.Total.movingAve.expr" type="number"/>
 		<Argument name="window" tagID="Class.Total.movingAve.window" type="number"/>			 			
 	</Method>				
@@ -1202,7 +1202,7 @@
 	<Method displayNameID="Class.Total.mode" isStatic="true" name="mode" returnType="number" toolTipID="Class.Total.mode.toolTip">
 		<Argument name="expr" tagID="Class.Total.mode.expr" type="Date"/>		 			
 	</Method>				
-	<Method displayNameID="Class.Total.stdDev" isStatic="true" name="stdDev" returnType="number" toolTipID="Class.Total.stdDev.toolTip">
+	<Method displayNameID="Class.Total.stdDev" isStatic="true" name="stddev" returnType="number" toolTipID="Class.Total.stdDev.toolTip">
 		<Argument name="expr" tagID="Class.Total.stdDev.expr" type="number"/>		 			
 	</Method>				
 	<Method displayNameID="Class.Total.variance" isStatic="true" name="variance" returnType="number" toolTipID="Class.Total.variance.toolTip">
@@ -1399,6 +1399,10 @@
 		<Argument name="denom" tagID="Class.Finance.percent.denom" type="number"/>			 
 		<Argument name="num" tagID="Class.Finance.percent.num" type="number"/>
 		<Argument name="valueIfZero" tagID="Class.Finance.percent.rate" type="number"/>
+	</Method>		
+	<Method displayNameID="Class.Finance.irr" isStatic="true" name="irr" returnType="number" since="reserved" toolTipID="Class.Finance.irr.toolTip">
+		<Argument name="cashArray" tagID="Class.Finance.irr.cashArray" type="String"/>			 
+		<Argument name="startingGuess" tagID="Class.Finance.irr.startingGuess" type="number"/>
 	</Method>			
 	<!-- Method displayNameID="Class.Finance.ddb" isStatic="true" name="ddb" returnType="number" since="reserved" toolTipID="Class.Finance.ddb.toolTip">
 		<Argument name="initialCost" tagID="Class.Finance.ddb.initialCost" type="number"/>
@@ -1456,11 +1460,7 @@
 		<Argument name="futureValue" tagID="Class.Finance.rate.futureValue" type="number"/>			 						
 		<Argument name="whenDue" tagID="Class.Finance.rate.whenDue" type="number"/>			 									
 		<Argument name="startingGuess" tagID="Class.Finance.rate.startingGuess" type="number"/>
-	</Method>					
-	<Method displayNameID="Class.Finance.irr" isStatic="true" name="irr" returnType="number" since="reserved" toolTipID="Class.Finance.irr.toolTip">
-		<Argument name="cashArray" tagID="Class.Finance.irr.cashArray" type="String"/>			 
-		<Argument name="startingGuess" tagID="Class.Finance.irr.startingGuess" type="number"/>
-	</Method>						 
+	</Method>										 
 	-->						 
   </Class>
   <!-- Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	

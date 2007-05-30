@@ -59,6 +59,11 @@ public interface IMetaDataDictionary
 	String TOTAL_CLASS_NAME = "Total"; //$NON-NLS-1$
 	
 	/**
+	 * Name of the class for 'Finance'.
+	 */
+	String FINANCE_CLASS_NAME = "Finance"; //$NON-NLS-1$
+	
+	/**
 	 * Finds the element definition by its internal name.
 	 * 
 	 * @param name
