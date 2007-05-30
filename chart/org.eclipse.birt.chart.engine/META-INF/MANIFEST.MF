@@ -52,3 +52,4 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
  org.eclipse.emf.ecore.xmi;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.4

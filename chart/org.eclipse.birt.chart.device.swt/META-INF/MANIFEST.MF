@@ -12,3 +12,4 @@ Eclipse-LazyStart: true
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.swt.util
+Bundle-RequiredExecutionEnvironment: J2SE-1.4

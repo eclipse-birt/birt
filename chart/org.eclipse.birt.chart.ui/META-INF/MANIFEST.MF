@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)";visibility:=reexpo
  org.eclipse.birt.core.ui;bundle-version="[2.1.0,3.0.0)";visibility:=reexport,
  org.eclipse.birt.chart.engine;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
