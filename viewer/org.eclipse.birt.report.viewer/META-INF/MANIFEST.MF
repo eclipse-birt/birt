@@ -7,6 +7,7 @@ Bundle-ClassPath: viewer.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
 Export-Package: org.eclipse.birt.report,
  org.eclipse.birt.report.context,
  org.eclipse.birt.report.exception,
