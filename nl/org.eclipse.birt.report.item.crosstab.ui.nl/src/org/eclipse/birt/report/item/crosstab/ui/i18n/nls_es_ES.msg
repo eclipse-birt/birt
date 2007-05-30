@@ -171,10 +171,22 @@ CrosstabSectionPage.RepeatColumnHeader=Repetir encabezado de columna
 ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
 ExpressionValueCellEditor.selectValueAction=<Select value...>
 ExpressionValueCellEditor.title=Select value
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
 SelColumnMemberValue.Column.Level=Level
 SelColumnMemberValue.Column.Value=Value
 ChoiceSetFactory.choice.None=Ninguno
+
+###########################################################
+#SelectValueDialog properties
+SelectValueDialog.errorRetrievinglist=Error retrieving list
+SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
+SelectValueDialog.noExpressionSet=An expression has not been set
+SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.selectValue=Select value
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+
+CrosstabPreferencePage.Title=Crosstab
+CrosstabPreferencePage.filterLimit=Filter Limit
+CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
+CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
