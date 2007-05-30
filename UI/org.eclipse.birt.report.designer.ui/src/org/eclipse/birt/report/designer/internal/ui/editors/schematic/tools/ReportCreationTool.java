@@ -293,7 +293,8 @@ public class ReportCreationTool extends CreationTool
 		{
 			if ( template.startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 			{
-				type = ReportDesignConstants.EXTENDED_ITEM;
+//				type = ReportDesignConstants.EXTENDED_ITEM;
+				type = template.substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
 			}
 		}
 		return type;
