@@ -77,36 +77,47 @@ public class OlapExpressionUtil
 	 * @return String[]
 	 * @throws DataException 
 	 */
-	private static String[] getTargetAttribute( String expr, List bindings ) throws DataException
+	private static String[] getTargetAttribute( String expr, List bindings )
+			throws DataException
 	{
 		if ( expr == null )
 			return null;
-		if ( !expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		if ( !( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) ) )
 		{
 			String bindingName = getBindingName( expr );
-			if( bindingName != null )
+			if ( bindingName != null )
 			{
-				for( int i = 0; i < bindings.size( ); i++ )
+				for ( int i = 0; i < bindings.size( ); i++ )
 				{
-					IBinding binding = (IBinding)bindings.get( i );
-					if( bindingName.equals( binding.getBindingName( ) ))
+					IBinding binding = (IBinding) bindings.get( i );
+					if ( bindingName.equals( binding.getBindingName( ) ) )
 					{
-						if( binding.getExpression( ) instanceof IScriptExpression )
+						if ( binding.getExpression( ) instanceof IScriptExpression )
 						{
-							return getTargetAttribute( ((IScriptExpression)binding.getExpression( )).getText( ),bindings );
+							return getTargetAttribute( ( (IScriptExpression) binding.getExpression( ) ).getText( ),
+									bindings );
 						}
 					}
 				}
 			}
-			
+
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		}
 
 		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
-		String[] result = expr.split( "\\Q\"][\"\\E" );
-		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
-		result[2] = result[2].replaceAll( "\\Q\"]\\E", "" );
-
+		String[] result = new String[3];
+		String[] candidateResult = expr.split( "\\Q\"][\"\\E" );
+		if ( candidateResult.length == 2 )
+		{
+			result[0] = candidateResult[0].replaceAll( "\\Q[\"\\E", "" );
+			result[1] = candidateResult[1].replaceAll( "\\Q\"]\\E", "" );
+		}
+		else
+		{
+			result[0] = candidateResult[0].replaceAll( "\\Q[\"\\E", "" );
+			result[1] = candidateResult[1];
+			result[2] = candidateResult[2].replaceAll( "\\Q\"]\\E", "" );
+		}
 		return result;
 	}
 	
