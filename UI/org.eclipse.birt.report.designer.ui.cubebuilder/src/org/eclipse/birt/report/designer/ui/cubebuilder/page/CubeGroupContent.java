@@ -593,6 +593,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.newTabularMeasureGroup( "Summary Field" ); //$NON-NLS-1$
 										input.add( CubeHandle.MEASURE_GROUPS_PROP,
 												measureGroup );
+										if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+											input.setDefaultMeasureGroup( measureGroup );
 									}
 									else
 									{
@@ -913,10 +915,11 @@ public class CubeGroupContent extends Composite implements Listener
 	public void load( )
 	{
 		if ( input != null )
-		{	
+		{
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			else if ( input.getDataSet( ) != null ){
+			else if ( input.getDataSet( ) != null )
+			{
 				cubeLabelProvider.setInput( input );
 				dataFieldsViewer.setInput( input );
 			}
@@ -1069,8 +1072,7 @@ public class CubeGroupContent extends Composite implements Listener
 						&& level.attributesIterator( ) != null
 						&& level.attributesIterator( ).hasNext( ) )
 				{
-					String name = level.getName( )
-							+ " (" //$NON-NLS-1$
+					String name = level.getName( ) + " (" //$NON-NLS-1$
 							+ level.getColumnName( )
 							+ ": "; //$NON-NLS-1$
 					Iterator attrIter = level.attributesIterator( );
@@ -1203,7 +1205,9 @@ public class CubeGroupContent extends Composite implements Listener
 						.getName( )
 						.equals( ICubeModel.DIMENSIONS_PROP ) )
 				{
-					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( "Group" ); //$NON-NLS-1$
 					try
@@ -1217,8 +1221,8 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 
 					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
-							Messages.getString("CubeGroupContent.Group.Add.Title"), //$NON-NLS-1$
-							Messages.getString("CubeGroupContent.Group.Add.Message"), //$NON-NLS-1$
+							Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
+							Messages.getString( "CubeGroupContent.Group.Add.Message" ), //$NON-NLS-1$
 							( (DesignElementHandle) dimension ).getName( ),
 							null );
 					inputDialog.create( );
@@ -1228,7 +1232,9 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
 									.trim( ) );
-							SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.commit( );
 						}
 						catch ( NameException e1 )
 						{
@@ -1250,7 +1256,9 @@ public class CubeGroupContent extends Composite implements Listener
 						.getName( )
 						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				{
-					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( "Summary Field" ); //$NON-NLS-1$
 					try
@@ -1258,6 +1266,10 @@ public class CubeGroupContent extends Composite implements Listener
 						model.getElementHandle( )
 								.add( ICubeModel.MEASURE_GROUPS_PROP,
 										measureGroup );
+						if ( model.getElementHandle( )
+								.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+							((CubeHandle)model.getElementHandle( ))
+									.setDefaultMeasureGroup( measureGroup );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1265,8 +1277,8 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 
 					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
-							Messages.getString("CubeGroupContent.Measure.Add.Title"), //$NON-NLS-1$
-							Messages.getString("CubeGroupContent.Message.Add.Message"), //$NON-NLS-1$
+							Messages.getString( "CubeGroupContent.Measure.Add.Title" ), //$NON-NLS-1$
+							Messages.getString( "CubeGroupContent.Message.Add.Message" ), //$NON-NLS-1$
 							( (DesignElementHandle) measureGroup ).getName( ),
 							null );
 					inputDialog.create( );
@@ -1276,7 +1288,9 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
 									.trim( ) );
-							SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.commit( );
 						}
 						catch ( NameException e1 )
 						{
@@ -1577,7 +1591,7 @@ public class CubeGroupContent extends Composite implements Listener
 				if ( level.getDataType( )
 						.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 				{
-					DateLevelDialog dialog = new DateLevelDialog();
+					DateLevelDialog dialog = new DateLevelDialog( );
 					dialog.setInput( level );
 					if ( dialog.open( ) == Window.OK )
 					{
@@ -1620,13 +1634,13 @@ public class CubeGroupContent extends Composite implements Listener
 				String message = Messages.getString( "RenameInputDialog.DialogMessage" ); //$NON-NLS-1$
 				if ( obj instanceof DimensionHandle )
 				{
-					title = Messages.getString("CubeGroupContent.Group.Edit.Title"); //$NON-NLS-1$
-					message = Messages.getString("CubeGroupContent.Group.Edit.Message"); //$NON-NLS-1$
+					title = Messages.getString( "CubeGroupContent.Group.Edit.Title" ); //$NON-NLS-1$
+					message = Messages.getString( "CubeGroupContent.Group.Edit.Message" ); //$NON-NLS-1$
 				}
 				else if ( obj instanceof MeasureGroupHandle )
 				{
-					title = Messages.getString("CubeGroupContent.Measure.Edit.Title"); //$NON-NLS-1$
-					message = Messages.getString("CubeGroupContent.Measure.Edit.Message"); //$NON-NLS-1$
+					title = Messages.getString( "CubeGroupContent.Measure.Edit.Title" ); //$NON-NLS-1$
+					message = Messages.getString( "CubeGroupContent.Measure.Edit.Message" ); //$NON-NLS-1$
 				}
 				RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
 						title,
