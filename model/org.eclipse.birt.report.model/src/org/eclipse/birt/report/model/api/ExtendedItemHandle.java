@@ -14,24 +14,19 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -272,26 +267,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	public List getMethods( String context )
 	{
 		if ( StringUtil.isBlank( context ) )
-			return Collections.EMPTY_LIST;
-
-		IElementDefn elementDefn = getDefn( );
-		if ( !( elementDefn instanceof PeerExtensionElementDefn ) )
-			return Collections.EMPTY_LIST;
-
-		List methods = elementDefn.getMethods( );
-
-		Map retMap = new LinkedHashMap( );
-		for ( int i = 0; i < methods.size( ); i++ )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) methods
-					.get( i );
-			String tmpContext = propDefn.getContext( );
-			if ( context.equalsIgnoreCase( tmpContext ) )
-			{
-				IMethodInfo info = propDefn.getMethodInfo( );
-				retMap.put( info.getName( ), propDefn.getMethodInfo( ) );
-			}
-		}
+			return null;
 
 		IReportItem extension = null;
 
@@ -301,26 +277,15 @@ public class ExtendedItemHandle extends ReportItemHandle
 		}
 		catch ( ExtendedElementException e )
 		{
-			List retList = new ArrayList( );
-			retList.addAll( retMap.values( ) );
-			return retList;
-		}
-
-		if ( extension == null )
-		{
-			List retList = new ArrayList( );
-			retList.addAll( retMap.values( ) );
-			return retList;
+			return null;
 		}
 
 		IMethodInfo[] info = extension.getMethods( context );
 		if ( info == null || info.length == 0 )
 		{
-			List retList = new ArrayList( );
-			retList.addAll( retMap.values( ) );
-			return retList;
+			return null;
 		}
-
+		List returnList = new ArrayList( );
 		for ( int i = 0; i < info.length; i++ )
 		{
 			IMethodInfo tmpInfo = info[i];
@@ -337,11 +302,9 @@ public class ExtendedItemHandle extends ReportItemHandle
 						+ " is empty or null." ); //$NON-NLS-1$
 				continue;
 			}
-			retMap.put( tmpContext, tmpInfo );
+			returnList.add( tmpInfo );
 		}
 
-		List retList = new ArrayList( );
-		retList.addAll( retMap.values( ) );
-		return retList;
+		return returnList;
 	}
 }

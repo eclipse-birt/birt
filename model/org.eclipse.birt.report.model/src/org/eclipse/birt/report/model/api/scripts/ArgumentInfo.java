@@ -37,6 +37,17 @@ public class ArgumentInfo implements IArgumentInfo
 		this.clazz = argumentType;
 	}
 
+	/**
+	 * Returns the arguement type in class.
+	 * 
+	 * @return the arguement type in class
+	 */
+
+	protected Class getArgumentClass( )
+	{
+		return clazz;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

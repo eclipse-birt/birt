@@ -57,7 +57,7 @@ public class ClassInfo implements IClassInfo
 	/**
 	 * @param clazz
 	 */
-	
+
 	public ClassInfo( Class clazz )
 	{
 		this.clazz = clazz;
@@ -78,8 +78,9 @@ public class ClassInfo implements IClassInfo
 			IMethodInfo method = (IMethodInfo) methods.get( methodName );
 			if ( method == null )
 			{
-				method = new MethodInfo( classMethod );
-				methods.put( methodName, method );
+				method = createMethodInfo( classMethod );
+				if ( method != null )
+					methods.put( methodName, method );
 			}
 		}
 
@@ -88,16 +89,48 @@ public class ClassInfo implements IClassInfo
 		{
 			Constructor classMethod = classConstructors[i];
 			if ( constructor == null )
-				constructor = new ConstructorInfo( classMethod );
+				constructor = createConstructorInfo( classMethod );
 		}
 
 		Field[] fields = clazz.getFields( );
 		for ( int i = 0; i < fields.length; i++ )
 		{
 			Field classField = fields[i];
-			members.put( classField.getName( ), new MemberInfo( classField ) );
+			IMemberInfo memberInfo = createMemberInfo( classField );
+			if ( memberInfo != null )
+				members.put( classField.getName( ), memberInfo );
 		}
 
+	}
+
+	/**
+	 * @param classField
+	 * @return
+	 */
+
+	protected IMemberInfo createMemberInfo( Field classField )
+	{
+		return new MemberInfo( classField );
+	}
+
+	/**
+	 * @param classMethod
+	 * @return
+	 */
+
+	protected IMethodInfo createConstructorInfo( Constructor classMethod )
+	{
+		return new ConstructorInfo( classMethod );
+	}
+
+	/**
+	 * @param classMethod
+	 * @return
+	 */
+
+	protected IMethodInfo createMethodInfo( Method classMethod )
+	{
+		return new MethodInfo( classMethod );
 	}
 
 	/**
@@ -211,7 +244,7 @@ public class ClassInfo implements IClassInfo
 
 	public String getDisplayNameKey( )
 	{
-		return StringUtil.EMPTY_STRING; 
+		return StringUtil.EMPTY_STRING;
 	}
 
 	/*
@@ -233,7 +266,7 @@ public class ClassInfo implements IClassInfo
 
 	public String getToolTipKey( )
 	{
-		return StringUtil.EMPTY_STRING; 
+		return StringUtil.EMPTY_STRING;
 	}
 
 	/*

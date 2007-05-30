@@ -714,64 +714,20 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
 
 		retList = extendedItem.getMethods( "onPrepare" ); //$NON-NLS-1$
-		assertTrue( retList.isEmpty( ) );
+		assertNull( retList );
 
 		retList = extendedItem.getMethods( "onCreate" ); //$NON-NLS-1$
-		assertFalse( retList.isEmpty( ) );
+		assertNotNull( retList );
 
 		method = (IMethodInfo) retList.get( 0 );
-		assertEquals( "afterOnCreate", method.getName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"javadoc for <code>afterOnCreate</code>", method.getJavaDoc( ) ); //$NON-NLS-1$
-		IClassInfo clazz = method.getClassReturnType( );
-		assertEquals( "org.eclipse.birt.report.model.tests.box.Box", clazz //$NON-NLS-1$
-				.getName( ) );
-		List boxMethods = clazz.getMethods( );
-		IMethodInfo boxMethod = (IMethodInfo) boxMethods.get( 0 );
-		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
-		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
-
-		boxMethod = (IMethodInfo) boxMethods.get( 1 );
-		assertEquals( "setMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
-		assertEquals( "void", boxMethod.getReturnType( ) ); //$NON-NLS-1$
-		assertEquals( "void", boxMethod.getClassReturnType( ).getName( ) ); //$NON-NLS-1$
-
-		IArgumentInfoList arguments = (IArgumentInfoList) boxMethod
-				.argumentListIterator( ).next( );
-		IArgumentInfo argument = (IArgumentInfo) arguments.argumentsIterator( )
-				.next( );
-		assertEquals( "", argument.getName( ) ); //$NON-NLS-1$
-		assertEquals( "int", argument.getType( ) ); //$NON-NLS-1$
-		assertEquals( "int", argument.getClassType( ).getName( ) ); //$NON-NLS-1$
-
-		method = (IMethodInfo) retList.get( 1 );
-		assertEquals( "beforeOnCreate", method.getName( ) ); //$NON-NLS-1$
-		assertEquals( "javadoc for beforeOnCreate<br>", method.getJavaDoc( ) ); //$NON-NLS-1$
-
-		Iterator arguList = method.argumentListIterator( );
-		IArgumentInfoList argus = (IArgumentInfoList) arguList.next( );
-		IArgumentInfo argu = argus.getArgument( "object" ); //$NON-NLS-1$
-
-		clazz = argu.getClassType( );
-		assertEquals( "org.eclipse.birt.report.model.tests.box.Box", clazz //$NON-NLS-1$
-				.getName( ) );
-
-		boxMethods = clazz.getMethods( );
-		boxMethod = (IMethodInfo) boxMethods.get( 0 );
-		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
-		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
-
-		// IReportItem.getMethods() overrides that defined in plugin.xml.
-
-		method = (IMethodInfo) retList.get( 2 );
 		assertEquals( "performOnCreate", method.getName( ) ); //$NON-NLS-1$
 		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
 
-		arguList = method.argumentListIterator( );
-		argus = (IArgumentInfoList) arguList.next( );
-		argu = (IArgumentInfo) argus.argumentsIterator( ).next( );
+		Iterator arguList = method.argumentListIterator( );
+		IArgumentInfoList argus = (IArgumentInfoList) arguList.next( );
+		IArgumentInfo argu = (IArgumentInfo) argus.argumentsIterator( ).next( );
 
-		clazz = argu.getClassType( );
+		IClassInfo clazz = argu.getClassType( );
 		assertEquals( "java.lang.Boolean", clazz.getName( ) ); //$NON-NLS-1$
 	}
 

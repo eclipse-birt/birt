@@ -45,9 +45,19 @@ public class MethodInfo implements IMethodInfo
 	protected MethodInfo( Method method )
 	{
 		this.method = method;
-		
 
 		addArgumentList( method.getParameterTypes( ) );
+	}
+
+	/**
+	 * Returns the internal Java Method instance.
+	 * 
+	 * @return the internal Java Method instance
+	 */
+
+	protected Method getMethod( )
+	{
+		return method;
 	}
 
 	/**
