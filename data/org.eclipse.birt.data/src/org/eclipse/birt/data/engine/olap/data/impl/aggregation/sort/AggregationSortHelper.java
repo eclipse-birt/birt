@@ -44,13 +44,12 @@ public class AggregationSortHelper
 	 * @throws DataException
 	 */
 	public static IAggregationResultSet sort( IAggregationResultSet base,
-			AxisQualifier[] qualifier, SortKey[] sortKeys ) throws IOException,
+			SortKey[] sortKeys ) throws IOException,
 			DataException
 	{
-		AggregationResultRowNavigator[] filteredAggrResultSet = createFilteredResultSet( sortKeys,
-				qualifier );
+		createFilteredResultSet( sortKeys );
 		IDiskArray baseDiskArray = getDiskArrayFromAggregationResultSet( base );
-		IDiskArray keyDiskArray = populateAggrDiskArray( base, sortKeys, filteredAggrResultSet );
+		IDiskArray keyDiskArray = populateAggrDiskArray( base, sortKeys );
 
 		CompareUtil.sort( new WrapperedDiskArray( baseDiskArray, keyDiskArray ),
 				new AggrResultRowComparator( populateNewSortKeys( base,
@@ -72,8 +71,7 @@ public class AggregationSortHelper
 	 * @throws IOException
 	 */
 	private static IDiskArray populateAggrDiskArray(
-			IAggregationResultSet base, SortKey[] sortKeys,
-			AggregationResultRowNavigator[] filteredAggrResultSet )
+			IAggregationResultSet base, SortKey[] sortKeys )
 			throws IOException
 	{
 		IDiskArray keyDiskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
@@ -83,8 +81,7 @@ public class AggregationSortHelper
 			base.seek( i );
 			
 			keyDiskArray.add( new AggrValueOnlyResultRow( toObjArray( createMatchedAggrRow( base,
-					sortKeys,
-					filteredAggrResultSet) ) ) );
+					sortKeys ) ) ) );
 		}
 		return keyDiskArray;
 	}
@@ -99,11 +96,10 @@ public class AggregationSortHelper
 	 * @throws IOException
 	 */
 	private static List createMatchedAggrRow( IAggregationResultSet base,
-			SortKey[] sortKeys,
-			AggregationResultRowNavigator[] filteredAggrResultSet ) throws IOException
+			SortKey[] sortKeys ) throws IOException
 	{
 		List keyValues = new ArrayList();
-		for ( int x = 0; x < filteredAggrResultSet.length; x++ )
+		for ( int x = 0; x < sortKeys.length; x++ )
 		{
 			SortKey key = sortKeys[x];
 
@@ -122,13 +118,14 @@ public class AggregationSortHelper
 						? false : true;
 			}
 
-			IAggregationResultRow row = getNextMatchRow( filteredAggrResultSet[x],
-					values,
-					direction,
-					key );
-			for ( int j = 0; j < key.getAggrKeys( ).length; j++ )
+			for ( int i = 0; i < key.getAggrKeys( ).length; i++ )
 			{
-				keyValues.add( row == null ? null:row.getAggregationValues( )[j] );
+				IAggregationResultRow row = getNextMatchRow( key.getFilteredResultSet( )[i],
+						values,
+						direction,
+						key );
+
+				keyValues.add( row == null ? null:row.getAggregationValues( )[key.getAggrKeys( )[i]] );
 			}
 		}
 		return keyValues;
@@ -219,7 +216,7 @@ public class AggregationSortHelper
 					sks[i].getAggrSortDirection( ),
 					levelKeyIndex,
 					0,
-					sks[i].getTargetResultSet( ) );
+					sks[i].getTargetResultSet( ), sks[i].getAxisQualifiers( ) );
 			newSortKeys.add( sk );
 		}
 		return newSortKeys;
@@ -232,7 +229,7 @@ public class AggregationSortHelper
 		{
 			if ( sks[i] == null )
 			{
-				sks[i] = new SortKey( new int[0], new boolean[0], i, 0, base );
+				sks[i] = new SortKey( new int[0], new boolean[0], i, 0, base, new AxisQualifier[0] );
 			}
 		}
 	}
@@ -252,42 +249,51 @@ public class AggregationSortHelper
 		return diskArray;
 	}
 
-	private static AggregationResultRowNavigator[] createFilteredResultSet(
-			SortKey[] aggr, AxisQualifier[] qualifier ) throws IOException,
+	private static void createFilteredResultSet(
+			SortKey[] aggr ) throws IOException,
 			DataException
 	{
-		AggregationResultRowNavigator[] filteredAggrResultSet = new AggregationResultRowNavigator[aggr.length];
 		for ( int i = 0; i < aggr.length; i++ )
 		{
 			IAggregationResultSet rSet = aggr[i].getTargetResultSet( );
-			IDiskArray diskArray = filterResultSet( rSet, qualifier[i] );
-			filteredAggrResultSet[i] = new AggregationResultRowNavigator( diskArray );
+			filterResultSet( rSet, aggr[i] );
 		}
-		return filteredAggrResultSet;
 	}
 
-	private static IDiskArray filterResultSet( IAggregationResultSet rSet,
-			AxisQualifier qualifier ) throws IOException, DataException
+	private static void filterResultSet( IAggregationResultSet rSet,
+			SortKey key ) throws IOException, DataException
 	{
-		IDiskArray diskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-				4096 );
+		IDiskArray[] diskArray = new IDiskArray[key.getAxisQualifiers( ).length];
+		AggregationResultRowNavigator[] result = new AggregationResultRowNavigator[key.getAxisQualifiers( ).length];
+		for ( int i = 0; i < diskArray.length; i++ )
+		{
+			diskArray[i] = new BufferedStructureArray( AggregationResultRow.getCreator( ),
+					4096 );
+		}
 		for ( int j = 0; j < rSet.length( ); j++ )
 		{
 			rSet.seek( j );
-			int[] index = qualifier.getLevelIndex( );
+			int[] index = key.getAxisQualifiers( )[0].getLevelIndex( );
 			Object[] values = new Object[index.length];
 			for ( int i = 0; i < index.length; i++ )
 			{
 				values[i] = rSet.getLevelKeyValue( index[i] )[0];
 			}
 
-			if ( CompareUtil.compare( values, qualifier.getLevelValue( ) ) == 0 )
+			for ( int i = 0; i < key.getAxisQualifiers( ).length; i++ )
 			{
-				IAggregationResultRow temp = rSet.getCurrentRow( );
-				diskArray.add( temp );
+				if ( CompareUtil.compare( values, key.getAxisQualifiers( )[i].getLevelValue( ) ) == 0 )
+				{
+					IAggregationResultRow temp = rSet.getCurrentRow( );
+					diskArray[i].add( temp );
+				}
+			}
+			for( int i = 0; i < result.length; i++ )
+			{	
+				result[i] = new AggregationResultRowNavigator( diskArray[i] );
 			}
 		}
-		return diskArray;
+		key.setFilteredResultSet( result );
 	}
 
 	static Object[] toObjArray( List l )
@@ -605,16 +611,18 @@ class AggrResultRowComparator implements Comparator
 		List keyValue1 = new ArrayList( );
 		List keyValue2 = new ArrayList( );
 
+		int offset = 0;
 		for ( int i = 0; i < keys.size( ); i++ )
 		{
 			SortKey sk = (SortKey) keys.get( i );
 			for ( int j = 0; j < sk.getAggrKeys( ).length; j++ )
 			{
-				keyValue1.add( obj1.getAggregationValues( )[sk.getAggrKeys( )[j]] );
-				keyValue2.add( obj2.getAggregationValues( )[sk.getAggrKeys( )[j]] );
+				keyValue1.add( obj1.getAggregationValues( )[offset+j] );
+				keyValue2.add( obj2.getAggregationValues( )[offset+j] );
 			}
 			keyValue1.add( obj1.getLevelMembers( )[sk.getLevelKeyIndex( )].getKeyValues( )[0] );
 			keyValue2.add( obj2.getLevelMembers( )[sk.getLevelKeyIndex( )].getKeyValues( )[0] );
+			offset = sk.getAggrKeys( ).length;
 		}
 
 		return CompareUtil.compare( AggregationSortHelper.toObjArray( keyValue1 ),

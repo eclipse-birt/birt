@@ -61,7 +61,7 @@ public class AggrSortHelper
 
 			SortKey[] sortKeys = new SortKey[map.size( )];
 			Object[] keys = map.keySet( ).toArray( );
-			AxisQualifier[] qualifiers = new AxisQualifier[keys.length];
+			
 			for ( int n = 0; n < keys.length; n++ )
 			{
 				List aggrSorts = (List) map.get( keys[n] );
@@ -74,8 +74,12 @@ public class AggrSortHelper
 				{
 					levelIndex[k] = matchedResultSet.getLevelIndex( levelNames[k] );
 				}
-				qualifiers[n] = new AxisQualifier( levelIndex,
-						( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAxisQualifierValue( ) );
+				AxisQualifier[] qualifiers = new AxisQualifier[aggrSorts.size( )];
+				for( int i = 0; i < qualifiers.length; i++ )
+				{
+					qualifiers[i] = new AxisQualifier( levelIndex,
+							( (AggrSortDefinition) aggrSorts.get( i ) ).getAxisQualifierValue( ) );
+				}
 				int[] aggrIndex = new int[aggrSorts.size( )];
 				boolean[] aggrDir = new boolean[aggrSorts.size( )];
 				for ( int i = 0; i < aggrSorts.size( ); i++ )
@@ -88,16 +92,17 @@ public class AggrSortHelper
 				}
 
 				int targetLevelOffset = 0;
-				if ( qualifiers[n].getLevelIndex( ).length > 0 )
+				if ( qualifiers[0].getLevelIndex( ).length > 0 )
 				{
-					if ( qualifiers[n].getLevelIndex( )[0] == 0 )
-						targetLevelOffset = qualifiers[n].getLevelIndex( ).length;
+					if ( qualifiers[0].getLevelIndex( )[0] == 0 )
+						targetLevelOffset = qualifiers[0].getLevelIndex( ).length;
 				}
 				sortKeys[n] = new SortKey( aggrIndex,
 						aggrDir,
 						matchedResultSet.getLevelIndex( targetLevelName ),
 						targetLevelOffset,
-						matchedResultSet );
+						matchedResultSet,
+						qualifiers );
 			}
 
 			IAggregationResultSet base = null;
@@ -111,7 +116,7 @@ public class AggrSortHelper
 				}
 			}
 
-			return AggregationSortHelper.sort( base, qualifiers, sortKeys );
+			return AggregationSortHelper.sort( base, sortKeys );
 		}
 		catch ( IOException e )
 		{

@@ -1428,6 +1428,75 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 	
 	/**
+	 * Test grand total
+	 * @throws Exception
+	 */
+	public void testAggrSort6( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+		
+		createSortTestBindings( cqd );
+		
+		//sort on year
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
+		sorter1.setExpression( "data[\"rowGrandTotal\"]" );
+		sorter1.setAxisQualifierLevel( null );
+		sorter1.setAxisQualifierValue( null );
+		sorter1.setTargetLevel( level21 );
+		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		
+		//sort on country year 2002
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
+		sorter2.setExpression( "data[\"country_year_total\"]" );
+		sorter2.setAxisQualifierLevel( new ILevelDefinition[]{level21} );
+		sorter2.setAxisQualifierValue( new Object[]{"2002"} );
+		sorter2.setTargetLevel( level11 );
+		sorter2.setSortDirection( ISortDefinition.SORT_ASC );
+		
+		//sort on country year 2002
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
+		sorter3.setExpression( "data[\"country_year_total\"]" );
+		sorter3.setAxisQualifierLevel( new ILevelDefinition[]{level21} );
+		sorter3.setAxisQualifierValue( new Object[]{"2001"} );
+		sorter3.setTargetLevel( level11 );
+		sorter3.setSortDirection( ISortDefinition.SORT_ASC );
+		
+		cqd.addSort( sorter1 );
+		cqd.addSort( sorter2 );
+		cqd.addSort( sorter3 );
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		printCube( cursor, "country_year_total",
+				"city_year_total", "dist_total", "city_total", "country_total","rowGrandTotal", "grandTotal",
+				new String[] {"edge1level1","edge1level2","edge1level3"}, "edge2level1", "measure1" );
+		
+	
+	}
+
+	
+	/**
 	 * Test binding "row" reference
 	 * @throws Exception
 	 */
