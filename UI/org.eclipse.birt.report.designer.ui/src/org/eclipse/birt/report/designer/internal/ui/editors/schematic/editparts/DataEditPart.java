@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
@@ -96,6 +95,7 @@ public class DataEditPart extends LabelEditPart
 		 }
 		 }
 		 */
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( handle.getResultSetColumn( ) == null );
 		if ( handle.getResultSetColumn( ) != null )
 		{
@@ -139,7 +139,6 @@ public class DataEditPart extends LabelEditPart
 		// ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 		// dialog.setInput( handle );
 		// dialog.setGroupList( DEUtil.getGroups( handle ) );
-
 		if ( dialog.open( ) == Dialog.OK )
 		{
 

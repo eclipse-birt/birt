@@ -36,6 +36,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -271,7 +273,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		if ( binding != null )
+		if ( binding != null && binding.getFilterExpression( ) != null )
 		{
 			txtFilter.setText( binding.getFilterExpression( ) );
 		}
@@ -287,7 +289,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			handleFunctionSelectEvent( );
 			return;
 		}
-		String functionString = binding.getAggregateFunction( );
+		String functionString = getFunctionDisplayName( binding.getAggregateFunction( ) );
 		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
 				functionString );
 		cmbFunction.select( itemIndex );
@@ -310,14 +312,57 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getFunctionDisplayNames( )
 	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		String[] displayNames = new String[functions.size( )];
-		for ( int i = 0; i < displayNames.length; i++ )
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
 		{
-			displayNames[i] = ( (IMethodInfo) functions.get( i ) ).getName( );
+			displayNames[i] = choices[i].getDisplayName( );
 		}
 		return displayNames;
+	}
 
+	private String getFunctionByDisplayName( String displayName )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return null;
+
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getDisplayName( ).equals( displayName ) )
+			{
+				return choices[i].getName( );
+			}
+		}
+		return null;
+	}
+
+	private String getFunctionDisplayName( String function )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return null;
+
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getName( ).equals( function ) )
+			{
+				return choices[i].getDisplayName( );
+			}
+		}
+		return null;
+	}
+
+	private IChoice[] getFunctions( )
+	{
+		return DEUtil.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
+				.getProperty( IMeasureModel.FUNCTION_PROP )
+				.getAllowedChoices( )
+				.getChoices( );
 	}
 
 	/**
@@ -500,7 +545,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			children[i].dispose( );
 		}
 
-		String function = cmbFunction.getText( );
+		String function = getFunctionByDisplayName( cmbFunction.getText( ) );
 		if ( function != null )
 		{
 			argsMap.clear( );
@@ -708,7 +753,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 			newBinding.setExpression( cmbDataField.getText( ) );
-			newBinding.setAggregateFunction( cmbFunction.getText( ) );
+			newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
 			newBinding.setFilterExpression( txtFilter.getText( ) );
 
 			newBinding.clearAggregateOnList( );
@@ -761,7 +806,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			this.binding.setExpression( cmbDataField.getText( ) );
-			this.binding.setAggregateFunction( cmbFunction.getText( ) );
+			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
 			this.binding.setFilterExpression( txtFilter.getText( ) );
 
 			this.binding.clearAggregateOnList( );

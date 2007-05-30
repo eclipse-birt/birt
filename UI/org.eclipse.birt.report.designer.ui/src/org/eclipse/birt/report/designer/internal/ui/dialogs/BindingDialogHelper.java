@@ -130,7 +130,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 		} );
-		
+
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		txtDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
@@ -164,7 +164,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			setName( getBinding( ).getName( ) );
-			setDisplayName( getBinding().getDisplayName( ) );
+			setDisplayName( getBinding( ).getDisplayName( ) );
 			setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
 					.getDisplayName( ) );
 			setDataFieldExpression( getBinding( ).getExpression( ) );
@@ -196,7 +196,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			handleFunctionSelectEvent( );
 			return;
 		}
-		String functionString = binding.getAggregateFunction( );
+		String functionString = getFunctionDisplayName( binding.getAggregateFunction( ) );
 		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
 				functionString );
 		cmbFunction.select( itemIndex );
@@ -219,14 +219,64 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getFunctionDisplayNames( )
 	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		String[] displayNames = new String[functions.size( )];
-		for ( int i = 0; i < displayNames.length; i++ )
+		//		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		//		String[] displayNames = new String[functions.size( )];
+		//		for ( int i = 0; i < displayNames.length; i++ )
+		//		{
+		//			displayNames[i] = ( (IMethodInfo) functions.get( i ) ).getName( );
+		//		}
+		//		return displayNames;
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
 		{
-			displayNames[i] = ( (IMethodInfo) functions.get( i ) ).getName( );
+			displayNames[i] = choices[i].getDisplayName( );
 		}
 		return displayNames;
+	}
 
+	private String getFunctionByDisplayName( String displayName )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return null;
+
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getDisplayName( ).equals( displayName ) )
+			{
+				return choices[i].getName( );
+			}
+		}
+		return null;
+	}
+
+	private String getFunctionDisplayName( String function )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return null;
+
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getName( ).equals( function ) )
+			{
+				return choices[i].getDisplayName( );
+			}
+		}
+		return null;
+	}
+
+	private IChoice[] getFunctions( )
+	{
+		return DEUtil.getMetaDataDictionary( )
+				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+				.getAllowedChoices( )
+				.getChoices( );
 	}
 
 	/**
@@ -321,7 +371,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( name != null && txtName != null )
 			txtName.setText( name );
 	}
-	
+
 	private void setDisplayName( String displayName )
 	{
 		if ( displayName != null && txtDisplayName != null )
@@ -493,7 +543,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			children[i].dispose( );
 		}
 
-		String function = cmbFunction.getText( );
+		String function = getFunctionByDisplayName( cmbFunction.getText( ) );
 		if ( function != null )
 		{
 			argsMap.clear( );
@@ -653,7 +703,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			if ( isAggregate( ) )
 			{
-				saveAggregate( );
+				try
+				{
+					saveAggregate( );
+				}
+				catch ( Exception e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
 			}
 			else
 			{
@@ -716,7 +774,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			newBinding.setDisplayName( txtDisplayName.getText( ) );
 			newBinding.setExpression( cmbDataField.getText( ) );
-			newBinding.setAggregateFunction( cmbFunction.getText( ) );
+			newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
 			newBinding.setFilterExpression( txtFilter.getText( ) );
 
 			if ( btnTable.getSelection( ) )
@@ -767,7 +825,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			this.binding.setExpression( cmbDataField.getText( ) );
-			this.binding.setAggregateFunction( cmbFunction.getText( ) );
+			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
 			this.binding.setFilterExpression( txtFilter.getText( ) );
 
 			if ( btnTable.getSelection( ) )
