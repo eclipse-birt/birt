@@ -3736,6 +3736,7 @@ DataItemBindingDialog.Button.Delete=删除
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=新建数据绑定
 DataColumBindingDialog.title.EditDataBinding=编辑数据绑定
+DataColumBindingDialog.title.AggBuilder=Aggregation Builder
 
 ###########################################################
 #CreatePlaceHolderAction properties

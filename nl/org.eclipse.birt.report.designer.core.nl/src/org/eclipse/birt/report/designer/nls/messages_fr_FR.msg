@@ -3736,6 +3736,7 @@ DataItemBindingDialog.Button.Delete=Supprimer
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=Nouvelle liaison de données
 DataColumBindingDialog.title.EditDataBinding=Modifier la liaison de données
+DataColumBindingDialog.title.AggBuilder=Aggregation Builder
 
 ###########################################################
 #CreatePlaceHolderAction properties

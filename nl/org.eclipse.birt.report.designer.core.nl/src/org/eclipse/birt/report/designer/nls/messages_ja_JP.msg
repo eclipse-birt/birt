@@ -3736,6 +3736,7 @@ DataItemBindingDialog.Button.Delete=削除
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=データバインドの新規作成
 DataColumBindingDialog.title.EditDataBinding=データバインドの編集
+DataColumBindingDialog.title.AggBuilder=Aggregation Builder
 
 ###########################################################
 #CreatePlaceHolderAction properties

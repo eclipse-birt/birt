@@ -3736,6 +3736,7 @@ DataItemBindingDialog.Button.Delete=삭제
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=새 데이터 바인딩
 DataColumBindingDialog.title.EditDataBinding=데이터 바인딩 편집
+DataColumBindingDialog.title.AggBuilder=Aggregation Builder
 
 ###########################################################
 #CreatePlaceHolderAction properties
