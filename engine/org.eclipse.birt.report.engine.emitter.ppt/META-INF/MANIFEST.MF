@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ppt.plugin.PPTEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.ppt
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
