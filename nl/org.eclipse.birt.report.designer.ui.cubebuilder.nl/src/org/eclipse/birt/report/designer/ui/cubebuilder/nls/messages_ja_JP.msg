@@ -62,6 +62,7 @@ GroupsPage.Button.Delete=削除(&D)
 GroupsPage.Label.DataField=使用可能なデータフィールド :
 GroupsPage.Label.Group=グループ :
 GroupsPage.Button.Add=追加(&A)
+GroupsPage.Primary.Dataset=(Primary)
 GroupsPage.VirtualField.Measure=(Drop a field here to create a measure)
 GroupsPage.VirtualField.Level=(Drop a field here to create a level)
 GroupsPage.VirtualField.MeasureGroup=(サマリフィールドを作成するには、フィールドをここにドロップします)

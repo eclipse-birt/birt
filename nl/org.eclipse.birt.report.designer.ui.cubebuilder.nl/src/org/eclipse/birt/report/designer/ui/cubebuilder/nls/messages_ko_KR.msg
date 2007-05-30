@@ -62,6 +62,7 @@ GroupsPage.Button.Delete=삭제(&D)
 GroupsPage.Label.DataField=사용 가능한 데이터 필드:
 GroupsPage.Label.Group=그룹:
 GroupsPage.Button.Add=추가(&A)
+GroupsPage.Primary.Dataset=(Primary)
 GroupsPage.VirtualField.Measure=(Drop a field here to create a measure)
 GroupsPage.VirtualField.Level=(Drop a field here to create a level)
 GroupsPage.VirtualField.MeasureGroup=(요약 필드를 생성하려면 여기에 필드를 내려 놓으십시오)

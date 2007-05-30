@@ -62,6 +62,7 @@ GroupsPage.Button.Delete=删除(&D)
 GroupsPage.Label.DataField=可用数据字段:
 GroupsPage.Label.Group=组:
 GroupsPage.Button.Add=添加(&A)
+GroupsPage.Primary.Dataset=(Primary)
 GroupsPage.VirtualField.Measure=(Drop a field here to create a measure)
 GroupsPage.VirtualField.Level=(Drop a field here to create a level)
 GroupsPage.VirtualField.MeasureGroup=（将字段拖至此处以创建摘要字段）

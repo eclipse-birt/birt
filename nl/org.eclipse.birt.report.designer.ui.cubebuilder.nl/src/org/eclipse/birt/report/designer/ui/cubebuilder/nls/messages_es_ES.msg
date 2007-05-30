@@ -62,6 +62,7 @@ GroupsPage.Button.Delete=&Eliminar
 GroupsPage.Label.DataField=Campos de datos disponibles:
 GroupsPage.Label.Group=Grupos:
 GroupsPage.Button.Add=&Añadir
+GroupsPage.Primary.Dataset=(Primary)
 GroupsPage.VirtualField.Measure=(Drop a field here to create a measure)
 GroupsPage.VirtualField.Level=(Drop a field here to create a level)
 GroupsPage.VirtualField.MeasureGroup=(Suelte un campo aquí para crear un campo de resumen)
