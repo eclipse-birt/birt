@@ -34,8 +34,10 @@ public class SampleIncludedSourceEntry
 	private static final String scriptedDataSourceFragmentPath = "/samplereports.ide/Scripted Data Source";
 
 	private static final String extendingFragmentPath = "/samplereports.ide/Extending BIRT";
-	
+
 	private static final String pngFragmentPath = "/samplereports/Reporting Feature Examples/XML Data Source";
+
+	private static final String drillThroughFragmentPath = "/samplereports/Reporting Feature Examples/Drill to Details";
 
 	public static URL getImagePath( String name )
 	{
@@ -47,6 +49,13 @@ public class SampleIncludedSourceEntry
 			return (URL) enumeration.nextElement( );
 		}
 		return null;
+	}
+
+	public static Enumeration getDrillDetailsReports( )
+	{
+		return samplesBundle.findEntries( drillThroughFragmentPath,
+				"*.rptdesign",
+				false );
 	}
 
 	public static Enumeration getIncludedLibraries( )
@@ -70,11 +79,9 @@ public class SampleIncludedSourceEntry
 				+ "/"
 				+ categoryName, "*.zip", false );
 	}
-	
-	public static Enumeration getIncludedPng()
+
+	public static Enumeration getIncludedPng( )
 	{
-		return samplesBundle.findEntries( pngFragmentPath,
-				"*.png",
-				false );
+		return samplesBundle.findEntries( pngFragmentPath, "*.png", false );
 	}
 }

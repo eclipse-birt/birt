@@ -122,4 +122,19 @@ public class PlaceResources
 			PlaceResources.copy( shell, projectPath, desFileName, pngURL );
 		}
 	}
+	
+	public static void copyDrillThroughReport( Shell shell, String projectPath, String report )
+	{
+		Enumeration enumeration = SampleIncludedSourceEntry.getDrillDetailsReports( );
+		while ( enumeration.hasMoreElements( ) )
+		{
+			URL reportURL = (URL) enumeration.nextElement( );
+			String filename = reportURL.getFile( );
+			String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
+			if ( !desFileName.equals( report ) )
+			{
+				PlaceResources.copy( shell, projectPath, desFileName, reportURL );
+			}			
+		}
+	}
 }

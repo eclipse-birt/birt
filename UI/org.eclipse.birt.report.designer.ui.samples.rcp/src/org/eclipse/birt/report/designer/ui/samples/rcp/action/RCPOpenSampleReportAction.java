@@ -27,6 +27,8 @@ public class RCPOpenSampleReportAction extends Action implements
 
 	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
 
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
+	
 	private ReportExamples composite;
 
 	public RCPOpenSampleReportAction( )
@@ -55,6 +57,15 @@ public class RCPOpenSampleReportAction extends Action implements
 				item.getText( ),
 				( (ReportDesignHandle) selectedElement ).getFileName( ) );
 
+		if ( item.getParentItem( )
+				.getText( )
+				.equals( DRILL_TO_DETAILS_CATEGORY ) )
+		{
+			PlaceResources.copyDrillThroughReport( composite.getShell( ),
+					reportProject.getLocation( ).toOSString( ),
+					item.getText( ) );
+		}
+		
 		/*
 		 * Copy the inluded libraries if selecting sample report demostrate
 		 * report library feature

@@ -59,6 +59,12 @@ public class IDEOpenSampleReportAction extends Action implements
 
 	private static final String EXTENDING_CATEGORY = "Extending BIRT";
 
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
+
+	private static final String LIBRARIES_CATEGORY = "Libraries";
+
+	private static final String XML_DATA_SOURCE_CATEGORY = "XML Data Source";
+
 	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[]{
 		"*.zip" //$NON-NLS-1$
 	};
@@ -104,11 +110,20 @@ public class IDEOpenSampleReportAction extends Action implements
 					( (ReportDesignHandle) selectedElement ).getFileName( ) );
 		}
 
+		if ( item.getParentItem( )
+				.getText( )
+				.equals( DRILL_TO_DETAILS_CATEGORY ) )
+		{
+			PlaceResources.copyDrillThroughReport( composite.getShell( ),
+					reportProject.getLocation( ).toOSString( ),
+					item.getText( ) );
+		}
+
 		/*
 		 * Copy the inluded libraries if selecting sample report demostrate XML
 		 * Data Source
 		 */
-		if ( item.getParentItem( ).getText( ).equals( "XML Data Source" ) )
+		if ( item.getParentItem( ).getText( ).equals( XML_DATA_SOURCE_CATEGORY ) )
 		{
 			PlaceResources.copyIncludedPng( composite.getShell( ),
 					reportProject.getLocation( ).toOSString( ) );
@@ -118,7 +133,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		 * Copy the inluded png image if selecting sample report demostrate XML
 		 * report library feature
 		 */
-		if ( item.getParentItem( ).getText( ).equals( "Libraries" ) )
+		if ( item.getParentItem( ).getText( ).equals( LIBRARIES_CATEGORY ) )
 		{
 			PlaceResources.copyIncludedLibraries( composite.getShell( ),
 					reportProject.getLocation( ).toOSString( ) );
