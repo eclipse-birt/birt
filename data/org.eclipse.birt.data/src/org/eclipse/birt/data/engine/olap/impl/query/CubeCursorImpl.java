@@ -129,6 +129,8 @@ public class CubeCursorImpl implements ICubeCursor
 	 */
 	private void populateLevel( Set validDimLevels, int edgeType )
 	{
+		if ( this.queryDefn.getEdge( edgeType ) == null )
+			return;
 		for( int i = 0; i < this.queryDefn.getEdge( edgeType ).getDimensions( ).size( ); i++ )
 		{
 			for( int j = 0; j < getHierarchy( edgeType, i ).getLevels( ).size( );j++)
