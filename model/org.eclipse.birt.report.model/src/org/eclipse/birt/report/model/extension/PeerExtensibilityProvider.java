@@ -151,16 +151,21 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	public List getModelMethodDefns( )
 	{
 
-		List methods = new ArrayList( );
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
-			return null;
+			return Collections.EMPTY_LIST;
+
+		List methods = new ArrayList( );
 
 		if ( extDefn.getMethods( ) != null )
 			methods.addAll( extDefn.getMethods( ) );
 
 		if ( reportItem == null )
-			return null;
+		{
+			reportItem = ( (ExtendedItem) this.element ).getExtendedElement( );
+		}
+		if ( reportItem == null )
+			return methods;
 
 		IPropertyDefinition[] dynamicMethods = reportItem.getMethods( );
 		if ( dynamicMethods != null )
