@@ -39,7 +39,7 @@ feature@org.eclipse.birt.integration.wtp.sdk=v20070529,:pserver:anonymous@dev.ec
 
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
-plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
+plugin@org.eclipse.birt.thirdparty=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
 feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 
