@@ -21,7 +21,7 @@ LibraryWizardDescription=Mit diesem Assistenten wird eine neue Bibliothek erstel
 LibraryProjectWizard=Bibliotheksprojekt
 LibraryProjectWizardDescription=Erstellt ein neues Bibliotheksprojekt.
 
-library.layout=Layout
-library.script=Skript
-library.xmlsource=XML-Quelldatei
-design.masterPage=Master-Seite
+library.layout=&Layout
+library.script=&Skript
+library.xmlsource=&XML-Quelldatei
+design.masterPage=&Master-Seite
