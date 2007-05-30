@@ -9,3 +9,4 @@ Eclipse-LazyStart: true
 Bundle-ClassPath: emitterpdf.jar
 Require-Bundle: org.eclipse.birt.report.engine.emitter.pdf,
  org.junit
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
