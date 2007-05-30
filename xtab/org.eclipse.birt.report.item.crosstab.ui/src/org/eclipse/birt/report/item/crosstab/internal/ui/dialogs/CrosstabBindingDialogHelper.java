@@ -370,25 +370,31 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	 */
 	private void initDataFields( )
 	{
-		cmbDataField.setItems( getMesureNames( ) );
+		String[] items = getMesures( );
+		cmbDataField.setItems( items );
 		if ( binding != null )
 		{
-			cmbDataField.setText( binding.getExpression( ) );
+			for ( int i = 0; i < items.length; i++ )
+			{
+				if ( items[i].equals( binding.getExpression( ) ) )
+				{
+					cmbDataField.select( i );
+				}
+			}
 		}
 	}
 
-	private String[] getMesureNames( )
+	private String[] getMesures( )
 	{
 		try
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
-			String[] mesureNames = new String[xtabHandle.getMeasureCount( )];
-			for ( int i = 0; i < mesureNames.length; i++ )
+			String[] mesures = new String[xtabHandle.getMeasureCount( )];
+			for ( int i = 0; i < mesures.length; i++ )
 			{
-				mesureNames[i] = xtabHandle.getMeasure( i )
-						.getCubeMeasureName( );
+				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i ).getCubeMeasure( ) );
 			}
-			return mesureNames;
+			return mesures;
 		}
 		catch ( ExtendedElementException e )
 		{
@@ -467,7 +473,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		new Label( composite, SWT.NONE ).setText( DATA_FIELD );
-		cmbDataField = new Combo( composite, SWT.BORDER );
+		cmbDataField = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
@@ -481,13 +487,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		cmbDataField.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				cmbDataField.setText( getColumnBindingExpressionByName( cmbDataField.getText( ) ) );
-			}
-		} );
+//		cmbDataField.addSelectionListener( new SelectionAdapter( ) {
+//
+//			public void widgetSelected( SelectionEvent e )
+//			{
+//				cmbDataField.setText( getColumnBindingExpressionByName( cmbDataField.getText( ) ) );
+//			}
+//		} );
 
 		argsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
