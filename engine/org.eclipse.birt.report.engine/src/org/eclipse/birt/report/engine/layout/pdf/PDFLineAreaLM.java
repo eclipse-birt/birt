@@ -281,8 +281,17 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			int childHeight = child.getAllocatedHeight( );
 			height = Math.max( height, childHeight );
 		}
-		height = Math.max( height, lineHeight );
+		
+		if ( parent.isPageEmpty() && lineHeight > maxAvaHeight )
+		{
+			height = Math.max( height, maxAvaHeight );
+		}
+		else
+		{
+			height = Math.max( height, lineHeight );
+		}
 		root.setContentHeight( height );
+		
 		// root.setWidth( getCurrentIP() );
 
 	}
@@ -338,14 +347,12 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			{
 				int spacing = height - child.getAllocatedHeight( );
 				assert ( spacing >= 0 );
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign )
-						|| CSSConstants.CSS_BASELINE_VALUE
-								.equalsIgnoreCase( vAlign ) )
+				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
 				{
 					child.setPosition( child.getX( ), spacing + child.getY( ) );
 				}
-				else if ( CSSConstants.CSS_MIDDLE_VALUE
-						.equalsIgnoreCase( vAlign ) )
+				else if ( CSSConstants.CSS_MIDDLE_VALUE.equalsIgnoreCase( vAlign ) 
+						|| CSSConstants.CSS_BASELINE_VALUE.equalsIgnoreCase( vAlign ))
 				{
 					child.setPosition( child.getX( ), spacing/2 + child.getY( ) );
 				}
