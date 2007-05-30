@@ -207,10 +207,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 				for ( int j = 0; j < aggOns.length; j++ )
 				{
-					if ( aggOns[j].equals( aggstr ) )
+					if ( aggOns[j].equals( aggstr ) ){
 						cmbAggOn.select( j );
+						return;
+					}
 				}
 			}
+			cmbAggOn.select( 0 );
 		}
 		catch ( ExtendedElementException e )
 		{
