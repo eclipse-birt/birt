@@ -200,6 +200,13 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				text.getWidth( ),
 				styleBuffer );
 		buildStyle( text, styleBuffer );
+		
+		// Output the display as block when the display's value is null.
+		String value = style.getDisplay( );
+		if ( null == value )
+		{
+			styleBuffer.append( " display: block;" );
+		}
 	}
 
 	/**
