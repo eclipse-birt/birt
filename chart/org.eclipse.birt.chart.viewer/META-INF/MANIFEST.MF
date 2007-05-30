@@ -10,3 +10,4 @@ Eclipse-LazyStart: true
 Require-Bundle: javax.servlet,
  javax.servlet.jsp,
  org.eclipse.birt.chart.engine
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
