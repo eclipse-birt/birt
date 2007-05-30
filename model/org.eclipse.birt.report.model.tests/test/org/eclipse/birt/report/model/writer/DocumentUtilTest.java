@@ -14,9 +14,11 @@ package org.eclipse.birt.report.model.writer;
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 
 /**
  * Tests the document related serialization.
@@ -58,6 +60,12 @@ public class DocumentUtilTest extends BaseTestCase
 	private static final String DESIGN_WITH_EXTERNAL_SELECTORS = "DocumentUtilTest_4.xml"; //$NON-NLS-1$
 
 	/**
+	 * Design file name.
+	 */
+
+	private static final String DESIGN_WITH_CUBE_EXTENDS = "DocumentUtilTest_5.xml"; //$NON-NLS-1$
+
+	/**
 	 * Tests the element property value localization.
 	 * 
 	 * @throws Exception
@@ -68,7 +76,7 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( DESIGN_WITH_ELEMENT_EXTENDS );
 		assertNotNull( designHandle );
 
-		serializeDocument( );
+		serializeNonLineBreakDocument( );
 		assertTrue( compareFile( "DocumentUtilTest_golden.xml" ) ); //$NON-NLS-1$ 
 	}
 
@@ -183,6 +191,26 @@ public class DocumentUtilTest extends BaseTestCase
 	private void serializeDocument( ) throws Exception
 	{
 		os = new ByteArrayOutputStream( );
+
+		ReportDesignSerializer visitor = new ReportDesignSerializer( );
+		designHandle.getModule( ).apply( visitor );
+
+		design = visitor.getTarget( );
+		designHandle = (ReportDesignHandle) design.getHandle( design );
+
+		designHandle.serialize( os );
+	}
+
+	/**
+	 * Writes the document to the internal output stream.
+	 * 
+	 * @throws Exception
+	 */
+
+	private void serializeNonLineBreakDocument( ) throws Exception
+	{
+		os = new ByteArrayOutputStream( );
+
 		DocumentUtil.serialize( designHandle, os );
 	}
 
@@ -242,7 +270,34 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
+
 		assertTrue( compareFile( "DocumentUtilTest_external_selectors_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * @throws Exception
+	 */
+
+	public void testCubeAndCrosstable( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_CUBE_EXTENDS );
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_extends_cube_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.BaseTestCase#tearDown()
+	 */
+
+	protected void tearDown( ) throws Exception
+	{
+		designHandle = null;
+
+		super.tearDown( );
 	}
 
 }

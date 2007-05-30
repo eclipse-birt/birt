@@ -309,7 +309,7 @@ public final class ContainerContext
 		result.add( value );
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param module
@@ -599,6 +599,29 @@ public final class ContainerContext
 		{
 			container.clearProperty( containerProp );
 		}
+	}
+
+	/**
+	 * Returns the context for the given element. The parameter element must be
+	 * same as the <code>container</code>.
+	 * 
+	 * @param newElement
+	 *            the element
+	 * @return the context for the element
+	 */
+
+	public ContainerContext createContext( DesignElement newElement )
+	{
+		if ( newElement.getDefn( ) != container.getDefn( ) )
+			return null;
+
+		ContainerContext newContext = null;
+		if ( isSlot )
+			newContext = new ContainerContext( newElement, containerSlotID );
+		else
+			newContext = new ContainerContext( newElement, containerProp );
+
+		return newContext;
 	}
 
 	/**

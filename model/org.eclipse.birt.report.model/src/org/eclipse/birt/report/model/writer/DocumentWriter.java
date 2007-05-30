@@ -30,7 +30,6 @@ public class DocumentWriter extends DesignWriter
 	public DocumentWriter( ReportDesign design )
 	{
 		super( design );
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

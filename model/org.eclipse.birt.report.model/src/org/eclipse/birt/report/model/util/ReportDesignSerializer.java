@@ -20,13 +20,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IllegalOperationException;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -40,7 +46,9 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -51,13 +59,18 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -135,7 +148,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
 		localizeExternalSelectors( );
-		
+
 		addExternalElements( );
 		addExternalStructures( );
 
@@ -160,8 +173,9 @@ public class ReportDesignSerializer extends ElementVisitor
 		currentNewElement = null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * By calling this method directly/indirectly, the obj must in the source
+	 * design directly. Must not be in the included libraries of source design.
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
 	 */
@@ -217,30 +231,102 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void addExternalElements( )
 	{
-		DesignElement[] elementArray = new DesignElement[externalElements
-				.size( )];
-		externalElements.keySet( ).toArray( elementArray );
+		List tmpElements = new ArrayList( );
+		tmpElements.addAll( externalElements.keySet( ) );
 
-		for ( int i = 0; i < elementArray.length; i++ )
+		List processedElements = new ArrayList( );
+		int index = 0;
+		while ( processedElements.size( ) < externalElements.size( ) )
 		{
-			DesignElement originalElement = elementArray[i];
-
-			int slotId = originalElement.getContainerInfo( ).getSlotID( );
-
-			DesignElement tmpElement = (DesignElement) externalElements
-					.get( originalElement );
-
-			DesignElement tmpContainer = getTargetContainer( originalElement,
-					tmpElement );
-
-			assert tmpContainer != null;
-			tmpContainer.add( tmpElement, slotId );
-
-			// work on unique name and name space.
-
-			targetDesign.manageId( tmpElement, true );
-			ModelUtil.addElement2NameSpace( targetDesign, tmpElement );
+			DesignElement originalElement = (DesignElement) tmpElements
+					.get( index++ );
+			addExternalElement( tmpElements, processedElements, originalElement );
 		}
+	}
+
+	/**
+	 * @param elements
+	 * @param processedElements
+	 * @param originalElement
+	 */
+
+	private void addExternalElement( List elements, List processedElements,
+			DesignElement originalElement )
+	{
+		if ( processedElements.contains( originalElement ) )
+			return;
+
+		DesignElement originalContainer = originalElement.getContainer( );
+		if ( elements.contains( originalContainer ) )
+		{
+			addExternalElement( elements, processedElements, originalContainer );
+		}
+
+		processedElements.add( originalElement );
+
+		DesignElement tmpElement = (DesignElement) externalElements
+				.get( originalElement );
+
+		DesignElement tmpContainer = getTargetContainer( originalElement,
+				tmpElement, processedElements );
+
+		assert tmpContainer != null;
+
+		ContainerContext context = originalElement.getContainerInfo( )
+				.createContext( tmpContainer );
+
+		// if so, it can only be ReportDesign and Library case.
+
+		if ( context == null && originalContainer instanceof Library )
+		{
+			context = originalElement.getContainerInfo( );
+			int newId = DesignElement.NO_SLOT;
+			switch ( context.getSlotID( ) )
+			{
+				case ILibraryModel.THEMES_SLOT :
+					assert false;
+				case ILibraryModel.CUBE_SLOT :
+					newId = IReportDesignModel.CUBE_SLOT;
+					break;
+				default :
+					newId = context.getSlotID( );
+			}
+			context = new ContainerContext( tmpContainer, newId );
+		}
+
+		assert context != null;
+
+		if ( context.contains( targetDesign, tmpElement ) )
+			return;
+
+		// targetDesign.makeUniqueName( tmpElement );
+
+		context.add( targetDesign, tmpElement );
+
+		// work on unique name and name space.
+
+		targetDesign.manageId( tmpElement, true );
+		addElement2NameSpace( tmpElement );
+	}
+
+	/**
+	 * Adds an element to the name space. If the module is null, or element is
+	 * null, or element is not in the tree of module, then do nothing.
+	 * 
+	 * @param module
+	 * @param element
+	 */
+
+	private void addElement2NameSpace( DesignElement element )
+	{
+		if ( element == null || !element.isManagedByNameSpace( ) )
+			return;
+
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( element.getName( ) != null
+				&& ns != MetaDataConstants.NO_NAME_SPACE )
+			new NameExecutor( element ).getNameSpace( targetDesign ).insert(
+					element );
 	}
 
 	/*
@@ -620,6 +706,22 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
+	 * Visits the slots of the element.
+	 * 
+	 * @param obj
+	 *            the element to traverse
+	 */
+
+	private void visitExternalSlots( DesignElement obj,
+			DesignElement newElement, int slotCount )
+	{
+		elements.push( newElement );
+		for ( int i = 0; i < slotCount; i++ )
+			visitExternalContents( sourceDesign, new ContainerContext( obj, i ) );
+		elements.pop( );
+	}
+
+	/**
 	 * Visits the container properties of the given element.
 	 * 
 	 * @param obj
@@ -650,10 +752,18 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private DesignElement createNewElement( DesignElement element )
 	{
-		ElementFactory factory = new ElementFactory( targetDesign );
-		DesignElement newElement = factory.newElement(
-				element.getDefn( ).getName( ), element.getName( ) )
-				.getElement( );
+		// ElementFactory factory = new ElementFactory( targetDesign );
+		// DesignElement newElement = factory.newElement(
+		// element.getDefn( ).getName( ), element.getName( ) )
+		// .getElement( );
+
+		ContainerContext sourceContainment = element.getContainerInfo( );
+
+		DesignElement newElement = newElement( element.getDefn( ).getName( ),
+				element.getName( ), sourceContainment ).getElement( );
+
+		//
+		// newElement.setName( element.getName( ) );
 
 		// if the element is an external element. do not add to the design now.
 		// should be added in the end by addExternalElements.
@@ -671,7 +781,6 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		newElement.setID( element.getID( ) );
 
-		ContainerContext sourceContainment = element.getContainerInfo( );
 		ContainerContext containment = null;
 		String containmentProp = sourceContainment.getPropertyName( );
 		if ( containmentProp != null )
@@ -682,7 +791,8 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		containment.add( targetDesign, newElement );
 
-		if ( newElement.getName( ) != null )
+		if ( sourceContainment.isManagedByNameSpace( )
+				&& newElement.getName( ) != null )
 		{
 			int ns = ( (ElementDefn) newElement.getDefn( ) ).getNameSpaceID( );
 			if ( ns >= 0 )
@@ -718,6 +828,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	/**
 	 * Localizes the element, including "extends" relationship, and reference
 	 * relationship.
+	 * <p>
+	 * By calling this method directly/indirectly, the obj must in the source
+	 * design directly. Must not be in the included libraries of source design.
 	 * 
 	 * @param element
 	 *            the element to localize
@@ -756,15 +869,81 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( element instanceof Theme )
 			return null;
 
-		ElementFactory factory = new ElementFactory( sourceDesign );
+		ElementFactory factory = new ElementFactory( targetDesign );
 		DesignElement newElement = factory.newElement(
 				element.getDefn( ).getName( ), element.getName( ) )
 				.getElement( );
 
-		localizePropertyValues( element, newElement );
+		IElementDefn elementDefn = newElement.getDefn( );
+		if ( elementDefn.isContainer( ) )
+		{
+			int slotCount = elementDefn.getSlotCount( );
+			if ( slotCount > 0 )
+				visitExternalSlots( element, newElement, slotCount );
+			List properties = elementDefn.getContents( );
+			if ( properties.size( ) > 0 )
+				visitExternalContainerProperties( element, newElement,
+						properties );
+		}
 
+		localizePropertyValues( element, newElement );
 		cacheMapping( element, newElement );
+
 		return newElement;
+	}
+
+	/**
+	 * Visits the container properties of the given element.
+	 * 
+	 * @param obj
+	 * @param newElement
+	 * @param properties
+	 */
+
+	private void visitExternalContainerProperties( DesignElement obj,
+			DesignElement newElement, List properties )
+	{
+		elements.push( newElement );
+		for ( int i = 0; i < properties.size( ); i++ )
+		{
+			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+			visitExternalContents( sourceDesign, new ContainerContext( obj,
+					propDefn.getName( ) ) );
+		}
+		elements.pop( );
+	}
+
+	/**
+	 * Visits the contents of the given context. Allows a derived class to
+	 * traverse downward though the design tree.
+	 * 
+	 * @param module
+	 *            the module where the contents reside
+	 * @param context
+	 *            the container context where the contents reside
+	 */
+
+	private void visitExternalContents( Module module, ContainerContext context )
+	{
+		List contents = context.getContents( module );
+		Iterator iter = contents.iterator( );
+
+		DesignElement tmpContainer = (DesignElement) elements.peek( );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) iter.next( );
+			DesignElement cachedExternalElement = getCache( tmpElement );
+			if ( cachedExternalElement != null )
+			{
+				ContainerContext newContext = context
+						.createContext( tmpContainer );
+				newContext.add( module, cachedExternalElement );
+			}
+			else
+			{
+				visitExternalElement( tmpElement );
+			}
+		}
 	}
 
 	/**
@@ -1058,7 +1237,6 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( newRefEelement == null )
 			{
 				newRefEelement = visitExternalElement( refElement );
-				refElement.apply( this );
 			}
 
 			assert newRefEelement != null;
@@ -1098,7 +1276,6 @@ public class ReportDesignSerializer extends ElementVisitor
 				if ( newRefEelement == null )
 				{
 					newRefEelement = visitExternalElement( refElement );
-					refElement.apply( this );
 				}
 				values.add( new ElementRefValue( null, newRefEelement ) );
 			}
@@ -1164,7 +1341,6 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( newRefEelement == null )
 			{
 				newRefEelement = visitExternalElement( refElement );
-				refElement.apply( this );
 			}
 
 			// if it is theme, newRefElement can be null.
@@ -1321,12 +1497,16 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 
 	private DesignElement getTargetContainer( DesignElement sourceElement,
-			DesignElement target )
+			DesignElement target, List processedElement )
 	{
 		DesignElement sourceContainer = sourceElement.getContainer( );
 		long containerId = sourceContainer.getID( );
 
-		DesignElement tmpContainer = targetDesign.getElementByID( containerId );
+		DesignElement tmpContainer = null;
+
+		tmpContainer = (DesignElement) externalElements.get( sourceContainer );
+		if ( tmpContainer == null )
+			tmpContainer = targetDesign.getElementByID( containerId );
 
 		if ( sourceContainer.getElementName( ).equalsIgnoreCase(
 				tmpContainer.getElementName( ) ) )
@@ -1339,5 +1519,225 @@ public class ReportDesignSerializer extends ElementVisitor
 			return targetDesign;
 
 		return tmpContainer;
+	}
+
+	/**
+	 * Creates a design element specified by the element type name. Element type
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
+	 * 
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the element
+	 *         definition name is not a valid element type name.
+	 */
+
+	public DesignElementHandle newElement( String elementTypeName, String name )
+	{
+
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getExtension( elementTypeName );
+
+		// try extension first
+		if ( elemDefn != null )
+		{
+			return newExtensionElement( elementTypeName, name );
+		}
+
+		// try other system definitions
+		elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
+				elementTypeName );
+		if ( elemDefn != null )
+		{
+			DesignElement element = ModelUtil.newElement( targetDesign,
+					elementTypeName, name );
+			if ( element == null )
+				return null;
+			return element.getHandle( targetDesign );
+		}
+		return null;
+	}
+
+	/**
+	 * Creates a design element specified by the element type name. Element type
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
+	 * 
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the element
+	 *         definition name is not a valid element type name.
+	 */
+
+	public DesignElementHandle newElement( String elementTypeName, String name,
+			ContainerContext context )
+	{
+
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getExtension( elementTypeName );
+
+		// try extension first
+		if ( elemDefn != null )
+		{
+			return newExtensionElement( elementTypeName, name );
+		}
+
+		// try other system definitions
+		elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
+				elementTypeName );
+		if ( elemDefn != null )
+		{
+			DesignElement element = newElement( targetDesign, elementTypeName,
+					name, context.isManagedByNameSpace( ) );
+			if ( element == null )
+				return null;
+			return element.getHandle( targetDesign );
+		}
+		return null;
+	}
+
+	/**
+	 * Creates a design element specified by the element type name. Element type
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
+	 * 
+	 * @param module
+	 *            the module to create an element
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * @param makeUniqueName
+	 *            <code>true</code> to make unique name. Otherwise
+	 *            <code>false</code>.
+	 * 
+	 * @return design element, <code>null</code> returned if the element
+	 *         definition name is not a valid element type name.
+	 */
+
+	public static DesignElement newElement( Module module,
+			String elementTypeName, String name, boolean makeUniqueName )
+	{
+
+		DesignElement element = ModelUtil.newElement( elementTypeName, name );
+		if ( makeUniqueName )
+			module.makeUniqueName( element );
+		return element;
+	}
+
+	/**
+	 * Creates an extension element specified by the extension type name.
+	 * 
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the extension
+	 *         with the given type name is not found
+	 */
+
+	private DesignElementHandle newExtensionElement( String elementTypeName,
+			String name )
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( elementTypeName );
+		if ( extDefn == null )
+			return null;
+		String extensionPoint = extDefn.getExtensionPoint( );
+		if ( PeerExtensionLoader.EXTENSION_POINT
+				.equalsIgnoreCase( extensionPoint ) )
+			return newExtendedItem( name, elementTypeName );
+
+		return null;
+	}
+
+	/**
+	 * Creates a new extended item.
+	 * 
+	 * @param name
+	 *            the optional extended item name. Can be <code>null</code>.
+	 * @param extensionName
+	 *            the required extension name
+	 * @return a handle to extended item, return <code>null</code> if the
+	 *         definition with the given extension name is not found
+	 */
+
+	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
+	{
+		try
+		{
+			return newExtendedItem( name, extensionName, null );
+		}
+		catch ( ExtendsException e )
+		{
+			assert false;
+			return null;
+		}
+	}
+
+	/**
+	 * Creates a new extended item which extends from a given parent.
+	 * 
+	 * @param name
+	 *            the optional extended item name. Can be <code>null</code>.
+	 * @param extensionName
+	 *            the required extension name
+	 * @param parent
+	 *            a given parent element.
+	 * @return a handle to extended item, return <code>null</code> if the
+	 *         definition with the given extension name is not found
+	 * @throws ExtendsException
+	 */
+
+	private ExtendedItemHandle newExtendedItem( String name,
+			String extensionName, ExtendedItemHandle parent )
+			throws ExtendsException
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( extensionName );
+		if ( extDefn == null )
+			return null;
+
+		if ( parent != null )
+			assert ( (ExtendedItem) parent.getElement( ) ).getExtDefn( ) == extDefn;
+
+		if ( !( extDefn instanceof PeerExtensionElementDefn ) )
+			throw new IllegalOperationException(
+					"Only report item extension can be created through this method." ); //$NON-NLS-1$
+
+		ExtendedItem element = new ExtendedItem( name );
+
+		// init provider.
+
+		element.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
+				extensionName );
+
+		if ( parent != null )
+		{
+			element.getHandle( targetDesign ).setExtends( parent );
+		}
+
+		targetDesign.makeUniqueName( element );
+		ExtendedItemHandle handle = element.handle( targetDesign );
+		try
+		{
+			handle.loadExtendedElement( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// It's impossible to fail when deserializing.
+
+			assert false;
+		}
+		return handle;
 	}
 }

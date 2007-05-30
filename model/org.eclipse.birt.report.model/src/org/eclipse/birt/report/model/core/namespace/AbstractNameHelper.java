@@ -194,12 +194,14 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		if ( name == null )
 			return;
 
-		// if element already has the unique name.
-		if ( name.equals( element.getName( ) ) )
-			return;
-
 		// set the unique name and add the element to the name manager
+
 		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
+		if ( nameSpace.getElement( name ) == element )
+		{
+			nameSpace.rename( element, element.getName( ), name );
+			return;
+		}
 		element.setName( name.trim( ) );
 		nameSpace.insert( element );
 	}

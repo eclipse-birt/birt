@@ -44,12 +44,12 @@ public class DocumentUtil
 	 *             successfully.
 	 */
 
-	public static void serialize( ReportDesignHandle designHandle,
+	public static ReportDesignHandle serialize( ReportDesignHandle designHandle,
 			OutputStream out ) throws IOException
 	{
 		assert out != null;
 		if ( designHandle == null )
-			return;
+			return null;
 
 		ReportDesign target = null;
 		ReportDesign source = (ReportDesign) designHandle.getModule( );
@@ -61,7 +61,7 @@ public class DocumentUtil
 		{
 			new DocumentWriter( (ReportDesign) designHandle.getModule( ) )
 					.write( out );
-			return;
+			return designHandle;
 		}
 
 		target = localizeDesign( source );
@@ -70,6 +70,8 @@ public class DocumentUtil
 
 		// use the writer for the document, not the general design writer
 		new DocumentWriter( target ).write( out );
+		
+		return target.handle( );
 	}
 
 	/**

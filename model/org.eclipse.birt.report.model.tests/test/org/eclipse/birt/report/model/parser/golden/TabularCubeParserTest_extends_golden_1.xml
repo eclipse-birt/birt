@@ -30,7 +30,7 @@
                 <ref-entry baseId="12" name="testMeasure" id="12"/>
             </overridden-values>
         </tabular-cube>
-        <tabular-cube name="NewTabularCube1" id="13" extends="Lib1.testCube">
+        <tabular-cube name="NewTabularCube" id="13" extends="Lib1.testCube">
             <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <overridden-values>
                 <ref-entry baseId="8" name="testDimension1" id="14">

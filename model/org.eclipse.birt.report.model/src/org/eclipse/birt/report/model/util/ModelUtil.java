@@ -1598,7 +1598,7 @@ public class ModelUtil
 
 			retTarget.pushStep( tmpPropDefn, index );
 			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
-					&& !(tmpContainer instanceof ContentElement ) )
+					&& !( tmpContainer instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpContainer );
 				return retTarget;
@@ -1610,10 +1610,13 @@ public class ModelUtil
 
 			tmpElement = tmpElement.getContainer( );
 			context = tmpElement.getContainerInfo( );
-			
+
+			if ( context == null )
+				return null;
+
 			tmpContainer = tmpElement.getContainer( );
-			tmpPropDefn = tmpContainer
-					.getPropertyDefn( context.getPropertyName( ) );
+			tmpPropDefn = tmpContainer.getPropertyDefn( context
+					.getPropertyName( ) );
 		}
 
 		return null;

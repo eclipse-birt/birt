@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -143,13 +144,17 @@ public class ModuleNameHelper extends AbstractNameHelper
 				&& name == null && module instanceof ReportDesign )
 			return null;
 
+		if ( module instanceof Library && element instanceof StyleElement
+				&& element.getContainer( ) == null )
+			return null;
+
 		// If the element already has a unique name, return it.
 		int nameSpaceID = eDefn.getNameSpaceID( );
 		NameSpace nameSpace = getCachedNameSpace( nameSpaceID );
 		List cachedContentNames = getCachedContentNames( nameSpaceID );
 		NameSpace moduleNameSpace = nameContexts[nameSpaceID].getNameSpace( );
-		if ( name != null && !nameSpace.contains( name )
-				&& !moduleNameSpace.contains( name )
+		if ( name != null && isValidInNameSpace( nameSpace, element, name )
+				&& isValidInNameSpace( moduleNameSpace, element, name )
 				&& !cachedContentNames.contains( name ) )
 			return name;
 
@@ -211,6 +216,23 @@ public class ModuleNameHelper extends AbstractNameHelper
 		}
 
 		return name;
+	}
+
+	/**
+	 * @param namespace
+	 * @param element
+	 * @param name
+	 * @return
+	 */
+
+	private static boolean isValidInNameSpace( NameSpace namespace,
+			DesignElement element, String name )
+	{
+		DesignElement tmpElement = namespace.getElement( name );
+		if ( tmpElement == null || tmpElement == element )
+			return true;
+
+		return false;
 	}
 
 	/*

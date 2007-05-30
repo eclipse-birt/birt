@@ -150,8 +150,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			ReportDesignHandle design = runnable.getReport( );
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
 			//design.serialize( out );
-			DocumentUtil.serialize(design, out);
+			ReportDesignHandle newDesign = DocumentUtil.serialize(design, out);
 			designName = design.getFileName( );
+			runnable.setDesignHandle( newDesign );
+			
 		}
 		catch ( Exception ex )
 		{
