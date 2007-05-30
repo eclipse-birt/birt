@@ -80,7 +80,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 			}
 			return props;
 		}
-		
+
 		return Collections.EMPTY_LIST;
 	}
 
@@ -97,7 +97,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	{
 		ExtensionElementDefn extDefn = getExtDefn( );
 
-		if ( extDefn != null && extDefn.getProperties( ) != null )
+		if ( extDefn != null )
 		{
 			return extDefn.getProperty( propName );
 		}
@@ -136,19 +136,20 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 *             if the extendable element this provide supports can not
 	 *             extends from the given parent element.
 	 */
-	public abstract void checkExtends( DesignElement parent )  throws ExtendsException;
+	public abstract void checkExtends( DesignElement parent )
+			throws ExtendsException;
 
 	/**
-	 * Returns <code>true</code> if the extended item has local property, return <code>false</code>
-	 * otherwise;
+	 * Returns <code>true</code> if the extended item has local property,
+	 * return <code>false</code> otherwise;
 	 * 
-	 * @return <code>true</code> if the extended item has local property, return <code>false</code>
-	 * otherwise;
+	 * @return <code>true</code> if the extended item has local property,
+	 *         return <code>false</code> otherwise;
 	 */
-	
-	public boolean hasLocalPropertyValues()
+
+	public boolean hasLocalPropertyValues( )
 	{
 		return false;
 	}
-	
+
 }
