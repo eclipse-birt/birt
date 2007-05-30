@@ -58,8 +58,8 @@ public class CubeElementFactory implements ICubeElementFactory
 		CubeSortDefinition cubeSortDefn = new CubeSortDefinition( );
 		cubeSortDefn.setExpression( filterExpr );
 		cubeSortDefn.setTargetLevel( targetLevel );
-		cubeSortDefn.setAxisQualifierLevel( axisQulifierLevel );
-		cubeSortDefn.setAxisQualifierValue( axisQulifierValue );
+		cubeSortDefn.setAxisQualifierLevels( axisQulifierLevel );
+		cubeSortDefn.setAxisQualifierValues( axisQulifierValue );
 		cubeSortDefn.setSortDirection( sortDirection );
 		return cubeSortDefn;
 	}

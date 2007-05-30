@@ -30,11 +30,11 @@ public interface ICubeSortDefinition extends ISortDefinition
 	 * Return the Axis qualifier level.
 	 * @return
 	 */
-	public ILevelDefinition[] getAxisQualifierLevel( );
+	public ILevelDefinition[] getAxisQualifierLevels( );
 	
 	/**
 	 * Return the Axis qualifier value
 	 * @return
 	 */
-	public Object[] getAxisQualifierValue( );
+	public Object[] getAxisQualifierValues( );
 }

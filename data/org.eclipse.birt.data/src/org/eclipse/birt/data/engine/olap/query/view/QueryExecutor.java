@@ -229,15 +229,15 @@ public class QueryExecutor
 							.toString( ) );
 				}
 			}
-			DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevel( ).length];
+			DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevels( ).length];
 			for ( int k = 0; k < axisLevels.length; k++ )
 			{
-				axisLevels[k] = new DimLevel( cubeSort.getAxisQualifierLevel( )[k] );
+				axisLevels[k] = new DimLevel( cubeSort.getAxisQualifierLevels( )[k] );
 			}
 			AggrSortDefinition sort = new AggrSortDefinition( aggrOnLevels,
 					bindingName,
 					axisLevels,
-					cubeSort.getAxisQualifierValue( ),
+					cubeSort.getAxisQualifierValues( ),
 					new DimLevel( cubeSort.getTargetLevel( ) ),
 					cubeSort.getSortDirection( ) == 1 ? false : true );
 			if ( isRow )

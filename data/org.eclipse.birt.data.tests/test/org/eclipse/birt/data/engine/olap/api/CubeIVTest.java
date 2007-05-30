@@ -644,38 +644,38 @@ public class CubeIVTest extends BaseTestCase
 		//sort on year
 		CubeSortDefinition sorter1 = new CubeSortDefinition();
 		sorter1.setExpression( "data[\"rowGrandTotal\"]" );
-		sorter1.setAxisQualifierLevel( null );
-		sorter1.setAxisQualifierValue( null );
+		sorter1.setAxisQualifierLevels( null );
+		sorter1.setAxisQualifierValues( null );
 		sorter1.setTargetLevel( level21 );
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 		
 		//sort on country
 		CubeSortDefinition sorter2 = new CubeSortDefinition();
 		sorter2.setExpression( "data[\"city_year_total\"]" );
-		sorter2.setAxisQualifierLevel( new ILevelDefinition[]{level21} );
-		sorter2.setAxisQualifierValue( new Object[]{"2002"} );
+		sorter2.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		sorter2.setAxisQualifierValues( new Object[]{"2002"} );
 		sorter2.setTargetLevel( level12 );
 		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
 		
 		CubeSortDefinition sorter3 = new CubeSortDefinition();
 		sorter3.setExpression( "data[\"country_year_total\"]" );
-		sorter3.setAxisQualifierLevel( new ILevelDefinition[]{level21} );
-		sorter3.setAxisQualifierValue( new Object[]{"2002"} );
+		sorter3.setAxisQualifierLevels( new ILevelDefinition[]{level21} );
+		sorter3.setAxisQualifierValues( new Object[]{"2002"} );
 		sorter3.setTargetLevel( level11 );
 		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
 		
 		CubeSortDefinition sorter4 = new CubeSortDefinition();
 		sorter4.setExpression( "dimension[\"dimension1\"][\"level13\"]" );
-		sorter4.setAxisQualifierLevel( null );
-		sorter4.setAxisQualifierValue( null );
+		sorter4.setAxisQualifierLevels( null );
+		sorter4.setAxisQualifierValues( null );
 		sorter4.setTargetLevel( level13 );
 		sorter4.setSortDirection( ISortDefinition.SORT_DESC );
 		
 		//Make UN before China.
 		CubeSortDefinition sorter5 = new CubeSortDefinition();
 		sorter5.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
-		sorter5.setAxisQualifierLevel( null );
-		sorter5.setAxisQualifierValue( null );
+		sorter5.setAxisQualifierLevels( null );
+		sorter5.setAxisQualifierValues( null );
 		sorter5.setTargetLevel( level11 );
 		sorter5.setSortDirection( ISortDefinition.SORT_DESC );
 		
