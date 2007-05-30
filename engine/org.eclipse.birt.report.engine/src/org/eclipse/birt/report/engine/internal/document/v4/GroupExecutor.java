@@ -38,6 +38,7 @@ abstract public class GroupExecutor extends ContainerExecutor
 	void setLisingExecutor( ListingElementExecutor executor )
 	{
 		listingExecutor = executor;
+		rsets = listingExecutor.rsets;
 	}
 
 	ListingElementExecutor getListingExecutor( )
@@ -73,7 +74,7 @@ abstract public class GroupExecutor extends ContainerExecutor
 	protected void doSkipToExecutor( InstanceID iid, long offset )
 			throws Exception
 	{
-		IQueryResultSet rset = (IQueryResultSet) listingExecutor.getResultSet( );
+		IQueryResultSet rset = (IQueryResultSet)rsets[0];
 		long uid = iid.getUniqueID( );
 		DataID dataId = iid.getDataID( );
 		long rowId = dataId.getRowID( );
@@ -144,8 +145,7 @@ abstract public class GroupExecutor extends ContainerExecutor
 					detail = listing.getGroup( groupId );
 				}
 			}
-			IQueryResultSet rset = (IQueryResultSet) listingExecutor
-					.getResultSet( );
+			IQueryResultSet rset = (IQueryResultSet)rsets[0];
 			executorUtil = new ListingElementExecutorUtil( groupId, header,
 					footer, detail, rset, includeHeader );
 		}
