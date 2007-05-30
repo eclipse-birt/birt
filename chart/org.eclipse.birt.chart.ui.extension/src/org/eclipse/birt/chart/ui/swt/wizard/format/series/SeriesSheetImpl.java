@@ -165,7 +165,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 
-		Label lblSeries = new Label( cmpList, SWT.NONE );
+		Label lblSeries = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -175,7 +175,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblSeries.setText( Messages.getString( "SeriesSheetImpl.Label.Series" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTitle = new Label( cmpList, SWT.NONE );
+		Label lblTitle = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -185,7 +185,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblTitle.setText( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpList, SWT.NONE );
+		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -195,7 +195,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.NONE );
+		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -205,7 +205,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblVisible.setText( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblStack = new Label( cmpList, SWT.NONE );
+		Label lblStack = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -215,7 +215,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTranslucent = new Label( cmpList, SWT.NONE );
+		Label lblTranslucent = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
