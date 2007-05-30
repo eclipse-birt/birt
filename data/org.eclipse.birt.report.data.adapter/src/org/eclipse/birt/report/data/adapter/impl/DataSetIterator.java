@@ -503,7 +503,9 @@ public class DataSetIterator implements IDatasetIterator
 			return this.metadata.getNullValueReplacer( fieldIndex );
 		} 
 		
-		return  this.metadata.getDataProcessor( fieldIndex ).process( value );
+		return DataTypeUtil.convert( this.metadata.getDataProcessor( fieldIndex )
+				.process( value ),
+				value.getClass( ) );
 	}
 
 
