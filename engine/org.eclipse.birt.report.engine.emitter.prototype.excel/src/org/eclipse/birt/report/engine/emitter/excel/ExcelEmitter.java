@@ -442,7 +442,7 @@ public class ExcelEmitter implements IContentEmitter
 	{
 		Span span = (Span) design2ExcelSpan.get( content.getGenerateBy( ) );
 		engine.addContainerStyle( content.getComputedStyle( ), span, lb
-				.getListSize( span.getCol( ) ) );
+				.getListSize( span.getCol( ) ) - 1 );
 	}
 
 	public void startTable( ITableContent table )
