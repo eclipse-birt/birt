@@ -235,7 +235,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
 						i,
-						treeIndex++ ).placeComponents( cmpList );
+						treeIndex++, false ).placeComponents( cmpList );
 			}
 		}
 
@@ -333,15 +333,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private int iSeriesDefinitionIndex = 0;
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
-
-		public SeriesOptionChoser( SeriesDefinition seriesDefn,
-				String seriesName, int iSeriesDefinitionIndex, int treeIndex )
-		{
-			new SeriesOptionChoser( seriesDefn,
-					seriesName,
-					iSeriesDefinitionIndex,
-					treeIndex );
-		}
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex,
