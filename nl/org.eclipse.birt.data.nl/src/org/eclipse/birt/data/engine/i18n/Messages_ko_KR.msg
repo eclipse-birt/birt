@@ -333,3 +333,7 @@ data.olap.NoEdgeDefinitionFound=행 가장자리나 열 가장자리를 포함하지 않기 때문에
 data.olap.invalidSortDefinition=정렬 정의가 잘못되었습니다. 
 data.olap.invalidMeasureRef="{0}"은(는) 올바르지 않은 측정값 참조 식입니다.
 data.olap.invalidLevelAttr=다음 특성이 잘못되었습니다.
+data.olap.invalidBindingReferToInexitDim=The binding "{0}" refers to invalid levels.
+data.olap.invalidBindingReferToInexitMeasure=The binding "{0}" refers to invalid measures.  
+data.olap.invalidBindingMissingAggrFunc=The aggregation function of binding "{0}" is missing.
+data.olap.invalidAggrArgument=Only level attribute can serve as aggregation argument.

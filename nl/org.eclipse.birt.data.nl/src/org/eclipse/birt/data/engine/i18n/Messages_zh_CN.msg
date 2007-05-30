@@ -333,3 +333,7 @@ data.olap.NoEdgeDefinitionFound=由于查询既未包含行边缘，也未包含列边缘，查询执行
 data.olap.invalidSortDefinition=排序定义无效。 
 data.olap.invalidMeasureRef=“{0}”不是有效的度量引用表达式。
 data.olap.invalidLevelAttr=属性无效:
+data.olap.invalidBindingReferToInexitDim=The binding "{0}" refers to invalid levels.
+data.olap.invalidBindingReferToInexitMeasure=The binding "{0}" refers to invalid measures.  
+data.olap.invalidBindingMissingAggrFunc=The aggregation function of binding "{0}" is missing.
+data.olap.invalidAggrArgument=Only level attribute can serve as aggregation argument.

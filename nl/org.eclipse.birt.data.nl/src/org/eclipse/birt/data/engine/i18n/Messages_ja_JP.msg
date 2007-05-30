@@ -333,3 +333,7 @@ data.olap.NoEdgeDefinitionFound=行と列のどちらのエッジも定義されていないため、ク
 data.olap.invalidSortDefinition=ソートの定義が無効です。 
 data.olap.invalidMeasureRef="{0}" は、有効な計測参照式ではありません。
 data.olap.invalidLevelAttr=属性が無効です。
+data.olap.invalidBindingReferToInexitDim=The binding "{0}" refers to invalid levels.
+data.olap.invalidBindingReferToInexitMeasure=The binding "{0}" refers to invalid measures.  
+data.olap.invalidBindingMissingAggrFunc=The aggregation function of binding "{0}" is missing.
+data.olap.invalidAggrArgument=Only level attribute can serve as aggregation argument.

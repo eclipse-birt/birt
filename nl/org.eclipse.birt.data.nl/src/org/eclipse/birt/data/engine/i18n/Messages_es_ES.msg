@@ -333,3 +333,7 @@ data.olap.NoEdgeDefinitionFound=Error al ejecutar la consulta, ya que no contien
 data.olap.invalidSortDefinition=La definición de orden no es válida. 
 data.olap.invalidMeasureRef="{0}" no es una expresión de referencia de medida válida.
 data.olap.invalidLevelAttr=El atributo no es válido:
+data.olap.invalidBindingReferToInexitDim=The binding "{0}" refers to invalid levels.
+data.olap.invalidBindingReferToInexitMeasure=The binding "{0}" refers to invalid measures.  
+data.olap.invalidBindingMissingAggrFunc=The aggregation function of binding "{0}" is missing.
+data.olap.invalidAggrArgument=Only level attribute can serve as aggregation argument.
