@@ -878,7 +878,8 @@ public class CubeGroupContent extends Composite implements Listener
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.BORDER );
-		dataFieldsViewer.setLabelProvider( new CubeLabelProvider( ) );
+		cubeLabelProvider = new CubeLabelProvider( );
+		dataFieldsViewer.setLabelProvider( cubeLabelProvider );
 		dataFieldsViewer.setContentProvider( dataContentProvider );
 		dataFieldsViewer.setAutoExpandLevel( 3 );
 		GridData gd = new GridData( GridData.FILL_BOTH );
@@ -912,11 +913,13 @@ public class CubeGroupContent extends Composite implements Listener
 	public void load( )
 	{
 		if ( input != null )
-		{
+		{	
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			else if ( input.getDataSet( ) != null )
+			else if ( input.getDataSet( ) != null ){
+				cubeLabelProvider.setInput( input );
 				dataFieldsViewer.setInput( input );
+			}
 			groupViewer.setInput( input );
 			getListenerElementVisitor( ).addListener( input );
 			updateButtons( );
@@ -1101,6 +1104,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 	}
 	private DataContentProvider dataContentProvider = new DataContentProvider( );
+	private CubeLabelProvider cubeLabelProvider;
 
 	private void handleDelEvent( )
 	{

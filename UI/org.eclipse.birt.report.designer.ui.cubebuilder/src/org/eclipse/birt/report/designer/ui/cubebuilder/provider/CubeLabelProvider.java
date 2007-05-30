@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
@@ -27,6 +26,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -60,7 +60,14 @@ public class CubeLabelProvider extends LabelProvider
 	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
 
 	private static final Image IMG_OTHER_DATASETS = UIHelper.getImage( BuilderConstancts.IMAGE_OTHER_DATASETS );
-	
+
+	private TabularCubeHandle input;
+
+	public void setInput( TabularCubeHandle input )
+	{
+		this.input = input;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -76,7 +83,9 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return IMG_DATASET;
 		}
-		if ( element instanceof VirtualField && ((VirtualField)element).getType( ).equals( VirtualField.TYPE_OTHER_DATASETS ) )
+		if ( element instanceof VirtualField
+				&& ( (VirtualField) element ).getType( )
+						.equals( VirtualField.TYPE_OTHER_DATASETS ) )
 		{
 			return IMG_OTHER_DATASETS;
 		}
@@ -132,7 +141,9 @@ public class CubeLabelProvider extends LabelProvider
 	{
 		if ( element instanceof DataSetHandle )
 		{
-			return ( (DataSetHandle) element ).getName( );
+			if(input!=null && input.getDataSet( )!=null && input.getDataSet( ) == element)
+				return ( (DataSetHandle) element ).getName( )+" "+Messages.getString( "GroupsPage.Primary.Dataset" );
+			else return ( (DataSetHandle) element ).getName( );
 		}
 		if ( element instanceof VirtualField && ((VirtualField)element).getType( ).equals( VirtualField.TYPE_OTHER_DATASETS ) )
 		{
