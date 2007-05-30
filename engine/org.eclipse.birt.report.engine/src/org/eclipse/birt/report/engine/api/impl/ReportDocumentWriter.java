@@ -91,11 +91,11 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				saveCoreStreams( );
 			}
 			finally
-			{				
+			{
 				archive.unlock( lock );
+				archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
+				archive.finish( );
 			}
-			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
-			archive.finish( );
 		}
 		catch ( Exception e )
 		{
@@ -281,8 +281,13 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}	
 	}
 	
-	private void writeMap( DataOutputStream stream, HashMap map ) throws Exception
+	private void writeMap( DataOutputStream stream, HashMap map )
+			throws Exception
 	{
+		if ( map == null )
+		{
+			map = new HashMap( );
+		}
 		IOUtil.writeLong( stream, map.size( ) );
 		Iterator iter = map.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )

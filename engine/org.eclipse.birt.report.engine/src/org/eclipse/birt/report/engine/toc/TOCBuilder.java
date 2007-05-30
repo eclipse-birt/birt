@@ -160,7 +160,14 @@ public class TOCBuilder
 			throws IOException
 	{
 		IOUtil.writeString( out, VERSION );
-		writeTOC( tree.getTOCRoot( ), out );
+		if ( tree != null )
+		{
+			writeTOC( tree.getTOCRoot( ), out );
+		}
+		else
+		{
+			writeTOC( new TOCTreeNode( ), out );
+		}
 	}
 
 	private static void writeTOC( TOCTreeNode root, DataOutputStream out )
