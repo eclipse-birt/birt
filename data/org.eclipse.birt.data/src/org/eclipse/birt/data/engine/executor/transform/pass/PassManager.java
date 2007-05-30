@@ -111,11 +111,14 @@ public class PassManager
 					.values( )
 					.iterator( ); it.hasNext( ); )
 			{
-				IBinding binding = (IBinding) it.next( );
-				if ( binding.getExpression( )!= null && binding.getExpression( ).getGroupName( ) == null
-						&& binding.getAggrFunction( ) != null )
+				try
 				{
+					IBinding binding = (IBinding) it.next( );
 					compiler.compile( binding.getExpression( ), cx );
+				}
+				catch ( DataException e )
+				{
+					// do nothing
 				}
 			}
 		}

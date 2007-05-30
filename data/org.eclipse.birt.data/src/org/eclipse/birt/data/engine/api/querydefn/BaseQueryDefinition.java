@@ -132,6 +132,8 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	{
 		Binding binding = new Binding( name );
 		binding.setExpression(expression );
+		if ( expression != null )
+			binding.setDataType( expression.getDataType( ) );
 		this.bindingMap.put( name, binding );
 		
 	}

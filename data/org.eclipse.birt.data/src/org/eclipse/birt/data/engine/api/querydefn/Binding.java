@@ -45,7 +45,10 @@ public class Binding implements IBinding
 		this.expr = expr;
 		this.aggregateOn = new ArrayList();
 		this.argument = new ArrayList();
-		this.dataType = DataType.ANY_TYPE;
+		if ( expr != null )
+			this.dataType = expr.getDataType( );
+		else
+			this.dataType = DataType.ANY_TYPE;
 	}
 	
 	/*
