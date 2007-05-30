@@ -1,4 +1,4 @@
-design.xmlsource=XML ソース
-template.xmlsource=XML ソース
-library.xmlsource=XML ソース
+design.xmlsource=XML ソース(&X)
+template.xmlsource=XML ソース(&X)
+library.xmlsource=XML ソース(&X)
 pageSet.source=XML ソースページ(&X)

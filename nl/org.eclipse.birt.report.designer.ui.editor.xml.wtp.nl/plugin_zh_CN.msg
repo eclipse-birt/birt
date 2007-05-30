@@ -1,4 +1,4 @@
-design.xmlsource=XML Դ
-template.xmlsource=XML Դ
-library.xmlsource=XML Դ
+design.xmlsource=XML Դ(&X)
+template.xmlsource=XML Դ(&X)
+library.xmlsource=XML Դ(&X)
 pageSet.source=XML Դҳ(&X)
