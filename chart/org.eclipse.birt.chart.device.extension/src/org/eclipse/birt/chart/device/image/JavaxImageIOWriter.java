@@ -76,8 +76,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
 	
-	private final static String SCRIPT_CLICK = "userCallBackByClick";//$NON-NLS-1$
-	private final static String SCRIPT_DBLCLICK = "userCallBackByDblClick";//$NON-NLS-1$
+	// Append timestamp to distinguish multiple callback methods
+	private final String SCRIPT_CLICK = "userCallBackByClick" //$NON-NLS-1$
+			+ System.currentTimeMillis( );
+
+	private final String SCRIPT_DBLCLICK = "userCallBackByDblClick" //$NON-NLS-1$
+			+ System.currentTimeMillis( );
 
 	private boolean bAddCallbackByClick = false;
 	private boolean bAddCallbackByDBLClick = false;
@@ -298,17 +302,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			switch ( ac.getType( ).getValue( ) )
 			{
 				case ActionType.URL_REDIRECT :
-					URLValue uv = (URLValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF,
-							eval( uv.getBaseUrl( ) ) );
-					tag.addAttribute( HTMLAttribute.TARGET,
-							eval( uv.getTarget( ) ) );
-					return true;
-				case ActionType.SHOW_TOOLTIP :
-					// for onmouseover only.
-					return false;
 				case ActionType.INVOKE_SCRIPT :
-					ScriptValue sv = (ScriptValue) ac.getValue( );
 					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
 							.getType( ) ) )
 					{
@@ -324,9 +318,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					else
 					{
 						tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-								eval( sv.getScript( ) ) );
+								eval( generateJSContent( ac ) ) );
 					}
 					return true;
+				case ActionType.SHOW_TOOLTIP :
+					// for onmouseover only.
+					return false;
 			}
 		}
 		return false;
@@ -811,18 +808,39 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private void addScriptCallBack( ShapedAction sa, StringBuffer sb,
 			Action ac, String functionName )
 	{
-		if ( checkSupportedAction( ac ) )
+		if ( ac != null
+				&& StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+						.getType( ) ) )
 		{
-			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT
-					&& StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-							.getType( ) ) )
+			if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT
+					|| ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
 			{
-				ScriptValue sv = (ScriptValue) ac.getValue( );
-				sb.append( "<Script>" //$NON-NLS-1$
-						+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
-						+ eval( sv.getScript( ) ) + "}</Script>" ); //$NON-NLS-1$
+				sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
 			}
 		}
+	}
+
+	private String generateJSContent( Action ac )
+	{
+		if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+		{
+			ScriptValue sv = (ScriptValue) ac.getValue( );
+			return sv.getScript( );
+		}
+		if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
+		{
+			URLValue uv = (URLValue) ac.getValue( );
+			return "window.open('" //$NON-NLS-1$
+					+ uv.getBaseUrl( ) + "','" + uv.getTarget( ) + "')"; //$NON-NLS-1$//$NON-NLS-2$
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	private String wrapJSMethod( String functionName, String functionContent )
+	{
+		return "<Script>" //$NON-NLS-1$
+				+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
+				+ eval( functionContent ) + "}</Script>"; //$NON-NLS-1$
 	}
 
 }
