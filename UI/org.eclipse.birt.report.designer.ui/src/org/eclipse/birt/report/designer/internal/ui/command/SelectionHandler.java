@@ -180,22 +180,21 @@ public class SelectionHandler extends AbstractHandler
 	}
 
 	/**
-	 * Returns a <code>List</code> containing the currently
-	 * selected objects.
+	 * Returns a <code>List</code> containing the currently selected objects.
 	 * 
 	 * @return A List containing the currently selected objects.
 	 */
 	protected List getSelectedObjects( )
 	{
 		Object selectVariable = getSelection( );
-		if ( !( selectVariable instanceof IStructuredSelection ) )
+		if ( selectVariable == null
+				|| !( selectVariable instanceof IStructuredSelection ) )
 			return Collections.EMPTY_LIST;
 		return ( (IStructuredSelection) selectVariable ).toList( );
 	}
 
 	/**
-	 * Returns a <code>List</code> containing the currently
-	 * selected objects.
+	 * Returns a <code>List</code> containing the currently selected objects.
 	 * 
 	 * @return A List containing the currently selected objects.
 	 */
@@ -203,14 +202,18 @@ public class SelectionHandler extends AbstractHandler
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 		Object selectVariable = context.getVariable( ISources.ACTIVE_CURRENT_SELECTION_NAME );
-		if ( selectVariable instanceof IStructuredSelection )
+		if ( selectVariable != null )
 		{
-			return (IStructuredSelection) selectVariable;
+			if ( selectVariable instanceof IStructuredSelection )
+			{
+				return (IStructuredSelection) selectVariable;
+			}
+			else
+			{
+				return new StructuredSelection( selectVariable );
+			}
 		}
-		else
-		{
-			return new StructuredSelection( selectVariable );
-		}
+		return null;
 	}
 
 	/**
@@ -233,17 +236,16 @@ public class SelectionHandler extends AbstractHandler
 		boolean isEditPart = false;
 		List selList = null;
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = context.getVariable( ICommandParameterNameContants.SELECTION);
-		if(obj != null)
+		Object obj = context.getVariable( ICommandParameterNameContants.SELECTION );
+		if ( obj != null )
 		{
-			selList = new ArrayList();
+			selList = new ArrayList( );
 			selList.add( obj );
 		}
-		
-		if(selList == null || selList.size( ) < 1)
+
+		if ( selList == null || selList.size( ) < 1 )
 		{
-			 // selList = getSelectedObjects( );
-			return Collections.EMPTY_LIST;
+			selList = getSelectedObjects( );
 		}
 		for ( int i = 0; i < selList.size( ); i++ )
 		{
