@@ -348,13 +348,13 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			for ( Iterator j = levelFilterMap.keySet( ).iterator( ); j.hasNext( ); )
 			{
 				DimLevel target = (DimLevel) j.next( );
-				List selectedKeyList = (List) levelFilterMap.get( target );
-				if ( selectedKeyList.size( ) == 0 )
+				IDiskArray selectedKeyArray = (IDiskArray) levelFilterMap.get( target );
+				if ( selectedKeyArray.size( ) == 0 )
 					continue;
-				Object[][] keys = new Object[selectedKeyList.size( )][];
+				Object[][] keys = new Object[selectedKeyArray.size( )][];
 				for ( int k = 0; k < keys.length; k++ )
 				{
-					keys[k] = ( (MultiKey) selectedKeyList.get( k ) ).levelKey;
+					keys[k] = ( (MultiKey) selectedKeyArray.get( k ) ).levelKey;
 				}
 				ISelection selection = SelectionFactory.createMutiKeySelection( keys );
 				LevelFilter filter = new LevelFilter( target, new ISelection[]{
@@ -470,26 +470,33 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		if ( aggrFilters.isEmpty( ) == false
 				|| topbottomFilters.isEmpty( ) == false )
 		{
-			// find level filters according to the specified aggregation filters
 			List oldFilters = new ArrayList( filters );
 			// add new filters for another aggregation computation
 			addLevelFilters( generateLevelFilters( aggregations, resultSet ) );
 			if ( isEmptyXTab )
 			{
 				for ( int i = 0; i < resultSet.length; i++ )
-				{
+				{// clear all aggregation result sets to be empty
 					resultSet[i].clear( );
 				}
 			}
 			else
 			{
+				for ( int i = 0; i < resultSet.length; i++ )
+				{// release all previous aggregation result sets
+					resultSet[i].close( );
+					resultSet[i] = null;
+				}
 				// recalculate the aggregation according to new filters
-				resultSet = onePassExecute( aggregations, stopSign );
+				IAggregationResultSet[] temp = onePassExecute( aggregations,
+						stopSign );
+				// overwrite result with the second pass aggregation result set
+				System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
 			}
 			// restore to original filter list to avoid conflict
 			filters = oldFilters;
 		}
-	}	
+	}
 	 
 		
 	/**
@@ -577,7 +584,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
 			AggrFilter filter = (AggrFilter) i.next( );
-			for ( int j = 0; !isEmptyXTab && j < aggregations.length; j++ )
+			for ( int j = 0; j < aggregations.length; j++ )
 			{
 				if ( aggregations[j].getAggregationFunctions( ) != null
 						&& isEqualLevels( aggregations[j].getLevels( ),
@@ -1157,7 +1164,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				{
 					fields.add( dimRow.getMembers( )[i].getKeyValues( )[j] );
 				}
-//				fields.add( dimRow.getMembers( )[i].getKeyValues( )[0] );
 			}
 			if ( dimRow.getMembers( )[i].getAttributes( ) != null )
 			{
