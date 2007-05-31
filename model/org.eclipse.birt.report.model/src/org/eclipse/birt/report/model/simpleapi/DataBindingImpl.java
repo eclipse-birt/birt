@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
@@ -25,6 +26,8 @@ public class DataBindingImpl implements IDataBinding
 {
 
 	private ComputedColumn column;
+	
+	private ComputedColumnHandle columnHandle;
 	
 	/**
 	 * Constructor
@@ -51,6 +54,7 @@ public class DataBindingImpl implements IDataBinding
 		}
 		else
 		{
+			this.columnHandle = columnHandle;
 			column = (ComputedColumn) columnHandle.getStructure( );
 		}
 	}
@@ -105,24 +109,47 @@ public class DataBindingImpl implements IDataBinding
 		return column.getName( );
 	}
 
-	public void setAggregateOn( String on )
+	public void setAggregateOn( String on ) throws SemanticException
 	{
+		if (columnHandle != null)
+		{
+			columnHandle.setAggregateOn( on );
+			return;
+		}
 		column.setAggregateOn( on );
 	}
 
-	public void setDataType( String dataType )
+	public void setDataType( String dataType ) throws SemanticException
 	{
+		if (columnHandle != null)
+		{
+			columnHandle.setDataType( dataType );
+			return;
+		}
+		
 		column.setDataType( dataType );
 	}
 
-	public void setExpression( String expression )
+	public void setExpression( String expression ) throws SemanticException
 	{
+		if (columnHandle != null)
+		{
+			columnHandle.setExpression( expression );
+			return;
+		}
+		
 		// expression is required.
 		column.setExpression( expression );
 	}
 
-	public void setName( String name )
+	public void setName( String name ) throws SemanticException
 	{
+		if (columnHandle != null)
+		{
+			columnHandle.setName( name );
+			return;
+		}
+		
 		// name is required.
 		column.setName( name );
 	}

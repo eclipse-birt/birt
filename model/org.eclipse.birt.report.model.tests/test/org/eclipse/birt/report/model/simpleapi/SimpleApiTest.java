@@ -17,12 +17,15 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.MultiRowItem;
 import org.eclipse.birt.report.model.api.extension.SimpleRowItem;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
+import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -130,5 +133,34 @@ public class SimpleApiTest extends BaseTestCase
 			tmpFolder.mkdirs( );
 
 		return folder + outputFile;
+	}
+
+	/**
+	 * Valid values are set for the structure handle. In such case, exceptions
+	 * should be thrown.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testStructureHandle( ) throws Exception
+	{
+		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
+		assertNotNull( table );
+
+		ISortCondition[] sorts = table.getSortConditions( );
+		ISortCondition sort = sorts[0];
+
+		try
+		{
+			sort.setDirection( "invalidValue" ); //$NON-NLS-1$
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
+					e.getErrorCode( ) );
+		}
+
 	}
 }

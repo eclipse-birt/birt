@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IFilterCondition;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
@@ -89,19 +91,46 @@ public class FilterConditionImpl implements IFilterCondition
         return filterConditionImpl.getValue2();
     }
 
-    public void setOperator( String operator )
+    public void setOperator( String operator ) throws ScriptException
     {
-        filterConditionImpl.setOperator( operator );
+    	try
+		{
+    		
+            filterConditionImpl.setOperator( operator );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
-    public void setValue1( String value1 )
+    public void setValue1( String value1 ) throws ScriptException
     {
-        filterConditionImpl.setValue1( value1 );
+    	try
+		{
+    		
+            filterConditionImpl.setValue1( value1 );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
-    public void setValue2( String value2 )
+    public void setValue2( String value2 ) throws ScriptException
     {
-        filterConditionImpl.setValue2( value2 );
+    	try
+		{
+    		
+            filterConditionImpl.setValue2( value2 );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
     public IStructure getStructure()
@@ -114,9 +143,18 @@ public class FilterConditionImpl implements IFilterCondition
         return filterConditionImpl.getExpr();
     }
 
-    public void setExpr( String expr )
+    public void setExpr( String expr ) throws ScriptException
     {
-        filterConditionImpl.setExpr( expr );
+    	try
+		{
+    		
+            filterConditionImpl.setExpr( expr );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
 }

@@ -48,6 +48,13 @@
             <property name="x">1.2mm</property>
             <property name="y">11.2mm</property>
         </extended-item>
-        <table name="my new table" id="11"/>
+        <table name="my new table" id="11">
+			<list-property name="sort">
+                <structure>
+                    <expression name="key">age</expression>
+                    <property name="direction">asc</property>
+                </structure>
+            </list-property>	
+        </table>
     </body>
 </report>

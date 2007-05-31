@@ -35,7 +35,7 @@ public interface IHideRule
 	 * @param format
 	 * @throws ScriptException
 	 */
-	public void setFormat( String format );
+	public void setFormat( String format ) throws ScriptException;
 
 	/**
 	 * Returns value expression
@@ -50,7 +50,7 @@ public interface IHideRule
 	 * @param valueExpr
 	 * @throws ScriptException
 	 */
-	public void setValueExpr( String valueExpr );
+	public void setValueExpr( String valueExpr ) throws ScriptException;
 
 	/**
 	 * Returns structure.

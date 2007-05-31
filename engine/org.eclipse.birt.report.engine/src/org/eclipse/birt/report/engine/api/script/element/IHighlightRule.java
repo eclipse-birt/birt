@@ -36,7 +36,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setTestExpression( String expression );
+	public void setTestExpression( String expression ) throws ScriptException;
 
 	/**
 	 * Returns font style
@@ -53,7 +53,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setFontStyle( String style );
+	public void setFontStyle( String style ) throws ScriptException;
 
 	/**
 	 * Returns font weight.
@@ -70,7 +70,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setFontWeight( String weight );
+	public void setFontWeight( String weight ) throws ScriptException;
 
 	/**
 	 * Return date time format.
@@ -87,7 +87,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setDateTimeFormat( String format );
+	public void setDateTimeFormat( String format ) throws ScriptException;
 
 	/**
 	 * Returns string format
@@ -103,7 +103,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setStringFormat( String format );
+	public void setStringFormat( String format )  throws ScriptException;
 
 	/**
 	 * Returns color
@@ -143,7 +143,7 @@ public interface IHighlightRule
 	 * @return backgroudcolor
 	 */
 
-	public String getBackGroudnColor( );
+	public String getBackGroundColor( ) throws ScriptException;
 
 	/**
 	 * Sets color
@@ -152,7 +152,7 @@ public interface IHighlightRule
 	 * @throws ScriptException
 	 */
 
-	public void setColor( String color );
+	public void setColor( String color ) throws ScriptException;
 
 	/**
 	 * Sets Value1
@@ -160,7 +160,7 @@ public interface IHighlightRule
 	 * @param value1
 	 */
 
-	public void setValue1( String value1 );
+	public void setValue1( String value1 ) throws ScriptException;
 
 	/**
 	 * Sets Value2
@@ -168,7 +168,7 @@ public interface IHighlightRule
 	 * @param value2
 	 */
 
-	public void setValue2( String value2 );
+	public void setValue2( String value2 ) throws ScriptException;
 
 	/**
 	 * Sets Operator
@@ -176,7 +176,7 @@ public interface IHighlightRule
 	 * @param operator
 	 */
 
-	public void setOperator( String operator );
+	public void setOperator( String operator ) throws ScriptException;
 
 	/**
 	 * Sets backgroudcolor
@@ -184,7 +184,7 @@ public interface IHighlightRule
 	 * @param color
 	 */
 
-	public void setBackGroudnColor( String color );
+	public void setBackGroundColor( String color ) throws ScriptException;
 
 	/**
 	 * Returns structure.

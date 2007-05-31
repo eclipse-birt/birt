@@ -31,6 +31,12 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	private ResultSetColumn column;
 
 	/**
+	 * ResultSetColumn instance.
+	 */
+
+	private ResultSetColumnHandle columnHandle;
+
+	/**
 	 * Constructor
 	 * 
 	 */
@@ -55,6 +61,7 @@ public class ResultSetColumnImpl implements IResultSetColumn
 		}
 		else
 		{
+			this.columnHandle = columnHandle;
 			this.column = (ResultSetColumn) columnHandle.getStructure( );
 		}
 	}

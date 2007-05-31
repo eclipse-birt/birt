@@ -37,7 +37,7 @@ public interface IFilterCondition
 	 * @throws SemanticException
 	 */
 
-	public void setOperator( String operator );
+	public void setOperator( String operator ) throws SemanticException;
 
 	/**
 	 * Returns value1
@@ -54,7 +54,7 @@ public interface IFilterCondition
 	 * @throws SemanticException
 	 */
 
-	public void setValue1( String value1 );
+	public void setValue1( String value1 ) throws SemanticException;
 
 	/**
 	 * Returns value2
@@ -71,7 +71,7 @@ public interface IFilterCondition
 	 * @throws SemanticException
 	 */
 
-	public void setValue2( String value2 );
+	public void setValue2( String value2 ) throws SemanticException;
 
 	/**
 	 * Returns structure.
@@ -87,7 +87,7 @@ public interface IFilterCondition
 	 * @param expr
 	 */
 
-	public void setExpr( String expr );
+	public void setExpr( String expr ) throws SemanticException;
 
 	/**
 	 * Returns expr

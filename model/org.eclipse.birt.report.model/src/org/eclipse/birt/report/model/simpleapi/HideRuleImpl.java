@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.HideRuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
@@ -25,6 +26,8 @@ public class HideRuleImpl implements IHideRule
 
 	private HideRule rule;
 
+	private HideRuleHandle ruleHandle;
+	
 	/**
 	 * Constructor
 	 * 
@@ -51,6 +54,7 @@ public class HideRuleImpl implements IHideRule
 		}
 		else
 		{
+			this.ruleHandle = ruleHandle;
 			rule = (HideRule) ruleHandle.getStructure( );
 		}
 	}
@@ -93,13 +97,27 @@ public class HideRuleImpl implements IHideRule
 		return rule.getExpression( );
 	}
 
-	public void setFormat( String format )
+	public void setFormat( String format ) throws SemanticException
 	{
+		if (ruleHandle != null)
+		{
+			ruleHandle.setFormat( format );
+			return;
+		}
+		
+		
 		rule.setFormat( format );
 	}
 
-	public void setValueExpr( String valueExpr )
+	public void setValueExpr( String valueExpr ) throws SemanticException
 	{
+		if (ruleHandle != null)
+		{
+			ruleHandle.setExpression( valueExpr );
+			return;
+		}
+		
+		
 		rule.setExpression( valueExpr );
 	}
 

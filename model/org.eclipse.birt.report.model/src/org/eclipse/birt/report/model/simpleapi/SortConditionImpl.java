@@ -12,69 +12,81 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.SortKeyHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 
 /**
- * Implements of Sort Condition 
- *
+ * Implements of Sort Condition
+ * 
  */
 
 public class SortConditionImpl implements ISortCondition
 {
+
 	private SortKey sort;
-	
+
+	private SortKeyHandle sortHandle;
+
 	/**
 	 * Constructor
+	 * 
 	 * @param sortHandle
 	 */
-	
+
 	public SortConditionImpl( )
 	{
-		sort = createSortCondition();
+		sort = createSortCondition( );
 	}
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param sortHandle
 	 */
-	
+
 	public SortConditionImpl( SortKeyHandle sortHandle )
 	{
-		if( sortHandle == null )
+		if ( sortHandle == null )
 		{
-			sort = createSortCondition();
+			sort = createSortCondition( );
 		}
-		else{
-			sort = (SortKey)sortHandle.getStructure( );
+		else
+		{
+			this.sortHandle = sortHandle;
+			sort = (SortKey) sortHandle.getStructure( );
 		}
 	}
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param sort
 	 */
 	public SortConditionImpl( SortKey sort )
 	{
-		if( sort == null )
+		if ( sort == null )
 		{
-			sort = createSortCondition();
-		}else{
+			sort = createSortCondition( );
+		}
+		else
+		{
 			this.sort = sort;
 		}
 	}
-	
+
 	/**
 	 * Create instance of <code>HideRule</code>
+	 * 
 	 * @return instance
 	 */
-	private SortKey createSortCondition()
+	private SortKey createSortCondition( )
 	{
-		SortKey s = new SortKey();
+		SortKey s = new SortKey( );
 		return s;
 	}
-	
+
 	public String getDirection( )
 	{
 		return sort.getDirection( );
@@ -85,15 +97,25 @@ public class SortConditionImpl implements ISortCondition
 		return sort.getKey( );
 	}
 
-	public void setDirection( String direction )
+	public void setDirection( String direction ) throws SemanticException
 	{
+		if ( sortHandle != null )
+		{
+			sortHandle.setDirection( direction );
+			return;
+		}
+
 		sort.setDirection( direction );
 	}
-	
 
-	public void setKey( String key ) 
+	public void setKey( String key )  throws SemanticException
 	{
-		//key is required
+		// key is required
+		if ( sortHandle != null )
+		{
+			sortHandle.setKey( key );
+			return;
+		}
 		
 		sort.setKey( key );
 	}

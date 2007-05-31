@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
@@ -25,6 +26,8 @@ public class FilterConditionImpl implements IFilterCondition
 {
 
 	private FilterCondition condition;
+	
+	private FilterConditionHandle conditionHandle;
 	
 	/**
 	 * Constructor
@@ -70,6 +73,7 @@ public class FilterConditionImpl implements IFilterCondition
 		}
 		else
 		{
+			this.conditionHandle = conditionHandle; 
 			condition = (FilterCondition) conditionHandle.getStructure( );
 		}
 	}
@@ -95,18 +99,36 @@ public class FilterConditionImpl implements IFilterCondition
 		return condition.getValue2( );
 	}
 
-	public void setOperator( String operator )
+	public void setOperator( String operator ) throws SemanticException
 	{
+		if (conditionHandle != null)
+		{
+			conditionHandle.setOperator( operator );
+			return;
+		}
+		
 		condition.setOperator( operator );
 	}
 
-	public void setValue1( String value1 )
+	public void setValue1( String value1 ) throws SemanticException
 	{
+		if (conditionHandle != null)
+		{
+			conditionHandle.setValue1( value1 );
+			return;
+		}
+		
 		condition.setValue1( value1 );
 	}
 
-	public void setValue2( String value2 )
+	public void setValue2( String value2 ) throws SemanticException
 	{
+		if (conditionHandle != null)
+		{
+			conditionHandle.setValue2( value2 );
+			return;
+		}
+		
 		condition.setValue2( value2 );
 	}
 
@@ -120,8 +142,14 @@ public class FilterConditionImpl implements IFilterCondition
 		return condition.getExpr( );
 	}
 
-	public void setExpr( String expr )
+	public void setExpr( String expr ) throws SemanticException
 	{
+		if (conditionHandle != null)
+		{
+			conditionHandle.setExpr( expr );
+			return;
+		}
+		
 		condition.setExpr( expr );
 	}
 

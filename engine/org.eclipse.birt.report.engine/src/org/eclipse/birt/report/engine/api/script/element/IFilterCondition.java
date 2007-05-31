@@ -37,7 +37,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setOperator( String operator );
+	public void setOperator( String operator ) throws ScriptException;
 
 	/**
 	 * Returns value1
@@ -54,7 +54,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setValue1( String value1 );
+	public void setValue1( String value1 ) throws ScriptException;
 
 	/**
 	 * Returns value2
@@ -71,7 +71,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setValue2( String value2 );
+	public void setValue2( String value2 ) throws ScriptException;
 
 	/**
 	 * Returns structure.
@@ -87,7 +87,7 @@ public interface IFilterCondition
 	 * @param expr
 	 */
 
-	public void setExpr( String expr );
+	public void setExpr( String expr ) throws ScriptException;
 
 	/**
 	 * Returns expr

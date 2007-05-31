@@ -35,7 +35,7 @@ public interface IHideRule
 	 * @param format
 	 * @throws SemanticException
 	 */
-	public void setFormat( String format );
+	public void setFormat( String format ) throws SemanticException;
 
 	/**
 	 * Returns value expression
@@ -50,7 +50,7 @@ public interface IHideRule
 	 * @param valueExpr
 	 * @throws SemanticException
 	 */
-	public void setValueExpr( String valueExpr );
+	public void setValueExpr( String valueExpr ) throws SemanticException;
 
 	/**
 	 * Returns structure.

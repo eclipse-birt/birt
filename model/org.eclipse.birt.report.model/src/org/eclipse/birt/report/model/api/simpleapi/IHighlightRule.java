@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
@@ -35,7 +36,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setTestExpression( String expression );
+	public void setTestExpression( String expression ) throws SemanticException;
 
 	/**
 	 * Returns font style
@@ -52,7 +53,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setFontStyle( String style );
+	public void setFontStyle( String style ) throws SemanticException;
 
 	/**
 	 * Returns font weight.
@@ -69,7 +70,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setFontWeight( String weight );
+	public void setFontWeight( String weight ) throws SemanticException;
 
 	/**
 	 * Return date time format.
@@ -86,7 +87,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setDateTimeFormat( String format );
+	public void setDateTimeFormat( String format ) throws SemanticException;
 
 	/**
 	 * Returns string format
@@ -102,7 +103,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setStringFormat( String format );
+	public void setStringFormat( String format ) throws SemanticException;
 
 	/**
 	 * Returns color
@@ -142,7 +143,7 @@ public interface IHighlightRule
 	 * @return backgroudcolor
 	 */
 
-	public String getBackGroudnColor( );
+	public String getBackGroundColor( );
 
 	/**
 	 * Sets color
@@ -151,7 +152,7 @@ public interface IHighlightRule
 	 * @throws SemanticException
 	 */
 
-	public void setColor( String color );
+	public void setColor( String color ) throws SemanticException;
 
 	/**
 	 * Sets Value1
@@ -159,7 +160,7 @@ public interface IHighlightRule
 	 * @param value1
 	 */
 
-	public void setValue1( String value1 );
+	public void setValue1( String value1 ) throws SemanticException;
 
 	/**
 	 * Sets Value2
@@ -167,7 +168,7 @@ public interface IHighlightRule
 	 * @param value2
 	 */
 
-	public void setValue2( String value2 );
+	public void setValue2( String value2 ) throws SemanticException;
 
 	/**
 	 * Sets Operator
@@ -175,7 +176,7 @@ public interface IHighlightRule
 	 * @param operator
 	 */
 
-	public void setOperator( String operator );
+	public void setOperator( String operator ) throws SemanticException;
 
 	/**
 	 * Sets backgroudcolor
@@ -183,7 +184,7 @@ public interface IHighlightRule
 	 * @param color
 	 */
 
-	public void setBackGroudnColor( String color );
+	public void setBackGroundColor( String color ) throws SemanticException;
 
 	/**
 	 * Returns structure.

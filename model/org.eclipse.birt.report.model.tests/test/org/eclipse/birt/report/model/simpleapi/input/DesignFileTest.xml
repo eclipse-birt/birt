@@ -51,6 +51,12 @@
             <property name="y">11.2mm</property>
 		</extended-item>   
 		<table name="my table">
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">age</expression>
+                    <property name="direction">asc</property>
+                </structure>
+            </list-property>		
 		</table>         
     </body>
 </report>

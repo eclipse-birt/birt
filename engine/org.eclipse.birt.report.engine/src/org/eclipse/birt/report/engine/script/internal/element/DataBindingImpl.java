@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
@@ -85,26 +87,62 @@ public class DataBindingImpl implements IDataBinding
         return dataBindingImpl.getName();
     }
 
-    public void setAggregateOn( String on )
+    public void setAggregateOn( String on )  throws ScriptException
     {
-        dataBindingImpl.setAggregateOn( on );
+    	try
+		{
+    		 dataBindingImpl.setAggregateOn( on );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+       
     }
 
-    public void setDataType( String dataType )
+    public void setDataType( String dataType ) throws ScriptException
     {
-        dataBindingImpl.setDataType( dataType );
+    	try
+		{
+    		dataBindingImpl.setDataType( dataType );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}        
     }
 
-    public void setExpression( String expression )
+    public void setExpression( String expression ) throws ScriptException
     {
+		
         // expression is required.
-        dataBindingImpl.setExpression( expression );
+    	
+    	try
+		{
+    		  dataBindingImpl.setExpression( expression );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}      
+
+      
     }
 
-    public void setName( String name )
+    public void setName( String name )  throws ScriptException
     {
         // name is required.
-        dataBindingImpl.setName( name );
+    	
+    	try
+		{
+    		
+            dataBindingImpl.setName( name );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}    
+
     }
 
     public IStructure getStructure()

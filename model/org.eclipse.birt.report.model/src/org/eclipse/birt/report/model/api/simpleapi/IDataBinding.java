@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
@@ -37,7 +38,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setName( String name );
+	public void setName( String name ) throws SemanticException;
 
 	/**
 	 * Returns expression of column binding
@@ -55,7 +56,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setExpression( String expression );
+	public void setExpression( String expression ) throws SemanticException;
 
 	/**
 	 * Returns data type of column binding.
@@ -83,7 +84,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 	
-	public void setDataType( String dataType );
+	public void setDataType( String dataType ) throws SemanticException;
 
 	/**
 	 * Returns aggregateOn of column binding
@@ -101,7 +102,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 	
-	public void setAggregateOn( String on );
+	public void setAggregateOn( String on ) throws SemanticException;
 
 	/**
 	 * Returns structure.

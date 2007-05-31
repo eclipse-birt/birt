@@ -41,7 +41,7 @@ public interface ISortCondition
 	 * @throws SemanticException
 	 */
 
-	public void setDirection( String direction );
+	public void setDirection( String direction ) throws SemanticException;
 
 	/**
 	 * Returns sort key
@@ -58,7 +58,7 @@ public interface ISortCondition
 	 * @throws SemanticException
 	 */
 
-	public void setKey( String key );
+	public void setKey( String key ) throws SemanticException;
 
 	/**
 	 * Returns structure.

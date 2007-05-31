@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
@@ -75,14 +77,31 @@ public class HideRuleImpl implements IHideRule
         return hideRuleImpl.getValueExpr();
     }
 
-    public void setFormat( String format )
+    public void setFormat( String format )  throws ScriptException
     {
-        hideRuleImpl.setFormat( format );
+    	try
+		{    		
+            hideRuleImpl.setFormat( format );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
-    public void setValueExpr( String valueExpr )
+    public void setValueExpr( String valueExpr ) throws ScriptException
     {
-        hideRuleImpl.setValueExpr( valueExpr );
+    	try
+		{    		
+    		
+            hideRuleImpl.setValueExpr( valueExpr );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );				
+		}
+
     }
 
     public IStructure getStructure()

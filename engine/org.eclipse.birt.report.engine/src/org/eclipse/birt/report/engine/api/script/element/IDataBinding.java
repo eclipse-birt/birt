@@ -38,7 +38,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setName( String name );
+	public void setName( String name ) throws ScriptException;
 
 	/**
 	 * Returns expression of column binding
@@ -56,7 +56,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setExpression( String expression );
+	public void setExpression( String expression ) throws ScriptException;
 
 	/**
 	 * Returns data type of column binding.
@@ -84,7 +84,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 	
-	public void setDataType( String dataType );
+	public void setDataType( String dataType ) throws ScriptException;
 
 	/**
 	 * Returns aggregateOn of column binding
@@ -102,7 +102,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 	
-	public void setAggregateOn( String on );
+	public void setAggregateOn( String on ) throws ScriptException;
 
 	/**
 	 * Returns structure.
