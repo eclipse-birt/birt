@@ -482,7 +482,7 @@ public class ElementFactoryTest extends BaseTestCase
 
 		DimensionHandle dimension = factory
 				.newTabularDimension( "a/b\\c.d:1!2;3,f" ); //$NON-NLS-1$
-		assertEquals( "a_b_c_d_1_2_3_f", dimension.getName( ) ); //$NON-NLS-1$
+		assertEquals( "a_b_c_d:1_2_3_f", dimension.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**

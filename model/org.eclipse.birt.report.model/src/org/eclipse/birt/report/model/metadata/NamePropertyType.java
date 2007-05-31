@@ -131,11 +131,11 @@ public class NamePropertyType extends TextualPropertyType
 	{
 		assert value != null;
 
-		// can not contain: / \ . : ! ; ,
+		// can not contain: / \ . ! ; ,
 		for ( int i = 0; i < value.length( ); i++ )
 		{
 			char c = value.charAt( i );
-			if ( c == '/' || c == '\\' || c == '.' || c == ':' || c == '!'
+			if ( c == '/' || c == '\\' || c == '.' || c == '!'
 					|| c == ';' || c == ',' )
 				return false;
 		}
@@ -157,7 +157,7 @@ public class NamePropertyType extends TextualPropertyType
 		if ( value == null )
 			return null;
 
-		value = value.replaceAll( "/|\\\\|\\.|:|!|;|,", "_" ); //$NON-NLS-1$ //$NON-NLS-2$
+		value = value.replaceAll( "/|\\\\|\\.|!|;|,", "_" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return value;
 	}
 }
