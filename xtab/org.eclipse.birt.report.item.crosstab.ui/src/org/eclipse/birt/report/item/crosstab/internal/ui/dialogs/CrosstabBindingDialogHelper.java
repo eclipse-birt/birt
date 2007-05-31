@@ -79,8 +79,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String ALL = "All"; //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
 
-	//TODO should model generate the default name?
-	protected static final String DEFAULT_ITEM_NAME = "data item";
+	protected static final String DEFAULT_ITEM_NAME = "Column Binding"; //$NON-NLS-1$
+	protected static final String DEFAULT_AGGREGATION_NAME = "Aggregation"; //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -102,6 +102,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private Composite composite;
 	private Text txtDisplayName;
+	private ComputedColumn newBinding;
 
 	public void createContent( Composite parent )
 	{
@@ -165,7 +166,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( getBinding( ) == null )//create
 		{
 			setTypeSelect( dataTypes[0] );
-			setName( DEFAULT_ITEM_NAME );
+			this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
+					isAggregate( ) ? DEFAULT_AGGREGATION_NAME
+							: DEFAULT_ITEM_NAME );
+			setName( this.newBinding.getName( ) );
 		}
 		else
 		{
@@ -175,6 +179,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					.getDisplayName( ) );
 			setDataFieldExpression( getBinding( ).getExpression( ) );
 		}
+
+		if ( this.getBinding( ) != null )
+		{
+			this.txtName.setEnabled( false );
+		}
+
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -207,7 +217,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 				for ( int j = 0; j < aggOns.length; j++ )
 				{
-					if ( aggOns[j].equals( aggstr ) ){
+					if ( aggOns[j].equals( aggstr ) )
+					{
 						cmbAggOn.select( j );
 						return;
 					}
@@ -395,7 +406,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			String[] mesures = new String[xtabHandle.getMeasureCount( )];
 			for ( int i = 0; i < mesures.length; i++ )
 			{
-				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i ).getCubeMeasure( ) );
+				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i )
+						.getCubeMeasure( ) );
 			}
 			return mesures;
 		}
@@ -490,13 +502,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-//		cmbDataField.addSelectionListener( new SelectionAdapter( ) {
-//
-//			public void widgetSelected( SelectionEvent e )
-//			{
-//				cmbDataField.setText( getColumnBindingExpressionByName( cmbDataField.getText( ) ) );
-//			}
-//		} );
+		//		cmbDataField.addSelectionListener( new SelectionAdapter( ) {
+		//
+		//			public void widgetSelected( SelectionEvent e )
+		//			{
+		//				cmbDataField.setText( getColumnBindingExpressionByName( cmbDataField.getText( ) ) );
+		//			}
+		//		} );
 
 		argsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
@@ -705,8 +717,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				if ( getBinding( ) == null )
 				{
-					ComputedColumn newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
-							txtName.getText( ) );
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -716,8 +726,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							break;
 						}
 					}
-					newBinding.setExpression( txtExpression.getText( ) );
-					newBinding.setDisplayName( txtDisplayName.getText( ) );
+					this.newBinding.setName( txtName.getText( ) );
+					this.newBinding.setExpression( txtExpression.getText( ) );
+					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
 					this.binding = DEUtil.addColumn( getBindingHolder( ),
 							newBinding,
 							true );
@@ -749,9 +760,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				return;
 			}
-			ComputedColumn newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
-					txtName.getText( ) );
-			newBinding.setDisplayName( txtDisplayName.getText( ) );
+			this.newBinding.setName( txtName.getText( ) );
+			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -761,11 +771,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					break;
 				}
 			}
-			newBinding.setExpression( cmbDataField.getText( ) );
-			newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
-			newBinding.setFilterExpression( txtFilter.getText( ) );
+			this.newBinding.setExpression( cmbDataField.getText( ) );
+			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+			this.newBinding.setFilterExpression( txtFilter.getText( ) );
 
-			newBinding.clearAggregateOnList( );
+			this.newBinding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
 			StringTokenizer token = new StringTokenizer( aggStr );
 

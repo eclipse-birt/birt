@@ -73,8 +73,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
 
-	//TODO should model generate the default name?
-	protected static final String DEFAULT_ITEM_NAME = "data item"; //$NON-NLS-1$
+	protected static final String DEFAULT_ITEM_NAME = "Column Binding"; //$NON-NLS-1$
+	protected static final String DEFAULT_AGGREGATION_NAME = "Aggregation"; //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -96,6 +96,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private Composite composite;
 	private Text txtDisplayName;
+	private ComputedColumn newBinding;
 
 	public void createContent( Composite parent )
 	{
@@ -159,7 +160,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( getBinding( ) == null )//create
 		{
 			setTypeSelect( dataTypes[0] );
-			setName( DEFAULT_ITEM_NAME );
+			this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
+					isAggregate( ) ? DEFAULT_AGGREGATION_NAME
+							: DEFAULT_ITEM_NAME );
+			setName( this.newBinding.getName( ) );
 		}
 		else
 		{
@@ -169,6 +173,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					.getDisplayName( ) );
 			setDataFieldExpression( getBinding( ).getExpression( ) );
 		}
+
+		if ( this.getBinding( ) != null )
+		{
+			this.txtName.setEnabled( false );
+		}
+		
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -717,8 +727,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				if ( getBinding( ) == null )
 				{
-					ComputedColumn newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
-							txtName.getText( ) );
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -728,10 +736,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							break;
 						}
 					}
-					newBinding.setDisplayName( txtDisplayName.getText( ) );
-					newBinding.setExpression( txtExpression.getText( ) );
+					this.newBinding.setName( txtName.getText( ) );
+					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+					this.newBinding.setExpression( txtExpression.getText( ) );
 					this.binding = DEUtil.addColumn( getBindingHolder( ),
-							newBinding,
+							this.newBinding,
 							true );
 				}
 				else
@@ -761,33 +770,32 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				return;
 			}
-			ComputedColumn newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
-					txtName.getText( ) );
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
 						.endsWith( cmbType.getText( ) ) )
 				{
-					newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					this.newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 					break;
 				}
 			}
-			newBinding.setDisplayName( txtDisplayName.getText( ) );
-			newBinding.setExpression( cmbDataField.getText( ) );
-			newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
-			newBinding.setFilterExpression( txtFilter.getText( ) );
+			this.newBinding.setName( txtName.getText( ) );
+			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+			this.newBinding.setExpression( cmbDataField.getText( ) );
+			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+			this.newBinding.setFilterExpression( txtFilter.getText( ) );
 
 			if ( btnTable.getSelection( ) )
 			{
-				newBinding.setAggregateOn( null );
+				this.newBinding.setAggregateOn( null );
 			}
 			else
 			{
-				newBinding.setAggregateOn( cmbGroup.getText( ) );
+				this.newBinding.setAggregateOn( cmbGroup.getText( ) );
 			}
 
 			this.binding = DEUtil.addColumn( getBindingHolder( ),
-					newBinding,
+					this.newBinding,
 					true );
 
 			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
