@@ -70,16 +70,29 @@ BirtGetUpdatedObjectsResponseHandler.prototype = Object.extend( new BirtBaseResp
 				 * Data is too large, seems firefox will wrap the content into
 				 * several children nodes of text type. Need more verification.
 				 **************************************************************/
-				var contentData = "";
-				if ( content.hasChildNodes )
+				
+				// firefox can use textContent to retrieve the complete node content,
+				// check this property first to avoid string concatation which is very
+				// slow for large node.  
+				var contentData = content.textContent;
+				
+				if (!contentData)
 				{
-					for( var j = 0; j < content.childNodes.length; j++ )
+					// for non-fireforx browser, we still use string concatation 
+					// to retrieve the complete content.
+					
+					contentData = "";
+					
+					if ( content.hasChildNodes )
 					{
-						if( content.childNodes[j].nodeType == 3 ) //Text type
+						for( var j = 0; j < content.childNodes.length; j++ )
 						{
-							contentData += content.childNodes[j].data;
-						}
-					}		
+							if( content.childNodes[j].nodeType == 3 ) //Text type
+							{
+								contentData += content.childNodes[j].data;
+							}
+						}		
+					}
 				}
 				
 				if ( contentData )

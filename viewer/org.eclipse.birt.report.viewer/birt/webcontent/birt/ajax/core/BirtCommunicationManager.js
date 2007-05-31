@@ -62,8 +62,11 @@ BirtCommunicationManager.prototype =
 	 */
 	responseHandler: function( request )
 	{
-		debug(request.responseText, true);
-		debug(birtSoapRequest.prettyPrintXML(request.responseXML.documentElement), true);
+		if ( isDebugging( ) )
+		{
+			debug(request.responseText, true);
+			debug(birtSoapRequest.prettyPrintXML(request.responseXML.documentElement), true);
+		}
 		
 		if ( request.responseXML && request.responseXML.documentElement )
 		{
