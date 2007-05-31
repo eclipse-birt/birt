@@ -337,3 +337,5 @@ data.olap.invalidBindingReferToInexitDim=The binding "{0}" refers to invalid lev
 data.olap.invalidBindingReferToInexitMeasure=The binding "{0}" refers to invalid measures.  
 data.olap.invalidBindingMissingAggrFunc=The aggregation function of binding "{0}" is missing.
 data.olap.invalidAggrArgument=Only level attribute can serve as aggregation argument.
+data.olap.axis.level.CantBeNull=Column member level cannot be null!
+data.olap.axis.value.CantBeNull=Column member value of level \"{0}\" cannot be null!
