@@ -74,7 +74,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List columnSort = null;
 	private List topbottomFilters;
 	
-	private boolean[] skip;
+	private boolean isEmptyXTab;
 	
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
@@ -467,9 +467,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
-		// If skip[i] is true , the corresponding aggregation has no need to
-		// be recalculated. All aggregations will be executed again by default
-		skip = new boolean[aggregations.length];
 		if ( aggrFilters.isEmpty( ) == false
 				|| topbottomFilters.isEmpty( ) == false )
 		{
@@ -477,38 +474,17 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			List oldFilters = new ArrayList( filters );
 			// add new filters for another aggregation computation
 			addLevelFilters( generateLevelFilters( aggregations, resultSet ) );
-			// generate AggregationDefinition array that need to be recalculated
-			List aggrList = new ArrayList( );
-			for ( int i = 0; i < skip.length; i++ )
+			if ( isEmptyXTab )
 			{
-				if ( skip[i] == false )
-				{// release all result set that will not be used later
-					aggrList.add( aggregations[i] );
-					resultSet[i].close( );
-					resultSet[i] = null;
-				}
-				else
-				{// the i-th aggregation do not need to recalculate, and the
-					// coresponding result set should be empty
+				for ( int i = 0; i < resultSet.length; i++ )
+				{
 					resultSet[i].clear( );
 				}
 			}
-			if ( aggrList.size( ) > 0 )
+			else
 			{
-				AggregationDefinition[] recalAggrs = new AggregationDefinition[aggrList.size( )];
-				aggrList.toArray( recalAggrs );
-
-				// recompute the aggregation according to new filters
-				IAggregationResultSet[] recalResultSet = onePassExecute( recalAggrs,
-						stopSign );
-				// overwrite the result sets that have been recalculated
-				for ( int i = 0, index = 0; i < skip.length; i++ )
-				{
-					if ( skip[i] == false )
-					{
-						resultSet[i] = recalResultSet[index++];
-					}
-				}
+				// recalculate the aggregation according to new filters
+				resultSet = onePassExecute( aggregations, stopSign );
 			}
 			// restore to original filter list to avoid conflict
 			filters = oldFilters;
@@ -601,7 +577,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
 			AggrFilter filter = (AggrFilter) i.next( );
-			for ( int j = 0; j < aggregations.length; j++ )
+			for ( int j = 0; !isEmptyXTab && j < aggregations.length; j++ )
 			{
 				if ( aggregations[j].getAggregationFunctions( ) != null
 						&& isEqualLevels( aggregations[j].getLevels( ),
@@ -811,8 +787,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}				
 		//---------------------------------------------------------------------------------
 		if ( selKeyValueList.isEmpty( ) )
-		{// filter is empty, so that the aggregation result set will not be recalculated
-			skip[j] = true;
+		{// filter is empty, so that the final x-Tab will be empty
+			isEmptyXTab = true;
 		}
 		else
 		{
@@ -820,7 +796,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			for ( int i = 0; i < selKeyValueList.size( ); i++ )
 			{
 				keyValues[i] = (Object[]) selKeyValueList.get( i );
-			}			
+			}
 			ISelection selection = SelectionFactory.createMutiKeySelection( keyValues );
 			LevelFilter levelFilter = new LevelFilter( filter.getTargetLevel( ),
 					new ISelection[]{
