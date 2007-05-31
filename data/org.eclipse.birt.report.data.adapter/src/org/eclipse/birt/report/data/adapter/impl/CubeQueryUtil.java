@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
@@ -427,5 +428,22 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			throw new UnsupportedOperationException();
 		}
 		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getInvalidBindings(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 */
+	public List getInvalidBindings( ICubeQueryDefinition queryDefn )
+			throws AdapterException
+	{
+		try
+		{
+			return OlapQueryUtil.validateBinding( queryDefn, true );
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
 	}
 }

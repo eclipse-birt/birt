@@ -83,4 +83,15 @@ public interface ICubeQueryUtil
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String dataBindingExpr, ICubeQueryDefinition queryDefn )
 			throws AdapterException;
+	
+	/**
+	 * This is a utility method for GUI to find out all the invalid bindings in
+	 * a xTab definition.
+	 * 
+	 * @param queryDefn
+	 * @return
+	 * @throws AdapterException
+	 */
+	public List getInvalidBindings( ICubeQueryDefinition queryDefn )
+			throws AdapterException;
 }
