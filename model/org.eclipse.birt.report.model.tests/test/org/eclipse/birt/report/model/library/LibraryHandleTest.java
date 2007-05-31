@@ -108,6 +108,19 @@ public class LibraryHandleTest extends BaseTestCase
 	}
 
 	/**
+	 * Create Style in Library and test style name.
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetStyleName( ) throws Exception
+	{
+		libraryHandle = createLibrary( ULocale.ENGLISH );
+		StyleHandle styleHandle = libraryHandle.getElementFactory( ).newStyle(
+				null );
+		assertEquals( "NewStyle", styleHandle.getName( ) );//$NON-NLS-1$
+	}
+
+	/**
 	 * Tests cases:
 	 * 
 	 * <ul>

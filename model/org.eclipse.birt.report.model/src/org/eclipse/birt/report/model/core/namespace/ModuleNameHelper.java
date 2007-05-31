@@ -145,8 +145,10 @@ public class ModuleNameHelper extends AbstractNameHelper
 			return null;
 
 		if ( module instanceof Library && element instanceof StyleElement
-				&& element.getContainer( ) == null )
-			return null;
+				&& element.getContainer( ) == null && name != null  )
+		{
+			return name;
+		}
 
 		// If the element already has a unique name, return it.
 		int nameSpaceID = eDefn.getNameSpaceID( );

@@ -197,13 +197,12 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		// set the unique name and add the element to the name manager
 
 		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
-		if ( nameSpace.getElement( name ) == element )
+		DesignElement cachedElement = nameSpace.getElement( name );
+		if(  cachedElement  == null )
 		{
-			nameSpace.rename( element, element.getName( ), name );
-			return;
+			element.setName( name.trim( ) );
+			nameSpace.insert( element );
 		}
-		element.setName( name.trim( ) );
-		nameSpace.insert( element );
 	}
 
 	/*
