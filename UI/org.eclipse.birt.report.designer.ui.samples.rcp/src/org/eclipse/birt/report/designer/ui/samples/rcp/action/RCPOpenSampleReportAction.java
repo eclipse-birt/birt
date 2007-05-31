@@ -62,7 +62,7 @@ public class RCPOpenSampleReportAction extends Action implements
 				.equals( DRILL_TO_DETAILS_CATEGORY ) )
 		{
 			PlaceResources.copyDrillThroughReport( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
+					getDefaultLocation( ),
 					item.getText( ) );
 		}
 		
