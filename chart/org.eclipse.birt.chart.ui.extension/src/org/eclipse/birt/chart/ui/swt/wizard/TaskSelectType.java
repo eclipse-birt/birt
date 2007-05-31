@@ -144,7 +144,7 @@ public class TaskSelectType extends SimpleTask implements
 	private static Hashtable htSeriesNames = null;
 	
 	private static final int LABEL_WIDTH_HINT = 80;
-	private static final int CHART_TABLE_WIDTH_HINT = 150;
+	private static final int CHART_TABLE_WIDTH_HINT = 100;
 
 	public TaskSelectType( )
 	{
@@ -277,7 +277,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Add the ComboBox for Dimensions
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = LABEL_WIDTH_HINT;
 			cbDimension.setLayoutData( gd );
 			cbDimension.addSelectionListener( this );
@@ -295,7 +295,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Add the ComboBox for Output Format
 		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = LABEL_WIDTH_HINT;
 			cbOutput.setLayoutData( gd );
 			cbOutput.addSelectionListener( this );
@@ -317,7 +317,7 @@ public class TaskSelectType extends SimpleTask implements
 					Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
 					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
 			} );
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = LABEL_WIDTH_HINT;
 			cbMultipleY.setLayoutData( gd );
 			cbMultipleY.addSelectionListener( this );
@@ -339,7 +339,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Add the ComboBox for Series Type
 		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = LABEL_WIDTH_HINT;
 			cbSeriesType.setLayoutData( gd );
 			cbSeriesType.setEnabled( false );
