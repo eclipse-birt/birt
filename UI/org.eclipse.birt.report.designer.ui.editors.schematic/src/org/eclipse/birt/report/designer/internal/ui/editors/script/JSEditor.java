@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2007 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
@@ -33,12 +36,18 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -60,6 +69,9 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
@@ -69,6 +81,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.editor.IFormPage;
@@ -105,8 +118,8 @@ public class JSEditor extends StatusTextEditor implements
 	JSEditorInput editorInput = new JSEditorInput( "" ); //$NON-NLS-1$
 
 	Combo cmbExpList = null;
-
-	Combo extendedItemExpList = null;
+	
+	Combo cmbSubFunctions = null;
 
 	public ComboViewer cmbExprListViewer;
 
@@ -132,6 +145,8 @@ public class JSEditor extends StatusTextEditor implements
 	 * Palette page
 	 */
 	public TreeViewPalettePage palettePage = new TreeViewPalettePage( );
+
+	public ComboViewer cmbSubFunctionsViewer;
 
 	/**
 	 * JSEditor - constructor
@@ -199,16 +214,26 @@ public class JSEditor extends StatusTextEditor implements
 
 		setInput( editorInput );
 
+		// Script combo
 		cmbExprListViewer = new ComboViewer( cmbExpList );
 		JSExpListProvider provider = new JSExpListProvider( );
 		cmbExprListViewer.setContentProvider( provider );
 		cmbExprListViewer.setLabelProvider( provider );
 
+		// SubFunctions combo
+		cmbSubFunctionsViewer = new ComboViewer( cmbSubFunctions );
+		JSSubFunctionListProvider subProvider = new JSSubFunctionListProvider( this );
+		cmbSubFunctionsViewer.setContentProvider(  subProvider  );
+		cmbSubFunctionsViewer.setLabelProvider( subProvider );
+		cmbSubFunctionsViewer.addSelectionChangedListener( subProvider );
+		
+		
 		// Initialize the model for the document.
 		Object model = getModel( );
 		if ( model != null )
 		{
 			cmbExpList.setVisible( true );
+			cmbSubFunctions.setVisible( true );
 			setComboViewerInput( model );
 		}
 		else
@@ -217,6 +242,8 @@ public class JSEditor extends StatusTextEditor implements
 		}
 		cmbExprListViewer.addSelectionChangedListener( palettePage.getSupport( ) );
 		cmbExprListViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+
 
 			/**
 			 * selectionChanged( event) - This listener implementation is
@@ -230,12 +257,14 @@ public class JSEditor extends StatusTextEditor implements
 				ISelection selection = event.getSelection( );
 				if ( selection != null )
 				{
+					
 					settingText = true;
 					Object[] sel = ( (IStructuredSelection) selection ).toArray( );
 					if ( sel.length == 1 )
 					{
-						if ( sel[0] instanceof IPropertyDefn )
+						if ( sel[0] instanceof IPropertyDefn  )
 						{
+							
 							// Save the current expression into the DE
 							// using DE
 							// API
@@ -249,6 +278,7 @@ public class JSEditor extends StatusTextEditor implements
 							// )
 							IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 							cmbItemLastSelected = elePropDefn;
+					
 							setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
 							setIsModified( false );
 							selectionMap.put( getModel( ), selection );
@@ -461,23 +491,21 @@ public class JSEditor extends StatusTextEditor implements
 		mainPane.setLayout( layout );
 
 		final Composite barPane = new Composite( mainPane, SWT.NONE );
-		layout = new GridLayout( 5, false );
+		layout = new GridLayout( 6, false );
 		barPane.setLayout( layout );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		barPane.setLayoutData( gdata );
 
-		// Create the combo box
-		cmbExpList = new Combo( barPane, SWT.READ_ONLY );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		cmbExpList.setLayoutData( layoutData );
-
-		extendedItemExpList = new Combo( barPane, SWT.READ_ONLY );
-		extendedItemExpList.setLayoutData( layoutData );
+		initScriptLabel( barPane );
+		
+		// Init combo boxes with scripts and subfunctions
+		initComboBoxes( barPane );
+	
 
 		// Creates Reset button
 		butReset = new Button( barPane, SWT.PUSH );
 		butReset.setText( Messages.getString( "JSEditor.Button.Reset" ) ); //$NON-NLS-1$
-		layoutData = new GridData( );
+		GridData layoutData = new GridData( );
 		layoutData.horizontalIndent = 6;
 		butReset.setLayoutData( layoutData );
 		butReset.addSelectionListener( new SelectionListener( ) {
@@ -529,6 +557,37 @@ public class JSEditor extends StatusTextEditor implements
 		return jsEditorContainer;
 	}
 
+	private void initScriptLabel( Composite parent )
+	{
+		Label lblScript = new Label( parent, SWT.NONE );
+		lblScript.setText(  Messages.getString( "JSEditor.Label.Script" )); //$NON-NLS-1$
+		final FontData fd = lblScript.getFont( ).getFontData( )[0];
+		Font labelFont = new Font( Display.getCurrent( ),
+				fd.getName( ),
+				fd.getHeight( ),
+				SWT.BOLD );
+		lblScript.setFont(  labelFont );
+		GridData layoutData = new GridData( SWT.BEGINNING );
+		lblScript.setLayoutData( layoutData );
+		
+	}
+
+	private void initComboBoxes( Composite parent )
+	{
+		
+		// Create the script combo box
+		cmbExpList = new Combo( parent, SWT.READ_ONLY );
+		GridData layoutData = new GridData(GridData.BEGINNING);
+		layoutData.widthHint = 140;
+		cmbExpList.setLayoutData( layoutData );
+			
+		// Create the subfunction combo box
+		cmbSubFunctions = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbSubFunctions.setLayoutData( layoutData );
+
+		
+	}
+
 	public void selectionChanged( SelectionChangedEvent event )
 	{
 
@@ -577,36 +636,33 @@ public class JSEditor extends StatusTextEditor implements
 			{
 				// set the combo viewer input to the the selected element.
 				palettePage.getSupport( ).setCurrentEditObject( editObject );
-				if ( editObject instanceof ExtendedItemHandle )
+				
+				
+				setComboViewerInput( editObject );
+
+				// clear the latest selected item.
+				cmbItemLastSelected = null;
+				setEditorText( "" ); //$NON-NLS-1$
+
+				// enable/disable editor based on the items in the
+				// expression list.
+				if ( cmbExpList.getItemCount( ) > 0 )
 				{
-					disableEditor( );
-					cmbExpList.removeAll( );
-					cmbItemLastSelected = null;
-					getSourceViewer( ).getTextWidget( ).setEnabled( true );
-					setEditorText( ( (ExtendedItemHandle) editObject ).getExternalScript( ) );
-					context.setVariable( "this", "org.eclipse.birt.report.model.api.ExtendedItemHandle" ); //$NON-NLS-1$ //$NON-NLS-2$
+					enableEditor( );
+					// Selects the first item in the expression list.
+					selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
 				}
 				else
 				{
-					setComboViewerInput( editObject );
-
-					// clear the latest selected item.
-					cmbItemLastSelected = null;
-					setEditorText( "" ); //$NON-NLS-1$
-
-					// enable/disable editor based on the items in the
-					// expression list.
-					if ( cmbExpList.getItemCount( ) > 0 )
-					{
-						enableEditor( );
-						// Selects the first item in the expression list.
-						selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
-					}
-					else
-					{
-						disableEditor( );
-					}
+					disableEditor( );
 				}
+				
+				
+				/*if ( editObject instanceof ExtendedItemHandle )
+				{
+					setEditorText( ( (ExtendedItemHandle) editObject ).getExternalScript( ) );
+					context.setVariable( "this", "org.eclipse.birt.report.model.api.ExtendedItemHandle" ); //$NON-NLS-1$ //$NON-NLS-2$
+				}*/
 				checkDirty( );
 				palettePage.getSupport( ).updateParametersTree( );
 			}
@@ -614,6 +670,7 @@ public class JSEditor extends StatusTextEditor implements
 			{
 				disableEditor( );
 				cmbExpList.removeAll( );
+				cmbSubFunctions.removeAll( );
 				cmbItemLastSelected = null;
 				palettePage.getSupport( ).setCurrentEditObject( null );
 			}
@@ -701,6 +758,8 @@ public class JSEditor extends StatusTextEditor implements
 			try
 			{
 
+				// Need to remove these 3 lines when bugzilla 
+				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=188862 is fixed
 				if ( desHdl instanceof ExtendedItemHandle )
 				{
 					( (ExtendedItemHandle) desHdl ).setExternalScript( getEditorText( ) );
@@ -710,10 +769,10 @@ public class JSEditor extends StatusTextEditor implements
 					desHdl.setStringProperty( cmbItemLastSelected.getName( ),
 							getEditorText( ) );
 
-					selectionMap.put( getModel( ),
-							cmbExprListViewer.getSelection( ) );
+					
 				}
-
+				selectionMap.put( getModel( ),
+						cmbExprListViewer.getSelection( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -800,6 +859,7 @@ public class JSEditor extends StatusTextEditor implements
 		{
 			getSourceViewer( ).getTextWidget( ).setEnabled( false );
 			cmbExpList.setEnabled( false );
+			cmbSubFunctions.setEnabled( false );
 			butReset.setEnabled( false );
 			editorUIEnabled = false;
 		}
@@ -849,7 +909,8 @@ public class JSEditor extends StatusTextEditor implements
 	private void setComboViewerInput( Object model )
 	{
 		cmbExprListViewer.setInput( model );
-
+		
+		
 		Object oldSelection = selectionMap.get( model );
 
 		if ( oldSelection == null )
@@ -860,6 +921,14 @@ public class JSEditor extends StatusTextEditor implements
 		{
 			selectItemInComboExpList( (ISelection) oldSelection );
 		}
+		
+		cmbSubFunctionsViewer.setInput( model );
+		int itemCount = cmbSubFunctions.getItemCount( );
+		if ( itemCount > 0 )
+		{
+			cmbSubFunctions.select( 0 ); // select first element always
+		}
+		cmbSubFunctions.setEnabled( itemCount > 0 );
 		return;
 	}
 
@@ -896,7 +965,20 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 
 	public Object[] getElements( Object inputElement )
 	{
-		if ( inputElement instanceof DesignElementHandle )
+		if ( inputElement instanceof ExtendedItemHandle )
+		{
+			ExtendedItemHandle extHandle = (ExtendedItemHandle)inputElement;
+			List methods = extHandle.getMethods( );
+			List returnList = new ArrayList( );
+			for ( Iterator iter = methods.iterator(); iter.hasNext( ) ; )
+			{
+				IElementPropertyDefn method = (IElementPropertyDefn)iter.next( );
+				if ( extHandle.getMethods( method.getName( ) ) != null )
+						returnList.add( method );
+			}
+			return returnList.toArray( );
+		}
+		else if ( inputElement instanceof DesignElementHandle )
 		{
 			DesignElementHandle eleHandle = (DesignElementHandle) inputElement;
 			if ( eleHandle.getDefn( ) != null )
@@ -969,5 +1051,201 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 	public void removeListener( ILabelProviderListener listener )
 	{
 
+	}
+}
+
+class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelProvider, ISelectionChangedListener
+{
+	private static final String NO_TEXT = Messages.getString( "JSEditor.Text.NoText" ); //$NON-NLS-1$;
+	private JSEditor editor;
+	
+	public JSSubFunctionListProvider( JSEditor editor )
+	{
+		this.editor = editor;
+	}
+	public Object[] getElements( Object inputElement )
+	{
+		List elements = new ArrayList( );
+		
+		if ( inputElement instanceof ExtendedItemHandle )
+		{
+			int selectedIndex = editor.cmbExpList.getSelectionIndex();
+			if ( selectedIndex >= 0 )
+			{
+				String scriptName = editor.cmbExpList.getItem(  editor.cmbExpList.getSelectionIndex( ));
+				
+				ExtendedItemHandle extHandle = (ExtendedItemHandle)inputElement;
+				List methods = extHandle.getMethods( scriptName  );
+				
+				if ( methods != null )
+				{
+					elements.add( 0, Messages.getString( "JSEditor.cmb.NewEventFunction" ) ); //$NON-NLS-1$
+					elements.addAll(  methods  );
+				}
+			}
+		}
+		
+		return elements.toArray( );
+	}
+
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+	{
+		if ( newInput != null )
+			viewer.refresh( );
+		
+	}
+
+	public Image getImage( Object element )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getText( Object element )
+	{
+		if ( element instanceof IMethodInfo )
+		{
+			IMethodInfo eleDef = (IMethodInfo) element;
+			return "  " + eleDef.getName( );//$NON-NLS-1$
+		}
+		else if ( element instanceof String )
+		{
+			return (String)element;
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	public void addListener( ILabelProviderListener listener )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isLabelProperty( Object element, String property )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void removeListener( ILabelProviderListener listener )
+	{
+		
+		
+	}
+	public void selectionChanged( SelectionChangedEvent event )
+	{
+		ISelection selection = event.getSelection( );
+		if ( selection != null )
+		{
+			
+			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
+			if ( sel.length == 1 )
+			{
+				if ( sel[0] instanceof IMethodInfo )
+				{
+					IMethodInfo methodInfo = (IMethodInfo)sel[0];
+					
+					String signature = createSignature( methodInfo );
+					
+					try
+					{
+						IDocument doc = (  editor.getDocumentProvider( ) ).getDocument( editor.getEditorInput( ) );
+						int length = doc.getLength();
+						doc.replace( length, 0, signature );
+						editor.selectAndReveal( length + 1, signature.length( ) );
+						editor.setIsModified( true );
+					}
+					catch ( BadLocationException e )
+					{
+						
+						e.printStackTrace();
+					}
+
+					editor.cmbSubFunctions.select( 0 );
+				
+				}
+				
+			}
+			
+				
+		}
+		
+	}
+	
+	// create the signature to insert in the document:
+	// function functionName(param1, param2){}
+	private String createSignature( IMethodInfo info )
+	{
+		StringBuffer signature = new StringBuffer();
+		String javaDoc = info.getJavaDoc( );
+		if ( javaDoc != null && javaDoc.length( ) > 0 )
+		{
+			signature.append( "\n" ); //$NON-NLS-1$
+			signature.append( info.getJavaDoc( ) );
+		}
+		signature.append( "\nfunction "); //$NON-NLS-1$
+		signature.append( info.getName( ) );
+		signature.append( '(' );
+		Iterator iter = info.argumentListIterator( ); 
+		if ( iter.hasNext())
+		{
+			// only one iteraration, we ignore overload cases for now
+			// need to do multiple iterations if overloaded methods should be supported
+			
+			IArgumentInfoList argumentList = (IArgumentInfoList)iter.next( );
+			for ( Iterator argumentIter = argumentList.argumentsIterator( ); argumentIter.hasNext( ) ;)
+			{
+				IArgumentInfo argument = (IArgumentInfo)argumentIter.next( );
+			
+				String type = argument.getType( );
+				// convert string to parameter name
+				signature.append( convertToParameterName( type ) );
+				if ( argumentIter.hasNext( ) )
+				{
+					signature.append( ", ");//$NON-NLS-1$
+				}
+			}
+		}
+		signature.append(  ")\n{\n}\n" ); //$NON-NLS-1$
+		return signature.toString( );
+	}
+	// Parameter names are constructed by taking the java class name
+	// and make the first letter lowercase.
+	// If there are more than 2 uppercase letters, it's shortened as the list of
+	// those. For instance IChartScriptContext becomes icsc
+	
+	private String convertToParameterName( String fullName )
+	{
+		// strip the full qualified name
+		fullName = fullName.substring( fullName.lastIndexOf( '.' ) + 1  );
+		int upCase = 0;
+		SortedMap caps = new TreeMap() ;
+		for (int i = 0; i< fullName.length( ); i++ )
+		{
+			char character = fullName.charAt( i );
+			if ( Character.isUpperCase( character ) )
+			{
+				upCase ++;
+				caps.put( new Integer( i ), new Integer( character ) );
+				
+			}
+		}
+		if ( upCase > 2 )
+		{
+			StringBuffer result = new StringBuffer( );
+			for ( Iterator iter = caps.values( ).iterator( ); iter.hasNext( ); )
+			{
+				result.append( (char)((Integer)iter.next()).intValue( ) );
+			}
+			return result.toString( ).toLowerCase( );
+		}
+		else
+			return fullName.substring( 0,1 ).toLowerCase( ) + fullName.substring(  1 );
 	}
 }

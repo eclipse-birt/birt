@@ -46,6 +46,10 @@
                allowedChoices="in,cm,mm,pt,pc,em,ex,px"
                propertyName="height">
          </overrideProperty>
+         <overrideProperty
+               useOwnModel="true"
+               propertyName="onRender">
+         </overrideProperty>
          
       </reportItem>
    </extension>

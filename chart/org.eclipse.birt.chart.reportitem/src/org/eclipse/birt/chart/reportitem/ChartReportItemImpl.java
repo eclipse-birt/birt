@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,8 +51,6 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.scripts.ClassInfo;
-import org.eclipse.birt.report.model.api.scripts.MethodInfo;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -340,8 +340,31 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		if ( scriptName != null && scriptName.equals( "onRender" ) ) //$NON-NLS-1$
 		{
-			ClassInfo info = new ClassInfo( IChartEventHandler.class ) ;
+			ScriptClassInfo info = new ScriptClassInfo( IChartEventHandler.class ) ;
 			List list = info.getMethods( );
+			Collections.sort( list, new Comparator(){
+
+				public int compare( Object arg0, Object arg1 )
+				{
+					if ( arg0 instanceof IMethodInfo && arg1 instanceof IMethodInfo )
+					{
+						String name0 = ((IMethodInfo)arg0).getName( );
+						String name1 = ((IMethodInfo )arg1).getName( );
+						if ( name0.startsWith( "before" ) && name1.startsWith( "after" )) //$NON-NLS-1$ //$NON-NLS-2$
+						{
+							return -1;
+						}
+						if ( name0.startsWith( "after" ) && name1.startsWith( "before" )) //$NON-NLS-1$ //$NON-NLS-2$
+						{
+							return 1;
+						}
+						return (name0.compareToIgnoreCase( name1 ));
+					}
+					else
+						return -1;
+				}
+			});
+				
 			return  (IMethodInfo[])list.toArray( new IMethodInfo[list.size( )] );
 			
 		}
@@ -388,13 +411,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 		else if ( propName.equals( "script" ) || propName.equals(  "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			String script = cm.getScript( );
-
-			if ( script == null || script.length( ) == 0 )
-			{
-				script = ScriptHandler.DEFAULT_JAVASCRIPT;
-			}
-			return script;
+			return cm.getScript( );
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
@@ -477,17 +494,9 @@ public final class ChartReportItemImpl extends ReportItem implements
 						Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
 		}
-		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
+		else if ( propName.equals( "script" )  || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			if ( ScriptHandler.DEFAULT_JAVASCRIPT.equals( value ) )
-			{
-				cm.setScript( null );
-			}
-			else
-			{
-				cm.setScript( (String) value );
-	
-			}
+			cm.setScript( (String) value );
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{

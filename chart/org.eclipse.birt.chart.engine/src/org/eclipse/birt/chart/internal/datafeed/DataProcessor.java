@@ -302,7 +302,7 @@ public class DataProcessor
 			IDataRowExpressionEvaluator idre, Chart cm ) throws ChartException
 	{
 		// Collect all used data expressions
-		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae );
+		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae, rtc.getULocale( ) );
 		Collection co = lhmLookup.getExpressions( );
 
 		// WALK THROUGH RESULTS

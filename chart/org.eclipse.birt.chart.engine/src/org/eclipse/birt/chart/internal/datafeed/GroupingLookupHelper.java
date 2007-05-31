@@ -52,6 +52,8 @@ public class GroupingLookupHelper
 
 	private int iLookup = 0;
 
+	private ULocale locale;
+
 	/**
 	 * Constructor. Finds all data expressions and aggregation expressions in
 	 * the chart model in the order and restore them in the lookup list
@@ -60,11 +62,13 @@ public class GroupingLookupHelper
 	 *            chart model
 	 * @param iae
 	 *            IActionEvaluator to get the expressions in triggers
+	 * @param locale 
 	 * @throws ChartException
 	 */
-	public GroupingLookupHelper( Chart cm, IActionEvaluator iae )
+	public GroupingLookupHelper( Chart cm, IActionEvaluator iae, ULocale locale )
 			throws ChartException
 	{
+		this.locale = locale;
 		if ( cm instanceof ChartWithAxes )
 		{
 			initRowExpressions( (ChartWithAxes) cm, iae );
@@ -73,6 +77,7 @@ public class GroupingLookupHelper
 		{
 			initRowExpressions( (ChartWithoutAxes) cm, iae );
 		}
+		
 	}
 
 	/**
@@ -220,7 +225,7 @@ public class GroupingLookupHelper
 					new Object[]{
 						String.valueOf( elBaseSeries.size( ) )
 					},
-					null );
+					Messages.getResourceBundle( this.locale ) );
 		}
 
 		if ( !addDataExpOfBaseSeries( ( (Query) elBaseSeries.get( 0 ) ).getDefinition( ) ) )
@@ -228,7 +233,7 @@ public class GroupingLookupHelper
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_BINDING,
 					"dataprocessor.exception.DefinitionUnspecified", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
+					Messages.getResourceBundle( this.locale) );
 		}
 	}
 
@@ -258,7 +263,7 @@ public class GroupingLookupHelper
 						new Object[]{
 								String.valueOf( k ), seOrthogonal
 						},
-						Messages.getResourceBundle( ) );
+						Messages.getResourceBundle( this.locale ) );
 			}
 
 			boolean bAnyQueries = false;
@@ -285,7 +290,7 @@ public class GroupingLookupHelper
 						new Object[]{
 								String.valueOf( k ), seOrthogonal
 						},
-						Messages.getResourceBundle( ) );
+						Messages.getResourceBundle( this.locale ) );
 			}
 
 			// Add orthogonal series trigger expressions.
@@ -310,7 +315,7 @@ public class GroupingLookupHelper
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_BINDING,
 					"dataprocessor.exception.CannotDecipher", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
+					Messages.getResourceBundle( this.locale ) );
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
@@ -332,7 +337,7 @@ public class GroupingLookupHelper
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"dataprocessor.exception.CannotDecipher2", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
+					Messages.getResourceBundle( this.locale ) );
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
