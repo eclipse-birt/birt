@@ -57,10 +57,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
 			if ( elements.get( i ) instanceof DesignElementHandle )
-				values
-						.add( CrosstabUtil
-								.getReportItem( (DesignElementHandle) elements
-										.get( i ) ) );
+				values.add( CrosstabUtil.getReportItem( (DesignElementHandle) elements.get( i ) ) );
 		}
 		return values;
 	}
@@ -102,8 +99,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 		int axisType = levelView.getAxisType( );
 		int levelIndex = levelView.getIndex( );
-		int dimensionIndex = ( (DimensionViewHandle) levelView.getContainer( ) )
-				.getIndex( );
+		int dimensionIndex = ( (DimensionViewHandle) levelView.getContainer( ) ).getIndex( );
 
 		int result = levelIndex;
 		for ( int i = 0; i < dimensionIndex; i++ )
@@ -144,8 +140,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		int count = 0;
 		for ( int i = 0; i < crosstab.getDimensionCount( axisType ); i++ )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					axisType, i );
+			DimensionViewHandle dimensionView = crosstab.getDimension( axisType,
+					i );
 			count += dimensionView.getLevelCount( );
 		}
 
@@ -165,8 +161,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			return null;
 
 		// such the preceding one in the same dimension
-		DimensionViewHandle dimensionView = (DimensionViewHandle) levelView
-				.getContainer( );
+		DimensionViewHandle dimensionView = (DimensionViewHandle) levelView.getContainer( );
 		if ( dimensionView == null )
 			return null;
 		int index = levelView.getIndex( );
@@ -174,8 +169,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			return dimensionView.getLevel( index - 1 );
 
 		// such the last one in the preceding dimension
-		CrosstabViewHandle crosstabView = (CrosstabViewHandle) dimensionView
-				.getContainer( );
+		CrosstabViewHandle crosstabView = (CrosstabViewHandle) dimensionView.getContainer( );
 		if ( crosstabView == null )
 			return null;
 		index = dimensionView.getIndex( );
@@ -205,8 +199,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 		for ( int dimensionIndex = crosstab.getDimensionCount( axisType ) - 1; dimensionIndex >= 0; dimensionIndex-- )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					axisType, dimensionIndex );
+			DimensionViewHandle dimensionView = crosstab.getDimension( axisType,
+					dimensionIndex );
 			for ( int levelIndex = dimensionView.getLevelCount( ) - 1; levelIndex >= 0; levelIndex-- )
 			{
 				return dimensionView.getLevel( levelIndex );
@@ -243,7 +237,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			String rightLevel, List measures, List functions )
 			throws SemanticException
 	{
-		if ( crosstab == null || !isValidAxisType( axisType )
+		if ( crosstab == null
+				|| !isValidAxisType( axisType )
 				|| measures == null )
 			return;
 		if ( functions == null || functions.size( ) != measures.size( ) )
@@ -275,8 +270,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			if ( measureView.getCrosstab( ) != crosstab )
 				continue;
-			addDataItem( crosstab, measureView, (String) functions.get( i ),
-					rowDimension, rowLevel, colDimension, colLevel );
+			addDataItem( crosstab,
+					measureView,
+					(String) functions.get( i ),
+					rowDimension,
+					rowLevel,
+					colDimension,
+					colLevel );
 		}
 	}
 
@@ -301,39 +301,48 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			return;
 
 		// add a data-item to the measure aggregations
-		AggregationCellHandle cell = measureView.getAggregationCell(
-				rowDimension, rowLevel, colDimension, colLevel );
+		AggregationCellHandle cell = measureView.getAggregationCell( rowDimension,
+				rowLevel,
+				colDimension,
+				colLevel );
 		if ( cell == null )
 		{
-			cell = measureView.addAggregation( rowDimension, rowLevel,
-					colDimension, colLevel );
+			cell = measureView.addAggregation( rowDimension,
+					rowLevel,
+					colDimension,
+					colLevel );
 		}
 
 		if ( cell != null && cell.getContents( ).size( ) == 0 )
 		{
 			// create a computed column and set some properties
-			String name = CrosstabModelUtil.generateComputedColumnName(
-					measureView, colLevel, rowLevel );
-			ComputedColumn column = StructureFactory.newComputedColumn(
-					crosstab.getModelHandle( ), name );
+			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+					colLevel,
+					rowLevel );
+			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
+					name );
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
-			column.setExpression( ExpressionUtil
-					.createJSMeasureExpression( measureView
-							.getCubeMeasureName( ) ) );
-			column.setAggregateFunction( function != null
-					? function
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			column.setAggregateFunction( function != null ? function
 					: DEFAULT_MEASURE_FUNCTION );
-			column.addAggregateOn( rowLevel );
-			column.addAggregateOn( colLevel );
+			if ( rowLevel != null )
+			{
+				column.addAggregateOn( rowLevel );
+			}
+			if ( colLevel != null )
+			{
+				column.addAggregateOn( colLevel );
+			}
 
 			// add the computed column to crosstab
-			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab
-					.getModelHandle( ) ).addColumnBinding( column, false );
+			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
+					false );
 
 			// set the data-item result set the the name of the column handle
 			DataItemHandle dataItem = crosstab.getModuleHandle( )
-					.getElementFactory( ).newDataItem( null );
+					.getElementFactory( )
+					.newDataItem( null );
 			dataItem.setResultSetColumn( columnHandle.getName( ) );
 			cell.addContent( dataItem );
 		}
@@ -401,19 +410,15 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		assert cell != null;
 		assert cell.getCrosstab( ) == crosstab;
 
-		ReportItemHandle crosstabModel = (ReportItemHandle) crosstab
-				.getModelHandle( );
+		ReportItemHandle crosstabModel = (ReportItemHandle) crosstab.getModelHandle( );
 		List contents = cell.getContents( );
 		for ( int index = 0; index < contents.size( ); index++ )
 		{
-			DesignElementHandle content = (DesignElementHandle) contents
-					.get( index );
+			DesignElementHandle content = (DesignElementHandle) contents.get( index );
 			if ( content instanceof DataItemHandle )
 			{
-				String columnName = ( (DataItemHandle) content )
-						.getResultSetColumn( );
-				ComputedColumnHandle columnHandle = crosstabModel
-						.findColumnBinding( columnName );
+				String columnName = ( (DataItemHandle) content ).getResultSetColumn( );
+				ComputedColumnHandle columnHandle = crosstabModel.findColumnBinding( columnName );
 				if ( columnHandle != null
 						&& columnHandle.getAggregateFunction( ) != null )
 					return columnHandle.getAggregateFunction( );
@@ -439,19 +444,15 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		assert cell != null;
 		assert cell.getCrosstab( ) == crosstab;
 
-		ReportItemHandle crosstabModel = (ReportItemHandle) crosstab
-				.getModelHandle( );
+		ReportItemHandle crosstabModel = (ReportItemHandle) crosstab.getModelHandle( );
 		List contents = cell.getContents( );
 		for ( int index = 0; index < contents.size( ); index++ )
 		{
-			DesignElementHandle content = (DesignElementHandle) contents
-					.get( index );
+			DesignElementHandle content = (DesignElementHandle) contents.get( index );
 			if ( content instanceof DataItemHandle )
 			{
-				String columnName = ( (DataItemHandle) content )
-						.getResultSetColumn( );
-				ComputedColumnHandle columnHandle = crosstabModel
-						.findColumnBinding( columnName );
+				String columnName = ( (DataItemHandle) content ).getResultSetColumn( );
+				ComputedColumnHandle columnHandle = crosstabModel.findColumnBinding( columnName );
 				if ( columnHandle != null )
 					columnHandle.setAggregateFunction( function );
 			}
@@ -469,13 +470,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	public static CrosstabCellHandle locateColumnWidthCell(
 			CrosstabReportItemHandle crosstabItem, CrosstabCellHandle cell )
 	{
-		if ( crosstabItem != null && cell != null
+		if ( crosstabItem != null
+				&& cell != null
 				&& cell.getCrosstab( ) == crosstabItem )
 		{
 			// TODO valid source cell, rowSpan/columnSpan must be 1.
 
-			boolean isMeasureHorizontal = MEASURE_DIRECTION_HORIZONTAL
-					.equals( crosstabItem.getMeasureDirection( ) );
+			boolean isMeasureHorizontal = MEASURE_DIRECTION_HORIZONTAL.equals( crosstabItem.getMeasureDirection( ) );
 
 			if ( cell instanceof AggregationCellHandle )
 			{
@@ -494,18 +495,16 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					mv = crosstabItem.getMeasure( 0 );
 				}
 
-				String colDimension = aggCell
-						.getDimensionName( COLUMN_AXIS_TYPE );
+				String colDimension = aggCell.getDimensionName( COLUMN_AXIS_TYPE );
 				String colLevel = aggCell.getLevelName( COLUMN_AXIS_TYPE );
 
-				LevelViewHandle colLevelHandle = getInnerMostLevel(
-						crosstabItem, COLUMN_AXIS_TYPE );
-				DimensionViewHandle colDimHandle = (DimensionViewHandle) colLevelHandle
-						.getContainer( );
+				LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+						COLUMN_AXIS_TYPE );
+				DimensionViewHandle colDimHandle = (DimensionViewHandle) colLevelHandle.getContainer( );
 
 				if ( colLevelHandle.getCubeLevelName( ).equals( colLevel )
-						&& colDimHandle.getCubeDimensionName( ).equals(
-								colDimension ) )
+						&& colDimHandle.getCubeDimensionName( )
+								.equals( colDimension ) )
 				{
 					// aggregation on innerest column level
 					return mv.getCell( );
@@ -514,30 +513,31 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String rowDimension = null;
 				String rowLevel = null;
 
-				LevelViewHandle rowLevelHandle = getInnerMostLevel(
-						crosstabItem, ROW_AXIS_TYPE );
+				LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+						ROW_AXIS_TYPE );
 				if ( rowLevelHandle != null )
 				{
-					rowDimension = ( (DimensionViewHandle) rowLevelHandle
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) rowLevelHandle.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = rowLevelHandle.getCubeLevelName( );
 				}
 
 				// return selected aggregation cell on measure
-				return mv.getAggregationCell( rowDimension, rowLevel,
-						colDimension, colLevel );
+				return mv.getAggregationCell( rowDimension,
+						rowLevel,
+						colDimension,
+						colLevel );
 			}
 			else if ( cell.getContainer( ) instanceof MeasureViewHandle )
 			{
 				if ( isMeasureHorizontal )
 				{
 					// use detail cell from current measure
-					return ( (MeasureViewHandle) cell.getContainer( ) )
-							.getCell( );
+					return ( (MeasureViewHandle) cell.getContainer( ) ).getCell( );
 				}
-				else if ( IMeasureViewConstants.HEADER_PROP.equals( cell
-						.getModelHandle( ).getContainerPropertyHandle( )
-						.getPropertyDefn( ).getName( ) ) )
+				else if ( IMeasureViewConstants.HEADER_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
 				{
 					// use first available measrue header cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
@@ -559,21 +559,22 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			{
 				LevelViewHandle lv = (LevelViewHandle) cell.getContainer( );
 
-				boolean isRowLevl = ICrosstabReportItemConstants.ROWS_PROP
-						.equals( lv.getContainer( ).getContainer( )
-								.getModelHandle( ).getContainerPropertyHandle( )
-								.getPropertyDefn( ).getName( ) );
+				boolean isRowLevl = ICrosstabReportItemConstants.ROWS_PROP.equals( lv.getContainer( )
+						.getContainer( )
+						.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) );
 
 				if ( isRowLevl )
 				{
-					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP
-							.equals( cell.getModelHandle( )
-									.getContainerPropertyHandle( )
-									.getPropertyDefn( ).getName( ) ) )
+					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+							.getContainerPropertyHandle( )
+							.getPropertyDefn( )
+							.getName( ) ) )
 					{
 						// use innerest row level cell
-						return getInnerMostLevel( crosstabItem, ROW_AXIS_TYPE )
-								.getCell( );
+						return getInnerMostLevel( crosstabItem, ROW_AXIS_TYPE ).getCell( );
 					}
 					// use current level cell
 					return cell;
@@ -582,37 +583,35 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				// not row level
 				if ( crosstabItem.getMeasureCount( ) == 0 )
 				{
-					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP
-							.equals( cell.getModelHandle( )
-									.getContainerPropertyHandle( )
-									.getPropertyDefn( ).getName( ) ) )
+					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+							.getContainerPropertyHandle( )
+							.getPropertyDefn( )
+							.getName( ) ) )
 					{
 						// for subtotal cell, return itself
 						return cell;
 					}
 					// if no measure, for level detail and subtotal, use
 					// inneerest level cell
-					return getInnerMostLevel( crosstabItem, COLUMN_AXIS_TYPE )
-							.getCell( );
+					return getInnerMostLevel( crosstabItem, COLUMN_AXIS_TYPE ).getCell( );
 				}
-				if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell
-						.getModelHandle( ).getContainerPropertyHandle( )
-						.getPropertyDefn( ).getName( ) ) )
+				if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
 				{
 					// user selected aggregation cell on first measure
 					String rowDimension = null;
 					String rowLevel = null;
 
-					String colDimension = ( (DimensionViewHandle) lv
-							.getContainer( ) ).getCubeDimensionName( );
+					String colDimension = ( (DimensionViewHandle) lv.getContainer( ) ).getCubeDimensionName( );
 					String colLevel = lv.getCubeLevelName( );
 
-					LevelViewHandle rowLevelHandle = getInnerMostLevel(
-							crosstabItem, ROW_AXIS_TYPE );
+					LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+							ROW_AXIS_TYPE );
 					if ( rowLevelHandle != null )
 					{
-						rowDimension = ( (DimensionViewHandle) rowLevelHandle
-								.getContainer( ) ).getCubeDimensionName( );
+						rowDimension = ( (DimensionViewHandle) rowLevelHandle.getContainer( ) ).getCubeDimensionName( );
 						rowLevel = rowLevelHandle.getCubeLevelName( );
 					}
 
@@ -621,10 +620,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 						// user first available aggregation cell
 						for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 						{
-							CrosstabCellHandle aggCell = crosstabItem
-									.getMeasure( i ).getAggregationCell(
-											rowDimension, rowLevel,
-											colDimension, colLevel );
+							CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+									.getAggregationCell( rowDimension,
+											rowLevel,
+											colDimension,
+											colLevel );
 
 							if ( aggCell != null )
 							{
@@ -635,8 +635,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					else
 					{
 						// use selected aggregation cell on first measure
-						return crosstabItem.getMeasure( 0 ).getAggregationCell(
-								rowDimension, rowLevel, colDimension, colLevel );
+						return crosstabItem.getMeasure( 0 )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
 					}
 				}
 				// user first measure detail cell
@@ -645,15 +648,16 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			else if ( cell.getContainer( ) instanceof CrosstabViewHandle )
 			{
 
-				boolean isRowGrandTotal = ICrosstabReportItemConstants.ROWS_PROP
-						.equals( cell.getContainer( ).getModelHandle( )
-								.getContainerPropertyHandle( )
-								.getPropertyDefn( ).getName( ) );
+				boolean isRowGrandTotal = ICrosstabReportItemConstants.ROWS_PROP.equals( cell.getContainer( )
+						.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) );
 
 				if ( isRowGrandTotal )
 				{
-					LevelViewHandle rowLevelHandle = getInnerMostLevel(
-							crosstabItem, ROW_AXIS_TYPE );
+					LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+							ROW_AXIS_TYPE );
 					if ( rowLevelHandle != null )
 					{
 						// use innerest row level cell
@@ -672,12 +676,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String rowDimension = null;
 				String rowLevel = null;
 
-				LevelViewHandle rowLevelHandle = getInnerMostLevel(
-						crosstabItem, ROW_AXIS_TYPE );
+				LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+						ROW_AXIS_TYPE );
 				if ( rowLevelHandle != null )
 				{
-					rowDimension = ( (DimensionViewHandle) rowLevelHandle
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) rowLevelHandle.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = rowLevelHandle.getCubeLevelName( );
 				}
 
@@ -686,9 +689,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					// user first available aggregation cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 					{
-						CrosstabCellHandle aggCell = crosstabItem
-								.getMeasure( i ).getAggregationCell(
-										rowDimension, rowLevel, null, null );
+						CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										null,
+										null );
 
 						if ( aggCell != null )
 						{
@@ -699,8 +704,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				else
 				{
 					// use selected aggregation cell on first measure
-					return crosstabItem.getMeasure( 0 ).getAggregationCell(
-							rowDimension, rowLevel, null, null );
+					return crosstabItem.getMeasure( 0 )
+							.getAggregationCell( rowDimension,
+									rowLevel,
+									null,
+									null );
 				}
 			}
 		}
@@ -719,13 +727,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	public static CrosstabCellHandle locateRowHeightCell(
 			CrosstabReportItemHandle crosstabItem, CrosstabCellHandle cell )
 	{
-		if ( crosstabItem != null && cell != null
+		if ( crosstabItem != null
+				&& cell != null
 				&& cell.getCrosstab( ) == crosstabItem )
 		{
 			// TODO valid source cell, rowSpan/columnSpan must be 1.
 
-			boolean isMeasureHorizontal = MEASURE_DIRECTION_HORIZONTAL
-					.equals( crosstabItem.getMeasureDirection( ) );
+			boolean isMeasureHorizontal = MEASURE_DIRECTION_HORIZONTAL.equals( crosstabItem.getMeasureDirection( ) );
 
 			if ( cell instanceof AggregationCellHandle )
 			{
@@ -747,14 +755,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String rowDimension = aggCell.getDimensionName( ROW_AXIS_TYPE );
 				String rowLevel = aggCell.getLevelName( ROW_AXIS_TYPE );
 
-				LevelViewHandle rowLevelHandle = getInnerMostLevel(
-						crosstabItem, ROW_AXIS_TYPE );
-				DimensionViewHandle rowDimHandle = (DimensionViewHandle) rowLevelHandle
-						.getContainer( );
+				LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+						ROW_AXIS_TYPE );
+				DimensionViewHandle rowDimHandle = (DimensionViewHandle) rowLevelHandle.getContainer( );
 
 				if ( rowLevelHandle.getCubeLevelName( ).equals( rowLevel )
-						&& rowDimHandle.getCubeDimensionName( ).equals(
-								rowDimension ) )
+						&& rowDimHandle.getCubeDimensionName( )
+								.equals( rowDimension ) )
 				{
 					// aggregation on innerest column level
 					return mv.getCell( );
@@ -763,30 +770,31 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String colDimension = null;
 				String colLevel = null;
 
-				LevelViewHandle colLevelHandle = getInnerMostLevel(
-						crosstabItem, COLUMN_AXIS_TYPE );
+				LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+						COLUMN_AXIS_TYPE );
 				if ( colLevelHandle != null )
 				{
-					colDimension = ( (DimensionViewHandle) colLevelHandle
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) colLevelHandle.getContainer( ) ).getCubeDimensionName( );
 					colLevel = colLevelHandle.getCubeLevelName( );
 				}
 
 				// return selected aggregation cell on measure
-				return mv.getAggregationCell( rowDimension, rowLevel,
-						colDimension, colLevel );
+				return mv.getAggregationCell( rowDimension,
+						rowLevel,
+						colDimension,
+						colLevel );
 			}
 			else if ( cell.getContainer( ) instanceof MeasureViewHandle )
 			{
 				if ( !isMeasureHorizontal )
 				{
 					// use detail cell from current measure
-					return ( (MeasureViewHandle) cell.getContainer( ) )
-							.getCell( );
+					return ( (MeasureViewHandle) cell.getContainer( ) ).getCell( );
 				}
-				else if ( IMeasureViewConstants.HEADER_PROP.equals( cell
-						.getModelHandle( ).getContainerPropertyHandle( )
-						.getPropertyDefn( ).getName( ) ) )
+				else if ( IMeasureViewConstants.HEADER_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
 				{
 					// use first available measrue header cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
@@ -808,17 +816,19 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			{
 				LevelViewHandle lv = (LevelViewHandle) cell.getContainer( );
 
-				boolean isRowLevl = ICrosstabReportItemConstants.ROWS_PROP
-						.equals( lv.getContainer( ).getContainer( )
-								.getModelHandle( ).getContainerPropertyHandle( )
-								.getPropertyDefn( ).getName( ) );
+				boolean isRowLevl = ICrosstabReportItemConstants.ROWS_PROP.equals( lv.getContainer( )
+						.getContainer( )
+						.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) );
 
 				if ( !isRowLevl )
 				{
-					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP
-							.equals( cell.getModelHandle( )
-									.getContainerPropertyHandle( )
-									.getPropertyDefn( ).getName( ) ) )
+					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+							.getContainerPropertyHandle( )
+							.getPropertyDefn( )
+							.getName( ) ) )
 					{
 						// use innerest column level cell
 						return getInnerMostLevel( crosstabItem,
@@ -829,55 +839,57 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				}
 				if ( crosstabItem.getMeasureCount( ) == 0 )
 				{
-					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP
-							.equals( cell.getModelHandle( )
-									.getContainerPropertyHandle( )
-									.getPropertyDefn( ).getName( ) ) )
+					if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+							.getContainerPropertyHandle( )
+							.getPropertyDefn( )
+							.getName( ) ) )
 					{
 						// for subtotal cell, return itself
 						return cell;
 					}
 					// if no measure, for level detail and subtotal, use
 					// inneerest level cell
-					return getInnerMostLevel( crosstabItem, ROW_AXIS_TYPE )
-							.getCell( );
+					return getInnerMostLevel( crosstabItem, ROW_AXIS_TYPE ).getCell( );
 				}
-				if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell
-						.getModelHandle( ).getContainerPropertyHandle( )
-						.getPropertyDefn( ).getName( ) ) )
+				if ( ILevelViewConstants.AGGREGATION_HEADER_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
 				{
 					// user selected aggregation cell on first measure
 					String colDimension = null;
 					String colLevel = null;
 
-					String rowDimension = ( (DimensionViewHandle) lv
-							.getContainer( ) ).getCubeDimensionName( );
+					String rowDimension = ( (DimensionViewHandle) lv.getContainer( ) ).getCubeDimensionName( );
 					String rowLevel = lv.getCubeLevelName( );
 
-					LevelViewHandle colLevelHandle = getInnerMostLevel(
-							crosstabItem, COLUMN_AXIS_TYPE );
+					LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+							COLUMN_AXIS_TYPE );
 					if ( colLevelHandle != null )
 					{
-						colDimension = ( (DimensionViewHandle) colLevelHandle
-								.getContainer( ) ).getCubeDimensionName( );
+						colDimension = ( (DimensionViewHandle) colLevelHandle.getContainer( ) ).getCubeDimensionName( );
 						colLevel = colLevelHandle.getCubeLevelName( );
 					}
 
 					if ( isMeasureHorizontal )
 					{
 						// use selected aggregation cell on first measure
-						return crosstabItem.getMeasure( 0 ).getAggregationCell(
-								rowDimension, rowLevel, colDimension, colLevel );
+						return crosstabItem.getMeasure( 0 )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
 					}
 					else
 					{
 						// user first available aggregation cell
 						for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 						{
-							CrosstabCellHandle aggCell = crosstabItem
-									.getMeasure( i ).getAggregationCell(
-											rowDimension, rowLevel,
-											colDimension, colLevel );
+							CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+									.getAggregationCell( rowDimension,
+											rowLevel,
+											colDimension,
+											colLevel );
 
 							if ( aggCell != null )
 							{
@@ -892,15 +904,16 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			else if ( cell.getContainer( ) instanceof CrosstabViewHandle )
 			{
 
-				boolean isRowGrandTotal = ICrosstabReportItemConstants.ROWS_PROP
-						.equals( cell.getContainer( ).getModelHandle( )
-								.getContainerPropertyHandle( )
-								.getPropertyDefn( ).getName( ) );
+				boolean isRowGrandTotal = ICrosstabReportItemConstants.ROWS_PROP.equals( cell.getContainer( )
+						.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) );
 
 				if ( !isRowGrandTotal )
 				{
-					LevelViewHandle colLevelHandle = getInnerMostLevel(
-							crosstabItem, COLUMN_AXIS_TYPE );
+					LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+							COLUMN_AXIS_TYPE );
 					if ( colLevelHandle != null )
 					{
 						// use innerest column level cell
@@ -918,29 +931,33 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String colDimension = null;
 				String colLevel = null;
 
-				LevelViewHandle colLevelHandle = getInnerMostLevel(
-						crosstabItem, COLUMN_AXIS_TYPE );
+				LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+						COLUMN_AXIS_TYPE );
 				if ( colLevelHandle != null )
 				{
-					colDimension = ( (DimensionViewHandle) colLevelHandle
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) colLevelHandle.getContainer( ) ).getCubeDimensionName( );
 					colLevel = colLevelHandle.getCubeLevelName( );
 				}
 
 				if ( isMeasureHorizontal )
 				{
 					// use selected aggregation cell on first measure
-					return crosstabItem.getMeasure( 0 ).getAggregationCell(
-							null, null, colDimension, colLevel );
+					return crosstabItem.getMeasure( 0 )
+							.getAggregationCell( null,
+									null,
+									colDimension,
+									colLevel );
 				}
 				else
 				{
 					// user first available aggregation cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 					{
-						CrosstabCellHandle aggCell = crosstabItem
-								.getMeasure( i ).getAggregationCell( null,
-										null, colDimension, colLevel );
+						CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+								.getAggregationCell( null,
+										null,
+										colDimension,
+										colLevel );
 
 						if ( aggCell != null )
 						{
@@ -967,8 +984,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		List result = new ArrayList( );
 		for ( int i = 0; i < crosstab.getDimensionCount( axisType ); i++ )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					axisType, i );
+			DimensionViewHandle dimensionView = crosstab.getDimension( axisType,
+					i );
 			for ( int j = 0; j < dimensionView.getLevelCount( ); j++ )
 			{
 				LevelViewHandle levelView = dimensionView.getLevel( j );
@@ -1023,8 +1040,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
 			AggregationCellHandle cell = measureView.getAggregationCell( j );
-			String aggregationOn = cell.getModelHandle( ).getStringProperty(
-					propName );
+			String aggregationOn = cell.getModelHandle( )
+					.getStringProperty( propName );
 			if ( ( levelName == null && aggregationOn == null )
 					|| ( levelName != null && levelName.equals( aggregationOn ) ) )
 				return true;
