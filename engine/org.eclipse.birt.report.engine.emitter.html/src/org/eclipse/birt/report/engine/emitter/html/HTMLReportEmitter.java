@@ -870,6 +870,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						styleBuffer.append( width.toString( ) );
 						styleBuffer.append(";");
 					}
+					// hide the overflow
+					styleBuffer.append(" overflow: hidden;");
 				}
 			// Build MasterPage's margin as padding.
 			if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
