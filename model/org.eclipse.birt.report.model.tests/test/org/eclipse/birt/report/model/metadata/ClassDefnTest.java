@@ -185,7 +185,7 @@ public class ClassDefnTest extends AbstractMetaTest
 		assertFalse( argumentList.hasNext( ) );
 
 		classInfo = dd.getClass( "Total" ); //$NON-NLS-1$
-		IMethodInfo method = classInfo.getMethod( "max" ); //$NON-NLS-1$
+		IMethodInfo method = classInfo.getMethod( "rank" ); //$NON-NLS-1$
 
 		argumentList = method.argumentListIterator( );
 
@@ -193,22 +193,8 @@ public class ClassDefnTest extends AbstractMetaTest
 				.argumentsIterator( );
 		assertTrue( arguments.hasNext( ) );
 		ArgumentInfo argument = (ArgumentInfo) arguments.next( );
-		assertEquals( "number", argument.getType( ) ); //$NON-NLS-1$ 
-		//for bug 189573,remove filter and group method.
-		assertFalse( arguments.hasNext( ) );
-
-		arguments = ( (ArgumentInfoList) argumentList.next( ) )
-				.argumentsIterator( );
-		assertTrue( arguments.hasNext( ) );
-		argument = (ArgumentInfo) arguments.next( );
-		assertEquals( "String", argument.getType( ) ); //$NON-NLS-1$ 
-		assertFalse( arguments.hasNext( ) );
-
-		arguments = ( (ArgumentInfoList) argumentList.next( ) )
-				.argumentsIterator( );
-		assertTrue( arguments.hasNext( ) );
-		argument = (ArgumentInfo) arguments.next( );
-		assertEquals( "Date", argument.getType( ) ); //$NON-NLS-1$ 
+		assertEquals( "boolean", argument.getType( ) ); //$NON-NLS-1$ 
+		//for bug 189573,184808,remove filter and group method.
 		assertFalse( arguments.hasNext( ) );
 
 		assertFalse( argumentList.hasNext( ) );
