@@ -61,6 +61,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	private static final int TYPE_CUSTOM = 1;
 
 	private boolean initialized = false;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -124,7 +125,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if(preStyle.getSelection( ) == false)
+				if ( preStyle.getSelection( ) == false )
 				{
 					return;
 				}
@@ -164,7 +165,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if(cusStyle.getSelection( ) == false)
+				if ( cusStyle.getSelection( ) == false )
 				{
 					return;
 				}
@@ -182,8 +183,8 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void modifyText( ModifyEvent e )
 			{
-					checkPageValid( );
-				
+				checkPageValid( );
+
 			}
 
 		} );
@@ -224,7 +225,11 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			{
 				cusStyle.setSelection( true );
 				setPredefinedStyle( false );
-				cusName.setText( ( (StyleHandle) model ).getName( ) );
+				if ( ( (StyleHandle) model ).getName( ) != null )
+				{
+					cusName.setText( ( (StyleHandle) model ).getName( ) );
+				}
+
 			}
 		}
 		super.initialize( );
@@ -276,7 +281,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		{
 			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
 
-		if ( handle.getName( ).equals( trimName ) && (handle != model))
+			if ( ( handle.getName( ) != null )
+					&& handle.getName( ).equals( trimName )
+					&& ( handle != model ) )
 			{
 				if ( showError )
 				{
@@ -315,7 +322,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		if ( name == null || name.length( ) == 0 )
 		{
 			setValid( false );
-			if (initialized && (!isValid( ) ))
+			if ( initialized && ( !isValid( ) ) )
 			{
 				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" );
 				setMessage( errorMessage, PreferencePage.ERROR );
@@ -325,7 +332,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		else
 		{
 			setValid( checkName( name, false ) );
-			if ( initialized && (!isValid( )) )
+			if ( initialized && ( !isValid( ) ) )
 			{
 				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate",
 						new String[]{
@@ -337,10 +344,10 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		}
 
 		if ( initialized && isValid( ) )
-		{			
+		{
 			setMessage( null, PreferencePage.NONE );
 			setErrorMessage( null );
-		}		
+		}
 
 		return isValid( );
 	}
@@ -353,21 +360,23 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			super.checkState( );
 		}
 	}
-	
-    /* (non-Javadoc)
-     * Method declared on IDialog.
-     */
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-        if (visible ) {
-    		if ( preStyle.getSelection( ) )
-    		{
-    			preName.setFocus( );
-    		}
-    		else
-    		{
-    			cusName.setFocus( );
-    		}
-        }
-    }
+
+	/*
+	 * (non-Javadoc) Method declared on IDialog.
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		if ( visible )
+		{
+			if ( preStyle.getSelection( ) )
+			{
+				preName.setFocus( );
+			}
+			else
+			{
+				cusName.setFocus( );
+			}
+		}
+	}
 }
