@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -18,9 +19,9 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
@@ -50,15 +51,18 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -102,6 +106,15 @@ public class TaskSelectData extends SimpleTask implements
 
 	private SelectDataDynamicArea dynamicArea;
 	private String BLANK_DATASET = ""; //$NON-NLS-1$
+	
+	/** The flag indicates if UI composite need to be updated. */
+	private volatile boolean fbNeedsUpdateUI = false;
+
+	/**
+	 * The field indicates if any operation in this class cause some exception
+	 * or error.
+	 */
+	private volatile boolean fbException = false;
 
 	public TaskSelectData( )
 	{
@@ -432,40 +445,122 @@ public class TaskSelectData extends SimpleTask implements
 
 	private void switchDataTable( )
 	{
+		fbNeedsUpdateUI = true;
+
+		// 1. Create a progress.
+		IRunnableWithProgress runnable = new IRunnableWithProgress( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 */
+			public void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				monitor.beginTask( Messages.getString("TaskSelectData.Task.SwitchingData"), IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+
+				try
+				{
+					// Get header and data in other thread.
+					final String[] header = getDataServiceProvider( ).getPreviewHeader( );
+					final List dataList = getDataServiceProvider( ).getPreviewData( );
+
+					// Execute UI operation in UI thread.
+					Display.getDefault( ).syncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							if ( !fbNeedsUpdateUI )
+							{
+								return;
+							}
+							
+							if ( tablePreview.isDisposed( ) )
+							{
+								return;
+							}
+							
+							if ( header == null )
+							{
+								tablePreview.setEnabled( false );
+								tablePreview.createDummyTable( );
+							}
+							else
+							{
+								tablePreview.setEnabled( true );
+								tablePreview.setColumns( header );
+
+								refreshTableColor( );
+
+								// Add data value
+								for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+								{
+									String[] dataRow = (String[]) iterator.next( );
+									for ( int i = 0; i < dataRow.length; i++ )
+									{
+										tablePreview.addEntry( dataRow[i], i );
+									}
+								}
+							}
+							tablePreview.layout( );
+						}
+					} );
+				}
+				catch ( Exception e )
+				{
+					// Catch any exception.
+					final String msg = e.getMessage( );
+					Display.getDefault( ).syncExec( new Runnable( ) {
+
+						/* (non-Javadoc)
+						 * @see java.lang.Runnable#run()
+						 */
+						public void run( )
+						{
+							fbException = true;
+							WizardBase.showException( msg );
+						}
+					});
+				}
+
+				monitor.done( );
+			}
+		};
+
+		// 2. Run progress monitor dialog.
 		try
 		{
-			// Add data header
-			String[] header = getDataServiceProvider( ).getPreviewHeader( );
-			if ( header == null )
-			{
-				tablePreview.setEnabled( false );
-				tablePreview.createDummyTable( );
-			}
-			else
-			{
-				tablePreview.setEnabled( true );
-				tablePreview.setColumns( header );
+			new ProgressMonitorDialog( Display.getCurrent( ).getActiveShell( ) ) {
 
-				refreshTableColor( );
-
-				// Add data value
-				List dataList = getDataServiceProvider( ).getPreviewData( );
-				for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+				protected void cancelPressed( )
 				{
-					String[] dataRow = (String[]) iterator.next( );
-					for ( int i = 0; i < dataRow.length; i++ )
-					{
-						tablePreview.addEntry( dataRow[i], i );
-					}
+					super.cancelPressed( );
+					fbNeedsUpdateUI = false;
 				}
-			}
+
+			}.run( true, true, runnable );
 		}
-		catch ( ChartException e )
+		catch ( InterruptedException e )
 		{
-
-			// Switch to sample data slicently
+			// No need to process it, it may occur on interrupting thread
+			// operation.
 		}
+		catch ( Exception e )
+		{
+			final String msg = e.getMessage( );
+			Display.getDefault( ).syncExec( new Runnable( ) {
 
+				/* (non-Javadoc)
+				 * @see java.lang.Runnable#run()
+				 */
+				public void run( )
+				{
+					fbException = true;
+					WizardBase.showException( msg );
+				}
+			});
+		}
 	}
 
 	private void createPreviewPainter( )
@@ -596,7 +691,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
-			boolean bException = false;
+			fbException = false;
 			try
 			{
 				ColorPalette.getInstance( ).restore( );
@@ -630,10 +725,10 @@ public class TaskSelectData extends SimpleTask implements
 			}
 			catch ( ChartException e1 )
 			{
-				bException = true;
+				fbException = true;
 				ChartWizard.showException( e1.getLocalizedMessage( ) );
 			}
-			if ( !bException )
+			if ( !fbException )
 			{
 				WizardBase.removeException( );
 			}
