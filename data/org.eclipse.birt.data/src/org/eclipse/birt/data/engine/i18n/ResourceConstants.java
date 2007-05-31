@@ -332,4 +332,6 @@ public class ResourceConstants
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_MEASURE = "data.olap.invalidBindingReferToInexitMeasure";
 	public final static String INVALID_BINDING_MISSING_AGGR_FUNC = "data.olap.invalidBindingMissingAggrFunc";
 	public final static String INVALID_AGGREGATION_ARGUMENT = "data.olap.invalidAggrArgument";
+	public final static String AXIS_LEVEL_CANNOT_BE_NULL = "data.olap.axis.level.CantBeNull";
+	public final static String AXIS_VALUE_CANNOT_BE_NULL = "data.olap.axis.value.CantBeNull";
 }

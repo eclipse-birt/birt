@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -106,7 +107,23 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 		this.aggrLevels = populateAggrLevels( );
 
 		axisLevels = this.cubeFilter.getAxisQualifierLevels( );
-		axisValues = this.cubeFilter.getAxisQualifierValues( );			
+		axisValues = this.cubeFilter.getAxisQualifierValues( );	
+		if ( axisLevels == null
+				|| axisValues == null || axisLevels.length != axisValues.length )
+		{
+			this.isAxisFilter = false;
+		}
+		else
+		{
+			for ( int i = 0; i < axisLevels.length; i++ )
+			{
+				if ( axisLevels[i] == null )
+					throw new DataException( ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL );
+				if ( axisValues[i] == null )
+					throw new DataException( ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL,
+							axisLevels[i].getName( ) );
+			}
+		}
 		this.isAxisFilter = ( axisLevels != null && axisValues != null && axisLevels.length == axisValues.length );
 		
 		
