@@ -19,3 +19,4 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.data.adapter
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.4

@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine.emitter.html,
  org.eclipse.birt.report.model
 Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
