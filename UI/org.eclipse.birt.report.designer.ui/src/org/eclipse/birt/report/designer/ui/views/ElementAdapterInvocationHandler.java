@@ -75,7 +75,7 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 					}
 					return new Boolean( returnValue );
 				}
-				else if ( returnType == Void.class )
+				else if ( returnType == Void.TYPE )
 				{
 					for ( Iterator iter = adapters.iterator( ); iter.hasNext( ); )
 					{
