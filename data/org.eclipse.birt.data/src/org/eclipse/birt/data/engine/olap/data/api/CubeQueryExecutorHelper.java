@@ -74,10 +74,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List columnSort = null;
 	private List topbottomFilters;
 	
-	private boolean[] noRecal; // to indicate whether an aggregation need
-									// recalculate,whose length should be the
-									// same as the length of aggregation
-									// definition
+	private boolean[] skip;
+	
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	/**
@@ -296,7 +294,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IAggregationResultSet[] resultSet = onePassExecute( aggregations,
 				stopSign );
 		
-		applyAggrFilter( aggregations, resultSet, stopSign );
+		applyAggrFilters( aggregations, resultSet, stopSign );
 		
 		applyAggrSort( resultSet );
 		
@@ -465,27 +463,28 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void applyAggrFilter( AggregationDefinition[] aggregations,
+	private void applyAggrFilters( AggregationDefinition[] aggregations,
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
-		noRecal = new boolean[aggregations.length];// all aggregations will be
-													// executed again by
-													// default
+		// If skip[i] is true , the corresponding aggregation has no need to
+		// be recalculated. All aggregations will be executed again by default
+		skip = new boolean[aggregations.length];
 		if ( aggrFilters.isEmpty( ) == false
 				|| topbottomFilters.isEmpty( ) == false )
-		{// find level filters according to the specified aggregation filters
-			List newAddFilters = generateLevelFilters( aggregations, resultSet );
+		{
+			// find level filters according to the specified aggregation filters
+			List oldFilters = new ArrayList( filters );
 			// add new filters for another aggregation computation
-			addLevelFilters( newAddFilters );
+			addLevelFilters( generateLevelFilters( aggregations, resultSet ) );
 			// generate AggregationDefinition array that need to be recalculated
 			List aggrList = new ArrayList( );
-			for ( int i = 0; i < noRecal.length; i++ )
+			for ( int i = 0; i < skip.length; i++ )
 			{
-				if ( noRecal[i] == false )
+				if ( skip[i] == false )
 				{// release all result set that will not be used later
 					aggrList.add( aggregations[i] );
-					resultSet[i].close( ); 
+					resultSet[i].close( );
 					resultSet[i] = null;
 				}
 				else
@@ -503,15 +502,16 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				IAggregationResultSet[] recalResultSet = onePassExecute( recalAggrs,
 						stopSign );
 				// overwrite the result sets that have been recalculated
-				for ( int i = 0, index = 0; i < noRecal.length; i++ )
+				for ( int i = 0, index = 0; i < skip.length; i++ )
 				{
-					if ( noRecal[i] == false )
+					if ( skip[i] == false )
 					{
 						resultSet[i] = recalResultSet[index++];
 					}
 				}
 			}
-			filters.removeAll( newAddFilters );//restore to original filter list to avoid conflict
+			// restore to original filter list to avoid conflict
+			filters = oldFilters;
 		}
 	}	
 	 
@@ -607,7 +607,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 						&& isEqualLevels( aggregations[j].getLevels( ),
 								filter.getAggrLevels( ) ) )
 				{
-					applyAxisFilter( filter, levelFilterList );
 					applyAggrFilter( aggregations,
 							resultSet,
 							j,
@@ -813,7 +812,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		//---------------------------------------------------------------------------------
 		if ( selKeyValueList.isEmpty( ) )
 		{// filter is empty, so that the aggregation result set will not be recalculated
-			noRecal[j] = true;
+			skip[j] = true;
 		}
 		else
 		{
@@ -831,36 +830,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 	}
 
-	/**
-	 * @param filter
-	 * @param levelFilters
-	 */
-	private void applyAxisFilter( AggrFilter filter, List levelFilters )
-	{
-		// generate axis filter according to the cube filter definition
-		DimLevel[] axisLevels = filter.getAxisQualifierLevels( );
-		Object[] axisValues = filter.getAxisQualifierValues( );
-		if ( ( axisLevels != null )
-				&& ( axisValues != null )
-				&& ( axisLevels.length == axisValues.length ) )
-		{
-			for ( int k = 0; k < axisLevels.length; k++ )
-			{
-				if ( !axisLevels[k].equals( filter.getTargetLevel( ) ) )
-				{
-					ISelection selection = SelectionFactory.createOneKeySelection( new Object[]{
-						axisValues[k]
-					} );
-
-					LevelFilter axisFilter = new LevelFilter( axisLevels[k],
-							new ISelection[]{
-								selection
-							} );
-					levelFilters.add( axisFilter );
-				}
-			}
-		}
-	}	
 	
 	
 	/**
