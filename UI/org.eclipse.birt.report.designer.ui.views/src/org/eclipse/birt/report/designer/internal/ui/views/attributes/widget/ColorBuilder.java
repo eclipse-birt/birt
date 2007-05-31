@@ -58,7 +58,7 @@ public class ColorBuilder extends Composite
 	private RGB oldRgb;
 	private String predefinedColor;
 
-	private static final String NONE_CHOICE = Messages.getString( "ColorBuilder.text.None" ); //$NON-NLS-1$ 
+	private static final String NONE_CHOICE = Messages.getString( "ColorBuilder.text.Auto" ); //$NON-NLS-1$ 
 
 	/**
 	 * The constructor.
