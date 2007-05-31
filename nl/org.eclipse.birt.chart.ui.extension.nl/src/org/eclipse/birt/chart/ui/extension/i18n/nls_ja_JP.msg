@@ -688,6 +688,7 @@ TaskSelectData.Warning.TypeCheck={0} のデータ式は {1} と互換性がありません。式を
 TaskSelectData.Label.Filters=フィルタ(&T)...
 TaskSelectData.Label.Parameters=パラメタ(&P)...
 TaskSelectData.Task.Description=グラフに表示して系列に関連付けるデータを選択します。
+TaskSelectData.Task.SwitchingData=Switching Data
 TaskSelectData.Exception.UnableToSwitchToDataset=データセットに切り替えることができません。 
 TaskSelectData.Label.InsertAggregation=統計を挿入する
 TaskSelectData.Label.DataExpressionBuilder=データ計算式ビルダ

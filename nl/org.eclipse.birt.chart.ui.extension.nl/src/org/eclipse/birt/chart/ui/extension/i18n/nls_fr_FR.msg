@@ -688,6 +688,7 @@ TaskSelectData.Warning.TypeCheck=Le type de données de {0} est incompatible avec
 TaskSelectData.Label.Filters=Fil&tres...
 TaskSelectData.Label.Parameters=&Paramètres...
 TaskSelectData.Task.Description=Sélectionner les données à afficher dans le graphique et les lier à la série.
+TaskSelectData.Task.SwitchingData=Switching Data
 TaskSelectData.Exception.UnableToSwitchToDataset=Impossible d'utiliser le jeu de données 
 TaskSelectData.Label.InsertAggregation=Insérer une agrégation
 TaskSelectData.Label.DataExpressionBuilder=Générateur d'expression de données

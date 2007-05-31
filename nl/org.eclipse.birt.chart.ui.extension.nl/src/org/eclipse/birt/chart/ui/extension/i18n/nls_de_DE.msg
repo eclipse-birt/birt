@@ -688,6 +688,7 @@ TaskSelectData.Warning.TypeCheck=Der Datentyp von {0} ist inkompatibel mit {1}. 
 TaskSelectData.Label.Filters=Fil&ter...
 TaskSelectData.Label.Parameters=&Parameter...
 TaskSelectData.Task.Description=Wählen Sie die Daten, die im Diagramm angezeigt werden sollen, und verbinden Sie sie mit der Datenreihe.
+TaskSelectData.Task.SwitchingData=Switching Data
 TaskSelectData.Exception.UnableToSwitchToDataset=Wechseln zu Datensatz nicht möglich 
 TaskSelectData.Label.InsertAggregation=Aggregat einfügen
 TaskSelectData.Label.DataExpressionBuilder=Datenausdruckerstellung

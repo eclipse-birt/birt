@@ -688,6 +688,7 @@ TaskSelectData.Warning.TypeCheck={0}의 데이터 유형이 {1}와(과) 호환되지 않습니다
 TaskSelectData.Label.Filters=필터(&T)...
 TaskSelectData.Label.Parameters=매개 변수(&P)...
 TaskSelectData.Task.Description=차트에 표시하고 계열에 바인딩할 데이터를 선택합니다.
+TaskSelectData.Task.SwitchingData=Switching Data
 TaskSelectData.Exception.UnableToSwitchToDataset=데이터 집합으로 전환할 수 없음 
 TaskSelectData.Label.InsertAggregation=집계 삽입
 TaskSelectData.Label.DataExpressionBuilder=데이터 식 빌더
