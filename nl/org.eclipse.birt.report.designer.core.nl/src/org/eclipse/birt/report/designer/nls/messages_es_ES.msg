@@ -308,7 +308,7 @@ CodePageAction.actionText.code=Script
 ###########################################################
 #ColorBuilder properties
 
-ColorBuilder.text.None=Automático
+ColorBuilder.text.Auto=Automático
 
 ###########################################################
 #ColumnPageGenerator properties
@@ -1963,7 +1963,9 @@ JSDocumentProvider.document.newName=Nuevo contenido
 ###########################################################
 #JSEditor properties
 
-JSEditor.Button.Reset=Restablecer método
+JSEditor.cmb.NewEventFunction=New Event Function...
+JSEditor.Label.Script=Script: 
+JSEditor.Button.Reset=Reset Script
 JSEditor.Display.DefaultText=//Editor de script JS\n
 JSEditor.Display.NoExpression=Este elemento no tiene métodos.
 JSEditor.Input.trial=prueba

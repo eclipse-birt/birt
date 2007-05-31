@@ -308,7 +308,7 @@ CodePageAction.actionText.code=脚本
 ###########################################################
 #ColorBuilder properties
 
-ColorBuilder.text.None=自动
+ColorBuilder.text.Auto=自动
 
 ###########################################################
 #ColumnPageGenerator properties
@@ -1963,7 +1963,9 @@ JSDocumentProvider.document.newName=新内容
 ###########################################################
 #JSEditor properties
 
-JSEditor.Button.Reset=重置方法
+JSEditor.cmb.NewEventFunction=New Event Function...
+JSEditor.Label.Script=Script: 
+JSEditor.Button.Reset=Reset Script
 JSEditor.Display.DefaultText=//JS 脚本编辑器 \n
 JSEditor.Display.NoExpression=此元素无方法。
 JSEditor.Input.trial=试用版

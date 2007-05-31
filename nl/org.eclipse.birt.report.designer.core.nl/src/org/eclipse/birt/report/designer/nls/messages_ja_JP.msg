@@ -308,7 +308,7 @@ CodePageAction.actionText.code=スクリプト
 ###########################################################
 #ColorBuilder properties
 
-ColorBuilder.text.None=自動
+ColorBuilder.text.Auto=自動
 
 ###########################################################
 #ColumnPageGenerator properties
@@ -1963,7 +1963,9 @@ JSDocumentProvider.document.newName=コンテンツの新規作成
 ###########################################################
 #JSEditor properties
 
-JSEditor.Button.Reset=メソッドのリセット
+JSEditor.cmb.NewEventFunction=New Event Function...
+JSEditor.Label.Script=Script: 
+JSEditor.Button.Reset=Reset Script
 JSEditor.Display.DefaultText=//JS スクリプトエディタ \n
 JSEditor.Display.NoExpression=この要素にはメソッドがありません。
 JSEditor.Input.trial=試用

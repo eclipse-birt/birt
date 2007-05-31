@@ -308,7 +308,7 @@ CodePageAction.actionText.code=스크립트
 ###########################################################
 #ColorBuilder properties
 
-ColorBuilder.text.None=자동
+ColorBuilder.text.Auto=자동
 
 ###########################################################
 #ColumnPageGenerator properties
@@ -1963,7 +1963,9 @@ JSDocumentProvider.document.newName=새 내용
 ###########################################################
 #JSEditor properties
 
-JSEditor.Button.Reset=메서드 재설정
+JSEditor.cmb.NewEventFunction=New Event Function...
+JSEditor.Label.Script=Script: 
+JSEditor.Button.Reset=Reset Script
 JSEditor.Display.DefaultText=//JS 스크립트 편집기 \n
 JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
