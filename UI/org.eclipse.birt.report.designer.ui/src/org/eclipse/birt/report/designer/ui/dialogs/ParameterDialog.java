@@ -930,7 +930,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void refreshColumns( boolean onlyFilter )
 	{
-		if ( columnChooser == null )
+		if ( columnChooser == null || columnChooser.isDisposed())
 		{
 			return;
 		}
@@ -1686,7 +1686,7 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 
-			if ( sorttingArea != null && sorttingArea.isVisible( ) )
+			if ( sorttingArea != null &&(!sorttingArea.isDisposed( )) && sorttingArea.isVisible( ) )
 			{
 				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
 				{
@@ -1858,7 +1858,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				canFinish = ( errorMessageLine.getImage( ) == null );
 			}
-			if ( columnChooser != null && !isStatic( ) )
+			if ( columnChooser != null &&(!columnChooser.isDisposed())&& !isStatic( ) )
 			{
 				canFinish &= ( getExpression( columnChooser.getText( ) ) != null );
 			}
@@ -1897,6 +1897,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( !isStatic( )
 					&& columnChooser != null
+					&&(!columnChooser.isDisposed())
 					&& columnChooser.getItemCount( ) == 0 )
 			{
 				errorMessage = ERROR_MSG_NO_AVAILABLE_COLUMN;
