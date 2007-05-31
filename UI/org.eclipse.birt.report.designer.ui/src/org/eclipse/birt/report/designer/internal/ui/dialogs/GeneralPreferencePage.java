@@ -234,6 +234,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		}
 		super.initialize( );
 		initialized = true;
+		checkPageValid();
 	}
 
 	private void setPredefinedStyle( boolean b )
