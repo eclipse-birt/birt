@@ -513,6 +513,13 @@ public class ReportDocumentBuilder
 				HTMLLayoutContext htmlContext = (HTMLLayoutContext) context;
 				document.setPageCount( pageNumber );
 
+				boolean reportFinished = htmlContext.isFinished( );
+				if ( reportFinished )
+				{
+					close( );
+					return;
+				}
+
 				boolean checkpoint = false;
 				// check points for page 1, 10, 50, 100, 200 ...
 				// the end of report should also be check point.
@@ -522,50 +529,28 @@ public class ReportDocumentBuilder
 					checkpoint = true;
 				}
 
-				boolean reportFinished = htmlContext.isFinished( );
-				if ( reportFinished )
+				ArrayList pageHint = htmlContext.getPageHint( );
+				PageHint hint = new PageHint( pageNumber, pageOffset );
+				for ( int i = 0; i < pageHint.size( ); i++ )
 				{
-					checkpoint = true;
+					IContent[] range = (IContent[]) pageHint.get( i );
+					PageSection section = createPageSection( range[0], range[1] );
+					hint.addSection( section );
 				}
-				else
-				{
-					ArrayList pageHint = htmlContext.getPageHint( );
-					PageHint hint = new PageHint( pageNumber, pageOffset );
-					for ( int i = 0; i < pageHint.size( ); i++ )
-					{
-						IContent[] range = (IContent[]) pageHint.get( i );
-						PageSection section = createPageSection( range[0], range[1]);
-						hint.addSection( section );
-					}
-					writePageHint( hint );
-				}
+				writePageHint( hint );
 
 				if ( checkpoint )
 				{
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
-						Object lock = archive
-								.lock( ReportDocumentConstants.CORE_STREAM );
-						try
-						{
-							writeTotalPage( pageNumber );
-							document.saveCoreStreams( );
-							archive.flush( );
-						}
-						finally
-						{
-							archive.unlock( lock );
-						}
+						writeTotalPage( pageNumber );
+						document.saveCoreStreams( );
+						archive.flush( );
 					}
 					catch ( Exception e )
 					{
 						logger.log( Level.WARNING, " check point failed ", e );
-					}
-
-					if ( reportFinished )
-					{
-						close( );
 					}
 				}
 				// notify the page handler
@@ -575,8 +560,9 @@ public class ReportDocumentBuilder
 					if ( !htmlContext.getCancelFlag( ) )
 					{
 						IReportDocumentInfo docInfo = new ReportDocumentInfo(
-							executionContext, pageNumber, reportFinished );
-						pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+								executionContext, pageNumber, false );
+						pageHandler.onPage( (int) pageNumber, checkpoint,
+								docInfo );
 					}
 				}
 			}
