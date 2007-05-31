@@ -361,22 +361,20 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		{
 			// Top level property is a list.
 
-			ArrayList list = (ArrayList) element.getLocalProperty( module,
-					propDefn );
+			List list = (ArrayList) element.getLocalProperty( module, propDefn );
 
 			if ( list != null )
 				return;
+
 			// Make a local copy of the inherited list value.
 
 			ArrayList inherited = (ArrayList) element.getProperty( module,
 					propDefn );
 
-			list = new ArrayList( );
 			if ( inherited != null )
-			{
-				for ( int i = 0; i < inherited.size( ); i++ )
-					list.add( ( (IStructure) inherited.get( i ) ).copy( ) );
-			}
+				list = (List) ModelUtil.copyValue( propDefn, inherited );
+			else
+				list = new ArrayList( );
 
 			// Set the list value on the element itself.
 
@@ -408,51 +406,6 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		}
 
 		return;
-	}
-
-	/**
-	 * The property is a simple value list. If property is a list property, the
-	 * method will check to see if the current element has the local list value,
-	 * if it has, the method returns, otherwise, a copy of the list value
-	 * inherited from container or parent will be set locally on the element
-	 * itself.
-	 * <p>
-	 * This method is supposed to be used when we need to change the value of a
-	 * composite property( a simple list property ). These kind of property is
-	 * inherited as a whole, so when the value changed from a child element.
-	 * This method will be called to ensure that a local copy will be made, so
-	 * change to the child won't affect the original value in the parent.
-	 * 
-	 * @param ref
-	 *            a reference to a list property or member.
-	 */
-
-	protected void makeLocalCompositeValue( ElementPropertyDefn prop )
-	{
-		assert prop != null;
-
-		// Top level property is a list.
-
-		ArrayList list = (ArrayList) element.getLocalProperty( module, prop );
-
-		if ( list != null )
-			return;
-
-		// Make a local copy of the inherited list value.
-
-		ArrayList inherited = (ArrayList) element.getProperty( module, prop );
-
-		Object value = ModelUtil.copyValue( prop, inherited );
-
-		// Set the list value on the element itself.
-
-		PropertyRecord propRecord = new PropertyRecord( element, prop, value );
-
-		propRecord.setEventTarget( getEventTarget( prop ) );
-
-		getActivityStack( ).execute( propRecord );
-		return;
-
 	}
 
 	/**

@@ -73,9 +73,12 @@ public class JointDataSetHandle extends DataSetHandle
 
 	public Iterator dataSetsIterator( )
 	{
-		List rtnList = new ArrayList( );
-
 		List dataSetRefs = (List) getProperty( DATA_SETS_PROP );
+		if (dataSetRefs == null)
+			return Collections.EMPTY_LIST.iterator( );
+	
+		List rtnList = new ArrayList( );
+		
 		for ( int i = 0; i < dataSetRefs.size( ); i++ )
 		{
 			ElementRefValue dataSetRef = (ElementRefValue) dataSetRefs.get( i );
