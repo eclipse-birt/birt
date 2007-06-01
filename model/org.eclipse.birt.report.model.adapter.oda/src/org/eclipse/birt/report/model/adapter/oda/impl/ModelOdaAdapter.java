@@ -1030,12 +1030,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	{
 		List resultList = setParamAdapter.newROMSetParams( cachedParameters );
 
-		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
-
 		// Merge all parameter list with data set handle.
-
-		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
 
 		// If the name is the same , should rename it.
 		// when you have three driver-defined parameter in DataSetDesign,but you
@@ -1044,29 +1039,23 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		// parameter and in this
 		// time it's easy to duplicate name.
 
-		List nameList = new ArrayList( );
-		List retList = new ArrayList( );
+		IdentifierUtility.updateParams2UniqueName( resultList );
+
+		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
+
+		// Merge all parameter list with data set handle.
+		//
+		PropertyHandle propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
 
 		propHandle.clearValue( );
 		Iterator iterator = resultList.iterator( );
 
-		List setDefinedParams = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
 			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
 					.next( );
-			String paramName = parameter.getName( );
-			if ( nameList.contains( paramName ) )
-			{
-				paramName = IdentifierUtility.getParamUniqueName(
-						setDefinedParams.iterator( ), retList, parameter
-								.getPosition( ).intValue( ) );
-				parameter.setName( paramName );
-			}
-			nameList.add( paramName );
-			retList.add( parameter );
-
-			setDefinedParams.add( propHandle.addItem( parameter ) );
+			propHandle.addItem( parameter );
 		}
 	}
 
@@ -1141,8 +1130,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		DataSetDesign requestDesign = completedSession
 				.getRequestDataSetDesign( );
 
-		updateDataSetHandle( responseDesign, dataSetHandle, false, requestDesign
-				.getParameters( ), requestDesign.getResultSets( ) );
+		updateDataSetHandle( responseDesign, dataSetHandle, false,
+				requestDesign.getParameters( ), requestDesign.getResultSets( ) );
 
 		DesignerStateAdapter.updateROMDesignerState( completedSession
 				.getResponse( ).getDesignerState( ), dataSetHandle );;

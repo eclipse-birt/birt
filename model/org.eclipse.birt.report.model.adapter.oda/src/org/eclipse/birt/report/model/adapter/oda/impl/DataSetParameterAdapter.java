@@ -400,7 +400,6 @@ class DataSetParameterAdapter
 			return;
 
 		String nativeName = dataAttrs.getName( );
-		Integer position = new Integer( dataAttrs.getPosition( ) );
 
 		// make sure the OdaDataSetParameter must have a name. This is a
 		// requirement in ROM.
@@ -408,9 +407,7 @@ class DataSetParameterAdapter
 		String name = setParam.getName( );
 		if ( StringUtil.isBlank( name ) )
 		{
-			setParam.setName( IdentifierUtility
-					.getParamUniqueName( setDefinedParams.iterator( ), retList,
-							position.intValue( ) ) );
+			setParam.setName( nativeName );
 		}
 
 		setParam.setNativeName( nativeName );
@@ -940,6 +937,11 @@ class DataSetParameterAdapter
 			retList.add( setParam );
 		}
 
+
+		// control name value here.
+
+		IdentifierUtility.updateParams2UniqueName( retList );
+		
 		return retList;
 	}
 
