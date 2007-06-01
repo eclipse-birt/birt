@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -79,14 +80,14 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	// "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
 
 	private static final String BUNDLE_PROTOCOL = "bundleresource://"; //$NON-NLS-1$
-	
+
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
 
 	private static final String[] LIBRARY_FILENAME_PATTERN = new String[]{
-		"*.rptlibrary", //$NON-NLS-1$£¬
-		"*.css",
-		"*.CSS"
+			"*.rptlibrary", //$NON-NLS-1$£¬
+			"*.css",
+			"*.CSS"
 	};
 
 	public LibraryExplorerTreeViewPage( )
@@ -258,27 +259,34 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					|| object instanceof ReportItemHandle )
 			{
 				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout" ); //$NON-NLS-1$
-			}else
-			if ( object instanceof LibraryHandle )
+			}
+			else if ( object instanceof LibraryHandle )
 			{
 				return ( (LibraryHandle) object ).getFileName( );
-			}else
-			if( object instanceof CssStyleSheetHandle)
+			}
+			else if ( object instanceof CssStyleSheetHandle )
 			{
-				CssStyleSheetHandle CssStyleSheetHandle = (CssStyleSheetHandle)object;
-				if(CssStyleSheetHandle.getFileName( ).startsWith(  BUNDLE_PROTOCOL ))
+				CssStyleSheetHandle CssStyleSheetHandle = (CssStyleSheetHandle) object;
+				if ( CssStyleSheetHandle.getFileName( )
+						.startsWith( BUNDLE_PROTOCOL ) )
 				{
 					return CssStyleSheetHandle.getFileName( );
-				}else
+				}
+				else
 				{
-					ModuleHandle moudleHandle = CssStyleSheetHandle.getModule( ).getModuleHandle( );
-					URL url = moudleHandle.findResource( CssStyleSheetHandle.getFileName( ), IResourceLocator.CASCADING_STYLE_SHEET );
-					if(url != null)
+					ModuleHandle moudleHandle = CssStyleSheetHandle.getModule( )
+							.getModuleHandle( );
+					URL url = moudleHandle.findResource( CssStyleSheetHandle.getFileName( ),
+							IResourceLocator.CASCADING_STYLE_SHEET );
+					if ( url != null )
 					{
 						return url.getFile( );
 					}
 				}
-
+			}
+			else if ( object instanceof PathResourceEntry )
+			{
+				return ( ( PathResourceEntry ) object ).getURL( ).getPath( );
 			}
 		}
 		return ""; //$NON-NLS-1$
