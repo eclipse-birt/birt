@@ -756,19 +756,28 @@ public class PeerExtensionTest extends BaseTestCase
 
 	/**
 	 * Test useOwnModel function.
+	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testUseOwnModel( ) throws Exception
 	{
-		openDesign(  FILE_NAME_9 );
+		openDesign( FILE_NAME_9 );
 
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "headerMatrix" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
-		
+
 		assertEquals( "12pt", extendedItem//$NON-NLS-1$
 				.getProperty( "width" ) );//$NON-NLS-1$
 
+		extendedItem.setProperty( "width", "18pt" );//$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
+
+		designHandle.getCommandStack( ).undo( );
+		assertEquals( "12pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
+
+		designHandle.getCommandStack( ).redo( );
+		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
 	}
 }

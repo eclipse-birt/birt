@@ -331,11 +331,16 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			ExtendedItem extendedItem = ( (ExtendedItem) element );
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) )
+			// if useOwnModel is true, set property to extended item and return
+			// directly.
+
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
+					|| prop.isUseOwnModel( ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 
-				assert extElement != null;
+				if ( extElement == null )
+					return;
 
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
@@ -348,7 +353,6 @@ public class PropertyCommand extends AbstractPropertyCommand
 		record.setEventTarget( getEventTarget( prop ) );
 
 		getActivityStack( ).execute( record );
-
 	}
 
 	/**
