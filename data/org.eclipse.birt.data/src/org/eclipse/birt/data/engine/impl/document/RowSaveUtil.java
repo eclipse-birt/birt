@@ -179,14 +179,8 @@ public class RowSaveUtil
 		inited = true;
 		try
 		{
-			int totalRowCount = 0;
-			if ( finish == true )
-				totalRowCount = rowCount;
-			else
-				totalRowCount = rowCount == 0 ? 1 : rowCount;
-
 			// TODO: enhance me
-			IOUtil.writeInt( this.rowExprsDos, totalRowCount );
+			IOUtil.writeInt( this.rowExprsDos, rowCount );
 			
 			Map map = new HashMap();
 			Iterator it = exprNameSet.iterator( );

@@ -137,7 +137,12 @@ class ExprDataReader1 implements IExprDataReader
 	{
 		try
 		{
-			if ( currReadIndex < currRowIndex + 1 )
+			if ( this.rowCount == 0 )
+			{
+				if ( this.exprValueMap == null )
+					this.exprValueMap = this.getValueMap( );
+			}
+			else if ( currReadIndex < currRowIndex + 1 )
 			{
 				this.skipTo( currRowIndex );
 				this.exprValueMap = this.getValueMap( );

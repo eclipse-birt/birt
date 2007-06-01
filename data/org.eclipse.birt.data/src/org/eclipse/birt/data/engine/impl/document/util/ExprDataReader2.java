@@ -186,14 +186,23 @@ class ExprDataReader2 implements IExprDataReader
 	 */
 	public Map getRowValue( ) throws DataException
 	{
-		if ( lastRowIndex == currRowIndex )
-			return this.exprValueMap;
-
-		lastRowIndex = currRowIndex;
 		try
 		{
-			this.skipTo( nextDestIndex );
-			this.exprValueMap = this.getValueMap( );
+			if ( this.rowCount == 0 )
+			{
+				if ( this.exprValueMap == null )
+					this.exprValueMap = this.getValueMap( );
+			}
+			else
+			{
+				if ( lastRowIndex == currRowIndex )
+					return this.exprValueMap;
+
+				lastRowIndex = currRowIndex;
+
+				this.skipTo( nextDestIndex );
+				this.exprValueMap = this.getValueMap( );
+			}
 		}
 		catch ( IOException e )
 		{
