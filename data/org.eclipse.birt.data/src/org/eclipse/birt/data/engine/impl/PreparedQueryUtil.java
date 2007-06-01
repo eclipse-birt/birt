@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -66,7 +68,8 @@ class PreparedQueryUtil
 		if ( queryDefn.getQueryResultsID( ) != null )
 			return newIVInstance( dataEngine, queryDefn );
 
-		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
+		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ));
+		
 		if ( dset == null )
 		{
 			// In new column binding feature, when there is no data set,
@@ -110,6 +113,35 @@ class PreparedQueryUtil
 		}
 
 		return preparedQuery;
+	}
+
+	/**
+	 * 
+	 * @param dataSetDesign
+	 * @return
+	 * @throws DataException
+	 */
+	private static IBaseDataSetDesign cloneDataSetDesign(
+			IBaseDataSetDesign dataSetDesign ) throws DataException
+	{
+		if ( dataSetDesign instanceof IScriptDataSetDesign )
+		{
+			return new ScriptDataSetAdapter( dataSetDesign );
+		}
+		else if ( dataSetDesign instanceof IOdaDataSetDesign )
+		{
+			return new OdaDataSetAdapter( dataSetDesign );
+		}
+		else if ( dataSetDesign instanceof IJointDataSetDesign )
+		{
+			return new JointDataSetAdapter( dataSetDesign );
+		}
+		else if ( dataSetDesign == null )
+		{
+			return null;
+		}
+		throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
+				dataSetDesign.getName( ) );
 	}
 
 	/**
@@ -505,4 +537,190 @@ class PreparedQueryUtil
 		}
 		return false;
 	}
+}
+
+abstract class DataSetAdapter implements IBaseDataSetDesign
+{
+	private List computedColumns;
+	private IBaseDataSetDesign source;
+
+	public DataSetAdapter( IBaseDataSetDesign source )
+	{
+	    this.source = source;
+	    this.computedColumns = new ArrayList();
+	    if( this.source.getComputedColumns( )!= null )
+	    {
+	    	this.computedColumns.addAll( this.source.getComputedColumns( ) );
+	    }
+	}
+	public String getAfterCloseScript( )
+	{
+		return this.source.getAfterCloseScript( );
+	}
+	public String getAfterOpenScript( )
+	{
+		return this.source.getAfterOpenScript( );
+	}
+	
+	public String getBeforeCloseScript( )
+	{
+		return this.source.getBeforeCloseScript( );
+	}
+	public String getBeforeOpenScript( )
+	{
+		return this.source.getBeforeOpenScript( );
+	}
+	public int getCacheRowCount( )
+	{
+		return this.source.getCacheRowCount( );
+	}
+	public List getComputedColumns( )
+	{
+		return this.computedColumns;
+	}
+	public String getDataSourceName( )
+	{
+		return this.source.getDataSourceName( );
+	}
+	public IBaseDataSetEventHandler getEventHandler( )
+	{
+		return this.source.getEventHandler( );
+	}
+	public List getFilters( )
+	{
+		return this.source.getFilters( );
+	}
+	public Collection getInputParamBindings( )
+	{
+		return this.source.getInputParamBindings( );
+	}
+	public String getName( )
+	{
+		return this.source.getName( );
+	}
+	public String getOnFetchScript( )
+	{
+		return this.source.getOnFetchScript( );
+	}
+	public List getParameters( )
+	{
+		return this.source.getParameters( );
+	}
+	public List getResultSetHints( )
+	{
+		return this.source.getResultSetHints( );
+	}
+	public int getRowFetchLimit( )
+	{
+		return this.source.getRowFetchLimit( );
+	}
+	public boolean needDistinctValue( )
+	{
+		return this.source.needDistinctValue( );
+	}
+	public void setRowFetchLimit( int max )
+	{
+		this.source.setRowFetchLimit( max );
+	}
+}
+
+class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
+{
+	private IOdaDataSetDesign source;
+	
+	public OdaDataSetAdapter( IBaseDataSetDesign source )
+	{
+		super( source );
+		this.source = ( IOdaDataSetDesign )source;
+	}
+
+	public String getExtensionID( )
+	{
+		return this.source.getExtensionID( );
+	}
+
+	public String getPrimaryResultSetName( )
+	{
+		return this.source.getPrimaryResultSetName( );
+	}
+
+	public Map getPrivateProperties( )
+	{
+		return this.source.getPrivateProperties( );
+	}
+
+	public Map getPublicProperties( )
+	{
+		return this.source.getPublicProperties( );
+	}
+
+	public String getQueryText( )
+	{
+		return this.source.getQueryText( );
+	}
+	
+}
+
+class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
+{
+	private IJointDataSetDesign source;
+	
+	public JointDataSetAdapter( IBaseDataSetDesign source )
+	{
+		super( source );
+		this.source = ( IJointDataSetDesign )source;
+	}
+
+	public List getJoinConditions( )
+	{
+		return this.source.getJoinConditions( );
+	}
+
+	public int getJoinType( )
+	{
+		return this.source.getJoinType( );
+	}
+
+	public String getLeftDataSetDesignName( )
+	{
+		return this.source.getLeftDataSetDesignName( );
+	}
+
+	public String getRightDataSetDesignName( )
+	{
+		return this.source.getRightDataSetDesignName( );
+	}
+	
+}
+
+class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesign
+{
+	private IScriptDataSetDesign source;
+	public ScriptDataSetAdapter( IBaseDataSetDesign source )
+	{
+		super( source );
+		this.source = (IScriptDataSetDesign)source;
+	}
+
+	
+	public String getCloseScript( )
+	{
+		return this.source.getCloseScript( );
+	}
+
+	public String getDescribeScript( )
+	{
+		return this.source.getDescribeScript( );
+	}
+
+	public String getFetchScript( )
+	{
+		return this.source.getFetchScript( );
+	}
+
+	public String getOpenScript( )
+	{
+		return this.source.getOpenScript( );
+	}
+	
 }
