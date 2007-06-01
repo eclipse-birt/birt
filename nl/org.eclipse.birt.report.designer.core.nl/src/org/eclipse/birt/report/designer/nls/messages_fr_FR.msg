@@ -1268,6 +1268,7 @@ ExpressionBuilder.Label.Functions=Double clic pour insérer :
 ExpressionBuilder.Label.Operators=Opérateurs :
 ExpressionBuilder.Label.SubCategory=Sous-catégorie :
 ExpressionBuilder.Message.Prompt=Entrez une expression dans le champ Expression. Parcourez la liste des objets disponibles et cliquez deux fois sur un objet pour le copier dans votre expression.
+ExpressionBuilder.ToolTip=Open Expression Builder
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3851,3 +3852,5 @@ BindingDialogHelper.text.displayName=Nom d'affichage :
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
+
+ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail

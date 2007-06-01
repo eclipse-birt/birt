@@ -1268,6 +1268,7 @@ ExpressionBuilder.Label.Functions=삽입하려면 두 번 클릭:
 ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
+ExpressionBuilder.ToolTip=Open Expression Builder
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3851,3 +3852,5 @@ BindingDialogHelper.text.displayName=표시 이름:
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
+
+ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail

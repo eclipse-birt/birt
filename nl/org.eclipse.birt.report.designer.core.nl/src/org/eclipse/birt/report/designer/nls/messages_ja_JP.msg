@@ -1268,6 +1268,7 @@ ExpressionBuilder.Label.Functions=ダブルクリックして挿入 :
 ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
+ExpressionBuilder.ToolTip=Open Expression Builder
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3851,3 +3852,5 @@ BindingDialogHelper.text.displayName=表示名 :
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
+
+ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail

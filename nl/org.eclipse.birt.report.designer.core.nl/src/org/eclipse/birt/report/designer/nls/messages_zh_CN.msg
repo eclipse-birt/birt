@@ -1268,6 +1268,7 @@ ExpressionBuilder.Label.Functions=双击以插入:
 ExpressionBuilder.Label.Operators=运算符:
 ExpressionBuilder.Label.SubCategory=子类别:
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
+ExpressionBuilder.ToolTip=Open Expression Builder
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3851,3 +3852,5 @@ BindingDialogHelper.text.displayName=显示名称:
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
+
+ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
