@@ -580,8 +580,8 @@ public class ElementTest extends TestCase
 		iRule.setValue2( "300" );//$NON-NLS-1$
 		assertEquals( "300", iRule.getValue2( ) );//$NON-NLS-1$
 
-		iRule.setBackGroudnColor( "#FF0000" );//$NON-NLS-1$
-		assertEquals( "#FF0000", iRule.getBackGroudnColor( ) );//$NON-NLS-1$
+		iRule.setBackGroundColor( "#FF0000" );//$NON-NLS-1$
+		assertEquals( "#FF0000", iRule.getBackGroundColor( ) );//$NON-NLS-1$
 
 		item.removeHighlightRules( );
 		rules = item.getHighlightRules( );
