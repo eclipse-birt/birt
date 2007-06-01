@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -25,7 +23,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -111,7 +108,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		expButton = new Button( valueComposite, SWT.PUSH );
 //		expButton.setText( "..." ); //$NON-NLS-1$
 //		expButton.setLayoutData( new GridData( ) );
-		setExpressionButtonImage(expButton);
+		UIUtil.setExpressionButtonImage(expButton);
 		expButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -138,28 +135,5 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		this.value = value;
 	}
 	
-	protected void setExpressionButtonImage(Button button)
-	{
-		String imageName;
-		if(button.isEnabled())
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
-		{
-			button.getImage().setBackground(button.getBackground());
-		}
-		
-	}
+
 }

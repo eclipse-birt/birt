@@ -801,7 +801,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			return;
 		}
 
-		editor.setLevel( level.getCubeLevel( ) );
 		editor.setReferencedLevelList( referencedLevelList );
 		
 		memberValueTable.setEnabled( true );

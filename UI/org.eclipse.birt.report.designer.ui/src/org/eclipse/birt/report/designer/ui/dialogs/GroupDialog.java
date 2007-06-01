@@ -28,8 +28,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -65,7 +63,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -329,7 +326,7 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( tocArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage( exprButton );
+		UIUtil.setExpressionButtonImage( exprButton );
 		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -498,7 +495,7 @@ public class GroupDialog extends BaseDialog
 
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage( exprButton );
+		UIUtil.setExpressionButtonImage( exprButton );
 		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1373,25 +1370,5 @@ public class GroupDialog extends BaseDialog
 		return exp;
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image iamge = ReportPlatformUIImages.getImage( imageName );
 
-		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData( gd );
-
-		button.setImage( iamge );
-		button.getImage( ).setBackground( button.getBackground( ) );
-	}
 }

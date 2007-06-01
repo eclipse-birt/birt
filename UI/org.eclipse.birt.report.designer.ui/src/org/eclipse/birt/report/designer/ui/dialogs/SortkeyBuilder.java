@@ -19,8 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -43,7 +41,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -164,7 +161,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 
 		Button btnExpression = new Button( content, SWT.NONE );
 		btnExpression.setToolTipText( Messages.getString( "SortkeyBuilder.DialogTitle.Button.ExpressionBuilder" ) ); //$NON-NLS-1$
-		setExpressionButtonImage( btnExpression );
+		UIUtil.setExpressionButtonImage( btnExpression );
 		btnExpression.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -412,31 +409,6 @@ public class SortkeyBuilder extends TitleAreaDialog
 		return true;
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage( imageName );
 
-		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		gd.grabExcessHorizontalSpace = true;
-		button.setLayoutData( gd );
-
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
-		}
-
-	}
 
 }

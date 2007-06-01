@@ -22,7 +22,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.AttributeConstant;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -51,7 +50,6 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -320,7 +318,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		} );
 
-		setExpressionButtonImage(expBuilder);
+		UIUtil.setExpressionButtonImage(expBuilder);
 		
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
@@ -936,8 +934,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		value2.setEnabled( val );
 		valBuilder1.setEnabled( val );
 		valBuilder2.setEnabled( val );
-		setExpressionButtonImage(valBuilder1);
-		setExpressionButtonImage(valBuilder2);
+		UIUtil.setExpressionButtonImage(valBuilder1);
+		UIUtil.setExpressionButtonImage(valBuilder2);
 	}
 
 	/**
@@ -1465,29 +1463,5 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 		updateButtons( );
 	}
-	
-	protected void setExpressionButtonImage(Button button)
-	{
-		String imageName;
-		if(button.isEnabled())
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
-		{
-			button.getImage().setBackground(button.getBackground());
-		}
-		
-	}
+
 }

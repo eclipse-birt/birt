@@ -15,8 +15,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
@@ -26,7 +24,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -42,7 +39,6 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -335,7 +331,7 @@ public class MeasureDialog extends BaseDialog
 		} );
 
 		Button expressionButton = new Button( group, SWT.PUSH );
-		setExpressionButtonImage( expressionButton );
+		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -367,31 +363,6 @@ public class MeasureDialog extends BaseDialog
 
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage( imageName );
-
-		GridData gd = new GridData( GridData.VERTICAL_ALIGN_END );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData( gd );
-
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
-		}
-
-	}
 
 	private void openExpression( )
 	{

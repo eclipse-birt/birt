@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -25,7 +23,6 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -82,7 +79,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 			button.setEnabled(enable);
 			text.setEnabled(enable);
 		}
-		setExpressionButtonImage(button);
+		UIUtil.setExpressionButtonImage(button);
 		if (deValue == null) {
 			deValue = ""; //$NON-NLS-1$
 		}
@@ -152,30 +149,10 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 			}
 		});
 
-		setExpressionButtonImage(button);
+		UIUtil.setExpressionButtonImage(button);
 		return containerPane;
 	}
 
-	protected void setExpressionButtonImage(Button button) {
-		String imageName;
-		if (button.isEnabled()) {
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		} else {
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage(imageName);
-
-		GridData gd = new GridData(GridData.VERTICAL_ALIGN_END);
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData(gd);
-
-		button.setImage(image);
-		if (button.getImage() != null) {
-			button.getImage().setBackground(button.getBackground());
-		}
-
-	}
 
 	protected void handleSelectEvent() {
 		newValue = text.getText();

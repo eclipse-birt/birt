@@ -37,6 +37,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
@@ -93,7 +95,9 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -1633,5 +1637,32 @@ public class UIUtil
 			}
 		}
 		return column.getColumnName( );
+	}
+	
+	public static void setExpressionButtonImage( Button button )
+	{
+		String imageName;
+		if ( button.isEnabled( ) )
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}
+		else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
+		{
+			button.getImage( ).setBackground( button.getBackground( ) );
+		}
+		button.setToolTipText( Messages.getString( "ExpressionBuilder.ToolTip" ) );
+
 	}
 }

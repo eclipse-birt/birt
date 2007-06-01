@@ -20,10 +20,9 @@ import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -52,7 +51,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -617,7 +615,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
 
-		setExpressionButtonImage( expressionButton );
+		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -634,31 +632,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage( imageName );
 
-		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData( gd );
-
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
-		}
-
-	}
 
 	private String getColumnBindingExpressionByName( String name )
 	{

@@ -1599,7 +1599,7 @@ public class ParameterDialog extends BaseDialog
 
 		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
 		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage( valueColumnExprButton );
+		UIUtil.setExpressionButtonImage( valueColumnExprButton );
 		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1627,7 +1627,7 @@ public class ParameterDialog extends BaseDialog
 
 		Button displayTextExprButton = new Button( composite, SWT.PUSH );
 		// displayTextExprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage( displayTextExprButton );
+		UIUtil.setExpressionButtonImage( displayTextExprButton );
 		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -2831,30 +2831,6 @@ public class ParameterDialog extends BaseDialog
 		chooser.setText( key );
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage( imageName );
 
-		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData( gd );
-
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
-		}
-
-	}
 
 }

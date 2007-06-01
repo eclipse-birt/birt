@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,7 +52,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -92,8 +90,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -841,7 +837,7 @@ public class HyperlinkBuilder extends BaseDialog
 		Button button = new Button( parent, SWT.PUSH );
 		//		button.setLayoutData( new GridData( ) );
 		//		button.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage( button );
+		UIUtil.setExpressionButtonImage( button );
 		button.setToolTipText( TOOLTIP_EXPRESSION );
 		button.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1733,29 +1729,4 @@ public class HyperlinkBuilder extends BaseDialog
 		return UIUtil.getProjectFolder( );
 	}
 
-	protected void setExpressionButtonImage( Button button )
-	{
-		String imageName;
-		if ( button.isEnabled( ) )
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}
-		else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage( imageName );
-
-		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData( gd );
-
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
-		}
-
-	}
 }

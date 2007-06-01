@@ -17,14 +17,11 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.swt.SWT;
@@ -190,7 +187,7 @@ public class UserPropertyBuilder extends BaseDialog
 				Button button = new Button( subComposite, SWT.PUSH );
 //				button.setText( "..." ); //$NON-NLS-1$
 //				button.setLayoutData( new GridData( ) );
-				setExpressionButtonImage(button);
+				UIUtil.setExpressionButtonImage(button);
 				
 				button.addSelectionListener( new SelectionAdapter( ) {
 
@@ -264,28 +261,5 @@ public class UserPropertyBuilder extends BaseDialog
 		getOkButton( ).setEnabled( errorMessage == null );
 	}
 	
-	protected void setExpressionButtonImage(Button button)
-	{
-		String imageName;
-		if(button.isEnabled())
-		{
-			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
-		{
-			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
-		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
-		gd.widthHint = 20;
-		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
-		{
-			button.getImage().setBackground(button.getBackground());
-		}
-		
-	}
+
 }

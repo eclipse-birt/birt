@@ -43,7 +43,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget.ExpressionValueCellEditor;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
@@ -229,7 +228,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		expBuilder.setLayoutData( gdata );
-		setExpressionButtonImage( expBuilder );
+		UIUtil.setExpressionButtonImage( expBuilder );
 		expBuilder.setToolTipText( Messages.getString( "FilterConditionBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1321,7 +1320,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			return;
 		}
 
-		editor.setLevel( level.getCubeLevel( ) );
 		editor.setReferencedLevelList( referencedLevelList );
 
 		// for ( int i = 0; i < levelList.size( ); i++ )

@@ -16,27 +16,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -64,7 +57,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.3 $ $Date: 2007/05/29 08:15:59 $
+ * @version $Revision: 1.4 $ $Date: 2007/05/29 08:52:10 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -83,7 +76,6 @@ public class ExpressionValueCellEditor extends CellEditor
 	private transient String[] popupItems = null;
 	private transient boolean refreshItems = true;
 	private List referencedLevelList;
-	private LevelHandle level;
 	private static String[] EMPTY_ARRAY = new String[]{};
 
 	private IExpressionProvider provider;
@@ -582,9 +574,5 @@ public class ExpressionValueCellEditor extends CellEditor
 		return retList;
 	}
 
-	public void setLevel( LevelHandle level )
-	{
-		this.level = level;
-	}
 
 }
