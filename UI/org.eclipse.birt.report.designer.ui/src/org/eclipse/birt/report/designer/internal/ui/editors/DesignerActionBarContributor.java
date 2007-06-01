@@ -96,6 +96,8 @@ public class DesignerActionBarContributor extends
 
 	private RegisterActions[] insertElementActions = null;
 
+	private boolean isBuilt;
+
 	private static RegisterActions[] insertActions = new RegisterActions[]{
 			new RegisterActions( GeneralInsertMenuAction.INSERT_TEXT_ID,
 					GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT ),
@@ -178,6 +180,9 @@ public class DesignerActionBarContributor extends
 	 */
 	protected void buildActions( )
 	{
+		if(isBuilt)
+			return;
+		isBuilt = true;
 		addRetargetAction( new UndoRetargetAction( ) );
 		addRetargetAction( new RedoRetargetAction( ) );
 		addRetargetAction( new DeleteRetargetAction( ) );
