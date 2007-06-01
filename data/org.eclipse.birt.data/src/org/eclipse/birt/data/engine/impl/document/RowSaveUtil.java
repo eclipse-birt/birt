@@ -179,12 +179,8 @@ public class RowSaveUtil
 		inited = true;
 		try
 		{
-			int totalRowCount = 0;
-			if ( finish == true )
-				totalRowCount = rowCount;
-			else
-				totalRowCount = rowCount == 0 ? 1 : rowCount;
-
+			int totalRowCount = rowCount;
+			
 			// TODO: enhance me
 			IOUtil.writeInt( this.rowExprsDos, totalRowCount );
 			
