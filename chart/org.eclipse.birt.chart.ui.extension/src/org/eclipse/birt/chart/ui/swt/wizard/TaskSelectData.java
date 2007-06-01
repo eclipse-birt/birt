@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +50,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -61,8 +59,6 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -106,9 +102,6 @@ public class TaskSelectData extends SimpleTask implements
 
 	private SelectDataDynamicArea dynamicArea;
 	private String BLANK_DATASET = ""; //$NON-NLS-1$
-	
-	/** The flag indicates if UI composite need to be updated. */
-	private volatile boolean fbNeedsUpdateUI = false;
 
 	/**
 	 * The field indicates if any operation in this class cause some exception
@@ -445,21 +438,15 @@ public class TaskSelectData extends SimpleTask implements
 
 	private void switchDataTable( )
 	{
-		fbNeedsUpdateUI = true;
-
-		// 1. Create a progress.
-		IRunnableWithProgress runnable = new IRunnableWithProgress( ) {
-
+		// 1. Create a runnable.
+		Runnable runnable = new Runnable() {
 			/*
 			 * (non-Javadoc)
 			 * 
 			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
 			 */
-			public void run( IProgressMonitor monitor )
-					throws InvocationTargetException, InterruptedException
+			public void run( )
 			{
-				monitor.beginTask( Messages.getString("TaskSelectData.Task.SwitchingData"), IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
-
 				try
 				{
 					// Get header and data in other thread.
@@ -471,11 +458,6 @@ public class TaskSelectData extends SimpleTask implements
 
 						public void run( )
 						{
-							if ( !fbNeedsUpdateUI )
-							{
-								return;
-							}
-							
 							if ( tablePreview.isDisposed( ) )
 							{
 								return;
@@ -523,44 +505,11 @@ public class TaskSelectData extends SimpleTask implements
 						}
 					});
 				}
-
-				monitor.done( );
 			}
 		};
 
-		// 2. Run progress monitor dialog.
-		try
-		{
-			new ProgressMonitorDialog( Display.getCurrent( ).getActiveShell( ) ) {
-
-				protected void cancelPressed( )
-				{
-					super.cancelPressed( );
-					fbNeedsUpdateUI = false;
-				}
-
-			}.run( true, true, runnable );
-		}
-		catch ( InterruptedException e )
-		{
-			// No need to process it, it may occur on interrupting thread
-			// operation.
-		}
-		catch ( Exception e )
-		{
-			final String msg = e.getMessage( );
-			Display.getDefault( ).syncExec( new Runnable( ) {
-
-				/* (non-Javadoc)
-				 * @see java.lang.Runnable#run()
-				 */
-				public void run( )
-				{
-					fbException = true;
-					WizardBase.showException( msg );
-				}
-			});
-		}
+		// 2. Run it.
+		new Thread( runnable ).start( );
 	}
 
 	private void createPreviewPainter( )
