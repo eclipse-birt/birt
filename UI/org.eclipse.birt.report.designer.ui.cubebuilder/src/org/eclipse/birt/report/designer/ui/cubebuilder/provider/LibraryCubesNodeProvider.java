@@ -42,7 +42,10 @@ public class LibraryCubesNodeProvider extends LibraryNodeProvider
 		LibraryHandle handle = ( (LibraryHandle) model );
 		ArrayList list = new ArrayList( );
 
-		list.add( handle.getCubes( )  );
+		if ( handle.getNamespace( ) == null )
+		{
+			list.add( handle.getCubes( )  );
+		}
 
 		return list.toArray( );
 	}

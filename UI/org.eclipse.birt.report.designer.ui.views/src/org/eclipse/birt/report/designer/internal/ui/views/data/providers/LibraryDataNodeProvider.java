@@ -39,11 +39,14 @@ public class LibraryDataNodeProvider extends LibraryNodeProvider
 	{
 
 		// Report design may not be the current, use model to get.
+		
 		LibraryHandle handle = ( (LibraryHandle) model );
 		ArrayList list = new ArrayList( );
-
-		list.add( handle.getDataSources( )  );
-		list.add( handle.getDataSets( ) );
+		if ( handle.getNamespace( ) == null )
+		{
+			list.add( handle.getDataSources( )  );
+			list.add( handle.getDataSets( ) );
+		}
 
 		return list.toArray( );
 	}
