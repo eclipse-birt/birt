@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -65,24 +66,29 @@ public class CrosstabGeneralPage extends AttributePage
 				true );
 		nameSection.setProvider( nameProvider );
 		nameSection.setGridPlaceholder( 2, true );
-		nameSection.setWidth( 280 );
+		// nameSection.setWidth( 280 );
 		addSection( CrosstabPageSectionId.CROSSTAB_NAME, nameSection );
 
-//		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( ICrosstabReportItemConstants.CUBE_PROP,/* ICrosstabReportItemConstants.CUBE_PROP */
-//				ReportDesignConstants.EXTENDED_ITEM );
-//		CrosstabSimpleComboSection cubeSection = new CrosstabSimpleComboSection( cubeProvider.getDisplayName( ),
-//				container,
-//				true );
-//		cubeSection.setProvider( cubeProvider );
-//		cubeSection.setWidth( 280 );
-//		cubeSection.setGridPlaceholder( 2, true );
-//		addSection( CrosstabPageSectionId.CUBE, cubeSection );
+		// IDescriptorProvider cubeProvider = new
+		// CrosstabSimpleComboPropertyDescriptorProvider(
+		// ICrosstabReportItemConstants.CUBE_PROP,/*
+		// ICrosstabReportItemConstants.CUBE_PROP */
+		// ReportDesignConstants.EXTENDED_ITEM );
+		// CrosstabSimpleComboSection cubeSection = new
+		// CrosstabSimpleComboSection(
+		// cubeProvider.getDisplayName( ),
+		// container,
+		// true );
+		// cubeSection.setProvider( cubeProvider );
+		// cubeSection.setWidth( 280 );
+		// cubeSection.setGridPlaceholder( 2, true );
+		// addSection( CrosstabPageSectionId.CUBE, cubeSection );
 
 		ContainerSection formatOptionSection = new ContainerSection( Messages.getString( "CrosstabGeneraPage.FormatOption" ),
 				container,
 				true );
 		// formatOptionSection.setProvider( formatOptionProvider );
-		formatOptionSection.setWidth( 280 );
+
 		formatOptionSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.FORMAT_OPTION, formatOptionSection );
 
@@ -97,7 +103,7 @@ public class CrosstabGeneralPage extends AttributePage
 
 		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString("CrosstabGeneraPage.ForEmptyCell"),
+		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneraPage.ForEmptyCell" ),
 				formatOptionSection,
 				true );
 		emptyCellValueSection.setProvider( emptyCellValueProvider );
@@ -105,6 +111,10 @@ public class CrosstabGeneralPage extends AttributePage
 		// emptyCellValueSection.setGridPlaceholder(0, false);
 		addSection( CrosstabPageSectionId.EMPTY_CELL_VALUE,
 				emptyCellValueSection );
+
+		formatOptionSection.setWidth( Math.max( 280,
+				UIUtil.getStringWidth( layoutMeasuresProvider.getDisplayName( ),
+						container ) + 100 ) );
 
 		createSections( );
 		layoutSections( );
