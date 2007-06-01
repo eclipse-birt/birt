@@ -38,7 +38,7 @@ abstract class PreparedDataSourceQuery
 			IPreparedQuery,
 			IPreparedQueryService
 {
-	private IBaseDataSetDesign dataSetDesign;
+	protected IBaseDataSetDesign dataSetDesign;
 	
 	protected DataEngineImpl dataEngine;
 	protected IQueryDefinition queryDefn;
@@ -177,9 +177,6 @@ abstract class PreparedDataSourceQuery
 		String queryResultID = querySpec.getQueryResultsID( );
 		if ( queryResultID != null )
 			return;
-
-		String dataSetName = querySpec.getDataSetName( );
-		IBaseDataSetDesign dataSetDesign = this.dataEngine.getDataSetDesign( dataSetName );
 
 		if ( dataSetDesign == null )
 			return;

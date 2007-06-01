@@ -159,7 +159,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		if ( querySpec.getQueryResultsID( ) != null )
 			return;
 		
-		IBaseDataSetDesign dataSetDesign = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		List paramList = dataSetDesign.getParameters( );
 		if ( paramList == null || paramList.size( ) == 0 )
 			return;
