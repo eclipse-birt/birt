@@ -688,7 +688,6 @@ TaskSelectData.Warning.TypeCheck={0} 的数据类型与 {1} 不兼容，请改正表达式。
 TaskSelectData.Label.Filters=筛选器(&T)...
 TaskSelectData.Label.Parameters=参数(&P)...
 TaskSelectData.Task.Description=选择图表中要显示的数据并将其绑定到系列。
-TaskSelectData.Task.SwitchingData=Switching Data
 TaskSelectData.Exception.UnableToSwitchToDataset=无法切换到数据集 
 TaskSelectData.Label.InsertAggregation=插入聚合
 TaskSelectData.Label.DataExpressionBuilder=数据表达式生成器
