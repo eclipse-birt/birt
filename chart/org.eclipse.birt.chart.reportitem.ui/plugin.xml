@@ -59,6 +59,23 @@
             </enablement>
       </adapter>	 
 	</adaptable>
+	<adaptable
+       class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+    <adapter
+          factory="org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogFactory"
+          id="ReportDesign.AttributeView.CrosstabCellPageGenerator"
+          priority="1"
+          singleton="false"
+          type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
+       <enablement>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="Chart">
+          </test>
+       </enablement>
+    </adapter>
+ </adaptable>
    	</extension>
 
    <extension
