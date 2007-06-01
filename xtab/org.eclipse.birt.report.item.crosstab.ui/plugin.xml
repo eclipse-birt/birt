@@ -17,7 +17,7 @@
          <paletteEntry
                category="Content"
                createCommand="org.eclipse.birt.report.item.crosstab.ui.createCrosstab"
-               description="%Crosstab desc"
+               description="%Crosstab.desc"
                icon="icons/pal/crosstab.gif"
                itemName="Crosstab"
                label="Cross Tab"
