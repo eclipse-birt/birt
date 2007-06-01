@@ -301,7 +301,7 @@ public final class MarkerRenderer
 		{
 			if ( bDeferred )
 			{
-				dc.addMarker( lre, PrimitiveRenderEvent.DRAW );
+				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -314,7 +314,7 @@ public final class MarkerRenderer
 
 			if ( bDeferred )
 			{
-				dc.addMarker( lre, PrimitiveRenderEvent.DRAW );
+				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -383,7 +383,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -440,7 +440,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -486,7 +486,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( ore, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -564,7 +564,7 @@ public final class MarkerRenderer
 
 			if ( bDeferred )
 			{
-				dc.addMarker( ire, PrimitiveRenderEvent.FILL );
+				dc.addMarker( ire, PrimitiveRenderEvent.FILL, iSize );
 			}
 			else
 			{
@@ -633,7 +633,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -692,7 +692,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -871,16 +871,16 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 				pre1.setPoints( loa2 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 				pre1.setPoints( loa3 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 				pre1.setPoints( loa4 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 
 			}
 			else
@@ -981,7 +981,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1032,7 +1032,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( ore, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1091,7 +1091,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( are, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1158,7 +1158,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1216,7 +1216,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1420,7 +1420,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( area, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{
@@ -1478,7 +1478,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW );
+						| PrimitiveRenderEvent.DRAW, iSize );
 			}
 			else
 			{

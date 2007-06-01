@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.MarkerInstruction;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
@@ -176,21 +177,24 @@ public final class DeferredCache
 	/**
 	 * Adds marker rendering event to cache.
 	 */
-	public final void addMarker( PrimitiveRenderEvent pre, int iInstruction )
+	public final void addMarker( PrimitiveRenderEvent pre, int iInstruction,
+			double iMarkerSize )
 	{
 		try
 		{
 			if ( pre instanceof I3DRenderEvent )
 			{
-				al3D.add( new WrappedInstruction( this,
+				al3D.add( new MarkerInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						iMarkerSize ) );
 			}
 			else
 			{
-				alMarkers.add( new WrappedInstruction( this,
+				alMarkers.add( new MarkerInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						iMarkerSize ) );
 			}
 		}
 		catch ( ChartException ufex )
@@ -315,20 +319,22 @@ public final class DeferredCache
 		// FLUSH MARKERS (WITHOUT SORTING)
 		if ( ( options & FLUSH_MARKER ) == FLUSH_MARKER )
 		{
+			// SORT ON Marker Size
+			Collections.sort( alMarkers ); 
 			for ( int i = 0; i < alMarkers.size( ); i++ )
 			{
-				wi = (WrappedInstruction) alMarkers.get( i );
-				switch ( wi.getInstruction( ) )
+				MarkerInstruction mi = (MarkerInstruction) alMarkers.get( i );
+				switch ( mi.getInstruction( ) )
 				{
 					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( idr );
-						wi.getEvent( ).draw( idr );
+						mi.getEvent( ).fill( idr );
+						mi.getEvent( ).draw( idr );
 						break;
 					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( idr );
+						mi.getEvent( ).fill( idr );
 						break;
 					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( idr );
+						mi.getEvent( ).draw( idr );
 						break;
 				}
 			}

@@ -2226,6 +2226,10 @@ public abstract class AxesRenderer extends BaseRenderer
 					getSeries( ) );
 			// CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
 			renderSeries( ipr, p, srh );
+			
+			// Flush render event of each series
+			flushSeries( );
+			
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.AFTER_DRAW_SERIES,
 					getSeries( ),
@@ -3268,7 +3272,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected final void renderClipping( final IPrimitiveRenderer ipr,
 			final Bounds boClientArea )
 	{
-		if ( !isShowOutside( ) )
+		// Only start clipping in the first series
+		final boolean bFirstInSequence = ( iSeriesIndex == 1 );
+		if ( bFirstInSequence && !isDimension3D( ) && !isShowOutside( ) )
 		{
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
@@ -3295,7 +3301,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected void restoreClipping( final IPrimitiveRenderer ipr )
 			throws ChartException
 	{
-		if ( !isShowOutside( ) )
+		// Only restore clipping in the last renderer
+		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
+		if ( bLastInSequence && !isDimension3D( ) && !isShowOutside( ) )
 		{
 			flushClipping( );
 			ClipRenderEvent clip = new ClipRenderEvent( this );
@@ -3305,7 +3313,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 	
 	/**
-	 * Flushes specified types of rendering for clipping.
+	 * Flushes render event of all Series before clipping
 	 * 
 	 * @throws ChartException
 	 */
@@ -3313,6 +3321,16 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		getDeferredCache( ).flushOptions( DeferredCache.FLUSH_LINE
 				| DeferredCache.FLUSH_PLANE );
+	}
+
+	/**
+	 * Flushes Series render event in each series
+	 * 
+	 * @throws ChartException
+	 */
+	protected void flushSeries( ) throws ChartException
+	{
+		// Could be overridden, such as side-by-side case
 	}
 	
 	/**
