@@ -332,10 +332,13 @@ public class DataExtractionTaskV1 extends EngineTask
 		long id = iid.getComponentID( );
 		ReportItemDesign design = (ReportItemDesign) report
 				.getReportItemByID( id );
-		IBaseQueryDefinition query = design.getQuery( );
-		if ( query != null )
+		if ( design != null )
 		{
-			return executionContext.getDataEngine( ).execute( prset, query );
+			IBaseQueryDefinition query = design.getQuery( );
+			if ( query != null )
+			{
+				return executionContext.getDataEngine( ).execute( prset, query );
+			}
 		}
 		return prset;
 	}
