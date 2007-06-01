@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2007/04/23 03:30:22 $
+ * @version $Revision: 1.5 $ $Date: 2007/04/26 05:53:29 $
  */
 public class EditCubeAction extends AbstractElementAction
 {
@@ -65,15 +65,17 @@ public class EditCubeAction extends AbstractElementAction
 		if ( getSelection( ) instanceof TabularCubeHandle )
 			cubeHandle = (TabularCubeHandle) getSelection( );
 		else if ( getSelection( ) instanceof PropertyHandle )
-			cubeHandle = (TabularCubeHandle)( (PropertyHandle) getSelection( ) ).getElementHandle( );
+			cubeHandle = (TabularCubeHandle) ( (PropertyHandle) getSelection( ) ).getElementHandle( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), cubeHandle );
-		if ( getSelection( ) instanceof CubeHandle ){
-			dialog.showPage(CubeBuilder.DATASETSELECTIONPAGE);
+		if ( getSelection( ) instanceof CubeHandle )
+		{
+			dialog.showPage( CubeBuilder.DATASETSELECTIONPAGE );
 		}
-		else if ( getSelection( ) instanceof PropertyHandle ){
-			dialog.showPage(CubeBuilder.GROUPPAGE);
+		else if ( getSelection( ) instanceof PropertyHandle )
+		{
+			dialog.showPage( CubeBuilder.GROUPPAGE );
 		}
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
 	}
@@ -87,9 +89,11 @@ public class EditCubeAction extends AbstractElementAction
 	{
 		if ( getSelection( ) instanceof CubeHandle )
 			return ( (CubeHandle) getSelection( ) ).canEdit( );
-		else if ( getSelection( ) instanceof PropertyHandle && ((PropertyHandle)getSelection( )).getElementHandle( ) instanceof CubeHandle )
+		else if ( getSelection( ) instanceof PropertyHandle
+				&& ( (PropertyHandle) getSelection( ) ).getElementHandle( ) instanceof CubeHandle )
 			return true;
-		return super.isEnabled( );
+		else
+			return false;
 	}
 
 	/*
