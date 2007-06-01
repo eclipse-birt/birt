@@ -124,10 +124,19 @@
 	<TR>
 		<TD COLSPAN="4">			
 			<DIV ID="exportDataEncodingSetting">
-				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding" )%>
-				<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_UTF8" CHECKED value="UTF-8">UTF-8
-				<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%>
-				<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+				<TABLE>
+					<TR>
+						<TD><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding" )%></TD>
+						<TD><INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_UTF8" CHECKED value="UTF-8">UTF-8</TD>
+					</TR>
+					<TR>
+						<TD></TD>
+						<TD>
+							<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%>
+							<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+						</TD>
+					</TR>
+				</TABLE>				
 			</DIV>
 			<BR/>
 			<DIV>
