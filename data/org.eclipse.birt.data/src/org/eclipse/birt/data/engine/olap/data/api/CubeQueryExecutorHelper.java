@@ -584,7 +584,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
 			AggrFilter filter = (AggrFilter) i.next( );
-			for ( int j = 0; j < aggregations.length; j++ )
+			for ( int j = 0; !isEmptyXTab && j < aggregations.length; j++ )
 			{
 				if ( aggregations[j].getAggregationFunctions( ) != null
 						&& isEqualLevels( aggregations[j].getLevels( ),

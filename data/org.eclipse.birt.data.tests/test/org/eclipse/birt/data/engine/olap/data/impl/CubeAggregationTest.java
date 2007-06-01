@@ -296,13 +296,13 @@ public class CubeAggregationTest extends TestCase
 		
 		// dimension3
 		colNames = new String[1];
-		colNames[0] = "col31";
+		colNames[0] = "level31";
 		
 		iterator = new DimensionForTest( colNames );
 		iterator.setLevelMember( 0, TestFactTable.L3Col );
 
 		levelDefs = new ILevelDefn[1];
-		levelDefs[0] = new LevelDefinition( "level31", new String[]{"col31"}, null );
+		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
 		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
 				documentManager,
 				iterator,
@@ -380,7 +380,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[1].length( ), 8 );
 		assertEquals( resultSet[1].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[1].getLevelIndex( dimLevel31 ), 0 );
-		assertEquals( resultSet[1].getLevelKeyDataType( dimLevel31, "col31" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[1].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
 		resultSet[1].seek( 0 );
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(0) );
@@ -417,7 +417,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[3].length( ), 8 );
 		assertEquals( resultSet[3].getAggregationDataType( 0 ), DataType.UNKNOWN_TYPE );
 		assertEquals( resultSet[3].getLevelIndex( dimLevel31 ), 0 );
-		assertEquals( resultSet[3].getLevelKeyDataType( dimLevel31, "col31" ), DataType.INTEGER_TYPE );
+		assertEquals( resultSet[3].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
 		resultSet[3].seek( 0 );
 		assertEquals( resultSet[3].getLevelKeyValue( 0 )[0], new Integer(1) );
 		assertEquals( resultSet[3].getAggregationValue( 0 ), null );
@@ -776,13 +776,22 @@ public class CubeAggregationTest extends TestCase
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		//result set for aggregation 0
-		assertEquals( resultSet[0].length( ), 1 );
+		assertEquals( resultSet[0].length( ), 4 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel31 ), 1 );
 		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
-		resultSet[0].seek( 0 );
-		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(3) );	
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel31, "level31" ), DataType.INTEGER_TYPE );
+		int index1 = resultSet[0].getLevelIndex( dimLevel21 );
+		int index2 = resultSet[0].getLevelIndex( dimLevel31 );
+		
+		for ( int i = 0; i < resultSet[0].length( ); i++ )
+		{
+			resultSet[0].seek( i );
+			assertEquals( resultSet[0].getLevelKeyValue( index1 )[0],	"1" );
+			assertEquals( resultSet[0].getLevelKeyValue( index2 )[0],	new Integer(i+1) );
+			assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( i ) );
+		}
 		
 		for ( int i = 0; i < resultSet.length; i++ )
 		{
@@ -1173,7 +1182,7 @@ public class CubeAggregationTest extends TestCase
 }
 
 /*
-	col11	col12	col13	level21	col31	measure1	measure2
+	col11	col12	col13	level21	level31	measure1	measure2
 	String	Unknown	Integer	String	Integer	Integer		Double	
 	1				1		1		1		0			0.0	
 	1				2		1		2		1			1.0	
@@ -1251,7 +1260,7 @@ class TestFactTable implements IDatasetIterator
 		{
 			return 3;
 		}
-		else if ( name.equals( "col31" ) )
+		else if ( name.equals( "level31" ) )
 		{
 			return 4;
 		}
@@ -1284,7 +1293,7 @@ class TestFactTable implements IDatasetIterator
 		{
 			return DataType.STRING_TYPE;
 		}
-		else if ( name.equals( "col31" ) )
+		else if ( name.equals( "level31" ) )
 		{
 			return DataType.INTEGER_TYPE;
 		}
