@@ -147,7 +147,8 @@ public class ReportPage extends ModulePage
 		prvImageSection.setWidth( 500 );
 //		prvImageSection.setFristButtonText(  Messages.getString( "ReportPage.text.Browse" ) );
 		prvImageSection.setSecondButtonText( Messages.getString( "..." ) );
-
+		prvImageSection.setSecondButtonTooltipText(Messages.getString( "ReportPage.PreviewImage.Button.ToolTip"));
+		
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
 		
 		createSections( );

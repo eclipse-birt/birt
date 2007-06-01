@@ -325,7 +325,7 @@ public class TextAndTwoButtonSection extends Section
 	{
 		this.secondButtonTooltipText = string;
 		if ( secondButton != null )
-			secondButton.setText( secondButtonTooltipText );
+			secondButton.setToolTipText( secondButtonTooltipText );
 
 	}
 
