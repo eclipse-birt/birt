@@ -56,7 +56,6 @@ SimpleCubeBuilder.Title.Message=Organice sus datos para la tabla de referencias 
 SimpleCubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
 SimpleCubeBuilder.Label.Name=Nombre:
 DatasetPage.Title.Message=Definir conjunto de datos para el cubo
-GroupsPage.Button.Add=&Añadir
 GroupsPage.Button.Edit=&Editar
 GroupsPage.Button.Delete=&Eliminar
 GroupsPage.Label.DataField=Campos de datos disponibles:

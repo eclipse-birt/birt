@@ -56,7 +56,6 @@ SimpleCubeBuilder.Title.Message=グループ化の階層とサマリデータフィールドを指定し
 SimpleCubeBuilder.Title=クロスタブキューブビルダ
 SimpleCubeBuilder.Label.Name=名前 :
 DatasetPage.Title.Message=キューブのデータセットの定義
-GroupsPage.Button.Add=追加(&A)
 GroupsPage.Button.Edit=編集(&E)
 GroupsPage.Button.Delete=削除(&D)
 GroupsPage.Label.DataField=使用可能なデータフィールド :

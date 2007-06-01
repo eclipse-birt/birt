@@ -56,7 +56,6 @@ SimpleCubeBuilder.Title.Message=Organisez vos données du tableau croisé en préci
 SimpleCubeBuilder.Title=Générateur de cube de tableau croisé
 SimpleCubeBuilder.Label.Name=Nom :
 DatasetPage.Title.Message=Définissez le jeu de données pour le cube
-GroupsPage.Button.Add=&Ajouter
 GroupsPage.Button.Edit=&Modifier
 GroupsPage.Button.Delete=&Supprimer
 GroupsPage.Label.DataField=Champs de données disponibles :
