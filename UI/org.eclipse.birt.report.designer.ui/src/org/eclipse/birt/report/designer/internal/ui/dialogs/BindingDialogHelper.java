@@ -20,6 +20,8 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -43,6 +45,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -176,7 +179,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			this.txtName.setEnabled( false );
 		}
-		
+
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -214,11 +217,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-			if ( argsMap.containsKey( arg.getName( ) ) )
+			String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
+					arg.getName( ) );
+			if ( argsMap.containsKey( argDisplayName ) )
 			{
 				if ( arg.getValue( ) != null )
 				{
-					Text txtArg = (Text) argsMap.get( arg.getName( ) );
+					Text txtArg = (Text) argsMap.get( argDisplayName );
 					txtArg.setText( arg.getValue( ) );
 				}
 			}
@@ -643,6 +648,32 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
+	protected void setExpressionButtonImage( Button button )
+	{
+		String imageName;
+		if ( button.isEnabled( ) )
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}
+		else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
+		{
+			button.getImage( ).setBackground( button.getBackground( ) );
+		}
+
+	}
+
 	private String getColumnBindingExpressionByName( String name )
 	{
 		List elementsList = DEUtil.getVisiableColumnBindingsList( this.bindingHolder );
@@ -669,7 +700,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
 				{
 					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					argList.add( argInfo.getName( ) );
+					argList.add( argInfo.getDisplayName( ) );
 				}
 				break;
 			}
@@ -774,7 +805,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
+				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+						arg ) );
 				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
 				this.binding.addArgument( argHandle );
 			}
@@ -823,11 +855,55 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
+				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+						arg ) );
 				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
 				this.binding.addArgument( argHandle );
 			}
 		}
+	}
+
+	private String getArgumentByDisplayName( String function, String argument )
+	{
+		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		{
+			IMethodInfo method = (IMethodInfo) iterator.next( );
+			if ( method.getName( ).equals( function ) )
+			{
+				Iterator argumentListIter = method.argumentListIterator( );
+				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+				{
+					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+					if ( argInfo.getDisplayName( ).equals( argument ) )
+						return argInfo.getName( );
+				}
+			}
+		}
+		return null;
+	}
+
+	private String getArgumentDisplayNameByName( String function,
+			String argument )
+	{
+		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		{
+			IMethodInfo method = (IMethodInfo) iterator.next( );
+			if ( method.getName( ).equals( function ) )
+			{
+				Iterator argumentListIter = method.argumentListIterator( );
+				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+				{
+					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+					if ( argInfo.getName( ).equals( argument ) )
+						return argInfo.getDisplayName( );
+				}
+			}
+		}
+		return null;
 	}
 
 	public void validate( )

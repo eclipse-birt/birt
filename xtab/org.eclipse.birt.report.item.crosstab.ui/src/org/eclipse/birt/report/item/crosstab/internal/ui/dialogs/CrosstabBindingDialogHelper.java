@@ -74,7 +74,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String FILTER_CONDITION = Messages.getString( "BindingDialogHelper.text.Filter" ); //$NON-NLS-1$
 	protected static final String AGGREGATE_ON = Messages.getString( "BindingDialogHelper.text.AggOn" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
-	protected static final String ALL = "All"; //$NON-NLS-1$
+	protected static final String ALL = Messages.getString( "CrosstabBindingDialogHelper.AggOn.All" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
 
 	protected static final String DEFAULT_ITEM_NAME = "Column Binding"; //$NON-NLS-1$
@@ -311,11 +311,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-			if ( argsMap.containsKey( arg.getName( ) ) )
+			String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
+					arg.getName( ) );
+			if ( argsMap.containsKey( argDisplayName ) )
 			{
 				if ( arg.getValue( ) != null )
 				{
-					Text txtArg = (Text) argsMap.get( arg.getName( ) );
+					Text txtArg = (Text) argsMap.get( argDisplayName );
 					txtArg.setText( arg.getValue( ) );
 				}
 			}
@@ -632,8 +634,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
-
-
 	private String getColumnBindingExpressionByName( String name )
 	{
 		try
@@ -669,7 +669,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
 				{
 					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					argList.add( argInfo.getName( ) );
+					argList.add( argInfo.getDisplayName( ) );
 				}
 				break;
 			}
@@ -768,7 +768,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
+				argHandle.setName( ( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+						arg ) ) );
 				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
 				this.binding.addArgument( argHandle );
 			}
@@ -819,11 +820,55 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
+				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+						arg ) );
 				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
 				this.binding.addArgument( argHandle );
 			}
 		}
+	}
+
+	private String getArgumentByDisplayName( String function, String argument )
+	{
+		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		{
+			IMethodInfo method = (IMethodInfo) iterator.next( );
+			if ( method.getName( ).equals( function ) )
+			{
+				Iterator argumentListIter = method.argumentListIterator( );
+				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+				{
+					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+					if ( argInfo.getDisplayName( ).equals( argument ) )
+						return argInfo.getName( );
+				}
+			}
+		}
+		return null;
+	}
+
+	private String getArgumentDisplayNameByName( String function,
+			String argument )
+	{
+		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		{
+			IMethodInfo method = (IMethodInfo) iterator.next( );
+			if ( method.getName( ).equals( function ) )
+			{
+				Iterator argumentListIter = method.argumentListIterator( );
+				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+				{
+					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+					if ( argInfo.getName( ).equals( argument ) )
+						return argInfo.getDisplayName( );
+				}
+			}
+		}
+		return null;
 	}
 
 	public void validate( )
