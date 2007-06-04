@@ -41,15 +41,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.css.CSSValue;
 
-
-
 public class HTML2Content
 {
 	protected static final HashMap tag2Style = new HashMap( );
 	
 	protected static final HashSet htmlDisplayMode = new HashSet( );
-	
-	protected static final HashSet supportedHTMLElementTags = new HashSet();
 	
 	protected static final HashMap textTypeMapping = new HashMap( );
 	
@@ -96,6 +92,8 @@ public class HTML2Content
 			"text-align: center;"); //$NON-NLS-1$
 		tag2Style.put( "i", //$NON-NLS-1$
 			"font-style: italic;"); //$NON-NLS-1$
+		tag2Style.put( "address",
+			"font-style: italic;");
 		
 		tag2Style.put( "b", //$NON-NLS-1$
 			"font-weight: bold;"); //$NON-NLS-1$
@@ -108,46 +106,17 @@ public class HTML2Content
 		tag2Style.put( "del", //$NON-NLS-1$
 		"text-decoration: line-through;"); //$NON-NLS-1$
 		
-		supportedHTMLElementTags.add("H1"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("H2"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("H3"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("H4"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("H5"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("H6"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("A"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("B"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("BODY"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("BR"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("CENTER"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("CODE"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("DD"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("DEL"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("DIV"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("DL"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("DT"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("FONT"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("EM"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("HEAD"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("HTML"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("I"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("IMAGE"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("IMG"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("INS"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("LI"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("OL"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("PRE"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("P"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("SPAN"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("STRONG"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("SUB"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("SUP"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("TITLE"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("UL"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("TT"); //$NON-NLS-1$
-		supportedHTMLElementTags.add("U"); //$NON-NLS-1$
-		
-		
-		
+		// All unsupported element tags will be converted into plain text.
+		/* The following are the currently supported tags:
+			("H1")("H2")("H3")("H4")("H5")("H6")
+			("A")("ADDRESS")("B")("BODY")("BR")
+			("CENTER")("CODE")("DD")("DEL")("DIV")
+			("DL")("DT")("FONT")("EM")("HEAD")
+			("HTML")("I")("IMAGE")("IMG")("INS")
+			("LI")("OL")("PRE")("P")("SPAN")
+			("STRONG")("SUB")("SUP")("TITLE")
+			("UL")("TT")("U")
+		*/
 		//block-level elements
 		htmlDisplayMode.add( "dd" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "div" ); //$NON-NLS-1$
@@ -165,6 +134,7 @@ public class HTML2Content
 		htmlDisplayMode.add( "pre" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "ul" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "li" ); //$NON-NLS-1$
+		htmlDisplayMode.add( "address" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "body" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "center" ); //$NON-NLS-1$
 		
@@ -271,7 +241,6 @@ public class HTML2Content
 					}
 					else if("del".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
 					{
-						
 						inlineStyle.setProperty( IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE );
 					}
 					else if("sub".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
@@ -288,12 +257,11 @@ public class HTML2Content
 				{
 					label.setHyperlinkAction(action);
 				}
-				
 			}
-			else if(supportedHTMLElementTags.contains(node.getNodeName().toUpperCase()) && node.getNodeType()== Node.ELEMENT_NODE)
+			else if(//supportedHTMLElementTags.contains(node.getNodeName().toUpperCase()) && 
+					 node.getNodeType()== Node.ELEMENT_NODE)
 			{
 				handleElement((Element)node, needEscape, cssStyles, content, ++level);
-				
 			}
 		}
 	}
