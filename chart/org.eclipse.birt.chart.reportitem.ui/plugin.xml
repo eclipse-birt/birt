@@ -63,7 +63,7 @@
        class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
     <adapter
           factory="org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogFactory"
-          id="ReportDesign.AttributeView.CrosstabCellPageGenerator"
+          id="org.eclipse.birt.reportitem.ui.BindingDialog"
           priority="1"
           singleton="false"
           type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
