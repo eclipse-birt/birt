@@ -20,7 +20,7 @@ plugin@org.eclipse.birt.chart.runtime=v20070531,:pserver:anonymous@dev.eclipse.o
 feature@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
+feature@org.eclipse.birt.report.designer=v20070604,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
 feature@org.eclipse.birt.report.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
