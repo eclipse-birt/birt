@@ -174,7 +174,7 @@ ColumnBindingDialog.All=全部
 ColumnBindingDialog.NONE=无
 ColumnBindingDialog.Choice.FromContainer=容器的数据集
 ColumnBindingDialog.AGGREGATEON.NONE=不适用
-ColumnBindingDialog.Text.Add=添加
+ColumnBindingDialog.Text.Add=Add...
 ColumnBindingDialog.Text.Edit=编辑...
 ColumnBindingDialog.Text.Del=删除
 
@@ -2401,6 +2401,8 @@ OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.toolTipText.Edit=编辑输出列
 OutputColumnPage.title.OutputColumnInputDialog=输出列
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=编辑输出列
 OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 
 ###########################################################
@@ -3854,3 +3856,7 @@ Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+
+###########################################################
+#CrosstabBindingDialogHelper
+CrosstabBindingDialogHelper.AggOn.All=全部

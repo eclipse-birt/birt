@@ -174,7 +174,7 @@ ColumnBindingDialog.All=Alles
 ColumnBindingDialog.NONE=Ohne
 ColumnBindingDialog.Choice.FromContainer=Datensatz des Containers
 ColumnBindingDialog.AGGREGATEON.NONE=n.a.
-ColumnBindingDialog.Text.Add=Hinzufügen
+ColumnBindingDialog.Text.Add=Add...
 ColumnBindingDialog.Text.Edit=Bearbeiten...
 ColumnBindingDialog.Text.Del=Löschen
 
@@ -2401,6 +2401,8 @@ OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 OutputColumnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
 OutputColumnPage.toolTipText.Edit=Ausgabespalte bearbeiten
 OutputColumnPage.title.OutputColumnInputDialog=Ausgabespalte
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Ausgabespalte bearbeiten
 OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 
 ###########################################################
@@ -3854,3 +3856,7 @@ Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+
+###########################################################
+#CrosstabBindingDialogHelper
+CrosstabBindingDialogHelper.AggOn.All=Alles

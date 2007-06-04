@@ -174,7 +174,7 @@ ColumnBindingDialog.All=すべて
 ColumnBindingDialog.NONE=なし
 ColumnBindingDialog.Choice.FromContainer=コンテナのデータセット
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
-ColumnBindingDialog.Text.Add=追加
+ColumnBindingDialog.Text.Add=Add...
 ColumnBindingDialog.Text.Edit=編集...
 ColumnBindingDialog.Text.Del=削除
 
@@ -2401,6 +2401,8 @@ OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 OutputColumnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
 OutputColumnPage.toolTipText.Edit=出力列の編集
 OutputColumnPage.title.OutputColumnInputDialog=出力列
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=出力列の編集
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 
 ###########################################################
@@ -3854,3 +3856,7 @@ Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+
+###########################################################
+#CrosstabBindingDialogHelper
+CrosstabBindingDialogHelper.AggOn.All=すべて

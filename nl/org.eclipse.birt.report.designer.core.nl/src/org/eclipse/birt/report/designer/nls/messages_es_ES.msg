@@ -174,7 +174,7 @@ ColumnBindingDialog.All=Todos
 ColumnBindingDialog.NONE=Ninguno
 ColumnBindingDialog.Choice.FromContainer=Conjunto de datos del contenedor
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
-ColumnBindingDialog.Text.Add=Añadir
+ColumnBindingDialog.Text.Add=Add...
 ColumnBindingDialog.Text.Edit=Editar...
 ColumnBindingDialog.Text.Del=Eliminar
 
@@ -2401,6 +2401,8 @@ OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 OutputColumnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
 OutputColumnPage.toolTipText.Edit=Editar columna de salida
 OutputColumnPage.title.OutputColumnInputDialog=Columna de salida
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Editar columna de salida
 OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 
 ###########################################################
@@ -3854,3 +3856,7 @@ Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+
+###########################################################
+#CrosstabBindingDialogHelper
+CrosstabBindingDialogHelper.AggOn.All=Todos

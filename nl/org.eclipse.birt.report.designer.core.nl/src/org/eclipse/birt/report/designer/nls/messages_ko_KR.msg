@@ -174,7 +174,7 @@ ColumnBindingDialog.All=모두
 ColumnBindingDialog.NONE=없음
 ColumnBindingDialog.Choice.FromContainer=컨테이너의 데이터 집합
 ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
-ColumnBindingDialog.Text.Add=추가
+ColumnBindingDialog.Text.Add=Add...
 ColumnBindingDialog.Text.Edit=편집...
 ColumnBindingDialog.Text.Del=삭제
 
@@ -2401,6 +2401,8 @@ OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.toolTipText.Edit=출력 열 편집
 OutputColumnPage.title.OutputColumnInputDialog=출력 열
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=출력 열 편집
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 
 ###########################################################
@@ -3854,3 +3856,7 @@ Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Go to Report Element
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+
+###########################################################
+#CrosstabBindingDialogHelper
+CrosstabBindingDialogHelper.AggOn.All=모두
