@@ -333,7 +333,7 @@ public class AggregationExecutor
 			int[] tmpLevelIndex = new int[levels.length * 2];
 			for ( int j = 0; j < tmpLevelIndex.length / 2; j++ )
 			{
-				tmpLevelIndex[j * 2] = findDimensionIterator( levels[j].getLevelName( ) );
+				tmpLevelIndex[j * 2] = findDimensionIterator( levels[j] );
 				tmpLevelIndex[j * 2 + 1] = dimesionResultIterators[tmpLevelIndex[j * 2]].getLevelIndex( levels[j].getLevelName( ) );
 			}
 			levelIndex[i] = tmpLevelIndex;
@@ -485,11 +485,12 @@ public class AggregationExecutor
 	 * @param levelName
 	 * @return
 	 */
-	private int findDimensionIterator( String levelName )
+	private int findDimensionIterator( DimLevel level )
 	{
 		for ( int i = 0; i < dimesionResultIterators.length; i++ )
 		{
-			if ( dimesionResultIterators[i].getLevelIndex( levelName ) >= 0 )
+			if ( dimesionResultIterators[i].getDimesion( ).getName( ).equals( level.getDimensionName( ) )
+					&& dimesionResultIterators[i].getLevelIndex( level.getLevelName( ) ) >= 0 )
 			{
 				return i;
 			}
