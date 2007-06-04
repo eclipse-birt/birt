@@ -360,7 +360,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				{
 					label = choice.getLabel( );
 				}
-				Object value = getStringValue( choice.getValue( ), dataType );
+				Object value = convertToType( choice.getValue( ), dataType );
 				choices.add( new SelectionChoice( label, value ) );
 			}
 			if ( !fixedOrder )
@@ -728,6 +728,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		int listLimit = parameter.getListlimit( );
 		ArrayList choices = new ArrayList( );
 		int skipLevel = groupKeyValues.length + 1;
+		String valueType = parameter.getDataType( );
 		try
 		{
 			if ( skipLevel > 1 )
@@ -742,7 +743,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						? iter.getString( labelColumnName )
 						: null );
 				Object value = iter.getValue( valueColumnName );
-				// value = convertToType( value, valueType );
+				value = convertToType( value, valueType );
 				choices.add( new SelectionChoice( label, value ) );
 				count++;
 				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
