@@ -1209,7 +1209,7 @@ public class CubeGroupContent extends Composite implements Listener
 							.getCommandStack( )
 							.startTrans( "" );
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
-							.newTabularDimension( "Group" ); //$NON-NLS-1$
+							.newTabularDimension( null );
 					try
 					{
 						model.getElementHandle( )
@@ -1260,7 +1260,7 @@ public class CubeGroupContent extends Composite implements Listener
 							.getCommandStack( )
 							.startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-							.newTabularMeasureGroup( "Summary Field" ); //$NON-NLS-1$
+							.newTabularMeasureGroup( null ); 
 					try
 					{
 						model.getElementHandle( )
