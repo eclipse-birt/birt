@@ -211,7 +211,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	public int compareTo( Object o )
 	{
 		PrimitiveRenderEvent pre = null;
-		if ( o instanceof WrappedInstruction )
+		if ( o instanceof IRenderInstruction )
 		{
 			pre = ( (WrappedInstruction) o ).getEvent( );
 		}

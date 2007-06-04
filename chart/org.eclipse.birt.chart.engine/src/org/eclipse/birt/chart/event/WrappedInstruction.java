@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -25,7 +26,7 @@ import com.ibm.icu.util.ULocale;
  * This class wraps different types of rendering events. It could stand for one
  * or a list of events.
  */
-public final class WrappedInstruction implements Comparable
+public final class WrappedInstruction implements IRenderInstruction
 {
 
 	private final DeferredCache dc;
@@ -79,9 +80,9 @@ public final class WrappedInstruction implements Comparable
 				return -1;
 			}
 		}
-		else if ( o instanceof WrappedInstruction )
+		else if ( o instanceof IRenderInstruction )
 		{
-			bo = ( (WrappedInstruction) o ).getBounds( );
+			bo = ( (IRenderInstruction) o ).getBounds( );
 		}
 
 		return (dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ), bo )
@@ -181,7 +182,7 @@ public final class WrappedInstruction implements Comparable
 	/**
 	 * @return Returns list of events currently wraps.
 	 */
-	public ArrayList getModel( )
+	public List getModel( )
 	{
 		return alEvents;
 	}

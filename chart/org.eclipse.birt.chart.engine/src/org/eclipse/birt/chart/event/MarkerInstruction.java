@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.event;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.render.DeferredCache;
@@ -19,7 +22,7 @@ import org.eclipse.birt.chart.render.DeferredCache;
  * This class wraps a rendering event for Marker
  */
 
-public class MarkerInstruction implements Comparable
+public class MarkerInstruction implements IRenderInstruction
 {
 
 	private final DeferredCache dc;
@@ -119,6 +122,17 @@ public class MarkerInstruction implements Comparable
 			ex.printStackTrace( );
 		}
 		return null;
+	}
+
+	public List getModel( )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	public boolean isModel( )
+	{
+		// Always single event
+		return false;
 	}
 
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.I3DRenderEvent;
+import org.eclipse.birt.chart.event.IRenderInstruction;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.MarkerInstruction;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -225,7 +226,7 @@ public final class DeferredCache
 	 */
 	public final void flushOptions( int options ) throws ChartException
 	{
-		WrappedInstruction wi;
+		IRenderInstruction wi;
 
 		// FLUSH PLANE SHADOWS
 		if ( ( options & FLUSH_PLANE_SHADOW ) == FLUSH_PLANE_SHADOW )
@@ -233,10 +234,10 @@ public final class DeferredCache
 			Collections.sort( alPlaneShadows ); // SORT ON Z-ORDER
 			for ( int i = 0; i < alPlaneShadows.size( ); i++ )
 			{
-				wi = (WrappedInstruction) alPlaneShadows.get( i );
+				wi = (IRenderInstruction) alPlaneShadows.get( i );
 				if ( wi.isModel( ) )
 				{
-					ArrayList al = wi.getModel( );
+					List al = wi.getModel( );
 					for ( int j = 0; j < al.size( ); j++ )
 					{
 						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
@@ -272,10 +273,10 @@ public final class DeferredCache
 			Collections.sort( alPlanes ); // SORT ON Z-ORDER
 			for ( int i = 0; i < alPlanes.size( ); i++ )
 			{
-				wi = (WrappedInstruction) alPlanes.get( i );
+				wi = (IRenderInstruction) alPlanes.get( i );
 				if ( wi.isModel( ) )
 				{
-					ArrayList al = wi.getModel( );
+					List al = wi.getModel( );
 					for ( int j = 0; j < al.size( ); j++ )
 					{
 						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
@@ -323,18 +324,18 @@ public final class DeferredCache
 			Collections.sort( alMarkers ); 
 			for ( int i = 0; i < alMarkers.size( ); i++ )
 			{
-				MarkerInstruction mi = (MarkerInstruction) alMarkers.get( i );
-				switch ( mi.getInstruction( ) )
+				wi = (IRenderInstruction) alMarkers.get( i );
+				switch ( wi.getInstruction( ) )
 				{
 					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						mi.getEvent( ).fill( idr );
-						mi.getEvent( ).draw( idr );
+						wi.getEvent( ).fill( idr );
+						wi.getEvent( ).draw( idr );
 						break;
 					case PrimitiveRenderEvent.FILL :
-						mi.getEvent( ).fill( idr );
+						wi.getEvent( ).fill( idr );
 						break;
 					case PrimitiveRenderEvent.DRAW :
-						mi.getEvent( ).draw( idr );
+						wi.getEvent( ).draw( idr );
 						break;
 				}
 			}
@@ -359,13 +360,13 @@ public final class DeferredCache
 			{
 				Object obj = al3D.get( i );
 
-				if ( obj instanceof WrappedInstruction )
+				if ( obj instanceof IRenderInstruction )
 				{
 					wi = (WrappedInstruction) obj;
 
 					if ( wi.isModel( ) )
 					{
-						ArrayList al = wi.getModel( );
+						List al = wi.getModel( );
 						for ( int j = 0; j < al.size( ); j++ )
 						{
 							PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
