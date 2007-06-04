@@ -267,7 +267,7 @@
             locationURI="menu:birtData">
             <command
                   commandId="org.eclipse.birt.report.item.crosstab.ui.createCube"
-                  label="New Data Cube"
+                  label="%newcube.menu"
                   mnemonic="C"
                   style="push">
             </command>
