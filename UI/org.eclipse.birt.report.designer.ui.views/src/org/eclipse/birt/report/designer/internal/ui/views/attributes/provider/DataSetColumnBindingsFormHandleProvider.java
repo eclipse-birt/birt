@@ -48,8 +48,9 @@ import org.eclipse.swt.widgets.Table;
  * 
  */
 
-public class DataSetColumnBindingsFormHandleProvider extends
-		AbstractFormHandleProvider
+public class DataSetColumnBindingsFormHandleProvider
+		extends
+			AbstractFormHandleProvider
 {
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
@@ -58,9 +59,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private boolean showAggregation = false;
 
 	private String[] columnNames = new String[]{
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
 	};
 
 	private CellEditor[] editors;
@@ -541,16 +542,19 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	public void setShowAggregation( boolean showAggregation )
 	{
 		this.showAggregation = showAggregation;
-		columnNames = new String[]{
-				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
-				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
-				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
-				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),
-				Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		};
-		columnWidth = new int[]{
-				150, 150, 150, 150, 150
-		};
+		if ( showAggregation )
+		{
+			columnNames = new String[]{
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			};
+			columnWidth = new int[]{
+					150, 150, 150, 150, 150
+			};
+		}
 	}
 
 }

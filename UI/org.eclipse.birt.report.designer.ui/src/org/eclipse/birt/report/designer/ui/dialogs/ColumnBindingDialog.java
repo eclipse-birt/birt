@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -50,7 +50,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -94,11 +93,11 @@ import org.eclipse.ui.PlatformUI;
 public class ColumnBindingDialog extends BaseDialog
 {
 
-	private static final String MSG_ADD = Messages.getString( "ColumnBindingDialog.Text.Add" );
+	private static final String MSG_ADD = Messages.getString( "ColumnBindingDialog.Text.Add" ); //$NON-NLS-1$
 
-	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" );
+	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" ); //$NON-NLS-1$
 
-	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" );
+	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" ); //$NON-NLS-1$
 
 	private static final String DEFAULT_COLUMN_NAME = "[result_set_col_name]"; //$NON-NLS-1$
 
@@ -122,7 +121,7 @@ public class ColumnBindingDialog extends BaseDialog
 	// "ColumnBindingDialog.Button.Generate" ); //$NON-NLS-1$
 	private static final String COLUMN_NAME = Messages.getString( "ColumnBindingDialog.Column.Name" ); //$NON-NLS-1$
 
-	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" );
+	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" ); //$NON-NLS-1$
 
 	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
 
@@ -142,13 +141,15 @@ public class ColumnBindingDialog extends BaseDialog
 	private static final String[] dataTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
 
 	private boolean canSelect = false;
+	
+	private boolean canAggregate = true;
 
 	protected ReportItemHandle inputElement;
 
 	// private List bindingList;
 
 	// private Button generateButton;
-	private TableViewer bindingTable;
+	protected TableViewer bindingTable;
 
 	private ExpressionCellEditor expressionCellEditor;
 
@@ -431,7 +432,7 @@ public class ColumnBindingDialog extends BaseDialog
 					else if ( COLUMN_EXPRESSION.equals( property ) )
 					{
 						if ( !( bindingHandle.getExpression( ) != null && bindingHandle.getExpression( )
-								.equals( (String) value ) ) )
+								.equals( value ) ) )
 						{
 							bindingHandle.setExpression( (String) value );
 							String groupType = DEUtil.getGroupControlType( inputElement );
@@ -485,13 +486,21 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public ColumnBindingDialog( Shell parent, boolean canSelect )
 	{
-		this( parent, DEFAULT_DLG_TITLE, canSelect );
+		this( parent, DEFAULT_DLG_TITLE, canSelect, true );
 	}
 
-	public ColumnBindingDialog( Shell parent, String title, boolean canSelect )
+	public ColumnBindingDialog( Shell parent, boolean canSelect,
+			boolean canAggregate )
+	{
+		this( parent, DEFAULT_DLG_TITLE, canSelect, canAggregate );
+	}
+
+	public ColumnBindingDialog( Shell parent, String title, boolean canSelect,
+			boolean canAggregate )
 	{
 		super( parent, title );
 		this.canSelect = canSelect;
+		this.canAggregate = canAggregate;
 	}
 
 	/*
@@ -499,7 +508,6 @@ public class ColumnBindingDialog extends BaseDialog
 	 */
 	public void setInput( ReportItemHandle input )
 	{
-		Assert.isNotNull( input );
 		this.inputElement = input;
 		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
 		if ( container != null
@@ -700,33 +708,55 @@ public class ColumnBindingDialog extends BaseDialog
 		int[] columnWidth = null;
 		CellEditor[] cellEditors;
 
-		expressionCellEditor = new ExpressionCellEditor( table );
-		columns = new String[]{
-				null,
-				COLUMN_NAME,
-				COLUMN_DISPLAYNAME,
-				COLUMN_DATATYPE,
-				COLUMN_EXPRESSION,
-				COLUMN_AGGREGATEON
-		};
-		columnWidth = new int[]{
-				canSelect ? 25 : 20, 150, 150, 70, 150, 150,
-		};
-
 		groups = new String[groupList.size( ) + 1];
 		groups[0] = ALL;
 		for ( int i = 0; i < groupList.size( ); i++ )
 		{
 			groups[i + 1] = ( (GroupHandle) groupList.get( i ) ).getName( );
 		}
+		
+		expressionCellEditor = new ExpressionCellEditor( table );
+		if ( canAggregate )
+		{
+			columns = new String[]{
+					null,
+					COLUMN_NAME,
+					COLUMN_DISPLAYNAME,
+					COLUMN_DATATYPE,
+					COLUMN_EXPRESSION,
+					COLUMN_AGGREGATEON
+			};
+			columnWidth = new int[]{
+					canSelect ? 25 : 20, 150, 150, 70, 150, 150,
+			};
+			cellEditors = new CellEditor[]{
+					null,
+					new TextCellEditor( table ),
+					new ComboBoxCellEditor( table, dataTypeDisplayNames ),
+					expressionCellEditor,
+					new ComboBoxCellEditor( table, groups, SWT.READ_ONLY ),
+			};
+		}
+		else
+		{
+			columns = new String[]{
+					null,
+					COLUMN_NAME,
+					COLUMN_DISPLAYNAME,
+					COLUMN_DATATYPE,
+					COLUMN_EXPRESSION
+			};
+			columnWidth = new int[]{
+					canSelect ? 25 : 20, 150, 150, 70, 150
+			};
+			cellEditors = new CellEditor[]{
+					null,
+					new TextCellEditor( table ),
+					new ComboBoxCellEditor( table, dataTypeDisplayNames ),
+					expressionCellEditor
+			};
+		}
 
-		cellEditors = new CellEditor[]{
-				null,
-				new TextCellEditor( table ),
-				new ComboBoxCellEditor( table, dataTypeDisplayNames ),
-				expressionCellEditor,
-				new ComboBoxCellEditor( table, groups, SWT.READ_ONLY ),
-		};
 		for ( int i = 0; i < columns.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
@@ -846,8 +876,7 @@ public class ColumnBindingDialog extends BaseDialog
 		} );
 		btnDel = new Button( contentComposite, SWT.PUSH );
 		btnDel.setText( MSG_DELETE );
-		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
-				| GridData.GRAB_VERTICAL );
+		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		data.widthHint = Math.max( 60, btnDel.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
@@ -884,6 +913,17 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		} );
 		// initTableCellColor( );
+		
+		//Add custom buttons
+		int buttonsNumber = addButtons( contentComposite, table );
+		if ( buttonsNumber > 0 )
+		{
+			// Adjust UI layout
+			if ( table.getLayoutData( ) instanceof GridData )
+			{
+				( (GridData) table.getLayoutData( ) ).verticalSpan += buttonsNumber;
+			}
+		}
 
 		if ( !isDataSetVisible )
 		{
@@ -894,6 +934,26 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 
 		return parentComposite;
+	}
+	
+	/**
+	 * Adds buttons in Button area.
+	 * 
+	 * @param cmp
+	 *            parent composite
+	 * @param table
+	 *            the Table widget affected by Buttons
+	 * @return the number of added buttons
+	 */
+	protected int addButtons( Composite cmp, Table table )
+	{
+		// To add buttons in subclass
+		return 0;
+	}
+	
+	protected void setSelectionInTable( int selectedIndex )
+	{
+		this.selectIndex = selectedIndex;
 	}
 
 	protected void handleAddEvent( )
@@ -919,7 +979,7 @@ public class ColumnBindingDialog extends BaseDialog
 		int pos = bindingTable.getTable( ).getSelectionIndex( );
 		if ( pos > -1 )
 		{
-			bindingHandle = (ComputedColumnHandle) ( (ReportItemHandle) DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
 					.getAt( pos );
 		}
 		if ( bindingHandle == null )
@@ -927,7 +987,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 		String bindingName = bindingHandle.getName( );
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
-		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
+		dialog.setInput( inputElement, bindingHandle );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
 		{
@@ -1090,7 +1150,7 @@ public class ColumnBindingDialog extends BaseDialog
 		refreshBindingTable( );
 	}
 
-	private void refreshBindingTable( )
+	protected void refreshBindingTable( )
 	{
 		bindingTable.refresh( );
 		if ( canSelect )
@@ -1100,7 +1160,7 @@ public class ColumnBindingDialog extends BaseDialog
 		updateButtons( );
 	}
 
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		boolean okEnable = false;
 
@@ -1242,7 +1302,6 @@ public class ColumnBindingDialog extends BaseDialog
 	 */
 	public void setGroupList( List groupList )
 	{
-		Assert.isNotNull( groupList );
 		this.groupList = groupList;
 	}
 

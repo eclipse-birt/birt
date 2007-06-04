@@ -19,6 +19,12 @@ public class AggregateOnBindingsFormHandleProvider extends
 		super( );
 		setShowAggregation( true );
 	}
+	
+	public AggregateOnBindingsFormHandleProvider( boolean bShowAggregation )
+	{
+		super( );
+		setShowAggregation( bShowAggregation );
+	}
 
 	public boolean doAddAggregateOnItem( int pos )
 	{

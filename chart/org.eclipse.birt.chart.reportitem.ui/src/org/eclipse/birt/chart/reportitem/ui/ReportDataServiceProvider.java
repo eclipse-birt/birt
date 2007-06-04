@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -46,7 +47,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -107,7 +107,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		Iterator iterator = getColumnDataBindings( itemHandle );
+		Iterator iterator = ReportItemUIUtil.getColumnDataBindings( itemHandle );
 		ArrayList list = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
@@ -133,38 +133,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 		return exps;
-	}
-	
-		/**
-	 * Gets all column bindings from handle and its container
-	 * 
-	 * @param itemHandle
-	 *            handle
-	 * @return Iterator of all bindings
-	 */
-	static Iterator getColumnDataBindings( ReportItemHandle itemHandle )
-	{
-		if ( itemHandle.getDataSet( ) != null )
-		{
-			return itemHandle.columnBindingsIterator( );
-		}
-		DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
-		if ( handle instanceof ReportItemHandle )
-		{
-			ArrayList list = new ArrayList( );
-			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
-			while ( i.hasNext( ) )
-			{
-				list.add( i.next( ) );
-			}
-			i = itemHandle.columnBindingsIterator( );
-			while ( i.hasNext( ) )
-			{
-				list.add( i.next( ) );
-			}
-			return list.iterator( );
-		}
-		return null;
 	}
 
 	protected final List getPreviewRowData( String[] columnExpression,
@@ -201,7 +169,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							.iterator( ),
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 							.iterator( ),
-					getColumnDataBindings( itemHandle ) );
+					ReportItemUIUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -441,38 +409,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		ChartUIUtil.bindHelp( shell,
 				ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
-		ColumnBindingDialog page = new ColumnBindingDialog( shell, false ) {
-
-			protected void addBinding( ComputedColumn column )
-			{
-				try
-				{
-					DEUtil.addColumn( itemHandle, column, true );
-				}
-				catch ( SemanticException e )
-				{
-					 ChartWizard.showException( e.getLocalizedMessage( ) );
-				}
-			}
-
-			protected List getBindingList( DesignElementHandle inputElement )
-			{
-				Iterator iterator = getColumnDataBindings( itemHandle );
-				List list = new ArrayList( );
-				while ( iterator.hasNext( ) )
-				{
-					list.add( iterator.next( ) );
-				}
-				return list;
-			}
-
-			protected void setShellStyle( int newShellStyle )
-			{
-				super.setShellStyle( newShellStyle
-						| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
-			}
-		};
+		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
 		page.setInput( itemHandle );
+		
 		ExpressionProvider ep = new ExpressionProvider( itemHandle );
 		ep.addFilter( new ExpressionFilter( ) {
 
