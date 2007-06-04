@@ -179,6 +179,30 @@ public class DimensionType
 		}
 		return new DimensionType( 0, DimensionType.UNITS_CM );
 	}
+	
+	public static DimensionType parserUnit( String value, String defaultUnits )
+	{
+		if ( value != null )
+		{
+			try
+			{
+				DimensionValue val = DimensionValue.parse( value );
+				
+				String units = val.getUnits( );
+				if ( null == units || "".equals( units ) )
+				{
+					units = defaultUnits;
+				}
+				return new DimensionType( val.getMeasure( ), units );
+			}
+			catch ( PropertyValueException e )
+			{
+				log.log( Level.SEVERE, e.getMessage( ) );
+			}
+		}
+		return new DimensionType( 0, DimensionType.UNITS_CM );
+	}
+
 
 	/**
 	 * object document dimension version

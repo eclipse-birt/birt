@@ -582,18 +582,16 @@ public class HTML2Content
 			
 			if(null!=ele.getAttribute("width") && !"".equals(ele.getAttribute("width"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setWidth(DimensionType.parserUnit(ele.getAttribute("width"))); //$NON-NLS-1$
+				image.setWidth( DimensionType.parserUnit( ele.getAttribute( "width" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
 			}
 			if(ele.getAttribute("height")!=null &&! "".equals(ele.getAttribute("height"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setWidth(DimensionType.parserUnit(ele.getAttribute("height"))); //$NON-NLS-1$
+				image.setWidth( DimensionType.parserUnit( ele.getAttribute( "height" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
 			}
 			if(ele.getAttribute("alt")!=null && !"".equals(ele.getAttribute("alt"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				image.setAltText(ele.getAttribute("alt")); //$NON-NLS-1$
 			}
-			
-			
 		}
 	}
 
