@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -45,7 +46,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 		SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( )
-				.startTrans( "Create " + itemName ); //$NON-NLS-1$
+				.startTrans( Messages.getString( "InsertAction.text" ) ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
 		//		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
 		//		if ( insertCubeDialog.open( ) == Window.OK )
