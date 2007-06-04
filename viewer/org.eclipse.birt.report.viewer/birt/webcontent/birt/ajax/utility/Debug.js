@@ -47,6 +47,14 @@ function showDebug(soapMessageDebug, regularDebug)
      
 }
 
+/*
+ * Checks if debugging is currently enabled.
+ */
+function isDebugging( )
+{
+	return window.top.debugWindow && !window.top.debugWindow.closed;
+}
+
 
 /*
  * If the debug window exists, write debug messages to it.
@@ -55,39 +63,43 @@ function showDebug(soapMessageDebug, regularDebug)
 function debug( text, isSoapMessage )
 {
 	//debug( birtSoapRequest.prettyPrintXML(request.responseXML.documentElement), true);
-	if (window.top.debugWindow && !window.top.debugWindow.closed)
+	try
 	{
-		if(window.top.debugWindow.soapMsgWindow)
+		if ( isDebugging( ) )
 		{
-			var debugDiv;
-			if(isSoapMessage)
+			if(window.top.debugWindow.soapMsgWindow)
 			{
-			 	debugDiv = window.top.debugWindow.document.getElementById("soapMsgDebug");
-			 	var div = window.top.debugWindow.document.createElement("div");
-				div.innerHTML = "<pre>" + text;
-				//debugDiv.insertBefore(window.top.debugWindow.document.createTextNode("-------------END--------------"),debugDiv.firstChild);
-				debugDiv.insertBefore(div,debugDiv.firstChild);
-				div.style.display = "none";
-				var btn = addDebugButton(text);
-				debugDiv.insertBefore(btn, debugDiv.firstChild);
-				//debugDiv.insertBefore(window.top.debugWindow.document.createTextNode("-------------START----------------"),debugDiv.firstChild);			
-				debugDiv.insertBefore(window.top.debugWindow.document.createElement("br"),debugDiv.firstChild);
-			 	
-			 }
-			 else
-			 {
-			 	debugDiv = window.top.debugWindow.document.getElementById("regularDebug").firstChild;
-			 	var div = window.top.debugWindow.document.createElement("div");
-				div.innerHTML = "<pre>" + text;				
-				debugDiv.appendChild(div);				 	
+				var debugDiv;
+				if(isSoapMessage)
+				{
+				 	debugDiv = window.top.debugWindow.document.getElementById("soapMsgDebug");
+				 	var div = window.top.debugWindow.document.createElement("div");
+					div.innerHTML = "<pre>" + text;
+					//debugDiv.insertBefore(window.top.debugWindow.document.createTextNode("-------------END--------------"),debugDiv.firstChild);
+					debugDiv.insertBefore(div,debugDiv.firstChild);
+					div.style.display = "none";
+					var btn = addDebugButton(text);
+					debugDiv.insertBefore(btn, debugDiv.firstChild);
+					//debugDiv.insertBefore(window.top.debugWindow.document.createTextNode("-------------START----------------"),debugDiv.firstChild);			
+					debugDiv.insertBefore(window.top.debugWindow.document.createElement("br"),debugDiv.firstChild);
+				 	
+				 }
+				 else
+				 {
+				 	debugDiv = window.top.debugWindow.document.getElementById("regularDebug").firstChild;
+				 	var div = window.top.debugWindow.document.createElement("div");
+					div.innerHTML = "<pre>" + text;				
+					debugDiv.appendChild(div);				 	
+				}
 			}
+				 
+			else
+			{
+		    	window.top.debugWindow.document.write(text+"\n");	
+		   	}
 		}
-			 
-		else
-		{
-	    	window.top.debugWindow.document.write(text+"\n");	
-	   	}
 	}
+	catch(e){ }
 }
 
 g_debugButtonDivList = [];
