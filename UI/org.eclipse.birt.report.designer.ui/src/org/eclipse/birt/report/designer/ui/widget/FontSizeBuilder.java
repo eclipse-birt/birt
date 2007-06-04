@@ -76,12 +76,13 @@ public class FontSizeBuilder extends Composite
 
 		unitCombo = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 		data = new GridData( );
-		if(Platform.getOS( ).equals( Platform.OS_LINUX ))
+		if ( Platform.getOS( ).equals( Platform.OS_LINUX ) )
 		{
 			data.widthHint = 80;
-		}else
+		}
+		else
 			data.widthHint = 40;
-		
+
 		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		unitCombo.setLayoutData( data );
 
@@ -310,7 +311,7 @@ public class FontSizeBuilder extends Composite
 	public void setFontSizeValue( String size )
 	{
 		if ( size == null
-				//	|| size.length( ) == 0
+		//	|| size.length( ) == 0
 				|| size.equals( DEFAULT_CHOICE ) )
 		{
 			valueCombo.setText( DEFAULT_CHOICE );
@@ -343,7 +344,7 @@ public class FontSizeBuilder extends Composite
 			}
 			else
 			{
-				valueCombo.setText(  "" ); //$NON-NLS-1$
+				valueCombo.setText( "" ); //$NON-NLS-1$
 			}
 		}
 		else
@@ -407,7 +408,10 @@ public class FontSizeBuilder extends Composite
 
 		if ( pt.x < 150 )
 		{
-			pt.x = 150;
+			Point v = valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+			Point u = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+			//spacing is 2
+			pt.x = v.x + u.x + 4;
 		}
 
 		return pt;
