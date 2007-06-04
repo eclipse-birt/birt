@@ -12,3 +12,4 @@
 preference.crosstabPage=Crosstab
 crosstab.menu=Cr&oss Table
 Crosstab.desc=Insert a cross table to layout
+newcube.menu=New Data Cube
