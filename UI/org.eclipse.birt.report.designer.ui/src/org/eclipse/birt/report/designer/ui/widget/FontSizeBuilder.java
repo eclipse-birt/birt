@@ -78,10 +78,10 @@ public class FontSizeBuilder extends Composite
 		data = new GridData( );
 		if ( Platform.getOS( ).equals( Platform.OS_LINUX ) )
 		{
-			data.widthHint = 80;
+			data.widthHint = 90;
 		}
 		else
-			data.widthHint = 40;
+			data.widthHint = 50;
 
 		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		unitCombo.setLayoutData( data );
@@ -406,7 +406,7 @@ public class FontSizeBuilder extends Composite
 
 		Point pt = super.computeSize( wHint, hHint, changed );
 
-		if ( pt.x < 150 )
+		if ( pt.x < 200 )
 		{
 			Point v = valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
 			Point u = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
