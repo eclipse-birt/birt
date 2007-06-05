@@ -207,7 +207,6 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
-			<include name="javax.wsdl_1.4.0*.jar"/>
 		</patternset>
 		<!--Exclude jar file pattern set-->
 
@@ -258,7 +257,7 @@
 		
 		<antcall target="createBirtSDK"/>
 
-        <antcall target="createWTPIntegration"/>
+	    <antcall target="createWTPIntegration"/>
 		
 		<antcall target="createBirtSourceBuild"/>
 
@@ -472,9 +471,9 @@
 				<include name="**/*" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.*.sdk*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.rcp*/**"/>
-				<exclude name="org.eclipse.birt.*.sdk*/**" />
 			</tarfileset>
 			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -541,11 +540,11 @@
 	
 	<target name="createDTPIntegration">
 		<zip destfile="${OutputDir}/${birt.dtp.integration.name}">
-			<zipfileset dir="${baseLocation}/plugins" prefix="eclipse/plugins">
+			<zipfileset dir="${package.files.dir}/dtp/eclipse/plugins" prefix="eclipse/plugins">
 				<include name="org.eclipse.datatools*/**" />
-				<include name="javax.wsdl_1.4.0*.jar"/>
+                <include name="javax.wsdl_1.4.0*.jar"/>
 			</zipfileset>
-			<zipfileset dir="${baseLocation}/features" prefix="eclipse/features">
+			<zipfileset dir="${package.files.dir}/dtp/eclipse/features" prefix="eclipse/features">
 				<include name="org.eclipse.datatools*/**" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
@@ -582,7 +581,7 @@
 				<include name="org.apache.batik.pdf_*/**" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
-            	<patternset refid="orbit.include.jars" />
+                <patternset refid="orbit.include.jars" />
 			</fileset>
 		</copy>
 		-->
@@ -678,7 +677,17 @@
             <arg line="-o -q ${birt.rcp.zip.name}.zip -d ${OutputDir}" />
         </exec>
 		<delete file="${OutputDir}/${birt.rcp.zip.name}.zip"/>
+		<delete failonerror="false">
+			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
+				<include name="javax.wsdl_1.5.1*/**"/>
+			</fileset>
+		</delete>
 
+		<copy todir="${OutputDir}/${birt.rcp.zip.name}/plugins">
+			<fileset dir="${baseLocation}/plugins">
+                            <include name="javax.wsdl_1.4.0*.jar"/>
+			</fileset>
+		</copy>
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/features">
 			<fileset dir="${deposit}/eclipse/features">
 			        <include name="**/*" />
@@ -1067,7 +1076,7 @@
 		</copy>
 		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine" >
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.apache.batik.pdf_*/**" />
+			    <include name="org.apache.batik.pdf_*/**" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
             	<patternset refid="orbit.include.jars" />
