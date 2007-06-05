@@ -44,7 +44,7 @@
                      name="odaPassword"/>
                <property
                      canInherit="true"
-                     defaultDisplayName="JNDI URL"
+                     defaultDisplayName="%datasource.property.odaJndiURL"
                      name="odaJndiName"
                      type="string"/>
             </propertyGroup>
