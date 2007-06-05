@@ -140,6 +140,7 @@
                         <structure>
                             <property name="cubeKey">cubeKey</property>
                             <property name="hierarchyKey">key</property>
+                            <property name="level">testDimension/testLevel</property>
                         </structure>
                         <structure>
                             <property name="cubeKey">cubeKey2</property>
@@ -151,7 +152,6 @@
                         </structure>
                     </list-property>
                     <property name="hierarchy">testHierarchy</property>
-                    <property name="level">testDimension/testLevel</property>
                 </structure>
                 <structure>
                     <list-property name="joinConditions">
@@ -292,6 +292,7 @@
                         <structure>
                             <property name="cubeKey">cubeKey</property>
                             <property name="hierarchyKey">key</property>
+                            <property name="level">testDimension/testLevel</property>
                         </structure>
                         <structure>
                             <property name="cubeKey">cubeKey2</property>
@@ -303,7 +304,6 @@
                         </structure>
                     </list-property>
                     <property name="hierarchy">testHierarchy</property>
-                    <property name="level">testDimension/testLevel</property>
                 </structure>
                 <structure>
                     <list-property name="joinConditions">

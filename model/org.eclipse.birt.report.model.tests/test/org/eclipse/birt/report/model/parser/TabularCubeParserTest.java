@@ -93,6 +93,8 @@ public class TabularCubeParserTest extends BaseTestCase
 				.getAt( 0 );
 		assertEquals( "cubeKey", joinCondition.getCubeKey( ) ); //$NON-NLS-1$
 		assertEquals( "key", joinCondition.getHierarchyKey( ) ); //$NON-NLS-1$
+		assertEquals(
+				designHandle.findLevel( "testDimension/testLevel" ), joinCondition.getLevel( ) ); //$NON-NLS-1$
 		joinCondition = (DimensionJoinConditionHandle) conditionMemberHandle
 				.getAt( 1 );
 		assertEquals( "cubeKey2", joinCondition.getCubeKey( ) ); //$NON-NLS-1$
@@ -296,7 +298,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.addJoinCondition( new DimensionJoinCondition( ) );
 		joinConditionHandle.setCubeKey( "addCubeKey" ); //$NON-NLS-1$
 		joinConditionHandle.setHierarchyKey( "addHierarchyKey" ); //$NON-NLS-1$
-		structHandle.setLevel( "testDimension/noLevel" ); //$NON-NLS-1$
+		joinConditionHandle.setLevel( "testDimension/noLevel" ); //$NON-NLS-1$
 		structHandle = (DimensionConditionHandle) propHandle.get( 0 );
 		MemberHandle memberHandle = structHandle
 				.getMember( DimensionCondition.HIERARCHY_MEMBER );

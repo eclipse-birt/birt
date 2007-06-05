@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents a dimension join condition in the DimensionCondition. It defines
@@ -79,6 +84,58 @@ public class DimensionJoinConditionHandle extends StructureHandle
 	{
 		setPropertySilently( DimensionJoinCondition.HIERARCHY_KEY_MEMBER,
 				hierarchyKey );
+	}
+	
+	/**
+	 * Gets the referred level element handle of this condition.
+	 * 
+	 * @return level element handle of this condition if found, otherwise null
+	 */
+	public LevelHandle getLevel( )
+	{
+		ElementRefValue refValue = (ElementRefValue) ( (Structure) getStructure( ) )
+				.getLocalProperty( getModule( ),
+						DimensionJoinCondition.LEVEL_MEMBER );
+		if ( refValue == null || !refValue.isResolved( ) )
+			return null;
+		DesignElement element = refValue.getElement( );
+		return (LevelHandle) element.getHandle( element.getRoot( ) );
+	}
+
+	/**
+	 * Gets the referred level full name of this condition.
+	 * 
+	 * @return level full name of this condition if set, otherwise null
+	 */
+	public String getLevelName( )
+	{
+		return getStringProperty( DimensionJoinCondition.LEVEL_MEMBER );
+	}
+
+	/**
+	 * Sets the referred level by the name.
+	 * 
+	 * @param levelName
+	 *            the full name of the level element to set
+	 * @throws SemanticException
+	 */
+	public void setLevel( String levelName ) throws SemanticException
+	{
+		setProperty( DimensionJoinCondition.LEVEL_MEMBER, levelName );
+	}
+
+	/**
+	 * Sets the referred level by the handle.
+	 * 
+	 * @param levelHandle
+	 *            the level handle to set
+	 * @throws SemanticException
+	 */
+	public void setLevel( LevelHandle levelHandle ) throws SemanticException
+	{
+		DesignElement element = levelHandle == null ? null : levelHandle
+				.getElement( );
+		setProperty( DimensionJoinCondition.LEVEL_MEMBER, element );
 	}
 
 	/*
