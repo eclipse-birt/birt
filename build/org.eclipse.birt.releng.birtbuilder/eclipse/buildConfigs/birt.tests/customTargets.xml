@@ -141,11 +141,13 @@
 	<!-- ===================================================================== -->
 	<target name="preProcess">
 		<!-- copy necessary lib to report.tests/lib -->
+		<!--
 		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests/lib">
 			<fileset dir="${p4.home}/reportTestsLib">
 				<include name="**"/>
 			</fileset>
 		</copy>
+		-->
 	</target>
 
 	<!-- ===================================================================== -->
