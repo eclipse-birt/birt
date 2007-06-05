@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 public class ImportCSSStyleAction extends AbstractViewAction
 {
 
-	public static final String ID = "ImportCSSStyleAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction"; //$NON-NLS-1$
 
 	public static final String ACTION_TEXT = Messages.getString("ImportCSSStyleAction.text"); //$NON-NLS-1$
 
