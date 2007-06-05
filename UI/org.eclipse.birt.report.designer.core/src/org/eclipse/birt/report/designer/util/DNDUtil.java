@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -1215,6 +1216,9 @@ public class DNDUtil
 			}
 			if ( targetHandle.getClass( ).equals( childHandle.getClass( ) ) )
 			{
+				//183888
+				if(childHandle instanceof LevelHandle)
+					return CONTAIN_NO;
 				// If class type is same
 				return CONTAIN_PARENT;
 			}
