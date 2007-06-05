@@ -718,9 +718,10 @@ public class HyperlinkBuilder extends BaseDialog
 		Group formatsGroup = new Group( container, SWT.NONE );
 		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatsGroup.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
-		formatsGroup.setLayout( new GridLayout( 3, false ) );
+		formatsGroup.setLayout( new GridLayout( 2, false ) );
 
 		checkButton = new Button( formatsGroup, SWT.CHECK );
+		checkButton.setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" )  );
 		checkButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -733,7 +734,7 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 			}
 		} );
-		new Label( formatsGroup, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" ) ); //$NON-NLS-1$
+
 		targetFormatsChooser = new Combo( formatsGroup, SWT.BORDER
 				| SWT.READ_ONLY );
 		targetFormatsChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
