@@ -68,7 +68,8 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__neh_resize : function( event )
 	{
-		var width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft >= 250 ? 250 : 0 ) - 3;
+		var offsetPadding = BirtPosition.viewportWidth( ) - this.__instance.offsetWidth - 1;
+		var width = BirtPosition.viewportWidth( ) -  ( offsetPadding >= 250 ? 250 : 0 ) - 3;
 		if( width > 0 )
 			this.__instance.style.width = width + "px";
 			
@@ -151,7 +152,8 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_toc : function( id )
 	{
-		var width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft < 250 ? 250 : 0 ) - 3;
+		var offsetPadding = BirtPosition.viewportWidth( ) - this.__instance.offsetWidth - 1;		
+		var width = BirtPosition.viewportWidth( ) - ( offsetPadding < 250 ? 250 : 0 ) - 3;
 		this.__instance.style.width = width + "px";
 	},
 

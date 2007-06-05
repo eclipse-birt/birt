@@ -197,16 +197,44 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 		var oInputs = this.__instance.getElementsByTagName( 'input' );
 		
-		oInputs[0].src = canAdd ? "birt/images/AddAll.gif" : "birt/images/AddAll_disabled.gif";
+		if( !rtl )
+		{
+			oInputs[0].src = canAdd ? "birt/images/AddAll.gif" : "birt/images/AddAll_disabled.gif";
+		}
+		else
+		{
+			oInputs[0].src = canAdd ? "birt/images/AddAll_rtl.gif" : "birt/images/AddAll_disabled_rtl.gif";
+		}
 		oInputs[0].style.cursor = canAdd ? "pointer" : "default";
 		
-		oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add.gif" : "birt/images/Add_disabled.gif";
+		if( !rtl )
+		{
+			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add.gif" : "birt/images/Add_disabled.gif";
+		}
+		else
+		{
+			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add_rtl.gif" : "birt/images/Add_disabled_rtl.gif";
+		}	
 		oInputs[1].style.cursor = canAdd ? "pointer" : "default";
 		
-		oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove.gif" : "birt/images/Remove_disabled.gif";
+		if( !rtl )
+		{ 
+			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove.gif" : "birt/images/Remove_disabled.gif";
+		}
+		else
+		{
+			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove_rtl.gif" : "birt/images/Remove_disabled_rtl.gif";
+		}	
 		oInputs[2].style.cursor = canRemove ? "pointer" : "default";
 
-		oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
+		if( !rtl )
+		{
+			oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
+		}
+		else
+		{
+			oInputs[3].src = canRemove ? "birt/images/RemoveAll_rtl.gif" : "birt/images/RemoveAll_disabled_rtl.gif";
+		}
 		oInputs[3].style.cursor = canRemove ? "pointer" : "default";
 
 		oInputs[4].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Up.gif" : "birt/images/Up_disabled.gif";

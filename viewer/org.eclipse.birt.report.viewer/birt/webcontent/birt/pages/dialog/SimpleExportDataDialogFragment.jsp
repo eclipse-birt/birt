@@ -11,12 +11,14 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
+				 org.eclipse.birt.report.context.BaseAttributeBean,
 				 org.eclipse.birt.report.resource.BirtResources" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
 -----------------------------------------------------------------------------%>
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
+<jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
 <%-----------------------------------------------------------------------------
 	Export data dialog fragment
@@ -54,28 +56,84 @@
 					<TD>
 						<TABLE VALIGN="middle">
 							<TR><TD>
-								<INPUT TYPE="image" NAME="Addall" SRC="birt/images/AddAll.gif" 
+								<INPUT TYPE="image" NAME="Addall" 
+									<%
+									if( !attributeBean.isRtl())
+									{
+									%>
+									SRC="birt/images/AddAll.gif"
+									<%
+									}
+									else
+									{
+									%>
+									SRC="birt/images/AddAll_rtl.gif"
+									<%
+									}
+									%>		
 									ALT='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.addall" )%>' 
 									TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.addall" )%>' 
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
 							<TR><TD>
-								<INPUT TYPE="image" NAME="Add" SRC="birt/images/Add.gif" 
+								<INPUT TYPE="image" NAME="Add"
+									<%
+									if( !attributeBean.isRtl())
+									{
+									%>
+									SRC="birt/images/Add.gif"
+									<%
+									}
+									else
+									{
+									%>
+									SRC="birt/images/Add_rtl.gif"
+									<%
+									}
+									%>									 
 									ALT='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.add" )%>' 
 									TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.add" )%>' 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
 							<TR><TD>
-								<INPUT TYPE="image" NAME="Remove" SRC="birt/images/Remove_disabled.gif" 
+								<INPUT TYPE="image" NAME="Remove"
+									<%
+									if( !attributeBean.isRtl())
+									{
+									%>
+									SRC="birt/images/Remove_disabled.gif"
+									<%
+									}
+									else
+									{
+									%>
+									SRC="birt/images/Remove_disabled_rtl.gif"
+									<%
+									}
+									%>									  
 									ALT='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.remove" )%>' 
 									TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.remove" )%>' 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
 							<TR><TD>
-								<INPUT TYPE="image" NAME="Removeall" SRC="birt/images/RemoveAll_disabled.gif" 
+								<INPUT TYPE="image" NAME="Removeall" 
+									<%
+									if( !attributeBean.isRtl())
+									{
+									%>
+									SRC="birt/images/RemoveAll_disabled.gif"
+									<%
+									}
+									else
+									{
+									%>
+									SRC="birt/images/RemoveAll_disabled_rtl.gif"
+									<%
+									}
+									%>									  
 									ALT='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.removeall" )%>' 
 									TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.removeall" )%>' 								
 									CLASS="birtviewer_exportdata_dialog_button">

@@ -41,7 +41,20 @@
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
-		<LINK HREF="birt/styles/dialogbase.css" media="screen" rel="stylesheet" type="text/css"/>			
+		<%
+		if( attributeBean.isRtl() )
+		{
+		%>
+		<LINK REL="stylesheet" HREF="birt/styles/dialogbase_rtl.css" MEDIA="screen" TYPE="text/css"/>
+		<%
+		}
+		else
+		{
+		%>
+		<LINK REL="stylesheet" HREF="birt/styles/dialogbase.css" MEDIA="screen" TYPE="text/css"/>	
+		<%
+		}
+		%>			
 
 		<script type="text/javascript">
 			<%
@@ -99,6 +112,14 @@
 	</HEAD>
 
 	<BODY CLASS="BirtViewer_Body" onload="Javascript:init()" LEFTMARGIN='0px' STYLE='overflow:hidden'>
+		<%
+		if( attributeBean.isRtl() )
+		{
+		%>
+		<DIV DIR="rtl">
+		<%
+		}
+		%>
 		<!-- Header section -->
 		<TABLE ID='layout' CELLSPACING='0' CELLPADDING='0' STYLE='width:100%;height:100%'>
 		<%
@@ -108,6 +129,14 @@
 			}
 		%>
 		</TABLE>
+		<%
+		if( attributeBean.isRtl() )
+		{
+		%>
+		</DIV>
+		<%
+		}
+		%>
 	</BODY>
 	
 	<script type="text/javascript">

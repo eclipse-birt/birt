@@ -363,8 +363,9 @@
 {
 	overflow:auto;
 	position:absolute;
+	width:100%;
 	border-style:inset;
-	border-width:1px;
+	border-width:1px;	
 }
 
 /******************************************************************************
