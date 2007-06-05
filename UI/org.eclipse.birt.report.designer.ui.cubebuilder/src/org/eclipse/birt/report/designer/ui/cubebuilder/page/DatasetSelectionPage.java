@@ -92,6 +92,8 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				if ( dataSetCombo.getItemCount( ) == 0 )
+					return;
 				String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
 				try
 				{
@@ -101,11 +103,13 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				if ( dataSetCombo.getSelectionIndex( ) == -1 ){
+				if ( dataSetCombo.getSelectionIndex( ) == -1 )
+				{
 					builder.setOKEnable( false );
 					filterButton.setEnabled( false );
 				}
-				else{
+				else
+				{
 					builder.setOKEnable( true );
 					filterButton.setEnabled( true );
 				}
@@ -123,7 +127,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FilterListDialog dialog = new FilterListDialog();
+				FilterListDialog dialog = new FilterListDialog( );
 				dialog.setInput( input );
 				dialog.open( );
 			}
@@ -152,11 +156,13 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		{
 			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
 			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ( (TabularCubeHandle) input ).getDataSet( ) ) );
-			if ( dataSetCombo.getSelectionIndex( ) == -1 ){
+			if ( dataSetCombo.getSelectionIndex( ) == -1 )
+			{
 				builder.setOKEnable( false );
 				filterButton.setEnabled( false );
 			}
-			else{
+			else
+			{
 				builder.setOKEnable( true );
 				filterButton.setEnabled( true );
 			}
