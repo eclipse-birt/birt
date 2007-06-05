@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -273,7 +273,7 @@ public class ParameterDialog extends BaseDialog
 	private CLabel errorMessageLine;
 
 	// Check boxes
-	private Button isRequired, doNotEcho, isHidden, needSort, distinct;
+	private Button isRequired, doNotEcho, isHidden, distinct;
 
 	// Push buttons
 	private Button importValue, changeDefault, changeFormat, createDataSet;
@@ -778,6 +778,10 @@ public class ParameterDialog extends BaseDialog
 					{
 						defaultValueChooser.select( 1 );
 					}
+					else if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
+					{
+						defaultValue = null;
+					}
 					else
 					{
 						defaultValueChooser.setText( defaultValue );
@@ -798,6 +802,7 @@ public class ParameterDialog extends BaseDialog
 			else if ( PARAM_CONTROL_COMBO.equals( controlType )
 					|| PARAM_CONTROL_LIST.equals( controlType ) )
 			{
+				defaultValue = null;
 				initSorttingArea( );
 			}
 			refreshValueTable( );
@@ -1711,7 +1716,7 @@ public class ParameterDialog extends BaseDialog
 		sortDirectionArea.setLayout( new GridLayout( 2, false ) );
 		// createLabel( sortDirectionArea, LABEL_SORT_DIRECTION );
 		sortDirectionLabel = new Label( sortDirectionArea, SWT.NONE );
-		sortDirectionLabel.setText( LABEL_SORT_KEY );
+		sortDirectionLabel.setText( LABEL_SORT_DIRECTION );
 		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
