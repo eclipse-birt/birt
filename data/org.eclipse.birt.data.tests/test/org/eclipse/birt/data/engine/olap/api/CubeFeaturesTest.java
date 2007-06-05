@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -853,10 +853,14 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		createSortTestBindings( cqd );
 		
-		CubeFilterDefinition filter3 = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension2\"][\"level21\"]",
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension2\"][\"level21\"]",
 				IConditionalExpression.OP_BOTTOM_N,
 				"3" ) );
-		cqd.addFilter( filter3 );
+		CubeFilterDefinition filter2 = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level12\"]",
+				IConditionalExpression.OP_TOP_N,
+		"2" ) );
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
 
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,

@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util.filter;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
  * 
@@ -57,7 +58,23 @@ public interface IJSTopBottomFilterHelper extends IJSFilterHelper
 	/**
 	 * 
 	 * @return
+	 * @throws DataException
 	 */
-	public boolean isAxisFilter( );
+	public DimLevel getTargetLevel( ) throws DataException;	
+	
+	
+	/**
+	 * return true if filterType is TOP_N or TOP_PERCENT; 
+	 * otherwise return false.
+	 * @return
+	 */
+	public boolean isTop( );
+	
+	/**
+	 * return true if filterType is TOP_PERCENT or BOTTOM_PERCENT; 
+	 * otherwise return false
+	 * @return
+	 */
+	public boolean isPercent( );
 	
 }

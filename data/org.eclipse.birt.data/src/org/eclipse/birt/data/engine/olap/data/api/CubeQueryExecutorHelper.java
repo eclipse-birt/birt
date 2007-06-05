@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,11 +47,12 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.olap.data.util.OrderedUniqueDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.OrderedDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SelectionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSDimensionFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
@@ -75,6 +76,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List topbottomFilters;
 	
 	private boolean isEmptyXTab;
+	private boolean isBreakHierarchy = true;
 	
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
@@ -374,7 +376,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	private IDiskArray interKeys( IDiskArray levelKeyArray1, IDiskArray levelKeyArray2 ) throws IOException
 	{
-		IDiskArray result = new OrderedUniqueDiskArray( );
+		IDiskArray result = new OrderedDiskArray( );
 		int i = 0, j = 0;
 		while ( i < levelKeyArray1.size( ) && j < levelKeyArray2.size( ) )
 		{
@@ -409,7 +411,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private IDiskArray interPosition( IDiskArray posArray1,
 			IDiskArray posArray2 ) throws IOException
 	{
-		IDiskArray result = new OrderedUniqueDiskArray( );
+		IDiskArray result = new OrderedDiskArray( );
 		int i = 0, j = 0;
 		while ( i < posArray1.size( ) && j < posArray2.size( ) )
 		{
@@ -614,28 +616,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet resultSet, TopBottomFilter filter )
 			throws IOException, DataException
 	{
+		IJSTopBottomFilterHelper filterHelper = filter.getFilterHelper( );
 		int n = -1;
-		boolean isTop = true;
-		switch ( filter.getFilterType( ) )
+		if ( filterHelper.isPercent( ) == false )
 		{
-			case IJSTopBottomFilterHelper.TOP_N :
-				n = (int) filter.getN( );
-				break;
-			case IJSTopBottomFilterHelper.BOTTOM_N :
-				n = (int) filter.getN( );
-				isTop = false;
-				break;
-			case IJSTopBottomFilterHelper.TOP_PERCENT :
-				n = getTargetN( resultSet.length( ), filter.getFilterHelper( ) );
-				break;
-			case IJSTopBottomFilterHelper.BOTTOM_PERCENT :
-				n = getTargetN( resultSet.length( ), filter.getFilterHelper( ) );
-				isTop = false;
-				break;
+			n = (int) filterHelper.getN( );
 		}
-		IDiskArray aggrValueArray = new OrderedUniqueDiskArray( n, isTop );
-		IDiskArray levelKeyArray = new OrderedUniqueDiskArray( );
-
+		
+		IDiskArray aggrValueArray = new OrderedDiskArray( n, filterHelper.isTop( ) );
 		AggregationFunctionDefinition[] aggrFuncs = aggregation.getAggregationFunctions( );
 		DimLevel[] aggrLevels = filter.getAggrLevels( );
 		// currently we just support one level key
@@ -669,7 +657,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			RowForFilter row = new RowForFilter( fields, aggrNames );
 			row.setFieldValues( fieldValues );
 			row.setAggrValues( aggrValues );
-			IJSTopBottomFilterHelper filterHelper = filter.getFilterHelper( );
+			
 			int levelIndex = resultSet.getLevelIndex( filter.getTargetLevel( ) );
 			Object[] levelKey = resultSet.getLevelKeyValue( levelIndex );
 			if ( levelKey!=null && filterHelper.isQualifiedRow( row ) )
@@ -680,54 +668,50 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			}
 		}
 		
-		for ( int i = 0; i < aggrValueArray.size( ); i++ )
+		return fetchLevelKeys( aggrValueArray, filterHelper );
+	}
+
+	/**
+	 * @param aggrValueArray
+	 * @param filterHelper
+	 * @return
+	 * @throws IOException
+	 */
+	private IDiskArray fetchLevelKeys( IDiskArray aggrValueArray,
+			IJSTopBottomFilterHelper filterHelper ) throws IOException
+	{
+		IDiskArray levelKeyArray = new OrderedDiskArray( );
+		int start = 0; // level key start index in aggrValueArray
+		int end   = aggrValueArray.size( ); // level key end index (not including) in aggrValueArray
+		if ( filterHelper.isPercent( ) )
+		{// top/bottom percentage filter
+			int size = aggrValueArray.size( ); // target level member size
+			int n = getTargetN( size, filterHelper.getN( ) );
+			if ( filterHelper.isTop( ) )
+				start = size - n;
+			else
+				end = n;
+		}
+		Object preKey = null;
+		for ( int i = start; i < end; i++ )
 		{
 			ValueObject aggrValue = (ValueObject) aggrValueArray.get( i );
-			levelKeyArray.add( aggrValue.index );
-		}
-		if ( n < 0 )
-		{// top/bottom percentage filter
-			int size = levelKeyArray.size( ); // target level member size
-			n = (int) Math.round( filter.getN( ) / 100 * size );
-			levelKeyArray.clear( );
-			if ( isTop )
-			{// top percentage filter
-				for ( int i = aggrValueArray.size( ) - 1; i > aggrValueArray.size( )
-						- 1 - n; i-- )
-				{
-					ValueObject aggrValue = (ValueObject) aggrValueArray.get( i );
-					levelKeyArray.add( aggrValue.index );
-				}
-			}
-			else
-			{// bottom percentage filter
-				for ( int i = 0; i < n; i++ )
-				{
-					ValueObject aggrValue = (ValueObject) aggrValueArray.get( i );
-					levelKeyArray.add( aggrValue.index );
-				}
-			}
+			if ( preKey == null
+					|| CompareUtil.compare( preKey, aggrValue.index ) != 0 )
+				levelKeyArray.add( aggrValue.index );
+			preKey = aggrValue.index;
 		}
 		return levelKeyArray;
 	}
 
 	/**
 	 * @param total
-	 * @param filter
+	 * @param N
 	 * @return
 	 */
-	private int getTargetN( long total, IJSTopBottomFilterHelper filter )
+	private final int getTargetN( long total, double N )
 	{
-		int n;
-		if ( filter.isAxisFilter( ) == false )
-		{
-			n = (int) Math.round( filter.getN( ) / 100 * total );
-		}
-		else
-		{
-			n = -1; // unknown size, which will be evaluated later
-		}
-		return n;
+		return (int) Math.round( N / 100 * total );
 	}
 
 	/**
@@ -1246,54 +1230,187 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IDiskArray dimPosition, List filterList ) throws IOException,
 			DataException
 	{
-		IDiskArray result = null;
+		IDiskArray result = dimPosition;
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
 		for ( int i = 0; i < filterList.size( ); i++ )
 		{
 			IJSTopBottomFilterHelper filter = (IJSTopBottomFilterHelper) filterList.get( i );
-			int n = -1;
-			boolean isTop = true;
-			switch ( filter.getFilterType( ) )
-			{
-				case IJSTopBottomFilterHelper.TOP_N :
-					n = (int) filter.getN( );
-					break;
-				case IJSTopBottomFilterHelper.BOTTOM_N :
-					n = (int) filter.getN( );
-					isTop = false;
-					break;
-				case IJSTopBottomFilterHelper.TOP_PERCENT :
-					n = getTargetN( dimPosition.size( ), filter );
-					break;
-				case IJSTopBottomFilterHelper.BOTTOM_PERCENT :
-					n = getTargetN( dimPosition.size( ), filter );
-					isTop = false;
-					break;
-			}
-			IDiskArray dimValueArray = new OrderedUniqueDiskArray( n, isTop );
-			IDiskArray dimPositionArray = new OrderedUniqueDiskArray( );
-			
-			for ( int j = 0; j < dimPosition.size( ); j++ )
-			{
-				Integer pos = (Integer) dimPosition.get( j );
-				DimensionRow dimRow = dimension.getRowByPosition( pos.intValue( ) );
-				RowForFilter rowForFilter = getRowForFilter( dimension, dimRow );
-				Object value = filter.evaluateFilterExpr( rowForFilter );
-				dimValueArray.add( new ValueObject(value, pos) );
-			}
-			
-			for ( int j = 0; j < dimValueArray.size( ); j++ )
-			{
-				ValueObject aggrValue = (ValueObject) dimValueArray.get( j );
-				dimPositionArray.add( aggrValue.index );
-			}
-			if ( result == null )
-				result = dimPositionArray;
-			else
-				result = interPosition( result, dimPositionArray );
+			List dimValueArrayList = evaluateFilter( dimension,
+					dimPosition,
+					levels,
+					filter );
+			IDiskArray dimPositionArray = fetchDimPositions( dimValueArrayList,
+					filter );
+			result = interPosition( result, dimPositionArray );
 		}
 		return result;
 	}
 
+	/**
+	 * evaluate the filter to dimension positions in <code>dimPosition</code> and 
+	 * store the evaluate result to <code>dimValueArrayList</code>, which contains
+	 * one or multiple IDiskArray instances.
+	 * @param dimension
+	 * @param dimPosition
+	 * @param levels
+	 * @param filter
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	private List evaluateFilter( Dimension dimension, IDiskArray dimPosition,
+			ILevel[] levels, IJSTopBottomFilterHelper filter )
+			throws DataException, IOException
+	{
+		List dimValueArrayList = new ArrayList( ); // 
+		// get target level index, also equals to the length of parent levels
+		int index = getTargetLevelIndex( levels, filter );
+		
+		Member[] preMembers = null;
+		Object[] preValue = null;
+		IDiskArray dimValueArray = null;
+		int n = -1;
+		if ( filter.isPercent( ) == false )
+		{
+			n = (int) filter.getN( );
+		}
+		// when using break hierarchy mode, it applies top/bottom filters to  the whole 
+		// dimension values of specified level; otherwise, it should apply them to separate
+		// parent levels 
+		if ( isBreakHierarchy )
+		{
+			dimValueArray = new OrderedDiskArray( n, filter.isTop( ) );
+			dimValueArrayList.add( dimValueArray );
+		}
+		IntRange range = null;
+		// first-pass filter evaluation, store the qualified values
+		// and position index to dimValueArrayList
+		for ( int j = 0; j < dimPosition.size( ); j++ )
+		{
+			Integer pos = (Integer) dimPosition.get( j );
+			DimensionRow dimRow = dimension.getRowByPosition( pos.intValue( ) );
+
+			boolean shareParentLevels = shareParentLevels( dimRow.getMembers( ),
+							preMembers,
+							index );
+			if ( isBreakHierarchy == false )
+			{// maintain the dimension hierarchy
+				if ( shareParentLevels )
+				{
+					dimValueArray = (IDiskArray) dimValueArrayList.get( dimValueArrayList.size( ) - 1 );
+				}
+				else
+				{
+					dimValueArray = new OrderedDiskArray( n, filter.isTop( ) );
+					dimValueArrayList.add( dimValueArray );
+				}
+			}
+			preMembers = dimRow.getMembers( );
+			Object[] levelValue = dimRow.getMembers( )[index].getKeyValues( );
+			if ( preValue == null
+					|| shareParentLevels == false
+					|| CompareUtil.compare( preValue, levelValue ) != 0 )
+			{
+				RowForFilter rowForFilter = getRowForFilter( dimension, dimRow );
+				Object value = filter.evaluateFilterExpr( rowForFilter );
+				range = new IntRange( pos.intValue( ), pos.intValue( ) );
+				dimValueArray.add( new ValueObject( value, range ) );
+			}
+			else
+			{
+				range.end = pos.intValue( );
+			}
+			preValue = levelValue;
+		}
+		return dimValueArrayList;
+	}
+
+	/**
+	 * get all selected dimension positions.
+	 * @param dimValueArrayList
+	 * @param filterHelper
+	 * @param dimPositionArray
+	 * @return 
+	 * @throws IOException
+	 */
+	private IDiskArray fetchDimPositions( List dimValueArrayList,
+			IJSTopBottomFilterHelper filterHelper ) throws IOException
+	{
+		IDiskArray dimPositionArray = new OrderedDiskArray( ); // final selection positions
+		for ( Iterator itr = dimValueArrayList.iterator( ); itr.hasNext( ); )
+		{
+			IDiskArray dimValues = (IDiskArray) itr.next( );
+			int size = dimValues.size( );
+			int start = 0;
+			int end = size;
+			if ( filterHelper.isPercent( ) )
+			{
+				int n = getTargetN( size, filterHelper.getN( ) );
+				if ( filterHelper.isTop( ) )
+					start = size - n;
+				else
+					end = n;
+			}
+			for ( int j = start; j < end; j++ )
+			{
+				ValueObject aggrValue = (ValueObject) dimValues.get( j );
+				IntRange range = (IntRange) aggrValue.index;
+				for ( int k = range.start; k <= range.end; k++ )
+				{
+					dimPositionArray.add( new Integer( k ) );
+				}
+			}
+		}
+		return dimPositionArray;
+	}
+
+	/**
+	 * @param levels
+	 * @param filter
+	 * @return
+	 * @throws DataException
+	 */
+	private int getTargetLevelIndex( ILevel[] levels,
+			IJSTopBottomFilterHelper filter ) throws DataException
+	{
+		int index = 0;
+		DimLevel targetLevel = filter.getTargetLevel( );
+		for ( index = 0; index < levels.length; index++ )
+		{
+			if ( levels[index].getName( )
+					.equals( targetLevel.getLevelName( ) ) )
+			{
+				return index;
+			}
+		}
+		return -1;
+	}
+
+
+	/**
+	 * To check whether two dimension rows share the same parent levels
+	 * regarding the specified target level.
+	 * 
+	 * @param members
+	 * @param previous
+	 * @param end -
+	 *            the member index of the target level.
+	 * @return
+	 */
+	private boolean shareParentLevels( Member[] members, Member[] previous,
+			int end )
+	{
+		if ( previous == null )
+			return false;
+		for ( int i = 0; i < end; i++ )
+		{
+			if ( members[i].equals( previous[i] ) == false )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * 
@@ -1414,6 +1531,15 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			addJSFilter( (IJSFilterHelper) filterEvalHelperList.get( i ) );
 		}
+	}
+
+	
+	/**
+	 * @param isBreakHierarchy the isBreakHierarchy to set
+	 */
+	public void setBreakHierarchy( boolean isBreakHierarchy )
+	{
+		this.isBreakHierarchy = isBreakHierarchy;
 	}	
 }
 

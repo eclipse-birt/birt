@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,13 +11,17 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.util.filter;
 
+import java.util.Set;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -32,6 +36,8 @@ public class TopBottomDimensionFilterEvalHelper
 {
 	private double N;
 	private int filterType;
+	private boolean isTop;
+	private boolean isPercent;
 	
 	/**
 	 * @param parentScope
@@ -49,14 +55,33 @@ public class TopBottomDimensionFilterEvalHelper
 		try
 		{
 			initialize( parentScope, queryDefn, cubeFilter, cx );
-			
 			populateN( cx );
 			popualteFilterType( );
+			argumentCheck();
 		}
 		finally
 		{
 			Context.exit( );
 		}
+	}
+
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void argumentCheck( ) throws DataException
+	{
+		if ( isPercent )
+		{
+			if ( this.N < 0 || this.N > 100 )
+				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT );
+		}
+		else
+		{
+			if ( this.N < 0 )
+				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT );
+		}
+
 	}
 
 	/**
@@ -84,15 +109,23 @@ public class TopBottomDimensionFilterEvalHelper
 		{
 			case IConditionalExpression.OP_TOP_N:
 				this.filterType = IJSTopBottomFilterHelper.TOP_N;
+				isTop = true;
+				isPercent = false;
 				break;
 			case IConditionalExpression.OP_TOP_PERCENT:
 				this.filterType = IJSTopBottomFilterHelper.TOP_PERCENT;
+				isTop = true;
+				isPercent = true;
 				break;
 			case IConditionalExpression.OP_BOTTOM_N:
 				this.filterType = IJSTopBottomFilterHelper.BOTTOM_N;
+				isTop = false;
+				isPercent = false;
 				break;
 			case IConditionalExpression.OP_BOTTOM_PERCENT:
 				this.filterType = IJSTopBottomFilterHelper.BOTTOM_PERCENT;
+				isTop = false;
+				isPercent = true;
 				break;
 			default:
 				assert false;
@@ -131,6 +164,16 @@ public class TopBottomDimensionFilterEvalHelper
 		}
 	}
 
+	public DimLevel getTargetLevel( ) throws DataException
+	{
+		Set set =  OlapExpressionCompiler.getReferencedDimLevel( this.expr, queryDefn.getBindings( ) );
+		if( set.size( ) != 1 )
+		{
+			throw new DataException("Referenced dimension level set should contain only one level!");
+		}
+		DimLevel result = (DimLevel)set.iterator( ).next( );
+		return result;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#getFilterType()
@@ -169,13 +212,25 @@ public class TopBottomDimensionFilterEvalHelper
 		}
 		return true;
 	}
-	
+
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isAxisFilter()
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isPercentFilter()
 	 */
-	public boolean isAxisFilter( )
+	public boolean isPercent( )
 	{
-		return this.isAxisFilter;
+		return isPercent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isTopFilter()
+	 */
+	public boolean isTop( )
+	{
+		return isTop;
 	}
 }
