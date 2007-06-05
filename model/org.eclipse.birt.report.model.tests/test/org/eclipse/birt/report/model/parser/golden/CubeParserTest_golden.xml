@@ -174,6 +174,7 @@
                         </structure>
                     </list-property>
                     <property name="hierarchy">updated hierarchy</property>
+                    <property name="level">testDimension/testLevel</property>
                 </structure>
                 <structure>
                     <list-property name="joinConditions">
@@ -182,6 +183,7 @@
                             <property name="hierarchyKey">addHierarchyKey</property>
                         </structure>
                     </list-property>
+                    <property name="level">testDimension/noLevel</property>
                 </structure>
             </list-property>
         </tabular-cube>

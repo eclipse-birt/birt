@@ -296,6 +296,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.addJoinCondition( new DimensionJoinCondition( ) );
 		joinConditionHandle.setCubeKey( "addCubeKey" ); //$NON-NLS-1$
 		joinConditionHandle.setHierarchyKey( "addHierarchyKey" ); //$NON-NLS-1$
+		structHandle.setLevel( "testDimension/noLevel" ); //$NON-NLS-1$
 		structHandle = (DimensionConditionHandle) propHandle.get( 0 );
 		MemberHandle memberHandle = structHandle
 				.getMember( DimensionCondition.HIERARCHY_MEMBER );

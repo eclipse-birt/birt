@@ -34,6 +34,7 @@
     		<list-property name="dimensionConditions">
     			<structure>
     				<property name="hierarchy">testHierarchy</property>
+    				<property name="level">testDimension/testLevel</property>
     				<list-property name="joinConditions">
     					<structure>
                     		<property name="cubeKey">cubeKey</property>

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -156,4 +157,55 @@ public class DimensionConditionHandle extends StructureHandle
 		setProperty( DimensionCondition.HIERARCHY_MEMBER, element );
 	}
 
+	/**
+	 * Gets the referred level element handle of this condition.
+	 * 
+	 * @return level element handle of this condition if found, otherwise null
+	 */
+	public LevelHandle getLevel( )
+	{
+		ElementRefValue refValue = (ElementRefValue) ( (Structure) getStructure( ) )
+				.getLocalProperty( getModule( ),
+						DimensionCondition.LEVEL_MEMBER );
+		if ( refValue == null || !refValue.isResolved( ) )
+			return null;
+		DesignElement element = refValue.getElement( );
+		return (LevelHandle) element.getHandle( element.getRoot( ) );
+	}
+
+	/**
+	 * Gets the referred level full name of this condition.
+	 * 
+	 * @return level full name of this condition if set, otherwise null
+	 */
+	public String getLevelName( )
+	{
+		return getStringProperty( DimensionCondition.LEVEL_MEMBER );
+	}
+
+	/**
+	 * Sets the referred level by the name.
+	 * 
+	 * @param levelName
+	 *            the full name of the level element to set
+	 * @throws SemanticException
+	 */
+	public void setLevel( String levelName ) throws SemanticException
+	{
+		setProperty( DimensionCondition.LEVEL_MEMBER, levelName );
+	}
+
+	/**
+	 * Sets the referred level by the handle.
+	 * 
+	 * @param levelHandle
+	 *            the level handle to set
+	 * @throws SemanticException
+	 */
+	public void setLevel( LevelHandle levelHandle ) throws SemanticException
+	{
+		DesignElement element = levelHandle == null ? null : levelHandle
+				.getElement( );
+		setProperty( DimensionCondition.LEVEL_MEMBER, element );
+	}
 }

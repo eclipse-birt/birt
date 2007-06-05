@@ -43,6 +43,12 @@ public class DimensionCondition extends PropertyStructure
 
 	public final static String HIERARCHY_MEMBER = "hierarchy"; //$NON-NLS-1$
 
+	/**
+	 * Name of the member that specifies the level name of this condition
+	 * relates.
+	 */
+	public final static String LEVEL_MEMBER = "level"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 

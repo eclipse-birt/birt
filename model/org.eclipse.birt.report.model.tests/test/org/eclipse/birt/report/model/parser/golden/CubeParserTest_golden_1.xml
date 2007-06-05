@@ -151,6 +151,7 @@
                         </structure>
                     </list-property>
                     <property name="hierarchy">testHierarchy</property>
+                    <property name="level">testDimension/testLevel</property>
                 </structure>
                 <structure>
                     <list-property name="joinConditions">
@@ -302,6 +303,7 @@
                         </structure>
                     </list-property>
                     <property name="hierarchy">testHierarchy</property>
+                    <property name="level">testDimension/testLevel</property>
                 </structure>
                 <structure>
                     <list-property name="joinConditions">

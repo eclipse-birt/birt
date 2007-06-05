@@ -1787,6 +1787,7 @@
   <Structure displayNameID="Structure.DimensionCondition" name="DimensionCondition" since="2.2">
   	<Member detailType="DimensionJoinCondition" displayNameID="Structure.DimensionCondition.joinConditions" isList="true" name="joinConditions" since="2.2" type="structure" />
 	<Member detailType="Hierarchy" displayNameID="Structure.DimensionCondition.hierarchy" name="hierarchy" since="2.2" type="elementRef" />
+	<Member detailType="Level" displayNameID="Structure.DimensionCondition.level" name="level" since="2.2" type="elementRef"/>
   </Structure>
   <Structure displayNameID="Structure.DimensionJoinCondition" name="DimensionJoinCondition" since="2.2">
   	<Member displayNameID="Structure.DimensionJoinCondition.cubeKey" name="cubeKey" since="2.2" type="String"/>
