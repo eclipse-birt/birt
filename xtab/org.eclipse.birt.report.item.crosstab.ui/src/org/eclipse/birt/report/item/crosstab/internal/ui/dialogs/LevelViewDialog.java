@@ -100,8 +100,8 @@ public class LevelViewDialog extends BaseDialog
 		levelViewer = new CheckboxTreeViewer( parent, SWT.SINGLE | SWT.BORDER );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.widthHint = 200;
-		gd.heightHint = 150;
+		gd.widthHint = 340;
+		gd.heightHint = 250;
 		levelViewer.getTree( ).setLayoutData( gd );
 
 		levelViewer.setContentProvider( new CubeContentProvider( ) );

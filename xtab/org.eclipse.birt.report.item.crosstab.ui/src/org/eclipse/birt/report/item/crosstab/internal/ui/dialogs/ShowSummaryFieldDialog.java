@@ -78,14 +78,14 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		table.setHeaderVisible( false );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 150;
+		gd.heightHint = 250;
 		table.setLayoutData( gd );
 
 		summaryFieldViewer = new CheckboxTableViewer( table );
 		SummaryFieldProvider provider = new SummaryFieldProvider( );
 
 		TableColumn column = new TableColumn( table, SWT.LEFT );
-		column.setWidth( 200 );
+		column.setWidth( 340 );
 
 		summaryFieldViewer.setUseHashlookup( true );
 		summaryFieldViewer.setContentProvider( provider );
