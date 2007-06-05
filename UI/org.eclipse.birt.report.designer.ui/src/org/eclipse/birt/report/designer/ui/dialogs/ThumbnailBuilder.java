@@ -34,6 +34,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -75,7 +76,7 @@ public class ThumbnailBuilder extends BaseDialog
 
 	private Button radioBtnGenerate, radioBtnBrowse, radioBtnImport;
 
-	private Button btnImplement, btnRemove;
+	private Button btnImport, btnRemove;
 
 	private Image image;
 
@@ -168,7 +169,7 @@ public class ThumbnailBuilder extends BaseDialog
 		}
 		if ( currentListener != null )
 		{
-			btnImplement.removeListener( SWT.Selection, currentListener );
+			btnImport.removeListener( SWT.Selection, currentListener );
 		}
 		super.okPressed( );
 	}
@@ -222,24 +223,28 @@ public class ThumbnailBuilder extends BaseDialog
 	{
 		if ( currentListener != null )
 		{
-			btnImplement.removeListener( SWT.Selection, currentListener );
+			btnImport.removeListener( SWT.Selection, currentListener );
 		}
+
 		switch ( type )
 		{
 			case GENERATE_TYPE :
-				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Generate" ) );
+				btnImport.setText( BUTTON_TEXT_GENERATE );
+				LayoutButtons( );
 				currentListener = btnGenerateListener;
-				btnImplement.addListener( SWT.Selection, currentListener );
+				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			case BROWSER_TYPE :
-				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) );
+				btnImport.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) );
+				LayoutButtons( );
 				currentListener = btnBrowseListener;
-				btnImplement.addListener( SWT.Selection, currentListener );
+				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			case IMPORT_TYPE :
-				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Import" ) );
+				btnImport.setText( BUTTON_TEXT_IMPORT );
+				LayoutButtons( );
 				currentListener = btnImportListener;
-				btnImplement.addListener( SWT.Selection, currentListener );
+				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			default :
 				;
@@ -277,7 +282,7 @@ public class ThumbnailBuilder extends BaseDialog
 		if ( ( moduleHandle == null )
 				|| ( !( moduleHandle instanceof ReportDesignHandle ) ) )
 		{
-			btnImplement.setEnabled( false );
+			btnImport.setEnabled( false );
 			btnRemove.setEnabled( false );
 
 			return true;
@@ -334,14 +339,36 @@ public class ThumbnailBuilder extends BaseDialog
 		gd = new GridData( );
 		gd.horizontalAlignment = GridData.FILL;
 
-		btnImplement = new Button( buttonArea, SWT.PUSH );
-		btnImplement.setLayoutData( gd );
+		btnImport = new Button( buttonArea, SWT.PUSH );
+		btnImport.setLayoutData( gd );
 
 		btnRemove = new Button( buttonArea, SWT.PUSH );
 		btnRemove.setText( BUTTON_TEXT_REMOVE );
 		btnRemove.setLayoutData( gd );
 		btnRemove.addListener( SWT.Selection, btnRemoveListener );
 
+	}
+	
+	private void LayoutButtons()
+	{
+		
+		GridData gd = new GridData( );
+		gd.horizontalAlignment = GridData.FILL_HORIZONTAL;
+		
+		Point pnt1 = btnImport.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+		Point pnt2 = btnRemove.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+		gd.widthHint = Math.max( pnt1.x, pnt2.x );
+
+		btnImport.setLayoutData( gd );
+		btnRemove.setLayoutData( gd );
+		
+		Control control = getDialogArea();
+		
+		if(control instanceof Composite)
+		{
+			((Composite)control).layout( );
+		}
+		getShell( ).pack( );			
 	}
 
 	private Listener btnGenerateListener = new Listener( ) {
