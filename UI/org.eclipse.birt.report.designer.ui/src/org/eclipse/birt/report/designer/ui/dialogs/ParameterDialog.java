@@ -658,7 +658,7 @@ public class ParameterDialog extends BaseDialog
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 230;
+		gd.heightHint = 330;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
