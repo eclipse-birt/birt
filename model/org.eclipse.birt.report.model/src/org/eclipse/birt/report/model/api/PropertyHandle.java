@@ -707,6 +707,10 @@ public class PropertyHandle extends SimpleValueHandle
 			DesignElementHandle content = (DesignElementHandle) get( posn );
 			dropAndClear( content );
 		}
+		else
+		{
+			removeItem( posn );
+		}
 	}
 
 	/**
@@ -725,6 +729,10 @@ public class PropertyHandle extends SimpleValueHandle
 		{
 			DesignElementHandle content = (DesignElementHandle) get( posn );
 			drop( content );
+		}
+		else
+		{
+			removeItem( posn );
 		}
 	}
 

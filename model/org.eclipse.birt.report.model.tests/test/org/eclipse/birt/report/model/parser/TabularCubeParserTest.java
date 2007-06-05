@@ -776,6 +776,25 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertTrue( compareFile( "CubeParserTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * When we delete an element, we will remove the structure whose member
+	 * refers the deleted element. However, this feature only works for the
+	 * first level structure. It does not work for the second structure.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClearStructureForElementRemove( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+		LevelHandle levelHandle = designHandle
+				.findLevel( "testDimension/testLevel" ); //$NON-NLS-1$
+
+		levelHandle.dropAndClear( );
+		
+		save( );
+		assertTrue( compareFile( "CubeParserTest_golden_4.xml" ) ); //$NON-NLS-1$
+	}
+
 	private static void checkNotificationStatus( MyListener listener )
 	{
 		assertEquals( NotificationEvent.PROPERTY_EVENT, listener.getEventType( ) );

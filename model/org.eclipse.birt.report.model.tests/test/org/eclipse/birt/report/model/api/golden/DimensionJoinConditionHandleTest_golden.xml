@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <cubes>
         <tabular-cube name="Customer Cube" id="8">
             <property name="dimensions">
-                <tabular-dimension name="Group" id="71">
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="72"/>
-                    </property>
-                </tabular-dimension>
                 <tabular-dimension name="Group1" id="108">
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy1" id="109"/>
@@ -15,14 +10,8 @@
                 </tabular-dimension>
             </property>
             <list-property name="dimensionConditions">
-            	<structure>
-                    <property name="hierarchy">noExistingHierarchy</property>
-                </structure>
                 <structure>
                     <property name="hierarchy">NewTabularHierarchy1</property>
-                </structure>
-                <structure>
-                    <property name="hierarchy">NewTabularHierarchy</property>
                 </structure>
             </list-property>
         </tabular-cube>

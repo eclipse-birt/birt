@@ -206,6 +206,11 @@ public class StructureState extends AbstractPropertyState
 			{
 				CachedMemberRef memberRef = new CachedMemberRef(
 						(ElementPropertyDefn) propDefn, list.size( ) );
+				
+				// cache the structure to the member reference.
+				
+				memberRef.checkOrCacheStructure( struct );
+				
 				Structure.StructureContext structContext = new Structure.StructureContext(
 						element, memberRef );
 				( (Structure) struct ).setContext( structContext );
@@ -294,11 +299,10 @@ public class StructureState extends AbstractPropertyState
 		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new StructureState( handler, element, propDefn, struct );
 
-		if (  ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue)
+		if ( ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue )
 			return new SimplePropertyListState( handler, element, propDefn,
 					struct );
 
-		
 		return super.startElement( tagName );
 	}
 

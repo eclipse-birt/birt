@@ -39,28 +39,31 @@ public class DimensionJoinConditionHandleTest extends BaseTestCase
 
 		TabularCubeHandle cube = (TabularCubeHandle) designHandle
 				.findCube( "Customer Cube" ); //$NON-NLS-1$
+		
+		PropertyHandle propHandle = cube.getPropertyHandle( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 
-		List propList = cube
-				.getListProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
-		assertEquals( 2, propList.size( ) );
+		List propList = propHandle.getListValue( );
+		assertEquals( 3, propList.size( ) );
 
+		// delete the first dimension condition and then let the
+		// 'CachedMemberRef' in the backref of hierarchy is invalid
+		propHandle.drop( 0 );
+		assertEquals( 2, propHandle.getListValue( ).size( ) );
+		// add then drop the dimension and its content hierarchy
 		DimensionHandle dimensionHandle = cube.getDimension( "Group" );//$NON-NLS-1$
 		dimensionHandle.dropAndClear( );
 
-		propList = cube
-				.getListProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
-		assertEquals( 1, propList.size( ) );
-
-		DimensionCondition condition = (DimensionCondition) propList.get( 0 );
-		assertEquals(
-				"NewTabularHierarchy1", condition.getProperty( designHandle.getModule( ), DimensionCondition.HIERARCHY_MEMBER ) );//$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "DimensionJoinConditionHandleTest_golden.xml" )); //$NON-NLS-1$
+		
 	}
+
 	/**
 	 * Test equals method in DimensionJoinConditionHandle.
 	 * 
 	 * @throws Exception
 	 */
-	 public void testEquals( ) throws Exception
+	public void testEquals( ) throws Exception
 	{
 		openDesign( "DimensionJoinConditionHandleTest.xml" );//$NON-NLS-1$
 

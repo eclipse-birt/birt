@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
@@ -486,7 +487,8 @@ public class ContentCommand extends AbstractContentCommand
 						ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 								module, client );
 						cmd.removeItem( new CachedMemberRef( cachedMemberRef
-								.getPropDefn( ) ), cachedMemberRef.getIndex( ) );
+								.getPropDefn( ) ), (IStructure) cachedMemberRef
+								.getValue( module, client ) );
 					}
 					else if ( ref.getPropertyName( ) != null )
 					{
