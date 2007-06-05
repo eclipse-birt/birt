@@ -542,7 +542,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			IHTMLImageHandler imageHandler = context.getImageHandler( );
 			if ( imageHandler != null )
 			{
-				String imageId = content.getInstanceID( ).toString( );
+				String imageId = content.getInstanceID( ).toUniqueString( );
 				CachedImage cachedImage = imageHandler.getCachedImage( imageId,
 						IImage.CUSTOM_IMAGE, context.getReportContext( ) );
 				if ( cachedImage != null )
