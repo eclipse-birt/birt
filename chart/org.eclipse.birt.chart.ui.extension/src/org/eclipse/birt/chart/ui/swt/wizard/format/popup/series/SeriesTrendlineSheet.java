@@ -183,7 +183,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		{
 			GridLayout gl = new GridLayout( 2, false );
 			cmpLabelInner.setLayout( gl );
-			GridData gd = new GridData( GridData.FILL_VERTICAL );
+			GridData gd = new GridData( GridData.FILL_BOTH);
 			gd.verticalAlignment = SWT.BEGINNING;
 			cmpLabelInner.setLayoutData( gd );
 		}
