@@ -206,7 +206,7 @@ public final class UIHelper
 	{
 		TabularCubeHandle cube = (TabularCubeHandle) dimension.getContainer( );
 		HierarchyHandle hierarcy = dimension.getDefaultHierarchy( );
-
+		if(hierarcy == null)return;
 		try
 		{
 			dropProperty( cube, hierarcy, BuilderConstancts.POSITION_X );
