@@ -27,7 +27,6 @@ public class AllTests
 		//$JUnit-BEGIN$
 		suite.addTestSuite( ExtendedElementUIPointTest.class );
 		suite.addTestSuite( ExtensionPointManagerTest.class );
-		suite.addTestSuite( IReportItemUITest.class );
 		//$JUnit-END$
 		return suite;
 	}
