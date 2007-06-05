@@ -12,9 +12,13 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.CrosstabCellPageGenerator;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.CrosstabPageGenerator;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
@@ -31,11 +35,25 @@ public class CrosstabGeneratorFactory implements IAdapterFactory
 			return null;
 		}
 		ExtendedItemHandle item = (ExtendedItemHandle) adaptableObject;
-		if ( item.getExtensionName( ).equals( "Crosstab" ) )
+		IReportItem reportItem = null;
+		try
+		{
+			reportItem = item.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(reportItem == null)
+		{
+			return null;
+		}
+		if ( reportItem instanceof CrosstabReportItemHandle)
 		{
 			return new CrosstabPageGenerator( );
 		}
-		else if ( item.getExtensionName( ).equals( "CrosstabCell" ) )
+		else if (reportItem instanceof CrosstabCellHandle)
 		{
 			return new CrosstabCellPageGenerator( );
 		}

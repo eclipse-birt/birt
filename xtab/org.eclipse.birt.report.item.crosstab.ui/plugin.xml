@@ -227,11 +227,18 @@
           singleton="false"
           type="org.eclipse.birt.report.designer.ui.views.IPageGenerator">
        <enablement>
-          <test
-                forcePluginActivation="true"
-                property="ExtendItemHandle.extensionName"
-                value="CrosstabCell">
-          </test>
+          <or>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.extensionName"
+                   value="CrosstabCell">
+             </test>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.extensionName"
+                   value="AggregationCell">
+             </test>
+          </or>
        </enablement>
     </adapter>
  </adaptable>
