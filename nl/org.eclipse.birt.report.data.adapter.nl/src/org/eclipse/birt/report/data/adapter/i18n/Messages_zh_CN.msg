@@ -21,5 +21,5 @@ datasource.exid.error=数据源定义中缺少扩展 ID: {0}
 
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
-adapter.invalid.datetimetype=The datetime type "{0}" is invalid.
+adapter.invalid.datetimetype=日期时间类型“{0}”无效。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.

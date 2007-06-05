@@ -21,5 +21,5 @@ datasource.exid.error=데이터 원본 정의 {0}에 확장 ID가 누락되었습니다.
 
 datasethandle.null.error=DataSetHandle은 널(null)이 될 수 없습니다.
 datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
-adapter.invalid.datetimetype=The datetime type "{0}" is invalid.
+adapter.invalid.datetimetype=날짜/시간 형식 "{0}"이(가) 잘못되었습니다.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.

@@ -21,5 +21,5 @@ datasource.exid.error=Falta el id de la extensión en la definición de la fuente 
 
 datasethandle.null.error=DataSetHandle no puede ser nulo.
 datasethandle.invalidColumnIndex=El índice de columna no es válido.
-adapter.invalid.datetimetype=The datetime type "{0}" is invalid.
+adapter.invalid.datetimetype=El tipo de fecha/hora "{0}" no es válido.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
