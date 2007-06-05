@@ -176,6 +176,11 @@ public class ResourcePreferencePage extends PreferencePage implements
 				{
 					return;
 				}
+				folderName = folderName.replace('\\','/'); //$NON-NLS-1$ //$NON-NLS-2$
+				if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$
+				{
+					folderName = folderName + "/"; //$NON-NLS-1$
+				}
 				resourceText.setText( folderName );
 			}
 		} );

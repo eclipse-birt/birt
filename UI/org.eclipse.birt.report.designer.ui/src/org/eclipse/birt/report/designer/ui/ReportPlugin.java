@@ -25,7 +25,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -800,17 +799,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultTemplatePreference( )
 	{
 		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
-		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-		defaultDir = defaultDir + TemplatePreferencePage.DIRCTORY;
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-
 		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir );
 	}
 
