@@ -639,7 +639,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatibleScalarParamAllowPropsTest.xml" ); //$NON-NLS-1$
 		save( );
 
-		assertTrue( compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" )); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -655,7 +655,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 
-		assertTrue( compareFile( "CompatibleColumnBindingTest_golden.xml" )); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleColumnBindingTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -670,7 +670,22 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatibleLevelName.xml" ); //$NON-NLS-1$
 		save( );
 
-		assertTrue( compareFile("CompatibleLevelName_golden.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleLevelName_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * If the design version is less than 3.2.13 and element names contain
+	 * /,\,/.!;, these characters should be automatically changed to _.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCompatibleInvalidCharsInName( ) throws Exception
+	{
+		openDesign( "CompatibleInvalidCharsInName.xml" ); //$NON-NLS-1$
+		save( );
+
+		assertTrue( compareFile( "CompatibleInvalidCharsInName_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 }

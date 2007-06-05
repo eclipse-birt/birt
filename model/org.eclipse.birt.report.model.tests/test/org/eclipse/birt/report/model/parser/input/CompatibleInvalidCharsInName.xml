@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12">
+    <data-sources>
+        <script-data-source name="myData/Source"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="first;!DataSet">
+            <property name="dataSource">myData/Source</property>
+        </script-data-set>
+        <script-data-set name="secondDataSet.">
+            <property name="dataSource">myData/Source</property>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+                <data/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -19,13 +19,18 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -199,6 +204,15 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		this.tempValue = null;
 
+		// rename invalid names that contains "." , "/".
+
+		if ( versionNumber < VersionUtil.VERSION_3_2_13 )
+		{
+			List handledExceptions = handleInvalidName( getErrorHandler( )
+					.getErrors( ) );
+			getErrorHandler( ).getErrors( ).removeAll( handledExceptions );
+		}
+
 		// add all the exceptions to the module
 
 		module.getAllExceptions( ).addAll( getErrorHandler( ).getErrors( ) );
@@ -344,6 +358,62 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			DesignElement element = (DesignElement) unnamedReportItems.get( i );
 			ModelUtil.addElement2NameSpace( module, element );
 		}
+	}
+
+	/**
+	 * If the name contains the invalid characters, rename it.
+	 * 
+	 */
+
+	private List handleInvalidName( List exceptions )
+	{
+		List handledExceptions = new ArrayList( );
+		List processElements = new ArrayList( );
+
+		for ( int i = 0; i < exceptions.size( ); i++ )
+		{
+			Exception tmpObj = (Exception) exceptions.get( i );
+			if ( !( tmpObj instanceof XMLParserException ) )
+				continue;
+
+			Exception exception = ( (XMLParserException) tmpObj )
+					.getException( );
+
+			if ( !( exception instanceof NameException ) )
+				continue;
+
+			NameException nameException = (NameException) exception;
+			DesignElement tmpElement = nameException.getElement( );
+
+			// for invalid name case.
+
+			if ( tmpElement.getName( ) != null
+					&& nameException.getErrorCode( ) == NameException.DESIGN_EXCEPTION_INVALID_NAME )
+			{
+				String oldName = nameException.getName( );
+				String newName = NamePropertyType.validateName( oldName );
+
+				if ( oldName.equals( newName ) )
+					continue;
+
+				tmpElement.setName( newName );
+				int ns = ( (ElementDefn) tmpElement.getDefn( ) )
+						.getNameSpaceID( );
+				if ( ns != MetaDataConstants.NO_NAME_SPACE )
+					new NameExecutor( tmpElement ).getNameSpace( module )
+							.rename( tmpElement, oldName, newName );
+
+				processElements.add( tmpElement );
+				handledExceptions.add( tmpObj );
+			}
+			// if the name has other exceptions, also add to return list for
+			// removing them
+			
+			else if ( processElements.contains( tmpElement ) )
+				handledExceptions.add( tmpObj );
+		}
+
+		return handledExceptions;
 	}
 
 	/**

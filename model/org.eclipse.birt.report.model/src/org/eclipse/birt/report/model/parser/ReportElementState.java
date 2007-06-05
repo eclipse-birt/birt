@@ -333,6 +333,7 @@ public abstract class ReportElementState extends DesignParseState
 						new NameException( element, name,
 								NameException.DESIGN_EXCEPTION_INVALID_NAME ) );
 				isValidName = false;
+				element.setName( name );
 			}
 			if ( isValidName )
 			{
