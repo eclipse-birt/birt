@@ -426,6 +426,7 @@
 		</tstamp>
 
 		<property name="plugin-dest" value="${baseLocation}"/>
+		<property name="package-dest" value="${baseLocation}/../PackageFiles"/>
 		<property name="AllInOne-dest" value="${baseLocation}/../PackageFiles/AllInOne"/>
 		<property name="AllInOne-Linux-dest" value="${baseLocation}/../PackageFiles/AllInOne-Linux"/>
 		<property name="file-version" value="${file-prefix}${timestamp.TODAY_US}"/>
@@ -442,19 +443,33 @@
 			<fileset dir="${plugin-dest}/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
-			    <include name="org.apache.xerces_*.jar"/>
-			    <include name="org.apache.xml.resolver_*.jar"/>
-			    <include name="org.w3c.dom_*.jar"/>
+			        <include name="org.apache.xerces_*.jar"/>
+			        <include name="org.apache.xml.resolver_*.jar"/>
+			        <include name="org.w3c.dom_*.jar"/>
+			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${plugin-dest}/features" >
 				<include name="org.eclipse.datatools.*/**" />
 			</fileset>
-			<fileset dir="${AllInOne-dest}/eclipse/plugins" >
+			<fileset dir="${package-dest}/dtp/eclipse/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
 			    <include name="org.apache.xerces_*.jar"/>
 			    <include name="org.apache.xml.resolver_*.jar"/>
 			    <include name="org.w3c.dom_*.jar"/>
+			    <include name="javax.wsdl_*.jar"/>
+			</fileset>
+			<fileset dir="${package-dest}/dtp/eclipse/features" >
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<!-- =============================
+			<fileset dir="${AllInOne-dest}/eclipse/plugins" >
+				<include name="*.datatools.*.jar" />
+				<include name="org.eclipse.datatools.*/**" />
+			        <include name="org.apache.xerces_*.jar"/>
+			        <include name="org.apache.xml.resolver_*.jar"/>
+			        <include name="org.w3c.dom_*.jar"/>
+			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-dest}/eclipse/features" >
 				<include name="org.eclipse.datatools.*/**" />
@@ -462,13 +477,15 @@
 			<fileset dir="${AllInOne-Linux-dest}/eclipse/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
-			    <include name="org.apache.xerces_*.jar"/>
-			    <include name="org.apache.xml.resolver_*.jar"/>
-			    <include name="org.w3c.dom_*.jar"/>
+			        <include name="org.apache.xerces_*.jar"/>
+			        <include name="org.apache.xml.resolver_*.jar"/>
+			        <include name="org.w3c.dom_*.jar"/>
+			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-Linux-dest}/eclipse/features" >
 				<include name="org.eclipse.datatools.*/**" />
 			</fileset>
+				====================================== -->
 		</delete>
 
 		<!--Define the ODA dependency plugins-->
@@ -494,9 +511,11 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
+                        <include name="org.eclipse.datatools.help_*.jar"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
+			<include name="javax.wsdl_*.jar"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
 			<include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
@@ -520,25 +539,13 @@
 		</copy>
 
 		<!-- Copy to package files dir -->	
-		<copy todir="${AllInOne-dest}/eclipse/plugins" failonerror="false">
+		<copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 				<patternset refid="oda.runtime.plugins" />
 			</fileset>
 		</copy>
 				
-		<copy todir="${AllInOne-dest}/eclipse/features" failonerror="false" >
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<patternset refid="oda.runtime.features" />
-			</fileset> 
-		</copy>
-
-		<copy todir="${AllInOne-Linux-dest}/eclipse/plugins" failonerror="false">
-			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<patternset refid="oda.runtime.plugins" />
-			</fileset>
-		</copy>
-				
-		<copy todir="${AllInOne-Linux-dest}/eclipse/features" failonerror="false" >
+		<copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<patternset refid="oda.runtime.features" />
 			</fileset> 
@@ -548,7 +555,6 @@
 	<!-- Build BIRT Web Viewer -->
 	<target name="BuildWebViewer" depends="init">
 		<mkdir dir="${buildDirectory}/${buildId}/birt_web"/>
-		<property name="baseLocation.emf" value="${baseLocation}"/>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
 			<property name="baseLocation.emf" value="${baseLocation.emf}"/>
@@ -574,7 +580,7 @@
 			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
 				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
 			</fileset>
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+                        <mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
 	</target>
 	
@@ -789,15 +795,17 @@ Have a nice day!
             <arg value="${test.dir}/unitTestReport/xml" />
             <arg value="${test.dir}/unitTestReport/html/result.properties" />
             <arg value="Y"/>
-        	<arg value="Y"/>
+            <arg value="Y"/>
         </java>
+	<!--
         <java classname="org.eclipse.birt.build.ParseResultCount">
             <classpath refid="customjar.classpath" />
             <arg value="${test.dir}/unitTestReport/smokexml" />
             <arg value="${test.dir}/unitTestReport/html/result.properties" />
             <arg value="Y"/>
-        	<arg value="N"/>
+            <arg value="N"/>
         </java>
+	-->
     	<move file="${test.dir}/unitTestReport/html/result.properties" 
     		tofile="${postingDirectory}/../result.properties"/>
     </target>
