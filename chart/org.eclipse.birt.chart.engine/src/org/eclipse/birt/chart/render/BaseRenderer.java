@@ -1663,6 +1663,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final BaseRenderer br = lirh.getRenderer( );
 		br.renderLegendGraphic( ipr, lg, fPaletteEntry, bo );
 
+		// 1. Draw series identify label.
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
 
@@ -1711,36 +1712,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			ipr.drawText( tre );
 		}
 
+		// 2. Draw legend value label.
 		if ( valueLa != null )
 		{
-			Location[] loaBack = new Location[4];
-			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
-					PolygonRenderEvent.class );
-			pre.setBackground( valueLa.getBackground( ) );
-			pre.setOutline( valueLa.getOutline( ) );
-			pre.setPoints( loaBack );
-
 			final double dValueWidth = dColumnWidth - 2 * dLeftInset;
 
-			loaBack[0] = LocationImpl.create( dX + dLeftInset + 1, dY
-					+ dFullHeight
-					+ 1 );
-			loaBack[1] = LocationImpl.create( dX + dLeftInset + 1, dY
-					+ dFullHeight
-					+ dExtraHeight );
-			loaBack[2] = LocationImpl.create( dX + dLeftInset + dValueWidth, dY
-					+ dFullHeight
-					+ dExtraHeight );
-			loaBack[3] = LocationImpl.create( dX + dLeftInset + dValueWidth, dY
-					+ dFullHeight
-					+ 1 );
-
-			ipr.fillPolygon( pre );
-			ipr.drawPolygon( pre );
-
 			Label tmpLa = LabelImpl.copyInstance( valueLa );
-			tmpLa.setOutline( null );
-			tmpLa.setBackground( null );
 
 			TextAlignment ta = TextAlignmentImpl.create( );
 			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
