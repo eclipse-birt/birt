@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins;
 
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.AttributeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.CubeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
@@ -19,6 +20,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinCondi
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -69,6 +71,11 @@ public class GraphicalEditPartsFactory implements EditPartFactory
 		{
 			return new LevelEditPart( context,
 					(TabularLevelHandle) model );
+		}
+		
+		if( model instanceof LevelAttributeHandle){
+			return new AttributeEditPart(context,
+					(LevelAttributeHandle) model);
 		}
 
 		return null;

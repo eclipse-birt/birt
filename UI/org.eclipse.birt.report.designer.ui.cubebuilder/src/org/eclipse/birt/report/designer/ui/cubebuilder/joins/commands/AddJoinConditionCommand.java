@@ -9,17 +9,19 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.AttributeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.gef.EditPart;
@@ -81,14 +83,23 @@ public class AddJoinConditionCommand extends Command
 		joinCondition.setCubeKey( target.getColumnName( ) );
 		if ( source instanceof LevelEditPart )
 			joinCondition.setHierarchyKey( ( (LevelEditPart) source ).getLevelColumnName( ) );
-		else if ( source instanceof ColumnEditPart )
-			joinCondition.setHierarchyKey( ( (ColumnEditPart) source ).getColumnName( ) );
+		else if ( source instanceof AttributeEditPart )
+		{
+			joinCondition.setHierarchyKey( ( (AttributeEditPart) source ).getColumnName( ) );
+		}
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) source.getParent( ) ).getModel( );
 
 		try
 		{
 			TabularCubeHandle cube = ( (DatasetNodeEditPart) target.getParent( ) ).getCube( );
-			getDimensionCondition( cube, hierarchy ).addJoinCondition( joinCondition );
+			DimensionJoinConditionHandle handle = getDimensionCondition( cube,
+					hierarchy ).addJoinCondition( joinCondition );
+			if ( source instanceof AttributeEditPart )
+			{
+				LevelAttributeHandle levelAttribute = (LevelAttributeHandle) ( (AttributeEditPart) source ).getModel( );
+				LevelHandle level = (LevelHandle) levelAttribute.getElementHandle( );
+				handle.setLevel( level.getName( ) );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -101,15 +112,11 @@ public class AddJoinConditionCommand extends Command
 			TabularCubeHandle cube, TabularHierarchyHandle hierarchy )
 			throws Exception
 	{
-		Iterator iter = cube.joinConditionsIterator( );
-		while ( iter.hasNext( ) )
-		{
-			DimensionConditionHandle conditionHandle = (DimensionConditionHandle) iter.next( );
-			if ( conditionHandle.getHierarchy( ) == hierarchy )
-				return conditionHandle;
-		}
+		DimensionConditionHandle conditionHandle = cube.findDimensionCondition( hierarchy );
+		if ( conditionHandle != null )
+			return conditionHandle;
 		DimensionCondition dimensionCondition = StructureFactory.createCubeJoinCondition( );
-		DimensionConditionHandle conditionHandle = cube.addDimensionCondition( dimensionCondition );
+		conditionHandle = cube.addDimensionCondition( dimensionCondition );
 		conditionHandle.setHierarchy( hierarchy );
 		return conditionHandle;
 	}

@@ -119,7 +119,13 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 					ResultSetColumnHandle column = OlapUtil.getDataField( hierarchy.getDataSet( ),
 							handle.getName( ) );
 					if ( column != null )
-						childList.add( column );
+					{
+						// LevelAttribute attribute = new LevelAttribute(
+						// levels[i],
+						// column );
+						childList.add( handle );
+					}
+
 				}
 			}
 		}

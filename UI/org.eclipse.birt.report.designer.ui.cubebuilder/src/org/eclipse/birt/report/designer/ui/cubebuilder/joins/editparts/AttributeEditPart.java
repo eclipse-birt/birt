@@ -15,19 +15,26 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ColumnSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ConnectionCreationEditPolicy;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.AttributeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnFigure;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
@@ -40,7 +47,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
  * for other methods defined here
  * 
  */
-public class ColumnEditPart extends NodeEditPartHelper implements Listener
+public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 {
 
@@ -50,11 +57,15 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 * @param context
 	 * @param column
 	 */
-	public ColumnEditPart( EditPart parent, ResultSetColumnHandle column )
+
+	private TabularHierarchyHandle hierarchy;
+
+	public AttributeEditPart( EditPart parent, LevelAttributeHandle attribute )
 	{
 		setParent( parent );
-		setModel( column );
-		this.cube = ( (DatasetNodeEditPart) getParent( ) ).getCube( );
+		setModel( attribute );
+		this.cube = ( (HierarchyNodeEditPart) getParent( ) ).getCube( );
+		this.hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) getParent( ) ).getModel( );
 	}
 
 	private TabularCubeHandle cube;
@@ -71,8 +82,9 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 */
 	protected IFigure createFigure( )
 	{
+
 		ColumnFigure columnFigure = null;
-		columnFigure = new ColumnFigure( );
+		columnFigure = new AttributeFigure( );
 		FlowLayout layout = new FlowLayout( );
 		layout.setMinorSpacing( 2 );
 		columnFigure.setLayoutManager( layout );
@@ -81,6 +93,7 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		label = new Label( name );
 		columnFigure.add( label );
 		return columnFigure;
+
 	}
 
 	/**
@@ -88,8 +101,8 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 */
 	private ResultSetColumnHandle getColumn( )
 	{
-		// TODO Auto-generated method stub
-		return (ResultSetColumnHandle) getModel( );
+		return OlapUtil.getDataField( hierarchy.getDataSet( ),
+				( (LevelAttributeHandle) getModel( ) ).getName( ) );
 	}
 
 	/*
@@ -112,47 +125,70 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		return ( (AbstractGraphicalEditPart) this.getParent( ) ).getFigure( );
 	}
 
-	protected List getModelTargetConnections( )
+	protected List getModelSourceConnections( )
 	{
-		List targetjoins = new ArrayList( );
+		List sourcejoins = new ArrayList( );
 
-		DatasetNodeEditPart datasetEditpart = (DatasetNodeEditPart) getParent( );
-		TabularCubeHandle cube = datasetEditpart.getCube( );
-		Iterator iter = cube.joinConditionsIterator( );
+		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent( );
+		Iterator iter = hierarchyEditpart.getCube( ).joinConditionsIterator( );
 		while ( iter.hasNext( ) )
 		{
 			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-			Iterator conditionIter = condition.getJoinConditions( ).iterator( );
-			while ( conditionIter.hasNext( ) )
+			HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
+			if ( conditionHierarchy == hierarchyEditpart.getModel( ) )
 			{
-				DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-				if ( joinCondition.getCubeKey( )
-						.equals( getColumn( ).getColumnName( ) ) )
-					targetjoins.add( joinCondition );
+				Iterator conditionIter = condition.getJoinConditions( )
+						.iterator( );
+				while ( conditionIter.hasNext( ) )
+				{
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
+					if ( joinCondition.getHierarchyKey( )
+							.equals( getColumnName( ) ) )
+					{
+						sourcejoins.add( joinCondition );
+					}
+				}
 			}
 		}
 
-		return targetjoins;
+		return sourcejoins;
+	}
+
+	public DragTracker getDragTracker( Request request )
+	{
+
+		List connectionList = getModelSourceConnections( );
+		for ( int i = 0; i < connectionList.size( ); i++ )
+		{
+			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get( i );
+			if ( joinCondition.getHierarchyKey( ).equals( getColumnName( ) ) )
+				return super.getDragTracker( request );
+		}
+
+		ConnectionCreation connection = new ConnectionCreation( this );
+		return connection;
+
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( isActive( ) && !isDelete( ) )
 		{
-			refreshTargetConnections( );
+			refreshSourceConnections( );
 		}
 	}
 
 	public void deactivate( )
 	{
 		super.deactivate( );
-		( (DatasetNodeEditPart) getParent( ) ).getCube( ).removeListener( this );
+		( (HierarchyNodeEditPart) getParent( ) ).getCube( )
+				.removeListener( this );
 	}
 
 	public void activate( )
 	{
 		super.activate( );
-		( (DatasetNodeEditPart) getParent( ) ).getCube( ).addListener( this );
+		( (HierarchyNodeEditPart) getParent( ) ).getCube( ).addListener( this );
 	}
 
 	public String getColumnName( )

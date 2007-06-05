@@ -137,6 +137,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	public LevelPropertyDialog( boolean isNew )
 	{
 		super( UIUtil.getDefaultShell( ) );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 		this.isNew = isNew;
 
 	}
@@ -161,7 +162,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		contents.setLayout( layout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.widthHint = convertWidthInCharsToPixels( 80 );
-		data.heightHint = 400;
+		data.heightHint = 450;
 		contents.setLayoutData( data );
 
 		// createInfoArea( contents );
@@ -870,9 +871,11 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		dynamicTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
-				| SWT.BORDER );
+				| SWT.BORDER
+				| SWT.VERTICAL
+				| SWT.HORIZONTAL );
 		gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 100;
+		gd.heightHint = 150;
 		dynamicTable.setLayoutData( gd );
 		dynamicTable.setLinesVisible( true );
 		dynamicTable.setHeaderVisible( true );
@@ -1187,7 +1190,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		final Table staticTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
-				| SWT.BORDER );
+				| SWT.BORDER
+				| SWT.VERTICAL
+				| SWT.HORIZONTAL );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		staticTable.setLayoutData( gd );

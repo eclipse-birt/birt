@@ -12,7 +12,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.AddJoinConditionCommand;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.ConnectionCommand;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.LevelEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConnection;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.gef.EditPart;
