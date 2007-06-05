@@ -2095,9 +2095,9 @@ Structure.DimensionJoinCondition.cubeKey=Clé de cube
 Structure.DimensionJoinCondition.hierarchyKey=Clé de hiérarchie
 
 #34. AggregationArgument
-Structure.AggregationArgument=Aggregation Argument
-Structure.AggregationArgument.name=Argument Name
-Structure.AggregationArgument.value=Argument Value
+Structure.AggregationArgument=Argument d'agrégation
+Structure.AggregationArgument.name=Nom de l'argument
+Structure.AggregationArgument.value=Valeur de l'argument
 
 ###########################################################
 # Element names
@@ -2997,7 +2997,7 @@ Element.TabularHierarchy.primaryKeys=Clé principale
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=Nom de colonne
-Element.TabularLevel.displayColumnName=Display Column Name
+Element.TabularLevel.displayColumnName=Afficher le nom de colonne
 Element.TabularLevel.attributes=Attributs
 
 #56. OdaCube ( prefix Element.OdaCube )

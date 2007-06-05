@@ -431,8 +431,8 @@ dataset.editor.title.direction=•ûŒü
 dataset.editor.title.displayName=•\¦–¼
 dataset.editor.title.displayNameKey=•\¦–¼‚ÌƒL[
 dataset.editor.title.expression=®
-dataset.editor.title.aggrFunc=Aggregation
-dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.aggrFunc=‘Œv
+dataset.editor.title.aggrArgu=ˆø”
 dataset.editor.title.filter=ƒtƒBƒ‹ƒ^
 dataset.editor.title.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg
 dataset.editor.title.isInput=“ü—Í
@@ -788,9 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=ƒtƒ@ƒCƒ‹Aƒf[ƒ^ƒZƒbƒg—ñ
 DesignerPaletteFactory.toolTip.tableReportItem=ƒwƒbƒ_AÚ×Aƒtƒbƒ^‚Ìƒf[ƒ^ƒZƒbƒgs‚ÉA—ñ‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.toolTip.textDataReportItem=ƒIƒvƒVƒ‡ƒ“‚Å CLOB ƒf[ƒ^®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.toolTip.textReportItem=ƒIƒvƒVƒ‡ƒ“‚ÅƒCƒ“ƒ‰ƒCƒ“®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN (•W€‚ÌƒeƒLƒXƒg‚Ü‚½‚Í HTML) ‚ğ‘}“ü‚µ‚Ü‚·B
-DesignerPaletteFactory.quicktool.title=Quick Tools
-DesignerPaletteFactory.quicktool.agg.title=Aggregation
-DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
+DesignerPaletteFactory.quicktool.title=ƒNƒCƒbƒNƒc[ƒ‹
+DesignerPaletteFactory.quicktool.agg.title=‘Œv
+DesignerPaletteFactory.quicktool.agg.toolTip=‘Œv‚Ìƒc[ƒ‹ƒqƒ“ƒg
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1010,7 +1010,7 @@ Element.ParameterGroup.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[
 Element.ParameterGroup.slot.parameters=ƒpƒ‰ƒƒ^ :
 Element.ParameterGroup.startExpanded=ŠJn‚É“WŠJ :
 Element.ReportDesign.afterCloseDoc.toolTip=¶¬ƒtƒF[ƒY‚ÅƒŒƒ|[ƒg•¶‘ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚½’¼Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=ƒŒƒCƒAƒEƒg‚Ìİ’è :
 Element.ReportDesign.afterCloseDoc=•¶‘‚ğ•Â‚¶‚½Œã :
 Element.ReportDesign.afterFactory.toolTip=¶¬ƒtƒF[ƒY‚Å‚Ìˆ—‚ªI—¹‚µ‚½Û‚ÉAƒŒƒ|[ƒg•¶‘ (ŠY“–‚·‚éê‡) ‚ğ•Â‚¶‚½Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B‚±‚ê‚ÍA¶¬ƒtƒF[ƒY‚ÅŒÄ‚Ño‚³‚ê‚éÅŒã‚Ìƒƒ\ƒbƒh‚Å‚·B
 Element.ReportDesign.afterFactory=Factory ‚Å‚Ìˆ—Œã :
@@ -1510,7 +1510,7 @@ FormPage.Button.Down=‰º‚Ö(&N)
 FormPage.Button.Edit=•ÒW(&D)
 FormPage.Button.EditWithDialog=•ÒW(&D)...
 FormPage.Button.Up=ã‚Ö(&U)
-FormPage.Button.Binding.Refresh=Re&fresh
+FormPage.Button.Binding.Refresh=Ä•\¦(&F)
 FormPage.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 FormPage.toolTipText.Up=ã‚ÉˆÚ“®
 FormPage.toolTipText.Down=‰º‚ÉˆÚ“®
@@ -2174,7 +2174,7 @@ FilterConditionBuilder.choice.ValueOfThisDataItem=‚±‚Ìƒf[ƒ^€–Ú‚Ì’l
 FilterConditionBuilder.tooltip.ExpBuilder=®ƒrƒ‹ƒ_‚ğ‹N“®‚·‚é‚É‚ÍA‚±‚±‚ğƒNƒŠƒbƒN‚µ‚Ä‚µ‚Ä‚­‚¾‚³‚¢
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=ƒtƒBƒ‹ƒ^‚ÌğŒ‚Ì“ü—Í :
-FilterConditionBuilder.Shell.Title=Filter Condition
+FilterConditionBuilder.Shell.Title=ƒtƒBƒ‹ƒ^‚ÌğŒ
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3543,7 +3543,7 @@ SaveReportAsWizard.SettingPage.message=ƒŒƒ|[ƒg‚ğƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Ä•Û‘¶‚·‚é‚ÆA‚
 SaveReportAsWizard.SaveAsWizardWindowTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageDesc=ƒtƒ@ƒCƒ‹‚ğ•Ê‚ÌêŠ‚É•Û‘¶‚µ‚Ü‚·B
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties
+SaveReportAsWizard.SettingPage.Messages=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒvƒƒpƒeƒB‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3834,16 +3834,16 @@ PageGenerator.TabItem.Sorting=ƒ\[ƒg
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create aggregation data item
+AggDataDropAdapter.Trans.Name=‘Œvƒf[ƒ^€–Ú‚Ìì¬
 
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=–¼‘O :
 BindingDialogHelper.text.DataType=ƒf[ƒ^Œ^ :
 BindingDialogHelper.text.Function=ŠÖ” :
-BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.DataField=ƒf[ƒ^ƒtƒB[ƒ‹ƒh :
 BindingDialogHelper.text.Filter=ƒtƒBƒ‹ƒ^ :
-BindingDialogHelper.text.AggOn=WŒvğŒ :
+BindingDialogHelper.text.AggOn=‘ŒvğŒ :
 BindingDialogHelper.text.Table=ƒe[ƒuƒ‹
 BindingDialogHelper.text.List=ƒŠƒXƒg
 BindingDialogHelper.text.Group=ƒOƒ‹[ƒv
@@ -3852,8 +3852,8 @@ BindingDialogHelper.text.displayName=•\¦–¼ :
 
 ###########################################################
 #Scripts Node
-Scripts.Node.DisplayName=Scripts
-ScriptElementNode.Action.Text=Go to Report Element
+Scripts.Node.DisplayName=ƒXƒNƒŠƒvƒg
+ScriptElementNode.Action.Text=ƒŒƒ|[ƒg—v‘f‚ÉƒWƒƒƒ“ƒv
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
 

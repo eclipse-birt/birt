@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=計測の表示/非表示
 AddMesureViewHandleAction.TransName=計測の表示/非表示
 AddSubTotalAction.LabelName=総計
 AddSubTotalAction.TransName=総計
-AddSubTotalAction.DisplayName=Totals
+AddSubTotalAction.DisplayName=合計
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
 DeleteDimensionViewHandleAction.TransName=DimensionViewHandle の削除
@@ -168,13 +168,13 @@ CrosstabSectionPage.RepeatColumnHeader=列のヘッダの繰り返し
 ###########################################################
 #ExpressionValueCellEditor properties
 
-ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
-ExpressionValueCellEditor.selectValueAction=<Select value...>
-ExpressionValueCellEditor.title=Select value
-CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
-SelColumnMemberValue.Column.Level=Level
-SelColumnMemberValue.Column.Value=Value
+ExpressionValueCellEditor.buildExpressionAction=<式の構築...>
+ExpressionValueCellEditor.selectValueAction=<値の選択...>
+ExpressionValueCellEditor.title=値の選択
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
+SelColumnMemberValue.Column.Level=レベル
+SelColumnMemberValue.Column.Value=値
 ChoiceSetFactory.choice.None=なし
 
 ###########################################################
@@ -183,8 +183,8 @@ SelectValueDialog.errorRetrievinglist=Error retrieving list
 SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
 SelectValueDialog.noExpressionSet=An expression has not been set
 SelectValueDialog.retrieving=Retrieving list...
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+SelectValueDialog.selectValue=値の選択
+SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
 
 CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit

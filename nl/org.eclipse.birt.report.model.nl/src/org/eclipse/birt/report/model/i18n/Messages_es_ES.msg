@@ -2095,9 +2095,9 @@ Structure.DimensionJoinCondition.cubeKey=Clave de cubo
 Structure.DimensionJoinCondition.hierarchyKey=Clave de jerarquía
 
 #34. AggregationArgument
-Structure.AggregationArgument=Aggregation Argument
-Structure.AggregationArgument.name=Argument Name
-Structure.AggregationArgument.value=Argument Value
+Structure.AggregationArgument=Argumento de agregación
+Structure.AggregationArgument.name=Nombre de argumento
+Structure.AggregationArgument.value=Valor de argumento
 
 ###########################################################
 # Element names
@@ -2997,7 +2997,7 @@ Element.TabularHierarchy.primaryKeys=Clave primaria
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=Nombre de la columna
-Element.TabularLevel.displayColumnName=Display Column Name
+Element.TabularLevel.displayColumnName=Visualizar nombre de columna
 Element.TabularLevel.attributes=Atributos
 
 #56. OdaCube ( prefix Element.OdaCube )
@@ -3519,4 +3519,4 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Los elementos de plantill
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=El archivo de diseño de apertura no es un archivo de diseño válido o el archivo no existe.
 Info.VersionInfo.CONVERT_INFO=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
-Info.VersionInfo.INVALID_VERSION=No se admite la versión del archivo de informe "{0}".
+Info.VersionInfo.INVALID_VERSION=La versión del archivo de informe "{0}" no es compatible.

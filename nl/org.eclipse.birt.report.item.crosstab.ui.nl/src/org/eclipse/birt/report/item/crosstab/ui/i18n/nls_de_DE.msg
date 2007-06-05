@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=Maßeinheiten einblenden/ausblenden
 AddMesureViewHandleAction.TransName=Maßeinheiten einblenden/ausblenden
 AddSubTotalAction.LabelName=Gesamtsumme
 AddSubTotalAction.TransName=Aggregat
-AddSubTotalAction.DisplayName=Totals
+AddSubTotalAction.DisplayName=Summen
 AddSubTotalAction.TotalName=GESAMT
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Datenquader bearbeiten
 DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle löschen
@@ -168,13 +168,13 @@ CrosstabSectionPage.RepeatColumnHeader=Spaltenüberschrift wiederholen
 ###########################################################
 #ExpressionValueCellEditor properties
 
-ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
-ExpressionValueCellEditor.selectValueAction=<Select value...>
-ExpressionValueCellEditor.title=Select value
-CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
-SelColumnMemberValue.Column.Level=Level
-SelColumnMemberValue.Column.Value=Value
+ExpressionValueCellEditor.buildExpressionAction=<Ausdruckserstellung ...>
+ExpressionValueCellEditor.selectValueAction=<Wert auswählen ...>
+ExpressionValueCellEditor.title=Wert auswählen
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
+SelColumnMemberValue.Column.Level=Ebene
+SelColumnMemberValue.Column.Value=Wert
 ChoiceSetFactory.choice.None=Ohne
 
 ###########################################################
@@ -183,8 +183,8 @@ SelectValueDialog.errorRetrievinglist=Error retrieving list
 SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
 SelectValueDialog.noExpressionSet=An expression has not been set
 SelectValueDialog.retrieving=Retrieving list...
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+SelectValueDialog.selectValue=Wert auswählen
+SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verfügbar.
 
 CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit

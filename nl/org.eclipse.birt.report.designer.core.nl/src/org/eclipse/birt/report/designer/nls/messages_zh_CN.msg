@@ -431,8 +431,8 @@ dataset.editor.title.direction=·½Ïò
 dataset.editor.title.displayName=ÏÔÊ¾Ãû³Æ
 dataset.editor.title.displayNameKey=ÏÔÊ¾Ãû³Æ¹Ø¼ü×Ö
 dataset.editor.title.expression=±í´ïÊ½
-dataset.editor.title.aggrFunc=Aggregation
-dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.aggrFunc=¾ÛºÏ
+dataset.editor.title.aggrArgu=²ÎÊı
 dataset.editor.title.filter=É¸Ñ¡Æ÷
 dataset.editor.title.helpText=°ïÖúÎÄ±¾
 dataset.editor.title.isInput=ÊäÈë
@@ -788,9 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=´ÓÎÄ¼ş¡¢Êı¾İ¼¯ÁĞ»ò±í´ïÊ½½
 DesignerPaletteFactory.toolTip.tableReportItem=ÔÚÒ³Ã¼/ÏêÏ¸ĞÅÏ¢/Ò³½ÅÇø¶ÎÖĞ²åÈëÊı¾İ¼¯ĞĞµÄÁĞ±íÊ¾
 DesignerPaletteFactory.toolTip.textDataReportItem=²åÈë´øÓĞ¿ÉÑ¡ CLOB Êı¾İ±í´ïÊ½µÄÎÄ±¾¿é
 DesignerPaletteFactory.toolTip.textReportItem=²åÈëÎÄ±¾¿é£¨´¿ÎÄ±¾/HTML£©ºÍ¿ÉÑ¡Ç¶Èë±í´ïÊ½¡£
-DesignerPaletteFactory.quicktool.title=Quick Tools
-DesignerPaletteFactory.quicktool.agg.title=Aggregation
-DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
+DesignerPaletteFactory.quicktool.title=¿ìËÙ¹¤¾ß
+DesignerPaletteFactory.quicktool.agg.title=¾ÛºÏ
+DesignerPaletteFactory.quicktool.agg.toolTip=¾ÛºÏ¹¤¾ßÌáÊ¾
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1010,7 +1010,7 @@ Element.ParameterGroup.helpTextID=°ïÖúÎÄ±¾¹Ø¼ü×Ö
 Element.ParameterGroup.slot.parameters=²ÎÊı:
 Element.ParameterGroup.startExpanded=¿ªÊ¼Õ¹¿ª:
 Element.ReportDesign.afterCloseDoc.toolTip=½öÔÚÉú³É½×¶Î¹Ø±Õ±¨±íÎÄµµÎÄ¼şÖ®ºóµ÷ÓÃ¡£
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=²¼¾ÖÊ×Ñ¡Ïî:
 Element.ReportDesign.afterCloseDoc=¹Ø±ÕÎÄµµºó:
 Element.ReportDesign.afterFactory.toolTip=ÔÚÉú³É½×¶Î½áÊøÊ±²¢ÇÒÔÚ¹Ø±Õ±¨±íÎÄµµ£¨Èç¹ûÓĞ£©Ö®ºóµ÷ÓÃ¡£ÕâÊÇÉú³É½×¶Îµ÷ÓÃµÄ×îºóÒ»¸ö·½·¨¡£
 Element.ReportDesign.afterFactory=³ö³§ºó:
@@ -1510,7 +1510,7 @@ FormPage.Button.Down=ÏÂÒÆ(&N)
 FormPage.Button.Edit=±à¼­(&D)
 FormPage.Button.EditWithDialog=±à¼­(&D)...
 FormPage.Button.Up=ÉÏÒÆ(&U)
-FormPage.Button.Binding.Refresh=Re&fresh
+FormPage.Button.Binding.Refresh=Ë¢ĞÂ(&F)
 FormPage.Menu.ModifyProperty=ĞŞ¸ÄÊôĞÔ
 FormPage.toolTipText.Up=ÉÏÒÆ
 FormPage.toolTipText.Down=ÏÂÒÆ
@@ -2174,7 +2174,7 @@ FilterConditionBuilder.choice.ValueOfThisDataItem=´ËÊı¾İÏîµÄÖµ
 FilterConditionBuilder.tooltip.ExpBuilder=µ¥»÷ÒÔµ÷ÓÃ±í´ïÊ½Éú³ÉÆ÷¡£
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=ÊäÈëÉ¸Ñ¡Ìõ¼ş:
-FilterConditionBuilder.Shell.Title=Filter Condition
+FilterConditionBuilder.Shell.Title=É¸Ñ¡Ìõ¼ş
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3543,7 +3543,7 @@ SaveReportAsWizard.SettingPage.message=Èç¹û±¨±íÁí´æÎªÄ£°å£¬Ê¹ÓÃÕâĞ©ÊôĞÔ¡£
 SaveReportAsWizard.SaveAsWizardWindowTitle=Áí´æÎª
 SaveReportAsWizard.SaveAsWizardPageTitle=Áí´æÎª
 SaveReportAsWizard.SaveAsWizardPageDesc=½«ÎÄ¼ş±£´æÖÁÁíÒ»¸öÎ»ÖÃ¡£
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties
+SaveReportAsWizard.SettingPage.Messages=ÇëÉèÖÃÄ£°åÊôĞÔ
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3834,14 +3834,14 @@ PageGenerator.TabItem.Sorting=ÅÅĞò
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create aggregation data item
+AggDataDropAdapter.Trans.Name=´´½¨¾ÛºÏÊı¾İÏî
 
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=Ãû³Æ:
 BindingDialogHelper.text.DataType=Êı¾İÀàĞÍ:
 BindingDialogHelper.text.Function=º¯Êı:
-BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.DataField=Êı¾İ×Ö¶Î:
 BindingDialogHelper.text.Filter=É¸Ñ¡Æ÷:
 BindingDialogHelper.text.AggOn=¾ÛºÏÌõ¼ş:
 BindingDialogHelper.text.Table=±í
@@ -3852,8 +3852,8 @@ BindingDialogHelper.text.displayName=ÏÔÊ¾Ãû³Æ:
 
 ###########################################################
 #Scripts Node
-Scripts.Node.DisplayName=Scripts
-ScriptElementNode.Action.Text=Go to Report Element
+Scripts.Node.DisplayName=½Å±¾
+ScriptElementNode.Action.Text=×ªµ½±¨±íÔªËØ
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
 

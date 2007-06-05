@@ -279,10 +279,10 @@ Anchor.NorthWest.displayName=Superior izquierda
 
 AnchorVertical.North.displayName=Superior
 AnchorVertical.South.displayName=Inferior
-AnchorVertical.West.displayName=Middle
+AnchorVertical.West.displayName=Medio
 
 AnchorHorizontal.East.displayName=Derecha
-AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.South.displayName=Medio
 AnchorHorizontal.West.displayName=Izquierda
 
 Stretch.Horizontal.displayName=Horizontal

@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
 AddMesureViewHandleAction.TransName=측정 표시/숨기기
 AddSubTotalAction.LabelName=총합계
 AddSubTotalAction.TransName=집계
-AddSubTotalAction.DisplayName=Totals
+AddSubTotalAction.DisplayName=전체
 AddSubTotalAction.TotalName=합계
 CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
 DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle 삭제
@@ -168,13 +168,13 @@ CrosstabSectionPage.RepeatColumnHeader=열 머리글 반복
 ###########################################################
 #ExpressionValueCellEditor properties
 
-ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
-ExpressionValueCellEditor.selectValueAction=<Select value...>
-ExpressionValueCellEditor.title=Select value
-CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
-SelColumnMemberValue.Column.Level=Level
-SelColumnMemberValue.Column.Value=Value
+ExpressionValueCellEditor.buildExpressionAction=<식 빌드...>
+ExpressionValueCellEditor.selectValueAction=<값 선택...>
+ExpressionValueCellEditor.title=값 선택
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
+SelColumnMemberValue.Column.Level=수준
+SelColumnMemberValue.Column.Value=값
 ChoiceSetFactory.choice.None=없음
 
 ###########################################################
@@ -183,8 +183,8 @@ SelectValueDialog.errorRetrievinglist=Error retrieving list
 SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
 SelectValueDialog.noExpressionSet=An expression has not been set
 SelectValueDialog.retrieving=Retrieving list...
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+SelectValueDialog.selectValue=값 선택
+SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습니다.
 
 CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit

@@ -2095,9 +2095,9 @@ Structure.DimensionJoinCondition.cubeKey=큐브 키
 Structure.DimensionJoinCondition.hierarchyKey=계층 키
 
 #34. AggregationArgument
-Structure.AggregationArgument=Aggregation Argument
-Structure.AggregationArgument.name=Argument Name
-Structure.AggregationArgument.value=Argument Value
+Structure.AggregationArgument=집계 인수
+Structure.AggregationArgument.name=인수 이름
+Structure.AggregationArgument.value=인수 값
 
 ###########################################################
 # Element names
@@ -2997,7 +2997,7 @@ Element.TabularHierarchy.primaryKeys=기본 키
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=열 이름
-Element.TabularLevel.displayColumnName=Display Column Name
+Element.TabularLevel.displayColumnName=열 이름 표시
 Element.TabularLevel.attributes=특성
 
 #56. OdaCube ( prefix Element.OdaCube )
@@ -3519,4 +3519,4 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
-Info.VersionInfo.INVALID_VERSION=버전 "{0}"의 보고서 파일이 지원되지 않습니다.
+Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.

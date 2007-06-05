@@ -279,11 +279,11 @@ Anchor.NorthWest.displayName=Oben links
 
 AnchorVertical.North.displayName=Oben
 AnchorVertical.South.displayName=Unten
-AnchorVertical.West.displayName=Middle
+AnchorVertical.West.displayName=Mitte
 
 AnchorHorizontal.East.displayName=Rechts
-AnchorHorizontal.South.displayName=Middle
-AnchorHorizontal.West.displayName=Links
+AnchorHorizontal.South.displayName=Mitte
+AnchorHorizontal.West.displayName=Nach-links
 
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertikal

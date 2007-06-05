@@ -277,13 +277,13 @@ Anchor.SouthWest.displayName=左下
 Anchor.West.displayName=左
 Anchor.NorthWest.displayName=左上
 
-AnchorVertical.North.displayName=上
-AnchorVertical.South.displayName=下
-AnchorVertical.West.displayName=Middle
+AnchorVertical.North.displayName=顶部
+AnchorVertical.South.displayName=底部
+AnchorVertical.West.displayName=中间
 
-AnchorHorizontal.East.displayName=右侧
-AnchorHorizontal.South.displayName=Middle
-AnchorHorizontal.West.displayName=左侧
+AnchorHorizontal.East.displayName=右
+AnchorHorizontal.South.displayName=中间
+AnchorHorizontal.West.displayName=左
 
 Stretch.Horizontal.displayName=水平
 Stretch.Vertical.displayName=垂直

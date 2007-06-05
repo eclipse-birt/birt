@@ -431,7 +431,7 @@ dataset.editor.title.direction=Direction
 dataset.editor.title.displayName=Nom d'affichage
 dataset.editor.title.displayNameKey=Clé de nom d'affichage
 dataset.editor.title.expression=Expression
-dataset.editor.title.aggrFunc=Aggregation
+dataset.editor.title.aggrFunc=Agrégation
 dataset.editor.title.aggrArgu=Argument
 dataset.editor.title.filter=Filtre
 dataset.editor.title.helpText=Texte d'aide
@@ -788,9 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=Insérer un bloc de texte 
 DesignerPaletteFactory.toolTip.tableReportItem=Insérer une présentation en colonne composée de lignes de jeu de données dans la partie en-tête/détail/pied de page
 DesignerPaletteFactory.toolTip.textDataReportItem=Insérer un bloc de texte avec insertion optionnelle d'expression(s) de données CLOB
 DesignerPaletteFactory.toolTip.textReportItem=Insérez un bloc de texte (texte brut/HTML) avec insertion optionnelle d'expression(s).
-DesignerPaletteFactory.quicktool.title=Quick Tools
-DesignerPaletteFactory.quicktool.agg.title=Aggregation
-DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
+DesignerPaletteFactory.quicktool.title=Outils rapides
+DesignerPaletteFactory.quicktool.agg.title=Agrégation
+DesignerPaletteFactory.quicktool.agg.toolTip=Info-bulle de l'agrégation
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1010,7 +1010,7 @@ Element.ParameterGroup.helpTextID=Clé du texte d'aide
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=Préférence de mise en page :
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération.
 Element.ReportDesign.afterFactory=Après génération :
@@ -1510,7 +1510,7 @@ FormPage.Button.Down=&Bas
 FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
 FormPage.Button.Up=&Vers le haut
-FormPage.Button.Binding.Refresh=Re&fresh
+FormPage.Button.Binding.Refresh=Ac&tualiser
 FormPage.Menu.ModifyProperty=modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
 FormPage.toolTipText.Down=Déplacer vers le bas
@@ -2174,7 +2174,7 @@ FilterConditionBuilder.choice.ValueOfThisDataItem=Valeur de l'élément de données
 FilterConditionBuilder.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur d'expression.
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=Entrez une condition de filtre :
-FilterConditionBuilder.Shell.Title=Filter Condition
+FilterConditionBuilder.Shell.Title=Condition de filtre
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3543,7 +3543,7 @@ SaveReportAsWizard.SettingPage.message=Ces propriétés sont utilisées dans les ca
 SaveReportAsWizard.SaveAsWizardWindowTitle=Enregistrer sous
 SaveReportAsWizard.SaveAsWizardPageTitle=Enregistrer sous
 SaveReportAsWizard.SaveAsWizardPageDesc=Enregistrer le fichier à un autre emplacement.
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties
+SaveReportAsWizard.SettingPage.Messages=Définissez les propriétés du modèle
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3834,26 +3834,26 @@ PageGenerator.TabItem.Sorting=Tri en cours
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create aggregation data item
+AggDataDropAdapter.Trans.Name=Créer un élément de données d'agrégation
 
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=Nom :
 BindingDialogHelper.text.DataType=Type de données :
 BindingDialogHelper.text.Function=Fonction :
-BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.DataField=Champ de données :
 BindingDialogHelper.text.Filter=Filtre :
 BindingDialogHelper.text.AggOn=Regrouper par :
 BindingDialogHelper.text.Table=Table
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=Expression :
-BindingDialogHelper.text.displayName=Nom d'affichage :
+BindingDialogHelper.text.displayName=Afficher le nom :
 
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
-ScriptElementNode.Action.Text=Go to Report Element
+ScriptElementNode.Action.Text=Atteindre l'élément d'état
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
 

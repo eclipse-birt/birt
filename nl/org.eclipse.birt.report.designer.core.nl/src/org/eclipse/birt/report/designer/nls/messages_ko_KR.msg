@@ -431,8 +431,8 @@ dataset.editor.title.direction=방향
 dataset.editor.title.displayName=표시 이름
 dataset.editor.title.displayNameKey=표시 이름 키
 dataset.editor.title.expression=식
-dataset.editor.title.aggrFunc=Aggregation
-dataset.editor.title.aggrArgu=Argument
+dataset.editor.title.aggrFunc=집계
+dataset.editor.title.aggrArgu=인수
 dataset.editor.title.filter=필터
 dataset.editor.title.helpText=도움말 텍스트
 dataset.editor.title.isInput=입력입니다.
@@ -788,9 +788,9 @@ DesignerPaletteFactory.toolTip.multiLineDataReportItem=파일, 데이터 집합 열 또는
 DesignerPaletteFactory.toolTip.tableReportItem=머리글/상세 정보/바닥글 밴드에 데이터 집합 행의 열 프리젠테이션 삽입
 DesignerPaletteFactory.toolTip.textDataReportItem=옵션 CLOB 데이터 식을 사용하여 텍스트 블록 삽입
 DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 블록(일반 텍스트/HTML)을 삽입합니다.
-DesignerPaletteFactory.quicktool.title=Quick Tools
-DesignerPaletteFactory.quicktool.agg.title=Aggregation
-DesignerPaletteFactory.quicktool.agg.toolTip=Aggregation Tool Tip
+DesignerPaletteFactory.quicktool.title=빠른 도구
+DesignerPaletteFactory.quicktool.agg.title=집계
+DesignerPaletteFactory.quicktool.agg.toolTip=집계 도구 팁
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1010,7 +1010,7 @@ Element.ParameterGroup.helpTextID=도움말 텍스트 키
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
-Element.ReportDesign.layoutPreference=Layout Preference:
+Element.ReportDesign.layoutPreference=레이아웃 기본 설정:
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -1510,7 +1510,7 @@ FormPage.Button.Down=아래로(&N)
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
 FormPage.Button.Up=위로(&U)
-FormPage.Button.Binding.Refresh=Re&fresh
+FormPage.Button.Binding.Refresh=새로 고침(&F)
 FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
 FormPage.toolTipText.Down=아래로 이동
@@ -2174,7 +2174,7 @@ FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
 FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
-FilterConditionBuilder.Shell.Title=Filter Condition
+FilterConditionBuilder.Shell.Title=필터 조건
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -3543,7 +3543,7 @@ SaveReportAsWizard.SettingPage.message=이 속성은 보고서를 템플릿으로 저장하는 경
 SaveReportAsWizard.SaveAsWizardWindowTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageDesc=다른 위치에 파일을 저장합니다.
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties
+SaveReportAsWizard.SettingPage.Messages=템플릿 속성을 설정하십시오.
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3834,14 +3834,14 @@ PageGenerator.TabItem.Sorting=정렬
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create aggregation data item
+AggDataDropAdapter.Trans.Name=집계 데이터 항목 생성
 
 ###########################################################
 #BindingDialogHelper
 BindingDialogHelper.text.Name=이름:
 BindingDialogHelper.text.DataType=데이터 형식:
 BindingDialogHelper.text.Function=함수:
-BindingDialogHelper.text.DataField=Data Field:
+BindingDialogHelper.text.DataField=데이터 필드:
 BindingDialogHelper.text.Filter=필터:
 BindingDialogHelper.text.AggOn=집계 대상:
 BindingDialogHelper.text.Table=테이블
@@ -3852,8 +3852,8 @@ BindingDialogHelper.text.displayName=표시 이름:
 
 ###########################################################
 #Scripts Node
-Scripts.Node.DisplayName=Scripts
-ScriptElementNode.Action.Text=Go to Report Element
+Scripts.Node.DisplayName=스크립트
+ScriptElementNode.Action.Text=보고서 요소로 이동
 
 ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
 

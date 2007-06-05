@@ -279,10 +279,10 @@ Anchor.NorthWest.displayName=왼쪽 위
 
 AnchorVertical.North.displayName=위쪽
 AnchorVertical.South.displayName=아래쪽
-AnchorVertical.West.displayName=Middle
+AnchorVertical.West.displayName=중간
 
 AnchorHorizontal.East.displayName=오른쪽
-AnchorHorizontal.South.displayName=Middle
+AnchorHorizontal.South.displayName=중간
 AnchorHorizontal.West.displayName=왼쪽
 
 Stretch.Horizontal.displayName=가로

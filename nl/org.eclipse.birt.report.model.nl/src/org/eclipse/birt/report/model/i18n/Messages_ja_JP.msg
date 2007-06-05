@@ -2095,9 +2095,9 @@ Structure.DimensionJoinCondition.cubeKey=キューブキー
 Structure.DimensionJoinCondition.hierarchyKey=階層キー
 
 #34. AggregationArgument
-Structure.AggregationArgument=Aggregation Argument
-Structure.AggregationArgument.name=Argument Name
-Structure.AggregationArgument.value=Argument Value
+Structure.AggregationArgument=総計引数
+Structure.AggregationArgument.name=引数の名前
+Structure.AggregationArgument.value=引数の値
 
 ###########################################################
 # Element names
@@ -2997,7 +2997,7 @@ Element.TabularHierarchy.primaryKeys=プライマリキー
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名
-Element.TabularLevel.displayColumnName=Display Column Name
+Element.TabularLevel.displayColumnName=列名の表示
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )

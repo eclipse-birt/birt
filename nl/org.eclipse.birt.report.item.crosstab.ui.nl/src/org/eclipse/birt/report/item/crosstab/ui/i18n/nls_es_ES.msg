@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=Mostrar/ocultar medidas
 AddMesureViewHandleAction.TransName=Mostrar/ocultar medidas
 AddSubTotalAction.LabelName=Total general
 AddSubTotalAction.TransName=Agregación
-AddSubTotalAction.DisplayName=Totals
+AddSubTotalAction.DisplayName=Totales
 AddSubTotalAction.TotalName=TOTAL
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Editar cubo de datos
 DeleteDimensionViewHandleAction.TransName=Eliminar Dimensionviewhandle
@@ -168,13 +168,13 @@ CrosstabSectionPage.RepeatColumnHeader=Repetir encabezado de columna
 ###########################################################
 #ExpressionValueCellEditor properties
 
-ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
-ExpressionValueCellEditor.selectValueAction=<Select value...>
-ExpressionValueCellEditor.title=Select value
-CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
-SelColumnMemberValue.Column.Level=Level
-SelColumnMemberValue.Column.Value=Value
+ExpressionValueCellEditor.buildExpressionAction=<Compilar expresión...>
+ExpressionValueCellEditor.selectValueAction=<Seleccionar valor...>
+ExpressionValueCellEditor.title=Seleccionar valor
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
+SelColumnMemberValue.Column.Level=Nivel
+SelColumnMemberValue.Column.Value=Valor
 ChoiceSetFactory.choice.None=Ninguno
 
 ###########################################################
@@ -183,8 +183,8 @@ SelectValueDialog.errorRetrievinglist=Error retrieving list
 SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
 SelectValueDialog.noExpressionSet=An expression has not been set
 SelectValueDialog.retrieving=Retrieving list...
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+SelectValueDialog.selectValue=Seleccionar valor
+SelectValueDialog.messages.info.selectVauleUnavailable=La lista de valores no está disponible.
 
 CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit

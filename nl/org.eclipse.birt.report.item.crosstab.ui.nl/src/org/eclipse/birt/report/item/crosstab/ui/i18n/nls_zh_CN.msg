@@ -6,7 +6,7 @@ AddMesureViewHandleAction.DisplayName=显示/隐藏度量
 AddMesureViewHandleAction.TransName=显示/隐藏度量
 AddSubTotalAction.LabelName=总计
 AddSubTotalAction.TransName=聚合
-AddSubTotalAction.DisplayName=Totals
+AddSubTotalAction.DisplayName=总计
 AddSubTotalAction.TotalName=合计
 CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
 DeleteDimensionViewHandleAction.TransName=删除维视图句柄
@@ -168,13 +168,13 @@ CrosstabSectionPage.RepeatColumnHeader=重复列标题
 ###########################################################
 #ExpressionValueCellEditor properties
 
-ExpressionValueCellEditor.buildExpressionAction=<Build expression...>
-ExpressionValueCellEditor.selectValueAction=<Select value...>
-ExpressionValueCellEditor.title=Select value
-CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Select Column Member Value
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Select Column Member Value
-SelColumnMemberValue.Column.Level=Level
-SelColumnMemberValue.Column.Value=Value
+ExpressionValueCellEditor.buildExpressionAction=<生成表达式...>
+ExpressionValueCellEditor.selectValueAction=<选择值...>
+ExpressionValueCellEditor.title=选择值
+CrosstabSortKeyBuilder.Label.SelColumnMemberValue=选择列成员值
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=选择列成员值
+SelColumnMemberValue.Column.Level=级别
+SelColumnMemberValue.Column.Value=值
 ChoiceSetFactory.choice.None=无
 
 ###########################################################
@@ -183,8 +183,8 @@ SelectValueDialog.errorRetrievinglist=Error retrieving list
 SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
 SelectValueDialog.noExpressionSet=An expression has not been set
 SelectValueDialog.retrieving=Retrieving list...
-SelectValueDialog.selectValue=Select value
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is unavailable.
+SelectValueDialog.selectValue=选择值
+SelectValueDialog.messages.info.selectVauleUnavailable=值列表不可用。
 
 CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit
