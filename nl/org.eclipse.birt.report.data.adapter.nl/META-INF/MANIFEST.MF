@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Nl Fragment
+Bundle-Name: BIRT Data Adapter NLS Support
 Bundle-SymbolicName: org.eclipse.birt.report.data.adapter.nl1
 Bundle-Version: 2.2.0.qualifier
 Fragment-Host: org.eclipse.birt.report.data.adapter;bundle-version="[2.1.0,3.0.0)"
+Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment
