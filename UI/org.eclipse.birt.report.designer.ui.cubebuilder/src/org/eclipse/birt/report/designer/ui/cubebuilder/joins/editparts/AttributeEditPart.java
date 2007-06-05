@@ -143,7 +143,9 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 				{
 					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
 					if ( joinCondition.getHierarchyKey( )
-							.equals( getColumnName( ) ) )
+							.equals( getColumnName( ) )
+							&& OlapUtil.getDataField( cube.getDataSet( ),
+									joinCondition.getCubeKey( ) ) != null )
 					{
 						sourcejoins.add( joinCondition );
 					}

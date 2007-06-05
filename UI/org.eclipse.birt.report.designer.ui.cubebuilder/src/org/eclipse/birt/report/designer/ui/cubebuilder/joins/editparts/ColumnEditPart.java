@@ -16,13 +16,18 @@ import java.util.List;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ColumnSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ConnectionCreationEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnFigure;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -128,7 +133,46 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 				DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
 				if ( joinCondition.getCubeKey( )
 						.equals( getColumn( ).getColumnName( ) ) )
-					targetjoins.add( joinCondition );
+				{
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
+					if ( hierarchy.getDataSet( ) == null )
+						break;
+					if ( joinCondition.getLevel( ) != null )
+					{
+						LevelHandle level = joinCondition.getLevel( );
+						Iterator attrIter = level.attributesIterator( );
+						while ( attrIter.hasNext( ) )
+						{
+							LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next( );
+							ResultSetColumnHandle column = OlapUtil.getDataField( hierarchy.getDataSet( ),
+									handle.getName( ) );
+							if ( column != null
+									&& column.getColumnName( )
+											.equals( joinCondition.getHierarchyKey( ) ) )
+							{
+								targetjoins.add( joinCondition );
+								break;
+							}
+
+						}
+					}
+					else
+					{
+						if ( OlapUtil.getDataField( hierarchy.getDataSet( ),
+								joinCondition.getHierarchyKey( ) ) != null )
+							for ( int i = 0; i < hierarchy.getLevelCount( ); i++ )
+							{
+								TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( i );
+								if ( level.getColumnName( ) != null
+										&& level.getColumnName( )
+												.equals( joinCondition.getHierarchyKey( ) ) )
+								{
+									targetjoins.add( joinCondition );
+									break;
+								}
+							}
+					}
+				}
 			}
 		}
 

@@ -98,7 +98,7 @@ public class AddJoinConditionCommand extends Command
 			{
 				LevelAttributeHandle levelAttribute = (LevelAttributeHandle) ( (AttributeEditPart) source ).getModel( );
 				LevelHandle level = (LevelHandle) levelAttribute.getElementHandle( );
-				handle.setLevel( level.getName( ) );
+				handle.setLevel( level );
 			}
 		}
 		catch ( Exception e )
