@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -82,6 +83,66 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		assertEquals( 2, columnHandle.getAggregateOnList( ).size( ) );
 		columnHandle.clearAggregateOnList( );
 		assertEquals( 0, columnHandle.getAggregateOnList( ).size( ) );
+	}
+
+	/**
+	 * To test add arguments on the ComputedColumn structure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testArguments( ) throws Exception
+	{
+		createDesign( );
+
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( data );
+
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		AggregationArgument argument = StructureFactory
+				.createAggregationArgument( );
+		argument.setName( "argu1" ); //$NON-NLS-1$
+		argument.setValue( "value1" );//$NON-NLS-1$ 
+		column.addArgument( argument );
+
+		argument = StructureFactory.createAggregationArgument( );
+		argument.setName( "argu2" ); //$NON-NLS-1$
+		argument.setValue( "value2" ); //$NON-NLS-1$
+		column.addArgument( argument );
+		
+		column.setName( "column1" ); //$NON-NLS-1$
+		column.setExpression( "expression 1" ); //$NON-NLS-1$
+
+		data.addColumnBinding( column, false );
+
+		column = StructureFactory.createComputedColumn( );
+		argument = StructureFactory.createAggregationArgument( );
+		argument.setName( "argu3" ); //$NON-NLS-1$
+		argument.setValue( "value3" );//$NON-NLS-1$ 
+		column.addArgument( argument );
+
+		// the argument is null, exception should be thrown
+
+		argument = StructureFactory.createAggregationArgument( );
+		argument.setValue( "value4" ); //$NON-NLS-1$
+		column.addArgument( argument );
+		
+		column.setName( "column2" ); //$NON-NLS-1$
+		column.setExpression( "expression 2" ); //$NON-NLS-1$
+
+		try
+		{
+			data.addColumnBinding( column, false );
+			fail( );
+		}
+		catch ( PropertyValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e
+							.getErrorCode( ) );
+		}
+
 	}
 
 }

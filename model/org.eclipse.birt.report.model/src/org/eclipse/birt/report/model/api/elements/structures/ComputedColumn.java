@@ -481,4 +481,39 @@ public class ComputedColumn extends PropertyStructure
 	{
 		setProperty( AGGREGATEON_MEMBER, null );
 	}
+
+	/**
+	 * Adds an argument to list.
+	 * 
+	 * @param argument
+	 *            the aggregate function argument
+	 */
+
+	public void addArgument( AggregationArgument argument )
+	{
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
+		if ( arguments == null )
+		{
+			arguments = new ArrayList( );
+			propValues.put( ARGUMENTS_MEMBER, arguments );
+		}
+
+		arguments.add( argument );
+	}
+
+	/**
+	 * Removes an argument from list.
+	 * 
+	 * @param argument
+	 *            the aggregate function argument
+	 */
+
+	public void removeArgument( AggregationArgument argument )
+	{
+		List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
+		if ( arguments == null )
+			return;
+
+		arguments.remove( argument );
+	}
 }

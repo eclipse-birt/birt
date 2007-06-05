@@ -108,13 +108,68 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	protected void checkItem( MemberRef ref, IStructure item )
 			throws SemanticException
 	{
+		checkItem( ref.getPropDefn( ),
+				(StructPropertyDefn) ref.getMemberDefn( ), item );
+	}
+
+	/**
+	 * Validates the structure list. Currently it only support
+	 * structure.structureList or structureList.structureList.
+	 * 
+	 * @param propDefn
+	 *            the property definition
+	 * @param memberDefn
+	 *            the structure member defintion. It should be
+	 *            ref.getMemeberDefn().
+	 * @param items
+	 *            an array list containing structures that will be added
+	 * @throws SemanticException
+	 */
+
+	private void checkItems( PropertyDefn propDefn, PropertyDefn memberDefn,
+			List items ) throws SemanticException
+	{
+		if ( items == null )
+			return;
+
+		List currentList = new ArrayList( );
+
+		for ( int i = 0; i < items.size( ); i++ )
+		{
+			IStructure struct = (IStructure) items.get( i );
+			checkItem( propDefn, (StructPropertyDefn) memberDefn, struct );
+
+			StructureListValidator.getInstance( ).validateForAdding(
+					element.getHandle( module ), memberDefn, currentList,
+					struct );
+
+			currentList.add( struct );
+		}
+	}
+
+	/**
+	 * Validates the values of the item members.
+	 * 
+	 * @param ref
+	 *            reference to a list.
+	 * @param item
+	 *            the item to check
+	 * @throws SemanticException
+	 *             if the item has any member with invalid value or if the given
+	 *             structure is not of a valid type that can be contained in the
+	 *             list.
+	 */
+
+	private void checkItem( PropertyDefn propDefn,
+			StructPropertyDefn memberDefn, IStructure item )
+			throws SemanticException
+	{
 		assert item != null;
 
-		PropertyDefn propDefn = null;
+		PropertyDefn currentDefn = propDefn;
 
-		if ( ref.refType == MemberRef.PROPERTY )
+		if ( memberDefn == null )
 		{
-			propDefn = ref.getPropDefn( );
 			if ( item.getDefn( ) != propDefn.getStructDefn( ) )
 			{
 				throw new PropertyValueException( element, propDefn, item,
@@ -123,26 +178,25 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		}
 		else
 		{
-			propDefn = ref.getMemberDefn( );
-			if ( item.getDefn( ) != propDefn.getStructDefn( ) )
+			if ( item.getDefn( ) != memberDefn.getStructDefn( ) )
 			{
-				throw new PropertyValueException( element, ref.getPropDefn( ),
-						propDefn, item,
+				throw new PropertyValueException( element, propDefn, propDefn,
+						item,
 						PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 			}
-
+			currentDefn = memberDefn;
 		}
 
 		for ( Iterator iter = item.getDefn( ).propertiesIterator( ); iter
 				.hasNext( ); )
 		{
-			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-			if ( ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberDefn
-					.getName( ) ) )
+			PropertyDefn tmpMemberDefn = (PropertyDefn) iter.next( );
+			if ( ReferencableStructure.LIB_REFERENCE_MEMBER
+					.equals( tmpMemberDefn.getName( ) ) )
 				continue;
 
 			Object value = ( (Structure) item ).getLocalProperty( module,
-					memberDefn );
+					tmpMemberDefn );
 
 			// if the user calls Structure.setProperty(), the string element
 			// name will be saved as ElementRefValue. So, need to resolve it as
@@ -150,19 +204,27 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			// reference value
 
 			if ( value instanceof ElementRefValue
-					&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+					&& tmpMemberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
-				value = memberDefn.validateValue( module, refValue
+				value = tmpMemberDefn.validateValue( module, refValue
 						.getQualifiedReference( ) );
 
-				checkRecursiveElementReference( memberDefn,
+				checkRecursiveElementReference( tmpMemberDefn,
 						(ElementRefValue) value );
 			}
 			else
-				value = memberDefn.validateValue( module, value );
+			{
+				if ( tmpMemberDefn.isList( )
+						&& tmpMemberDefn.getStructDefn( ) != null )
+				{
+					checkItems( currentDefn, tmpMemberDefn, (List) value );
+				}
+				else
+					value = tmpMemberDefn.validateValue( module, value );
+			}
 
-			item.setProperty( memberDefn, value );
+			item.setProperty( tmpMemberDefn, value );
 		}
 
 		if ( item instanceof Structure )
