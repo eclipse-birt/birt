@@ -792,17 +792,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultTemplatePreference( )
 	{
 		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
-		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-		defaultDir = defaultDir + TemplatePreferencePage.DIRCTORY;
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-
 		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir );
 	}
 
