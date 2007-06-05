@@ -68,7 +68,7 @@ public class SaveReportAsWizard extends Wizard
 		{
 			settingPage = new WizardReportSettingPage( (ReportDesignHandle)model );
 			settingPage.setTitle( ReportSettingPageTitle );
-			settingPage.setMessage( ReportSettingPageMessage );
+			settingPage.setPageDesc( ReportSettingPageMessage );
 
 			addPage( settingPage );
 		}

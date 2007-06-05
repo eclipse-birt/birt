@@ -71,7 +71,7 @@ public class SaveReportAsWizard extends Wizard
 		{
 			settingPage = new WizardReportSettingPage( (ReportDesignHandle) model );
 			settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) ); //$NON-NLS-1$
-			settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
+			settingPage.setPageDesc( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 
 			addPage( settingPage );
 		}

@@ -71,7 +71,7 @@ public class PublishTemplateWizard extends Wizard
 	{
 		page = new WizardReportSettingPage( handle );
 		page.setTitle( PAGE_TITLE );
-		page.setMessage( PAGE_DESC );
+		page.setPageDesc( PAGE_DESC );
 		addPage( page );
 	}
 

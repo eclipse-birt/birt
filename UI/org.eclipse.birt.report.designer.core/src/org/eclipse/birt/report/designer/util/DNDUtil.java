@@ -163,8 +163,8 @@ public class DNDUtil
 		{
 			Object temp = targetObj;
 			targetObj = getDesignElementHandle( targetObj ).getContainerSlotHandle( );
-			//add for support the property handel
-			if (targetObj == null)
+			// add for support the property handel
+			if ( targetObj == null )
 			{
 				targetObj = getDesignElementHandle( temp ).getContainer( );
 			}
@@ -367,7 +367,8 @@ public class DNDUtil
 			if ( // targetObj instanceof ReportElementModel
 			// ||
 			targetObj instanceof DesignElementHandle
-					|| targetObj instanceof SlotHandle || targetObj instanceof PropertyHandle )
+					|| targetObj instanceof SlotHandle
+					|| targetObj instanceof PropertyHandle )
 			{
 				commands.add( getNewCommand( commandType,
 						transferData,
@@ -576,8 +577,8 @@ public class DNDUtil
 				|| selection instanceof DataSetItemModel
 				|| selection instanceof ResultSetColumnHandle
 				|| selection instanceof CubeHandle;
-//				|| selection instanceof DimensionHandle
-//				|| selection instanceof MeasureHandle;
+		// || selection instanceof DimensionHandle
+		// || selection instanceof MeasureHandle;
 	}
 
 	/**
@@ -720,10 +721,10 @@ public class DNDUtil
 	 */
 	public static Object unwrapToModel( Object obj )
 	{
-		// if ( obj instanceof ReportElementModel )
-		// {
-		// return ( (ReportElementModel) obj ).getSlotHandle( );
-		// }
+		if ( obj instanceof ThemeHandle )
+		{
+			return ( (ThemeHandle) obj ).getStyles( );
+		}
 		if ( obj instanceof ListBandProxy )
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
@@ -850,8 +851,8 @@ public class DNDUtil
 			DesignElementHandle afterHandle = getDesignElementHandle( targetObj );
 			if ( afterHandle != null )
 			{
-//				position = afterHandle.getContainerSlotHandle( )
-//						.findPosn( afterHandle );
+				// position = afterHandle.getContainerSlotHandle( )
+				// .findPosn( afterHandle );
 				position = afterHandle.getIndex( );
 				position++;
 			}
@@ -1171,8 +1172,9 @@ public class DNDUtil
 		{
 			return CONTAIN_THIS;
 		}
-		//add for the cross tab 
-		else if (targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ), childHandle ))
+		// add for the cross tab
+		else if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
+				childHandle ) )
 		{
 			return CONTAIN_THIS;
 		}
@@ -1216,19 +1218,21 @@ public class DNDUtil
 				// If class type is same
 				return CONTAIN_PARENT;
 			}
-			
-			if( targetHandle.getContainerSlotHandle( ) != null )
+
+			if ( targetHandle.getContainerSlotHandle( ) != null )
 			{
 				return targetHandle.getContainer( )
-					.canContain( targetHandle.getContainerSlotHandle( )
-							.getSlotID( ),
-							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+						.canContain( targetHandle.getContainerSlotHandle( )
+								.getSlotID( ),
+								childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
 			}
-			else if (targetHandle.getContainerPropertyHandle( ) != null)
+			else if ( targetHandle.getContainerPropertyHandle( ) != null )
 			{
 				return targetHandle.getContainer( )
-				.canContain( targetHandle.getContainerPropertyHandle( ).getPropertyDefn( ).getName( ),
-						childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+						.canContain( targetHandle.getContainerPropertyHandle( )
+								.getPropertyDefn( )
+								.getName( ),
+								childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
 			}
 		}
 		return CONTAIN_NO;
@@ -1313,7 +1317,9 @@ public class DNDUtil
 		else
 			return false;
 
-		if(slotId == -1)return targetHandle.canContain( DEUtil.getDefaultContentName( targetObj ), dragObjType );
+		if ( slotId == -1 )
+			return targetHandle.canContain( DEUtil.getDefaultContentName( targetObj ),
+					dragObjType );
 		return targetHandle.canContain( slotId, dragObjType );
 	}
 

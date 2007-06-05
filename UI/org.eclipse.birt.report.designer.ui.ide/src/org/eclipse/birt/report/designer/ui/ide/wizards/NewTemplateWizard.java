@@ -56,6 +56,10 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
+	private static final String SAVE_TEMPLATE_PROPERTIES_TITLE = Messages.getString( "SaveReportAsWizard.SettingPage.title" );
+	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" );
+
+	
 	public NewTemplateWizard( )
 	{
 		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
@@ -93,7 +97,8 @@ public class NewTemplateWizard extends NewReportWizard
 		newReportFileWizardPage.setTitle( NEW_TEMPLATE_TITLE );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );//$NON-NLS-1$
+		settingPage.setTitle( SAVE_TEMPLATE_PROPERTIES_TITLE );//$NON-NLS-1$
+		settingPage.setPageDesc( SAVE_TEMPLATE_PROPERTIES_MESSAGES );
 
 		addPage( settingPage );
 	}

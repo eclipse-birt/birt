@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -33,10 +34,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -53,11 +52,13 @@ public class WizardReportSettingPage extends WizardPage
 	// private static final String IMAGE_ERROR =
 	// "PublishTemplateAction.wizard.page.imageError";
 
-	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	
+//	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
 	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard";
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
+	private String pageDesc = STR_EMPTY;
 	private ReportDesignHandle module;
 	private Text previewImageText;
 	private Text descText;
@@ -89,16 +90,14 @@ public class WizardReportSettingPage extends WizardPage
 	{
 		super( "" );
 		module = handle;
-
-		nameStatus = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
-
-		previewImageStatus = new Status( IStatus.OK,
-				PLUGIN_ID,
-				0,
-				PAGE_DESC,
-				null );
+		pageDesc = null;
 	}
 
+	public void setPageDesc(String pageDesc)
+	{
+		this.pageDesc = pageDesc;
+		setMessage(pageDesc);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -122,6 +121,9 @@ public class WizardReportSettingPage extends WizardPage
 			public void modifyText( ModifyEvent e )
 			{
 				checkStatus( );
+				// Show the most serious error
+				applyToStatusLine( findMostSevere( ) );	
+				getWizard( ).getContainer( ).updateButtons( );
 			}
 		} );
 
@@ -135,6 +137,9 @@ public class WizardReportSettingPage extends WizardPage
 			public void modifyText( ModifyEvent e )
 			{
 				checkStatus( );
+				// Show the most serious error
+				applyToStatusLine( findMostSevere( ) );	
+				getWizard( ).getContainer( ).updateButtons( );
 			}
 		} );
 
@@ -147,6 +152,9 @@ public class WizardReportSettingPage extends WizardPage
 			public void modifyText( ModifyEvent e )
 			{
 				checkStatus( );
+				// Show the most serious error
+				applyToStatusLine( findMostSevere( ) );	
+				getWizard( ).getContainer( ).updateButtons( );
 				validate( );
 			}
 		} );
@@ -236,7 +244,7 @@ public class WizardReportSettingPage extends WizardPage
 	{
 		String imageFileName = previewImageText.getText( ).trim( );
 		// Initialize a variable with the no error status
-		Status status = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
+		Status status = new Status( IStatus.OK, PLUGIN_ID, 0, pageDesc, null );
 		nameStatus = status;
 		previewImageStatus = status;
 
@@ -279,11 +287,6 @@ public class WizardReportSettingPage extends WizardPage
 			}
 
 		}
-
-		// Show the most serious error
-		applyToStatusLine( findMostSevere( ) );
-		getWizard( ).getContainer( ).updateButtons( );
-
 	}
 
 	private static boolean isTextEmpty( Text text )
@@ -322,7 +325,7 @@ public class WizardReportSettingPage extends WizardPage
 	{
 		String message = status.getMessage( );
 		if ( message.length( ) == 0 )
-			message = PAGE_DESC;
+			message = pageDesc;
 		switch ( status.getSeverity( ) )
 		{
 			case IStatus.OK :
@@ -353,30 +356,9 @@ public class WizardReportSettingPage extends WizardPage
 	 */
 	public boolean canFinish( )
 	{
-		if ( isTextEmpty( nameText ) )
-		{
-			return false;
-		}
-
-		if ( !isTextEmpty( previewImageText ) )
-		{
-			String imageFileName = previewImageText.getText( ).trim( );
-			if ( ( !new File( imageFileName ).exists( ) )
-					&& ( !new File( ReportPlugin.getDefault( )
-							.getResourceFolder( ), imageFileName ).exists( ) )
-					&& ( !new File( UIUtil.getFragmentDirectory( ),
-							imageFileName ).exists( ) ) )
-			{
-				return false;
-			}
-			else if ( !checkExtensions( imageFileName ) )
-			{
-				return false;
-			}
-
-		}
-		if ( nameStatus.getSeverity( ) == IStatus.ERROR
-				|| previewImageStatus.getSeverity( ) == IStatus.ERROR )
+		checkStatus();
+		if (( nameStatus != null && nameStatus.getSeverity( ) == IStatus.ERROR)
+				||(previewImageStatus != null && previewImageStatus.getSeverity( ) == IStatus.ERROR ))
 		{
 			return false;
 		}
