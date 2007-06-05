@@ -1,77 +1,77 @@
 ###########################################################
 #Primitive Charts
 
-SideBySideBar=Side-by-side Bar charts show bars from each series one beside the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
-StackedBar=Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedBar=Percent Stacked Bar charts show bars stacked one over the other in such a way that the total height of the stacked bar (from its lowest point to its highest) is 100.
-OverlayLine=Overlay Line charts show lines from each series independent of the others. The lines are shown joining the values for the series.
-StackedLine=Stacked Line charts show lines stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedLine=Percent Stacked Line charts show lines stacked one over the other in such a way that the total height of the stacked lines (from the lowest point to the highest in each unit) is 100.
-OverlayArea=Overlay Area charts show areas from each series independent of the others. The areas are shown joining the values for the series.
-StackedArea=Stacked Area charts show areas stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedArea=Percent Stacked Area charts show areas stacked one over the other in such a way that the total height of the stacked areas (from the lowest point to the highest in each unit) is 100.
-Pie=Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.
-StandardMeter=Standard Meter charts contain a single dial with region(s). The background of the dial can be divided into regions with different colors.
-SuperImposedMeter=Super imposed Meter charts contain multiple dials with identical regions. The dials overlap together so that it can represent multiple needles within a single region.
-Scatter=Scatter charts show the values arranged on the plot using the category and value data as co-ordinates. Each data value is indicated by a marker.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines sticking to it. The upper and lower points of the vertical line are the stock open and close values. The two horizontal lines are the high and low values.
-CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values. 
+SideBySideBar=并列条形图显示相互紧靠的系列中的条形。这些条形经过排列后，均具有相同的宽度。这些条形的宽度取决于绘制的系列数。
+StackedBar=堆积条形图显示垂直堆叠的条形。正值和负值分别堆叠在原点的上方和下方。
+PercentStackedBar=堆积百分比条形图显示垂直堆叠的条形，堆叠的条形的总高度(从其最低点到最高点)为 100。
+OverlayLine=叠加折线图显示每个系列独立于其它系列的折线。这些折线在显示时连接系列的值。
+StackedLine=堆积折线图显示垂直堆叠的折线。正值和负值分别堆叠在原点的上方和下方。
+PercentStackedLine=堆积百分比折线图显示垂直堆叠的折线，堆叠的折线的总高度(每个单元中从最低点到最高点)为 100。
+OverlayArea=覆盖型面积图显示每个系列独立于其它系列的区域。这些区域在显示时连接系列的值。
+StackedArea=堆积面积图显示垂直堆叠的区域。正值和负值分别堆叠在原点的上方和下方。
+PercentStackedArea=堆积百分比面积图显示垂直堆叠的区域，堆叠的区域的总高度(每个单元中从最低点到最高点)为 100。
+Pie=饼图将值显示为多个扇面。每个扇面的大小与其所表示的值成比例对应。多个系列的饼图将被绘制成多个饼图，每个饼图代表一个系列。
+StandardMeter=标准仪表图包含具有区域的单个刻度盘。刻度盘的背景可分成具有不同颜色的区域。
+SuperImposedMeter=超级拼版仪表图包含具有相同区域的多个刻度盘。这些刻度盘重叠在一起，以便可以表示单个区域内的多个指针。
+Scatter=散点图使用类别和值数据作为坐标，以在图形上显示经过排列的值。每个数据值由一个标记表示。
+BarStickStock=条形股票图包含一条垂直线和两条水平线。垂直线的上下两个端点表示股票开盘价和收盘价。两条水平线表示最高价和最低价。
+CandleStickStock=烛形股票图包含一个方框以及从端点向上下伸展的线段。方框的上边和下边表示开盘价和收盘价。线段的上端点和下端点表示最高价和最低价。 
 
 ###########################################################
 #3D Charts
 
-Bar=3 Dimension Side-by-side Bar Chart.
-Line=3 Dimension Overlay Line Chart.
-Area=3 Dimension Overlay Area Chart.
+Bar=3 维并列条形图。
+Line=3 维叠加折线图。
+Area=3 维覆盖型面积图。
 
 ###########################################################
 #Combination Charts
 
-BarAndLine=Bar and Line combination charts contains 2 series. They share the same category value.
+BarAndLine=条形和折线组合图包含 2 个系列。它们共享相同类别值。
 
 
 ###########################################################
 #Formatted Charts
 
-AxisLabelFormat=Specify the format for axis labels: Y-Axis($###,###) and X-Axis(MM/dd/yyyy). Also the users could set the label color, font, outline and other attributes.
-AxisTitleFormat=All the label attributes can be applied to Axis Title.
-ColoredByCategorySeries=Set Legend Item Type as category.
-ColoredByValueSeries=Set Legend Item Type as series.
-CurveFittingArea=Enable the curve fitting attribute of area series.
-CurveFittingBar=Create a curve fitting line for bar series.
-CurveFittingLine=Enable the curve fitting attribute of area series.
-CurveFittingStock=Create a curve fitting line for stock series.
-LegendFormat=Legend can be placed on Left, Right, Top and Bottom and Inside. Client Area is located within Legend. It contains the legend items.
-MarkerLine=MarkerLine can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
-MarkerRange=MarkerRange can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
-MultiplePie=An individual pie chart contains several pie series. They can constitute a pie group to present the value comparison.
-MDialSRegionMeter=Multiple needle in an individual dial board.
-SDialSRegionMeter=A needle in an individual dial board.
-PercentageValueFormat=Present the series value as percentage figure.
-PlotFormat=Specify the appearance for plot and client area.
-SeriesValueFormat=Specify the format for value data ($###,###.00) and category data (MM/dd/yyyy).
+AxisLabelFormat=指定轴标签的格式: Y 轴($###,###) 和 X 轴(MM/dd/yyyy)。另外，用户可以设置标签颜色、字体、边框和其它属性。
+AxisTitleFormat=所有标签属性均可应用于轴标题。
+ColoredByCategorySeries=图例项类型设置为类别。
+ColoredByValueSeries=图例项类型设置为系列。
+CurveFittingArea=启用区域系列的曲线拟合属性。
+CurveFittingBar=为条形系列创建曲线拟合线。
+CurveFittingLine=启用区域系列的曲线拟合属性。
+CurveFittingStock=为股票系列创建曲线拟合线。
+LegendFormat=图例可放在左侧、右侧、顶部、底部和内部。客户区域位于图例内。它包含图例项。
+MarkerLine=可为 X 轴和 Y 轴创建标记线(仅限于 ChartWithAxes 类型)。
+MarkerRange=可为 X 轴和 Y 轴创建标记范围(仅限于 ChartWithAxes 类型)。
+MultiplePie=单个饼图包含多个饼图系列。它们可以构成一个饼图组以显示值比较。
+MDialSRegionMeter=单个刻度盘上多个指针。
+SDialSRegionMeter=单个刻度盘上一个指针。
+PercentageValueFormat=系列值显示为百分比数字。
+PlotFormat=指定绘图区域和客户区域的外观。
+SeriesValueFormat=指定值数据($###,###.00)和类别数据(MM/dd/yyyy)的格式。
 
 ###########################################################
 #Scripted Charts
 
-AxisLabelScript=beforeDrawAxisLabel() allows the users to manipulate Axis and Label(Axis.getLabel()) attributes.
-AxisTitleScript=beforeDrawAxisTitle() allows the users to manipulate Axis and Label(Axis.getTitle()) attributes.
-BlockScript=beforeDrawBlock() allows the users to manipulate Block (E.g. Plot, Title, Legend) attributes.
-CurveFittingScript=beforeDrawFittingCurve() allows the users to manipulate CurveFitting attributes.
-DataPointLabelScript=beforeDrawDataPointLabel() allows the users to manipulate DataPointHints and Label attributes.
-LegendScript=beforeDrawLegendEntry() allows the users to manipulate Label(for each legend) attributes.
-MarkerLineScript=beforeDrawMarkerLine() allows the users to manipulate Axis and MarkerLine attributes.
-MarkerRangeScript=beforeDrawMarkerRange() allows the users to manipulate Axis and MarkerRange attributes.
-SeriesScript=beforeDrawSeries() allows the users to manipulate Series and ISeriesRenderer(BaseRenderer or AxesRenderer) attributes.
-SeriesTitleScript=beforeDrawSeriesTitle() allows the users to manipulate Series and Label(Series.getTitle()) attributes. It is only applied to Pie Chart.
+AxisLabelScript=beforeDrawAxisLabel() 允许用户操作轴和标签(Axis.getLabel())属性。
+AxisTitleScript=beforeDrawAxisTitle() 允许用户操作轴和标签(Axis.getTitle())属性
+BlockScript=beforeDrawBlock()允许用户操作块(例如图形、标题、图例)属性。
+CurveFittingScript=beforeDrawFittingCurve()允许用户操作曲线拟合属性。
+DataPointLabelScript=beforeDrawDataPointLabel()允许用户操作数据点提示和标签属性。
+LegendScript=beforeDrawLegendEntry()允许用户操作标签(对于每个图例)属性。
+MarkerLineScript=beforeDrawMarkerLine()允许用户操作轴和标记线属性。
+MarkerRangeScript=beforeDrawMarkerRange()允许用户操作轴和标记范围属性。
+SeriesScript=beforeDrawSeries()允许用户操作系列和系列呈现器(BaseRenderer 或 AxesRenderer)属性。
+SeriesTitleScript=beforeDrawSeriesTitle()允许用户操作系列和标签(Series.getTitle())属性。仅适用于饼图。
 
 ###########################################################
 #Data Operations
 
-MinSlice=The user has the ability to specify the minimum value (absolute or percentage) for a slice. Pie chart slice can be exploded by setting expression to explosion attribute.
-MultipleYAxes=A chart can contain more than a Y Axis.
-MultipleYSeries=A chart can contain more than a Y (Value) Series. 
+MinSlice=用户能够为扇面指定最小值(绝对值或百分比)。饼图扇面可通过设置分离属性表达式进行分离。
+MultipleYAxes=一个图可以包含多个 Y 轴。
+MultipleYSeries=一个图可以包含多个 Y(值)系列。 
 
 ###########################################################
 #Default
-DefaultDescription=Please select an example from the categories
+DefaultDescription=请从类别中选择一个示例

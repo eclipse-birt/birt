@@ -1,77 +1,77 @@
 ###########################################################
 #Primitive Charts
 
-SideBySideBar=Side-by-side Bar charts show bars from each series one beside the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
-StackedBar=Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedBar=Percent Stacked Bar charts show bars stacked one over the other in such a way that the total height of the stacked bar (from its lowest point to its highest) is 100.
-OverlayLine=Overlay Line charts show lines from each series independent of the others. The lines are shown joining the values for the series.
-StackedLine=Stacked Line charts show lines stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedLine=Percent Stacked Line charts show lines stacked one over the other in such a way that the total height of the stacked lines (from the lowest point to the highest in each unit) is 100.
-OverlayArea=Overlay Area charts show areas from each series independent of the others. The areas are shown joining the values for the series.
-StackedArea=Stacked Area charts show areas stacked one above the other. The positive and negative values are stacked separately above and below the origin.
-PercentStackedArea=Percent Stacked Area charts show areas stacked one over the other in such a way that the total height of the stacked areas (from the lowest point to the highest in each unit) is 100.
-Pie=Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.
-StandardMeter=Standard Meter charts contain a single dial with region(s). The background of the dial can be divided into regions with different colors.
-SuperImposedMeter=Super imposed Meter charts contain multiple dials with identical regions. The dials overlap together so that it can represent multiple needles within a single region.
-Scatter=Scatter charts show the values arranged on the plot using the category and value data as co-ordinates. Each data value is indicated by a marker.
-BarStickStock=A bar-stick stock chart contains a vertical line with two horizontal lines sticking to it. The upper and lower points of the vertical line are the stock open and close values. The two horizontal lines are the high and low values.
-CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values. 
+SideBySideBar=Gruppierte Balkendiagramme stellen Balken jeder Datenreihe nebeneinander dar. Die Balken sind so angeordnet, dass alle dieselbe Breite besitzen. Die Balkenbreite hängt von der Anzahl der abgebildeten Datenreihen ab.
+StackedBar=Gestapelte Balkendiagramme stellen übereinander gestapelte Balken dar. Positive und negative Werte werden separat über bzw. unter dem Ursprung gestapelt.
+PercentStackedBar=Gestapelte Balkendiagramme (100 %) stellen übereinander gestapelte Balken dar, so dass die Gesamthöhe der gestapelten Balken (vom niedrigsten zum höchsten Punkt) stets 100 beträgt.
+OverlayLine=Überlagerungs-Liniendiagramme stellen Linien aus jeder Datenreihe unabhängig voneinander dar. Die Linien verbinden dabei die Werte der jeweiligen Datenreihe.
+StackedLine=Gestapelte Liniendiagramme stellen übereinander gestapelte Linien dar. Positive und negative Werte werden separat über bzw. unter dem Ursprung gestapelt.
+PercentStackedLine=Gestapelte Liniendiagramme (100 %) stellen übereinander gestapelte Linien dar, so dass die Gesamthöhe der gestapelten Linien (vom niedrigsten zum höchsten Punkt jeder Einheit) stets 100 beträgt.
+OverlayArea=Überlagerte Flächendiagramme stellen Flächen aus jeder Datenreihe unabhängig voneinander dar. Die Flächen verbinden dabei die Werte der jeweiligen Datenreihe.
+StackedArea=Gestapelte Flächendiagramme stellen übereinander gestapelte Flächen dar. Positive und negative Werte werden separat über bzw. unter dem Ursprung gestapelt.
+PercentStackedArea=Gestapelte Flächendiagramme (100 %) stellen übereinander gestapelte Flächen dar, so dass die Gesamthöhe der gestapelten Flächen (vom niedrigsten zum höchsten Punkt jeder Einheit) stets 100 beträgt.
+Pie=Kreisdiagramme stellen Werte als Segmente eines Kreises dar. Die Größe des Segments ist proportional zum dargestellten Wert. Kreisdiagramme für mehrere Datenreihen werden mit mehreren Kreisen abgebildet, die jeweils für eine Datenreihe stehen.
+StandardMeter=Standard-Tachometerdiagramme enthalten einen einzelnen Tachometer mit einem oder mehreren Bereichen. Der Hintergrund des Tachometers kann in Bereiche mit unterschiedlichen Farben unterteilt werden.
+SuperImposedMeter=Übereinandergelagerte Tachometerdiagramme enthalten mehrere Tachometer mit identischen Bereichen. Die Tachometer überlappen sich, so dass innerhalb eines einzigen Bereichs mehrere Nadeln dargestellt werden können.
+Scatter=In Punktdiagrammen sind die Werte entsprechend der Kategorie und der Datenwerte als Koordinaten angeordnet. Jeder Datenwert wird durch eine Markierung gekennzeichnet.
+BarStickStock=Ein Balken-Kursdiagramm enthält eine vertikale Linie mit zwei daran angefügten horizontalen Linien. Die oberen und die unteren Punkte der vertikalen Linie stellen die Eröffnungs- und Schlusswerte dar. Die beiden horizontalen Linien repräsentieren die Höchst- und Tiefstwerte.
+CandleStickStock=Ein Candlestick-Kursdiagramm enthält ein Feld mit Linien, die an den Enden nach oben und nach unten erweitert sind. Die oberen und unteren Kanten des Felds stellen die Werte für den Eröffnungskurs und Schlusskurs dar. Die oberen und unteren Punkte der Linie repräsentieren die Höchst- und Tiefstwerte. 
 
 ###########################################################
 #3D Charts
 
-Bar=3 Dimension Side-by-side Bar Chart.
-Line=3 Dimension Overlay Line Chart.
-Area=3 Dimension Overlay Area Chart.
+Bar=Dreidimensionales gruppiertes Balkendiagramm.
+Line=Dreidimensionales überlagertes Liniendiagramm.
+Area=Dreidimensionales überlagertes Flächendiagramm.
 
 ###########################################################
 #Combination Charts
 
-BarAndLine=Bar and Line combination charts contains 2 series. They share the same category value.
+BarAndLine=Kombinationsdiagramme aus Balken und Linien enthalten zwei Datenreihen. Diese verwenden denselben Kategoriewert.
 
 
 ###########################################################
 #Formatted Charts
 
-AxisLabelFormat=Specify the format for axis labels: Y-Axis($###,###) and X-Axis(MM/dd/yyyy). Also the users could set the label color, font, outline and other attributes.
-AxisTitleFormat=All the label attributes can be applied to Axis Title.
-ColoredByCategorySeries=Set Legend Item Type as category.
-ColoredByValueSeries=Set Legend Item Type as series.
-CurveFittingArea=Enable the curve fitting attribute of area series.
-CurveFittingBar=Create a curve fitting line for bar series.
-CurveFittingLine=Enable the curve fitting attribute of area series.
-CurveFittingStock=Create a curve fitting line for stock series.
-LegendFormat=Legend can be placed on Left, Right, Top and Bottom and Inside. Client Area is located within Legend. It contains the legend items.
-MarkerLine=MarkerLine can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
-MarkerRange=MarkerRange can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
-MultiplePie=An individual pie chart contains several pie series. They can constitute a pie group to present the value comparison.
-MDialSRegionMeter=Multiple needle in an individual dial board.
-SDialSRegionMeter=A needle in an individual dial board.
-PercentageValueFormat=Present the series value as percentage figure.
-PlotFormat=Specify the appearance for plot and client area.
-SeriesValueFormat=Specify the format for value data ($###,###.00) and category data (MM/dd/yyyy).
+AxisLabelFormat=Geben Sie das Format für die Achsenbeschriftungen an: Y-Achse ($###,###) und X-Achse (dd/MM/yyyy). Darüber hinaus können die Benutzer die Farbe, die Schriftart, den Umriss und andere Attribute für die Beschriftung festlegen.
+AxisTitleFormat=Sämtliche Beschriftungsattribute können auf den Achsentitel angewendet werden.
+ColoredByCategorySeries=Legen Sie den Legendenelementtyp als Kategorie fest.
+ColoredByValueSeries=Legen Sie den Legendenelementtyp als Datenreihe fest.
+CurveFittingArea=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
+CurveFittingBar=Erstellen Sie eine Kurvenattributslinie für Balkendatenreihen.
+CurveFittingLine=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
+CurveFittingStock=Erstellen Sie eine Kurvenattributslinie für Kursdiagramm-Datenreihen.
+LegendFormat=Die Legende kann links, rechts, oben und unten und innen positioniert werden. Die Client-Fläche befindet sich innerhalb der Legende. Sie enthält die Legendenelemente.
+MarkerLine=Es kann eine Markierungslinie sowohl für die X-Achse als auch für die Y-Achse erstellt werden (nur für Diagrammtypen mit Achsen).
+MarkerRange=Es kann ein Markierungsbereich sowohl für die X-Achse als auch für die Y-Achse erstellt werden (nur für Diagrammtypen mit Achsen).
+MultiplePie=Ein einzelnes Kreisdiagramm enthält mehrere Kreisdiagramm-Datenreihen. Diese bilden eine Kreisgruppe, um den Wertevergleich darzustellen.
+MDialSRegionMeter=Mehrere Nadeln in einem einzelnen Tachometer.
+SDialSRegionMeter=Eine Nadel in einem einzelnen Tachometer.
+PercentageValueFormat=Stellen Sie den Datenreihenwert als Prozentzahl dar.
+PlotFormat=Geben Sie die Darstellung der Diagramm- und Client-Fläche an.
+SeriesValueFormat=Geben Sie das Format für Wertedaten ($###,###.00) und Kategoriedaten (dd/MM/yyyy) an.
 
 ###########################################################
 #Scripted Charts
 
-AxisLabelScript=beforeDrawAxisLabel() allows the users to manipulate Axis and Label(Axis.getLabel()) attributes.
-AxisTitleScript=beforeDrawAxisTitle() allows the users to manipulate Axis and Label(Axis.getTitle()) attributes.
-BlockScript=beforeDrawBlock() allows the users to manipulate Block (E.g. Plot, Title, Legend) attributes.
-CurveFittingScript=beforeDrawFittingCurve() allows the users to manipulate CurveFitting attributes.
-DataPointLabelScript=beforeDrawDataPointLabel() allows the users to manipulate DataPointHints and Label attributes.
-LegendScript=beforeDrawLegendEntry() allows the users to manipulate Label(for each legend) attributes.
-MarkerLineScript=beforeDrawMarkerLine() allows the users to manipulate Axis and MarkerLine attributes.
-MarkerRangeScript=beforeDrawMarkerRange() allows the users to manipulate Axis and MarkerRange attributes.
-SeriesScript=beforeDrawSeries() allows the users to manipulate Series and ISeriesRenderer(BaseRenderer or AxesRenderer) attributes.
-SeriesTitleScript=beforeDrawSeriesTitle() allows the users to manipulate Series and Label(Series.getTitle()) attributes. It is only applied to Pie Chart.
+AxisLabelScript=Mit beforeDrawAxisLabel() können die Benutzer Attribute für Achsen und Beschriftungen (Axis.getLabel()) bearbeiten.
+AxisTitleScript=Mit beforeDrawAxisTitle() können die Benutzer Attribute für Achsen und Beschriftungen (Axis.getTitle()) bearbeiten.
+BlockScript=Mit beforeDrawBlock() können die Benutzer Attribute für den Block (z. B. Diagramm, Titel, Legende) bearbeiten.
+CurveFittingScript=Mit beforeDrawFittingCurve() können die Benutzer Attribute für CurveFitting bearbeiten.
+DataPointLabelScript=Mit beforeDrawDataPointLabel() können die Benutzer Attribute für DataPointHints und Beschriftungen bearbeiten.
+LegendScript=Mit beforeDrawLegendEntry() können die Benutzer Attribute für Beschriftungen (für die jeweilige Legende) bearbeiten.
+MarkerLineScript=Mit beforeDrawMarkerLine() können die Benutzer Attribute für Achsen und die Markierungslinie bearbeiten.
+MarkerRangeScript=Mit beforeDrawMarkerRange() können die Benutzer Attribute für Achsen und MarkerRange bearbeiten.
+SeriesScript=Mit beforeDrawSeries() können die Benutzer Attribute für Datenreihen und ISeriesRenderer (BaseRenderer oder AxesRenderer) bearbeiten.
+SeriesTitleScript=Mit beforeDrawSeriesTitle() können die Benutzer Attribute für Datenreihen und Beschriftungen (Series.getTitle()) bearbeiten. Das gilt nur für Kreisdiagramme.
 
 ###########################################################
 #Data Operations
 
-MinSlice=The user has the ability to specify the minimum value (absolute or percentage) for a slice. Pie chart slice can be exploded by setting expression to explosion attribute.
-MultipleYAxes=A chart can contain more than a Y Axis.
-MultipleYSeries=A chart can contain more than a Y (Value) Series. 
+MinSlice=Der Benutzer hat die Möglichkeit, den Mindestwert (absolut oder in Prozent) für ein Segment anzugeben. Das Kreisdiagrammsegment kann ausgerückt dargestellt werden, indem ein Ausdruck für das Ausrückungsattribut festgelegt wird.
+MultipleYAxes=Ein Diagramm kann mehr als eine Y-Achse enthalten.
+MultipleYSeries=Ein Diagramm kann mehr als eine Y-Datenreihe (Wert) enthalten. 
 
 ###########################################################
 #Default
-DefaultDescription=Please select an example from the categories
+DefaultDescription=Wählen Sie ein Beispiel aus den Kategorien aus.
