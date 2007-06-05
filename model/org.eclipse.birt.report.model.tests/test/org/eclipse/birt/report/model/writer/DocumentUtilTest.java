@@ -16,7 +16,9 @@ import java.io.ByteArrayOutputStream;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 
@@ -270,6 +272,13 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
+
+		// make sure that selectors in the library are in the namespace of the
+		// design
+
+		DesignElement localizedStyle = design.getNameHelper( ).getNameSpace(
+				IReportDesignModel.STYLE_SLOT ).getElement( "table-footer" ); //$NON-NLS-1$
+		assertNotNull( localizedStyle );
 
 		assertTrue( compareFile( "DocumentUtilTest_external_selectors_golden.xml" ) ); //$NON-NLS-1$
 	}

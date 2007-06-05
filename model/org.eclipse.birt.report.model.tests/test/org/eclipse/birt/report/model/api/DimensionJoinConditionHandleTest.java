@@ -47,7 +47,6 @@ public class DimensionJoinConditionHandleTest extends BaseTestCase
 		DimensionHandle dimensionHandle = cube.getDimension( "Group" );//$NON-NLS-1$
 		dimensionHandle.dropAndClear( );
 
-		designHandle.saveAs( "D:\\test.rptdesign");//$NON-NLS-1$
 		propList = cube
 				.getListProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 		assertEquals( 1, propList.size( ) );

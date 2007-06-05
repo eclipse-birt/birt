@@ -19,7 +19,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <script-data-source name="dataSource1" id="12">
+        <script-data-source name="dataSource1" id="11">
             <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
             <method name="beforeClose"><![CDATA[script_beforeclose]]></method>
             <method name="afterOpen"><![CDATA[script_afteropen]]></method>
@@ -29,21 +29,21 @@
         </script-data-source>
     </data-sources>
     <data-sets>
-        <script-data-set name="dataSet1" id="13">
+        <script-data-set name="dataSet1" id="12">
             <property name="dataSource">dataSource1</property>
             <method name="open"><![CDATA[open script]]></method>
             <method name="describe"><![CDATA[describe script]]></method>
             <method name="fetch"><![CDATA[fetch script]]></method>
             <method name="close"><![CDATA[close script]]></method>
         </script-data-set>
-        <script-data-set name="dataSet2" id="14">
+        <script-data-set name="dataSet2" id="13">
             <property name="dataSource">dataSource1</property>
             <method name="open"><![CDATA[open script]]></method>
             <method name="describe"><![CDATA[describe script]]></method>
             <method name="fetch"><![CDATA[fetch script]]></method>
             <method name="close"><![CDATA[close script]]></method>
         </script-data-set>
-        <joint-data-set name="jointDataSet" id="15">
+        <joint-data-set name="jointDataSet" id="14">
             <simple-property-list name="dataSets">
                 <value>dataSet1</value>
                 <value>dataSet2</value>
@@ -64,7 +64,7 @@
         <style name="new_style" id="4">
             <property name="fontFamily">"Arial"</property>
         </style>
-        <style name="grid" id="11">
+        <style name="grid" id="15">
             <property name="fontWeight">bolder</property>
             <property name="color">green</property>
         </style>

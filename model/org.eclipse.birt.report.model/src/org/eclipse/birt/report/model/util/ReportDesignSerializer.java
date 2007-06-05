@@ -63,6 +63,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -275,6 +276,12 @@ public class ReportDesignSerializer extends ElementVisitor
 		ContainerContext context = originalElement.getContainerInfo( )
 				.createContext( tmpContainer );
 
+		if ( context == null && originalContainer instanceof Theme )
+		{
+			int newId = IReportDesignModel.STYLE_SLOT;
+			context = new ContainerContext( targetDesign, newId );
+		}
+
 		// if so, it can only be ReportDesign and Library case.
 
 		if ( context == null && originalContainer instanceof Library )
@@ -284,7 +291,9 @@ public class ReportDesignSerializer extends ElementVisitor
 			switch ( context.getSlotID( ) )
 			{
 				case ILibraryModel.THEMES_SLOT :
+					newId = IDesignElementModel.NO_SLOT;
 					assert false;
+					break;
 				case ILibraryModel.CUBE_SLOT :
 					newId = IReportDesignModel.CUBE_SLOT;
 					break;
@@ -964,9 +973,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		localizePropertyValues( element, newElement );
 
-		targetDesign.add( newElement, IReportDesignModel.STYLE_SLOT );
-		targetDesign.manageId( newElement, true );
-
+		cacheMapping( element, newElement );
 		return (Style) newElement;
 	}
 
