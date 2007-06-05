@@ -98,6 +98,7 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor
 		for ( int i = 0; i < toggles.length; i++ )
 			toggles[i].load( );
 		fontAlign.load( );
+		composite.layout( );
 	}
 
 	public void setInput( Object input )
