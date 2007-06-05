@@ -451,7 +451,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				cmbDataField.setText( getColumnBindingExpressionByName( cmbDataField.getText( ) ) );
+				String expr = getColumnBindingExpressionByName( cmbDataField.getText( ) );
+				if ( expr != null )
+				{
+					cmbDataField.setText( expr );
+				}
+				else
+				{
+					cmbDataField.setText( "" ); //$NON-NLS-1$
+				}
 			}
 		} );
 
@@ -521,6 +529,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 		createExpressionButton( composite, txtExpression );
+		txtExpression.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				verifyInput( );
+			}
+
+		} );
 	}
 
 	private void verifyInput( )
@@ -533,8 +549,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( dialog.getOkButton( ) != null )
 				dialog.getOkButton( ).setEnabled( false );
 		}
-		else if ( cmbDataField != null
-				&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
+		else if ( txtExpression != null
+				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
@@ -768,11 +784,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( getBinding( ) == null )
 		{
-			if ( cmbDataField.getText( ) == null
-					|| cmbDataField.getText( ).trim( ).length( ) == 0 )
-			{
-				return;
-			}
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )

@@ -403,10 +403,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		try
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
-			String[] mesures = new String[xtabHandle.getMeasureCount( )];
-			for ( int i = 0; i < mesures.length; i++ )
+			String[] mesures = new String[xtabHandle.getMeasureCount( )+1];
+			mesures[0] = ""; //$NON-NLS-1$
+			for ( int i = 1; i < mesures.length; i++ )
 			{
-				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i )
+				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i-1 )
 						.getCubeMeasure( ) );
 			}
 			return mesures;
@@ -556,6 +557,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 		createExpressionButton( composite, txtExpression );
+		txtExpression.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				validate( );
+			}
+
+		} );
 	}
 
 	protected void handleFunctionSelectEvent( )
@@ -634,27 +643,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
-	private String getColumnBindingExpressionByName( String name )
-	{
-		try
-		{
-			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
-			String[] mesureNames = new String[xtabHandle.getMeasureCount( )];
-			for ( int i = 0; i < mesureNames.length; i++ )
-			{
-				if ( xtabHandle.getMeasure( i )
-						.getCubeMeasureName( )
-						.equals( name ) )
-					return DEUtil.getExpression( xtabHandle.getMeasure( i )
-							.getCubeMeasure( ) );
-			}
-		}
-		catch ( ExtendedElementException e )
-		{
-		}
-		return null;
-	}
-
 	private List getFunctionArgNames( String function )
 	{
 		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
@@ -729,11 +717,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( getBinding( ) == null )
 		{
-			if ( cmbDataField.getText( ) == null
-					|| cmbDataField.getText( ).trim( ).length( ) == 0 )
-			{
-				return;
-			}
 			this.newBinding.setName( txtName.getText( ) );
 			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
@@ -876,14 +859,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( txtName != null
 				&& ( txtName.getText( ) == null || txtName.getText( )
 						.trim( )
-						.equals( "" ) ) )
+						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			dialog.setCanFinish( false );
 		}
-		else if ( cmbDataField != null
-				&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
+		else if ( txtExpression != null
+				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
 						.trim( )
-						.equals( "" ) ) )
+						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			dialog.setCanFinish( false );
 		}
