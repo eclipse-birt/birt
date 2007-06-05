@@ -114,7 +114,7 @@ public class QueryResultSet implements IQueryResultSet
 		this.dataEngine = parent.dataEngine;
 		this.queryDefn = queryDefn;
 		this.rs = ri;
-		this.queryResults = new SubQueryResults( rs );
+		this.queryResults = this.rs.getQueryResults( );
 		initializeRowIdOfGroups( queryDefn.getGroups( ).size( ) );
 	}
 
