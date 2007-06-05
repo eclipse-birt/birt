@@ -17,3 +17,4 @@ Export-Package: org.eclipse.birt.report.designer.ui.samplesview,
  org.eclipse.birt.report.designer.ui.samplesview.sampleslocator,
  org.eclipse.birt.report.designer.ui.samplesview.util,
  org.eclipse.birt.report.designer.ui.samplesview.view
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
