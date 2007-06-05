@@ -408,9 +408,18 @@ public class ExcelEmitter implements IContentEmitter
 	}
 
 	public void startList( IListContent list )
-	{
+	{   
+		int size = list.getChildren( ).size( );
 		startCase( list );
+
+		if ( size == 0 )
+		{
+		   addData( list.getGenerateBy( ), list.getComputedStyle( ),
+		   parseHyperLink( list ), "" );
+		}
+		
 	}
+
 
 	public void startListBand( IListBandContent listBand )
 	{
