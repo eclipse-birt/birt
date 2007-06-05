@@ -54,6 +54,13 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 			}
 		} );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
+
+		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( ) != null )
+		{
+			IDescriptorProvider crosstabProvider = ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( );
+			if ( cubeProvider instanceof CrosstabSimpleComboPropertyDescriptorProvider )
+				( (CrosstabSimpleComboPropertyDescriptorProvider) crosstabProvider ).setCrosstabSimpleComboSection( cubeSection );
+		}
 	}
 
 }
