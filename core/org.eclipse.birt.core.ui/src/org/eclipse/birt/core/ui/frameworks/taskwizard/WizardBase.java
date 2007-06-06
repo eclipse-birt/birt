@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.internal.BirtTitleAreaDialog;
 import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -29,7 +30,6 @@ import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -44,7 +44,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -509,7 +508,7 @@ public class WizardBase implements IRegistrationListener
 		// TODO Add cleanup code here...including removal of adapters
 	}
 
-	protected TitleAreaDialog getDialog( )
+	protected BirtTitleAreaDialog getDialog( )
 	{
 		return dialog;
 	}
@@ -533,7 +532,7 @@ public class WizardBase implements IRegistrationListener
 		dialog.packWizard( );
 	}
 
-	final class WizardBaseDialog extends TitleAreaDialog implements
+	final class WizardBaseDialog extends BirtTitleAreaDialog implements
 			SelectionListener,
 			ControlListener,
 			DisposeListener,
@@ -560,7 +559,7 @@ public class WizardBase implements IRegistrationListener
 		public WizardBaseDialog( Shell parentShell, int iInitialWidth,
 				int iInitialHeight, String strTitle, Image imgTitle )
 		{
-			super( parentShell );
+			super( parentShell, iInitialWidth - 100 );
 			setHelpAvailable( true );
 
 			this.iWizardWidthMinimum = iInitialWidth;
@@ -699,21 +698,6 @@ public class WizardBase implements IRegistrationListener
 
 			lblSeparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
 			lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-			// Set width hint for message label in case the description message
-			// is too long
-			Object layoutData = getTitleImageLabel( ).getParent( )
-					.getLayoutData( );
-			if ( layoutData instanceof GridData )
-			{
-				// For eclipse jface 3.3
-				( (GridData) layoutData ).widthHint = iWizardWidthMinimum;
-			}
-			else if ( layoutData instanceof FormData )
-			{
-				// For eclipse jface 3.2
-				( (FormData) layoutData ).width = iWizardWidthMinimum;
-			}
 
 			return composite;
 		}
@@ -1106,5 +1090,4 @@ public class WizardBase implements IRegistrationListener
 			}
 		}
 	}
-
 }

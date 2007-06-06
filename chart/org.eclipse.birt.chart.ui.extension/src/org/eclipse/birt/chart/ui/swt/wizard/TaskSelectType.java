@@ -143,9 +143,6 @@ public class TaskSelectType extends SimpleTask implements
 
 	private static Hashtable htSeriesNames = null;
 	
-	private static final int LABEL_WIDTH_HINT = 80;
-	private static final int CHART_TABLE_WIDTH_HINT = 100;
-
 	public TaskSelectType( )
 	{
 		super( Messages.getString( "TaskSelectType.TaskExp" ) ); //$NON-NLS-1$
@@ -268,8 +265,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		lblDimension = new Label( cmpMisc, SWT.WRAP );
 		{
-			GridData gd = new GridData();
-			gd.widthHint = LABEL_WIDTH_HINT;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblDimension.setLayoutData( gd );
 			lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
 		}
@@ -278,16 +274,14 @@ public class TaskSelectType extends SimpleTask implements
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = LABEL_WIDTH_HINT;
 			cbDimension.setLayoutData( gd );
 			cbDimension.addSelectionListener( this );
 		}
 
 		lblOutput = new Label( cmpMisc, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 10;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblOutput.setLayoutData( gd );
 			lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
 		}
@@ -296,15 +290,13 @@ public class TaskSelectType extends SimpleTask implements
 		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = LABEL_WIDTH_HINT;
 			cbOutput.setLayoutData( gd );
 			cbOutput.addSelectionListener( this );
 		}
 
 		lblMultipleY = new Label( cmpMisc, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
-			gd.widthHint = LABEL_WIDTH_HINT;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblMultipleY.setLayoutData( gd );
 			lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
 		}
@@ -318,7 +310,6 @@ public class TaskSelectType extends SimpleTask implements
 					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
 			} );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = LABEL_WIDTH_HINT;
 			cbMultipleY.setLayoutData( gd );
 			cbMultipleY.addSelectionListener( this );
 
@@ -328,9 +319,8 @@ public class TaskSelectType extends SimpleTask implements
 
 		lblSeriesType = new Label( cmpMisc, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 10;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblSeriesType.setLayoutData( gd );
 			lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
 			lblSeriesType.setEnabled( false );
@@ -340,7 +330,6 @@ public class TaskSelectType extends SimpleTask implements
 		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = LABEL_WIDTH_HINT;
 			cbSeriesType.setLayoutData( gd );
 			cbSeriesType.setEnabled( false );
 			cbSeriesType.addSelectionListener( this );
@@ -348,8 +337,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		lblOrientation = new Label( cmpMisc, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
-			gd.widthHint = LABEL_WIDTH_HINT;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblOrientation.setLayoutData( gd );
 			lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
 		}
@@ -379,8 +367,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		Label lblTypes = new Label( cmpLeft, SWT.WRAP );
 		{
-			GridData gd = new GridData();
-			gd.widthHint = CHART_TABLE_WIDTH_HINT;
+			GridData gd = new GridData(  GridData.FILL_HORIZONTAL );
 			lblTypes.setLayoutData( gd );
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
@@ -388,7 +375,6 @@ public class TaskSelectType extends SimpleTask implements
 		table = new Table( cmpLeft, SWT.BORDER );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.widthHint = CHART_TABLE_WIDTH_HINT;
 			table.setLayoutData( gd );
 			table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
 			table.addSelectionListener( this );

@@ -76,7 +76,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private ITaskPopupSheet popup = null;
 	
-	private static final int SERIES_WIDTH_HINT = 100;
 	private static final int LABEL_WIDTH_HINT = 80;
 	private static final int HORIZONTAL_SPACING = 5;
 
@@ -96,7 +95,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				// Return a fixed height as preferred size of scrolled composite
 				Point p = super.computeSize( wHint, hHint, changed );
 				p.y = 200;
-				p.x = COMPOSITE_WIDTH;
 				return p;
 			}
 		};
@@ -167,9 +165,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblSeries = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = SERIES_WIDTH_HINT;
 			lblSeries.setLayoutData( gd );
 			lblSeries.setFont( JFaceResources.getBannerFont( ) );
 			lblSeries.setText( Messages.getString( "SeriesSheetImpl.Label.Series" ) ); //$NON-NLS-1$
@@ -177,9 +174,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblTitle = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblTitle.setLayoutData( gd );
 			lblTitle.setFont( JFaceResources.getBannerFont( ) );
 			lblTitle.setText( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
@@ -187,9 +183,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblType.setLayoutData( gd );
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
@@ -197,9 +192,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT - 25;
 			lblVisible.setLayoutData( gd );
 			lblVisible.setFont( JFaceResources.getBannerFont( ) );
 			lblVisible.setText( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
@@ -207,9 +201,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblStack = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT - 20;
 			lblStack.setLayoutData( gd );
 			lblStack.setFont( JFaceResources.getBannerFont( ) );
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
@@ -217,9 +210,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblTranslucent = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblTranslucent.setLayoutData( gd );
 			lblTranslucent.setFont( JFaceResources.getBannerFont( ) );
 			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
@@ -351,8 +343,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			linkSeries = new Link( parent, SWT.NONE );
 			{
-				GridData gd = new GridData( );
-				gd.widthHint = SERIES_WIDTH_HINT;
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				linkSeries.setLayoutData( gd );
 				linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
 				linkSeries.addSelectionListener( this );
@@ -368,7 +359,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			txtTitle = new ExternalizedTextEditorComposite( parent,
 					SWT.BORDER | SWT.SINGLE,
 					-1,
-					LABEL_WIDTH_HINT,
+					-1,
 					keys,
 					getContext( ).getUIServiceProvider( ),
 					series.getSeriesIdentifier( ).toString( ) );
@@ -380,8 +371,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
-				GridData gd = new GridData( );
-				gd.widthHint = LABEL_WIDTH_HINT;
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbTypes.setLayoutData( gd );
 				cmbTypes.addSelectionListener( this );
 				// Disable the conversion of the first series
@@ -465,10 +455,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					{
 						for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
 						{
-							if ( ( (SeriesDefinition) getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+							if ( ( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
 									.isStacked( ) )
 							{
-								( (SeriesDefinition) getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+								( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
 										.setStacked( false );
 							}
 						}

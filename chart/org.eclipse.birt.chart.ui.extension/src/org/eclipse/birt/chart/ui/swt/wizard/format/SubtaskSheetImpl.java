@@ -266,11 +266,11 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		gc.dispose( );
 		
 		// To set the span for Button if width is too long
-		int horizontalSpan = width / 66;
+		// int horizontalSpan = width / 66;
 
 		GridData gd = new GridData( );
 		gd.widthHint = width;
-		gd.horizontalSpan = horizontalSpan;
+		// gd.horizontalSpan = horizontalSpan;
 		button.setLayoutData( gd );
 
 		popupButtonRegistry.put( popupName, button );
