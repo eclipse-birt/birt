@@ -85,3 +85,6 @@ ChartUIUtil.BubbleExp.Label=Y 값
 ChartUIUtil.BubbleExp.Size=크기
 ChartUIUtil.DifferenceExp.Postive=양수
 ChartUIUtil.DifferenceExp.Negative=음수
+ChartUIUtil.txt.PyramidSeries=Pyramid Series
+ChartUIUtil.txt.ConeSeries=Cone Series
+ChartUIUtil.txt.TubeSeries=Tube Series
