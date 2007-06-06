@@ -177,8 +177,8 @@ public class CubeResultSet implements ICubeResultSet
 	}
 
 	public String getRawID( )
-	{		
-		return cellId;
+	{
+		return getCellIndex( );
 	}
 
 	public int getType( )

@@ -63,7 +63,11 @@ public class CubeQueryResults implements ICubeQueryResults
 					this.scope, this.context );
 			BirtCubeView bcv = new BirtCubeView( executor );
 			CubeCursor cubeCursor = bcv.getCubeCursor( );
-			this.queryResultsId = executor.getQueryResultsId( );
+			String newResultSetId = executor.getQueryResultsId( );
+			if ( newResultSetId != null )
+			{
+				this.queryResultsId = newResultSetId;
+			}
 			this.scope.put( "measure",
 					this.scope,
 					new JSMeasureAccessor( cubeCursor) );
