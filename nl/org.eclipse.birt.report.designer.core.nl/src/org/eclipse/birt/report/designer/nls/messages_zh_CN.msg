@@ -2446,7 +2446,7 @@ ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&D)
-ParameterDialog.CheckBox.Distinct=允许重复值
+ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
 ParameterDialog.Choice.BlankValue=空白值
@@ -2490,8 +2490,8 @@ ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):
-ParameterDialog.Label.SortKey=排序依据:
-ParameterDialog.Label.SortDirection=排序方向:
+ParameterDialog.Label.SortKey=S&ort by:
+ParameterDialog.Label.SortDirection=So&rt direction:
 ParameterDialog.SelectionDialog.New=新建选择选项
 ParameterDialog.SelectionDialog.Label.DisplayText=显示文本:
 ParameterDialog.SelectionDialog.Label.Value=值:
@@ -2784,7 +2784,7 @@ report.designer.ui.preferences.template.templatedir=模板
 report.designer.ui.preferences.template.templatefolder= 模板文件夹(&T)
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2006 <<此处是您公司的名称>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
 
 ###########################################################
 #Resource Preference page properties

@@ -2446,7 +2446,7 @@ ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&O)
 ParameterDialog.CheckBox.Hidden=非表示(&D)
-ParameterDialog.CheckBox.Distinct=値の重複を許可する
+ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
 ParameterDialog.Choice.BlankValue=空白値
@@ -2490,8 +2490,8 @@ ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
-ParameterDialog.Label.SortKey=最優先されるキー :
-ParameterDialog.Label.SortDirection=ソート方向 :
+ParameterDialog.Label.SortKey=S&ort by:
+ParameterDialog.Label.SortDirection=So&rt direction:
 ParameterDialog.SelectionDialog.New=選択項目の新規作成
 ParameterDialog.SelectionDialog.Label.DisplayText=表示テキスト :
 ParameterDialog.SelectionDialog.Label.Value=値 :
@@ -2784,7 +2784,7 @@ report.designer.ui.preferences.template.templatedir=テンプレート
 report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2006 <<ここに会社名を入力>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
 
 ###########################################################
 #Resource Preference page properties

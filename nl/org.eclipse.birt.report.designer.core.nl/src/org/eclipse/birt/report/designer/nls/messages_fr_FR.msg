@@ -2446,7 +2446,7 @@ ParameterDialog.Button.SetDefault=Définir p&ar défaut
 ParameterDialog.CheckBox.IsRequired=&Est requis
 ParameterDialog.CheckBox.DoNotEchoInput=Ne pas repr&oduire l'entrée
 ParameterDialog.CheckBox.Hidden=&Masqué
-ParameterDialog.CheckBox.Distinct=Autoriser les valeurs dupliquées
+ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
 ParameterDialog.Choice.BlankValue=Valeur vierge
@@ -2490,8 +2490,8 @@ ParameterDialog.Label.Null=Nul
 ParameterDialog.Label.Preview=Aperçu au format
 ParameterDialog.Label.PromptText=&Texte de l'invite :
 ParameterDialog.Label.SelectDataSet=&Jeu de données :
-ParameterDialog.Label.SortKey=Trier par :
-ParameterDialog.Label.SortDirection=Direction du tri :
+ParameterDialog.Label.SortKey=S&ort by:
+ParameterDialog.Label.SortDirection=So&rt direction:
 ParameterDialog.SelectionDialog.New=Nouveau choix de sélection
 ParameterDialog.SelectionDialog.Label.DisplayText=Texte d'affichage :
 ParameterDialog.SelectionDialog.Label.Value=Valeur :
@@ -2784,7 +2784,7 @@ report.designer.ui.preferences.template.templatedir=modèles
 report.designer.ui.preferences.template.templatefolder= &Dossier modèle
 report.designer.ui.preferences.template.title=Sélectionnez le dossier modèle.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Générer un commentaire lors de la création du modèle d'état
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2006 <<Nom de votre entreprise>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
 
 ###########################################################
 #Resource Preference page properties

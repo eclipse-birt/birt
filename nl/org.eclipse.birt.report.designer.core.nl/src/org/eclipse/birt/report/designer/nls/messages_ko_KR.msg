@@ -2446,7 +2446,7 @@ ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&D)
-ParameterDialog.CheckBox.Distinct=중복 값 허용
+ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
 ParameterDialog.Choice.BlankValue=빈 값
@@ -2490,8 +2490,8 @@ ParameterDialog.Label.Null=널(null)
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
-ParameterDialog.Label.SortKey=정렬 기준:
-ParameterDialog.Label.SortDirection=정렬 방향:
+ParameterDialog.Label.SortKey=S&ort by:
+ParameterDialog.Label.SortDirection=So&rt direction:
 ParameterDialog.SelectionDialog.New=새 선택 항목
 ParameterDialog.SelectionDialog.Label.DisplayText=표시 텍스트:
 ParameterDialog.SelectionDialog.Label.Value=값:
@@ -2784,7 +2784,7 @@ report.designer.ui.preferences.template.templatedir=템플릿
 report.designer.ui.preferences.template.templatefolder= 템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2006 <<회사 이름>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
 
 ###########################################################
 #Resource Preference page properties

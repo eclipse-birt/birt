@@ -2446,7 +2446,7 @@ ParameterDialog.Button.SetDefault=Configurar &como predeterminada
 ParameterDialog.CheckBox.IsRequired=&Requerido
 ParameterDialog.CheckBox.DoNotEchoInput=&No realizar comando eco de entrada
 ParameterDialog.CheckBox.Hidden=O&culto
-ParameterDialog.CheckBox.Distinct=Permitir valores duplicados
+ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
 ParameterDialog.Choice.NullValue=Valor nulo
 ParameterDialog.Choice.BlankValue=Valor en blanco
@@ -2490,8 +2490,8 @@ ParameterDialog.Label.Null=Nulo
 ParameterDialog.Label.Preview=Vista previa con formato
 ParameterDialog.Label.PromptText=Texto de solicit&ud:
 ParameterDialog.Label.SelectDataSet=Conjunto de &datos:
-ParameterDialog.Label.SortKey=Ordenar por:
-ParameterDialog.Label.SortDirection=Dirección de orden:
+ParameterDialog.Label.SortKey=S&ort by:
+ParameterDialog.Label.SortDirection=So&rt direction:
 ParameterDialog.SelectionDialog.New=Nueva opción de selección
 ParameterDialog.SelectionDialog.Label.DisplayText=Mostrar texto:
 ParameterDialog.SelectionDialog.Label.Value=Valor:
@@ -2784,7 +2784,7 @@ report.designer.ui.preferences.template.templatedir=plantillas
 report.designer.ui.preferences.template.templatefolder= &Carpeta de plantillas
 report.designer.ui.preferences.template.title=Seleccione la carpeta de plantillas.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Generar comentario al crear un diseño de informe
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2006 <<Aquí va el nombre de su empresa>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
 
 ###########################################################
 #Resource Preference page properties
