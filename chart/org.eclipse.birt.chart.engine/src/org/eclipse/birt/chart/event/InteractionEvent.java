@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.event;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
@@ -91,12 +92,13 @@ public final class InteractionEvent extends ChartEvent
 		if ( _lhmTriggers.isEmpty( ) )
 			return null;
 		Trigger[] tga = new Trigger[_lhmTriggers.size( )];
-		final Iterator it = _lhmTriggers.keySet( ).iterator( );
+		final Iterator it = _lhmTriggers.entrySet( ).iterator( );
 		int i = 0;
 		while ( it.hasNext( ) )
 		{
-			TriggerCondition tcKey = (TriggerCondition) it.next( );
-			Action acValue = (Action) _lhmTriggers.get( tcKey );
+			Map.Entry entry = (Map.Entry) it.next( );
+			TriggerCondition tcKey = (TriggerCondition) entry.getKey( );
+			Action acValue = (Action) entry.getValue( );
 			tga[i++] = TriggerImpl.create( tcKey, acValue );
 		}
 		return tga;
