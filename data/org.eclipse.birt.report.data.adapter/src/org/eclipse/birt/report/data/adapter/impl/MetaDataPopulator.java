@@ -53,11 +53,15 @@ public class MetaDataPopulator
 		List resultSetList = null;
 		if ( dataSetHandle instanceof OdaDataSetHandle )
 		{
-			resultSetList = (List) dataSetHandle.getProperty( OdaDataSetHandle.RESULT_SET_PROP );
+			PropertyHandle handle = dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
+			if ( handle.isLocal( ) )
+				resultSetList = handle.getListValue( );
 		}
-		else if( dataSetHandle instanceof ScriptDataSetHandle )
+		else if ( dataSetHandle instanceof ScriptDataSetHandle )
 		{
-			resultSetList = dataSetHandle.getListProperty( DataSetHandle.RESULT_SET_HINTS_PROP );
+			PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+			if ( handle.isLocal( ) )
+				resultSetList = handle.getListValue( );
 		}
 		else
 		{
@@ -70,7 +74,7 @@ public class MetaDataPopulator
 		ResultSetColumnDefinition columnDef;
 		int count = 0;
 		// populate result set columns
-		if ( resultSetList != null && resultSetList.size( ) > 0 )
+		if ( resultSetList != null )
 		{
 			ResultSetColumn resultSetColumn;
 			HashSet orgColumnNameSet = new HashSet( );
