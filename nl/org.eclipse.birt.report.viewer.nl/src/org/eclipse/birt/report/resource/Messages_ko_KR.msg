@@ -114,6 +114,7 @@ birt.viewer.dialog.print.settings.duplex.simplex=단면
 birt.viewer.dialog.print.settings.duplex.horizontal=가로
 birt.viewer.dialog.print.settings.duplex.vertical=세로
 birt.viewer.dialog.print.settings.pagesize=페이지 크기:
+birt.viewer.dialog.print.settings.print=Print:
 
 birt.viewer.dialog.print.complete=문서 파일을 서버의 선택된 프린터에 보냈습니다.
 

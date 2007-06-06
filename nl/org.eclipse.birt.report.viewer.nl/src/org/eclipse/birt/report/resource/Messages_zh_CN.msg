@@ -114,6 +114,7 @@ birt.viewer.dialog.print.settings.duplex.simplex=单工
 birt.viewer.dialog.print.settings.duplex.horizontal=水平
 birt.viewer.dialog.print.settings.duplex.vertical=垂直
 birt.viewer.dialog.print.settings.pagesize=页面大小:
+birt.viewer.dialog.print.settings.print=Print:
 
 birt.viewer.dialog.print.complete=已将文档文件发送到服务器上选择的打印机。
 

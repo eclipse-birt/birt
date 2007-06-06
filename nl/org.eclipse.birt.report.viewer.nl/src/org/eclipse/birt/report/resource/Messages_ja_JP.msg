@@ -114,6 +114,7 @@ birt.viewer.dialog.print.settings.duplex.simplex=片面印刷
 birt.viewer.dialog.print.settings.duplex.horizontal=横
 birt.viewer.dialog.print.settings.duplex.vertical=縦
 birt.viewer.dialog.print.settings.pagesize=用紙サイズ :
+birt.viewer.dialog.print.settings.print=Print:
 
 birt.viewer.dialog.print.complete=文書ファイルをサーバ上の選択したプリンタに送信しました。
 
