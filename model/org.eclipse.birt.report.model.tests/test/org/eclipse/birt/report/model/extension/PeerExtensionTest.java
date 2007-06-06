@@ -278,7 +278,6 @@ public class PeerExtensionTest extends BaseTestCase
 		// add a testing table
 		ExtendedItemHandle extendedTable = designHandle.getElementFactory( )
 				.newExtendedItem( "testExtendedTable", "TestingTable" ); //$NON-NLS-1$//$NON-NLS-2$
-		extendedTable.setProperty( TableItem.CAPTION_PROP, "table caption" ); //$NON-NLS-1$
 		extendedTable.setProperty( TableItem.DATA_SET_PROP, "tableDataSet" ); //$NON-NLS-1$
 		extendedTable.setProperty( IStyleModel.COLOR_PROP, IColorConstants.RED );
 		extendedTable.setProperty( "usage", "testusagevalue" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -460,7 +459,7 @@ public class PeerExtensionTest extends BaseTestCase
 		ElementDefn extendedCell = (ElementDefn) dd
 				.getExtension( "TestingTable" ); //$NON-NLS-1$
 		assertNotNull( extendedCell );
-		assertEquals( dd.getElement( ReportDesignConstants.TABLE_ITEM ),
+		assertEquals( dd.getElement( ReportDesignConstants.REPORT_ITEM ),
 				extendedCell.getParent( ) );
 
 		PropertyDefn extensionName = (PropertyDefn) extendedCell
@@ -681,8 +680,7 @@ public class PeerExtensionTest extends BaseTestCase
 		DesignElementHandle extendedItem = designHandle
 				.findElement( "testTable" );//$NON-NLS-1$
 
-		DesignElementHandle cubeHandle = (DesignElementHandle) designHandle
-				.getCubes( ).get( 0 );
+		DesignElementHandle cubeHandle = designHandle.getCubes( ).get( 0 );
 
 		extendedItem.setProperty( "cube", "Customer Cube" );//$NON-NLS-1$//$NON-NLS-2$
 

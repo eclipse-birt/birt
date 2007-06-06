@@ -24,7 +24,7 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="testTable" id="8">
-            <property name="filters">
+            <property name="filter">
                 <filter-condition-element>
                     <expression name="expr">new filter expression</expression>
                     <property name="operator">ge</property>

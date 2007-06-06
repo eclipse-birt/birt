@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design">
     <page-setup>
         <graphic-master-page name="My Page">
             <property name="topMargin">0.95mm</property>
@@ -25,7 +25,7 @@
     </cubes>
     <body>
     	<extended-item extensionName="TestingTable" name="testTable">
-    		<property name="filters">
+    		<property name="filter">
     			<filter-condition-element>
     				<property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>

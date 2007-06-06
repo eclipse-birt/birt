@@ -320,6 +320,8 @@ class ElementExporter
 				&& elementToExport.getContainer( ) != elementToExport
 						.getModuleHandle( ) )
 			slotID = IModuleModel.COMPONENT_SLOT;
+		else if ( slotID == IReportDesignModel.CUBE_SLOT)
+			slotID = ILibraryModel.CUBE_SLOT;
 
 		// if the element only exist in the report design such as template
 		// element definition, do not export it.

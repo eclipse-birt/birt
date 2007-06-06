@@ -25,7 +25,7 @@
     </cubes>
     <components>
     	<extended-item extensionName="TestingTable" name="testTable">
-    		<property name="filters">
+    		<property name="filter">
     			<filter-condition-element>
     				<property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>

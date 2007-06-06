@@ -194,14 +194,18 @@ public abstract class BoundColumnsMgr
 		dealReportItem( element, module );
 		List values = (List) element.getLocalProperty( module,
 				IExtendedItemModel.FILTER_PROP );
-		if ( !( values == null || values.size( ) < 1 ) )
+		if ( values != null && !values.isEmpty( ) )
 		{
-			for ( int i = 0; i < values.size( ); i++ )
+			Object value = values.get( 0 );
+			if ( value instanceof FilterCondition )
 			{
-				FilterCondition struct = (FilterCondition) values.get( i );
-				handleBoundsForValue( element, module, struct.getExpr( ) );
-				handleBoundsForValue( element, module, struct.getValue1( ) );
-				handleBoundsForValue( element, module, struct.getValue2( ) );
+				for ( int i = 0; i < values.size( ); i++ )
+				{
+					FilterCondition struct = (FilterCondition) values.get( i );
+					handleBoundsForValue( element, module, struct.getExpr( ) );
+					handleBoundsForValue( element, module, struct.getValue1( ) );
+					handleBoundsForValue( element, module, struct.getValue2( ) );
+				}
 			}
 		}
 

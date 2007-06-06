@@ -40,7 +40,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertNotNull( testTable );
 
 		// test filter properties
-		List valueList = testTable.getListProperty( "filters" ); //$NON-NLS-1$
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
 		assertEquals( 2, valueList.size( ) );
 		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
 				.get( 0 );
@@ -96,7 +96,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		String valuePrix = "new "; //$NON-NLS-1$
 
 		// test filter properties
-		List valueList = testTable.getListProperty( "filters" ); //$NON-NLS-1$
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
 		assertEquals( 2, valueList.size( ) );
 		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
 				.get( 0 );

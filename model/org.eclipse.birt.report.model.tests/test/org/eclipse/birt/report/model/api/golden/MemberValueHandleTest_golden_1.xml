@@ -15,7 +15,7 @@
     <body>
         <extended-item extensionName="TestingTable" name="testTable" extends="Lib1.testTable"
  id="3">
-            <property name="filters">
+            <property name="filter">
                 <filter-condition-element>
                     <expression name="expr">filter expression</expression>
                     <property name="operator">lt</property>

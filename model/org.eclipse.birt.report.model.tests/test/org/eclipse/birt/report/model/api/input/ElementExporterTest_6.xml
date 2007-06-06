@@ -18,6 +18,9 @@
             </page-footer>
         </simple-master-page>
     </page-setup>
+    <cubes>
+    	<tabular-cube name="testCube"/>
+    </cubes>
     <body>
         <data id="5">
             <list-property name="boundDataColumns">

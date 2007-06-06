@@ -685,6 +685,9 @@ public class ElementExporterTest extends BaseTestCase
 		assertEquals( 1, itemHandle
 				.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
 		itemHandle = (DataItemHandle) libraryHandle.findElement( "NewData" );//$NON-NLS-1$
+		
+		assertNotNull( libraryHandle.findCube( "testCube" ) ); //$NON-NLS-1$
+		
 
 	}
 
@@ -708,7 +711,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		save( libraryHandle );
 		
-		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" );
+		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" ); //$NON-NLS-1$
 		compareFile( "ElementExporterTestLibrary_golden_15.xml" ); //$NON-NLS-1$
 
 	}
