@@ -75,6 +75,7 @@
 			<%
 			}
 			%>
+			var rtl = <%= attributeBean.isRtl( ) %>;
 		</script>
 		
 		<script src="birt/ajax/utility/Debug.js" type="text/javascript"></script>
