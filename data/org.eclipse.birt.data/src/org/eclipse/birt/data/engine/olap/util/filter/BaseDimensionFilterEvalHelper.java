@@ -304,8 +304,10 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 			IEdgeDefinition columnEdge = this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 			IEdgeDefinition rowEdge = this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
 			List dims = new ArrayList();
-			dims.addAll( columnEdge.getDimensions( ) );
-			dims.addAll( rowEdge.getDimensions( ) );
+			if ( columnEdge != null )
+				dims.addAll( columnEdge.getDimensions( ) );
+			if ( rowEdge != null )
+				dims.addAll( rowEdge.getDimensions( ) );
 			
 			for ( int i = 0; i < dims.size( ); i++ )
 			{
