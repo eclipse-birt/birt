@@ -563,27 +563,36 @@ Choices.viewAction.Changed=Cambiado
 Choices.viewAction.Added=Añadido
 Choices.viewAction.Deleted=Eliminado
 
-#70. measureFunction
-Choices.measureFunction.sum=SUM
-Choices.measureFunction.count=COUNT
-Choices.measureFunction.min=MIN
-Choices.measureFunction.max=MAX
-Choices.measureFunction.average=AVERAGE
-Choices.measureFunction.weighted-avg=WEIGHTEDAVG
-Choices.measureFunction.stddev=STDDEV
-Choices.measureFunction.first=FIRST
-Choices.measureFunction.last=LAST
-Choices.measureFunction.mode=MODE
-Choices.measureFunction.moving-ave=MOVINGAVE
-Choices.measureFunction.median=MEDIAN
-Choices.measureFunction.variance=VARIANCE
-Choices.measureFunction.running-sum=RUNNINGSUM
-Choices.measureFunction.irr=IRR
-Choices.measureFunction.mirr=MIRR
-Choices.measureFunction.npv=NPV
-Choices.measureFunction.running-npv=RUNNINGNPV
-Choices.measureFunction.count-distinct=COUNTDISTINCT
-Choices.measureFunction.running-count=RUNNINGCOUNT
+#70. aggregationFunction
+Choices.aggregationFunction.sum=SUM
+Choices.aggregationFunction.count=COUNT
+Choices.aggregationFunction.min=MIN
+Choices.aggregationFunction.max=MAX
+Choices.aggregationFunction.average=AVERAGE
+Choices.aggregationFunction.weighted-avg=WEIGHTEDAVG
+Choices.aggregationFunction.stddev=STDDEV
+Choices.aggregationFunction.first=FIRST
+Choices.aggregationFunction.last=LAST
+Choices.aggregationFunction.mode=MODE
+Choices.aggregationFunction.moving-ave=MOVINGAVE
+Choices.aggregationFunction.median=MEDIAN
+Choices.aggregationFunction.variance=VARIANCE
+Choices.aggregationFunction.running-sum=RUNNINGSUM
+Choices.aggregationFunction.irr=IRR
+Choices.aggregationFunction.mirr=MIRR
+Choices.aggregationFunction.npv=NPV
+Choices.aggregationFunction.running-npv=RUNNINGNPV
+Choices.aggregationFunction.count-distinct=COUNTDISTINCT
+Choices.aggregationFunction.running-count=RUNNINGCOUNT
+Choices.aggregationFunction.is-top-n=IS-TOP-N
+Choices.aggregationFunction.is-bottom-n=IS-BOTTOM-N
+Choices.aggregationFunction.is-top-n-percent=IS-TOP-N-PERCENT
+Choices.aggregationFunction.is-bottom-n-percent=IS-BOTTOM-N-PERCENT
+Choices.aggregationFunction.percent-rank=PERCENT-RANK
+Choices.aggregationFunction.percentile=PERCENTILE 
+Choices.aggregationFunction.quartile=QUARTILE   
+Choices.aggregationFunction.percent-sum=PERCENT-SUM
+Choices.aggregationFunction.rank=RANK
 
 #71. levelType
 Choices.levelType.dynamic=Dinámico
@@ -613,8 +622,7 @@ Choices.dateTimeLevelType.dayOfYear=Día del año
 Choices.dateTimeLevelType.hour=Hora
 Choices.dateTimeLevelType.minute=Minuto
 Choices.dateTimeLevelType.second=Segundo
-
-
+    
 ###########################################################
 # Classes
 
@@ -1596,6 +1604,11 @@ Class.Finance.npv=npv
 Class.Finance.npv.toolTip=Valor neto actual de una serie distinta de flujos de efectivo periódicos, positivos y negativos, con un tipo de interés concreto
 Class.Finance.npv.rate=rate
 Class.Finance.npv.cashArray=cashArray 
+
+Class.Finance.runningnpv=npv
+Class.Finance.runningnpv.toolTip=Valor neto actual de una serie distinta de flujos de efectivo periódicos, positivos y negativos, con un tipo de interés concreto
+Class.Finance.runningnpv.rate=rate
+Class.Finance.runningnpv.cashArray=cashArray 
 
 Class.Finance.mirr=mirr
 Class.Finance.mirr.toolTip=Tasa interna de devolución modificada para una serie de flujos de efectivo periódicos (pagos y recibos) de una matriz existente
@@ -3263,7 +3276,7 @@ New.TemplateReportItem=NuevoElementoInformePlantilla
 New.Theme=NuevoTema
 New.AutoText=NuevoAutotexto
 New.TabularCube=NuevoCuboTabla
-New.TabularDimension=NuevaDimensiónTabla
+New.TabularDimension=Group
 New.TabularHierarchy=NuevaJerarquíaTabla
 New.TabularLevel=NuevoNivelTabla
 New.TabularMeasure=NuevaMedidaTabla

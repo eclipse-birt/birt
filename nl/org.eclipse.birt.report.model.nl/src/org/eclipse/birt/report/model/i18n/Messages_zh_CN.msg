@@ -563,27 +563,36 @@ Choices.viewAction.Changed=已更改
 Choices.viewAction.Added=已添加
 Choices.viewAction.Deleted=已删除
 
-#70. measureFunction
-Choices.measureFunction.sum=SUM
-Choices.measureFunction.count=COUNT
-Choices.measureFunction.min=MIN
-Choices.measureFunction.max=MAX
-Choices.measureFunction.average=AVERAGE
-Choices.measureFunction.weighted-avg=WEIGHTEDAVG
-Choices.measureFunction.stddev=STDDEV
-Choices.measureFunction.first=FIRST
-Choices.measureFunction.last=LAST
-Choices.measureFunction.mode=MODE
-Choices.measureFunction.moving-ave=MOVINGAVE
-Choices.measureFunction.median=MEDIAN
-Choices.measureFunction.variance=VARIANCE
-Choices.measureFunction.running-sum=RUNNINGSUM
-Choices.measureFunction.irr=IRR
-Choices.measureFunction.mirr=MIRR
-Choices.measureFunction.npv=NPV
-Choices.measureFunction.running-npv=RUNNINGNPV
-Choices.measureFunction.count-distinct=COUNTDISTINCT
-Choices.measureFunction.running-count=RUNNINGCOUNT
+#70. aggregationFunction
+Choices.aggregationFunction.sum=SUM
+Choices.aggregationFunction.count=COUNT
+Choices.aggregationFunction.min=MIN
+Choices.aggregationFunction.max=MAX
+Choices.aggregationFunction.average=AVERAGE
+Choices.aggregationFunction.weighted-avg=WEIGHTEDAVG
+Choices.aggregationFunction.stddev=STDDEV
+Choices.aggregationFunction.first=FIRST
+Choices.aggregationFunction.last=LAST
+Choices.aggregationFunction.mode=MODE
+Choices.aggregationFunction.moving-ave=MOVINGAVE
+Choices.aggregationFunction.median=MEDIAN
+Choices.aggregationFunction.variance=VARIANCE
+Choices.aggregationFunction.running-sum=RUNNINGSUM
+Choices.aggregationFunction.irr=IRR
+Choices.aggregationFunction.mirr=MIRR
+Choices.aggregationFunction.npv=NPV
+Choices.aggregationFunction.running-npv=RUNNINGNPV
+Choices.aggregationFunction.count-distinct=COUNTDISTINCT
+Choices.aggregationFunction.running-count=RUNNINGCOUNT
+Choices.aggregationFunction.is-top-n=IS-TOP-N
+Choices.aggregationFunction.is-bottom-n=IS-BOTTOM-N
+Choices.aggregationFunction.is-top-n-percent=IS-TOP-N-PERCENT
+Choices.aggregationFunction.is-bottom-n-percent=IS-BOTTOM-N-PERCENT
+Choices.aggregationFunction.percent-rank=PERCENT-RANK
+Choices.aggregationFunction.percentile=PERCENTILE 
+Choices.aggregationFunction.quartile=QUARTILE   
+Choices.aggregationFunction.percent-sum=PERCENT-SUM
+Choices.aggregationFunction.rank=RANK
 
 #71. levelType
 Choices.levelType.dynamic=动态
@@ -613,8 +622,7 @@ Choices.dateTimeLevelType.dayOfYear=年中第几天
 Choices.dateTimeLevelType.hour=小时
 Choices.dateTimeLevelType.minute=分钟
 Choices.dateTimeLevelType.second=秒
-
-
+    
 ###########################################################
 # Classes
 
@@ -1596,6 +1604,11 @@ Class.Finance.npv=npv
 Class.Finance.npv.toolTip=一系列定期现金流（正和负）按指定利率计算的净现值
 Class.Finance.npv.rate=rate
 Class.Finance.npv.cashArray=cashArray 
+
+Class.Finance.runningnpv=npv
+Class.Finance.runningnpv.toolTip=一系列定期现金流（正和负）按指定利率计算的净现值
+Class.Finance.runningnpv.rate=rate
+Class.Finance.runningnpv.cashArray=cashArray 
 
 Class.Finance.mirr=mirr
 Class.Finance.mirr.toolTip=现有数组内一系列定期现金流（付款和收款）的修改内部回报率
@@ -3263,7 +3276,7 @@ New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
 New.TabularCube=新建表格式多维数据集
-New.TabularDimension=新建表格式维
+New.TabularDimension=Group
 New.TabularHierarchy=新建表格式层次结构
 New.TabularLevel=新建表格式级别
 New.TabularMeasure=新建表格式度量
