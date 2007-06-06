@@ -207,7 +207,6 @@ public class ChartWizard extends WizardBase
 		if ( getTitle( ).equals( WIZARD_TITLE_NEW ) )
 		{
 			setTitle( WIZARD_TITLE_EDIT );
-			getDialog( ).setTitle( WIZARD_TITLE_EDIT );
 			getDialog( ).getShell( ).setText( WIZARD_TITLE_EDIT );
 		}
 	}

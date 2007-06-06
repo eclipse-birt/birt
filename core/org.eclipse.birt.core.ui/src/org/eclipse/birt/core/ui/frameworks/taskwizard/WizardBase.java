@@ -22,7 +22,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.internal.BirtTitleAreaDialog;
 import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -516,6 +515,10 @@ public class WizardBase implements IRegistrationListener
 	protected void setTitle( String wizardTitle )
 	{
 		dialog.wizardTitle = wizardTitle;
+		if ( dialog != null )
+		{
+			dialog.setTitle( wizardTitle );
+		}
 	}
 
 	protected String getTitle( )
