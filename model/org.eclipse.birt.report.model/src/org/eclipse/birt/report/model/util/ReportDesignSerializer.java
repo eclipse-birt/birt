@@ -63,7 +63,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -271,10 +270,11 @@ public class ReportDesignSerializer extends ElementVisitor
 		DesignElement tmpContainer = getTargetContainer( originalElement,
 				tmpElement, processedElements );
 
-		assert tmpContainer != null;
+		ContainerContext context = null;
 
-		ContainerContext context = originalElement.getContainerInfo( )
-				.createContext( tmpContainer );
+		if ( tmpContainer != null )
+			context = originalElement.getContainerInfo( ).createContext(
+					tmpContainer );
 
 		if ( context == null && originalContainer instanceof Theme )
 		{
@@ -1514,6 +1514,9 @@ public class ReportDesignSerializer extends ElementVisitor
 		tmpContainer = (DesignElement) externalElements.get( sourceContainer );
 		if ( tmpContainer == null )
 			tmpContainer = targetDesign.getElementByID( containerId );
+
+		if ( tmpContainer == null )
+			return null;
 
 		if ( sourceContainer.getElementName( ).equalsIgnoreCase(
 				tmpContainer.getElementName( ) ) )
