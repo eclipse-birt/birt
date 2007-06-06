@@ -190,3 +190,8 @@ CrosstabPreferencePage.Title=Crosstab
 CrosstabPreferencePage.filterLimit=Filter Limit
 CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
 CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+
+###########################################################
+#Crosstab DataBinding properties
+CrosstabDataBinding.title.ChangeCube=Change cube?
+CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
