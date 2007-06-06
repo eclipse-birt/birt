@@ -2106,6 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=Programmeigener Datentypcode
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=Quaderschlüssel
 Structure.DimensionJoinCondition.hierarchyKey=Hierarchieschlüssel
+Structure.DimensionJoinCondition.level=Level
 
 #34. AggregationArgument
 Structure.AggregationArgument=Aggregat-Argument

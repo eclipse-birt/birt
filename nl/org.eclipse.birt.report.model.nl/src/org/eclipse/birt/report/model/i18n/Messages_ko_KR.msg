@@ -2106,6 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=고유 데이터 형식 코드
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=큐브 키
 Structure.DimensionJoinCondition.hierarchyKey=계층 키
+Structure.DimensionJoinCondition.level=Level
 
 #34. AggregationArgument
 Structure.AggregationArgument=집계 인수

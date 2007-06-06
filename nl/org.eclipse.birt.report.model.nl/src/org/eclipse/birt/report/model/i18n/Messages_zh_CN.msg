@@ -2106,6 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=本地数据类型代码
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=多维数据集关键字
 Structure.DimensionJoinCondition.hierarchyKey=层次结构关键字
+Structure.DimensionJoinCondition.level=Level
 
 #34. AggregationArgument
 Structure.AggregationArgument=聚合参数
