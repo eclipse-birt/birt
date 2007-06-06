@@ -117,7 +117,7 @@ public final class UIHelper
 		}
 		else
 		{
-			url = UIHelper.class.getResource( "/" + sPluginRelativePath );
+			url = UIHelper.class.getResource( "/" + sPluginRelativePath ); //$NON-NLS-1$
 			if ( url == null )
 			{
 				try
@@ -141,8 +141,11 @@ public final class UIHelper
 		{
 			try
 			{
-				img = new Image( Display.getCurrent( ),
-						getURL( sPluginRelativePath ).openStream( ) );
+				URL url = getURL( sPluginRelativePath );
+				if ( url != null )
+				{
+					img = new Image( Display.getCurrent( ), url.openStream( ) );
+				}
 			}
 			catch ( MalformedURLException e1 )
 			{

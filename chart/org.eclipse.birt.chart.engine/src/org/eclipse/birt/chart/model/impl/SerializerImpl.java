@@ -329,25 +329,41 @@ public class SerializerImpl implements Serializer
 		Resource rChart = null;
 
 		StringBuffer sb = null;
-		sb = getChartStringFromStream( new FileInputStream( uri.toFileString( ) ) );
-
-		File fTmp = File.createTempFile( "_ChartResource", ".chart" ); //$NON-NLS-1$ //$NON-NLS-2$
-		FileWriter writer = new FileWriter( fTmp );
-		System.out.println( fTmp.getAbsolutePath( ) );
-		writer.write( sb.toString( ) );
-		writer.flush( );
-		writer.close( );
-		URI uriEmbeddedModel = URI.createFileURI( fTmp.getAbsolutePath( ) );
-		rChart = rsChart.getResource( uriEmbeddedModel, true );
-
-		rChart.load( Collections.EMPTY_MAP );
-
-		// Delete the temporary file once the model is loaded.
-		if ( fTmp.exists( ) )
+		InputStream fis = null;
+		FileWriter writer = null;
+		try
 		{
-			fTmp.delete( );
+			fis = new FileInputStream( uri.toFileString( ) );
+			sb = getChartStringFromStream( fis );
+
+			File fTmp = File.createTempFile( "_ChartResource", ".chart" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer = new FileWriter( fTmp );
+			writer.write( sb.toString( ) );
+			writer.flush( );
+
+			URI uriEmbeddedModel = URI.createFileURI( fTmp.getAbsolutePath( ) );
+			rChart = rsChart.getResource( uriEmbeddedModel, true );
+
+			rChart.load( Collections.EMPTY_MAP );
+
+			// Delete the temporary file once the model is loaded.
+			if ( fTmp.exists( ) )
+			{
+				fTmp.delete( );
+			}
+			return (Chart) rChart.getContents( ).get( 0 );
 		}
-		return (Chart) rChart.getContents( ).get( 0 );
+		finally
+		{
+			if ( writer != null )
+			{
+				writer.close( );
+			}
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+		}
 	}
 
 	/*

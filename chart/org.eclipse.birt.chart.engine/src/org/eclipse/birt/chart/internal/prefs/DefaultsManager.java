@@ -219,9 +219,19 @@ public final class DefaultsManager
 	 */
 	public final void write( ) throws IOException, BackingStoreException
 	{
-		FileOutputStream fos = new FileOutputStream( sLocation );
-		pr.exportSubtree( fos );
-		fos.close( );
+		FileOutputStream fos = null;
+		try
+		{
+			fos = new FileOutputStream( sLocation );
+			pr.exportSubtree( fos );
+		}
+		finally
+		{
+			if ( fos != null )
+			{
+				fos.close( );
+			}
+		}
 	}
 
 	/**
@@ -232,10 +242,20 @@ public final class DefaultsManager
 	public final void read( ) throws IOException,
 			InvalidPreferencesFormatException
 	{
-		FileInputStream fis = new FileInputStream( sLocation );
-		Preferences.importPreferences( fis );
-		pr = Preferences.userRoot( );
-		fis.close( );
+		FileInputStream fis = null;
+		try
+		{
+			fis = new FileInputStream( sLocation );
+			Preferences.importPreferences( fis );
+			pr = Preferences.userRoot( );
+		}
+		finally
+		{
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+		}
 	}
 
 	/**
