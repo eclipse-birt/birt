@@ -413,37 +413,25 @@ public class BarChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
+					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 					{
-						if ( !ChartPreviewPainter.isLivePreviewActive( )
-								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-						{
-							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-						}
-						( (Axis) axes.get( i ) ).setPercent( true );
+						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 					}
-					else
-					{
-						( (Axis) axes.get( i ) ).setPercent( false );
-					}
+					( (Axis) axes.get( i ) ).setPercent( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
+						if ( !ChartPreviewPainter.isLivePreviewActive( )
+								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 						{
-							if ( !ChartPreviewPainter.isLivePreviewActive( )
-									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-							{
-								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-							}
-							series.setStacked( true );
+							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 						}
-						else
-						{
-							series.setStacked( false );
-						}
+						boolean isStacked = ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) );
+						series.setStacked( isStacked );
+
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -684,14 +672,12 @@ public class BarChart extends DefaultChartTypeImpl
 				}
 			}
 		}
-		
+
 		// Restore label position for different sub type of chart.
 		ChartUIUtil.restoreLabelPositionFromCache( currentChart );
-		
+
 		return currentChart;
 	}
-
-
 
 	private boolean isNumbericAxis( Axis axis )
 	{
