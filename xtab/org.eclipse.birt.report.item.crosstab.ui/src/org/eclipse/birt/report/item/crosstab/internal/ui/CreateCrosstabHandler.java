@@ -98,8 +98,9 @@ public class CreateCrosstabHandler extends AbstractHandler
 				{
 					DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
 					if ( parentHandle.getDefn( ).isContainer( )
-							&& parentHandle.canContain( DEUtil.getDefaultSlotID( parentHandle ),
-									handle ) )
+							&& ( parentHandle.canContain( DEUtil.getDefaultSlotID( parentHandle ),
+									handle ) || parentHandle.canContain( DEUtil.getDefaultContentName( parentHandle ),
+									handle ) ) )
 					{
 						command.setParent( parentHandle );
 					}
@@ -242,30 +243,30 @@ public class CreateCrosstabHandler extends AbstractHandler
 		return handle;
 	}
 
-//	private SlotHandle getDefaultSlotHandle( String insertType, Object model )
-//	{
-//		if ( model instanceof LibRootModel )
-//		{
-//			model = ( (LibRootModel) model ).getModel( );
-//		}
-//		if ( model instanceof SlotHandle )
-//		{
-//			return (SlotHandle) model;
-//		}
-//		else if ( model instanceof DesignElementHandle )
-//		{
-//			DesignElementHandle handle = (DesignElementHandle) model;
-//
-//			if ( handle.getDefn( ).isContainer( ) )
-//			{
-//				int slotId = DEUtil.getDefaultSlotID( handle );
-//				if ( handle.canContain( slotId, insertType ) )
-//				{
-//					return handle.getSlot( slotId );
-//				}
-//			}
-//			return handle.getContainerSlotHandle( );
-//		}
-//		return null;
-//	}
+	//	private SlotHandle getDefaultSlotHandle( String insertType, Object model )
+	//	{
+	//		if ( model instanceof LibRootModel )
+	//		{
+	//			model = ( (LibRootModel) model ).getModel( );
+	//		}
+	//		if ( model instanceof SlotHandle )
+	//		{
+	//			return (SlotHandle) model;
+	//		}
+	//		else if ( model instanceof DesignElementHandle )
+	//		{
+	//			DesignElementHandle handle = (DesignElementHandle) model;
+	//
+	//			if ( handle.getDefn( ).isContainer( ) )
+	//			{
+	//				int slotId = DEUtil.getDefaultSlotID( handle );
+	//				if ( handle.canContain( slotId, insertType ) )
+	//				{
+	//					return handle.getSlot( slotId );
+	//				}
+	//			}
+	//			return handle.getContainerSlotHandle( );
+	//		}
+	//		return null;
+	//	}
 }
