@@ -843,12 +843,12 @@ public class IOUtil
 			return;
 
 		// write real data
-		Set keySet = map.keySet( );
-		Iterator it = keySet.iterator( );
+		Iterator it = map.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			Object key = it.next( );
-			Object value = map.get( key );
+			Map.Entry entry = (Map.Entry) it.next( );
+			Object key = entry.getKey( );
+			Object value = entry.getValue( );
 			writeObject( dos, key );
 			writeObject( dos, value );
 		}
