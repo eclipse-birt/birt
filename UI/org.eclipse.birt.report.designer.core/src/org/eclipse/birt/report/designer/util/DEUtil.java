@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -85,6 +86,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -127,7 +129,7 @@ public class DEUtil
 	 * The class info of total
 	 */
 	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( IMetaDataDictionary.TOTAL_CLASS_NAME ); //$NON-NLS-1$
-	
+
 	static
 	{
 		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
@@ -1005,6 +1007,17 @@ public class DEUtil
 		{
 			return IReportElementConstants.STOREDPROCUDURE_OUTPUT_PREFIX
 					+ "[\"" + escape( ( (DataSetParameterHandle) model ).getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if ( model instanceof LevelAttributeHandle )
+		{
+			LevelAttributeHandle levelAttri = (LevelAttributeHandle) model;
+			String levelName = levelAttri.getElement( ).getName( );
+			String dimensionName = ( (TabularLevelHandle) levelAttri.getElementHandle( ) ).getContainer( )
+					.getContainer( )
+					.getName( );
+			return ExpressionUtil.createJSDimensionExpression( dimensionName,
+					levelName,
+					levelAttri.getName( ) );
 		}
 		return null;
 	}

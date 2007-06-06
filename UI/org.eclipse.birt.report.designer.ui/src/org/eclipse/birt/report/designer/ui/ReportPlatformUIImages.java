@@ -599,6 +599,9 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_SCRIPTS_NODE, ICONS_PATH
 				+ OBJ16_PATH
 				+ "script-16.gif" );
+		
+		declareImage( IReportGraphicConstants.ICON_LEVEL_ATTRI,
+				ICONS_PATH + OBJ16_PATH + "levelAttribute-16.gif" ); //$NON-NLS-1$
 	}
 
 	/**

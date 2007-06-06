@@ -385,4 +385,7 @@ public interface IReportGraphicConstants
 	public static final String ICON_ELEMENT_AGGREGATION = "aggregation";//$NON-NLS-1$
 	
 	public static final String REPORT_LAYOUT_PROPERTY = "layout";//$NON-NLS-1$
+	
+	//Level attribute icon
+	public static final String ICON_LEVEL_ATTRI = "levelAttribute";//$NON-NLS-1$
 }

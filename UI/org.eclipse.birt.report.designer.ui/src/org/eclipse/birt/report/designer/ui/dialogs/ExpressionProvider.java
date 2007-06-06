@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -159,6 +160,7 @@ public class ExpressionProvider implements IExpressionProvider
 	protected static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
 	protected static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
 	protected static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
+	protected static final Image IMAGE_LEVEL_ATTRI = getIconImage( IReportGraphicConstants.ICON_LEVEL_ATTRI );
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
@@ -563,6 +565,10 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (Expression) element ).symbol;
 		}
+		else if ( element instanceof LevelAttributeHandle )
+		{
+			return ( (LevelAttributeHandle) element ).getName( );
+		}
 		return element.toString( );
 	}
 
@@ -642,6 +648,10 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ReportPlatformUIImages.getImage( element );
 		}
+		else if ( element instanceof LevelAttributeHandle )
+		{
+			return IMAGE_LEVEL_ATTRI;
+		}
 		return null;
 	}
 
@@ -696,7 +706,7 @@ public class ExpressionProvider implements IExpressionProvider
 					(ComputedColumnHandle) element );
 		}
 		else if ( element instanceof LevelHandle
-				|| element instanceof MeasureHandle )
+				|| element instanceof MeasureHandle || element instanceof LevelAttributeHandle )
 		{
 			return DEUtil.getExpression( element );
 		}

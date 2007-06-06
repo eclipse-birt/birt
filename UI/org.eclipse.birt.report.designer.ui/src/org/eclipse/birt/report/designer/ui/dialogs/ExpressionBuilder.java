@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvider;
@@ -26,7 +27,10 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -129,14 +133,26 @@ public class ExpressionBuilder extends TitleAreaDialog
 				return provider.getCategory( );
 			}
 			//does not show groups/measures in third column. 
-			if ( inputElement instanceof PropertyHandle )
+			if ( inputElement instanceof PropertyHandle
+					|| inputElement instanceof TabularMeasureGroupHandle
+					|| inputElement instanceof TabularDimensionHandle )
 			{
 				return EMPTY;
 			}
-			else if ( inputElement instanceof TabularDimensionHandle )
+			else if ( inputElement instanceof LevelHandle )
 			{
 				List childrenList = new ArrayList( );
-				childrenList.addAll( getChildren( inputElement ) );
+				childrenList.add( inputElement );
+				for ( Iterator iterator = ( (LevelHandle) inputElement ).attributesIterator( ); iterator.hasNext( ); )
+				{
+					childrenList.add( iterator.next( ) );
+				}
+				return childrenList.toArray( );
+			}
+			else if ( inputElement instanceof TabularMeasureHandle )
+			{
+				List childrenList = new ArrayList( );
+				childrenList.add( inputElement );
 				return childrenList.toArray( );
 			}
 			return provider.getChildren( inputElement );
