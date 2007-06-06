@@ -196,7 +196,7 @@ public class ExcelEmitter implements IContentEmitter
 		{
 			try
 			{
-				lb.flush( false, engine );
+				//lb.flush( false, engine );
 			}
 			catch ( Exception e )
 			{
@@ -531,6 +531,7 @@ public class ExcelEmitter implements IContentEmitter
 	private void addData( Object design, IStyle style, HyperlinkDef url,
 			String txt )
 	{
+System.out.println("data = " + txt);		
 		Span span = (Span) design2ExcelSpan.get( design );
 
 		if ( span == null )
