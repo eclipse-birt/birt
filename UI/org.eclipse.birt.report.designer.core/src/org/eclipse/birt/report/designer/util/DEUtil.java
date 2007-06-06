@@ -86,7 +86,6 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -1012,9 +1011,17 @@ public class DEUtil
 		{
 			LevelAttributeHandle levelAttri = (LevelAttributeHandle) model;
 			String levelName = levelAttri.getElement( ).getName( );
-			String dimensionName = ( (TabularLevelHandle) levelAttri.getElementHandle( ) ).getContainer( )
-					.getContainer( )
-					.getName( );
+			DesignElementHandle temp = levelAttri.getElementHandle( ).getContainer( );
+			String dimensionName = "";
+			while ( temp != null )
+			{
+				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
+				{
+					dimensionName = ( (org.eclipse.birt.report.model.api.olap.DimensionHandle) temp ).getName( );
+					break;
+				}
+				temp = temp.getContainer( );
+			}
 			return ExpressionUtil.createJSDimensionExpression( dimensionName,
 					levelName,
 					levelAttri.getName( ) );
