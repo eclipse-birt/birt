@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
@@ -1509,6 +1510,28 @@ public class ChartUIUtil
 					}
 				}
 			}
+		}
+	}
+	
+	public static String getSeriesDisplayName( Series series )
+	{
+		if ( series instanceof BarSeries )
+		{
+			switch ( ( (BarSeries) series ).getRiser( ).getValue( ) )
+			{
+				case RiserType.TRIANGLE: 
+					return Messages.getString( "ChartUIUtil.txt.PyramidSeries" ); //$NON-NLS-1$
+				case RiserType.CONE:
+					return Messages.getString( "ChartUIUtil.txt.ConeSeries" ); //$NON-NLS-1$
+				case RiserType.TUBE:
+					return Messages.getString( "ChartUIUtil.txt.TubeSeries" ); //$NON-NLS-1$
+				default:
+					return ( (BarSeries) series ).getDisplayName( );
+			}
+		}
+		else
+		{
+			return series.getDisplayName( );
 		}
 	}
 }

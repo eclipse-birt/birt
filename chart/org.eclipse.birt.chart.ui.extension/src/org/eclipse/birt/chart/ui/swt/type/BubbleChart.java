@@ -53,7 +53,6 @@ import org.eclipse.swt.graphics.Image;
 
 public class BubbleChart extends DefaultChartTypeImpl
 {
-
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
@@ -556,6 +555,15 @@ public class BubbleChart extends DefaultChartTypeImpl
 	public String getDisplayName( )
 	{
 		return Messages.getString( "BubbleChart.Txt.DisplayName" ); //$NON-NLS-1$
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (BubbleSeries) BubbleSeriesImpl.create( );
 	}
 
 }

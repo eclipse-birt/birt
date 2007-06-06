@@ -498,4 +498,11 @@ public class MeterChart extends DefaultChartTypeImpl
 		return Messages.getString( "MeterChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (DialSeries) DialSeriesImpl.create( );
+	}
 }

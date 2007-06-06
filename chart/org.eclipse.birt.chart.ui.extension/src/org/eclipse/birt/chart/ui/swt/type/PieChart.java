@@ -529,4 +529,16 @@ public class PieChart extends DefaultChartTypeImpl
 		return Messages.getString( "PieChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		PieSeries pieseries = (PieSeries) PieSeriesImpl.create( );
+		pieseries.setExplosion( 0 );
+		pieseries.setLeaderLineLength( 10.0 );
+		pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
+		return pieseries;
+	}
+
 }

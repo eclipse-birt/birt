@@ -604,4 +604,11 @@ public class StockChart extends DefaultChartTypeImpl
 		return Messages.getString( "StockChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (StockSeries) StockSeriesImpl.create( );
+	}
 }

@@ -840,4 +840,12 @@ public class AreaChart extends DefaultChartTypeImpl
 		}
 		return isSupported;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (AreaSeries) AreaSeriesImpl.create( );
+	}	
 }

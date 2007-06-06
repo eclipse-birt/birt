@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -49,7 +48,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
@@ -525,46 +523,33 @@ public class TaskSelectType extends SimpleTask implements
 		return new String[0];
 	}
 
-	private void populateSeriesTypes( String[] allSeriesTypes, Series series,
-			Orientation orientation ) throws ChartException
+	private void populateSeriesTypes( Collection allChartType, Series series,
+			Orientation orientation ) 
 	{
-		for ( int i = 0; i < allSeriesTypes.length; i++ )
+		Iterator iterTypes = allChartType.iterator( );
+		while ( iterTypes.hasNext( ) )
 		{
-			boolean bException = false;
-			try
+			IChartType type = (IChartType) iterTypes.next( );
+			Series newSeries = type.getSeries( );
+
+			if ( htSeriesNames == null )
 			{
-				Class seriesClass = Class.forName( allSeriesTypes[i] );
-				Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-				Series newSeries = (Series) createMethod.invoke( seriesClass,
-						new Object[]{} );
-				if ( htSeriesNames == null )
-				{
-					htSeriesNames = new Hashtable( 20 );
-				}
-				String sDisplayName = PluginSettings.instance( )
-						.getSeriesDisplayName( allSeriesTypes[i] );
-				htSeriesNames.put( sDisplayName, allSeriesTypes[i] );
-				if ( newSeries.canParticipateInCombination( ) )
-				{
-					if ( !( newSeries instanceof StockSeries )
-							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
-					{
-						cbSeriesType.add( sDisplayName );
-					}
-					if ( allSeriesTypes[i].equals( series.getClass( ).getName( ) ) )
-					{
-						cbSeriesType.select( cbSeriesType.getItemCount( ) - 1 );
-					}
-				}
+				htSeriesNames = new Hashtable( 20 );
 			}
-			catch ( Exception e )
+
+			if ( newSeries.canParticipateInCombination( ) )
 			{
-				bException = true;
-				ChartWizard.showException( e.getLocalizedMessage( ) );
-			}
-			if ( !bException )
-			{
-				WizardBase.removeException( );
+				if ( !( newSeries instanceof StockSeries )
+						|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
+				{
+					String sDisplayName = ChartUIUtil.getSeriesDisplayName( newSeries );
+					htSeriesNames.put( sDisplayName, newSeries );
+					cbSeriesType.add( sDisplayName );
+				}
+				if ( type.getName( ).equals( chartModel.getType( ) ) )
+				{
+					cbSeriesType.select( cbSeriesType.getItemCount( ) - 1 );
+				}
 			}
 		}
 	}
@@ -689,7 +674,10 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			needUpdateModel = true;
 			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
-			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			
+			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+					.get( 0 ) );
+			
 			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
 
 			if ( chartModel instanceof ChartWithoutAxes )
@@ -724,6 +712,15 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			ChartAdapter.endIgnoreNotifications( );
 
+			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
+			{
+				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
+				String sDisplayName =ChartUIUtil.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+								.get( 0 ) ).getDesignTimeSeries( ) );
+				cbSeriesType.setText( sDisplayName );
+			}
+			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			
 			// Update dimension combo and related sub-types
 			if ( updateDimensionCombo( sType ) )
 			{
@@ -748,14 +745,11 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else if ( oSelected.equals( cbSeriesType ) )
 		{
-			String oldSeriesName = ( (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chartModel,
-					1 )
-					.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
-			if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
-			{
+//			if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
+//			{
 				needUpdateModel = true;
 				changeOverlaySeriesType( );
-			}
+//			}
 		}
 		else if ( oSelected.equals( cbOutput ) )
 		{
@@ -790,23 +784,6 @@ public class TaskSelectType extends SimpleTask implements
 				if ( chartModel instanceof ChartWithAxes )
 				{
 					rotateAxisTitle( (ChartWithAxes) chartModel );
-				}
-			}
-			else if ( oSelected.equals( cbMultipleY ) && isTwoAxesEnabled( ) )
-			{
-				if ( chartModel != null && chartModel instanceof ChartWithAxes )
-				{
-					if ( ChartUIUtil.getOrthogonalAxisNumber( chartModel ) > 1 )
-					{
-						Axis overlayAxis = ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) chartModel,
-								1 );
-						String sDisplayName = PluginSettings.instance( )
-								.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-										.get( 0 ) ).getDesignTimeSeries( )
-										.getClass( )
-										.getName( ) );
-						cbSeriesType.select( cbSeriesType.indexOf( sDisplayName ) );
-					}
 				}
 			}
 		}
@@ -892,11 +869,6 @@ public class TaskSelectType extends SimpleTask implements
 		boolean bException = false;
 		try
 		{
-			// CREATE A NEW SERIES INSTANCE OF APPROPRIATE TYPE...USING THE
-			// create() METHOD
-			Class seriesClass = Class.forName( htSeriesNames.get( cbSeriesType.getText( ) )
-					.toString( ) );
-			Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
 			// CHANGE ALL OVERLAY SERIES TO NEW SELECTED TYPE
 			Axis XAxis = (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 					.get( 0 );
@@ -909,8 +881,7 @@ public class TaskSelectType extends SimpleTask implements
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series newSeries = (Series) createMethod.invoke( seriesClass,
-						new Object[]{} );
+				Series newSeries = (Series)htSeriesNames.get( cbSeriesType.getText( ) );
 				newSeries.translateFrom( ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( ),
 						iSeriesDefinitionIndex,
@@ -950,26 +921,12 @@ public class TaskSelectType extends SimpleTask implements
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		if ( series.canParticipateInCombination( ) )
 		{
-			boolean bException = false;
-			try
-			{
-				populateSeriesTypes( PluginSettings.instance( )
-						.getRegisteredSeries( ), series, this.orientation );
-			}
-			catch ( ChartException e )
-			{
-				bException = true;
-				ChartWizard.showException( e.getLocalizedMessage( ) );
-			}
-			if ( !bException )
-			{
-				WizardBase.removeException( );
-			}
+				populateSeriesTypes( ChartUIExtensionsImpl.instance( )
+						.getUIChartTypeExtensions( ), series, this.orientation );
 		}
 		else
 		{
-			String seriesName = PluginSettings.instance( )
-					.getSeriesDisplayName( series.getClass( ).getName( ) );
+			String seriesName = ChartUIUtil.getSeriesDisplayName( series );
 			cbSeriesType.add( seriesName );
 			cbSeriesType.select( 0 );
 		}
@@ -982,16 +939,9 @@ public class TaskSelectType extends SimpleTask implements
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
 				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName = PluginSettings.instance( )
-						.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( )
-								.getClass( )
-								.getName( ) );
+				String sDisplayName =ChartUIUtil.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+								.get( 0 ) ).getDesignTimeSeries( ) );
 				cbSeriesType.setText( sDisplayName );
-			}
-			else
-			{
-				cbSeriesType.select( 0 );
 			}
 		}
 	}

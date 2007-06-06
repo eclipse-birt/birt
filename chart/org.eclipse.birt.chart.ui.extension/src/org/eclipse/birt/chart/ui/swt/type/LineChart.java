@@ -791,4 +791,11 @@ public class LineChart extends DefaultChartTypeImpl
 		return Messages.getString( "LineChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (LineSeries) LineSeriesImpl.create( );
+	}
 }

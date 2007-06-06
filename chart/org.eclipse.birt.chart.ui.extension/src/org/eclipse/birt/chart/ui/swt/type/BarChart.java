@@ -471,7 +471,6 @@ public class BarChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						( (BarSeries) series ).setRiser( RiserType.RECTANGLE_LITERAL );
 						if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 						{
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
@@ -831,5 +830,15 @@ public class BarChart extends DefaultChartTypeImpl
 	public String getDisplayName( )
 	{
 		return Messages.getString( "BarChart.Txt.DisplayName" ); //$NON-NLS-1$
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
+		barseries.setRiser( RiserType.RECTANGLE_LITERAL );
+		return barseries;
 	}
 }

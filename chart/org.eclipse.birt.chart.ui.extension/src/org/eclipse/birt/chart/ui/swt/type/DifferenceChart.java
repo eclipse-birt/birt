@@ -563,4 +563,12 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		// Other types are not supported.
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		return (DifferenceSeries) DifferenceSeriesImpl.create( );
+	}
 }

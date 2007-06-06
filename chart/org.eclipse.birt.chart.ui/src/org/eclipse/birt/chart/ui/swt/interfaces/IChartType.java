@@ -14,6 +14,7 @@ import java.util.Hashtable;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.graphics.Image;
@@ -167,4 +168,10 @@ public interface IChartType
 	 */
 	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
 			int nbOfSeries );
+	
+	/**
+	 * 
+	 * @since 2.2
+	 */
+	public Series getSeries( );
 }

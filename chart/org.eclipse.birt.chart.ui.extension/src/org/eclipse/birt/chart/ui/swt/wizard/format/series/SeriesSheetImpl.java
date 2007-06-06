@@ -9,11 +9,11 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
-import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -30,8 +30,10 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -39,7 +41,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
@@ -508,14 +509,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						.cacheSeries( iSeriesDefinitionIndex, oldSeries );
 				// Find new series
 				Series series = ChartCacheManager.getInstance( )
-						.findSeries( (String) htSeriesNames.get( sSeriesName ),
+						.findSeries( ( (Series) htSeriesNames.get( sSeriesName ) ).getDisplayName( ),
 								iSeriesDefinitionIndex );
 				if ( series == null )
 				{
-					Class seriesClass = Class.forName( (String) htSeriesNames.get( sSeriesName ) );
-					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-					series = (Series) createMethod.invoke( seriesClass,
-							new Object[]{} );
+					series = (Series)htSeriesNames.get( sSeriesName );
 					ChartAdapter.beginIgnoreNotifications( );
 					ChartUIUtil.copyGeneralSeriesAttributes( oldSeries, series );
 					// newSeries.translateFrom( oldSeries,
@@ -557,62 +555,44 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			// Populate Series Types List
 			if ( series.canParticipateInCombination( ) )
 			{
-				try
-				{
-					populateSeriesTypes( PluginSettings.instance( )
-							.getRegisteredSeries( ),
-							series,
-							( (ChartWithAxes) getChart( ) ).getOrientation( ) );
-				}
-				catch ( ChartException e )
-				{
-					e.printStackTrace( );
-				}
+				populateSeriesTypes( ChartUIExtensionsImpl.instance( )
+						.getUIChartTypeExtensions( ),
+						series,
+						( (ChartWithAxes) getChart( ) ).getOrientation( ) );
+				String sDisplayName =ChartUIUtil.getSeriesDisplayName( series );
+				cmbTypes.setText( sDisplayName );
 			}
 			else
 			{
-				String seriesName = PluginSettings.instance( )
-						.getSeriesDisplayName( series.getClass( ).getName( ) );
+				String seriesName = ChartUIUtil.getSeriesDisplayName( series );
 				cmbTypes.add( seriesName );
 				cmbTypes.select( 0 );
 			}
 		}
 
-		private void populateSeriesTypes( String[] allSeriesTypes,
+		private void populateSeriesTypes( Collection allChartType,
 				Series series, Orientation orientation )
 		{
-			for ( int i = 0; i < allSeriesTypes.length; i++ )
+			Iterator iterTypes = allChartType.iterator( );
+			while ( iterTypes.hasNext( ) )
 			{
-				try
+				IChartType type = (IChartType) iterTypes.next( );
+				Series newSeries = type.getSeries( );
+
+				if ( htSeriesNames == null )
 				{
-					Class seriesClass = Class.forName( allSeriesTypes[i] );
-					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-					Series newSeries = (Series) createMethod.invoke( seriesClass,
-							new Object[]{} );
-					if ( htSeriesNames == null )
-					{
-						htSeriesNames = new Hashtable( 20 );
-					}
-					String sDisplayName = PluginSettings.instance( )
-							.getSeriesDisplayName( allSeriesTypes[i] );
-					htSeriesNames.put( sDisplayName, allSeriesTypes[i] );
-					if ( newSeries.canParticipateInCombination( ) )
-					{
-						if ( !( newSeries instanceof StockSeries )
-								|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
-						{
-							cmbTypes.add( sDisplayName );
-						}
-						if ( allSeriesTypes[i].equals( series.getClass( )
-								.getName( ) ) )
-						{
-							cmbTypes.select( cmbTypes.getItemCount( ) - 1 );
-						}
-					}
+					htSeriesNames = new Hashtable( 20 );
 				}
-				catch ( Exception e )
+
+				if ( newSeries.canParticipateInCombination( ) )
 				{
-					e.printStackTrace( );
+					if ( !( newSeries instanceof StockSeries )
+							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
+					{
+						String sDisplayName = ChartUIUtil.getSeriesDisplayName( newSeries );
+						htSeriesNames.put( sDisplayName, newSeries );
+						cmbTypes.add( sDisplayName );
+					}
 				}
 			}
 		}

@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
@@ -185,6 +186,15 @@ public class DefaultChartTypeImpl implements IChartType
 		}
 
 		return isSupported;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
+	 */
+	public Series getSeries( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

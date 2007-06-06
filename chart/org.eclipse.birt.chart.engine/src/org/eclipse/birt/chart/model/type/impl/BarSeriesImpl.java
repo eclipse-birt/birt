@@ -391,7 +391,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{
-		this.setRiser( RiserType.RECTANGLE_LITERAL );
 
 		// Copy generic series properties
 		this.setLabel( series.getLabel( ) );
