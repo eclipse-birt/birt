@@ -825,7 +825,8 @@ public interface DesignChoiceConstants
 	public static final String MEASURE_FUNCTION_NPV = AGGREGATION_FUNCTION_NPV;
 	public static final String MEASURE_FUNCTION_RUNNINGNPV = AGGREGATION_FUNCTION_RUNNINGNPV;
 	public static final String MEASURE_FUNCTION_COUNTDISTINCT = AGGREGATION_FUNCTION_COUNTDISTINCT;
-
+	public static final String MEASURE_FUNCTION_RUNNINGCOUNT = AGGREGATION_FUNCTION_RUNNINGCOUNT;
+	
 	/**
 	 * Level type constants.
 	 */
