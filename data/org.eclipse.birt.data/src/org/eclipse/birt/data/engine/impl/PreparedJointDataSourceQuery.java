@@ -549,8 +549,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			// Lazzily initialize the PreparedJointDataSourceQuery here.
 			// The creation of JointDataSetQuery need IResultClass instance
 			// as input argment.
-			if ( doesLoadFromCache( ) == false )
-				initializeResultClass( dataEngine, appContext );
+			initializeResultClass( dataEngine, appContext );
 			return new JointDataSetQuery( resultClass );
 		}
 
