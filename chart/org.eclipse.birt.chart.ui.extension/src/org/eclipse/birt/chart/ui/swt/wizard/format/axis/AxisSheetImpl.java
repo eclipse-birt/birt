@@ -54,7 +54,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 	private static final int LABEL_WIDTH_HINT = 100;
 	private static final int HORIZONTAL_SPACING = 10;
-	
+
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
@@ -109,7 +109,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblAxis.setText( Messages.getString( "AxisSheetImpl.Label.Axis" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpList, SWT.WRAP );
+		Label lblVisible = new Label( cmpList, SWT.WRAP | SWT.CENTER );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -172,7 +172,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private Combo cmbTypes;
 		private Button btnVisible;
 		private FillChooserComposite cmbColor;
-//		private IntegerSpinControl iscRotation;
+// private IntegerSpinControl iscRotation;
 		private Axis axis;
 		private String axisName;
 		private int angleType;
