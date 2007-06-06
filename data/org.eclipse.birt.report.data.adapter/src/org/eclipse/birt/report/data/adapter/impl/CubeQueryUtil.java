@@ -36,6 +36,10 @@ import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -293,10 +297,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
-			this.session.defineDataSource( this.session.getModelAdaptor( )
-					.adaptDataSource( hierHandle.getDataSet( ).getDataSource( ) ) );
-			this.session.defineDataSet( this.session.getModelAdaptor( )
-					.adaptDataSet( hierHandle.getDataSet( ) ) );
+			defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 
 			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
@@ -327,10 +328,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
-			this.session.defineDataSource( this.session.getModelAdaptor( )
-					.adaptDataSource( hierHandle.getDataSet( ).getDataSource( ) ) );
-			this.session.defineDataSet( this.session.getModelAdaptor( )
-					.adaptDataSet( hierHandle.getDataSet( ) ) );
+			defineDataSourceAndDataSet( hierHandle.getDataSet( ));
 			Map levelValueMap = new HashMap( );
 			if ( higherLevelDefns != null )
 			{
@@ -356,11 +354,46 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 
 	}
+
+	/**
+	 * @param hierHandle
+	 * @throws BirtException
+	 */
+	private void defineDataSourceAndDataSet( DataSetHandle dataSet )
+			throws BirtException
+	{
+		IModelAdapter modelAdaptor = session.getModelAdaptor( );
+		DataSourceHandle dataSource = dataSet.getDataSource( );
+		if ( dataSource != null )
+		{
+			session.defineDataSource( modelAdaptor.adaptDataSource( dataSource ) );
+		}
+		if ( dataSet instanceof JointDataSetHandle )
+		{
+			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
+			Iterator iter = ( (JointDataSetHandle) jointDataSet ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
+				if ( childDataSet != null )
+				{
+					DataSourceHandle childDataSource = childDataSet.getDataSource( );
+					if ( childDataSource != null )
+					{
+						session.defineDataSource( modelAdaptor.adaptDataSource( childDataSource ) );
+					}
+					defineDataSourceAndDataSet( childDataSet );
+				}
+			}
+
+		}
+		session.defineDataSet( modelAdaptor.adaptDataSet( dataSet ) );
+	}
 	
 	/**
 	 * 
 	 * @author Administrator
-	 *
+	 * 
 	 */
 	private class MemberValueIterator implements Iterator
 	{
