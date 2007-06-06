@@ -26,6 +26,7 @@ datasource.property.odaURL=JDBC-Treiber-URL
 datasource.property.odaDataSource=Datenquelle
 datasource.property.odaUser=Benutzername
 datasource.property.odaPassword=Kennwort
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=SQL Select-Abfrage
 dataset.query.sptype=Gespeicherte SQL-Prozedurabfrage

@@ -26,6 +26,7 @@ datasource.property.odaURL=JDBC 驱动程序 URL
 datasource.property.odaDataSource=数据源
 datasource.property.odaUser=用户名
 datasource.property.odaPassword=密码
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=SQL 选择查询
 dataset.query.sptype=SQL 存储过程查询

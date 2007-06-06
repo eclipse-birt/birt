@@ -26,6 +26,7 @@ datasource.property.odaURL=URL del controlador JDBC
 datasource.property.odaDataSource=Fuente de datos
 datasource.property.odaUser=Nombre de usuario
 datasource.property.odaPassword=Contraseña
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=Consulta de selección de SQL
 dataset.query.sptype=Consulta de stored procedure de SQL

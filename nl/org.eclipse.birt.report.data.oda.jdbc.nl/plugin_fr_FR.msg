@@ -26,6 +26,7 @@ datasource.property.odaURL=URL de pilote JDBC
 datasource.property.odaDataSource=Source de données
 datasource.property.odaUser=Nom d'utilisateur
 datasource.property.odaPassword=Mot de passe
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=Requête de sélection SQL
 dataset.query.sptype=Requête de procédure stockée SQL

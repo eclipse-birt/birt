@@ -26,6 +26,7 @@ datasource.property.odaURL=JDBC ドライバ URL
 datasource.property.odaDataSource=データソース
 datasource.property.odaUser=ユーザ名
 datasource.property.odaPassword=パスワード
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=SQL Select クエリ
 dataset.query.sptype=SQL ストアドプロシージャのクエリ

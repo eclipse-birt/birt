@@ -26,6 +26,7 @@ datasource.property.odaURL=JDBC 드라이버 URL
 datasource.property.odaDataSource=데이터 원본
 datasource.property.odaUser=사용자 이름
 datasource.property.odaPassword=암호
+datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=SQL Select 쿼리
 dataset.query.sptype=SQL 저장된 프로시저 쿼리
