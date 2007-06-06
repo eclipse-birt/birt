@@ -146,6 +146,7 @@ public class ReportTemplateTransferDropTargetListener extends
 						{
 							CommandUtils.setVariable( "targetEditPart",
 									getTargetEditPart( ) );
+							CommandUtils.setVariable( "request", getTargetRequest( ) );
 							getCreateRequest( ).getExtendedData( )
 									.put( DesignerConstants.KEY_NEWOBJECT,
 											entries[i].executeCreate( ) );

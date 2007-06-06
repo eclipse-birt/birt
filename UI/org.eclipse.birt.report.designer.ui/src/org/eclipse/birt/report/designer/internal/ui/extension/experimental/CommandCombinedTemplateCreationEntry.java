@@ -74,6 +74,7 @@ class PaletteEntryCreationTool extends ReportCreationTool
 		{
 			getCreateRequest( ).setFactory( this.factory );
 			CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
+			CommandUtils.setVariable( "request", getTargetRequest( ) );
 			Object model = paletteEntry.executeCreate( );
 			EditPartViewer viewer = getCurrentViewer( );
 			selectAddedObject( model, viewer );

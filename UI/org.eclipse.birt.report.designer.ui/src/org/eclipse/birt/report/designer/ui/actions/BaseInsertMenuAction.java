@@ -63,7 +63,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	private String insertType;
 
 	protected SlotHandle slotHandle;
-	
+
 	protected PropertyHandle propertyHandle;
 
 	private Object model;
@@ -91,39 +91,44 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	protected boolean calculateEnabled( )
 	{
 		slotHandle = getDefaultSlotHandle( insertType );
-		propertyHandle = getDefaultPropertyHandle(insertType);
+		propertyHandle = getDefaultPropertyHandle( insertType );
 		Object obj = slotHandle;
-		if (obj == null)
+		if ( obj == null )
 		{
 			obj = model;
 		}
-//		return DNDUtil.handleValidateTargetCanContainType( slotHandle,
-//				insertType )
-//				&& DNDUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
-		return DNDUtil.handleValidateTargetCanContainType( obj,
-				insertType )
+		//		return DNDUtil.handleValidateTargetCanContainType( slotHandle,
+		//				insertType )
+		//				&& DNDUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
+		return DNDUtil.handleValidateTargetCanContainType( obj, insertType )
 				&& DNDUtil.handleValidateTargetCanContainMore( obj, 0 );
 	}
 
-	private PropertyHandle getDefaultPropertyHandle(String insertType)
+	private PropertyHandle getDefaultPropertyHandle( String insertType )
 	{
 		IStructuredSelection models = InsertInLayoutUtil.editPart2Model( getSelection( ) );
 		if ( models.isEmpty( ) )
 		{
 			return null;
 		}
-		model = DNDUtil.unwrapToModel( models.getFirstElement( ));
-		if (model instanceof DesignElementHandle)
+		model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
+		if ( model instanceof DesignElementHandle )
 		{
-			DesignElementHandle handle = (DesignElementHandle)model;
+			DesignElementHandle handle = (DesignElementHandle) model;
 			String contentName = DEUtil.getDefaultContentName( handle );
-			if (handle.canContain( contentName, insertType ));
+			if ( handle.canContain( contentName, insertType ) )
 			{
-				return handle.getPropertyHandle( contentName ) ;
+				return handle.getPropertyHandle( contentName );
+			}
+			else
+			{
+				model = handle.getContainer( );
+				return handle.getContainerPropertyHandle( );
 			}
 		}
 		return null;
 	}
+
 	/**
 	 * Returns the container slotHandle.
 	 * 
@@ -136,7 +141,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 			return null;
 		}
 		//model = models.getFirstElement( );
-		model = DNDUtil.unwrapToModel( models.getFirstElement( ));
+		model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
 		if ( model instanceof LibRootModel )
 		{
 			model = ( (LibRootModel) model ).getModel( );
@@ -166,13 +171,15 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	{
 		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
 		Map extendsData = new HashMap( );
-		if (slotHandle != null)
+		if ( slotHandle != null )
 		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT,
+					slotHandle );
 		}
-		else if (propertyHandle != null)
+		else if ( propertyHandle != null )
 		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY, propertyHandle );
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY,
+					propertyHandle );
 		}
 
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE, insertType );
@@ -182,15 +189,15 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		request.setExtendedData( extendsData );
 
-//		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
-//				.performRequest( model, request ) )
+		//		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
+		//				.performRequest( model, request ) )
 		Object obj = model;
-		if (slotHandle != null)
+		if ( slotHandle != null )
 		{
 			obj = slotHandle.getElementHandle( );
 		}
-		if ( ProviderFactory.createProvider( obj )
-				.performRequest( model, request ) )
+		if ( ProviderFactory.createProvider( obj ).performRequest( model,
+				request ) )
 		{
 			return request;
 		}
@@ -251,7 +258,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 						// {
 						// ( (ExtendedEditPart) cpart ).performDirectEdit( );
 						// }
-						
+
 						// bugzilla#173221
 						else
 						{
@@ -291,7 +298,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 			{
 				try
 				{
-					selectElement( entries[i].executeCreate( ),false );
+					selectElement( entries[i].executeCreate( ), false );
 				}
 				catch ( Exception e )
 				{
