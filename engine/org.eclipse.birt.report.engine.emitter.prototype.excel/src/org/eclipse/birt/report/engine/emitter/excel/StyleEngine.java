@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 
 /**
@@ -34,10 +35,9 @@ public class StyleEngine implements IListVisitor
 
 	private Stack pos = new Stack( );
 	private Hashtable style2id = new Hashtable( );
-	private Hashtable style2top = new Hashtable();
 
 	// Save styles which are not able to calculate now.
-	private ListBuffer dataMap = null;	
+	private ListBuffer dataMap = null;
 
 	/**
 	 * 
@@ -59,10 +59,10 @@ public class StyleEngine implements IListVisitor
 	public void addContainerStyle( IStyle style, Span span, int start )
 	{
 		StyleEntry entry = initStyle( style, span );
+		entry.setStart( true );
 		spans.push( span );
 		styles.push( entry );
 		pos.push( new Integer( start ) );
-		style2top.put( entry, Boolean.TRUE );
 	}
 
 	public void calculateTopStyles( )
@@ -70,18 +70,15 @@ public class StyleEngine implements IListVisitor
 		if ( styles.size( ) > 0 )
 		{
 			StyleEntry style = (StyleEntry) styles.peek( );
+			boolean first = style.isStart( );
 
-			Boolean value = (Boolean) style2top.get( style );
-			if ( value != null && value.booleanValue( ) )
+			if ( first )
 			{
 				Span span = (Span) spans.peek( );
-
 				int start = ( (Integer) pos.peek( ) ).intValue( );
-
 				applyContainerTopBorder( span, start );
-
-				style2top.put( style, Boolean.FALSE );
-			}	
+				style.setStart(false);
+			}
 		}
 	}
 
@@ -108,11 +105,18 @@ public class StyleEngine implements IListVisitor
 
 	public void calculateBottomStyles( )
 	{
-		Span span = (Span) spans.pop( );
-		StyleEntry entry = (StyleEntry) styles.pop( );
+		Span span = (Span) spans.peek( );
+		StyleEntry entry = (StyleEntry) styles.peek( );
+		
+		if(entry.isStart( ))
+		{
+			calculateTopStyles();
+		}	
 
 		int col = span.getCol( );
-		int cp = dataMap.getListSize( col ) - 1;
+		int cp = dataMap.getListSize( col );
+
+		cp = cp > 0 ? cp - 1 : 0;
 
 		for ( int i = 0; i < span.getColSpan( ) + 1; i++ )
 		{
@@ -120,7 +124,9 @@ public class StyleEngine implements IListVisitor
 					+ col, cp ) ).style );
 		}
 		
-		style2top.remove( entry );
+		styles.pop( );
+		spans.pop( );
+		pos.pop();
 	}
 
 	public Span getContainerSpan( )
@@ -135,7 +141,7 @@ public class StyleEngine implements IListVisitor
 	}
 
 	public int getStyleID( StyleEntry entry )
-	{		
+	{
 		if ( style2id.get( entry ) != null )
 		{
 			return ( (Integer) style2id.get( entry ) ).intValue( );
@@ -148,7 +154,7 @@ public class StyleEngine implements IListVisitor
 			return styleId;
 		}
 	}
-	
+
 	public void visit( Object o )
 	{
 		Data d = (Data) o;
@@ -163,11 +169,12 @@ public class StyleEngine implements IListVisitor
 	private void applyContainerTopBorder( Span span, int pos )
 	{
 		StyleEntry entry = (StyleEntry) styles.peek( );
-
-		for ( int i = 0; i < span.getColSpan( ) + 1; i++ )
+		int col = span.getCol( );
+		
+		for ( int i = col; i < span.getColSpan( ) + col + 1; i++ )
 		{
-			StyleBuilder.applyTopBorder( entry, ( (Data) dataMap.get( i
-					+ span.getCol( ), pos ) ).style );
+			StyleBuilder.applyTopBorder( entry,
+					( (Data) dataMap.get( i, pos ) ).style );
 		}
 	}
 

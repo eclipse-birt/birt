@@ -221,7 +221,7 @@ public class StyleBuilder
 	{
 		String bs = ExcelUtil.getValue( style );
 
-		if ( bs != StyleConstant.NULL )
+		if ( !StyleEntry.isNull( bs ) )
 		{
 			if ( "dotted".equalsIgnoreCase( bs ) )
 			{
@@ -296,7 +296,7 @@ public class StyleBuilder
 		for ( int i = 0; i < StyleConstant.COUNT; i++ )
 		{
 			if ( StyleBuilder.isHeritable( i )
-					&& StyleConstant.NULL == entry.getProperty( i ) )
+					&& StyleEntry.isNull( entry.getProperty( i )) )
 			{
 				entry.setProperty( i, cEntry.getProperty( i ) );
 			}
@@ -334,7 +334,7 @@ public class StyleBuilder
 	public static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
 			int id )
 	{
-		if ( !( StyleConstant.NULL == cEntry.getProperty( id ) ) )
+		if ( !( StyleEntry.isNull( cEntry.getProperty( id ) ) ))
 		{
 			entry.setProperty( id, cEntry.getProperty( id ) );
 		}

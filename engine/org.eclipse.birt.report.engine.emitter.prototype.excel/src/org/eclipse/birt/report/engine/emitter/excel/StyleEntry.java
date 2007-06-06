@@ -62,6 +62,16 @@ public class StyleEntry implements StyleConstant,Serializable
 
 		return true;
 	}
+	
+	public boolean isStart()
+	{
+		return start;
+	}
+	
+	public void setStart(boolean start)
+	{
+		this.start = start;
+	}	 
 
 	public int hashCode( )
 	{
@@ -81,5 +91,13 @@ public class StyleEntry implements StyleConstant,Serializable
 		return code;
 	}
 
+	public static boolean isNull( String value )
+	{
+		return value == null ? true : StyleConstant.NULL
+				.equalsIgnoreCase( value );
+	}
+	
 	private String[] props = null;	
+	
+	private boolean start = false;
 }
