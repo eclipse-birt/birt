@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -162,7 +163,17 @@ public class DeleteCommand extends Command
 				System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( handle ) );
 			}
-			if ( handle instanceof CellHandle )
+			//if (isExtendedCell( handle ))
+			if (handle instanceof ExtendedItemHandle && isExtendedCell( (ExtendedItemHandle)handle ))
+			{
+				ExtendedItemHandle extendedHandle = (ExtendedItemHandle)handle;
+				List list = extendedHandle.getContents( DEUtil.getDefaultContentName( handle ) );
+				for (int i=0;i<list.size( ); i++)
+				{
+					dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
+				}
+			}
+			else if ( handle instanceof CellHandle )
 			{
 				dropSourceSlotHandle( ( (CellHandle) handle ).getContent( ) );
 			}
@@ -180,6 +191,13 @@ public class DeleteCommand extends Command
 				handle.dropAndClear( );
 			}
 		}
+	}
+	
+	//This is a temp method to fixed bug 190959.
+	//TODO Through the extened point to do it
+	private boolean isExtendedCell(ExtendedItemHandle handle)
+	{
+		return ((ExtendedItemHandle)handle).getExtensionName( ).indexOf( "Cell" )>-1;//$NON-NLS-1$
 	}
 
 	protected void dropSourceSlotHandle( SlotHandle slot )
@@ -288,6 +306,10 @@ public class DeleteCommand extends Command
 		if ( source instanceof EmbeddedImageHandle )
 		{
 			return true;
+		}
+		if (source instanceof ExtendedItemHandle && isExtendedCell( (ExtendedItemHandle)source ))
+		{
+			return ((ExtendedItemHandle)source).getContents( DEUtil.getDefaultContentName( source )).size( ) > 0;
 		}
 		if ( source instanceof CellHandle )
 		{

@@ -140,7 +140,8 @@ public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 				protected boolean handleButtonUp( int button )
 				{
 					boolean bool = super.handleButtonUp( button );
-					if ( ( button == 3 || button == 1 ) )
+					//if ( ( button == 3 || button == 1 ) )
+					if ( (button == 1 ) )
 						// && isInState(STATE_INITIAL))
 						{
 							if ( getSourceEditPart( ) instanceof CrosstabFirstCellEditPart )
