@@ -34,7 +34,7 @@ public class DateFormatISO8601
 	public static Date parse( String source ) throws BirtException,
 			ParseException
 	{
-		if( source == null )
+		if ( source == null || source.trim( ).length( ) == 0 )
 		{
 			return null;
 		}
