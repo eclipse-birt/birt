@@ -113,7 +113,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			gd.heightHint = 120;
+			gd.heightHint = 150;
 		}
 		composite.setLayoutData( gd );
 
