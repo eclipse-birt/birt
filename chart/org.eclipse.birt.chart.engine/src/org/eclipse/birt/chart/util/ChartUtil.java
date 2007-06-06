@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.computations.Polygon;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -586,5 +587,26 @@ public class ChartUtil
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Computes the height of orthogonal axis title. Orthogonal axis is Y axis
+	 * in non-transposed direction or X axis in transpose direction. Current
+	 * algorithm of Axis layout is to use Axis Scale width for category axis
+	 * title, and to use the chart height except chart title section for
+	 * orthogonal axis title.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @param xs
+	 *            display server to compute pixel
+	 * @return height of orthogonal axis title in form of pixels
+	 */
+	public static double computeHeightOfOrthogonalAxisTitle( ChartWithAxes cm,
+			IDisplayServer xs )
+	{
+		double dTitleHeight = cm.getTitle( ).getBounds( ).getHeight( );
+		double dChartHeight = cm.getBlock( ).getBounds( ).getHeight( );
+		return ( dChartHeight - dTitleHeight ) / 72 * xs.getDpiResolution( );
 	}
 }

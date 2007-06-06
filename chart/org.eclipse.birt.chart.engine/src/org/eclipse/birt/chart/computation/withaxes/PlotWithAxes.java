@@ -957,7 +957,8 @@ public abstract class PlotWithAxes extends Methods
 						laYAxisTitle,
 						0,
 						0,
-						Math.abs( dEnd - dStart ) ).getWidth( );
+						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+								getDisplayServer( ) ) ).getWidth( );
 			}
 			catch ( IllegalArgumentException uiex )
 			{

@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -1378,7 +1379,8 @@ public final class AxesRenderHelper
 							la,
 							0,
 							0,
-							Math.abs( daEndPoints[1] - daEndPoints[0] ) );
+							ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+									xs ) );
 				}
 				catch ( IllegalArgumentException uiex )
 				{
@@ -1418,10 +1420,15 @@ public final class AxesRenderHelper
 					}
 					else
 					{
+						// #190266 Axis title layout adjustment
+						final Bounds boundsTitle = ( (ChartWithAxes) this.renderer.cm ).getTitle( )
+								.getBounds( );
 						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
-								daEndPoints[1],
+								( boundsTitle.getTop( ) + boundsTitle.getHeight( ) )
+										/ 72 * xs.getDpiResolution( ),
 								bb.getWidth( ),
-								daEndPoints[0] - daEndPoints[1] );
+								ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+										xs ) );
 
 						tre.setBlockBounds( bo );
 						tre.setLabel( la );
