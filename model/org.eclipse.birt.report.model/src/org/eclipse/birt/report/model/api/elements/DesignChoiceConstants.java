@@ -770,27 +770,61 @@ public interface DesignChoiceConstants
 	 * measure Function -- measure function type.
 	 */
 
+	public static final String CHOICE_AGGREGATION_FUNCTION = "aggregationFunction"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_SUM = "sum"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_COUNT = "count"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MIN = "min"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MAX = "max"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_AVERAGE = "average"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_WEIGHTEDAVG = "weighted-avg"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_STDDEV = "stddev"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_FIRST = "first"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_LAST = "last"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MODE = "mode"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MOVINGAVE = "moving-ave"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MEDIAN = "median"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_VARIANCE = "variance"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_RUNNINGSUM = "running-sum"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_IRR = "irr"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_MIRR = "mirr"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_NPV = "npv"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_RUNNINGNPV = "running-npv"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_COUNTDISTINCT = "count-distinct"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_RUNNINGCOUNT = "running-count"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_IS_TOP_N = "is-top-n"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_IS_BOTTOM_N = "is-bottom-n"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_IS_TOP_N_PERCENT = "is-top-n-percent"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT = "is-bottom-n-percent"; //$NON-NLS-1$	
+	public static final String AGGREGATION_FUNCTION_PERCENT_RANK = "percent-rank"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_PERCENTILE = "percentile"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_TOP_QUARTILE = "quartile"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_PERCENT_SUM = "percent-sum"; //$NON-NLS-1$
+	public static final String AGGREGATION_FUNCTION_RANK = "rank"; //$NON-NLS-1$
+
+	/**
+	 * measure Function -- measure function type.
+	 */
+
 	public static final String CHOICE_MEASURE_FUNCTION = "measureFunction"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_SUM = "sum"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_COUNT = "count"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MIN = "min"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MAX = "max"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_AVERAGE = "average"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_WEIGHTEDAVG = "weighted-avg"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_STDDEV = "stddev"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_FIRST = "first"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_LAST = "last"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MODE = "mode"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MOVINGAVE = "moving-ave"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MEDIAN = "median"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_VARIANCE = "variance"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_RUNNINGSUM = "running-sum"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_IRR = "irr"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_MIRR = "mirr"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_NPV = "npv"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_RUNNINGNPV = "running-npv"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_COUNTDISTINCT = "count-distinct"; //$NON-NLS-1$
-	public static final String MEASURE_FUNCTION_RUNNINGCOUNT = "running-count"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_SUM = AGGREGATION_FUNCTION_SUM;
+	public static final String MEASURE_FUNCTION_COUNT = AGGREGATION_FUNCTION_COUNT;
+	public static final String MEASURE_FUNCTION_MIN = AGGREGATION_FUNCTION_MIN;
+	public static final String MEASURE_FUNCTION_MAX = AGGREGATION_FUNCTION_MAX;
+	public static final String MEASURE_FUNCTION_AVERAGE = AGGREGATION_FUNCTION_AVERAGE;
+	public static final String MEASURE_FUNCTION_WEIGHTEDAVG = AGGREGATION_FUNCTION_WEIGHTEDAVG;
+	public static final String MEASURE_FUNCTION_STDDEV = AGGREGATION_FUNCTION_STDDEV;
+	public static final String MEASURE_FUNCTION_FIRST = AGGREGATION_FUNCTION_FIRST;
+	public static final String MEASURE_FUNCTION_LAST = AGGREGATION_FUNCTION_LAST;
+	public static final String MEASURE_FUNCTION_MODE = AGGREGATION_FUNCTION_MODE;
+	public static final String MEASURE_FUNCTION_MOVINGAVE = AGGREGATION_FUNCTION_MOVINGAVE;
+	public static final String MEASURE_FUNCTION_MEDIAN = AGGREGATION_FUNCTION_MOVINGAVE;
+	public static final String MEASURE_FUNCTION_VARIANCE = AGGREGATION_FUNCTION_VARIANCE;
+	public static final String MEASURE_FUNCTION_RUNNINGSUM = AGGREGATION_FUNCTION_RUNNINGSUM;
+	public static final String MEASURE_FUNCTION_IRR = AGGREGATION_FUNCTION_IRR;
+	public static final String MEASURE_FUNCTION_MIRR = AGGREGATION_FUNCTION_IRR;
+	public static final String MEASURE_FUNCTION_NPV = AGGREGATION_FUNCTION_NPV;
+	public static final String MEASURE_FUNCTION_RUNNINGNPV = AGGREGATION_FUNCTION_RUNNINGNPV;
+	public static final String MEASURE_FUNCTION_COUNTDISTINCT = AGGREGATION_FUNCTION_COUNTDISTINCT;
 
 	/**
 	 * Level type constants.

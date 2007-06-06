@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -650,7 +651,16 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IChoiceSet getChoiceSet( String choiceSetName )
 	{
-		return (ChoiceSet) choiceSets.get( choiceSetName );
+		// for the backward compatibility issue
+		
+		String newName = choiceSetName;
+		if ( DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION
+				.equalsIgnoreCase( newName ) )
+		{
+			newName = DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION;
+		}
+
+		return (ChoiceSet) choiceSets.get( newName );
 	}
 
 	/**
@@ -1012,9 +1022,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	{
 		if ( functions == null )
 		{
-			functions = new HashMap( );
+			functions = new LinkedHashMap( );
 			List names = new ArrayList( );
-			IChoice[] choices = getChoiceSet( "measureFunction" ).getChoices( ); //$NON-NLS-1$
+			IChoice[] choices = getChoiceSet(
+					DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION )
+					.getChoices( );
 			for ( int i = 0; i < choices.length; i++ )
 			{
 				IChoice choice = choices[i];
@@ -1026,7 +1038,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 			clazz = getClass( FINANCE_CLASS_NAME );
 			addMatchedFunctions( functions, clazz.getMethods( ), names );
-			
+
 			names.clear( );
 		}
 

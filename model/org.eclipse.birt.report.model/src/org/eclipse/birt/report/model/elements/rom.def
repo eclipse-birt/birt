@@ -506,27 +506,36 @@
   	<Choice displayNameID="Choices.viewAction.Added" name="Added"/>
   	<Choice displayNameID="Choices.viewAction.Deleted" name="Deleted"/>
   </ChoiceType>
-  <ChoiceType name="measureFunction">
-    <Choice displayNameID="Choices.measureFunction.sum" name="sum"/>
-    <Choice displayNameID="Choices.measureFunction.count" name="count"/>
-    <Choice displayNameID="Choices.measureFunction.min" name="min"/>
-    <Choice displayNameID="Choices.measureFunction.max" name="max"/>
-    <Choice displayNameID="Choices.measureFunction.average" name="average"/>
-    <Choice displayNameID="Choices.measureFunction.weighted-avg" name="weighted-avg"/>
-    <Choice displayNameID="Choices.measureFunction.stddev" name="stddev"/>
-    <Choice displayNameID="Choices.measureFunction.first" name="first"/>
-    <Choice displayNameID="Choices.measureFunction.last" name="last"/>
-    <Choice displayNameID="Choices.measureFunction.mode" name="mode"/>
-    <Choice displayNameID="Choices.measureFunction.moving-ave" name="moving-ave"/>
-    <Choice displayNameID="Choices.measureFunction.median" name="median"/>
-    <Choice displayNameID="Choices.measureFunction.variance" name="variance"/>
-    <Choice displayNameID="Choices.measureFunction.running-sum" name="running-sum"/>
-    <Choice displayNameID="Choices.measureFunction.irr" name="irr"/>
-    <Choice displayNameID="Choices.measureFunction.mirr" name="mirr"/>
-    <Choice displayNameID="Choices.measureFunction.npv" name="npv"/>
-    <Choice displayNameID="Choices.measureFunction.running-npv" name="running-npv"/>
-    <Choice displayNameID="Choices.measureFunction.count-distinct" name="count-distinct"/>
-    <Choice displayNameID="Choices.measureFunction.running-count" name="running-count"/>
+  <ChoiceType name="aggregationFunction">
+    <Choice displayNameID="Choices.aggregationFunction.sum" name="sum"/>
+    <Choice displayNameID="Choices.aggregationFunction.count" name="count"/>
+    <Choice displayNameID="Choices.aggregationFunction.min" name="min"/>
+    <Choice displayNameID="Choices.aggregationFunction.max" name="max"/>
+    <Choice displayNameID="Choices.aggregationFunction.average" name="average"/>
+    <Choice displayNameID="Choices.aggregationFunction.weighted-avg" name="weighted-avg"/>
+    <Choice displayNameID="Choices.aggregationFunction.stddev" name="stddev"/>
+    <Choice displayNameID="Choices.aggregationFunction.first" name="first"/>
+    <Choice displayNameID="Choices.aggregationFunction.last" name="last"/>
+    <Choice displayNameID="Choices.aggregationFunction.mode" name="mode"/>
+    <Choice displayNameID="Choices.aggregationFunction.moving-ave" name="moving-ave"/>
+    <Choice displayNameID="Choices.aggregationFunction.median" name="median"/>
+    <Choice displayNameID="Choices.aggregationFunction.variance" name="variance"/>
+    <Choice displayNameID="Choices.aggregationFunction.running-sum" name="running-sum"/>
+    <Choice displayNameID="Choices.aggregationFunction.irr" name="irr"/>
+    <Choice displayNameID="Choices.aggregationFunction.mirr" name="mirr"/>
+    <Choice displayNameID="Choices.aggregationFunction.npv" name="npv"/>
+    <Choice displayNameID="Choices.aggregationFunction.running-npv" name="running-npv"/>
+    <Choice displayNameID="Choices.aggregationFunction.count-distinct" name="count-distinct"/>
+    <Choice displayNameID="Choices.aggregationFunction.running-count" name="running-count"/>
+    <Choice displayNameID="Choices.aggregationFunction.is-top-n" name="is-top-n" />
+    <Choice displayNameID="Choices.aggregationFunction.is-bottom-n" name="is-bottom-n" />
+    <Choice displayNameID="Choices.aggregationFunction.is-top-n-percent" name="is-top-n-percent" />
+    <Choice displayNameID="Choices.aggregationFunction.is-bottom-n-percent" name="is-bottom-n-percent" />    
+	<Choice displayNameID="Choices.aggregationFunction.percent-rank" name="percent-rank" />
+    <Choice displayNameID="Choices.aggregationFunction.percentile" name="percentile" />    
+    <Choice displayNameID="Choices.aggregationFunction.quartile" name="quartile" />       
+    <Choice displayNameID="Choices.aggregationFunction.percent-sum" name="percent-sum" />
+    <Choice displayNameID="Choices.aggregationFunction.rank" name="rank" />       
   </ChoiceType>
   <ChoiceType name="levelType">
     <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>
@@ -1173,7 +1182,7 @@
 	<Method displayNameID="Class.Total.rank" isStatic="true" name="rank" returnType="number" toolTipID="Class.Total.rank.toolTip">
 		<Argument name="ascending" tagID="Class.Total.rank.ascending" type="boolean"/>	 			
 	</Method>
-	<Method displayNameID="Class.Total.percentRank" isStatic="true" name="percentRank" returnType="number" toolTipID="Class.Total.percentRank.toolTip">		
+	<Method displayNameID="Class.Total.percentRank" isStatic="true" name="percent-rank" returnType="number" toolTipID="Class.Total.percentRank.toolTip">		
 	</Method>
 	<Method displayNameID="Class.Total.percentile" isStatic="true" name="percentile" returnType="number" toolTipID="Class.Total.percentile.toolTip">
 		<Argument name="pct" tagID="Class.Total.percentile.pct" type="number"/>		 			
@@ -1181,18 +1190,18 @@
 	<Method displayNameID="Class.Total.quartile" isStatic="true" name="quartile" returnType="number" toolTipID="Class.Total.quartile.toolTip">
 		<Argument name="quart" tagID="Class.Total.quartile.quart" type="number"/>		 			
 	</Method>
-	<Method displayNameID="Class.Total.percentSum" isStatic="true" name="percentSum" returnType="number" toolTipID="Class.Total.percentSum.toolTip">
+	<Method displayNameID="Class.Total.percentSum" isStatic="true" name="percent-sum" returnType="number" toolTipID="Class.Total.percentSum.toolTip">
 	</Method>
-	<Method displayNameID="Class.Total.isTopN" isStatic="true" name="isTopN" returnType="boolean" toolTipID="Class.Total.isTopN.toolTip">
+	<Method displayNameID="Class.Total.isTopN" isStatic="true" name="is-top-n" returnType="boolean" toolTipID="Class.Total.isTopN.toolTip">
 		<Argument name="n" tagID="Class.Total.isTopN.n" type="number"/>
 	</Method>
-	<Method displayNameID="Class.Total.isTopNPercent" isStatic="true" name="isTopNPercent" returnType="boolean" toolTipID="Class.Total.isTopNPercent.toolTip">
+	<Method displayNameID="Class.Total.isTopNPercent" isStatic="true" name="is-top-n-percent" returnType="boolean" toolTipID="Class.Total.isTopNPercent.toolTip">
 		<Argument name="pct" tagID="Class.Total.isTopNPercent.pct" type="number"/>
 	</Method>
-	<Method displayNameID="Class.Total.isBottomN" isStatic="true" name="isBottomN" returnType="boolean" toolTipID="Class.Total.isBottomN.toolTip">
+	<Method displayNameID="Class.Total.isBottomN" isStatic="true" name="is-bottom-n" returnType="boolean" toolTipID="Class.Total.isBottomN.toolTip">
 		<Argument name="n" tagID="Class.Total.isBottomN.n" type="number"/>
 	</Method>
-	<Method displayNameID="Class.Total.isBottomNPercent" isStatic="true" name="isBottomNPercent" returnType="boolean" toolTipID="Class.Total.isBottomNPercent.toolTip">
+	<Method displayNameID="Class.Total.isBottomNPercent" isStatic="true" name="is-bottom-n-percent" returnType="boolean" toolTipID="Class.Total.isBottomNPercent.toolTip">
 		<Argument name="pct" tagID="Class.Total.isBottomNPercent.pct" type="number"/>
 	</Method>
   </Class>
@@ -1262,7 +1271,11 @@
 	<Method displayNameID="Class.Finance.npv" isStatic="true" name="npv" returnType="number" toolTipID="Class.Finance.npv.toolTip">
 		<Argument name="rate" tagID="Class.Finance.npv.rate" type="number"/>
 		<Argument name="cashArray" tagID="Class.Finance.npv.cashArray" type="number[]"/>			 
-	</Method>						 		
+	</Method>				
+	<Method displayNameID="Class.Finance.runningnpv" isStatic="true" name="running-npv" returnType="number" toolTipID="Class.Finance.runningnpv.toolTip">
+		<Argument name="rate" tagID="Class.Finance.runningnpv.rate" type="number"/>
+		<Argument name="cashArray" tagID="Class.Finance.runningnpv.cashArray" type="number[]"/>			 
+	</Method>			
 	<Method displayNameID="Class.Finance.mirr" isStatic="true" name="mirr" returnType="number" toolTipID="Class.Finance.mirr.toolTip">
 		<Argument name="cashArray" tagID="Class.Finance.mirr.cashArray" type="number[]"/>			 
 		<Argument name="financeRate" tagID="Class.Finance.mirr.rate" type="number"/>
@@ -1666,8 +1679,7 @@
 		<Default>any</Default>
 	</Member>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
-    <Member detailType="measureFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="choice" >
-    	<Allowed>sum,average,count,weighted-avg,max,min,stddev,first,last,mode,median,variance,irr,mirr,npv,count-distinct</Allowed>
+    <Member detailType="aggregationFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="choice" >
     </Member>	  	  
     <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
     <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
@@ -3574,7 +3586,7 @@
     </Property>	  	  
   </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Measure" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Measure" name="Measure" nameSpace="cube" since="2.2" xmlName="measure">
-  	<Property detailType="measureFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice">
+  	<Property detailType="aggregationFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice">
   	  <Default>sum</Default>
   	  <Allowed>sum,average,max,min,first,last,count,count-distinct</Allowed>	
   	</Property>
