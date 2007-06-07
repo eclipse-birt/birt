@@ -2,14 +2,14 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 
 ChartDataBindingPage.Lbl.Parameter=参数
-ChartDataBindingPage.Lbl.DataType=时期类型
+ChartDataBindingPage.Lbl.DataType=数据类型
 ChartDataBindingPage.Lbl.Value=值
 ChartDataBindingPage.Lbl.None=无
 ChartDataBindingPage.Lbl.DefaultValue=（默认值）
 ChartDataBindingPage.Lbl.DataSet=数据集
 ChartDataBindingPage.Lbl.SaveParameterBinding=保存参数绑定
 ChartDataBindingPage.Lbl.SaveDataSet=更改数据集
-ChartDataBindingPage.Msg.AskSaveDataSet=是否要更改绑定数据集？
+ChartDataBindingPage.Msg.AskSaveDataSet=是否要更改绑定数据集?
 
 DesignerRepresentation.error.Error=错误: 
 DesignerRepresentation.error.Error=错误: 

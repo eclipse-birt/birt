@@ -9,7 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 
-preference.crosstabPage=Crosstab
-crosstab.menu=Cr&oss Table
-Crosstab.desc=Insert a cross table to layout
+preference.crosstabPage=Kreuztabelle
+crosstab.menu=&Kreuztabelle
+Crosstab.desc=Kreuztabelle in Layout einfügen
 newcube.menu=New Data Cube

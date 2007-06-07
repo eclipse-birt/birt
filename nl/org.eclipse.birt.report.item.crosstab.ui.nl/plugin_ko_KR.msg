@@ -9,7 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 
-preference.crosstabPage=Crosstab
-crosstab.menu=Cr&oss Table
-Crosstab.desc=Insert a cross table to layout
+preference.crosstabPage=크로스 탭
+crosstab.menu=크로스 테이블(&O)
+Crosstab.desc=크로스 테이블을 레이아웃에 삽입
 newcube.menu=New Data Cube

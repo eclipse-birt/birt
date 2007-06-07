@@ -35,7 +35,7 @@ SubTotalProvider.Column.Function=함수
 SubTotalProvider.Column.AggregateOn=집계 대상:
 LevelViewDialog.Title=그룹 수준 표시/숨기기
 LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
-AggregationDialog.Title=집계
+AggregationDialog.Title=전체
 AggregationDialog.Label.Grand=총합계:
 AggregationDialog.Label.Sub=부분합:
 ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
@@ -179,17 +179,17 @@ ChoiceSetFactory.choice.None=없음
 
 ###########################################################
 #SelectValueDialog properties
-SelectValueDialog.errorRetrievinglist=Error retrieving list
-SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
-SelectValueDialog.noExpressionSet=An expression has not been set
-SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
+SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
+SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
+SelectValueDialog.retrieving=목록 검색...
 SelectValueDialog.selectValue=값 선택
 SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습니다.
 
-CrosstabPreferencePage.Title=Crosstab
-CrosstabPreferencePage.filterLimit=Filter Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
-CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+CrosstabPreferencePage.Title=크로스 탭
+CrosstabPreferencePage.filterLimit=필터 제한
+CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수:
+CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
 
 ###########################################################
 #Crosstab DataBinding properties

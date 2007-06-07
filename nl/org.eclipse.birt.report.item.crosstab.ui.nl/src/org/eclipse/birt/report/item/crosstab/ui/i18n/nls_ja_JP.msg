@@ -35,7 +35,7 @@ SubTotalProvider.Column.Function=関数
 SubTotalProvider.Column.AggregateOn=総計条件
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
-AggregationDialog.Title=総計
+AggregationDialog.Title=合計
 AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
@@ -179,17 +179,17 @@ ChoiceSetFactory.choice.None=なし
 
 ###########################################################
 #SelectValueDialog properties
-SelectValueDialog.errorRetrievinglist=Error retrieving list
-SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
-SelectValueDialog.noExpressionSet=An expression has not been set
-SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.errorRetrievinglist=リストを検索する際にエラーが発生しました。
+SelectValueDialog.messages.error.selectVauleUnavailable=式の値を取得できません。
+SelectValueDialog.noExpressionSet=式が設定されていません。
+SelectValueDialog.retrieving=リストの取得中...
 SelectValueDialog.selectValue=値の選択
 SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
 
-CrosstabPreferencePage.Title=Crosstab
-CrosstabPreferencePage.filterLimit=Filter Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
-CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+CrosstabPreferencePage.Title=クロスタブ
+CrosstabPreferencePage.filterLimit=フィルタの制限
+CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
+CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
 
 ###########################################################
 #Crosstab DataBinding properties

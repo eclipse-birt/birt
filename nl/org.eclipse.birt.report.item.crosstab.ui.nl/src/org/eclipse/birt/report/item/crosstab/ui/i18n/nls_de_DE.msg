@@ -35,7 +35,7 @@ SubTotalProvider.Column.Function=Funktion
 SubTotalProvider.Column.AggregateOn=Aggregat ein
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
-AggregationDialog.Title=Aggregat
+AggregationDialog.Title=Summen
 AggregationDialog.Label.Grand=Gesamtsummen:
 AggregationDialog.Label.Sub=Zwischensumme:
 ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
@@ -179,17 +179,17 @@ ChoiceSetFactory.choice.None=Ohne
 
 ###########################################################
 #SelectValueDialog properties
-SelectValueDialog.errorRetrievinglist=Error retrieving list
-SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
-SelectValueDialog.noExpressionSet=An expression has not been set
-SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.errorRetrievinglist=Fehler beim Abrufen der Liste
+SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruck kann nicht abgerufen werden.
+SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht angegeben.
+SelectValueDialog.retrieving=Liste wird abgerufen ...
 SelectValueDialog.selectValue=Wert auswählen
 SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verfügbar.
 
-CrosstabPreferencePage.Title=Crosstab
-CrosstabPreferencePage.filterLimit=Filter Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
-CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+CrosstabPreferencePage.Title=Kreuztabelle
+CrosstabPreferencePage.filterLimit=Filter-Limit
+CrosstabPreferencePage.filterLimit.prompt=Maximale Anzahl anzuzeigender Werte:
+CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
 
 ###########################################################
 #Crosstab DataBinding properties

@@ -9,7 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 
-preference.crosstabPage=Crosstab
-crosstab.menu=Cr&oss Table
-Crosstab.desc=Insert a cross table to layout
+preference.crosstabPage=交叉表
+crosstab.menu=交叉表(&O)
+Crosstab.desc=将交叉表插入到布局
 newcube.menu=New Data Cube

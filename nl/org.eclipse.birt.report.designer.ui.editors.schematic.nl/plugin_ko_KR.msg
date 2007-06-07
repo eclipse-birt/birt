@@ -1,12 +1,12 @@
-design.layout=레이아웃
-design.masterPage=마스터 페이지
-design.script=스크립트
-design.xmlsource=XML 소스
+design.layout=레이아웃(&L)
+design.masterPage=마스터 페이지(&M)
+design.script=스크립트(&S)
+design.xmlsource=XML 소스(&X)
 
-template.layout=레이아웃
-template.masterPage=마스터 페이지
-template.script=스크립트
-template.xmlsource=XML 소스
+template.layout=레이아웃(&L)
+template.masterPage=마스터 페이지(&M)
+template.script=스크립트(&S)
+template.xmlsource=XML 소스(&X)
 
 pageSet.layout=레이아웃 페이지(&L)
 pageSet.master=마스터 페이지(&M)

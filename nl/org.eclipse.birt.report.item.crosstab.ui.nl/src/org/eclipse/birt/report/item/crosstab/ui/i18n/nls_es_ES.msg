@@ -35,7 +35,7 @@ SubTotalProvider.Column.Function=Función
 SubTotalProvider.Column.AggregateOn=Agregar en
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
-AggregationDialog.Title=Agregación
+AggregationDialog.Title=Totales
 AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
 ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
@@ -179,17 +179,17 @@ ChoiceSetFactory.choice.None=Ninguno
 
 ###########################################################
 #SelectValueDialog properties
-SelectValueDialog.errorRetrievinglist=Error retrieving list
-SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
-SelectValueDialog.noExpressionSet=An expression has not been set
-SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.errorRetrievinglist=Error al recuperar la lista
+SelectValueDialog.messages.error.selectVauleUnavailable=No se puede recuperar el valor de la expresión.
+SelectValueDialog.noExpressionSet=No se ha ajustado ninguna expresión
+SelectValueDialog.retrieving=Recuperando lista...
 SelectValueDialog.selectValue=Seleccionar valor
 SelectValueDialog.messages.info.selectVauleUnavailable=La lista de valores no está disponible.
 
-CrosstabPreferencePage.Title=Crosstab
-CrosstabPreferencePage.filterLimit=Filter Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
-CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+CrosstabPreferencePage.Title=Tabla de referencias cruzadas
+CrosstabPreferencePage.filterLimit=Límite de filtro
+CrosstabPreferencePage.filterLimit.prompt=Número máximo de valores que mostrar:
+CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
 
 ###########################################################
 #Crosstab DataBinding properties

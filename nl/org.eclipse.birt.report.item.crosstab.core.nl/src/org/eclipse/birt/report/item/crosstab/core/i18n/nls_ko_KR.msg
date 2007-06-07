@@ -40,7 +40,7 @@ CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드
 CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
 CrosstabReportItemQuery.error.register.empty.cell.value=빈 셀 값을 등록하는 중에 오류가 발생했습니다.
 
-CrosstabQueryHelper.error.invalid.measure=크로스 탭에 연결된 측정이 올바르지 않습니다.
+CrosstabQueryHelper.error.invalid.measure=크로스 탭에 연결된 측정값이 올바르지 않습니다.
 CrosstabQueryHelper.error.invalid.dimension=크로스 탭에 연결된 차원이 올바르지 않습니다.
 CrosstabQueryHelper.error.invalid.level=크로스 탭에 연결된 수준이 올바르지 않습니다.
 

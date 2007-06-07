@@ -1,12 +1,12 @@
-design.layout=Diseño
-design.masterPage=Página maestra
-design.script=Script
-design.xmlsource=Fuente XML
+design.layout=&Diseño
+design.masterPage=&Página maestra
+design.script=&Script
+design.xmlsource=&Fuente XML
 
-template.layout=Diseño
-template.masterPage=Página maestra
-template.script=Script
-template.xmlsource=Fuente XML
+template.layout=&Diseño
+template.masterPage=&Página maestra
+template.script=&Script
+template.xmlsource=&Fuente XML
 
 pageSet.layout=&Diseño de página
 pageSet.master=Página &maestra

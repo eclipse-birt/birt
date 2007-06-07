@@ -1,12 +1,12 @@
-design.layout=レイアウト
-design.masterPage=マスタページ
-design.script=スクリプト
-design.xmlsource=XML ソース
+design.layout=レイアウト(&L)
+design.masterPage=マスターページ(&M)
+design.script=スクリプト(&S)
+design.xmlsource=XML ソース(&X)
 
-template.layout=レイアウト
-template.masterPage=マスタページ
-template.script=スクリプト
-template.xmlsource=XML ソース
+template.layout=レイアウト(&L)
+template.masterPage=マスターページ(&M)
+template.script=スクリプト(&S)
+template.xmlsource=XML ソース(&X)
 
 pageSet.layout=レイアウトページ(&L)
 pageSet.master=マスターページ(&M)

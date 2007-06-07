@@ -35,7 +35,7 @@ SubTotalProvider.Column.Function=函数
 SubTotalProvider.Column.AggregateOn=聚合条件
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
-AggregationDialog.Title=聚合
+AggregationDialog.Title=总计
 AggregationDialog.Label.Grand=总计:
 AggregationDialog.Label.Sub=小计:
 ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
@@ -179,17 +179,17 @@ ChoiceSetFactory.choice.None=无
 
 ###########################################################
 #SelectValueDialog properties
-SelectValueDialog.errorRetrievinglist=Error retrieving list
-SelectValueDialog.messages.error.selectVauleUnavailable=The expression's value can not be retrieved.
-SelectValueDialog.noExpressionSet=An expression has not been set
-SelectValueDialog.retrieving=Retrieving list...
+SelectValueDialog.errorRetrievinglist=检索列表时出错
+SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
+SelectValueDialog.noExpressionSet=尚未设置表达式
+SelectValueDialog.retrieving=正在检索列表...
 SelectValueDialog.selectValue=选择值
 SelectValueDialog.messages.info.selectVauleUnavailable=值列表不可用。
 
-CrosstabPreferencePage.Title=Crosstab
-CrosstabPreferencePage.filterLimit=Filter Limit
-CrosstabPreferencePage.filterLimit.prompt=Maximum number of values to display:
-CrosstabPreferencePage.Error.MaxRowInvalid=The number value is invalid
+CrosstabPreferencePage.Title=交叉表
+CrosstabPreferencePage.filterLimit=筛选限制
+CrosstabPreferencePage.filterLimit.prompt=要显示的最大值数:
+CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
 
 ###########################################################
 #Crosstab DataBinding properties
