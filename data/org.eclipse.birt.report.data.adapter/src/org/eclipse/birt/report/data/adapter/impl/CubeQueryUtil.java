@@ -108,11 +108,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 							{
 								DimLevel next = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j+1 )
 										.toString( ) );
-								//If target dim level is on ROW_EDGE, do not add any subtotal expression.
-								if ( getAxisQualifierEdgeType( target, cubeDefn ) == ICubeQueryDefinition.COLUMN_EDGE )
-								{
-									continue;
-								}							
 								if ( getAxisQualifierLevel( next,
 										cubeDefn.getEdge( getAxisQualifierEdgeType( dimLevel,
 												cubeDefn ) ) ) == null )
