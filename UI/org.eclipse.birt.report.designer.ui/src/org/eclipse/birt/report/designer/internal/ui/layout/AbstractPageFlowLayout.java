@@ -199,10 +199,13 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 
 	protected void setViewProperty( Rectangle caleBounds, Rectangle ownerBounds )
 	{
-		getOwner( ).getViewer( ).setProperty(
-				DeferredGraphicalViewer.REPORT_SIZE, caleBounds );
+//		getOwner( ).getViewer( ).setProperty(
+//				DeferredGraphicalViewer.REPORT_SIZE, caleBounds );
 		getOwner( ).getViewer( ).setProperty(
 				DeferredGraphicalViewer.LAYOUT_SIZE, ownerBounds );
+		
+		getOwner( ).getViewer( ).setProperty(
+				DeferredGraphicalViewer.RULER_SIZE, new Rectangle(ownerBounds.x, ownerBounds.y, getInitSize().width, ownerBounds.height) );
 
 	}
 

@@ -260,7 +260,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 
 			Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
-			((ReportDesignLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
+			((AbstractPageFlowLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
 
 
 			figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );

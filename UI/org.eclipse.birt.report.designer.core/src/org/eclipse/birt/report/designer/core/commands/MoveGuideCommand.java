@@ -54,7 +54,13 @@ public class MoveGuideCommand extends Command
 		MasterPageHandle page = SessionHandleAdapter.getInstance( )
 				.getMasterPageHandle( );
 		String unit = handle.getDefaultUnits( );
-
+		
+		//This is only a patch, maybe the old report design file the default unin of the 
+		//LibraryHandle is null, 
+		if (unit == null)
+		{
+			unit=DesignChoiceConstants.UNITS_IN;
+		}
 		double value = MetricUtility.pixelToPixelInch( pDelta );
 		if ( value < 0.0 )
 		{
