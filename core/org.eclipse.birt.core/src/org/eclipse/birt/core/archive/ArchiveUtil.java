@@ -244,23 +244,34 @@ public class ArchiveUtil
 			else
 			{ // if file is a file, create a new ZipEntry and write out the
 				// file.
-				BufferedInputStream in = new BufferedInputStream(
-						new FileInputStream( file ) );
-				String relativePath = generateRelativePath( tempFolderPath,
-						file.getPath( ) );
-				ZipEntry entry = new ZipEntry( relativePath );
-				entry.setTime( file.lastModified( ) );
-				zipOut.putNextEntry( entry ); // Create a new zipEntry
-
-				int len;
-				byte[] buf = new byte[1024 * 5];
-				while ( ( len = in.read( buf ) ) > 0 )
+				BufferedInputStream in 
+					= new BufferedInputStream( new FileInputStream( file ) );
+				try
 				{
-					zipOut.write( buf, 0, len );
-				}
+					String relativePath = generateRelativePath( tempFolderPath,
+							file.getPath( ) );
+					ZipEntry entry = new ZipEntry( relativePath );
+					try
+					{
+						entry.setTime( file.lastModified( ) );
+						zipOut.putNextEntry( entry ); // Create a new zipEntry
 
-				in.close( );
-				zipOut.closeEntry( );
+						int len;
+						byte[] buf = new byte[1024 * 5];
+						while ( ( len = in.read( buf ) ) > 0 )
+						{
+							zipOut.write( buf, 0, len );
+						}
+					}
+					finally
+					{
+						zipOut.closeEntry( );
+					}
+				}
+				finally
+				{
+						in.close( );
+				}
 			}
 		} // end of for ( int i = 0; i < files.length; i++ )
 	}
@@ -287,32 +298,46 @@ public class ArchiveUtil
 				}
 				else
 				{
-					InputStream in = zipFile.getInputStream( entry );
-					File file = new File( generateFullPath( tempFolderPath,
-							entry.getName( ) ) );
-
-					File dir = new File( file.getParent( ) );
-					if ( dir.exists( ) )
+					InputStream in = null;
+					try
 					{
-						assert ( dir.isDirectory( ) );
+						in = zipFile.getInputStream( entry );
+						File file = new File( generateFullPath( tempFolderPath,
+								entry.getName( ) ) );
+
+						File dir = new File( file.getParent( ) );
+						if ( dir.exists( ) )
+						{
+							assert ( dir.isDirectory( ) );
+						}
+						else
+						{
+							dir.mkdirs( );
+						}
+
+						BufferedOutputStream out = new BufferedOutputStream(
+								new FileOutputStream( file ) );
+						int len;
+						byte[] buf = new byte[1024 * 5];
+						try
+						{
+							while ( ( len = in.read( buf ) ) > 0 )
+							{
+								out.write( buf, 0, len );
+							}
+						}
+						finally
+						{
+							out.close( );
+						}
 					}
-					else
+					finally
 					{
-						dir.mkdirs( );
+						if ( in != null )
+						{
+							in.close( );
+						}
 					}
-
-					BufferedOutputStream out = new BufferedOutputStream(
-							new FileOutputStream( file ) );
-
-					int len;
-					byte[] buf = new byte[1024 * 5];
-					while ( ( len = in.read( buf ) ) > 0 )
-					{
-						out.write( buf, 0, len );
-					}
-					in.close( );
-					out.close( );
-
 				}
 			}
 			zipFile.close( );

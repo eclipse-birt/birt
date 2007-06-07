@@ -138,27 +138,34 @@ public class PlatformServletContext implements IPlatformContext
 					}
 					finally
 					{
-						try
+						if ( is != null )
 						{
-							if(is != null)
+							try
 							{
 								is.close( );
 							}
+							catch ( Exception exin )
+							{
+								log.log( Level.WARNING,
+										"Error closing resource stream.", exin );//$NON-NLS-1$
+							}
+							is = null;
 						}
-						catch(Exception ex)
+
+						if ( os != null )
 						{
-							//do nothing
-						}
-						try
-						{
-							if(os != null)
+							try
 							{
 								os.close( );
 							}
-						}
-						catch(Exception ex)
-						{
-							//do nothing
+							catch ( Exception exout )
+							{
+								log
+										.log(
+												Level.WARNING,
+												"Error closing file output stream.", exout );//$NON-NLS-1$
+							}
+							os = null;
 						}
 					}
 				}
