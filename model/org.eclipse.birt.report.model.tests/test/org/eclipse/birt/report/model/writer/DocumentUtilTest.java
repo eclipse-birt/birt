@@ -68,6 +68,12 @@ public class DocumentUtilTest extends BaseTestCase
 	private static final String DESIGN_WITH_CUBE_EXTENDS = "DocumentUtilTest_5.xml"; //$NON-NLS-1$
 
 	/**
+	 * Design file name.
+	 */
+
+	private static final String DESIGN_WITH_TESTING_TABLE_EXTENDS = "DocumentUtilTest_6.xml"; //$NON-NLS-1$
+
+	/**
 	 * Tests the element property value localization.
 	 * 
 	 * @throws Exception
@@ -294,6 +300,24 @@ public class DocumentUtilTest extends BaseTestCase
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_extends_cube_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * In the getPropertyFromElement() call of the
+	 * ReportDesignSerializer.localizePropertyValues(), the module should be
+	 * element.getRoot() instead of targetDesign. Otherwise, some elements
+	 * cannot be resolved. It could caused preview failure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCubeAndCrosstable1( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_TESTING_TABLE_EXTENDS );
+
+		serializeDocument( );
+
+		saveOutputFile( "DocumentUtilTest_extends_testingtable_golden.xml" ); //$NON-NLS-1$
 	}
 
 	/*

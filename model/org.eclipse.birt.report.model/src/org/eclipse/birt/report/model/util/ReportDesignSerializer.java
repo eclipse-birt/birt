@@ -1035,9 +1035,10 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		localizeUserPropDefn( element, newElement );
 
+		Module root = element.getRoot( );
 		if ( element instanceof IExtendableElement )
 			ModelUtil.duplicateExtensionIdentifier( element, newElement,
-					element.getRoot( ) );
+					root );
 
 		// get proerties from ascendants.
 
@@ -1066,7 +1067,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				continue;
 
 			Object value = element.getStrategy( ).getPropertyFromElement(
-					targetDesign, element, propDefn );
+					root, element, propDefn );
 
 			if ( value == null )
 				continue;
@@ -1580,6 +1581,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the element type name
 	 * @param name
 	 *            the optional element name
+	 * @param context 
 	 * 
 	 * @return design element, <code>null</code> returned if the element
 	 *         definition name is not a valid element type name.
