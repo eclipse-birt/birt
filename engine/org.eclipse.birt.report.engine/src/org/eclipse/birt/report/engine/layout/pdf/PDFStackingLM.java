@@ -192,8 +192,6 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	 * <li> set OffsetX and OffsetY </li>
 	 * <li> set CurrentIP and CurrentBP </li>
 	 * </ul>
-	 * 
-	 * 
 	 */
 	protected abstract void initialize( );
 

@@ -282,18 +282,15 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			height = Math.max( height, childHeight );
 		}
 		
-		if ( parent.isPageEmpty() && lineHeight > maxAvaHeight )
+		if ( parent.isPageEmpty() )
 		{
-			height = Math.max( height, maxAvaHeight );
+			height = Math.min( maxAvaHeight, Math.max( height, lineHeight ) );
 		}
 		else
 		{
 			height = Math.max( height, lineHeight );
 		}
 		root.setContentHeight( height );
-		
-		// root.setWidth( getCurrentIP() );
-
 	}
 
 	protected void align( boolean lastLine)

@@ -54,6 +54,7 @@ public class PDFTableRegionLM extends PDFTableLM
 	protected void initialize()
 	{
 		super.initialize( );
+		maxAvaHeight = getAvaHeight( );
 		//this.layout.setUnresolvedRow( lastRow );
 	}
 	protected int getAvaHeight( )
