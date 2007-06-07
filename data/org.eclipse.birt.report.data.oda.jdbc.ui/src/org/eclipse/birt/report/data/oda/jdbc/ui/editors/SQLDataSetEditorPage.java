@@ -442,9 +442,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
 	{
+		if ( this.getControl( ) == null || this.getControl( ).isDisposed( ) )
+			return design;
 		if ( design != null && doc != null )
 			design.setQueryText( doc.get( ) );
-		if ( this.shouldUpdateDataSetDesign || !formerQueryTxt.equals( design.getQueryText( ) ) )
+		if ( this.shouldUpdateDataSetDesign ||
+				!formerQueryTxt.equals( design.getQueryText( ) ) )
 		{
 			SQLUtility.saveDataSetDesign( design );
 			formerQueryTxt = design.getQueryText( );
