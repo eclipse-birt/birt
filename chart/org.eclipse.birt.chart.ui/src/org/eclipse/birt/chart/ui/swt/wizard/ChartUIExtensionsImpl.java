@@ -48,6 +48,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 			"11/Series.Y Series/Value (Y) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
 			"12/Series.Category Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
 			"13/Series.Value Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"14/Series.Value Series.Needle/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.NeedleSheetImpl", //$NON-NLS-1$
 			"20/Chart/Chart Area/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
 			"21/Chart.Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
 			"22/Chart.Axis.X Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$

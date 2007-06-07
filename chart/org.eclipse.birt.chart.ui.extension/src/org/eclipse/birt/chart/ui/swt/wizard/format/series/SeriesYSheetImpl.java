@@ -177,13 +177,13 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			btnDialLabel.addSelectionListener( this );
 			btnDialLabel.setEnabled( cbVisible.getSelection( ) );
 
-			if ( getChart( ) instanceof DialChart )
+			if ( getChart( ) instanceof DialChart
+					&& !( (DialChart) getChart( ) ).isDialSuperimposition( ) )
 			{
 				// Needles
 				popup = new NeedleSheet( Messages.getString( "SeriesYSheetImpl.Label.Needles" ), //$NON-NLS-1$
 						getContext( ),
-						(DialChart) getChart( ),
-						getIndex( ) );
+						getSeriesDefinitionForProcessing( ) );
 				Button btnNeedles = createToggleButton( cmp,
 						Messages.getString( "SeriesYSheetImpl.Label.Needles&" ), //$NON-NLS-1$
 						popup );
@@ -304,18 +304,22 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
 
-		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
-				getContext( ),
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.getTriggers( ),
-				true,
-				false );
-		Button btnInteractivity = createToggleButton( cmp,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup );
-		btnInteractivity.addSelectionListener( this );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
+		if ( !( getChart( ) instanceof DialChart && ( (DialChart) getChart( ) ).isDialSuperimposition( ) ) )
+		{
+			// Interactivity
+			popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+					getContext( ),
+					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+							.getTriggers( ),
+					true,
+					false );
+			Button btnInteractivity = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+					popup );
+			btnInteractivity.addSelectionListener( this );
+			btnInteractivity.setEnabled( getChart( ).getInteractivity( )
+					.isEnable( ) );
+		}
 	}
 
 	private void getSeriesAttributeUI( Series series, Composite parent )

@@ -88,8 +88,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private transient int iAncillaryAxisCount = 0;
 
-	private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "BaseSeriesSheetsCWA"; //$NON-NLS-1$
-
 	private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
 
 	private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "BaseSeriesSheetsCWOA"; //$NON-NLS-1$
@@ -102,8 +100,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private static final String ANCILLARY_AXIS_SHEET_COLLECTION = "AncillaryAxisSheets"; //$NON-NLS-1$
 
-	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[]{
-		"Series.X Series"}; //$NON-NLS-1$ 
+	private static final String DIAL_SERIES_SHEET_COLLECTION = "NeedleSheets"; //$NON-NLS-1$
 
 	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[]{
 		"Series.Y Series"}; //$NON-NLS-1$
@@ -122,6 +119,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
 		"Series.Value Series"}; //$NON-NLS-1$
+
+	private static final String[] DIAL_SERIES_SHEETS = new String[]{
+		"Series.Value Series.Needle"};//$NON-NLS-1$
 
 	public TaskFormatChart( )
 	{
@@ -574,6 +574,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				ORTHOGONAL_AXIS_SHEETS );
 		uiManager.registerSheetCollection( ANCILLARY_AXIS_SHEET_COLLECTION,
 				ANCILLARY_AXIS_SHEETS );
+		uiManager.registerSheetCollection( DIAL_SERIES_SHEET_COLLECTION,
+				DIAL_SERIES_SHEETS );
 
 		if ( chartModel instanceof ChartWithAxes )
 		{
@@ -620,6 +622,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// needed for Charts Without Axes
 			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			uiManager.removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 
 			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 			{
@@ -648,6 +651,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// needed for Charts Without Axes
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			uiManager.removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 
 			if ( ( (SeriesDefinition) ( ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ) ).getSeries( )
@@ -657,13 +661,27 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				{
 					uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
-			}
-
-			if ( !( chartModel instanceof DialChart && ( (DialChart) chartModel ).isDialSuperimposition( ) ) )
-			{
 				for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 				{
 					uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				}
+			}
+
+			if ( chartModel instanceof DialChart )
+			{
+				if ( !( (DialChart) chartModel ).isDialSuperimposition( ) )
+				{
+					for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
+					{
+						uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+					}
+				}
+				else
+				{
+					for ( int iOS = 0; iOS < iOrthogonalSeriesCount; iOS++ )
+					{
+						uiManager.addCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
+					}
 				}
 			}
 		}
@@ -712,7 +730,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		previewPainter = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
 	public Image getImage( )

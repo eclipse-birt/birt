@@ -72,6 +72,11 @@
             nodeIndex="13"
             nodePath="Series.Value Series"/>
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.NeedleSheetImpl"
+            displayName="%Needle"
+            nodeIndex="14"
+            nodePath="Series.Value Series.Needle"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl"
             displayName="%ChartArea"
             nodeIndex="20"
