@@ -20,3 +20,4 @@ Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
 Eclipse-LazyStart: true
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.views.provider
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
