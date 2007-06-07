@@ -114,12 +114,14 @@ public class PlatformServletContext implements IPlatformContext
 				}
 				else
 				{
+					InputStream is = null;
+					OutputStream os = null;
 					try
 					{
 						if ( newFile.createNewFile( ) )
 						{
-							InputStream is = context.getResourceAsStream( path );
-							OutputStream os = new FileOutputStream( newFile );
+							is = context.getResourceAsStream( path );
+							os = new FileOutputStream( newFile );
 							byte[] buffer = new byte[8192];
 							int bytesRead = is.read( buffer );
 							while ( bytesRead != -1 )
@@ -135,6 +137,38 @@ public class PlatformServletContext implements IPlatformContext
 					{
 						log.log( Level.WARNING,
 								"Error copying resources {0} to platform.", e ); //$NON-NLS-1$
+					}
+					finally
+					{
+						if ( is != null )
+						{
+							try
+							{
+								is.close( );
+							}
+							catch ( Exception exin )
+							{
+								log.log( Level.WARNING,
+										"Error closing resource stream.", exin );//$NON-NLS-1$
+							}
+							is = null;
+						}
+
+						if ( os != null )
+						{
+							try
+							{
+								os.close( );
+							}
+							catch ( Exception exout )
+							{
+								log
+										.log(
+												Level.WARNING,
+												"Error closing file output stream.", exout );//$NON-NLS-1$
+							}
+							os = null;
+						}
 					}
 				}
 			}

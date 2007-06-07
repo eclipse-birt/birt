@@ -38,11 +38,19 @@ public class RAFolderOutputStream extends RAOutputStream
 	{
 		this.archive = archive;
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
-		if ( !append )
+		try
 		{
-			this.randomFile.setLength( 0 );
+			if ( !append )
+			{
+				this.randomFile.setLength( 0 );
+			}
+			this.bufferMgr = new RAStreamBufferMgr( this.randomFile );
 		}
-		this.bufferMgr = new RAStreamBufferMgr( this.randomFile );
+		catch(IOException ex)
+		{
+			randomFile.close();
+			throw ex;
+		}
 	}
 	
     /** Flush the internal buffer */

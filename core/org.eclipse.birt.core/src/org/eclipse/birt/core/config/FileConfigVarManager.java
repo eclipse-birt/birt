@@ -72,22 +72,38 @@ public class FileConfigVarManager extends SystemConfigVarManager {
 	 */
 	synchronized private void load() 
 	{
-	    if (configFileLoaded)
-	        return;
-	        
-	    InputStream is = null;
-        fileConfigVars = new Properties();
-        
-	    try 
-	    {
-	        is = new FileInputStream(configFileName);
-	    	if (is != null)    
-	    	    fileConfigVars.load(is);
-	    } catch (Exception e)	// IOException or FileNotFoundException
-	    {
-	        fileConfigVars = null;
-	        // Log me, then neglect the exception
-	    }
+	    if ( configFileLoaded )
+			return;
+
+		fileConfigVars = new Properties( );
+		InputStream is = null;
+
+		try
+		{
+			is = new FileInputStream( configFileName );
+			if ( is != null )
+				fileConfigVars.load( is );
+		}
+		catch ( Exception e ) // IOException or FileNotFoundException
+		{
+			fileConfigVars = null;
+			// Log me, then neglect the exception
+		}
+		finally
+		{
+			if ( is != null )
+			{
+				try
+				{
+					is.close( );
+				}
+				catch ( Exception ex )
+				{
+					// do nothing
+				}
+				is = null;
+			}
+		}
 	    
 	    configFileLoaded = true;
 	}
