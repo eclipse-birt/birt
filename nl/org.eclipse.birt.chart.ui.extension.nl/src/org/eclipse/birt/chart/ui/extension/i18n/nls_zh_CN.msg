@@ -917,5 +917,3 @@ PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=正/负颜色编辑器
 PositiveNegativeColorDialog.Lbl.PositiveColor=正颜色
 PositiveNegativeColorDialog.Lbl.NegativeColor=负颜色
 PositiveNegativeColorDialog.Lbl.Preview=预览
-
-NeedleSheet.Lbl.Dial=刻度盘

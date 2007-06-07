@@ -917,5 +917,3 @@ PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=Positiver/Negativer 
 PositiveNegativeColorDialog.Lbl.PositiveColor=Positive Farbe
 PositiveNegativeColorDialog.Lbl.NegativeColor=Negative Farbe
 PositiveNegativeColorDialog.Lbl.Preview=Vorschau
-
-NeedleSheet.Lbl.Dial=Tachometer

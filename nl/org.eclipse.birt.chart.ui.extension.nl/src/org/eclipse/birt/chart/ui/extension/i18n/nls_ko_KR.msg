@@ -917,5 +917,3 @@ PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=양수/음수 색상 편집�
 PositiveNegativeColorDialog.Lbl.PositiveColor=양수 색상
 PositiveNegativeColorDialog.Lbl.NegativeColor=음수 색상
 PositiveNegativeColorDialog.Lbl.Preview=미리 보기
-
-NeedleSheet.Lbl.Dial=다이얼

@@ -917,5 +917,3 @@ PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=Editor de colores po
 PositiveNegativeColorDialog.Lbl.PositiveColor=Color positivo
 PositiveNegativeColorDialog.Lbl.NegativeColor=Color negativo
 PositiveNegativeColorDialog.Lbl.Preview=Vista previa
-
-NeedleSheet.Lbl.Dial=Cuadrante

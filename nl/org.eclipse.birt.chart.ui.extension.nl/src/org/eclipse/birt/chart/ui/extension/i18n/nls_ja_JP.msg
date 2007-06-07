@@ -917,5 +917,3 @@ PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=³”/•‰”‚ÌƒJƒ‰[ƒGƒ
 PositiveNegativeColorDialog.Lbl.PositiveColor=³”‚ÌF
 PositiveNegativeColorDialog.Lbl.NegativeColor=•‰”‚ÌF
 PositiveNegativeColorDialog.Lbl.Preview=ƒvƒŒƒrƒ…[
-
-NeedleSheet.Lbl.Dial=ƒ_ƒCƒ„ƒ‹
