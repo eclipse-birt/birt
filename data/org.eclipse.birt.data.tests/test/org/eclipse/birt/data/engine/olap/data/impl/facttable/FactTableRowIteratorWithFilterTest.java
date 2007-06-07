@@ -130,6 +130,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "threeDimensions" ),
 				CubeUtility.getKeyColNames(dimensions),
+				CubeUtility.getKeyColNames(dimensions),
 				factTableIterator,
 				dimensions,
 				measureColumnName,

@@ -115,12 +115,32 @@ public class CubeMaterializer
 	 */
 	public void createCube( String name, String[][] keyColumnNames, IDimension[] dimensions, IDatasetIterator factTable, String[] measureColumns, StopSign stopSign ) throws IOException, BirtException
 	{
+		createCube( name, keyColumnNames, keyColumnNames, dimensions, factTable, measureColumns, stopSign );
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param factTableJointColumnNames
+	 * @param DimJointColumnNames
+	 * @param dimensions
+	 * @param factTable
+	 * @param measureColumns
+	 * @param stopSign
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void createCube( String name, String[][] factTableJointColumnNames,
+			String[][] DimJointColumnNames, IDimension[] dimensions,
+			IDatasetIterator factTable, String[] measureColumns,
+			StopSign stopSign ) throws IOException, BirtException
+	{
 		if ( stopSign == null )
 		{
 			stopSign = new StopSign( );
 		}
 		Cube cube = new Cube( name, documentManager );
-		cube.create( keyColumnNames, dimensions, factTable, measureColumns, stopSign );
+		cube.create( factTableJointColumnNames, DimJointColumnNames, dimensions, factTable, measureColumns, stopSign );
 		cube.close( );
 		documentManager.flush( );
 	}

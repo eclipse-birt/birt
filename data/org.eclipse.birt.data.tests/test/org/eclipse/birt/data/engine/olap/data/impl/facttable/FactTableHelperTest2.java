@@ -158,6 +158,7 @@ public class FactTableHelperTest2 extends TestCase
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				CubeUtility.getKeyColNames(dimensions),
+				CubeUtility.getKeyColNames(dimensions),
 				factTable1,
 				dimensions,
 				measureColumnName,
@@ -308,6 +309,7 @@ public class FactTableHelperTest2 extends TestCase
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				CubeUtility.getKeyColNames(dimensions),
+				CubeUtility.getKeyColNames(dimensions),
 				factTable2,
 				dimensions,
 				measureColumnName,
@@ -440,6 +442,7 @@ public class FactTableHelperTest2 extends TestCase
 		measureColumnName[1] = "measure2";
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
 				CubeUtility.getKeyColNames(dimensions),
 				factTable2,
 				dimensions,

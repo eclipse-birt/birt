@@ -69,13 +69,14 @@ public class FactTableAccessor
 	 * @throws BirtException
 	 * @throws IOException
 	 */
-	public FactTable saveFactTable( String factTableName, String[][] keyColumnNames,
+	public FactTable saveFactTable( String factTableName,
+			String[][] factTableJointColumnNames, String[][] DimJointColumnNames,
 			IDatasetIterator iterator, Dimension[] dimensions,
 			String[] measureColumnName, StopSign stopSign )
 			throws BirtException, IOException
 	{
 		DiskSortedStack sortedFactTableRows = getSortedFactTableRows( iterator,
-				keyColumnNames,
+				factTableJointColumnNames,
 				measureColumnName,
 				stopSign );
 
@@ -92,7 +93,7 @@ public class FactTableAccessor
 		DimensionDivision[] subDimensions = calculateDimensionDivision( getDimensionMemberCount( dimensions ),
 				segmentCount );
 		
-		int[][][] columnIndex = getColumnIndex( keyColumnNames, dimensions );
+		int[][][] columnIndex = getColumnIndex( DimJointColumnNames, dimensions );
 		DimensionPositionSeeker[] dimensionSeekers = new DimensionPositionSeeker[dimensions.length];
 		for ( int i = 0; i < dimensionSeekers.length; i++ )
 		{
