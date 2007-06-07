@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -2229,6 +2230,12 @@ public abstract class PlotWithAxes extends Methods
 								// Y-AXIS SCALE TO THE TOP EDGE
 								// OF THE PLOT BLOCK
 							}
+						}
+						
+						if ( ChartUtil.mathEqual( Math.abs( dEnd - dStart ), 0 ) )
+						{
+							// too small space to adjust, break here.
+							bForceBreak = true;
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
