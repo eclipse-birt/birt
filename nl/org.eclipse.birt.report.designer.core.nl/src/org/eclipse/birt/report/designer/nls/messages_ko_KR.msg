@@ -232,7 +232,7 @@ ButtonPaneComposite.tooltip.Ruler=눈금자
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=데이터 원본에서 인출할 최대 행 수:
+SettingsPage.dataFetchSetting.label=데이터 원본에서 가져 올 최대 행 수(&M):
 SettingsPage.CachePreference.button.clear=캐시 지우기(&C)
 SettingsPage.CachePreference.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
 SettingsPage.CachePreference.description=캐시 크기 정의:
@@ -267,7 +267,7 @@ CascadingParametersDialog.Label.group.general=일반
 CascadingParametersDialog.Label.group.moreOptions=추가 옵션
 CascadingParametersDialog.Label.group.properties=속성
 CascadingParametersDialog.Label.helpText=도움말 텍스트(&H)
-CascadingParametersDialog.Label.listLimit=목록 제한(&I):
+CascadingParametersDialog.Label.listLimit=목록 제한(&L):
 CascadingParametersDialog.Label.NoColumnAvailable=<사용 가능한 열 없음>
 CascadingParametersDialog.Label.param.name=이름(&N):
 CascadingParametersDialog.Label.parameters=매개 변수
@@ -279,8 +279,8 @@ CascadingParametersDialog.Label.selectDisplayColumn=<표시 열 선택>
 CascadingParametersDialog.Label.selectValueColumn=<값 열 선택>
 CascadingParametersDialog.Label.values=값
 CascadingParametersDialog.Label.SelectDataSetMode=데이터 집합 모드:
-CascadingParametersDialog.Radio.Single=단일 데이터 집합
-CascadingParametersDialog.Radio.Mutli=다중 데이터 집합
+CascadingParametersDialog.Radio.Single=단일 데이터 집합(&E)
+CascadingParametersDialog.Radio.Mutli=다중 데이터 집합(&U)
 CascadingParametersDialog.Choice.NullValue=널(null) 값
 CascadingParametersDialog.Choice.BlankValue=빈 값
 CascadingParametersDialog.Choice.SelectValue=<값 선택...>
@@ -423,27 +423,27 @@ dataset.editor.outputColumns=열 출력
 dataset.editor.parameters=매개 변수
 dataset.editor.preview=결과 미리 보기
 dataset.editor.outputparameters=출력 매개 변수 미리 보기
-dataset.editor.title.alias=별칭
-dataset.editor.title.columnName=열 이름
-dataset.editor.title.dataType=데이터 형식
-dataset.editor.title.defaultValue=기본값
-dataset.editor.title.direction=방향
-dataset.editor.title.displayName=표시 이름
-dataset.editor.title.displayNameKey=표시 이름 키
-dataset.editor.title.expression=식
-dataset.editor.title.aggrFunc=집계
-dataset.editor.title.aggrArgu=인수
-dataset.editor.title.filter=필터
+dataset.editor.title.alias=별칭(&A)
+dataset.editor.title.columnName=열 이름(&C)
+dataset.editor.title.dataType=데이터 형식(&T):
+dataset.editor.title.defaultValue=기본값(&V):
+dataset.editor.title.direction=방향(&D)
+dataset.editor.title.displayName=표시 이름(&D)
+dataset.editor.title.displayNameKey=표시 이름 키(&K)
+dataset.editor.title.expression=식(&E)
+dataset.editor.title.aggrFunc=집계(&A)
+dataset.editor.title.aggrArgu=인수(&R)
+dataset.editor.title.filter=필터(&F)
 dataset.editor.title.helpText=도움말 텍스트
 dataset.editor.title.isInput=입력입니다.
 dataset.editor.title.isNullable=널(null) 값 허용
 dataset.editor.title.isOptional=옵션
 dataset.editor.title.isOutput=출력입니다.
-dataset.editor.title.name=이름
-dataset.editor.title.operator=연산자
-dataset.editor.title.type=형식
-dataset.editor.title.value1=값 1
-dataset.editor.title.value2=값 2
+dataset.editor.title.name=이름(&N)
+dataset.editor.title.operator=연산자(&O)
+dataset.editor.title.type=형식(&T)
+dataset.editor.title.value1=값 &1
+dataset.editor.title.value2=값 &2
 dataset.editor.historybar.backward=뒤로
 dataset.editor.historybar.forward=정방향
 dataset.editor.historybar.to=끝
@@ -527,7 +527,7 @@ DataSetParameterBindingInputDialog.Label.Value=값:
 DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
-DataSetParameterPage.cell.linkToSalarParameter=보고서 매개 변수에 연결되어 있음
+DataSetParameterPage.cell.linkToSalarParameter=보고서 매개 변수에 연결됨(&L)
 DataSetParameterPage.title.ParameterInputDialog=매개 변수
 DataSetParameterPage.toolTipText.New=새 매개 변수
 DataSetParameterPage.toolTipText.Edit=매개변수 편집
@@ -539,7 +539,7 @@ DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의된 공용 속성이 없습니다.
 PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 공용 속성이 없습니다.
-PropertyBindingPage.dataset.queryText=쿼리 텍스트(&Q)
+PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
 PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
 PropertyBindingPage.button.tooltip=식 빌더를 입력 {0} 값에 열기
 
@@ -790,7 +790,7 @@ DesignerPaletteFactory.toolTip.textDataReportItem=옵션 CLOB 데이터 식을 사용하여
 DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 블록(일반 텍스트/HTML)을 삽입합니다.
 DesignerPaletteFactory.quicktool.title=빠른 도구
 DesignerPaletteFactory.quicktool.agg.title=집계
-DesignerPaletteFactory.quicktool.agg.toolTip=집계 도구 팁
+DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1268,7 +1268,7 @@ ExpressionBuilder.Label.Functions=삽입하려면 두 번 클릭:
 ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
-ExpressionBuilder.ToolTip=Open Expression Builder
+ExpressionBuilder.ToolTip=식 빌더 열기
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1647,7 +1647,7 @@ HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=크기:
 HighlightRuleBuilderDialog.text.Title=강조 규칙 추가/편집
 HighlightRuleBuilderDialog.text.True=참
-HighlightRuleBuilderDialog.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
+HighlightRuleBuilderDialog.tooltip.ExpBuilder=식 빌더 열기
 HighlightRuleBuilderDialog.tooltip.Bold=굵게
 HighlightRuleBuilderDialog.tooltip.Italic=기울임꼴
 HighlightRuleBuilderDialog.tooltip.Underline=밑줄
@@ -1965,9 +1965,9 @@ JSDocumentProvider.document.newName=새 내용
 ###########################################################
 #JSEditor properties
 
-JSEditor.cmb.NewEventFunction=New Event Function...
-JSEditor.Label.Script=Script: 
-JSEditor.Button.Reset=Reset Script
+JSEditor.cmb.NewEventFunction=새 이벤트 함수...
+JSEditor.Label.Script=스크립트: 
+JSEditor.Button.Reset=스크립트 재설정
 JSEditor.Display.DefaultText=//JS 스크립트 편집기 \n
 JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
@@ -2135,7 +2135,7 @@ MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
 MapRuleBuilder.Button.ResourceKey=리소스 키:
-MapRuleBuilder.Button.Reset=재설정
+MapRuleBuilder.Button.Reset=재설정(&R)
 
 
 MapRuleBuilderDialog.text.Between=사이에 있음
@@ -2162,7 +2162,7 @@ SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the s
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키:
 SortkeyBuilder.DialogTitle.Label.Direction=방향:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더를 호출하려면 누릅니다.
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더 열기
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 
 ###########################################################
@@ -2172,7 +2172,7 @@ FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
 FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
 FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
-FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
+FilterConditionBuilder.tooltip.ExpBuilder=식 빌더 열기
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.Shell.Title=필터 조건
@@ -2445,8 +2445,8 @@ ParameterDialog.Button.ImportValue=값 가져오기(&U)...
 ParameterDialog.Button.RemoveDefault=기본값 제거
 ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&I)
-ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
-ParameterDialog.CheckBox.Hidden=숨김(&D)
+ParameterDialog.CheckBox.DoNotEchoInput=입력에 대해 반향을 제공하지 않음(&U)
+ParameterDialog.CheckBox.Hidden=숨김
 ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
@@ -3153,7 +3153,7 @@ TableEditPart.Label.ResizeRow=행 크기 조정
 #TableFigure properties
 
 TableFigure.BORDER_TEXT=테이블
-TableArea.Button.New=새로 만들기(&N)...
+TableArea.Button.New=새로 만들기(&W)...
 TableArea.Button.Edit=편집(&E)...
 TableArea.Button.Remove=제거(&R)
 TableArea.Button.Down=아래로(&D)
@@ -3485,7 +3485,7 @@ WizardSelectCssStylePage.button.label.deselectAll=모두 선택 취소(&D)
 WizardSelectCssStylePage.button.label.selectAll=모두 선택(&S)
 WizardSelectCssStylePage.errorMsg.FileNotExist=파일 없음.
 WizardSelectCssStylePage.info.canNotImport=\ \ (가져올 수 없음)
-WizardSelectCssStylePage.label.fileName=파일 이름(&F):
+WizardSelectCssStylePage.label.fileName=파일 이름(&N):
 WizardSelectCssStylePage.label.importToReportDesign=\보고서 디자인으로 가져오려면.
 WizardSelectCssStylePage.label.notifications=알림:
 WizardSelectCssStylePage.label.selectStylesFrom=다음에서 스타일 선택 
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=삭제
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=새 데이터 바인딩
 DataColumBindingDialog.title.EditDataBinding=데이터 바인딩 편집
-DataColumBindingDialog.title.AggBuilder=Aggregation Builder
+DataColumBindingDialog.title.AggBuilder=집계 빌더
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3839,11 +3839,11 @@ AggDataDropAdapter.Trans.Name=집계 데이터 항목 생성
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=이름:
+BindingDialogHelper.text.Name=열 바인딩 이름:
 BindingDialogHelper.text.DataType=데이터 형식:
 BindingDialogHelper.text.Function=함수:
 BindingDialogHelper.text.DataField=데이터 필드:
-BindingDialogHelper.text.Filter=필터:
+BindingDialogHelper.text.Filter=필터 조건:
 BindingDialogHelper.text.AggOn=집계 대상:
 BindingDialogHelper.text.Table=테이블
 BindingDialogHelper.text.List=목록
@@ -3858,7 +3858,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregation
 Scripts.Node.DisplayName=스크립트
 ScriptElementNode.Action.Text=보고서 요소로 이동
 
-ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 
 ###########################################################
 #CrosstabBindingDialogHelper

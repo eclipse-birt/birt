@@ -232,7 +232,7 @@ ButtonPaneComposite.tooltip.Ruler=Regler
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Maximale Anzahl der aus Datenquelle abzurufenden Zeilen:
+SettingsPage.dataFetchSetting.label=&Maximale Anzahl der aus Datenquelle abzurufenden Zeilen:
 SettingsPage.CachePreference.button.clear=&Cache löschen
 SettingsPage.CachePreference.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
 SettingsPage.CachePreference.description=Cache-Größe festlegen:
@@ -279,8 +279,8 @@ CascadingParametersDialog.Label.selectDisplayColumn=<Anzeigespalte auswählen>
 CascadingParametersDialog.Label.selectValueColumn=<Wertespalte auswählen>
 CascadingParametersDialog.Label.values=Werte
 CascadingParametersDialog.Label.SelectDataSetMode=Datensatzmodus:
-CascadingParametersDialog.Radio.Single=Einfacher Datensatz
-CascadingParametersDialog.Radio.Mutli=Mehrfacher Datensatz
+CascadingParametersDialog.Radio.Single=&Einfacher Datensatz
+CascadingParametersDialog.Radio.Mutli=&Mehrfacher Datensatz
 CascadingParametersDialog.Choice.NullValue=Null-Wert
 CascadingParametersDialog.Choice.BlankValue=Leerwert
 CascadingParametersDialog.Choice.SelectValue=<Wert auswählen ...>
@@ -423,27 +423,27 @@ dataset.editor.outputColumns=Ausgabespalten
 dataset.editor.parameters=Parameter
 dataset.editor.preview=Ergebnisvorschau
 dataset.editor.outputparameters=Vorschau der Ausgabeparameter anzeigen
-dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Spaltenname
-dataset.editor.title.dataType=Datentyp
-dataset.editor.title.defaultValue=Standardwert
-dataset.editor.title.direction=Richtung
-dataset.editor.title.displayName=Angezeigter Name
-dataset.editor.title.displayNameKey=Namensschlüssel anzeigen
-dataset.editor.title.expression=Ausdruck
-dataset.editor.title.aggrFunc=Aggregat
-dataset.editor.title.aggrArgu=Argument
-dataset.editor.title.filter=Filters
+dataset.editor.title.alias=&Alias
+dataset.editor.title.columnName=&Spaltenname
+dataset.editor.title.dataType=Daten&typ
+dataset.editor.title.defaultValue=Standard&wert
+dataset.editor.title.direction=&Richtung
+dataset.editor.title.displayName=&Anzeigename
+dataset.editor.title.displayNameKey=Namens&schlüssel anzeigen
+dataset.editor.title.expression=&Ausdruck
+dataset.editor.title.aggrFunc=&Aggregat
+dataset.editor.title.aggrArgu=A&rgument
+dataset.editor.title.filter=&Filter
 dataset.editor.title.helpText=Hilfetext
 dataset.editor.title.isInput=Ist Eingabe
 dataset.editor.title.isNullable=Nullwert zulässig
 dataset.editor.title.isOptional=Optional
 dataset.editor.title.isOutput=Ist Ausgabe
-dataset.editor.title.name=Name
-dataset.editor.title.operator=Operator
-dataset.editor.title.type=Typ
-dataset.editor.title.value1=Wert 1
-dataset.editor.title.value2=Wert 2
+dataset.editor.title.name=&Name
+dataset.editor.title.operator=&Operator
+dataset.editor.title.type=&Typ
+dataset.editor.title.value1=Wert &1
+dataset.editor.title.value2=Wert &2
 dataset.editor.historybar.backward=Zurück
 dataset.editor.historybar.forward=Vor
 dataset.editor.historybar.to=nach
@@ -527,7 +527,7 @@ DataSetParameterBindingInputDialog.Label.Value=Wert:
 DataSetParametersPage.Prompt.new=<New param here...>
 DataSetParametersPage.default.None=n.a.
 DataSetParametersPage.reportParam.None=Ohne
-DataSetParameterPage.cell.linkToSalarParameter=Mit Berichtparameter verknüpft
+DataSetParameterPage.cell.linkToSalarParameter=Mit Berichtparameter &verknüpft
 DataSetParameterPage.title.ParameterInputDialog=Parameter
 DataSetParameterPage.toolTipText.New=Neuer Parameter
 DataSetParameterPage.toolTipText.Edit=Parameter bearbeiten
@@ -539,7 +539,7 @@ DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=Keine öffentliche Eigenschaft für diese Datenquelle durch die ODA-Erweiterung definiert
 PropertyBindingPage.dataset.property.empty=Keine öffentliche Eigenschaft für diesen Datensatz durch die ODA-Erweiterung definiert
-PropertyBindingPage.dataset.queryText=&Abfragetext
+PropertyBindingPage.dataset.queryText=Abfrage&text
 PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit auswählen
 PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts {0} öffnen
 
@@ -790,7 +790,7 @@ DesignerPaletteFactory.toolTip.textDataReportItem=Textblock mit optionalen CLOB-
 DesignerPaletteFactory.toolTip.textReportItem=Fügen Sie einen Textblock (einfacher Text oder HTML) mit optionalen Inline-Ausdrücken ein.
 DesignerPaletteFactory.quicktool.title=Schnellbearbeitungswerkzeuge
 DesignerPaletteFactory.quicktool.agg.title=Aggregat
-DesignerPaletteFactory.quicktool.agg.toolTip=Kontexthilfe für Aggregat
+DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1268,7 +1268,7 @@ ExpressionBuilder.Label.Functions=Einfügen durch Doppelklicken:
 ExpressionBuilder.Label.Operators=Operatoren:
 ExpressionBuilder.Label.SubCategory=Unterkategorie:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.
-ExpressionBuilder.ToolTip=Open Expression Builder
+ExpressionBuilder.ToolTip=Ausdruckserstellung öffnen
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1647,7 +1647,7 @@ HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=Größe:
 HighlightRuleBuilderDialog.text.Title=Kennzeichnungsregel hinzufügen/bearbeiten
 HighlightRuleBuilderDialog.text.True=ist TRUE
-HighlightRuleBuilderDialog.tooltip.ExpBuilder=Klicken Sie hier, um die Ausdruckserstellung zu starten.
+HighlightRuleBuilderDialog.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 HighlightRuleBuilderDialog.tooltip.Bold=Fett
 HighlightRuleBuilderDialog.tooltip.Italic=Kursiv
 HighlightRuleBuilderDialog.tooltip.Underline=Unterstrichen
@@ -1965,9 +1965,9 @@ JSDocumentProvider.document.newName=Neuer Inhalt
 ###########################################################
 #JSEditor properties
 
-JSEditor.cmb.NewEventFunction=New Event Function...
-JSEditor.Label.Script=Script: 
-JSEditor.Button.Reset=Reset Script
+JSEditor.cmb.NewEventFunction=Neue Ereignisfunktion...
+JSEditor.Label.Script=Skript: 
+JSEditor.Button.Reset=Skript zurücksetzen
 JSEditor.Display.DefaultText=//JS Script-Editor \n
 JSEditor.Display.NoExpression=Dieses Element verfügt über keine Methoden.
 JSEditor.Input.trial=Test
@@ -2135,7 +2135,7 @@ MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
 MapRuleBuilder.DialogTitle.New=Neue Zuordnungsregel
 MapRuleBuilder.DialogTitle.Edit=Zuordnungsregel bearbeiten
 MapRuleBuilder.Button.ResourceKey=Ressourcenschlüssel:
-MapRuleBuilder.Button.Reset=Zeit
+MapRuleBuilder.Button.Reset=&Zurücksetzen
 
 
 MapRuleBuilderDialog.text.Between=ist zwischen
@@ -2162,7 +2162,7 @@ SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the s
 SortkeyBuilder.DialogTitle.Label.Prompt=Sortierschlüssel eingeben:
 SortkeyBuilder.DialogTitle.Label.Key=Schlüssel:
 SortkeyBuilder.DialogTitle.Label.Direction=Richtung:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Zum Öffnen der Ausdruckserstellung hier klicken
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ausdruckserstellung öffnen
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
 
 ###########################################################
@@ -2172,7 +2172,7 @@ FilterConditionBuilder.DialogTitle.Edit=Filterbedingung bearbeiten
 FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
 FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Wert dieses Datenelements
-FilterConditionBuilder.tooltip.ExpBuilder=Zum Öffnen der Ausdruckserstellung hier klicken.
+FilterConditionBuilder.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 FilterConditionBuilder.text.AND=UND
 FilterConditionBuilder.text.Condition=Filterbedingung eingeben:
 FilterConditionBuilder.Shell.Title=Filterbedingung
@@ -2445,8 +2445,8 @@ ParameterDialog.Button.ImportValue=&Werte importieren...
 ParameterDialog.Button.RemoveDefault=Standard entfernen
 ParameterDialog.Button.SetDefault=&Als Standard einstellen
 ParameterDialog.CheckBox.IsRequired=&erforderlich
-ParameterDialog.CheckBox.DoNotEchoInput=&Keine Wiedergabe auf Eingabe
-ParameterDialog.CheckBox.Hidden=&Ausgeblendet
+ParameterDialog.CheckBox.DoNotEchoInput=E&ingabe nicht wiederholen
+ParameterDialog.CheckBox.Hidden=Ausgeblendet
 ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Choice.NullValue=Null-Wert
@@ -3153,7 +3153,7 @@ TableEditPart.Label.ResizeRow=Zeilengröße anpassen
 #TableFigure properties
 
 TableFigure.BORDER_TEXT=Tabelle
-TableArea.Button.New=&Neu...
+TableArea.Button.New=N&eu...
 TableArea.Button.Edit=&Bearbeiten...
 TableArea.Button.Remove=&Entfernen
 TableArea.Button.Down=Nach &unten
@@ -3485,7 +3485,7 @@ WizardSelectCssStylePage.button.label.deselectAll=&Markierung aufheben
 WizardSelectCssStylePage.button.label.selectAll=&Alles markieren
 WizardSelectCssStylePage.errorMsg.FileNotExist=Datei existiert nicht.
 WizardSelectCssStylePage.info.canNotImport=\ \ (Importieren nicht möglich)
-WizardSelectCssStylePage.label.fileName=&Dateiname:
+WizardSelectCssStylePage.label.fileName=Datei&name:
 WizardSelectCssStylePage.label.importToReportDesign=\ für Import in das Berichtdesign.
 WizardSelectCssStylePage.label.notifications=Benachrichtigungen:
 WizardSelectCssStylePage.label.selectStylesFrom=Wählen Sie die Stile aus 
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=Löschen
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=Neue Datenbindung
 DataColumBindingDialog.title.EditDataBinding=Datenbindung bearbeiten
-DataColumBindingDialog.title.AggBuilder=Aggregation Builder
+DataColumBindingDialog.title.AggBuilder=Aggregaterstellung
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3839,11 +3839,11 @@ AggDataDropAdapter.Trans.Name=Datenelement für Aggregat erstellen
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Name:
+BindingDialogHelper.text.Name=Name der Spaltenbindung:
 BindingDialogHelper.text.DataType=Datentyp:
 BindingDialogHelper.text.Function=Funktion:
 BindingDialogHelper.text.DataField=Datenfeld:
-BindingDialogHelper.text.Filter=Filter:
+BindingDialogHelper.text.Filter=Filterbedingung:
 BindingDialogHelper.text.AggOn=Aggregat ein:
 BindingDialogHelper.text.Table=Tabelle
 BindingDialogHelper.text.List=Liste
@@ -3858,7 +3858,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregation
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement wechseln
 
-ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
 ###########################################################
 #CrosstabBindingDialogHelper

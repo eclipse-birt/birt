@@ -232,7 +232,7 @@ ButtonPaneComposite.tooltip.Ruler=ルーラ
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=データソースからフェッチする最大行数 :
+SettingsPage.dataFetchSetting.label=データソースからフェッチする最大行数(&M) :
 SettingsPage.CachePreference.button.clear=キャッシュのクリア(&C)
 SettingsPage.CachePreference.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
 SettingsPage.CachePreference.description=キャッシュサイズの定義 :
@@ -267,7 +267,7 @@ CascadingParametersDialog.Label.group.general=全般
 CascadingParametersDialog.Label.group.moreOptions=詳細設定
 CascadingParametersDialog.Label.group.properties=プロパティ
 CascadingParametersDialog.Label.helpText=ヘルプテキスト(&H) :
-CascadingParametersDialog.Label.listLimit=一覧の制限(&I) :
+CascadingParametersDialog.Label.listLimit=一覧の制限(&L) :
 CascadingParametersDialog.Label.NoColumnAvailable=<使用可能な列がありません>
 CascadingParametersDialog.Label.param.name=名前(&N) :
 CascadingParametersDialog.Label.parameters=パラメタ
@@ -279,8 +279,8 @@ CascadingParametersDialog.Label.selectDisplayColumn=<表示列を選択>
 CascadingParametersDialog.Label.selectValueColumn=<値の列を選択>
 CascadingParametersDialog.Label.values=個の値
 CascadingParametersDialog.Label.SelectDataSetMode=データセットモード :
-CascadingParametersDialog.Radio.Single=1 つのデータセット
-CascadingParametersDialog.Radio.Mutli=複数のデータセット
+CascadingParametersDialog.Radio.Single=単一のデータセット(&E)
+CascadingParametersDialog.Radio.Mutli=複数のデータセット(&U)
 CascadingParametersDialog.Choice.NullValue=NULL 値
 CascadingParametersDialog.Choice.BlankValue=空白値
 CascadingParametersDialog.Choice.SelectValue=<値の選択...>
@@ -423,27 +423,27 @@ dataset.editor.outputColumns=出力列
 dataset.editor.parameters=パラメタ
 dataset.editor.preview=結果のプレビュー
 dataset.editor.outputparameters=出力パラメタのプレビュー
-dataset.editor.title.alias=エイリアス
-dataset.editor.title.columnName=列名
-dataset.editor.title.dataType=データ型
-dataset.editor.title.defaultValue=デフォルト値
-dataset.editor.title.direction=方向
-dataset.editor.title.displayName=表示名
-dataset.editor.title.displayNameKey=表示名のキー
-dataset.editor.title.expression=式
-dataset.editor.title.aggrFunc=総計
-dataset.editor.title.aggrArgu=引数
-dataset.editor.title.filter=フィルタ
+dataset.editor.title.alias=エイリアス(&A)
+dataset.editor.title.columnName=列名(&C)
+dataset.editor.title.dataType=データ型(&T)
+dataset.editor.title.defaultValue=デフォルト値(&V)
+dataset.editor.title.direction=方向(&D)
+dataset.editor.title.displayName=表示名(&D)
+dataset.editor.title.displayNameKey=表示名キー(&K)
+dataset.editor.title.expression=式(&E)
+dataset.editor.title.aggrFunc=総計(&A)
+dataset.editor.title.aggrArgu=引数(&R)
+dataset.editor.title.filter=フィルタ(&F)
 dataset.editor.title.helpText=ヘルプテキスト
 dataset.editor.title.isInput=入力
 dataset.editor.title.isNullable=Null を許可する
 dataset.editor.title.isOptional=オプション
 dataset.editor.title.isOutput=出力
-dataset.editor.title.name=名前
-dataset.editor.title.operator=演算子
-dataset.editor.title.type=型
-dataset.editor.title.value1=値 1
-dataset.editor.title.value2=値 2
+dataset.editor.title.name=名前(&N)
+dataset.editor.title.operator=演算子(&O)
+dataset.editor.title.type=型(&T)
+dataset.editor.title.value1=値 1(&1)
+dataset.editor.title.value2=値 2(&2)
 dataset.editor.historybar.backward=戻る
 dataset.editor.historybar.forward=進む
 dataset.editor.historybar.to=:
@@ -527,7 +527,7 @@ DataSetParameterBindingInputDialog.Label.Value=値 :
 DataSetParametersPage.Prompt.new=<ここに新しいパラメタを入力してください...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=なし
-DataSetParameterPage.cell.linkToSalarParameter=リンク先のレポートパラメタ
+DataSetParameterPage.cell.linkToSalarParameter=リンク先のレポートパラメタ(&L)
 DataSetParameterPage.title.ParameterInputDialog=パラメタ
 DataSetParameterPage.toolTipText.New=パラメタの新規作成
 DataSetParameterPage.toolTipText.Edit=パラメタの編集
@@ -539,7 +539,7 @@ DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=このデータソースのパブリックプロパティは、ODA 拡張で定義されていません。
 PropertyBindingPage.dataset.property.empty=このデータセットのパブリックプロパティは、ODA 拡張で定義されていません。
-PropertyBindingPage.dataset.queryText=クエリテキスト(&Q)
+PropertyBindingPage.dataset.queryText=クエリテキスト(&T)
 PropertyBindingPage.property.tooltip=実行時のプロパティのバインドを定義します。
 PropertyBindingPage.button.tooltip=式ビルダを開き、{0} の値を入力します。
 
@@ -790,7 +790,7 @@ DesignerPaletteFactory.toolTip.textDataReportItem=オプションで CLOB データ式を含
 DesignerPaletteFactory.toolTip.textReportItem=オプションでインライン式を含むテキストブロック (標準のテキストまたは HTML) を挿入します。
 DesignerPaletteFactory.quicktool.title=クイックツール
 DesignerPaletteFactory.quicktool.agg.title=総計
-DesignerPaletteFactory.quicktool.agg.toolTip=総計のツールヒント
+DesignerPaletteFactory.quicktool.agg.toolTip=総計項目の挿入
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1268,7 +1268,7 @@ ExpressionBuilder.Label.Functions=ダブルクリックして挿入 :
 ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
-ExpressionBuilder.ToolTip=Open Expression Builder
+ExpressionBuilder.ToolTip=式ビルダを開く
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1647,7 +1647,7 @@ HighlightRuleBuilderDialog.text.PreviewContent=Aaあぁアァ亜宇
 HighlightRuleBuilderDialog.text.Size=サイズ :
 HighlightRuleBuilderDialog.text.Title=ハイライトの規則の追加と編集
 HighlightRuleBuilderDialog.text.True=True
-HighlightRuleBuilderDialog.tooltip.ExpBuilder=計算式ビルダを起動するには、ここをクリックしてしてください
+HighlightRuleBuilderDialog.tooltip.ExpBuilder=式ビルダを開く
 HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
@@ -1965,9 +1965,9 @@ JSDocumentProvider.document.newName=コンテンツの新規作成
 ###########################################################
 #JSEditor properties
 
-JSEditor.cmb.NewEventFunction=New Event Function...
-JSEditor.Label.Script=Script: 
-JSEditor.Button.Reset=Reset Script
+JSEditor.cmb.NewEventFunction=イベント関数の新規作成...
+JSEditor.Label.Script=スクリプト : 
+JSEditor.Button.Reset=スクリプトのリセット
 JSEditor.Display.DefaultText=//JS スクリプトエディタ \n
 JSEditor.Display.NoExpression=この要素にはメソッドがありません。
 JSEditor.Input.trial=試用
@@ -2135,7 +2135,7 @@ MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
 MapRuleBuilder.DialogTitle.Edit=マップ規則の編集
 MapRuleBuilder.Button.ResourceKey=リソースキー :
-MapRuleBuilder.Button.Reset=リセット
+MapRuleBuilder.Button.Reset=リセット(&R)
 
 
 MapRuleBuilderDialog.text.Between=値に挟まれる
@@ -2162,7 +2162,7 @@ SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the s
 SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
 SortkeyBuilder.DialogTitle.Label.Key=キー :
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを開く
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 
 ###########################################################
@@ -2172,7 +2172,7 @@ FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
 FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
 FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
-FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリックしてしてください
+FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを開く
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
 FilterConditionBuilder.Shell.Title=フィルタの条件
@@ -2445,8 +2445,8 @@ ParameterDialog.Button.ImportValue=値のインポート(&U)...
 ParameterDialog.Button.RemoveDefault=デフォルトの削除
 ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&I)
-ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&O)
-ParameterDialog.CheckBox.Hidden=非表示(&D)
+ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&U)
+ParameterDialog.CheckBox.Hidden=非表示
 ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
@@ -3153,7 +3153,7 @@ TableEditPart.Label.ResizeRow=行幅の変更
 #TableFigure properties
 
 TableFigure.BORDER_TEXT=テーブル
-TableArea.Button.New=新規(&N)...
+TableArea.Button.New=新規作成(&W)...
 TableArea.Button.Edit=編集(&E)...
 TableArea.Button.Remove=削除(&R)
 TableArea.Button.Down=下へ(&O)
@@ -3485,7 +3485,7 @@ WizardSelectCssStylePage.button.label.deselectAll=すべて選択解除(&D)
 WizardSelectCssStylePage.button.label.selectAll=すべて選択(&S)
 WizardSelectCssStylePage.errorMsg.FileNotExist=ファイルが見つかりません。
 WizardSelectCssStylePage.info.canNotImport=\ \ (インポートできません)
-WizardSelectCssStylePage.label.fileName=ファイル名(&F) :
+WizardSelectCssStylePage.label.fileName=ファイル名(&N) :
 WizardSelectCssStylePage.label.importToReportDesign=\ レポートデザインにインポート。
 WizardSelectCssStylePage.label.notifications=通知 :
 WizardSelectCssStylePage.label.selectStylesFrom=次のファイルからスタイルを選択 
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=削除
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=データバインドの新規作成
 DataColumBindingDialog.title.EditDataBinding=データバインドの編集
-DataColumBindingDialog.title.AggBuilder=Aggregation Builder
+DataColumBindingDialog.title.AggBuilder=総計ビルダ
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3839,11 +3839,11 @@ AggDataDropAdapter.Trans.Name=総計データ項目の作成
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=名前 :
+BindingDialogHelper.text.Name=列バインドの名前 :
 BindingDialogHelper.text.DataType=データ型 :
 BindingDialogHelper.text.Function=関数 :
 BindingDialogHelper.text.DataField=データフィールド :
-BindingDialogHelper.text.Filter=フィルタ :
+BindingDialogHelper.text.Filter=フィルタの条件 :
 BindingDialogHelper.text.AggOn=総計条件 :
 BindingDialogHelper.text.Table=テーブル
 BindingDialogHelper.text.List=リスト
@@ -3858,7 +3858,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregation
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ
 
-ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+ReportPage.PreviewImage.Button.ToolTip=サムネールの管理
 
 ###########################################################
 #CrosstabBindingDialogHelper

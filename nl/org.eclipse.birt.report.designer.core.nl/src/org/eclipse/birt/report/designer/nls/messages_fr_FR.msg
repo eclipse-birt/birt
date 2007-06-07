@@ -232,7 +232,7 @@ ButtonPaneComposite.tooltip.Ruler=Règle
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Nombre maximum de lignes à récupérer à partir de la source de données :
+SettingsPage.dataFetchSetting.label=Nombre &maximum de lignes à récupérer à partir de la source de données :
 SettingsPage.CachePreference.button.clear=Vider le &cache
 SettingsPage.CachePreference.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
 SettingsPage.CachePreference.description=Définir la taille du cache :
@@ -267,7 +267,7 @@ CascadingParametersDialog.Label.group.general=Général
 CascadingParametersDialog.Label.group.moreOptions=Autres options
 CascadingParametersDialog.Label.group.properties=Propriétés
 CascadingParametersDialog.Label.helpText=&Texte d'aide :
-CascadingParametersDialog.Label.listLimit=L&imite de liste :
+CascadingParametersDialog.Label.listLimit=&Limite de liste :
 CascadingParametersDialog.Label.NoColumnAvailable=<Aucune colonne disponible>
 CascadingParametersDialog.Label.param.name=&Nom :
 CascadingParametersDialog.Label.parameters=Paramètres
@@ -279,8 +279,8 @@ CascadingParametersDialog.Label.selectDisplayColumn=<Sélectionner une colonne à 
 CascadingParametersDialog.Label.selectValueColumn=<Sélectionner une colonne de valeur>
 CascadingParametersDialog.Label.values=valeurs
 CascadingParametersDialog.Label.SelectDataSetMode=Mode de jeu de données :
-CascadingParametersDialog.Radio.Single=Jeu de données unique
-CascadingParametersDialog.Radio.Mutli=Jeu de données multiple
+CascadingParametersDialog.Radio.Single=J&eu de données unique
+CascadingParametersDialog.Radio.Mutli=Jeu de données m&ultiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
 CascadingParametersDialog.Choice.BlankValue=Valeur vierge
 CascadingParametersDialog.Choice.SelectValue=<Sélectionner une valeur...>
@@ -423,27 +423,27 @@ dataset.editor.outputColumns=Colonnes de sortie
 dataset.editor.parameters=Paramètres
 dataset.editor.preview=Prévisualiser les résultats
 dataset.editor.outputparameters=Prévisualiser les paramètres de sortie
-dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Nom de colonne
-dataset.editor.title.dataType=Type de données
-dataset.editor.title.defaultValue=Valeur par défaut
-dataset.editor.title.direction=Direction
-dataset.editor.title.displayName=Nom d'affichage
-dataset.editor.title.displayNameKey=Clé de nom d'affichage
-dataset.editor.title.expression=Expression
-dataset.editor.title.aggrFunc=Agrégation
-dataset.editor.title.aggrArgu=Argument
-dataset.editor.title.filter=Filtre
+dataset.editor.title.alias=&Alias
+dataset.editor.title.columnName=Nom de &colonne
+dataset.editor.title.dataType=Type de &données
+dataset.editor.title.defaultValue=&Valeur par défaut
+dataset.editor.title.direction=&Direction
+dataset.editor.title.displayName=Nom &d'affichage
+dataset.editor.title.displayNameKey=&Clé de nom d'affichage
+dataset.editor.title.expression=&Expression
+dataset.editor.title.aggrFunc=&Agrégation
+dataset.editor.title.aggrArgu=A&rgument
+dataset.editor.title.filter=&Filtre
 dataset.editor.title.helpText=Texte d'aide
 dataset.editor.title.isInput=Est une entrée
 dataset.editor.title.isNullable=Autorise une valeur nulle
 dataset.editor.title.isOptional=Facultatif
 dataset.editor.title.isOutput=Est une sortie
-dataset.editor.title.name=Nom
-dataset.editor.title.operator=Opérateur
-dataset.editor.title.type=Type
-dataset.editor.title.value1=Valeur 1
-dataset.editor.title.value2=Valeur 2
+dataset.editor.title.name=&Nom
+dataset.editor.title.operator=&Opérateur
+dataset.editor.title.type=&Type
+dataset.editor.title.value1=Valeur &1
+dataset.editor.title.value2=Valeur &2
 dataset.editor.historybar.backward=Précédent
 dataset.editor.historybar.forward=Suivant
 dataset.editor.historybar.to=en
@@ -527,7 +527,7 @@ DataSetParameterBindingInputDialog.Label.Value=Valeur :
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
-DataSetParameterPage.cell.linkToSalarParameter=Lié au paramètre d'état
+DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
 DataSetParameterPage.toolTipText.Edit=Modifier le paramètre
@@ -539,7 +539,7 @@ DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=Aucune propriété publique n'est définie par l'extension ODA de cette source de données
 PropertyBindingPage.dataset.property.empty=Aucune propriété publique n'est définie par l'extension ODA de ce jeu de données
-PropertyBindingPage.dataset.queryText=Texte de la re&quête
+PropertyBindingPage.dataset.queryText=&Texte de la requête
 PropertyBindingPage.property.tooltip=Définir une liaison de propriété pour l'exécution
 PropertyBindingPage.button.tooltip=Ouvrir le Générateur d''expression pour entrer la valeur {0}
 
@@ -790,7 +790,7 @@ DesignerPaletteFactory.toolTip.textDataReportItem=Insérer un bloc de texte avec 
 DesignerPaletteFactory.toolTip.textReportItem=Insérez un bloc de texte (texte brut/HTML) avec insertion optionnelle d'expression(s).
 DesignerPaletteFactory.quicktool.title=Outils rapides
 DesignerPaletteFactory.quicktool.agg.title=Agrégation
-DesignerPaletteFactory.quicktool.agg.toolTip=Info-bulle de l'agrégation
+DesignerPaletteFactory.quicktool.agg.toolTip=Insérer un élément d'agrégation
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1268,7 +1268,7 @@ ExpressionBuilder.Label.Functions=Double clic pour insérer :
 ExpressionBuilder.Label.Operators=Opérateurs :
 ExpressionBuilder.Label.SubCategory=Sous-catégorie :
 ExpressionBuilder.Message.Prompt=Entrez une expression dans le champ Expression. Parcourez la liste des objets disponibles et cliquez deux fois sur un objet pour le copier dans votre expression.
-ExpressionBuilder.ToolTip=Open Expression Builder
+ExpressionBuilder.ToolTip=Ouvrir le Générateur d'expression
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1647,7 +1647,7 @@ HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=Taille :
 HighlightRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de surbrillance
 HighlightRuleBuilderDialog.text.True=est vrai
-HighlightRuleBuilderDialog.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur d'expression.
+HighlightRuleBuilderDialog.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 HighlightRuleBuilderDialog.tooltip.Bold=Gras
 HighlightRuleBuilderDialog.tooltip.Italic=Italique
 HighlightRuleBuilderDialog.tooltip.Underline=Texte souligné
@@ -1965,9 +1965,9 @@ JSDocumentProvider.document.newName=Nouveau contenu
 ###########################################################
 #JSEditor properties
 
-JSEditor.cmb.NewEventFunction=New Event Function...
-JSEditor.Label.Script=Script: 
-JSEditor.Button.Reset=Reset Script
+JSEditor.cmb.NewEventFunction=Nouvelle fonction d'événement...
+JSEditor.Label.Script=Script : 
+JSEditor.Button.Reset=Réinitialiser le script
 JSEditor.Display.DefaultText=//Editeur de scripts JS \n
 JSEditor.Display.NoExpression=Cet élément ne contient pas de méthode.
 JSEditor.Input.trial=évaluation
@@ -2135,7 +2135,7 @@ MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
 MapRuleBuilder.Button.ResourceKey=Clé de ressource :
-MapRuleBuilder.Button.Reset=Réinitialiser
+MapRuleBuilder.Button.Reset=&Réinitialiser
 
 
 MapRuleBuilderDialog.text.Between=est compris entre
@@ -2162,7 +2162,7 @@ SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the s
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=Direction :
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Cliquez ici pour appeler le Générateur d'expression
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ouvrir le Générateur d'expression
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 
 ###########################################################
@@ -2172,7 +2172,7 @@ FilterConditionBuilder.DialogTitle.Edit=Modifier la condition de filtre
 FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
 FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valeur de l'élément de données
-FilterConditionBuilder.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur d'expression.
+FilterConditionBuilder.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=Entrez une condition de filtre :
 FilterConditionBuilder.Shell.Title=Condition de filtre
@@ -2445,8 +2445,8 @@ ParameterDialog.Button.ImportValue=Importer des vale&urs...
 ParameterDialog.Button.RemoveDefault=Supprimer la valeur par défaut
 ParameterDialog.Button.SetDefault=Définir p&ar défaut
 ParameterDialog.CheckBox.IsRequired=&Est requis
-ParameterDialog.CheckBox.DoNotEchoInput=Ne pas repr&oduire l'entrée
-ParameterDialog.CheckBox.Hidden=&Masqué
+ParameterDialog.CheckBox.DoNotEchoInput=Ne pas reprod&uire l'entrée
+ParameterDialog.CheckBox.Hidden=Masqué
 ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=Supprimer
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=Nouvelle liaison de données
 DataColumBindingDialog.title.EditDataBinding=Modifier la liaison de données
-DataColumBindingDialog.title.AggBuilder=Aggregation Builder
+DataColumBindingDialog.title.AggBuilder=Générateur d'agrégation
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3839,11 +3839,11 @@ AggDataDropAdapter.Trans.Name=Créer un élément de données d'agrégation
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=Nom :
+BindingDialogHelper.text.Name=Nom de la liaison de colonne :
 BindingDialogHelper.text.DataType=Type de données :
 BindingDialogHelper.text.Function=Fonction :
 BindingDialogHelper.text.DataField=Champ de données :
-BindingDialogHelper.text.Filter=Filtre :
+BindingDialogHelper.text.Filter=Condition de filtre :
 BindingDialogHelper.text.AggOn=Regrouper par :
 BindingDialogHelper.text.Table=Table
 BindingDialogHelper.text.List=Liste
@@ -3858,7 +3858,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregation
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Atteindre l'élément d'état
 
-ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 
 ###########################################################
 #CrosstabBindingDialogHelper

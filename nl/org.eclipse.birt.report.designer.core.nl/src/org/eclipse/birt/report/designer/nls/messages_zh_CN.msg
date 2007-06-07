@@ -232,7 +232,7 @@ ButtonPaneComposite.tooltip.Ruler=标尺
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=从数据源提取的最大行数:
+SettingsPage.dataFetchSetting.label=从数据源提取的最大行数(&M):
 SettingsPage.CachePreference.button.clear=清除缓存(&C)
 SettingsPage.CachePreference.checkBox.text=缓存数据集数据以便进行报表预览(&H)
 SettingsPage.CachePreference.description=定义缓存大小:
@@ -267,7 +267,7 @@ CascadingParametersDialog.Label.group.general=常规
 CascadingParametersDialog.Label.group.moreOptions=更多选项
 CascadingParametersDialog.Label.group.properties=属性
 CascadingParametersDialog.Label.helpText=帮助文本(&H):
-CascadingParametersDialog.Label.listLimit=列表限制(&I):
+CascadingParametersDialog.Label.listLimit=列表限制(&L):
 CascadingParametersDialog.Label.NoColumnAvailable=<没有可用的列>
 CascadingParametersDialog.Label.param.name=名称(&N):
 CascadingParametersDialog.Label.parameters=参数
@@ -279,8 +279,8 @@ CascadingParametersDialog.Label.selectDisplayColumn=<选择显示列>
 CascadingParametersDialog.Label.selectValueColumn=<选择值列>
 CascadingParametersDialog.Label.values=值
 CascadingParametersDialog.Label.SelectDataSetMode=数据集模式:
-CascadingParametersDialog.Radio.Single=单个数据集
-CascadingParametersDialog.Radio.Mutli=多个数据集
+CascadingParametersDialog.Radio.Single=单个数据集(&E)
+CascadingParametersDialog.Radio.Mutli=多个数据集(&U)
 CascadingParametersDialog.Choice.NullValue=空值
 CascadingParametersDialog.Choice.BlankValue=空白值
 CascadingParametersDialog.Choice.SelectValue=<选择值...>
@@ -423,27 +423,27 @@ dataset.editor.outputColumns=输出列
 dataset.editor.parameters=参数
 dataset.editor.preview=预览结果
 dataset.editor.outputparameters=预览输出参数
-dataset.editor.title.alias=别名
-dataset.editor.title.columnName=列名称
-dataset.editor.title.dataType=数据类型
-dataset.editor.title.defaultValue=默认值
-dataset.editor.title.direction=方向
-dataset.editor.title.displayName=显示名称
-dataset.editor.title.displayNameKey=显示名称关键字
-dataset.editor.title.expression=表达式
-dataset.editor.title.aggrFunc=聚合
-dataset.editor.title.aggrArgu=参数
-dataset.editor.title.filter=筛选器
+dataset.editor.title.alias=别名(&A)
+dataset.editor.title.columnName=列名称(&C)
+dataset.editor.title.dataType=数据类型(&T)
+dataset.editor.title.defaultValue=默认值(&V)
+dataset.editor.title.direction=方向(&D)
+dataset.editor.title.displayName=显示名称(&D)
+dataset.editor.title.displayNameKey=显示名称关键字(&K)
+dataset.editor.title.expression=表达式(&E)
+dataset.editor.title.aggrFunc=聚合(&A)
+dataset.editor.title.aggrArgu=参数(&R)
+dataset.editor.title.filter=筛选器(&F)
 dataset.editor.title.helpText=帮助文本
 dataset.editor.title.isInput=输入
 dataset.editor.title.isNullable=允许 Null
 dataset.editor.title.isOptional=可选
 dataset.editor.title.isOutput=输出
-dataset.editor.title.name=名称
-dataset.editor.title.operator=运算符
-dataset.editor.title.type=类型
-dataset.editor.title.value1=值 1
-dataset.editor.title.value2=值 2
+dataset.editor.title.name=名称(&N)
+dataset.editor.title.operator=运算符(&O)
+dataset.editor.title.type=类型(&T)
+dataset.editor.title.value1=值 1(&1)
+dataset.editor.title.value2=值 2(&2)
 dataset.editor.historybar.backward=后退
 dataset.editor.historybar.forward=前进
 dataset.editor.historybar.to=到
@@ -527,7 +527,7 @@ DataSetParameterBindingInputDialog.Label.Value=值:
 DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
-DataSetParameterPage.cell.linkToSalarParameter=链接到报表参数
+DataSetParameterPage.cell.linkToSalarParameter=链接到报表参数(&L)
 DataSetParameterPage.title.ParameterInputDialog=参数
 DataSetParameterPage.toolTipText.New=新建参数
 DataSetParameterPage.toolTipText.Edit=编辑参数
@@ -539,7 +539,7 @@ DataSetParameterPage.toolTipText.Down=参数下移
 #PropertyBindingpage properties
 PropertyBindingPage.datasource.property.empty=ODA 扩展没有为此数据源定义公共属性
 PropertyBindingPage.dataset.property.empty=ODA 扩展没有为此数据集定义公共属性
-PropertyBindingPage.dataset.queryText=查询文本(&Q)
+PropertyBindingPage.dataset.queryText=查询文本(&T)
 PropertyBindingPage.property.tooltip=为运行时定义属性绑定
 PropertyBindingPage.button.tooltip=打开表达式生成器以输入 {0} 值
 
@@ -790,7 +790,7 @@ DesignerPaletteFactory.toolTip.textDataReportItem=插入带有可选 CLOB 数据表达式的
 DesignerPaletteFactory.toolTip.textReportItem=插入文本块（纯文本/HTML）和可选嵌入表达式。
 DesignerPaletteFactory.quicktool.title=快速工具
 DesignerPaletteFactory.quicktool.agg.title=聚合
-DesignerPaletteFactory.quicktool.agg.toolTip=聚合工具提示
+DesignerPaletteFactory.quicktool.agg.toolTip=插入聚合项
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1268,7 +1268,7 @@ ExpressionBuilder.Label.Functions=双击以插入:
 ExpressionBuilder.Label.Operators=运算符:
 ExpressionBuilder.Label.SubCategory=子类别:
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
-ExpressionBuilder.ToolTip=Open Expression Builder
+ExpressionBuilder.ToolTip=打开表达式生成器
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1647,7 +1647,7 @@ HighlightRuleBuilderDialog.text.PreviewContent=AaBbCcYyZz
 HighlightRuleBuilderDialog.text.Size=大小:
 HighlightRuleBuilderDialog.text.Title=添加/编辑突出显示规则
 HighlightRuleBuilderDialog.text.True=为真
-HighlightRuleBuilderDialog.tooltip.ExpBuilder=单击以调用表达式生成器。
+HighlightRuleBuilderDialog.tooltip.ExpBuilder=打开表达式生成器
 HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
@@ -1965,9 +1965,9 @@ JSDocumentProvider.document.newName=新内容
 ###########################################################
 #JSEditor properties
 
-JSEditor.cmb.NewEventFunction=New Event Function...
-JSEditor.Label.Script=Script: 
-JSEditor.Button.Reset=Reset Script
+JSEditor.cmb.NewEventFunction=新建事件函数...
+JSEditor.Label.Script=脚本: 
+JSEditor.Button.Reset=重置脚本
 JSEditor.Display.DefaultText=//JS 脚本编辑器 \n
 JSEditor.Display.NoExpression=此元素无方法。
 JSEditor.Input.trial=试用版
@@ -2135,7 +2135,7 @@ MapPreferencePage.toolTipText.Down=映射规则下移
 MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
 MapRuleBuilder.Button.ResourceKey=资源关键字:
-MapRuleBuilder.Button.Reset=重置
+MapRuleBuilder.Button.Reset=重置(&R)
 
 
 MapRuleBuilderDialog.text.Between=介于
@@ -2162,7 +2162,7 @@ SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the s
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=打开表达式生成器
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 
 ###########################################################
@@ -2172,7 +2172,7 @@ FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
 FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
 FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
-FilterConditionBuilder.tooltip.ExpBuilder=单击以调用表达式生成器。
+FilterConditionBuilder.tooltip.ExpBuilder=打开表达式生成器
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=输入筛选条件:
 FilterConditionBuilder.Shell.Title=筛选条件
@@ -2445,8 +2445,8 @@ ParameterDialog.Button.ImportValue=导入值(&U)...
 ParameterDialog.Button.RemoveDefault=删除默认值
 ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&I)
-ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
-ParameterDialog.CheckBox.Hidden=隐藏(&D)
+ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&U)
+ParameterDialog.CheckBox.Hidden=隐藏
 ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
@@ -3153,7 +3153,7 @@ TableEditPart.Label.ResizeRow=重新设定行大小
 #TableFigure properties
 
 TableFigure.BORDER_TEXT=表
-TableArea.Button.New=新建(&N)...
+TableArea.Button.New=新建(&W)...
 TableArea.Button.Edit=编辑(&E)...
 TableArea.Button.Remove=删除(&R)
 TableArea.Button.Down=下移(&O)
@@ -3485,7 +3485,7 @@ WizardSelectCssStylePage.button.label.deselectAll=取消全选(&D)
 WizardSelectCssStylePage.button.label.selectAll=全选(&S)
 WizardSelectCssStylePage.errorMsg.FileNotExist=文件不存在。
 WizardSelectCssStylePage.info.canNotImport=\ \ (无法导入)
-WizardSelectCssStylePage.label.fileName=文件名(&F):
+WizardSelectCssStylePage.label.fileName=文件名(&N):
 WizardSelectCssStylePage.label.importToReportDesign=\ 导入到报表设计。
 WizardSelectCssStylePage.label.notifications=通知:
 WizardSelectCssStylePage.label.selectStylesFrom=选择样式自 
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=删除
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=新建数据绑定
 DataColumBindingDialog.title.EditDataBinding=编辑数据绑定
-DataColumBindingDialog.title.AggBuilder=Aggregation Builder
+DataColumBindingDialog.title.AggBuilder=聚合生成器
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3839,11 +3839,11 @@ AggDataDropAdapter.Trans.Name=创建聚合数据项
 
 ###########################################################
 #BindingDialogHelper
-BindingDialogHelper.text.Name=名称:
+BindingDialogHelper.text.Name=列绑定名称:
 BindingDialogHelper.text.DataType=数据类型:
 BindingDialogHelper.text.Function=函数:
 BindingDialogHelper.text.DataField=数据字段:
-BindingDialogHelper.text.Filter=筛选器:
+BindingDialogHelper.text.Filter=筛选条件:
 BindingDialogHelper.text.AggOn=聚合条件:
 BindingDialogHelper.text.Table=表
 BindingDialogHelper.text.List=列表
@@ -3858,7 +3858,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregation
 Scripts.Node.DisplayName=脚本
 ScriptElementNode.Action.Text=转到报表元素
 
-ReportPage.PreviewImage.Button.ToolTip=Manage Thumbnail
+ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 
 ###########################################################
 #CrosstabBindingDialogHelper
