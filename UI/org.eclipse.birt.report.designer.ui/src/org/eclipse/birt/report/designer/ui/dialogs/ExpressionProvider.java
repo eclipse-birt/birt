@@ -164,7 +164,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
-	public static final String CURRENT_CUBE = "Current Data cube";
+	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" );
 
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
