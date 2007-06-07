@@ -2,6 +2,7 @@ Series=Œn—ñ
 ValueYSeries=’lŒn—ñ (Y)
 CategorySeries=ƒJƒeƒSƒŠŒn—ñ
 ValueSeries=’lŒn—ñ
+Needle=Needle
 ChartArea=ƒOƒ‰ƒt‚Ì—Ìˆæ
 Axis=²
 XAxis=X ²

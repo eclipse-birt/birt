@@ -2,6 +2,7 @@ Series=系列
 ValueYSeries=值 (Y) 系列
 CategorySeries=类别系列
 ValueSeries=值系列
+Needle=Needle
 ChartArea=图表区域
 Axis=坐标轴
 XAxis=X 轴

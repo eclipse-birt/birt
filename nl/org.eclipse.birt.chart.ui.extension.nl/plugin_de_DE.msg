@@ -2,6 +2,7 @@ Series=Datenreihe
 ValueYSeries=Wert-Datenreihe (Y-Achse)
 CategorySeries=Kategorie-Datenreihe
 ValueSeries=Wert-Datenreihe
+Needle=Needle
 ChartArea=Diagrammfläche
 Axis=Achse
 XAxis=X-Achse

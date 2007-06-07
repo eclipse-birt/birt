@@ -2,6 +2,7 @@ Series=Série
 ValueYSeries=Série verticale de valeurs
 CategorySeries=Série de catégories
 ValueSeries=Série de valeurs
+Needle=Needle
 ChartArea=Zone graphique
 Axis=Axe
 XAxis=Axe horizontal
