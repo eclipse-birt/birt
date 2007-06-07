@@ -342,24 +342,13 @@ public abstract class ReportElementState extends DesignParseState
 					if ( nameRequired )
 					{
 						// if version<3.2.8, add it to the list and allocate a
-						// name
-						// in
-						// end-document
-
-						// if the version < 3.2.12, add it to the list.
-
-						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 )
+						// name in end-document; if the version < 3.2.12, add it
+						// to the list.
+						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12
+								&& element instanceof ExtendedItem )
 						{
 							handler.addUnnamedReportItem( element );
 						}
-						else
-							handler
-									.getErrorHandler( )
-									.semanticError(
-											new NameException(
-													element,
-													null,
-													NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 					}
 				}
 				else
@@ -531,13 +520,18 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		String name = content.getName( );
 		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
+		boolean isManagedByNameSpace = slotID > DesignElement.NO_SLOT
+				? new ContainerContext( container, slotID )
+						.isManagedByNameSpace( )
+				: true;
 
 		// Disallow duplicate names.
 
 		Module module = handler.getModule( );
 
 		if ( name == null
-				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
+				&& isManagedByNameSpace )
 		{
 			// if element is extended-item and version less than 3.2.8, do
 			// nothing and returns
@@ -552,10 +546,8 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		int id = contentDefn.getNameSpaceID( );
-		if ( name != null
-				&& id != MetaDataConstants.NO_NAME_SPACE
-				&& new ContainerContext( container, slotID )
-						.isManagedByNameSpace( ) )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& isManagedByNameSpace )
 		{
 			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
 

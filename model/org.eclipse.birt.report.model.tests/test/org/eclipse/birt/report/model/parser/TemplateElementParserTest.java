@@ -130,8 +130,8 @@ public class TemplateElementParserTest extends BaseTestCase
 
 		// get the template definition from the namespace
 
-		NameSpace ns = design
-				.getNameHelper( ).getNameSpace( ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
 		assertEquals( templateLabelParam.getElement( ), ns
 				.getElement( "templateLabelParam" ) ); //$NON-NLS-1$
 		assertEquals( templateDataSetParam.getElement( ), ns
@@ -192,11 +192,12 @@ public class TemplateElementParserTest extends BaseTestCase
 		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) designHandle
 				.findElement( "templateLabel" ); //$NON-NLS-1$
 		assertNotNull( templateLabel );
-		assertEquals( templateDataSet.getElement( ), design.getNameHelper( ).getNameSpace(
-				ReportDesign.DATA_SET_NAME_SPACE ).getElement(
-				"templateDataSet" ) ); //$NON-NLS-1$
-		assertEquals( templateLabel.getElement( ), design.getNameHelper( ).getNameSpace(
-				ReportDesign.ELEMENT_NAME_SPACE ).getElement( "templateLabel" ) );//$NON-NLS-1$
+		assertEquals( templateDataSet.getElement( ), design.getNameHelper( )
+				.getNameSpace( ReportDesign.DATA_SET_NAME_SPACE ).getElement(
+						"templateDataSet" ) ); //$NON-NLS-1$
+		assertEquals( templateLabel.getElement( ), design.getNameHelper( )
+				.getNameSpace( ReportDesign.ELEMENT_NAME_SPACE ).getElement(
+						"templateLabel" ) );//$NON-NLS-1$
 
 		// test the property values of template label and template data set
 
@@ -315,8 +316,8 @@ public class TemplateElementParserTest extends BaseTestCase
 				TemplateReportItem.REF_TEMPLATE_PARAMETER_PROP,
 				"new templateLabelParam" ); //$NON-NLS-1$
 
-		save(); 
-		assertTrue( compareFile( "TemplateElementParserTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "TemplateElementParserTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -386,9 +387,8 @@ public class TemplateElementParserTest extends BaseTestCase
 
 		// the real label is replaced by the template label
 
-		save(); //$NON-NLS-1$
-		compareFile(
-				"TemplateElementParserTest_golden_1.xml"); //$NON-NLS-1$ 
+		save( );
+		compareFile( "TemplateElementParserTest_golden_1.xml" ); //$NON-NLS-1$ 
 
 		// there is a template definition added into design for the new created
 		// template label
@@ -527,6 +527,20 @@ public class TemplateElementParserTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
+	}
+
+	/**
+	 * Tests the parser about the name issue: the items in the template
+	 * definition needs no name. That is to say, even if data set is
+	 * name-required, the data set that resides in any template definition can
+	 * have no name. Such a file can be correctly opened.
+	 * 
+	 * @throws Exception
+	 */
+	public void testParserWithNoName( ) throws Exception
+	{
+		openDesign( "TemplateElementParserTest_4.xml" ); //$NON-NLS-1$
+		assertNotNull( designHandle );
 	}
 
 	/**

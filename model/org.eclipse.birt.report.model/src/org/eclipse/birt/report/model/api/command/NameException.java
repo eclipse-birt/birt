@@ -115,7 +115,7 @@ public class NameException extends SemanticException
 				|| sResourceKey == DESIGN_EXCEPTION_NAME_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{element
-					.getElementName( )} );
+					.getIdentifier( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE )
 		{
