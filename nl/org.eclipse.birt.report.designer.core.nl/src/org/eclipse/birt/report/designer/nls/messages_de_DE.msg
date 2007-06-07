@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=Native JavaScript-Funktionen
 ExpressionProvider.Category.ColumnBinding=Verfügbare Spaltenbindungen
 ExpressionProvider.Category.Operators=Operatoren
 ExpressionProvider.Category.Parameters=Berichtparameter
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---Alle---
 ExpressionProvider.Operator.Add=Fügt zwei Werte zusammen.
 ExpressionProvider.Operator.AddTo=Verknüpfung zum Hinzufügen zum aktuellen Wert.
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=Zuordnungsregeln hinzufügen/bearbeiten
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Neuer Sortierschlüssel
 SortkeyBuilder.DialogTitle.Edit=Sortierschlüssel bearbeiten
-SortkeyBuilder.DialogMessage.New=Neuer Sortierschlüssel
-SortkeyBuilder.DialogMessage.Edit=Sortierschlüssel bearbeiten
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=Sortierschlüssel eingeben:
 SortkeyBuilder.DialogTitle.Label.Key=Schlüssel:
 SortkeyBuilder.DialogTitle.Label.Direction=Richtung:
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Neue Filterbedingung
 FilterConditionBuilder.DialogTitle.Edit=Filterbedingung bearbeiten
-FilterConditionBuilder.DialogMessage.New=Neue Filterbedingung
-FilterConditionBuilder.DialogMessage.Edit=Filterbedingung bearbeiten
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Wert dieses Datenelements
 FilterConditionBuilder.tooltip.ExpBuilder=Zum Öffnen der Ausdruckserstellung hier klicken.
 FilterConditionBuilder.text.AND=UND
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Gruppieren
 BindingDialogHelper.text.Expression=Ausdruck:
 BindingDialogHelper.text.displayName=Anzeigename:
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node

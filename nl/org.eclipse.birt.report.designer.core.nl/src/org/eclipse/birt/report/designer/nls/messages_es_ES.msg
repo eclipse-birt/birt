@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=Funciones de objetos nativos de JavaSc
 ExpressionProvider.Category.ColumnBinding=Enlaces de columna disponibles
 ExpressionProvider.Category.Operators=Operadores
 ExpressionProvider.Category.Parameters=Parámetros de informe
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---Todos---
 ExpressionProvider.Operator.Add=Añade dos valores juntos.
 ExpressionProvider.Operator.AddTo=Acceso directo para añadir al valor actual.
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=Añadir/Editar regla de asignación
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Nueva clave de ordenación
 SortkeyBuilder.DialogTitle.Edit=Editar clave de ordenación
-SortkeyBuilder.DialogMessage.New=Nueva clave de ordenación
-SortkeyBuilder.DialogMessage.Edit=Editar clave de ordenación
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=Introducir una clave para ordenar según:
 SortkeyBuilder.DialogTitle.Label.Key=Clave:
 SortkeyBuilder.DialogTitle.Label.Direction=Dirección:
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Nueva condición de filtro
 FilterConditionBuilder.DialogTitle.Edit=Editar condición de filtro
-FilterConditionBuilder.DialogMessage.New=Nueva condición de filtro
-FilterConditionBuilder.DialogMessage.Edit=Editar condición de filtro
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 FilterConditionBuilder.tooltip.ExpBuilder=Hacer clic para llamar al compilador de expresiones.
 FilterConditionBuilder.text.AND=Y
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=Lista
 BindingDialogHelper.text.Group=Grupo
 BindingDialogHelper.text.Expression=Expresión:
 BindingDialogHelper.text.displayName=Nombre en pantalla:
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node

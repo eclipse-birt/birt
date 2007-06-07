@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=本地 JavaScript 函数
 ExpressionProvider.Category.ColumnBinding=可用列绑定
 ExpressionProvider.Category.Operators=运算符
 ExpressionProvider.Category.Parameters=报表参数
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---全部---
 ExpressionProvider.Operator.Add=将两个值相加。
 ExpressionProvider.Operator.AddTo=在当前值上加值的快捷方式。
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=添加/编辑映射规则
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=新建排序关键字
 SortkeyBuilder.DialogTitle.Edit=编辑排序关键字
-SortkeyBuilder.DialogMessage.New=新建排序关键字
-SortkeyBuilder.DialogMessage.Edit=编辑排序关键字
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=新建筛选条件
 FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
-FilterConditionBuilder.DialogMessage.New=新建筛选条件
-FilterConditionBuilder.DialogMessage.Edit=编辑筛选条件
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
 FilterConditionBuilder.tooltip.ExpBuilder=单击以调用表达式生成器。
 FilterConditionBuilder.text.AND=AND
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=列表
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式:
 BindingDialogHelper.text.displayName=显示名称:
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node

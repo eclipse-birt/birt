@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=고유 JavaScript 함수
 ExpressionProvider.Category.ColumnBinding=사용 가능한 열 바인딩
 ExpressionProvider.Category.Operators=연산자
 ExpressionProvider.Category.Parameters=보고서 매개 변수
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---모두---
 ExpressionProvider.Operator.Add=두 값을 함께 추가합니다.
 ExpressionProvider.Operator.AddTo=바로 가기(현재 값에 추가).
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=새 정렬 키
 SortkeyBuilder.DialogTitle.Edit=정렬 키 편집
-SortkeyBuilder.DialogMessage.New=새 정렬 키
-SortkeyBuilder.DialogMessage.Edit=정렬 키 편집
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키:
 SortkeyBuilder.DialogTitle.Label.Direction=방향:
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=새 필터 조건
 FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
-FilterConditionBuilder.DialogMessage.New=새 필터 조건
-FilterConditionBuilder.DialogMessage.Edit=필터 조건 편집
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
 FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
 FilterConditionBuilder.text.AND=및 
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=목록
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식:
 BindingDialogHelper.text.displayName=표시 이름:
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node

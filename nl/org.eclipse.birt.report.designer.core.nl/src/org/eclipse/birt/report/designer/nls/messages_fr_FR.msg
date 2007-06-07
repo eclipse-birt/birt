@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=Fonctions JavaScript natives
 ExpressionProvider.Category.ColumnBinding=Liaisons de colonnes disponibles
 ExpressionProvider.Category.Operators=Opérateurs
 ExpressionProvider.Category.Parameters=Paramètres de l'état
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---Tout---
 ExpressionProvider.Operator.Add=Ajoute deux valeurs ensemble.
 ExpressionProvider.Operator.AddTo=Raccourci pour ajouter à la valeur actuelle.
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de mappage
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Nouvelle clé de tri
 SortkeyBuilder.DialogTitle.Edit=Modifier clé de tri
-SortkeyBuilder.DialogMessage.New=Nouvelle clé de tri
-SortkeyBuilder.DialogMessage.Edit=Modifier clé de tri
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=Direction :
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Nouvelle condition de filtre
 FilterConditionBuilder.DialogTitle.Edit=Modifier la condition de filtre
-FilterConditionBuilder.DialogMessage.New=Nouvelle condition de filtre
-FilterConditionBuilder.DialogMessage.Edit=Modifier la condition de filtre
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valeur de l'élément de données
 FilterConditionBuilder.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur d'expression.
 FilterConditionBuilder.text.AND=AND
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=Expression :
 BindingDialogHelper.text.displayName=Afficher le nom :
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node

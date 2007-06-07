@@ -1285,6 +1285,7 @@ ExpressionProvider.Category.NativeObjects=ネイディブ JavaScript 関数
 ExpressionProvider.Category.ColumnBinding=使用可能なカラムバインド
 ExpressionProvider.Category.Operators=演算子
 ExpressionProvider.Category.Parameters=レポートパラメタ
+ExpressionProvider.Category.DataCubes=Current Data cube
 ExpressionProvider.Label.All=---すべて---
 ExpressionProvider.Operator.Add=2 つの値を加算します。
 ExpressionProvider.Operator.AddTo=現在の値に加算するショートカットです。
@@ -2156,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=マップ規則の追加と編集
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=ソートキーの新規作成
 SortkeyBuilder.DialogTitle.Edit=ソートキーの編集
-SortkeyBuilder.DialogMessage.New=ソートキーの新規作成
-SortkeyBuilder.DialogMessage.Edit=ソートキーの編集
+SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
+SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
 SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
 SortkeyBuilder.DialogTitle.Label.Key=キー :
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :
@@ -2168,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=フィルタの条件の新規作成
 FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
-FilterConditionBuilder.DialogMessage.New=フィルタの条件の新規作成
-FilterConditionBuilder.DialogMessage.Edit=フィルタの条件の編集
+FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
+FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
 FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリックしてしてください
 FilterConditionBuilder.text.AND=AND
@@ -3849,6 +3850,8 @@ BindingDialogHelper.text.List=リスト
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式 :
 BindingDialogHelper.text.displayName=表示名 :
+BindingDialogHelper.bindingName.dataitem=Column Binding
+BindingDialogHelper.bindingName.aggregation=Aggregation
 
 ###########################################################
 #Scripts Node
