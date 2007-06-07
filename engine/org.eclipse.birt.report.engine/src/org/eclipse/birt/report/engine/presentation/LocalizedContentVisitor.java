@@ -433,10 +433,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	private String localize( IContent content, String key, String text )
 	{
-		if(content==null || content.getGenerateBy( )==null)
+		if ( content == null || content.getGenerateBy( ) == null )
 		{
 			logger.log( Level.SEVERE, "content or report design is null!" );
-			return null;
+			return text;
 		}
 		DesignElementHandle element = ( (ReportItemDesign) content
 				.getGenerateBy( ) ).getHandle( );
