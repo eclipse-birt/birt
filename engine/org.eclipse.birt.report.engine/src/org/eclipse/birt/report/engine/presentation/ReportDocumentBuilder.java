@@ -516,6 +516,7 @@ public class ReportDocumentBuilder
 				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
 				{
+					writeTotalPage( pageNumber );
 					close( );
 					return;
 				}
