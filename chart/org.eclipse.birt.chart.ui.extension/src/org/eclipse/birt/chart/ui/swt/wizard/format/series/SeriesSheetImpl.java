@@ -559,12 +559,12 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						.getUIChartTypeExtensions( ),
 						series,
 						( (ChartWithAxes) getChart( ) ).getOrientation( ) );
-				String sDisplayName =ChartUIUtil.getSeriesDisplayName( series );
+				String sDisplayName = series.getDisplayName( );
 				cmbTypes.setText( sDisplayName );
 			}
 			else
 			{
-				String seriesName = ChartUIUtil.getSeriesDisplayName( series );
+				String seriesName = series.getDisplayName( );
 				cmbTypes.add( seriesName );
 				cmbTypes.select( 0 );
 			}
@@ -589,7 +589,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					if ( !( newSeries instanceof StockSeries )
 							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
 					{
-						String sDisplayName = ChartUIUtil.getSeriesDisplayName( newSeries );
+						String sDisplayName = newSeries.getDisplayName( );
 						htSeriesNames.put( sDisplayName, newSeries );
 						cmbTypes.add( sDisplayName );
 					}

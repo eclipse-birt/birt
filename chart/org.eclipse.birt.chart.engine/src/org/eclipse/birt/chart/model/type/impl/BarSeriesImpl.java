@@ -509,6 +509,16 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "BarSeriesImpl.displayName" ); //$NON-NLS-1$
+		switch ( this.getRiser( ).getValue( ) )
+		{
+			case RiserType.TRIANGLE: 
+				return Messages.getString( "BarSeriesImpl.pyramidDisplayName" ); //$NON-NLS-1$
+			case RiserType.CONE:
+				return Messages.getString( "BarSeriesImpl.coneDisplayName" ); //$NON-NLS-1$
+			case RiserType.TUBE:
+				return Messages.getString( "BarSeriesImpl.tubeDisplayName" ); //$NON-NLS-1$
+			default:
+				return Messages.getString( "BarSeriesImpl.displayName" ); //$NON-NLS-1$
+		}
 	}
 } // BarSeriesImpl

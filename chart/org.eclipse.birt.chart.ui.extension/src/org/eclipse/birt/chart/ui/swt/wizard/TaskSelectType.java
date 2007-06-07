@@ -542,7 +542,7 @@ public class TaskSelectType extends SimpleTask implements
 				if ( !( newSeries instanceof StockSeries )
 						|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
 				{
-					String sDisplayName = ChartUIUtil.getSeriesDisplayName( newSeries );
+					String sDisplayName = newSeries.getDisplayName( );
 					htSeriesNames.put( sDisplayName, newSeries );
 					cbSeriesType.add( sDisplayName );
 				}
@@ -715,8 +715,8 @@ public class TaskSelectType extends SimpleTask implements
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
 				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName =ChartUIUtil.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( ) );
+				String sDisplayName =( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+								.get( 0 ) ).getDesignTimeSeries( ) .getDisplayName( );
 				cbSeriesType.setText( sDisplayName );
 			}
 			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
@@ -926,7 +926,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else
 		{
-			String seriesName = ChartUIUtil.getSeriesDisplayName( series );
+			String seriesName = series.getDisplayName( );;
 			cbSeriesType.add( seriesName );
 			cbSeriesType.select( 0 );
 		}
@@ -939,8 +939,8 @@ public class TaskSelectType extends SimpleTask implements
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
 				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName =ChartUIUtil.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( ) );
+				String sDisplayName =( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+								.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
 				cbSeriesType.setText( sDisplayName );
 			}
 		}
