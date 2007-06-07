@@ -52,7 +52,6 @@ import org.eclipse.swt.widgets.TreeItem;
 public class AxisSheetImpl extends SubtaskSheetImpl
 {
 
-	private static final int LABEL_WIDTH_HINT = 100;
 	private static final int HORIZONTAL_SPACING = 10;
 
 	public void createControl( Composite parent )
@@ -103,7 +102,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblAxis.setLayoutData( gd );
 			lblAxis.setFont( JFaceResources.getBannerFont( ) );
 			lblAxis.setText( Messages.getString( "AxisSheetImpl.Label.Axis" ) ); //$NON-NLS-1$
@@ -113,7 +111,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblVisible.setLayoutData( gd );
 			lblVisible.setFont( JFaceResources.getBannerFont( ) );
 			lblVisible.setText( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
@@ -123,7 +120,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblType.setLayoutData( gd );
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "AxisSheetImpl.Label.Type" ) ); //$NON-NLS-1$
@@ -133,7 +129,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
-			gd.widthHint = LABEL_WIDTH_HINT;
 			lblColor.setLayoutData( gd );
 			lblColor.setFont( JFaceResources.getBannerFont( ) );
 			lblColor.setText( Messages.getString( "AxisSheetImpl.Label.Color" ) ); //$NON-NLS-1$
@@ -194,7 +189,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			linkAxis = new Link( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.widthHint = LABEL_WIDTH_HINT;
 				linkAxis.setLayoutData( gd );
 				linkAxis.setText( "<a>" + axisName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
 				linkAxis.addSelectionListener( this );
@@ -213,7 +207,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalAlignment = SWT.CENTER;
-				gd.widthHint = LABEL_WIDTH_HINT;
 				cmbTypes.setLayoutData( gd );
 				NameSet ns = LiteralHelper.axisTypeSet;
 				cmbTypes.setItems( ns.getDisplayNames( ) );
@@ -230,7 +223,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					| SWT.READ_ONLY, getContext( ), clrCurrent, false, false );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.widthHint = LABEL_WIDTH_HINT;
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
 			}
