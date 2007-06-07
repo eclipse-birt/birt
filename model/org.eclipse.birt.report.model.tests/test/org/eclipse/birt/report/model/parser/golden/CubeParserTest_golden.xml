@@ -121,7 +121,7 @@
                         <tabular-hierarchy name="NewTabularHierarchy1" id="15"/>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="NewTabularDimension" id="13">
+                <tabular-dimension name="Group" id="13">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy" id="14"/>
