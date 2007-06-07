@@ -8,7 +8,11 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.viewer.utilities;
+
+import org.eclipse.birt.report.engine.api.EngineConstants;
+
 
 /**
  * Interface used to find classpath based on projects or workspace
@@ -16,6 +20,9 @@ package org.eclipse.birt.report.viewer.utilities;
  */
 public interface IWorkspaceClasspathFinder
 {
+	// separator
+	public static final String PROPERTYSEPARATOR = EngineConstants.PROPERTYSEPARATOR;
+	
 	/**
 	 * Get classpath based on the provided project names (separated by ;)
 	 * 

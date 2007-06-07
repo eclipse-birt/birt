@@ -32,9 +32,6 @@ import org.eclipse.jdt.core.JavaCore;
  */
 public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 {
-
-	private static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$
-
 	public WorkspaceClassPathFinder( )
 	{
 	}
