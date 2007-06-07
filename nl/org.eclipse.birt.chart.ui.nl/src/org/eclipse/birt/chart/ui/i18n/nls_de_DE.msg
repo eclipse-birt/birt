@@ -85,6 +85,3 @@ ChartUIUtil.BubbleExp.Label=Y-Wert
 ChartUIUtil.BubbleExp.Size=Größe
 ChartUIUtil.DifferenceExp.Postive=Positiv
 ChartUIUtil.DifferenceExp.Negative=Negativ
-ChartUIUtil.txt.PyramidSeries=Pyramid Series
-ChartUIUtil.txt.ConeSeries=Cone Series
-ChartUIUtil.txt.TubeSeries=Tube Series
