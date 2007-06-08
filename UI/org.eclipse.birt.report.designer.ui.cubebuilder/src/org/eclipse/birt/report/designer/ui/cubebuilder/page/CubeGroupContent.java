@@ -341,6 +341,7 @@ public class CubeGroupContent extends Composite implements Listener
 						event.detail = DND.DROP_NONE;
 						return;
 					}
+					else event.detail = DND.DROP_MOVE;
 
 					Object obj = (Object) dragSourceItems[0].getData( );
 					ResultSetColumnHandle dataField = null;
