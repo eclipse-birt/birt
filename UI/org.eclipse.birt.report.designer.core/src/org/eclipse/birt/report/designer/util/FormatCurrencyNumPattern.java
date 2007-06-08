@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
+
+import com.ibm.icu.util.Currency;
 
 /**
  * A pattern class serves for getting and setting pattern string for a currency.
@@ -28,7 +31,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 
 	private static String[] symbols = {
 			// "none", "£¤","$", "?", "¡ê"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			Messages.getString( "FormatNumberPage.currency.symbol.none" ),
+			Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
+			"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
 	/**
@@ -105,10 +110,10 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		 * For currency, there is no default pattern, because DTE not support
 		 * "currency" as a predefined pattern string.
 		 */
-		//		if ( pattern.equals( DEFAULT_CURRENCY_PATTERN ) )
-		//		{
-		//			return getCategory( );
-		//		}
+		// if ( pattern.equals( DEFAULT_CURRENCY_PATTERN ) )
+		// {
+		// return getCategory( );
+		// }
 		return pattern;
 	}
 
@@ -160,7 +165,8 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	}
 
 	/**
-	 *  Get decPlaces.
+	 * Get decPlaces.
+	 * 
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -169,7 +175,8 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	}
 
 	/**
-	 *  Set decPaces
+	 * Set decPaces
+	 * 
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -212,7 +219,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		this.useBracket = useBracket;
 	}
 
-	/** Get symbeol
+	/**
+	 * Get symbeol
+	 * 
 	 * @return Returns the symbol.
 	 */
 	public String getSymbol( )
@@ -220,7 +229,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		return symbol;
 	}
 
-	/** Set symbol
+	/**
+	 * Set symbol
+	 * 
 	 * @param symbol
 	 *            The symbol to set.
 	 */
@@ -229,7 +240,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		this.symbol = symbol;
 	}
 
-	/** get SysmPos
+	/**
+	 * get SysmPos
+	 * 
 	 * @return Returns the symPos.
 	 */
 	public String getSymPos( )
@@ -237,7 +250,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		return symPos;
 	}
 
-	/** Set symPos
+	/**
+	 * Set symPos
+	 * 
 	 * @param symPos
 	 *            The symPos to set.
 	 */

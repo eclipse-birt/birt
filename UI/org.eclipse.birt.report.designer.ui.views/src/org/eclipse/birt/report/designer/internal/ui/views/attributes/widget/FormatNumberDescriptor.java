@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatChangeListener;
@@ -50,6 +52,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.Currency;
 
 /**
  * Format number page for formatting numbers.
@@ -95,12 +99,16 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final int FORMAT_TYPE_INDEX = 0;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
-	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	private static final String DEFAULT_PREVIEW_TEXT = "1234.56";
+	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+			.format( 1234.56 );
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
 	private static String[] symbols = {
-			// "none", "��","$", "?", "��"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			// "none", "锟斤拷","$", "?", "锟斤拷"
+			Messages.getString( "FormatNumberPage.currency.symbol.none" ),
+			Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
+			"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
 	private CCombo typeChoicer;
@@ -439,7 +447,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		setEnabled( true );
 		String[] result = (String[]) provider.load( );
-		if( result == null )
+		if ( result == null )
 			return;
 		if ( result.length == 1 )
 			setInput( result[0] );
@@ -1217,11 +1225,13 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		setting.setText( LABEL_CURRENCY_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
-		if(isFormStyle( )){
-			layout.marginHeight =3;
+		if ( isFormStyle( ) )
+		{
+			layout.marginHeight = 3;
 			layout.verticalSpacing = 4;
 		}
-		else{
+		else
+		{
 			layout.marginHeight = 0;
 			layout.verticalSpacing = 1;
 		}
@@ -1263,9 +1273,10 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			cSymbolChoice = new CCombo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		else
 			cSymbolChoice = FormWidgetFactory.getInstance( )
-					.createCCombo( setting,  true );
+					.createCCombo( setting, true );
 
 		cSymbolChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+
 		cSymbolChoice.setItems( symbols );
 		cSymbolChoice.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1297,7 +1308,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			cSymPosChoice = new CCombo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		else
 			cSymPosChoice = FormWidgetFactory.getInstance( )
-					.createCCombo( setting,true );
+					.createCCombo( setting, true );
 
 		cSymPosChoice.setItems( new String[]{
 				FormatNumberPattern.SYMBOL_POSITION_AFTER,
@@ -1318,9 +1329,9 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 					| SWT.V_SCROLL );
 		else
 			cNegNumChoice = FormWidgetFactory.getInstance( )
-					.createList( setting,  SWT.SINGLE  | SWT.V_SCROLL );
-		cNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		cNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
+		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$
+		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_BOTH );
 		cNegNumChoice.setLayoutData( data );
 		cNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1337,11 +1348,13 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		setting.setText( LABEL_FIXED_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
-		if(isFormStyle( )){
-			layout.marginHeight =3;
+		if ( isFormStyle( ) )
+		{
+			layout.marginHeight = 3;
 			layout.verticalSpacing = 4;
 		}
-		else{
+		else
+		{
 			layout.marginHeight = 0;
 			layout.verticalSpacing = 1;
 		}
@@ -1395,8 +1408,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			fNegNumChoice = FormWidgetFactory.getInstance( )
 					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
 
-		fNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		fNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		fNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$
+		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
 		gData = new GridData( GridData.FILL_BOTH );
 		fNegNumChoice.setLayoutData( gData );
 		fNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1414,11 +1427,13 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		setting.setText( LABEL_PERCENT_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
-		if(isFormStyle( )){
-			layout.marginHeight =3;
+		if ( isFormStyle( ) )
+		{
+			layout.marginHeight = 3;
 			layout.verticalSpacing = 4;
 		}
-		else{
+		else
+		{
 			layout.marginHeight = 0;
 			layout.verticalSpacing = 1;
 		}
@@ -1468,7 +1483,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			pSymPosChoice = new CCombo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		else
 			pSymPosChoice = FormWidgetFactory.getInstance( )
-					.createCCombo( setting,  true );
+					.createCCombo( setting, true );
 		pSymPosChoice.setItems( new String[]{
 				FormatNumberPattern.SYMBOL_POSITION_AFTER,
 				FormatNumberPattern.SYMBOL_POSITION_BEFORE
@@ -1488,8 +1503,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		else
 			pNegNumChoice = FormWidgetFactory.getInstance( )
 					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
-		pNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		pNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		pNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
+		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
 		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		pNegNumChoice.addSelectionListener( mySelectionListener );
 		pNegNumChoice.select( 0 );
@@ -1510,11 +1525,10 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 				isFormStyle( ) );
 		label.setText( LABEL_DECIMAL_PLACES );
 		if ( !isFormStyle( ) )
-			sPlacesChoice = new CCombo( group, SWT.BORDER
-					| SWT.V_SCROLL );
+			sPlacesChoice = new CCombo( group, SWT.BORDER | SWT.V_SCROLL );
 		else
 			sPlacesChoice = FormWidgetFactory.getInstance( )
-					.createCCombo( group, false);
+					.createCCombo( group, false );
 
 		sPlacesChoice.setItems( new String[]{
 				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
