@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -20,6 +19,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -49,29 +49,29 @@ public class GradientEditorDialog extends TrayDialog
 			IAngleChangeListener
 {
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient Composite cmpGeneral = null;
+	private Composite cmpGeneral = null;
 
-	private transient FillChooserComposite fccStartColor = null;
+	private FillChooserComposite fccStartColor = null;
 
-	private transient FillChooserComposite fccEndColor = null;
+	private FillChooserComposite fccEndColor = null;
 
-	private transient Button cbCyclic = null;
+	private Button cbCyclic = null;
 
-	private transient Group grpRotation = null;
+	private Group grpRotation = null;
 
-	private transient AngleSelectorComposite ascRotation = null;
+	private AngleSelectorComposite ascRotation = null;
 
-	private transient IntegerSpinControl iscRotation = null;
+	private IntegerSpinControl iscRotation = null;
 
-	private transient Gradient gCurrent = null;
+	private Gradient gCurrent = null;
 
-	private transient Gradient gBackup = null;
+	private Gradient gBackup = null;
 
-	private transient FillCanvas cnvPreview = null;
+	private FillCanvas cnvPreview = null;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
 	/**
 	 * 
@@ -90,8 +90,7 @@ public class GradientEditorDialog extends TrayDialog
 		}
 		else
 		{
-			gCurrent = AttributeFactory.eINSTANCE.createGradient( );
-			setGradientColor( gCurrent, selectedColor );
+			gCurrent = FillUtil.createDefaultGradient( selectedColor );
 		}
 	}
 
@@ -299,49 +298,6 @@ public class GradientEditorDialog extends TrayDialog
 	{
 		iscRotation.setValue( iNewAngle );
 		gCurrent.setDirection( iNewAngle );
-	}
-
-	private int convertRGBToLuminance( int red, int green, int blue )
-	{
-		return (int) ( 0.3 * red + 0.59 * green + 0.11 * blue );
-	}
-
-	private int getNewColor( int lumDiff, int oldColor, double coefficient )
-	{
-		int newColor = (int) ( lumDiff * coefficient ) + oldColor;
-		return newColor < 255 ? newColor : 255;
-	}
-
-	private void setGradientColor( Gradient gradient,
-			ColorDefinition selectedColor )
-	{
-		int currentLuminance = convertRGBToLuminance( selectedColor.getRed( ),
-				selectedColor.getGreen( ),
-				selectedColor.getBlue( ) );
-		if ( currentLuminance < 200 )
-		{
-			gradient.setStartColor( selectedColor );
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
-			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
-
-			int lumDiff = 240 - currentLuminance;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setEndColor( newColor );
-		}
-		else
-		{
-			gradient.setEndColor( selectedColor );
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
-			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
-
-			int lumDiff = -100;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setStartColor( newColor );
-		}
 	}
 
 }
