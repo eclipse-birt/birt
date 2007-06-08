@@ -14,7 +14,7 @@ feature@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.example=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
+feature@org.eclipse.birt.chart.runtime=v20070608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
 feature@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
