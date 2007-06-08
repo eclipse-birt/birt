@@ -1011,7 +1011,8 @@ public class DEUtil
 		{
 			LevelAttributeHandle levelAttri = (LevelAttributeHandle) model;
 			String levelName = levelAttri.getElement( ).getName( );
-			DesignElementHandle temp = levelAttri.getElementHandle( ).getContainer( );
+			DesignElementHandle temp = levelAttri.getElementHandle( )
+					.getContainer( );
 			String dimensionName = "";
 			while ( temp != null )
 			{
@@ -2123,13 +2124,13 @@ public class DEUtil
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
-						|| ( (ReportItemHandle) handle ).getCube( ) != null )
-					if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-							|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-									.hasNext( ) )
-					{
-						return (ReportItemHandle) handle;
-					}
+						|| ( (ReportItemHandle) handle ).getCube( ) != null
+						|| ( (ReportItemHandle) handle ).getDataSet( ) != null
+						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
+								.hasNext( ) )
+				{
+					return (ReportItemHandle) handle;
+				}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
 			if ( result == null
