@@ -105,7 +105,6 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public AbstractContent( IContent content )
 	{
-		assert ( content != null && content instanceof ReportContent );
 		this.report = content.getReportContent( );
 		this.parent = content.getReportContent( ).getRoot( );
 		this.cssEngine = ( (ReportContent) content.getReportContent( ) ).getCSSEngine( );
