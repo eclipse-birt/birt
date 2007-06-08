@@ -2038,7 +2038,11 @@ public abstract class Module extends DesignElement
 	{
 		if ( !StringUtil.isBlank( units ) )
 			return units;
-		return (String) getPropertyDefn( UNITS_PROP ).getDefault( );
+		String tempUnits = (String) getPropertyDefn( UNITS_PROP ).getDefault( );
+		if( !StringUtil.isBlank( tempUnits ))
+			return tempUnits;
+		//see bugzilla 191168.
+		return getSession( ).getUnits( );
 	}
 
 	/**
