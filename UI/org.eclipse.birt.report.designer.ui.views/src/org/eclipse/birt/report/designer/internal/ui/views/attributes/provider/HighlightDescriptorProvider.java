@@ -38,6 +38,16 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		PreviewPropertyDescriptorProvider
 {
 
+	public HighlightDescriptorProvider()
+	{		
+		super();
+	}
+	
+	public HighlightDescriptorProvider(int expressionType)
+	{		
+		super(expressionType);
+	}
+	
 	class HighlightLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{

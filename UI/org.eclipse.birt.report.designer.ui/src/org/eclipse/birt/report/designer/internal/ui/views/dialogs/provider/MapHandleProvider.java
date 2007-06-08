@@ -39,7 +39,26 @@ public class MapHandleProvider
 	private static final MapRuleHandle[] EMPTY = new MapRuleHandle[0];
 
 	protected DesignElementHandle elementHandle;
-
+	public static int EXPRESSION_TYPE_ROW = 0;
+	public static int EXPRESSION_TYPE_DATA = 1;
+	private int expressionType;
+	
+	public MapHandleProvider()
+	{		
+		super();
+		this.expressionType = EXPRESSION_TYPE_ROW;
+	}
+	
+	public MapHandleProvider(int expressionType)
+	{		
+		super();
+		this.expressionType = expressionType;
+	}
+	
+	public int getExpressionType()
+	{
+		return expressionType;
+	}
 	public URL getResourceURL( )
 	{
 		return SessionHandleAdapter.getInstance( )

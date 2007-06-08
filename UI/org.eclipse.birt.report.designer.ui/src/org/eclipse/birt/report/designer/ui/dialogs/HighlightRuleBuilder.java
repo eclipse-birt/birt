@@ -290,7 +290,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
 				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+					expression.setText( getExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
 				updateButtons( );
 			}
@@ -304,11 +304,11 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		Button expBuilder = new Button( condition, SWT.PUSH );
-//		expBuilder.setText( "..." ); //$NON-NLS-1$
-//		gdata = new GridData( );
-//		gdata.heightHint = 20;
-//		gdata.widthHint = 20;
-//		expBuilder.setLayoutData( gdata );
+		// expBuilder.setText( "..." ); //$NON-NLS-1$
+		// gdata = new GridData( );
+		// gdata.heightHint = 20;
+		// gdata.widthHint = 20;
+		// expBuilder.setLayoutData( gdata );
 		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
@@ -318,8 +318,8 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		} );
 
-		UIUtil.setExpressionButtonImage(expBuilder);
-		
+		UIUtil.setExpressionButtonImage( expBuilder );
+
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
@@ -371,7 +371,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		valBuilder1 = new Button( condition, SWT.PUSH );
-//		valBuilder1.setText( "..." ); //$NON-NLS-1$
+		// valBuilder1.setText( "..." ); //$NON-NLS-1$
 		gdata = new GridData( );
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
@@ -405,7 +405,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		value2.setVisible( false );
 
 		valBuilder2 = new Button( condition, SWT.PUSH );
-//		valBuilder2.setText( "..." ); //$NON-NLS-1$
+		// valBuilder2.setText( "..." ); //$NON-NLS-1$
 		gdata = new GridData( );
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
@@ -905,7 +905,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	 */
 	private void updateButtons( )
 	{
-		enableInput( isExpressionOK( )  );
+		enableInput( isExpressionOK( ) );
 
 		getOkButton( ).setEnabled( isConditionOK( ) );
 	}
@@ -913,9 +913,10 @@ public class HighlightRuleBuilder extends BaseDialog
 	private void enableInput( boolean val )
 	{
 		boolean val2 = val;
-		
-		stylesChooser.setEnabled(val);
-		if ( (!stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT )) || (stylesChooser.isEnabled() == false))
+
+		stylesChooser.setEnabled( val );
+		if ( ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+				|| ( stylesChooser.isEnabled( ) == false ) )
 		{
 			val2 = false;
 		}
@@ -934,8 +935,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		value2.setEnabled( val );
 		valBuilder1.setEnabled( val );
 		valBuilder2.setEnabled( val );
-		UIUtil.setExpressionButtonImage(valBuilder1);
-		UIUtil.setExpressionButtonImage(valBuilder2);
+		UIUtil.setExpressionButtonImage( valBuilder1 );
+		UIUtil.setExpressionButtonImage( valBuilder2 );
 	}
 
 	/**
@@ -974,7 +975,6 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		return checkValues( );
 	}
-	
 
 	/**
 	 * Gets if the values of the condition is(are) available.
@@ -1464,4 +1464,18 @@ public class HighlightRuleBuilder extends BaseDialog
 		updateButtons( );
 	}
 
+	protected String getExpression( String resultSet )
+	{
+		if(provider.getExpressionType( ) == HighlightHandleProvider.EXPRESSION_TYPE_ROW)
+		{
+			return DEUtil.getColumnExpression( resultSet );
+		}else
+		if(provider.getExpressionType( ) == HighlightHandleProvider.EXPRESSION_TYPE_DATA)
+		{
+			return DEUtil.getDataExpression(resultSet);
+		}
+		
+		return null;
+		
+	}
 }

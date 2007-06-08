@@ -33,6 +33,16 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		PreviewPropertyDescriptorProvider
 {
 
+	public MapDescriptorProvider()
+	{		
+		super();
+	}
+	
+	public MapDescriptorProvider(int expressionType)
+	{		
+		super(expressionType);
+	}
+	
 	class MapLabelProvider extends LabelProvider implements ITableLabelProvider
 	{
 

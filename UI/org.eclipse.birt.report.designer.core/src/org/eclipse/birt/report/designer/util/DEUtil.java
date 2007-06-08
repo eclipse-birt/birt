@@ -1648,6 +1648,16 @@ public class DEUtil
 		return ExpressionUtil.createJSRowExpression( columnName );
 	}
 
+	public static String getDataExpression( String columnName )
+	{
+		Assert.isNotNull( columnName );
+		if ( StringUtil.isBlank( columnName ) )
+		{
+			return null;
+		}
+		return ExpressionUtil.createJSDataExpression( columnName );
+	}
+	
 	/**
 	 * Create a row expression base on a result set column name.
 	 * 

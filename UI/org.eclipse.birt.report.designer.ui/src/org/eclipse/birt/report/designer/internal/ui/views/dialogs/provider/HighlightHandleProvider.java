@@ -40,6 +40,27 @@ public class HighlightHandleProvider
 
 	protected DesignElementHandle elementHandle;
 
+	public static int EXPRESSION_TYPE_ROW = 0;
+	public static int EXPRESSION_TYPE_DATA = 1;
+	private int expressionType;
+	
+	public HighlightHandleProvider()
+	{		
+		super();
+		this.expressionType = EXPRESSION_TYPE_ROW;
+	}
+	
+	public HighlightHandleProvider(int expressionType)
+	{		
+		super();
+		this.expressionType = expressionType;
+	}
+	
+	public int getExpressionType()
+	{
+		return expressionType;
+	}
+	
 	/**
 	 * Returns the final font family name.
 	 * 

@@ -21,6 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ma
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabBindingPage;
@@ -104,7 +106,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 			{
 				mapPage = new PreviewPage( true );
 				mapPage.setPreview( new MapPropertyDescriptor( true ) );
-				mapPage.setProvider( new MapDescriptorProvider( ) );
+				mapPage.setProvider( new MapDescriptorProvider( MapHandleProvider.EXPRESSION_TYPE_DATA ) );
 				setPageInput( mapPage );
 				refresh( tabFolder, mapPage, true );
 				item.setControl( mapPage.getControl( ) );
@@ -114,7 +116,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 			{
 				highlightsPage = new PreviewPage( true );
 				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-				highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
+				highlightsPage.setProvider( new HighlightDescriptorProvider( HighlightHandleProvider.EXPRESSION_TYPE_DATA) );
 				setPageInput( highlightsPage );
 				refresh( tabFolder, highlightsPage, true );
 				item.setControl( highlightsPage.getControl( ) );
