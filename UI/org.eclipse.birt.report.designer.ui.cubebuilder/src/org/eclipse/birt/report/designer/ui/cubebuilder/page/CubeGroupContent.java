@@ -341,8 +341,6 @@ public class CubeGroupContent extends Composite implements Listener
 						event.detail = DND.DROP_NONE;
 						return;
 					}
-					else
-						event.detail = DND.DROP_DEFAULT;
 
 					Object obj = (Object) dragSourceItems[0].getData( );
 					ResultSetColumnHandle dataField = null;
@@ -590,7 +588,7 @@ public class CubeGroupContent extends Composite implements Listener
 											.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
 									{
 										measureGroup = DesignElementFactory.getInstance( )
-												.newTabularMeasureGroup( "Summary Field" ); //$NON-NLS-1$
+												.newTabularMeasureGroup( null ); //$NON-NLS-1$
 										input.add( CubeHandle.MEASURE_GROUPS_PROP,
 												measureGroup );
 										if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
@@ -668,7 +666,7 @@ public class CubeGroupContent extends Composite implements Listener
 													.equals( VirtualField.TYPE_DIMENSION ) )
 									{
 										dimension = DesignElementFactory.getInstance( )
-												.newTabularDimension( "Group" ); //$NON-NLS-1$
+												.newTabularDimension( null ); //$NON-NLS-1$
 										input.add( CubeHandle.DIMENSIONS_PROP,
 												dimension );
 									}
@@ -1260,7 +1258,7 @@ public class CubeGroupContent extends Composite implements Listener
 							.getCommandStack( )
 							.startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-							.newTabularMeasureGroup( null ); 
+							.newTabularMeasureGroup( null );
 					try
 					{
 						model.getElementHandle( )
@@ -1268,8 +1266,7 @@ public class CubeGroupContent extends Composite implements Listener
 										measureGroup );
 						if ( model.getElementHandle( )
 								.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-							((CubeHandle)model.getElementHandle( ))
-									.setDefaultMeasureGroup( measureGroup );
+							( (CubeHandle) model.getElementHandle( ) ).setDefaultMeasureGroup( measureGroup );
 					}
 					catch ( SemanticException e1 )
 					{
