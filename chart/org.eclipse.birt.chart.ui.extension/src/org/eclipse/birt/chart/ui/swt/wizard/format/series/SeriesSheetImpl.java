@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
@@ -63,7 +65,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * "Series" subtask. Attention: the series layout order must be consistent with
- * series items in the naviagor tree.
+ * series items in the navigator tree.
  * 
  */
 public class SeriesSheetImpl extends SubtaskSheetImpl implements
@@ -77,7 +79,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private ITaskPopupSheet popup = null;
 	
-	private static final int LABEL_WIDTH_HINT = 80;
+	private static final int COLUMN_DETAIL = 6;
 	private static final int HORIZONTAL_SPACING = 5;
 
 	private transient Composite cmpList = null;
@@ -86,9 +88,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
-		final int COLUMN_DETAIL = 6;
-		final int COMPOSITE_WIDTH = ( LABEL_WIDTH_HINT + HORIZONTAL_SPACING )
-				* COLUMN_DETAIL;
+		
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
 			public Point computeSize( int wHint, int hHint, boolean changed )
@@ -130,21 +130,20 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			gd.heightHint = 120;
 			cmpScroll.setLayoutData( gd );
 
-			cmpScroll.setMinHeight( ( ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) )
-					.size( ) + 1 ) * 24 + 40 );
-			cmpScroll.setMinWidth( COMPOSITE_WIDTH );
 			cmpScroll.setExpandVertical( true );
 			cmpScroll.setExpandHorizontal( true );
 		}
 
 		createSeriesOptions( cmpScroll );
 
+		Point childSize = cmpList.computeSize( -1, -1 );
+		cmpScroll.setMinSize( childSize );
+		
 		createButtonGroup( cmpContent );
 	}
 
 	private void createSeriesOptions( ScrolledComposite cmpScroll )
 	{
-		final int COLUMN_DETAIL = 6;
 		if ( cmpList == null || cmpList.isDisposed( ) )
 		{
 			cmpList = new Composite( cmpScroll, SWT.NONE );
@@ -166,7 +165,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblSeries = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblSeries.setLayoutData( gd );
 			lblSeries.setFont( JFaceResources.getBannerFont( ) );
@@ -175,7 +174,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblTitle = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblTitle.setLayoutData( gd );
 			lblTitle.setFont( JFaceResources.getBannerFont( ) );
@@ -184,7 +183,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblType = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblType.setLayoutData( gd );
 			lblType.setFont( JFaceResources.getBannerFont( ) );
@@ -193,7 +192,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblVisible.setLayoutData( gd );
 			lblVisible.setFont( JFaceResources.getBannerFont( ) );
@@ -202,7 +201,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblStack = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblStack.setLayoutData( gd );
 			lblStack.setFont( JFaceResources.getBannerFont( ) );
@@ -211,7 +210,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		Label lblTranslucent = new Label( cmpList, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
 			lblTranslucent.setLayoutData( gd );
 			lblTranslucent.setFont( JFaceResources.getBannerFont( ) );
