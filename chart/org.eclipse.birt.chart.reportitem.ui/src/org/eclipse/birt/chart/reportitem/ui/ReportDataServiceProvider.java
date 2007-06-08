@@ -153,11 +153,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			QueryDefinition queryDefn = new QueryDefinition( );
-			queryDefn.setMaxRows( getMaxRow( ) );
+		    int maxRow = getMaxRow( );
+			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
-
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.CACHE_USE_ALWAYS,
-					getReportDesignHandle( ) ) );
+			
+			DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					getReportDesignHandle( ) );
+			dsc.setCacheOption( DataSessionContext.CACHE_USE_ALWAYS, maxRow );
+			
+			DataRequestSession session = DataRequestSession.newSession( dsc );
 			for ( int i = 0; i < columnExpression.length; i++ )
 			{
 				queryDefn.addResultSetExpression( columnExpression[i],
