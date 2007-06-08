@@ -856,62 +856,90 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// out put the background and width
 		if ( page != null )
 		{
-				IStyle classStyle = page.getStyle();
-				StringBuffer styleBuffer = new StringBuffer( );
-				// build the background
-				AttributeBuilder.buildBackgroundStyle( styleBuffer, classStyle, this );
-				if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+			StringBuffer styleBuffer = new StringBuffer( );
+			IStyle classStyle = page.getStyle();
+			// build the background
+			AttributeBuilder.buildBackgroundStyle( styleBuffer, classStyle, this );
+			if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+			{
+				// build the width
+				DimensionType width = page.getPageWidth();
+				if (width != null)
 				{
-					// build the width
-					DimensionType width = page.getPageWidth();
-					if (width != null)
-					{
-						styleBuffer.append( " width:" );
-						styleBuffer.append( width.toString( ) );
-						styleBuffer.append(";");
-					}
-					// hide the overflow
-					styleBuffer.append(" overflow: hidden;");
+					styleBuffer.append( " width:" );
+					styleBuffer.append( width.toString( ) );
+					styleBuffer.append(";");
 				}
-			// Build MasterPage's margin as padding.
+				
+				// hide the overflow
+				styleBuffer.append( " overflow: hidden;" );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			
+			// Begine to implement the Masterpage's magins
 			if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 			{
 				Object genBy = page.getGenerateBy( );
-				if ( genBy instanceof SimpleMasterPageDesign )
+				if ( genBy instanceof MasterPageDesign )
 				{
-					SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
-					String padding = SimpleMasterPage.getLeftMargin( )
-							.toString( );
-					if ( null != padding )
+					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+					DimensionType topMargin = masterPage.getTopMargin( );
+					DimensionType leftMargin = masterPage.getLeftMargin( );
+					DimensionType rightMargin = masterPage.getRightMargin( );
+
+					writer.openTag( HTMLTags.TAG_TABLE );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							" table-layout:fixed; width:100%;" );
+
+					writer.openTag( HTMLTags.TAG_COL );
+					if ( null != leftMargin )
 					{
-						styleBuffer.append( "padding-left: " );
-						styleBuffer.append( padding );
+						styleBuffer.setLength( 0 );
+						styleBuffer.append( "width: " );
+						styleBuffer.append( leftMargin.toString( ) );
 						styleBuffer.append( ";" );
+						writer.attribute( HTMLTags.ATTR_STYLE,
+								styleBuffer.toString( ) );
 					}
-					padding = SimpleMasterPage.getTopMargin( ).toString( );
-					if ( null != padding )
+					writer.closeNoEndTag( );
+
+					writer.openTag( HTMLTags.TAG_COL );
+					writer.closeNoEndTag( );
+
+					writer.openTag( HTMLTags.TAG_COL );
+					if ( null != rightMargin )
 					{
-						styleBuffer.append( "padding-top: " );
-						styleBuffer.append( padding );
+						styleBuffer.setLength( 0 );
+						styleBuffer.append( "width: " );
+						styleBuffer.append( rightMargin.toString( ) );
 						styleBuffer.append( ";" );
+						writer.attribute( HTMLTags.ATTR_STYLE,
+								styleBuffer.toString( ) );
 					}
-					padding = SimpleMasterPage.getRightMargin( ).toString( );
-					if ( null != padding )
+					writer.closeNoEndTag( );
+
+					writer.openTag( HTMLTags.TAG_TR );
+					if ( null != topMargin )
 					{
-						styleBuffer.append( "padding-right: " );
-						styleBuffer.append( padding );
+						styleBuffer.setLength( 0 );
+						styleBuffer.append( "height: " );
+						styleBuffer.append( topMargin.toString( ) );
 						styleBuffer.append( ";" );
+						writer.attribute( HTMLTags.ATTR_STYLE,
+								styleBuffer.toString( ) );
 					}
-					padding = SimpleMasterPage.getBottomMargin( ).toString( );
-					if ( null != padding )
-					{
-						styleBuffer.append( "padding-bottom: " );
-						styleBuffer.append( padding );
-						styleBuffer.append( ";" );
-					}
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+					writer.closeTag( HTMLTags.TAG_TD );
+					writer.closeTag( HTMLTags.TAG_TR );
+
+					writer.openTag( HTMLTags.TAG_TR );
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.closeTag( HTMLTags.TAG_TD );
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
 				}
 			}
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
 		
 		if ( htmlRtLFlag )
@@ -1051,6 +1079,41 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 					// close the page footer
 					writer.closeTag( HTMLTags.TAG_DIV );
+				}
+			}
+			
+
+			// End to implement the Masterpage's right magin and left magin as
+			// padding
+			if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+			{
+				Object genBy = page.getGenerateBy( );
+				if ( genBy instanceof MasterPageDesign )
+				{
+					writer.closeTag( HTMLTags.TAG_TD );
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.closeTag( HTMLTags.TAG_TD );
+					writer.closeTag( HTMLTags.TAG_TR );
+
+					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+					DimensionType bottomMargin = masterPage.getTopMargin( );
+
+					writer.openTag( HTMLTags.TAG_TR );
+					if ( null != bottomMargin )
+					{
+						StringBuffer styleBuffer = new StringBuffer( );
+						styleBuffer.append( "height: " );
+						styleBuffer.append( bottomMargin.toString( ) );
+						styleBuffer.append( ";" );
+						writer.attribute( HTMLTags.ATTR_STYLE,
+								styleBuffer.toString( ) );
+					}
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+					writer.closeTag( HTMLTags.TAG_TD );
+					writer.closeTag( HTMLTags.TAG_TR );
+
+					writer.closeTag( HTMLTags.TAG_TABLE );
 				}
 			}
 		}
