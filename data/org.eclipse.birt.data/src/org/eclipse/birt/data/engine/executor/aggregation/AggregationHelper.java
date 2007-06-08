@@ -307,8 +307,9 @@ public class AggregationHelper implements IAggrValueHolder
 			assert argDefs.length == aggrArgs[aggrIndex].length;
 			try
 			{
-				if ( aggrInfo.getArgument( ).length > argDefs.length )
-					throw new DataException( "Invalid aggregation definition");
+				if ( aggrInfo.getArgument( ).length > argDefs.length
+						&& !isFunctionCount( aggrInfo ) )
+					throw new DataException( "Invalid aggregation definition" );
 				for ( int i = 0; i < argDefs.length; i++ )
 				{
 					// Note that static arguments only need to be calculated
@@ -372,6 +373,17 @@ public class AggregationHelper implements IAggrValueHolder
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @param aggrInfo
+	 * @return
+	 */
+	private boolean isFunctionCount( IAggrInfo aggrInfo )
+	{
+		String funcName = aggrInfo.getAggregation( ).getName( );
+		return IBuildInAggregation.TOTAL_COUNT_FUNC.equals( funcName )
+				|| IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC.equals( funcName );
 	}
 	
 	/**

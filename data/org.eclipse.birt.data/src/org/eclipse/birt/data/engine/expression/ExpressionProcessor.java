@@ -261,20 +261,28 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean hasAggregation( IBaseExpression expression ) throws DataException
+	public boolean hasAggregation( IBaseExpression expression )
 	{
 		boolean hasAggregate = false;
 
-		MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
-				baseQuery,
-				null,
-				null );
+		try
+		{
+			MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
+					baseQuery,
+					null,
+					null );
 
-		helper.setDataSetMode( isDataSetMode );
-		IBaseExpression baseExpression = expression;
-		compileBaseExpression( baseExpression, helper );
-		hasAggregate = helper.getAggregateStatus( );
-		clear( );
+			helper.setDataSetMode( isDataSetMode );
+			IBaseExpression baseExpression = expression;
+			compileBaseExpression( baseExpression, helper );
+			hasAggregate = helper.getAggregateStatus( );
+			clear( );
+		}
+		catch ( DataException ex )
+		{
+			clear( );
+			return false;
+		}
 		return hasAggregate;
 	}
 

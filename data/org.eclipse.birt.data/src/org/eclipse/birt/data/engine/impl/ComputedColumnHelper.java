@@ -365,11 +365,13 @@ class ComputedColumnHelperInstance
 									dataSet.getScriptScope( ) );
 						else
 						{
-							value = ScriptEvalUtil.evaluateJSAsExpr( cx,
-									dataSet.getJSDataSetObject( ),
-									( (IScriptExpression) computedColumn[i].getExpression( ) ).getText( ),
-									"ComputedColumn",
-									0 );
+							String exprText = ( (IScriptExpression) computedColumn[i].getExpression( ) ).getText( );
+							if ( exprText != null )
+								value = ScriptEvalUtil.evaluateJSAsExpr( cx,
+										dataSet.getJSDataSetObject( ),
+										exprText,
+										"ComputedColumn",
+										0 );
 						}
 						if ( computedColumn[i] instanceof GroupComputedColumn )
 						{

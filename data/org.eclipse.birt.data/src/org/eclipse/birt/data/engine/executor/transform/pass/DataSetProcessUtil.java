@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -154,6 +155,12 @@ class DataSetProcessUtil extends RowProcessUtil
 
 				for ( int j = 0; j < exprs.length; j++ )
 				{
+					if ( exprs[j] instanceof IScriptExpression )
+					{
+						IScriptExpression scriptExpr = (IScriptExpression) exprs[j];
+						if ( scriptExpr.getText( ) == null )
+							continue;
+					}
 					compiler.compile( exprs[j], cx );
 				}
 

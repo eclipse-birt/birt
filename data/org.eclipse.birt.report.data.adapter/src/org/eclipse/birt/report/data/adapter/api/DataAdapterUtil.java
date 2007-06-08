@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
-import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -27,6 +29,68 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class DataAdapterUtil
 {
+	private static Map aggrAdapterMap = new HashMap();
+	static
+	{// map model aggregation function names to build-in function names
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_SUM,
+				IBuildInAggregation.TOTAL_SUM_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT,
+				IBuildInAggregation.TOTAL_COUNT_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN,
+				IBuildInAggregation.TOTAL_MIN_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX,
+				IBuildInAggregation.TOTAL_MAX_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE,
+				IBuildInAggregation.TOTAL_AVE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_WEIGHTEDAVG,
+				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_STDDEV,
+				IBuildInAggregation.TOTAL_STDDEV_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST,
+				IBuildInAggregation.TOTAL_FIRST_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_LAST,
+				IBuildInAggregation.TOTAL_LAST_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MODE,
+				IBuildInAggregation.TOTAL_MODE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MOVINGAVE,
+				IBuildInAggregation.TOTAL_MOVINGAVE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MEDIAN,
+				IBuildInAggregation.TOTAL_MEDIAN_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_VARIANCE,
+				IBuildInAggregation.TOTAL_VARIANCE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGSUM,
+				IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_IRR,
+				IBuildInAggregation.TOTAL_IRR_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_MIRR,
+				IBuildInAggregation.TOTAL_MIRR_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_NPV,
+				IBuildInAggregation.TOTAL_NPV_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGNPV,
+				IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT,
+				IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT,
+				IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N,
+				IBuildInAggregation.TOTAL_TOP_N_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N,
+				IBuildInAggregation.TOTAL_BOTTOM_N_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N_PERCENT,
+				IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT,
+				IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_RANK,
+				IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENTILE,
+				IBuildInAggregation.TOTAL_PERCENTILE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_TOP_QUARTILE,
+				IBuildInAggregation.TOTAL_QUARTILE_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_SUM,
+				IBuildInAggregation.TOTAL_PERCENTSUM_FUNC );
+		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_RANK,
+				IBuildInAggregation.TOTAL_RANK_FUNC );
+	}
 	/**
 	 * This method is used to register the Java Script Objects which are defined in the scope of
 	 * source ResultSet ( might be IResultSet or CubeCursor ) to target scope. One possible client
@@ -94,52 +158,19 @@ public class DataAdapterUtil
 	 * @return
 	 * @throws AdapterException
 	 */
-	public static String adaptModelAggregationType( String modelAggrType ) throws AdapterException
+	public static String adaptModelAggregationType( String modelAggrType )
+			throws AdapterException
 	{
-		if( DesignChoiceConstants.MEASURE_FUNCTION_AVERAGE.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_AVE_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_COUNT.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_COUNT_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_COUNTDISTINCT.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_FIRST.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_FIRST_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_IRR.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_IRR_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_LAST.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_LAST_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MAX.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MAX_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MEDIAN.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MEDIAN_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MIN.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MIN_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MIRR.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MIRR_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MODE.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MODE_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_MOVINGAVE.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_MOVINGAVE_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_NPV.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_NPV_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGCOUNT.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGNPV.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_RUNNINGSUM.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_STDDEV.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_STDDEV_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_SUM.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_SUM_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_VARIANCE.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_VARIANCE_FUNC;
-		if( DesignChoiceConstants.MEASURE_FUNCTION_WEIGHTEDAVG.equals( modelAggrType ) )
-			return IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC;
-		return null;
+		return (String) aggrAdapterMap.get( modelAggrType );
 	}
+	
+	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 684728008759347940L;
 		private ILinkedResult it;
 		private IResultIterator currentIterator;
 		
