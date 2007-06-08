@@ -205,7 +205,6 @@
       <plugin id="org.mortbay.jetty"/>
       <plugin id="org.mozilla.rhino"/>
       <plugin id="org.w3c.css.sac"/>
-      <plugin id="org.w3c.dom"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
