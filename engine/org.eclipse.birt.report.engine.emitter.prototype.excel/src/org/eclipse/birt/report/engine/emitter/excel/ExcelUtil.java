@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 
 public class ExcelUtil
 {
@@ -154,4 +155,16 @@ public class ExcelUtil
 				.equalsIgnoreCase( val );
 		return flag ? res[1] : res[0];
 	}
+
+	public static int covertDimensionType( DimensionType value, int parent )
+	{
+		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
+		{
+			return (int) value.getMeasure( ) / 100 * parent;
+		}
+		else
+		{
+			return (int) value.convertTo( DimensionType.UNITS_PT );
+		}
+	}	
 }

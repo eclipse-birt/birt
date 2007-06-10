@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2006 Inetsoft Technology Corp.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Inetsoft Technology Corp  - Implementation
- *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
@@ -16,12 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,234 +14,50 @@ import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
-import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.emitter.excel.chart.ChartConverter;
-import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
-import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
+import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
+import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
+import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
+import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public class ExcelEmitter implements IContentEmitter
+public class ExcelEmitter extends ContentEmitterAdapter
 {
-
-	public final static int MAXROW = 65025;
-
-	public final static String OUTPUT_FORMAT = "xls";
-
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 
-	private IEmitterServices eservice = null;
-
-	private int[] width;
-
-	private Map design2ExcelSpan = null;
-
-	private Map table2TableBinding = null;
-
-	private Map formulaDatas = new HashMap( );
-
-	private final String EMPTY = " ";
-
-	private final int INVALID = -1;
-
-	private Stack groupInfos = new Stack( );
-
-	private Stack tableBindings = new Stack( );
-
-	private int lines = 0, flushLength = 1000;
-
-	private StyleEngine engine = null;
-
-	private ListBuffer lb;
+	private IEmitterServices service = null;
 
 	private OutputStream out = null;
 
-	private List charts = new ArrayList( );
-
-	private ChartConverter chartConverter = new ChartConverter( );
-
-	private Hashtable bookmarkList = new Hashtable( );
-
-	public void end( IReportContent report )
-	{
-		try
-		{
-			// Make sure all dataes are swap out before export.
-			lb.flush( true, engine );
-
-			ExcelWriter writer = new ExcelWriter( out );
-			writer.writeDeclarations( );
-			writer.declareStyles( engine.getStyleIDMap( ) );
-			writer.startSheet( );
-			writer.startTable( width );
-			writeDatas( writer );
-			writer.endTable( );
-			writer.closeSheet( );
-
-			// Append sheets generated by charts.
-			for ( int i = 0; i < charts.size( ); i++ )
-			{
-				File temp = (File) charts.get( i );
-				writer.insert( temp );
-				temp.delete( );
-			}
-
-			writer.close( true );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			throw new RuntimeException( e );
-		}
-	}
-
-	public void endCell( ICellContent cell )
-	{
-		CellDesign design = (CellDesign) cell.getGenerateBy( );
-
-		if ( design.getContentCount( ) != 0 )
-		{
-			endCase( );
-		}
-	}
-
-	public void endContainer( IContainerContent container )
-	{
-	}
-
-	public void endContent( IContent content )
-	{
-	}
-
-	public void endGroup( IGroupContent group )
-	{
-
-	}
-
-	public void endList( IListContent list )
-	{
-		endCase( );
-	}
-
-	public void endListBand( IListBandContent listBand )
-	{
-		engine.calculateTopStyles( );
-	}
-
-	public void endListGroup( IListGroupContent group )
-	{
-
-	}
-
-	public void endPage( IPageContent page )
-	{
-
-	}
-
-	/**
-	 * 1. calculate styles for this row top border 2. make sure all columns's
-	 * size are same 3. judge if need swap dataes.
-	 * 
-	 * @param row
-	 *            row content
-	 */
-	public void endRow( IRowContent row )
-	{
-		synchronizeCols( );
-		engine.calculateTopStyles( );
-
-		if ( ++lines % flushLength == 0 )
-		{
-			try
-			{
-				//lb.flush( false, engine );
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-				throw new RuntimeException( "Error Occur" );
-			}
-		}
-	}
-
-	/**
-	 * when a container element complete, the bottom border's style can be
-	 * calculated.
-	 */
-	private void endCase( )
-	{
-		engine.calculateBottomStyles( );
-	}
-
-	/**
-	 * 1. calculate the binding information. 2. complete the table.
-	 * 
-	 * @param table
-	 *            table element
-	 */
-	public void endTable( ITableContent table )
-	{
-		TableBinding tb = (TableBinding) table2TableBinding.get( table
-				.getGenerateBy( ) );
-
-		if ( tb != null )
-		{
-			GroupInfo gi = (GroupInfo) groupInfos.pop( );
-			tb.compute( gi );
-			tb.dump( formulaDatas );
-
-			tableBindings.pop( );
-		}
-
-		endCase( );
-	}
-
-	public void endTableBand( ITableBandContent band )
-	{
-	}
-
-	public void endTableGroup( ITableGroupContent group )
-	{
-		groupInfos.pop( );
-	}
-
-	public String getOutputFormat( )
-	{
-		return OUTPUT_FORMAT;
-	}
+	private ExcelLayoutEngine engine;	
+	
+	ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor( this );
 
 	public void initialize( IEmitterServices service )
 	{
-		eservice = service;
+		this.service = service;
 		if ( service != null )
 		{
-			Object fd = eservice.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
+			Object fd = this.service
+					.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
 			File file = null;
 
 			if ( fd != null )
@@ -274,14 +74,15 @@ public class ExcelEmitter implements IContentEmitter
 				}
 				catch ( FileNotFoundException e )
 				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
+					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
 			}
 		}
 
 		if ( out == null )
 		{
-			Object val = eservice.getOption( RenderOptionBase.OUTPUT_STREAM );
+			Object val = this.service
+					.getOption( RenderOptionBase.OUTPUT_STREAM );
 			if ( val != null && val instanceof OutputStream )
 			{
 				out = (OutputStream) val;
@@ -291,63 +92,85 @@ public class ExcelEmitter implements IContentEmitter
 
 	public void start( IReportContent report )
 	{
-		Report r = report.getDesign( );
-		ReportItemWidthVisitor visitor = new ReportItemWidthVisitor( r );
-
-		width = visitor.getColumnsWidth( );
-		design2ExcelSpan = visitor.getDesign2ExcelSpan( );
-		table2TableBinding = visitor.getTable2TableBinding( );
-
-		try
-		{
-			int delta = 2;
-			lb = new DeltaListBuffer( width.length, delta );
-			engine = StyleEngine.createStyleEngine( lb );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			throw new RuntimeException( "Error occur!" );
-		}
+		//We can the page size from the design, maybe there is a better way 
+		//to get the page definition.
+		IStyle style = report.getRoot( ).getComputedStyle( );
+		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
+				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
+		engine = new ExcelLayoutEngine( new PageDef( master, style ));
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
+	public void startPage( IPageContent page )
 	{
-		HyperlinkDef url = parseHyperLink( autoText );
-		addData( autoText.getGenerateBy( ), autoText.getComputedStyle( ), url,
-				autoText.getText( ) );
+		contentVisitor.visitChildren(page.getPageHeader( ), null);
+	}	
+
+	public void endPage( IPageContent page )
+	{
+		contentVisitor.visitChildren(page.getPageFooter( ), null);
+	}
+
+	public void startTable( ITableContent table )
+	{
+		Rule rule = engine.getCurrentContainer( ).getRule( );
+		int width = rule.getWidth( );
+		TableInfo info = LayoutUtil.createTable( table, width );		
+		engine.addTable( info, table.getComputedStyle( ));
+	}
+
+	public void startRow( IRowContent row )
+	{
+		engine.addRow( row.getComputedStyle( ) );
+	}
+
+	public void endRow( IRowContent row )
+	{
+		engine.endRow( );
 	}
 
 	public void startCell( ICellContent cell )
 	{
-		CellDesign design = (CellDesign) cell.getGenerateBy( );
+		IStyle style = cell.getComputedStyle( );
+		engine.addCell( cell.getColumn( ), cell.getColSpan( ), style );
+	}
 
-		if ( design.getContentCount( ) == 0 )
+	public void endCell( ICellContent cell )
+	{
+		engine.endCell( );
+	}	
+
+	public void endTable( ITableContent table )
+	{		
+		engine.endTable();
+	}	
+
+	public void startList( IListContent list )
+	{		
+		Rule rule = engine.getCurrentContainer( ).getRule( );
+		engine.addTable( LayoutUtil.createTable(1, rule.getWidth( )), 
+						 list.getComputedStyle( ));						 
+		
+		if(list.getChildren( ) == null)
 		{
-			HyperlinkDef url = parseHyperLink( cell );
-			addData( design, cell.getComputedStyle( ), url, EMPTY );
-		}
-		else
-		{
-			startCase( cell );
-		}
+			HyperlinkDef link = parseHyperLink(list);
+			engine.addData( ExcelLayoutEngine.EMPTY, 
+							list.getComputedStyle( ), link );
+		}	
 	}
 
-	public void startContainer( IContainerContent container )
-	{
-
+	public void startListBand( IListBandContent listBand )
+	{	
+		engine.addCell( 0, 1, listBand.getComputedStyle( ) );
 	}
-
-	public void startContent( IContent content )
-	{
-
+	
+	public void endListBand( IListBandContent listBand )
+	{	
+		engine.endCell( );
 	}
-
-	public void startData( IDataContent data )
-	{
-		HyperlinkDef url = parseHyperLink( data );
-		addData( data.getGenerateBy( ), data.getComputedStyle( ), url, data
-				.getText( ) );
+	
+	public void endList( IListContent list )
+	{		
+		engine.endTable( );
 	}
 
 	public void startForeign( IForeignContent foreign )
@@ -357,53 +180,27 @@ public class ExcelEmitter implements IContentEmitter
 			HTML2Content convert = new HTML2Content( foreign.getReportContent( )
 					.getDesign( ).getReportDesign( ) );
 			convert.html2Content( foreign );
-			startCase( foreign );
-			ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor(
-					this );
+			HyperlinkDef link = parseHyperLink(foreign);
+			engine.addContainer( foreign.getComputedStyle( ), link );			
 			contentVisitor.visitChildren( foreign, null );
-			endCase( );
+			engine.endContainer( );
 		}
 	}
 
-	public void startGroup( IGroupContent group )
+	public void startText( ITextContent text )
 	{
 
-	}
+	}	
 
-	/**
-	 * If the image is generaged by chart, get the chart data and store them
-	 * 
-	 * @param image
-	 *            iamge element
-	 */
-	public void startImage( IImageContent image )
-	{
-		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
-		{
-			ExtendedItemDesign eitem = (ExtendedItemDesign) image
-					.getGenerateBy( );
-			ExtendedItemHandle handle = (ExtendedItemHandle) eitem.getHandle( );
-			String tagName = handle.getExtensionName( );
-
-			if ( "chart".equalsIgnoreCase( tagName ) )
-			{
-				File res = chartConverter.convert( eitem, handle );
-
-				if ( res != null )
-				{
-					charts.add( res );
-				}
-			}
-		}
-
-		// Although image are not showed in Excel,
-		// we have to add an empty to dataes to avoid exceptions
-		addData( image.getGenerateBy( ), image.getComputedStyle( ), null, EMPTY );
+	public void startData( IDataContent data )
+	{		
+		super.startData( data );
+		HyperlinkDef url = parseHyperLink( data );
+		engine.addData( data.getText(), data.getComputedStyle( ), url );
 	}
 
 	public void startLabel( ILabelContent label )
 	{
-		// elements generated by foreignexecutor have no direct design
 		Object design = label.getGenerateBy( );
 		IContent container = label;
 
@@ -418,193 +215,53 @@ public class ExcelEmitter implements IContentEmitter
 		// If the text is BR and it generated by foreign,
 		// ignore it
 		if ( !( "\n".equalsIgnoreCase( label.getText( ) ) && 
-				container instanceof IForeignContent) )
+				container instanceof IForeignContent ) )
 		{
-			addData( design, label.getComputedStyle( ), url, label.getText( ) );
+			engine.addData( label.getText( ), label.getComputedStyle( ), url );
 		}
+	}	
+
+	public void startAutoText( IAutoTextContent autoText )
+	{
+		HyperlinkDef link = parseHyperLink( autoText );
+		engine.addData( autoText.getText( ) , 
+				        autoText.getComputedStyle( ), link );
 	}
 
-	public void startList( IListContent list )
+	public void end( IReportContent report )
 	{
-		startCase( list );
-
-		if ( list.getChildren( ) == null )
-		{
-			addData( list.getGenerateBy( ), list.getComputedStyle( ),
-					parseHyperLink( list ), "" );
-		}
-
-	}
-
-	public void startListBand( IListBandContent listBand )
-	{
-
-	}
-
-	public void startListGroup( IListGroupContent group )
-	{
-
-	}
-
-	public void startPage( IPageContent page )
-	{
-
-	}
-
-	public void startRow( IRowContent row )
-	{
-
-	}
-
-	/**
-	 * Calculate the left or right border's style.
-	 * 
-	 * @param content
-	 */
-
-	private void startCase( IContent content )
-	{
-		Span span = (Span) design2ExcelSpan.get( content.getGenerateBy( ) );
-
-		int pos = lb.getListSize( span.getCol( ) );
-
-		engine.addContainerStyle( content.getComputedStyle( ), span, pos );
-	}
-
-	public void startTable( ITableContent table )
-	{
-		TableBinding tb = (TableBinding) table2TableBinding.get( table
-				.getGenerateBy( ) );
-		// some table generated by GridItemDesign
-		if ( tb != null )
-		{
-			groupInfos
-					.push( new GroupInfo( "Table", tb.getColumnExpression( ) ) );
-			tableBindings.push( tb );
-		}
-
-		startCase( table );
-	}
-
-	public void startTableBand( ITableBandContent band )
-	{
-
-	}
-
-	/**
-	 * Add table's group information
-	 * 
-	 * @param group
-	 *            current table group
-	 */
-
-	public void startTableGroup( ITableGroupContent group )
-	{
-		GroupInfo parent = (GroupInfo) groupInfos.peek( );
-		String groupName = ( (TableGroupDesign) group.getGenerateBy( ) )
-				.getName( );
-		// to maintain the interrelation
-		GroupInfo child = new GroupInfo( groupName, parent.getColExps( ) );
-		parent.addSubGroupInfo( child );
-
-		groupInfos.push( child );
-
-	}
-
-	public void startText( ITextContent text )
-	{
-	}
-
-	/**
-	 * Add an element's data to container.
-	 * 
-	 * @param design
-	 *            element's design
-	 * @param style
-	 *            element's style
-	 * @param url
-	 *            url defined on element
-	 * @param txt
-	 *            element's value
-	 */
-
-	private void addData( Object design, IStyle style, HyperlinkDef url,
-			String txt )
-	{
-System.out.println("data = " + txt);		
-		Span span = (Span) design2ExcelSpan.get( design );
-
-		if ( span == null )
-		{
-			return;
-		}
-
-		// Try to calculate the element's style
-		StyleEntry entry = engine.getStyle( style, span );
-
-		// store dataes
-		Data data = new Data( txt, INVALID, span, url, entry );
+		//Make sure the engine already calculates all data.
+		engine.complete();
 		
-		for ( int col = span.getCol( ); col < span.getCol( )
-				+ span.getColSpan( ) + 1; col++ )
+		ExcelWriter writer = new ExcelWriter( out );
+		writer.writeDeclarations( );
+		writer.declareStyles( engine.getStyleMap( ) );
+		writer.startSheet( );
+		writer.startTable( engine.getCoordinates( ) );
+		int count = 0;
+
+		while ( count < engine.getRowCount( ) )
 		{
-			if ( url != null && url.getBookmark( ) != null )
-			{
-				String cellID = convertCharacter( col )
-						+ ( lb.getListSize( col ) + 1 );
-				if ( bookmarkList.get( url.getBookmark( ) ) == null )
-				{
-					bookmarkList.put( url.getBookmark( ), cellID );
-				}
-			}
-			lb.add( col, data );
+			outputData( engine.getRow( count ), writer );
+			count++;
 		}
 
-		// calculate the table bind information.
-		if ( design instanceof DataItemDesign && tableBindings.size( ) > 0 )
-		{
-			TableBinding tb = (TableBinding) tableBindings.peek( );
-
-			if ( tb.isAggregateData( design ) )
-			{
-				tb.add2DataList( design, data );
-			}
-			else
-			{
-				GroupInfo groupInfo = (GroupInfo) groupInfos.peek( );
-				int index = tb.getDataItemDesignIndex( design );
-				groupInfo.addPosition( index, span.getCol( ), lb
-						.getListSize( span.getCol( ) ) );
-			}
-		}
-
-		if ( design instanceof DynamicTextItemDesign )
-		{
-			engine.calculateTopStyles( );
-		}
+		writer.endTable( );
+		writer.closeSheet( );
+		writer.close( true );
 	}
 
-	private String convertCharacter( int num )
+	private void outputData( Data[] row, ExcelWriter writer )
 	{
+		
+		writer.startRow( );
 
-		char base = (char) ( num + 64 );
-		Character cha = new Character( base );
-		return cha.toString( );
-	}
-
-	private int getMaxLenght( int from, int to )
-	{
-		int max = lb.getListSize( from );
-
-		for ( int i = from + 1; i < to + 1; i++ )
+		for ( int i = 0; i < row.length; i++ )
 		{
-			if ( lb.getListSize( i ) > max )
-			{
-				max = lb.getListSize( i );
-			}
+			writer.writeTxtData( row[i] );
 		}
 
-		return max;
+		writer.endRow( );
 	}
 
 	private HyperlinkDef parseHyperLink( IContent content )
@@ -621,7 +278,6 @@ System.out.println("data = " + txt);
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
 			{
-
 				return new HyperlinkDef( linkaction.getHyperlink( ),
 						IHyperlinkAction.ACTION_HYPERLINK, null );
 			}
@@ -629,15 +285,14 @@ System.out.println("data = " + txt);
 			{
 				Action act = new Action( linkaction );
 				IHTMLActionHandler actionHandler = null;
-				Object ac = eservice
-						.getOption( RenderOptionBase.ACTION_HANDLER );
+				Object ac = service.getOption( RenderOptionBase.ACTION_HANDLER );
 
 				if ( ac != null && ac instanceof IHTMLActionHandler )
 				{
 					actionHandler = (IHTMLActionHandler) ac;
 					actionHandler.getURL( act, null );
-					return new HyperlinkDef( actionHandler.getURL( act,
-							eservice.getReportContext( ) ),
+					return new HyperlinkDef( actionHandler.getURL( act, service
+							.getReportContext( ) ),
 							IHyperlinkAction.ACTION_DRILLTHROUGH, null );
 				}
 			}
@@ -650,7 +305,7 @@ System.out.println("data = " + txt);
 		return null;
 	}
 
-	public HyperlinkDef getBookMark( IContent content )
+	private HyperlinkDef getBookMark( IContent content )
 	{
 		if ( content.getBookmark( ) != null
 				&& !( content.getBookmark( ).startsWith( "__TOC" ) ) )
@@ -665,97 +320,6 @@ System.out.println("data = " + txt);
 			}
 
 			return getBookMark( (IContent) content.getParent( ) );
-		}
-	}
-
-	/**
-	 * synchronize to make all columns's size is same.
-	 * 
-	 */
-
-	private void synchronizeCols( )
-	{
-		Span span = engine.getContainerSpan( );
-
-		int from = span.getCol( );
-		int to = from + span.getColSpan( );
-
-		int max = getMaxLenght( from, to );
-
-		for ( int i = from; i < to + 1; i++ )
-		{
-			while ( lb.getListSize( i ) < max )
-			{
-				lb.add( i, new Data( EMPTY, INVALID, new Span( i, 0 ), null,
-						engine.createHorizionStyle( i ) ) );
-			}
-		}
-	}
-
-	private String getUrlAddr( String bookmark )
-	{
-		if ( bookmarkList.get( bookmark ) == null )
-		{
-			return null;
-		}
-		else
-		{
-			return (String) bookmarkList.get( bookmark );
-		}
-
-	}
-
-	private void writeDatas( ExcelWriter writer )
-	{
-		try
-		{
-			Object[] os;
-			lb.open( );
-
-			while ( lb.more( ) )
-			{
-				writer.startRow( );
-
-				os = lb.readLine( );
-				for ( int i = 0; i < os.length; i++ )
-				{
-					Data d = (Data) os[i];
-
-					HyperlinkDef def = d.getHyperlinkDef( );
-					if ( def != null
-							&& def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
-					{
-						def.setUrl( (String) bookmarkList.get( def.getUrl( ) ) );
-					}
-
-					Object o = formulaDatas.get( d );
-					if ( o != null )
-					{
-						Data x = (Data) o;
-						d.isTxtData = x.isTxtData;
-						d.txt = x.txt;
-					}
-					if ( d.isTxtData )
-					{
-						writer.writeTxtData( d );
-					}
-					else
-					{
-						writer.writeFormulaData( d );
-					}
-
-					i += d.span.getColSpan( );
-				}
-
-				writer.endRow( );
-			}
-
-			lb.close( );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			throw new RuntimeException( "fail to read temp file" );
 		}
 	}
 }

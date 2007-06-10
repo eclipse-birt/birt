@@ -10,7 +10,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 
 public class StyleBuilder
 {
-
 	public static final String C_PATTERN = "(rgb\\()(\\d+)\\,(\\s?\\d+)\\,(\\s?\\d+)\\)";
 
 	public static int[] UNHERITABLE = new int[]{
@@ -196,7 +195,6 @@ public class StyleBuilder
 		String w = StyleConstant.NULL;
 
 		if ( weight != null && !"0".equalsIgnoreCase( weight ) )
-
 		{
 			weight = ExcelUtil.getValue( weight );
 
@@ -331,22 +329,12 @@ public class StyleBuilder
 		overwriteProp( cEntry, entry, StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
 	}
 
-	public static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
+	private static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
 			int id )
 	{
 		if ( !( StyleEntry.isNull( cEntry.getProperty( id ) ) ))
 		{
 			entry.setProperty( id, cEntry.getProperty( id ) );
 		}
-	}
-
-	public static void main( String[] args )
-	{
-		Matcher m = colorp.matcher( "rgb(0,15, 0)" );
-
-		if ( m.matches( ) )
-		{
-			System.out.println( m.group( ) );
-		}
-	}
+	}	
 }

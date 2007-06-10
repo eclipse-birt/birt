@@ -41,8 +41,9 @@ public class ExcelWriter
 	{
 		writer.open( out, encoding );
 	}
-
-	// FIXME
+	
+	
+	//If possible, we can pass a format according the data type
 	public void writeText( String txt )
 	{
 		writer.openTag( "Data" );
@@ -71,12 +72,12 @@ public class ExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	public void startCell( int index, int colSpan, int rowSpan, int id,
+	public void startCell( int cellindex, int colspan, int rowspan, int styleid,
 			HyperlinkDef hyperLink )
 	{
 		writer.openTag( "Cell" );
-		writer.attribute( "ss:Index", index );
-		writer.attribute( "ss:StyleID", id );
+		writer.attribute( "ss:Index", cellindex );
+		writer.attribute( "ss:StyleID", styleid );
 		
 		if ( hyperLink != null )
 		{
@@ -89,8 +90,8 @@ public class ExcelWriter
 			}
 		}
 
-		writer.attribute( "ss:MergeAcross", colSpan );
-		writer.attribute( "ss:MergeDown", rowSpan );
+		writer.attribute( "ss:MergeAcross", colspan );
+		writer.attribute( "ss:MergeDown", rowspan );
 	}
 	
 	public void writeDefaultCell(String content) {
@@ -193,7 +194,6 @@ public class ExcelWriter
 	private boolean isValid( String value )
 	{
 		return StyleConstant.NULL != value;
-
 	}
 
 	private void declareStyle( StyleEntry style, int id )
@@ -278,8 +278,8 @@ public class ExcelWriter
 
 	public void declareStyles( Map style2id )
 	{
-
 		writer.openTag( "Styles" );
+		
 		for ( Iterator it = style2id.entrySet( ).iterator( ); it.hasNext( ); )
 		{
 			Map.Entry entry = (Map.Entry) it.next( );
@@ -288,8 +288,8 @@ public class ExcelWriter
 			int id = ( (Integer) entry.getValue( ) ).intValue( );
 			declareStyle( (StyleEntry) style, id );
 		}
+		
 		writer.closeTag( "Styles" );
-
 	}
 
 	public void close( boolean complete )
@@ -324,7 +324,8 @@ public class ExcelWriter
 
 		if ( width == null )
 		{
-			return;
+			logger.log( Level.SEVERE, "Invalid columns width" );
+			throw new IllegalArgumentException("columns width is null");
 		}
 
 		for ( int i = 0; i < width.length; i++ )

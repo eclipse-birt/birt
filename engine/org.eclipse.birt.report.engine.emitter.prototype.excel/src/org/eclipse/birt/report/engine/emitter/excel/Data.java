@@ -3,11 +3,10 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.Serializable;
 
-class Data implements Serializable, Cloneable
+import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
+
+public class Data implements Serializable, Cloneable
 {
-
-	public final static int INVALID = -1;
-
 	private static final long serialVersionUID = -316995334044186083L;
 
 	private static int ID = 0;
@@ -19,18 +18,16 @@ class Data implements Serializable, Cloneable
 	StyleEntry style;
 
 	Span span;
+	
+	Rule rule;
 
 	HyperlinkDef url;
 
 	boolean isTxtData = true;
 
-	Data( final String txt, final int styleId, final Span span,
-			final HyperlinkDef url, final StyleEntry s )
+	public Data( final String txt, final StyleEntry s )
 	{
-		this.txt = txt;
-		this.span = span;
-		this.styleId = styleId;
-		this.url = url;
+		this.txt = txt;		
 		this.style = s;
 		id = ID++;
 	}
@@ -77,13 +74,52 @@ class Data implements Serializable, Cloneable
 		}
 		return false;
 	}
+	
+	public void setStyleId(int id)
+	{
+		this.styleId = id;
+	}
+	
+	public int getStyleId()
+	{
+		return styleId;
+	}
+	
+	public void setStyleEntry(StyleEntry entry)
+	{
+		this.style = entry;
+	}
+	
+	public StyleEntry getStyleEntry()
+	{
+		return style;
+	}
  
-	protected HyperlinkDef getHyperlinkDef( ) {
+	public HyperlinkDef getHyperlinkDef( ) {
 	   return url;
 	}
 	
-	protected void setHyperlinkDef( HyperlinkDef def ) {
+	public void setHyperlinkDef( HyperlinkDef def ) {
 	   this.url = def;
 	}
-    	
+	
+	public void setRule(Rule rule)
+	{
+		this.rule = rule;
+	}
+	
+	public Rule getRule()
+	{
+		return rule;
+	}
+	
+	public void setSpan(Span span)
+	{
+		this.span = span;
+	}
+	
+	public Span getSpan()
+	{
+		return span;
+	}    	
 }

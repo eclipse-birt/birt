@@ -5,11 +5,11 @@ import java.lang.*;
 
 public class HyperlinkDef implements Serializable, Cloneable
 {
-
 	private String url;
 	private int type;
     private String bookmark;
-	HyperlinkDef( String url, int type, String bookmark )
+    
+	public HyperlinkDef( String url, int type, String bookmark )
 	{
 		this.url = url;
 		this.type = type;
@@ -33,5 +33,4 @@ public class HyperlinkDef implements Serializable, Cloneable
 	public void setUrl( String url) {
 	   	this.url = url;
 	}
-
 }

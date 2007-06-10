@@ -13,10 +13,11 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
+import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
+import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
 /**
  * This class is used to caculate styles for Excel.
@@ -26,18 +27,9 @@ import org.eclipse.birt.report.engine.content.IStyle;
 public class StyleEngine implements IListVisitor
 {
 
-	private static StyleEngine engine = new StyleEngine( );
-
-	private static int ID = 0;
-
-	private Stack styles = new Stack( );
-	private Stack spans = new Stack( );
-
-	private Stack pos = new Stack( );
+	private int styleID = 0;	
 	private Hashtable style2id = new Hashtable( );
-
-	// Save styles which are not able to calculate now.
-	private ListBuffer dataMap = null;
+	private ExcelLayoutEngine engine;
 
 	/**
 	 * 
@@ -45,99 +37,112 @@ public class StyleEngine implements IListVisitor
 	 *            layout data
 	 * @return a StyleEngine instance
 	 */
-	public static StyleEngine createStyleEngine( ListBuffer dataMap )
+	public StyleEngine( ExcelLayoutEngine engine )
 	{
-		engine.release( );
-		engine.setDataMap( dataMap );
-		return engine;
+		this.engine = engine;
 	}
-
-	private StyleEngine( )
+	
+	public StyleEntry createEntry(Rule rule, IStyle style)
 	{
-	}
-
-	public void addContainerStyle( IStyle style, Span span, int start )
-	{
-		StyleEntry entry = initStyle( style, span );
+		if(style ==  null)
+		{
+			return StyleBuilder.createEmptyStyleEntry( );
+		}	
+		
+		StyleEntry entry = initStyle( style, rule );
 		entry.setStart( true );
-		spans.push( span );
-		styles.push( entry );
-		pos.push( new Integer( start ) );
+		return entry;
 	}
 
 	public void calculateTopStyles( )
 	{
-		if ( styles.size( ) > 0 )
+		if ( engine.getContainers( ).size( ) > 0 )
 		{
-			StyleEntry style = (StyleEntry) styles.peek( );
+			XlsContainer container = engine.getCurrentContainer( );
+			StyleEntry style = container.getStyle( );
 			boolean first = style.isStart( );
 
 			if ( first )
 			{
-				Span span = (Span) spans.peek( );
-				int start = ( (Integer) pos.peek( ) ).intValue( );
-				applyContainerTopBorder( span, start );
-				style.setStart(false);
+				Rule rule = container.getRule( );
+				int start = container.getStart( );
+				applyContainerTopBorder( rule, start );
+				style.setStart( false );
 			}
 		}
 	}
 
-	public StyleEntry createHorizionStyle( int pos )
+	public StyleEntry createHorizionStyle( Rule rule )
 	{
-		Span span = (Span) spans.peek( );
-		StyleEntry cEntry = (StyleEntry) styles.peek( );
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
-
-		StyleBuilder.mergeInheritableProp( cEntry, entry );
-
-		if ( pos == span.getCol( ) )
+		
+		if(engine.getContainers( ).size( ) > 0)
 		{
-			StyleBuilder.applyLeftBorder( cEntry, entry );
-		}
+			XlsContainer container = engine.getCurrentContainer( );
+			Rule crule = container.getRule( );
+			StyleEntry cEntry = container.getStyle( );
 
-		if ( pos == span.getCol( ) + span.getColSpan( ) )
-		{
-			StyleBuilder.applyRightBorder( cEntry, entry );
+			StyleBuilder.mergeInheritableProp( cEntry, entry );
+
+			if ( rule.getStart( ) == crule.getStart( ) )
+			{
+				StyleBuilder.applyLeftBorder( cEntry, entry );
+			}
+
+			if ( rule.getEnd( ) == crule.getEnd( ) )
+			{
+				StyleBuilder.applyRightBorder( cEntry, entry );
+			}
 		}
 
 		return entry;
 	}
 
+	public void removeContainerStyle( )
+	{
+		calculateBottomStyles( );
+	}
+
 	public void calculateBottomStyles( )
 	{
-		Span span = (Span) spans.peek( );
-		StyleEntry entry = (StyleEntry) styles.peek( );
-		
-		if(entry.isStart( ))
+		if(engine.getContainers( ).size() == 0)
 		{
-			calculateTopStyles();
+			return;
 		}	
+		
+		XlsContainer container = engine.getCurrentContainer( );
+		Rule rule = container.getRule( );
+		StyleEntry entry = container.getStyle( );
 
-		int col = span.getCol( );
-		int cp = dataMap.getListSize( col );
+		if ( entry.isStart( ) )
+		{
+			calculateTopStyles( );
+		}
+
+		int start = rule.getStart( );
+		int col = engine.getAxis().getCoordinate( start );
+		int span = engine.getAxis().getCoordinate( rule.getEnd( ) ) - col;
+		int cp = engine.getColumnSize( col );
 
 		cp = cp > 0 ? cp - 1 : 0;
 
-		for ( int i = 0; i < span.getColSpan( ) + 1; i++ )
+		for ( int i = 0; i < span; i++ )
 		{
-			StyleBuilder.applyBottomBorder( entry, ( (Data) dataMap.get( i
-					+ col, cp ) ).style );
-		}
-		
-		styles.pop( );
-		spans.pop( );
-		pos.pop();
-	}
+			Data data = engine.getData( i + col, cp );
+			
+			if(data == null)
+			{
+				continue;
+			}	
+			
+			StyleBuilder.applyBottomBorder( entry, data.style );
+		}		
+	}	
 
-	public Span getContainerSpan( )
-	{
-		return (Span) spans.peek( );
-	}
-
-	public StyleEntry getStyle( IStyle style, Span span )
+	public StyleEntry getStyle( IStyle style, Rule rule )
 	{
 		// This style associated element is not in any container.
-		return initStyle( style, span );
+		return initStyle( style, rule );
 	}
 
 	public int getStyleID( StyleEntry entry )
@@ -148,9 +153,9 @@ public class StyleEngine implements IListVisitor
 		}
 		else
 		{
-			int styleId = ID;
+			int styleId = styleID;
 			style2id.put( entry, new Integer( styleId ) );
-			ID++;
+			styleID++;
 			return styleId;
 		}
 	}
@@ -158,7 +163,7 @@ public class StyleEngine implements IListVisitor
 	public void visit( Object o )
 	{
 		Data d = (Data) o;
-		d.styleId = engine.getStyleID( d.style );
+		d.styleId = getStyleID( d.style );
 	}
 
 	public Map getStyleIDMap( )
@@ -166,62 +171,60 @@ public class StyleEngine implements IListVisitor
 		return style2id;
 	}
 
-	private void applyContainerTopBorder( Span span, int pos )
+	private void applyContainerTopBorder( Rule rule, int pos )
 	{
-		StyleEntry entry = (StyleEntry) styles.peek( );
-		int col = span.getCol( );
-		
-		for ( int i = col; i < span.getColSpan( ) + col + 1; i++ )
+		if(engine.getContainers( ).size( ) == 0)
 		{
-			StyleBuilder.applyTopBorder( entry,
-					( (Data) dataMap.get( i, pos ) ).style );
+			return;
+		}	
+		
+		XlsContainer container = engine.getCurrentContainer( );
+		StyleEntry entry = container.getStyle( );
+		int col = engine.getAxis( ).getCoordinate( rule.getStart( ) );
+		int span = engine.getAxis( ).getCoordinate( rule.getEnd( ) ) - col;
+
+		for ( int i = col; i < span + col; i++ )
+		{
+			Data data = engine.getData( i, pos );			
+			
+			if(data == null || data == engine.waste)
+			{
+				continue;
+			}	
+			StyleBuilder.applyTopBorder( entry,	data.style );
 		}
 	}
 
-	private void applyHBorders( StyleEntry cEntry, StyleEntry entry,
-			Span cSpan, Span span )
+	private void applyHBorders( StyleEntry centry, StyleEntry entry,
+			Rule crule, Rule rule )
 	{
-		if ( cSpan == null || span == null )
+		if ( crule == null || rule == null )
 		{
 			return;
 		}
-		if ( cSpan.getCol( ) == span.getCol( ) )
+		if ( crule.getStart( ) == rule.getStart( ) )
 		{
-			StyleBuilder.applyLeftBorder( cEntry, entry );
+			StyleBuilder.applyLeftBorder( centry, entry );
 		}
 
-		if ( ( cSpan.getCol( ) + cSpan.getColSpan( ) ) == ( span.getCol( ) + span
-				.getColSpan( ) ) )
+		if ( crule.getEnd( ) == rule.getEnd( ) )
 		{
-			StyleBuilder.applyRightBorder( cEntry, entry );
+			StyleBuilder.applyRightBorder( centry, entry );
 		}
 	}
 
-	private StyleEntry initStyle( IStyle style, Span span )
+	private StyleEntry initStyle( IStyle style, Rule rule )
 	{
 		StyleEntry entry = StyleBuilder.createStyleEntry( style );
-
-		if ( styles.size( ) > 0 )
+		
+		if(engine.getContainers( ).size( ) > 0)		
 		{
-			StyleEntry cEntry = (StyleEntry) styles.peek( );
+			XlsContainer container = engine.getCurrentContainer( );
+			StyleEntry cEntry = container.getStyle( );
 			StyleBuilder.mergeInheritableProp( cEntry, entry );
-			applyHBorders( cEntry, entry, (Span) ( spans.peek( ) ), span );
+			applyHBorders( cEntry, entry, container.getRule( ), rule );
 		}
 
 		return entry;
-	}
-
-	private void release( )
-	{
-		ID = 0;
-		styles.clear( );
-		pos.clear( );
-		spans.clear( );
-		style2id.clear( );
-	}
-
-	private void setDataMap( ListBuffer dataMap )
-	{
-		this.dataMap = dataMap;
 	}
 }
