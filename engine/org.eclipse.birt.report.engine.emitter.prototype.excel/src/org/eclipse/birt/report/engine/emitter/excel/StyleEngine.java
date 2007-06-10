@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
  * 
  * 
  */
-public class StyleEngine implements IListVisitor
+public class StyleEngine
 {
 
 	private int styleID = 0;	
@@ -158,13 +158,7 @@ public class StyleEngine implements IListVisitor
 			styleID++;
 			return styleId;
 		}
-	}
-
-	public void visit( Object o )
-	{
-		Data d = (Data) o;
-		d.styleId = getStyleID( d.style );
-	}
+	}	
 
 	public Map getStyleIDMap( )
 	{
