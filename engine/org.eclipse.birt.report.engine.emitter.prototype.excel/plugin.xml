@@ -10,6 +10,6 @@
               format="xls prototype"
               id="org.eclipse.birt.report.engine.emitter.prototype.excel"
               mimeType="application/vnd.ms-excel"
-              pagination="no-pagination"/>
+              pagination="page-break-pagination"/>
   	</extension>  
 </plugin>
