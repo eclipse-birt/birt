@@ -100,15 +100,14 @@ class DataSetProcessUtil extends RowProcessUtil
 			
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 
-		doDataSetFilter( changeMaxRows );
-
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ));
+		
+		removeAvailableComputedColumns( );
+		doDataSetFilter( changeMaxRows );
 		
 		//Begin populate computed columns with aggregations.
 		//TODO:remove me
-		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ));
-		
-		
+		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ));	
 		
 		this.populator.getQuery( ).setMaxRows( originalMaxRows );
 	}
@@ -232,31 +231,6 @@ class DataSetProcessUtil extends RowProcessUtil
 		// if no group pass has been made, made one.
 		if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
 		{
-			if ( iccState != null )
-			{
-				for ( int i = 0; i < iccState.getCount( ); i++ )
-				{
-					if ( iccState.isValueAvailable( i ) )
-					{
-						for ( int k = 0; k < this.populator.getQuery( )
-								.getFetchEvents( )
-								.size( ); k++ )
-						{
-							if ( this.populator.getQuery( )
-									.getFetchEvents( )
-									.get( k ) instanceof ComputedColumnHelper )
-							{
-								ComputedColumnHelper helper = (ComputedColumnHelper) this.populator.getQuery( )
-										.getFetchEvents( )
-										.get( k );
-								helper.getComputedColumnList( )
-										.remove( iccState.getComputedColumn( i ) );
-								break;
-							}
-						}
-					}
-				}
-			}
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					false,
@@ -276,5 +250,39 @@ class DataSetProcessUtil extends RowProcessUtil
 					computedColumnHelper, this.session );
 		}
 		computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
+	}
+	
+	
+	/**
+	 * Remove all available computed column if it has been pre-calculated by
+	 * computerColumnHelper.
+	 */
+	private void removeAvailableComputedColumns( )
+	{
+		if ( iccState != null )
+		{
+			for ( int i = 0; i < iccState.getCount( ); i++ )
+			{
+				if ( iccState.isValueAvailable( i ) )
+				{
+					for ( int k = 0; k < this.populator.getQuery( )
+							.getFetchEvents( )
+							.size( ); k++ )
+					{
+						if ( this.populator.getQuery( )
+								.getFetchEvents( )
+								.get( k ) instanceof ComputedColumnHelper )
+						{
+							ComputedColumnHelper helper = (ComputedColumnHelper) this.populator.getQuery( )
+									.getFetchEvents( )
+									.get( k );
+							helper.getComputedColumnList( )
+									.remove( iccState.getComputedColumn( i ) );
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 }

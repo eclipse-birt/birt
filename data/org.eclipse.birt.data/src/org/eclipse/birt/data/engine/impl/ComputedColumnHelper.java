@@ -194,7 +194,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 					continue;
 				}
 
-				if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) )
+				if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) ||
+						column.getAggregateFunction( ) != null )
 				{
 					continue;
 				}
@@ -254,7 +255,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				}
 				if ( column != null )
 				{
-					if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) )
+					if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) ||
+							column.getAggregateFunction( ) != null )
 					{
 						return true;
 					}
