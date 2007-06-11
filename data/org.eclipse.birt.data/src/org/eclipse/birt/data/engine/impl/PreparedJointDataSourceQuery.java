@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -82,6 +83,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	
 	private IQueryResults leftQueryResults;
 	private IQueryResults rightQueryResults;
+	
+	private IResultMetaData leftResultMetaData;
+	private IResultMetaData rightResultMetaData;
+	
 	
 	/**
 	 * Constructor.
@@ -155,15 +160,13 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	private void initializeResultClass( DataEngineImpl dataEngine, Map appContext )
-			throws DataException
+	private void initializeResultClass( DataEngineImpl dataEngine,
+			Map appContext ) throws DataException
 	{
 		try
 		{
-			// The right and left resultSet metaData should be fetched on time
-			// if it's loaded from cache.
-			IResultMetaData leftMetaData = this.leftQueryResults.getResultMetaData( );
-			IResultMetaData rightMetaData = this.rightQueryResults.getResultMetaData( );
+			IResultMetaData leftMetaData = this.leftResultMetaData;
+			IResultMetaData rightMetaData = this.rightResultMetaData;
 			
 			JointResultMetadata meta = getJointResultMetadata( leftMetaData,
 					rightMetaData );
@@ -474,15 +477,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	
 	/**
 	 * cache the left and right queryResults to improve the efficiency
-	 * 
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
-	private void populatePreparedQuery( ) throws DataException
+	private void populatePreparedQuery( ) throws BirtException
 	{
 		this.leftQueryResults = populatePreparedQuery( true,
 				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
+		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
 		this.rightQueryResults = populatePreparedQuery( false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
+		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
 	}
 
 	/**
@@ -556,7 +560,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			setCurrentDataSet( dataSetDesign );
-			populatePreparedQuery( );
+			try
+			{
+				populatePreparedQuery( );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 			// Lazzily initialize the PreparedJointDataSourceQuery here.
 			// The creation of JointDataSetQuery need IResultClass instance
 			// as input argment.
