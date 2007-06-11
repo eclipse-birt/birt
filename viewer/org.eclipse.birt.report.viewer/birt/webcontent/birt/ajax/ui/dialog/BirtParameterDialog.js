@@ -812,6 +812,20 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		if( birtParameterDialog.collect_parameter( ) )
 		{
+			// workaround for Bugzilla Bug 146566. 
+			// If change parameter and re-generate docuemnt file, close TOC panel.
+			if ( this.__mode == 'frameset' )
+			{
+				var oToc = $( 'display0' );
+				var oDoc = $( 'Document' );
+				if( oToc && oDoc )
+				{ 		
+					oDoc.style.width = BirtPosition.viewportWidth( ) + "px";
+					oToc.style.display="none";
+					oToc.query = '0';
+				}
+			}
+		
 			var action = soapURL.toLowerCase( );
 			
 			if ( this.__mode == 'parameter' )
