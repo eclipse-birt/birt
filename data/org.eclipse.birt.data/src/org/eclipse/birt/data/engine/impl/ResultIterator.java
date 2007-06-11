@@ -767,6 +767,8 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void close( ) throws BirtException
 	{
+		if ( state == NOT_STARTED || state == CLOSED )
+			return;
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
     		// save all gap row
