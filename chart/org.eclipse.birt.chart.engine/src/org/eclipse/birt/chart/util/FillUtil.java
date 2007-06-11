@@ -138,24 +138,41 @@ public class FillUtil
 	}
 
 	/**
-	 * Converts Fill to Gradient if possible. If Fill is Gradient or Image type,
-	 * just does nothing and returns.
+	 * Converts Fill to Gradient if possible, and changes gradient angle
+	 * according to chart direction. If Fill is Image type, just does nothing
+	 * and returns.
 	 * 
 	 * @param fill
+	 * @param bTransposed
 	 * @return Gradient Fill after conversion or original Image Fill
 	 */
-	public static Fill convertFillToGradient( Fill fill )
+	public static Fill convertFillToGradient( Fill fill, boolean bTransposed )
 	{
+		Gradient grad = null;
 		if ( fill instanceof ColorDefinition )
 		{
-			return createDefaultGradient( (ColorDefinition) fill );
+			grad = createDefaultGradient( (ColorDefinition) fill );
 		}
-		if ( fill instanceof MultipleFill )
+		else if ( fill instanceof MultipleFill )
 		{
 			List fills = ( (MultipleFill) fill ).getFills( );
-			return createDefaultGradient( (ColorDefinition) fills.get( 0 ) );
+			grad = createDefaultGradient( (ColorDefinition) fills.get( 0 ) );
 		}
-		// Do nothing for Gradient of Image
+		else if ( fill instanceof Gradient )
+		{
+			grad = (Gradient) fill;
+		}
+
+		if ( grad != null )
+		{
+			// Change direction if it's transposed
+			if ( bTransposed && !grad.isSetDirection( ) )
+			{
+				grad.setDirection( 90 );
+			}
+			return grad;
+		}
+		// Do nothing for Image
 		return fill;
 	}
 
