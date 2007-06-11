@@ -155,7 +155,7 @@ public class Theme extends ReferenceableElement
 		{
 			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
 					.getContent( i );
-			int pos = ModelUtil.getStylePotision( styleList, tmpStyle
+			int pos = ModelUtil.getStylePosition( styleList, tmpStyle
 					.getFullName( ) );
 			if ( pos == -1 )
 			{

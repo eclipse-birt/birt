@@ -82,10 +82,22 @@
             <property name="textAlign">left</property>
             <property name="verticalAlign">top</property>
         </style>
-        <style name="table" id="77">
+        <style name="table-group-header-1" id="77">
+            <property name="fontFamily">"verdana"</property>
+            <property name="fontSize">medium</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFE0</property>
+        </style>
+        <style name="table-group-header-2" id="78">
+            <property name="fontFamily">"verdana"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFE0</property>
+        </style>
+        <style name="table" id="79">
             <property name="color">#000000</property>
         </style>
-        <style name="table-header" id="78">
+        <style name="table-header" id="80">
             <property name="fontSize">13pt</property>
             <property name="fontWeight">bold</property>
             <property name="color">#003F77</property>
@@ -95,100 +107,8 @@
             <property name="orphans">0</property>
             <property name="widows">0</property>
         </style>
-        <style name="table-footer" id="79"/>
-        <style name="table-group-header-1" id="80">
-            <property name="backgroundColor">#FFFFFF</property>
-            <property name="fontSize">12pt</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">#002D5C</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">0px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">0px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">0px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">0px</property>
-            <property name="paddingTop">6px</property>
-            <property name="paddingLeft">4px</property>
-            <property name="paddingBottom">4px</property>
-            <property name="paddingRight">4px</property>
-            <property name="textAlign">left</property>
-            <property name="verticalAlign">bottom</property>
-            <property name="pageBreakAfter">auto</property>
-        </style>
-        <style name="table-group-header-2" id="81">
-            <property name="backgroundColor">#FFFFFF</property>
-            <property name="fontSize">11pt</property>
-            <property name="fontWeight">normal</property>
-            <property name="fontStyle">normal</property>
-            <property name="color">#8B0111</property>
-            <property name="borderBottomColor">#8B0111</property>
-            <property name="borderBottomStyle">none</property>
-            <property name="borderBottomWidth">1pt</property>
-            <property name="borderRightColor">#ECECEC</property>
-            <property name="borderRightStyle">none</property>
-            <property name="borderRightWidth">thin</property>
-            <property name="marginLeft">2pt</property>
-            <property name="paddingTop">2pt</property>
-            <property name="paddingLeft">4pt</property>
-            <property name="paddingBottom">5pt</property>
-            <property name="paddingRight">4pt</property>
-            <property name="textAlign">left</property>
-            <property name="textIndent">0px</property>
-        </style>
-        <style name="table-group-header-3" id="82">
-            <property name="backgroundColor">#FFFFFF</property>
-            <property name="fontSize">10pt</property>
-            <property name="fontWeight">normal</property>
-            <property name="color">#000000</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">none</property>
-            <property name="borderBottomWidth">0px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">none</property>
-            <property name="borderLeftWidth">0px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">none</property>
-            <property name="borderRightWidth">0px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">none</property>
-            <property name="borderTopWidth">0px</property>
-            <property name="paddingTop">2pt</property>
-            <property name="paddingLeft">4pt</property>
-            <property name="paddingBottom">2pt</property>
-            <property name="paddingRight">4pt</property>
-        </style>
-        <style name="table-group-header-4" id="83">
-            <property name="backgroundColor">#FFFFFF</property>
-            <property name="fontSize">9pt</property>
-            <property name="fontWeight">normal</property>
-            <property name="color">#77766F</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">none</property>
-            <property name="marginLeft">0pt</property>
-            <property name="paddingTop">2pt</property>
-            <property name="paddingLeft">4pt</property>
-            <property name="paddingBottom">2pt</property>
-            <property name="paddingRight">4pt</property>
-        </style>
-        <style name="table-group-header-5" id="84">
-            <property name="backgroundColor">#002D5C</property>
-            <property name="fontSize">8pt</property>
-            <property name="color">#FFFFFF</property>
-            <property name="textUnderline">none</property>
-            <property name="borderTopColor">#77766F</property>
-            <property name="borderTopStyle">none</property>
-            <property name="paddingTop">2pt</property>
-            <property name="paddingLeft">4pt</property>
-            <property name="paddingBottom">2pt</property>
-            <property name="paddingRight">4pt</property>
-        </style>
-        <style name="table-detail" id="85">
+        <style name="table-footer" id="81"/>
+        <style name="table-detail" id="82">
             <property name="backgroundColor">#FFFFFF</property>
             <property name="fontSize">8pt</property>
             <property name="fontWeight">normal</property>
@@ -210,24 +130,24 @@
                 </structure>
             </list-property>
         </style>
-        <style name="list-header" id="86"/>
-        <style name="list-footer" id="87"/>
-        <style name="list-detail" id="88"/>
-        <style name="page" id="89">
+        <style name="list-header" id="83"/>
+        <style name="list-footer" id="84"/>
+        <style name="list-detail" id="85"/>
+        <style name="page" id="86">
             <property name="fontSize">8pt</property>
             <property name="fontWeight">lighter</property>
             <property name="fontStyle">italic</property>
             <property name="color">#77766F</property>
         </style>
-        <style name="chart" id="90">
+        <style name="chart" id="87">
             <property name="fontFamily">"Tahoma"</property>
             <property name="fontSize">10pt</property>
             <property name="fontWeight">normal</property>
             <property name="color">#002D5C</property>
         </style>
-        <style name="label" id="91"/>
-        <style name="text" id="92"/>
-        <style name="grid" id="93"/>
+        <style name="label" id="88"/>
+        <style name="text" id="89"/>
+        <style name="grid" id="90"/>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">

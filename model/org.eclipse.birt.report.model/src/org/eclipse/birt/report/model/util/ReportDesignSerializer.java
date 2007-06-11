@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.ContainerContext;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -443,39 +442,11 @@ public class ReportDesignSerializer extends ElementVisitor
 		}
 
 		Module tmpRoot = theme.getRoot( );
-		ContainerSlot styles = theme.getSlot( Theme.STYLES_SLOT );
-		for ( int i = 0; i < styles.getCount( ); i++ )
+		List styles = theme.getAllStyles( );
+		for ( int i = 0; i < styles.size( ); i++ )
 		{
-			Style tmpStyle = (Style) styles.getContent( i );
-
-			String tmpStyleName = tmpStyle.getName( ).toLowerCase( );
-
-			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
-					tmpStyleName ) == null )
-				continue;
-
-			Style sourceDesignStyle = (Style) targetDesign
-					.findNativeStyle( tmpStyleName );
-
-			if ( sourceDesignStyle == null )
-			{
-				sourceDesignStyle = visitExternalSelector( tmpStyle );
-				sourceDesignStyle.setName( tmpStyleName );
-
-				continue;
-			}
-
-			Iterator iter1 = tmpStyle.propertyWithLocalValueIterator( );
-			while ( iter1.hasNext( ) )
-			{
-				String elem = (String) iter1.next( );
-
-				if ( sourceDesignStyle.getLocalProperty( targetDesign, elem ) != null )
-					continue;
-
-				Object value = tmpStyle.getLocalProperty( tmpRoot, elem );
-				sourceDesignStyle.setProperty( elem, value );
-			}
+			Style tmpStyle = (Style) styles.get( i );
+			visitExternalSelector( tmpStyle, tmpRoot );
 		}
 
 		elements.pop( );
@@ -959,22 +930,48 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * Creates am element by the given element. The given element must be the
 	 * one that is not directly defined in the source design.
 	 * 
-	 * @param struct
+	 * @param element
 	 *            the source element
-	 * @return the new element
+	 * @param elementRoot
+	 *            the root of the element
 	 */
 
-	private Style visitExternalSelector( Style element )
+	private void visitExternalSelector( Style element, Module elementRoot )
 	{
-		ElementFactory factory = new ElementFactory( targetDesign );
-		DesignElement newElement = factory.newElement(
-				element.getDefn( ).getName( ), element.getName( ) )
-				.getElement( );
+		String tmpStyleName = element.getName( ).toLowerCase( );
 
-		localizePropertyValues( element, newElement );
+		if ( MetaDataDictionary.getInstance( )
+				.getPredefinedStyle( tmpStyleName ) == null )
+			return;
 
-		cacheMapping( element, newElement );
-		return (Style) newElement;
+		Style sourceDesignStyle = (Style) targetDesign
+				.findNativeStyle( tmpStyleName );
+
+		if ( sourceDesignStyle == null )
+		{
+			ElementFactory factory = new ElementFactory( targetDesign );
+			DesignElement newElement = factory.newElement(
+					element.getDefn( ).getName( ), element.getName( ) )
+					.getElement( );
+
+			localizePropertyValues( element, newElement );
+			cacheMapping( element, newElement );
+			newElement.setName( tmpStyleName );
+
+			return;
+		}
+
+		Iterator iter1 = element.propertyWithLocalValueIterator( );
+		while ( iter1.hasNext( ) )
+		{
+			String elem = (String) iter1.next( );
+
+			if ( sourceDesignStyle.getLocalProperty( targetDesign, elem ) != null )
+				continue;
+
+			Object value = element.getLocalProperty( elementRoot, elem );
+			sourceDesignStyle.setProperty( elem, value );
+		}
 	}
 
 	/**
@@ -1037,8 +1034,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		Module root = element.getRoot( );
 		if ( element instanceof IExtendableElement )
-			ModelUtil.duplicateExtensionIdentifier( element, newElement,
-					root );
+			ModelUtil.duplicateExtensionIdentifier( element, newElement, root );
 
 		// get proerties from ascendants.
 
@@ -1066,8 +1062,8 @@ public class ReportDesignSerializer extends ElementVisitor
 					|| IStyledElementModel.STYLE_PROP.equals( propName ) )
 				continue;
 
-			Object value = element.getStrategy( ).getPropertyFromElement(
-					root, element, propDefn );
+			Object value = element.getStrategy( ).getPropertyFromElement( root,
+					element, propDefn );
 
 			if ( value == null )
 				continue;
@@ -1581,7 +1577,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the element type name
 	 * @param name
 	 *            the optional element name
-	 * @param context 
+	 * @param context
 	 * 
 	 * @return design element, <code>null</code> returned if the element
 	 *         definition name is not a valid element type name.

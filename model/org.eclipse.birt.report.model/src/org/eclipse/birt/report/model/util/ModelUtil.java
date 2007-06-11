@@ -136,12 +136,18 @@ public class ModelUtil
 	 * @return if exist return true; else return false;
 	 */
 
-	public static int getStylePotision( List styleList, String name )
+	public static int getStylePosition( List styleList, String name )
 	{
 		for ( int i = 0; i < styleList.size( ); ++i )
 		{
 			StyleElement style = (StyleElement) styleList.get( i );
-			if ( style.getName( ).equals( name ) )
+			String styleName = style.getName( );
+
+			boolean isSelector = MetaDataDictionary.getInstance( )
+					.getPredefinedStyle( styleName ) != null;
+
+			if ( ( !isSelector && styleName.equals( name ) )
+					|| ( isSelector && styleName.equalsIgnoreCase( name ) ) )
 			{
 				return i;
 			}

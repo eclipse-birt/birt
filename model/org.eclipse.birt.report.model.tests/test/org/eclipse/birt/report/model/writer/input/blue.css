@@ -1,0 +1,30 @@
+.table-group-header-1 {
+  font-family : verdana;
+  font-size :  medium;
+  font-weight : bold;
+  color : #FFFFE0;
+}
+.table-group-header-2 {
+  font-family : verdana;
+  font-size : small;
+  font-weight : bold;
+  color : #FFFFE0;
+}
+
+.table-header {
+  font-family : verdana;
+  font-size : x-small;
+  font-weight : bold;
+  color : #FFFFE0;
+}
+
+.table-detail {
+  font-family : times-roman;
+  font-size : x-small;
+  color : #4682B4;
+}
+
+.table-footer {
+  font-weight : bold;
+  color : #FFFFE0;
+}
