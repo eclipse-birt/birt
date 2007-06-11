@@ -27,7 +27,6 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
@@ -36,6 +35,7 @@
       <plugin id="com.lowagie.itext"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
+      <plugin id="javax.wsdl"/>
       <plugin id="org.apache.batik.bridge"/>
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.dom"/>
@@ -52,13 +52,13 @@
       <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.el"/>
+      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
       <plugin id="org.apache.jasper"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
-      <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.birt"/>
       <plugin id="org.eclipse.birt.chart"/>
       <plugin id="org.eclipse.birt.chart.cshelp"/>
@@ -153,9 +153,13 @@
       <plugin id="org.eclipse.datatools.enablement.oda.ws.ui"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml.ui"/>
+      <plugin id="org.eclipse.datatools.help"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.emf.common"/>
+      <plugin id="org.eclipse.emf.commonj.sdo"/>
       <plugin id="org.eclipse.emf.ecore"/>
+      <plugin id="org.eclipse.emf.ecore.change"/>
+      <plugin id="org.eclipse.emf.ecore.sdo"/>
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
@@ -208,8 +212,6 @@
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
-      <plugin id="javax.wsdl"/>
-      <plugin id="org.eclipse.datatools.help"/>
    </plugins>
 
 </product>
