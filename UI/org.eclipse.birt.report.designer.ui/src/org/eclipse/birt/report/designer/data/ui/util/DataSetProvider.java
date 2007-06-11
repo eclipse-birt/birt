@@ -203,6 +203,34 @@ public final class DataSetProvider
 	}
 	
 	/**
+	 * get Cached metadata
+	 * 
+	 * @throws BirtException
+	 */
+	public DataSetViewData[] populateAllCachedMetaData(
+			DataSetHandle dataSetHandle, DataRequestSession session )
+			throws BirtException
+	{
+		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
+				true );
+
+		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
+
+		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+		{
+			items[i] = new DataSetViewData( );
+			items[i].setName( metaData.getColumnName( i + 1 ) );
+			items[i].setDataTypeName( metaData.getColumnTypeName( i + 1 ) );
+			items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
+			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
+			items[i].setPosition( i + 1 );
+			items[i].setDataType( metaData.getColumnType( i + 1 ) );
+		}
+		return items;
+	}
+	
+	
+	/**
 	 * This function should be called very carefully. Presently it is only
 	 * called in DataSetEditorDialog#performCancel.
 	 * 
