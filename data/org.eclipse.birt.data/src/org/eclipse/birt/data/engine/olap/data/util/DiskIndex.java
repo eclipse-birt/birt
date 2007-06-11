@@ -173,6 +173,8 @@ public class DiskIndex
 			throws IOException, DataException
 	{
 		createDocumentObject( );
+		if( keyList.size( ) == 0 )
+			return;
 		IndexKey indexKey = (IndexKey) keyList.get( 0 );
 		keyDataType = new int[indexKey.getKey().length];
 		for ( int i = 0; i < indexKey.getKey().length; i++ )

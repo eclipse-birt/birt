@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -25,9 +26,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Describes a dimension. In current implement a dimension only contains one hierarchy.
@@ -141,14 +142,22 @@ public class Dimension implements IDimension
 	}
 
 
-	public IDiskArray find( Level level, Object[] keyValue ) throws IOException, DataException
+	public IDiskArray find( Level level, Object[] keyValue )
+			throws IOException, DataException
 	{
-		return level.getDiskIndex().find( keyValue );
+		DiskIndex index = level.getDiskIndex( );
+		if ( index == null )
+			return null;
+		return index.find( keyValue );
 	}
-	
-	public IndexKey findFirst( Level level, Object[] keyValue ) throws IOException, DataException
+
+	public IndexKey findFirst( Level level, Object[] keyValue )
+			throws IOException, DataException
 	{
-		return level.getDiskIndex().findFirst( keyValue );
+		DiskIndex index = level.getDiskIndex( );
+		if ( index == null )
+			return null;
+		return index.findFirst( keyValue );
 	}
 	
 

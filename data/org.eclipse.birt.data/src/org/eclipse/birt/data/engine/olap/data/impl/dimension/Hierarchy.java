@@ -229,7 +229,7 @@ public class Hierarchy implements IHierarchy
 					keyDataType,
 					attributeDataTypes,
 					size,
-					DiskIndex.loadIndex( documentManager,
+					size == 0 ? null : DiskIndex.loadIndex( documentManager,
 							NamingUtil.getLevelIndexDocName( dimensionName, levelName ) ));
 		}
 	}
@@ -509,6 +509,8 @@ public class Hierarchy implements IHierarchy
 				Constants.LIST_BUFFER_SIZE );
 		documentObj.seek( 0 );
 		int size = documentObj.readInt( );
+		if( size == 0 )
+			return resultArray;
 		offsetDocObj.seek( 0 );
 		documentObj.seek( offsetDocObj.readInt( ) );
 		for ( int i = 0; i < size; i++ )
