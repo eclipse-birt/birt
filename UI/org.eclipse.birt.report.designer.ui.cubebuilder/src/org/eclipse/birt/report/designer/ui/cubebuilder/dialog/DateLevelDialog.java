@@ -11,25 +11,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-/*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
-
-
-import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -40,17 +25,12 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class DateLevelDialog extends TitleAreaDialog
@@ -58,9 +38,9 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	private Text nameText;
 	private Combo typeCombo;
-	private Text intervalRange;
-	private Button intervalBaseButton;
-	private Text intervalBaseText;
+	//private Text intervalRange;
+	//private Button intervalBaseButton;
+	//private Text intervalBaseText;
 	private TabularLevelHandle input;
 
 	public DateLevelDialog( )
@@ -78,8 +58,8 @@ public class DateLevelDialog extends TitleAreaDialog
 			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
 			.getAllowedChoices( )
 			.getChoices( );
-	private Button noneIntervalButton;
-	private Button intervalButton;
+	//private Button noneIntervalButton;
+	//private Button intervalButton;
 
 	private List getDateTypeNames( )
 	{
@@ -145,7 +125,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		contents.setLayout( layout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.widthHint = convertWidthInCharsToPixels( 80 );
-		data.heightHint = 200;
+		//data.heightHint = 200;
 		contents.setLayoutData( data );
 
 		createContentArea( contents );
@@ -164,7 +144,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		nameText.setText( input.getName( ) );
 		typeCombo.setItems( getAvailableDateTypeDisplayNames( ) );
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
-		
+		/*
 		PropertyHandle property = input.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
 		String range = property == null ? null : property.getStringValue( );
 		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
@@ -192,7 +172,7 @@ public class DateLevelDialog extends TitleAreaDialog
 				intervalBaseText.setText( input.getIntervalBase( ) );
 			}
 		}
-
+		*/
 
 	}
 
@@ -227,6 +207,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 		} );
 
+		/*
 		Group groupGroup = new Group( content, SWT.NONE );
 		layout = new GridLayout( );
 		layout.numColumns = 3;
@@ -234,7 +215,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		groupGroup.setLayoutData( gd );
-
+		
 		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.GroupBy" ) ); //$NON-NLS-1$
 
 		noneIntervalButton = new Button( groupGroup, SWT.RADIO );
@@ -262,11 +243,6 @@ public class DateLevelDialog extends TitleAreaDialog
 		intervalRange.setLayoutData( new GridData( ) );
 		intervalRange.addVerifyListener( new VerifyListener( ) {
 
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
-			 */
 			public void verifyText( VerifyEvent event )
 			{
 				if ( event.text.length( ) <= 0 )
@@ -320,8 +296,10 @@ public class DateLevelDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		intervalBaseText.setLayoutData( gd );
+		*/
 	}
 
+	/*
 	protected void updateRadioButtonStatus( Button button )
 	{
 		if ( button == noneIntervalButton )
@@ -339,6 +317,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
 				&& intervalBaseButton.getSelection( ) );
 	}
+	*/
 
 	protected void checkOkButtonStatus( )
 	{
@@ -372,7 +351,8 @@ public class DateLevelDialog extends TitleAreaDialog
 				input.setDateTimeLevelType( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
 						.toString( ) );
 			}
-
+			
+			/*
 			if ( noneIntervalButton.getSelection( ) )
 				input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_NONE );
 			else if ( intervalButton.getSelection( ) )
@@ -396,6 +376,7 @@ public class DateLevelDialog extends TitleAreaDialog
 			{
 				input.setIntervalBase( null );
 			}
+			*/
 		}
 		catch ( Exception e )
 		{
