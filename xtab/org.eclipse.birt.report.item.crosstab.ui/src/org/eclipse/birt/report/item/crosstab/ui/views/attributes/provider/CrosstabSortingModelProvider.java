@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterModelProvider.LevelFilterConditionHandle;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabSortKeyBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -47,7 +49,7 @@ import org.eclipse.jface.dialogs.Dialog;
 
 public class CrosstabSortingModelProvider extends SortingModelProvider
 {
-	
+	private static final String EMPTY_STRING = "";
 
 	/**
 	 * Edit one item into the given position.
@@ -201,7 +203,15 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 
 		if(key.equals( ILevelViewConstants.LEVEL_PROP ))
 		{
-			return ((LevelSortKeyHandle)element).getLevelHandle( ).getCubeLevel( ).getFullName( );
+			LevelHandle cubeLevel= ( (LevelSortKeyHandle) element ).getLevelHandle( )
+			.getCubeLevel( );
+			if(cubeLevel == null)
+			{
+				return EMPTY_STRING;
+			}else
+			{
+				return cubeLevel.getFullName( );
+			}	
 		}
 		
 		element = ((LevelSortKeyHandle)element).getSortKeyHandle( );

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -51,6 +52,8 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
+	
+	private static final String EMPTY_STRING = "";
 
 	/**
 	 * 
@@ -204,8 +207,17 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 
 		if ( key.equals( ILevelViewConstants.LEVEL_PROP ) )
 		{
-			return ( (LevelFilterConditionHandle) element ).getLevelHandle( )
-					.getCubeLevel( ).getFullName( );
+			LevelHandle cubeLevel= ( (LevelFilterConditionHandle) element ).getLevelHandle( )
+			.getCubeLevel( );
+			
+			if(cubeLevel == null)
+			{
+				return EMPTY_STRING;
+			}else
+			{
+				return cubeLevel.getFullName( );
+			}				
+
 		}
 
 		element = ((LevelFilterConditionHandle) element ).getfilterConditionHandle( );

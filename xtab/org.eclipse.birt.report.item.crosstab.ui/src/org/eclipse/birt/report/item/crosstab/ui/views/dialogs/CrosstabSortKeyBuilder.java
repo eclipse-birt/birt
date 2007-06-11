@@ -726,8 +726,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			{
 				LevelViewHandle levelHandle = dimension.getLevel( j );
 				groupLevelList.add( levelHandle );
-				groupLevelNameList.add( levelHandle.getCubeLevel( )
-						.getFullName( ) );
+				if(levelHandle.getCubeLevel( ) != null)
+				{
+					groupLevelNameList.add( levelHandle.getCubeLevel( )
+							.getFullName( ) );
+				}
+				
 			}
 		}
 
@@ -823,7 +827,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 	private List getReferencedLevels( LevelViewHandle level, String bindingExpr )
 	{
-		List retList = null;
+		List retList = new ArrayList();
+		
+		if(level.getCubeLevel( ) == null)
+		{
+			return retList;
+		}
 
 		// get targetLevel
 		DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
@@ -853,7 +862,13 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 	private List getReferableBindings( LevelViewHandle level )
 	{
-		List retList = null;
+		List retList = new ArrayList();;
+
+		if(level.getCubeLevel( ) == null)
+		{
+			return retList;
+		}
+		
 		// get targetLevel
 		DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
 		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
