@@ -185,6 +185,18 @@ public class OlapExpressionUtil
 	
 	/**
 	 * 
+	 * @param dimentionName
+	 * @param levelName
+	 * @return
+	 */
+	public static String getQualifiedLevelName( String dimensionName,
+			String levelName )
+	{
+		return dimensionName + "/" + levelName;
+	}
+	
+	/**
+	 * 
 	 * @param level
 	 * @return
 	 */

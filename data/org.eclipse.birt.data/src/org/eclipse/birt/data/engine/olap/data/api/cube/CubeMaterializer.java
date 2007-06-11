@@ -110,6 +110,7 @@ public class CubeMaterializer
 	 * @param measureColumns
 	 * @param stopSign
 	 * @return
+	 * @deprecated
 	 * @throws IOException
 	 * @throws BirtException
 	 */

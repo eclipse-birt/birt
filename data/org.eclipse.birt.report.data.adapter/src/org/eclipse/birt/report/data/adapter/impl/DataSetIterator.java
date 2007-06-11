@@ -181,16 +181,17 @@ public class DataSetIterator implements IDatasetIterator
 							{
 								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
 								String cubeKey = joinCondition.getCubeKey( );
-								String hierKey = joinCondition.getHierarchyKey( );
-								metaList.add( new ColumnMeta( hierKey,
+								String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
+										cubeKey );
+								metaList.add( new ColumnMeta( cubeKeyWithDimIdentifier,
 										true,
 										null ) );
-								query.addBinding( new Binding( hierKey,
+								query.addBinding( new Binding( cubeKeyWithDimIdentifier,
 										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
 
 								GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
 										.size( ) ) );
-								gd.setKeyExpression( ExpressionUtil.createJSRowExpression( hierKey ) );
+								gd.setKeyExpression( ExpressionUtil.createJSRowExpression( cubeKeyWithDimIdentifier ) );
 								query.addGroup( gd );
 							}
 						}

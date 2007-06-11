@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
@@ -529,15 +530,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 
 		IDimension[] dimensions = populateDimensions( cubeMaterializer, cubeHandle );
-		String[][] keyColumnNames = new String[dimensions.length][];
+		String[][] factTableKey = new String[dimensions.length][];
+		String[][] dimensionKey = new String[dimensions.length][];
+
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
 			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) )
 			{
-				keyColumnNames[i] = dimensions[i].getHierarchy( ).getLevels( )[dimensions[i].getHierarchy( )
+				factTableKey[i] = dimensions[i].getHierarchy( ).getLevels( )[dimensions[i].getHierarchy( )
 						.getLevels( ).length - 1].getKeyNames( );
+				dimensionKey[i] = factTableKey[i];
 			}
 			else
 			{
@@ -550,29 +554,95 @@ public class DataRequestSessionImpl extends DataRequestSession
 					{
 						Iterator conditionIt = dimCondHandle.getJoinConditions( )
 								.iterator( );
-						List keys = new ArrayList();
+						List dimensionKeys = new ArrayList( );
+						List factTableKeys = new ArrayList( );
 						while ( conditionIt.hasNext( ) )
 						{
 							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-							keys.add( joinCondition.getHierarchyKey( ));
+							if ( isAttribute( dimensions[i],joinCondition.getLevelName( ) ,
+									joinCondition.getHierarchyKey( ) ) )
+							{
+								dimensionKeys.add( OlapExpressionUtil.getAttributeColumnName( getLevelName( dimensions[i],
+										joinCondition.getLevelName( ) ),
+										joinCondition.getHierarchyKey( ) ) );
+							}
+							else
+							{
+								dimensionKeys.add( joinCondition.getHierarchyKey( ) );
+							}
+							factTableKeys.add( OlapExpressionUtil.getQualifiedLevelName( dimensions[i].getName( ),
+									joinCondition.getCubeKey( ) ) );
 						}
-						keyColumnNames[i] = new String[keys.size( )];
-						for( int j = 0; j < keys.size( ); j++ )
+						factTableKey[i] = new String[factTableKeys.size( )];
+						dimensionKey[i] = new String[dimensionKeys.size( )];
+						for( int j = 0; j < dimensionKeys.size( ); j++ )
 						{
-							keyColumnNames[i][j] = keys.get( j ).toString( );
+							factTableKey[i][j] = factTableKeys.get( j ).toString( );
+							dimensionKey[i][j] = dimensionKeys.get( j ).toString( );
 						}
 					}
 				}
 			}
 		}
 		cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
-				keyColumnNames,
+				factTableKey,
+				dimensionKey,
 				dimensions,
 				new DataSetIterator( this, cubeHandle ),
 				this.toStringArray( measureNames ),
 				null );
 	} 
 
+	/**
+	 * whether this key name is attribute or not
+	 * @param dimensions
+	 * @param colName
+	 * @return
+	 */
+	private boolean isAttribute( IDimension dimension, String levelName,
+			String colName )
+	{
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
+		for ( int j = 0; j < levels.length; j++ )
+		{
+			if ( !levelName.equals( OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
+					levels[j].getName( ) ) ) )
+				continue;
+			String[] attributes = levels[j].getAttributeNames( );
+			if ( attributes == null )
+				continue;
+			for ( int k = 0; k < attributes.length; k++ )
+			{
+				if ( attributes[k].equals( OlapExpressionUtil.getAttributeColumnName( levels[j].getName( ),
+						colName ) ) )
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Because the targeName's pattern is dimensionName/levelName, provide this
+	 * method to get the real levelName
+	 * 
+	 * @param dimension
+	 * @param targetName
+	 * @return
+	 */
+	private String getLevelName( IDimension dimension, String targetName )
+	{
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
+		for ( int j = 0; j < levels.length; j++ )
+		{
+			if ( targetName.equals( OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
+					levels[j].getName( ) ) ) )
+			{
+				return levels[j].getName( );
+			}
+		}
+		return targetName;
+	}
+	
 	/**
 	 * Populate all dimensions.
 	 * @param cubeMaterializer
