@@ -61,6 +61,11 @@ public class HighlightHandleProvider
 		return expressionType;
 	}
 	
+	public void setExpressionType(int expressionType)
+	{
+		this.expressionType = expressionType;
+	}
+	
 	/**
 	 * Returns the final font family name.
 	 * 

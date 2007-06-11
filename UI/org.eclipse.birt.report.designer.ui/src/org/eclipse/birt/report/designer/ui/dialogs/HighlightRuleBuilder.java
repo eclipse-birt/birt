@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -829,6 +830,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	public void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;
+		initializeProviderType();
 	}
 
 	/**
@@ -1477,5 +1479,20 @@ public class HighlightRuleBuilder extends BaseDialog
 		
 		return null;
 		
+	}
+	
+	private void initializeProviderType()
+	{
+		if(designHandle instanceof DataItemHandle) 	
+		{
+			DataItemHandle dataItem = (DataItemHandle)designHandle;
+			if(dataItem.getContainer( ) instanceof ExtendedItemHandle)
+			{
+				provider.setExpressionType( HighlightHandleProvider.EXPRESSION_TYPE_DATA );
+			}else
+			{
+				provider.setExpressionType( HighlightHandleProvider.EXPRESSION_TYPE_ROW );
+			}
+		}
 	}
 }

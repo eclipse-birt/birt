@@ -59,6 +59,12 @@ public class MapHandleProvider
 	{
 		return expressionType;
 	}
+	
+	public void setExpressionType(int expressionType)
+	{
+		this.expressionType = expressionType;
+	}
+	
 	public URL getResourceURL( )
 	{
 		return SessionHandleAdapter.getInstance( )

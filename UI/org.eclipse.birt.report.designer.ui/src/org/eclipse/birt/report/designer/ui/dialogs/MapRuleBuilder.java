@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -174,7 +175,7 @@ public class MapRuleBuilder extends BaseDialog
 
 		return 0;
 	}
-
+	
 	private MapRuleHandle handle;
 
 	private MapHandleProvider provider;
@@ -583,6 +584,7 @@ public class MapRuleBuilder extends BaseDialog
 	public void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;
+		initializeProviderType();
 	}
 
 	/*
@@ -904,5 +906,20 @@ public class MapRuleBuilder extends BaseDialog
 		
 		return null;
 		
+	}
+	
+	private void initializeProviderType()
+	{
+		if(designHandle instanceof DataItemHandle) 	
+		{
+			DataItemHandle dataItem = (DataItemHandle)designHandle;
+			if(dataItem.getContainer( ) instanceof ExtendedItemHandle)
+			{
+				provider.setExpressionType( MapHandleProvider.EXPRESSION_TYPE_DATA );
+			}else
+			{
+				provider.setExpressionType( MapHandleProvider.EXPRESSION_TYPE_ROW );
+			}
+		}
 	}
 }
