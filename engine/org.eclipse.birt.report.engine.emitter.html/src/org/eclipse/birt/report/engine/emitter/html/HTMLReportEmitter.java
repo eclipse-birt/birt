@@ -853,6 +853,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
 		
+		if ( pageNo > 1 )
+		{
+			writer.attribute( HTMLTags.ATTR_STYLE, "page-break-before: always;" );
+		}
+		
 		// out put the background and width
 		if ( page != null )
 		{
@@ -892,46 +897,55 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							" table-layout:fixed; width:100%;" );
 
 					writer.openTag( HTMLTags.TAG_COL );
+					styleBuffer.setLength( 0 );
+					styleBuffer.append( "width: " );
 					if ( null != leftMargin )
 					{
-						styleBuffer.setLength( 0 );
-						styleBuffer.append( "width: " );
 						styleBuffer.append( leftMargin.toString( ) );
-						styleBuffer.append( ";" );
-						writer.attribute( HTMLTags.ATTR_STYLE,
-								styleBuffer.toString( ) );
 					}
+					else
+					{
+						styleBuffer.append( "0pt" );
+					}
+					styleBuffer.append( ";" );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
 					writer.closeNoEndTag( );
 
 					writer.openTag( HTMLTags.TAG_COL );
 					writer.closeNoEndTag( );
 
 					writer.openTag( HTMLTags.TAG_COL );
+					styleBuffer.setLength( 0 );
+					styleBuffer.append( "width: " );
 					if ( null != rightMargin )
 					{
-						styleBuffer.setLength( 0 );
-						styleBuffer.append( "width: " );
 						styleBuffer.append( rightMargin.toString( ) );
-						styleBuffer.append( ";" );
-						writer.attribute( HTMLTags.ATTR_STYLE,
-								styleBuffer.toString( ) );
 					}
+					else
+					{
+						styleBuffer.append( "0pt" );
+					}
+					styleBuffer.append( ";" );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
 					writer.closeNoEndTag( );
 
-					writer.openTag( HTMLTags.TAG_TR );
+					// If top margin isn't null, output a row to implement it.
 					if ( null != topMargin )
 					{
+						writer.openTag( HTMLTags.TAG_TR );
 						styleBuffer.setLength( 0 );
 						styleBuffer.append( "height: " );
 						styleBuffer.append( topMargin.toString( ) );
 						styleBuffer.append( ";" );
 						writer.attribute( HTMLTags.ATTR_STYLE,
 								styleBuffer.toString( ) );
+						writer.openTag( HTMLTags.TAG_TD );
+						writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+						writer.closeTag( HTMLTags.TAG_TD );
+						writer.closeTag( HTMLTags.TAG_TR );
 					}
-					writer.openTag( HTMLTags.TAG_TD );
-					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
-					writer.closeTag( HTMLTags.TAG_TD );
-					writer.closeTag( HTMLTags.TAG_TR );
 
 					writer.openTag( HTMLTags.TAG_TR );
 					writer.openTag( HTMLTags.TAG_TD );
@@ -945,11 +959,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( htmlRtLFlag )
 		{
 			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-		}
-		
-		if ( pageNo > 1 )
-		{
-			writer.attribute( HTMLTags.ATTR_STYLE, "page-break-before: always;" );
 		}
 
 		//output page header
@@ -1097,21 +1106,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
 					DimensionType bottomMargin = masterPage.getTopMargin( );
-
-					writer.openTag( HTMLTags.TAG_TR );
+					// If bottom margin isn't null, output a row to implement it.
 					if ( null != bottomMargin )
 					{
+						writer.openTag( HTMLTags.TAG_TR );
 						StringBuffer styleBuffer = new StringBuffer( );
 						styleBuffer.append( "height: " );
 						styleBuffer.append( bottomMargin.toString( ) );
 						styleBuffer.append( ";" );
 						writer.attribute( HTMLTags.ATTR_STYLE,
 								styleBuffer.toString( ) );
+						writer.openTag( HTMLTags.TAG_TD );
+						writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+						writer.closeTag( HTMLTags.TAG_TD );
+						writer.closeTag( HTMLTags.TAG_TR );
 					}
-					writer.openTag( HTMLTags.TAG_TD );
-					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
-					writer.closeTag( HTMLTags.TAG_TD );
-					writer.closeTag( HTMLTags.TAG_TR );
 
 					writer.closeTag( HTMLTags.TAG_TABLE );
 				}
