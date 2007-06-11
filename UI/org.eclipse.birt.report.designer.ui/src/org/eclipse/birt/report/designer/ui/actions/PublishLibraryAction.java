@@ -143,12 +143,24 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 				{
 					libFile = file;
 					selectLibrary = true;
-					action.setEnabled( true );
-					return;
+					action.setEnabled( true );					
+				}else
+				{
+					libFile = null;
+					selectLibrary = false;
+					action.setEnabled( false );	
 				}				
+				
+				return;
 			}
+		}else
+		{
+			libFile = null;
+			selectLibrary = false;
+			action.setEnabled( isEnable( ) ); //$NON-NLS-1$
 		}
-		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
+		
+
 	}
 
 	private boolean isEnable( )

@@ -14,14 +14,17 @@ package org.eclipse.birt.report.designer.ui.actions;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -47,6 +50,9 @@ import org.eclipse.ui.PlatformUI;
 public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 {
 
+	private IFile reportFile = null;
+	private boolean selectReport = false;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -71,12 +77,48 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run( IAction action )
-	{
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+	{		
+		if(selectReport)
+		{
+			if ( reportFile != null )
+			{
+				String url = reportFile.getLocation( ).toOSString( );
+				try
+				{
+					ModuleHandle handle = SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openDesign( url );
+
+					if ( !( handle instanceof ReportDesignHandle ) )
+					{
+						action.setEnabled( false );
+						return;
+					}
+
+					WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+							new PublishTemplateWizard( (ReportDesignHandle) handle ) );
+					dialog.setPageSize( 500, 250 );
+					dialog.open( );
+
+					handle.close( );
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+					return;
+				}
+			}
+		}else
+		{		
+			WizardDialog dialog = 	new WizardDialog( UIUtil.getDefaultShell( ),
 				new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) ) );
-		dialog.setPageSize( 500, 250 );
-		dialog.open( );
+						.getReportDesignHandle( ) ) );		
+			dialog.setPageSize( 500, 250 );
+			dialog.open( );
+		}
+
+		
+
 	}
 
 	/*
@@ -87,7 +129,39 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
-		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
+		if ( selection instanceof TreeSelection )
+		{
+			IFile file = null;
+			if ( ( (TreeSelection) selection ).getFirstElement( ) instanceof IFile )
+			{
+				file = (IFile) ( (TreeSelection) selection ).getFirstElement( );
+			}
+			if ( file != null )
+			{
+				if ( file.getFileExtension( ).equals( "rpttemplate" ) 
+				|| file.getFileExtension( ).equals( "rptdesign" ))
+				{
+					reportFile = file;
+					selectReport = true;
+					action.setEnabled( true );					
+				}else
+				{
+					reportFile = null;
+					selectReport = false;
+					action.setEnabled( false );	
+				}
+				
+				
+				return;
+			}
+		}else
+		{
+			reportFile = null;
+			selectReport = false;
+			action.setEnabled( isEnable( ) ); //$NON-NLS-1$
+		}
+		
+
 	}
 
 	private boolean isEnable( )
@@ -96,6 +170,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		if ( editor != null )
 		{
 			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
+				|| editor.getEditorInput( ).getName( ).endsWith( ".rptdesign" )
 					|| ReportPlugin.getDefault( )
 							.isReportDesignFile( editor.getEditorInput( )
 									.getName( ) ) )

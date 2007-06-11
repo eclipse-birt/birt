@@ -619,7 +619,6 @@ public class ImageBuilder extends BaseDialog
 		{
 			embedded.setSelection( true );
 			switchTo( EMBEDDED_TYPE );
-			initList( );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equals( inputImage.getSource( ) ) )
 		{
