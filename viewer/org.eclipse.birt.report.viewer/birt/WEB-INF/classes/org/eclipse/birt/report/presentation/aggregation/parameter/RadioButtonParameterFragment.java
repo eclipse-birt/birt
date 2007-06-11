@@ -131,7 +131,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 				isDisplayTextInList = true;
 			}
 			
-			parameterBean.setDisplayTextInList( true );
+			parameterBean.setDisplayTextInList( isDisplayTextInList );
 		}
 	}
 }
