@@ -52,7 +52,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 
 	private IFile reportFile = null;
 	private boolean selectReport = false;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -77,8 +77,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run( IAction action )
-	{		
-		if(selectReport)
+	{
+		if ( selectReport )
 		{
 			if ( reportFile != null )
 			{
@@ -108,16 +108,15 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 					return;
 				}
 			}
-		}else
-		{		
-			WizardDialog dialog = 	new WizardDialog( UIUtil.getDefaultShell( ),
-				new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) ) );		
+		}
+		else
+		{
+			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+					new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ) ) );
 			dialog.setPageSize( 500, 250 );
 			dialog.open( );
 		}
-
-		
 
 	}
 
@@ -138,29 +137,27 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 			}
 			if ( file != null )
 			{
-				if ( file.getFileExtension( ).equals( "rpttemplate" ) 
-				|| file.getFileExtension( ).equals( "rptdesign" ))
+				if ( file.getFileExtension( ).equals( "rpttemplate" )
+						|| file.getFileExtension( ).equals( "rptdesign" ) )
 				{
 					reportFile = file;
 					selectReport = true;
-					action.setEnabled( true );					
-				}else
+					action.setEnabled( true );
+				}
+				else
 				{
 					reportFile = null;
 					selectReport = false;
-					action.setEnabled( false );	
+					action.setEnabled( false );
 				}
-				
-				
+
 				return;
 			}
-		}else
-		{
-			reportFile = null;
-			selectReport = false;
-			action.setEnabled( isEnable( ) ); //$NON-NLS-1$
 		}
 		
+		reportFile = null;
+		selectReport = false;
+		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
 
 	}
 
@@ -170,7 +167,9 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		if ( editor != null )
 		{
 			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
-				|| editor.getEditorInput( ).getName( ).endsWith( ".rptdesign" )
+					|| editor.getEditorInput( )
+							.getName( )
+							.endsWith( ".rptdesign" )
 					|| ReportPlugin.getDefault( )
 							.isReportDesignFile( editor.getEditorInput( )
 									.getName( ) ) )
