@@ -43,7 +43,8 @@ plugin@org.eclipse.birt.thirdparty=v20070530,:pserver:anonymous@dev.eclipse.org:
 feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 
-plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
+!******plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
+*******
 
 !*** Apache Xerces**************************************************************************** 
 
