@@ -140,7 +140,7 @@ public class TaskSelectType extends SimpleTask implements
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
 	private static Hashtable htSeriesNames = null;
-	
+
 	public TaskSelectType( )
 	{
 		super( Messages.getString( "TaskSelectType.TaskExp" ) ); //$NON-NLS-1$
@@ -267,7 +267,7 @@ public class TaskSelectType extends SimpleTask implements
 			lblDimension.setLayoutData( gd );
 			lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
 		}
-		
+
 		// Add the ComboBox for Dimensions
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
@@ -298,7 +298,7 @@ public class TaskSelectType extends SimpleTask implements
 			lblMultipleY.setLayoutData( gd );
 			lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
 		}
-		
+
 		// Add the checkBox for Multiple Y Axis
 		cbMultipleY = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
@@ -339,7 +339,7 @@ public class TaskSelectType extends SimpleTask implements
 			lblOrientation.setLayoutData( gd );
 			lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
 		}
-		
+
 		// Add the CheckBox for Orientation
 		cbOrientation = new Button( cmpMisc, SWT.CHECK );
 		{
@@ -365,7 +365,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		Label lblTypes = new Label( cmpLeft, SWT.WRAP );
 		{
-			GridData gd = new GridData(  GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblTypes.setLayoutData( gd );
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
@@ -524,7 +524,7 @@ public class TaskSelectType extends SimpleTask implements
 	}
 
 	private void populateSeriesTypes( Collection allChartType, Series series,
-			Orientation orientation ) 
+			Orientation orientation )
 	{
 		Iterator iterTypes = allChartType.iterator( );
 		while ( iterTypes.hasNext( ) )
@@ -674,10 +674,10 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			needUpdateModel = true;
 			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
-			
+
 			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 					.get( 0 ) );
-			
+
 			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
 
 			if ( chartModel instanceof ChartWithoutAxes )
@@ -715,12 +715,12 @@ public class TaskSelectType extends SimpleTask implements
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
 				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName =( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( ) .getDisplayName( );
+				String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+						.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
 				cbSeriesType.setText( sDisplayName );
 			}
 			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
-			
+
 			// Update dimension combo and related sub-types
 			if ( updateDimensionCombo( sType ) )
 			{
@@ -745,11 +745,11 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else if ( oSelected.equals( cbSeriesType ) )
 		{
-//			if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
-//			{
-				needUpdateModel = true;
-				changeOverlaySeriesType( );
-//			}
+// if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
+// {
+			needUpdateModel = true;
+			changeOverlaySeriesType( );
+// }
 		}
 		else if ( oSelected.equals( cbOutput ) )
 		{
@@ -881,7 +881,7 @@ public class TaskSelectType extends SimpleTask implements
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series newSeries = (Series)htSeriesNames.get( cbSeriesType.getText( ) );
+				Series newSeries = (Series) htSeriesNames.get( cbSeriesType.getText( ) );
 				newSeries.translateFrom( ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( ),
 						iSeriesDefinitionIndex,
@@ -921,8 +921,8 @@ public class TaskSelectType extends SimpleTask implements
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		if ( series.canParticipateInCombination( ) )
 		{
-				populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-						.getUIChartTypeExtensions( ), series, this.orientation );
+			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
+					.getUIChartTypeExtensions( ), series, this.orientation );
 		}
 		else
 		{
@@ -939,9 +939,12 @@ public class TaskSelectType extends SimpleTask implements
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
 				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName =( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
-				cbSeriesType.setText( sDisplayName );
+				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
+				{
+					String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+							.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
+					cbSeriesType.setText( sDisplayName );
+				}
 			}
 		}
 	}
@@ -992,9 +995,9 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			this.orientation = chartType.getDefaultOrientation( );
 		}
-		//Cache the orientation for each chart type.
+		// Cache the orientation for each chart type.
 		ChartCacheManager.getInstance( ).cacheOrientation( sType, orientation );
-		
+
 		if ( chartModel == null )
 		{
 			ChartCacheManager.getInstance( ).cacheCategory( sType, true );
@@ -1006,7 +1009,7 @@ public class TaskSelectType extends SimpleTask implements
 							( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 									.get( 0 ) ).isCategoryAxis( ) );
 		}
-		
+
 		// Update the UI with information for selected type
 		createGroups( vSubTypes );
 		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
@@ -1532,7 +1535,9 @@ public class TaskSelectType extends SimpleTask implements
 		return iTmp;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
 	public Image getImage( )
