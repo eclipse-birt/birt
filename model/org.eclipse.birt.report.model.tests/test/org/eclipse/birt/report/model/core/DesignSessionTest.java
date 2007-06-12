@@ -140,10 +140,10 @@ public class DesignSessionTest extends BaseTestCase
 	public void testOpenDesign( ) throws DesignFileException
 	{
 		ULocale defaultULocale = ULocale.getDefault( );
-		ULocale.setDefault( ULocale.CHINA );
+		ULocale.setDefault( ULocale.CHINESE );
 
 		DesignSession session = new DesignSession( null );
-		assertEquals( ULocale.CHINA, CoreTestUtil.getSessionLocale( session ) );
+		assertEquals( ULocale.CHINESE, CoreTestUtil.getSessionLocale( session ) );
 
 		session = new DesignSession( ULocale.ENGLISH );
 		assertEquals( ULocale.ENGLISH, CoreTestUtil.getSessionLocale( session ) );
@@ -230,7 +230,7 @@ public class DesignSessionTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests set�aa� mthods. Test cases:
+	 * Tests setValue methods. Test cases:
 	 * 
 	 * <ul>
 	 * <li>Case1:Get the default RGB and units value.
