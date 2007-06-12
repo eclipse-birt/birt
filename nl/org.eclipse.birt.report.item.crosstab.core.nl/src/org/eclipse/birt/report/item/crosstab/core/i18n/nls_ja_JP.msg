@@ -2,10 +2,10 @@
 # Crosstab name conventions
 Element.Crosstab=クロスタブ
 Element.CrosstabCell=クロスタブセル
-Element.CrosstabAggregationCell=クロスタブ総計セル
-Element.AggregationOnRow=行ごとの総計
-Element.AggregationOnColumn=列ごとの総計
-Element.AggregationHeaderLocation=総計ヘッダの位置
+Element.CrosstabAggregationCell=クロスタブ集計セル
+Element.AggregationOnRow=行ごとの集計
+Element.AggregationOnColumn=列ごとの集計
+Element.AggregationHeaderLocation=集計ヘッダの位置
 Element.MeasureView=計測ビュー
 Element.PageBreakBefore=次の前で改ページ
 Element.PageBreakAfter=次の後で改ページ
@@ -87,8 +87,8 @@ CrosstabReportItemHandle.error.set.row.height=クロスタブロウの高さを設定中にエラ
 CrosstabReportItemHandle.msg.change.measure.direction=計測の方向を変更
 CrosstabReportItemHandle.msg.insert.measure=計測の挿入
 
-MeasureViewHandle.info.aggregation.already.exist=指定された総計はすでに存在します。
-MeasureViewHandle.msg.add.aggregation=総計の追加
+MeasureViewHandle.info.aggregation.already.exist=指定された集計はすでに存在します。
+MeasureViewHandle.msg.add.aggregation=集計の追加
 
 LevelViewTask.msg.remove.subtotal=小計の削除
 LevelViewTask.msg.add.subtotal=小計の追加
@@ -101,7 +101,7 @@ CrosstabViewTask.msg.remove.grandtotal=総計の削除
 CrosstabViewTask.msg.add.grandtotal=総計の追加
 
 CrosstabReportItemTask.msg.add.grandtotal=総計の追加
-CrosstabReportItemTask.msg.set.aggregate.function=総計関数の設定
+CrosstabReportItemTask.msg.set.aggregate.function=集計関数の設定
 CrosstabReportItemTask.msg.pivot.dimension=次元の回転
 CrosstabReportItemTask.msg.insert.dimension=次元の挿入
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level

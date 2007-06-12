@@ -431,7 +431,7 @@ dataset.editor.title.direction=•ûŒü(&D)
 dataset.editor.title.displayName=•\¦–¼(&D)
 dataset.editor.title.displayNameKey=•\¦–¼ƒL[(&K)
 dataset.editor.title.expression=®(&E)
-dataset.editor.title.aggrFunc=‘Œv(&A)
+dataset.editor.title.aggrFunc=WŒv(&A)
 dataset.editor.title.aggrArgu=ˆø”(&R)
 dataset.editor.title.filter=ƒtƒBƒ‹ƒ^(&F)
 dataset.editor.title.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg
@@ -789,8 +789,8 @@ DesignerPaletteFactory.toolTip.tableReportItem=ƒwƒbƒ_AÚ×Aƒtƒbƒ^‚Ìƒf[ƒ^ƒZƒbƒ
 DesignerPaletteFactory.toolTip.textDataReportItem=ƒIƒvƒVƒ‡ƒ“‚Å CLOB ƒf[ƒ^®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.toolTip.textReportItem=ƒIƒvƒVƒ‡ƒ“‚ÅƒCƒ“ƒ‰ƒCƒ“®‚ğŠÜ‚ŞƒeƒLƒXƒgƒuƒƒbƒN (•W€‚ÌƒeƒLƒXƒg‚Ü‚½‚Í HTML) ‚ğ‘}“ü‚µ‚Ü‚·B
 DesignerPaletteFactory.quicktool.title=ƒNƒCƒbƒNƒc[ƒ‹
-DesignerPaletteFactory.quicktool.agg.title=‘Œv
-DesignerPaletteFactory.quicktool.agg.toolTip=‘Œv€–Ú‚Ì‘}“ü
+DesignerPaletteFactory.quicktool.agg.title=WŒv
+DesignerPaletteFactory.quicktool.agg.toolTip=WŒv€–Ú‚Ì‘}“ü
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -1503,9 +1503,9 @@ FormatStringPreferencePage.formatString.title=•¶š—ñ‚Ì‘®
 
 FormPage.Button.Add=’Ç‰Á(&A)
 FormPage.Button.AddWithDialog=’Ç‰Á(&A)...
-FormPage.Button.Add.AggregateOn=‘Œv‚Ì’Ç‰Á(&A)
+FormPage.Button.Add.AggregateOn=WŒv‚Ì’Ç‰Á(&A)
 FormPage.Button.AddWithDialog=’Ç‰Á(&A)...
-FormPage.Button.AddWithDialog.AggregateOn=‘Œv‚Ì’Ç‰Á(&A)...
+FormPage.Button.AddWithDialog.AggregateOn=WŒv‚Ì’Ç‰Á(&A)...
 FormPage.Button.Delete=íœ(&R)
 FormPage.Button.Down=‰º‚Ö(&N)
 FormPage.Button.Edit=•ÒW(&D)
@@ -3742,7 +3742,7 @@ DataItemBindingDialog.Button.Delete=íœ
 #DataColumBindingDialog properties
 DataColumBindingDialog.title.CreateNewDataBinding=ƒf[ƒ^ƒoƒCƒ“ƒh‚ÌV‹Kì¬
 DataColumBindingDialog.title.EditDataBinding=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì•ÒW
-DataColumBindingDialog.title.AggBuilder=‘Œvƒrƒ‹ƒ_
+DataColumBindingDialog.title.AggBuilder=WŒvƒrƒ‹ƒ_
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3835,7 +3835,7 @@ PageGenerator.TabItem.Sorting=ƒ\[ƒg
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=‘Œvƒf[ƒ^€–Ú‚Ìì¬
+AggDataDropAdapter.Trans.Name=WŒvƒf[ƒ^€–Ú‚Ìì¬
 
 ###########################################################
 #BindingDialogHelper
@@ -3844,7 +3844,7 @@ BindingDialogHelper.text.DataType=ƒf[ƒ^Œ^ :
 BindingDialogHelper.text.Function=ŠÖ” :
 BindingDialogHelper.text.DataField=ƒf[ƒ^ƒtƒB[ƒ‹ƒh :
 BindingDialogHelper.text.Filter=ƒtƒBƒ‹ƒ^‚ÌğŒ :
-BindingDialogHelper.text.AggOn=‘ŒvğŒ :
+BindingDialogHelper.text.AggOn=WŒvğŒ :
 BindingDialogHelper.text.Table=ƒe[ƒuƒ‹
 BindingDialogHelper.text.List=ƒŠƒXƒg
 BindingDialogHelper.text.Group=ƒOƒ‹[ƒv

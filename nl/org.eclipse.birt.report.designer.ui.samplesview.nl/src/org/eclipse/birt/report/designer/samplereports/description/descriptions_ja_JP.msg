@@ -5,7 +5,7 @@
 ProductCatalog=Classic Models ŽÐ‚Ì»•iƒJƒ^ƒƒO‚ðA»•i‚ÌƒJƒeƒSƒŠ‚²‚Æ‚É‚Ü‚Æ‚ß‚Äo—Í‚µ‚Ü‚·B‚±‚ÌƒJƒ^ƒƒO‚É‚ÍA»•i–¼AƒRƒXƒgAà–¾‚ªŠÜ‚Ü‚ê‚Ü‚·BƒŒƒxƒ‹‚²‚Æ‚ÉƒOƒ‹[ƒv‰»‚µAƒe[ƒuƒ‹‚âƒOƒŠƒbƒh‚ðŽg‚Á‚ÄƒŒƒCƒAƒEƒg‚ð®‚¦‚Ü‚·B‚Ü‚½AƒCƒ[ƒW‚ð“ü‚ê‚½‚èA<value-of> ƒ^ƒO‚ðŽg‚¤‚±‚Æ‚ÅƒeƒLƒXƒg€–Ú‚Éƒf[ƒ^ƒx[ƒX—ñ‚Ì“à—e‚ðŽæ‚èž‚Ý‚Ü‚·B‚±‚ÌƒJƒ^ƒƒO‚ÍAŒˆ‚Ü‚Á‚½ƒXƒ^ƒCƒ‹‚Åo—Í‚³‚ê‚é‚½‚ßAŒ©‚½–Ú‚ª“ˆê‚³‚êŠÇ—‚àŠÈ’P‚Å‚·B 
 TopSellingProducts=»•i‚²‚Æ‚Ì”„ã‚‚ð‰~ƒOƒ‰ƒt‚ÅŽ¦‚µ‚Ü‚·B‚Ç‚Ì‚æ‚¤‚È»•i‚ªãˆÊ‚ðè‚ß‚Ä‚¢‚é‚©‚ª‚í‚©‚é‚æ‚¤‚ÉA”„ã‚‚Ì‘½‚¢»•i‚©‚ç‡‚ÉŽ¦‚µ‚Ü‚·BƒOƒ‰ƒt‚ÌŽg—p‚âŒ‹‰ÊƒZƒbƒg‚Ìƒ\[ƒg•û–@‚ðŽ¦‚µ‚Ü‚·B‚Ü‚½AƒCƒ[ƒW‚ð“ü‚ê‚½‚èAƒe[ƒuƒ‹‚âƒOƒŠƒbƒh‚ðŽg‚Á‚ÄƒŒƒCƒAƒEƒg‚ð®‚¦‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAŒˆ‚Ü‚Á‚½ƒXƒ^ƒCƒ‹‚Åo—Í‚³‚ê‚é‚½‚ßAŒ©‚½–Ú‚ª“ˆê‚³‚êŠÇ—‚àŠÈ’P‚Å‚·B 
 TopNPercent=‚±‚ÌƒŒƒ|[ƒg‚ÍABIRT 2.0 ‚ÌV‚µ‚¢ƒtƒBƒ‹ƒ^‹@”\‚ðŽg‚Á‚ÄA‚Ç‚ÌŒÚ‹q‚Ö‚Ì”„ã‚‚ªãˆÊ‚ðè‚ß‚Ä‚¢‚é‚©‚ð’²‚×A–_ƒOƒ‰ƒt‚ÅŽ¦‚µ‚Ü‚·BƒŒƒ|[ƒg‚ÌŽÀsŽž‚É‡ˆÊ (ãˆÊ N ”Ô–Ú) ‚âŠ„‡ (M%) ‚ðŽw’è‚µ‚Ü‚·BƒOƒ‰ƒt‚Ì‰º‚ÉAãˆÊ M% ‚Ü‚Å‚ÌŒÚ‹q‚ð–¼‘O‡‚ÉŽ¦‚µ‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ðo—Í‚·‚é‚É‚Íƒf[ƒ^‚ÌŽó‚¯“n‚µ‚ð”‰ñs‚¤•K—v‚ª‚ ‚è‚Ü‚·‚ªABIRT ƒŒƒ|[ƒgƒGƒ“ƒWƒ“‚ª‚·‚×‚Äˆ—‚µ‚Ü‚·Bƒ†[ƒU‚ªƒŒƒ|[ƒg‚ÌŽÀsŽž‚ÉŽw’è‚·‚é‡ˆÊ (N) ‚âƒp[ƒZƒ“ƒg (M) ‚Ì”’l‚ÍAƒpƒ‰ƒƒ^‚Æ‚µ‚ÄƒŒƒ|[ƒg‚É“n‚³‚ê‚Ü‚·B 
-StaticCrosstab=‚±‚Ì—á‚ÍABIRT ‚Ì Total ŠÖ”‚ðŽg‚Á‚ÄA‚Ç‚Ì‚æ‚¤‚ÉƒXƒ^ƒeƒBƒbƒNƒNƒƒXƒ^ƒuƒŒƒ|[ƒg‚ð\’z‚·‚é‚©‚ðŽ¦‚µ‚½‚à‚Ì‚Å‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAClassic Models ŽÐ‚Ì»•iƒ‰ƒCƒ“•Ê”NŠÔ”„ã‚‚ðŽl”¼Šú‚²‚Æ‚É•\‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½A‡Œv‚Íc‚Æ‰¡‚Ì 2 ‚Â‚ÌŽŸŒ³‚Å‘Œv‚³‚ê‚Ä‚¢‚Ü‚·BBIRT ‚Ì Total ŠÖ”‚Å‚ÍA2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ðŽg‚Á‚Ä‘Œvƒf[ƒ^‚ðƒtƒBƒ‹ƒ^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚Å‚ÍA‚±‚Ì‹@”\‚ªu“S“¹–ÍŒ^v‚È‚Ç‚Ì»•iŒQ‚ÉŠÖ‚·‚é”’l‚ð•\‚·‚½‚ß‚Ì‚Ý‚ÉŽg‚í‚ê‚Ä‚¢‚Ü‚·BTotal ŠÖ”‚ÌÅ‰‚Ìƒpƒ‰ƒƒ^‚Í‘Œv’l‚Å‚·B‚±‚Ì—á‚Å‚ÍA”„ãŒÂ”‚Æ’P‰¿‚ðŠ|‚¯‚½’l‚É“K—p‚³‚ê‚Ä‚¢‚Ü‚·B2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ÍƒtƒBƒ‹ƒ^‚Å‚·B‚½‚Æ‚¦‚ÎAƒtƒBƒ‹ƒ^‚ª dataSetRow["Products::PRODUCTLINE"]=="–ÍŒ^ƒI[ƒgƒoƒC" ‚Æ‚¢‚¤ƒtƒBƒ‹ƒ^‚ªŽw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍAu–ÍŒ^ƒI[ƒgƒoƒCv‚Ì»•iŒQ‚¾‚¯‚ª‘Œv‚³‚ê‚Ü‚·B 
+StaticCrosstab=‚±‚Ì—á‚ÍABIRT ‚Ì Total ŠÖ”‚ðŽg‚Á‚ÄA‚Ç‚Ì‚æ‚¤‚ÉƒXƒ^ƒeƒBƒbƒNƒNƒƒXƒ^ƒuƒŒƒ|[ƒg‚ð\’z‚·‚é‚©‚ðŽ¦‚µ‚½‚à‚Ì‚Å‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAClassic Models ŽÐ‚Ì»•iƒ‰ƒCƒ“•Ê”NŠÔ”„ã‚‚ðŽl”¼Šú‚²‚Æ‚É•\‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½A‡Œv‚Íc‚Æ‰¡‚Ì 2 ‚Â‚ÌŽŸŒ³‚ÅWŒv‚³‚ê‚Ä‚¢‚Ü‚·BBIRT ‚Ì Total ŠÖ”‚Å‚ÍA2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ðŽg‚Á‚ÄWŒvƒf[ƒ^‚ðƒtƒBƒ‹ƒ^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚Å‚ÍA‚±‚Ì‹@”\‚ªu“S“¹–ÍŒ^v‚È‚Ç‚Ì»•iŒQ‚ÉŠÖ‚·‚é”’l‚ð•\‚·‚½‚ß‚Ì‚Ý‚ÉŽg‚í‚ê‚Ä‚¢‚Ü‚·BTotal ŠÖ”‚ÌÅ‰‚Ìƒpƒ‰ƒƒ^‚Í‘Œv’l‚Å‚·B‚±‚Ì—á‚Å‚ÍA”„ãŒÂ”‚Æ’P‰¿‚ðŠ|‚¯‚½’l‚É“K—p‚³‚ê‚Ä‚¢‚Ü‚·B2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ÍƒtƒBƒ‹ƒ^‚Å‚·B‚½‚Æ‚¦‚ÎAƒtƒBƒ‹ƒ^‚ª dataSetRow["Products::PRODUCTLINE"]=="–ÍŒ^ƒI[ƒgƒoƒC" ‚Æ‚¢‚¤ƒtƒBƒ‹ƒ^‚ªŽw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍAu–ÍŒ^ƒI[ƒgƒoƒCv‚Ì»•iŒQ‚¾‚¯‚ª‘Œv‚³‚ê‚Ü‚·B 
 
 #Business Forms
 SalesInvoice=‘I‘ð‚µ‚½’•¶‚Ì¿‹‘‚ðo—Í‚µ‚Ü‚·B¿‹‘‚É‚ÍAŒÚ‹q‚â¿‹‚ÌÚ×A’•¶‚µ‚½»•i‚Ìî•ñ‚ªŠÜ‚Ü‚ê‚Ü‚·B‚Ç‚Ì‚æ‚¤‚Èƒpƒ‰ƒƒ^‚ðŽg‚¦‚ÎA¿‹ˆ—‚ðs‚¤’•¶‚ð‘I‘ð‚µ‚½‚èAŠ„ˆø‚â‡ŒvŠz‚È‚Ç‚ÌŒvŽZƒtƒB[ƒ‹ƒh‚ÌŽ®‚ð‘I‘ð‚Å‚«‚é‚©‚ðŽ¦‚µ‚Ü‚·B”Ž®‚ðŽg‚Á‚ÄŒÚ‹q‚ÌZŠ‚ð\’z‚µ‚½‚èAJavaScript ‚Ì Replace ŠÖ”‚ðŽg‚Á‚Äƒf[ƒ^ƒx[ƒXƒtƒB[ƒ‹ƒh‚Ì NULL ‚ðœŠO‚·‚é•û–@‚àŽ¦‚µ‚Ü‚·B‚Ü‚½AƒCƒ[ƒW‚ð“ü‚ê‚½‚èAƒe[ƒuƒ‹‚âƒOƒŠƒbƒh‚ðŽg‚Á‚ÄƒŒƒCƒAƒEƒg‚ð®‚¦‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAŒˆ‚Ü‚Á‚½ƒXƒ^ƒCƒ‹‚Åo—Í‚³‚ê‚é‚½‚ßAŒ©‚½–Ú‚ª“ˆê‚³‚êŠÇ—‚àŠÈ’P‚Å‚·B 
@@ -31,7 +31,7 @@ OrderMasterAfter=‚±‚Ì—á‚Å‚ÍAƒ}ƒXƒ^[ƒŒƒ|[ƒg‚ÆÚ×ƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚µ‚Ü‚·
 OrderDetailAfter=The detail report drilled into from clicking on master report.
 
 #Grouping
-CustomerListAfter_Grouping=‚±‚Ì—á‚Å‚ÍABIRT ‚ÅƒOƒ‹[ƒv‰»‚µ‚½ƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚·‚½‚ß‚ÉAŒÚ‹q‚ð‘•Ê‚ÉƒOƒ‹[ƒv‰»‚µ‚Ä‚¢‚Ü‚·BBIRT ‚ÌŽå—v‹@”\‚Å‚ ‚éƒOƒ‹[ƒv‰»Aƒy[ƒW‹æØ‚èA–ÚŽŸA‚¨‚æ‚ÑƒOƒ‹[ƒv‚²‚Æ‚Ìƒf[ƒ^‚Ì‘Œv‚Æ‡Œv‚ÌWŒv‚àŽg—p‚µ‚Ä‚¢‚Ü‚·B 
+CustomerListAfter_Grouping=‚±‚Ì—á‚Å‚ÍABIRT ‚ÅƒOƒ‹[ƒv‰»‚µ‚½ƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚·‚½‚ß‚ÉAŒÚ‹q‚ð‘•Ê‚ÉƒOƒ‹[ƒv‰»‚µ‚Ä‚¢‚Ü‚·BBIRT ‚ÌŽå—v‹@”\‚Å‚ ‚éƒOƒ‹[ƒv‰»Aƒy[ƒW‹æØ‚èA–ÚŽŸA‚¨‚æ‚ÑƒOƒ‹[ƒv‚²‚Æ‚Ìƒf[ƒ^‚ÌWŒv‚Æ‡Œv‚ÌWŒv‚àŽg—p‚µ‚Ä‚¢‚Ü‚·B 
 
 #Highlighting and Conditional Formatting
 ProductListAfter=‚±‚Ì—á‚Å‚ÍABIRT ƒŒƒ|[ƒg‚É‹­’²•\Ž¦‚âðŒ•t‚«‘Ž®‚ð’Ç‰Á‚·‚é•û–@‚ðŽ¦‚µ‚Ü‚·B‰ïŽÐ‚Ì‘S»•i‚ðˆê——‚É‚Ü‚Æ‚ß‚½»•iƒŒƒ|[ƒg‚ðŠî‚ÉAs‚ÌF‚ðŒðŒÝ‚É•Ï‚¦‚½‚èAÝŒÉ”‚ª­‚È‚¢»•i‚ð‹­’²•\Ž¦‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½As‚Ì onCreate ƒCƒxƒ“ƒg‚ÉƒXƒNƒŠƒvƒg‚ð’Ç‰Á‚·‚é‚±‚Æ‚ÅA—˜•‚ª‘å‚«‚¢»•i‚ðŽÎ‘Ì‚ÅŽ¦‚µ‚Ä‚¢‚Ü‚·B 
@@ -65,7 +65,7 @@ ScriptedDatasourceExampleAfter=‚±‚±‚Å‚ÍABIRT ‚ÌƒXƒNƒŠƒvƒg‹@”\‚É‚Â‚¢‚ÄAƒVƒ“ƒvƒ‹
 #Extending BIRT
 
 #Aggreate function extension point
-optim=‚±‚±‚Å‚ÍABIRT ‚ÌŠg’£‹@”\‚É‚Â‚¢‚Äà–¾‚µ‚Ü‚·BBIRT ‚ÌŠg’£ƒ|ƒCƒ“ƒg‚ðŽÀ‘•‚·‚é‚±‚Æ‚ÅABIRT ‚ÌŠJ”­ŽÒ‚Í Designer ‚â Runtime Engine ‚ÌƒfƒtƒHƒ‹ƒg‚Ì“®ì‚â‹@”\ (‚½‚Æ‚¦‚ÎAƒOƒ‰ƒt‚ÌŽí—Þ‚â‘ŒvŠÖ”Aƒf[ƒ^ƒ\[ƒXAƒŒƒ|[ƒg€–Ú‚È‚Ç) ‚Ì’Ç‰Á‚â•ÏX‚ªs‚¦‚é‚æ‚¤‚É‚È‚è‚Ü‚·B 
+optim=‚±‚±‚Å‚ÍABIRT ‚ÌŠg’£‹@”\‚É‚Â‚¢‚Äà–¾‚µ‚Ü‚·BBIRT ‚ÌŠg’£ƒ|ƒCƒ“ƒg‚ðŽÀ‘•‚·‚é‚±‚Æ‚ÅABIRT ‚ÌŠJ”­ŽÒ‚Í Designer ‚â Runtime Engine ‚ÌƒfƒtƒHƒ‹ƒg‚Ì“®ì‚â‹@”\ (‚½‚Æ‚¦‚ÎAƒOƒ‰ƒt‚ÌŽí—Þ‚âWŒvŠÖ”Aƒf[ƒ^ƒ\[ƒXAƒŒƒ|[ƒg€–Ú‚È‚Ç) ‚Ì’Ç‰Á‚â•ÏX‚ªs‚¦‚é‚æ‚¤‚É‚È‚è‚Ü‚·B 
 
 
  

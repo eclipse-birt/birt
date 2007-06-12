@@ -2109,7 +2109,7 @@ Structure.DimensionJoinCondition.hierarchyKey=階層キー
 Structure.DimensionJoinCondition.level=Level
 
 #34. AggregationArgument
-Structure.AggregationArgument=総計引数
+Structure.AggregationArgument=集計引数
 Structure.AggregationArgument.name=引数の名前
 Structure.AggregationArgument.value=引数の値
 
