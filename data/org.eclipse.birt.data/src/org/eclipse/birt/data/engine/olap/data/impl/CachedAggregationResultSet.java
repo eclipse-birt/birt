@@ -88,8 +88,8 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			}
 		}
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
-		
-		seek( 0 );
+		if ( this.length > 0 )
+			seek( 0 );
 		logger.exiting( CachedAggregationResultSet.class.getName( ),
 				"CachedAggregationResultSet" );
 	}

@@ -443,6 +443,55 @@ public class CubeAggregationTest extends TestCase
 		}
 	}
 	
+	public void testEmptyAggregation( ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		ISelection[][] filter = new ISelection[1][1];
+		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"3999"},
+				 new Object[]{"1"},
+				true,
+				false );
+		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[4];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[2];
+		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( "measure1",
+				IBuildInAggregation.TOTAL_SUM_FUNC );
+		funcitonsWithParameterCol[1] = new AggregationFunctionDefinition( null,
+				"measure1",
+				new DimLevel( "dimension1", "level12" ),
+				"col12",
+				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		sortType = new int[2];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		sortType[1] = IDimensionSortDefn.SORT_ASC;
+		levelsForFilter = new DimLevel[]{dimLevel31};
+		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		aggregations[2] = new AggregationDefinition( null, null, funcitons );
+		
+		aggregations[3] = new AggregationDefinition( levelsForFilter, sortType, null );
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test2", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test2" );
+		
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			assertEquals( resultSet[i].length( ), 0 );
+			resultSet[i].close( );
+		}
+	}
+	
 	public void testCube1AggregationWithColPara( ) throws IOException, DataException, BirtException
 	{
 		//query
