@@ -682,7 +682,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.endsWith( cmbType.getText( ) ) )
+								.equals( cmbType.getText( ) ) )
 						{
 							newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 							break;
@@ -700,7 +700,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.endsWith( cmbType.getText( ) ) )
+								.equals( cmbType.getText( ) ) )
 						{
 							this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 							break;
@@ -722,7 +722,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
 				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-						.endsWith( cmbType.getText( ) ) )
+						.equals( cmbType.getText( ) ) )
 				{
 					newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 					break;
