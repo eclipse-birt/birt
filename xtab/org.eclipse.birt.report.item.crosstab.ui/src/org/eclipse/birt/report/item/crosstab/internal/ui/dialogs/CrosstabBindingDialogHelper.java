@@ -734,7 +734,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			this.newBinding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr );
+			StringTokenizer token = new StringTokenizer( aggStr , "," );
 
 			while ( token.hasMoreTokens( ) )
 			{
@@ -788,7 +788,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			this.binding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr );
+			StringTokenizer token = new StringTokenizer( aggStr, "," );
 
 			while ( token.hasMoreTokens( ) )
 			{

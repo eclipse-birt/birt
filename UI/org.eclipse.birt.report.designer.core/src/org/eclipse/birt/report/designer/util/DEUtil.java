@@ -2614,4 +2614,22 @@ public class DEUtil
 		}
 		return false;
 	}
+	
+	/**
+	 * Return the aggregate on display string
+	 * @param element
+	 * @return
+	 */
+	public static String getAggregateOn(ComputedColumnHandle element){
+		List aggregateOnList = element.getAggregateOnList( );
+		String value = "";
+		int i = 0;
+		for ( Iterator iterator = aggregateOnList.iterator( ); iterator.hasNext( ); i++ )
+		{
+			if ( i > 0 )
+				value += ",";
+			value += (String) iterator.next( );
+		}
+		return value;
+	}
 }

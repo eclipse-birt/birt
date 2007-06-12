@@ -48,9 +48,8 @@ import org.eclipse.swt.widgets.Table;
  * 
  */
 
-public class DataSetColumnBindingsFormHandleProvider
-		extends
-			AbstractFormHandleProvider
+public class DataSetColumnBindingsFormHandleProvider extends
+		AbstractFormHandleProvider
 {
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
@@ -254,7 +253,7 @@ public class DataSetColumnBindingsFormHandleProvider
 					return null;
 				}
 			case 4 :
-				String value = ( (ComputedColumnHandle) element ).getAggregrateOn( );
+				String value = DEUtil.getAggregateOn( (ComputedColumnHandle) element );
 				String groupType = DEUtil.getGroupControlType( bindingObject );
 				String text;
 				if ( value == null )
