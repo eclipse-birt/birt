@@ -11,10 +11,10 @@
  *******************************************************************************/
 package org.eclipse.birt.core;
 
-import org.eclipse.birt.core.template.TemplateParserTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.eclipse.birt.core.template.TemplateParserTest;
 
 
 /**
