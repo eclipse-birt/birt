@@ -14,6 +14,7 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -133,7 +134,7 @@ public class ArchiveFile implements IArchiveFile
 	 */
 	public void close( ) throws IOException
 	{
-		if ( af != null )
+		if ( isArchiveFileAvailable( af ) )
 		{
 			af.close( );
 			af = null;
@@ -142,16 +143,22 @@ public class ArchiveFile implements IArchiveFile
 
 	public void setCacheSize( int cacheSize )
 	{
-		af.setCacheSize( cacheSize );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			af.setCacheSize( cacheSize );
+		}
 	}
 
 	public int getUsedCache( )
 	{
-		if ( af == null )
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.getUsedCache( );
+		}
+		else
 		{
 			return 0;
 		}
-		return af.getUsedCache( );
 	}
 
 	static public int getTotalUsedCache( )
@@ -193,7 +200,7 @@ public class ArchiveFile implements IArchiveFile
 	 */
 	public void save( ) throws IOException
 	{
-		if ( af != null )
+		if ( isArchiveFileAvailable( af ) )
 		{
 			if ( af instanceof ArchiveFileV2 )
 			{
@@ -203,6 +210,10 @@ public class ArchiveFile implements IArchiveFile
 			{
 				af.flush( );
 			}
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
 		}
 	}
 
@@ -222,48 +233,111 @@ public class ArchiveFile implements IArchiveFile
 
 	synchronized public void flush( ) throws IOException
 	{
-		af.flush( );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			af.flush( );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	synchronized public void refresh( ) throws IOException
 	{
-		af.refresh( );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			af.refresh( );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	synchronized public boolean exists( String name )
 	{
-		return af.exists( name );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.exists( name );
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	synchronized public ArchiveEntry getEntry( String name )
 	{
-		return af.getEntry( name );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.getEntry( name );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	synchronized public List listEntries( String namePattern )
 	{
-		return af.listEntries( namePattern );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.listEntries( namePattern );
+		}
+		else
+		{
+			return Collections.EMPTY_LIST;
+		}
 	}
 
 	synchronized public ArchiveEntry createEntry( String name )
 			throws IOException
 	{
-		return af.createEntry( name );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.createEntry( name );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	synchronized public boolean removeEntry( String name ) throws IOException
 	{
-		return af.removeEntry( name );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.removeEntry( name );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	public Object lockEntry( ArchiveEntry entry ) throws IOException
 	{
-		return af.lockEntry( entry );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			return af.lockEntry( entry );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	public void unlockEntry( Object locker ) throws IOException
 	{
-		af.unlockEntry( locker );
+		if ( isArchiveFileAvailable( af ) )
+		{
+			af.unlockEntry( locker );
+		}
+		else
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 	}
 
 	/**
@@ -296,5 +370,14 @@ public class ArchiveFile implements IArchiveFile
 		{
 			reader.close( );
 		}
+	}
+	
+	/**
+	 * @param af ArchiveFile
+	 * @return whether the ArchiveFile instance is available
+	 */
+	private boolean isArchiveFileAvailable( IArchiveFile af )
+	{
+		return af != null;
 	}
 }
