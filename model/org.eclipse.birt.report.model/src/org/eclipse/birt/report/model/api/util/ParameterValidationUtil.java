@@ -421,15 +421,18 @@ public class ParameterValidationUtil
 
 		if ( StringUtil.isBlank( format ) )
 			return validate( dataType, value, locale );
+
+		String newFormat = transformDateFormat( dataType, format, value );
 		try
 		{
+
 			if ( DesignChoiceConstants.PARAM_TYPE_DATE
 					.equalsIgnoreCase( dataType ) )
 			{
 				try
 				{
 					return new java.sql.Date( doValidateDateTimeByPattern(
-							format, value, locale ).getTime( ) );
+							newFormat, value, locale ).getTime( ) );
 				}
 				catch ( Exception e )
 				{
@@ -452,7 +455,7 @@ public class ParameterValidationUtil
 				try
 				{
 					return new java.sql.Time( doValidateDateTimeByPattern(
-							format, value, locale ).getTime( ) );
+							newFormat, value, locale ).getTime( ) );
 				}
 				catch ( Exception e )
 				{
@@ -471,11 +474,11 @@ public class ParameterValidationUtil
 			}
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 					.equalsIgnoreCase( dataType ) )
-				return doValidateDateTimeByPattern( format, value, locale );
+				return doValidateDateTimeByPattern( newFormat, value, locale );
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 					.equalsIgnoreCase( dataType ) )
 			{
-				Number number = doValidateNumberByPattern( dataType, format,
+				Number number = doValidateNumberByPattern( dataType, newFormat,
 						value, locale );
 				if ( number == null )
 					return null;
@@ -484,7 +487,7 @@ public class ParameterValidationUtil
 			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
 					.equalsIgnoreCase( dataType ) )
 			{
-				Number number = doValidateNumberByPattern( dataType, format,
+				Number number = doValidateNumberByPattern( dataType, newFormat,
 						value, locale );
 				if ( number == null )
 					return null;
@@ -493,7 +496,7 @@ public class ParameterValidationUtil
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 					.equalsIgnoreCase( dataType ) )
 			{
-				Number number = doValidateNumberByPattern( dataType, format,
+				Number number = doValidateNumberByPattern( dataType, newFormat,
 						value, locale );
 				if ( number == null )
 					return null;
@@ -510,12 +513,12 @@ public class ParameterValidationUtil
 				if ( StringUtil.isBlank( value ) )
 					return value;
 				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED
-						.equalsIgnoreCase( format ) )
+						.equalsIgnoreCase( newFormat ) )
 					return value;
 				else
 				{
 					StringFormatter formatter = new StringFormatter( locale );
-					formatter.applyPattern( format );
+					formatter.applyPattern( newFormat );
 					try
 					{
 						return formatter.parser( value );
@@ -539,6 +542,71 @@ public class ParameterValidationUtil
 		{
 			return validate( dataType, value, locale );
 		}
+	}
+
+	/**
+	 * Transform date format type if format is 'Unformatted'.
+	 * <ul>
+	 * if date type is 'date', transform to 'dateUnformatted'.
+	 * <ul>
+	 * if date type is 'dateTime', transform to 'dateTimeUnformatted'.
+	 * <ul>
+	 * if date type is 'time', transform to 'timeUnformatted'.
+	 * <ul>
+	 * if value is date, transform to 'dateTimeUnformatted'.
+	 * <ul>
+	 * if value is sql.date, transform to 'dateUnformatted'.
+	 * <ul>
+	 * if value is time, transform to 'timeUnformatted'.
+	 * 
+	 * @param dataType
+	 * @param format
+	 * @param value
+	 * @return
+	 */
+
+	private static String transformDateFormat( String dataType, String format,
+			Object value )
+	{
+		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED
+				.equalsIgnoreCase( format ) )
+		{
+			if ( !StringUtil.isBlank( dataType ) )
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_DATE
+						.equalsIgnoreCase( dataType ) )
+				{
+					return DateFormatter.DATE_UNFORMATTED;
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+						.equalsIgnoreCase( dataType ) )
+				{
+					return DateFormatter.TIME_UNFORMATTED;
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+						.equalsIgnoreCase( dataType ) )
+				{
+					return DateFormatter.DATETIME_UNFORMATTED;
+				}
+			}
+			else
+			{
+				if ( value instanceof Date )
+				{
+					return DateFormatter.DATETIME_UNFORMATTED;
+				}
+				else if ( value instanceof java.sql.Date )
+				{
+					return DateFormatter.DATE_UNFORMATTED;
+				}
+				else if ( value instanceof java.sql.Time )
+				{
+					return DateFormatter.TIME_UNFORMATTED;
+				}
+			}
+		}
+
+		return format;
 	}
 
 	/**
@@ -925,6 +993,7 @@ public class ParameterValidationUtil
 			return null;
 
 		format = StringUtil.trimString( format );
+		format = transformDateFormat( dataType, format, value );
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType )
 				|| ( value instanceof Date && !( value instanceof java.sql.Date || value instanceof java.sql.Time ) ) )
@@ -1002,14 +1071,14 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| value instanceof String )
 		{
-			StringFormatter formatter = new StringFormatter( locale );			
+			StringFormatter formatter = new StringFormatter( locale );
 			formatter.applyPattern( format );
 			formatter.setTrim( false );
 			return formatter.format( (String) value );
 		}
 		else
 		{
-			StringFormatter formatter = new StringFormatter( locale );			
+			StringFormatter formatter = new StringFormatter( locale );
 			formatter.applyPattern( format );
 			formatter.setTrim( false );
 			return formatter.format( value.toString( ) );
