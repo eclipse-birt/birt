@@ -139,7 +139,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						DataSetHandle dataSetHandle = (DataSetHandle) columnHandle.getElementHandle( );
 
 						TabularCubeHandle newCube = DesignElementFactory.getInstance( )
-								.newTabularCube( "Customer Cube" );
+								.newTabularCube( null );
 
 						SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
