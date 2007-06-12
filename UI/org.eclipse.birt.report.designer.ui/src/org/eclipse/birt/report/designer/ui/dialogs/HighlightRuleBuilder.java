@@ -484,7 +484,7 @@ public class HighlightRuleBuilder extends BaseDialog
 					.getDefaultUnit( ) );
 		}
 		gdata = new GridData( );
-		gdata.widthHint = 120;
+		gdata.widthHint = 200;
 		size.setLayoutData( gdata );
 		size.setFontSizeValue( null );
 		size.addListener( SWT.Modify, new Listener( ) {
