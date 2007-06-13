@@ -21,12 +21,16 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
@@ -39,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -63,9 +68,8 @@ import com.ibm.icu.text.SimpleDateFormat;
  * instance. Series adding is embedded in Combo selector.
  */
 
-public class DataDefinitionSelector extends DefaultSelectDataComponent
-		implements
-			SelectionListener
+public class DataDefinitionSelector extends DefaultSelectDataComponent implements
+		SelectionListener
 {
 
 	private transient EList seriesDefns = null;
@@ -78,7 +82,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	private transient Composite cmpData = null;
 
-	private transient ISelectDataComponent dateComponent = null;
+	private transient ISelectDataComponent dataComponent = null;
 
 	private transient Button btnAxisDelete;
 
@@ -216,8 +220,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 	private void updateDataDefinition( )
 	{
 		ISelectDataComponent newComponent = getDataDefinitionComponent( getCurrentSeriesDefinition( ) );
-		if ( dateComponent != null
-				&& dateComponent.getClass( ) == newComponent.getClass( ) )
+		if ( dataComponent != null
+				&& dataComponent.getClass( ) == newComponent.getClass( ) )
 		{
 			// No change if new UI is same with the old
 			return;
@@ -228,8 +232,9 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			cmpData.dispose( );
 		}
 
-		dateComponent = newComponent;
-		cmpData = dateComponent.createArea( cmpTop );
+		dataComponent = newComponent;
+		cmpData = dataComponent.createArea( cmpTop );
+		if ( cmpData != null )
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
@@ -239,6 +244,13 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	private SeriesDefinition getCurrentSeriesDefinition( )
 	{
+		//TODO temp solution
+		if ( seriesDefns.isEmpty( ) )
+		{
+			addNewSeriesDefinition( );
+			refreshSeriesCombo( );
+			cmbSeriesSelect.select( 0 );
+		}
 		return (SeriesDefinition) seriesDefns.get( cmbSeriesSelect.getSelectionIndex( ) );
 	}
 
@@ -256,77 +268,91 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 	{
 		// Create a series definition without data definition
 		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
-
-		Palette pa = ( (SeriesDefinition) ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
-		for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
+		if ( !seriesDefns.isEmpty( ) )
 		{
-			int index = i + seriesDefns.size( );
-			int paletteSize = pa.getEntries( ).size( );
-			while ( index >= pa.getEntries( ).size( ) )
+			Palette pa = ( (SeriesDefinition) ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
+			for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
 			{
-				index -= paletteSize;
+				int index = i + seriesDefns.size( );
+				int paletteSize = pa.getEntries( ).size( );
+				while ( index >= pa.getEntries( ).size( ) )
+				{
+					index -= paletteSize;
+				}
+				sdTmp.getSeriesPalette( ).getEntries( ).add( i,
+						EcoreUtil.copy( (Fill) pa.getEntries( ).get( index ) ) );
 			}
-			sdTmp.getSeriesPalette( ).getEntries( ).add( i,
-					EcoreUtil.copy( (Fill) pa.getEntries( ).get( index ) ) );
-		}
-		sdTmp.getSeriesPalette( )
-				.getEntries( )
-				.remove( pa.getEntries( ).size( ) );
-		sdTmp.getSeries( )
-				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
-		// Add grouping query of the first series definition
-		sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
-		cleanDataDefinition( sdTmp );
-		sdTmp.eAdapters( )
-				.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
+			sdTmp.getSeriesPalette( ).getEntries( ).remove( pa.getEntries( )
+					.size( ) );
+			sdTmp.getSeries( )
+					.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+			// Add grouping query of the first series definition
+			sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
+			cleanDataDefinition( sdTmp );
+			sdTmp.eAdapters( )
+					.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
 
-		int firstIndex = getFirstIndexOfSameAxis( );
-		EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
+			int firstIndex = getFirstIndexOfSameAxis( );
+			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
 
-		// Create a new OrthogonalSampleData instance from the existing one
-		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
-		if ( axisIndex == -1 )
-		{
-			sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );
+			// Create a new OrthogonalSampleData instance from the existing one
+			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
+			if ( axisIndex == -1 )
+			{
+				sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );
+			}
+			else
+			{
+				sdOrthogonal.setSeriesDefinitionIndex( ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
+						axisIndex ) + 1 );
+			}
+			sdOrthogonal.setDataSetRepresentation( convertDataSetRepresentation( sdOrthogonal.getDataSetRepresentation( ),
+					sdOrthogonal.getSeriesDefinitionIndex( ) ) );
+			sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
+					.eAdapters( ) );
+
+			// Update the Sample Data without event fired.
+			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+			ChartAdapter.ignoreNotifications( true );
+
+			int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
+			ArrayList al = new ArrayList( );
+			if ( sdIndex >= list.size( ) )
+			{
+				list.add( sdOrthogonal );
+			}
+			else
+			{
+				for ( int i = sdIndex; i < list.size( ); i++ )
+				{
+					al.add( list.get( i ) );
+				}
+				list.set( sdIndex, sdOrthogonal );
+				for ( int i = 1; i < al.size( ); i++ )
+				{
+					list.set( i + sdIndex, al.get( i - 1 ) );
+					( (OrthogonalSampleData) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
+							+ sdIndex );
+				}
+				list.add( al.get( al.size( ) - 1 ) );
+				( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
+			}
+
+			ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 		}
 		else
 		{
-			sdOrthogonal.setSeriesDefinitionIndex( ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
-					axisIndex ) + 1 );
-		}
-		sdOrthogonal.setDataSetRepresentation( convertDataSetRepresentation( sdOrthogonal.getDataSetRepresentation( ),
-				sdOrthogonal.getSeriesDefinitionIndex( ) ) );
-		sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
-				.eAdapters( ) );
+			//TODO temp solution
+			sdTmp.getSeries( ).add( BarSeriesImpl.create( ) );
+			OrthogonalSampleData sampleData = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+			sampleData.setDataSetRepresentation( ChartUIUtil.getNewSampleData( AxisType.LINEAR_LITERAL,
+					0 ) );
+			sampleData.setSeriesDefinitionIndex( 0 );
 
-		// Update the Sample Data without event fired.
-		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
-		ChartAdapter.ignoreNotifications( true );
-
-		int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
-		ArrayList al = new ArrayList( );
-		if ( sdIndex >= list.size( ) )
-		{
-			list.add( sdOrthogonal );
+			getChart( ).getSampleData( )
+					.getOrthogonalSampleData( )
+					.add( getFirstIndexOfSameAxis( ), sampleData );
 		}
-		else
-		{
-			for ( int i = sdIndex; i < list.size( ); i++ )
-			{
-				al.add( list.get( i ) );
-			}
-			list.set( sdIndex, sdOrthogonal );
-			for ( int i = 1; i < al.size( ); i++ )
-			{
-				list.set( i + sdIndex, al.get( i - 1 ) );
-				( (OrthogonalSampleData) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
-						+ sdIndex );
-			}
-			list.add( al.get( al.size( ) - 1 ) );
-			( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
-		}
-
-		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 		seriesDefns.add( sdTmp );
 	}
 
@@ -502,7 +528,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 					getChart( ).setDimension( ChartUIUtil.getDimensionType( wizardContext.getChartType( )
 							.getDefaultDimension( ) ) );
 					ChartAdapter.endIgnoreNotifications( );
-				}				
+				}
 
 				// Update model
 				ChartUIUtil.addAxis( (ChartWithAxes) getChart( ) );
@@ -661,7 +687,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		Object[] data = new Object[2];
 		data[0] = getCurrentSeriesDefinition( );
 		data[1] = ChartUIUtil.getDataQuery( getCurrentSeriesDefinition( ), 0 );
-		dateComponent.selectArea( true, data );
+		dataComponent.selectArea( true, data );
 	}
 
 	private void refreshSeriesCombo( )
@@ -706,12 +732,15 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	public void selectArea( boolean selected, Object data )
 	{
-		dateComponent.selectArea( selected, data );
+		dataComponent.selectArea( selected, data );
 	}
 
 	public void dispose( )
 	{
-		dateComponent.dispose( );
+		if ( dataComponent != null )
+		{
+			dataComponent.dispose( );
+		}
 		super.dispose( );
 	}
 

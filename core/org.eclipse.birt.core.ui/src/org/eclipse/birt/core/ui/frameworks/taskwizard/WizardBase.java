@@ -226,7 +226,14 @@ public class WizardBase implements IRegistrationListener
 		detachPopup( );
 
 		// Switch UI
-		dialog.switchTask( );
+		try
+		{
+			dialog.switchTask( );
+		}
+		catch ( Exception e )
+		{
+			displayException( e );
+		}
 	}
 
 	public Shell createPopupContainer( )
@@ -504,7 +511,11 @@ public class WizardBase implements IRegistrationListener
 
 	public void dispose( )
 	{
-		// TODO Add cleanup code here...including removal of adapters
+		Iterator tasks = availableTasks.values( ).iterator( );
+		while ( tasks.hasNext( ) )
+		{
+			( (ITask) tasks.next( ) ).dispose( );
+		}
 	}
 
 	protected BirtTitleAreaDialog getDialog( )
@@ -1042,11 +1053,6 @@ public class WizardBase implements IRegistrationListener
 
 		public void widgetDisposed( DisposeEvent e )
 		{
-			Iterator tasks = availableTasks.values( ).iterator( );
-			while ( tasks.hasNext( ) )
-			{
-				( (ITask) tasks.next( ) ).dispose( );
-			}
 			WizardBase.this.dispose( );
 		}
 
