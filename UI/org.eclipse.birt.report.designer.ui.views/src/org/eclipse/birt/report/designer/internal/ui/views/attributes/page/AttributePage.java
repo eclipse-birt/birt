@@ -127,6 +127,34 @@ public abstract class AttributePage extends TabPage implements
 		sections.put( sectionKey, section );
 	}
 
+	public void addSectionAfter( String sectionKey, Section section,
+			String key )
+	{
+		if ( sections == null )
+		{
+			sections = new SortMap( );
+		}
+		int index = sections.getIndexOf( key );
+		if ( index != -1 )
+			sections.putAt( sectionKey, section, index + 1 );
+		else
+			sections.put( sectionKey, section );
+	}
+
+	public void addSectionBefore( String sectionKey, Section section,
+			String key )
+	{
+		if ( sections == null )
+		{
+			sections = new SortMap( );
+		}
+		int index = sections.getIndexOf( key );
+		if ( index != -1 )
+			sections.putAt( sectionKey, section, index );
+		else
+			sections.put( sectionKey, section );
+	}
+
 	public void removeSection( String sectionKey )
 	{
 		if ( sections == null )

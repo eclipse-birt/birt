@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ca
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabCellPage;
 
 /**
  * @author Administrator
@@ -74,7 +75,7 @@ public class CrosstabCellCategoryProviderFactory extends
 				"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 				"ReportPageGenerator.List.AdvancedProperty",
 		}, new Class[]{
-				CellPage.class,
+				CrosstabCellPage.class,
 				CellPaddingPage.class,
 				FontPage.class,
 				BordersPage.class,

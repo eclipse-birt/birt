@@ -90,11 +90,11 @@ public class CellPage extends AttributePage
 
 		// Sets widths.
 
-		dropSection.setWidth( 150 );
-		backgroundSection.setWidth( 150 );
-		vAlignSection.setWidth( 150 );
-		hAlignSection.setWidth( 150 );
-		styleSection.setWidth( 150 );
+		dropSection.setWidth( 200 );
+		backgroundSection.setWidth( 200 );
+		vAlignSection.setWidth( 200 );
+		hAlignSection.setWidth( 200 );
+		styleSection.setWidth( 200 );
 
 		// Sets layout num.
 
