@@ -23,3 +23,6 @@ datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
 adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+
+invalid.datetime.value=DateTime value "{0}" is invalid.
+missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.

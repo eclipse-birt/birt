@@ -23,3 +23,6 @@ datasethandle.null.error=DataSetHandle no puede ser nulo.
 datasethandle.invalidColumnIndex=El índice de columna no es válido.
 adapter.invalid.datetimetype=El tipo de fecha/hora "{0}" no es válido.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+
+invalid.datetime.value=DateTime value "{0}" is invalid.
+missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.

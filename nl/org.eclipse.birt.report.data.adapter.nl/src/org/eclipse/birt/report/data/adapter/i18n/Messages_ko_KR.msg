@@ -23,3 +23,6 @@ datasethandle.null.error=DataSetHandle은 널(null)이 될 수 없습니다.
 datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
 adapter.invalid.datetimetype=날짜/시간 형식 "{0}"이(가) 잘못되었습니다.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+
+invalid.datetime.value=DateTime value "{0}" is invalid.
+missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.

@@ -23,3 +23,6 @@ datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
 adapter.invalid.datetimetype=日期时间类型“{0}”无效。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+
+invalid.datetime.value=DateTime value "{0}" is invalid.
+missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.
