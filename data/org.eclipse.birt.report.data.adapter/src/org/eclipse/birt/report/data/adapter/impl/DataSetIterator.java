@@ -41,6 +41,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
+import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -906,12 +907,9 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			catch ( BirtException e )
 			{
-				throw new java.lang.IllegalArgumentException(
-						new AdapterException(
-								ResourceConstants.INVALID_DATETIME_VALUE, d));
-			}
-			
-			
+				throw new java.lang.IllegalArgumentException( AdapterResourceHandle.getInstance( )
+						.getMessage( ResourceConstants.INVALID_DATETIME_VALUE ) );
+			}			
 		}
 	}
 
