@@ -71,6 +71,8 @@ public class SVGInteractiveRenderer
 	SVGGraphics2D svg_g2d;
 	private ULocale locale;
 	private List cacheEvents = new ArrayList( );
+	
+	private int iFirstDataPointIndex = -1;
 
 	public SVGInteractiveRenderer( ULocale locale )
 	{
@@ -132,6 +134,12 @@ public class SVGInteractiveRenderer
 								StructureType.SERIES_DATA_POINT );
 						groupIdentifier += "index"; //$NON-NLS-1$
 						groupIdentifier += dph.getIndex( );
+						
+						if ( iFirstDataPointIndex < 0 )
+						{
+							// The first index is not always 0
+							iFirstDataPointIndex = dph.getIndex( );
+						}
 					}
 					else
 					{
@@ -854,15 +862,12 @@ public class SVGInteractiveRenderer
 			if ( isColoredByCategories( ) )
 			{
 				seDT = findCategorySeries( seRT );
-				// Bugzilla#192240 always return the first id which is valid in
-				// js context
-				// final int baseIndex = ( (DataPointHints) src.getSource( )
-				// ).getIndex( );
-				final int baseIndex = 0;
 				StringBuffer sb = new StringBuffer( );
 				sb.append( seDT.hashCode( ) );
 				sb.append( "index" ); //$NON-NLS-1$
-				sb.append( baseIndex );
+				// Bugzilla#192240 always use the first index to concatenate
+				// the id which exists in script context
+				sb.append( iFirstDataPointIndex );
 				groupIdentifier = sb.toString( );
 			}
 			else
