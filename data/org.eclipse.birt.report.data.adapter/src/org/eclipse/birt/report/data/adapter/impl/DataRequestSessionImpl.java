@@ -552,6 +552,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			else
 			{
 				Iterator it = cubeHandle.joinConditionsIterator( );
+				if ( !it.hasNext() )
+					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
 				while ( it.hasNext( ) )
 				{
 					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
