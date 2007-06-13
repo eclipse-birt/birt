@@ -1606,7 +1606,7 @@ Class.Finance.npv.rate=rate
 Class.Finance.npv.cashArray=cashArray 
 
 Class.Finance.runningnpv=npv
-Class.Finance.runningnpv.toolTip=주어진 이자율에서 일련의 여러 양수 값 및 음수 값의 주기적 현금 흐름에 대한 순 현재 가치입니다
+Class.Finance.runningnpv.toolTip=주어진 이자율에서 일련의 여러 주기적 현금 흐름(증가 또는 감소)에 대한 순 현재 가치입니다.
 Class.Finance.runningnpv.rate=rate
 Class.Finance.runningnpv.cashArray=cashArray 
 
@@ -2106,7 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=고유 데이터 형식 코드
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=큐브 키
 Structure.DimensionJoinCondition.hierarchyKey=계층 키
-Structure.DimensionJoinCondition.level=Level
+Structure.DimensionJoinCondition.level=수준
 
 #34. AggregationArgument
 Structure.AggregationArgument=집계 인수
@@ -3277,7 +3277,7 @@ New.TemplateReportItem=새 템플릿 보고서 항목
 New.Theme=새 테마
 New.AutoText=NewAuto Text
 New.TabularCube=Customer Cube
-New.TabularDimension=Group
+New.TabularDimension=그룹
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure

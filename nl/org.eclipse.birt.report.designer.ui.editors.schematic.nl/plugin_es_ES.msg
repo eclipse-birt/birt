@@ -1,9 +1,9 @@
-design.layout=&Diseño
+design.layout=Diseñ&o
 design.masterPage=&Página maestra
 design.script=&Script
 design.xmlsource=&Fuente XML
 
-template.layout=&Diseño
+template.layout=Diseñ&o
 template.masterPage=&Página maestra
 template.script=&Script
 template.xmlsource=&Fuente XML

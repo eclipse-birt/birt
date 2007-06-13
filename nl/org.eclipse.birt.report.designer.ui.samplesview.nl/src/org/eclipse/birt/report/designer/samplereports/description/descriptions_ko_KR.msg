@@ -28,7 +28,7 @@ cascade=이 예제에서는 계단식 매개 변수 그룹을 사용하는 BIRT 보고서를 보여 줍니다
 
 #Drill to details
 OrderMasterAfter=이 예제는 마스터 보고서와 상세 보고서를 만드는 것을 보여 줍니다. 마스터 보고서에는 주문의 목록이 표시되는데, 특정 주문 번호를 클릭하면 해당 주문에 대한 상세 보고서로 드릴다운합니다. 이 예제에서 단순한 매개 변수를 사용하여 상세 보고서에서 결과를 추려내고, 마스터 보고서에 있는 하이퍼링크 속성을 상세 보고서로 전달하는 방법을 보여 줍니다. 마스터 보고서에 있는 하이퍼링크 속성은 쿼리 결과를 기준으로 동적으로 생성됩니다.
-OrderDetailAfter=The detail report drilled into from clicking on master report.
+OrderDetailAfter=마스터 보고서를 클릭하여 드릴다운한 상세 보고서입니다.
 
 #Grouping
 CustomerListAfter_Grouping=이 예제는 BIRT에서 그룹화된 보고서를 만드는 것을 보여 줍니다. 고객 목록을 국가별로 그룹화하여 보여 줍니다. 이 예제에서 포함된 핵심적인 BIRT 기능은 그룹화, 페이지 나누기, 목차, 데이터의 그룹별 집계 및 총 합계 계산입니다. 

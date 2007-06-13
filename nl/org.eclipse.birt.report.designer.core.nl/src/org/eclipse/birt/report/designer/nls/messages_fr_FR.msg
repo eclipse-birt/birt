@@ -174,7 +174,7 @@ ColumnBindingDialog.All=Tous
 ColumnBindingDialog.NONE=Aucun
 ColumnBindingDialog.Choice.FromContainer=Jeu de données du conteneur
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
-ColumnBindingDialog.Text.Add=Add...
+ColumnBindingDialog.Text.Add=Ajouter...
 ColumnBindingDialog.Text.Edit=Modifier...
 ColumnBindingDialog.Text.Del=Supprimer
 
@@ -1285,7 +1285,7 @@ ExpressionProvider.Category.NativeObjects=Fonctions JavaScript natives
 ExpressionProvider.Category.ColumnBinding=Liaisons de colonnes disponibles
 ExpressionProvider.Category.Operators=Opérateurs
 ExpressionProvider.Category.Parameters=Paramètres de l'état
-ExpressionProvider.Category.DataCubes=Current Data cube
+ExpressionProvider.Category.DataCubes=Cube de données actuel
 ExpressionProvider.Label.All=---Tout---
 ExpressionProvider.Operator.Add=Ajoute deux valeurs ensemble.
 ExpressionProvider.Operator.AddTo=Raccourci pour ajouter à la valeur actuelle.
@@ -1700,32 +1700,32 @@ HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
 HyperlinkBuilder.ErrorMessage.InvalidReport=Modèle d'état non valide.
 HyperlinkBuilder.ErrorMessage.ReportReqired=Le fichier d'état doit être spécifié.
-HyperlinkBuilder.DrillThroughTargetBookmark=Signet cible
-HyperlinkBuilder.DrillThroughLinkExpression=Expression de lien :
-HyperlinkBuilder.Label.Bookmark=Signet :
+HyperlinkBuilder.DrillThroughTargetBookmark=&Signet cible
+HyperlinkBuilder.DrillThroughLinkExpression=&Expression de lien :
+HyperlinkBuilder.Label.Bookmark=&Signet :
 HyperlinkBuilder.Label.Format=Format :
-HyperlinkBuilder.Label.LinkedExpression=Expression liée :
-HyperlinkBuilder.DrillThroughTargetToc=Entrée de la table des matières dans l'état cible
-HyperlinkBuilder.DrillThroughSamewindow=Même fenêtre
-HyperlinkBuilder.DrillThroughNewWindow=Nouvelle fenêtre
-HyperlinkBuilder.Label.Location=Emplacement :
+HyperlinkBuilder.Label.LinkedExpression=&Expression liée :
+HyperlinkBuilder.DrillThroughTargetToc=Entrée de la ta&ble des matières dans l'état cible
+HyperlinkBuilder.DrillThroughSamewindow=&Même fenêtre
+HyperlinkBuilder.DrillThroughNewWindow=&Nouvelle fenêtre
+HyperlinkBuilder.Label.Location=Emp&lacement :
 HyperlinkBuilder.Label.Parameters=Paramètres de l'état :
 HyperlinkBuilder.Label.Report=Etat :
 HyperlinkBuilder.Label.SelectType=Sélectionner un type de lien hypertexte :
 HyperlinkBuilder.DrillThroughHtml=HTML
-HyperlinkBuilder.Label.Target=Cible :
-HyperlinkBuilder.Radio.Bookmark=Signet interne
+HyperlinkBuilder.Label.Target=&Cible :
+HyperlinkBuilder.Radio.Bookmark=Si&gnet interne
 HyperlinkBuilder.DrillThroughPdf=PDF
-HyperlinkBuilder.Radio.DrillThrough=Extraire
-HyperlinkBuilder.ReportDesignButton=Modèle d'état :
-HyperlinkBuilder.ReportDocumentButton=Etat :
-HyperlinkBuilder.Radio.None=Aucun lien
-HyperlinkBuilder.Radio.Uri=URI
+HyperlinkBuilder.Radio.DrillThrough=&Extraire
+HyperlinkBuilder.ReportDesignButton=&Modèle d'état :
+HyperlinkBuilder.ReportDocumentButton=Et&at :
+HyperlinkBuilder.Radio.None=Auc&un lien
+HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Rechercher le fichier
 HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 HyperlinkBuilder.FileNameError.Title=Erreur
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
-HyperlinkBuilder.TargetReportFormat=Formatage de l'état cible dans :
+HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 
 ###########################################################
 #HyperLinkPage properties
@@ -1792,7 +1792,7 @@ ImagePageGenerator.List.Visibility=Visibilité
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=Importer un style CSS...
+ImportCSSStyleAction.text=Importer un style &CSS...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2157,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de mappage
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Nouvelle clé de tri
 SortkeyBuilder.DialogTitle.Edit=Modifier clé de tri
-SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
-SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
+SortkeyBuilder.DialogMessage.New=Renseignez le contenu suivant pour créer une clé de tri.
+SortkeyBuilder.DialogMessage.Edit=Modifiez le contenu suivant pour mettre à jour la clé de tri.
 SortkeyBuilder.DialogTitle.Label.Prompt=Entrez une clé pour le tri :
 SortkeyBuilder.DialogTitle.Label.Key=Clé :
 SortkeyBuilder.DialogTitle.Label.Direction=Direction :
@@ -2169,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Nouvelle condition de filtre
 FilterConditionBuilder.DialogTitle.Edit=Modifier la condition de filtre
-FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
-FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
+FilterConditionBuilder.DialogMessage.New=Renseignez le contenu suivant pour créer une condition de filtre.
+FilterConditionBuilder.DialogMessage.Edit=Modifiez le contenu suivant pour mettre à jour la condition de filtre.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valeur de l'élément de données
 FilterConditionBuilder.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 FilterConditionBuilder.text.AND=AND
@@ -2402,7 +2402,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
-OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nouvelle colonne de sortie
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Modifier la colonne de sortie
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 
@@ -2447,7 +2447,7 @@ ParameterDialog.Button.SetDefault=Définir p&ar défaut
 ParameterDialog.CheckBox.IsRequired=&Est requis
 ParameterDialog.CheckBox.DoNotEchoInput=Ne pas reprod&uire l'entrée
 ParameterDialog.CheckBox.Hidden=Masqué
-ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
+ParameterDialog.CheckBox.Distinct=&Autoriser les valeurs dupliquées
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
 ParameterDialog.Choice.BlankValue=Valeur vierge
@@ -2491,8 +2491,8 @@ ParameterDialog.Label.Null=Nul
 ParameterDialog.Label.Preview=Aperçu au format
 ParameterDialog.Label.PromptText=&Texte de l'invite :
 ParameterDialog.Label.SelectDataSet=&Jeu de données :
-ParameterDialog.Label.SortKey=S&ort by:
-ParameterDialog.Label.SortDirection=So&rt direction:
+ParameterDialog.Label.SortKey=&Trier par :
+ParameterDialog.Label.SortDirection=Di&rection du tri
 ParameterDialog.SelectionDialog.New=Nouveau choix de sélection
 ParameterDialog.SelectionDialog.Label.DisplayText=Texte d'affichage :
 ParameterDialog.SelectionDialog.Label.Value=Valeur :
@@ -2581,9 +2581,9 @@ parameters.menuItem.refresh=Actualiser
 
 ParametersNodeProvider.dialogue.title.group=Nouveau groupe de paramètres
 ParametersNodeProvider.dialogue.title.parameter=Nouveau paramètre
-ParametersNodeProvider.menu.text.cascadingParameter=Nouveau paramètre en cascade
-ParametersNodeProvider.menu.text.group=Nouveau groupe de paramètres
-ParametersNodeProvider.menu.text.parameter=Nouveau paramètre
+ParametersNodeProvider.menu.text.cascadingParameter=Nouveau paramètre en casca&de
+ParametersNodeProvider.menu.text.group=Nouveau groupe de para&mètres
+ParametersNodeProvider.menu.text.parameter=Nouve&au paramètre
 
 ###########################################################
 #ParametersOutlineProcess properties
@@ -2785,7 +2785,7 @@ report.designer.ui.preferences.template.templatedir=modèles
 report.designer.ui.preferences.template.templatefolder= &Dossier modèle
 report.designer.ui.preferences.template.title=Sélectionnez le dossier modèle.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Générer un commentaire lors de la création du modèle d'état
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Nom de votre entreprise>>
 
 ###########################################################
 #Resource Preference page properties
@@ -3850,8 +3850,8 @@ BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=Expression :
 BindingDialogHelper.text.displayName=Afficher le nom :
-BindingDialogHelper.bindingName.dataitem=Column Binding
-BindingDialogHelper.bindingName.aggregation=Aggregation
+BindingDialogHelper.bindingName.dataitem=Liaison de colonne
+BindingDialogHelper.bindingName.aggregation=Agrégation
 
 ###########################################################
 #Scripts Node

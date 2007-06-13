@@ -5,8 +5,8 @@ designer.preview.previewtoolbarmenuaction.label=レポートの表示
 designer.preview.previewcascadingmenugroup.label=レポートの表示
 ActionSet.Preview=プレビュー
 
-template.preview=新規プレビューのプロトタイプ(&N)
-design.preview=新規プレビューのプロトタイプ(&N)
+template.preview=プレビューのプロトタイプの新規作成(&T)
+design.preview=プレビューのプロトタイプの新規作成(&T)
 
 preference.preview=プレビュー
 preference.preview.server=プレビュー用のサーバ

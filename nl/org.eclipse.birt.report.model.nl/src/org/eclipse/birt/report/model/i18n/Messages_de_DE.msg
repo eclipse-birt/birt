@@ -2106,7 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=Programmeigener Datentypcode
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=Quaderschlüssel
 Structure.DimensionJoinCondition.hierarchyKey=Hierarchieschlüssel
-Structure.DimensionJoinCondition.level=Level
+Structure.DimensionJoinCondition.level=Ebene
 
 #34. AggregationArgument
 Structure.AggregationArgument=Aggregat-Argument
@@ -3277,7 +3277,7 @@ New.TemplateReportItem=Neues_Berichtobjekt_für_Vorlage
 New.Theme=Neues_Thema
 New.AutoText=NewAutoText
 New.TabularCube=Customer Cube
-New.TabularDimension=Group
+New.TabularDimension=Gruppieren
 New.TabularHierarchy=NeueTabellenhierarchie
 New.TabularLevel=NeueTabellenebene
 New.TabularMeasure=NeueTabelleneinheit

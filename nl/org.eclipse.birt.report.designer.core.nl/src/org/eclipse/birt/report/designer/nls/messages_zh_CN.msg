@@ -174,7 +174,7 @@ ColumnBindingDialog.All=全部
 ColumnBindingDialog.NONE=无
 ColumnBindingDialog.Choice.FromContainer=容器的数据集
 ColumnBindingDialog.AGGREGATEON.NONE=不适用
-ColumnBindingDialog.Text.Add=Add...
+ColumnBindingDialog.Text.Add=添加...
 ColumnBindingDialog.Text.Edit=编辑...
 ColumnBindingDialog.Text.Del=删除
 
@@ -1285,7 +1285,7 @@ ExpressionProvider.Category.NativeObjects=本地 JavaScript 函数
 ExpressionProvider.Category.ColumnBinding=可用列绑定
 ExpressionProvider.Category.Operators=运算符
 ExpressionProvider.Category.Parameters=报表参数
-ExpressionProvider.Category.DataCubes=Current Data cube
+ExpressionProvider.Category.DataCubes=当前多维数据集
 ExpressionProvider.Label.All=---全部---
 ExpressionProvider.Operator.Add=将两个值相加。
 ExpressionProvider.Operator.AddTo=在当前值上加值的快捷方式。
@@ -1700,32 +1700,32 @@ HyperlinkBuilder.Column.Values=值
 HyperlinkBuilder.DialogTitle=超级链接选项
 HyperlinkBuilder.ErrorMessage.InvalidReport=无效的报表设计。
 HyperlinkBuilder.ErrorMessage.ReportReqired=必须指定报表文件。
-HyperlinkBuilder.DrillThroughTargetBookmark=目标书签
-HyperlinkBuilder.DrillThroughLinkExpression=链接表达式:
-HyperlinkBuilder.Label.Bookmark=书签:
+HyperlinkBuilder.DrillThroughTargetBookmark=目标书签(&T)
+HyperlinkBuilder.DrillThroughLinkExpression=链接表达式(&E):
+HyperlinkBuilder.Label.Bookmark=书签(&B):
 HyperlinkBuilder.Label.Format=格式:
-HyperlinkBuilder.Label.LinkedExpression=链接表达式:
-HyperlinkBuilder.DrillThroughTargetToc=目标报表中的目录项
-HyperlinkBuilder.DrillThroughSamewindow=同一窗口
-HyperlinkBuilder.DrillThroughNewWindow=新窗口
-HyperlinkBuilder.Label.Location=位置:
+HyperlinkBuilder.Label.LinkedExpression=链接表达式(&E):
+HyperlinkBuilder.DrillThroughTargetToc=目标报表中的目录项(&B)
+HyperlinkBuilder.DrillThroughSamewindow=同一窗口(&S)
+HyperlinkBuilder.DrillThroughNewWindow=新建窗口(&N)
+HyperlinkBuilder.Label.Location=位置(&L):
 HyperlinkBuilder.Label.Parameters=报表参数:
 HyperlinkBuilder.Label.Report=报表:
 HyperlinkBuilder.Label.SelectType=选择超级链接类型:
 HyperlinkBuilder.DrillThroughHtml=HTML
-HyperlinkBuilder.Label.Target=目标:
-HyperlinkBuilder.Radio.Bookmark=内部书签
+HyperlinkBuilder.Label.Target=目标(&T):
+HyperlinkBuilder.Radio.Bookmark=内部书签(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
-HyperlinkBuilder.Radio.DrillThrough=追溯
-HyperlinkBuilder.ReportDesignButton=报表设计:
-HyperlinkBuilder.ReportDocumentButton=报表文档:
-HyperlinkBuilder.Radio.None=无链接
-HyperlinkBuilder.Radio.Uri=URI
+HyperlinkBuilder.Radio.DrillThrough=追溯(&D)
+HyperlinkBuilder.ReportDesignButton=报表设计(&R):
+HyperlinkBuilder.ReportDocumentButton=报表文档(&P):
+HyperlinkBuilder.Radio.None=无链接(&O)
+HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=浏览文件
 HyperlinkBuilder.OpenExpression=打开表达式生成器
 HyperlinkBuilder.FileNameError.Title=错误
 HyperlinkBuilder.FileNameError.Message=选择的文件无效。
-HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表:
+HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
 
 ###########################################################
 #HyperLinkPage properties
@@ -1792,7 +1792,7 @@ ImagePageGenerator.List.Visibility=可见性
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=导入 CSS 样式...
+ImportCSSStyleAction.text=导入 CSS 样式(&C)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2157,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=添加/编辑映射规则
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=新建排序关键字
 SortkeyBuilder.DialogTitle.Edit=编辑排序关键字
-SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
-SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
+SortkeyBuilder.DialogMessage.New=请填充下列内容以创建排序关键字。
+SortkeyBuilder.DialogMessage.Edit=请编辑下列内容以更新排序关键字。
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
@@ -2169,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=新建筛选条件
 FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
-FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
-FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
+FilterConditionBuilder.DialogMessage.New=请填充下列内容以创建筛选条件。
+FilterConditionBuilder.DialogMessage.Edit=请编辑下列内容以更新筛选条件。
 FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
 FilterConditionBuilder.tooltip.ExpBuilder=打开表达式生成器
 FilterConditionBuilder.text.AND=AND
@@ -2402,7 +2402,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.toolTipText.Edit=编辑输出列
 OutputColumnPage.title.OutputColumnInputDialog=输出列
-OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=新建输出列
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=编辑输出列
 OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 
@@ -2447,7 +2447,7 @@ ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&U)
 ParameterDialog.CheckBox.Hidden=隐藏
-ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
+ParameterDialog.CheckBox.Distinct=允许重复值(&A)
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
 ParameterDialog.Choice.BlankValue=空白值
@@ -2491,8 +2491,8 @@ ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):
-ParameterDialog.Label.SortKey=S&ort by:
-ParameterDialog.Label.SortDirection=So&rt direction:
+ParameterDialog.Label.SortKey=排序依据(&O):
+ParameterDialog.Label.SortDirection=排序方向(&R):
 ParameterDialog.SelectionDialog.New=新建选择选项
 ParameterDialog.SelectionDialog.Label.DisplayText=显示文本:
 ParameterDialog.SelectionDialog.Label.Value=值:
@@ -2581,9 +2581,9 @@ parameters.menuItem.refresh=刷新
 
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
-ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数
-ParametersNodeProvider.menu.text.group=新建参数组
-ParametersNodeProvider.menu.text.parameter=新建参数
+ParametersNodeProvider.menu.text.cascadingParameter=新级联参数(&D)
+ParametersNodeProvider.menu.text.group=新建度量组(&M)
+ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 
 ###########################################################
 #ParametersOutlineProcess properties
@@ -2785,7 +2785,7 @@ report.designer.ui.preferences.template.templatedir=模板
 report.designer.ui.preferences.template.templatefolder= 模板文件夹(&T)
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2007 <<此处是您公司的名称>>
 
 ###########################################################
 #Resource Preference page properties
@@ -3850,8 +3850,8 @@ BindingDialogHelper.text.List=列表
 BindingDialogHelper.text.Group=组
 BindingDialogHelper.text.Expression=表达式:
 BindingDialogHelper.text.displayName=显示名称:
-BindingDialogHelper.bindingName.dataitem=Column Binding
-BindingDialogHelper.bindingName.aggregation=Aggregation
+BindingDialogHelper.bindingName.dataitem=列绑定
+BindingDialogHelper.bindingName.aggregation=聚合
 
 ###########################################################
 #Scripts Node

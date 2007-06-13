@@ -2106,7 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=本地数据类型代码
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=多维数据集关键字
 Structure.DimensionJoinCondition.hierarchyKey=层次结构关键字
-Structure.DimensionJoinCondition.level=Level
+Structure.DimensionJoinCondition.level=级别
 
 #34. AggregationArgument
 Structure.AggregationArgument=聚合参数
@@ -3277,7 +3277,7 @@ New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
 New.TabularCube=Customer Cube
-New.TabularDimension=Group
+New.TabularDimension=组
 New.TabularHierarchy=新建表格式层次结构
 New.TabularLevel=新建表格式级别
 New.TabularMeasure=新建表格式度量

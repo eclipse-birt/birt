@@ -172,7 +172,7 @@ ExpressionValueCellEditor.buildExpressionAction=<식 빌드...>
 ExpressionValueCellEditor.selectValueAction=<값 선택...>
 ExpressionValueCellEditor.title=값 선택
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=그룹 수준
 SelColumnMemberValue.Column.Level=수준
 SelColumnMemberValue.Column.Value=값
 ChoiceSetFactory.choice.None=없음
@@ -193,5 +193,5 @@ CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
 
 ###########################################################
 #Crosstab DataBinding properties
-CrosstabDataBinding.title.ChangeCube=Change cube?
-CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
+CrosstabDataBinding.title.ChangeCube=큐브 변경?
+CrosstabDataBinding.message.changeCube=교차 테이블의 데이터 바인딩을 변경하려고 합니다.  \n\n기존의 데이터 열 바인딩을 모두 지우시겠습니까?

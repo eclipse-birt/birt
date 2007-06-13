@@ -21,16 +21,16 @@ datasource.name=JDBC データソース
 oda.data.source.name=BIRT JDBC データソース
 connection.profile.name=BIRT JDBC データソース接続プロファイル
 
-datasource.property.odaDriverClass=JDBC ドライバクラス
-datasource.property.odaURL=JDBC ドライバ URL
+datasource.property.odaDriverClass=JDBC ドライバクラス(&C)
+datasource.property.odaURL=JDBC ドライバ URL(&R)
 datasource.property.odaDataSource=データソース
-datasource.property.odaUser=ユーザ名
-datasource.property.odaPassword=パスワード
-datasource.property.odaJndiURL=&JNDI URL
+datasource.property.odaUser=ユーザ名(&N)
+datasource.property.odaPassword=パスワード(&W)
+datasource.property.odaJndiURL=JNDI URL(&J)
 
 dataset.query.sqltype=SQL Select クエリ
 dataset.query.sptype=SQL ストアドプロシージャのクエリ
-dataset.property.queryTimeOut=クエリのタイムアウト (秒)
+dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

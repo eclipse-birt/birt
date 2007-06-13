@@ -172,7 +172,7 @@ ExpressionValueCellEditor.buildExpressionAction=<Générer une expression...>
 ExpressionValueCellEditor.selectValueAction=<Sélectionner une valeur...>
 ExpressionValueCellEditor.title=Sélectionner une valeur
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Sélectionnez une valeur de membre de colonne
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Sélectionnez une valeur de membre de colonne
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Niveau de groupe
 SelColumnMemberValue.Column.Level=Niveau
 SelColumnMemberValue.Column.Value=Valeur
 ChoiceSetFactory.choice.None=Aucun
@@ -193,5 +193,5 @@ CrosstabPreferencePage.Error.MaxRowInvalid=La valeur numérique est incorrecte.
 
 ###########################################################
 #Crosstab DataBinding properties
-CrosstabDataBinding.title.ChangeCube=Change cube?
-CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
+CrosstabDataBinding.title.ChangeCube=Changer le cube ?
+CrosstabDataBinding.message.changeCube=Vous allez modifier la liaison des données du tableau croisé.  \n\nVoulez-vous effacer toutes les liaisons de colonnes de données ?

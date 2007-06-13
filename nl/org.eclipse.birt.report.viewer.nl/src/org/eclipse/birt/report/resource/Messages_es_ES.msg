@@ -114,7 +114,7 @@ birt.viewer.dialog.print.settings.duplex.simplex=Una cara
 birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
 birt.viewer.dialog.print.settings.duplex.vertical=Vertical
 birt.viewer.dialog.print.settings.pagesize=Tamaño de papel:
-birt.viewer.dialog.print.settings.print=Print:
+birt.viewer.dialog.print.settings.print=Imprimir:
 
 birt.viewer.dialog.print.complete=Archivo de documento enviado a la impresora seleccionada en el servidor.
 

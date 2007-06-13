@@ -21,16 +21,16 @@ datasource.name=JDBC 데이터 원본
 oda.data.source.name=BIRT JDBC 데이터 원본
 connection.profile.name=BIRT JDBC 데이터 원본 연결 프로필
 
-datasource.property.odaDriverClass=JDBC 드라이버 클래스
-datasource.property.odaURL=JDBC 드라이버 URL
+datasource.property.odaDriverClass=JDBC 드라이버 클래스(&C)
+datasource.property.odaURL=JDBC 드라이버 URL(&R)
 datasource.property.odaDataSource=데이터 원본
-datasource.property.odaUser=사용자 이름
-datasource.property.odaPassword=암호
+datasource.property.odaUser=사용자 이름(&N)
+datasource.property.odaPassword=암호(&W)
 datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=SQL Select 쿼리
 dataset.query.sptype=SQL 저장된 프로시저 쿼리
-dataset.property.queryTimeOut=쿼리 시간 제한(초)
+dataset.property.queryTimeOut=쿼리 시간 제한(초)(&Q)
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

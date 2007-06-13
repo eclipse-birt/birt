@@ -174,7 +174,7 @@ ColumnBindingDialog.All=すべて
 ColumnBindingDialog.NONE=なし
 ColumnBindingDialog.Choice.FromContainer=コンテナのデータセット
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
-ColumnBindingDialog.Text.Add=Add...
+ColumnBindingDialog.Text.Add=追加...
 ColumnBindingDialog.Text.Edit=編集...
 ColumnBindingDialog.Text.Del=削除
 
@@ -1285,7 +1285,7 @@ ExpressionProvider.Category.NativeObjects=ネイディブ JavaScript 関数
 ExpressionProvider.Category.ColumnBinding=使用可能なカラムバインド
 ExpressionProvider.Category.Operators=演算子
 ExpressionProvider.Category.Parameters=レポートパラメタ
-ExpressionProvider.Category.DataCubes=Current Data cube
+ExpressionProvider.Category.DataCubes=現在のデータキューブ
 ExpressionProvider.Label.All=---すべて---
 ExpressionProvider.Operator.Add=2 つの値を加算します。
 ExpressionProvider.Operator.AddTo=現在の値に加算するショートカットです。
@@ -1700,32 +1700,32 @@ HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
 HyperlinkBuilder.ErrorMessage.InvalidReport=レポートデザインが無効です。
 HyperlinkBuilder.ErrorMessage.ReportReqired=レポートファイルを指定してください。
-HyperlinkBuilder.DrillThroughTargetBookmark=ターゲットのブックマーク
-HyperlinkBuilder.DrillThroughLinkExpression=リンク式 :
-HyperlinkBuilder.Label.Bookmark=ブックマーク :
+HyperlinkBuilder.DrillThroughTargetBookmark=ターゲットのブックマーク(&T)
+HyperlinkBuilder.DrillThroughLinkExpression=リンク式(&E) :
+HyperlinkBuilder.Label.Bookmark=ブックマーク(&B) :
 HyperlinkBuilder.Label.Format=書式 :
-HyperlinkBuilder.Label.LinkedExpression=リンクされた式 :
-HyperlinkBuilder.DrillThroughTargetToc=ターゲットレポートの目次エントリ
-HyperlinkBuilder.DrillThroughSamewindow=同じウィンドウで開く
-HyperlinkBuilder.DrillThroughNewWindow=新しいウィンドウを開く
-HyperlinkBuilder.Label.Location=場所 :
+HyperlinkBuilder.Label.LinkedExpression=リンクされた式(&E) :
+HyperlinkBuilder.DrillThroughTargetToc=ターゲットレポートの目次エントリ(&B)
+HyperlinkBuilder.DrillThroughSamewindow=同じウィンドウで開く(&S)
+HyperlinkBuilder.DrillThroughNewWindow=新しいウィンドウを開く(&N)
+HyperlinkBuilder.Label.Location=場所(&L) :
 HyperlinkBuilder.Label.Parameters=レポートパラメタ :
 HyperlinkBuilder.Label.Report=レポート :
 HyperlinkBuilder.Label.SelectType=ハイパーリンクの種類 :
 HyperlinkBuilder.DrillThroughHtml=HTML
-HyperlinkBuilder.Label.Target=ターゲット :
-HyperlinkBuilder.Radio.Bookmark=内部ブックマーク
+HyperlinkBuilder.Label.Target=ターゲット(&T) :
+HyperlinkBuilder.Radio.Bookmark=内部ブックマーク(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
-HyperlinkBuilder.Radio.DrillThrough=ドリルスルー
-HyperlinkBuilder.ReportDesignButton=レポートデザイン :
-HyperlinkBuilder.ReportDocumentButton=レポート文書 :
-HyperlinkBuilder.Radio.None=リンクなし
-HyperlinkBuilder.Radio.Uri=URI
+HyperlinkBuilder.Radio.DrillThrough=詳細表示(&D)
+HyperlinkBuilder.ReportDesignButton=レポートデザイン(&R) :
+HyperlinkBuilder.ReportDocumentButton=レポート文書(&P) :
+HyperlinkBuilder.Radio.None=リンクなし(&O)
+HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=ファイルの参照
 HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
-HyperlinkBuilder.TargetReportFormat=ターゲットレポートの書式設定 :
+HyperlinkBuilder.TargetReportFormat=ターゲットレポートの書式設定(&F) :
 
 ###########################################################
 #HyperLinkPage properties
@@ -1792,7 +1792,7 @@ ImagePageGenerator.List.Visibility=可視性
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=CSS スタイルのインポート...
+ImportCSSStyleAction.text=CSS スタイルのインポート(&C)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2157,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=マップ規則の追加と編集
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=ソートキーの新規作成
 SortkeyBuilder.DialogTitle.Edit=ソートキーの編集
-SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
-SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
+SortkeyBuilder.DialogMessage.New=ソートキーを作成するには、次の内容を指定してください。
+SortkeyBuilder.DialogMessage.Edit=ソートキーを更新するには、次の内容を編集してください。
 SortkeyBuilder.DialogTitle.Label.Prompt=ソートキーの入力 :
 SortkeyBuilder.DialogTitle.Label.Key=キー :
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :
@@ -2169,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=フィルタの条件の新規作成
 FilterConditionBuilder.DialogTitle.Edit=フィルタの条件の編集
-FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
-FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
+FilterConditionBuilder.DialogMessage.New=フィルタ条件を作成するには、次の内容を指定してください。
+FilterConditionBuilder.DialogMessage.Edit=フィルタ条件を更新するには、次の内容を編集してください。
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
 FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを開く
 FilterConditionBuilder.text.AND=AND
@@ -2402,7 +2402,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 OutputColumnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
 OutputColumnPage.toolTipText.Edit=出力列の編集
 OutputColumnPage.title.OutputColumnInputDialog=出力列
-OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=出力列の新規作成
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=出力列の編集
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 
@@ -2447,7 +2447,7 @@ ParameterDialog.Button.SetDefault=デフォルトに設定(&A)
 ParameterDialog.CheckBox.IsRequired=必須にする(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&U)
 ParameterDialog.CheckBox.Hidden=非表示
-ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
+ParameterDialog.CheckBox.Distinct=値の重複を許可する(&A)
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
 ParameterDialog.Choice.BlankValue=空白値
@@ -2491,8 +2491,8 @@ ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
-ParameterDialog.Label.SortKey=S&ort by:
-ParameterDialog.Label.SortDirection=So&rt direction:
+ParameterDialog.Label.SortKey=最優先されるキー(&O) :
+ParameterDialog.Label.SortDirection=ソート方向(&R) :
 ParameterDialog.SelectionDialog.New=選択項目の新規作成
 ParameterDialog.SelectionDialog.Label.DisplayText=表示テキスト :
 ParameterDialog.SelectionDialog.Label.Value=値 :
@@ -2581,9 +2581,9 @@ parameters.menuItem.refresh=更新
 
 ParametersNodeProvider.dialogue.title.group=パラメタグループの新規作成
 ParametersNodeProvider.dialogue.title.parameter=パラメタの新規作成
-ParametersNodeProvider.menu.text.cascadingParameter=カスケードパラメタの新規作成
-ParametersNodeProvider.menu.text.group=パラメタグループの新規作成
-ParametersNodeProvider.menu.text.parameter=パラメタの新規作成
+ParametersNodeProvider.menu.text.cascadingParameter=カスケードパラメタの新規作成(&D)
+ParametersNodeProvider.menu.text.group=パラメタグループの新規作成(&M)
+ParametersNodeProvider.menu.text.parameter=パラメタの新規作成(&A)
 
 ###########################################################
 #ParametersOutlineProcess properties
@@ -2785,7 +2785,7 @@ report.designer.ui.preferences.template.templatedir=テンプレート
 report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<ここに会社名を入力>>
 
 ###########################################################
 #Resource Preference page properties
@@ -3850,8 +3850,8 @@ BindingDialogHelper.text.List=リスト
 BindingDialogHelper.text.Group=グループ
 BindingDialogHelper.text.Expression=式 :
 BindingDialogHelper.text.displayName=表示名 :
-BindingDialogHelper.bindingName.dataitem=Column Binding
-BindingDialogHelper.bindingName.aggregation=Aggregation
+BindingDialogHelper.bindingName.dataitem=列バインド :
+BindingDialogHelper.bindingName.aggregation=集計
 
 ###########################################################
 #Scripts Node

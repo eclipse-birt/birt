@@ -28,7 +28,7 @@ cascade=Cet exemple décrit comment créer un état BIRT avec un groupe de paramètr
 
 #Drill to details
 OrderMasterAfter=Cet exemple illustre la création d'un état principal et d'un état détaillé. L'état principal répertorie les commandes et permet à l'utilisateur de cliquer sur un numéro de commande afin d'explorer les détails de celle-ci. Cet exemple décrit comment utiliser un paramètre simple pour rassembler les résultats dans l'état détaillé et comment utiliser les propriétés des liens hypertexte dans l'état principal pour transmettre ce paramètre à l'état détaillé. Les propriétés des hyperliens de l'état principal sont générées dynamiquement en fonction des résultats renvoyés par une requête.
-OrderDetailAfter=The detail report drilled into from clicking on master report.
+OrderDetailAfter=L'état détaillé accessible en cliquant sur l'état principal.
 
 #Grouping
 CustomerListAfter_Grouping=Cet exemple explique comment créer un état groupé dans BIRT. Dans cet exemple, l'état comporte une liste de clients et les regroupe par pays. Les principales fonctions de BIRT évoquées sont le regroupement, les sauts de page, la table des matières et l'agrégation de données par groupe ou sous forme de total. 

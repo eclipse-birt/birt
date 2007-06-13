@@ -172,7 +172,7 @@ ExpressionValueCellEditor.buildExpressionAction=<Ausdruckserstellung ...>
 ExpressionValueCellEditor.selectValueAction=<Wert auswählen ...>
 ExpressionValueCellEditor.title=Wert auswählen
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Gruppenebene
 SelColumnMemberValue.Column.Level=Ebene
 SelColumnMemberValue.Column.Value=Wert
 ChoiceSetFactory.choice.None=Ohne
@@ -193,5 +193,5 @@ CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
 
 ###########################################################
 #Crosstab DataBinding properties
-CrosstabDataBinding.title.ChangeCube=Change cube?
-CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
+CrosstabDataBinding.title.ChangeCube=Quader ändern?
+CrosstabDataBinding.message.changeCube=Sie sind im Begriff, die Datenbindung der Kreuztabelle zu ändern.\n\nMöchten Sie alle bestehenden Datenspaltenbindungen löschen?

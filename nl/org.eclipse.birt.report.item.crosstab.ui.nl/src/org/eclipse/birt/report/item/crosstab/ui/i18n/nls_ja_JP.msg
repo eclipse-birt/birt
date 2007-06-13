@@ -172,7 +172,7 @@ ExpressionValueCellEditor.buildExpressionAction=<式の構築...>
 ExpressionValueCellEditor.selectValueAction=<値の選択...>
 ExpressionValueCellEditor.title=値の選択
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=グループレベル
 SelColumnMemberValue.Column.Level=レベル
 SelColumnMemberValue.Column.Value=値
 ChoiceSetFactory.choice.None=なし
@@ -193,5 +193,5 @@ CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
 
 ###########################################################
 #Crosstab DataBinding properties
-CrosstabDataBinding.title.ChangeCube=Change cube?
-CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
+CrosstabDataBinding.title.ChangeCube=キューブの変更
+CrosstabDataBinding.message.changeCube=クロスタブのデータバインドを変更しようとしています。\n\n既存のデータ列のバインドをすべて削除しますか ?

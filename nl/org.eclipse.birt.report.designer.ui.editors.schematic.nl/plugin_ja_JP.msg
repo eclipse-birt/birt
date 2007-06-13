@@ -1,9 +1,9 @@
-design.layout=レイアウト(&L)
+design.layout=レイアウト(&O)
 design.masterPage=マスターページ(&M)
 design.script=スクリプト(&S)
 design.xmlsource=XML ソース(&X)
 
-template.layout=レイアウト(&L)
+template.layout=レイアウト(&O)
 template.masterPage=マスターページ(&M)
 template.script=スクリプト(&S)
 template.xmlsource=XML ソース(&X)

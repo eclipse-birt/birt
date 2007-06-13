@@ -1,9 +1,9 @@
-design.layout=레이아웃(&L)
+design.layout=레이아웃(&O)
 design.masterPage=마스터 페이지(&M)
 design.script=스크립트(&S)
 design.xmlsource=XML 소스(&X)
 
-template.layout=레이아웃(&L)
+template.layout=레이아웃(&O)
 template.masterPage=마스터 페이지(&M)
 template.script=스크립트(&S)
 template.xmlsource=XML 소스(&X)

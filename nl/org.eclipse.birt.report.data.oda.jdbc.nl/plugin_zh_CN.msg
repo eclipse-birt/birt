@@ -21,16 +21,16 @@ datasource.name=JDBC 数据源
 oda.data.source.name=BIRT JDBC 数据源
 connection.profile.name=BIRT JDBC 数据源连接配置文件
 
-datasource.property.odaDriverClass=JDBC 驱动程序类
-datasource.property.odaURL=JDBC 驱动程序 URL
+datasource.property.odaDriverClass=JDBC 驱动程序类(&C)
+datasource.property.odaURL=JDBC 驱动程序 URL(&R)
 datasource.property.odaDataSource=数据源
-datasource.property.odaUser=用户名
-datasource.property.odaPassword=密码
-datasource.property.odaJndiURL=&JNDI URL
+datasource.property.odaUser=用户名(&N)
+datasource.property.odaPassword=密码(&W)
+datasource.property.odaJndiURL=JNDI URL(&J)
 
 dataset.query.sqltype=SQL 选择查询
 dataset.query.sptype=SQL 存储过程查询
-dataset.property.queryTimeOut=查询时间（秒）
+dataset.property.queryTimeOut=查询超时（秒）(&Q)
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

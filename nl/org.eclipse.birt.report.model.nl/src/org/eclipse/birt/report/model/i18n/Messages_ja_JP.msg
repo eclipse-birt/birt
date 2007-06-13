@@ -1606,7 +1606,7 @@ Class.Finance.npv.rate=rate
 Class.Finance.npv.cashArray=cashArray 
 
 Class.Finance.runningnpv=npv
-Class.Finance.runningnpv.toolTip=変動する一連の定期的なキャッシュフロー (流出入) の、特定の利率での正味現在価値
+Class.Finance.runningnpv.toolTip=変動する一連の定期的なキャッシュフロー (流出入) の、特定の利率での正味現在価値。
 Class.Finance.runningnpv.rate=rate
 Class.Finance.runningnpv.cashArray=cashArray 
 
@@ -2106,7 +2106,7 @@ Structure.OdaLevelAttribute.nativeDataType=ネイティブのデータ型コード
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=キューブキー
 Structure.DimensionJoinCondition.hierarchyKey=階層キー
-Structure.DimensionJoinCondition.level=Level
+Structure.DimensionJoinCondition.level=レベル
 
 #34. AggregationArgument
 Structure.AggregationArgument=集計引数
@@ -3277,7 +3277,7 @@ New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
 New.TabularCube=Customer Cube
-New.TabularDimension=Group
+New.TabularDimension=グループ
 New.TabularHierarchy=新規テーブル形式の階層
 New.TabularLevel=新規テーブル形式のレベル
 New.TabularMeasure=新規テーブル形式の計測

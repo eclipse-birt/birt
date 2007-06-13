@@ -172,7 +172,7 @@ ExpressionValueCellEditor.buildExpressionAction=<生成表达式...>
 ExpressionValueCellEditor.selectValueAction=<选择值...>
 ExpressionValueCellEditor.title=选择值
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=选择列成员值
-CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=选择列成员值
+CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=组级别
 SelColumnMemberValue.Column.Level=级别
 SelColumnMemberValue.Column.Value=值
 ChoiceSetFactory.choice.None=无
@@ -193,5 +193,5 @@ CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
 
 ###########################################################
 #Crosstab DataBinding properties
-CrosstabDataBinding.title.ChangeCube=Change cube?
-CrosstabDataBinding.message.changeCube=You are about to change the cross table's data binding.  \n\nDo you wish to clear all existing data column bindings?
+CrosstabDataBinding.title.ChangeCube=更改多维数据集?
+CrosstabDataBinding.message.changeCube=您将要更改交叉表的数据绑定。\n\n是否要清除全部现有的数据列绑定?

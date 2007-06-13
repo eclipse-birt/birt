@@ -21,16 +21,16 @@ datasource.name=Fuente de datos JDBC
 oda.data.source.name=Fuente de datos JDBC BIRT
 connection.profile.name=Perfil de conexión de fuente de datos JDBC BIRT
 
-datasource.property.odaDriverClass=Clase del controlador JDBC
-datasource.property.odaURL=URL del controlador JDBC
+datasource.property.odaDriverClass=&Clase del controlador JDBC
+datasource.property.odaURL=UR&L del controlador JDBC
 datasource.property.odaDataSource=Fuente de datos
-datasource.property.odaUser=Nombre de usuario
-datasource.property.odaPassword=Contraseña
+datasource.property.odaUser=&Nombre de usuario
+datasource.property.odaPassword=Cont&raseña
 datasource.property.odaJndiURL=&JNDI URL
 
 dataset.query.sqltype=Consulta de selección de SQL
 dataset.query.sptype=Consulta de stored procedure de SQL
-dataset.property.queryTimeOut=Tiempo límite de consulta (en segundos)
+dataset.property.queryTimeOut=Tiem&po límite de consulta (en segundos)
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

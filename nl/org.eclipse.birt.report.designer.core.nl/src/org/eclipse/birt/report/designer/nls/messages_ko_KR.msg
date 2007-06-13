@@ -174,7 +174,7 @@ ColumnBindingDialog.All=모두
 ColumnBindingDialog.NONE=없음
 ColumnBindingDialog.Choice.FromContainer=컨테이너의 데이터 집합
 ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
-ColumnBindingDialog.Text.Add=Add...
+ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
 ColumnBindingDialog.Text.Del=삭제
 
@@ -1285,7 +1285,7 @@ ExpressionProvider.Category.NativeObjects=고유 JavaScript 함수
 ExpressionProvider.Category.ColumnBinding=사용 가능한 열 바인딩
 ExpressionProvider.Category.Operators=연산자
 ExpressionProvider.Category.Parameters=보고서 매개 변수
-ExpressionProvider.Category.DataCubes=Current Data cube
+ExpressionProvider.Category.DataCubes=현재 데이터 큐브
 ExpressionProvider.Label.All=---모두---
 ExpressionProvider.Operator.Add=두 값을 함께 추가합니다.
 ExpressionProvider.Operator.AddTo=바로 가기(현재 값에 추가).
@@ -1700,32 +1700,32 @@ HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
 HyperlinkBuilder.ErrorMessage.InvalidReport=잘못된 보고서 디자인입니다.
 HyperlinkBuilder.ErrorMessage.ReportReqired=보고서 파일을 지정해야 합니다
-HyperlinkBuilder.DrillThroughTargetBookmark=대상 책갈피
-HyperlinkBuilder.DrillThroughLinkExpression=링크 식:
-HyperlinkBuilder.Label.Bookmark=책갈피:
+HyperlinkBuilder.DrillThroughTargetBookmark=대상 책갈피(&T)
+HyperlinkBuilder.DrillThroughLinkExpression=링크 식(&E):
+HyperlinkBuilder.Label.Bookmark=책갈피(&B):
 HyperlinkBuilder.Label.Format=형식:
-HyperlinkBuilder.Label.LinkedExpression=링크 식:
-HyperlinkBuilder.DrillThroughTargetToc=대상 보고서에 목차 입력
-HyperlinkBuilder.DrillThroughSamewindow=같은 창
-HyperlinkBuilder.DrillThroughNewWindow=새 창
-HyperlinkBuilder.Label.Location=위치:
+HyperlinkBuilder.Label.LinkedExpression=링크된 식(&E):
+HyperlinkBuilder.DrillThroughTargetToc=대상 보고서의 목차 항목(&B)
+HyperlinkBuilder.DrillThroughSamewindow=같은 창(&S)
+HyperlinkBuilder.DrillThroughNewWindow=새 창(&N)
+HyperlinkBuilder.Label.Location=위치(&L):
 HyperlinkBuilder.Label.Parameters=보고서 매개 변수:
 HyperlinkBuilder.Label.Report=보고서:
 HyperlinkBuilder.Label.SelectType=하이퍼링크 형식 선택:
 HyperlinkBuilder.DrillThroughHtml=HTML
-HyperlinkBuilder.Label.Target=대상:
-HyperlinkBuilder.Radio.Bookmark=내부 책갈피
+HyperlinkBuilder.Label.Target=대상(&T):
+HyperlinkBuilder.Radio.Bookmark=내부 책갈피(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
-HyperlinkBuilder.Radio.DrillThrough=드릴스루(drill-through)
-HyperlinkBuilder.ReportDesignButton=보고서 디자인:
-HyperlinkBuilder.ReportDocumentButton=보고서 문서:
-HyperlinkBuilder.Radio.None=링크 없음
-HyperlinkBuilder.Radio.Uri=URI
+HyperlinkBuilder.Radio.DrillThrough=드릴스루(&D)
+HyperlinkBuilder.ReportDesignButton=보고서 디자인(&R):
+HyperlinkBuilder.ReportDocumentButton=보고서 문서(&P):
+HyperlinkBuilder.Radio.None=링크 없음(&O)
+HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=파일 찾아보기
 HyperlinkBuilder.OpenExpression=식 빌더 열기
 HyperlinkBuilder.FileNameError.Title=오류
 HyperlinkBuilder.FileNameError.Message=선택한 파일이 잘못되었습니다.
-HyperlinkBuilder.TargetReportFormat=서식을 지정할 대상 보고서 위치:
+HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
 
 ###########################################################
 #HyperLinkPage properties
@@ -1792,7 +1792,7 @@ ImagePageGenerator.List.Visibility=표시 유형
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=CSS 스타일 가져오기...
+ImportCSSStyleAction.text=CSS 스타일 가져오기(&C)...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2157,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=새 정렬 키
 SortkeyBuilder.DialogTitle.Edit=정렬 키 편집
-SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
-SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
+SortkeyBuilder.DialogMessage.New=정렬 키를 만들기 위해 다음 내용을 입력하십시오.
+SortkeyBuilder.DialogMessage.Edit=정렬 키를 업데이트하기 위해 다음 내용을 편집하십시오.
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
 SortkeyBuilder.DialogTitle.Label.Key=키:
 SortkeyBuilder.DialogTitle.Label.Direction=방향:
@@ -2169,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=새 필터 조건
 FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
-FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
-FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
+FilterConditionBuilder.DialogMessage.New=필터 조건을 만들기 위해 내용을 입력하십시오.
+FilterConditionBuilder.DialogMessage.Edit=필터 조건을 업데이트하기 위해 다음 내용을 편집하십시오.
 FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
 FilterConditionBuilder.tooltip.ExpBuilder=식 빌더 열기
 FilterConditionBuilder.text.AND=및 
@@ -2402,7 +2402,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.toolTipText.Edit=출력 열 편집
 OutputColumnPage.title.OutputColumnInputDialog=출력 열
-OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=새 출력 열
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=출력 열 편집
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 
@@ -2447,7 +2447,7 @@ ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=입력에 대해 반향을 제공하지 않음(&U)
 ParameterDialog.CheckBox.Hidden=숨김
-ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
+ParameterDialog.CheckBox.Distinct=중복된 값 허용(&A)
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(Null) 값
 ParameterDialog.Choice.BlankValue=빈 값
@@ -2491,8 +2491,8 @@ ParameterDialog.Label.Null=널(null)
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
-ParameterDialog.Label.SortKey=S&ort by:
-ParameterDialog.Label.SortDirection=So&rt direction:
+ParameterDialog.Label.SortKey=정렬 기준(&O):
+ParameterDialog.Label.SortDirection=정렬 방향(&R):
 ParameterDialog.SelectionDialog.New=새 선택 항목
 ParameterDialog.SelectionDialog.Label.DisplayText=표시 텍스트:
 ParameterDialog.SelectionDialog.Label.Value=값:
@@ -2581,9 +2581,9 @@ parameters.menuItem.refresh=새로 고침
 
 ParametersNodeProvider.dialogue.title.group=새 매개 변수 그룹
 ParametersNodeProvider.dialogue.title.parameter=새 매개 변수
-ParametersNodeProvider.menu.text.cascadingParameter=새 계단식 매개 변수
-ParametersNodeProvider.menu.text.group=새 매개 변수 그룹
-ParametersNodeProvider.menu.text.parameter=새 매개 변수
+ParametersNodeProvider.menu.text.cascadingParameter=새 계단식 매개 변수(&D)
+ParametersNodeProvider.menu.text.group=새 매개 변수 그룹(&M)
+ParametersNodeProvider.menu.text.parameter=새 매개 변수(&A)
 
 ###########################################################
 #ParametersOutlineProcess properties
@@ -2785,7 +2785,7 @@ report.designer.ui.preferences.template.templatedir=템플릿
 report.designer.ui.preferences.template.templatefolder= 템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<회사 이름>>
 
 ###########################################################
 #Resource Preference page properties
@@ -3850,8 +3850,8 @@ BindingDialogHelper.text.List=목록
 BindingDialogHelper.text.Group=그룹
 BindingDialogHelper.text.Expression=식:
 BindingDialogHelper.text.displayName=표시 이름:
-BindingDialogHelper.bindingName.dataitem=Column Binding
-BindingDialogHelper.bindingName.aggregation=Aggregation
+BindingDialogHelper.bindingName.dataitem=열 바인딩
+BindingDialogHelper.bindingName.aggregation=집계
 
 ###########################################################
 #Scripts Node

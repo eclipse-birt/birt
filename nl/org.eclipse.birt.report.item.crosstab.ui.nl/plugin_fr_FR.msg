@@ -12,4 +12,4 @@
 preference.crosstabPage=Tableau croisé
 crosstab.menu=Tableau cr&oisé
 Crosstab.desc=Insérer un tableau croisé à la présentation
-newcube.menu=New Data Cube
+newcube.menu=Nouveau &cube de données

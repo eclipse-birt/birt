@@ -174,7 +174,7 @@ ColumnBindingDialog.All=Todos
 ColumnBindingDialog.NONE=Ninguno
 ColumnBindingDialog.Choice.FromContainer=Conjunto de datos del contenedor
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
-ColumnBindingDialog.Text.Add=Add...
+ColumnBindingDialog.Text.Add=Añadir...
 ColumnBindingDialog.Text.Edit=Editar...
 ColumnBindingDialog.Text.Del=Eliminar
 
@@ -1285,7 +1285,7 @@ ExpressionProvider.Category.NativeObjects=Funciones de objetos nativos de JavaSc
 ExpressionProvider.Category.ColumnBinding=Enlaces de columna disponibles
 ExpressionProvider.Category.Operators=Operadores
 ExpressionProvider.Category.Parameters=Parámetros de informe
-ExpressionProvider.Category.DataCubes=Current Data cube
+ExpressionProvider.Category.DataCubes=Cubo de datos actual
 ExpressionProvider.Label.All=---Todos---
 ExpressionProvider.Operator.Add=Añade dos valores juntos.
 ExpressionProvider.Operator.AddTo=Acceso directo para añadir al valor actual.
@@ -1700,32 +1700,32 @@ HyperlinkBuilder.Column.Values=Valores
 HyperlinkBuilder.DialogTitle=Opciones de hiperlink
 HyperlinkBuilder.ErrorMessage.InvalidReport=Diseño de informe no válido.
 HyperlinkBuilder.ErrorMessage.ReportReqired=Debe especificarse el archivo de informe.
-HyperlinkBuilder.DrillThroughTargetBookmark=Marcador de destino
-HyperlinkBuilder.DrillThroughLinkExpression=Expresión de link:
-HyperlinkBuilder.Label.Bookmark=Marcador:
+HyperlinkBuilder.DrillThroughTargetBookmark=Marcador de &destino
+HyperlinkBuilder.DrillThroughLinkExpression=&Expresión de link:
+HyperlinkBuilder.Label.Bookmark=&Marcador:
 HyperlinkBuilder.Label.Format=Formato:
-HyperlinkBuilder.Label.LinkedExpression=Expresión vinculada:
-HyperlinkBuilder.DrillThroughTargetToc=Entrada de la tabla de contenido en informe de destino
-HyperlinkBuilder.DrillThroughSamewindow=Misma ventana
-HyperlinkBuilder.DrillThroughNewWindow=Nueva ventana
-HyperlinkBuilder.Label.Location=Ubicación:
+HyperlinkBuilder.Label.LinkedExpression=&Expresión vinculada:
+HyperlinkBuilder.DrillThroughTargetToc=Entrada de ta&bla de contenido en informe de destino
+HyperlinkBuilder.DrillThroughSamewindow=Mi&sma ventana
+HyperlinkBuilder.DrillThroughNewWindow=&Nueva ventana
+HyperlinkBuilder.Label.Location=&Ubicación:
 HyperlinkBuilder.Label.Parameters=Parámetros de informe:
 HyperlinkBuilder.Label.Report=Informe:
 HyperlinkBuilder.Label.SelectType=Seleccione tipo de hiperlink:
 HyperlinkBuilder.DrillThroughHtml=HTML
-HyperlinkBuilder.Label.Target=Destino:
-HyperlinkBuilder.Radio.Bookmark=Marcador interno
+HyperlinkBuilder.Label.Target=&Destino:
+HyperlinkBuilder.Radio.Bookmark=Marcad&or interno
 HyperlinkBuilder.DrillThroughPdf=PDF
-HyperlinkBuilder.Radio.DrillThrough=Aumentar
-HyperlinkBuilder.ReportDesignButton=Diseño de informe:
-HyperlinkBuilder.ReportDocumentButton=Documento de informe:
-HyperlinkBuilder.Radio.None=Sin link
-HyperlinkBuilder.Radio.Uri=URI
+HyperlinkBuilder.Radio.DrillThrough=&Aumentar
+HyperlinkBuilder.ReportDesignButton=Diseño de info&rme:
+HyperlinkBuilder.ReportDocumentButton=Documento de i&nforme:
+HyperlinkBuilder.Radio.None=S&in Link
+HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Buscar archivo
 HyperlinkBuilder.OpenExpression=Abrir el compilador de expresiones
 HyperlinkBuilder.FileNameError.Title=Error
 HyperlinkBuilder.FileNameError.Message=El archivo seleccionado no es válido.
-HyperlinkBuilder.TargetReportFormat=Dar formato al informe de destino en:
+HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1792,7 +1792,7 @@ ImagePageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #ImportCSSStyleAction properties
 
-ImportCSSStyleAction.text=Importar estilo CSS...
+ImportCSSStyleAction.text=Im&portar estilo CSS...
 
 ###########################################################
 #ImportLibraryAction properties
@@ -2157,8 +2157,8 @@ MapRuleBuilderDialog.text.Title=Añadir/Editar regla de asignación
 #SortkeyBuilder dialog properties
 SortkeyBuilder.DialogTitle.New=Nueva clave de ordenación
 SortkeyBuilder.DialogTitle.Edit=Editar clave de ordenación
-SortkeyBuilder.DialogMessage.New=Please fill following contents to create a sort key.
-SortkeyBuilder.DialogMessage.Edit=Please edit following contents to update the sort key.
+SortkeyBuilder.DialogMessage.New=Rellene el siguiente contenido para crear una clave de ordenación.
+SortkeyBuilder.DialogMessage.Edit=Edite el siguiente contenido para actualizar la clave de ordenación.
 SortkeyBuilder.DialogTitle.Label.Prompt=Introducir una clave para ordenar según:
 SortkeyBuilder.DialogTitle.Label.Key=Clave:
 SortkeyBuilder.DialogTitle.Label.Direction=Dirección:
@@ -2169,8 +2169,8 @@ SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogTitle.New=Nueva condición de filtro
 FilterConditionBuilder.DialogTitle.Edit=Editar condición de filtro
-FilterConditionBuilder.DialogMessage.New=Please fill following contents to create a filter condition.
-FilterConditionBuilder.DialogMessage.Edit=Please edit following contents to update the filter condition.
+FilterConditionBuilder.DialogMessage.New=Rellene el siguiente contenido para crear una condición de filtro.
+FilterConditionBuilder.DialogMessage.Edit=Edite el siguiente contenido para actualizar la condición de filtro.
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 FilterConditionBuilder.tooltip.ExpBuilder=Abrir el compilador de expresiones
 FilterConditionBuilder.text.AND=Y
@@ -2402,7 +2402,7 @@ OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 OutputColumnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
 OutputColumnPage.toolTipText.Edit=Editar columna de salida
 OutputColumnPage.title.OutputColumnInputDialog=Columna de salida
-OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=New Output Column
+OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nueva columna de salida
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Editar columna de salida
 OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 
@@ -2447,7 +2447,7 @@ ParameterDialog.Button.SetDefault=Configurar &como predeterminada
 ParameterDialog.CheckBox.IsRequired=&Requerido
 ParameterDialog.CheckBox.DoNotEchoInput=No realizar comando e&co de entrada
 ParameterDialog.CheckBox.Hidden=Oculto
-ParameterDialog.CheckBox.Distinct=&Allow Duplicate Values
+ParameterDialog.CheckBox.Distinct=P&ermitir valores duplicados
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
 ParameterDialog.Choice.NullValue=Valor nulo
 ParameterDialog.Choice.BlankValue=Valor en blanco
@@ -2491,8 +2491,8 @@ ParameterDialog.Label.Null=Nulo
 ParameterDialog.Label.Preview=Vista previa con formato
 ParameterDialog.Label.PromptText=Texto de solicit&ud:
 ParameterDialog.Label.SelectDataSet=Conjunto de &datos:
-ParameterDialog.Label.SortKey=S&ort by:
-ParameterDialog.Label.SortDirection=So&rt direction:
+ParameterDialog.Label.SortKey=&Ordenar por:
+ParameterDialog.Label.SortDirection=Dirección de o&rden:
 ParameterDialog.SelectionDialog.New=Nueva opción de selección
 ParameterDialog.SelectionDialog.Label.DisplayText=Mostrar texto:
 ParameterDialog.SelectionDialog.Label.Value=Valor:
@@ -2581,9 +2581,9 @@ parameters.menuItem.refresh=Actualizar
 
 ParametersNodeProvider.dialogue.title.group=Nuevo grupo de parámetros
 ParametersNodeProvider.dialogue.title.parameter=Nuevo parámetro
-ParametersNodeProvider.menu.text.cascadingParameter=Nuevo parámetro en cascada
-ParametersNodeProvider.menu.text.group=Nuevo grupo de parámetros
-ParametersNodeProvider.menu.text.parameter=Nuevo parámetro
+ParametersNodeProvider.menu.text.cascadingParameter=Nue&vo parámetro en cascada
+ParametersNodeProvider.menu.text.group=Nu&evo grupo de parámetros
+ParametersNodeProvider.menu.text.parameter=Nuevo p&arámetro
 
 ###########################################################
 #ParametersOutlineProcess properties
@@ -2785,7 +2785,7 @@ report.designer.ui.preferences.template.templatedir=plantillas
 report.designer.ui.preferences.template.templatefolder= &Carpeta de plantillas
 report.designer.ui.preferences.template.title=Seleccione la carpeta de plantillas.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Generar comentario al crear un diseño de informe
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Your Company Name here>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<ponga el nombre de su empresa aquí>>
 
 ###########################################################
 #Resource Preference page properties
@@ -3850,8 +3850,8 @@ BindingDialogHelper.text.List=Lista
 BindingDialogHelper.text.Group=Grupo
 BindingDialogHelper.text.Expression=Expresión:
 BindingDialogHelper.text.displayName=Nombre en pantalla:
-BindingDialogHelper.bindingName.dataitem=Column Binding
-BindingDialogHelper.bindingName.aggregation=Aggregation
+BindingDialogHelper.bindingName.dataitem=Enlace de columna
+BindingDialogHelper.bindingName.aggregation=Agregación
 
 ###########################################################
 #Scripts Node
