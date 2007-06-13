@@ -405,7 +405,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	 */
 	private void applyValue( )
 	{
-		if ( !cellEditor.isDirty( ) )
+		if (cellEditor == null || !cellEditor.isDirty( ) )
 		{
 			return;
 		}

@@ -451,7 +451,7 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	private void applyValue( )
 	{
-		if ( !cellEditor.isDirty( ) )
+		if ( cellEditor == null || !cellEditor.isDirty( ) )
 		{
 			return;
 		}
