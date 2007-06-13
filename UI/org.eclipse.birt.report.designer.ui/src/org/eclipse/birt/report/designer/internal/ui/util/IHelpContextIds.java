@@ -206,6 +206,12 @@ public interface IHelpContextIds
 	
 	public static final String SELECTION_CHOICE_DIALOG = PREFIX
 	+ "SelectionChoiceDialog_ID";
+	
+	public static final String CUBE_BUILDER_DIALOG = PREFIX + "CubeBuilder_ID";
+	
+	public static final String LEVEL_PROPERTY_DIALOG = PREFIX + "LevelPropertyDialog_ID";
+	
+	public static final String MEASURE_DIALOG = PREFIX + "MeasureDialog_ID";
 
 	/*----------Control: Preference----------*/
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX

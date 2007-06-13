@@ -154,7 +154,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		// createTitleArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DimensionLevel_ID" ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "LevelPropertyDialog.Shell.Title" ) ); //$NON-NLS-1$
 		if ( isNew )
 			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) );

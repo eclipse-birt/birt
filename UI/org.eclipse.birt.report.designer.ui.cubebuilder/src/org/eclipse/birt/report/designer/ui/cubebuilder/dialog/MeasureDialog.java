@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -170,6 +171,7 @@ public class MeasureDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		createTitleArea( parent );
+		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG ); //$NON-NLS-1$
 
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
@@ -362,7 +364,6 @@ public class MeasureDialog extends BaseDialog
 		}
 
 	}
-
 
 	private void openExpression( )
 	{

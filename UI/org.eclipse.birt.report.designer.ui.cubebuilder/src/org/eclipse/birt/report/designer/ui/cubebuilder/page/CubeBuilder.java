@@ -13,8 +13,8 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
-import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
-import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -93,9 +93,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		}
 
 		Control control = super.createContents( parent );
-		Utility.setSystemHelp( control, IHelpConstants.PREFIX
-				+ "Dialog_CubeBuilder_ID" );
-
+		UIUtil.bindHelp( control, IHelpContextIds.CUBE_BUILDER_DIALOG );
 		return control;
 	}
 
@@ -162,19 +160,16 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		return new Point( 820, 600 );
 	}
 
-	
 	public PropertyNode getLinkGroupNode( )
 	{
 		return linkGroupNode;
 	}
 
-	
 	public PropertyNode getDatasetNode( )
 	{
 		return datasetNode;
 	}
 
-	
 	public PropertyNode getGroupsNode( )
 	{
 		return groupsNode;
