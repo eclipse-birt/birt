@@ -28,7 +28,7 @@ plugin@org.eclipse.birt.report.runtime=v20070531,:pserver:anonymous@dev.eclipse.
 
 feature@org.eclipse.birt.crosstab=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.crosstab.feature
 
-feature@org.eclipse.birt.testhelper=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.testhelper.feature
+feature@org.eclipse.birt.testhelper=v20070613,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.testhelper.feature
 feature@org.eclipse.birt.tests=v20070508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
