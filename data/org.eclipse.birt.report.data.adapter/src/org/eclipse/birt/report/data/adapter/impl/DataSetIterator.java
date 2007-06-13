@@ -100,7 +100,7 @@ public class DataSetIterator implements IDatasetIterator
 		
 		query.setDataSetName( hierHandle.getDataSet( ).getQualifiedName( ) );
 
-		List metaList = new ArrayList();
+		List metaList = new ArrayList( );
 		this.prepareLevels( query,
 				hierHandle, metaList );
 		
@@ -184,8 +184,8 @@ public class DataSetIterator implements IDatasetIterator
 								String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
 										cubeKey );
 								metaList.add( new ColumnMeta( cubeKeyWithDimIdentifier,
-										true,
-										null ) );
+										null,
+										ColumnMeta.LEVEL_KEY_TYPE ) );
 								query.addBinding( new Binding( cubeKeyWithDimIdentifier,
 										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
 
@@ -263,8 +263,8 @@ public class DataSetIterator implements IDatasetIterator
 					}
 
 					ColumnMeta meta = new ColumnMeta( measure.getName( ),
-							false,
-							null );
+							null,
+							ColumnMeta.MEASURE_TYPE );
 					meta.setDataType( DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
 					metaList.add( meta );
 				}
@@ -360,11 +360,12 @@ public class DataSetIterator implements IDatasetIterator
 				if ( level.getDateTimeLevelType( ) != null )
 				{
 					temp = new ColumnMeta( level.getName( ),
-							true,
 							new DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( IGroupDefinition.NUMERIC_INTERVAL,
 									DataType.INTEGER_TYPE,
-									String.valueOf( getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))),
-									level.getIntervalRange( )))) ;
+									String.valueOf( getDefaultStartValue( level.getDateTimeLevelType( ),
+											level.getIntervalBase( ) ) ),
+									level.getIntervalRange( ) ) ),
+							ColumnMeta.LEVEL_KEY_TYPE );
 					temp.setDataType( DataType.INTEGER_TYPE );
 					exprString = this.createDateTransformerExpr( level.getDateTimeLevelType( ), exprString );
 				}
@@ -404,7 +405,9 @@ public class DataSetIterator implements IDatasetIterator
 							exprString += "if(" + filter + ")" + disp + ";";
 						}
 					}
-					temp = new ColumnMeta( level.getName( ), true, processor );
+					temp = new ColumnMeta( level.getName( ),
+							processor,
+							ColumnMeta.LEVEL_KEY_TYPE );
 					temp.setDataType( type );
 				}
 				
@@ -415,8 +418,8 @@ public class DataSetIterator implements IDatasetIterator
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
 					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) ),
-							false,
-							null );
+							null,
+							ColumnMeta.UNKNOWN_TYPE );
 
 					meta.setDataType( DataAdapterUtil.adaptModelDataType( levelAttr.getDataType( ) ) );
 					metaList.add( meta );
@@ -427,9 +430,9 @@ public class DataSetIterator implements IDatasetIterator
 				
 				if( level.getDisplayColumnName( )!= null )
 				{
-					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getDisplayColumnName( level.getName( )),
-							false,
-							null );
+					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ),
+							null,
+							ColumnMeta.UNKNOWN_TYPE );
 					meta.setDataType( DataType.STRING_TYPE );
 					metaList.add( meta );
 					query.addBinding( new Binding( meta.getName( ),
@@ -566,7 +569,7 @@ public class DataSetIterator implements IDatasetIterator
 				columnMeta.setIndex( i + 1 );
 				this.columnMetaMap.put( columnMeta.getName( ), columnMeta );
 				this.indexMap.put( new Integer( i + 1 ), columnMeta );
-				if ( columnMeta.isLevelKey( ))
+				if ( columnMeta.isLevelKey( ) || columnMeta.isMeasure( ) )
 				{
 					this.nullValueReplacer[i] = createNullValueReplacer( columnMeta.getType( ));
 				}
@@ -657,19 +660,22 @@ public class DataSetIterator implements IDatasetIterator
 	private class ColumnMeta
 	{
 		//
+		static final int LEVEL_KEY_TYPE = 1;
+		static final int MEASURE_TYPE = 2;
+		static final int UNKNOWN_TYPE = 3;
+		
 		private String name;
-		private int type;
+		private int dataType, type;
 		private int index;
-		private boolean isLevelKey;
 		private IDataProcessor dataProcessor;
 		/**
 		 * 
 		 * @param name
 		 */
-		ColumnMeta( String name, boolean isLevelKey, IDataProcessor processor )
+		ColumnMeta( String name, IDataProcessor processor, int type )
 		{
 			this.name = name;
-			this.isLevelKey = isLevelKey;
+			this.type = type;
 			this.dataProcessor = ( processor == null )
 					? (IDataProcessor) new DummyDataProcessor( ) : processor;
 		}
@@ -689,7 +695,7 @@ public class DataSetIterator implements IDatasetIterator
 		 */
 		public int getType( )
 		{
-			return this.type;
+			return this.dataType;
 		}
 
 		/**
@@ -716,7 +722,7 @@ public class DataSetIterator implements IDatasetIterator
 		 */
 		public void setDataType( int type )
 		{
-			this.type = type;
+			this.dataType = type;
 		}
 		
 		/**
@@ -725,7 +731,16 @@ public class DataSetIterator implements IDatasetIterator
 		 */
 		public boolean isLevelKey( )
 		{
-			return this.isLevelKey;
+			return this.type == LEVEL_KEY_TYPE;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isMeasure( )
+		{
+			return this.type == MEASURE_TYPE;
 		}
 		
 		/**
