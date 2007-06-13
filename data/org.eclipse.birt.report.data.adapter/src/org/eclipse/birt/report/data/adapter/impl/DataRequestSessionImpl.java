@@ -539,8 +539,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
 			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) )
 			{
-				factTableKey[i] = dimensions[i].getHierarchy( ).getLevels( )[dimensions[i].getHierarchy( )
-						.getLevels( ).length - 1].getKeyNames( );
+
+				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
+						.getHierarchy().getLevels().length - 1].getKeyNames();
+				for( int j = 0; j < keyNames.length; j++)                                       						
+				{
+					keyNames[j] = dimensions[i].getName() + "/" + keyNames[j];
+				}
+				factTableKey[i] = keyNames;
 				dimensionKey[i] = factTableKey[i];
 			}
 			else

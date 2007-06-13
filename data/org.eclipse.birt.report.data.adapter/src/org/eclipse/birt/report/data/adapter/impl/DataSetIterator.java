@@ -41,6 +41,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -102,7 +103,7 @@ public class DataSetIterator implements IDatasetIterator
 
 		List metaList = new ArrayList( );
 		this.prepareLevels( query,
-				hierHandle, metaList );
+				hierHandle, metaList, null );
 		
 		popualteFilter( session, hierHandle.filtersIterator( ), query );
 		executeQuery( session, query );
@@ -164,7 +165,8 @@ public class DataSetIterator implements IDatasetIterator
 				{
 					prepareLevels( query,
 							hierHandle,
-							metaList );
+							metaList,
+							dimension.getName());
 				}
 				else
 				{
@@ -337,7 +339,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws AdapterException
 	 */
 	private void prepareLevels( QueryDefinition query,
-			TabularHierarchyHandle hierHandle, List metaList )
+			TabularHierarchyHandle hierHandle, List metaList, String dimName )
 			throws AdapterException
 	{
 		try
@@ -359,7 +361,7 @@ public class DataSetIterator implements IDatasetIterator
 					type = DataType.STRING_TYPE;
 				if ( level.getDateTimeLevelType( ) != null )
 				{
-					temp = new ColumnMeta( level.getName( ),
+					temp = new ColumnMeta( createLevelName( dimName, level.getName( )),
 							new DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( IGroupDefinition.NUMERIC_INTERVAL,
 									DataType.INTEGER_TYPE,
 									String.valueOf( getDefaultStartValue( level.getDateTimeLevelType( ),
@@ -405,7 +407,7 @@ public class DataSetIterator implements IDatasetIterator
 							exprString += "if(" + filter + ")" + disp + ";";
 						}
 					}
-					temp = new ColumnMeta( level.getName( ),
+					temp = new ColumnMeta( createLevelName( dimName, level.getName( )),
 							processor,
 							ColumnMeta.LEVEL_KEY_TYPE );
 					temp.setDataType( type );
@@ -416,8 +418,8 @@ public class DataSetIterator implements IDatasetIterator
 				while ( it.hasNext( ) )
 				{
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-							levelAttr.getName( ) ),
+					ColumnMeta meta = new ColumnMeta( createLevelName( dimName, OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+							levelAttr.getName( ) )),
 							null,
 							ColumnMeta.UNKNOWN_TYPE );
 
@@ -430,7 +432,7 @@ public class DataSetIterator implements IDatasetIterator
 				
 				if( level.getDisplayColumnName( )!= null )
 				{
-					ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ),
+					ColumnMeta meta = new ColumnMeta( createLevelName( dimName, OlapExpressionUtil.getDisplayColumnName( level.getName( ) )),
 							null,
 							ColumnMeta.UNKNOWN_TYPE );
 					meta.setDataType( DataType.STRING_TYPE );
@@ -439,11 +441,12 @@ public class DataSetIterator implements IDatasetIterator
 							new ScriptExpression( level.getDisplayColumnName( ) ) ) );
 				}
 				
-				query.addBinding( new Binding(level.getName( ),
+				String levelName = createLevelName( dimName, level.getName( ));
+				query.addBinding( new Binding( levelName ,
 						new ScriptExpression( exprString ) ));
 
 				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
-				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
+				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( levelName ) );
 
 				if ( level.getLevelType( ) != null && level.getDateTimeLevelType( ) == null )
 				{
@@ -465,6 +468,14 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			throw new AdapterException( e.getLocalizedMessage( ) );
 		}
+	}
+	
+	private String createLevelName( String dimName, String levelName )
+	{
+		if( dimName!= null )
+			return dimName + "/" + levelName;
+		else
+			return levelName;
 	}
 	
 	/*
@@ -804,6 +815,8 @@ public class DataSetIterator implements IDatasetIterator
 			assert args.length == 2;
 			String timeType = args[0].toString( );
 			Object d = args[1];
+			if ( args[1] == null )
+				return new Integer( 0 );
 			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) )
 			{
 				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_MONTH ) );
@@ -876,13 +889,12 @@ public class DataSetIterator implements IDatasetIterator
 				return new Integer( getCalendar( d ).get( Calendar.SECOND ) );
 			}
 			else
-				throw new AdapterException( "Error" );
+				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
 		}
 
 		private Calendar getCalendar( Object d )
 		{
-			if ( d == null )
-				throw new java.lang.IllegalArgumentException( "date value is null!" );
+			assert d != null;
 			
 			Date date;
 			try
@@ -894,7 +906,9 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			catch ( BirtException e )
 			{
-				throw new java.lang.IllegalArgumentException( "date value is invalid");
+				throw new java.lang.IllegalArgumentException(
+						new AdapterException(
+								ResourceConstants.INVALID_DATETIME_VALUE, d));
 			}
 			
 			
