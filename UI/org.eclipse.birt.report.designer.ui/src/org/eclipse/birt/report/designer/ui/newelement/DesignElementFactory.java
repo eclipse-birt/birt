@@ -44,6 +44,32 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.olap.OdaCubeHandle;
+import org.eclipse.birt.report.model.api.olap.OdaDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.OdaHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.OdaLevelHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.OdaCube;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
+import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 
 /**
  * This class is a heritor of ElementFactory,which is used to new elements
@@ -535,7 +561,233 @@ public class DesignElementFactory extends ElementFactory
 				name );
 		return factory.newOdaDataSource( newName, extensionID );
 	}
+	
+	
+	/**
+	 * Creates a new cube element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the cube element name.
+	 * @return a handle to the cube element
+	 */
 
+	public OdaCubeHandle newOdaCube( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.ODA_CUBE_ELEMENT, name );
+		return factory.newOdaCube( newName );
+	}
+
+	/**
+	 * Creates a new dimension element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the dimension name
+	 * @return a handle to the dimension element
+	 */
+
+	public OdaDimensionHandle newOdaDimension( String name )
+	{
+		// add a hierarchy element to the dimension
+		String newName = getNewName( ReportDesignConstants.ODA_DIMENSION_ELEMENT, name );
+		return factory.newOdaDimension( newName );
+	}
+	
+	/**
+	 * Creates a new hierarchy element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            hierarchy name
+	 * @return a handle to the hierarchy element
+	 */
+
+	public OdaHierarchyHandle newOdaHierarchy( String name )
+	{
+		// add a hierarchy element to the dimension
+		String newName = getNewName( ReportDesignConstants.ODA_HIERARCHY_ELEMENT, name );
+		return factory.newOdaHierarchy( newName );
+	}
+	
+	/**
+	 * Creates a new oda level handle. The name is required. If given name is
+	 * null, we will make a unique name within the dimension scope for it.
+	 * 
+	 * @param dimensionHandle
+	 *            the dimension handle where the level will be inserted
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 */
+	public OdaLevelHandle newOdaLevel(
+			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name )
+	{
+		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT, name );
+		return factory.newOdaLevel(dimensionHandle, newName );
+	}
+	
+	/**
+	 * Creates a new level element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 * @deprecated replaced by
+	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
+	 */
+
+	public OdaLevelHandle newOdaLevel( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT, name );
+		return factory.newOdaLevel( newName );
+
+	}
+	
+	/**
+	 * Creates a new measure element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the measure name
+	 * @return a handle to the measure element
+	 */
+
+	public OdaMeasureHandle newOdaMeasure( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_ELEMENT, name );
+		return factory.newOdaMeasure( newName );
+	}
+	
+	
+	/**
+	 * Creates a new measure group.
+	 * 
+	 * @param name
+	 *            the optional measure group name.
+	 * @return the measure group element
+	 */
+	public OdaMeasureGroupHandle newOdaMeasureGroup( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT, name );
+		return factory.newOdaMeasureGroup( newName );
+	}
+	
+	/**
+	 * Creates a new cube element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the cube element name.
+	 * @return a handle to the cube element
+	 */
+
+	public TabularCubeHandle newTabularCube( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_CUBE_ELEMENT, name );
+		return factory.newTabularCube( newName );
+	}
+
+	/**
+	 * Creates a new dimension element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the dimension name
+	 * @return a handle to the dimension element
+	 */
+
+	public TabularDimensionHandle newTabularDimension( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_DIMENSION_ELEMENT, name );
+		return factory.newTabularDimension( newName );
+	}
+
+	/**
+	 * Creates a new hierarchy element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            hierarchy name
+	 * @return a handle to the hierarchy element
+	 */
+
+	public TabularHierarchyHandle newTabularHierarchy( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT, name );
+		return factory.newTabularHierarchy( newName );
+	}
+
+	/**
+	 * Creates a new level element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 * @deprecated replaced by
+	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
+	 */
+
+	public TabularLevelHandle newTabularLevel( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name );
+		return factory.newTabularLevel( newName );
+
+	}
+
+	/**
+	 * Creates a new level element within the given dimension handle. The name
+	 * is required. If the <code>name</code> is null, we will make a unique
+	 * name with the given dimension scope for it.
+	 * 
+	 * @param dimensionHandle
+	 *            the dimension handle where the level will be inserted
+	 * 
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 */
+
+	public TabularLevelHandle newTabularLevel(
+			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name );
+		return factory.newTabularLevel(dimensionHandle, newName );
+	}
+
+	/**
+	 * Creates a new measure element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the measure name
+	 * @return a handle to the measure element
+	 */
+
+	public TabularMeasureHandle newTabularMeasure( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_ELEMENT, name );
+		return factory.newTabularMeasure(newName );
+	}
+
+	/**
+	 * Creates a new measure group.
+	 * 
+	 * @param name
+	 *            the optional measure group name.
+	 * @return the measure group element
+	 */
+	public TabularMeasureGroupHandle newTabularMeasureGroup( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT, name );
+		return factory.newTabularMeasureGroup(newName );
+	}
+
+	
 	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.

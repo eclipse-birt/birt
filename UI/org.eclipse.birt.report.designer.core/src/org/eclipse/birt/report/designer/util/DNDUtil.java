@@ -722,10 +722,10 @@ public class DNDUtil
 	 */
 	public static Object unwrapToModel( Object obj )
 	{
-		if ( obj instanceof ThemeHandle )
-		{
-			return ( (ThemeHandle) obj ).getStyles( );
-		}
+//		if ( obj instanceof ThemeHandle )
+//		{
+//			return ( (ThemeHandle) obj ).getStyles( );
+//		}
 		if ( obj instanceof ListBandProxy )
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
