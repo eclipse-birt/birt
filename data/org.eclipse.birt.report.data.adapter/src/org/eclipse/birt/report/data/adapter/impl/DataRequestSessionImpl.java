@@ -554,6 +554,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				Iterator it = cubeHandle.joinConditionsIterator( );
 				if ( !it.hasNext() )
 					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
+			
+				boolean foundJoinCondition = false;
 				while ( it.hasNext( ) )
 				{
 					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
@@ -566,6 +568,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						List factTableKeys = new ArrayList( );
 						while ( conditionIt.hasNext( ) )
 						{
+							foundJoinCondition = true;
 							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
 							String levelName = joinCondition.getLevelName( );
 							if ( levelName != null
@@ -593,6 +596,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 						}
 					}
 				}
+				
+				if( !foundJoinCondition )
+					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
 			}
 		}
 		cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
