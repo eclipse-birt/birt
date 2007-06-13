@@ -348,9 +348,14 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		composite.setLayout( new GridLayout( 3, true ) );
+		composite.setLayout( new GridLayout( 2, true ) );
 
-		new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE );
+		Label dataSetModeLabel = new Label( composite, SWT.NONE );
+		dataSetModeLabel.setText( LABEL_SELECT_DATA_SET_MODE );
+		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		gd.verticalSpan = 2;
+		dataSetModeLabel.setLayoutData( gd );
+		// new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE );
 
 		singleDataSet = new Button( composite, SWT.RADIO );
 		singleDataSet.setText( RADIO_SINGLE );
