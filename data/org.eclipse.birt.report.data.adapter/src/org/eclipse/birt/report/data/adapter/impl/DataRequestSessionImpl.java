@@ -559,11 +559,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 						while ( conditionIt.hasNext( ) )
 						{
 							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-							if ( isAttribute( dimensions[i],joinCondition.getLevelName( ) ,
-									joinCondition.getHierarchyKey( ) ) )
+							String levelName = joinCondition.getLevelName( );
+							if ( levelName != null
+									&& isAttribute( dimensions[i],
+											levelName,
+											joinCondition.getHierarchyKey( ) ) )
 							{
 								dimensionKeys.add( OlapExpressionUtil.getAttributeColumnName( getLevelName( dimensions[i],
-										joinCondition.getLevelName( ) ),
+										levelName ),
 										joinCondition.getHierarchyKey( ) ) );
 							}
 							else
