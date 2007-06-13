@@ -461,14 +461,14 @@ public class SVGInteractiveRenderer
 								if ( scriptEvent.equals( "onmouseover" ) ) {//$NON-NLS-1$
 									elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
 									if (componentId != null)
-										elm.setAttribute( "onmousemove", "TM.show(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$
+										elm.setAttribute( "onmousemove", "TM.show(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 									else
 										elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
 								}
 								else{
 									if (componentId != null)
 									elm.setAttribute( scriptEvent,
-											"TM.toggleToolTip(evt,"+componentId+")" ); //$NON-NLS-1$
+											"TM.toggleToolTip(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$
 									else
 									elm.setAttribute( scriptEvent,
 											"TM.toggleToolTip(evt)" ); //$NON-NLS-1$
@@ -854,13 +854,15 @@ public class SVGInteractiveRenderer
 			if ( isColoredByCategories( ) )
 			{
 				seDT = findCategorySeries( seRT );
-				final int baseIndex = ( (DataPointHints) src.getSource( ) ).getIndex( );
+				// Bugzilla#192240 always return the first id which is valid in
+				// js context
+				// final int baseIndex = ( (DataPointHints) src.getSource( )
+				// ).getIndex( );
+				final int baseIndex = 0;
 				StringBuffer sb = new StringBuffer( );
-				sb.append( "'" );//$NON-NLS-1$
 				sb.append( seDT.hashCode( ) );
 				sb.append( "index" ); //$NON-NLS-1$
 				sb.append( baseIndex );
-				sb.append( "'" );//$NON-NLS-1$
 				groupIdentifier = sb.toString( );
 			}
 			else
@@ -879,7 +881,7 @@ public class SVGInteractiveRenderer
 			List components = (List) componentPrimitives.get( seDT );
 			//return the first element
 			if ((components != null) && (components.size()>0)){
-				return "'"+groupIdentifier+"_"+components.get(0)+"'";
+				return "'"+groupIdentifier+"_"+components.get(0)+"'";  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			}
 		}
 		return null;
