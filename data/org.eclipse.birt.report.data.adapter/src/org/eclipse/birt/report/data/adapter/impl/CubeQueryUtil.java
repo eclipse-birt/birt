@@ -300,11 +300,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = null;
-			if ( hierHandle.getDataSet( ) != cubeHandle.getDataSet( ) )
-				it = new DataSetIterator( this.session, hierHandle );
-			else
-				it = new DataSetIterator( this.session, cubeHandle );
+			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ) );
@@ -348,11 +344,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = null;
-			if ( hierHandle.getDataSet( ) != cubeHandle.getDataSet( ) )
-				it = new DataSetIterator( this.session, hierHandle );
-			else
-				it = new DataSetIterator( this.session, cubeHandle );
+			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
 			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ));
 		}
 		catch ( BirtException e )
