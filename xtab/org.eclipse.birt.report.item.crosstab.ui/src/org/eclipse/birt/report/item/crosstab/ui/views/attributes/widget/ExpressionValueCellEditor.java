@@ -19,11 +19,10 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -57,14 +56,13 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.5 $ $Date: 2007/06/01 08:06:28 $
+ * @version $Revision: 1.6 $ $Date: 2007/06/01 08:53:06 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
 
 	private static String[] actions = new String[]{
-			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
-			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
+			Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -247,20 +245,6 @@ public class ExpressionValueCellEditor extends CellEditor
 							{
 								newValue = dialog.getSelectedExprValue( );
 							}
-						}
-					}
-					else if ( value.equals( actions[1] ) )
-					{
-						ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-								.getDisplay( )
-								.getActiveShell( ),
-								(String) getValue( ) );
-
-						dialog.setExpressionProvier( provider );
-
-						if ( dialog.open( ) == IDialogConstants.OK_ID )
-						{
-							newValue = dialog.getResult( );
 						}
 					}
 					else if ( selectionIndex > 3 )
