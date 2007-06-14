@@ -235,10 +235,16 @@ public class CreateCrosstabHandler extends AbstractHandler
 		//if parent is library, select new object
 		if ( parentModel instanceof LibraryHandle )
 		{
-			HandleAdapterFactory.getInstance( )
-					.getLibraryHandleAdapter( )
-					.setCurrentEditorModel( handle,
-							LibraryHandleAdapter.CREATE_ELEMENT );
+			try
+			{
+				HandleAdapterFactory.getInstance( )
+						.getLibraryHandleAdapter( )
+						.setCurrentEditorModel( handle,
+								LibraryHandleAdapter.CREATE_ELEMENT );
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 		return handle;
 	}

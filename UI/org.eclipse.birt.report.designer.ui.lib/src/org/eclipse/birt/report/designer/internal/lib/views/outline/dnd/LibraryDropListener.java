@@ -20,13 +20,17 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -64,14 +68,19 @@ public class LibraryDropListener extends DesignerDropListener
 		{
 			for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
 			{
-				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor
-						.next( );
+				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
 				if ( point != null )
 				{
-					supportList.add( GuiExtensionManager
-							.getExtendedPalletTemplateName( point ) );
+					supportList.add( GuiExtensionManager.getExtendedPalletTemplateName( point ) );
 				}
 			}
+		}
+
+		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < paletteEntries.length; i++ )
+		{
+			supportList.add( IReportElementConstants.REPORT_ELEMENT_EXTENDED
+					+ paletteEntries[i].getItemName( ) );
 		}
 	}
 
@@ -91,11 +100,11 @@ public class LibraryDropListener extends DesignerDropListener
 	 */
 	protected boolean validateTarget( Object target, Object transfer )
 	{
-//		if (!validateSameParent(target, transfer))
-//		{
-//			return false;
-//		}
-		
+		//		if (!validateSameParent(target, transfer))
+		//		{
+		//			return false;
+		//		}
+
 		boolean retValue = super.validateTarget( target, transfer );
 		if ( !retValue )
 		{
@@ -105,17 +114,16 @@ public class LibraryDropListener extends DesignerDropListener
 		return retValue;
 	}
 
-	
-	private boolean validateSameParent(Object targetObj, Object transferData)
+	private boolean validateSameParent( Object targetObj, Object transferData )
 	{
 		if ( targetObj == null || transferData == null )
 			return false;
 
-		if (transferData instanceof String)
+		if ( transferData instanceof String )
 		{
 			return true;
 		}
-		if (!(targetObj instanceof DesignElementHandle))
+		if ( !( targetObj instanceof DesignElementHandle ) )
 		{
 			return false;
 		}
@@ -128,9 +136,9 @@ public class LibraryDropListener extends DesignerDropListener
 		{
 			Object[] array = (Object[]) transferData;
 			int len = array.length;
-			for (int i=0; i<len; i++)
+			for ( int i = 0; i < len; i++ )
 			{
-				if (!validateSameParent(targetObj, array[i]))
+				if ( !validateSameParent( targetObj, array[i] ) )
 				{
 					return false;
 				}
@@ -139,19 +147,19 @@ public class LibraryDropListener extends DesignerDropListener
 		}
 		else if ( transferData instanceof DesignElementHandle )
 		{
-			return ((DesignElementHandle)targetObj).getContainer() == ((DesignElementHandle)transferData).getContainer();
+			return ( (DesignElementHandle) targetObj ).getContainer( ) == ( (DesignElementHandle) transferData ).getContainer( );
 		}
-		
+
 		return false;
 	}
-	
+
 	private boolean isSupportPalletType( Object target, Object transfer )
 	{
 		boolean bool = false;
-//		if ( target instanceof ReportElementModel )
-//		{
-//			bool = ( (ReportElementModel) target ).getSlotId( ) == ModuleHandle.COMPONENT_SLOT;
-//		}
+		//		if ( target instanceof ReportElementModel )
+		//		{
+		//			bool = ( (ReportElementModel) target ).getSlotId( ) == ModuleHandle.COMPONENT_SLOT;
+		//		}
 		if ( target instanceof SlotHandle )
 		{
 			bool = ( (SlotHandle) target ).getSlotID( ) == ModuleHandle.COMPONENT_SLOT;
@@ -168,30 +176,60 @@ public class LibraryDropListener extends DesignerDropListener
 	 */
 	protected boolean moveData( Object transfer, Object target )
 	{
+		//execute creation in new extension
+		//
+		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < paletteEntries.length; i++ )
+		{
+			if ( ( IReportElementConstants.REPORT_ELEMENT_EXTENDED + paletteEntries[i].getItemName( ) ).equals( transfer ) )
+			{
+				CommandUtils.setVariable( "targetEditPart",
+						getLibrartReportEditPart( ) );
+				try
+				{
+					Object newObj = paletteEntries[i].executeCreate( );
+					SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( newObj,
+							LibraryHandleAdapter.CREATE_ELEMENT );
+					command.execute( );
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
+				return true;
+			}
+		}
+
 		if ( isSupportPalletType( target, transfer ) )
 		{
-			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName(transfer);
-			ReportCreationTool tool = new ReportCreationTool(
-					new ReportElementFactory(
-							transfer ), pre );
-			
+			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( transfer );
+			ReportCreationTool tool = new ReportCreationTool( new ReportElementFactory( transfer ),
+					pre );
+
 			final EditDomain domain = UIUtil.getLayoutEditPartViewer( )
 					.getEditDomain( );
 			tool.setEditDomain( domain );
 			tool.setViewer( UIUtil.getLayoutEditPartViewer( ) );
-			tool.getTargetRequest( ).getExtendedData( ).put( DesignerConstants.DIRECT_CREATEITEM, new Boolean(true));
-			tool.performCreation( getLibrartReportEditPart( ));
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(tool.getNewObjectFromRequest(),LibraryHandleAdapter.CREATE_ELEMENT);
-			command.execute();
+			tool.getTargetRequest( )
+					.getExtendedData( )
+					.put( DesignerConstants.DIRECT_CREATEITEM,
+							new Boolean( true ) );
+			tool.performCreation( getLibrartReportEditPart( ) );
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( tool.getNewObjectFromRequest( ),
+					LibraryHandleAdapter.CREATE_ELEMENT );
+			command.execute( );
 			return true;
 		}
+
 		return super.moveData( transfer, target );
 	}
-	
-	private EditPart getLibrartReportEditPart()
+
+	private EditPart getLibrartReportEditPart( )
 	{
 		EditPart retValue = UIUtil.getCurrentEditPart( );
-		while (retValue != null && !(retValue instanceof LibraryReportDesignEditPart))
+		while ( retValue != null
+				&& !( retValue instanceof LibraryReportDesignEditPart ) )
 		{
 			retValue = retValue.getParent( );
 		}
