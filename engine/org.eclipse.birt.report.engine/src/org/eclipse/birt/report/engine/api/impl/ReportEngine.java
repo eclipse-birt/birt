@@ -30,11 +30,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
-import org.eclipse.birt.report.engine.executor.ScriptUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
@@ -126,17 +124,7 @@ public class ReportEngine implements IReportEngine
 			Context cx = Context.enter( );
 			try
 			{
-				cx
-						.setSecurityController( ScriptUtil
-								.createSecurityController( ) );
-			}
-			catch ( Throwable throwable )
-			{
-				throwable.printStackTrace( );
-			}
-			try
-			{
-				rootScope = new ImporterTopLevel(cx);//cx.initStandardObjects( null, true );
+				rootScope = cx.initStandardObjects( null, true );
 				registerBeans( rootScope, config.getConfigMap( ) );
 				registerBeans( rootScope, config.getScriptObjects( ) );
 				IStatusHandler handler = config.getStatusHandler( );

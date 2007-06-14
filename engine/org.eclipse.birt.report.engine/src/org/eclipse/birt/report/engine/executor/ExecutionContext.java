@@ -310,19 +310,9 @@ public class ExecutionContext
 			scriptContext = new ScriptContext( );
 		}
 		
-		Context context = scriptContext.getContext( );
-		try
-		{
-			context.setSecurityController( ScriptUtil
-					.createSecurityController( ) );
-		}
-		catch ( Throwable throwable )
-		{
-			throwable.printStackTrace( );
-		}
-		context.setLocale( locale );
+		scriptContext.getContext( ).setLocale( locale );
 
-		initailizeScriptContext( context, scriptContext
+		initailizeScriptContext( scriptContext.getContext( ), scriptContext
 				.getRootScope( ) );
 
 		// create script context used to execute the script statements
@@ -341,7 +331,7 @@ public class ExecutionContext
 				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
 		
 		applicationClassLoader = new ApplicationClassLoader( this );
-		context.setApplicationClassLoader(
+		scriptContext.getContext( ).setApplicationClassLoader(
 				applicationClassLoader );
 		
 	}
