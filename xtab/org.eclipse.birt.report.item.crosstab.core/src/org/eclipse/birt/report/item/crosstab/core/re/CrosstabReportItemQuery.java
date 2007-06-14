@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -85,8 +86,14 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 					Messages.getString( "CrosstabReportItemQuery.error.query.building" ) ); //$NON-NLS-1$
 		}
 
-		IDataQueryDefinition cubeQuery = CrosstabQueryHelper.buildQuery( crosstabItem,
-				parent );
+		IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( crosstabItem,
+				parent,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true );
 
 		String emptyValue = crosstabItem.getEmptyCellValue( );
 

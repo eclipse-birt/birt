@@ -30,6 +30,10 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 public class CrosstabUtil implements ICrosstabConstants
 {
 
+	private CrosstabUtil( )
+	{
+	}
+
 	/**
 	 * 
 	 * @param element
@@ -189,4 +193,5 @@ public class CrosstabUtil implements ICrosstabConstants
 
 		return false;
 	}
+
 }
