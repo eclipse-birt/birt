@@ -126,15 +126,15 @@ Blank.text.measure=Datenfeld/er verwerfen, um sie hier zusammenzufassen
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=Gesamtsumme
-CrosstabGrandTotalDialog.Text.DataField=Data Field:
-CrosstabGrandTotalDialog.Text.Function=Function:
+CrosstabGrandTotalDialog.Text.DataField=Datenfeld:
+CrosstabGrandTotalDialog.Text.Function=Funktion:
 
 
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=Gruppenebene
-CrosstabPageBreakProvider.Column.Before=Before
-CrosstabPageBreakProvider.Column.After=After
+CrosstabPageBreakProvider.Column.Before=Vor
+CrosstabPageBreakProvider.Column.After=Nach
 
 ###########################################################
 # Crosstab RowArea SubTotal
@@ -146,20 +146,20 @@ CrosstabSubToatalProvider.Column.Function=Funktion
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=Seitenumbruch
 CrosstabPageBreakDialog.Text.GroupLevel=Gruppenebene:
-CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+CrosstabPageBreakDialog.Text.PageBreakBefore=Vorher:
+CrosstabPageBreakDialog.Text.PageBreakAfter=Nachher:
 
 ###########################################################
 #SubTotalDialog
-SubTotalDialog.Title=Sub Total
-SubTotalDialog.Text.AggregateOn=Aggregate On:
-SubTotalDialog.Text.Function=Function:
-SubTotalDialog.Text.DataField=Data Field:
+SubTotalDialog.Title=Zwischensumme
+SubTotalDialog.Text.AggregateOn=Aggregat ein:
+SubTotalDialog.Text.Function=Funktion:
+SubTotalDialog.Text.DataField=Datenfeld:
 
-FormPage.Menu.ModifyProperty=Modify
+FormPage.Menu.ModifyProperty=Bearbeiten
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=Zwischensumme
+CrosstabPageGenerator.List.GrandTotals=Gesamtsummen
 CrosstabPageGenerator.List.PageBreak=Seitenumbruch
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Seitenlayout:

@@ -126,19 +126,19 @@ Blank.text.measure=Ignorer le(s) champ(s) de données à résumer ici
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=Total global
-CrosstabGrandTotalDialog.Text.DataField=Data Field:
-CrosstabGrandTotalDialog.Text.Function=Function:
+CrosstabGrandTotalDialog.Text.DataField=Champ de données :
+CrosstabGrandTotalDialog.Text.Function=Fonction :
 
 
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=Niveau de groupe
-CrosstabPageBreakProvider.Column.Before=Before
-CrosstabPageBreakProvider.Column.After=After
+CrosstabPageBreakProvider.Column.Before=Avant
+CrosstabPageBreakProvider.Column.After=Après
 
 ###########################################################
 # Crosstab RowArea SubTotal
-CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.AggregateOn=Regrouper par
 CrosstabSubToatalProvider.Column.DataField=Champ de données
 CrosstabSubToatalProvider.Column.Function=Fonction
 
@@ -146,20 +146,20 @@ CrosstabSubToatalProvider.Column.Function=Fonction
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=Saut de page
 CrosstabPageBreakDialog.Text.GroupLevel=Niveau de groupe :
-CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+CrosstabPageBreakDialog.Text.PageBreakBefore=Avant :
+CrosstabPageBreakDialog.Text.PageBreakAfter=Après :
 
 ###########################################################
 #SubTotalDialog
-SubTotalDialog.Title=Sub Total
-SubTotalDialog.Text.AggregateOn=Aggregate On:
-SubTotalDialog.Text.Function=Function:
-SubTotalDialog.Text.DataField=Data Field:
+SubTotalDialog.Title=Sous-total
+SubTotalDialog.Text.AggregateOn=Regrouper par :
+SubTotalDialog.Text.Function=Fonction :
+SubTotalDialog.Text.DataField=Champ de données :
 
-FormPage.Menu.ModifyProperty=Modify
+FormPage.Menu.ModifyProperty=Modifier
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=Sous-totaux
+CrosstabPageGenerator.List.GrandTotals=Totaux généraux
 CrosstabPageGenerator.List.PageBreak=Saut de page
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Mise en page :

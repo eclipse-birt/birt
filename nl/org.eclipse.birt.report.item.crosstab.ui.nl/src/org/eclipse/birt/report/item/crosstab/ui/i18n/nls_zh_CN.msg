@@ -126,19 +126,19 @@ Blank.text.measure=将要汇总的数据字段放置到此处
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=总计
-CrosstabGrandTotalDialog.Text.DataField=Data Field:
-CrosstabGrandTotalDialog.Text.Function=Function:
+CrosstabGrandTotalDialog.Text.DataField=数据字段:
+CrosstabGrandTotalDialog.Text.Function=函数:
 
 
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=组级别
-CrosstabPageBreakProvider.Column.Before=Before
-CrosstabPageBreakProvider.Column.After=After
+CrosstabPageBreakProvider.Column.Before=之前
+CrosstabPageBreakProvider.Column.After=之后
 
 ###########################################################
 # Crosstab RowArea SubTotal
-CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.AggregateOn=聚合条件
 CrosstabSubToatalProvider.Column.DataField=数据字段
 CrosstabSubToatalProvider.Column.Function=函数
 
@@ -146,20 +146,20 @@ CrosstabSubToatalProvider.Column.Function=函数
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=分页符
 CrosstabPageBreakDialog.Text.GroupLevel=组级别:
-CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+CrosstabPageBreakDialog.Text.PageBreakBefore=之前:
+CrosstabPageBreakDialog.Text.PageBreakAfter=之后:
 
 ###########################################################
 #SubTotalDialog
-SubTotalDialog.Title=Sub Total
-SubTotalDialog.Text.AggregateOn=Aggregate On:
-SubTotalDialog.Text.Function=Function:
-SubTotalDialog.Text.DataField=Data Field:
+SubTotalDialog.Title=小计
+SubTotalDialog.Text.AggregateOn=聚合条件:
+SubTotalDialog.Text.Function=函数:
+SubTotalDialog.Text.DataField=数据字段:
 
-FormPage.Menu.ModifyProperty=Modify
+FormPage.Menu.ModifyProperty=修改
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=小计
+CrosstabPageGenerator.List.GrandTotals=总计
 CrosstabPageGenerator.List.PageBreak=分页符
 
 PageLayoutPropertyDescriptorProvider.PageLayout=页面布局:
