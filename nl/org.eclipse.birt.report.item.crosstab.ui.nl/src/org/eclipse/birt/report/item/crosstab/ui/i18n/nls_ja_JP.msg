@@ -126,19 +126,19 @@ Blank.text.measure=データフィールドを削除して、ここにサマリを作成
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=総計
-CrosstabGrandTotalDialog.Text.DataField=Data Field:
-CrosstabGrandTotalDialog.Text.Function=Function:
+CrosstabGrandTotalDialog.Text.DataField=データフィールド :
+CrosstabGrandTotalDialog.Text.Function=関数 :
 
 
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=グループレベル
-CrosstabPageBreakProvider.Column.Before=Before
-CrosstabPageBreakProvider.Column.After=After
+CrosstabPageBreakProvider.Column.Before=次の前で改ページ
+CrosstabPageBreakProvider.Column.After=次の後で改ページ
 
 ###########################################################
 # Crosstab RowArea SubTotal
-CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.AggregateOn=総計条件
 CrosstabSubToatalProvider.Column.DataField=データフィールド
 CrosstabSubToatalProvider.Column.Function=関数
 
@@ -146,20 +146,20 @@ CrosstabSubToatalProvider.Column.Function=関数
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=ページ区切り
 CrosstabPageBreakDialog.Text.GroupLevel=グループレベル :
-CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ :
+CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ :
 
 ###########################################################
 #SubTotalDialog
-SubTotalDialog.Title=Sub Total
-SubTotalDialog.Text.AggregateOn=Aggregate On:
-SubTotalDialog.Text.Function=Function:
-SubTotalDialog.Text.DataField=Data Field:
+SubTotalDialog.Title=小計
+SubTotalDialog.Text.AggregateOn=総計条件 :
+SubTotalDialog.Text.Function=関数 :
+SubTotalDialog.Text.DataField=データフィールド :
 
-FormPage.Menu.ModifyProperty=Modify
+FormPage.Menu.ModifyProperty=変更
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=小計
+CrosstabPageGenerator.List.GrandTotals=総計
 CrosstabPageGenerator.List.PageBreak=ページ区切り
 
 PageLayoutPropertyDescriptorProvider.PageLayout=ページ配置 :

@@ -126,19 +126,19 @@ Blank.text.measure=요약하려면 데이터 필드를 여기에 내려 놓으십시오.
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=총합계
-CrosstabGrandTotalDialog.Text.DataField=Data Field:
-CrosstabGrandTotalDialog.Text.Function=Function:
+CrosstabGrandTotalDialog.Text.DataField=데이터 필드:
+CrosstabGrandTotalDialog.Text.Function=함수:
 
 
 ###########################################################
 # Crosstab RowArea PageBreak
 CrosstabPageBreakProvider.Column.GroupLevel=그룹 수준
-CrosstabPageBreakProvider.Column.Before=Before
-CrosstabPageBreakProvider.Column.After=After
+CrosstabPageBreakProvider.Column.Before=전
+CrosstabPageBreakProvider.Column.After=후
 
 ###########################################################
 # Crosstab RowArea SubTotal
-CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.AggregateOn=집계 대상
 CrosstabSubToatalProvider.Column.DataField=데이터 필드
 CrosstabSubToatalProvider.Column.Function=함수
 
@@ -146,20 +146,20 @@ CrosstabSubToatalProvider.Column.Function=함수
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=페이지 나누기
 CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준:
-CrosstabPageBreakDialog.Text.PageBreakBefore=Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=After:
+CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전:
+CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후:
 
 ###########################################################
 #SubTotalDialog
-SubTotalDialog.Title=Sub Total
-SubTotalDialog.Text.AggregateOn=Aggregate On:
-SubTotalDialog.Text.Function=Function:
-SubTotalDialog.Text.DataField=Data Field:
+SubTotalDialog.Title=부분합
+SubTotalDialog.Text.AggregateOn=집계 대상:
+SubTotalDialog.Text.Function=함수:
+SubTotalDialog.Text.DataField=데이터 필드:
 
-FormPage.Menu.ModifyProperty=Modify
+FormPage.Menu.ModifyProperty=수정
 
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
+CrosstabPageGenerator.List.SubTotals=부분합
+CrosstabPageGenerator.List.GrandTotals=총합계
 CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
 PageLayoutPropertyDescriptorProvider.PageLayout=페이지 레이아웃:
