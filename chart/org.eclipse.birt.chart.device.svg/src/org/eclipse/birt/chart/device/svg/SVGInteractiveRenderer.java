@@ -484,18 +484,26 @@ public class SVGInteractiveRenderer
 							}
 							break;
 						case ActionType.URL_REDIRECT :
+							String dblValue = "";//$NON-NLS-1$
+							String dblBrace = "";//$NON-NLS-1$
+							if ( scriptEvent.equals( "ondblclick" ) ) //$NON-NLS-1$
+							{
+								scriptEvent = "onclick";//$NON-NLS-1$
+								dblValue = "if ( evt.detail==2 ){"; //$NON-NLS-1$
+								dblBrace = "}";//$NON-NLS-1$
+							}
 							URLValue urlValue = ( (URLValue) tg.getAction( )
 									.getValue( ) );
 							// See if this is an internal anchor link
 							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
 								elm.setAttribute( scriptEvent,
-										"top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ 
+										dblValue + "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';"  + dblBrace ); //$NON-NLS-1$ //$NON-NLS-2$ 
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							// check if this is a javascript call
 							else if ( urlValue.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
 							{
-								elm.setAttribute( scriptEvent, urlValue.getBaseUrl( ) );  
+								elm.setAttribute( scriptEvent, dblValue + urlValue.getBaseUrl( )  + dblBrace );  
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							else
@@ -504,7 +512,7 @@ public class SVGInteractiveRenderer
 								if ( target == null )
 									target = "null"; //$NON-NLS-1$
 								elm.setAttribute( scriptEvent,
-										"redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										dblValue + "redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" + dblBrace ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 							}
 							break;
@@ -782,7 +790,7 @@ public class SVGInteractiveRenderer
 			case TriggerCondition.ONCLICK :
 				return "onclick"; //$NON-NLS-1$
 			case TriggerCondition.ONDBLCLICK :
-				return "onclick"; //$NON-NLS-1$
+				return "ondblclick"; //$NON-NLS-1$
 			case TriggerCondition.ONMOUSEDOWN :
 				return "onmousedown"; //$NON-NLS-1$
 			case TriggerCondition.ONMOUSEUP :
