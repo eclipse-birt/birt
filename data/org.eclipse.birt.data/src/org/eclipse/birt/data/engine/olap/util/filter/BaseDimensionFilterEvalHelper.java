@@ -123,19 +123,7 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 					throw new DataException( ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL );
 				if ( axisValues[i] == null )
 					throw new DataException( ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL,
-							axisLevels[i].getName( ) );
-				try
-				{// convert raw javascript expression to java object
-					axisValues[i] = JavascriptEvalUtil.evaluateRawScript( cx,
-							scope,
-							axisValues[i].toString( ),
-							"source",
-							0 );
-				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( e );
-				}
+							axisLevels[i].getName( ) );				
 			}
 		}
 		this.isAxisFilter = ( axisLevels != null && axisValues != null && axisLevels.length == axisValues.length );
