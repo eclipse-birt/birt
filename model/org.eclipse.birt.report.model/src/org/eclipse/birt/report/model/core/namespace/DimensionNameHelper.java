@@ -90,7 +90,7 @@ public class DimensionNameHelper extends AbstractNameHelper
 		}
 
 		String name = StringUtil.trimString( element.getName( ) );
-		
+
 		// replace all the illegal chars with '_'
 		name = NamePropertyType.validateName( name );
 
@@ -106,8 +106,8 @@ public class DimensionNameHelper extends AbstractNameHelper
 		int id = eDefn.getNameSpaceID( );
 		NameSpace nameSpace = getCachedNameSpace( id );
 		NameSpace moduleNameSpace = nameContexts[id].getNameSpace( );
-		if ( name != null && !nameSpace.contains( name )
-				&& !moduleNameSpace.contains( name ) )
+		if ( name != null && isValidInNameSpace( nameSpace, element, name )
+				&& isValidInNameSpace( moduleNameSpace, element, name ) )
 			return name;
 
 		// If the element has no name, create it as "New<new name>" where

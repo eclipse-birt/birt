@@ -219,24 +219,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		return name;
 	}
-
-	/**
-	 * @param namespace
-	 * @param element
-	 * @param name
-	 * @return
-	 */
-
-	private static boolean isValidInNameSpace( NameSpace namespace,
-			DesignElement element, String name )
-	{
-		DesignElement tmpElement = namespace.getElement( name );
-		if ( tmpElement == null || tmpElement == element )
-			return true;
-
-		return false;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

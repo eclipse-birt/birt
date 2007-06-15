@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -618,7 +617,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// not layout structure involved.
 
-		if ( child.getDefn( ).getSlotCount( ) == 0 )
+		if ( !child.getDefn( ).isContainer( ) )
 		{
 			// unresolves the extends child
 
@@ -642,9 +641,8 @@ public class LibraryCommand extends AbstractElementCommand
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
-			ContentCommand command = new ContentCommand( module,
-					new ContainerContext( child, tmpElement.getContainerInfo( )
-							.getSlotID( ) ) );
+			ContentCommand command = new ContentCommand( module, tmpElement
+					.getContainerInfo( ) );
 			command.remove( tmpElement, false, true );
 		}
 

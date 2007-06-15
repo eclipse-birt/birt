@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -210,7 +211,8 @@ public class ElementStructureUtil
 				if ( IDesignElementModel.NAME_PROP.equalsIgnoreCase( propDefn
 						.getName( ) )
 						|| IDesignElementModel.EXTENDS_PROP
-								.equalsIgnoreCase( propDefn.getName( ) ) )
+								.equalsIgnoreCase( propDefn.getName( ) )
+						|| propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 					continue;
 
 				if ( content instanceof ExtendedItem
@@ -376,7 +378,8 @@ public class ElementStructureUtil
 				
 				if( targetContent instanceof TableItem )
 				{
-					((TableItem)targetContent).refreshRenderModel( targetModule );
+					( (TableItem) targetContent )
+							.refreshRenderModel( targetModule );
 				}
 			}
 		}
