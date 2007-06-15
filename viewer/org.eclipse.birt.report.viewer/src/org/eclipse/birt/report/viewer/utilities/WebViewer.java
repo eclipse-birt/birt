@@ -104,6 +104,11 @@ public class WebViewer
 	public final static String MAX_ROWS_KEY = "MAX_ROWS_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Property to indicate whether it is a report debug mode
+	 */
+	public final static String REPORT_DEBUT_MODE = "report_debug_mode"; //$NON-NLS-1$
+
+	/**
 	 * locale mapping. Save some time.
 	 */
 	public static TreeMap LocaleTable = null;
@@ -293,6 +298,15 @@ public class WebViewer
 	{
 		try
 		{
+			// if don't load debug ui, viewer will handle to set workspace
+			// classpath
+			String debugMode = System.getProperty( REPORT_DEBUT_MODE );
+			if ( debugMode == null )
+			{
+				// initialize workspace classpath
+				ViewerClassPathHelper.setWorkspaceClassPath( );
+			}
+
 			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT, WebAppPlugin,
 					Path.EMPTY );
 		}
