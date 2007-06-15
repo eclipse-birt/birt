@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -185,6 +186,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 			queryDefn2 = subQueryDefn;
 
 		subQueryMap = new HashMap( );
+		registerSubQuery( queryDefn2 );
+	}
+
+	/**
+	 * register all subQuery
+	 * @param queryDefn2
+	 */
+	private void registerSubQuery( IBaseQueryDefinition queryDefn2 )
+	{
 		Collection subQueryDefns = queryDefn2.getSubqueries( );
 		if ( subQueryDefns != null )
 		{
@@ -193,6 +203,26 @@ public class PreparedDummyQuery implements IPreparedQuery
 			{
 				ISubqueryDefinition subQueryDefn = (ISubqueryDefinition) it.next( );
 				subQueryMap.put( subQueryDefn.getName( ), subQueryDefn );
+				registerSubQuery( subQueryDefn );
+			}
+		}
+		List groupList = queryDefn2.getGroups( );
+		if ( groupList != null )
+		{
+			for ( int i = 0; i < groupList.size( ); i++ )
+			{
+				GroupDefinition groupDefn = (GroupDefinition) groupList.get( i );
+				Collection subQueryDefnsOnGroup = groupDefn.getSubqueries( );
+				if ( subQueryDefnsOnGroup != null )
+				{
+					Iterator it = subQueryDefnsOnGroup.iterator( );
+					while ( it.hasNext( ) )
+					{
+						ISubqueryDefinition subQueryDefn = (ISubqueryDefinition) it.next( );
+						subQueryMap.put( subQueryDefn.getName( ), subQueryDefn );
+						registerSubQuery( subQueryDefn );
+					}
+				}
 			}
 		}
 	}
