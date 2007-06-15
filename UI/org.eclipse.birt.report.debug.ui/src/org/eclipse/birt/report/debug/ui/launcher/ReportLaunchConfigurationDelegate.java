@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
+import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -197,9 +198,9 @@ public class ReportLaunchConfigurationDelegate extends
 
 		String openFiles = "-D" + PROJECT_OPENFILES_KEY + "=" + configuration.getAttribute( OPENFILENAMES, "" );
 		
+		String mode = "-D" + WebViewer.REPORT_DEBUT_MODE + "=" + "TRUE"; //$NON-NLS-1$ //$NON-NLS-2$
 		return new String[]{
-				append, classPath, openFiles
+				append, classPath, openFiles, mode
 		};
-
 	}
 }
