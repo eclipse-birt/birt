@@ -2515,7 +2515,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				dSmallestY = dY;
 			}
-			else if ( dSmallestY > dY )
+			// #192797: Use fuzzy comparison here due to possible precision
+			// loss during computation.
+			else if ( ChartUtil.mathGT( dSmallestY, dY ) )
 			{
 				dSmallestY = dY;
 				iSmallestYIndex = i;
