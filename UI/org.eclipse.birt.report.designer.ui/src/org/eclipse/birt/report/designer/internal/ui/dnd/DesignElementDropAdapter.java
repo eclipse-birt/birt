@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
-import org.eclipse.birt.report.designer.ui.views.IElementDropAdapter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;

@@ -1118,7 +1118,10 @@ public class DNDUtil
 			// {
 			// return CONTAIN_NO;
 			// }
-			if ( !childHandle.getElement( ).getDefn( ).canExtend( ) )
+			
+			// After discussing with Hongchang, fix bug 191202.
+			// When fixing 145964, Hongchang add this line of code
+			if ( (childHandle.getModuleHandle( ) instanceof LibraryHandle )&&(!childHandle.getElement( ).getDefn( ).canExtend( )) )
 			{
 				return CONTAIN_NO;
 			}
