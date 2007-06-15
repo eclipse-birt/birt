@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
@@ -40,7 +42,7 @@ public class AggrSortDefinition
 	 */
 	public AggrSortDefinition( DimLevel[] aggrLevels, String aggrName,
 			DimLevel[] axisQualifierLevel, Object[] axisQualifierValue,
-			DimLevel targetLevel, boolean direction )
+			DimLevel targetLevel, boolean direction ) throws DataException
 	{
 		Object[] params = {
 				aggrLevels,
@@ -55,12 +57,35 @@ public class AggrSortDefinition
 				params );
 		this.aggrLevels = aggrLevels;
 		this.aggrName = aggrName;
+		checkAxisAgrument( axisQualifierLevel, axisQualifierValue );
 		this.axisQualifierLevel = axisQualifierLevel;
 		this.axisQualifierValue = axisQualifierValue;
 		this.targetLevel = targetLevel;
 		this.direction = direction;
 		logger.exiting( AggrSortDefinition.class.getName( ),
 				"AggrSortDefinition" );
+	}
+	
+	/**
+	 * @param axisQualifierLevel
+	 * @param axisQualifierValue
+	 * @throws DataException
+	 */
+	private void checkAxisAgrument( DimLevel[] axisLevels,
+			Object[] axisValues ) throws DataException
+	{
+		if ( axisLevels != null
+				&& axisValues != null && axisLevels.length == axisValues.length )
+		{
+			for ( int i = 0; i < axisLevels.length; i++ )
+			{
+				if ( axisLevels[i] == null )
+					throw new DataException( ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL );
+				if ( axisValues[i] == null )
+					throw new DataException( ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL,
+							axisLevels[i].getLevelName( ) );
+			}
+		}
 	}
 	
 	/**
