@@ -25,6 +25,9 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.css.CssStyle;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
@@ -182,10 +185,30 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 			// removes references of styles in the theme
 
 			if ( referenceableElement instanceof Theme )
+			{
 				updateReferenceableClients(
 						(DesignElement) referenceableElement,
 						IThemeModel.STYLES_SLOT );
+				
+				// removes references of css styles in the theme. for bugzilla
+				// 192171
+				List csses = ( (ICssStyleSheetOperation) referenceableElement )
+						.getCsses( );
+				Iterator cssIterator = csses.iterator( );
+				while ( cssIterator.hasNext( ) )
+				{
+					CssStyleSheet styleSheet = (CssStyleSheet) cssIterator
+							.next( );
+					List styles = styleSheet.getStyles( );
+					Iterator styleIterator = styles.iterator( );
+					while ( styleIterator.hasNext( ) )
+					{
+						CssStyle cssStyle = (CssStyle) styleIterator.next( );
+						cssStyle.updateClientReferences( );
+					}
+				}
+
+			}
 		}
 	}
-
 }

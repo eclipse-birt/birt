@@ -73,24 +73,26 @@ public class LibraryThemeTest extends BaseTestCase
 
 		ThemeHandle themeHandle = (ThemeHandle) libraryHandle.getThemes( ).get(
 				0 );
-		assertTrue( themeHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
-		assertTrue( themeHandle.canAddCssStyleSheet( "base.css" ));//$NON-NLS-1$
-		
-		//test add css sheet 
-		
+		assertTrue( themeHandle.canAddCssStyleSheet( getResource(
+				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
+		assertTrue( themeHandle.canAddCssStyleSheet( "base.css" ) );//$NON-NLS-1$
+
+		// test add css sheet
+
 		CssStyleSheetHandle sheetHandle = libraryHandle
 				.openCssStyleSheet( getResource( "input/base.css" ).getFile( ) );//$NON-NLS-1$
-		assertNull( sheetHandle.getContainerHandle( ));
-		
+		assertNull( sheetHandle.getContainerHandle( ) );
+
 		themeHandle.addCss( sheetHandle );
-		
-		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ));
-		assertFalse( themeHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
-		
+
+		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ) );
+		assertFalse( themeHandle.canAddCssStyleSheet( getResource(
+				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
+
 		List styles = themeHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
-		
-		assertNotNull( sheetHandle.getContainerHandle( ));
+
+		assertNotNull( sheetHandle.getContainerHandle( ) );
 
 		try
 		{
@@ -110,8 +112,8 @@ public class LibraryThemeTest extends BaseTestCase
 		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
 
 		// drop css
-		assertTrue( themeHandle.canDropCssStyleSheet( sheetHandle ));
-		
+		assertTrue( themeHandle.canDropCssStyleSheet( sheetHandle ) );
+
 		assertNotNull( labelHandle.getStyle( ) );
 
 		// before drop , style is null
@@ -121,13 +123,13 @@ public class LibraryThemeTest extends BaseTestCase
 		assertNull( labelHandle.getStyle( ) );
 
 		assertNull( labelHandle.getElement( ).getStyle( ) );
-		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ));
-		assertNull( sheetHandle.getContainerHandle( ));
-		//add css file name
+		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ) );
+		assertNull( sheetHandle.getContainerHandle( ) );
+		// add css file name
 		themeHandle.addCss( "base.css" ); //$NON-NLS-1$
 		styles = themeHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
-		
+
 	}
 
 	/**
@@ -633,14 +635,14 @@ public class LibraryThemeTest extends BaseTestCase
 		libraryHandle.getThemes( ).add( theme );
 		Library library = (Library) libraryHandle.getModule( );
 
-		assertEquals( 2, library.getNameHelper( ).getNameSpace( Module.THEME_NAME_SPACE )
-				.getCount( ) );
-		assertEquals( 0, library.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE )
-				.getCount( ) );
+		assertEquals( 2, library.getNameHelper( ).getNameSpace(
+				Module.THEME_NAME_SPACE ).getCount( ) );
+		assertEquals( 0, library.getNameHelper( ).getNameSpace(
+				Module.STYLE_NAME_SPACE ).getCount( ) );
 
 		theme.getStyles( ).add( libFactory.newStyle( "style2" ) ); //$NON-NLS-1$
-		assertEquals( 0, library.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE )
-				.getCount( ) );
+		assertEquals( 0, library.getNameHelper( ).getNameSpace(
+				Module.STYLE_NAME_SPACE ).getCount( ) );
 	}
 
 	/**
@@ -776,6 +778,31 @@ public class LibraryThemeTest extends BaseTestCase
 
 	}
 
+	/**
+	 * When remove library with css style which is used in report design, report
+	 * design should receive event message. for bugzilla 192171.
+	 * 
+	 * @throws Exception
+	 */
+	public void testRemoveStyleInTheme( ) throws Exception
+	{
+		openDesign( "LibraryThemeTest.xml" );//$NON-NLS-1$		
+
+		LibraryHandle libHandle = (LibraryHandle) designHandle.getLibraries( )
+				.get( 0 );
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.getElementByID( 7l );
+
+		assertNotNull( labelHandle.getStyle( ) );
+		MyListener listener = new MyListener( );
+		labelHandle.addListener( listener );
+
+		designHandle.dropLibrary( libHandle );
+		assertNull( labelHandle.getStyle( ) );
+
+		assertEquals( 1, listener.getCounter( ) );
+	}
+
 	class MyListener implements Listener
 	{
 
@@ -795,5 +822,13 @@ public class LibraryThemeTest extends BaseTestCase
 				counter++;
 		}
 
+		/**
+		 * Returns counter.
+		 * @return
+		 */
+		public int getCounter( )
+		{
+			return counter;
+		}
 	}
 }
