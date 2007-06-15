@@ -94,12 +94,12 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		List choiceList = new ArrayList( );
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
-			String name = dataTypes[i].getName( );
-
-			if ( name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
-					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-				continue;
+//			String name = dataTypes[i].getName( );
+//
+//			if ( name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+//					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+//					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+//				continue;
 			choiceList.add( dataTypes[i] );
 		}
 		return (IChoice[]) choiceList.toArray( new IChoice[0] );
