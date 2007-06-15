@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtChangeParameterActionHandler
 		extends
@@ -69,8 +71,25 @@ public class BirtChangeParameterActionHandler
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( isMasterContent ) );
 		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
-		ByteArrayOutputStream page = getReportService( ).getPage( docName,
-				pageNumber + "", options, activeIds ); //$NON-NLS-1$
+
+		ByteArrayOutputStream page = null;
+		if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
+		{
+			// get attribute bean
+			ViewerAttributeBean attrBean = (ViewerAttributeBean) context
+					.getBean( );
+			assert attrBean != null;
+
+			// render reportlet
+			String __reportletId = attrBean.getReportletId( );
+			page = getReportService( ).getReportlet( docName, __reportletId,
+					options, activeIds );
+		}
+		else
+		{
+			page = getReportService( ).getPage( docName,
+					pageNumber + "", options, activeIds ); //$NON-NLS-1$
+		}
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );

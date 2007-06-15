@@ -35,6 +35,7 @@ import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -203,9 +204,19 @@ public class FramesetFragment extends BirtBaseFragment
 				out = new ByteArrayOutputStream( );
 			}
 
-			BirtRenderReportActionHandler renderReport = new BirtRenderReportActionHandler(
-					context, op, upResponse, out );
-			renderReport.execute( );
+			if ( ParameterAccessor.isGetReportlet( request ) )
+			{
+				// render reportlet
+				BirtGetReportletActionHandler renderReportlet = new BirtGetReportletActionHandler(
+						context, op, upResponse, out );
+				renderReportlet.execute( );
+			}
+			else
+			{
+				BirtRenderReportActionHandler renderReport = new BirtRenderReportActionHandler(
+						context, op, upResponse, out );
+				renderReport.execute( );
+			}
 
 			if ( isPrint )
 			{
