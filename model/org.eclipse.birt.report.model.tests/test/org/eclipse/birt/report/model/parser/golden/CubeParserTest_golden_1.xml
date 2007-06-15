@@ -189,7 +189,7 @@
                                 </structure>
                             </list-property>
                             <property name="levels">
-                                <tabular-level name="testLevel1" id="16">
+                                <tabular-level name="testLevel" id="16">
                                     <property name="dataType">integer</property>
                                     <property name="dateTimeLevelType">month</property>
                                     <property name="intervalBase">Jan</property>

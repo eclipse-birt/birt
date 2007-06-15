@@ -441,6 +441,23 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				return false;
 		}
 	}
+	
+	/**
+	 * @param namespace
+	 * @param element
+	 * @param name
+	 * @return
+	 */
+
+	protected static boolean isValidInNameSpace( NameSpace namespace,
+			DesignElement element, String name )
+	{
+		DesignElement tmpElement = namespace.getElement( name );
+		if ( tmpElement == null || tmpElement == element )
+			return true;
+
+		return false;
+	}
 
 	class NameResolveInfor
 	{

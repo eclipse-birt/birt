@@ -420,6 +420,18 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		assertFalse( location1.equalsIgnoreCase( location2 ) );
 	}
+	
+	/**
+	 * Tests reload library for cube.
+	 * @throws Exception
+	 */
+	public void testReloadLibrary3() throws Exception
+	{
+		openDesign("DesignWithCube.xml"); //$NON-NLS-1$
+		designHandle.reloadLibraries( );
+		save( );
+		assertTrue( compareFile( "DesignWithCube_golden.xml" ) ); //$NON-NLS-1$
+	}
 
 	private static class MyLibraryListener implements Listener
 	{
