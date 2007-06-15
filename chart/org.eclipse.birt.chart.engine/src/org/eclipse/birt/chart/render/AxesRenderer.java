@@ -3348,8 +3348,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		int iOutside = 0;
 		if ( entry == null )
 		{
-			// Null entry displays in the base line
-			iOutside = 1;
+			// Category style: it's inside.
+			// Non-category style: null entry displays in the base line
+			iOutside = scale.isCategoryScale( ) ? 0 : 1;
 		}
 		else if ( scale.getMinimum( ) == null || scale.getMaximum( ) == null )
 		{

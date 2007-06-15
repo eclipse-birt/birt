@@ -928,7 +928,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		int nTicks = 2;
-		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
+		if ( isCategoryScale( ) )
 		{
 			if ( dsiData != null )
 			{
@@ -1262,7 +1262,7 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean checkFit( IDisplayServer xs, Label la,
 			int iLabelLocation ) throws ChartException
 	{
-		if ( iType == TEXT || bCategoryScale )
+		if ( isCategoryScale( ) )
 		{
 			// not for text and category style
 			return true;
@@ -1582,7 +1582,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 
-		if ( iType != TEXT && !bCategoryScale )
+		if ( !isCategoryScale( ) )
 		{
 			// This should be already auto scaled, just return here.
 			return ba;
@@ -2620,7 +2620,7 @@ public final class AutoScale extends Methods implements Cloneable
 			return;
 		}
 
-		if ( getType( ) == TEXT || bCategoryScale )
+		if ( isCategoryScale( ) )
 		{
 			// COMPUTE THE BOUNDING BOXES FOR FIRST AND LAST LABEL TO ADJUST
 			// START/END OF X-AXIS
@@ -3064,7 +3064,7 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( iOrientation == VERTICAL )
 		{
 			double dW, dMaxW = 0, dMaxW2 = 0;
-			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
 				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -3209,7 +3209,7 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( iOrientation == HORIZONTAL )
 		{
 			double dH, dMaxH = 0, dMaxH2 = 0;
-			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
 				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -3385,7 +3385,7 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( iOrientation == VERTICAL )
 		{
 			double dW, dMaxW = 0;
-			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
 				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -3531,7 +3531,7 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( iOrientation == HORIZONTAL )
 		{
 			double dH, dMaxH = 0;
-			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
 				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -3728,11 +3728,13 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Checks if axis is category style or Text type
+	 * 
 	 * @return
 	 */
 	public final boolean isCategoryScale( )
 	{
-		return bCategoryScale;
+		return ( iType & TEXT ) == TEXT || bCategoryScale;
 	}
 
 	/**
