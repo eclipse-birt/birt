@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -115,6 +116,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 				}
 				catch ( SemanticException e )
 				{
+					ExceptionHandler.handle(e);
 					return false;
 				}
 			}else
@@ -126,6 +128,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 				}
 				catch ( SemanticException e )
 				{
+					ExceptionHandler.handle(e);
 					return false;
 				}
 			}

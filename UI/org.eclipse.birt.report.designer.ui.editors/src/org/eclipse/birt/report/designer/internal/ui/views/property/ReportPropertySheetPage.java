@@ -897,6 +897,7 @@ public class ReportPropertySheetPage extends Page implements
 				changed = false;
 			}else{
 				changed = true;
+				if(changed == true)refresh();
 			}
 		}
 	}
