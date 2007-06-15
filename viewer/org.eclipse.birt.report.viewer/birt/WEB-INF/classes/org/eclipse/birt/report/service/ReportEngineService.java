@@ -949,7 +949,7 @@ public class ReportEngineService
 	/**
 	 * Render report page.
 	 * 
-	 * @param os
+	 * @param out
 	 * @param request
 	 * @param reportDocument
 	 * @param format
@@ -963,7 +963,7 @@ public class ReportEngineService
 	 * @param iServletPath
 	 * @throws RemoteException
 	 */
-	public void renderReport( OutputStream os, HttpServletRequest request,
+	public void renderReport( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String format, long pageNumber,
 			String pageRange, boolean masterPage, boolean svgFlag,
 			List activeIds, Locale locale, boolean rtl, String iServletPath )
@@ -979,9 +979,8 @@ public class ReportEngineService
 			throw fault;
 		}
 
-		OutputStream out = os;
 		if ( out == null )
-			out = new ByteArrayOutputStream( );
+			return;
 
 		// get servlet path
 		String servletPath = iServletPath;
@@ -1115,7 +1114,6 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-
 	public void renderReportlet( OutputStream os, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId,
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
@@ -1142,7 +1140,6 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-
 	public void renderReportlet( OutputStream os, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId,
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
@@ -1153,9 +1150,37 @@ public class ReportEngineService
 	}
 
 	/**
+	 * Render reportlet.
+	 * 
+	 * @param request
+	 * @param reportDocument
+	 * @param reportletId
+	 * @param format
+	 * @param masterPage
+	 * @param pageNumber
+	 * @param svgFlag
+	 * @param activeIds
+	 * @param locale
+	 * @param rtl
+	 * @param iServletPath
+	 * @return outputstream
+	 * @throws RemoteException
+	 */
+	public OutputStream renderReportlet( HttpServletRequest request,
+			IReportDocument reportDocument, String reportletId, String format,
+			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
+			boolean rtl, String iServletPath ) throws RemoteException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		renderReportlet( out, request, reportDocument, reportletId, format,
+				masterPage, svgFlag, activeIds, locale, rtl, iServletPath );
+		return out;
+	}
+
+	/**
 	 * Render reportlet page.
 	 * 
-	 * @param os
+	 * @param out
 	 * @param request
 	 * @param reportDocument
 	 * @param reportletId
@@ -1169,8 +1194,7 @@ public class ReportEngineService
 	 * @param iServletPath
 	 * @throws RemoteException
 	 */
-
-	public void renderReportlet( OutputStream os, HttpServletRequest request,
+	public void renderReportlet( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
@@ -1185,9 +1209,8 @@ public class ReportEngineService
 			throw fault;
 		}
 
-		OutputStream out = os;
 		if ( out == null )
-			out = new ByteArrayOutputStream( );
+			return;
 
 		String servletPath = iServletPath;
 		if ( servletPath == null )

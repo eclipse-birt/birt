@@ -125,6 +125,20 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
+	 * Render a reportlet.
+	 * 
+	 * @param docName
+	 * @param objectId
+	 * @param renderOptions
+	 * @param activeIds
+	 * @return outputstream
+	 * @throws ReportServiceException
+	 */
+	ByteArrayOutputStream getReportlet( String docName, String objectId,
+			InputOptions renderOptions, List activeIds )
+			throws ReportServiceException;
+
+	/**
 	 * Render a reportlet. This is similar to getPageByObjectId. The difference
 	 * is that while getPageByObjectId returns the first page containing the
 	 * object, this method return all pages containing the object.
@@ -133,6 +147,7 @@ public interface IViewerReportService
 	 * @param objectId
 	 * @param renderOptions
 	 * @param activeIds
+	 * @param out
 	 * @return
 	 * @throws ReportServiceException
 	 */

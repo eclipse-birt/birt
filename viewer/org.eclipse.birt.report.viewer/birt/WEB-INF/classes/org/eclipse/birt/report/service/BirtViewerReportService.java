@@ -235,6 +235,20 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getReportlet(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.List)
+	 */
+	public ByteArrayOutputStream getReportlet( String docName, String objectId,
+			InputOptions renderOptions, List activeIds )
+			throws ReportServiceException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		renderReportlet( docName, objectId, renderOptions, activeIds, out );
+		return out;
+	}
+
+	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#renderReportlet(java.lang.String,
 	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
 	 *      java.util.List, java.io.OutputStream)

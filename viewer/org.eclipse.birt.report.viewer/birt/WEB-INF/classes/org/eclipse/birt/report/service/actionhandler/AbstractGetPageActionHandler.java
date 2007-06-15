@@ -12,6 +12,7 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractGetPageActionHandler
 		extends
@@ -175,9 +177,24 @@ public abstract class AbstractGetPageActionHandler
 				new Boolean( __bean.isMasterPageContent( ) ) );
 
 		__activeIds = new ArrayList( );
-		__page = getReportService( ).getPage( __docName, __pageNumber + "", //$NON-NLS-1$
-				options, __activeIds );
+		if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
+		{
+			// get attribute bean
+			ViewerAttributeBean attrBean = (ViewerAttributeBean) context
+					.getBean( );
+			assert attrBean != null;
 
+			// render reportlet
+			String docName = attrBean.getReportDocumentName( );
+			String __reportletId = attrBean.getReportletId( );
+			__page = getReportService( ).getReportlet( docName, __reportletId,
+					options, __activeIds );
+		}
+		else
+		{
+			__page = getReportService( ).getPage( __docName, __pageNumber + "", //$NON-NLS-1$
+					options, __activeIds );
+		}
 	}
 
 	protected void prepareResponse( ) throws ReportServiceException,
