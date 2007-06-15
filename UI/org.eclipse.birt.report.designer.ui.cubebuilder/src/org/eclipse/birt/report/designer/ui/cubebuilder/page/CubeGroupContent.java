@@ -19,7 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.DateGroupDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.DateLevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.MeasureDialog;
@@ -214,6 +214,7 @@ public class CubeGroupContent extends Composite implements Listener
 				Messages.getString( "GroupsPage.Button.Delete" ), //$NON-NLS-1$
 		};
 		addBtn = new Button( operationField, SWT.PUSH );
+		addBtn.setEnabled( false );
 		addBtn.setText( btnTexts[0] );
 		addBtn.addSelectionListener( new SelectionAdapter( ) {
 
@@ -341,7 +342,8 @@ public class CubeGroupContent extends Composite implements Listener
 						event.detail = DND.DROP_NONE;
 						return;
 					}
-					else event.detail = DND.DROP_MOVE;
+					else
+						event.detail = DND.DROP_MOVE;
 
 					Object obj = (Object) dragSourceItems[0].getData( );
 					ResultSetColumnHandle dataField = null;
@@ -371,12 +373,12 @@ public class CubeGroupContent extends Composite implements Listener
 								return;
 							}
 
-							if ( dataField != null
-									&& isDateType( dataField.getDataType( ) ) )
-							{
-								event.detail = DND.DROP_NONE;
-								return;
-							}
+							// if ( dataField != null
+							// && isDateType( dataField.getDataType( ) ) )
+							// {
+							// event.detail = DND.DROP_NONE;
+							// return;
+							// }
 
 							DesignElementHandle hierarchy = ( (TabularLevelHandle) element ).getContainer( );
 							DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
@@ -400,8 +402,14 @@ public class CubeGroupContent extends Composite implements Listener
 
 							if ( dimension.isTimeType( ) )
 							{
-								event.detail = DND.DROP_NONE;
-								return;
+
+								if ( dimension.getDefaultHierarchy( )
+										.getLevelCount( ) != 0
+										|| !isDateType( dataField.getDataType( ) ) )
+								{
+									event.detail = DND.DROP_NONE;
+									return;
+								}
 							}
 
 							DataSetHandle temp = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) ).getDataSet( );
@@ -412,16 +420,19 @@ public class CubeGroupContent extends Composite implements Listener
 								event.detail = DND.DROP_NONE;
 								return;
 							}
-							TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) );
-							if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
-							{
-								if ( dataField != null
-										&& isDateType( dataField.getDataType( ) ) )
-								{
-									event.detail = DND.DROP_NONE;
-									return;
-								}
-							}
+							// TabularHierarchyHandle hierarchy = (
+							// (TabularHierarchyHandle)
+							// dimension.getDefaultHierarchy( ) );
+							// if ( hierarchy.getContentCount(
+							// IHierarchyModel.LEVELS_PROP ) > 0 )
+							// {
+							// if ( dataField != null
+							// && isDateType( dataField.getDataType( ) ) )
+							// {
+							// event.detail = DND.DROP_NONE;
+							// return;
+							// }
+							// }
 
 						}
 						else if ( element instanceof MeasureGroupHandle
@@ -478,6 +489,10 @@ public class CubeGroupContent extends Composite implements Listener
 
 			public void drop( DropTargetEvent event )
 			{
+				SessionHandleAdapter.getInstance( )
+						.getCommandStack( )
+						.startTrans( "" );
+
 				if ( event.data == null )
 				{
 					event.detail = DND.DROP_NONE;
@@ -520,6 +535,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								if ( element instanceof MeasureHandle )
 								{
+
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
@@ -529,7 +545,12 @@ public class CubeGroupContent extends Composite implements Listener
 													measure );
 									MeasureDialog dialog = new MeasureDialog( false );
 									dialog.setInput( input, measure );
-									dialog.open( );
+									if ( dialog.open( ) == Window.CANCEL )
+									{
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
+									}
 								}
 								else if ( element instanceof CubeHandle
 										|| element instanceof PropertyHandle )
@@ -560,7 +581,12 @@ public class CubeGroupContent extends Composite implements Listener
 													index );
 									LevelPropertyDialog dialog = new LevelPropertyDialog( true );
 									dialog.setInput( level );
-									dialog.open( );
+									if ( dialog.open( ) == Window.CANCEL )
+									{
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
+									}
 								}
 							}
 							else
@@ -576,7 +602,12 @@ public class CubeGroupContent extends Composite implements Listener
 													measure );
 									MeasureDialog dialog = new MeasureDialog( false );
 									dialog.setInput( input, measure );
-									dialog.open( );
+									if ( dialog.open( ) == Window.CANCEL )
+									{
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
+									}
 								}
 								else if ( element instanceof MeasureGroupHandle
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -610,7 +641,12 @@ public class CubeGroupContent extends Composite implements Listener
 											measure );
 									MeasureDialog dialog = new MeasureDialog( false );
 									dialog.setInput( input, measure );
-									dialog.open( );
+									if ( dialog.open( ) == Window.CANCEL )
+									{
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
+									}
 								}
 								else if ( element instanceof CubeHandle
 										|| element instanceof PropertyHandle )
@@ -620,11 +656,12 @@ public class CubeGroupContent extends Composite implements Listener
 								}
 								else if ( element instanceof LevelHandle )
 								{
-									if ( isDateType( dataField.getDataType( ) ) )
-									{
-										event.detail = DND.DROP_NONE;
-										return;
-									}
+									// if ( isDateType( dataField.getDataType( )
+									// ) )
+									// {
+									// event.detail = DND.DROP_NONE;
+									// return;
+									// }
 
 									TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( );
 									DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
@@ -653,7 +690,12 @@ public class CubeGroupContent extends Composite implements Listener
 													index + 1 );
 									LevelPropertyDialog dialog = new LevelPropertyDialog( true );
 									dialog.setInput( level );
-									dialog.open( );
+									if ( dialog.open( ) == Window.CANCEL )
+									{
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
+									}
 								}
 								else if ( element instanceof DimensionHandle
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -678,7 +720,9 @@ public class CubeGroupContent extends Composite implements Listener
 										else
 											dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
 									}
-									if ( dimension.isTimeType( ) )
+									if ( dimension.isTimeType( )
+											&& dimension.getDefaultHierarchy( )
+													.getLevelCount( ) > 0 )
 									{
 										event.detail = DND.DROP_NONE;
 										return;
@@ -695,21 +739,26 @@ public class CubeGroupContent extends Composite implements Listener
 
 									if ( isDateType( dataField.getDataType( ) ) )
 									{
-										if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+										// if ( hierarchy.getContentCount(
+										// IHierarchyModel.LEVELS_PROP ) > 0 )
+										// {
+										// event.detail = DND.DROP_NONE;
+										// return;
+										// }
+										// else
+										// {
+
+										GroupDialog dialog = new GroupDialog( true );
+										dialog.setInput( hierarchy,
+												dataField.getColumnName( ) );
+										if ( dialog.open( ) != Window.OK )
 										{
-											event.detail = DND.DROP_NONE;
-											return;
-										}
-										else
-										{
-											DateGroupDialog dialog = new DateGroupDialog( );
-											dialog.setInput( hierarchy,
-													dataField.getColumnName( ) );
-											if ( dialog.open( ) == Window.OK )
-											{
-												dimension.setTimeType( true );
-											}
-											else
+											SessionHandleAdapter.getInstance( )
+													.getCommandStack( )
+													.rollback( );
+											if ( element instanceof VirtualField
+													&& ( (VirtualField) element ).getType( )
+															.equals( VirtualField.TYPE_DIMENSION ) )
 											{
 												boolean hasExecuted = OlapUtil.enableDrop( dimension );
 												if ( hasExecuted )
@@ -721,9 +770,11 @@ public class CubeGroupContent extends Composite implements Listener
 												}
 											}
 										}
+										// }
 									}
 									else
 									{
+
 										TabularLevelHandle level = DesignElementFactory.getInstance( )
 												.newTabularLevel( dimension,
 														dataField.getColumnName( ) );
@@ -733,12 +784,18 @@ public class CubeGroupContent extends Composite implements Listener
 												level );
 										LevelPropertyDialog dialog = new LevelPropertyDialog( true );
 										dialog.setInput( level );
-										dialog.open( );
+										if ( dialog.open( ) == Window.CANCEL )
+										{
+											SessionHandleAdapter.getInstance( )
+													.getCommandStack( )
+													.rollback( );
+										}
 									}
-									if ( dataset != input.getDataSet( ) )
-									{
-										builder.showSelectionPage( builder.getLinkGroupNode( ) );
-									}
+									// if ( dataset != input.getDataSet( ) )
+									// {
+									// builder.showSelectionPage(
+									// builder.getLinkGroupNode( ) );
+									// }
 								}
 							}
 						}
@@ -959,6 +1016,9 @@ public class CubeGroupContent extends Composite implements Listener
 				dataset = (DataSetHandle) dataField.getElementHandle( );
 			}
 
+			if ( dataField == null || dataset == null )
+				addBtn.setEnabled( false );
+
 			/**
 			 * Deal add button and del buuton.
 			 */
@@ -990,37 +1050,45 @@ public class CubeGroupContent extends Composite implements Listener
 
 				if ( dimenTemp != null )
 				{
-					if ( dimenTemp.isTimeType( ) )
+					DataSetHandle table = ( (TabularHierarchyHandle) dimenTemp.getDefaultHierarchy( ) ).getDataSet( );
+
+					if ( table == null && dataField != null )
+						addBtn.setEnabled( true );
+					else
+						addBtn.setEnabled( false );
+
+					if ( table != null && dataset != table )
 						addBtn.setEnabled( false );
 					else
+						addBtn.setEnabled( true );
+
+					if ( dimenTemp.isTimeType( ) )
+						addBtn.setEnabled( false );
+
+					if ( dataField != null
+							&& isDateType( dataField.getDataType( ) ) )
 					{
-						if ( dataField != null
-								&& isDateType( dataField.getDataType( ) ) )
+						if ( dimenTemp.getDefaultHierarchy( )
+								.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 						{
-							if ( dimenTemp.getDefaultHierarchy( )
-									.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
-							{
-								addBtn.setEnabled( false );
-							}
-							else
-								addBtn.setEnabled( true );
+							addBtn.setEnabled( false );
 						}
 						else
 							addBtn.setEnabled( true );
 					}
+
 				}
 
-				if ( dataField == null || dataset == null )
-					addBtn.setEnabled( false );
-				else if ( obj instanceof MeasureGroupHandle
+				if ( obj instanceof MeasureGroupHandle
 						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
 								.equals( VirtualField.TYPE_MEASURE ) )
 						|| obj instanceof MeasureHandle )
 				{
-					if ( dataset == input.getDataSet( ) )
-						addBtn.setEnabled( true );
-					else
-						addBtn.setEnabled( false );
+					// if ( dataset == input.getDataSet( ) || dataField == null
+					// )
+					// addBtn.setEnabled( true );
+					// else
+					addBtn.setEnabled( true );
 				}
 
 				if ( obj instanceof LevelHandle )
@@ -1137,17 +1205,18 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					new DeleteCommand( level ).execute( );
 				}
-				try
-				{
-					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) == 0 )
-					{
-						dimension.setTimeType( false );
-					}
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
+				// try
+				// {
+				// if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP )
+				// == 0 )
+				// {
+				// dimension.setTimeType( false );
+				// }
+				// }
+				// catch ( SemanticException e )
+				// {
+				// ExceptionHandler.handle( e );
+				// }
 
 			}
 			else if ( obj instanceof MeasureGroupHandle )
@@ -1175,6 +1244,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 	private void handleAddEvent( )
 	{
+		SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 		Iterator iter = slections.iterator( );
 		while ( iter.hasNext( ) )
@@ -1196,6 +1266,65 @@ public class CubeGroupContent extends Composite implements Listener
 			{
 				handleDataAddEvent( );
 			}
+			else
+			{
+				if ( obj instanceof MeasureGroupHandle
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_MEASURE ) ) )
+				{
+					MeasureGroupHandle measureGroup = null;
+					if ( obj instanceof MeasureGroupHandle )
+						measureGroup = (MeasureGroupHandle) obj;
+					else
+						measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
+
+					TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+							.newTabularMeasure( null );
+					try
+					{
+						measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
+								measure );
+						MeasureDialog dialog = new MeasureDialog( false );
+						dialog.setInput( input, measure );
+						if ( dialog.open( ) == Window.CANCEL )
+						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.rollback( );
+						}
+					}
+					catch ( SemanticException e1 )
+					{
+						ExceptionHandler.handle( e1 );
+					}
+					refresh( );
+					return;
+				}
+				else if ( obj instanceof MeasureHandle )
+				{
+					TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+							.newTabularMeasure( null );
+					try
+					{
+						( (MeasureHandle) obj ).getContainer( )
+								.add( IMeasureGroupModel.MEASURES_PROP, measure );
+						MeasureDialog dialog = new MeasureDialog( false );
+						dialog.setInput( input, measure );
+						if ( dialog.open( ) == Window.CANCEL )
+						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.rollback( );
+						}
+					}
+					catch ( SemanticException e1 )
+					{
+						ExceptionHandler.handle( e1 );
+					}
+					refresh( );
+					return;
+				}
+			}
 
 			if ( obj instanceof PropertyHandle )
 			{
@@ -1204,9 +1333,6 @@ public class CubeGroupContent extends Composite implements Listener
 						.getName( )
 						.equals( ICubeModel.DIMENSIONS_PROP ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" );
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( null );
 					try
@@ -1231,33 +1357,27 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
 									.trim( ) );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+
 						}
-						catch ( NameException e1 )
+						catch ( Exception e1 )
 						{
+							ExceptionHandler.handle( e1 );
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
 									.rollback( );
-							ExceptionHandler.handle( e1 );
 						}
 					}
 					else
-					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
 								.rollback( );
-					}
+
 					refresh( );
 				}
 				else if ( model.getPropertyDefn( )
 						.getName( )
 						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( null );
 					try
@@ -1286,24 +1406,19 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
 									.trim( ) );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
 						}
-						catch ( NameException e1 )
+						catch ( Exception e1 )
 						{
+							ExceptionHandler.handle( e1 );
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
 									.rollback( );
-							ExceptionHandler.handle( e1 );
 						}
 					}
 					else
-					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
 								.rollback( );
-					}
 
 					refresh( );
 				}
@@ -1320,6 +1435,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 	protected void handleDataAddEvent( )
 	{
+		SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
 		TreeSelection dataFields = (TreeSelection) dataFieldsViewer.getSelection( );
 		Iterator iterator = dataFields.iterator( );
 		while ( iterator.hasNext( ) )
@@ -1384,7 +1500,12 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					LevelPropertyDialog dialog = new LevelPropertyDialog( true );
 					dialog.setInput( level );
-					dialog.open( );
+					if ( dialog.open( ) == Window.CANCEL )
+					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.rollback( );
+					}
 					refresh( );
 					return;
 				}
@@ -1398,7 +1519,11 @@ public class CubeGroupContent extends Composite implements Listener
 					else
 						dimension = (TabularDimensionHandle) ( (VirtualField) obj ).getModel( );
 					if ( dimension.isTimeType( ) )
-						continue;
+					{
+						if ( dimension.getDefaultHierarchy( ).getLevelCount( ) > 0
+								|| !isDateType( dataField.getDataType( ) ) )
+							continue;
+					}
 
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
 							0 );
@@ -1433,23 +1558,14 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 							else
 							{
-								DateGroupDialog dialog = new DateGroupDialog( );
+								GroupDialog dialog = new GroupDialog( true );
 								dialog.setInput( hierarchy,
 										dataField.getColumnName( ) );
-								if ( dialog.open( ) == Window.OK )
+								if ( dialog.open( ) == Window.CANCEL )
 								{
-									dimension.setTimeType( true );
-								}
-								else
-								{
-									boolean hasExecuted = OlapUtil.enableDrop( dimension );
-									if ( hasExecuted )
-									{
-										UIHelper.dropDimensionProperties( dimension );
-										new DeleteCommand( dimension ).execute( );
-										refresh( );
-										return;
-									}
+									SessionHandleAdapter.getInstance( )
+											.getCommandStack( )
+											.rollback( );
 								}
 							}
 						}
@@ -1463,13 +1579,19 @@ public class CubeGroupContent extends Composite implements Listener
 							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 							LevelPropertyDialog dialog = new LevelPropertyDialog( true );
 							dialog.setInput( level );
-							dialog.open( );
+							if ( dialog.open( ) == Window.CANCEL )
+							{
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
+							}
 						}
 
-						if ( dataset != input.getDataSet( ) )
-						{
-							builder.showSelectionPage( builder.getLinkGroupNode( ) );
-						}
+						// if ( dataset != input.getDataSet( ) )
+						// {
+						// builder.showSelectionPage( builder.getLinkGroupNode(
+						// ) );
+						// }
 					}
 					catch ( SemanticException e )
 					{
@@ -1478,9 +1600,7 @@ public class CubeGroupContent extends Composite implements Listener
 					refresh( );
 					return;
 				}
-				else if ( dataset != null
-						&& primary != null
-						&& dataset == primary )
+				else
 				{
 					if ( obj instanceof MeasureGroupHandle
 							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
@@ -1496,13 +1616,22 @@ public class CubeGroupContent extends Composite implements Listener
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
-							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+							if ( dataset != null
+									&& primary != null
+									&& dataset == primary )
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+
 							measure.setDataType( dataField.getDataType( ) );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
 							MeasureDialog dialog = new MeasureDialog( false );
 							dialog.setInput( input, measure );
-							dialog.open( );
+							if ( dialog.open( ) == Window.CANCEL )
+							{
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
+							}
 						}
 						catch ( SemanticException e1 )
 						{
@@ -1513,18 +1642,27 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					else if ( obj instanceof MeasureHandle )
 					{
+
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
-							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+							if ( dataset != null
+									&& primary != null
+									&& dataset == primary )
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 							measure.setDataType( dataField.getDataType( ) );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
 							MeasureDialog dialog = new MeasureDialog( false );
 							dialog.setInput( input, measure );
-							dialog.open( );
+							if ( dialog.open( ) == Window.CANCEL )
+							{
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
+							}
 						}
 						catch ( SemanticException e1 )
 						{
@@ -1586,8 +1724,9 @@ public class CubeGroupContent extends Composite implements Listener
 			if ( obj instanceof TabularLevelHandle )
 			{
 				TabularLevelHandle level = (TabularLevelHandle) obj;
-				if ( level.getDataType( )
-						.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				// if ( level.getDataType( )
+				// .equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				if ( ( (DimensionHandle) level.getContainer( ).getContainer( ) ).isTimeType( ) )
 				{
 					DateLevelDialog dialog = new DateLevelDialog( );
 					dialog.setInput( level );
@@ -1616,13 +1755,9 @@ public class CubeGroupContent extends Composite implements Listener
 					refresh( );
 				};
 			}
-			else if ( obj instanceof DimensionHandle
-					&& ( (DimensionHandle) obj ).getDefaultHierarchy( ) != null
-					&& ( (DimensionHandle) obj ).isTimeType( )
-					&& ( (DimensionHandle) obj ).getDefaultHierarchy( )
-							.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+			else if ( obj instanceof DimensionHandle )
 			{
-				DateGroupDialog dialog = new DateGroupDialog( );
+				GroupDialog dialog = new GroupDialog( false );
 				dialog.setInput( (TabularHierarchyHandle) ( (DimensionHandle) obj ).getDefaultHierarchy( ) );
 				dialog.open( );
 			}
