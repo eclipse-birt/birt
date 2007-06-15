@@ -21,6 +21,8 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
@@ -174,9 +176,15 @@ public class PreviewCascadingMenuGroup implements
 		IEditorPart editor = UIUtil.getActiveEditor( true );
 		if ( editor != null )
 		{
-			return ( editor.getEditorInput( )
-					.getName( )
-					.endsWith( ".rptdesign" ) || editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+			IContentType[] contentTypes = Platform.getContentTypeManager( )
+					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
+			if ( contentTypes[0] != null
+					&& ( contentTypes[0].getId( )
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( )
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
