@@ -380,7 +380,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					cmbTypes.setEnabled( false );
 				}
 			}
-
+			
 			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
 			{
 				btnVisible = new Button( parent, SWT.CHECK );
@@ -420,6 +420,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					btnTranslucent.setSelection( series.isTranslucent( ) );
 					btnTranslucent.addSelectionListener( this );
 				}
+				
+				setTypeComboState( );
+				setStackedBoxState( );
 			}
 			else
 			{
@@ -432,6 +435,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			populateLists( seriesDefn.getDesignTimeSeries( ) );
 		}
+
 
 		public void widgetSelected( SelectionEvent e )
 		{
@@ -446,31 +450,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					// Get a new series of the selected type by using as
 					// much
 					// information as possible from the existing series
-
-					Series newSeries = getNewSeries( cmbTypes.getText( ),
-							series );
-
-					ChartAdapter.beginIgnoreNotifications( );
-					if ( !newSeries.canBeStacked( ) )
-					{
-						for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
-						{
-							if ( ( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
-									.isStacked( ) )
-							{
-								( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
-										.setStacked( false );
-							}
-						}
-					}
-					ChartAdapter.endIgnoreNotifications( );
-
-					newSeries.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
-					seriesDefn.getSeries( ).set( 0, newSeries );
-
-					createSeriesOptions( (ScrolledComposite) cmpList.getParent( ) );
-
-					cmpList.layout( );
+					String typeName = cmbTypes.getText( );
+					convertSeriesType( series, typeName );
 				}
 			}
 			else if ( e.getSource( ).equals( btnVisible ) )
@@ -487,6 +468,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					series.setLabelPosition( Position.INSIDE_LITERAL );
 				}
+				
+				setTypeComboState( );
 			}
 			else if ( e.getSource( ).equals( btnTranslucent ) )
 			{
@@ -496,6 +479,40 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			{
 				switchTo( treeIndex );
 			}
+		}
+
+		/**
+		 * Convert current type of series to other.
+		 * 
+		 * @param series
+		 *            specified series.
+		 * @param typeName
+		 *            other type of series.
+		 */
+		private void convertSeriesType( Series series, String typeName )
+		{
+			Series newSeries = getNewSeries( typeName, series );
+			ChartAdapter.beginIgnoreNotifications( );
+			if ( !newSeries.canBeStacked( ) )
+			{
+				for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
+				{
+					if ( ( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+							.isStacked( ) )
+					{
+						( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+								.setStacked( false );
+					}
+				}
+			}
+			ChartAdapter.endIgnoreNotifications( );
+
+			newSeries.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
+			seriesDefn.getSeries( ).set( 0, newSeries );
+
+			createSeriesOptions( (ScrolledComposite) cmpList.getParent( ) );
+
+			cmpList.layout( );
 		}
 
 		private Series getNewSeries( String sSeriesName, final Series oldSeries )
@@ -608,6 +625,65 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 
+		/**
+		 * Set enabled/disabled state of series type combo.
+		 */
+		public void setTypeComboState( )
+		{
+			if ( btnStack == null )
+			{
+				return;
+			}
+
+			ChartDimension cd = getChart( ).getDimension( );
+			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL ||
+					cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
+			{
+				if ( btnStack.getSelection( ) )
+				{
+					cmbTypes.setEnabled( false );
+				}
+				else
+				{
+					List seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+					Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
+					if ( s != seriesDefn.getDesignTimeSeries( ) )
+					{
+						cmbTypes.setEnabled( true );
+					}
+				}
+			}
+		}
+		
+
+		/**
+		 * Set state of stacked CheckBox by type of series.
+		 */
+		private void setStackedBoxState( )
+		{
+			if ( btnStack == null )
+			{
+				return;
+			}
+
+			ChartDimension cd = getChart( ).getDimension( );
+			if ( ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL || cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
+			{
+				List seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+				Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
+				if ( s.getDisplayName( )
+						.equals( seriesDefn.getDesignTimeSeries( )
+								.getDisplayName( ) ) )
+				{
+					btnStack.setEnabled( true );
+				}
+				else
+				{
+					btnStack.setEnabled( false );
+					cmbTypes.setEnabled( true );
+				}
+			}
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )
