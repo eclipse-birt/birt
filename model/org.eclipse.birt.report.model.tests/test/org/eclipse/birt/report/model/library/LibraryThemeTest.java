@@ -776,6 +776,31 @@ public class LibraryThemeTest extends BaseTestCase
 
 	}
 
+	/**
+	 * When remove library with css style which is used in report design, report
+	 * design should receive event message. for bugzilla 192171.
+	 * 
+	 * @throws Exception
+	 */
+	public void testRemoveStyleInTheme( ) throws Exception
+	{
+		openDesign( "LibraryThemeTest.xml" );//$NON-NLS-1$		
+
+		LibraryHandle libHandle = (LibraryHandle) designHandle.getLibraries( )
+				.get( 0 );
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.getElementByID( 7l );
+
+		assertNotNull( labelHandle.getStyle( ) );
+		MyListener listener = new MyListener( );
+		labelHandle.addListener( listener );
+
+		designHandle.dropLibrary( libHandle );
+		assertNull( labelHandle.getStyle( ) );
+
+		assertEquals( 1, listener.getCounter( ) );
+	}
+	
 	class MyListener implements Listener
 	{
 
@@ -793,6 +818,15 @@ public class LibraryThemeTest extends BaseTestCase
 			if ( ev.getEventType( ) == NotificationEvent.STYLE_EVENT
 					|| ev.getEventType( ) == NotificationEvent.THEME_EVENT )
 				counter++;
+		}
+		
+		/**
+		 * Returns counter.
+		 * @return
+		 */
+		public int getCounter( )
+		{
+			return counter;
 		}
 
 	}
