@@ -71,6 +71,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class DataSetIterator implements IDatasetIterator
 {
 
+	private static final String DATE_TIME_ATTR_NAME = "DateTime";
 	//
 	private boolean started = false;
 	private IResultIterator it;
@@ -419,16 +420,27 @@ public class DataSetIterator implements IDatasetIterator
 				while ( it.hasNext( ) )
 				{
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
+					
+					IDataProcessor processor = null;
+					String bindingExpr = null;
+					if( level.getDateTimeLevelType( ) != null && DATE_TIME_ATTR_NAME.equals( levelAttr.getName()))
+					{
+						processor = new DateTimeAttributeProcessor( level.getDateTimeLevelType());
+						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName() ) ;
+					}else
+					{
+						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName() ) ;
+					}
 					ColumnMeta meta = new ColumnMeta( createLevelName( dimName, OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) )),
-							null,
+							processor,
 							ColumnMeta.UNKNOWN_TYPE );
 
 					meta.setDataType( DataAdapterUtil.adaptModelDataType( levelAttr.getDataType( ) ) );
 					metaList.add( meta );
 
 					query.addBinding( new Binding( meta.getName( ),
-							new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) ) );
+							new ScriptExpression( bindingExpr ) ));
 				}
 				
 				if( level.getDisplayColumnName( )!= null )
@@ -554,6 +566,25 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 
+	private Calendar getCalendar( Object d )
+	{
+		assert d != null;
+		
+		Date date;
+		try
+		{
+			date = DataTypeUtil.toDate( d );
+			Calendar c = Calendar.getInstance( );
+			c.setTime( date );
+			return c;
+		}
+		catch ( BirtException e )
+		{
+			throw new java.lang.IllegalArgumentException( AdapterResourceHandle.getInstance( )
+					.getMessage( ResourceConstants.INVALID_DATETIME_VALUE ) );
+		}
+	}
+	
 	/**
 	 * 
 	 *
@@ -777,6 +808,120 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 	
+	/**
+	 * For all Time level, there is by default an "DateTime" attribute which contains the corresponding
+	 * DateTime value of that time level.
+	 */
+	private class DateTimeAttributeProcessor implements IDataProcessor
+	{
+		private String timeType;
+		
+		DateTimeAttributeProcessor( String timeType )
+		{
+			this.timeType = timeType;
+		}
+		
+		public Object process( Object d ) throws AdapterException
+		{
+			if( d == null )
+				return null;
+			
+			Calendar cal = getCalendar( d );
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) 
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
+			{
+				cleanTimePortion( cal );
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
+			{
+				//For all month, clear time portion and set DayOfMonth to 1.
+				cleanTimePortion( cal );
+				cal.set( Calendar.DATE, 1 );
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
+			{
+				//For all quarter, clear time portion and set month to first month of 
+				//that quarter and set day to first day of that month.
+				cleanTimePortion( cal );
+				cal.set( Calendar.DATE, 1 );
+				int month = cal.get( Calendar.MONTH );
+				switch ( month )
+				{
+					case Calendar.JANUARY :
+					case Calendar.FEBRUARY :
+					case Calendar.MARCH :
+						cal.set(Calendar.MONTH, 0);
+						break;
+					case Calendar.APRIL :
+					case Calendar.MAY :
+					case Calendar.JUNE :
+						cal.set(Calendar.MONTH, 3);
+						break;
+					case Calendar.JULY :
+					case Calendar.AUGUST :
+					case Calendar.SEPTEMBER :
+						cal.set(Calendar.MONTH, 6);
+						break;
+					case Calendar.OCTOBER :
+					case Calendar.NOVEMBER :
+					case Calendar.DECEMBER :
+						cal.set(Calendar.MONTH, 9);
+						break;
+				}
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
+			{
+				//For year, clear all time portion and set Date to Jan 1st.
+				cleanTimePortion( cal );
+				cal.set(Calendar.MONTH, 0);
+				cal.set(Calendar.DATE, 1);
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
+			{
+				//For hour, set minute to 0 and second to 1.
+				cal.set(Calendar.MINUTE, 0);
+				cal.set(Calendar.SECOND, 1);
+				cal.set(Calendar.MILLISECOND, 0);
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
+			{
+				//For minute, set second to 1.
+				cal.set(Calendar.SECOND, 1);
+				cal.set(Calendar.MILLISECOND, 0);
+				return cal.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
+			{
+				//For second, set millisecond to 0.
+				cal.set(Calendar.MILLISECOND, 0);
+				return cal.getTime();
+			}
+			else
+				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
+	
+		}
+	}
+	
+	/**
+	 * Clear time portion of a date value
+	 * @param d
+	 */
+	private void cleanTimePortion( Calendar d )
+	{
+		d.set(Calendar.HOUR_OF_DAY, 0);
+		d.set(Calendar.MINUTE, 0);
+		d.set(Calendar.SECOND, 1);
+		d.set(Calendar.MILLISECOND,0 );
+	}
+	
 	private String createDateTransformerExpr( String timeType, String value )
 	{
 		return "TempDateTransformer.transform(\""
@@ -891,25 +1036,6 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			else
 				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
-		}
-
-		private Calendar getCalendar( Object d )
-		{
-			assert d != null;
-			
-			Date date;
-			try
-			{
-				date = DataTypeUtil.toDate( d );
-				Calendar c = Calendar.getInstance( );
-				c.setTime( date );
-				return c;
-			}
-			catch ( BirtException e )
-			{
-				throw new java.lang.IllegalArgumentException( AdapterResourceHandle.getInstance( )
-						.getMessage( ResourceConstants.INVALID_DATETIME_VALUE ) );
-			}			
 		}
 	}
 
