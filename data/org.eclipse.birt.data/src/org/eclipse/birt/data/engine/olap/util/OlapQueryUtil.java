@@ -78,12 +78,20 @@ public class OlapQueryUtil
 						binding.getBindingName( ) );
 			}
 
-			if ( binding.getAggregatOns( ).size( ) > 0
-					&& binding.getAggrFunction( ) == null )
+			if ( ( binding.getAggregatOns( ).size( ) > 0
+					&& binding.getAggrFunction( ) == null ) )
 			{
 				isValid = false;
 				if( !suppressException )
 				throw new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
+						binding.getBindingName( ) );
+			}
+			
+			if ( binding.getFilter()!= null )
+			{
+				isValid = false;
+				if( !suppressException )
+				throw new DataException( ResourceConstants.INVALID_BINDING_AGGR_FILTER_NOT_SUPPORTED,
 						binding.getBindingName( ) );
 			}
 			
