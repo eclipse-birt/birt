@@ -68,7 +68,7 @@ public class DimensionDivision
 			getRanges()[i].end = getRanges()[i].start + subDimensionMemberCount[i] - 1;
 		}
 		
-		assert getRanges()[getRanges().length].end == dimensionMemberCount - 1;
+		assert getRanges( )[getRanges( ).length - 1].end == dimensionMemberCount - 1;
 		logger.exiting( DimensionDivision.class.getName( ), "DimensionDivision" );
 	}
 	
