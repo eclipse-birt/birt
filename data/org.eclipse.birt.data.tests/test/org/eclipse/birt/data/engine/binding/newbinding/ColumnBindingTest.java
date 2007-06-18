@@ -1051,7 +1051,7 @@ public class ColumnBindingTest extends APITestCase
 		}
 		catch ( BirtException e )
 		{
-			assertTrue( e.getErrorCode( ) == ResourceConstants.INVALID_JS_EXPR );
+			assertTrue( e.getErrorCode( ) == ResourceConstants.INVALID_EXPR_HANDLE );
 		}
 	}
 	
