@@ -84,6 +84,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -838,6 +839,25 @@ public class ReportQueryBuilder
 				if ( columnBinding.getAggregateFunction( ) != null )
 				{
 					binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
+				}
+				String filter = columnBinding.getFilterExpression( );
+				if ( filter != null )
+				{
+					binding.setFilter( new ScriptExpression( filter ) );
+				}
+				Iterator arguments = columnBinding.argumentsIterator( );
+				if ( arguments != null )
+				{
+					while ( arguments.hasNext( ) )
+					{
+						AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments
+								.next( );
+						String argument = argumentHandle.getValue( );
+						if ( argument != null )
+						{
+							binding.addArgument( new ScriptExpression( argument ) );
+						}
+					}
 				}
 				transfer.addBinding( binding );
 			}
