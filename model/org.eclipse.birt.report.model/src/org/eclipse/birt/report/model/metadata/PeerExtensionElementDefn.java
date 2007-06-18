@@ -173,35 +173,40 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		while ( iterator.hasNext( ) )
 		{
 			String propName = (String) iterator.next( );
-			
+
 			// don't support override local property.
 
 			if ( properties.get( propName ) != null )
-				continue;
+			{
+				ElementPropertyDefn defn = (ElementPropertyDefn) properties
+						.get( propName );
+				if ( defn.definedBy == this )
+					continue;
+			}
 
 			OverridePropertyInfo propInfo = (OverridePropertyInfo) overridePropertyInfoMap
-			.get( propName );
+					.get( propName );
 
-			if( propInfo == null )
+			if ( propInfo == null )
 				continue;
-			
+
 			String units = propInfo.getAllowedUnits( );
 			boolean isOwn = propInfo.isUseOwnModel( );
-			
+
 			ChoiceSet choiceSet = buildChoiceSet( units );
-			
-			if( choiceSet == null && !isOwn )
+
+			if ( choiceSet == null && !isOwn )
 				continue;
-			
+
 			ElementPropertyDefn defn = (ElementPropertyDefn) cachedProperties
 					.get( propName );
 			if ( defn == null )
 				continue;
-			
+
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( defn );
 			if ( clonedDefn == null )
 				continue;
-			if( choiceSet != null )
+			if ( choiceSet != null )
 				clonedDefn.allowedChoices = choiceSet;
 			clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );

@@ -9,7 +9,7 @@ Bundle-ClassPath: tests.jar,
 Eclipse-ExtensibleAPI: true 
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests",
+Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests,org.eclipse.birt.report.item.crosstab.core",
  org.eclipse.birt.report.model.api,
  org.eclipse.birt.report.model.api.activity,
  org.eclipse.birt.report.model.api.command,
@@ -25,7 +25,7 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.api.simpleapi,
  org.eclipse.birt.report.model.api.util,
  org.eclipse.birt.report.model.api.validators,
- org.eclipse.birt.report.model.command;x-friends:="org.eclipse.birt.report.model.tests",
+ org.eclipse.birt.report.model.command;x-friends:="org.eclipse.birt.report.model.tests,org.eclipse.birt.report.item.crosstab.core",
  org.eclipse.birt.report.model.core,
  org.eclipse.birt.report.model.core.namespace,
  org.eclipse.birt.report.model.css;x-friends:="org.eclipse.birt.report.model.tests",
