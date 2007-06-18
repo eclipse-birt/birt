@@ -32,6 +32,8 @@ import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -119,6 +121,15 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		viewer = new CustomTreeViewer( container, SWT.FULL_SELECTION );
+//		viewer.addSelectionChangedListener( new ISelectionChangedListener(){
+//
+//			public void selectionChanged( SelectionChangedEvent event )
+//			{
+//				if ( cellEditor != null )
+//					deactivateCellEditor( );
+//			}
+//			
+//		} );
 		tableTree = viewer.getTree( );
 		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tableTree.setHeaderVisible( true );
@@ -565,7 +576,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	protected void refresh( )
 	{
 		viewer.refresh( true );
-
+		deactivateCellEditor( );
 		if ( input != null )
 		{
 			Object obj = DEUtil.getInputFirstElement( input );
@@ -594,10 +605,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		changed = false;
 	}
 
-	public void selectionChanged( IWorkbenchPart part, ISelection selection )
-	{
-		deactivateCellEditor( );
-	}
 
 	private void expandTreeFromMemento( Memento memento )
 	{
