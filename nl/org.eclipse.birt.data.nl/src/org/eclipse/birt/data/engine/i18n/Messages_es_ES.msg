@@ -336,6 +336,7 @@ data.olap.invalidLevelAttr=El atributo no es válido:
 data.olap.invalidBindingReferToInexitDim=El enlace "{0}" hace referencia a niveles no válidos.
 data.olap.invalidBindingReferToInexitMeasure=El enlace "{0}" hace referencia a medidas no válidas.  
 data.olap.invalidBindingMissingAggrFunc=Falta la función de agregación de enlace "{0}".
+data.olap.invalidBindingAggrFilterNotSupported=The binding "{0}" contains aggregation filter, which is currently not supported for cross tab.
 data.olap.invalidAggrArgument=Sólo el atributo de nivel puede servir como argumento de agregación.
 data.olap.axis.level.CantBeNull=El nivel de los elementos de la columna no puede ser nulo.
 data.olap.axis.value.CantBeNull=El valor de los elementos de la columna del nivel \"{0}\" no puede ser nulo.

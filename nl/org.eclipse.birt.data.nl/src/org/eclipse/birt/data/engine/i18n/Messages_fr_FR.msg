@@ -336,6 +336,7 @@ data.olap.invalidLevelAttr=L'attribut est incorrect :
 data.olap.invalidBindingReferToInexitDim=La liaison "{0}" fait référence à des niveaux incorrects.
 data.olap.invalidBindingReferToInexitMeasure=La liaison "{0}" fait référence à des mesures incorrectes.  
 data.olap.invalidBindingMissingAggrFunc=La fonction d''agrégation de la liaison "{0}" est manquante.
+data.olap.invalidBindingAggrFilterNotSupported=The binding "{0}" contains aggregation filter, which is currently not supported for cross tab.
 data.olap.invalidAggrArgument=Seul l'attribut de niveau peut servir d'argument d'agrégation.
 data.olap.axis.level.CantBeNull=Le niveau de membre de colonne ne peut pas être nul.
 data.olap.axis.value.CantBeNull=La valeur de membre de colonne du niveau \"{0}\" ne peut pas être nulle.

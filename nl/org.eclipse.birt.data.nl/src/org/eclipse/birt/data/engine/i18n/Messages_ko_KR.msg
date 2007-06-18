@@ -336,6 +336,7 @@ data.olap.invalidLevelAttr=다음 특성이 잘못되었습니다.
 data.olap.invalidBindingReferToInexitDim=바인딩 "{0}"이(가) 잘못된 수준을 참조합니다.
 data.olap.invalidBindingReferToInexitMeasure=바인딩 "{0}"이(가) 잘못된 측정값을 참조합니다.  
 data.olap.invalidBindingMissingAggrFunc=바인딩 "{0}"의 집계 함수가 없습니다.
+data.olap.invalidBindingAggrFilterNotSupported=The binding "{0}" contains aggregation filter, which is currently not supported for cross tab.
 data.olap.invalidAggrArgument=수준 특성만 집계 인수로 사용될 수 있습니다.
 data.olap.axis.level.CantBeNull=열 구성원의 수준은 널(null)이 될 수 없습니다!
 data.olap.axis.value.CantBeNull=수준 \"{0}\"의 열 구성원 값은 널(null)이 될 수 없습니다!

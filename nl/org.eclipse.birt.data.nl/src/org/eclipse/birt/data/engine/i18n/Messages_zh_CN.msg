@@ -336,6 +336,7 @@ data.olap.invalidLevelAttr=属性无效:
 data.olap.invalidBindingReferToInexitDim=绑定“{0}”引用的级别无效。
 data.olap.invalidBindingReferToInexitMeasure=绑定“{0}”引用的度量无效。  
 data.olap.invalidBindingMissingAggrFunc=绑定“{0}”的聚合函数丢失。
+data.olap.invalidBindingAggrFilterNotSupported=The binding "{0}" contains aggregation filter, which is currently not supported for cross tab.
 data.olap.invalidAggrArgument=仅级别属性可以用作聚合参数。
 data.olap.axis.level.CantBeNull=列成员级别不能为空!
 data.olap.axis.value.CantBeNull=级别\“{0}\”的列成员值不能为空!
