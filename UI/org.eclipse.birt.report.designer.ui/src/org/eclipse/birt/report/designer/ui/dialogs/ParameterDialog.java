@@ -291,6 +291,8 @@ public class ParameterDialog extends BaseDialog
 	// Combo chooser for dynamic
 	private Combo dataSetChooser, columnChooser, displayTextChooser,
 			sortKeyChooser, sortDirectionChooser;
+	
+	private Button valueColumnExprButton;
 
 	// Label
 	private Label previewLabel, sortKeyLabel, sortDirectionLabel;
@@ -1109,6 +1111,7 @@ public class ParameterDialog extends BaseDialog
 		// columnChooser.select( 0 );
 		// }
 		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
+		valueColumnExprButton.setEnabled( columnChooser.getItemCount() > 0  );
 		updateMessageLine( );
 	}
 
@@ -1612,7 +1615,7 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 
-		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
+		valueColumnExprButton = new Button( composite, SWT.PUSH );
 		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( valueColumnExprButton );
 		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
