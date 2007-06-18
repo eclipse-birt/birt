@@ -161,6 +161,7 @@ public class StructureHandle extends ValueHandle
 					memberName );
 
 		memberHandle.setValue( value );
+		structRef.cacheStructureInForce( getModule( ), getElement( ) );
 	}
 
 	/**

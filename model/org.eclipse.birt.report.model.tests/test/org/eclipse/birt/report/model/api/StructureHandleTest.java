@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -559,4 +560,37 @@ public class StructureHandleTest extends BaseTestCase
 		assertEquals( "en_US", value ); //$NON-NLS-1$
 	}
 
+
+	/**
+	 * When parsing the library file, the member reference for the filter is
+	 * created. And the structure is cached.
+	 * <p>
+	 * If the user wants to update the filter member values later, the cached
+	 * structure needs to be updated. Otherwise, Model will throw a running time
+	 * exception indicating that the member reference is floating.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUpdateCachedStructureInMemberRef( ) throws Exception
+	{
+		openDesign( "StructureHandleTest_1.xml" );//$NON-NLS-1$
+
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "table1" ); //$NON-NLS-1$
+		Iterator filters = tableHandle.filtersIterator( );
+		FilterConditionHandle filter = (FilterConditionHandle) filters.next( );
+
+		CachedMemberRef ref = (CachedMemberRef) filter.getReference( );
+		assertTrue( ref
+				.checkOrCacheStructure( design, tableHandle.getElement( ) ) );
+
+		filter.setExpr( "new design expr" ); //$NON-NLS-1$
+		PropertyHandle propHandle = tableHandle
+				.getPropertyHandle( TableHandle.FILTER_PROP );
+		assertTrue( propHandle.isLocal( ) );
+
+		assertEquals( "new design expr", filter.getExpr( ) ); //$NON-NLS-1$
+
+	}
 }
