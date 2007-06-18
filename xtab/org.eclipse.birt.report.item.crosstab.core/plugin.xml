@@ -473,6 +473,46 @@
                name="rowSpan"
                visibility="hide">
          </propertyVisibility>
+         <overrideProperty
+               propertyName="highlightRules"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontFamily"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontSize"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontStyle"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontWeight"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontVariant"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="color"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textUnderline"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textOverline"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textLineThrough"
+               useOwnModel="true">
+         </overrideProperty>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -497,6 +537,46 @@
                name="aggregationOnColumn"
                type="elementRef">
          </property>
+         <overrideProperty
+               propertyName="highlightRules"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontFamily"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontSize"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontStyle"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontWeight"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="fontVariant"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="color"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textUnderline"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textOverline"
+               useOwnModel="true">
+         </overrideProperty>
+         <overrideProperty
+               propertyName="textLineThrough"
+               useOwnModel="true">
+         </overrideProperty>
       </reportItem>
    </extension>
    

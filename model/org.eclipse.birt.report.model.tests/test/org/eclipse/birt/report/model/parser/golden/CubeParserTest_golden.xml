@@ -63,6 +63,10 @@
                                             <property name="name">var1</property>
                                             <property name="dataType">string</property>
                                         </structure>
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
                                         <value-access-control>

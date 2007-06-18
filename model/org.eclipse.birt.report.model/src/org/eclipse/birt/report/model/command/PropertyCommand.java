@@ -26,6 +26,8 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
+import org.eclipse.birt.report.model.api.elements.structures.OdaLevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -49,9 +51,13 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -347,6 +353,58 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 				return;
 			}
+		}
+
+		if ( element instanceof Level
+				&& prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE )
+				&& value != null )
+		{
+			ActivityStack stack = getActivityStack( );
+
+			PropertyRecord record = new PropertyRecord( element, prop, value );
+			record.setEventTarget( getEventTarget( prop ) );
+
+			stack.startTrans( record.getLabel( ) );
+			stack.execute( record );
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+					element );
+			ElementPropertyDefn attributesPropertyDefn = element
+					.getPropertyDefn( ILevelModel.ATTRIBUTES_PROP );
+			Structure struct = null;
+			if ( element instanceof TabularLevel )
+			{
+				LevelAttribute attibute = new LevelAttribute( );
+				attibute.setName( "DateTime" ); //$NON-NLS-1$
+				attibute
+						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				struct = attibute;
+			}
+			else if ( element instanceof OdaLevel )
+			{
+				OdaLevelAttribute attibute = new OdaLevelAttribute( );
+				attibute.setName( "DateTime" ); //$NON-NLS-1$
+				attibute
+						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				struct = attibute;
+			}
+			if ( attributesPropertyDefn != null && struct != null )
+			{
+				try
+				{
+					cmd.addItem( new CachedMemberRef( attributesPropertyDefn ),
+							struct );
+				}
+				catch ( SemanticException e )
+				{
+
+					assert false;
+					stack.rollback( );
+				}
+			}
+
+			stack.commit( );
+
+			return;
 		}
 
 		PropertyRecord record = new PropertyRecord( element, prop, value );
