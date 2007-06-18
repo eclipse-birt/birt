@@ -138,7 +138,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 		}
 		if ( iPageNo > 0 && iPageNo <= totalPage )
 		{
-			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : oGotoPage.value } );
 		}
 		else
 		{			
@@ -167,7 +167,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				{
  					if ( pageNumber > 1 )
  					{
-						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : 1 } );
+						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : 1 } );
 					}
  					break;
  				}
@@ -175,7 +175,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				{
  					if ( pageNumber > 1 )
  					{
-						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber - 1 } );
+						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : pageNumber - 1 } );
 					}
  					break;
  				}
@@ -183,7 +183,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				{
  					if ( totalPage == '+' || pageNumber < totalPage )
  					{
-	 					birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber + 1 } );
+	 					birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : pageNumber + 1 } );
  					}
  					break;
  				}
@@ -191,7 +191,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				{
  					if ( totalPage == '+' || pageNumber < totalPage )
  					{
- 						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : totalPage } );
+ 						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : totalPage } );
  					}
  					break;
  				}
@@ -223,7 +223,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 			if ( this.__oPageNumber.firstChild )
 			{
 				var pageNumber = parseInt( this.__oPageNumber.firstChild.data );
-				birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_INIT, { name : "page", value : pageNumber } );
+				birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_INIT, { name : Constants.PARAM_PAGE, value : pageNumber } );
 			}
 			else
 			{

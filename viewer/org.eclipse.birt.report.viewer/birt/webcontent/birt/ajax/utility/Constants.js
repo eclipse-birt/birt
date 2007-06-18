@@ -49,6 +49,9 @@ var Constants = {
 	PARAM_OVERWRITE : '__overwrite',
 	PARAM_PAGE : '__page',
 	PARAM_PAGERANGE : '__pagerange',
+	PARAM_BOOKMARK : '__bookmark',
+	PARAM_SVG : '__svg',
+	PARAM_TASKID : '__taskid',
 	PARAM_EXPORT_ENCODING : '__exportEncoding',
 	PARAM_SEP : '__sep',
 	PARAM_ISNULL : '__isnull',
@@ -61,7 +64,7 @@ var Constants = {
 	PARAM_PRINTER_MEDIASIZE : '__printer_pagesize',
 	
 	PARAM_FITTOPAGE : '__fittopage',
-	PARAM_PAGEBREAKONLY : '__pagebreakonly',
+	PARAM_PAGEBREAKONLY : '__pagebreakonly',		
 	
 	// Output formats
 	FORMAT_POSTSCRIPT : 'postscript',

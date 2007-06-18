@@ -222,7 +222,7 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 		var oTaskId = document.getElementById( this.__task_id );
 		if( oTaskId && window.confirm( "Do you want to cancel current task?" ) )
 		{
-			birtEventDispatcher.broadcastEvent( birtEvent.__E_CANCEL_TASK, { name : "taskid", value : oTaskId.value } );
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_CANCEL_TASK, { name : Constants.PARAM_TASKID, value : oTaskId.value } );
 			Event.element( event ).disabled = true;
 		}
 	},

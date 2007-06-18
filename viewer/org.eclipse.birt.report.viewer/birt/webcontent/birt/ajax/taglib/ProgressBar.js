@@ -244,7 +244,7 @@ ProgressBar.prototype =
 			Event.element( event ).disabled = true;
 			
 			// cancel task
-			birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "CancelTask", null, { name : "taskid", value : oTaskId.value } );
+			birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "CancelTask", null, { name : Constants.PARAM_TASKID, value : oTaskId.value } );
 			birtSoapRequest.setURL( this.__handler.getAction( ) );
 			
 			if ( !birtSoapRequest.getURL( ) ) return;

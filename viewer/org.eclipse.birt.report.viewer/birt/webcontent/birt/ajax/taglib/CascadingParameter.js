@@ -134,7 +134,7 @@ CascadingParameter.prototype =
 		// Set task id
 		var taskid = birtUtility.setTaskId( );
 		birtSoapRequest.addOperation( Constants.documentId, Constants.Document,'GetCascadingParameter',null,
-									this.__data,{ name : "taskid", value : taskid } );
+									this.__data,{ name : Constants.PARAM_TASKID, value : taskid } );
 		birtSoapRequest.setURL( this.__action );
 			
 		if ( !birtSoapRequest.getURL( ) ) return;

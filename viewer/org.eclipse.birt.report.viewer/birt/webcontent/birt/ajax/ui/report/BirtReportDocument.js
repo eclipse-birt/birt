@@ -238,15 +238,15 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		{
 	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "GetPageAll",
 	        							   null, birtParameterDialog.__parameter, object,
-	        							   { name : "svg", value : this.__has_svg_support? "true" : "false" },
-	        							   { name : this.__task_id, value : taskid } );
+	        							   { name : Constants.PARAM_SVG, value : this.__has_svg_support? "true" : "false" },
+	        							   { name : Constants.PARAM_TASKID, value : taskid } );
 		}
 		else
 		{
 	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "GetPageAll",
 	        							   null, birtParameterDialog.__parameter,
-        							       { name : "svg", value : this.__has_svg_support? "true" : "false" },
-	        							   { name : this.__task_id, value : taskid } );			
+        							       { name : Constants.PARAM_SVG, value : this.__has_svg_support? "true" : "false" },
+	        							   { name : Constants.PARAM_TASKID, value : taskid } );			
 		}
 		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.

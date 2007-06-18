@@ -17,13 +17,13 @@ public interface IBirtConstants
 {
 
 	// Oprand Name Value pair: Names
-	public static final String OPRAND_PAGENO = "page"; //$NON-NLS-1$
-	public static final String OPRAND_BOOKMARK = "bookmark"; //$NON-NLS-1$
+	public static final String OPRAND_PAGENO = "__page"; //$NON-NLS-1$
+	public static final String OPRAND_BOOKMARK = "__bookmark"; //$NON-NLS-1$	
+	public static final String OPRAND_SVG = "__svg"; //$NON-NLS-1$
+	public static final String OPRAND_TASKID = "__taskid"; //$NON-NLS-1$
 	public static final String OPRAND_TOC = "isToc"; //$NON-NLS-1$
-	public static final String OPRAND_SVG = "svg"; //$NON-NLS-1$
 	public static final String OPRAND_PARAM = "param"; //$NON-NLS-1$
-	public static final String OPRAND_IID = "iid"; //$NON-NLS-1$
-	public static final String OPRAND_TASKID = "taskid"; //$NON-NLS-1$
+	public static final String OPRAND_IID = "iid"; //$NON-NLS-1$	
 	
 	public static final String MIME_TYPE = "text/xml"; //$NON-NLS-1$
 	public static final String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;

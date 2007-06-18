@@ -201,7 +201,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		var query = clickImg.query;
 		var plusMinus = clickImg.plusMinus;
 		var bookmark = clickImg.bookmark;
-		birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name: "bookmark", value: bookmark } );
+		birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name: Constants.PARAM_BOOKMARK, value: bookmark } );
 	},
 	
 	/**
