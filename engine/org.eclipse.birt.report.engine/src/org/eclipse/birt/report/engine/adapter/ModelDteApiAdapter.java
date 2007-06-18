@@ -66,6 +66,7 @@ import org.eclipse.birt.report.engine.script.internal.DataSetScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DataSourceScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ScriptDataSetScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ScriptDataSourceScriptExecutor;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -832,16 +833,28 @@ public class ModelDteApiAdapter
 			throws EngineException
 	{
 		// no expression to define a computed column
-		if ( modelCmptdColumn.getExpression( ) == null )
+		if ( modelCmptdColumn.getExpression( ) == null
+				&& modelCmptdColumn.getAggregateFunction( ) == null )
 		{
-			throw new EngineException(
-					MessageConstants.MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION,
+			throw new EngineException( MessageConstants.MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION,
 					modelCmptdColumn.getName( ) );
+		}
+
+		List argumentList = new ArrayList( );
+		Iterator argumentIter = modelCmptdColumn.argumentsIterator( );
+		while ( argumentIter.hasNext( ) )
+		{
+			argumentList.add( new ScriptExpression( ( (AggregationArgumentHandle) argumentIter.next( ) ).getValue( ) ) );
 		}
 
 		return new ComputedColumn( modelCmptdColumn.getName( ),
 				modelCmptdColumn.getExpression( ),
-				toDteDataType( modelCmptdColumn.getDataType( ) ) );
+				toDteDataType( modelCmptdColumn.getDataType( ) ),
+				modelCmptdColumn.getAggregateFunction( ),
+				modelCmptdColumn.getFilterExpression( ) == null
+						? null
+						: new ScriptExpression( modelCmptdColumn.getFilterExpression( ) ),
+				argumentList );
 	}
 
 	/**

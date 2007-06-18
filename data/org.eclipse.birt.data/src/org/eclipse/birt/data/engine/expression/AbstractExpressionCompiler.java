@@ -90,6 +90,8 @@ abstract class AbstractExpressionCompiler
 		{
 			this.scriptExpr = baseExpr;
 			exp = baseExpr.getText( );
+			if ( exp == null )
+				return null;
 			ScriptOrFnNode tree = parse( exp, context );
 			return processScriptTree( exp, tree, context );
 		}
@@ -117,6 +119,8 @@ abstract class AbstractExpressionCompiler
 		try
 		{
 			exp = expression;
+			if ( exp == null )
+				return null;
 			ScriptOrFnNode tree = parse( exp, context );
 			return processScriptTree( exp, tree, context );
 		}
