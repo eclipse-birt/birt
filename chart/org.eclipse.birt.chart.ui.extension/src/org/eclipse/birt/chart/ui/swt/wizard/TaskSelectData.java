@@ -1124,9 +1124,12 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		if ( previewPainter != null )
 		{
-			if ( notification == null  )
+			if ( notification == null )
 			{
-				checkDataForYSeries( );
+				if ( getChartModel( ) instanceof ChartWithAxes )
+				{
+					checkDataTypeForChartWithAxes( );
+				}
 				return;
 			}
 			// Only data definition query (not group query) will be validated
@@ -1139,17 +1142,7 @@ public class TaskSelectData extends SimpleTask implements
 			if ( notification.getNotifier( ) instanceof SeriesDefinition
 					&& getChartModel( ) instanceof ChartWithAxes )
 			{
-				Iterator axes = ( (Axis) ( (SeriesDefinition) notification.getNotifier( ) ).eContainer( ) ).getAssociatedAxes( )
-						.iterator( );
-				while ( axes.hasNext( ) )
-				{
-					Series[] series = ( (Axis) axes.next( ) ).getRuntimeSeries( );
-					for ( int i = 0; i < series.length; i++ )
-					{
-						checkDataType( (Query) series[i].getDataDefinition( )
-								.get( 0 ), series[i] );
-					}
-				}
+				checkDataTypeForChartWithAxes( );
 			}
 
 			// Update Grouping aggregation button
@@ -1430,18 +1423,14 @@ public class TaskSelectData extends SimpleTask implements
 		previewPainter.renderModel( getChartModel( ) );
 	}
 
-	private void checkDataForYSeries( )
+	private void checkDataTypeForChartWithAxes( )
 	{
-		Iterator axes = ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( ).iterator( );
-		while ( axes.hasNext( ) )
+		List osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) );
+		for ( int i = 0; i < osds.size( ); i++ )
 		{
-			Series[] series = ( (Axis) axes.next( ) ).getRuntimeSeries( );
-			for ( int i = 0; i < series.length; i++ )
-			{
-				checkDataType( (Query) series[i].getDataDefinition( ).get( 0 ),
-						series[i] );
-			}
+			SeriesDefinition sd = (SeriesDefinition) osds.get( i );
+			Series series = sd.getDesignTimeSeries( );
+			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
 		}
 	}
 
