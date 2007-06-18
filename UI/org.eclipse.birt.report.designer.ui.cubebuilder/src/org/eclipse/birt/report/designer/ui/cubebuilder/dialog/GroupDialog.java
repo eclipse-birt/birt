@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -183,7 +184,8 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( true );
 			handleButtonSelection( dateButton );
 		}
-		if ( hierarchy.getLevelCount( ) == 0 && !isNew )
+		if ( !isNew
+				&& !( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
 			levelViewer.getTree( ).setVisible( false );
 
 		levelViewer.setInput( getDateTypeNames( ) );
@@ -510,7 +512,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			if ( dateButton.getSelection( )
 					&& dateTypeSelectedList.size( ) == 0
-					&& ( isNew || hierarchy.getLevelCount( ) > 0 || dataField != null ) )
+					&& ( isNew || dataField != null ) )
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
@@ -531,9 +533,26 @@ public class GroupDialog extends TitleAreaDialog
 		if ( hierarchy.getLevelCount( ) == 0 )
 			setInput( hierarchy, null );
 		else
-			setInput( hierarchy,
-					( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) );
+		{
+			if ( !isDateType( hierarchy,( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) )
+				setInput( hierarchy, null );
+			else
+				setInput( hierarchy,
+						( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) );
+		}
 
+	}
+
+	private boolean isDateType( TabularHierarchyHandle hierarchy,String columnName )
+	{
+		ResultSetColumnHandle column = OlapUtil.getDataField( hierarchy.getDataSet( ),
+				columnName );
+		if ( column == null )
+			return false;
+		String dataType = column.getDataType( );
+		return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME );
 	}
 
 }
