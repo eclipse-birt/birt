@@ -164,7 +164,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final String BUTTON_IS_REQUIRED = Messages.getString( "CascadingParametersDialog.Button.isRequired" ); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode" ); //$NON-NLS-1$
+	// private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode" ); //$NON-NLS-1$
 
 	private static final String RADIO_SINGLE = Messages.getString( "CascadingParametersDialog.Radio.Single" ); //$NON-NLS-1$
 
@@ -350,11 +350,6 @@ public class CascadingParametersDialog extends BaseDialog
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		composite.setLayout( new GridLayout( 2, true ) );
 
-		Label dataSetModeLabel = new Label( composite, SWT.NONE );
-		dataSetModeLabel.setText( LABEL_SELECT_DATA_SET_MODE );
-		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gd.verticalSpan = 2;
-		dataSetModeLabel.setLayoutData( gd );
 		// new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE );
 
 		singleDataSet = new Button( composite, SWT.RADIO );
