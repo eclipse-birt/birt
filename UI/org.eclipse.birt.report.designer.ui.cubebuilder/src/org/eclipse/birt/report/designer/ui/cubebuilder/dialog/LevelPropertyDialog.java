@@ -94,12 +94,13 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		List choiceList = new ArrayList( );
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
-//			String name = dataTypes[i].getName( );
-//
-//			if ( name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
-//					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-//					|| name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-//				continue;
+			// String name = dataTypes[i].getName( );
+			//
+			// if ( name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
+			// )
+			// || name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+			// || name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+			// continue;
 			choiceList.add( dataTypes[i] );
 		}
 		return (IChoice[]) choiceList.toArray( new IChoice[0] );
@@ -231,8 +232,22 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			displayKeyCombo.setItem( 0,
 					Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
 			if ( input.getDisplayColumnName( ) != null )
-				displayKeyCombo.setText( input.getDisplayColumnName( ) );
-			else
+			{
+				for ( int i = 0; i < displayKeyCombo.getItemCount( ); i++ )
+				{
+					if ( DEUtil.getResultSetColumnExpression( displayKeyCombo.getItem( i ) )
+							.equals( input.getDisplayColumnName( ) ) )
+					{
+						displayKeyCombo.select( i );
+						break;
+					}
+				}
+				if ( displayKeyCombo.getSelectionIndex( ) == -1
+						&& displayKeyCombo.getItemCount( ) > 0 )
+					displayKeyCombo.select( 0 );
+
+			}
+			else if ( displayKeyCombo.getItemCount( ) > 0 )
 				displayKeyCombo.select( 0 );
 			/*
 			 * PropertyHandle property = input.getPropertyHandle(
@@ -325,7 +340,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
 				{
-					input.setDisplayColumnName( displayKeyCombo.getText( ) );
+					input.setDisplayColumnName( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
 				}
 				else
 					input.setDisplayColumnName( null );
