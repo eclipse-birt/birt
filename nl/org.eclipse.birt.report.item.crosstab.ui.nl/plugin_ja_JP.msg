@@ -12,4 +12,4 @@
 preference.crosstabPage=クロスタブ
 crosstab.menu=クロスタブ(&O)
 Crosstab.desc=レイアウトにクロスタブを挿入してください。
-newcube.menu=データキューブの新規作成(C)
+newcube.menu=データキューブの新規作成

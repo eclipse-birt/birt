@@ -12,4 +12,4 @@
 preference.crosstabPage=Tabla de referencias cruzadas
 crosstab.menu=Tabla de referencias cr&uzadas
 Crosstab.desc=Inserte una tabla de referencias cruzadas en el diseño
-newcube.menu=&Cubo de datos nuevo
+newcube.menu=Cubo de datos nuevo

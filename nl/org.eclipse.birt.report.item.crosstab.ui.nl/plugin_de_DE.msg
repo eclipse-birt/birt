@@ -12,4 +12,4 @@
 preference.crosstabPage=Kreuztabelle
 crosstab.menu=&Kreuztabelle
 Crosstab.desc=Kreuztabelle in Layout einfügen
-newcube.menu=Neuer Datenq&uader
+newcube.menu=Neuer Datenquader
