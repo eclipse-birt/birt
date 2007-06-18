@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -1274,26 +1273,23 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		if ( previewPainter != null )
 		{
+			// To update data type after chart type conversion
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				List sdList = new ArrayList( );
-				EList axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axisList.size( ); i++ )
-				{
-					sdList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
-				}
-
-				for ( int i = 0; i < sdList.size( ); i++ )
-				{
-					checkDataType( ChartUIUtil.getDataQuery( (SeriesDefinition) sdList.get( i ),
-							0 ),
-							( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( ),
-							(SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chartModel )
-									.get( 0 ) );
-				}
+				checkDataTypeForChartWithAxes( );
 			}
 			previewPainter.renderModel( chartModel );
+		}
+	}
+
+	private void checkDataTypeForChartWithAxes( )
+	{
+		List osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel );
+		for ( int i = 0; i < osds.size( ); i++ )
+		{
+			SeriesDefinition sd = (SeriesDefinition) osds.get( i );
+			Series series = sd.getDesignTimeSeries( );
+			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
 		}
 	}
 
@@ -1343,7 +1339,7 @@ public class TaskSelectType extends SimpleTask implements
 		return (String) button.getData( );
 	}
 
-	private void checkDataType( Query query, Series series, SeriesDefinition sd )
+	private void checkDataType( Query query, Series series )
 	{
 		String expression = query.getDefinition( );
 
@@ -1394,6 +1390,7 @@ public class TaskSelectType extends SimpleTask implements
 				if ( chartModel instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
+					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
 					if ( sd != null )
 					{
 						if ( sd.getGrouping( ).isEnabled( )
@@ -1419,7 +1416,10 @@ public class TaskSelectType extends SimpleTask implements
 						if ( isValidatedAxis( dataType, axisTypes[i] ) )
 						{
 							axisNotification( axis, axisTypes[i] );
+							// Avoid modifying model to notify an event loop
+							ChartAdapter.beginIgnoreNotifications( );
 							axis.setType( axisTypes[i] );
+							ChartAdapter.endIgnoreNotifications( );
 							break;
 						}
 					}
