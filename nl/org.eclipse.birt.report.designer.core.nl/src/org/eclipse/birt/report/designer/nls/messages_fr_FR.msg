@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<Sélectionnez un jeu de données>
 CascadingParametersDialog.Label.selectDisplayColumn=<Sélectionner une colonne à afficher>
 CascadingParametersDialog.Label.selectValueColumn=<Sélectionner une colonne de valeur>
 CascadingParametersDialog.Label.values=valeurs
-CascadingParametersDialog.Label.SelectDataSetMode=Mode de jeu de données :
 CascadingParametersDialog.Radio.Single=J&eu de données unique
 CascadingParametersDialog.Radio.Mutli=Jeu de données m&ultiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=Ouvrir
 SampleReportsView.Action.exportSampleReport.toolTipText=Exporter l'exemple d'état sélectionné
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Créer un projet d'état et placer l'état dans le dossier de projet
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l'exemple d'état sélectionné dans le dossier de l'espace de travail RCP
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=Utiliser un fichier CSS...
 

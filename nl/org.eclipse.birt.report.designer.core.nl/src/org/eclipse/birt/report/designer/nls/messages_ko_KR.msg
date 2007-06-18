@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<데이터 집합 선택>
 CascadingParametersDialog.Label.selectDisplayColumn=<표시 열 선택>
 CascadingParametersDialog.Label.selectValueColumn=<값 열 선택>
 CascadingParametersDialog.Label.values=값
-CascadingParametersDialog.Label.SelectDataSetMode=데이터 집합 모드:
 CascadingParametersDialog.Radio.Single=단일 데이터 집합(&E)
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합(&U)
 CascadingParametersDialog.Choice.NullValue=널(null) 값
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=열기
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=CSS 파일 사용...
 

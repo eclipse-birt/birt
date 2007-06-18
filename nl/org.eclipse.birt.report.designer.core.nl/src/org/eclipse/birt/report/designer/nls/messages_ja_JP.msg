@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<データセットの選択>
 CascadingParametersDialog.Label.selectDisplayColumn=<表示列を選択>
 CascadingParametersDialog.Label.selectValueColumn=<値の列を選択>
 CascadingParametersDialog.Label.values=個の値
-CascadingParametersDialog.Label.SelectDataSetMode=データセットモード :
 CascadingParametersDialog.Radio.Single=単一のデータセット(&E)
 CascadingParametersDialog.Radio.Mutli=複数のデータセット(&U)
 CascadingParametersDialog.Choice.NullValue=NULL 値
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=開く
 SampleReportsView.Action.exportSampleReport.toolTipText=選択したサンプルレポートをエクスポートします
 SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを作成して、レポートをプロジェクトフォルダに配置します
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=CSS ファイルを使用...
 
