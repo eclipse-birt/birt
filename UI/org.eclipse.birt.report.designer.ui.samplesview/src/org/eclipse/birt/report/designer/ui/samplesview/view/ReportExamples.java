@@ -51,6 +51,8 @@ import org.eclipse.ui.PlatformUI;
 public class ReportExamples
 {
 
+	private static final String CONTRIBUTION_ITEM_TEXT = Messages.getString( "SampleReportsView.Text.Contribute_Samples" );
+	
 	private Composite mainComposite;
 
 	private SampleReportCanvas previewCanvas;
@@ -185,7 +187,7 @@ public class ReportExamples
 						previewSampleReport( reportname );
 						setSelectedElement( item );
 					}
-					else if ( item.getText( ).equals( "Contribute Samples" ) )
+					else if ( item.getText( ).equals( CONTRIBUTION_ITEM_TEXT ) )
 					{
 						description.setText( DescriptionMessages.getDescription( "Contribute_Samples" ) );
 						setSelectedElement( item );
@@ -254,12 +256,12 @@ public class ReportExamples
 
 			public String getName( )
 			{
-				return "Contribute Samples";
+				return CONTRIBUTION_ITEM_TEXT;
 			}
 
 			public String getDisplayName( )
 			{
-				return "Contribute Samples";
+				return CONTRIBUTION_ITEM_TEXT;
 			}
 
 			public Image getImage( )
