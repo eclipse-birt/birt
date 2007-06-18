@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.eclipse.birt.report.engine.executor.ScriptUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
@@ -118,6 +119,15 @@ public class ReportEngine implements IReportEngine
 		if ( config != null )
 		{
 			Context cx = Context.enter( );
+			try
+			{
+				cx
+						.setSecurityController( ScriptUtil
+								.createSecurityController( ) );
+			}
+			catch ( Throwable throwable )
+			{
+			}
 			try
 			{
 				rootScope = cx.initStandardObjects( null, true );

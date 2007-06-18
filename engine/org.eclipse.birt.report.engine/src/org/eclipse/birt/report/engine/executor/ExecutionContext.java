@@ -295,8 +295,17 @@ public class ExecutionContext
 			scriptContext = new ScriptContext( );
 		}
 		
-		scriptContext.getContext( ).setLocale( locale );
-
+		Context context = scriptContext.getContext( );
+		try
+		{
+			context.setSecurityController( ScriptUtil
+					.createSecurityController( ) );
+		}
+		catch ( Throwable throwable )
+		{
+		}
+		context.setLocale( locale );
+		
 		initailizeScriptContext( scriptContext.getContext( ), scriptContext
 				.getRootScope( ) );
 
