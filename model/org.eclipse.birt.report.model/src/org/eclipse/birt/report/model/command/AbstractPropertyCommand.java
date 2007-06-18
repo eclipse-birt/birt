@@ -443,6 +443,11 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
 					list );
 			getActivityStack( ).execute( propRecord );
+
+			if ( ref instanceof CachedMemberRef )
+				( (CachedMemberRef) ref ).cacheStructureInForce( module,
+						element );
+
 			return;
 		}
 
@@ -466,6 +471,9 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					copy );
 			getActivityStack( ).execute( propRecord );
 		}
+
+		if ( ref instanceof CachedMemberRef )
+			( (CachedMemberRef) ref ).cacheStructureInForce( module, element );
 
 		return;
 	}
