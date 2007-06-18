@@ -58,7 +58,9 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	__neh_mousemove : function ( event )
 	{
 		var obj = Event.element( event );
-		obj.style.background = "#EEEEEE" ;
+		obj.style.filter = 'alpha( opacity=80)';
+		obj.style.opacity = 0.8;
+		obj.style.MozOpacity = 0.8;
 	},
 	
 	/**
@@ -67,7 +69,9 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	__neh_mouseout  : function ( event )
 	{
 		var obj = Event.element( event );
-		obj.style.background = "#FFFFFF";
+		obj.style.filter = 'alpha( opacity=100)';
+		obj.style.opacity = 1;
+		obj.style.MozOpacity = 1;		
 	},
 	
 	/**
