@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<Datensatz auswählen>
 CascadingParametersDialog.Label.selectDisplayColumn=<Anzeigespalte auswählen>
 CascadingParametersDialog.Label.selectValueColumn=<Wertespalte auswählen>
 CascadingParametersDialog.Label.values=Werte
-CascadingParametersDialog.Label.SelectDataSetMode=Datensatzmodus:
 CascadingParametersDialog.Radio.Single=&Einfacher Datensatz
 CascadingParametersDialog.Radio.Mutli=&Mehrfacher Datensatz
 CascadingParametersDialog.Choice.NullValue=Null-Wert
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=Öffnen
 SampleReportsView.Action.exportSampleReport.toolTipText=Ausgewählten Beispielbericht exportieren
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstellen und Bericht im Projektordner aufnehmen
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=CSS-Datei verwenden...
 

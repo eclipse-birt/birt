@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<选择数据集>
 CascadingParametersDialog.Label.selectDisplayColumn=<选择显示列>
 CascadingParametersDialog.Label.selectValueColumn=<选择值列>
 CascadingParametersDialog.Label.values=值
-CascadingParametersDialog.Label.SelectDataSetMode=数据集模式:
 CascadingParametersDialog.Radio.Single=单个数据集(&E)
 CascadingParametersDialog.Radio.Mutli=多个数据集(&U)
 CascadingParametersDialog.Choice.NullValue=空值
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=打开
 SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=使用 CSS 文件...
 

@@ -278,7 +278,6 @@ CascadingParametersDialog.Label.selectDataSet=<Seleccionar un conjunto de datos>
 CascadingParametersDialog.Label.selectDisplayColumn=<Seleccionar una columna en pantalla>
 CascadingParametersDialog.Label.selectValueColumn=<Seleccionar una columna de valores>
 CascadingParametersDialog.Label.values=valores
-CascadingParametersDialog.Label.SelectDataSetMode=Modo de conjunto de datos:
 CascadingParametersDialog.Radio.Single=Conjunto de datos úni&co
 CascadingParametersDialog.Radio.Mutli=Conjunto de datos m&últiple
 CascadingParametersDialog.Choice.NullValue=Valor nulo
@@ -3796,6 +3795,7 @@ SampleReportsView.Action.openSampleReport=Abrir
 SampleReportsView.Action.exportSampleReport.toolTipText=Exportar el informe de muestras seleccionado
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Crear un proyecto de informe y colocar el informe en la carpeta del proyecto
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exportar el informe de muestra seleccionado directamente a la carpeta del área de trabajo RCP
+SampleReportsView.Text.Contribute_Samples=Contribute Samples
 
 UseCssStyleAction.text=Utilizar archivo CSS...
 
