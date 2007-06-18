@@ -1585,6 +1585,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				foreign.setBookmark( bookmark );
 			}
 		}
+		
+		boolean isTemplate = false;
+		Object genBy = foreign.getGenerateBy( );
+		if ( genBy instanceof TemplateDesign )
+		{
+			isTemplate = true;
+			// all the template element should be horizontal center of it's
+			// parent.
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_ALIGN, "middle" );
+		}
 
 		// action
 		String tagName;
@@ -1645,6 +1656,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tagName );
+		if( isTemplate )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+		}
 		if ( enableMetadata )
 		{
 			metadataEmitter.endForeign( foreign );
