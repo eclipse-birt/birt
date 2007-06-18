@@ -119,7 +119,7 @@ public class PreviewCascadingMenuGroup implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			previewOption.setText( Messages.getFormattedString( Messages.getString( "designer.preview.previewaction.label" ),
+			previewOption.setText( Messages.getFormattedString( "designer.preview.previewaction.label",
 					new Object[]{
 						format.toUpperCase( )
 					} ) );
