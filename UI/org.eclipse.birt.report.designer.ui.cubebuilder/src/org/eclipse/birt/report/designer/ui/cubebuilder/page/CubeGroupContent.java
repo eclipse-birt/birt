@@ -551,6 +551,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.getCommandStack( )
 												.rollback( );
 									}
+									else SessionHandleAdapter.getInstance( )
+									.getCommandStack( ).commit( );
 								}
 								else if ( element instanceof CubeHandle
 										|| element instanceof PropertyHandle )
@@ -587,6 +589,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.getCommandStack( )
 												.rollback( );
 									}
+									else SessionHandleAdapter.getInstance( )
+									.getCommandStack( ).commit( );
 								}
 							}
 							else
@@ -608,6 +612,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.getCommandStack( )
 												.rollback( );
 									}
+									else SessionHandleAdapter.getInstance( )
+									.getCommandStack( ).commit( );
 								}
 								else if ( element instanceof MeasureGroupHandle
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -647,6 +653,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.getCommandStack( )
 												.rollback( );
 									}
+									else SessionHandleAdapter.getInstance( )
+									.getCommandStack( ).commit( );
 								}
 								else if ( element instanceof CubeHandle
 										|| element instanceof PropertyHandle )
@@ -696,6 +704,8 @@ public class CubeGroupContent extends Composite implements Listener
 												.getCommandStack( )
 												.rollback( );
 									}
+									else SessionHandleAdapter.getInstance( )
+									.getCommandStack( ).commit( );
 								}
 								else if ( element instanceof DimensionHandle
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -770,6 +780,8 @@ public class CubeGroupContent extends Composite implements Listener
 												}
 											}
 										}
+										else SessionHandleAdapter.getInstance( )
+										.getCommandStack( ).commit( );
 										// }
 									}
 									else
@@ -790,6 +802,8 @@ public class CubeGroupContent extends Composite implements Listener
 													.getCommandStack( )
 													.rollback( );
 										}
+										else SessionHandleAdapter.getInstance( )
+										.getCommandStack( ).commit( );
 									}
 									// if ( dataset != input.getDataSet( ) )
 									// {
@@ -1292,6 +1306,8 @@ public class CubeGroupContent extends Composite implements Listener
 									.getCommandStack( )
 									.rollback( );
 						}
+						else SessionHandleAdapter.getInstance( )
+						.getCommandStack( ).commit( );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1316,6 +1332,8 @@ public class CubeGroupContent extends Composite implements Listener
 									.getCommandStack( )
 									.rollback( );
 						}
+						else SessionHandleAdapter.getInstance( )
+						.getCommandStack( ).commit( );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1357,7 +1375,8 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
 									.trim( ) );
-
+							SessionHandleAdapter.getInstance( )
+							.getCommandStack( ).commit( );
 						}
 						catch ( Exception e1 )
 						{
@@ -1406,6 +1425,8 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
 									.trim( ) );
+							SessionHandleAdapter.getInstance( )
+							.getCommandStack( ).commit( );
 						}
 						catch ( Exception e1 )
 						{
@@ -1506,6 +1527,10 @@ public class CubeGroupContent extends Composite implements Listener
 								.getCommandStack( )
 								.rollback( );
 					}
+					else
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.commit( );
 					refresh( );
 					return;
 				}
@@ -1567,6 +1592,8 @@ public class CubeGroupContent extends Composite implements Listener
 											.getCommandStack( )
 											.rollback( );
 								}
+								else SessionHandleAdapter.getInstance( )
+								.getCommandStack( ).commit( );
 							}
 						}
 						else
@@ -1585,6 +1612,8 @@ public class CubeGroupContent extends Composite implements Listener
 										.getCommandStack( )
 										.rollback( );
 							}
+							else SessionHandleAdapter.getInstance( )
+							.getCommandStack( ).commit( );
 						}
 
 						// if ( dataset != input.getDataSet( ) )
@@ -1632,6 +1661,8 @@ public class CubeGroupContent extends Composite implements Listener
 										.getCommandStack( )
 										.rollback( );
 							}
+							else SessionHandleAdapter.getInstance( )
+							.getCommandStack( ).commit( );
 						}
 						catch ( SemanticException e1 )
 						{
@@ -1663,6 +1694,8 @@ public class CubeGroupContent extends Composite implements Listener
 										.getCommandStack( )
 										.rollback( );
 							}
+							else SessionHandleAdapter.getInstance( )
+							.getCommandStack( ).commit( );
 						}
 						catch ( SemanticException e1 )
 						{
