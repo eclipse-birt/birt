@@ -325,7 +325,7 @@ public class ExcelWriter
 		if ( width == null )
 		{
 			logger.log( Level.SEVERE, "Invalid columns width" );
-			throw new IllegalArgumentException("columns width is null");
+			return;
 		}
 
 		for ( int i = 0; i < width.length; i++ )
@@ -373,7 +373,7 @@ public class ExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	public void insert( File file )
+	public void insertSheet( File file )
 	{
 		try
 		{
