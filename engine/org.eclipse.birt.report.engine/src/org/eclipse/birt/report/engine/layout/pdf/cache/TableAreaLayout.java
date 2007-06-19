@@ -803,7 +803,7 @@ public class TableAreaLayout
 			for(int i=0; i<columnNumber; i++)
 			{
 				CellArea cell = unresolvedRow.getCell( start + i );
-				if(cell!=null && isDropCell( cell ))
+				if(cell!=null && (isDropCell( cell ) || cell.getRowSpan()>1))
 				{
 					return true;
 				}
@@ -837,7 +837,8 @@ public class TableAreaLayout
 				lastCell = lastRow.getCell( start + i );
 			}
 			CellArea cell = row.getCell( start + i );
-			if(lastCell!=null &&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
+			if(lastCell!=null 
+					&&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
 			{
 				//should remove conflict area. 
 				if(cell!=null)
