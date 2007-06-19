@@ -948,8 +948,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void removedColumnBinding( String bindingName )
 			throws SemanticException
 	{
-		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
-		propHandle
-				.removeItem( findColumnBinding( bindingName ).getStructure( ) );
+		ComputedColumnHandle toRemoveColumn = findColumnBinding( bindingName );
+		if ( toRemoveColumn == null )
+			return;
+
+		toRemoveColumn.drop( );
 	}
 }
