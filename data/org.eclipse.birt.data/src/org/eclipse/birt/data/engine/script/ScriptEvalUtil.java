@@ -273,6 +273,19 @@ public class ScriptEvalUtil
 							.compareTo( DataTypeUtil.toString( obj2 ) );
 				}
 			}
+			else if ( MiscUtil.isBooleanOrString( obj1 ) && MiscUtil.isBooleanOrString( obj2 ) )
+			{
+			try
+				{
+					return DataTypeUtil.toBoolean( obj1 )
+							.compareTo( DataTypeUtil.toBoolean( obj2 ) );
+				}
+				catch ( Exception e )
+				{
+					return DataTypeUtil.toString( obj1 )
+							.compareTo( DataTypeUtil.toString( obj2 ) );
+				}
+			}
 			else
 				throw new DataException( ResourceConstants.INVALID_TYPE_IN_EXPR );
 		}
@@ -635,6 +648,16 @@ public class ScriptEvalUtil
 		private static boolean isDateOrString( Object result )
 		{
 			return ( result instanceof Date ) || ( result instanceof String );
+		}
+		
+		/**
+		 * 
+		 * @param result
+		 * @return
+		 */
+		private static boolean isBooleanOrString( Object result )
+		{
+			return ( result instanceof Boolean ) || ( result instanceof String );
 		}
 
 		/**
