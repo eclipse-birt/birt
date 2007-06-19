@@ -143,6 +143,14 @@ public class DataExtractionTaskV1 extends EngineTask
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 
+		
+		// load the informationf rom the report document
+		setParameterValues( reportDocReader.getParameterValues( ) );
+		setParameterDisplayTexts( reportDocReader.getParameterDisplayTexts( ) );
+		usingParameterValues( );
+		executionContext.registerGlobalBeans( reportDocReader
+				.getGlobalVariables( null ) );
+		
 		Map appContext = executionContext.getAppContext( );
 		IDataEngine dataEngine = executionContext.getDataEngine( );
 		dataEngine.prepare( report, appContext );
