@@ -274,6 +274,29 @@ abstract public class GroupElementHandle
 
 	/**
 	 * If the given property is a common property, value will be returned as a
+	 * display value if all values within the group of elements are equal. If
+	 * the property is not a common property, return <code>null</code>.
+	 * 
+	 * @param propName
+	 *            name of the property.
+	 * @return the value as a display value if the property is a common property
+	 *         and all the elements have the same value. Return null if the
+	 *         property is not a common property or elements have different
+	 *         values for this property.
+	 * @see GroupPropertyHandle#getDisplayProperty()
+	 */
+
+	public final String getDisplayProperty( String propName )
+	{
+		GroupPropertyHandle propHandle = getPropertyHandle( propName );
+		if ( propHandle == null )
+			return null;
+
+		return propHandle.getDisplayValue( );
+	}
+
+	/**
+	 * If the given property is a common property, value will be returned as a
 	 * string if all values within the group of elements are equal and one of
 	 * them has a local value. If the property is not a common property or none
 	 * of them has a local value, return <code>null</code>.

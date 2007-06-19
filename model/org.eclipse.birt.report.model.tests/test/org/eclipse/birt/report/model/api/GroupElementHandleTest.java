@@ -38,6 +38,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -571,7 +573,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		DesignElementHandle childExtendedItem = elemFactory.newElementFrom(
 				parentExtendedItem, "child" ); //$NON-NLS-1$ 
 		designHandle.getBody( ).add( childExtendedItem );
-		
+
 		assertEquals( new Integer( 0 ), parentExtendedItem
 				.getProperty( "xScale" ) ); //$NON-NLS-1$
 		assertEquals( new Integer( 0 ), childExtendedItem
@@ -598,16 +600,16 @@ public class GroupElementHandleTest extends BaseTestCase
 				.getProperty( "xScale" ) ); //$NON-NLS-1$
 
 		design.getActivityStack( ).undo( );
-		
+
 		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );
 		assertEquals( new Integer( 0 ), parentExtendedItem
 				.getProperty( "xScale" ) ); //$NON-NLS-1$
 		assertEquals( new Integer( 3 ), childExtendedItem
 				.getProperty( "xScale" ) ); //$NON-NLS-1$
-		
+
 		design.getActivityStack( ).redo( );
 
-		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );		
+		( (ExtendedItemHandle) childExtendedItem ).loadExtendedElement( );
 		assertEquals( new Integer( 0 ), parentExtendedItem
 				.getProperty( "xScale" ) ); //$NON-NLS-1$
 		assertEquals( new Integer( 0 ), childExtendedItem
@@ -1079,6 +1081,30 @@ public class GroupElementHandleTest extends BaseTestCase
 				.isVisible( ) );
 		assertTrue( groupHandle.getPropertyHandle( CellHandle.DROP_PROP )
 				.isReadOnly( ) );
+	}
+
+	/**
+	 * Test getDisplayProperty().
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetDisplayProperty( ) throws Exception
+	{
+		createDesign( TEST_LOCALE );
+		elemFactory = new ElementFactory( design );
+
+		ArrayList elements = new ArrayList( );
+
+		LabelHandle element1 = elemFactory.newLabel( "label1" ); //$NON-NLS-1$
+		designHandle.addElement( element1, IReportDesignModel.BODY_SLOT );
+
+		elements.add( element1 );
+		GroupElementHandle groupHandle = new SimpleGroupElementHandle(
+				designHandle, elements );
+
+		assertEquals( "\u9ed1\u8272", groupHandle //$NON-NLS-1$
+				.getDisplayProperty( IStyleModel.COLOR_PROP ) );
 	}
 
 	static class FakeElementHandle extends DesignElementHandle
