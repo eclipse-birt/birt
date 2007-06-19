@@ -471,7 +471,15 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	{
 		try
 		{
-			return OlapQueryUtil.validateBinding( queryDefn, true );
+			List invalidBindingNameList = new ArrayList( );
+			List invalidBinding = OlapQueryUtil.validateBinding( queryDefn,
+					true );
+			for ( int i = 0; i < invalidBinding.size( ); i++ )
+			{
+				IBinding binding = (IBinding) invalidBinding.get( i );
+				invalidBindingNameList.add( binding.getBindingName( ) );
+			}
+			return invalidBindingNameList;
 		}
 		catch ( DataException e )
 		{
