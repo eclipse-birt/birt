@@ -173,7 +173,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			String boundColumnName, IRequestInfo requestInfo )
 			throws BirtException
 	{
-		ArrayList temp = new ArrayList();
+		ArrayList temp = new ArrayList( );
 		
 		while ( columnBindings.hasNext( ) )
 		{
@@ -189,14 +189,22 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IResultIterator resultIt = queryResults.getResultIterator( );
 
 		int maxRowCount = -1;
-		if ( requestInfo != null )
-		{
-			resultIt.moveTo( requestInfo.getStartRow( ) );
-			maxRowCount = requestInfo.getMaxRow( );
-		}
+		
 		// Iterate through result, getting one column value per group, skipping
 		// group detail rows
 		ArrayList values = new ArrayList( );
+
+		if ( requestInfo != null )
+		{
+			if ( requestInfo.getStartRow( ) >= 0 )
+			{
+				//get the current value if the cursor has been moved to certain position.
+				resultIt.moveTo( requestInfo.getStartRow( ) );
+				Object value = resultIt.getValue( boundColumnName );
+				values.add( value );
+			}
+			maxRowCount = requestInfo.getMaxRow( );
+		}
 
 		while ( resultIt.next( ) && maxRowCount != 0 )
 		{
