@@ -112,7 +112,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DateLevel_ID" ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG ); //$NON-NLS-1$
 		setTitle( Messages.getString("DateLevelDialog.Title") ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString("DateLevelDialog.Shell.Title") ); //$NON-NLS-1$
 		setMessage( Messages.getString("DateLevelDialog.Message") ); //$NON-NLS-1$

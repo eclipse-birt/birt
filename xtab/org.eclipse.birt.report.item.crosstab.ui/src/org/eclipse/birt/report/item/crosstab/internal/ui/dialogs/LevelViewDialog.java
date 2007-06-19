@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -32,7 +34,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
-/**Show or hide the LevelViewHnadle for the special DimensionViewHandle 
+/**
+ * Show or hide the LevelViewHnadle for the special DimensionViewHandle
  * LevelViewDialog
  */
 public class LevelViewDialog extends BaseDialog
@@ -40,7 +43,7 @@ public class LevelViewDialog extends BaseDialog
 
 	public LevelViewDialog( Shell shell )
 	{
-		super( Messages.getString("LevelViewDialog.Title") ); //$NON-NLS-1$
+		super( Messages.getString( "LevelViewDialog.Title" ) ); //$NON-NLS-1$
 	}
 
 	private DimensionHandle dimension;
@@ -56,10 +59,12 @@ public class LevelViewDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.XTAB_LEVEL_VIEW_DIALOG );
+
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Label infoLabel = new Label( dialogArea, SWT.NONE );
-		infoLabel.setText( Messages.getString("LevelViewDialog.Label.Info") ); //$NON-NLS-1$
+		infoLabel.setText( Messages.getString( "LevelViewDialog.Label.Info" ) ); //$NON-NLS-1$
 
 		createLevelViewer( dialogArea );
 

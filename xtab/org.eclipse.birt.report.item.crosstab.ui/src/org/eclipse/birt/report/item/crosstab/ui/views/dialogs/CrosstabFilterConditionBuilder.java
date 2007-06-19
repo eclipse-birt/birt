@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
@@ -169,7 +170,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 	protected void createFilterConditionContent( Composite innerParent )
 	{
-
+		UIUtil.bindHelp( innerParent,
+				IHelpContextIds.XTAB_FILTER_CONDITION_BUILDER );
+		
 		Composite groupLevelParent = new Composite( innerParent, SWT.NONE );
 		groupLevelParent.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout glayout = new GridLayout( 2, false );

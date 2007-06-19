@@ -111,8 +111,9 @@ public interface IHelpContextIds
 
 	public static final String IMAGE_BUIDLER_ID = PREFIX + "ImageBuilder_ID";
 
-	public static final String THUMBNAIL_BUIDLER_ID = PREFIX + "ThumbnailBuilder_ID";
-	
+	public static final String THUMBNAIL_BUIDLER_ID = PREFIX
+			+ "ThumbnailBuilder_ID";
+
 	public static final String TABLE_OPTION_DIALOG_ID = PREFIX
 			+ "TableOptionDialog_ID";
 
@@ -137,36 +138,36 @@ public interface IHelpContextIds
 
 	public static final String INSERT_EDIT_MAP_RULE_DIALOG_ID = PREFIX
 			+ "AddEditMapRule_ID";
-	
+
 	public static final String INSERT_EDIT_FILTER_CONDITION_DIALOG_ID = PREFIX
-	+ "AddEditFilterCondition_ID";
-	
+			+ "AddEditFilterCondition_ID";
+
 	public static final String INSERT_EDIT_GRAND_TOTAL_DIALOG_ID = PREFIX
-	+ "AddEditGrandTotal_ID";
-	
+			+ "AddEditGrandTotal_ID";
+
 	public static final String INSERT_EDIT_SUB_TOTAL_DIALOG_ID = PREFIX
-	+ "AddEditSubTotal_ID";
-	
+			+ "AddEditSubTotal_ID";
+
 	public static final String INSERT_EDIT_PAGE_BREAK_DIALOG_ID = PREFIX
-	+ "AddEditPageBreakDialog_ID";
-	
+			+ "AddEditPageBreakDialog_ID";
+
 	public static final String INSERT_EDIT_SORTKEY_DIALOG_ID = PREFIX
-	+ "AddEditSortkey_ID";
+			+ "AddEditSortkey_ID";
 
 	public static final String ADD_EDIT_USER_PROPERTIES_DIALOG_ID = PREFIX
 			+ "AddEditUserProperties_ID";
-	
+
 	public static final String ADD_JAR_FILES_DIALOG_ID = PREFIX
-	+ "AddJarResourceFileFolderSelectionDialog_ID";
-	
+			+ "AddJarResourceFileFolderSelectionDialog_ID";
+
 	public static final String ADD_IMAGE_FILES_DIALOG_ID = PREFIX
-	+ "AddImageResourceFileFolderSelectionDialog_ID";
-	
+			+ "AddImageResourceFileFolderSelectionDialog_ID";
+
 	public static final String NEW_ADD_RESOURCE_FILES_DIALOG_ID = PREFIX
-	+ "NewResourceFileDialog_ID";
-	
+			+ "NewResourceFileDialog_ID";
+
 	public static final String PROJECT_FILES_DIALOG_ID = PREFIX
-	+ "ProjectFileDialog_ID";
+			+ "ProjectFileDialog_ID";
 
 	public static final String ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID = PREFIX
 			+ "AddEditNamedExpression_ID";
@@ -194,24 +195,52 @@ public interface IHelpContextIds
 
 	public static final String HANDLER_CLASS_SELECTION_DIALOG = PREFIX
 			+ "HandlerClassSelectionDialog_ID";
-	
+
 	public static final String DATA_COLUMN_BINDING_DIALOG = PREFIX
-	+ "DataColumnBindingDialog_ID";
-	
+			+ "DataColumnBindingDialog_ID";
+
 	public static final String DATA_ITEM_BINDING_DIALOG = PREFIX
-	+ "DataItemBindingDialog_ID";
-	
+			+ "DataItemBindingDialog_ID";
+
 	public static final String DATA_SET_PARAMETER_BINDING_DIALOG = PREFIX
-	+ "DataSetParameterBindingInputDialog_ID";
-	
+			+ "DataSetParameterBindingInputDialog_ID";
+
 	public static final String SELECTION_CHOICE_DIALOG = PREFIX
-	+ "SelectionChoiceDialog_ID";
-	
+			+ "SelectionChoiceDialog_ID";
+
 	public static final String CUBE_BUILDER_DIALOG = PREFIX + "CubeBuilder_ID";
-	
-	public static final String LEVEL_PROPERTY_DIALOG = PREFIX + "LevelPropertyDialog_ID";
-	
+
+	public static final String LEVEL_PROPERTY_DIALOG = PREFIX
+			+ "LevelPropertyDialog_ID";
+
 	public static final String MEASURE_DIALOG = PREFIX + "MeasureDialog_ID";
+
+	public static final String XTAB_FILTER_CONDITION_BUILDER = PREFIX
+			+ "CrossTabFilterConditionBuilder_ID";
+
+	public static final String XTAB_SORTER_CONDITION_BUILDER = PREFIX
+			+ "CrossTabSorterBuilder_ID";
+
+	public static final String XTAB_FILTER_CONDITION_SELECT_VALUE_DIALOG = PREFIX
+			+ "CrossTabFilterSelectValueDialog_ID";
+
+	public static final String XTAB_SHOW_SUMMARY_FIELD_DIALOG = PREFIX
+			+ "CrossTabShowSummaryFieldDialog_ID";
+
+	public static final String XTAB_LEVEL_VIEW_DIALOG = PREFIX
+			+ "CrossTabLevelViewDialog_ID";
+
+	public static final String XTAB_AGGREGATION_DIALOG = PREFIX
+			+ "CrossTabAggregationDialog_ID";
+
+	public static final String CUBE_BUILDER_GROUP_DIALOG = PREFIX
+			+ "CubeBuilderGroupDialog_ID";
+
+	public static final String CUBE_DATE_LEVEL_DIALOG = PREFIX
+			+ "CubeBuilderDateLevelDialog_ID";
+
+	public static final String CUBE_FILTER_LIST_DIALOG = PREFIX
+			+ "CubeBuilderFilterListDialog_ID";
 
 	/*----------Control: Preference----------*/
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX
@@ -237,13 +266,13 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX
 			+ "Preference_BIRT_Resource_ID";
-	
-	public static final String ADD_CSS_DIALOG_ID = PREFIX
-	+ "AddCSSDialog_ID";
-	
+
+	public static final String ADD_CSS_DIALOG_ID = PREFIX + "AddCSSDialog_ID";
+
 	public static final String PUBLISH_CSS_WIZARD_ID = PREFIX
-	+ "PublishCSSDialog_ID";
-	
-	public static final String USE_CSS_IN_REPORT_DIALOG_ID = PREFIX + "UseCssInReportDialog_ID";
+			+ "PublishCSSDialog_ID";
+
+	public static final String USE_CSS_IN_REPORT_DIALOG_ID = PREFIX
+			+ "UseCssInReportDialog_ID";
 
 }
