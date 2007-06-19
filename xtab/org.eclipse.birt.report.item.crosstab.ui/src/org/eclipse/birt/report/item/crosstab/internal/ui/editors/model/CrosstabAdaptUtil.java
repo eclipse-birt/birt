@@ -11,13 +11,25 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -27,6 +39,8 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 
 /**
  * Util class 
@@ -203,5 +217,70 @@ public class CrosstabAdaptUtil
 			handle = handle.getContainer( );
 		}
 		return null;
+	}
+	
+	public static void processInvaildBindings(CrosstabReportItemHandle handle)
+	{
+		if(CrosstabPlugin.getDefault( )
+				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ))
+		{
+			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion(  UIUtil.getDefaultShell( ),
+					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
+					Messages.getString( "DeleteBindingDialog.Message" ), //$NON-NLS-1$
+					Messages.getString( "DeleteBindingDialog.ToggleMessage" ), //$NON-NLS-1$
+					!CrosstabPlugin.getDefault( )
+					.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
+					null,
+					null);
+			if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID)
+			{
+				removeInvalidBindings(handle);
+			}
+			else if (msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+			{
+				//dothing
+			}
+			if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID || msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+			{
+				CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+						!msgDlg.getToggleState( ) );
+			}
+		}
+		else
+		{
+			removeInvalidBindings(handle);
+		}
+		//removeInvalidBindings(handle);
+	}
+	
+	public static void removeInvalidBindings(CrosstabReportItemHandle handle)
+	{
+		try
+		{
+			ICubeQueryDefinition definition = CrosstabQueryUtil.createCubeQuery( handle, null, true, true, true, true, false, false);
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION) );
+			List list = session.getCubeQueryUtil( ).getInvalidBindings( definition );
+//			for (int i=0; i<list.size( ); i++)
+//			{
+//				Object obj = list.get( i );
+//				if (obj instanceof IBinding)
+//				{
+//					String name = ((IBinding)obj).getBindingName( );
+//					ComputedColumnHandle delhandle = ((ReportItemHandle)handle.getModelHandle( )).findColumnBinding( name );
+//					if (delhandle != null)
+//					{
+//						delhandle.drop( );
+//					}
+//				}
+//			}
+			((ReportItemHandle)handle.getModelHandle( )).removedColumnBindings( list );
+		}
+		catch ( BirtException e )
+		{
+			//donothing
+			e.printStackTrace( );
+		}	
 	}
 }

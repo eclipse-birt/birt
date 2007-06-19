@@ -95,6 +95,7 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			try
 			{
 				reportItem.removeMeasure( measureViewHandle.getIndex( ) );
+				CrosstabAdaptUtil.processInvaildBindings( reportItem);
 			}
 			catch ( SemanticException e )
 			{

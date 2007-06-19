@@ -98,8 +98,10 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			dialog.setInput( viewHandle.getCubeDimension( ), showLevels );
 			if ( dialog.open( ) == Window.OK )
 			{
+				CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
 				List result = (List)dialog.getResult( );
 				processor( showLevels, result, nullLevelHandle );
+				CrosstabAdaptUtil.processInvaildBindings( reportHandle );
 			}
 		}
 		catch ( SemanticException e )

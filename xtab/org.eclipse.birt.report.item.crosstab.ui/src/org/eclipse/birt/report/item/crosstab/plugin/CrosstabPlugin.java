@@ -27,6 +27,8 @@ public class CrosstabPlugin extends Plugin
 	
 	/** Preference ID */
 	public static final String PREFERENCE_FILTER_LIMIT = "Filter.Limit"; //$NON-NLS-1$
+	
+	public static final String PREFERENCE_AUTO_DEL_BINDINGS="Auto.Del.Bindings";
 
 	// The shared instance.
 	private static CrosstabPlugin plugin;
