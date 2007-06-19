@@ -57,12 +57,10 @@ public class Binding implements IBinding
 	 */
 	public void addAggregateOn( String levelName ) throws DataException
 	{
-		if ( this.aggregateOn.contains( levelName ))
-			throw new DataException( ResourceConstants.TRY_TO_ADD_IDENTICAL_AGGR_GROUP,
-					new Object[]{
-							levelName, this.name
-					} );
-		this.aggregateOn.add( levelName );
+		if ( !this.aggregateOn.contains( levelName ) )
+		{
+			this.aggregateOn.add( levelName );
+		}
 	}
 
 	/*
