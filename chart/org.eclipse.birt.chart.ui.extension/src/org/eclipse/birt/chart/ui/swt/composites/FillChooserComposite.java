@@ -425,7 +425,7 @@ public class FillChooserComposite extends Composite implements
 			return;
 		}
 		int iShellHeight = 170;
-		int iShellWidth = 160;
+		int iShellWidth = 190;
 		// Reduce the height based on which buttons are to be shown.
 		if ( bGradientEnabled )
 		{
