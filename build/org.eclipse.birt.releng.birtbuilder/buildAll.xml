@@ -55,9 +55,11 @@
 				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
+<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
+-->
 			</sequential>
 		</parallel>
 		<antcall target="runBirtTest"/>
@@ -143,7 +145,7 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 			
-		<!-- copy chart runtim to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
+		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
 		</ant>
@@ -168,16 +170,16 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 
-        <!--copy all packages to upload area-->
+                <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
-	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
-        <copy todir="${test.dir}/../downloads" failonerror="false" overwrite="true">
-	        <fileset dir="${postingDirectory}/${buildId}" >
-                <include name="*.zip"/>
-                <include name="*.txt"/>
-                <include name="*.gz"/>
-            </fileset>
-	    </copy>
+	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
+                <copy todir="${test.dir}/../downloads" failonerror="false" overwrite="true">
+	              <fileset dir="${postingDirectory}/${buildId}" >
+                               <include name="*.zip"/>
+                               <include name="*.txt"/>
+                               <include name="*.gz"/>
+                      </fileset>
+	       </copy>
 	</target>
 	
 	<target name="CreateUpdateSite">
@@ -214,12 +216,14 @@
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
 			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
 			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-        <!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
-        <property file="${buildDirectory}/finalPluginsVersions.properties"/>
-        <delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
-        <jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"
-                basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
-                manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
+		
+		<!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
+		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar" 
+			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
+			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
+
 		<!-- TODO:sign update jars -->
 		
 		<!-- repack update jar -->
@@ -269,11 +273,8 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik}" token="@FEATURE.BATIK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik.pdf}" token="@FEATURE.BATIK.PDF@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.xerces.feature}" token="@FEATURE.XERCES@"/>
 		
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
