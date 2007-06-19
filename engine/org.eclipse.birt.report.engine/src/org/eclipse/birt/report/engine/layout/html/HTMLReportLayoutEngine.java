@@ -67,18 +67,10 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return factory;
 	}
 
-	public void layout( IReportExecutor executor, IContentEmitter emitter, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter emitter, boolean pagination )
 	{
-		this.executor = executor;
-		
+		this.executor = executor;		
 		this.context.setAllowPageBreak( pagination );
-		
-		IReportContent report = executor.execute( );
-		if ( emitter != null )
-		{
-			emitter.start( report );
-		}
-
 		context.setFinish(  false );
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );
 
@@ -90,17 +82,12 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		} while ( !finished );
 		
 		pageLM.close( );
-
-		if ( emitter != null )
-		{
-			emitter.end( report );
-		}
+		
 		context.setFinish(  true );
 		if ( pageHandler != null )
 		{
 			pageHandler.onPage( context.getPageNumber( ), context );
 		}
-		executor.close( );
 	}
 
 	public void layout( IReportItemExecutor executor, IContentEmitter emitter )

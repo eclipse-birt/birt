@@ -62,7 +62,6 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected IReportExecutor reportExecutor = null;
 	protected PDFReportLayoutEngine engine;
 	protected IContentEmitter emitter;
-	protected int pageNumber = 1;
 
 	public PDFPageLM( PDFReportLayoutEngine engine,
 			PDFLayoutEngineContext context, IReportContent report,
@@ -228,7 +227,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		ILayoutPageHandler pageHandler = engine.getPageHandler( );
 		if ( pageHandler != null )
 		{
-			pageHandler.onPage( this.pageNumber, context );
+			pageHandler.onPage( context.getPageNumber( ), context );
 		}
 	}
 
@@ -236,7 +235,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
-				pageNumber, pageDesign );
+				context.getPageNumber( ), pageDesign );
 		this.content = pageContent;
 	}
 
@@ -248,7 +247,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			{
 				if ( isLast )
 				{
-					pageNumber--;
+					context.setPageNumber( context.getPageNumber( )-1 );
 					resolveTotalPage( );
 				}
 				return;
@@ -293,7 +292,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		{
 			resolveTotalPage( );
 		}
-		pageNumber++;
+		context.setPageNumber( context.getPageNumber( )+1);
 	}
 
 	public boolean isPageEmpty( )
@@ -324,7 +323,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			String patternStr = totalPageContent.getComputedStyle( )
 					.getNumberFormat( );
 			nf.applyPattern( patternStr );
-			totalPageContent.setText( nf.format( pageNumber ) );
+			totalPageContent.setText( nf.format( context.getPageNumber( ) ) );
 
 			IArea totalPageArea = null;
 			ChunkGenerator cg = new ChunkGenerator( totalPageContent );

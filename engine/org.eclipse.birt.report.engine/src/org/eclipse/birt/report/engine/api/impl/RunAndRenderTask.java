@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -209,8 +210,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 						format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
-
-				layoutEngine.layout( executor, outputEmitters, paginate );
+				IReportContent report = executor.execute( );
+				outputEmitters.start( report );
+				layoutEngine.layout( executor, report, outputEmitters, paginate );
+				outputEmitters.end( report );
+				executor.close();
 			}
 
 			closeRender( );

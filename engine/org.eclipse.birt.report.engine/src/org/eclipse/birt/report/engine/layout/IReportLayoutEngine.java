@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
@@ -22,7 +23,7 @@ public interface IReportLayoutEngine
 {
 	void setPageHandler( ILayoutPageHandler handle );
 	
-	void layout(IReportExecutor executor, IContentEmitter output, boolean pagination);
+	void layout(IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination);
 	
 	void layout(IContent content, IContentEmitter output);
 	

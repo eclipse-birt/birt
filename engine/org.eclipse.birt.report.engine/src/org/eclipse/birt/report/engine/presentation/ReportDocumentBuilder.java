@@ -146,7 +146,11 @@ public class ReportDocumentBuilder
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory.createLayoutEngine( "html" );
 		engine.setPageHandler( layoutPageHandler );
-		engine.layout( executor, outputEmitters, true );
+		IReportContent report = executor.execute( );
+		outputEmitters.start( report );
+		engine.layout( executor, report, outputEmitters, true );
+		outputEmitters.end( report );
+		executor.close( );
 		engine = null;
 	}
 

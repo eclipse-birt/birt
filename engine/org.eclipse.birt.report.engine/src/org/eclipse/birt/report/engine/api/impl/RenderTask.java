@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
 import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
@@ -78,7 +79,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// load report design
 		loadDesign( );
 
-		innerRender = new PageRangeRender( new long[]{1,
+		innerRender = new AllPageRender( new long[]{1,
 				this.reportDoc.getPageCount( )} );
 	}
 
@@ -210,6 +211,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		pageSequences.add( new long[]{pageNumber, pageNumber} );
 		doRender( pageSequences );
 	}
+	
+	protected boolean isPaged()
+	{
+		return true;
+	}
 
 	/**
 	 * @param pageNumber
@@ -231,7 +237,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
 				IReportExecutor executor = new ReportPageExecutor(
-						executionContext, pageSequences, false );
+						executionContext, pageSequences, isPaged() );
 				executor = new SuppressDuplciateReportExecutor( executor );
 				executor = new LocalizedReportExecutor( executionContext,
 						executor );
@@ -252,7 +258,30 @@ public class RenderTask extends EngineTask implements IRenderTask
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 
 				startRender( );
-				layoutEngine.layout( executor, outputEmitters, true );
+				
+				IReportContent report = executor.execute( );
+				emitter.start( report );
+				if ( isPaged( ) )
+				{
+					while ( executor.hasNextChild( ) )
+					{
+						IReportItemExecutor pageExecutor = executor
+								.getNextChild( );
+						if ( pageExecutor != null )
+						{
+							IReportExecutor pExecutor = new ReportExecutorWrapper(
+									report, executor, pageExecutor );
+							layoutEngine.layout( pExecutor, report, emitter,
+									false );
+						}
+					}
+				}
+				else
+				{
+					layoutEngine
+							.layout( executor, report, outputEmitters, true );
+				}
+				outputEmitters.end( report );
 				closeRender( );
 				executor.close( );
 			}
@@ -382,7 +411,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 
 					startRender( );
-					layoutEngine.layout( executor, outputEmitters, false );
+					IReportContent report = executor.execute( );
+					outputEmitters.start( report );
+					layoutEngine.layout( executor, report, outputEmitters, false );
+					outputEmitters.end( report );
 					closeRender( );
 					executor.close( );
 				}
@@ -645,8 +677,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setPageRange( String pageRange ) throws EngineException
 	{
-		innerRender = new PageRangeRender( parsePageSequence( pageRange,
-				reportDoc.getPageCount( ) ) );
+		if ( null == pageRange
+				|| "".equals( pageRange ) || pageRange.toUpperCase( ).indexOf( "ALL" ) >= 0 ) //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			innerRender = new AllPageRender( new long[] {1, reportDoc.getPageCount( )} );
+		}
+		else
+		{		
+			innerRender = new PageRangeRender( parsePageSequence( pageRange,
+					reportDoc.getPageCount( ) ) );
+		}
 	}
 
 	/*
@@ -748,9 +788,63 @@ public class RenderTask extends EngineTask implements IRenderTask
 			RenderTask.this.doRenderReportlet( offset );
 		}
 	}
+	
+	private class AllPageRender extends PageRangeRender
+	{
+		
+		public AllPageRender( long[] arrayRange )
+		{
+			super( arrayRange );
+		}
+
+		protected boolean isPaged()
+		{
+			return false;
+		}
+		
+	}
 
 	public void setInstanceID( String iid ) throws EngineException
 	{
 		setInstanceID( InstanceID.parse( iid ) );
+	}
+	
+	private static class ReportExecutorWrapper implements IReportExecutor
+	{
+		IReportContent report;
+		IReportItemExecutor executor;
+		IReportExecutor reportExecutor;
+		ReportExecutorWrapper(IReportContent report, IReportExecutor reportExecutor, IReportItemExecutor itemExecutor )
+		{
+			this.report = report;
+			this.executor = itemExecutor;
+			this.reportExecutor = reportExecutor;
+		}
+
+		public void close( )
+		{
+		}
+
+
+		public IReportContent execute( )
+		{
+			return report;
+		}
+
+		public IReportItemExecutor getNextChild( )
+		{
+			return executor.getNextChild( );
+		}
+
+		public boolean hasNextChild( )
+		{
+			return executor.hasNextChild( );
+		}
+
+		public IReportItemExecutor createPageExecutor( long pageNumber, MasterPageDesign pageDesign )
+		{
+			return reportExecutor.createPageExecutor( pageNumber, pageDesign );
+		}
+		
 	}
 }

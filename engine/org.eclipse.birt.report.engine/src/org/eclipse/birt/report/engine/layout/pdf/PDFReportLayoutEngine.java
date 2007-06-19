@@ -83,7 +83,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		}
 		
 	}
-	public void layout( IReportExecutor executor, IContentEmitter output, boolean pagination )
+	public void layout( IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination )
 	{
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
@@ -96,20 +96,12 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		{
 			context.setLocale(Locale.getDefault( ));
 		}
-		IReportContent report = executor.execute( );
 		context.setReport( report );
 		if ( output != null )
 		{
 			context.setFormat( output.getOutputFormat( ) );
-			output.start( report );
-			
 		}
 		layoutReport( report, executor, output );
-		if ( output != null )
-		{
-			output.end( report );
-		}
-		executor.close( );
 	}
 
 	public void layout( IReportItemExecutor executor, IContentEmitter emitter )

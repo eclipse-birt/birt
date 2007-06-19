@@ -37,7 +37,8 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 public class PDFLayoutEngineContext
 {
-
+	protected int pageNumber = 1;
+	
 	protected PDFLayoutManagerFactory factory = null;
 
 	protected StartVisitor start;
@@ -458,4 +459,13 @@ public class PDFLayoutEngineContext
 		this.locale = locale;
 	}
 
+	public void setPageNumber(int pageNumber)
+	{
+		this.pageNumber = pageNumber;
+	}
+	
+	public int getPageNumber()
+	{
+		return this.pageNumber;
+	}
 }
