@@ -21,7 +21,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -126,30 +125,18 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	private void initialize( DataEngineImpl dataEngine, Map appContext )
-			throws DataException
 	{
 		int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
 
-		try
-		{
-			ResultIterator left = (ResultIterator) this.leftQueryResults.getResultIterator( );
-			ResultIterator right = (ResultIterator) this.rightQueryResults.getResultIterator( );
+		getDataSetCacheManager( ).setCacheOption( savedCacheOption );
+		getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
+		this.joinType = dataSet.getJoinType( );
+		this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
+				right.getOdiResult( ),
+				left.getScope( ),
+				right.getScope( ),
+				dataSet.getJoinConditions( ) );
 
-			getDataSetCacheManager( ).setCacheOption( savedCacheOption );
-			getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
-			this.left = left;
-			this.right = right;
-			this.joinType = dataSet.getJoinType( );
-			this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
-					right.getOdiResult( ),
-					left.getScope( ),
-					right.getScope( ),
-					dataSet.getJoinConditions( ) );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
-		}
 	}
 
 	/**
@@ -484,9 +471,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		this.leftQueryResults = populatePreparedQuery( true,
 				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
 		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
+		this.left = (ResultIterator) this.leftQueryResults.getResultIterator( );
+
 		this.rightQueryResults = populatePreparedQuery( false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
 		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
+		this.right = (ResultIterator) this.rightQueryResults.getResultIterator( );
 	}
 
 	/**
