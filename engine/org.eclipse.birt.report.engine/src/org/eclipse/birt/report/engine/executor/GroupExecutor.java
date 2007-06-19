@@ -8,6 +8,7 @@ import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.w3c.dom.css.CSSValue;
 
 abstract public class GroupExecutor extends ReportItemExecutor
 {
@@ -114,6 +115,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		collectExecutableElements( );
 		// clear the duplicate flags in the group
 		clearDuplicateFlags( );
+	}
+	
+	protected void processSoftPageBreakBefore( )
+	{
+		if(listingExecutor.needSoftBreakBefore( ))
+		{
+			IStyle style = content.getStyle( );
+			if(style!=null)
+			{
+				CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+				if(pageBreak==null || IStyle.AUTO_VALUE.equals( pageBreak ))
+				{
+					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE );
+				}
+			}
+		}
 	}
 	
 	void collectExecutableElements()

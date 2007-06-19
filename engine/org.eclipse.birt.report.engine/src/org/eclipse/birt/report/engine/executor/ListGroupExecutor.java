@@ -33,6 +33,7 @@ public class ListGroupExecutor extends GroupExecutor
 		restoreResultSet( );
 		
 		initializeContent( groupDesign, groupContent );
+		processSoftPageBreakBefore( );
 		processBookmark( groupDesign, groupContent );
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );		
@@ -45,7 +46,7 @@ public class ListGroupExecutor extends GroupExecutor
 
 		return groupContent;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.executor.GroupExecutor#getNextChild()
 	 */

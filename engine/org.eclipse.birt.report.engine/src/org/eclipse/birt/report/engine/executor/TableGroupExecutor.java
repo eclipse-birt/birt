@@ -31,6 +31,7 @@ public class TableGroupExecutor extends GroupExecutor
 		restoreResultSet( );
 		
 		initializeContent( groupDesign, groupContent );
+		processSoftPageBreakBefore( );
 		processBookmark( groupDesign, groupContent );
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );
