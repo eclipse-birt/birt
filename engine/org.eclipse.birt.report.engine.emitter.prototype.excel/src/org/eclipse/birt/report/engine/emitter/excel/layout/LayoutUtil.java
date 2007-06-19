@@ -77,19 +77,26 @@ public class LayoutUtil
 				unmount.add( new Integer(i) );
 			}
 			else
-			{
-				index[i] = ExcelUtil.covertDimensionType( value, width ); 
-				know += index[i];
+			{				
+				try {
+					index[i] = ExcelUtil.covertDimensionType( value, width ); 
+					know += index[i];
+				}
+				catch(IllegalArgumentException ex)
+				{
+					unmount.add( new Integer(i) );
+				}
 			}	
 		}		
 		
 		int left = width - know;
 		
-		if(left >= 0 && unmount.size( ) == 0)
+		if(left > 0 && unmount.size( ) == 0)
 		{
+			index[index.length - 1] = index[index.length - 1] + left; 
 			return new DefaultTableInfo(index);
 		}
-		else if(left <= 0 && unmount.size( ) >= 0)
+		else if(left < 0 )
 		{
 			return new DefaultTableInfo(split(width, colcount));
 		}
@@ -110,8 +117,7 @@ public class LayoutUtil
 		}
 		else 
 		{
-System.out.println("impossible in the case");
-			return null;
+			return new DefaultTableInfo(index);
 		}	
 	}
 	

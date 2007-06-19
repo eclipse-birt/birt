@@ -21,7 +21,7 @@ public class ExcelLayoutEngine
 
 	public final static String EMPTY = "";
 
-	public final static int MAX_ROW = 65025;
+	public final static int MAX_ROW = 65525;
 
 	public final static int MAX_CLOUMN = 255;
 
@@ -277,7 +277,7 @@ public class ExcelLayoutEngine
 	public int getRowCount( )
 	{
 		int realcount = cache.getRowCount( );
-		return Math.min( realcount, MAX_ROW );
+		return Math.min( realcount, MAX_ROW - 1 );
 	}
 
 	public AxisProcessor getAxis( )
