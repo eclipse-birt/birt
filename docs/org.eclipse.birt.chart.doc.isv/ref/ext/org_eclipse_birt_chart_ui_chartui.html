@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Contains definition of registered Chart Designer UI Panels.</title>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/plugins/org.eclipse.sdk_3.2.0.v20060529/book.css");</style>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/configuration/org.eclipse.osgi/bundles/210/1/.cp/schema.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>Contains definition of registered Chart Designer UI Panels.</CENTER></H1>
@@ -37,18 +37,15 @@ The definition of a UI component to be added to the chart builder.</p>
 <br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension
          point="org.eclipse.birt.chart.ui.uisheets">
       <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl"
-   nodePath="General"
-            nodeIndex="20"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseAxisDataSheetImpl"
-   nodePath="Data.X Axis"
-            nodeIndex="21"/>
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl"
+            displayName="Series"
+            nodeIndex="10"
+            nodePath="Series"/>
 ...
    </extension>
 <p></p>
 
-<h6 class=CaptionFigColumn id=header>API Information: </h6>Please refer to the javadocs for the ISheet and ISheetListener interfaces in the  <i>org.eclipse.birt.chart.ui.swt.interfaces</i> package.
+<h6 class=CaptionFigColumn id=header>API Information: </h6>Please refer to the javadocs for the ISubtaskSheet interfaces in the  <i>org.eclipse.birt.chart.ui.swt.interfaces</i> package.
 <p></p>
 
 <h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>The <i>org.eclipse.birt.chart.ui.extension</i> plug-in provides an example of an implementation of ISheet interface.
