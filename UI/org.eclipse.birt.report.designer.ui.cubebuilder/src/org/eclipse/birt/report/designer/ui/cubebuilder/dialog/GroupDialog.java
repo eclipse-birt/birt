@@ -84,7 +84,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "DateGroup_ID" ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG ); //$NON-NLS-1$
 		setTitle( Messages.getString( "DateGroupDialog.Title" ) ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "DateGroupDialog.Shell.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$

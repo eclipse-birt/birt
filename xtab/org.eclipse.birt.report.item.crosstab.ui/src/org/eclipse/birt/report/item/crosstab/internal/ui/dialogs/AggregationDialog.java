@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -32,20 +34,22 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-/**Add the subtotal and grand toatal to the special LevelViewHandle
+/**
+ * Add the subtotal and grand toatal to the special LevelViewHandle
  * AggregationDialog
  */
 public class AggregationDialog extends BaseDialog
 {
 
-	private static final String DIALOG_NAME = Messages.getString("AggregationDialog.Title"); //$NON-NLS-1$
+	private static final String DIALOG_NAME = Messages.getString( "AggregationDialog.Title" ); //$NON-NLS-1$
 	private CheckboxTableViewer subTableViewer;
 	private List subList = new ArrayList( );
 	private List grandList = new ArrayList( );
 	private CheckboxTableViewer grandTableViewer;
 
-
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param shell
 	 */
 	public AggregationDialog( Shell shell )
@@ -53,11 +57,15 @@ public class AggregationDialog extends BaseDialog
 		super( shell, DIALOG_NAME );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.XTAB_AGGREGATION_DIALOG );
+
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Composite content = new Composite( dialogArea, SWT.NONE );
@@ -107,7 +115,7 @@ public class AggregationDialog extends BaseDialog
 	private void createGrandTotalArea( Composite content )
 	{
 		Label grandTotalLabel = new Label( content, SWT.NONE );
-		grandTotalLabel.setText( Messages.getString("AggregationDialog.Label.Grand") ); //$NON-NLS-1$
+		grandTotalLabel.setText( Messages.getString( "AggregationDialog.Label.Grand" ) ); //$NON-NLS-1$
 
 		Table table = new Table( content, SWT.SINGLE
 				| SWT.BORDER
@@ -136,10 +144,10 @@ public class AggregationDialog extends BaseDialog
 
 		grandTableViewer.setUseHashlookup( true );
 		grandTableViewer.setColumnProperties( provider.getColumnNames( ) );
-		//grandTableViewer.setCellEditors( provider.getEditors( table ) );
+		// grandTableViewer.setCellEditors( provider.getEditors( table ) );
 		grandTableViewer.setContentProvider( provider );
 		grandTableViewer.setLabelProvider( provider );
-		//grandTableViewer.setCellModifier( provider );
+		// grandTableViewer.setCellModifier( provider );
 
 		grandTableViewer.addCheckStateListener( new ICheckStateListener( ) {
 
@@ -158,10 +166,13 @@ public class AggregationDialog extends BaseDialog
 
 	}
 
-
-	/**Set the input
-	 * @param subList subtotal info list
-	 * @param grandList grand total list info
+	/**
+	 * Set the input
+	 * 
+	 * @param subList
+	 *            subtotal info list
+	 * @param grandList
+	 *            grand total list info
 	 */
 	public void setInput( List subList, List grandList )
 	{
@@ -172,7 +183,7 @@ public class AggregationDialog extends BaseDialog
 	private void createSubTotalArea( Composite content )
 	{
 		Label subTotalLabel = new Label( content, SWT.NONE );
-		subTotalLabel.setText( Messages.getString("AggregationDialog.Label.Sub") ); //$NON-NLS-1$
+		subTotalLabel.setText( Messages.getString( "AggregationDialog.Label.Sub" ) ); //$NON-NLS-1$
 
 		Table table = new Table( content, SWT.SINGLE
 				| SWT.BORDER
@@ -201,10 +212,10 @@ public class AggregationDialog extends BaseDialog
 
 		subTableViewer.setUseHashlookup( true );
 		subTableViewer.setColumnProperties( provider.getColumnNames( ) );
-		//subTableViewer.setCellEditors( provider.getEditors( table ) );
+		// subTableViewer.setCellEditors( provider.getEditors( table ) );
 		subTableViewer.setContentProvider( provider );
 		subTableViewer.setLabelProvider( provider );
-		//subTableViewer.setCellModifier( provider );
+		// subTableViewer.setCellModifier( provider );
 
 		subTableViewer.addCheckStateListener( new ICheckStateListener( ) {
 
@@ -229,11 +240,11 @@ public class AggregationDialog extends BaseDialog
 				subList, grandList
 		};
 	}
-	
+
 	/**
 	 * SubTotalInfo
 	 */
-	public static  class SubTotalInfo
+	public static class SubTotalInfo
 	{
 
 		private LevelHandle level;
@@ -243,16 +254,16 @@ public class AggregationDialog extends BaseDialog
 
 		private String function = ""; //$NON-NLS-1$
 
-		public SubTotalInfo copy()
+		public SubTotalInfo copy( )
 		{
-			SubTotalInfo retValue = new SubTotalInfo();
+			SubTotalInfo retValue = new SubTotalInfo( );
 			retValue.setAggregateOnMeasure( getAggregateOnMeasure( ) );
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
 			retValue.setLevel( getLevel( ) );
 			return retValue;
 		}
-		
+
 		public MeasureHandle getAggregateOnMeasure( )
 		{
 			return measure;
@@ -283,8 +294,6 @@ public class AggregationDialog extends BaseDialog
 			this.aggregationOn = aggregationOn;
 		}
 
-		
-
 		public void setFunction( String function )
 		{
 			this.function = function;
@@ -294,29 +303,32 @@ public class AggregationDialog extends BaseDialog
 		{
 			this.level = level;
 		}
-		
-		public boolean isSameInfo(Object obj)
+
+		public boolean isSameInfo( Object obj )
 		{
-			if (!(obj instanceof SubTotalInfo))
+			if ( !( obj instanceof SubTotalInfo ) )
 			{
 				return false;
 			}
-			SubTotalInfo temp = (SubTotalInfo)obj;
-			return temp.getLevel( ) == level && temp.getAggregateOnMeasure( ) == measure;
+			SubTotalInfo temp = (SubTotalInfo) obj;
+			return temp.getLevel( ) == level
+					&& temp.getAggregateOnMeasure( ) == measure;
 		}
-		
+
 		public boolean equals( Object obj )
 		{
-			if (!(obj instanceof SubTotalInfo))
+			if ( !( obj instanceof SubTotalInfo ) )
 			{
 				return false;
 			}
-			SubTotalInfo temp = (SubTotalInfo)obj;
-			return temp.getLevel( ) == level && temp.getAggregateOnMeasure( ) == measure
-				&& temp.getFunction( ) == function && temp.isAggregationOn( ) == aggregationOn; 
+			SubTotalInfo temp = (SubTotalInfo) obj;
+			return temp.getLevel( ) == level
+					&& temp.getAggregateOnMeasure( ) == measure
+					&& temp.getFunction( ) == function
+					&& temp.isAggregationOn( ) == aggregationOn;
 		}
 	}
-	
+
 	/**
 	 * GrandTotalInfo
 	 */
@@ -329,15 +341,15 @@ public class AggregationDialog extends BaseDialog
 
 		private String function = ""; //$NON-NLS-1$
 
-		public GrandTotalInfo copy()
+		public GrandTotalInfo copy( )
 		{
-			GrandTotalInfo retValue = new GrandTotalInfo();
+			GrandTotalInfo retValue = new GrandTotalInfo( );
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
 			retValue.setMeasure( getMeasure( ) );
 			return retValue;
 		}
-		
+
 		public String getFunction( )
 		{
 			return function;
@@ -367,14 +379,14 @@ public class AggregationDialog extends BaseDialog
 		{
 			this.measure = measure;
 		}
-		
-		public boolean isSameInfo(Object obj)
+
+		public boolean isSameInfo( Object obj )
 		{
-			if (!(obj instanceof GrandTotalInfo))
+			if ( !( obj instanceof GrandTotalInfo ) )
 			{
 				return false;
 			}
-			GrandTotalInfo temp = (GrandTotalInfo)obj;
+			GrandTotalInfo temp = (GrandTotalInfo) obj;
 			return temp.getMeasure( ) == measure;
 		}
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
@@ -52,6 +53,8 @@ public class FilterListDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_FILTER_LIST_DIALOG ); //$NON-NLS-1$
+
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Composite content = new Composite( dialogArea, SWT.NONE );
@@ -101,7 +104,8 @@ public class FilterListDialog extends BaseDialog
 						if ( item instanceof DesignElementHandle )
 						{
 							FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-									FilterConditionBuilder.DLG_TITLE_NEW, FilterConditionBuilder.DLG_MESSAGE_NEW);
+									FilterConditionBuilder.DLG_TITLE_NEW,
+									FilterConditionBuilder.DLG_MESSAGE_NEW );
 							dialog.setDesignHandle( (DesignElementHandle) item,
 									new CubeExpressionProvider( (DesignElementHandle) item ) );
 							dialog.setInput( null );
@@ -143,7 +147,8 @@ public class FilterListDialog extends BaseDialog
 							}
 
 							FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-									FilterConditionBuilder.DLG_TITLE_EDIT,FilterConditionBuilder.DLG_MESSAGE_EDIT );
+									FilterConditionBuilder.DLG_TITLE_EDIT,
+									FilterConditionBuilder.DLG_MESSAGE_EDIT );
 							dialog.setDesignHandle( (DesignElementHandle) item,
 									new CubeExpressionProvider( (DesignElementHandle) item ) );
 							dialog.setInput( filterHandle );

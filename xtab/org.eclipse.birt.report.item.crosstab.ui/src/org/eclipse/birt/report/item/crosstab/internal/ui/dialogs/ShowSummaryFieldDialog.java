@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -41,15 +43,17 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 	public ShowSummaryFieldDialog( Shell parentShell )
 	{
-		super( parentShell, Messages.getString("ShowSummaryFieldDialog.Title") ); //$NON-NLS-1$
+		super( parentShell, Messages.getString( "ShowSummaryFieldDialog.Title" ) ); //$NON-NLS-1$
 	}
 
 	protected Control createDialogArea( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.XTAB_SHOW_SUMMARY_FIELD_DIALOG );
+
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Label infoLabel = new Label( dialogArea, SWT.NONE );
-		infoLabel.setText( Messages.getString("ShowSummaryFieldDialog.Label.Info") ); //$NON-NLS-1$
+		infoLabel.setText( Messages.getString( "ShowSummaryFieldDialog.Label.Info" ) ); //$NON-NLS-1$
 
 		createSummaryFiledViewer( dialogArea );
 
@@ -69,7 +73,8 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 	private void createSummaryFiledViewer( Composite dialogArea )
 	{
-		Table table = new Table( dialogArea, SWT.BORDER|SWT.SINGLE
+		Table table = new Table( dialogArea, SWT.BORDER
+				| SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION
@@ -124,8 +129,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		}
 
 	}
-	
-	public Object getResult(){
+
+	public Object getResult( )
+	{
 		return input;
 	}
 
@@ -201,16 +207,16 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			this.measure = measure;
 		}
 
-//		public boolean isSameInfo( Object obj )
-//		{
-//			if ( !( obj instanceof MeasureInfo ) )
-//			{
-//				return false;
-//			}
-//			MeasureInfo temp = (MeasureInfo) obj;
-//			return temp.getMeasure( ) == measure;
-//		}
-		
+		// public boolean isSameInfo( Object obj )
+		// {
+		// if ( !( obj instanceof MeasureInfo ) )
+		// {
+		// return false;
+		// }
+		// MeasureInfo temp = (MeasureInfo) obj;
+		// return temp.getMeasure( ) == measure;
+		// }
+
 		public boolean equals( Object obj )
 		{
 			if ( !( obj instanceof MeasureInfo ) )
