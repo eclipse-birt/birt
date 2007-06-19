@@ -151,6 +151,8 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			ss = new SimpleStyle( );
 
 			String fname = style.getFontFamilyHandle( ).getStringValue( );
+			fname = FontHelper.getFontFamily( fname );
+
 			int fsize = getFontSizeIntValue( handle );
 			boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
 			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
@@ -162,9 +164,9 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 				CSSValueList valueList = (CSSValueList)dstyle.getProperty( StyleConstants.STYLE_FONT_FAMILY );
 				if ( valueList.getLength( ) > 0 )
 				{
-					fname = valueList.item( 0 ).getCssText( );
+					fname = FontHelper.getFontFamily( valueList.item( 0 ).getCssText( ) );
 				}
-				fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ));				
+				fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
 				fbold = isBoldFont( dstyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT));
 				fitalic = isItalicFont( dstyle.getFontStyle( ) );
 				funder = CSSConstants.CSS_UNDERLINE_VALUE.equals( dstyle.getTextUnderline( ) );
@@ -693,4 +695,6 @@ public class ChartReportStyleProcessor implements IStyleProcessor
         }
     	return false;
     }
+
+ 
 }
