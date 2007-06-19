@@ -273,11 +273,8 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik}" token="@FEATURE.BATIK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik.pdf}" token="@FEATURE.BATIK.PDF@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.xerces.feature}" token="@FEATURE.XERCES@"/>
 		
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
