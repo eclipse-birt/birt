@@ -149,9 +149,9 @@ public class TableContentLayout
 	 * @param content
 	 *            row content
 	 */
-	public Row createRow( Object rowContent )
+	public Row createRow( Object rowContent, boolean isHidden )
 	{
-		if ( !isRowHidden( rowContent ) ) 
+		if ( !isHidden ) 
 		{
 			isRowHidden = false;
 			ensureSize( rowCount + 1, realColCount );
