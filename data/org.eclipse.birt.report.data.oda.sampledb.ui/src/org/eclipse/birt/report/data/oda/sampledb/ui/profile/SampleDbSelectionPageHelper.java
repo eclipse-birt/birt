@@ -26,6 +26,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
@@ -77,7 +78,7 @@ public class SampleDbSelectionPageHelper
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
 		setMessage( DEFAULT_MESSAGE );
 		
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( content,
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),
 				CONEXT_ID_DATASOURCE_SAMPLEDB );
 	}
     
@@ -175,4 +176,13 @@ public class SampleDbSelectionPageHelper
 		else if ( m_propertyPage != null )
 			m_propertyPage.setMessage( message, type );
 	}
- }
+    
+    private Control getControl()
+    {
+        if ( m_wizardPage != null )
+            return m_wizardPage.getControl();
+        assert( m_propertyPage != null );
+        return m_propertyPage.getControl();
+    }
+    
+}

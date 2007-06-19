@@ -2,9 +2,9 @@
 plugin@org.eclipse.birt.data=v200706014,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
 plugin@org.eclipse.birt.report.data.adapter=v20070613,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.report.data.oda.jdbc=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20070619,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
 plugin@org.eclipse.birt.report.data.oda.sampledb=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
+plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20070619,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
 plugin@org.eclipse.birt.report.data.oda.xml=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
 plugin@org.eclipse.birt.report.data.oda.xml.ui=v20070607,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 

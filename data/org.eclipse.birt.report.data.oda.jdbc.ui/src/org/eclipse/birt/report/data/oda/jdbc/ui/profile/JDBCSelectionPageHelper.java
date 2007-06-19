@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2006 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -52,6 +52,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -244,7 +245,7 @@ public class JDBCSelectionPageHelper
 		updateTestButton( );
 		verifyJDBCProperties( );
 		
-		Utility.setSystemHelp( content,
+		Utility.setSystemHelp( getControl(),
 				IHelpConstants.CONEXT_ID_DATASOURCE_JDBC );
 	}
     
@@ -767,6 +768,14 @@ public class JDBCSelectionPageHelper
 	{
 		this.DEFAULT_MESSAGE = message;	
 	}
-	
+    
+    private Control getControl()
+    {
+        if ( m_wizardPage != null )
+            return m_wizardPage.getControl();
+        assert( m_propertyPage != null );
+        return m_propertyPage.getControl();
+    }
+
 }
     
