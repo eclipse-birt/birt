@@ -40,6 +40,10 @@ AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
 ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
 ShowSummaryFieldDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
+
+DeleteBindingDialog.Title=Remove Unused Bindings?
+DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
+DeleteBindingDialog.ToggleMessage=Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Área de columna
@@ -190,6 +194,9 @@ CrosstabPreferencePage.Title=Tabla de referencias cruzadas
 CrosstabPreferencePage.filterLimit=Límite de filtro
 CrosstabPreferencePage.filterLimit.prompt=Número máximo de valores que mostrar:
 CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
+CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
+CrosstabPreferencePage.promptGroup=Prompt
+
 
 ###########################################################
 #Crosstab DataBinding properties

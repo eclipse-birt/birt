@@ -40,6 +40,10 @@ AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
+
+DeleteBindingDialog.Title=Remove Unused Bindings?
+DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
+DeleteBindingDialog.ToggleMessage=Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列の領域
@@ -190,6 +194,9 @@ CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
 CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
 CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
+CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
+CrosstabPreferencePage.promptGroup=Prompt
+
 
 ###########################################################
 #Crosstab DataBinding properties
