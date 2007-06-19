@@ -29,6 +29,9 @@ import javax.olap.cursor.RowDataMetaData;
 import javax.olap.cursor.Time;
 import javax.olap.cursor.Timestamp;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -51,7 +54,7 @@ public class CubeCursorImpl implements ICubeCursor
 	private CubeCursor cursor;
 	private Scriptable scope;
 	private ICubeQueryDefinition queryDefn;
-	private HashMap bindingMap;
+	private HashMap bindingMap, dataTypeMap;
 	
 	public CubeCursorImpl ( CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn ) throws DataException
 	{
@@ -61,15 +64,19 @@ public class CubeCursorImpl implements ICubeCursor
 		
 		OlapQueryUtil.validateBinding( queryDefn, false );
 		
-		this.bindingMap = new HashMap();
-		for( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
+		this.bindingMap = new HashMap( );
+		this.dataTypeMap = new HashMap( );
+		for ( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
 		{
-			IBinding binding = (IBinding) this.queryDefn.getBindings( ).get(i);
+			IBinding binding = (IBinding) this.queryDefn.getBindings( ).get( i );
 			if ( binding.getAggrFunction( ) == null )
 			{
-				this.bindingMap.put( binding.getBindingName( ), binding.getExpression( ) );
+				this.bindingMap.put( binding.getBindingName( ),
+						binding.getExpression( ) );
 				OLAPExpressionCompiler.compile( binding.getExpression( ) );
 			}
+			dataTypeMap.put( binding.getBindingName( ),
+					Integer.valueOf( binding.getDataType( ) ) );
 		}
 		
 		this.scope.put( "data", this.scope, new JSCubeBindingObject( this ));
@@ -299,11 +306,8 @@ public class CubeCursorImpl implements ICubeCursor
 			try
 			{
 				Context cx = Context.enter( );
-				result = ScriptEvalUtil.evalExpr( (IBaseExpression) this.bindingMap.get( arg0 ),
-						cx,
-						this.scope,
-						null,
-						0 );
+				IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
+				result = ScriptEvalUtil.evalExpr( expr, cx, this.scope, null, 0 );
 			}
 			catch ( Exception e )
 			{
@@ -320,6 +324,18 @@ public class CubeCursorImpl implements ICubeCursor
 			throw new OLAPException( ( (DataException) result ).getLocalizedMessage( ) );
 		}
 		
+		if ( this.dataTypeMap.containsKey( arg0 ) )
+		{
+			try
+			{
+				result = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( result ),
+						( (Integer) this.dataTypeMap.get( arg0 ) ).intValue( ) );
+			}
+			catch ( BirtException e )
+			{
+				throw new OLAPException( e.getLocalizedMessage( ) );
+			}
+		}
 		return result;
 	}
 
