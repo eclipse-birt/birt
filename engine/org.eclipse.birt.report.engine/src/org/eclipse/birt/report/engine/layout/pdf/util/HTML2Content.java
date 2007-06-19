@@ -554,7 +554,7 @@ public class HTML2Content
 			}
 			if(ele.getAttribute("height")!=null &&! "".equals(ele.getAttribute("height"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setWidth( DimensionType.parserUnit( ele.getAttribute( "height" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
+				image.setHeight( DimensionType.parserUnit( ele.getAttribute( "height" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
 			}
 			if(ele.getAttribute("alt")!=null && !"".equals(ele.getAttribute("alt"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
