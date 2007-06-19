@@ -1404,6 +1404,13 @@ public class TableColumnBandTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "TableInsertColumnBandTest_golden_4.xml" ) ); //$NON-NLS-1$
+		
+		openDesign( "TableInsertColumnBandTest_1.xml" ); //$NON-NLS-1$
+		table = (TableHandle) designHandle.findElement( "Table" ); //$NON-NLS-1$
+
+		table.insertColumn( 1, 1 );
+		save( );
+		assertTrue( compareFile( "TableInsertColumnBandTest_rowSpan_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

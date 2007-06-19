@@ -32,6 +32,13 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	private static final int INSERT_BEFORE = -1;
 
+
+	/**
+	 * The minimal value of the column span.
+	 */
+
+	private static final int MIN_ROW_SPAN = 1;
+	
 	/**
 	 * 0-based column index.
 	 */
@@ -40,6 +47,12 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	private List originalCells = null;
 
+	/**
+	 * The row span for the last cell of which the column span increases.
+	 */
+
+	private int rowSpanForModifiedCell = MIN_ROW_SPAN;
+	
 	/**
 	 * Constructs the insert action.
 	 * 
@@ -200,6 +213,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle slot = adapter.getElementHandle( ).getSlot( i );
+			resetRowSpanForModifiedCell( );
+			
 			for ( int j = 0; j < slot.getCount( ); j++ )
 			{
 				DesignElementHandle content = slot.get( j );
@@ -242,13 +257,21 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 			pos = -1;
 		else
 		{
-			CellHandle cell = adapter.findCell( row, columnIndex );
+			if ( rowSpanForModifiedCell > MIN_ROW_SPAN )
+			{
+				rowSpanForModifiedCell--;
+				return;
+			}
+			
+			CellHandle cell = findCell( row, columnIndex );
 			if ( cell == null )
 				return;
 
 			if ( cell.getColumnSpan( ) != 1 )
 			{
 				cell.setColumnSpan( cell.getColumnSpan( ) + 1 );
+				rowSpanForModifiedCell = cell.getRowSpan( );
+				
 				return;
 			}
 
@@ -284,7 +307,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle slot = group.getSlot( i );
-
+			resetRowSpanForModifiedCell( );
 			for ( int j = 0; j < slot.getCount( ); j++ )
 			{
 				DesignElementHandle content = slot.get( j );
@@ -292,5 +315,57 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 					insertCell( (RowHandle) content, columnIndex );
 			}
 		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+
+	private void resetRowSpanForModifiedCell( )
+	{
+		rowSpanForModifiedCell = MIN_ROW_SPAN;
+	}
+	
+	/**
+	 * Returns the cell resides in the row.
+	 * 
+	 * @param row
+	 *            the row handle
+	 * @param columnToInsert
+	 *            the column number to insert, count from 1
+	 * @param insert
+	 *            whether insert mode
+	 * @return the cell in the given position
+	 */
+
+	private CellHandle findCell( RowHandle row, int columnToInsert )
+	{
+		SlotHandle cells = row.getCells( );
+
+		for ( int i = 0; i < cells.getCount( ); i++ )
+		{
+			CellHandle cell = (CellHandle) cells.get( i );
+			int cellPos = adapter.getCellPosition( cell );
+
+			// found the cell
+
+			if ( columnToInsert == cellPos )
+				return cell;
+
+			else if ( rowSpanForModifiedCell <= MIN_ROW_SPAN
+					&& columnToInsert < cellPos + cell.getColumnSpan( ) )
+				return cell;
+
+			// there was no corresponding cell on this row, should paste/insert
+			// on this position.
+
+			else if ( columnToInsert > cellPos
+					&& columnToInsert < cellPos + cell.getColumnSpan( ) )
+				return cell;
+		}
+
+		// not return yet, paste/insert to the end of this row.
+		return null;
 	}
 }
