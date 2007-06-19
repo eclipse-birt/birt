@@ -24,7 +24,7 @@ public class ExportManifestUtils
 		"org.eclipse.emf.common_.*.jar",
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
-		"sac.jar", 
+		"org.w3c.css.sac_.*.jar", 
 		"scriptapi.jar",
 		"modelodaapi.jar",
 		"javax.servlet_.*.jar",
