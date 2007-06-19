@@ -948,19 +948,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void removedColumnBinding( String bindingName )
 			throws SemanticException
 	{
-		if ( StringUtil.isEmpty( bindingName ) )
-			return;
-
-		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
-		if ( columns == null )
-			return;
-
 		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
-		for ( int i = 0; i < columns.size( ); i++ )
-		{
-			ComputedColumn column = (ComputedColumn) columns.get( i );
-			if ( bindingName.equals( column.getName( ) ) )
-				propHandle.removeItem( column );
-		}
+		propHandle
+				.removeItem( findColumnBinding( bindingName ).getStructure( ) );
 	}
 }
