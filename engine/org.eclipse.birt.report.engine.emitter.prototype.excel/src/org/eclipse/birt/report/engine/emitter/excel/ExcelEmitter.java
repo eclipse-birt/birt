@@ -114,7 +114,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		Rule rule = engine.getCurrentContainer( ).getRule( );
 		int width = rule.getWidth( );
-		TableInfo info = LayoutUtil.createTable( table, width );		
+		TableInfo info = LayoutUtil.createTable( table, width );
+		
+		if( info == null ) {
+		   return;	
+		}
 		engine.addTable( info, table.getComputedStyle( ));
 	}
 
