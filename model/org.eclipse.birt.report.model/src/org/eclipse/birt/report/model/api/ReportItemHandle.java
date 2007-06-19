@@ -913,4 +913,54 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		else
 			return Collections.unmodifiableList( rtnList );
 	}
+
+	/**
+	 * Removes bound columns from the element.
+	 * 
+	 * @param bindingNameList
+	 *            the binding name list to be removed, each entry should be
+	 *            instanceof <code>java.lang.String</code>.
+	 * @throws SemanticException
+	 *             if bound column property is locked.
+	 */
+
+	public void removedColumnBindings( List bindingNameList )
+			throws SemanticException
+	{
+		if ( bindingNameList == null || bindingNameList.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < bindingNameList.size( ); i++ )
+		{
+			removedColumnBinding( (String) bindingNameList.get( i ) );
+		}
+	}
+
+	/**
+	 * Removes bound column from the element.
+	 * 
+	 * @param bindingName
+	 *            the binding name to be removed
+	 * @throws SemanticException
+	 *             if bound column property is locked.
+	 */
+
+	public void removedColumnBinding( String bindingName )
+			throws SemanticException
+	{
+		if ( StringUtil.isEmpty( bindingName ) )
+			return;
+
+		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
+		if ( columns == null )
+			return;
+
+		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( i );
+			if ( bindingName.equals( column.getName( ) ) )
+				propHandle.removeItem( column );
+		}
+	}
 }

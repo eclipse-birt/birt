@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -872,5 +873,26 @@ public class ReportItemHandleTest extends BaseTestCase
 		List handleList = list.getAvailableDataBindingReferenceList( );
 		assertEquals( 1, handleList.size( ) );
 		assertTrue( handleList.get( 0 ) instanceof ExtendedItemHandle );
+	}
+
+	/**
+	 * Tests removedColumnBindings().
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testRemovedColumnBindings( ) throws Exception
+	{
+		openDesign( "ReportItemHandleTest_2.xml" ); //$NON-NLS-1$ 
+
+		TableHandle table = (TableHandle) designHandle.findElement( "myTable1" ); //$NON-NLS-1$
+		assertEquals( 14, table.getColumnBindings( ).getListValue( ).size( ) );
+
+		List bindingNameList = new ArrayList( 2 );
+		bindingNameList.add( "CITY" ); //$NON-NLS-1$
+		bindingNameList.add( "nobindingitem" ); //$NON-NLS-1$
+		table.removedColumnBindings( bindingNameList );
+
+		assertEquals( 12, table.getColumnBindings( ).getListValue( ).size( ) );
 	}
 }
