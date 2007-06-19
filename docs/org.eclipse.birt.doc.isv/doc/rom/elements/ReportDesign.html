@@ -41,6 +41,8 @@ The report design element represents report as a whole.</div>
 <dl class="section-text">
 <dt><a href="#Property-cheatSheet">cheatSheet</a></dt>
 <dd>A string containing the file name of the cheat sheet.</dd>
+<dt><a href="#Property-cssStyleSheets">cssStyleSheets</a></dt>
+<dd></dd>
 <dt><a href="#Property-displayName">displayName</a></dt>
 <dd>Display name of the report design</dd>
 <dt><a href="#Property-displayNameID">displayNameID</a></dt>
@@ -49,8 +51,12 @@ The report design element represents report as a whole.</div>
 <dd>The full qulified name of the event handler class.</dd>
 <dt><a href="#Property-iconFile">iconFile</a></dt>
 <dd>The design icon/thumbnail file path</dd>
+<dt><a href="#Property-layoutPreference">layoutPreference</a></dt>
+<dd></dd>
 <dt><a href="#Property-refreshRate">refreshRate</a></dt>
 <dd>The refresh rate when viewing the report.</dd>
+<dt><a href="#Property-thumbnail">thumbnail</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Method Summary</h3>
@@ -91,6 +97,8 @@ items can extend these items. Defines a &quot;private library&quot; for this des
 <dd>TBD</dd>
 <dt><a href="#Slot-templateParameterDefinitions">templateParameterDefinitions</a></dt>
 <dd>Stores the reusable template definitions.</dd>
+<dt><a href="#Slot-cubes">cubes</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -110,6 +118,7 @@ items can extend these items. Defines a &quot;private library&quot; for this des
 <a href="Module.html#Property-includeScripts">includeScripts</a>, 
 <a href="Module.html#Property-libraries">libraries</a>, 
 <a href="Module.html#Property-propertyBindings">propertyBindings</a>, 
+<a href="Module.html#Property-scriptLibs">scriptLibs</a>, 
 <a href="Module.html#Property-theme">theme</a>, 
 <a href="Module.html#Property-title">title</a>, 
 <a href="Module.html#Property-titleID">titleID</a>, 
@@ -172,6 +181,36 @@ cannot extend another design.</p>
 
 <div class="section-text">
 <p>A string containing the file name of the cheat sheet used with this design.</p></div>
+
+<hr>
+<h2><a name="Property-cssStyleSheets">cssStyleSheets Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/IncludedCssStyleSheet.html">IncludedCssStyleSheet</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Css style sheets</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-displayName">displayName Property</a></h2>
@@ -312,6 +351,51 @@ which define the scripting behavior that will be executed at runtime.</p></div>
 <p>The design icon/thumbnail file path</p></div>
 
 <hr>
+<h2><a name="Property-layoutPreference">layoutPreference Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (reportLayoutPreference)</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Layout preference</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>auto layout</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>fixed layout</td>
+<td>Fixed Layout</td>
+<td>fixed layout</td>
+<td></td></tr>
+<tr><td>auto layout</td>
+<td>Auto Layout</td>
+<td>auto layout</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
 <h2><a name="Property-refreshRate">refreshRate Property</a></h2>
 
 <p class="section-text">The refresh rate when viewing the report.</p>
@@ -347,6 +431,36 @@ report does not refresh)</span></td></tr>
 <p>The refresh rate when viewing the report. The viewer will 
 automatically rerun and redisplay the report. The rate is given in seconds. A 
 rate of 0 means no refresh.</p></div>
+
+<hr>
+<h2><a name="Property-thumbnail">thumbnail Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#literalString">literalString</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Thumbnail</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 <h1>Method Detail</h1>
 
 <h2><a name="Method-afterFactory">afterFactory Method</a></h2>
@@ -868,5 +982,23 @@ number of sections, in any order.</p></div>
 <div class="section-text">
 <p>Slot that stores the reusable template definitions, report items/data set/data source can
 be created from a template definition</p></div>
+
+<hr>
+<h2><a name="Slot-cubes">cubes Slot</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Cube Elements</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>XML Element:</td>
+<td><code>cubes</code></td></tr>
+<tr><td>Contents:</td>
+<td>List of <a href="Cube.html">Cube</a></td></tr>
+</table>
+
 </body>
 </html>

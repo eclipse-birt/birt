@@ -63,6 +63,8 @@ Represents a highlight rule;each highlight rule consists of an expression, opera
 <dd></dd>
 <dt><a href="#Property-fontWeight">fontWeight</a></dt>
 <dd></dd>
+<dt><a href="#Property-isDesignTime">isDesignTime</a></dt>
+<dd></dd>
 <dt><a href="#Property-numberAlign">numberAlign</a></dt>
 <dd></dd>
 <dt><a href="#Property-numberFormat">numberFormat</a></dt>
@@ -70,6 +72,8 @@ Represents a highlight rule;each highlight rule consists of an expression, opera
 <dt><a href="#Property-operator">operator</a></dt>
 <dd>The operator for a simple condition</dd>
 <dt><a href="#Property-stringFormat">stringFormat</a></dt>
+<dd></dd>
+<dt><a href="#Property-style">style</a></dt>
 <dd></dd>
 <dt><a href="#Property-testExpr">testExpr</a></dt>
 <dd>An expression used to apply a particular format style</dd>
@@ -96,7 +100,7 @@ Represents a highlight rule;each highlight rule consists of an expression, opera
 
 <div class="section-text">
 <p>A highlight rule gives a set of conditional style properties. The style is
-applied only if the rule &quot;fires.&quot;</p></div>
+applied only if the rule �fires.�</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-backgroundColor">backgroundColor Property</a></h2>
@@ -1440,6 +1444,30 @@ applied only if the rule &quot;fires.&quot;</p></div>
 </tbody></table><br>
 
 <hr>
+<h2><a name="Property-isDesignTime">isDesignTime Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Is Design Time</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-numberAlign">numberAlign Property</a></h2>
 
 <p class="section-text"></p>
@@ -1603,6 +1631,14 @@ applied only if the rule &quot;fires.&quot;</p></div>
 <td>Bottom n</td>
 <td>bottom-n</td>
 <td></td></tr>
+<tr><td>top-percent</td>
+<td>Top percent</td>
+<td>top-percent</td>
+<td></td></tr>
+<tr><td>bottom-percent</td>
+<td>Bottom percent</td>
+<td>bottom-percent</td>
+<td></td></tr>
 <tr><td>not-like</td>
 <td>Not Like</td>
 <td>not-like</td>
@@ -1632,6 +1668,30 @@ applied only if the rule &quot;fires.&quot;</p></div>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
 <td>Format String</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-style">style Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../elements/Style.html">Style</a> Reference</td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Style</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>

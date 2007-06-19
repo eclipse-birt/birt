@@ -2,14 +2,14 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Emitters that Support Report Rendering</title>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/plugins/org.eclipse.sdk_3.2.0.v20060529/book.css");</style>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/configuration/org.eclipse.osgi/bundles/210/1/.cp/schema.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>Emitters that Support Report Rendering</CENTER></H1>
 <p></p>
 <h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.report.engine.emitters<p></p>
-<h6 class=CaptionFigColumn id=header>Since: </h6>2.0
+<h6 class=CaptionFigColumn id=header>Since: </h6>2.2.0
 <p></p>
 
 <p>
@@ -29,7 +29,7 @@ root element for the emitters extension</p>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.emitter">emitter</a> (<a href="#e.reportItem">reportItem</a>*)&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST emitter</p>
-<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>format&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>mimeType&nbsp;CDATA #REQUIRED&gt;</p>
+<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>mimeType&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>pagination&nbsp;(no-pagination|page-break-pagination|paper-size-pagination) &gt;</p>
 <p></p>
 <p class=ConfigMarkup id=elementDesc>
 an emitter that exports one or more output formats</p>
@@ -38,7 +38,12 @@ an emitter that exports one or more output formats</p>
 <li><b>id</b> - an optional identifier of the emitter extension</li>
 <li><b>class</b> - the java class that implements the <code>IContentEmitter</code> interface</li>
 <li><b>format</b> - The output format that the emitter supports</li>
+<li><b>icon</b> - The icon path of the emitter</li>
 <li><b>mimeType</b> - The MIME type for the supported output format</li>
+<li><b>pagination</b> - Pagination of output.
+<br>When "page-break-pagination" is set, pagination is based on page break configuration.It is the default value of pagination.
+<br>When "no-pagination" is set, content in the report is output as they are in one page.
+<br>When "paper-size-pagination" is set, pagination is created based on contents size.</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItem">reportItem</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST reportItem</p>
@@ -72,6 +77,7 @@ allows a developer to define emitter for a report item. Used mainly for extended
  <p class=code id=tag>&lt;emitter 
   format=<p class=code id=cstring>&quot;FO&quot;</p><p class=code id=tag> 
   mimeType=<p class=code id=cstring>&quot;text/html&quot;</p><p class=code id=tag>
+  pagination=<p class=code id=cstring>&quot;no-page&quot;</p><p class=code id=tag>
   id=<p class=code id=cstring>&quot;org.eclipse.birt.report.engine.emitter.fo&quot;</p><p class=code id=tag>
   class=<p class=code id=cstring>&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;</p><p class=code id=tag>&gt;</p>
   <p class=code id=tag>&lt;reportItem name=<p class=code id=cstring>&quot;chart&quot;</p><p class=code id=tag>

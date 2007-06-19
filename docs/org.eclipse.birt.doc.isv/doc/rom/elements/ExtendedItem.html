@@ -19,7 +19,7 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>XML Element:</td>
-<td><code>null</code></td></tr>
+<td><code>extended-item</code></td></tr>
 <tr><td>Extends:</td>
 <td><a href="ReportItem.html">ReportItem</a></td></tr>
 <tr><td>Extendable:</td>
@@ -41,6 +41,10 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-altText">altText</a></dt>
+<dd></dd>
+<dt><a href="#Property-altTextID">altTextID</a></dt>
+<dd></dd>
 <dt><a href="#Property-extensionName">extensionName</a></dt>
 <dd>A unique extension name to identify the extension</dd>
 <dt><a href="#Property-filter">filter</a></dt>
@@ -66,7 +70,9 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportItem.html#Property-dataBindingRef">dataBindingRef</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
@@ -84,7 +90,8 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
-<a href="ReportItem.html#Property-y">y</a>
+<a href="ReportItem.html#Property-y">y</a>, 
+<a href="ReportItem.html#Property-zIndex">zIndex</a>
 </p>
 <h3>Style Properties</h3>
 
@@ -109,6 +116,7 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <a href="Style.html#Property-borderTopWidth">borderTopWidth</a>, 
 <a href="Style.html#Property-canShrink">canShrink</a>, 
 <a href="Style.html#Property-color">color</a>, 
+<a href="Style.html#Property-dateFormat">dateFormat</a>, 
 <a href="Style.html#Property-dateTimeFormat">dateTimeFormat</a>, 
 <a href="Style.html#Property-display">display</a>, 
 <a href="Style.html#Property-fontFamily">fontFamily</a>, 
@@ -143,6 +151,7 @@ Represents an extended item, provide BIRT extenion capability.</div>
 <a href="Style.html#Property-textOverline">textOverline</a>, 
 <a href="Style.html#Property-textTransform">textTransform</a>, 
 <a href="Style.html#Property-textUnderline">textUnderline</a>, 
+<a href="Style.html#Property-timeFormat">timeFormat</a>, 
 <a href="Style.html#Property-verticalAlign">verticalAlign</a>, 
 <a href="Style.html#Property-whiteSpace">whiteSpace</a>, 
 <a href="Style.html#Property-widows">widows</a>, 
@@ -175,6 +184,66 @@ to HTML, PDF or other formats.
 </ul></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-altText">altText Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Alternative text</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-altTextID">altTextID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Alternative text key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-extensionName">extensionName Property</a></h2>
 
 <p class="section-text">A unique extension name to identify the extension</p>

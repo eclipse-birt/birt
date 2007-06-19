@@ -47,11 +47,9 @@ Parent of simple data set and joint data set.</div>
 <dd>User-defined columns in the result set.</dd>
 <dt><a href="#Property-filter">filter</a></dt>
 <dd>An optional set of filters to apply to the result set before any other data transforms.</dd>
-<dt><a href="#Property-parameters">parameters</a></dt>
-<dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
-<dt><a href="#Property-resultSet">resultSet</a></dt>
-<dd>Defines the columns of the expected result set.</dd>
 <dt><a href="#Property-resultSetHints">resultSetHints</a></dt>
+<dd></dd>
+<dt><a href="#Property-rowFetchLimit">rowFetchLimit</a></dt>
 <dd></dd>
 </dl>
 
@@ -272,104 +270,6 @@ scripting variable.</p></div>
 property</p></div>
 
 <hr>
-<h2><a name="Property-parameters">parameters Property</a></h2>
-
-<p class="section-text">Defines the data access attributes of the list of input and/or output parameters.</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../structs/DataSetParam.html">DataSetParam</a> Structures</td></tr>
-<tr><td>Since:</td>
-<td>1.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Parameters</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Many data sets allow parameters, which can be of input 
-and/or output modes. For some, the user must define the parameters as part of 
-the data set definition. For other data sets, the driver itself can provide the 
-set of parameter definitions from the information available in a data set query. 
-In the latter case, parameter definitions are derived data and <i>are not</i> 
-stored in the parameter definition.</p>
-
-<p>Some drivers refer to a parameter by position. Others can 
-refer to a parameter by name. Also, for some data sets, the data set definition 
-can omit parameter definitions for optional parameters not used within the 
-report. &nbsp;Not all parameter properties are required. If a property is omitted. 
-BIRT assumes that the data set implementation can provide it at run time. If the 
-driver cannot provide the information, then a runtime error occurs.&nbsp; This is an 
-optional list of data set parameter definitions, used only when the underlying 
-data provider cannot provide this information.&nbsp; When contradicting meta-data are 
-found between those provided dynamically by a data provider and&nbsp; those specified 
-in a data set definition, the data provider�s meta-data takes precedence.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>DataSetParam</span> structure</p>
-<p><code>ParamBinding</span> structure</p></div>
-
-<hr>
-<h2><a name="Property-resultSet">resultSet Property</a></h2>
-
-<p class="section-text">Defines the columns of the expected result set.</p>
-<h3>Details</h3>
-
-<table class="detail-table">
-<tr><td>Type:</td>
-<td>List of <a href="../structs/ResultSetColumn.html">ResultSetColumn</a> Structures</td></tr>
-<tr><td>Since:</td>
-<td>1.0</td></tr>
-<tr><td>Required:</td>
-<td>No</td></tr>
-<tr><td>Display Name:</td>
-<td>Result set</td></tr>
-<tr><td>JavaScript Type:</td>
-<td></td></tr>
-<tr><td>Default Value:</td>
-<td>None</td></tr>
-<tr><td>Inherited:</td>
-<td>Yes</td></tr>
-<tr><td>Runtime Settable:</td>
-<td>Yes</td></tr>
-<tr><td>Property Sheet Visibility:</td>
-<td>Hidden</td></tr>
-<tr><td>Property Sheet Group:</td>
-<td>Top</td></tr>
-</table>
-
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Defines the data access attributes of&nbsp; the list of 
-columns in the expected primary result set. This is an optional list of result 
-set column definitions, used only when the underlying data provider cannot 
-provide this information.&nbsp; When contradicting meta-data are found between those 
-provided dynamically by a data provider and&nbsp; those specified in a data set 
-definition, the data provider�s meta-data takes precedence.</p></div>
-<h3>See Also</h3>
-
-<div class="section-text">
-<p><code>ResultSetColumn</span> structure</p></div>
-
-<hr>
 <h2><a name="Property-resultSetHints">resultSetHints Property</a></h2>
 
 <p class="section-text"></p>
@@ -394,6 +294,36 @@ definition, the data provider�s meta-data takes precedence.</p></div>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
 <td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-rowFetchLimit">rowFetchLimit Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Max number of rows to fetch from data set</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>

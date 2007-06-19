@@ -45,13 +45,28 @@ Describes the page number of the report.</div>
 <dd>The display type of the auto text.</dd>
 </dl>
 
+<h3>Method Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Method-onCreate">onCreate</a></dt>
+<dd></dd>
+<dt><a href="#Method-onPageBreak">onPageBreak</a></dt>
+<dd></dd>
+<dt><a href="#Method-onPrepare">onPrepare</a></dt>
+<dd></dd>
+<dt><a href="#Method-onRender">onRender</a></dt>
+<dd></dd>
+</dl>
+
 <h3>Inherited Properties</h3>
 
 <p class="section-text">
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportItem.html#Property-dataBindingRef">dataBindingRef</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
@@ -69,7 +84,8 @@ Describes the page number of the report.</div>
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
-<a href="ReportItem.html#Property-y">y</a>
+<a href="ReportItem.html#Property-y">y</a>, 
+<a href="ReportItem.html#Property-zIndex">zIndex</a>
 </p>
 <h3>Style Properties</h3>
 
@@ -115,6 +131,7 @@ Describes the page number of the report.</div>
 <a href="Style.html#Property-paddingTop">paddingTop</a>, 
 <a href="Style.html#Property-pageBreakAfter">pageBreakAfter</a>, 
 <a href="Style.html#Property-pageBreakBefore">pageBreakBefore</a>, 
+<a href="Style.html#Property-pageBreakInside">pageBreakInside</a>, 
 <a href="Style.html#Property-showIfBlank">showIfBlank</a>, 
 <a href="Style.html#Property-textAlign">textAlign</a>, 
 <a href="Style.html#Property-textLineThrough">textLineThrough</a>, 
@@ -187,5 +204,97 @@ Each autotext can show one of followings:</p>
 <div class="section-text">
 <p>An autotext item can show either the current page number or the page count in the report.
 </p></div>
+<h1>Method Detail</h1>
+
+<h2><a name="Method-onCreate">onCreate Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onCreate(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Context:</td>
+<td>factory</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onPageBreak">onPageBreak Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPageBreak(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Context:</td>
+<td>presentation</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onPrepare">onPrepare Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onPrepare(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Context:</td>
+<td>startup</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Method-onRender">onRender Method</a></h2>
+
+<p class="section-text"></p>
+<h3>Synopsis
+</h3>
+
+<p class="section-text"><code>None&nbsp;obj.onRender(&nbsp;)</code></p>
+<h3>Details
+</h3>
+
+<table class="detail-table">
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Context:</td>
+<td>presentation</td></tr>
+<tr><td>Arguments:</td>
+<td>None</td></tr>
+<tr><td>Return Type:</td>
+<td>None</td></tr>
+</table>
+
 </body>
 </html>

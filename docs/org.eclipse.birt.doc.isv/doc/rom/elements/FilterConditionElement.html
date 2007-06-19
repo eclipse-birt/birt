@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Filter Condition Element Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">FilterConditionElement Element</p>
+<h1>Element Overview</h1>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Filter Condition Element</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>XML Element:</td>
+<td><code>filter-condition-element</code></td></tr>
+<tr><td>Extends:</td>
+<td>None</td></tr>
+<tr><td>Extendable:</td>
+<td>No</td></tr>
+<tr><td>Abstract:</td>
+<td>No</td></tr>
+<tr><td>Name Space:</td>
+<td>None</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Not Supported</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>No</td></tr>
+<tr><td>Has Style:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-expr">expr</a></dt>
+<dd></dd>
+<dt><a href="#Property-filterTarget">filterTarget</a></dt>
+<dd></dd>
+<dt><a href="#Property-member">member</a></dt>
+<dd></dd>
+<dt><a href="#Property-operator">operator</a></dt>
+<dd></dd>
+<dt><a href="#Property-value1">value1</a></dt>
+<dd></dd>
+<dt><a href="#Property-value2">value2</a></dt>
+<dd></dd>
+</dl>
+
+<h1>Property Detail</h1>
+
+<h2><a name="Property-expr">expr Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>Yes</td></tr>
+<tr><td>Display Name:</td>
+<td>Expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-filterTarget">filterTarget Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (filterTarget)</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Filter Target</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>DataSet</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>DataSet</td>
+<td>Data Set</td>
+<td>DataSet</td>
+<td></td></tr>
+<tr><td>ResultSet</td>
+<td>Result Set</td>
+<td>ResultSet</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-member">member Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#contentElement">contentElement</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Member </td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-operator">operator Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (filterOperator)</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Operator</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>eq</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>eq</td>
+<td>Equal to</td>
+<td>eq</td>
+<td></td></tr>
+<tr><td>ne</td>
+<td>Not Equal to</td>
+<td>ne</td>
+<td></td></tr>
+<tr><td>lt</td>
+<td>Less than</td>
+<td>lt</td>
+<td></td></tr>
+<tr><td>le</td>
+<td>Less than or Equal</td>
+<td>le</td>
+<td></td></tr>
+<tr><td>ge</td>
+<td>Greater than or Equal</td>
+<td>ge</td>
+<td></td></tr>
+<tr><td>gt</td>
+<td>Greater than</td>
+<td>gt</td>
+<td></td></tr>
+<tr><td>between</td>
+<td>Between</td>
+<td>between</td>
+<td></td></tr>
+<tr><td>not-between</td>
+<td>Not Between</td>
+<td>not-between</td>
+<td></td></tr>
+<tr><td>is-null</td>
+<td>Is Null</td>
+<td>is-null</td>
+<td></td></tr>
+<tr><td>is-not-null</td>
+<td>Is Not Null</td>
+<td>is-not-null</td>
+<td></td></tr>
+<tr><td>is-true</td>
+<td>Is True</td>
+<td>is-true</td>
+<td></td></tr>
+<tr><td>is-false</td>
+<td>Is False</td>
+<td>is-false</td>
+<td></td></tr>
+<tr><td>like</td>
+<td>Like</td>
+<td>like</td>
+<td></td></tr>
+<tr><td>top-n</td>
+<td>Top n</td>
+<td>top-n</td>
+<td></td></tr>
+<tr><td>bottom-n</td>
+<td>Bottom n</td>
+<td>bottom-n</td>
+<td></td></tr>
+<tr><td>top-percent</td>
+<td>Top Percent</td>
+<td>top-percent</td>
+<td></td></tr>
+<tr><td>bottom-percent</td>
+<td>Bottom Percent</td>
+<td>bottom-percent</td>
+<td></td></tr>
+<tr><td>match</td>
+<td>Match</td>
+<td>match</td>
+<td></td></tr>
+<tr><td>not-like</td>
+<td>Not Like</td>
+<td>not-like</td>
+<td></td></tr>
+<tr><td>not-match</td>
+<td>Not Match</td>
+<td>not-match</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-value1">value1 Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Value1</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-value2">value2 Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Value2</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+</body>
+</html>
