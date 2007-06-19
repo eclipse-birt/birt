@@ -81,6 +81,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 					}
 					catch ( SemanticException e )
 					{
+						ExceptionHandler.handle(e);
 						return false;
 					}
 				}
@@ -101,6 +102,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 					}
 					catch ( SemanticException e )
 					{
+						ExceptionHandler.handle(e);
 						return false;
 					}
 				}
