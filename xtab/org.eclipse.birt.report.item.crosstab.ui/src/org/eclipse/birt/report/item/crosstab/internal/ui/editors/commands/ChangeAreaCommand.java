@@ -73,6 +73,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 			//reportHandle.removeDimension(childViewHandle.getAxisType( ), childViewHandle.getIndex( ) );
 			//CrosstabUtil.insertDimension( reportHandle, childViewHandle, parentVewHandle.getAxisType( ), findPosition( ), measureMap, funcMap );
 			reportHandle.pivotDimension( childViewHandle.getAxisType( ), childViewHandle.getIndex( ), getType( ), findPosition( ) );
+			CrosstabAdaptUtil.processInvaildBindings( reportHandle);
 		}
 		catch ( SemanticException e )
 		{

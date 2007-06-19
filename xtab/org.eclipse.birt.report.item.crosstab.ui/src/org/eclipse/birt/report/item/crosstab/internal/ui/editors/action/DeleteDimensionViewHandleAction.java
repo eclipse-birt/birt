@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -73,7 +74,9 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
+			CrosstabReportItemHandle handle = dimensionHandle.getCrosstab(  );
 			dimensionHandle.getCrosstab( ).removeDimension( dimensionHandle.getAxisType( ), dimensionHandle.getIndex( ) );
+			CrosstabAdaptUtil.processInvaildBindings(handle );
 		}
 		catch ( SemanticException e )
 		{

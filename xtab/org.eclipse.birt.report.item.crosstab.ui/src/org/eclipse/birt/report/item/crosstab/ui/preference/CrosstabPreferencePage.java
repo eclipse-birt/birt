@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.preference;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
@@ -22,9 +26,11 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -33,14 +39,19 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  */
 
 public class CrosstabPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage,IPropertyChangeListener
+		IWorkbenchPreferencePage,
+		IPropertyChangeListener
 {
 
 	private transient IntegerFieldEditor txtMaxLimit;
 
-	private static final int FILTER_LIMIT_DEFAULT = 100;
+	private Button autoDelBindings;
 
-	private static final int MAX_FILTER_LIMIT = 10000;
+	public static final int FILTER_LIMIT_DEFAULT = 100;
+
+	public static final int MAX_FILTER_LIMIT = 10000;
+
+	public static final boolean AUTO_DEL_BINDING_DEFAULT = true;
 
 	protected Control createContents( Composite parent )
 	{
@@ -67,13 +78,32 @@ public class CrosstabPreferencePage extends PreferencePage implements
 		txtMaxLimit.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 		txtMaxLimit.setValidRange( 1, MAX_FILTER_LIMIT );
 		txtMaxLimit.setEmptyStringAllowed( false );
-		txtMaxLimit.setStringValue( CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( CrosstabPlugin.PREFERENCE_FILTER_LIMIT ) );
 		txtMaxLimit.setPage( this );
 		txtMaxLimit.setPropertyChangeListener( this );
 
+		Group promptGroup = new Group(cmpTop, SWT.NONE);
+		promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
+		promptGroup.setLayout( new GridLayout( 1, false ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		promptGroup.setLayoutData( gd );
+		
+		autoDelBindings = new Button( promptGroup, SWT.CHECK );
+		autoDelBindings.setText( Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ) );
+//		new Label(promptGroup, SWT.NONE);
+		
+		initControlValues( );
+
 		return cmpTop;
+	}
+
+	private void initControlValues( )
+	{
+		txtMaxLimit.setStringValue( CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( CrosstabPlugin.PREFERENCE_FILTER_LIMIT ) );
+		autoDelBindings.setSelection( CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) );
 	}
 
 	public void init( IWorkbench workbench )
@@ -93,11 +123,14 @@ public class CrosstabPreferencePage extends PreferencePage implements
 					.setValue( CrosstabPlugin.PREFERENCE_FILTER_LIMIT,
 							FILTER_LIMIT_DEFAULT );
 		}
+
 	}
 
 	protected void performDefaults( )
 	{
 		txtMaxLimit.setStringValue( String.valueOf( FILTER_LIMIT_DEFAULT ) );
+		autoDelBindings.setSelection( AUTO_DEL_BINDING_DEFAULT );
+
 		super.performDefaults( );
 	}
 
@@ -107,16 +140,51 @@ public class CrosstabPreferencePage extends PreferencePage implements
 				.getPluginPreferences( )
 				.setValue( CrosstabPlugin.PREFERENCE_FILTER_LIMIT,
 						txtMaxLimit.getIntValue( ) );
+
+		CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+						autoDelBindings.getSelection( ) );
+
 		CrosstabPlugin.getDefault( ).savePluginPreferences( );
+	
+
 		return super.performOk( );
 	}
-	
+
 	public void propertyChange( PropertyChangeEvent event )
 	{
 		if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
 		{
 			setValid( txtMaxLimit.isValid( ) );
 		}
+	}
+	
+	
+	private void temp()
+	{
+		if(!CrosstabPlugin.getDefault( )
+				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ))
+		{
+			return;
+		}
+		MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion(  UIUtil.getDefaultShell( ),
+				"Remove Unused Bindings?",
+				"This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?", 
+				"Don't show this message again", 
+				!CrosstabPlugin.getDefault( )
+				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
+				null,
+				null);
+		
+		if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID || msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+		{
+			CrosstabPlugin.getDefault( )
+			.getPluginPreferences( )
+			.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+					!msgDlg.getToggleState( ) );
+		}
+		
 	}
 
 }
