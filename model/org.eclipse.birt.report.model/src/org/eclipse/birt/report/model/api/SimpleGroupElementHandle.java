@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -276,7 +277,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 						|| IDesignElementModel.NAME_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_NAME_PROP
 								.equals( propName )
-						|| propHandle.isExtensionModelProperty( ) )
+						|| propHandle.isExtensionModelProperty( )
+						|| propHandle.getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 				{
 					// ignore name, extends, extension id property.
 					continue;
