@@ -275,10 +275,22 @@ public class ScriptEvalUtil
 			}
 			else if ( MiscUtil.isBooleanOrString( obj1 ) && MiscUtil.isBooleanOrString( obj2 ) )
 			{
-			try
+				try
 				{
-					return DataTypeUtil.toBoolean( obj1 )
-							.compareTo( DataTypeUtil.toBoolean( obj2 ) );
+					boolean b1 = DataTypeUtil.toBoolean( obj1 ).booleanValue( );
+					boolean b2 = DataTypeUtil.toBoolean( obj2 ).booleanValue( );
+					if ( b1 == b2 )
+					{
+						return 0;
+					}
+					else if ( b1 == false && b2 == true )
+					{
+						return -1;
+					}
+					else
+					{
+						return 1;
+					}
 				}
 				catch ( Exception e )
 				{
