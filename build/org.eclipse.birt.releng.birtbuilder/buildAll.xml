@@ -55,9 +55,11 @@
 				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
+<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
+-->
 			</sequential>
 		</parallel>
 		<antcall target="runBirtTest"/>
@@ -143,7 +145,7 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 			
-		<!-- copy chart runtim to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
+		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
 		</ant>
@@ -214,12 +216,14 @@
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
 			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
 			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-        <!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
-        <property file="${buildDirectory}/finalPluginsVersions.properties"/>
-        <delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
-        <jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"
-                basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
-                manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
+		
+		<!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
+		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar" 
+			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
+			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
+
 		<!-- TODO:sign update jars -->
 		
 		<!-- repack update jar -->
