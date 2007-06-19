@@ -336,6 +336,7 @@ data.olap.invalidLevelAttr=Das Attribut ist ungültig:
 data.olap.invalidBindingReferToInexitDim=Die Bindung "{0}" verweist auf ungültige Ebenen.
 data.olap.invalidBindingReferToInexitMeasure=Die Bindung "{0}" verweist auf ungültige Einheiten.  
 data.olap.invalidBindingMissingAggrFunc=Die Aggregatfunktion der Bindung "{0}" fehlt.
+data.olap.invalidBindingAggrFilterNotSupported=The binding "{0}" contains aggregation filter, which is currently not supported for cross tab.
 data.olap.invalidAggrArgument=Nur ein Ebenenattribut kann als Aggregat-Argument fungieren.
 data.olap.axis.level.CantBeNull=Mitgliedsebene der Spalte darf nicht Null sein.
 data.olap.axis.value.CantBeNull=Wert von Mitgliedsebene \"{0}\" der Spalte darf nicht Null sein.
