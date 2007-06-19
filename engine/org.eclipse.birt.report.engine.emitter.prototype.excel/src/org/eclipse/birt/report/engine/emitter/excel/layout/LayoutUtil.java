@@ -89,7 +89,7 @@ public class LayoutUtil
 		{
 			return new DefaultTableInfo(index);
 		}
-		else if(left <= 0 && unmount.size( ) > 0)
+		else if(left <= 0 && unmount.size( ) >= 0)
 		{
 			return new DefaultTableInfo(split(width, colcount));
 		}
