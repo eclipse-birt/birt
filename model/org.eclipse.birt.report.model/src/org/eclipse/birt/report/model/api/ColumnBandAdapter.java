@@ -71,6 +71,10 @@ abstract class ColumnBandAdapter
 
 	protected abstract int getColumnCount( );
 
+	/**
+	 * 
+	 */
+	
 	ColumnBandAdapter( )
 	{
 		// data = new ColumnBandData( );
@@ -147,43 +151,6 @@ abstract class ColumnBandAdapter
 
 		// not return yet, paste/insert to the end of this row.
 		return -1;
-	}
-
-	/**
-	 * Returns the cell resides in the row.
-	 * 
-	 * @param row
-	 *            the row handle
-	 * @param columnToInsert
-	 *            the column number to insert, count from 1
-	 * @param insert
-	 *            whether insert mode
-	 * @return the cell in the given position
-	 */
-
-	protected CellHandle findCell( RowHandle row, int columnToInsert )
-	{
-		SlotHandle cells = row.getCells( );
-
-		for ( int i = 0; i < cells.getCount( ); i++ )
-		{
-			CellHandle cell = (CellHandle) cells.get( i );
-			int cellPos = getCellPosition( cell );
-
-			// found the cell
-
-			if ( columnToInsert == cellPos )
-				return cell;
-
-			// there was no corresponding cell on this row, should paste/insert
-			// on this position.
-
-			else if ( columnToInsert < cellPos + cell.getColumnSpan( ) )
-				return cell;
-		}
-
-		// not return yet, paste/insert to the end of this row.
-		return null;
 	}
 
 	/**
