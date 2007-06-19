@@ -445,7 +445,6 @@
 				<include name="org.eclipse.datatools.*/**" />
 			        <include name="org.apache.xerces_*.jar"/>
 			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="org.w3c.dom_*.jar"/>
 			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${plugin-dest}/features" >
@@ -456,7 +455,6 @@
 				<include name="org.eclipse.datatools.*/**" />
 			    <include name="org.apache.xerces_*.jar"/>
 			    <include name="org.apache.xml.resolver_*.jar"/>
-			    <include name="org.w3c.dom_*.jar"/>
 			    <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${package-dest}/dtp/eclipse/features" >
@@ -468,7 +466,6 @@
 				<include name="org.eclipse.datatools.*/**" />
 			        <include name="org.apache.xerces_*.jar"/>
 			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="org.w3c.dom_*.jar"/>
 			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-dest}/eclipse/features" >
@@ -479,7 +476,6 @@
 				<include name="org.eclipse.datatools.*/**" />
 			        <include name="org.apache.xerces_*.jar"/>
 			        <include name="org.apache.xml.resolver_*.jar"/>
-			        <include name="org.w3c.dom_*.jar"/>
 			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${AllInOne-Linux-dest}/eclipse/features" >
@@ -511,10 +507,10 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-                        <include name="org.eclipse.datatools.help_*.jar"/>
+            <include name="org.eclipse.datatools.help_*.jar"/>
+            <include name="org.eclipse.datatools.doc.isv_*.jar"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
-			<include name="org.w3c.dom_*.jar"/>
 			<include name="javax.wsdl_*.jar"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
@@ -633,8 +629,8 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/RC0_Platform">
-			<arg line="-o -q eclipse-test-framework-3.3M7.zip -d ${test.dir}" />
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/RC3_platform">
+			<arg line="-o -q eclipse-test-framework-3.3RC3.zip -d ${test.dir}" />
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}">
