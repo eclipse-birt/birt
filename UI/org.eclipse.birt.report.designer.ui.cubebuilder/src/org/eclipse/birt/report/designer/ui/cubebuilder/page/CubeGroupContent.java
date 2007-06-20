@@ -1103,7 +1103,7 @@ public class CubeGroupContent extends Composite implements Listener
 					else
 						addBtn.setEnabled( true );
 
-					if ( dimenTemp.isTimeType( ) )
+					if ( dimenTemp.isTimeType( ) && dataField!=null)
 					{
 						if ( isDateType( dataField.getDataType( ) )
 								&& dimenTemp.getDefaultHierarchy( )
