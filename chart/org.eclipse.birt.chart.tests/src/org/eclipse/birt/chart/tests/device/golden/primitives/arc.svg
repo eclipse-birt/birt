@@ -77,7 +77,16 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	}	
 	}	
 		
-			TM.show = function TooltiplManager_showTooltip(evt){	
+			TM.show = function TooltiplManager_showTooltip(evt,id){	
+        if (typeof id != 'undefined'){	
+     	       var mainSvg = evt.target.ownerDocument;	
+               var comp = mainSvg.getElementById(id);	
+               var styleStr = comp.getAttribute("style");	
+               rHiddenExp=/visibility:[ ]*hidden/g;	
+               results = styleStr.search(rHiddenExp);	
+               if (results != -1)	
+     		       return;	
+     }	
 		var text = TM.getText(TM.getTitleElement(evt));	
 		x = evt.clientX;	
 		y = evt.clientY;	
@@ -447,4 +456,4 @@ return "#"+rStr+gStr+bStr;
 	        }
 		return r+g+b;
 	}
-]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M380.57096354166663 111.5 C380.57096354166663 58.87174495589541 307.1400389472394 14.973092801569962 211.434175554928 10.386238143687834 L195.28548177083331 111.5 Z" style="fill-opacity:1.0;fill:#df0a37;stroke:none;"/><path d=" M380.57096354166663 181.5 C380.57096354166663 128.8717449558954 307.1400389472394 84.97309280156996 211.434175554928 80.38623814368783 L195.28548177083331 181.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M100.0 102.5 C100.0 100.53369611554285 99.48449597052122 98.57587518952296 98.46666218300808 96.67657148519328 L55.0 102.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M100.0 42.5 C100.0 30.07359312880715 79.8528137423857 20.0 55.0 20.0 L55.0 42.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M55.0 20.0 C30.147186257614305 20.0 10.000000000000007 30.073593128807147 10.0 42.5 L55.0 42.5 Z" style="stroke:#0000ff;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 42.5 C10.0 54.926406871192846 30.14718625761429 65.0 54.99999999999999 65.0 L55.0 42.5 Z" style="stroke:#00ff00;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M54.99999999999999 65.0 C79.85281374238569 65.0 100.0 54.92640687119285 100.0 42.50000000000001 L55.0 42.5 Z" style="stroke:#00ff00;stroke-width:1.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:start;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M380.57096354166663 111.5 C380.57096354166663 58.87174495589541 307.1400389472394 14.973092801569962 211.434175554928 10.386238143687834 L195.28548177083331 111.5 Z" style="fill-opacity:1.0;fill:#df0a37;stroke:none;"/><path d=" M380.57096354166663 181.5 C380.57096354166663 128.8717449558954 307.1400389472394 84.97309280156996 211.434175554928 80.38623814368783 L195.28548177083331 181.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M100.0 102.5 C100.0 100.53369611554285 99.48449597052122 98.57587518952296 98.46666218300808 96.67657148519328 L55.0 102.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M100.0 42.5 C100.0 30.07359312880715 79.8528137423857 20.0 55.0 20.0 L55.0 42.5 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M55.0 20.0 C30.147186257614305 20.0 10.000000000000007 30.073593128807147 10.0 42.5 L55.0 42.5 Z" style="stroke:#0000ff;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M10.0 42.5 C10.0 54.926406871192846 30.14718625761429 65.0 54.99999999999999 65.0 L55.0 42.5 Z" style="stroke:#00ff00;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M54.99999999999999 65.0 C79.85281374238569 65.0 100.0 54.92640687119285 100.0 42.50000000000001 L55.0 42.5 Z" style="stroke:#00ff00;stroke-width:1.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>

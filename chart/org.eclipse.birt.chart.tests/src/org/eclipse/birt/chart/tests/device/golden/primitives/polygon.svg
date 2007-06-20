@@ -77,7 +77,16 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	}	
 	}	
 		
-			TM.show = function TooltiplManager_showTooltip(evt){	
+			TM.show = function TooltiplManager_showTooltip(evt,id){	
+        if (typeof id != 'undefined'){	
+     	       var mainSvg = evt.target.ownerDocument;	
+               var comp = mainSvg.getElementById(id);	
+               var styleStr = comp.getAttribute("style");	
+               rHiddenExp=/visibility:[ ]*hidden/g;	
+               results = styleStr.search(rHiddenExp);	
+               if (results != -1)	
+     		       return;	
+     }	
 		var text = TM.getText(TM.getTitleElement(evt));	
 		x = evt.clientX;	
 		y = evt.clientY;	
@@ -447,4 +456,4 @@ return "#"+rStr+gStr+bStr;
 	        }
 		return r+g+b;
 	}
-]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M5.0 5.0 L45.0 45.0 L5.0 45.0 L45.0 5.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M45.0 5.0 L85.0 45.0 L45.0 45.0 L85.0 5.0 Z" style="fill-opacity:1.0;fill:#df0a37;stroke:none;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="fill-opacity:0.4117647058823529;fill:#170a37;stroke:none;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:start;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M5.0 5.0 L45.0 45.0 L5.0 45.0 L45.0 5.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M45.0 5.0 L85.0 45.0 L45.0 45.0 L85.0 5.0 Z" style="fill-opacity:1.0;fill:#df0a37;stroke:none;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="stroke:#9c0726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M182.0 58.0 L232.0 93.0 L182.0 127.0 L182.0 96.0 L127.0 96.0 L83.0 128.0 L26.0 128.0 L75.0 93.0 L26.0 58.0 L83.0 58.0 L127.0 89.0 L182.0 89.0 Z" style="fill-opacity:0.4117647058823529;fill:#170a37;stroke:none;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>

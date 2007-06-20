@@ -77,7 +77,16 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	}	
 	}	
 		
-			TM.show = function TooltiplManager_showTooltip(evt){	
+			TM.show = function TooltiplManager_showTooltip(evt,id){	
+        if (typeof id != 'undefined'){	
+     	       var mainSvg = evt.target.ownerDocument;	
+               var comp = mainSvg.getElementById(id);	
+               var styleStr = comp.getAttribute("style");	
+               rHiddenExp=/visibility:[ ]*hidden/g;	
+               results = styleStr.search(rHiddenExp);	
+               if (results != -1)	
+     		       return;	
+     }	
 		var text = TM.getText(TM.getTitleElement(evt));	
 		x = evt.clientX;	
 		y = evt.clientY;	
@@ -447,4 +456,4 @@ return "#"+rStr+gStr+bStr;
 	        }
 		return r+g+b;
 	}
-]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 10.0 L29.0 10.0 L29.0 29.0 L10.0 29.0 L10.0 10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 30.0 L30.0 30.0 L30.0 50.0 L10.0 50.0 L10.0 30.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M-10.0 -10.0 L9.0 -10.0 L9.0 9.0 L-10.0 9.0 L-10.0 -10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M-10.0 -30.0 L10.0 -30.0 L10.0 -10.0 L-10.0 -10.0 L-10.0 -30.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M0.0 50.0 L9.0 50.0 L9.0 59.0 L0.0 59.0 L0.0 50.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M0.0 50.0 L10.0 50.0 L10.0 60.0 L0.0 60.0 L0.0 50.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M44.34 12.23 L143.8623 12.23 L143.8623 23.431 L44.34 23.431 L44.34 12.23 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M44.34 62.23 L144.8623 62.23 L144.8623 74.431 L44.34 74.431 L44.34 62.23 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:start;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 10.0 L29.0 10.0 L29.0 29.0 L10.0 29.0 L10.0 10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M10.0 30.0 L30.0 30.0 L30.0 50.0 L10.0 50.0 L10.0 30.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M-10.0 -10.0 L9.0 -10.0 L9.0 9.0 L-10.0 9.0 L-10.0 -10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M-10.0 -30.0 L10.0 -30.0 L10.0 -10.0 L-10.0 -10.0 L-10.0 -30.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M0.0 50.0 L9.0 50.0 L9.0 59.0 L0.0 59.0 L0.0 50.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M0.0 50.0 L10.0 50.0 L10.0 60.0 L0.0 60.0 L0.0 50.0 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/><path d=" M44.34 12.23 L143.8623 12.23 L143.8623 23.431 L44.34 23.431 L44.34 12.23 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linecap:square;"/><path d=" M44.34 62.23 L144.8623 62.23 L144.8623 74.431 L44.34 74.431 L44.34 62.23 Z" style="fill-opacity:1.0;fill:#170a37;stroke:none;"/></g><g id="hotSpots" style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
