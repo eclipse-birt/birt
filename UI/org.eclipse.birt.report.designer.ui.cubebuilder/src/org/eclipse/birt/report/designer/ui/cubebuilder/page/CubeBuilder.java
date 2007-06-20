@@ -93,7 +93,6 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		}
 
 		Control control = super.createContents( parent );
-		UIUtil.bindHelp( control, IHelpContextIds.CUBE_BUILDER_DIALOG );
 		return control;
 	}
 

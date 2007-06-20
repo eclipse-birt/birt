@@ -208,7 +208,14 @@ public interface IHelpContextIds
 	public static final String SELECTION_CHOICE_DIALOG = PREFIX
 			+ "SelectionChoiceDialog_ID";
 
-	public static final String CUBE_BUILDER_DIALOG = PREFIX + "CubeBuilder_ID";
+	public static final String CUBE_BUILDER_DATASET_SELECTION_PAGE = PREFIX
+			+ "CubeBuilderDataSetSelectionPage_ID";
+
+	public static final String CUBE_BUILDER_GROUPS_PAGE = PREFIX
+			+ "CubeBuilderGroupsPage_ID";
+
+	public static final String CUBE_BUILDER_LINK_GROUPS_PAGE = PREFIX
+			+ "CubeBuilderLinkGroupsPage_ID";
 
 	public static final String LEVEL_PROPERTY_DIALOG = PREFIX
 			+ "LevelPropertyDialog_ID";

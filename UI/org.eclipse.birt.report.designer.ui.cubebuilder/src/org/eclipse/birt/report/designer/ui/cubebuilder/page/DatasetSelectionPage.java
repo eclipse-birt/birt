@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
@@ -52,6 +54,8 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE );
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalEditPartsFactory;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalViewerKeyHandler;
@@ -54,6 +56,8 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE );
+
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.verticalSpacing = 0;
