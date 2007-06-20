@@ -19,8 +19,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.DateLevelDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.MeasureDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
@@ -769,7 +769,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 									}
 
-									if ( isDateType( dataField.getDataType( ) ) )
+									if ( isDateType( dataField.getDataType( ) )
+											&& hierarchy.getLevelCount( ) == 0 )
 									{
 										// if ( hierarchy.getContentCount(
 										// IHierarchyModel.LEVELS_PROP ) > 0 )
@@ -1103,19 +1104,26 @@ public class CubeGroupContent extends Composite implements Listener
 						addBtn.setEnabled( true );
 
 					if ( dimenTemp.isTimeType( ) )
-						addBtn.setEnabled( false );
-
-					if ( dataField != null
-							&& isDateType( dataField.getDataType( ) ) )
 					{
-						if ( dimenTemp.getDefaultHierarchy( )
-								.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
-						{
-							addBtn.setEnabled( false );
-						}
-						else
+						if ( isDateType( dataField.getDataType( ) )
+								&& dimenTemp.getDefaultHierarchy( )
+										.getLevelCount( ) == 0 )
 							addBtn.setEnabled( true );
+						else
+							addBtn.setEnabled( false );
 					}
+
+					// if ( dataField != null
+					// && isDateType( dataField.getDataType( ) ) )
+					// {
+					// if ( dimenTemp.getDefaultHierarchy( )
+					// .getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+					// {
+					// addBtn.setEnabled( false );
+					// }
+					// else
+					// addBtn.setEnabled( true );
+					// }
 
 				}
 
@@ -1523,8 +1531,8 @@ public class CubeGroupContent extends Composite implements Listener
 				Object obj = iter.next( );
 				if ( obj instanceof TabularLevelHandle )
 				{
-					if ( isDateType( dataField.getDataType( ) ) )
-						continue;
+					// if ( isDateType( dataField.getDataType( ) ) )
+					// continue;
 
 					TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) ( (TabularLevelHandle) obj ).getContainer( ) );
 					TabularDimensionHandle dimension = (TabularDimensionHandle) hierarchy.getContainer( );
@@ -1626,28 +1634,24 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					try
 					{
-						if ( isDateType( dataField.getDataType( ) ) )
+						if ( isDateType( dataField.getDataType( ) )
+								&& hierarchy.getLevelCount( ) == 0 )
 						{
-							if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+
+							GroupDialog dialog = new GroupDialog( true );
+							dialog.setInput( hierarchy,
+									dataField.getColumnName( ) );
+							if ( dialog.open( ) == Window.CANCEL )
 							{
-								continue;
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
 							}
 							else
-							{
-								GroupDialog dialog = new GroupDialog( true );
-								dialog.setInput( hierarchy,
-										dataField.getColumnName( ) );
-								if ( dialog.open( ) == Window.CANCEL )
-								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
-								}
-								else
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
-							}
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.commit( );
+
 						}
 						else
 						{
@@ -1863,7 +1867,10 @@ public class CubeGroupContent extends Composite implements Listener
 					refresh( );
 				};
 			}
-			else if ( obj instanceof DimensionHandle )
+			else if ( obj instanceof DimensionHandle
+					&& ( (DimensionHandle) obj ).isTimeType( )
+					&& ( (DimensionHandle) obj ).getDefaultHierarchy( )
+							.getLevelCount( ) > 0 )
 			{
 				GroupDialog dialog = new GroupDialog( false );
 				dialog.setInput( (TabularHierarchyHandle) ( (DimensionHandle) obj ).getDefaultHierarchy( ) );
