@@ -76,7 +76,7 @@ public class CubeCursorImpl implements ICubeCursor
 				OLAPExpressionCompiler.compile( binding.getExpression( ) );
 			}
 			dataTypeMap.put( binding.getBindingName( ),
-					Integer.valueOf( binding.getDataType( ) ) );
+					new Integer( binding.getDataType( ) ) );
 		}
 		
 		this.scope.put( "data", this.scope, new JSCubeBindingObject( this ));
