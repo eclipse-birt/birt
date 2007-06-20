@@ -813,7 +813,8 @@ public class ExpressionProvider implements IExpressionProvider
 		return false;
 	}
 
-	@Override
+	// @Override
+	// Custom expression provider needs to override
 	public Object getAdapter( Class adapter )
 	{
 		// TODO Auto-generated method stub
