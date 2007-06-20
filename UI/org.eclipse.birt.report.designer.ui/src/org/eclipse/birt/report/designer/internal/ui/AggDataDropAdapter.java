@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.window.Window;
 
@@ -50,18 +51,22 @@ public class AggDataDropAdapter implements IDropAdapter
 			if ( target instanceof TableCellEditPart )
 			{
 				CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
-				int slotId = cellHandle.getContainer( )
-						.getContainerSlotHandle( )
-						.getSlotID( );
-				if ( slotId == TableHandle.HEADER_SLOT
-						|| slotId == TableHandle.FOOTER_SLOT
-						|| slotId == TableHandle.GROUP_SLOT )
+				if ( cellHandle.getContainer( ).getContainer( ) instanceof TableHandle
+						|| cellHandle.getContainer( ).getContainer( ) instanceof TableGroupHandle )
 				{
-					return DNDService.LOGIC_TRUE;
-				}
-				else
-				{
-					return DNDService.LOGIC_FALSE;
+					int slotId = cellHandle.getContainer( )
+							.getContainerSlotHandle( )
+							.getSlotID( );
+					if ( slotId == TableHandle.HEADER_SLOT
+							|| slotId == TableHandle.FOOTER_SLOT
+							|| slotId == TableHandle.GROUP_SLOT )
+					{
+						return DNDService.LOGIC_TRUE;
+					}
+					else
+					{
+						return DNDService.LOGIC_FALSE;
+					}
 				}
 			}
 			else if ( target instanceof ListBandEditPart )
