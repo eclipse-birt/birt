@@ -28,6 +28,7 @@ public abstract class AbstractBindingDialogHelper implements
 	protected DataColumnBindingDialog dialog;
 	private boolean isAggregate = false;
 	protected ExpressionProvider expressionProvider;
+	private Object itemContainer;
 
 	public boolean isAggregate( )
 	{
@@ -87,4 +88,14 @@ public abstract class AbstractBindingDialogHelper implements
 		this.expressionProvider = expressionProvider;
 	}
 
+	public void setDataItemContainer( Object itemContainer )
+	{
+		this.itemContainer = itemContainer;
+	}
+
+	public Object getDataItemContainer( )
+	{
+		return this.itemContainer;
+	}
+	
 }

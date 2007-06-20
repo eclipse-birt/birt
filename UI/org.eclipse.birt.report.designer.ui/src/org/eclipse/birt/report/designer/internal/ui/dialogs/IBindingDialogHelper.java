@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 public interface IBindingDialogHelper
 {
 
+	void setDataItemContainer( Object itemContainer );
+	
 	void setBindingHolder( ReportItemHandle bindingHolder );
 
 	void setBinding( ComputedColumnHandle binding );
