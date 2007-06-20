@@ -380,7 +380,7 @@ public class GroupDialog extends TitleAreaDialog
 									dateType );
 					try
 					{
-						level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+						level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
 						level.setDateTimeLevelType( dateType );
 						level.setColumnName( dataField );
 						hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
@@ -411,7 +411,7 @@ public class GroupDialog extends TitleAreaDialog
 												dateType );
 								try
 								{
-									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
 									level.setDateTimeLevelType( dateType );
 									level.setColumnName( dataField );
 									hierarchy.add( HierarchyHandle.LEVELS_PROP,
@@ -435,7 +435,7 @@ public class GroupDialog extends TitleAreaDialog
 										dateType );
 						try
 						{
-							level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+							level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
 							level.setDateTimeLevelType( dateType );
 							level.setColumnName( dataField );
 							hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
