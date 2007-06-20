@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -20,7 +21,7 @@ import org.eclipse.swt.graphics.Image;
  * editor for a given element.
  */
 
-public interface IExpressionProvider
+public interface IExpressionProvider extends IAdaptable
 {
 	
 	/** The operator separator */
