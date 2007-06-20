@@ -184,6 +184,10 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( true );
 			handleButtonSelection( dateButton );
 		}
+		if(!isNew){
+			WidgetUtil.setExcludeGridData( regularButton, true );
+			WidgetUtil.setExcludeGridData( dateButton, true );
+		}
 		if ( !isNew
 				&& !( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
 			levelViewer.getTree( ).setVisible( false );
