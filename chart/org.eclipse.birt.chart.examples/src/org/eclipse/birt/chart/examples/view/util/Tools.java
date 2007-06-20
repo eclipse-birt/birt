@@ -26,6 +26,7 @@ public class Tools
 	public Runnable action;
 	public Image image = null;
 	public Object data;
+	private boolean bEnabled;
 
 	public Tools( int id, String name, String group, int type )
 	{
@@ -40,5 +41,15 @@ public class Tools
 	{
 		this( id, name, group, type );
 		this.data = data;
+	}
+	
+	public void setEnabled( boolean bEnabled )
+	{
+		this.bEnabled = bEnabled;
+	}
+	
+	public boolean isEnabled( )
+	{
+		return this.bEnabled;
 	}
 }

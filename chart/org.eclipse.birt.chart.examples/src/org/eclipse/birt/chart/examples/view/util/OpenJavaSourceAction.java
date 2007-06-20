@@ -58,6 +58,7 @@ public class OpenJavaSourceAction extends Action
 		String id = tool.group + '.' + tool.name;
 		setId( id );
 		// action = tool.action;
+		setEnabled( tool.isEnabled( ));
 		setText( "Open" ); //$NON-NLS-1$
 		setToolTipText( "Open Java Source" ); //$NON-NLS-1$
 		setDescription( "Open Java Source from the relevant directory" ); //$NON-NLS-1$

@@ -210,6 +210,7 @@ public class ChartExamples implements SelectionListener
 			{
 				preview.renderModel( null );
 				description.setText( icp.getDefaultDescription( ) );
+				ChartExamplesView.setActionsEnabled(false);
 			}
 			else
 			{
@@ -219,6 +220,7 @@ public class ChartExamples implements SelectionListener
 						methodName ) );
 				preview.renderModel( getChartModel( ) );
 				description.setText( icp.getDescription( ( (TreeItem) e.item ).getText( ) ) );
+				ChartExamplesView.setActionsEnabled(true);
 			}
 		}
 

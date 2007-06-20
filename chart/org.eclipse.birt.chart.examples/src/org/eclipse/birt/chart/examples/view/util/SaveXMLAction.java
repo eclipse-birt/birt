@@ -36,6 +36,7 @@ public class SaveXMLAction extends Action
 		String id = tool.group + '.' + tool.name;
 		setId( id );
 
+		setEnabled( tool.isEnabled( ));
 		setText( "Save" ); //$NON-NLS-1$
 		setToolTipText( "Save XML Source" ); //$NON-NLS-1$
 		setDescription( "Save XML Source to the designated directory" ); //$NON-NLS-1$

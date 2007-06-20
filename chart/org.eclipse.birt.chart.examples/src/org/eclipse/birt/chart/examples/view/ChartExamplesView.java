@@ -33,6 +33,9 @@ public class ChartExamplesView extends ViewPart
 
 	ChartExamples instance = null;
 
+	static SaveXMLAction sxAction = null;
+	
+	static OpenJavaSourceAction opsAction = null;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -85,16 +88,24 @@ public class ChartExamplesView extends ViewPart
 	{
 		if ( tool.name.equals( "Save" ) ) //$NON-NLS-1$
 		{
-			return new SaveXMLAction( tool, cmp );
+			sxAction = new SaveXMLAction( tool, cmp );
+			return sxAction;
 		}
 		else if ( tool.name.equals( "Open" ) ) //$NON-NLS-1$
 		{
-			return new OpenJavaSourceAction( tool,
+			opsAction = new OpenJavaSourceAction( tool,
 					getViewSite( ).getWorkbenchWindow( ) );
+			return opsAction;
 		}
 		else
 		{
 			return null;
 		}
+	}
+	
+	public static void setActionsEnabled( boolean bEnabled )
+	{
+		sxAction.setEnabled( bEnabled );
+		opsAction.setEnabled( bEnabled );
 	}
 }
