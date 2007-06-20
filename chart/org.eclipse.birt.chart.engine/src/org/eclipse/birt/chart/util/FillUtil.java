@@ -195,7 +195,10 @@ public class FillUtil
 				color.getBlue( ) );
 		if ( currentLuminance < 200 )
 		{
-			gradient.setStartColor( color );
+			ColorDefinition newStartColor = (ColorDefinition) EcoreUtil.copy( color );
+			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
+			gradient.setStartColor( newStartColor );
+			
 			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
@@ -207,7 +210,10 @@ public class FillUtil
 		}
 		else
 		{
-			gradient.setEndColor( color );
+			ColorDefinition newEndColor = (ColorDefinition) EcoreUtil.copy( color );
+			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
+			gradient.setEndColor( newEndColor );
+			
 			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
