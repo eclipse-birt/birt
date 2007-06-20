@@ -22,7 +22,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.servlet.BirtSoapMessageDispatcherServlet;
 import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.context.BirtContext;
@@ -144,10 +143,8 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response ) throws BirtException
 	{
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
 		BirtReportServiceFactory.getReportService( ).setContext(
-				getServletContext( ), options );
+				getServletContext( ), null );
 		return new BirtContext( request, response );
 	}
 

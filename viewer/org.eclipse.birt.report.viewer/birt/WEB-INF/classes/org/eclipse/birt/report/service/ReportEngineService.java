@@ -122,11 +122,6 @@ public class ReportEngineService
 	private HTMLServerImageHandler imageHandler = null;
 
 	/**
-	 * Web app context path.
-	 */
-	private String contextPath = null;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param servletContext
@@ -265,10 +260,23 @@ public class ReportEngineService
 	 * 
 	 * @param servletContext
 	 * @param request
+	 * @deprecated
 	 * @throws BirtException
 	 */
 	public synchronized void setEngineContext( ServletContext servletContext,
 			HttpServletRequest request ) throws BirtException
+	{
+		setEngineContext( servletContext );
+	}
+
+	/**
+	 * Set Engine context.
+	 * 
+	 * @param servletContext
+	 * @throws BirtException
+	 */
+	public synchronized void setEngineContext( ServletContext servletContext )
+			throws BirtException
 	{
 		if ( engine == null )
 		{
@@ -291,8 +299,6 @@ public class ReportEngineService
 
 			// Get supported output formats
 			ParameterAccessor.supportedFormats = engine.getSupportedFormats( );
-
-			contextPath = request.getContextPath( );
 		}
 	}
 
@@ -491,7 +497,7 @@ public class ReportEngineService
 			baseURL = ""; //$NON-NLS-1$
 
 		// append application context path
-		baseURL += this.contextPath;
+		baseURL += request.getContextPath( );
 
 		HTMLRenderOption renderOption = new HTMLRenderOption( );
 		renderOption.setImageDirectory( ParameterAccessor
@@ -532,7 +538,7 @@ public class ReportEngineService
 			baseURL = ""; //$NON-NLS-1$
 
 		// append application context path
-		baseURL += this.contextPath;
+		baseURL += request.getContextPath( );
 
 		PDFRenderOption renderOption = new PDFRenderOption( );
 		if ( servletPath != null && servletPath.length( ) > 0 )

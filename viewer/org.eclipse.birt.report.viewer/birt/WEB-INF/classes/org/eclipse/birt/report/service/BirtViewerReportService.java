@@ -877,11 +877,8 @@ public class BirtViewerReportService implements IViewerReportService
 	public void setContext( Object context, InputOptions options )
 			throws BirtException
 	{
-		HttpServletRequest request = (HttpServletRequest) options
-				.getOption( InputOptions.OPT_REQUEST );
-		ServletContext servletContext = (ServletContext) context;
-		ReportEngineService.getInstance( ).setEngineContext( servletContext,
-				request );
+		ReportEngineService.getInstance( ).setEngineContext(
+				(ServletContext) context );
 	}
 
 	/**

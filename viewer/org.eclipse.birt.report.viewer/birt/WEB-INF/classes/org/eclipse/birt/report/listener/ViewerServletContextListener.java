@@ -14,6 +14,7 @@ package org.eclipse.birt.report.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
@@ -56,5 +57,14 @@ public class ViewerServletContextListener implements ServletContextListener
 		IViewerReportService instance = new BirtViewerReportService( event
 				.getServletContext( ) );
 		BirtReportServiceFactory.init( instance );
+		try
+		{
+			BirtReportServiceFactory.getReportService( ).setContext(
+					event.getServletContext( ), null );
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
 	}
 }
