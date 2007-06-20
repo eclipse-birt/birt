@@ -32,6 +32,8 @@ import org.osgi.framework.Bundle;
 public class WebappAccessor
 {
 
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
+
 	private static boolean applicationsStarted = false;
 
 	/**
@@ -64,7 +66,17 @@ public class WebappAccessor
 	{
 		if ( applicationsStarted )
 			return;
-		
+
+		// Set the classpath property (used in Java scripting)
+		String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
+
+		// HashTable doesn't accept null value
+		if ( projectClassPaths == null )
+		{
+			projectClassPaths = ""; //$NON-NLS-1$
+		}
+		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
+
 		IPath webappPath = getWebappPath( pluginId, path );
 
 		// we get the server before constructing the class loader, so

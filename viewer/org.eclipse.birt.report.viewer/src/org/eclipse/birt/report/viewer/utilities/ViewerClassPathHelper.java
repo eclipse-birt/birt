@@ -26,8 +26,6 @@ import java.util.Vector;
 public class ViewerClassPathHelper
 {
 
-	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
-
 	static protected boolean inDevelopmentMode = false;
 	static protected String[] devDefaultClasspath;
 	static protected Properties devProperties = null;
@@ -123,22 +121,5 @@ public class ViewerClassPathHelper
 			// TODO consider logging here
 		}
 		return props;
-	}
-
-	/**
-	 * Set workspace classpath
-	 */
-	public static void setWorkspaceClassPath( )
-	{
-		// register workspace classpath finder
-		IWorkspaceClasspathFinder finder = new WorkspaceClasspathFinder();
-		WorkspaceClasspathManager.registerClassPathFinder( finder );
-		
-		// Set the classpath property
-		String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
-		if ( projectClassPaths == null )
-			projectClassPaths = ""; //$NON-NLS-1$
-
-		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
 	}
 }
