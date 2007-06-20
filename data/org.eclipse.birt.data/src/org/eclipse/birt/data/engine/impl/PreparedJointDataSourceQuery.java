@@ -82,7 +82,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	
 	private IQueryResults leftQueryResults;
 	private IQueryResults rightQueryResults;
-
+	
+	private IResultMetaData leftResultMetaData;
+	private IResultMetaData rightResultMetaData;
+		
 	/**
 	 * Constructor.
 	 * 
@@ -113,30 +116,17 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	private void initialize( DataEngineImpl dataEngine, Map appContext )
-			throws DataException
 	{
-		try
-		{
-			int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
+		int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
 
-			ResultIterator left = (ResultIterator) this.leftQueryResults.getResultIterator( );
-			ResultIterator right = (ResultIterator) this.rightQueryResults.getResultIterator( );
-
-			getDataSetCacheManager( ).setCacheOption( savedCacheOption );
-			getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
-			this.left = left;
-			this.right = right;
-			this.joinType = dataSet.getJoinType( );
-			this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
-					right.getOdiResult( ),
-					left.getScope( ),
-					right.getScope( ),
-					dataSet.getJoinConditions( ) );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
-		}
+		getDataSetCacheManager( ).setCacheOption( savedCacheOption );
+		getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
+		this.joinType = dataSet.getJoinType( );
+		this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
+				right.getOdiResult( ),
+				left.getScope( ),
+				right.getScope( ),
+				dataSet.getJoinConditions( ) );
 	}
 
 	/**
@@ -147,14 +137,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	private void initializeResultClass( DataEngineImpl dataEngine, Map appContext )
-			throws DataException
+	private void initializeResultClass( DataEngineImpl dataEngine,
+			Map appContext ) throws DataException
 	{
 		try
 		{
-			IResultMetaData leftMetaData = this.leftQueryResults.getResultMetaData( );
-			IResultMetaData rightMetaData = this.rightQueryResults.getResultMetaData( );
-
+			IResultMetaData leftMetaData = this.leftResultMetaData;
+			IResultMetaData rightMetaData = this.rightResultMetaData;
+			
 			JointResultMetadata meta = getJointResultMetadata( leftMetaData,
 					rightMetaData );
 
@@ -395,6 +385,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	private void setParameterBindings( DataEngineImpl dataEngine, String dataSetDesignName, boolean isLeftDataSet, QueryDefinition queryDefinition ) throws DataException
 	{
+		IBaseDataSetDesign dataSetDesign = dataEngine.getDataSetDesign( dataSetDesignName );
 		if( dataSetDesign == null )
 		{
 			throw new DataException( ResourceConstants.UNDEFINED_DATA_SET, dataSetDesignName );
@@ -453,15 +444,19 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 	/**
 	 * cache the left and right queryResults to improve the efficiency
-	 * 
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
-	private void populatePreparedQuery( ) throws DataException
+	private void populatePreparedQuery( ) throws BirtException
 	{
 		this.leftQueryResults = populatePreparedQuery( true,
 				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
+		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
+		this.left = (ResultIterator) this.leftQueryResults.getResultIterator( );
+
 		this.rightQueryResults = populatePreparedQuery( false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
+		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
+		this.right = (ResultIterator) this.rightQueryResults.getResultIterator( );
 	}
 
 	/**
@@ -545,10 +540,18 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			setCurrentDataSet( dataSetDesign );
-			populatePreparedQuery( );
+			try
+			{
+				populatePreparedQuery( );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 			// Lazzily initialize the PreparedJointDataSourceQuery here.
 			// The creation of JointDataSetQuery need IResultClass instance
 			// as input argment.
+			//if ( doesLoadFromCache( ) == false )
 			initializeResultClass( dataEngine, appContext );
 			return new JointDataSetQuery( resultClass );
 		}
