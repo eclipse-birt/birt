@@ -160,11 +160,11 @@ public class ExcelUtil
 	{
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
-			return (int) value.getMeasure( ) / 100 * parent;
+			return (int) (value.getMeasure( ) / 100 * parent);
 		}
 		else
 		{
-			return (int) value.convertTo( DimensionType.UNITS_PT );
+			return (int) (value.convertTo( DimensionType.UNITS_PT ));
 		}
 	}	
 }
