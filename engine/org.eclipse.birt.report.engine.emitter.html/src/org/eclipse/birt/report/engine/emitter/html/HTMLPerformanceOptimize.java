@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * 
@@ -123,15 +124,56 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	{
 		// implement the cell's clip.
 		styleBuffer.append( "overflow:hidden;" );
-		buildStyle( cell, styleBuffer );
+		
+		IStyle style = cell.getStyle( );
+		if ( null == style )
+		{
+			return;
+		}
+		// Build the Text Decoration for no embeddable view
+		AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
+
+		// Build the display
+		String value = style.getDisplay( );
+		if ( null != value )
+		{
+			styleBuffer.append( " display:" );
+			styleBuffer.append( value );
+			styleBuffer.append( ";" );
+		}
+		
+		if ( !isEmbeddable )
+		{
+			style = cell.getInlineStyle( );
+			if ( null == style )
+			{
+				return;
+			}
+		}
+
+		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
+
+		// Build the vertical-align
+		value = style.getVerticalAlign( );
+		if ( null != value )
+		{
+			styleBuffer.append( " vertical-align:" );
+			styleBuffer.append( value );
+			styleBuffer.append( ";" );
+		}
 	}
 
 	/**
-	 * the vertical-align and text-align has already been build in the method
-	 * buildCellStyle. this method should be empty.
+	 * the vertical-align has already been build in the method buildCellStyle.
 	 */
 	public void handleCellAlign( ICellContent cell )
 	{
+		IStyle cellStyle = cell.getStyle( );
+		CSSValue hAlign = cellStyle.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
+		{
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
+		}
 	}
 
 	/**
