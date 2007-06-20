@@ -178,7 +178,8 @@ public class PreviewCascadingMenuGroup implements
 		{
 			IContentType[] contentTypes = Platform.getContentTypeManager( )
 					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
-			if ( contentTypes[0] != null
+			if ( contentTypes.length > 0
+					&& contentTypes[0] != null
 					&& ( contentTypes[0].getId( )
 							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( )
 							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) )
