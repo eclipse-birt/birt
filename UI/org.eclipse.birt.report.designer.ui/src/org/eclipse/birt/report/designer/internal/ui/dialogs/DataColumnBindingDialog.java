@@ -54,6 +54,14 @@ public class DataColumnBindingDialog extends BaseDialog
 	{
 		return this.bindingColumn;
 	}
+	
+	public void setInput( ReportItemHandle bindingObject,
+			ComputedColumnHandle bindingColumn, Object container )
+	{
+		this.setInput( bindingObject, bindingColumn );
+		if(dialogHelper!=null)
+			dialogHelper.setDataItemContainer( container );
+	}
 
 	public void setInput( ReportItemHandle bindingObject,
 			ComputedColumnHandle bindingColumn )

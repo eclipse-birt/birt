@@ -12,16 +12,20 @@
 package org.eclipse.birt.report.designer.internal.ui;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.window.Window;
 
@@ -42,23 +46,46 @@ public class AggDataDropAdapter implements IDropAdapter
 		{
 
 		}
-		if ( transfer.equals( TEMPLATE ) && target instanceof TableCellEditPart )
+		if ( transfer.equals( TEMPLATE ) )
 		{
-			CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
-			int slotId = cellHandle.getContainer( )
-					.getContainerSlotHandle( )
-					.getSlotID( );
-			if ( slotId == TableHandle.HEADER_SLOT
-					|| slotId == TableHandle.FOOTER_SLOT
-					|| slotId == TableHandle.GROUP_SLOT )
+			if ( target instanceof TableCellEditPart )
 			{
-				return DNDService.LOGIC_TRUE;
+				CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
+				if ( cellHandle.getContainer( ).getContainer( ) instanceof TableHandle
+						|| cellHandle.getContainer( ).getContainer( ) instanceof TableGroupHandle )
+				{
+					int slotId = cellHandle.getContainer( )
+							.getContainerSlotHandle( )
+							.getSlotID( );
+					if ( slotId == TableHandle.HEADER_SLOT
+							|| slotId == TableHandle.FOOTER_SLOT
+							|| slotId == TableHandle.GROUP_SLOT )
+					{
+						return DNDService.LOGIC_TRUE;
+					}
+					else
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+				}
 			}
-			else
+			else if ( target instanceof ListBandEditPart )
 			{
-				return DNDService.LOGIC_FALSE;
+				ListBandProxy cellHandle = (ListBandProxy) ( (ListBandEditPart) target ).getModel( );
+				int slotId = cellHandle.getSlotId( );
+				if ( slotId == ListHandle.HEADER_SLOT
+						|| slotId == ListHandle.FOOTER_SLOT
+						|| slotId == ListHandle.GROUP_SLOT )
+				{
+					return DNDService.LOGIC_TRUE;
+				}
+				else
+				{
+					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
+
 		return DNDService.LOGIC_UNKNOW;
 	}
 
@@ -69,49 +96,49 @@ public class AggDataDropAdapter implements IDropAdapter
 		{
 
 		}
-		if ( transfer.equals( TEMPLATE ) && target instanceof TableCellEditPart )
+
+		//create data item, and pass it to AggregationDataBindingDialog
+		//start transaction
+		SessionHandleAdapter.getInstance( )
+				.getCommandStack( )
+				.startTrans( TRANS_NAME );
+
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( null );
+		try
 		{
-			//create data item, and pass it to AggregationDataBindingDialog
-			//start transaction
-			SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.startTrans( TRANS_NAME );
-
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( null );
-
-			CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
-			try
+			if ( target instanceof TableCellEditPart )
 			{
+				CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
 				cellHandle.addElement( dataHandle, CellHandle.CONTENT_SLOT );
-
-				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-				dialog.setInput( dataHandle );
-				dialog.setAggreate( true );
-
-				if ( dialog.open( ) == Window.OK )
-				{
-					dataHandle.setResultSetColumn( dialog.getBindingColumn( )
-							.getName( ) );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.commit( );
-				}
-				else
-				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.rollback( );
-				}
 			}
-			catch ( Exception e )
+			else if ( target instanceof ListBandEditPart )
+			{
+				ListBandProxy cellHandle = (ListBandProxy) ( (ListBandEditPart) target ).getModel( );
+				cellHandle.getSlotHandle( ).add( dataHandle );
+			}
+
+			DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+			dialog.setInput( dataHandle );
+			dialog.setAggreate( true );
+
+			if ( dialog.open( ) == Window.OK )
+			{
+				dataHandle.setResultSetColumn( dialog.getBindingColumn( )
+						.getName( ) );
+				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+			}
+			else
 			{
 				SessionHandleAdapter.getInstance( )
 						.getCommandStack( )
 						.rollback( );
-				ExceptionHandler.handle( e );
 			}
-
+		}
+		catch ( Exception e )
+		{
+			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			ExceptionHandler.handle( e );
 		}
 		return true;
 	}

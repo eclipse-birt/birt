@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -200,10 +201,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			String[] aggOns = getAggOns( xtabHandle );
 			cmbAggOn.setItems( aggOns );
 
+			String aggstr = "";
 			if ( getBinding( ) != null )
 			{
 				List aggOnList = getBinding( ).getAggregateOnList( );
-				String aggstr = "";
 				int i = 0;
 				for ( Iterator iterator = aggOnList.iterator( ); iterator.hasNext( ); )
 				{
@@ -213,13 +214,30 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					aggstr += name;
 					i++;
 				}
-				for ( int j = 0; j < aggOns.length; j++ )
+			}
+			else if ( getDataItemContainer( ) instanceof AggregationCellHandle )
+			{
+				AggregationCellHandle cellHandle = (AggregationCellHandle) getDataItemContainer( );
+				if ( cellHandle.getAggregationOnRow( ) != null )
 				{
-					if ( aggOns[j].equals( aggstr ) )
+					aggstr += cellHandle.getAggregationOnRow( )
+							.getFullName( );
+					if ( cellHandle.getAggregationOnColumn( ) != null )
 					{
-						cmbAggOn.select( j );
-						return;
+						aggstr += ",";
 					}
+				}
+				if ( cellHandle.getAggregationOnColumn( ) != null )
+				{
+					aggstr += cellHandle.getAggregationOnColumn( ).getFullName( );
+				}
+			}
+			for ( int j = 0; j < aggOns.length; j++ )
+			{
+				if ( aggOns[j].equals( aggstr ) )
+				{
+					cmbAggOn.select( j );
+					return;
 				}
 			}
 			cmbAggOn.select( 0 );
@@ -403,11 +421,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		try
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
-			String[] mesures = new String[xtabHandle.getMeasureCount( )+1];
+			String[] mesures = new String[xtabHandle.getMeasureCount( ) + 1];
 			mesures[0] = ""; //$NON-NLS-1$
 			for ( int i = 1; i < mesures.length; i++ )
 			{
-				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i-1 )
+				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i - 1 )
 						.getCubeMeasure( ) );
 			}
 			return mesures;
@@ -734,7 +752,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			this.newBinding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr , "," );
+			StringTokenizer token = new StringTokenizer( aggStr, "," );
 
 			while ( token.hasMoreTokens( ) )
 			{

@@ -266,6 +266,9 @@
 
       <dropAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDropAdapter"/>
       <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>
+      <dropAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.AggregationDropAdapter">
+      </dropAdapter>
 
    </extension>
    <extension
@@ -303,7 +306,7 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.NormalCrosstabCellAdapter"
+            adaptableType="org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter"
             class="org.eclipse.birt.report.item.crosstab.internal.ui.CrosstabCellMenuAdapterFactory">
          <adapter
                type="org.eclipse.jface.action.IMenuListener">
