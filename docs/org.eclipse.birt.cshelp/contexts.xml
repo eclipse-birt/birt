@@ -855,4 +855,39 @@ Use this dialog to select the values for a static parameter of display type list
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-12-7.html#wp192999" label="Static parameter example"/> 
 </context>
 
+<context id="CUBE_BUILDER_DATASET_SELECTION_PAGE" title="Data Set Selection Page ">
+<description>
+Select a data set to go into the group or summary categories.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CUBE_BUILDER_GROUPS_PAGE" title="Groups Page">
+<description>
+Create a group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CUBE_BUILDER_LINK_GROUPS_PAGE" title="Link Groups Page">
+<description>
+Create a group link.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="LEVEL_PROPERTY_DIALOG" title="Group Level Page">
+<description>
+Create a group level.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="MEASURE_DIALOG" title="Summaries Page">
+<description>
+Create a summary.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
 </contexts>
