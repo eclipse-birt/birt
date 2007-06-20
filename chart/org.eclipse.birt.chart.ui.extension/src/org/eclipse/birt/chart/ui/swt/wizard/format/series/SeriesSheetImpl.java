@@ -675,7 +675,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						.equals( seriesDefn.getDesignTimeSeries( )
 								.getDisplayName( ) ) )
 				{
-					btnStack.setEnabled( true );
+					if ( canStack &&
+							seriesDefn.getDesignTimeSeries( ).canBeStacked( ) )
+					{
+						btnStack.setEnabled( true );
+					}
 				}
 				else
 				{
