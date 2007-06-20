@@ -1392,8 +1392,8 @@ public class CubeGroupContent extends Composite implements Listener
 						.equals( ICubeModel.DIMENSIONS_PROP ) )
 				{
 					SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.startTrans( "" );
+							.getCommandStack( )
+							.startTrans( "" );
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( null );
 					try
@@ -1442,8 +1442,8 @@ public class CubeGroupContent extends Composite implements Listener
 						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				{
 					SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.startTrans( "" );
+							.getCommandStack( )
+							.startTrans( "" );
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( null );
 					try
@@ -1538,7 +1538,9 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						continue;
 					}
-					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					if ( hierarchy.getDataSet( ) == null )
 					{
 						try
@@ -1607,7 +1609,9 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						continue;
 					}
-					SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					if ( hierarchy.getDataSet( ) == null )
 					{
 						try
@@ -1691,7 +1695,9 @@ public class CubeGroupContent extends Composite implements Listener
 							measureGroup = (MeasureGroupHandle) obj;
 						else
 							measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
-						SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( "" );
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
@@ -1726,7 +1732,9 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					else if ( obj instanceof MeasureHandle )
 					{
-						SessionHandleAdapter.getInstance( ).getCommandStack( ).startTrans( "" );
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( "" );
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
@@ -1825,12 +1833,24 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				else
 				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					LevelPropertyDialog dialog = new LevelPropertyDialog( false );
 					dialog.setInput( level );
 					if ( dialog.open( ) == Window.OK )
 					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.commit( );
 						refresh( );
-					};
+					}
+					else
+					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.rollback( );
+					}
 				}
 			}
 			else if ( obj instanceof TabularMeasureHandle )
