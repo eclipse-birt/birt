@@ -7,7 +7,7 @@
 
         <emitter
               class="org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter"
-              format="xls prototype"
+              format="xls"
               id="org.eclipse.birt.report.engine.emitter.prototype.excel"
               mimeType="application/vnd.ms-excel"
               pagination="page-break-pagination"/>
