@@ -227,19 +227,6 @@ public class DataExtractionTaskV1 extends EngineTask
 		try
 		{
 			IDocArchiveReader reader = reportDocReader.getArchive( );
-			if ( reader.exists( ReportDocumentConstants.DATA_META_STREAM ) )
-			{
-				InputStream in = reader
-						.getStream( ReportDocumentConstants.DATA_META_STREAM );
-				try
-				{
-					loadResultSetMetaData( in );
-				}
-				finally
-				{
-					in.close( );
-				}
-			}
 			if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
 			{
 				InputStream in = reader
@@ -251,6 +238,22 @@ public class DataExtractionTaskV1 extends EngineTask
 				finally
 				{
 					in.close( );
+				}
+			}
+			else
+			{
+				if ( reader.exists( ReportDocumentConstants.DATA_META_STREAM ) )
+				{
+					InputStream in = reader
+							.getStream( ReportDocumentConstants.DATA_META_STREAM );
+					try
+					{
+						loadResultSetMetaData( in );
+					}
+					finally
+					{
+						in.close( );
+					}
 				}
 			}
 		}
