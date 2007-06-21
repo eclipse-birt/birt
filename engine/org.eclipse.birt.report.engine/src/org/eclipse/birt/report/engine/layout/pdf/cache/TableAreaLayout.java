@@ -877,7 +877,9 @@ public class TableAreaLayout
 						if(ca!=null)
 						{
 							ICellContent cc = (ICellContent)ca.getContent( );
-							cellContent = new ClonedCellContent(cc, getRowSpan((IRowContent)rowArea.getContent( ), ca));
+							cellContent = new ClonedCellContent(cc, getRowSpan(
+									(IRowContent) rowArea.getContent(), ca,
+									unresolvedRow.row));
 						}
 						
 					}
@@ -1009,8 +1011,9 @@ public class TableAreaLayout
 				if(ca!=null)
 				{
 					ICellContent cc = (ICellContent)ca.getContent( );
-					cellContent = new ClonedCellContent(cc, 
-							getRowSpan((IRowContent)row.getContent( ), ca));
+					cellContent = new ClonedCellContent(cc, getRowSpan(
+							(IRowContent) row.getContent(), ca,
+							unresolvedRow.row));
 				
 					//FIXME resolve column span conflict
 					//FIXME resolve content hierarchy
@@ -1029,10 +1032,10 @@ public class TableAreaLayout
 		}
 	} 
 	
-	protected int getRowSpan(IRowContent row, CellArea cell)
+	protected int getRowSpan(IRowContent row, CellArea cell, RowArea rowArea)
 	{
 		int rowSpan = cell.getRowSpan();
-		IContent rowContent = (IContent)cell.getContent( ).getParent( );
+		IContent rowContent = rowArea.getContent();
 		
 		if ( rowSpan > 1
 				&& ( !row.getInstanceID( ).toUniqueString( ).equals(
