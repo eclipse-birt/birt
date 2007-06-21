@@ -24,5 +24,5 @@ datasethandle.invalidColumnIndex=Ungültiger Spaltenindex.
 adapter.invalid.datetimetype=Der Typ für Datum/Zeit "{0}" ist ungültig.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
-invalid.datetime.value=DateTime value "{0}" is invalid.
-missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.
+invalid.datetime.value=Datums-/Uhrzeitwert "{0}" ist ungültig.
+missing.join.condition=Die Knotenpunktbedingung zwischen Faktentabelle und Dimension "{0}" fehlt.

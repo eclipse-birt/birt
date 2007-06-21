@@ -24,5 +24,5 @@ datasethandle.invalidColumnIndex=El índice de columna no es válido.
 adapter.invalid.datetimetype=El tipo de fecha/hora "{0}" no es válido.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
-invalid.datetime.value=DateTime value "{0}" is invalid.
-missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.
+invalid.datetime.value=El valor Fecha/Hora "{0}"no es válido.
+missing.join.condition=Falta la condición de combinación entre la tabla de hechos y las dimensiones "{0}".

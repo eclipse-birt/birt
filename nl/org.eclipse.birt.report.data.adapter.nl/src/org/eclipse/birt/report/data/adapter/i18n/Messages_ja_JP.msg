@@ -24,5 +24,5 @@ datasethandle.invalidColumnIndex=列のインデックスが無効です。
 adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
-invalid.datetime.value=DateTime value "{0}" is invalid.
-missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.
+invalid.datetime.value=日時の値 "{0}" が無効です。
+missing.join.condition=ファクトテーブルと次元 "{0}" の間のジョイン条件がありません。

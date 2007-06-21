@@ -24,5 +24,5 @@ datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
 adapter.invalid.datetimetype=날짜/시간 형식 "{0}"이(가) 잘못되었습니다.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
-invalid.datetime.value=DateTime value "{0}" is invalid.
-missing.join.condition=The join condition for between facttable and dimension "{0}" is missing.
+invalid.datetime.value=날짜/시간 값 "{0}"이(가) 잘못되었습니다.
+missing.join.condition=팩트 테이블과 차원 "{0}" 간의 조인 조건이 없습니다.
