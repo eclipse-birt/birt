@@ -818,7 +818,7 @@ Type a new expression in Value. Alternatively, to build an expression or access 
 </description>
 </context>
 
-<context id="AddEditSortkey_ID" title="New Sort Key">
+<context id="AddEditSortkey_ID" title="Sort Key">
 <description>
 Use this dialog to create or edit a sort key for this report item.
 
@@ -828,7 +828,7 @@ In Direction, select ascending or descending to indicate how to sort the report 
 </description>
 </context>
 
-<context id="AddEditFilterCondition_ID" title="New Filter Condition">
+<context id="AddEditFilterCondition_ID" title="Filter Condition">
 <description>
 Use this dialog to create or edit a filter condition for this report item.
 
@@ -855,39 +855,160 @@ Use this dialog to select the values for a static parameter of display type list
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-12-7.html#wp192999" label="Static parameter example"/> 
 </context>
 
-<context id="CUBE_BUILDER_DATASET_SELECTION_PAGE" title="Data Set Selection Page ">
+<context id="CubeBuilderDataSetSelectionPage_ID" title="Data Set Selection Page ">
 <description>
 Select a data set to go into the group or summary categories.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
 </context>
 
-<context id="CUBE_BUILDER_GROUPS_PAGE" title="Groups Page">
+<context id="CubeBuilderGroupsPage_ID" title="Groups Page">
 <description>
 Create a group.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
 </context>
 
-<context id="CUBE_BUILDER_LINK_GROUPS_PAGE" title="Link Groups Page">
+<context id="CubeBuilderLinkGroupsPage_ID" title="Link Groups Page">
 <description>
 Create a group link.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
 </context>
 
-<context id="LEVEL_PROPERTY_DIALOG" title="Group Level Page">
+<context id="LevelPropertyDialog_ID" title="Group Level Page">
 <description>
 Create a group level.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
 </context>
 
-<context id="MEASURE_DIALOG" title="Summaries Page">
+<context id="MeasureDialog_ID" title="Summary Field Properties">
 <description>
 Create a summary.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="AddEditSubTotal_ID" title="Subtotal">
+<description>
+Add a subtotal to a row or column in a cross tab, or edit an existing subtotal.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="AddEditGrandTotal_ID" title="Grand Total">
+<description>
+Add a grand total to a row or column in a cross tab, or edit an existing grand total.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="AddEditPageBreakDialog_ID" title="Page Break">
+<description>
+Add a page break before or after a group level in a cross tab, or edit an existing page break definition.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabFilterConditionBuilder_ID" title="Filter Condition">
+<description>
+Use this dialog to create or edit a filter condition for a group level on a cross tab.
+
+Select a data field as the filter from the drop-down menu, and then add a logical function and a value to filter by.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabSorterBuilder_ID" title="sort Key">
+<description>
+Use this dialog to create or edit a sort key for a group level on a cross tab.
+
+In Key, select a data field to sort on from the drop-down menu.  Alternatively, you can use the expression builder to create a complex sorting condition.
+
+In Direction, select ascending or descending to indicate how to sort the group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabFilterSelectValueDialog_ID" title="Select Value">
+<description>
+Select a value from the list to filter the cross tab group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabShowSummaryFieldDialog_ID" title="Show Summary Field">
+<description>
+Use this dialog to show or hide a summary field on a group level on a cross tab.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabLevelViewDialog_ID" title="Show Hide Group Level">
+<description>
+Use this dialog to show or hide a group level on a cross tab with a hierarchical dimension, such as year, quarter, month.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CrossTabAggregationDialog_ID" title="Aggregation Builder">
+<description>
+Use this dialog to build or modify an aggregate expression.
+- In Display Name, type the display name.
+- In Data Type, select the type of the data to display.
+- In Function, select the aggregation function.
+- In Data Field, select the field on which to aggregate.
+- In Filter Condition, type an expression to select the rows to aggregate.
+- In Aggregate On, select a grouping level.
+Choose OK.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-09-1.html" label="Aggregating Data"/>
+</context>
+
+<context id="CubeBuilderGroupDialog_ID" title="Group Level">
+<description>
+set or modify the properties of the group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CubeBuilderDateLevelDialog_ID" title="Group Level">
+<description>
+Set or modify the properties of a date time group.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="CubeBuilderFilterListDialog_ID" title="Filter">
+<description>
+Use this dialog to create or edit a filter condition for the data set rows that the cube uses.
+
+Select a data field as the filter from the drop-down menu, and then add a logical function and a value to filter by.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-17-1" label="Presenting Data in a Cross Tab"/> 
+</context>
+
+<context id="AddCSSDialog_ID" title="Add CSS File">
+<description>
+Add a cascading style sheet (CSS) file as a resource.
+- In Source File, type or browse to an existing CSS file.
+- In File Name, accept the default or type a new name to save the file in the project.
+- In Folder, browse to a folder to save the CSS file.
+Choose Finish.
+</description>
+</context>
+
+<context id="PublishCSSDialog_ID" title="Publish CSS File">
+<description>
+Publish a cascading style sheet (CSS) file to the resource folder.
+</description>
+</context>
+
+<context id="UseCssInReportDialog_ID" title="Use CSS">
+<description>
+Select a cascading style sheet (CSS) file to use in the report design. The valid CSS styles are displayed in Available styles. CSS styles that BIRT cannot use are displayed in Notifications.
+</description>
 </context>
 
 </contexts>

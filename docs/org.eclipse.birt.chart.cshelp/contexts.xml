@@ -462,4 +462,102 @@ Note that if you want the x-axis title to be displayed, you may have to click <b
 </description>
 
 </context>
+
+<context id="FormatChartTitle_ID" title="Format Chart Title">
+<description>
+Use this page to replace the default title, such as Bar Chart Title, with a name for your chart.  You can specify a font for the title or accept the default font.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp226891" label="Updating the chart title"/>
+</context>
+
+<context id="FormatGanttChartYSeries_ID" title="Format Gantt Chart">
+<description>
+Use this page to format a Gantt chart. Gantt charts often represent project schedules and tasks using bars that correlate to beginning and ending dates. You can color-code the bars to show status, for example. 
+
+You can specify any number of Gantt series and a set of categories that represent the top-level project or task names. Each Gantt series represents start date, end date, and subtask name for each category.
+
+With multiple Gantt series, for each category that represents the main task, you can have multiple sub-tasks, each being one series, and starting and ending on different dates. 
+</description>
+
+</context>
+
+<context id="FormatBubbleChartYSeries_ID" title="Format Bubble Chart Y Series">
+<description>
+Use this page to format a bubble chart, which is basically a scatter plot with a third value that is used to size the bubble. In a Bubble chart, the values in the third data series specifies the size of the bubbles. You can specify the style and orientation of the acceleration line to the bubble.  From this page, you can choose Markers to specify any marker type that is available to the line and scatter charts. The default marker type of the chart is circular.
+</description>
+
+</context>
+
+<context id="TitleText_ID" title="Chart Title Text">
+<description>
+Use this dialog to change the background and shadow of the text in the chart title from transparent, the default, to another color. Also specify the style, width, and color of the title text outline, and its visibility. Pad the chart title text to control the spacing between it and the chart by using insets.  
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp226891" label="Updating the chart title"/>
+</context>
+
+<context id="TitleBlock_ID" title="Chart Title Block">
+<description>
+The title block is the modular area of the title that can be positioned within the title bounds. Select an Anchor location to position the chart title at the top, bottom, left, or right side of the chart. In Stretch, you can specify how the content of the block fills up available space, horizontally, vertically, or in both directions. Also specify the style, width, and color of the title block outline, and its visibility. Pad the chart title block to control the spacing between it and the chart by using insets. 
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp226891" label="Updating the chart title"/>
+</context>
+
+<context id="LegendTitle_ID" title="Chart Legend Title">
+<description>
+Use this dialog to make a title for the chart legend. By default, the title appears above the legend items. You can modify the font style and the color of the title, add an outline, background color, shadow, or move the position of the legend title. 
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp167257" label="Refine the chart appearance"/>
+</context>
+
+<context id="LegendBlock_ID" title="Chart Legend Block">
+<description>
+The legend block is the modular area of a legend that can be positioned within the legend bounds. Use this dialog to change the font style and size of the legend text.  You can also add an outline, background color, or shadow to the legend text. Control the spacing of the legend by using insets. If the chart uses more than one series, you can add a separator line between the items in one series and the items in the next. You can control the visibility of legend text outlines and separators using this dialog.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp167257" label="Refine the chart appearance"/>
+</context>
+
+<context id="DialLabels_ID" title="Dial Labels">
+<description>
+A meter chart displays labels, similar to axis labels, that identify points on a dial. Use this dialog to format the font, background color, and shadow of the dial labels. Create a visible or invisible outline around each dial label. Pad labels to control the spacing between them by using insets. The Format option sets the numbering format of the dial labels.
+
+You show or hide the dial labels themselves in Format Chart.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-14-2.html#wp167257" label="Refine the chart appearance"/>
+</context>
+
+<context id="DialNeedles_ID" title="Dial Needles">
+<description>
+Use this dialog to modify the appearance of the needle for a meter chart. You can specify the following characteristics of the needle:
+
+-- line style: solid, dashed, dash-dot, or dot
+-- line width in points
+-- needle head style: either solid, none, or circle
+
+To change the color of the needle, change the value-series palette.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-2.html#wp196453" label="Select data for a meter chart"/>
+</context>
+
+<context id="GroupAndSort_ID" title="Group and Sort">
+<description>
+Use this dialog to scale and group charts. You can group up to two levels along the x-axis, for example by year and months. You can group by datetime and range. You can group multiple Y aggregates for X series grouping, where each Y series can use its own aggregate function. You can group multiple Y series grouping, where each Y series can have its own grouping key. You can group along the linear axis for Line, Bar, Area charts that are not stacked. You can scale datetime and integers and customize steps numbering.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-3.html#wp152407" label="How to group category series data"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-2.html#wp281573" label="Grouping and sorting for a bar chart"/>
+</context>
+
+<context id="ChartExamples_ID" title="Chart Examples">
+<description>
+Use this page to access Charting API examples, including Java code for building several chart types using the Chart Engine API. Select an example to see a preview of the type of chart it constructs. Select Open to see the Java snippet in the code window. You can copy the code if you want. Save the XML code and study it to learn how to create such a chart using the API.
+
+</description>
+
+</context>
 </contexts>
