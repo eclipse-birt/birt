@@ -1018,7 +1018,7 @@ public class TableAreaLayout
 					int endColumn = cellContent.getColSpan( ) + startColumn;
 					CellArea emptyCell = AreaFactory
 							.createCellArea( cellContent );
-					emptyCell.setRowSpan( ca.getRowSpan( ) );
+					emptyCell.setRowSpan( cellContent.getRowSpan( ) );
 					resolveBorderConflict( emptyCell, false );
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
 					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
