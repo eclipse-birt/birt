@@ -213,14 +213,8 @@ public class TubeChart extends DefaultChartTypeImpl
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidetubechart3dimage.gif" ); //$NON-NLS-1$
-			}
-			else
-			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidetubechart3dimage.gif" ); //$NON-NLS-1$
-			}
+			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidetubechart3dimage.gif" ); //$NON-NLS-1$
+			
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySide3D,
 					sSideBySideDescription,
