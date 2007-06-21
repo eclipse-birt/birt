@@ -27,6 +27,40 @@ public class ExcelWriter
 		{
 			return printWriter;
 		}
+		
+		protected String getEscapedStr( String s, boolean whitespace ) {
+			s = super.getEscapedStr(s, whitespace);
+			
+			StringBuffer result = null;
+			
+			char[] s2char = s.toCharArray( );
+
+			for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
+			{
+				char c = s2char[i];
+				String replacement = null;
+				
+				if ( c == '\n' )
+				{
+					replacement = "&#10;"; //$NON-NLS-1$
+				}
+				
+				if ( replacement != null )
+				{
+					if ( result == null )
+					{
+						result = new StringBuffer( s );
+					}
+					result.replace( i + delta, i + delta + 1, replacement );
+					delta += ( replacement.length( ) - 1 );
+				}
+			}
+			if ( result == null )
+			{
+				return s;
+			}
+			return result.toString( );
+		}
 	}
 
 	protected static Logger logger = Logger.getLogger( ExcelWriter.class
