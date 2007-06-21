@@ -224,7 +224,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	protected boolean processOnBlur( ShapedAction sa, HTMLTag tag )
 	{
 		// 2. onblur
-		Action ac = sa.getActionForCondition( TriggerCondition.ONFOCUS_LITERAL );
+		Action ac = sa.getActionForCondition( TriggerCondition.ONBLUR_LITERAL );
 		if ( checkSupportedAction( ac ) )
 		{
 			switch ( ac.getType( ).getValue( ) )
