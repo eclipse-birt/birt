@@ -88,8 +88,8 @@
 	<target name="Jar" depends="NativeToAscii, nl-jar" >
 	</target>
 	<target name="Export">
-		<copy todir="${export.dir}">
-	        <fileset dir="." includes="${jar.name}"/>
+		<copy todir="${export.dir}/${export.name}">
+	        <fileset dir="." includes="about.html,plugin_??_??.properties,nl/??/templates/*.xml,META-INF/"/>
 	  </copy>
 	</target>
 
