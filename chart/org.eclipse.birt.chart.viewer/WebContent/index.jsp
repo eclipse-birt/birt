@@ -10,28 +10,26 @@
 <title>Sample web page of BIRT chart</title>
 </head>
 <body>
-Bar chart (PDF):
+Bar chart with tooltips, URL hyperlink, data evaluator (PNG):
 <br>
-<chart:renderChart width="400" height="300" output="pdf"
-	model="<%=SampleHelper.createSampleChart() %>">
+<chart:renderChart width="600" height="400"
+	model="<%=session.getServletContext().getRealPath("SampleBar.chart")%>"
+	data="<%=SampleHelper.createSampleEvaluator() %>"
+	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
 </chart:renderChart>
 <br>
+Pie chart (PDF):
 <br>
-Pie chart (SVG):
-<br>
-<chart:renderChart width="400" height="300" output="svg"
+<chart:renderChart width="400" height="300" output="pdf"
 	model="<%=session.getServletContext().getRealPath("SamplePie.chart")%>">
 </chart:renderChart>
 <br>
+Bar chart (SVG):
 <br>
-Bar chart with tooltips, data evaluator, style processor and runtime
-context (PNG):
-<br>
-<chart:renderChart width="400" height="300"
-	model="<%=session.getServletContext().getRealPath("SampleBar.chart")%>"
-	data="<%=SampleHelper.createSampleEvaluator() %>"
-	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>"
-	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
+<chart:renderChart width="400" height="300" output="svg"
+	model="<%=SampleHelper.createSampleChart() %>"
+	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>">
 </chart:renderChart>
+<br>
 </body>
 </html>

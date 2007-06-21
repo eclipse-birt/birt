@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.chart.viewer.sample;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.integrate.SimpleDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -67,95 +66,6 @@ import com.ibm.icu.util.ULocale;
 
 public class SampleHelper
 {
-
-	static final class SampleDataRowEvaluator
-			implements
-				IDataRowExpressionEvaluator
-	{
-
-		private int k = 0;
-		private Object[] column;
-		private Map map;
-
-		public SampleDataRowEvaluator( String[] set, Object[][] data )
-		{
-			if ( set == null )
-			{
-				throw new IllegalArgumentException( );
-			}
-
-			map = new HashMap( );
-			for ( int i = 0; i < set.length; i++ )
-			{
-				map.put( set[i], data[i] );
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
-		 */
-		public Object evaluate( String expression )
-		{
-			column = (Object[]) map.get( expression );
-			return column[k];
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
-		 */
-		public boolean first( )
-		{
-			k = 0;
-
-			if ( map.size( ) > 0 )
-			{
-				column = (Object[]) map.values( ).iterator( ).next( );
-
-				if ( column != null && k < column.length )
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
-		 */
-		public boolean next( )
-		{
-			if ( column != null && k < ( column.length - 1 ) )
-			{
-				k++;
-				return true;
-			}
-			return false;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
-		 */
-		public void close( )
-		{
-			// Doing nothing.
-		}
-
-		public Object evaluateGlobal( String expression )
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-	}
 
 	private static StyleProcessor instance;
 
@@ -256,21 +166,21 @@ public class SampleHelper
 				"row[\"Category\"]", "row[\"Value\"]",};//$NON-NLS-1$ //$NON-NLS-2$
 		Object[][] data = {
 				{
-						new Integer( 10 ),
-						new Integer( 2 ),
-						new Integer( 25 ),
-						new Integer( 15 ),
-						new Integer( 10 )
+						"Chart", //$NON-NLS-1$
+						"Data", //$NON-NLS-1$
+						"Report", //$NON-NLS-1$
+						"Report Engine", //$NON-NLS-1$
+						"Report Designer" //$NON-NLS-1$
 				},
 				{
-						new Integer( 7 ),
-						new Integer( 9 ),
-						new Integer( 5 ),
-						new Integer( 4 ),
-						new Integer( 2 )
+						new Integer( 100 ),
+						new Integer( 80 ),
+						new Integer( 60 ),
+						new Integer( 90 ),
+						new Integer( 120 )
 				}
 		};
-		return new SampleDataRowEvaluator( set, data );
+		return new SimpleDataRowExpressionEvaluator( set, data );
 	}
 
 	/**

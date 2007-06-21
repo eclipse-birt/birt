@@ -33,6 +33,8 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.integrate.SimpleActionEvaluator;
+import org.eclipse.birt.chart.integrate.SimpleActionRenderer;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -156,8 +158,10 @@ public class ChartImageManager
 			}
 			else
 			{
-				gr.bindData( evaluator, cm, rtc );
+				gr.bindData( evaluator, new SimpleActionEvaluator( ), cm, rtc );
 			}
+
+			rtc.setActionRenderer( new SimpleActionRenderer( evaluator ) );
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
 			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
