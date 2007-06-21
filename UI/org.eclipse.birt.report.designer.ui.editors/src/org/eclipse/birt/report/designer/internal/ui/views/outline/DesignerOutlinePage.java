@@ -138,22 +138,34 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		getTreeViewer( ).expandToLevel( 2 );
 
 		final Tree tree = getTreeViewer( ).getTree( );
-		//184790
-		tree.addListener(SWT.PaintItem, new Listener() {
+		// 184790
+		tree.addListener( SWT.PaintItem, new Listener( ) {
 
-			public void handleEvent(Event event)
+			public void handleEvent( Event event )
 			{
 				// Fix bug 192094
-				TreeItem item = (TreeItem)event.item;
-				if(event.item.getData( ) instanceof CssStyleSheetHandle || event.item.getData( ) instanceof CssSharedStyleHandle){					
-					Color gray = Display.getCurrent( ).getSystemColor(SWT.COLOR_DARK_GRAY);
-					item.setForeground( gray );
-				}else
-				{					
-					Color black = Display.getCurrent( ).getSystemColor(SWT.COLOR_BLACK);
-					item.setForeground( black );
+				TreeItem item = (TreeItem) event.item;
+				if ( event.item.getData( ) instanceof CssStyleSheetHandle
+						|| event.item.getData( ) instanceof CssSharedStyleHandle )
+				{
+					Color gray = Display.getCurrent( )
+							.getSystemColor( SWT.COLOR_DARK_GRAY );
+					if ( !item.getForeground( ).equals( gray ) )
+					{
+						item.setForeground( gray );
+					}	
 				}
-			}} );
+				else
+				{
+					Color black = Display.getCurrent( )
+							.getSystemColor( SWT.COLOR_BLACK );
+					if ( !item.getForeground( ).equals( black ) )
+					{
+						item.setForeground( black );
+					}
+				}
+			}
+		} );
 		// Adds mouse listener to disable Cell multi-selection
 		tree.addMouseListener( new MouseAdapter( ) {
 
