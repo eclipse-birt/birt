@@ -13,10 +13,10 @@ package org.eclipse.birt.chart.util;
 
 import java.text.MessageFormat;
 
+import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;

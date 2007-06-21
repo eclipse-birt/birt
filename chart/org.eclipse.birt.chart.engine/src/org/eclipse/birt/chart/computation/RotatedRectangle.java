@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.internal.computations.Polygon;
 
 /**
  * RotatedRectangle

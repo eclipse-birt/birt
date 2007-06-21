@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.tests.engine.computation;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.computation.Point;
-import org.eclipse.birt.chart.internal.computations.Polygon;
+import org.eclipse.birt.chart.computation.Polygon;
 
 public class PolygonTest extends TestCase
 {

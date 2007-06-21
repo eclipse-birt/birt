@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.internal.computations.Matrix;
-import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
@@ -68,7 +67,10 @@ public class Object3D
 
 	/**
 	 * Construction by an array of 3d coordinates
-	 * @param inverted: invert the order of points to change the surface orientation
+	 * 
+	 * @param loa
+	 * @param inverted
+	 *            invert the order of points to change the surface orientation
 	 */
 	public Object3D( Location3D[] loa, boolean inverted )
 	{

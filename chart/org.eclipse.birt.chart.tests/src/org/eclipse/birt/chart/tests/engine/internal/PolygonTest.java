@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.tests.engine.internal;
 
 import org.eclipse.birt.chart.computation.Point;
-import org.eclipse.birt.chart.internal.computations.Polygon;
+import org.eclipse.birt.chart.computation.Polygon;
 
 import junit.framework.TestCase;
 
