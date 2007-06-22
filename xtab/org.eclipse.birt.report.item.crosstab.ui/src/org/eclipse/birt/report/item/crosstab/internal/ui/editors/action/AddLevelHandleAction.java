@@ -45,9 +45,9 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 {
 
 	DimensionViewHandle viewHandle = null;
-	//private static final String NAME = "Show/Hide Group Levels";//$NON-NLS-1$
+	// private static final String NAME = "Show/Hide Group Levels";//$NON-NLS-1$
 	private static final String ID = "add_levelViewhandle";//$NON-NLS-1$
-	//private static final String TEXT = "Show/Hide Group Levels";//$NON-NLS-1$
+	// private static final String TEXT = "Show/Hide Group Levels";//$NON-NLS-1$
 	private static final String NAME = Messages.getString( "AddLevelHandleAction_TransName" );//$NON-NLS-1$
 	private static final String TEXT = Messages.getString( "AddLevelHandleAction_Displayname" );//$NON-NLS-1$
 
@@ -61,10 +61,10 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		super( handle );
 		setId( ID );
 		setText( TEXT );
-		ExtendedItemHandle extendedHandle =CrosstabAdaptUtil. getExtendedItemHandle( handle );
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		viewHandle = CrosstabAdaptUtil.getDimensionViewHandle( extendedHandle );
-		
+
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LECEL );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
@@ -79,16 +79,16 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
-			LevelViewDialog dialog = new LevelViewDialog(UIUtil.getDefaultShell( ));
-			List showLevels = new ArrayList();
-			List nullLevelHandle = new ArrayList();
+			LevelViewDialog dialog = new LevelViewDialog( UIUtil.getDefaultShell( ) );
+			List showLevels = new ArrayList( );
+			List nullLevelHandle = new ArrayList( );
 			int viewCount = viewHandle.getLevelCount( );
-			for (int i=0; i<viewCount; i++)
+			for ( int i = 0; i < viewCount; i++ )
 			{
 				LevelViewHandle levelHandle = viewHandle.getLevel( i );
-				if (levelHandle.getCubeLevel( ) == null)
+				if ( levelHandle.getCubeLevel( ) == null )
 				{
-					nullLevelHandle.add( new Integer(levelHandle.getIndex( )));
+					nullLevelHandle.add( new Integer( levelHandle.getIndex( ) ) );
 				}
 				else
 				{
@@ -99,9 +99,12 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			if ( dialog.open( ) == Window.OK )
 			{
 				CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
-				List result = (List)dialog.getResult( );
-				processor( showLevels, result, nullLevelHandle );
-				CrosstabAdaptUtil.processInvaildBindings( reportHandle );
+				List result = (List) dialog.getResult( );
+				boolean isLevelRemoved = processor( showLevels,
+						result,
+						nullLevelHandle );
+				CrosstabAdaptUtil.processInvaildBindings( reportHandle,
+						isLevelRemoved );
 			}
 		}
 		catch ( SemanticException e )
@@ -112,62 +115,68 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		}
 		transEnd( );
 	}
-	
-	private void processor(List ori, List newList, List nullLevelHandle)throws SemanticException
+
+	private boolean processor( List ori, List newList, List nullLevelHandle )
+			throws SemanticException
 	{
-	
-		for (int i=nullLevelHandle.size( )-1; i>=0; i--)
+		boolean isLevelRemoved = false;
+		for ( int i = nullLevelHandle.size( ) - 1; i >= 0; i-- )
 		{
-			int index = ((Integer)nullLevelHandle.get( i )).intValue( );
+			int index = ( (Integer) nullLevelHandle.get( i ) ).intValue( );
 			viewHandle.removeLevel( index );
+			isLevelRemoved = true;
 		}
-		
-		for (int i=0; i<ori.size( ); i++)
+
+		for ( int i = 0; i < ori.size( ); i++ )
 		{
-			LevelHandle tempHandle = (LevelHandle)ori.get(i );
-			if (!newList.contains( tempHandle ))
+			LevelHandle tempHandle = (LevelHandle) ori.get( i );
+			if ( !newList.contains( tempHandle ) )
 			{
 				viewHandle.removeLevel( tempHandle.getQualifiedName( ) );
+				isLevelRemoved = true;
 			}
 		}
-		
-		Collections.sort( newList, new LevelComparator() );
-		for (int i=0; i<newList.size( ); i++)
+
+		Collections.sort( newList, new LevelComparator( ) );
+		for ( int i = 0; i < newList.size( ); i++ )
 		{
-			LevelHandle tempHandle = (LevelHandle)newList.get(i );
-			if (viewHandle.getLevel( tempHandle.getQualifiedName( ) ) == null)
+			LevelHandle tempHandle = (LevelHandle) newList.get( i );
+			if ( viewHandle.getLevel( tempHandle.getQualifiedName( ) ) == null )
 			{
-				insertLevelHandle( tempHandle,i);
+				insertLevelHandle( tempHandle, i );
 			}
 		}
+		return isLevelRemoved;
 	}
-	
+
 	private static class LevelComparator implements Comparator
 	{
 
 		public int compare( Object o1, Object o2 )
 		{
-			LevelHandle handle1 = (LevelHandle)o1; 
-			LevelHandle handle2 = (LevelHandle)o2;
+			LevelHandle handle1 = (LevelHandle) o1;
+			LevelHandle handle2 = (LevelHandle) o2;
 			return handle1.getIndex( ) - handle2.getIndex( );
 		}
-		
+
 	}
-	
-	private void insertLevelHandle(LevelHandle levelHandle, int pos ) throws SemanticException
+
+	private void insertLevelHandle( LevelHandle levelHandle, int pos )
+			throws SemanticException
 	{
 
 		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
-		//int viewCount = viewHandle.getLevelCount( );
-		
+		// int viewCount = viewHandle.getLevelCount( );
+
 		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) reportHandle.getModelHandle( ),
 				levelHandle );
-		ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-		
-		LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle,pos );
+		ComputedColumnHandle bindingHandle = ( (ExtendedItemHandle) reportHandle.getModelHandle( ) ).addColumnBinding( bindingColumn,
+				false );
+
+		LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
+				pos );
 		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
-		
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );

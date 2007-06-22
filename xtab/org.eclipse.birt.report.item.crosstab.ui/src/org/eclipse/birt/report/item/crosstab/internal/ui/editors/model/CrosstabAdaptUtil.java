@@ -43,62 +43,71 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 
 /**
- * Util class 
+ * Util class
  */
 public class CrosstabAdaptUtil
 {
-	/**Gets the row or column count  after the handel, now include the current handle 
+
+	/**
+	 * Gets the row or column count after the handel, now include the current
+	 * handle
+	 * 
 	 * @param handle
 	 * @return
 	 */
-	public static int getNumberAfterDimensionViewHandle(DimensionViewHandle handle)
+	public static int getNumberAfterDimensionViewHandle(
+			DimensionViewHandle handle )
 	{
-		CrosstabReportItemHandle reportItem = (CrosstabReportItemHandle)CrosstabUtil.getReportItem( handle.getCrosstabHandle( ) );
-		int index  = handle.getIndex( );
+		CrosstabReportItemHandle reportItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( handle.getCrosstabHandle( ) );
+		int index = handle.getIndex( );
 		int type = handle.getAxisType( );
-		int count = reportItem.getDimensionCount( type);
+		int count = reportItem.getDimensionCount( type );
 		int retValue = 0;
-		for (int i=index; i<count; i++)
+		for ( int i = index; i < count; i++ )
 		{
-			retValue = retValue + reportItem.getDimension( type, index ).getLevelCount( );
+			retValue = retValue
+					+ reportItem.getDimension( type, index ).getLevelCount( );
 		}
 		return retValue;
 	}
-	
+
 	/**
 	 * @param owner
 	 * @param levelHandle
 	 * @return
 	 */
-	public static ComputedColumn createComputedColumn(ReportItemHandle owner, LevelHandle levelHandle)
+	public static ComputedColumn createComputedColumn( ReportItemHandle owner,
+			LevelHandle levelHandle )
 	{
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
-				levelHandle.getName( ));
-		
-		//bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
-		bindingColumn.setDataType( levelHandle.getDataType( ));
+				levelHandle.getName( ) );
+
+		// bindingColumn.setDataType( DesignChoiceConstants.
+		// COLUMN_DATA_TYPE_ANY);
+		bindingColumn.setDataType( levelHandle.getDataType( ) );
 		bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
-		
+
 		return bindingColumn;
 	}
-	
+
 	/**
 	 * @param owner
 	 * @param measureHandle
 	 * @return
 	 */
-	public static ComputedColumn createComputedColumn(ReportItemHandle owner, MeasureHandle measureHandle)
+	public static ComputedColumn createComputedColumn( ReportItemHandle owner,
+			MeasureHandle measureHandle )
 	{
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
-				measureHandle.getName( ));
-		
-		//bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
-		bindingColumn.setDataType( measureHandle.getDataType( ));
+				measureHandle.getName( ) );
+
+		// bindingColumn.setDataType( DesignChoiceConstants.
+		// COLUMN_DATA_TYPE_ANY);
+		bindingColumn.setDataType( measureHandle.getDataType( ) );
 		bindingColumn.setExpression( DEUtil.getExpression( measureHandle ) );
-		
+
 		return bindingColumn;
 	}
-	
 
 	/**
 	 * Find the position of the element. If the element is null, the position is
@@ -116,12 +125,13 @@ public class CrosstabAdaptUtil
 		{
 			return parent.getContentCount( DEUtil.getDefaultContentName( parent ) );
 		}
-		//parent.findContentSlot(  )
-		
+		// parent.findContentSlot( )
+
 		return element.getIndex( );
 	}
-	
-	public static ExtendedItemHandle getExtendedItemHandle( DesignElementHandle handle )
+
+	public static ExtendedItemHandle getExtendedItemHandle(
+			DesignElementHandle handle )
 	{
 		while ( handle != null )
 		{
@@ -134,7 +144,7 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param extendedHandle
 	 * @return
@@ -172,8 +182,8 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
-	
-	public static DimensionHandle getDimensionHandle(LevelHandle levelHandle)
+
+	public static DimensionHandle getDimensionHandle( LevelHandle levelHandle )
 	{
 		DesignElementHandle parent = levelHandle;
 		while ( parent != null )
@@ -186,8 +196,8 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
-	
-	public static CubeHandle getCubeHandle(DesignElementHandle levelHandle)
+
+	public static CubeHandle getCubeHandle( DesignElementHandle levelHandle )
 	{
 		DesignElementHandle parent = levelHandle;
 		while ( parent != null )
@@ -200,6 +210,7 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
+
 	/**
 	 * @param extendedHandle
 	 * @return
@@ -218,69 +229,89 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
-	
-	public static void processInvaildBindings(CrosstabReportItemHandle handle)
+
+	public static void processInvaildBindings( CrosstabReportItemHandle handle )
 	{
-		if(CrosstabPlugin.getDefault( )
-				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ))
+		processInvaildBindings( handle, true );
+	}
+
+	public static void processInvaildBindings( CrosstabReportItemHandle handle,
+			boolean isLevelRemoved )
+	{
+		if ( CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS )
+				&& isLevelRemoved )
 		{
-			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion(  UIUtil.getDefaultShell( ),
+			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
 					Messages.getString( "DeleteBindingDialog.Message" ), //$NON-NLS-1$
 					Messages.getString( "DeleteBindingDialog.ToggleMessage" ), //$NON-NLS-1$
 					!CrosstabPlugin.getDefault( )
-					.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
+							.getPluginPreferences( )
+							.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
 					null,
-					null);
-			if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID)
+					null );
+			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
 			{
-				removeInvalidBindings(handle);
+				removeInvalidBindings( handle );
 			}
-			else if (msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+			else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 			{
-				//dothing
+				// dothing
 			}
-			if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID || msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID
+					|| msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 			{
 				CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-						!msgDlg.getToggleState( ) );
+						.getPluginPreferences( )
+						.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+								!msgDlg.getToggleState( ) );
 			}
 		}
 		else
 		{
-			removeInvalidBindings(handle);
+			removeInvalidBindings( handle );
 		}
-		//removeInvalidBindings(handle);
+		// removeInvalidBindings(handle);
 	}
-	
-	public static void removeInvalidBindings(CrosstabReportItemHandle handle)
+
+	public static void removeInvalidBindings( CrosstabReportItemHandle handle )
 	{
 		try
 		{
-			ICubeQueryDefinition definition = CrosstabQueryUtil.createCubeQuery( handle, null, true, true, true, true, false, false);
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION) );
-			List list = session.getCubeQueryUtil( ).getInvalidBindings( definition );
-//			for (int i=0; i<list.size( ); i++)
-//			{
-//				Object obj = list.get( i );
-//				if (obj instanceof IBinding)
-//				{
-//					String name = ((IBinding)obj).getBindingName( );
-//					ComputedColumnHandle delhandle = ((ReportItemHandle)handle.getModelHandle( )).findColumnBinding( name );
-//					if (delhandle != null)
-//					{
-//						delhandle.drop( );
-//					}
-//				}
-//			}
-			((ReportItemHandle)handle.getModelHandle( )).removedColumnBindings( list );
+			ICubeQueryDefinition definition = CrosstabQueryUtil.createCubeQuery( handle,
+					null,
+					true,
+					true,
+					true,
+					true,
+					false,
+					false );
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			List list = session.getCubeQueryUtil( )
+					.getInvalidBindings( definition );
+			// for (int i=0; i<list.size( ); i++)
+			// {
+			// Object obj = list.get( i );
+			// if (obj instanceof IBinding)
+			// {
+			// String name = ((IBinding)obj).getBindingName( );
+			// ComputedColumnHandle delhandle =
+			// ((ReportItemHandle)handle.getModelHandle( )).findColumnBinding(
+			// name );
+			// if (delhandle != null)
+			// {
+			// delhandle.drop( );
+			// }
+			// }
+			// }
+			( (ReportItemHandle) handle.getModelHandle( ) ).removedColumnBindings( list );
 		}
 		catch ( BirtException e )
 		{
-			//donothing
+			// donothing
 			e.printStackTrace( );
-		}	
+		}
 	}
 }
