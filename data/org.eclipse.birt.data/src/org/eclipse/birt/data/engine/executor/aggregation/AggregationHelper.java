@@ -21,6 +21,7 @@ import java.util.Set;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
@@ -29,8 +30,9 @@ import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
-import org.eclipse.birt.data.engine.odi.IAggrInfo;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IAggrDefnManager;
+import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -304,7 +306,12 @@ public class AggregationHelper implements IAggrValueHolder
 		{
 			// Calculate arguments to the aggregate aggregationtion
 			
-			assert argDefs.length == aggrArgs[aggrIndex].length;
+			if ( argDefs.length != aggrArgs[aggrIndex].length )
+			{
+				throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+						aggrInfo.getName( ) );
+			}
+			
 			try
 			{
 				if ( aggrInfo.getArgument( ).length > argDefs.length
@@ -319,6 +326,7 @@ public class AggregationHelper implements IAggrValueHolder
 					if ( argDefs[i] || newGroup )
 					{
 						IBaseExpression argExpr = aggrInfo.getArgument( )[i];
+						checkExpression( aggrInfo, argExpr );
 						try
 						{
 							aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
@@ -373,6 +381,27 @@ public class AggregationHelper implements IAggrValueHolder
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @param aggrInfo
+	 * @param argExpr
+	 * @throws DataException
+	 */
+	private void checkExpression( IAggrInfo aggrInfo, IBaseExpression argExpr )
+			throws DataException
+	{
+		if ( !isFunctionCount( aggrInfo ) )
+		{
+			IScriptExpression expr = (IScriptExpression) argExpr;
+			if ( expr == null
+					|| expr.getText( ) == null
+					|| "".equals( expr.getText( ).trim( ) ) )
+			{
+				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+			}
+		}
 	}
 
 	/**
