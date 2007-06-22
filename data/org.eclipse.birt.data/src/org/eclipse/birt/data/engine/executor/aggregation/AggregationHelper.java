@@ -310,8 +310,12 @@ public class AggregationHelper implements IAggrValueHolder
 			{
 				if ( aggrInfo.getArgument( ) == null
 						|| aggrInfo.getArgument( ).length != argDefs.length )
-					throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+				{
+					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 							aggrInfo.getName( ) );
+					wrapException( aggrIndex, e );
+					return false;
+				}
 			}
 			
 			try
@@ -345,10 +349,7 @@ public class AggregationHelper implements IAggrValueHolder
 			}
 			catch ( DataException e )
 			{
-				if ( invalidAggrMsg == null )
-					invalidAggrMsg = new HashMap( );
-				invalidAggrMsg.put( new Integer( aggrIndex ), e );
-
+				wrapException( aggrIndex, e );
 				return false;
 			}
 		}
@@ -380,6 +381,17 @@ public class AggregationHelper implements IAggrValueHolder
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @param aggrIndex
+	 * @param e
+	 */
+	private void wrapException( int aggrIndex, DataException e )
+	{
+		if ( invalidAggrMsg == null )
+			invalidAggrMsg = new HashMap( );
+		invalidAggrMsg.put( new Integer( aggrIndex ), e );
 	}
 
 	/**
