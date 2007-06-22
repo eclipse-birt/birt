@@ -118,7 +118,14 @@ public abstract class  PDFLayoutTest extends EngineCase
 		runAndRenderTask.close( );
 		return pageAreas;
 	}
-	
+
+	protected List getpageAreas( String designFile ) throws EngineException
+	{
+		IReportRunnable report = openReportDesign( designFile );
+		List pageAreas = getPageAreas( report );
+		return pageAreas;
+	}
+
 	protected PDFRenderOption createRenderOption()
 	{
 		PDFRenderOption options = new PDFRenderOption( );

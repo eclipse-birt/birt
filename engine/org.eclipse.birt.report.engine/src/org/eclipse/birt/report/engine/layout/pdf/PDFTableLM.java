@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -234,7 +235,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		{
 			root.setAllocatedHeight( context.getMaxHeight( ) );
 		}
-		maxAvaHeight = root.getContentHeight( );
+		maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
 
 	}
 
@@ -260,6 +261,14 @@ public class PDFTableLM extends PDFBlockStackingLM
 		// update dimension of table area
 		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
 
+	}
+
+	private int getBottomBorderWidth( )
+	{
+		IStyle style = root.getContent( ).getComputedStyle( );
+		int borderHeight = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+		return borderHeight;
 	}
 
 	public int getColumnNumber( )

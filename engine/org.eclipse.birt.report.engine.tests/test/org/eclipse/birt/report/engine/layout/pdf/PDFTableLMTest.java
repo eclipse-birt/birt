@@ -29,8 +29,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 	public void testFixedTableLayout() throws EngineException
 	{
 		String designFile = "org/eclipse/birt/report/engine/layout/pdf/tableFixedLayout.xml";
-		IReportRunnable report = openReportDesign( designFile );
-		List pageAreas = getPageAreas( report );
+		List pageAreas = getpageAreas( designFile );
 		
  		assertEquals( 1, pageAreas.size( ) );
 		PageArea pageArea = (PageArea)pageAreas.get( 0 );
@@ -84,8 +83,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 	public void testBorder( ) throws EngineException
 	{
 		String designFile = "org/eclipse/birt/report/engine/layout/pdf/176794.xml";
-		IReportRunnable report = openReportDesign( designFile );
-		List pageAreas = getPageAreas( report );
+		List pageAreas = getpageAreas( designFile );
 		
 		//17847
 		PageArea page = (PageArea)pageAreas.get( 0 );
@@ -95,8 +93,23 @@ public class PDFTableLMTest extends PDFLayoutTest
 		assertEquals( 17847, table1.getHeight( ) );
 		assertEquals( 17847, table2.getY( ) );
 	}
-	
-	
+
+	/**
+	 * Test case for bugzilla bug <a
+	 * href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=192796">192796</a> :
+	 * In pdf xtab move to next page with a label before it.[1102].
+	 * 
+	 * @throws EngineException
+	 */
+	public void testXTableWithBorderAfterLable( ) throws EngineException
+	{
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/192796.xml";
+		List pageAreas = getpageAreas( designFile );
+		
+		PageArea page = (PageArea) pageAreas.get( 0 );
+		assertEquals( 2, page.getBody( ).getChildrenCount( ) );
+	}
+
 	private void validateColumnWidth(TableArea table, int[] cols)
 	{
 		assertTrue(table!=null);
