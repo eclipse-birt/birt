@@ -210,9 +210,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID );
-
 		GridData gdata;
 		GridLayout glayout;
 		Composite contents = new Composite( parent, SWT.NONE );
@@ -330,7 +327,8 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				10,
 				SWT.BOLD ) );
 		label.setText( getTitle( ) ); //$NON-NLS-1$
-
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID );
 		return titleArea;
 	}
 
