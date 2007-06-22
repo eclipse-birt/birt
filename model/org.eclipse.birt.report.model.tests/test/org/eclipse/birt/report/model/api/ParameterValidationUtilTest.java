@@ -57,92 +57,75 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		String value = null;
 
-		assertEquals( null,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						null,
-						ULocale.JAPAN ) );
-		assertEquals( null,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						"", ULocale.JAPAN ) ); //$NON-NLS-1$
+		assertEquals( null, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, null,
+				ULocale.JAPAN ) );
+		assertEquals( null, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null,
+				"", ULocale.JAPAN ) ); //$NON-NLS-1$
 
 		// the input value is locale dependent
 
 		value = "\u771f"; //$NON-NLS-1$
-		assertEquals( Boolean.TRUE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						new ULocale( "aa" ) ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						new ULocale( "aa" ) ) ); //$NON-NLS-1$
+		assertEquals( Boolean.TRUE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				new ULocale( "aa" ) ) ); //$NON-NLS-1$
+		assertEquals( Boolean.TRUE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				new ULocale( "aa" ) ) ); //$NON-NLS-1$
 		value = "\u5047"; //$NON-NLS-1$
-		assertEquals( Boolean.FALSE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						new ULocale( "aa" ) ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						new ULocale( "aa" ) ) ); //$NON-NLS-1$
+		assertEquals( Boolean.FALSE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				new ULocale( "aa" ) ) ); //$NON-NLS-1$
+		assertEquals( Boolean.FALSE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				new ULocale( "aa" ) ) ); //$NON-NLS-1$
 
 		// the input value is locale independent
 
 		value = "true"; //$NON-NLS-1$
-		assertEquals( Boolean.TRUE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						ULocale.JAPAN ) );
-		assertEquals( Boolean.TRUE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						ULocale.JAPAN ) );
+		assertEquals( Boolean.TRUE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				ULocale.JAPAN ) );
+		assertEquals( Boolean.TRUE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				ULocale.JAPAN ) );
 		value = "false"; //$NON-NLS-1$
-		assertEquals( Boolean.FALSE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						ULocale.JAPAN ) );
-		assertEquals( Boolean.FALSE,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-						null,
-						value,
-						ULocale.JAPAN ) );
+		assertEquals( Boolean.FALSE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				ULocale.JAPAN ) );
+		assertEquals( Boolean.FALSE, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, value,
+				ULocale.JAPAN ) );
 
 		// catch some exception
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-					null,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null,
 					"tru", ULocale.JAPAN ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( ValidationValueException e )
 		{
 			System.out.println( e.getMessage( ) );
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-					null,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null,
 					"fals", ULocale.JAPAN ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( ValidationValueException e )
 		{
 			System.out.println( e.getMessage( ) );
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -160,31 +143,35 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		// validates the input and get the locale and format independent result
 		String value = "123.0"; //$NON-NLS-1$
 		ThreadResources.setLocale( ULocale.FRANCE );
-		NumberFormatter formatter = new NumberFormatter( ThreadResources.getLocale( ) );
-		formatter.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
+		NumberFormatter formatter = new NumberFormatter( ThreadResources
+				.getLocale( ) );
+		formatter
+				.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
 		value = formatter.format( input );
 		assertEquals( "123.456", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_FLOAT,
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				value,
+				DesignChoiceConstants.PARAM_TYPE_FLOAT,
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER, value,
 				ULocale.FRANCE ).toString( ) );
 		ThreadResources.setLocale( ULocale.CHINA );
 		formatter = new NumberFormatter( ThreadResources.getLocale( ) );
-		formatter.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
+		formatter
+				.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
 		value = formatter.format( input );
-		assertEquals( "123.456", ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_FLOAT, DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER, value, ULocale.CHINA ).toString( ) ); //$NON-NLS-1$
+		assertEquals(
+				"123.456", ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_FLOAT, DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER, value, ULocale.CHINA ).toString( ) ); //$NON-NLS-1$
 
 		// Decimal type parameter will be converted into BigDecimal.
-		Object resultVal = ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DECIMAL,
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				value,
+		Object resultVal = ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_DECIMAL,
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER, value,
 				ULocale.CHINA );
 		assertTrue( resultVal instanceof BigDecimal );
 		assertEquals( "123.456", resultVal.toString( ) ); //$NON-NLS-1$
 
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DECIMAL,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_DECIMAL,
 					DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC,
 					"ergh", //$NON-NLS-1$
 					ULocale.FRANCE );
@@ -193,25 +180,33 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		catch ( ValidationValueException e )
 		{
 			System.out.println( e.getMessage( ) );
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 
 		// test valid integer value
-		formatter.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
+		formatter
+				.applyPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER );
 		value = formatter.format( input );
-		resultVal = ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_INTEGER,
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED,
-				value,
+		resultVal = ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_INTEGER,
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED, value,
 				ULocale.CHINA );
 		assertTrue( resultVal instanceof Integer );
 		assertEquals( "123", resultVal.toString( ) ); //$NON-NLS-1$
 
 		assertEquals( "13", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_INTEGER,
+				DesignChoiceConstants.PARAM_TYPE_INTEGER,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC,
 				"13c1.9ab2", //$NON-NLS-1$
 				ULocale.CHINA ).toString( ) );
+
+		assertEquals( "123.68580", ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_DECIMAL,
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED,
+				"123.68580", ULocale.CHINA ).toString( ) );
+
 	}
 
 	/**
@@ -225,23 +220,27 @@ public class ParameterValidationUtilTest extends BaseTestCase
 	{
 		String value1 = "12:30:31"; //$NON-NLS-1$
 
-		java.sql.Time date = (java.sql.Time) ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_TIME,
-				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-				value1 );
+		java.sql.Time date = (java.sql.Time) ParameterValidationUtil
+				.validate(
+						DesignChoiceConstants.PARAM_TYPE_TIME,
+						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+						value1 );
 		assertEquals( "12:30:31", date.toString( ) );//$NON-NLS-1$
 
 		String value2 = "122a:30:31";//$NON-NLS-1$
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_TIME,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_TIME,
 					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
 					value2 );
 			fail( );
 		}
 		catch ( ValidationValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -256,23 +255,27 @@ public class ParameterValidationUtilTest extends BaseTestCase
 	{
 		String value1 = "1998-09-13"; //$NON-NLS-1$
 
-		java.sql.Date date = (java.sql.Date) ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATE,
-				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-				value1 );
+		java.sql.Date date = (java.sql.Date) ParameterValidationUtil
+				.validate(
+						DesignChoiceConstants.PARAM_TYPE_DATE,
+						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+						value1 );
 		assertEquals( "1998-09-13", date.toString( ) );//$NON-NLS-1$
 
 		String value2 = "1992a-123-12";//$NON-NLS-1$
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATE,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_DATE,
 					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
 					value2 );
 			fail( );
 		}
 		catch ( ValidationValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -291,27 +294,27 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		// date time
 
 		String value1 = "1998-09-13 20:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-				value1 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value1 );
 		String value2 = "1998-09-13 00:00:00"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-				value2 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, value2 );
 		String value3 = "1998-09-13 00:00:00"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE,
-				value3 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE, value3 );
 		String value4 = "1998-09-13 00:00:00"; //$NON-NLS-1$
 
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE,
-				value4 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE, value4 );
 		String value5 = "1970-01-01 20:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME,
-				value5 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME, value5 );
 		String value6 = "1970-01-01 20:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-				value6 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME, value6 );
 		String value7 = "1970-01-01 20:01:00"; //$NON-NLS-1$
-		testDateTimeByFormat( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME,
-				value7 );
+		testDateTimeByFormat(
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME, value7 );
 	}
 
 	/**
@@ -333,20 +336,21 @@ public class ParameterValidationUtilTest extends BaseTestCase
 
 		ThreadResources.setLocale( ULocale.JAPAN );
 		String value = null;
-		final SimpleDateFormat formatPattern = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
+		final SimpleDateFormat formatPattern = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
 		Calendar dateCal = Calendar.getInstance( ThreadResources.getLocale( ) );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
-		DateFormatter formatter = new DateFormatter( ThreadResources.getLocale( ) );
+		DateFormatter formatter = new DateFormatter( ThreadResources
+				.getLocale( ) );
 		formatter.applyPattern( format );
 		value = formatter.format( dateCal.getTime( ) );
-		String resultJAP = formatPattern.format( ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-				format,
-				value,
-				ULocale.JAPAN ) == null ? null
-				: ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-						format,
-						value,
-						ULocale.JAPAN ) );
+		String resultJAP = formatPattern.format( ParameterValidationUtil
+				.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
+						value, ULocale.JAPAN ) == null
+				? null
+				: ParameterValidationUtil.validate(
+						DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
+						value, ULocale.JAPAN ) );
 		assertEquals( result, resultJAP );
 
 		// in EN locale
@@ -357,14 +361,13 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		formatter = new DateFormatter( ThreadResources.getLocale( ) );
 		formatter.applyPattern( format );
 		value = formatter.format( dateCal.getTime( ) );
-		String resultEN = formatPattern.format( ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-				format,
-				value,
-				ULocale.ENGLISH ) == null ? null
-				: ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-						format,
-						value,
-						ULocale.ENGLISH ) );
+		String resultEN = formatPattern.format( ParameterValidationUtil
+				.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
+						value, ULocale.ENGLISH ) == null
+				? null
+				: ParameterValidationUtil.validate(
+						DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
+						value, ULocale.ENGLISH ) );
 		assertEquals( result, resultEN );
 
 		// the two result value is equal.
@@ -373,24 +376,25 @@ public class ParameterValidationUtilTest extends BaseTestCase
 
 		// Test two kind of date format .
 
-		Object obj = ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-				null,
+		Object obj = ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_DATETIME, null,
 				"1/1/1999 4:50:10 am", ULocale.US ); //$NON-NLS-1$
 		assertNotNull( obj );
 		assertTrue( obj instanceof Date );
 
 		try
 		{
-			ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-					null,
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_DATETIME, null,
 					"1999-2-27", ULocale.US ); //$NON-NLS-1$
 			fail( );
 
 		}
 		catch ( ValidationValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 
 	}
@@ -412,34 +416,25 @@ public class ParameterValidationUtilTest extends BaseTestCase
 
 		// validate without format
 
-		assertEquals( null,
-				ParameterValidationUtil.validate( DesignChoiceConstants.PARAM_TYPE_STRING,
-						null,
-						value,
-						ULocale.ENGLISH ) );
+		assertEquals( null, ParameterValidationUtil.validate(
+				DesignChoiceConstants.PARAM_TYPE_STRING, null, value,
+				ULocale.ENGLISH ) );
 		value = ""; //$NON-NLS-1$
 		assertEquals( "", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
-				null,
-				value,
+				DesignChoiceConstants.PARAM_TYPE_STRING, null, value,
 				ULocale.ENGLISH ) );
 		value = "ab CD e"; //$NON-NLS-1$
 		assertEquals( "ab CD e", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
-				null,
-				value,
+				DesignChoiceConstants.PARAM_TYPE_STRING, null, value,
 				ULocale.ENGLISH ) );
 		value = "ab $#"; //$NON-NLS-1$
 		assertEquals( "ab $#", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
-				null,
-				value,
+				DesignChoiceConstants.PARAM_TYPE_STRING, null, value,
 				ULocale.ENGLISH ) );
 		value = "(444)444-4444"; //$NON-NLS-1$
 		assertEquals( "4444444444", ParameterValidationUtil.validate( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
-				DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER,
-				value,
+				DesignChoiceConstants.PARAM_TYPE_STRING,
+				DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER, value,
 				ULocale.ENGLISH ) );
 	}
 
@@ -454,137 +449,117 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date dateValue = dateCal.getTime( );
 
-		assertEquals( "13 septembre 1998", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATETIME,
+		assertEquals(
+				"13 septembre 1998", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+						DesignChoiceConstants.PARAM_TYPE_DATETIME,
 						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-						dateValue,
-						ULocale.FRANCE ) );
+						dateValue, ULocale.FRANCE ) );
 		// no format, then we display in (medium, short) pattern
-		assertEquals( "Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATETIME,
-						null,
-						dateValue ) );
+		assertEquals(
+				"Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+								DesignChoiceConstants.PARAM_TYPE_DATETIME,
+								null, dateValue ) );
 
 		// date type
 		dateValue = new java.sql.Date( 100, 0, 1 );
 
-		assertEquals( "1 janvier 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATE,
+		assertEquals(
+				"1 janvier 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+						DesignChoiceConstants.PARAM_TYPE_DATE,
 						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-						dateValue,
-						ULocale.FRANCE ) );
+						dateValue, ULocale.FRANCE ) );
 
-		assertEquals( "January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATE,
+		assertEquals(
+				"January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+						DesignChoiceConstants.PARAM_TYPE_DATE,
 						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-						dateValue,
-						ULocale.ENGLISH ) );
+						dateValue, ULocale.ENGLISH ) );
 
 		// no format
-		assertEquals( "January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATE,
-						null,
-						dateValue ) );
+		assertEquals(
+				"January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+						DesignChoiceConstants.PARAM_TYPE_DATE, null, dateValue ) );
 
 		// time type
 
 		java.sql.Time timeValue = new java.sql.Time( 14, 20, 30 );
 		assertEquals( "2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_TIME,
+				DesignChoiceConstants.PARAM_TYPE_TIME,
 				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-				timeValue,
-				ULocale.ENGLISH ) );
+				timeValue, ULocale.ENGLISH ) );
 
 		assertEquals( "14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_TIME,
+				DesignChoiceConstants.PARAM_TYPE_TIME,
 				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-				timeValue,
-				ULocale.FRANCE ) );
+				timeValue, ULocale.FRANCE ) );
 
 		// no format
 		assertEquals( "2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_TIME,
-				null,
-				timeValue ) );
+				DesignChoiceConstants.PARAM_TYPE_TIME, null, timeValue ) );
 
 		// float type
 		Double doubleValue = new Double( "12345.456" ); //$NON-NLS-1$
 		assertEquals( "12345.456", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_FLOAT,
+				DesignChoiceConstants.PARAM_TYPE_FLOAT,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				doubleValue,
-				ULocale.ENGLISH ) );
+				doubleValue, ULocale.ENGLISH ) );
 		assertEquals( "12345,456", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_FLOAT,
+				DesignChoiceConstants.PARAM_TYPE_FLOAT,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				doubleValue,
-				ULocale.GERMAN ) );
+				doubleValue, ULocale.GERMAN ) );
 		assertEquals( "Currency12345", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_FLOAT,
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY,
-				doubleValue,
+				DesignChoiceConstants.PARAM_TYPE_FLOAT,
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY, doubleValue,
 				ULocale.GERMAN ) );
 
 		// integer type
 		Integer integerValue = new Integer( "12345" ); //$NON-NLS-1$
 		assertEquals( "12345", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_INTEGER,
+				DesignChoiceConstants.PARAM_TYPE_INTEGER,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				integerValue,
-				ULocale.ENGLISH ) );
+				integerValue, ULocale.ENGLISH ) );
 		assertEquals( "12345", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_INTEGER,
+				DesignChoiceConstants.PARAM_TYPE_INTEGER,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
-				integerValue,
-				ULocale.GERMAN ) );
+				integerValue, ULocale.GERMAN ) );
 		assertEquals( "Currency12345", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_FLOAT,
+				DesignChoiceConstants.PARAM_TYPE_FLOAT,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY,
-				integerValue,
-				ULocale.GERMAN ) );
+				integerValue, ULocale.GERMAN ) );
 
 		// decimal type, standard format has the precision control
 
 		BigDecimal decimalValue = new BigDecimal( "12345678.1234" ); //$NON-NLS-1$
 		assertEquals( "12.345.678,12", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_DECIMAL,
+				DesignChoiceConstants.PARAM_TYPE_DECIMAL,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD,
-				decimalValue,
-				ULocale.GERMAN ) );
+				decimalValue, ULocale.GERMAN ) );
 		assertEquals( "12,345,678.12", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_DECIMAL,
+				DesignChoiceConstants.PARAM_TYPE_DECIMAL,
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD,
-				decimalValue,
-				ULocale.ENGLISH ) );
+				decimalValue, ULocale.ENGLISH ) );
 
 		// string type
 		String stringValue = "0211234567"; //$NON-NLS-1$
 		assertEquals( "(021)123-4567", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
+				DesignChoiceConstants.PARAM_TYPE_STRING,
 				DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER,
-				stringValue,
-				ULocale.GERMAN ) );
+				stringValue, ULocale.GERMAN ) );
 		assertEquals( "(021)123-4567", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
+				DesignChoiceConstants.PARAM_TYPE_STRING,
 				DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER,
-				stringValue,
-				ULocale.ENGLISH ) );
+				stringValue, ULocale.ENGLISH ) );
 		assertEquals( "021123-4567", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_STRING,
+				DesignChoiceConstants.PARAM_TYPE_STRING,
 				DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4,
-				stringValue,
-				ULocale.GERMAN ) );
+				stringValue, ULocale.GERMAN ) );
 
 		// boolean type
 		assertEquals( "false", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-				null,
-				Boolean.FALSE,
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, Boolean.FALSE,
 				ULocale.ENGLISH ) );
 		assertEquals( "\u5047", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-		DesignChoiceConstants.PARAM_TYPE_BOOLEAN,
-				null,
-				Boolean.FALSE,
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, Boolean.FALSE,
 				new ULocale( "aa" ) ) ); //$NON-NLS-1$
 	}
 }

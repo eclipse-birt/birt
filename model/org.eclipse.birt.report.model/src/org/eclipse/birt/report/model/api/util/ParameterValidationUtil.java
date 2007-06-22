@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.util;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -250,10 +251,27 @@ public class ParameterValidationUtil
 		if ( value == null )
 			return null;
 
-		NumberFormat localeFormatter = DesignChoiceConstants.PARAM_TYPE_INTEGER
-				.equalsIgnoreCase( dataType ) ? NumberFormat
-				.getIntegerInstance( locale.toLocale( ) ) : NumberFormat
-				.getNumberInstance( locale.toLocale( ) );
+		NumberFormat localeFormatter = null;
+
+		if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
+				.equalsIgnoreCase( dataType ) )
+		{
+			localeFormatter = NumberFormat.getIntegerInstance( locale
+					.toLocale( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
+				.equalsIgnoreCase( dataType ) )
+		{
+			localeFormatter = NumberFormat
+					.getNumberInstance( locale.toLocale( ) );
+			( (DecimalFormat) localeFormatter ).setParseBigDecimal( true );
+		}
+		else
+		{
+			localeFormatter = NumberFormat
+					.getNumberInstance( locale.toLocale( ) );
+		}
+
 		try
 		{
 			// Parse in locale-dependent way.
