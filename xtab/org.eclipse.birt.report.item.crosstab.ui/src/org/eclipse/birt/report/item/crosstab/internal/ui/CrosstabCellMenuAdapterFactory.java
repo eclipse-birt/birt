@@ -22,7 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Palet
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.NormalCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -43,10 +43,11 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
-		if ( adaptableObject instanceof NormalCrosstabCellAdapter
+		if ( adaptableObject instanceof CrosstabCellAdapter
+				&& ( (CrosstabCellAdapter) adaptableObject ).getCrosstabCellHandle( ) != null
 				&& adapterType == IMenuListener.class )
 		{
-			return new ISchematicMenuListener(){
+			return new ISchematicMenuListener( ) {
 
 				private ActionRegistry actionRegistry;
 
@@ -54,7 +55,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 				{
 
 					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) );
-					
+
 					IAction action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
@@ -116,7 +117,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 							subMenu.add( action );
 						}
 					}
-					
+
 					PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 					for ( int i = 0; i < entries.length; i++ )
 					{
@@ -124,7 +125,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 						action.setText( entries[i].getMenuLabel( ) );
 						subMenu.add( action );
 					}
-					
+
 					manager.add( subMenu );
 				}
 
@@ -145,10 +146,10 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 				private ActionRegistry getActionRegistry( )
 				{
-					if (actionRegistry == null)
-						actionRegistry = new ActionRegistry();
+					if ( actionRegistry == null )
+						actionRegistry = new ActionRegistry( );
 					return actionRegistry;
-				}	
+				}
 			};
 		}
 		return null;
