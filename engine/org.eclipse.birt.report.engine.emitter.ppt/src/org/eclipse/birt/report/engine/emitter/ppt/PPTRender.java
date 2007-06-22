@@ -377,6 +377,12 @@ public class PPTRender implements IAreaVisitor
 			imageURL = reportDesign.findResource( imageURI,
 					IResourceLocator.IMAGE );
 		}
+		
+		// fix 193886
+		if ( imageURL == null )
+		{
+			return;
+		}
 
 		if ( imageURL.toString( ).toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
 		{
