@@ -85,20 +85,23 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	{
 		if ( location == null || csses == null )
 			return -1;
-		URL url = module.findResource( location,
+		URL targetUrl = module.findResource( location,
 				IResourceLocator.CASCADING_STYLE_SHEET );
-		if( url == null )
-			return -1;
-		String fileLocation = url.getFile( );
+		String fileLocation = location;
+		if ( targetUrl != null )
+			fileLocation = targetUrl.getFile( );
+
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
 			CssStyleSheet css = (CssStyleSheet) csses.get( i );
 			String tmpFileName = css.getFileName( );
-			url = module.findResource( tmpFileName,
-					IResourceLocator.CASCADING_STYLE_SHEET );
-			if ( url == null )
-				continue;
-			tmpFileName = url.getFile( );
+			if ( targetUrl != null )
+			{
+				URL url = module.findResource( tmpFileName,
+						IResourceLocator.CASCADING_STYLE_SHEET );
+				if ( url != null )
+					tmpFileName = url.getFile( );
+			}
 			if ( fileLocation.equalsIgnoreCase( tmpFileName ) )
 				return i;
 		}

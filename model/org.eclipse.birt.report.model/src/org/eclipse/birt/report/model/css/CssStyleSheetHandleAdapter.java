@@ -23,29 +23,31 @@ import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 
 /**
  * Adapter of CssStyleSheet operation of ThemeHandle/ReportDesignHandle.
- *
+ * 
  */
 
 public class CssStyleSheetHandleAdapter
 {
-	private final Module module ;
-	
-	//element is report design / theme.
-	
+
+	private final Module module;
+
+	// element is report design / theme.
+
 	private final DesignElement element;
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param module
 	 * @param element
 	 */
-	
-	public CssStyleSheetHandleAdapter( Module module , DesignElement element )
+
+	public CssStyleSheetHandleAdapter( Module module, DesignElement element )
 	{
 		this.module = module;
 		this.element = element;
 	}
-	
+
 	/**
 	 * Includes one css with the given css file name. The new css will be
 	 * appended to the css list.
@@ -53,18 +55,18 @@ public class CssStyleSheetHandleAdapter
 	 * @param sheetHandle
 	 *            css style sheet handle
 	 * @throws SemanticException
-	 *             if error is encountered when handling <code>CssStyleSheet</code>
-	 *             structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
-	public final void addCss( CssStyleSheetHandle sheetHandle ) throws SemanticException
+	public final void addCss( CssStyleSheetHandle sheetHandle )
+			throws SemanticException
 	{
-		if ( sheetHandle  == null )
-			return; 
+		if ( sheetHandle == null )
+			return;
 		CssCommand command = new CssCommand( module, element );
 		command.addCss( sheetHandle.getStyleSheet( ) );
 	}
-	
 
 	/**
 	 * Includes one css with the given css file name. The new css will be
@@ -73,8 +75,8 @@ public class CssStyleSheetHandleAdapter
 	 * @param fileName
 	 *            css file name
 	 * @throws SemanticException
-	 *             if error is encountered when handling <code>CssStyleSheet</code>
-	 *             structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public final void addCss( String fileName ) throws SemanticException
@@ -93,9 +95,9 @@ public class CssStyleSheetHandleAdapter
 	 *            the css to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it
-	 *             maybe because that the given css is not found in the design.
-	 *             Or that the css has descedents in the current module
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public final void dropCss( CssStyleSheetHandle sheetHandle )
@@ -110,92 +112,95 @@ public class CssStyleSheetHandleAdapter
 
 	/**
 	 * Check style sheet can be droped or not.
+	 * 
 	 * @param sheetHandle
 	 * @return <code>true</code> can be dropped.else return <code>false</code>
 	 */
-	
+
 	public final boolean canDropCssStyleSheet( CssStyleSheetHandle sheetHandle )
 	{
-		//element is read-only
-		if( !element.canEdit( module ))
+		// element is read-only
+		if ( !element.canEdit( module ) )
 		{
 			return false;
 		}
-		
-		if( sheetHandle == null )
+
+		if ( sheetHandle == null )
 			return false;
-		
+
 		String fileName = sheetHandle.getFileName( );
-		
+
 		// css not found.
-		
-		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation( module, 
-				( (ICssStyleSheetOperation)element ).getCsses( ), fileName );;
-		if ( sheet == null )
+
+		int position = CssStyleSheetAdapter.getPositionOfCssStyleSheet( module,
+				( (ICssStyleSheetOperation) element ).getCsses( ), fileName );;
+		if ( position == -1 )
 		{
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Check style sheet can be added or not.
+	 * 
 	 * @param fileName
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
-	
+
 	public final boolean canAddCssStyleSheet( String fileName )
 	{
-		//element is read-only
-		
-		if( !element.canEdit( module ))
+		// element is read-only
+
+		if ( !element.canEdit( module ) )
 		{
 			return false;
 		}
-		if( fileName == null )
+		if ( fileName == null )
 		{
 			return false;
 		}
-		
+
 		URL url = module.findResource( fileName,
 				IResourceLocator.CASCADING_STYLE_SHEET );
-		if( url == null )
+		if ( url == null )
 		{
 			return false;
 		}
-		
+
 		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation(
-				module , ( (ICssStyleSheetOperation) element ).getCsses( ), url.getFile( ) );;
+				module, ( (ICssStyleSheetOperation) element ).getCsses( ), url
+						.getFile( ) );;
 		if ( sheet != null )
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
 
 	/**
 	 * Check style sheet can be added or not.
+	 * 
 	 * @param sheetHandle
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
-	
+
 	public final boolean canAddCssStyleSheet( CssStyleSheetHandle sheetHandle )
 	{
-		//element is read-only
-		if( !element.canEdit( module ))
+		// element is read-only
+		if ( !element.canEdit( module ) )
 		{
 			return false;
 		}
-		if( sheetHandle == null )
+		if ( sheetHandle == null )
 		{
 			return false;
 		}
-		String fileName = sheetHandle.getFileName();
+		String fileName = sheetHandle.getFileName( );
 		return canAddCssStyleSheet( fileName );
 	}
-	 
+
 	/**
 	 * Reloads the css with the given css file path. If the css style sheet
 	 * already is included directly or indirectly, reload it. If the css is not
@@ -210,12 +215,13 @@ public class CssStyleSheetHandleAdapter
 	 *             Or that the css has descedents in the current module
 	 */
 
-	 public final void reloadCss( CssStyleSheetHandle sheetHandle ) throws SemanticException
-	 {
-		 if ( sheetHandle == null )
-			 return;
-	
-		 CssCommand command = new CssCommand( module, element );
-		 command.reloadCss( sheetHandle.getStyleSheet( ) );
-	 }
+	public final void reloadCss( CssStyleSheetHandle sheetHandle )
+			throws SemanticException
+	{
+		if ( sheetHandle == null )
+			return;
+
+		CssCommand command = new CssCommand( module, element );
+		command.reloadCss( sheetHandle.getStyleSheet( ) );
+	}
 }
