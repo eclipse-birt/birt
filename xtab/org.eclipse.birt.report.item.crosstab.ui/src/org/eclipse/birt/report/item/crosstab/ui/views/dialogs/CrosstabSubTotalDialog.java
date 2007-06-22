@@ -359,9 +359,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.INSERT_EDIT_SUB_TOTAL_DIALOG_ID );
-
 		GridData gdata;
 		GridLayout glayout;
 		Composite contents = new Composite( parent, SWT.NONE );
@@ -500,6 +497,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				SWT.BOLD ) );
 		label.setText( getTitle( ) ); //$NON-NLS-1$
 
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.INSERT_EDIT_SUB_TOTAL_DIALOG_ID );
 		return titleArea;
 	}
 
