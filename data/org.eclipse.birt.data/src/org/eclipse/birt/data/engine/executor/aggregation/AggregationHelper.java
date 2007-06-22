@@ -306,17 +306,16 @@ public class AggregationHelper implements IAggrValueHolder
 		{
 			// Calculate arguments to the aggregate aggregationtion
 			
-			if ( argDefs.length != aggrArgs[aggrIndex].length )
+			if ( !isFunctionCount( aggrInfo ) )
 			{
-				throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-						aggrInfo.getName( ) );
+				if ( aggrInfo.getArgument( ) == null
+						|| aggrInfo.getArgument( ).length != argDefs.length )
+					throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+							aggrInfo.getName( ) );
 			}
 			
 			try
 			{
-				if ( aggrInfo.getArgument( ).length > argDefs.length
-						&& !isFunctionCount( aggrInfo ) )
-					throw new DataException( "Invalid aggregation definition" );
 				for ( int i = 0; i < argDefs.length; i++ )
 				{
 					// Note that static arguments only need to be calculated
