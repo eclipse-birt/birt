@@ -1377,7 +1377,29 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 								.length( ) == 0 )
 					return;
 				
-				ResultSetMetaData meta = this.metaDataProvider.getConnection( ).prepareStatement( this.getDataSetDesign( ).getQueryText( ) ).getMetaData( );
+				ResultSetMetaData meta = null;
+				try
+				{
+					meta = this.metaDataProvider.getConnection( )
+							.prepareStatement( this.getDataSetDesign( )
+									.getQueryText( ) )
+							.getMetaData( );
+				}
+				catch ( SQLException e )
+				{
+					try
+					{
+						meta = this.metaDataProvider.getConnection( )
+								.prepareStatement( this.getDataSetDesign( )
+										.getQueryText( ) )
+								.executeQuery( )
+								.getMetaData( );
+					}
+					catch ( Exception ex )
+					{
+						meta = null;
+					}
+				}
 				if ( meta == null )
 					return;
 				

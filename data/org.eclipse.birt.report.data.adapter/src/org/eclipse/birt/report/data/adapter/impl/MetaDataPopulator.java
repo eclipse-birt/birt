@@ -74,7 +74,7 @@ public class MetaDataPopulator
 		ResultSetColumnDefinition columnDef;
 		int count = 0;
 		// populate result set columns
-		if ( resultSetList != null )
+		if ( resultSetList != null && !resultSetList.isEmpty( ) )
 		{
 			ResultSetColumn resultSetColumn;
 			HashSet orgColumnNameSet = new HashSet( );
