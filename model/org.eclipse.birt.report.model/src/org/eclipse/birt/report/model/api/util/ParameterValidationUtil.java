@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -264,7 +266,42 @@ public class ParameterValidationUtil
 		{
 			localeFormatter = NumberFormat
 					.getNumberInstance( locale.toLocale( ) );
-			( (DecimalFormat) localeFormatter ).setParseBigDecimal( true );
+			try
+			{
+				// In jdk1.5 there is 'setParseBigDecimal' method, so call it.
+				// if no such method,that means jdk doesn't support it, do
+				// nothing.
+
+				Method method = localeFormatter.getClass( ).getMethod(
+						"setParseBigDecimal", new Class[]{boolean.class} );
+
+				if ( method != null )
+				{
+					method.invoke( localeFormatter, new Object[]{new Boolean(
+							true )} );
+				}
+			}
+			catch ( SecurityException e )
+			{
+				// do nothing
+			}
+			catch ( NoSuchMethodException e )
+			{
+				// do nothing
+				e.printStackTrace( );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				// do nothing
+			}
+			catch ( IllegalAccessException e )
+			{
+				// do nothing
+			}
+			catch ( InvocationTargetException e )
+			{
+				// do nothing
+			}
 		}
 		else
 		{
@@ -276,6 +313,7 @@ public class ParameterValidationUtil
 		{
 			// Parse in locale-dependent way.
 			// Use the decimal separator from the locale.
+
 			return localeFormatter.parse( value );
 		}
 		catch ( ParseException e )

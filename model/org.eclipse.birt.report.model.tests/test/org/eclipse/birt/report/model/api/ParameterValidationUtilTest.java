@@ -201,12 +201,6 @@ public class ParameterValidationUtilTest extends BaseTestCase
 				DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC,
 				"13c1.9ab2", //$NON-NLS-1$
 				ULocale.CHINA ).toString( ) );
-
-		assertEquals( "123.68580", ParameterValidationUtil.validate(
-				DesignChoiceConstants.PARAM_TYPE_DECIMAL,
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED,
-				"123.68580", ULocale.CHINA ).toString( ) );
-
 	}
 
 	/**
