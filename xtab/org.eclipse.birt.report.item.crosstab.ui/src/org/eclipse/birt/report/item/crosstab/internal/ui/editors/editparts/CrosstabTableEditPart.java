@@ -200,6 +200,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		refreshBackground( getCrosstabHandleAdapter( ).getDesignElementHandle( ) );
 		//support the margin
 		refreshMargin( );
+		
+		( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
 	}
 
 	/*
