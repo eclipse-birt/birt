@@ -28,8 +28,11 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -48,6 +51,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -609,7 +613,7 @@ public class PeerExtensionTest extends BaseTestCase
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 
 		// font-variant is not set
-		assertFalse( extendedItem.getPropertyHandle(
+		assertTrue( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_FAMILY_PROP ).isSet( ) );
 		assertFalse( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
@@ -629,13 +633,41 @@ public class PeerExtensionTest extends BaseTestCase
 
 		// no value from testing-matrix default selector
 		// font-variant is not set
-		assertFalse( extendedItem.getPropertyHandle(
+		assertTrue( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_FAMILY_PROP ).isSet( ) );
 		assertFalse( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
 		assertEquals( style.getStringProperty( IStyleModel.FONT_VARIANT_PROP ),
 				extendedItem.getStringProperty( IStyleModel.FONT_VARIANT_PROP ) );
 
+	}
+
+	/**
+	 * When changes the style defined in IReportItem.getPredefinedStyles, the
+	 * style event will be sent to the specified element.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testPredefinedStylesBroadCast( ) throws Exception
+	{
+		openDesign( FILE_NAME_6 );
+
+		StyleHandle style = designHandle.findStyle( "testPredefinedStyle" ); //$NON-NLS-1$
+
+		DesignElementHandle detailMaxtrix = designHandle
+				.findElement( "detailMatrix" ); //$NON-NLS-1$
+
+		MyListener styleEventListener = new MyListener( );
+		detailMaxtrix.addListener( styleEventListener );
+
+		style.setBorderLeftStyle( DesignChoiceConstants.LINE_STYLE_DOTTED );
+
+		assertEquals( 1, styleEventListener.getEventCount( ) );
+
+		style.setStringProperty( StyleHandle.COLOR_PROP, ColorPropertyType.RED );
+
+		assertEquals( 2, styleEventListener.getEventCount( ) );
 	}
 
 	/**
@@ -777,5 +809,35 @@ public class PeerExtensionTest extends BaseTestCase
 
 		designHandle.getCommandStack( ).redo( );
 		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	private static class MyListener implements Listener
+	{
+
+		private int eventCount = 0;
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
+		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 */
+
+		public void elementChanged( DesignElementHandle focus,
+				NotificationEvent ev )
+		{
+			if ( ev instanceof StyleEvent )
+				eventCount++;
+		}
+
+		/**
+		 * @return the eventCount
+		 */
+
+		int getEventCount( )
+		{
+			return eventCount;
+		}
+
 	}
 }

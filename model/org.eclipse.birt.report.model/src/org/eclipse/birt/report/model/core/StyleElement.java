@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -178,30 +179,29 @@ public abstract class StyleElement extends ReferenceableElement
 				selectors.add( getName( ) );
 		}
 
-		if ( !selectors.isEmpty( ) )
+		if ( selectors.isEmpty( ) )
 		{
-			// broadcast the change to theme references.
-
-			DesignElement tmpContainer = getContainer( );
-			List modules = new ArrayList( );
-
-			if ( getContainer( ) instanceof Theme )
-			{
-				Theme containerTheme = (Theme) tmpContainer;
-				if ( containerTheme.hasReferences( ) )
-				{
-					List refs = ( (Theme) tmpContainer ).getClientList( );
-					for ( int i = 0; i < refs.size( ); i++ )
-						modules.add( ( (BackRef) refs.get( i ) ).getElement( ) );
-				}
-			}
-			else
-				modules.add( module );
-
-			for ( int i = 0; i < modules.size( ); i++ )
-				broadcastToModule( (Module) modules.get( i ), selectors );
+			return;
 		}
+		
+		DesignElement tmpContainer = getContainer( );
+		List modules = new ArrayList( );
 
+		if ( getContainer( ) instanceof Theme )
+		{
+			Theme containerTheme = (Theme) tmpContainer;
+			if ( containerTheme.hasReferences( ) )
+			{
+				List refs = ( (Theme) tmpContainer ).getClientList( );
+				for ( int i = 0; i < refs.size( ); i++ )
+					modules.add( ( (BackRef) refs.get( i ) ).getElement( ) );
+			}
+		}
+		else
+			modules.add( module );
+
+		for ( int i = 0; i < modules.size( ); i++ )
+			broadcastToModule( (Module) modules.get( i ), selectors );
 	}
 
 	/**
@@ -232,10 +232,12 @@ public abstract class StyleElement extends ReferenceableElement
 			}
 			else
 			{
-				broadcastToSelectedElementsInSlot( module, new ContainerContext(
-						module, IModuleModel.COMPONENT_SLOT ), selectorName );
-				broadcastToSelectedElementsInSlot( module, new ContainerContext(
-						module, IModuleModel.PAGE_SLOT ), selectorName );
+				broadcastToSelectedElementsInSlot( module,
+						new ContainerContext( module,
+								IModuleModel.COMPONENT_SLOT ), selectorName );
+				broadcastToSelectedElementsInSlot( module,
+						new ContainerContext( module, IModuleModel.PAGE_SLOT ),
+						selectorName );
 
 				// only report design has the body, scratch pad slots.
 
@@ -282,7 +284,8 @@ public abstract class StyleElement extends ReferenceableElement
 			// Broadcast the element which is selected by this style
 			event = new StyleEvent( element );
 			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-			String selector = getMatchedElementSelector( element, selectorName );
+			String selector = getMatchedElementSelector( element, selectorName,
+					module );
 			if ( selector != null )
 			{
 				element.broadcast( event, module );
@@ -300,15 +303,16 @@ public abstract class StyleElement extends ReferenceableElement
 				continue;
 			for ( int i = 0; i < elementDefn.getSlotCount( ); i++ )
 			{
-				broadcastToSelectedElementsInSlot( module, new ContainerContext(
-						element, i ), selectorName );
+				broadcastToSelectedElementsInSlot( module,
+						new ContainerContext( element, i ), selectorName );
 			}
 			List properties = elementDefn.getContents( );
 			for ( int i = 0; i < properties.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-				broadcastToSelectedElementsInSlot( module, new ContainerContext(
-						element, propDefn.getName( ) ), selectorName );
+				broadcastToSelectedElementsInSlot( module,
+						new ContainerContext( element, propDefn.getName( ) ),
+						selectorName );
 			}
 		}
 	}
@@ -325,7 +329,7 @@ public abstract class StyleElement extends ReferenceableElement
 	 */
 
 	private String getMatchedElementSelector( DesignElement element,
-			String selectorName )
+			String selectorName, Module module )
 	{
 		String selector = null;
 
@@ -344,6 +348,28 @@ public abstract class StyleElement extends ReferenceableElement
 			if ( tmpSelector != null
 					&& tmpSelector.equalsIgnoreCase( selectorName ) )
 				selector = tmpSelector;
+			else
+			{
+				// get IReportItem.getPredefinedStyles()
+
+				List tmpSelectors = ( (ExtendedItem) element )
+						.getReportItemDefinedSelectors( module );
+				for ( int i = 0; i < tmpSelectors.size( ); i++ )
+				{
+					Object styleObject = tmpSelectors.get( i );
+
+					if ( styleObject instanceof IStyleDeclaration )
+						tmpSelector = ( (IStyleDeclaration) styleObject )
+								.getName( );
+					else
+						tmpSelector = (String) styleObject;
+					if ( selectorName.equalsIgnoreCase( tmpSelector ) )
+					{
+						selector = tmpSelector;
+						break;
+					}
+				}
+			}
 		}
 
 		// get ROM defined style

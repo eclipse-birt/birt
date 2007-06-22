@@ -49,8 +49,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 			return null;
 		URL url = module.findResource( location,
 				IResourceLocator.CASCADING_STYLE_SHEET );
-		if( url == null )
-			return null ;
+		if ( url == null )
+			return null;
 		String fileLocation = url.getFile( );
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
@@ -68,15 +68,14 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	}
 
 	/**
-	 * Gets position of css style sheet in all sheets. Compare two absolute path
-	 * of file.
+	 * Gets position of css style sheet in all sheets. Compare two path of file.
 	 * 
 	 * @param module
 	 *            module
 	 * @param csses
 	 *            list each item is <code>CssStyleSheet</code>
 	 * @param location
-	 *            absolute location
+	 *            absolute location or relative path
 	 * @return css style sheet.
 	 */
 
@@ -88,6 +87,9 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		URL targetUrl = module.findResource( location,
 				IResourceLocator.CASCADING_STYLE_SHEET );
 		String fileLocation = location;
+
+		// if css file found, uses the absolute path to compare two pathes.
+
 		if ( targetUrl != null )
 			fileLocation = targetUrl.getFile( );
 
@@ -95,6 +97,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		{
 			CssStyleSheet css = (CssStyleSheet) csses.get( i );
 			String tmpFileName = css.getFileName( );
+
 			if ( targetUrl != null )
 			{
 				URL url = module.findResource( tmpFileName,
@@ -102,6 +105,10 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 				if ( url != null )
 					tmpFileName = url.getFile( );
 			}
+
+			// if the css file has been deleted, uses the input value as the
+			// comparison value.
+
 			if ( fileLocation.equalsIgnoreCase( tmpFileName ) )
 				return i;
 		}
@@ -122,7 +129,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		assert csses.contains( css );
 
 		int posn = csses.indexOf( css );
-		if( posn != -1 )
+		if ( posn != -1 )
 			csses.remove( posn );
 
 		return posn;
