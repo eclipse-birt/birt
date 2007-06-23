@@ -380,7 +380,7 @@ public class PreparedStatement
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
 							"Cannot get resultset metadata.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, ex );
@@ -512,7 +512,7 @@ public class PreparedStatement
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
 							"Cannot get metadata for named resultset.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, ex, 
@@ -716,15 +716,16 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find out parameter.", ex ); //$NON-NLS-1$
+							"Cannot find output parameter by name.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
 			                         paramName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find out parameter.", ex ); //$NON-NLS-1$
+            // this is common, and may be ignored by caller
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot find output parameter by name.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
 			                         paramName );
@@ -1280,8 +1281,8 @@ public class PreparedStatement
 		// least an IAdvancedQuery
 		if( ! isAdvancedQuery( ) || ! supportsNamedResults() )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Named resultsets is not supported." ); //$NON-NLS-1$
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"Named resultsets are not supported." ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED, 
 									 new UnsupportedOperationException() );
@@ -1486,7 +1487,7 @@ public class PreparedStatement
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
 							"Cannot get parameter count.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, ex );
@@ -1615,8 +1616,8 @@ public class PreparedStatement
 		// least an IAdvancedQuery
 		if( ! isAdvancedQuery( ) || ! supportsOutputParameter() ) 
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Output parameters is not supported." ); //$NON-NLS-1$
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"Output parameters are not supported." ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED, 
 									 new UnsupportedOperationException() );
