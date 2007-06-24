@@ -498,7 +498,7 @@ Use this dialog to scale and group charts. You can group up to two levels along 
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-15-2.html#wp281573" label="Grouping and sorting for a bar chart"/>
 </context>
 
-<context id="FormatDifferenceChartYSeries_ID" title="Value (Y) Series">
+<context id="FormatDifferenceChartYSeries_ID" title="Format Difference Chart Y Series">
 <description>
 Use this page to format a difference chart, which displays two related line plots with a colored band between them.
 - Select the format and color of the line to display for the positive and negative series.
