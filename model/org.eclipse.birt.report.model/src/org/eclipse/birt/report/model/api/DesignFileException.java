@@ -43,7 +43,7 @@ public class DesignFileException extends ModelException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 8790341685615483274L;
 
 	/**
@@ -102,7 +102,7 @@ public class DesignFileException extends ModelException
 
 	public DesignFileException( String fileName, Exception e )
 	{
-		super( DESIGN_EXCEPTION_INVALID_XML );
+		super( DESIGN_EXCEPTION_INVALID_XML, null, e );
 		this.fileName = fileName;
 		this.e = e;
 		exceptionList.add( e );
@@ -144,7 +144,7 @@ public class DesignFileException extends ModelException
 
 	public DesignFileException( String fileName, List errList, Exception ex )
 	{
-		super( DESIGN_EXCEPTION_INVALID_XML );
+		super( DESIGN_EXCEPTION_INVALID_XML, null, ex );
 		this.fileName = fileName;
 
 		exceptionList.addAll( errList );

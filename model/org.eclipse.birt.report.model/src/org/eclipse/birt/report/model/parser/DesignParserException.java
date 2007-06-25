@@ -41,7 +41,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	 */
 
 	public static final String DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT = MessageConstants.DESIGN_PARSER_EXCEPTION_FILE_FORMAT_NOT_SUPPORT;
-	
+
 	/**
 	 * A custom color did not have a correct RGB value.
 	 */
@@ -177,12 +177,12 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID;
 
 	/**
-	 * The virtual parent element reference by baseId is not found in the parent.
+	 * The virtual parent element reference by baseId is not found in the
+	 * parent.
 	 */
 
 	public static final String DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND = MessageConstants.DESIGN_PARSER_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND;
-	
-	
+
 	/**
 	 * The element id is duplicate.
 	 */
@@ -205,9 +205,9 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	/**
 	 * The simple list property has no definition in the element.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_SIMPLE_LIST_TYPE;
-	
+
 	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
@@ -218,7 +218,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public DesignParserException( String errCode )
 	{
 		super( errCode );
-	}
+	}	
 
 	/**
 	 * Constructs the design parser exception with the file name, the property
@@ -233,6 +233,19 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public DesignParserException( String[] values, String errCode )
 	{
 		super( errCode, values, null );
+	}
+	
+	/**
+	 * Constructs the design parser exception with the error code, the exception
+	 * argument lists and the caused exception.
+	 * 
+	 * @param errCode
+	 * @param values 
+	 * @param ex
+	 */
+	public DesignParserException( String errCode, String[] values, Throwable ex )
+	{
+		super( errCode, values, ex );
 	}
 
 	/*
@@ -255,8 +268,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_ID
-				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID
-				)
+				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID )
 		{
 			assert oaMessageArguments.length == 2;
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );

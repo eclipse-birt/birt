@@ -177,8 +177,8 @@ public abstract class ModuleReader
 		catch ( IOException e )
 		{
 			DesignParserException ex = new DesignParserException(
-					new String[]{handler.getFileName( )},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND,
+					new String[]{handler.getFileName( )}, e );
 			List exceptionList = new ArrayList( );
 			exceptionList.add( ex );
 

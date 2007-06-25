@@ -172,16 +172,6 @@ public final class ErrorDetail implements ErrorCodes
 	private StringBuffer description = new StringBuffer( );
 
 	/**
-	 * The default constructor.
-	 * 
-	 */
-
-	private ErrorDetail( )
-	{
-
-	}
-
-	/**
 	 * Constructs the error detail with a given exception.
 	 * 
 	 * @param e
@@ -302,6 +292,11 @@ public final class ErrorDetail implements ErrorCodes
 		description.append( e.getMessage( ) );
 		description.append( ")" ); //$NON-NLS-1$
 
+		if ( e.getCause( ) != null && e.getCause( ) instanceof IOException )
+		{
+			translateCausedException( e.getCause( ) );
+		}
+
 	}
 
 	/**
@@ -380,7 +375,7 @@ public final class ErrorDetail implements ErrorCodes
 
 		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
 		{
-			translateRuntimeException( (RuntimeException) e.getCause( ) );
+			translateCausedException( e.getCause( ) );
 		}
 	}
 
@@ -407,7 +402,7 @@ public final class ErrorDetail implements ErrorCodes
 
 		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
 		{
-			translateRuntimeException( (RuntimeException) e.getCause( ) );
+			translateCausedException( e.getCause( ) );
 		}
 	}
 
@@ -418,7 +413,7 @@ public final class ErrorDetail implements ErrorCodes
 	 *            the runtime exception
 	 */
 
-	private void translateRuntimeException( RuntimeException e )
+	private void translateCausedException( Throwable e )
 	{
 		assert e != null;
 
@@ -480,7 +475,7 @@ public final class ErrorDetail implements ErrorCodes
 
 		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
 		{
-			translateRuntimeException( (RuntimeException) e.getCause( ) );
+			translateCausedException( e.getCause( ) );
 		}
 	}
 
@@ -548,11 +543,10 @@ public final class ErrorDetail implements ErrorCodes
 			Module root = element.getRoot( );
 			if ( root != null )
 				return root.getLineNo( element );
-			else
-				return 1;
+			return 1;
 		}
-		else
-			return lineNo;
+
+		return lineNo;
 	}
 
 	/**
