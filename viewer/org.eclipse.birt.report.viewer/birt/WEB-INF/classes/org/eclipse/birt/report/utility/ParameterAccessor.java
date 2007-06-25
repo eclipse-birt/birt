@@ -2533,6 +2533,21 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Returns whether open report as attachment
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isOpenAsAttachment( HttpServletRequest request )
+	{
+		if ( "true".equalsIgnoreCase( getParameter( request, //$NON-NLS-1$
+				PARAM_AS_ATTACHMENT ) ) )
+			return true;
+
+		return false;
+	}
+
+	/**
 	 * Returns action name
 	 * 
 	 * @param request

@@ -494,7 +494,22 @@ public class ReportEngineService
 			baseURL = ParameterAccessor.getBaseURL( );
 
 		if ( baseURL == null )
-			baseURL = ""; //$NON-NLS-1$
+		{
+			// if not HTML format, use full URL.
+			if ( ParameterAccessor.isOpenAsAttachment( request )
+					|| !ParameterAccessor.PARAM_FORMAT_HTML
+							.equalsIgnoreCase( ParameterAccessor
+									.getFormat( request ) ) )
+			{
+				baseURL = request.getScheme( ) + "://" //$NON-NLS-1$
+						+ request.getServerName( ) + ":" //$NON-NLS-1$
+						+ request.getServerPort( );
+			}
+			else
+			{
+				baseURL = ""; //$NON-NLS-1$		
+			}
+		}
 
 		// append application context path
 		baseURL += request.getContextPath( );
@@ -535,7 +550,18 @@ public class ReportEngineService
 			baseURL = ParameterAccessor.getBaseURL( );
 
 		if ( baseURL == null )
-			baseURL = ""; //$NON-NLS-1$
+		{
+			if ( ParameterAccessor.isOpenAsAttachment( request ) )
+			{
+				baseURL = request.getScheme( ) + "://" //$NON-NLS-1$
+						+ request.getServerName( ) + ":" //$NON-NLS-1$
+						+ request.getServerPort( );
+			}
+			else
+			{
+				baseURL = ""; //$NON-NLS-1$		
+			}
+		}
 
 		// append application context path
 		baseURL += request.getContextPath( );
