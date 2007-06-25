@@ -305,12 +305,22 @@ public class ReportRunner
 				assert extPos != -1;
 				String pathName = targetFile.substring( 0, extPos );
 				String extName = targetFile.substring( extPos );
-				for ( long i = 1; i <= document.getPageCount( ); i++ )
+				long pageCount = document.getPageCount( );
+				if ( pageCount == 1 )
 				{
-					String fileName = pathName + '_' + ( i ) + extName;
-					options.setOutputFileName( fileName );
-					task.setPageNumber( i );
+					options.setOutputFileName( targetFile );
+					task.setPageNumber( 1 ); //$NON-NLS-1$
 					task.render( );
+				}
+				else
+				{
+					for ( long i = 1; i <= pageCount; i++ )
+					{
+						String fileName = pathName + '_' + ( i ) + extName;
+						options.setOutputFileName( fileName );
+						task.setPageNumber( i );
+						task.render( );
+					}
 				}
 			}
 			else
