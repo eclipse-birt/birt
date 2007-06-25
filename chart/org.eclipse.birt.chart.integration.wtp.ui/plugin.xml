@@ -116,12 +116,10 @@
 	<extension point="org.eclipse.ui.editors.templates">
 
 		<contextType
-			name="%JSP_New_context_type_Extension_Element.name"
 			class="org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeJSP"
 			id="jsp_new" />
 
 		<contextType
-			name="%JSP_Tag_context_type_Extension_Element.name"
 			class="org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeJSP"
 			id="jsp_tag" />
 			
