@@ -124,14 +124,14 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		// Cheack the element name extends in LibA
 		assertEquals("sqlds11", dataSourceLibAHandle.getName()); //$NON-NLS-1$
 		assertEquals("sqldst11", dataSetLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("data111", dataLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("par111", parameterLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("text111", textLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("label111", labelLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("table111", tableLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("pic111", imageLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("list111", listLibAHandle.getName()); //$NON-NLS-1$
-		assertEquals("grid111", gridLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("data11", dataLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("par11", parameterLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("text11", textLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("label11", labelLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("table11", tableLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("pic11", imageLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("list11", listLibAHandle.getName()); //$NON-NLS-1$
+		assertEquals("grid11", gridLibAHandle.getName()); //$NON-NLS-1$
 
 		// Check the style of design label before remove design style
 		LabelHandle labelDesignHandle = (LabelHandle) designHandle

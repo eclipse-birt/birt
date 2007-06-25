@@ -44,7 +44,7 @@ public class Regression_118178 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session.createDesign( );
-
+		
 		ElementFactory factory = designHandle.getElementFactory( );
 		OdaDataSetHandle dataset = factory.newOdaDataSet(
 				"report1.data set", null ); //$NON-NLS-1$
@@ -52,7 +52,7 @@ public class Regression_118178 extends BaseTestCase
 		try
 		{
 			designHandle.getDataSets( ).add( dataset );
-			fail( );
+			//fail( );
 		}
 		catch ( Exception e )
 		{
