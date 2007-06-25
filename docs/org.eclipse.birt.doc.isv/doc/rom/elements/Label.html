@@ -74,7 +74,9 @@ externalized.</dd>
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportItem.html#Property-dataBindingRef">dataBindingRef</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
@@ -92,7 +94,8 @@ externalized.</dd>
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
-<a href="ReportItem.html#Property-y">y</a>
+<a href="ReportItem.html#Property-y">y</a>, 
+<a href="ReportItem.html#Property-zIndex">zIndex</a>
 </p>
 <h3>Style Properties</h3>
 
@@ -131,12 +134,14 @@ externalized.</dd>
 <a href="Style.html#Property-marginRight">marginRight</a>, 
 <a href="Style.html#Property-marginTop">marginTop</a>, 
 <a href="Style.html#Property-masterPage">masterPage</a>, 
+<a href="Style.html#Property-orphans">orphans</a>, 
 <a href="Style.html#Property-paddingBottom">paddingBottom</a>, 
 <a href="Style.html#Property-paddingLeft">paddingLeft</a>, 
 <a href="Style.html#Property-paddingRight">paddingRight</a>, 
 <a href="Style.html#Property-paddingTop">paddingTop</a>, 
 <a href="Style.html#Property-pageBreakAfter">pageBreakAfter</a>, 
 <a href="Style.html#Property-pageBreakBefore">pageBreakBefore</a>, 
+<a href="Style.html#Property-pageBreakInside">pageBreakInside</a>, 
 <a href="Style.html#Property-showIfBlank">showIfBlank</a>, 
 <a href="Style.html#Property-textAlign">textAlign</a>, 
 <a href="Style.html#Property-textLineThrough">textLineThrough</a>, 
@@ -145,6 +150,7 @@ externalized.</dd>
 <a href="Style.html#Property-textUnderline">textUnderline</a>, 
 <a href="Style.html#Property-verticalAlign">verticalAlign</a>, 
 <a href="Style.html#Property-whiteSpace">whiteSpace</a>, 
+<a href="Style.html#Property-widows">widows</a>, 
 <a href="Style.html#Property-wordSpacing">wordSpacing</a>
 </p>
 <h3>Description</h3>
@@ -293,13 +299,13 @@ externalized.</p>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#string">string</a></td></tr>
+<td><a href="../types.html#literalString">literalString</a></td></tr>
 <tr><td>Since:</td>
 <td>1.0</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Text</td></tr>
+<td>Content</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -334,7 +340,7 @@ externalized. The text cannot contain internal formatting.</p></div>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Text key</td></tr>
+<td>Content key</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>

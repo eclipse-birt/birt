@@ -2,8 +2,8 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Birt Editor Form Page</title>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/plugins/org.eclipse.sdk_3.2.0.v20060529/book.css");</style>
-<style>@import url("file:/C:/Program Files/Eclipse3.2/eclipse/configuration/org.eclipse.osgi/bundles/210/1/.cp/schema.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
+<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>Birt Editor Form Page</CENTER></H1>
@@ -23,7 +23,7 @@
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.formPage">formPage</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST formPage</p>
-<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayName&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>visible&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true|false) "true"<p class=code id=dtdAttlist>relative&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>position&nbsp;&nbsp;&nbsp;&nbsp;(left|right) <p class=code id=dtdAttlist>pageAction&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>visible&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true|false) "true"<p class=code id=dtdAttlist>relative&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>position&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(left|right) <p class=code id=dtdAttlist>priority&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(high|normal|low) "normal"<p class=code id=dtdAttlist>pageAction&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>actionBarContributor&nbsp;CDATA #IMPLIED&gt;</p>
 <p></p>
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>id</b> - </li>
@@ -33,7 +33,9 @@
 <li><b>visible</b> - </li>
 <li><b>relative</b> - </li>
 <li><b>position</b> - </li>
+<li><b>priority</b> - </li>
 <li><b>pageAction</b> - </li>
+<li><b>actionBarContributor</b> - </li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.targetEditor">targetEditor</a> (<a href="#e.formPage">formPage</a>*)&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST targetEditor</p>

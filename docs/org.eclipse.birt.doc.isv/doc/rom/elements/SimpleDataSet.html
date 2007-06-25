@@ -40,8 +40,8 @@ from an external data provider.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
-<dt><a href="#Property-cachedRowCount">cachedRowCount</a></dt>
-<dd>Number of rows that will be cached when the data rows are retrived from DB.</dd>
+<dt><a href="#Property-dataSetRowLimit">dataSetRowLimit</a></dt>
+<dd></dd>
 <dt><a href="#Property-dataSource">dataSource</a></dt>
 <dd>The database connection that the data set is used.</dd>
 <dt><a href="#Property-paramBindings">paramBindings</a></dt>
@@ -84,10 +84,9 @@ filters or calculating computed columns.</dd>
 <a href="ReportElement.html#Property-extends">extends</a>, 
 <a href="DataSet.html#Property-filter">filter</a>, 
 <a href="ReportElement.html#Property-name">name</a>, 
-<a href="DataSet.html#Property-parameters">parameters</a>, 
 <a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
-<a href="DataSet.html#Property-resultSet">resultSet</a>, 
 <a href="DataSet.html#Property-resultSetHints">resultSetHints</a>, 
+<a href="DataSet.html#Property-rowFetchLimit">rowFetchLimit</a>, 
 <a href="DesignElement.html#Property-userProperties">userProperties</a>, 
 <a href="ReportElement.html#Property-viewAction">viewAction</a>
 </p>
@@ -115,20 +114,20 @@ scripting object.</p></div>
 <p><code>DataSet</span> scripting object</p></div>
 <h1>Property Detail</h1>
 
-<h2><a name="Property-cachedRowCount">cachedRowCount Property</a></h2>
+<h2><a name="Property-dataSetRowLimit">dataSetRowLimit Property</a></h2>
 
-<p class="section-text">Number of rows that will be cached when the data rows are retrived from DB.</p>
+<p class="section-text"></p>
 <h3>Details</h3>
 
 <table class="detail-table">
 <tr><td>Type:</td>
 <td><a href="../types.html#integer">integer</a></td></tr>
 <tr><td>Since:</td>
-<td>2.0</td></tr>
+<td>2.2</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
-<td>Cached row count</td></tr>
+<td>Data set row limit</td></tr>
 <tr><td>JavaScript Type:</td>
 <td></td></tr>
 <tr><td>Default Value:</td>
@@ -143,12 +142,6 @@ scripting object.</p></div>
 <td>Top</td></tr>
 </table>
 
-<h3>Description</h3>
-
-<div class="section-text">
-<p>Number of rows that will be cached when the data rows are first time retrieved from DB, 
-the cached data will be used after that unless user choose to flush the cache. This will 
-speed up the report developing.</p></div>
 
 <hr>
 <h2><a name="Property-dataSource">dataSource Property</a></h2>

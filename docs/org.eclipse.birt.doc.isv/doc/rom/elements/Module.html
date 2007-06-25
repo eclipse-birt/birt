@@ -68,6 +68,8 @@ libraries. This is most of the report except for the body.</div>
 <dd>Libraries that are included by this module.</dd>
 <dt><a href="#Property-propertyBindings">propertyBindings</a></dt>
 <dd>Binds a property from an element to an expression.</dd>
+<dt><a href="#Property-scriptLibs">scriptLibs</a></dt>
+<dd></dd>
 <dt><a href="#Property-theme">theme</a></dt>
 <dd>Specify the theme that is to be used by the design or library.</dd>
 <dt><a href="#Property-title">title</a></dt>
@@ -694,7 +696,7 @@ design can contain any number of script includes.</p></div>
 <tr><td>Type:</td>
 <td>List of <a href="../structs/PropertyBinding.html">PropertyBinding</a> Structures</td></tr>
 <tr><td>Since:</td>
-<td>20.</td></tr>
+<td>2.0</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
@@ -719,6 +721,36 @@ design can contain any number of script includes.</p></div>
 <p>There is requirement that a property value for an elemenet can be overridden at runtime. 
 This list is used to bind a property of an element to an expression, user can override the 
 value if expression bind to an parameter.</p></div>
+
+<hr>
+<h2><a name="Property-scriptLibs">scriptLibs Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td>List of <a href="../structs/ScriptLib.html">ScriptLib</a> Structures</td></tr>
+<tr><td>Since:</td>
+<td>2.1.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Script Libs</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-theme">theme Property</a></h2>
@@ -862,7 +894,7 @@ string depends on the application UI used at deployment.</p></div>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>

@@ -45,6 +45,10 @@ Abstract base element for all visual report items.</div>
 <dd>Defines this item as a hyperlink target.</dd>
 <dt><a href="#Property-boundDataColumns">boundDataColumns</a></dt>
 <dd>Bindings the data set column and expressions with the  property values..</dd>
+<dt><a href="#Property-cube">cube</a></dt>
+<dd></dd>
+<dt><a href="#Property-dataBindingRef">dataBindingRef</a></dt>
+<dd></dd>
 <dt><a href="#Property-dataSet">dataSet</a></dt>
 <dd>The name of the data set that provides data for this item.</dd>
 <dt><a href="#Property-height">height</a></dt>
@@ -65,6 +69,8 @@ Abstract base element for all visual report items.</div>
 <dd>The x (horizontal) position of the item.</dd>
 <dt><a href="#Property-y">y</a></dt>
 <dd>The y (vertical) position of the item.</dd>
+<dt><a href="#Property-zIndex">zIndex</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -195,6 +201,66 @@ items.</p></div>
 
 <div class="section-text">
 <p>&nbsp;</p></div>
+
+<hr>
+<h2><a name="Property-cube">cube Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../elements/Cube.html">Cube</a> Reference</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Cube</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-dataBindingRef">dataBindingRef Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../elements/ReportItem.html">ReportItem</a> Reference</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Data binding reference</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-dataSet">dataSet Property</a></h2>
@@ -421,13 +487,9 @@ or a shared style.</p></p></div>
 
 <table class="detail-table">
 <tr><td>Type:</td>
-<td><a href="../types.html#expression">expression</a></td></tr>
-<tr><td>Context:</td>
-<td></td></tr>
-<tr><td>Expression Type:</td>
-<td>string</td></tr>
+<td><a href="../structs/TOCStructure.html">TOCStructure</a> Structure</td></tr>
 <tr><td>Since:</td>
-<td>2.0</td></tr>
+<td>2.2</td></tr>
 <tr><td>Required:</td>
 <td>No</td></tr>
 <tr><td>Display Name:</td>
@@ -441,7 +503,7 @@ or a shared style.</p></p></div>
 <tr><td>Runtime Settable:</td>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
-<td>Visible</td></tr>
+<td>Hidden</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
@@ -626,5 +688,35 @@ container, and this property is ignored.</p></p></div>
 <div class="section-text">
 <p>Dimension property type</p>
 <p>Report Item <code> x</code> property</p></div>
+
+<hr>
+<h2><a name="Property-zIndex">zIndex Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Z index</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>0</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 </body>
 </html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Measure Element (Eclipse BIRT ROM Documentation)</title>
+<link rel="stylesheet" href="../style/style.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p class="title">Eclipse BIRT Report Object Model (ROM)</p>
+<p class="subtitle">Measure Element</p>
+<h1>Element Overview</h1>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Display Name:</td>
+<td>Measure</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>XML Element:</td>
+<td><code>None</code></td></tr>
+<tr><td>Extends:</td>
+<td><a href="ReportElement.html">ReportElement</a></td></tr>
+<tr><td>Extendable:</td>
+<td>No</td></tr>
+<tr><td>Abstract:</td>
+<td>Yes</td></tr>
+<tr><td>Name Space:</td>
+<td>None</td></tr>
+<tr><td>Name Requirement:</td>
+<td>Required</td></tr>
+<tr><td>Allows User Properties:</td>
+<td>Yes</td></tr>
+<tr><td>Has Style:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Property Summary</h3>
+
+<dl class="section-text">
+<dt><a href="#Property-dataType">dataType</a></dt>
+<dd></dd>
+<dt><a href="#Property-function">function</a></dt>
+<dd></dd>
+<dt><a href="#Property-isCalculated">isCalculated</a></dt>
+<dd></dd>
+<dt><a href="#Property-measureExpression">measureExpression</a></dt>
+<dd></dd>
+</dl>
+
+<h3>Inherited Properties</h3>
+
+<p class="section-text">
+<a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportElement.html#Property-displayName">displayName</a>, 
+<a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
+<a href="ReportElement.html#Property-eventHandlerClass">eventHandlerClass</a>, 
+<a href="ReportElement.html#Property-extends">extends</a>, 
+<a href="ReportElement.html#Property-name">name</a>, 
+<a href="DesignElement.html#Property-propertyMasks">propertyMasks</a>, 
+<a href="DesignElement.html#Property-userProperties">userProperties</a>, 
+<a href="ReportElement.html#Property-viewAction">viewAction</a>
+</p>
+<h1>Property Detail</h1>
+
+<h2><a name="Property-dataType">dataType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (columnDataType)</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Data Type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>decimal</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>any</td>
+<td>Any</td>
+<td>any</td>
+<td></td></tr>
+<tr><td>integer</td>
+<td>Integer</td>
+<td>integer</td>
+<td></td></tr>
+<tr><td>string</td>
+<td>String</td>
+<td>string</td>
+<td></td></tr>
+<tr><td>date-time</td>
+<td>Date Time</td>
+<td>date-time</td>
+<td></td></tr>
+<tr><td>decimal</td>
+<td>Decimal</td>
+<td>decimal</td>
+<td></td></tr>
+<tr><td>float</td>
+<td>Float</td>
+<td>float</td>
+<td></td></tr>
+<tr><td>boolean</td>
+<td>Boolean</td>
+<td>boolean</td>
+<td></td></tr>
+<tr><td>date</td>
+<td>Date</td>
+<td>date</td>
+<td></td></tr>
+<tr><td>time</td>
+<td>Time</td>
+<td>time</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-function">function Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (aggregationFunction)</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Function</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>sum</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>sum</td>
+<td>SUM</td>
+<td>sum</td>
+<td></td></tr>
+<tr><td>count</td>
+<td>COUNT</td>
+<td>count</td>
+<td></td></tr>
+<tr><td>min</td>
+<td>MIN</td>
+<td>min</td>
+<td></td></tr>
+<tr><td>max</td>
+<td>MAX</td>
+<td>max</td>
+<td></td></tr>
+<tr><td>average</td>
+<td>AVERAGE</td>
+<td>average</td>
+<td></td></tr>
+<tr><td>weighted-avg</td>
+<td>WEIGHTEDAVG</td>
+<td>weighted-avg</td>
+<td></td></tr>
+<tr><td>stddev</td>
+<td>STDDEV</td>
+<td>stddev</td>
+<td></td></tr>
+<tr><td>first</td>
+<td>FIRST</td>
+<td>first</td>
+<td></td></tr>
+<tr><td>last</td>
+<td>LAST</td>
+<td>last</td>
+<td></td></tr>
+<tr><td>mode</td>
+<td>MODE</td>
+<td>mode</td>
+<td></td></tr>
+<tr><td>moving-ave</td>
+<td>MOVINGAVE</td>
+<td>moving-ave</td>
+<td></td></tr>
+<tr><td>median</td>
+<td>MEDIAN</td>
+<td>median</td>
+<td></td></tr>
+<tr><td>variance</td>
+<td>VARIANCE</td>
+<td>variance</td>
+<td></td></tr>
+<tr><td>running-sum</td>
+<td>RUNNINGSUM</td>
+<td>running-sum</td>
+<td></td></tr>
+<tr><td>irr</td>
+<td>IRR</td>
+<td>irr</td>
+<td></td></tr>
+<tr><td>mirr</td>
+<td>MIRR</td>
+<td>mirr</td>
+<td></td></tr>
+<tr><td>npv</td>
+<td>NPV</td>
+<td>npv</td>
+<td></td></tr>
+<tr><td>running-npv</td>
+<td>RUNNINGNPV</td>
+<td>running-npv</td>
+<td></td></tr>
+<tr><td>count-distinct</td>
+<td>COUNTDISTINCT</td>
+<td>count-distinct</td>
+<td></td></tr>
+<tr><td>running-count</td>
+<td>RUNNINGCOUNT</td>
+<td>running-count</td>
+<td></td></tr>
+<tr><td>is-top-n</td>
+<td>IS-TOP-N</td>
+<td>is-top-n</td>
+<td></td></tr>
+<tr><td>is-bottom-n</td>
+<td>IS-BOTTOM-N</td>
+<td>is-bottom-n</td>
+<td></td></tr>
+<tr><td>is-top-n-percent</td>
+<td>IS-TOP-N-PERCENT</td>
+<td>is-top-n-percent</td>
+<td></td></tr>
+<tr><td>is-bottom-n-percent</td>
+<td>IS-BOTTOM-N-PERCENT</td>
+<td>is-bottom-n-percent</td>
+<td></td></tr>
+<tr><td>percent-rank</td>
+<td>PERCENT-RANK</td>
+<td>percent-rank</td>
+<td></td></tr>
+<tr><td>percentile</td>
+<td>PERCENTILE </td>
+<td>percentile</td>
+<td></td></tr>
+<tr><td>quartile</td>
+<td>QUARTILE   </td>
+<td>quartile</td>
+<td></td></tr>
+<tr><td>percent-sum</td>
+<td>PERCENT-SUM</td>
+<td>percent-sum</td>
+<td></td></tr>
+<tr><td>rank</td>
+<td>RANK</td>
+<td>rank</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-isCalculated">isCalculated Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Is Calculated</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>false</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-measureExpression">measureExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Measure Expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+</body>
+</html>

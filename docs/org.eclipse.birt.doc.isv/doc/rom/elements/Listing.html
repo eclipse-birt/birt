@@ -44,6 +44,8 @@ to lists and tables.</div>
 <dl class="section-text">
 <dt><a href="#Property-filter">filter</a></dt>
 <dd>Filter criteria to apply to each row in the List.</dd>
+<dt><a href="#Property-pageBreakInterval">pageBreakInterval</a></dt>
+<dd></dd>
 <dt><a href="#Property-repeatHeader">repeatHeader</a></dt>
 <dd>Whether to repeat the headings at the top of each page.</dd>
 <dt><a href="#Property-sort">sort</a></dt>
@@ -56,7 +58,9 @@ to lists and tables.</div>
 <a href="ReportItem.html#Property-bookmark">bookmark</a>, 
 <a href="ReportItem.html#Property-boundDataColumns">boundDataColumns</a>, 
 <a href="ReportElement.html#Property-comments">comments</a>, 
+<a href="ReportItem.html#Property-cube">cube</a>, 
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
+<a href="ReportItem.html#Property-dataBindingRef">dataBindingRef</a>, 
 <a href="ReportItem.html#Property-dataSet">dataSet</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
@@ -74,7 +78,8 @@ to lists and tables.</div>
 <a href="ReportItem.html#Property-visibility">visibility</a>, 
 <a href="ReportItem.html#Property-width">width</a>, 
 <a href="ReportItem.html#Property-x">x</a>, 
-<a href="ReportItem.html#Property-y">y</a>
+<a href="ReportItem.html#Property-y">y</a>, 
+<a href="ReportItem.html#Property-zIndex">zIndex</a>
 </p>
 <h3>Description</h3>
 
@@ -127,6 +132,36 @@ parameter bindings, and so on.</p></div>
 data set. The filter can contain BIRT expressions (in JavaScript.) If you want 
 the database to do the filtering, put the filter criteria in the WHERE clause of 
 your query.</p></div>
+
+<hr>
+<h2><a name="Property-pageBreakInterval">pageBreakInterval Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Page Break Inteval</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>200</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-repeatHeader">repeatHeader Property</a></h2>
