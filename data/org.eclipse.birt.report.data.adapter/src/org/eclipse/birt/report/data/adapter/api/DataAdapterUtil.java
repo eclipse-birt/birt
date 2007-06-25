@@ -16,7 +16,9 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -29,9 +31,20 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class DataAdapterUtil
 {
-	private static Map aggrAdapterMap = new HashMap();
+	private static Map aggrAdapterMap = new HashMap( );
+	private static Map filterOptMap = new HashMap( );
+
 	static
-	{// map model aggregation function names to build-in function names
+	{
+		registerAggregationFunction( );
+		registerFilterOperator( );
+	}
+
+	/**
+	 * register model aggregation function names with build-in function names	
+	 */
+	private static void registerAggregationFunction( )
+	{
 		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_SUM,
 				IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT,
@@ -91,6 +104,54 @@ public class DataAdapterUtil
 		aggrAdapterMap.put( DesignChoiceConstants.AGGREGATION_FUNCTION_RANK,
 				IBuildInAggregation.TOTAL_RANK_FUNC );
 	}
+	
+	/**
+	 * register model filter operator with dte's IConditionalExpression operator
+	 */
+	private static void registerFilterOperator( )
+	{
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_EQ,
+				new Integer( IConditionalExpression.OP_EQ ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NE,
+				new Integer( IConditionalExpression.OP_NE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_LT,
+				new Integer( IConditionalExpression.OP_LT ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_LE,
+				new Integer( IConditionalExpression.OP_LE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_GE,
+				new Integer( IConditionalExpression.OP_GE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_GT,
+				new Integer( IConditionalExpression.OP_GT ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN,
+				new Integer( IConditionalExpression.OP_BETWEEN ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN,
+				new Integer( IConditionalExpression.OP_NOT_BETWEEN ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NULL,
+				new Integer( IConditionalExpression.OP_NULL ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL,
+				new Integer( IConditionalExpression.OP_NOT_NULL ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_TRUE,
+				new Integer( IConditionalExpression.OP_TRUE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_FALSE,
+				new Integer( IConditionalExpression.OP_FALSE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_LIKE,
+				new Integer( IConditionalExpression.OP_LIKE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_TOP_N,
+				new Integer( IConditionalExpression.OP_TOP_N ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N,
+				new Integer( IConditionalExpression.OP_BOTTOM_N ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT,
+				new Integer( IConditionalExpression.OP_TOP_PERCENT ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT,
+				new Integer( IConditionalExpression.OP_BOTTOM_PERCENT ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_MATCH,
+				new Integer( IConditionalExpression.OP_MATCH ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE,
+				new Integer( IConditionalExpression.OP_NOT_LIKE ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH,
+				new Integer( IConditionalExpression.OP_NOT_MATCH ) );
+	}
+
 	/**
 	 * This method is used to register the Java Script Objects which are defined in the scope of
 	 * source ResultSet ( might be IResultSet or CubeCursor ) to target scope. One possible client
@@ -164,6 +225,33 @@ public class DataAdapterUtil
 		return (String) aggrAdapterMap.get( modelAggrType );
 	}
 	
+	/**
+	 * This method is used to adapter model filter's operator into dte's
+	 * operator
+	 * 
+	 * @param modelOpr
+	 * @return
+	 */
+	public static int adaptModelFilterOperator( String modelOpr )
+	{
+		Integer operator = (Integer) filterOptMap.get( modelOpr );
+		if ( operator != null )
+			return ( (Integer) operator ).intValue( );
+		else
+			return IConditionalExpression.OP_NONE;
+	}
+	
+	/**
+	 * This method is used to adapter model sort direction into dte's direction.
+	 * 
+	 * @param dir
+	 * @return
+	 */
+	public static int adaptModelSortDirection( String modelSortDir )
+	{
+		return DesignChoiceConstants.SORT_DIRECTION_DESC.equals( modelSortDir )
+				? ISortDefinition.SORT_DESC : ISortDefinition.SORT_ASC;
+	}
 	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
