@@ -49,6 +49,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 		initializeContent( content, null );
 
+		processRowHeight( findMeasureHeaderCell( ) );
+
 		prepareChildren( );
 
 		return content;

@@ -29,11 +29,17 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * the base class for all crosstab element executor
@@ -173,6 +179,102 @@ public abstract class BaseCrosstabExecutor implements
 	protected void processAction( AbstractCrosstabItemHandle handle )
 	{
 		ContentUtil.processAction( context, content, handle );
+	}
+
+	protected void processRowHeight( CrosstabCellHandle cell )
+	{
+		if ( cell != null )
+		{
+			try
+			{
+				DimensionType height = ContentUtil.createDimension( crosstabItem.getRowHeight( cell ) );
+
+				if ( height != null )
+				{
+					content.setHeight( height );
+				}
+			}
+			catch ( CrosstabException e )
+			{
+				logger.log( Level.SEVERE,
+						Messages.getString( "BaseCrosstabExecutor.error.process.row.height" ), //$NON-NLS-1$
+						e );
+			}
+		}
+	}
+
+	protected CrosstabCellHandle findHeaderRowCell( int dimIndex, int levelIndex )
+	{
+		return crosstabItem.getDimension( COLUMN_AXIS_TYPE, dimIndex )
+				.getLevel( levelIndex )
+				.getCell( );
+	}
+
+	protected CrosstabCellHandle findMeasureHeaderCell( )
+	{
+		for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+		{
+			CrosstabCellHandle headerCell = crosstabItem.getMeasure( i )
+					.getHeader( );
+
+			if ( headerCell != null )
+			{
+				return headerCell;
+			}
+		}
+
+		return null;
+	}
+
+	protected CrosstabCellHandle findMeasureRowCell( int rowIndex )
+	{
+		return crosstabItem.getMeasure( rowIndex ).getCell( );
+	}
+
+	protected CrosstabCellHandle findDetailRowCell( int rowIndex )
+	{
+		return crosstabItem.getMeasure( rowIndex ).getCell( );
+	}
+
+	protected CrosstabCellHandle findSubTotalRowCell( int dimIndex,
+			int levelIndex, int rowIndex )
+	{
+		MeasureViewHandle mv = crosstabItem.getMeasure( rowIndex );
+		int count = mv.getAggregationCount( );
+
+		LevelHandle lh = crosstabItem.getDimension( ROW_AXIS_TYPE, dimIndex )
+				.getLevel( levelIndex )
+				.getCubeLevel( );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			AggregationCellHandle cell = mv.getAggregationCell( i );
+
+			if ( cell.getAggregationOnRow( ) == lh )
+			{
+				return cell;
+			}
+		}
+
+		return null;
+	}
+
+	protected CrosstabCellHandle findGrandTotalRowCell( int rowIndex )
+	{
+		MeasureViewHandle mv = crosstabItem.getMeasure( rowIndex );
+		int count = mv.getAggregationCount( );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			AggregationCellHandle cell = mv.getAggregationCell( i );
+
+			if ( cell.getAggregationOnRow( ) == null )
+			{
+				return cell;
+			}
+		}
+
+		return null;
 	}
 
 	protected void initializeContent( IContent content,

@@ -84,6 +84,10 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 
 		initializeContent( content, null );
 
+		processRowHeight( findSubTotalRowCell( dimensionIndex,
+				levelIndex,
+				rowIndex ) );
+
 		prepareChildren( );
 
 		return content;

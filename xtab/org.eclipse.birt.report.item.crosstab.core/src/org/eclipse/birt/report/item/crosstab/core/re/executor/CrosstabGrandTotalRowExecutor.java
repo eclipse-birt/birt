@@ -62,6 +62,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 
 		initializeContent( content, null );
 
+		processRowHeight( findGrandTotalRowCell( rowIndex ) );
+
 		prepareChildren( );
 
 		return content;

@@ -23,8 +23,10 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -749,6 +751,25 @@ class ContentUtil
 			return prop.getStringValue( );
 		}
 		return null;
+	}
+
+	static DimensionType createDimension( DimensionHandle handle )
+	{
+		if ( handle == null || !handle.isSet( ) )
+		{
+			return null;
+		}
+
+		// Extended Choice
+		if ( handle.isKeyword( ) )
+		{
+			return new DimensionType( handle.getStringValue( ) );
+		}
+
+		// set measure and unit
+		double measure = handle.getMeasure( );
+		String unit = handle.getUnits( );
+		return new DimensionType( measure, unit );
 	}
 
 }

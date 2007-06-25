@@ -98,6 +98,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		currentLevelIndex = levelView.getIndex( );
 		currentDimensionIndex = ( (DimensionViewHandle) levelView.getContainer( ) ).getIndex( );
 
+		processRowHeight( findHeaderRowCell( currentDimensionIndex,
+				currentLevelIndex ) );
+
 		subTotalDimensionIndex = -1;
 		subTotalLevelIndex = -1;
 

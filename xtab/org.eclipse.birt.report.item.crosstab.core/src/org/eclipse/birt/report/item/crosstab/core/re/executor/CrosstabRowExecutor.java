@@ -78,6 +78,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 
 		initializeContent( content, null );
 
+		processRowHeight( findDetailRowCell( rowIndex ) );
+
 		prepareChildren( );
 
 		return content;
