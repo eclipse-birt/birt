@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.integrate.SimpleDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -165,7 +166,7 @@ public final class AutoDataBindingViewer implements
 						new Integer( 7 ), new Integer( 2 ), new Integer( 5 )
 				}
 		};
-		dree = new DataRowExpressionEvaluator( set, data );
+		dree = new SimpleDataRowExpressionEvaluator( set, data );
 		Generator gr = Generator.instance( );
 		try
 		{

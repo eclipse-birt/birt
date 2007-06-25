@@ -214,7 +214,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					ScriptValue sv = (ScriptValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
 					tag.addAttribute( HTMLAttribute.ONFOCUS,
-							eval( sv.getScript( ) ) );
+							eval2JS( sv.getScript( ) ) );
 					return true;
 			}
 		}
@@ -242,7 +242,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					ScriptValue sv = (ScriptValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
 					tag.addAttribute( HTMLAttribute.ONBLUR,
-							eval( sv.getScript( ) ) );
+							eval2JS( sv.getScript( ) ) );
 					return true;
 			}
 		}
@@ -260,9 +260,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				case ActionType.URL_REDIRECT :
 					URLValue uv = (URLValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF,
-							eval( uv.getBaseUrl( ) ) );
+							eval2HTML( uv.getBaseUrl( ) ) );
 					tag.addAttribute( HTMLAttribute.TARGET,
-							eval( uv.getTarget( ) ) );
+							eval2HTML( uv.getTarget( ) ) );
 					return true;
 				case ActionType.SHOW_TOOLTIP :
 					// for onmouseover only.
@@ -280,12 +280,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
 						tag.addAttribute( HTMLAttribute.ONCLICK,
-								eval( callbackFunction ) );
+								eval2JS( callbackFunction ) );
 					}
 					else
 					{
 						tag.addAttribute( HTMLAttribute.ONCLICK,
-								eval( sv.getScript( ) ) );
+								eval2JS( sv.getScript( ) ) );
 					}
 					return true;
 			}
@@ -313,12 +313,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
 						tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-								eval( callbackFunction ) );
+								eval2JS( callbackFunction ) );
 					}
 					else
 					{
 						tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-								eval( generateJSContent( ac ) ) );
+								eval2JS( generateJSContent( ac ) ) );
 					}
 					return true;
 				case ActionType.SHOW_TOOLTIP :
@@ -347,7 +347,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					if ( tv.getText( ) != null && tv.getText( ).length( ) > 0 )
 					{
 						tag.addAttribute( HTMLAttribute.TITLE,
-								eval( tv.getText( ) ) );
+								eval2HTML( tv.getText( ) ) );
 						return true;
 					}
 					return false;
@@ -362,7 +362,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	protected String getJsURLRedirect( URLValue uv )
 	{
 		StringBuffer js = new StringBuffer( "window.open('" ); //$NON-NLS-1$
-		js.append( eval( uv.getBaseUrl( ) ) );
+		js.append( eval2HTML( uv.getBaseUrl( ) ) );
 		js.append( "','" ); //$NON-NLS-1$
 		js.append( uv.getTarget( ) == null ? "self" : uv.getTarget( ) ); //$NON-NLS-1$
 		js.append( "');" );//$NON-NLS-1$
@@ -765,13 +765,24 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	}
 
-	protected String eval( String expr )
+	protected String eval2HTML( String expr )
 	{
 		if ( expr == null )
 		{
 			return ""; //$NON-NLS-1$
 		}
 		expr = expr.replaceAll( "\"", "&quot;" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return expr;
+	}
+	
+	protected String eval2JS( String expr )
+	{
+		if ( expr == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		// Do not eval script since it's not quoted
+		// return JavascriptEvalUtil.transformToJsConstants( expr );
 		return expr;
 	}
 
@@ -840,7 +851,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		return "<Script>" //$NON-NLS-1$
 				+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
-				+ eval( functionContent ) + "}</Script>"; //$NON-NLS-1$
+				+ eval2JS( functionContent ) + "}</Script>"; //$NON-NLS-1$
 	}
 
 }

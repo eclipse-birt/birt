@@ -14,15 +14,15 @@ package org.eclipse.birt.chart.integrate;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 
 /**
  * Simple implementation of IDataRowExpressionEvaluator.
  */
 
 public class SimpleDataRowExpressionEvaluator
-		implements
-			IDataRowExpressionEvaluator
+		extends
+			DataRowExpressionEvaluatorAdapter
 {
 
 	private int index = 0;
