@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=교차 테이블
+Element.Crosstab=Cross Tab
 Element.CrosstabCell=크로스 탭 셀
 Element.CrosstabAggregationCell=크로스 탭 집계 셀
 Element.AggregationOnRow=행에서 집계
@@ -46,6 +46,7 @@ CrosstabQueryHelper.error.invalid.level=크로스 탭에 연결된 수준이 올바르지 않습�
 
 BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.bookmark=책갈피를 처리하는 중에 오류가 발생했습니다.
+BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
 
 CrosstabCellExecutor.error.restor.data.position=데이터 위치를 복원하는 중에 오류가 발생했습니다.
 
@@ -79,6 +80,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=현재 셀의 모서리 시작 상태를 
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=하위 실행기를 검색하는 중에 오류가 발생했습니다.
 
 TableColumnGenerator.error.process.visibility=열 표시 유형을 처리하는 중에 오류가 발생했습니다.
+TableColumnGenerator.error.process.column.width=Error happend when process column width.
 
 CrosstabReportItemHandle.error.locate.column.cell=관련 크로스 탭 셀을 열에서 찾는 중 오류 발생
 CrosstabReportItemHandle.error.locate.row.cell=관련 크로스 탭 셀을 행에서 찾는 중 오류 발생

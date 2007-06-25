@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Tabla de referencias cruzadas
+Element.Crosstab=Cross Tab
 Element.CrosstabCell=Celda de tabla de referencias cruzadas
 Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruzadas
 Element.AggregationOnRow=Agregación en fila
@@ -46,6 +46,7 @@ CrosstabQueryHelper.error.invalid.level=El nivel asociado para la tabla de refer
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
 BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar marcador.
+BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
 
 CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al restaurar posición de datos.
 
@@ -79,6 +80,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=Se ha producido un error al c
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Se ha producido un error al recuperar ejecutor secundario.
 
 TableColumnGenerator.error.process.visibility=Se ha producido un error al procesar visibilidad de columna.
+TableColumnGenerator.error.process.column.width=Error happend when process column width.
 
 CrosstabReportItemHandle.error.locate.column.cell=Error al ubicar la celda de tabla de referencias cruzadas relevante en las columnas
 CrosstabReportItemHandle.error.locate.row.cell=Error al ubicar la celda de tabla de referencias cruzadas relevante en las filas

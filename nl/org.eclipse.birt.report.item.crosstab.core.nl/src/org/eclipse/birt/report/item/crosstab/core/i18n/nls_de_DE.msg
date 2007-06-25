@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Kreuztabelle
+Element.Crosstab=Cross Tab
 Element.CrosstabCell=Kreuztabellenzelle
 Element.CrosstabAggregationCell=Aggregationszelle der Kreuztabelle
 Element.AggregationOnRow=Aggregation in Zeile
@@ -46,6 +46,7 @@ CrosstabQueryHelper.error.invalid.level=Die verknüpfte Ebene für die Kreuztabell
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.
+BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
 
 CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenposition ist ein Fehler aufgetreten.
 
@@ -79,6 +80,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=Beim Überprüfen des Status "R
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Beim Abrufen des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 
 TableColumnGenerator.error.process.visibility=Beim Verarbeiten der Spaltensichtbarkeit ist ein Fehler aufgetreten.
+TableColumnGenerator.error.process.column.width=Error happend when process column width.
 
 CrosstabReportItemHandle.error.locate.column.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Spalten
 CrosstabReportItemHandle.error.locate.row.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Zeilen

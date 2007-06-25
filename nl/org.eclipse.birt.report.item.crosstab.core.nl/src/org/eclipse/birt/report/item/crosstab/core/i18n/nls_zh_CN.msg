@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=½»²æ±í
+Element.Crosstab=Cross Tab
 Element.CrosstabCell=½»²æ±íµ¥Ôª¸ñ
 Element.CrosstabAggregationCell=½»²æ±í¾ÛºÏµ¥Ôª¸ñ
 Element.AggregationOnRow=Óöµ½ĞĞÊ±¾ÛºÏ
@@ -46,6 +46,7 @@ CrosstabQueryHelper.error.invalid.level=½»²æ±íµÄ¹ØÁª¼¶±ğÎŞĞ§¡£
 
 BaseCrosstabExecutor.error.process.visibility=´¦Àí¿É¼ûĞÔÊ±³ö´í¡£
 BaseCrosstabExecutor.error.process.bookmark=´¦ÀíÊéÇ©Ê±³ö´í¡£
+BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
 
 CrosstabCellExecutor.error.restor.data.position=»¹Ô­Êı¾İÎ»ÖÃÊ±³ö´í¡£
 
@@ -79,6 +80,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=¼ì²éµ±Ç°µ¥Ôª¸ñµÄ±ßÔµ¿ªÊ¼×´Ì¬Ê
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=¼ìË÷×ÓÖ´ĞĞ³ÌĞòÊ±³ö´í¡£
 
 TableColumnGenerator.error.process.visibility=´¦ÀíÁĞ¿É¼ûĞÔÊ±³ö´í¡£
+TableColumnGenerator.error.process.column.width=Error happend when process column width.
 
 CrosstabReportItemHandle.error.locate.column.cell=ÔÚÁĞÖĞ²éÕÒÏà¹Ø½»²æ±íµ¥Ôª¸ñÊ±³ö´í
 CrosstabReportItemHandle.error.locate.row.cell=ÔÚĞĞÖĞ²éÕÒÏà¹Ø½»²æ±íµ¥Ôª¸ñÊ±³ö´í
