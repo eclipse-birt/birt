@@ -1724,10 +1724,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					if ( aax.areAxesSwapped( ) )
 					{
 						dY = daTickCoordinates.getStart( ) + dUnitSize * i;
-						if ( !oaxBase.isTickBwtweenCategories( ) )
-						{
-							dY += dUnitSize / 2;
-						}
 						try
 						{
 							dX = getLocation( scOrthogonal, oDataOrthogonal );
@@ -1746,10 +1742,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					{
 
 						dX = daTickCoordinates.getStart( ) + dUnitSize * i;
-						if ( !oaxBase.isTickBwtweenCategories( ) )
-						{
-							dX += dUnitSize / 2;
-						}
 						try
 						{
 							dY = getLocation( scOrthogonal, oDataOrthogonal );
@@ -1806,32 +1798,38 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 				// Compute the offset between two ticks
 				double dLength = 0;
-				for ( int j = 0; j < iTickCount - 1; j++ )
+				if ( !bScatter )
 				{
-					if ( aax.areAxesSwapped( ) )
+					dLength = dUnitSize;
+				}
+				else
+				{
+					for ( int j = 0; j < iTickCount - 1; j++ )
 					{
-						// Coordinates array is ordered by descending
-						if ( ( dY <= daTickCoordinates.getCoordinate( j ) && dY >= daTickCoordinates.getCoordinate( j + 1 ) )
-								|| ( dY <= daTickCoordinates.getCoordinate( j + 1 ) && dY >= daTickCoordinates.getCoordinate( j ) ) )
+						if ( aax.areAxesSwapped( ) )
 						{
-							// Keep the negative value
-							dLength = daTickCoordinates.getCoordinate( j + 1 )
-									- daTickCoordinates.getCoordinate( j );
-							break;
+							// Coordinates array is ordered by descending
+							if ( ( dY <= daTickCoordinates.getCoordinate( j ) && dY >= daTickCoordinates.getCoordinate( j + 1 ) )
+									|| ( dY <= daTickCoordinates.getCoordinate( j + 1 ) && dY >= daTickCoordinates.getCoordinate( j ) ) )
+							{
+								// Keep the negative value
+								dLength = daTickCoordinates.getCoordinate( j + 1 )
+										- daTickCoordinates.getCoordinate( j );
+								break;
+							}
 						}
-					}
-					else
-					{
-						if ( ( dX <= daTickCoordinates.getCoordinate( j + 1 ) && dX >= daTickCoordinates.getCoordinate( j ) )
-								|| ( dX <= daTickCoordinates.getCoordinate( j ) && dX >= daTickCoordinates.getCoordinate( j + 1 ) ) )
+						else
 						{
-							dLength = daTickCoordinates.getCoordinate( j + 1 )
-									- daTickCoordinates.getCoordinate( j );
-							break;
+							if ( ( dX <= daTickCoordinates.getCoordinate( j + 1 ) && dX >= daTickCoordinates.getCoordinate( j ) )
+									|| ( dX <= daTickCoordinates.getCoordinate( j ) && dX >= daTickCoordinates.getCoordinate( j + 1 ) ) )
+							{
+								dLength = daTickCoordinates.getCoordinate( j + 1 )
+										- daTickCoordinates.getCoordinate( j );
+								break;
+							}
 						}
 					}
 				}
-
 				Object percentileValue = null;
 
 				if ( total != 0 )

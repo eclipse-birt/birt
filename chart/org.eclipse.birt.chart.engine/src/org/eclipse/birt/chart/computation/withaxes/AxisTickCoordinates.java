@@ -20,13 +20,21 @@ public class AxisTickCoordinates implements Cloneable
 
 	private final int size;
 	private double dStart, dEnd, dStep;
+	private boolean isTickBetweenCategory;
 
-	AxisTickCoordinates( int size, double dStart, double dEnd, double dStep )
+	AxisTickCoordinates( int size, double dStart, double dEnd, double dStep,
+			boolean isTickBetweenCategory )
 	{
 		this.size = size;
 		this.dStart = dStart;
 		this.dEnd = dEnd;
 		this.dStep = dStep;
+		this.isTickBetweenCategory = isTickBetweenCategory;
+	}
+
+	AxisTickCoordinates( int size, double dStart, double dEnd, double dStep )
+	{
+		this( size, dStart, dEnd, dStep, true );
 	}
 
 	/**
@@ -39,7 +47,14 @@ public class AxisTickCoordinates implements Cloneable
 	{
 		this.dStart = dStart;
 		this.dEnd = dEnd;
-		this.dStep = ( dEnd - dStart ) / size;
+		if ( isTickBetweenCategory )
+		{
+			this.dStep = ( dEnd - dStart ) / size;
+		}
+		else
+		{
+			this.dStep = ( dEnd - dStart ) / ( size - 1 );
+		}
 	}
 
 	public int size( )
@@ -72,11 +87,18 @@ public class AxisTickCoordinates implements Cloneable
 	 */
 	public double getCoordinate( int index )
 	{
-		if ( index == size - 1 )
+		if ( index == 0 )
+		{
+			return dStart;
+		}
+		else if ( index == size - 1 )
 		{
 			return dEnd;
 		}
-		return dStart + index * dStep;
+		return dStart
+				+ index
+				* dStep
+				- ( isTickBetweenCategory ? 0 : dStep / 2 );
 	}
 
 	/**
@@ -90,15 +112,15 @@ public class AxisTickCoordinates implements Cloneable
 	 */
 	public double getNormalizedCoordinate( int index )
 	{
-		if ( index == size - 1 )
-		{
-			return dEnd - dStart;
-		}
-		return index * dStep;
+		return getCoordinate( index ) - dStart;
 	}
 
 	public Object clone( )
 	{
-		return new AxisTickCoordinates( size, dStart, dEnd, dStep );
+		return new AxisTickCoordinates( size,
+				dStart,
+				dEnd,
+				dStep,
+				isTickBetweenCategory );
 	}
 }

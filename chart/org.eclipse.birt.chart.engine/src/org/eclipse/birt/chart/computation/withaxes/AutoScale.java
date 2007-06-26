@@ -87,7 +87,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private int iMarginPercent = 0;
 
 	private transient double dStart, dEnd;
-	
+
 	private AxisTickCoordinates atcTickCoordinates;
 
 	private transient boolean[] baTickLabelVisible;
@@ -98,7 +98,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private transient boolean bCategoryScale = false;
 
-	private transient boolean bTickBetweenCategories = false;
+	private transient boolean bTickBetweenCategories = true;
 
 	private RunTimeContext rtc;;
 
@@ -1640,6 +1640,10 @@ public final class AutoScale extends Methods implements Cloneable
 
 		for ( int i = 0; i < atcTickCoordinates.size( ) - 1; i++ )
 		{
+			if ( !isTickBetweenCategories( ) && i == 0 )
+			{
+				continue;
+			}
 			Object oValue = null;
 
 			if ( dsi.hasNext( ) )
@@ -1654,11 +1658,13 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
-					x = this.atcTickCoordinates.getCoordinate( i ) * dZoomFactor;
+					x = this.atcTickCoordinates.getCoordinate( i )
+							* dZoomFactor;
 				}
 				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 				{
-					y = this.atcTickCoordinates.getCoordinate( i ) * dZoomFactor;
+					y = this.atcTickCoordinates.getCoordinate( i )
+							* dZoomFactor;
 				}
 
 				la.getCaption( ).setValue( sText );
@@ -2504,7 +2510,14 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		else
 		{
-			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
+			if ( isTickBetweenCategories( ) )
+			{
+				dTickGap = dLength / ( nTicks - 1 ) * iDirection;
+			}
+			else
+			{
+				dTickGap = dLength / ( nTicks - 2 ) * iDirection;
+			}
 		}
 
 		// Added the maximum check for the step number in fixed step case.
@@ -2521,7 +2534,9 @@ public final class AutoScale extends Methods implements Cloneable
 		AxisTickCoordinates atc = new AxisTickCoordinates( nTicks,
 				dStart,
 				dEnd,
-				dTickGap );
+				dTickGap,
+				!bCategoryScale || isTickBetweenCategories( ) );
+
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( atc );
@@ -3918,7 +3933,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 	}
-	
+
 	/**
 	 * Computes the default DecimalFormat pattern for axis according to axis
 	 * value and scale steps.
