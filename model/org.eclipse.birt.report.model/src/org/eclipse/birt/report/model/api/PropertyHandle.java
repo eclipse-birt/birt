@@ -217,6 +217,8 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle
 					.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+		else if ( ReportDesignConstants.CUBE_ELEMENT.equals( elementDefn.getName( ) ))
+			return moduleHandle.getVisibleCubes( );
 
 		return list;
 	}

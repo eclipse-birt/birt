@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -427,10 +428,10 @@ public class PropertyHandleTest extends BaseTestCase
 	 * case1: get the data set list. case2: get the data source list. case3: get
 	 * the style list.
 	 * 
-	 * @throws DesignFileException
+	 * @throws Exception
 	 */
 
-	public void testgetReferenceElementValueList( ) throws DesignFileException
+	public void testgetReferenceElementValueList( ) throws Exception
 	{
 
 		openDesign( "PropertyHandleTest_1.xml" ); //$NON-NLS-1$
@@ -454,6 +455,13 @@ public class PropertyHandleTest extends BaseTestCase
 				.getPropertyHandle( SimpleDataSet.DATA_SOURCE_PROP );
 
 		assertEquals( 2, propertyHandle.getReferenceableElementList( ).size( ) );
+		
+		// test cube list
+		propertyHandle = label2.getPropertyHandle( IReportItemModel.CUBE_PROP );
+		assertEquals( 0, propertyHandle.getReferenceableElementList( ).size( ) );
+		CubeHandle cubeHandle = designHandle.getElementFactory( ).newTabularCube( null );
+		designHandle.getCubes( ).add( cubeHandle );		
+		assertEquals( 1, propertyHandle.getReferenceableElementList( ).size( ) );
 	}
 
 	/**
