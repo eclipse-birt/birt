@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
@@ -45,7 +46,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -142,6 +142,8 @@ public class TriggerDataComposite extends Composite
 	private final static int INDEX_5_HIGHLIGHT = 5;
 	private final static int INDEX_6_CALLBACK = 6;
 	private final static int INDEX_7_TOOGLE_DATAPOINT = 7;
+	
+	private TriggerSupportMatrix triggerMatrix;
 
 	public TriggerDataComposite( Composite parent, int style, EList triggers,
 			ChartWizardContext wizardContext, boolean bEnableURLParameters,
@@ -152,6 +154,7 @@ public class TriggerDataComposite extends Composite
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.triggersList = triggers;
+		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ) );
 		init( );
 		placeComponents( );
 
@@ -225,9 +228,10 @@ public class TriggerDataComposite extends Composite
 			public void handleEvent( Event event )
 			{
 				updateTrigger( lastTriggerType );
-
+				updateActionTypeItems( );
 				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
-				if ( trigger != null )
+				// Only display supported trigger
+				if ( trigger != null && triggerMatrix.check( trigger ) )
 				{
 					cmbActionType.setText( getActionText( trigger ) );
 				}
@@ -518,33 +522,104 @@ public class TriggerDataComposite extends Composite
 		cmbTriggerType.setItems( triggerTypes );
 		cmbTriggerType.select( 0 );
 
-		String firstTrigger = null;
+		Trigger firstTrigger = null;
 		for ( int i = 0; i < triggerTypes.length; i++ )
 		{
 			if ( triggersMap.containsKey( triggerTypes[i] ) )
 			{
-				cmbTriggerType.markSelection( triggerTypes[i] );
-				if ( firstTrigger == null )
+				Trigger trigger = (Trigger) triggersMap.get( triggerTypes[i] );
+				// Only display supported trigger
+				if ( triggerMatrix.check( trigger ) )
 				{
-					firstTrigger = triggerTypes[i];
+					cmbTriggerType.markSelection( triggerTypes[i] );
+					if ( firstTrigger == null )
+					{
+						firstTrigger = trigger;
+						// Select first trigger
+						cmbTriggerType.setText( triggerTypes[i] );
+					}
 				}
 			}
 		}
+		
+		// Initializes the value of last trigger type
+		this.lastTriggerType = cmbTriggerType.getText( );
 
-		cmbActionType.setItems( LiteralHelper.actionTypeSet.getDisplayNames( ) );
-		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None" ), 0 ); //$NON-NLS-1$
-		cmbActionType.select( 0 );
+		// Updates ActionType combo according to Trigger condition
+		updateActionTypeItems( );
 
 		if ( firstTrigger != null )
 		{
-			// Select first trigger
-			setTrigger( (Trigger) triggersMap.get( firstTrigger ) );
+			cmbActionType.setText( LiteralHelper.actionTypeSet.getDisplayNameByName( firstTrigger.getAction( )
+					.getType( )
+					.getName( ) ) );
+			updateUI( firstTrigger );
 		}
 		else
 		{
+			cmbActionType.select( 0 );
 			slValues.topControl = cmpDefault;
 		}
 
+	}
+	
+	/**
+	 * Updates Combo items after TriggerCondition change
+	 */
+	private void updateActionTypeItems( )
+	{
+		TriggerCondition condition = TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( cmbTriggerType.getText( ) ) );
+		cmbActionType.setItems( this.triggerMatrix.getSupportedActionsDisplayName( condition ) );
+
+		// Add extra item for NONE
+		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None" ), 0 ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Provides a mapper method to switch trigger Combo text to fixed index
+	 * constants.
+	 * 
+	 * @return fixed index defined as constants
+	 */
+	private int getTriggerIndex( )
+	{
+		// Order by usage frequency
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.SHOW_TOOLTIP_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_2_TOOLTIP;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.URL_REDIRECT_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_1_URL_REDIRECT;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.INVOKE_SCRIPT_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_4_SCRIPT;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.HIGHLIGHT_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_5_HIGHLIGHT;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.TOGGLE_VISIBILITY_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_3_TOOGLE_VISABILITY;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_7_TOOGLE_DATAPOINT;
+		}
+		if ( cmbActionType.getText( )
+				.equals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.CALL_BACK_LITERAL.getName( ) ) ) )
+		{
+			return INDEX_6_CALLBACK;
+		}
+		return 0;
 	}
 
 	private Label addDescriptionLabel( Composite parent, int horizontalSpan,
@@ -579,9 +654,18 @@ public class TriggerDataComposite extends Composite
 		}
 		cmbTriggerType.setText( LiteralHelper.triggerConditionSet.getDisplayNameByName( trigger.getCondition( )
 				.getName( ) ) );
-		cmbActionType.setText( LiteralHelper.actionTypeSet.getDisplayNameByName( trigger.getAction( )
-				.getType( )
-				.getName( ) ) );
+		updateActionTypeItems( );
+		
+		if ( triggerMatrix.check( trigger ) )
+		{
+			cmbActionType.setText( LiteralHelper.actionTypeSet.getDisplayNameByName( trigger.getAction( )
+					.getType( )
+					.getName( ) ) );
+		}
+		else
+		{
+			cmbActionType.select( 0 );
+		}
 		updateUI( trigger );
 	}
 
@@ -605,13 +689,13 @@ public class TriggerDataComposite extends Composite
 			initUI( );
 			return;
 		}
-		switch ( cmbActionType.getSelectionIndex( ) )
+		
+		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
 				this.slValues.topControl = cmpURL;
 				URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
-				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 )
-						? urlValue.getBaseUrl( ) : ""; //$NON-NLS-1$
+				sBaseURL = urlValue.getBaseUrl( );
 				// txtBaseURL.setText( sBaseURL );
 				// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
 				// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
@@ -678,7 +762,7 @@ public class TriggerDataComposite extends Composite
 			return null;
 		}
 		ActionValue value = null;
-		switch ( cmbActionType.getSelectionIndex( ) )
+		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
 				value = URLValueImpl.create( sBaseURL, null,// txtTarget.getText(
@@ -725,14 +809,9 @@ public class TriggerDataComposite extends Composite
 		switchUI( );
 	}
 
-	public Point getPreferredSize( )
-	{
-		return new Point( 260, 260 );
-	}
-
 	private void switchUI( )
 	{
-		switch ( cmbActionType.getSelectionIndex( ) )
+		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
 				this.slValues.topControl = cmpURL;
@@ -851,12 +930,12 @@ public class TriggerDataComposite extends Composite
 
 	private void updateTrigger( String triggerType )
 	{
-		if ( triggerType == null )
+		if ( triggerType == null || triggerType.length( ) == 0 )
 		{
 			return;
 		}
 
-		if ( cmbActionType.getSelectionIndex( ) == 0 )
+		if ( cmbActionType.getSelectionIndex( ) <= 0 )
 		{
 			cmbTriggerType.unmarkSelection( triggerType );
 			return;
