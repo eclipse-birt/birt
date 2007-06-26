@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.tests.engine.api;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -48,11 +49,8 @@ public class IColumnTest extends BaseEmitter
 		IColumn column = table.getColumn( 0 );
 		IStyle inStyle = column.getInlineStyle( );
 		// TODO: find no way to set column inlinestyle.
-		assertEquals( "rgb(128, 128, 128)", column
-				.getStyle( )
-				.getBackgroundColor( ) );
-		assertEquals( "style_1", column.getStyleClass( ) );
 		assertEquals( "pdf", column.getVisibleFormat( ) );
+		
 		assertTrue( column.hasDataItemsInDetail( ) );
 		assertEquals( 15, column.getInstanceID( ).getComponentID( ) );
 		assertTrue( column.getGenerateBy( ) instanceof ColumnDesign );
@@ -60,6 +58,14 @@ public class IColumnTest extends BaseEmitter
 		assertEquals( "in", column.getWidth( ).getUnits( ) );
 		System.out.println( );
 
+	}
+
+	@Override
+	public void endCell( ICellContent cell )
+	{
+		assertEquals( "rgb(128, 128, 128)", cell.getStyle( ).getBackgroundColor( ));
+		assertEquals( "style_1", cell.getStyleClass( ));
+		
 	}
 
 }
