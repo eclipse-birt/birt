@@ -20,6 +20,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  */
 public class DataSetIDTest extends EngineCase
 {
+
 	final static String INPUT = "dataSetID.rptdesign";
 
 	/**
@@ -39,7 +40,7 @@ public class DataSetIDTest extends EngineCase
 	{
 		removeResource( );
 	}
-	
+
 	public void testDataSetIDFromReport( ) throws EngineException, IOException
 	{
 		String inputFile = this.genInputFile( INPUT );
@@ -83,10 +84,21 @@ public class DataSetIDTest extends EngineCase
 		}
 
 		// DataID: dataSet:0
-		InstanceID iid = InstanceID.parse( iids.get( 0 ).toString( ) );
+		InstanceID iid = InstanceID.parse( iids.get( 1 ).toString( ) );
+		iid = iid.getParentID( ).getParentID( ).getParentID( );
 		DataSetID dsID = iid.getDataID( ).getDataSetID( );
 		String dsName = iid.toString( ).substring(
-				3,
+				iid.toString( ).indexOf( "(" ) + 1,
+				iid.toString( ).indexOf( ":" ) );
+		assertEquals( dsName, dsID.getDataSetName( ) );
+		assertEquals( 0, dsID.getRowID( ) );
+		assertNull( dsID.getParentID( ) );
+		assertNull( dsID.getQueryName( ) );
+
+		iid = iid.getParentID( );
+		dsID = iid.getDataID( ).getDataSetID( );
+		dsName = iid.toString( ).substring(
+				iid.toString( ).indexOf( "(" ) + 1,
 				iid.toString( ).indexOf( ":" ) );
 		assertEquals( dsName, dsID.getDataSetName( ) );
 		assertEquals( 0, dsID.getRowID( ) );
@@ -94,7 +106,8 @@ public class DataSetIDTest extends EngineCase
 		assertNull( dsID.getQueryName( ) );
 
 		// DataID: {dataSet}.0.group:0
-		iid = InstanceID.parse( iids.get( 1 ).toString( ) );
+		iid = InstanceID.parse( iids.get( 2 ).toString( ) );
+		iid = iid.getParentID( ).getParentID( ).getParentID( );
 		dsID = iid.getDataID( ).getDataSetID( );
 		assertNull( dsID.getDataSetName( ) );
 		assertEquals( 0, dsID.getRowID( ) );
@@ -102,18 +115,8 @@ public class DataSetIDTest extends EngineCase
 		assertEquals( dsName, dsID.getParentID( ).getDataSetName( ) );
 		assertEquals( "52", dsID.getQueryName( ) );
 
+		// TODO: add case for datasetID in such format:
 		// DataID:{{dataSet}.0.group}.0.group1:0
-		iid = InstanceID.parse( iids.get( 2 ).toString( ) );
-		dsID = iid.getDataID( ).getDataSetID( );
-		assertNull( dsID.getDataSetName( ) );
-		assertEquals( 0, dsID.getRowID( ) );
-		assertNull( dsID.getParentID( ).getDataSetName( ) );
-		assertNotNull( dsID.getParentID( ).getParentID( ) );
-		assertEquals( dsName, dsID
-				.getParentID( )
-				.getParentID( )
-				.getDataSetName( ) );
-		assertEquals( "61", dsID.getQueryName( ) );
 	}
 
 	/**

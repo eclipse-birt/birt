@@ -69,6 +69,7 @@ public class IDataIteratorTest extends EngineCase
 
 	private void checkGetValue( IDataIterator iterator )
 	{
+		//fail case. reference to bug #189397
 		try
 		{
 			if ( iterator.next( ) )
