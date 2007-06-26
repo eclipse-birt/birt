@@ -576,7 +576,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		int width = getScaledValue( text.getWidth( ) );
 		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
-		pageGraphic.clip( textX, textY, width, height );
+		int clipWidth = (int) ( width + height
+				* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		pageGraphic.clip( textX, textY, clipWidth, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
 				wordSpacing, color, linethrough, overline, underline, align );
 		drawTextAt( text, x, y, width, height, textStyle );

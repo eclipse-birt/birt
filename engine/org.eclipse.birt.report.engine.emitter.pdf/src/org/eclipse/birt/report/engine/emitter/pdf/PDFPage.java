@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
+import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.w3c.dom.css.CSSValue;
@@ -834,7 +835,7 @@ public class PDFPage implements IPage
 	private void simulateItalic( PdfContentByte cb, float x, float y )
 	{
 		float alpha = (float) Math.tan( 0f * Math.PI / 180 );
-		float beta = (float) Math.tan( 15f * Math.PI / 180 );
+		float beta = EmitterUtil.getItalicHorizontalCoefficient( );
 		cb.setTextMatrix( 1, alpha, beta, 1, x, y );
 	}
 

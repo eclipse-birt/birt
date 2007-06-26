@@ -625,7 +625,7 @@ public class PostscriptWriter
 		if ( fontInfo != null )
 		{
 			BaseFont baseFont = fontInfo.getBaseFont( );
-			String fontName = getFontName( baseFont );
+			String fontName = baseFont.getPostscriptFontName( );
 			text = applyFont( fontName, fontInfo.getFontStyle( ), fontInfo
 					.getFontSize( ), text );
 		}
@@ -645,14 +645,6 @@ public class PostscriptWriter
 		out.print( text );
 		out.println( "mshow stroke" );
 		gRestore( );
-	}
-
-	private String getFontName( BaseFont baseFont )
-	{
-		String[][] familyFontNames = baseFont.getFamilyFontName( );
-		String[] family = familyFontNames[0];
-		String fontName = family[family.length - 1];
-		return fontName;
 	}
 
 	/**
@@ -808,8 +800,7 @@ public class PostscriptWriter
 		{
 			try
 			{
-				String searchName = fontName + getFontSuffix( fontStyle );
-				String fontPath = getFontPath( searchName );
+				String fontPath = getFontPath( fontName );
 				if ( fontPath == null )
 				{
 					return applyIntrinsicFont( fontName, fontStyle, fontSize, text );
@@ -817,7 +808,7 @@ public class PostscriptWriter
 				ITrueTypeWriter trueTypeWriter = getTrueTypeFontWriter( fontPath );
 				
 				//Space can't be included in a identity.
-				String displayName = searchName.replace( ' ', '_' );
+				String displayName = fontName.replace( ' ', '_' );
 				trueTypeWriter.useDisplayName( displayName );
 				trueTypeWriter.ensureGlyphsAvailable( text );
 				setFont( displayName, fontSize );
@@ -851,7 +842,7 @@ public class PostscriptWriter
 
 	private String toHexString( char c )
 	{
-		final String[] padding = {"0", "00", "00"};
+		final String[] padding = {"0", "00", "000"};
 		String result = Integer.toHexString( c );
 		if ( result.length( ) < 4 )
 		{
@@ -880,26 +871,11 @@ public class PostscriptWriter
 		}
 	}
 
-	private String getFontSuffix( int fontStyle )
-	{
-		switch ( fontStyle )
-		{
-			case Font.BOLD :
-				return " Bold";
-			case Font.ITALIC :
-				return " Italic";
-			case ( Font.ITALIC + Font.BOLD ) :
-				return " BoldItalic";
-			default :
-				return "";
-		}
-	}
-
 	private String getFontPath( String fontName )
 	{
 		try
 		{
-			Object fontImpl = getField( FontFactory.class, "fontImp", null );
+			FontFactoryImp fontImpl = FontFactory.getFontImp( );
 			Properties trueTypeFonts = (Properties) getField(
 					FontFactoryImp.class, "trueTypeFonts", fontImpl );
 			String fontPath = trueTypeFonts.getProperty( fontName.toLowerCase( ) );
