@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -134,6 +136,13 @@ public class PropertyCommand extends AbstractPropertyCommand
 			throws SemanticException
 	{
 		checkAllowedOperation( );
+
+		// if property is element type, do some special handle
+		if ( prop.isElementType( ) )
+		{
+			setElementTypeProperty( prop, value );
+			return;
+		}
 
 		// Backward for TOC expression.
 
@@ -251,6 +260,69 @@ public class PropertyCommand extends AbstractPropertyCommand
 			}
 		}
 		doSetProperty( prop, value );
+	}
+
+	/**
+	 * 
+	 * @param prop
+	 * @param value
+	 * @throws SemanticException
+	 */
+	private void setElementTypeProperty( ElementPropertyDefn prop, Object value )
+			throws SemanticException
+	{
+		ContainerContext context = new ContainerContext( element, prop
+				.getName( ) );
+		CommandStack stack = getActivityStack( );
+		PropertyRecord record = new PropertyRecord( element, prop, value );
+		stack.startTrans( record.getLabel( ) );
+		ContentCommand cmd = new ContentCommand( module, context );
+		
+		List contents = context.getContents( module );
+		try
+		{
+			// clear all the original contents and add the new value content
+			if ( contents != null )
+			{
+				for ( int i = 0; i < contents.size( ); i++ )
+				{
+					DesignElement content = (DesignElement) contents.get( i );
+					cmd.remove( content );
+				}
+			}
+			// add the new content
+			if ( value instanceof DesignElement )
+			{
+				cmd.add( (DesignElement) value );
+			}
+			else if ( value instanceof DesignElementHandle )
+			{
+				cmd.add( ( (DesignElementHandle) value ).getElement( ) );
+			}
+			else if ( value instanceof List )
+			{
+				contents = (List) value;
+				for ( int i = 0; i < contents.size( );i++ )
+				{
+					Object item = contents.get( i );
+					if ( item instanceof DesignElement )
+					{
+						cmd.add( (DesignElement) item );
+					}
+					else if ( item instanceof DesignElementHandle )
+					{
+						cmd.add( ( (DesignElementHandle) item ).getElement( ) );
+					}
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**

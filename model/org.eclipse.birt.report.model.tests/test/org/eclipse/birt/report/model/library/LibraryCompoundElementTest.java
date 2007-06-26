@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -196,7 +199,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
 				.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		
+
 		// access controls
 
 		// access controls on cube.
@@ -323,7 +326,21 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		DesignElementHandle childCube = designHandle.getElementFactory( )
 				.newElementFrom(
 						libHandle.findCube( "testCube" ), "designChildCube" ); //$NON-NLS-1$//$NON-NLS-2$
-		designHandle.getCubes( ).drop( 0 );
+
+		DesignElementHandle cubeHandle = designHandle.getCubes( ).get( 0 );
+		try
+		{
+			cubeHandle.setProperty( ICubeModel.DIMENSIONS_PROP, null );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN,
+					e.getErrorCode( ) );
+
+		}
+		cubeHandle.drop( );
 		designHandle.getCubes( ).add( childCube );
 		save( );
 		assertTrue( compareFile( GOLDEN_FILE_1 ) );

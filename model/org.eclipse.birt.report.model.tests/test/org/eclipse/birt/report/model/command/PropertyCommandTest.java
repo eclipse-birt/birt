@@ -50,12 +50,16 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -977,7 +981,7 @@ public class PropertyCommandTest extends BaseTestCase
 	/**
 	 * Tests removing items with position.
 	 * 
-	 * @throws PropertyValueException
+	 * @throws SemanticException
 	 *             if any exception
 	 */
 
@@ -1602,6 +1606,27 @@ public class PropertyCommandTest extends BaseTestCase
 		inheritedAction.getParamBindings( ).removeItem( 0 );
 		assertEquals( 1, actionHandle.getParamBindings( ).getListValue( )
 				.size( ) );
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testElementTypePropertyCommand( ) throws Exception
+	{
+		CubeHandle cubeHandle = designHandle.getElementFactory( )
+				.newTabularCube( null );
+		designHandle.getCubes( ).add( cubeHandle );
+
+		MeasureGroupHandle measureGroupHandle = designHandle
+				.getElementFactory( ).newTabularMeasureGroup(
+						"testMeasureGroup" ); //$NON-NLS-1$
+		cubeHandle.setProperty( ICubeModel.MEASURE_GROUPS_PROP,
+				measureGroupHandle );
+		assertEquals( cubeHandle, measureGroupHandle.getContainer( ) );
+		assertEquals( measureGroupHandle.getElement( ), design.getNameHelper( )
+				.getNameSpace( Module.CUBE_NAME_SPACE ).getElement(
+						measureGroupHandle.getName( ) ) );
 	}
 
 	/**
