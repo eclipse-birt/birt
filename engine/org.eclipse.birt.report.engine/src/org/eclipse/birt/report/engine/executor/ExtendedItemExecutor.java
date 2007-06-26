@@ -152,4 +152,17 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		}
 		return null;
 	}
+	
+	public void setParent( IReportItemExecutor parent )
+	{
+		if ( executor != null )
+		{
+			if ( executor.getParent( ) == null )
+			{
+				executor.setParent( parent );
+			}
+		}
+		super.setParent( parent );
+	}	
+	
 }
