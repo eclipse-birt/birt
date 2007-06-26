@@ -288,7 +288,11 @@ public abstract class BaseCrosstabExecutor implements
 			( (IRowContent) content ).setRowID( rowCounter[0]++ );
 		}
 
-		content.setParent( getParentContent( ) );
+		IContent parent = getParentContent( );
+		if ( parent != null )
+		{
+			content.setParent( parent );
+		}
 	}
 
 	private IContent getParentContent( )
