@@ -55,52 +55,52 @@ import org.eclipse.birt.chart.model.data.Trigger;
  </tr>
  <tr>
   <td>Mouse Down</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Mouse UP</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Mouse Over</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
   <td>All</td>
   <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Mouse Move</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Mouse Out</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
@@ -125,42 +125,42 @@ import org.eclipse.birt.chart.model.data.Trigger;
  </tr>
  <tr>
   <td>Key Down</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Key Up</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Key Press</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
  <tr>
   <td>Onload</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
   <td>SVG</td>
   <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
+  <td>SVG</td>
   <td>&nbsp;</td>
  </tr>
 </table>
@@ -231,49 +231,31 @@ public class TriggerSupportMatrix
 		// mouse over
 		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
 				ActionType.SHOW_TOOLTIP_LITERAL ) );
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEOVER_LITERAL );
 
 		// mouse down
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEDOWN_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEDOWN_LITERAL );
 
 		// mouse up
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEUP_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEUP_LITERAL );
 
 		// mouse move
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEMOVE_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEMOVE_LITERAL );
 
 		// mouse out
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOUT_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEOUT_LITERAL );
 
 		// key down
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONKEYDOWN_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONKEYDOWN_LITERAL );
 
 		// key up
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONKEYUP_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONKEYUP_LITERAL );
 
 		// key press
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONKEYPRESS_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONKEYPRESS_LITERAL );
 
 		// load
-		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONLOAD_LITERAL,
-				ActionType.INVOKE_SCRIPT_LITERAL,
-				SVG ) );
+		addTriggersLikeMouseDown( TriggerCondition.ONLOAD_LITERAL );
 	};
 
 	private static void addTriggersLikeOnclick( TriggerCondition condition )
@@ -282,6 +264,25 @@ public class TriggerSupportMatrix
 				ActionType.URL_REDIRECT_LITERAL ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.INVOKE_SCRIPT_LITERAL ) );
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.HIGHLIGHT_LITERAL,
+				SVG ) );
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.TOGGLE_VISIBILITY_LITERAL,
+				SVG ) );
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
+				SVG ) );
+	}
+	
+	private static void addTriggersLikeMouseDown( TriggerCondition condition )
+	{
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.URL_REDIRECT_LITERAL,
+				SVG ) );
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.INVOKE_SCRIPT_LITERAL,
+				SVG ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.HIGHLIGHT_LITERAL,
 				SVG ) );
