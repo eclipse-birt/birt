@@ -731,57 +731,6 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setFont( String fontName, int fontStyle, float fontSize )
-	{
-		String psName;
-
-		if ( fontName.equals( "Symbol" ) )
-			psName = "Symbol";
-
-		else if ( fontName.equals( "Times" ) )
-		{
-			psName = "Times-";
-			switch ( fontStyle )
-			{
-				case Font.NORMAL :
-					psName += "Roman";
-					break;
-				case Font.BOLD :
-					psName += "Bold";
-					break;
-				case Font.ITALIC :
-					psName += "Italic";
-					break;
-				case ( Font.ITALIC + Font.BOLD ) :
-					psName += "BoldItalic";
-					break;
-			}
-		}
-
-		else if ( fontName.equals( "Helvetica" ) || fontName.equals( "Courier" ) )
-		{
-			psName = fontName;
-			switch ( fontStyle )
-			{
-				case Font.NORMAL :
-					break;
-				case Font.BOLD :
-					psName += "-Bold";
-					break;
-				case Font.ITALIC :
-					psName += "-Oblique";
-					break;
-				case ( Font.ITALIC + Font.BOLD ) :
-					psName += "BoldOblique";
-					break;
-			}
-		}
-		else
-			psName = "Courier";
-
-		setFont( psName, fontSize );
-	}
-
 	private void setFont( String psName, float size )
 	{
 		out.println( "/" + psName + " findfont" );
@@ -824,7 +773,7 @@ public class PostscriptWriter
 
 	private String applyIntrinsicFont( String fontName, int fontStyle, float fontSize, String text )
 	{
-		setFont( fontName, fontStyle, fontSize );
+		setFont( fontName, fontSize );
 		return ( "(" + text + ")" );
 	}
 
