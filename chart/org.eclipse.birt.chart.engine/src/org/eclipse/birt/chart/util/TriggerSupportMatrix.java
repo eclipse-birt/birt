@@ -20,7 +20,8 @@ import org.eclipse.birt.chart.model.data.Trigger;
 
 /**
  * Provides a utility class to check supported Trigger combination of condition
- * event and action type. Matrix is below: 
+ * event and action type. <br>
+ * Matrix is below: 
  <table border="1">
  <tr>
   <td>&nbsp;</td>
@@ -29,7 +30,7 @@ import org.eclipse.birt.chart.model.data.Trigger;
   <td>Invoke_Script</td>
   <td>Toogle_Visibility</td>
   <td>Toogle_DataPoint_Visibility</td>
-  <td>Hilight</td>
+  <td>Highlight</td>
   <td>Callback</td>
  </tr>
  <tr>
@@ -230,6 +231,9 @@ public class TriggerSupportMatrix
 		// mouse over
 		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
 				ActionType.SHOW_TOOLTIP_LITERAL ) );
+		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
+				ActionType.INVOKE_SCRIPT_LITERAL,
+				SVG ) );
 
 		// mouse down
 		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEDOWN_LITERAL,
