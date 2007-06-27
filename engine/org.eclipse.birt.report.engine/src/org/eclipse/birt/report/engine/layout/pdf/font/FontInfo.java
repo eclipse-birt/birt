@@ -59,6 +59,8 @@ public class FontInfo
 	public void setFontSize( float fontSize )
 	{
 		this.fontSize = fontSize;
+		this.fontPadding = this.fontSize / 5f;
+		this.lineWidth = this.fontSize / 20f;
 	}
 
 	public void setFontStyle( int fontStyle )
