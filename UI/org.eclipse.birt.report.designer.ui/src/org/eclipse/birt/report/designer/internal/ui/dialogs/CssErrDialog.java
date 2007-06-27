@@ -80,7 +80,7 @@ public class CssErrDialog extends TitleAreaDialog
 		GridLayout layout = new GridLayout(2,false);
 		composite.setLayout( layout );
 		
-		new Label(composite,  SWT.NONE).setText( Messages.getString( "CssErrDialog.Serverity" ));
+		new Label(composite,  SWT.NONE).setText( Messages.getString( "CssErrDialog.Severity" ));
 		Label messageLine = new Label(composite, SWT.NONE);
 		Label messageLabel= new Label(composite, SWT.NONE);
 		messageLabel.setText( Messages.getString( "CssErrDialog.Message" ));
