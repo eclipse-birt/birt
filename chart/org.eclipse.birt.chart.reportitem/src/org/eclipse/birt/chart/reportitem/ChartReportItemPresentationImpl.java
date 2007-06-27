@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
@@ -449,7 +450,7 @@ public final class ChartReportItemPresentationImpl extends
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
-			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
+			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
 			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
@@ -645,6 +646,13 @@ public final class ChartReportItemPresentationImpl extends
 		catch ( IOException ioex )
 		{
 			logger.log( ioex );
+		}
+		
+		// Dispose renderer resources
+		if ( idr != null )
+		{
+			idr.dispose( );
+			idr = null;
 		}
 
 		logger.log( ILogger.INFORMATION,

@@ -166,4 +166,9 @@ public abstract class DisplayAdapter implements IDisplayServer
 	{
 		this.lcl = lcl;
 	}
+	
+	public void dispose( )
+	{
+		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
+	}
 }

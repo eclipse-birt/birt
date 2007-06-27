@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -59,7 +59,6 @@ public class SwingDisplayServer extends DisplayAdapter
 	/**
 	 * The constructor.
 	 * 
-	 * @return
 	 */
 	public SwingDisplayServer( )
 	{
@@ -78,6 +77,12 @@ public class SwingDisplayServer extends DisplayAdapter
 								System.getProperty( "java.vendor" ), System.getProperty( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
 						getULocale( ) ) );
 		_simc = new SwingImageCache( this );
+	}
+	
+	public void dispose( )
+	{
+		_g2d.dispose( );
+		super.dispose( );
 	}
 
 	/*

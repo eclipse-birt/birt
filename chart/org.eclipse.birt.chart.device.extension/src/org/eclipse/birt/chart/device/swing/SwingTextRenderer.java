@@ -20,12 +20,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
-import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.TextRendererAdapter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -48,17 +48,15 @@ import org.eclipse.birt.chart.util.ChartUtil;
  * Provides convenience methods for rendering rotated text with configurable
  * attributes on a SWING graphics context.
  */
-final class SwingTextRenderer implements IConstants
+final class SwingTextRenderer extends TextRendererAdapter
 {
-
-	private SwingDisplayServer _sxs = null;
 
 	/**
 	 * The constructor.
 	 */
-	SwingTextRenderer( SwingDisplayServer sxs )
+	SwingTextRenderer( IDisplayServer sxs )
 	{
-		_sxs = sxs;
+		super( sxs );
 	}
 
 	/**
@@ -723,7 +721,7 @@ final class SwingTextRenderer implements IConstants
 		int iRotateX = (int) dX;
 		int iRotateY = (int) ( dY + dH / 2 );
 		dY += dH / 2;
-		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		// double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 		
 		// HORIZONTAL TEXT

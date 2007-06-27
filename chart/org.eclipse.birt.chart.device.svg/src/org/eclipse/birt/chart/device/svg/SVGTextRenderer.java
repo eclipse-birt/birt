@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,12 +20,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
-import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.TextRendererAdapter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.SwingTextMetrics;
@@ -49,40 +49,19 @@ import org.eclipse.birt.chart.util.ChartUtil;
  * Provides convenience methods for rendering rotated text with configurable
  * attributes on a SVG graphics context.
  */
-final class SVGTextRenderer implements IConstants
+final public class SVGTextRenderer extends TextRendererAdapter
 {
 
 	/**
 	 * 
 	 */
-	private static SVGTextRenderer _tr = null;
-
-	/**
-	 * 
-	 */
-	private SVGDisplayServer _sxs = null;
-
-	/**
-	 * 
-	 */
-	private SVGTextRenderer( )
+	public SVGTextRenderer( IDisplayServer sxs )
 	{
-
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized static final SVGTextRenderer instance(
-			SVGDisplayServer sxs )
-	{
-		if ( _tr == null )
+		super( sxs );
+		if ( !( sxs instanceof SVGDisplayServer ) )
 		{
-			_tr = new SVGTextRenderer( );
+			throw new IllegalArgumentException( );
 		}
-		_tr._sxs = sxs;
-		return _tr;
 	}
 
 	/**
@@ -203,7 +182,7 @@ final class SVGTextRenderer implements IConstants
 				}
 				showCenterValue( ipr, lo, la, false );
 				break;
-				
+
 		}
 
 	}
@@ -258,16 +237,14 @@ final class SVGTextRenderer implements IConstants
 		{
 			case HorizontalAlignment.CENTER :
 				bb.setLeft( boBlock.getLeft( )
-						+ ( boBlock.getWidth( ) - bb.getWidth( ) )
-						/ 2 );
+						+ ( boBlock.getWidth( ) - bb.getWidth( ) ) / 2 );
 				break;
 			case HorizontalAlignment.LEFT :
 				bb.setLeft( boBlock.getLeft( ) );
 				break;
 			case HorizontalAlignment.RIGHT :
 				bb.setLeft( boBlock.getLeft( )
-						+ boBlock.getWidth( )
-						- bb.getWidth( ) );
+						+ boBlock.getWidth( ) - bb.getWidth( ) );
 				break;
 		}
 
@@ -278,13 +255,11 @@ final class SVGTextRenderer implements IConstants
 				break;
 			case VerticalAlignment.CENTER :
 				bb.setTop( boBlock.getTop( )
-						+ ( boBlock.getHeight( ) - bb.getHeight( ) )
-						/ 2 );
+						+ ( boBlock.getHeight( ) - bb.getHeight( ) ) / 2 );
 				break;
 			case VerticalAlignment.BOTTOM :
 				bb.setTop( boBlock.getTop( )
-						+ boBlock.getHeight( )
-						- bb.getHeight( ) );
+						+ boBlock.getHeight( ) - bb.getHeight( ) );
 				break;
 		}
 
@@ -358,12 +333,11 @@ final class SVGTextRenderer implements IConstants
 			double dYHalfOffset = ( dFH + dH ) / 2d;
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -426,18 +400,15 @@ final class SVGTextRenderer implements IConstants
 			if ( bShadow )
 			{
 				// RENDER THE SHADOW
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -493,16 +464,15 @@ final class SVGTextRenderer implements IConstants
 			if ( bShadow )
 			{
 				// RENDER THE SHADOW
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -557,18 +527,15 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow )
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -623,18 +590,15 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow )
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -742,12 +706,11 @@ final class SVGTextRenderer implements IConstants
 			double dYHalfOffset = ( dFH + dH ) / 2d;
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -813,16 +776,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -861,7 +823,7 @@ final class SVGTextRenderer implements IConstants
 								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
 					}
 				}
-				
+
 				// RENDER THE OUTLINE/BORDER
 				renderOutline( ipr, la.getOutline( ), r2d );
 			}
@@ -881,18 +843,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -950,16 +909,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1017,16 +975,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1129,16 +1086,15 @@ final class SVGTextRenderer implements IConstants
 		{
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1196,16 +1152,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1258,16 +1213,15 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY - dH );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH ) + shadowness + dFH ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1324,12 +1278,11 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -1395,12 +1348,11 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -1509,18 +1461,15 @@ final class SVGTextRenderer implements IConstants
 		{
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1579,18 +1528,15 @@ final class SVGTextRenderer implements IConstants
 
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1651,18 +1597,15 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dFH ) + shadowness,
-						dFW,
-						dFH ), false );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ), false );
 			}
 			else
 			{
@@ -1724,12 +1667,11 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -1794,12 +1736,11 @@ final class SVGTextRenderer implements IConstants
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness ),
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dYHalfOffset )
-								+ shadowness
-								+ dFH ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
@@ -1856,7 +1797,6 @@ final class SVGTextRenderer implements IConstants
 		itm.dispose( );
 	}
 
-	
 	/**
 	 * 
 	 * @param g2d
@@ -1954,9 +1894,7 @@ final class SVGTextRenderer implements IConstants
 						{
 							dW = tl.getBounds( ).getWidth( );
 							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
+									+ dFW - dW - ins.getRight( );
 						}
 						else if ( bCenterAligned )
 						{
@@ -1966,9 +1904,7 @@ final class SVGTextRenderer implements IConstants
 						tl.draw( g2d,
 								(float) ( dX + dXOffset + ins.getLeft( ) ),
 								(float) ( dY
-										- dYHalfOffset
-										+ ins.getTop( )
-										+ dH
+										- dYHalfOffset + ins.getTop( ) + dH
 										* ( i + 1 ) - dD ) );
 					}
 				}
@@ -1994,8 +1930,7 @@ final class SVGTextRenderer implements IConstants
 						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
@@ -2024,9 +1959,7 @@ final class SVGTextRenderer implements IConstants
 						{
 							dW = tl.getBounds( ).getWidth( );
 							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
+									+ dFW - dW - ins.getRight( );
 						}
 						else if ( bCenterAligned )
 						{
@@ -2061,8 +1994,7 @@ final class SVGTextRenderer implements IConstants
 						+ shadowness, ( dY - dH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
@@ -2091,9 +2023,7 @@ final class SVGTextRenderer implements IConstants
 						{
 							dW = tl.getBounds( ).getWidth( );
 							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
+									+ dFW - dW - ins.getRight( );
 						}
 						else if ( bCenterAligned )
 						{
@@ -2127,8 +2057,7 @@ final class SVGTextRenderer implements IConstants
 						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
@@ -2157,9 +2086,7 @@ final class SVGTextRenderer implements IConstants
 						{
 							dW = tl.getBounds( ).getWidth( );
 							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
+									+ dFW - dW - ins.getRight( );
 						}
 						else if ( bCenterAligned )
 						{
@@ -2193,8 +2120,7 @@ final class SVGTextRenderer implements IConstants
 						+ shadowness, ( dY - dFH ) + shadowness ),
 						(Color) _sxs.getColor( la.getShadowColor( ) ),
 						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
+								+ shadowness + dFH ),
 						(Color) _sxs.getColor( la.getShadowColor( )
 								.translucent( ) ) ) );
 				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
@@ -2223,9 +2149,7 @@ final class SVGTextRenderer implements IConstants
 						{
 							dW = tl.getBounds( ).getWidth( );
 							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
+									+ dFW - dW - ins.getRight( );
 						}
 						else if ( bCenterAligned )
 						{
@@ -2245,7 +2169,7 @@ final class SVGTextRenderer implements IConstants
 		}
 		itm.dispose( );
 	}
-	
+
 	// private static final void renderBox(Graphics2D g2d, BoundingBox bb, Color
 	// cFG, Color cBG)
 	// {
@@ -2276,7 +2200,7 @@ final class SVGTextRenderer implements IConstants
 			}
 			g2d.setColor( (Color) _sxs.getColor( cd ) );
 			g2d.draw( r2d );
-			g2d.setNoFillColor(g2d.getCurrentElement());
+			g2d.setNoFillColor( g2d.getCurrentElement( ) );
 			if ( sPrevious != null ) // RESTORE PREVIOUS STROKE
 			{
 				g2d.setStroke( sPrevious );

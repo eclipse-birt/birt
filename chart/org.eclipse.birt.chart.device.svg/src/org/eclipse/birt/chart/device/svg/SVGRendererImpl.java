@@ -83,28 +83,6 @@ public class SVGRendererImpl extends SwingRendererImpl
 	protected SVGInteractiveRenderer ivRenderer;
 
 	/**
-	 * 
-	 */
-	public SVGRendererImpl( )
-	{
-		if ( System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
-		{
-			final PluginSettings ps = PluginSettings.instance( );
-			try
-			{
-				_ids = ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
-			}
-			catch ( ChartException pex )
-			{
-				logger.log( pex );
-			}
-		}
-		else
-			_ids = new SVGDisplayServer( );
-
-		ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
-	}
-	/**
 	 * The SVG version is "-//W3C//DTD SVG 1.0//EN".
 	 */
 	static private final String SVG_VERSION = "-//W3C//DTD SVG 1.0//EN"; //$NON-NLS-1$
@@ -148,7 +126,23 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * Property that determines if the generated SVG output should contain embedded javascript code.
 	 */
 	public boolean _enableScript = true;
-
+	
+	protected void init( )
+	{
+		// Do not invoke super method.
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			_ids = ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
+			_tr = new SVGTextRenderer( _ids );
+			ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
+		}
+		catch ( ChartException pex )
+		{
+			logger.log( pex );
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -725,7 +719,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( tre, true );
-		SVGTextRenderer tr = SVGTextRenderer.instance( (SVGDisplayServer) _ids );
+
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
@@ -735,21 +729,21 @@ public class SVGRendererImpl extends SwingRendererImpl
 						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
-				tr.renderShadowAtLocation( this,
+				_tr.renderShadowAtLocation( this,
 						tre.getTextPosition( ),
 						tre.getLocation( ),
 						tre.getLabel( ) );
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
-				tr.renderTextAtLocation( this,
+				_tr.renderTextAtLocation( this,
 						tre.getTextPosition( ),
 						tre.getLocation( ),
 						tre.getLabel( ) );
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
-				tr.renderTextInBlock( this,
+				_tr.renderTextInBlock( this,
 						tre.getBlockBounds( ),
 						tre.getBlockAlignment( ),
 						tre.getLabel( ) );

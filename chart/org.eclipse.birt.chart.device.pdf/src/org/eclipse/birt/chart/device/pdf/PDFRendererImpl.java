@@ -31,6 +31,7 @@ import org.apache.fop.svg.PDFTranscoder;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.svg.ISVGConstants;
 import org.eclipse.birt.chart.device.svg.SVGRendererImpl;
+import org.eclipse.birt.chart.device.svg.SVGTextRenderer;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -46,26 +47,22 @@ import org.w3c.dom.Document;
 public class PDFRendererImpl extends SVGRendererImpl {
 	
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
-
-	public PDFRendererImpl( )
+	
+	protected void init( )
 	{
-		if ( System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
+		// Do not invoke super method.
+		final PluginSettings ps = PluginSettings.instance( );
+		try
 		{
-			final PluginSettings ps = PluginSettings.instance( );
-			try
-			{
-				_ids = ps.getDisplayServer( "ds.PDF" ); //$NON-NLS-1$
-			}
-			catch ( ChartException pex )
-			{
-				logger.log( pex );
-			}
+			_ids = ps.getDisplayServer( "ds.PDF" ); //$NON-NLS-1$
+			// Use SVG impl instead
+			_tr = new SVGTextRenderer( _ids );
+			ivRenderer = new PDFInteractiveRenderer( getULocale( ) );
 		}
-		else
-			_ids = new PDFDisplayServer( );
-		ivRenderer = new PDFInteractiveRenderer( getULocale( ) );
-		
-		
+		catch ( ChartException pex )
+		{
+			logger.log( pex );
+		}
 	}
 
 	public void enableInteraction(InteractionEvent ie) throws ChartException {

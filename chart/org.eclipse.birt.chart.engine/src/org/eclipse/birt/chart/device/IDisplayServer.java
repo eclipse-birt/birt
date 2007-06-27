@@ -150,5 +150,12 @@ public interface IDisplayServer
 	 * @since 2.1
 	 */
 	ULocale getULocale( );
+	
+	/**
+	 * A notification sent to the device to free all allocated system resources.
+	 * 
+	 * @since 2.2
+	 */
+	void dispose( );
 
 }

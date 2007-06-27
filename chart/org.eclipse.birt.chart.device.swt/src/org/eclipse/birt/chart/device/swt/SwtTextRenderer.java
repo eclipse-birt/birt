@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,8 +16,10 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.TextRendererAdapter;
 import org.eclipse.birt.chart.device.swt.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -37,6 +39,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -48,7 +51,7 @@ import org.eclipse.swt.graphics.Region;
 /**
  * Contains useful methods for rendering text on an SWT graphics context
  */
-final class SwtTextRenderer implements IConstants
+final class SwtTextRenderer extends TextRendererAdapter
 {
 
 	private static final PaletteData PALETTE_DATA = new PaletteData( 0xFF0000,
@@ -59,14 +62,17 @@ final class SwtTextRenderer implements IConstants
 
 	private static final int SHADOW_THICKNESS = 3;
 
-	private SwtDisplayServer _sxs = null;
-
 	/**
 	 * The constructor.
 	 */
-	SwtTextRenderer( SwtDisplayServer sxs )
+	SwtTextRenderer( IDisplayServer sxs )
 	{
-		_sxs = sxs;
+		super( sxs );
+	}
+	
+	Device getDevice( )
+	{
+		return ( (SwtDisplayServer) _sxs ).getDevice( );
 	}
 
 	/**
@@ -664,8 +670,8 @@ final class SwtTextRenderer implements IConstants
 		{
 			r = new Rectangle( 0, 0, (int) dFW, (int) dFH );
 
-			tr = R31Enhance.newTransform( _sxs.getDevice( ) );
-			rtr = R31Enhance.newTransform( _sxs.getDevice( ) );
+			tr = R31Enhance.newTransform( getDevice( ) );
+			rtr = R31Enhance.newTransform( getDevice( ) );
 
 			if ( la.getCaption( ).getFont( ).getRotation( ) != 0 )
 			{
@@ -889,7 +895,7 @@ final class SwtTextRenderer implements IConstants
 		// RENDER THE TEXT ON AN OFFSCREEN CANVAS
 		ImageData imgdtaS = new ImageData( clipWs, clipHs, 32, PALETTE_DATA );
 		imgdtaS.transparentPixel = TRANSPARENT_COLOR;
-		final Image imgSource = new Image( _sxs.getDevice( ), imgdtaS );
+		final Image imgSource = new Image( getDevice( ), imgdtaS );
 		for ( int i = 0; i < clipHs; i++ )
 		{
 			for ( int j = 0; j < clipWs; j++ )
@@ -917,7 +923,7 @@ final class SwtTextRenderer implements IConstants
 		}
 		else
 		{
-			final Color cTransparent = new Color( _sxs.getDevice( ),
+			final Color cTransparent = new Color( getDevice( ),
 					0x12,
 					0x34,
 					0x56 );
@@ -1021,6 +1027,6 @@ final class SwtTextRenderer implements IConstants
 		imgSource.dispose( );
 
 		// BUILD THE IMAGE USING THE NEWLY MANIPULATED BYTES
-		return new Image( _sxs.getDevice( ), imgdtaT );
+		return new Image( getDevice( ), imgdtaT );
 	};
 }
