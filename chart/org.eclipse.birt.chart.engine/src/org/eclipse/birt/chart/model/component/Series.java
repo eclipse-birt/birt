@@ -518,5 +518,15 @@ public interface Series extends EObject
 	 * @return
 	 */
 	DataSet getDataSet( String userkey );
+	
+	/**
+	 * The method indicates if painting requests of series should be added to a
+	 * single cache.
+	 * 
+	 * @return <code>true</code> if painting requests of series should be
+	 *         added to a single cache. False means creating a new Cache for
+	 *         each series.
+	 */
+	boolean isSingleCache( );
 
 } // Series

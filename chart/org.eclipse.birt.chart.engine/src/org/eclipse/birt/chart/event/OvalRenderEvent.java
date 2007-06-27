@@ -55,7 +55,8 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final Bounds getBounds( )
 	{
-		return _bo;
+		final Bounds bo = BoundsImpl.create( _bo.getLeft( ), _bo.getTop( ), _bo.getWidth( ), _bo.getHeight( ) );
+		return bo;
 	}
 
 	/**

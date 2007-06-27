@@ -1123,4 +1123,12 @@ public class SeriesImpl extends EObjectImpl implements Series
 	{
 		return Messages.getString( "SeriesImpl.displayName" ); //$NON-NLS-1$
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
+	 */
+	public boolean isSingleCache( )
+	{
+		return false;
+	}
 } // SeriesImpl

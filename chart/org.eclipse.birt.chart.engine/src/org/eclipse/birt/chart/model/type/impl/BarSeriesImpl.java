@@ -521,4 +521,12 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				return Messages.getString( "BarSeriesImpl.displayName" ); //$NON-NLS-1$
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
+	 */
+	public boolean isSingleCache( )
+	{
+		return isStacked( );
+	}
 } // BarSeriesImpl

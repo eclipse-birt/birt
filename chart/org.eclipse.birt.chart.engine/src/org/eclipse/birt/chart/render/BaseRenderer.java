@@ -203,6 +203,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * The associated runtimeContext.
 	 */
 	protected transient RunTimeContext rtc = null;
+	
+	/** The mananger assures correct paint z-order of series for 2D case. */
+	protected DeferredCacheManager fDeferredCacheManager;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
@@ -513,7 +516,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			try
 			{
-				dc.flush( ); // FLUSH DEFERRED CACHE
+				fDeferredCacheManager.flushAll( ); // FLUSH DEFERRED CACHE
 			}
 			catch ( ChartException ex )
 			{
@@ -2903,6 +2906,25 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Label laDataPoint, Position lp, Location lo, Bounds bo )
 			throws ChartException
 	{
+		renderLabel( oSource, iTextRenderType, laDataPoint, lp, lo, bo, dc );
+	}
+
+	/**
+	 * Renderer label with specified <code>DeferredCache</code>.
+	 * 
+	 * @param oSource
+	 * @param iTextRenderType
+	 * @param laDataPoint
+	 * @param lp
+	 * @param lo
+	 * @param bo
+	 * @param _dc
+	 * @throws ChartException
+	 */
+	public final void renderLabel( Object oSource, int iTextRenderType,
+			Label laDataPoint, Position lp, Location lo, Bounds bo, DeferredCache _dc )
+			throws ChartException
+	{
 		final IDeviceRenderer idr = getDevice( );
 		TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) idr ).getEventObject( oSource,
 				TextRenderEvent.class );
@@ -2918,9 +2940,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		tre.setLabel( laDataPoint );
 		tre.setAction( iTextRenderType );
-		dc.addLabel( tre );
+		if ( _dc == null )
+		{
+			dc.addLabel( tre );
+		}
+		else
+		{
+			_dc.addLabel( tre );
+		}
 	}
-
+	
 	/**
 	 * This method validates the given datapoints.
 	 */
@@ -3172,6 +3201,25 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 	}
+
+	/**
+     * Set current <code>DeferredCacheManager</code> instance.
+     *
+     * @param dcm specified instance of <code>DeferredCacheMananger</code>.
+     */
+	public void setDeferredCacheManager( DeferredCacheManager dcm )
+	{
+		fDeferredCacheManager = dcm;
+	}
+
 	
-	
+	/**
+	 * Returns <code>DeferredCacheManager</code> instance.
+	 * 
+	 * @return <code>DeferredCacheManager</code> instance.
+	 */
+	public DeferredCacheManager getDeferredCacheManager( )
+	{
+		return fDeferredCacheManager;
+	}
 }

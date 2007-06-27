@@ -226,62 +226,76 @@ public final class DeferredCache
 	 */
 	public final void flushOptions( int options ) throws ChartException
 	{
-		IRenderInstruction wi;
-
 		// FLUSH PLANE SHADOWS
 		if ( ( options & FLUSH_PLANE_SHADOW ) == FLUSH_PLANE_SHADOW )
 		{
-			Collections.sort( alPlaneShadows ); // SORT ON Z-ORDER
-			for ( int i = 0; i < alPlaneShadows.size( ); i++ )
-			{
-				wi = (IRenderInstruction) alPlaneShadows.get( i );
-				if ( wi.isModel( ) )
-				{
-					List al = wi.getModel( );
-					for ( int j = 0; j < al.size( ); j++ )
-					{
-						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-						pre.fill( idr );
-						pre.draw( idr );
-					}
-				}
-				else
-				{
-					wi.getEvent( ).iObjIndex = i + 1;
-					switch ( wi.getInstruction( ) )
-					{
-						case PrimitiveRenderEvent.FILL
-								| PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).fill( idr );
-							wi.getEvent( ).draw( idr );
-							break;
-						case PrimitiveRenderEvent.FILL :
-							wi.getEvent( ).fill( idr );
-							break;
-						case PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).draw( idr );
-							break;
-					}
-				}
-			}
-			alPlaneShadows.clear( );
+			flushPlaneShadows( idr,  alPlaneShadows );
 		}
 		
 		// FLUSH PLANES
 		if ( ( options & FLUSH_PLANE ) == FLUSH_PLANE )
 		{
-			Collections.sort( alPlanes ); // SORT ON Z-ORDER
-			for ( int i = 0; i < alPlanes.size( ); i++ )
+			flushPlanes( idr, alPlanes );
+		}
+
+		// FLUSH LINES (WITHOUT SORTING)
+		if ( ( options & FLUSH_LINE ) == FLUSH_LINE )
+		{
+			flushLines( idr, alLines );
+		}
+
+		// FLUSH MARKERS (WITHOUT SORTING)
+		if ( ( options & FLUSH_MARKER ) == FLUSH_MARKER )
+		{
+			flushMarkers( idr, alMarkers );
+		}
+
+		// FLUSH TEXT (WITHOUT SORTING)
+		if ( ( options & FLUSH_LABLE ) == FLUSH_LABLE )
+		{
+			flushLabels( idr, alLabels );
+		}
+
+		// FLUSH 3D events (already z-sorted)
+		if ( ( options & FLUSH_3D ) == FLUSH_3D )
+		{
+			flush3D( idr, al3D );
+		}
+	}
+
+	/**
+	 * Flush cached 3D elements.
+	 *  
+	 * @param _idr
+	 * @param alBlocks
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flush3D( IDeviceRenderer _idr, List alBlocks )
+			throws ChartException
+	{
+		if ( _idr == null || alBlocks == null )
+		{
+			return;
+		}
+
+		IRenderInstruction wi;
+		for ( int i = 0; i < alBlocks.size( ); i++ )
+		{
+			Object obj = alBlocks.get( i );
+
+			if ( obj instanceof IRenderInstruction )
 			{
-				wi = (IRenderInstruction) alPlanes.get( i );
+				wi = (WrappedInstruction) obj;
+
 				if ( wi.isModel( ) )
 				{
 					List al = wi.getModel( );
 					for ( int j = 0; j < al.size( ); j++ )
 					{
 						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-						pre.fill( idr );
-						pre.draw( idr );
+						pre.fill( _idr );
+						pre.draw( _idr );
 					}
 				}
 				else
@@ -289,121 +303,221 @@ public final class DeferredCache
 					wi.getEvent( ).iObjIndex = i + 1;
 					switch ( wi.getInstruction( ) )
 					{
-						case PrimitiveRenderEvent.FILL
-								| PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).fill( idr );
-							wi.getEvent( ).draw( idr );
+						case PrimitiveRenderEvent.FILL |
+								PrimitiveRenderEvent.DRAW :
+							wi.getEvent( ).fill( _idr );
+							wi.getEvent( ).draw( _idr );
 							break;
 						case PrimitiveRenderEvent.FILL :
-							wi.getEvent( ).fill( idr );
+							wi.getEvent( ).fill( _idr );
 							break;
 						case PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).draw( idr );
+							wi.getEvent( ).draw( _idr );
 							break;
 					}
 				}
 			}
-			alPlanes.clear( );
-		}
-
-		// FLUSH LINES (WITHOUT SORTING)
-		if ( ( options & FLUSH_LINE ) == FLUSH_LINE )
-		{
-			for ( int i = 0; i < alLines.size( ); i++ )
+			else if ( obj instanceof LineRenderEvent )
 			{
-				LineRenderEvent lre = (LineRenderEvent) alLines.get( i );
-				lre.draw( idr );
+				( (LineRenderEvent) obj ).draw( _idr );
 			}
-			alLines.clear( );
+			else if ( obj instanceof TextRenderEvent )
+			{
+				( (TextRenderEvent) obj ).draw( _idr );
+			}
+		}
+		alBlocks.clear( );
+	}
+
+	/**
+	 * Flush cached labels.
+	 * 
+	 * @param _idr
+	 * @param labels
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flushLabels( IDeviceRenderer _idr, List labels )
+			throws ChartException
+	{
+		if ( _idr == null || labels == null )
+		{
+			return;
 		}
 
-		// FLUSH MARKERS (WITHOUT SORTING)
-		if ( ( options & FLUSH_MARKER ) == FLUSH_MARKER )
+		for ( int i = 0; i < labels.size( ); i++ )
 		{
-			// SORT ON Marker Size
-			Collections.sort( alMarkers ); 
-			for ( int i = 0; i < alMarkers.size( ); i++ )
+			TextRenderEvent tre = (TextRenderEvent) labels.get( i );
+			tre.draw( _idr );
+		}
+		labels.clear( );
+	}
+
+	/**
+	 * Flush cached markers.
+	 * 
+	 * @param _idr
+	 * @param markers
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flushMarkers( IDeviceRenderer _idr, List markers )
+			throws ChartException
+	{
+		if ( _idr == null || markers == null )
+		{
+			return;
+		}
+
+		IRenderInstruction wi;
+		// SORT ON Marker Size
+		Collections.sort( markers );
+		for ( int i = 0; i < markers.size( ); i++ )
+		{
+			wi = (IRenderInstruction) markers.get( i );
+			switch ( wi.getInstruction( ) )
 			{
-				wi = (IRenderInstruction) alMarkers.get( i );
+				case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
+					wi.getEvent( ).fill( _idr );
+					wi.getEvent( ).draw( _idr );
+					break;
+				case PrimitiveRenderEvent.FILL :
+					wi.getEvent( ).fill( _idr );
+					break;
+				case PrimitiveRenderEvent.DRAW :
+					wi.getEvent( ).draw( _idr );
+					break;
+			}
+		}
+		markers.clear( );
+	}
+
+	/**
+	 * Flush cached lines.
+	 * 
+	 * @param _idr
+	 * @param lines
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flushLines( IDeviceRenderer _idr, List lines )
+			throws ChartException
+	{
+		if ( _idr == null || lines == null )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < lines.size( ); i++ )
+		{
+			LineRenderEvent lre = (LineRenderEvent) lines.get( i );
+			lre.draw( _idr );
+		}
+		lines.clear( );
+	}
+
+	/**
+	 * Flush cached planes.
+	 * 
+	 * @param _idr
+	 * @param planes
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flushPlanes( IDeviceRenderer _idr, List planes )
+			throws ChartException
+	{
+		if ( _idr == null || planes == null )
+		{
+			return;
+		}
+
+		IRenderInstruction wi;
+		Collections.sort( planes ); // SORT ON Z-ORDER
+		for ( int i = 0; i < planes.size( ); i++ )
+		{
+			wi = (IRenderInstruction) planes.get( i );
+			if ( wi.isModel( ) )
+			{
+				List al = wi.getModel( );
+				for ( int j = 0; j < al.size( ); j++ )
+				{
+					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
+					pre.fill( _idr );
+					pre.draw( _idr );
+				}
+			}
+			else
+			{
+				wi.getEvent( ).iObjIndex = i + 1;
 				switch ( wi.getInstruction( ) )
 				{
 					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( idr );
-						wi.getEvent( ).draw( idr );
+						wi.getEvent( ).fill( _idr );
+						wi.getEvent( ).draw( _idr );
 						break;
 					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( idr );
+						wi.getEvent( ).fill( _idr );
 						break;
 					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( idr );
+						wi.getEvent( ).draw( _idr );
 						break;
 				}
 			}
-			alMarkers.clear( );
+		}
+		planes.clear( );
+	}
+
+	/**
+	 * Flush cached plane shadows.
+	 * 
+	 * @param _idr
+	 * @param planeShadows
+	 * @throws ChartException
+	 * @since 2.2.1
+	 */
+	static void flushPlaneShadows( IDeviceRenderer _idr,
+			List planeShadows ) throws ChartException
+	{
+		if ( _idr == null || planeShadows == null )
+		{
+			return;
 		}
 
-		// FLUSH TEXT (WITHOUT SORTING)
-		if ( ( options & FLUSH_LABLE ) == FLUSH_LABLE )
+		IRenderInstruction wi;
+		Collections.sort( planeShadows ); // SORT ON Z-ORDER
+		for ( int i = 0; i < planeShadows.size( ); i++ )
 		{
-			for ( int i = 0; i < alLabels.size( ); i++ )
+			wi = (IRenderInstruction) planeShadows.get( i );
+			if ( wi.isModel( ) )
 			{
-				TextRenderEvent tre = (TextRenderEvent) alLabels.get( i );
-				tre.draw( idr );
-			}
-			alLabels.clear( );
-		}
-
-		// FLUSH 3D events (already z-sorted)
-		if ( ( options & FLUSH_3D ) == FLUSH_3D )
-		{
-			for ( int i = 0; i < al3D.size( ); i++ )
-			{
-				Object obj = al3D.get( i );
-
-				if ( obj instanceof IRenderInstruction )
+				List al = wi.getModel( );
+				for ( int j = 0; j < al.size( ); j++ )
 				{
-					wi = (WrappedInstruction) obj;
-
-					if ( wi.isModel( ) )
-					{
-						List al = wi.getModel( );
-						for ( int j = 0; j < al.size( ); j++ )
-						{
-							PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-							pre.fill( idr );
-							pre.draw( idr );
-						}
-					}
-					else
-					{
-						wi.getEvent( ).iObjIndex = i + 1;
-						switch ( wi.getInstruction( ) )
-						{
-							case PrimitiveRenderEvent.FILL
-									| PrimitiveRenderEvent.DRAW :
-								wi.getEvent( ).fill( idr );
-								wi.getEvent( ).draw( idr );
-								break;
-							case PrimitiveRenderEvent.FILL :
-								wi.getEvent( ).fill( idr );
-								break;
-							case PrimitiveRenderEvent.DRAW :
-								wi.getEvent( ).draw( idr );
-								break;
-						}
-					}
-				}
-				else if ( obj instanceof LineRenderEvent )
-				{
-					( (LineRenderEvent) obj ).draw( idr );
-				}
-				else if ( obj instanceof TextRenderEvent )
-				{
-					( (TextRenderEvent) obj ).draw( idr );
+					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
+					pre.fill( _idr );
+					pre.draw( _idr );
 				}
 			}
-			al3D.clear( );
+			else
+			{
+				wi.getEvent( ).iObjIndex = i + 1;
+				switch ( wi.getInstruction( ) )
+				{
+					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
+						wi.getEvent( ).fill( _idr );
+						wi.getEvent( ).draw( _idr );
+						break;
+					case PrimitiveRenderEvent.FILL :
+						wi.getEvent( ).fill( _idr );
+						break;
+					case PrimitiveRenderEvent.DRAW :
+						wi.getEvent( ).draw( _idr );
+						break;
+				}
+			}
 		}
+		planeShadows.clear( );
 	}
 	
 
@@ -424,4 +538,23 @@ public final class DeferredCache
 		return bTransposed;
 	}
 
+	/**
+	 * Returns all cached markers.
+	 * 
+	 * @return all cached markers.
+	 */
+	public List getAllMarkers( )
+	{
+		return alMarkers;
+	}
+	
+	/**
+	 * Returns all cached labels.
+	 * 
+	 * @return all cached labels.
+	 */
+	public List getAllLabels( )
+	{
+		return alLabels;
+	}
 }

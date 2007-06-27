@@ -108,6 +108,11 @@ public class EventObjectCache
 	protected final boolean validateLineAttributes( Object oSource,
 			LineAttributes lia ) throws ChartException
 	{
+		if ( lia == null )
+		{
+			return false;
+		}
+		
 		if ( !lia.isSetStyle( ) || !lia.isSetThickness( ) )
 		{
 			return false; // NO LINE STYLE = DON'T DRAW LINE

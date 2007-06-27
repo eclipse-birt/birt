@@ -801,7 +801,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						BoundsImpl.create( bb.getLeft( ),
 								bb.getTop( ),
 								bb.getWidth( ),
-								bb.getHeight( ) ) );
+								bb.getHeight( ) ),
+								fDeferredCacheManager.getLastDeferredCache( ) );
 
 			}
 
@@ -2254,7 +2255,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							panningOffset.getX( ),
 							panningOffset.getY( ) );
 				}
-				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
+				fDeferredCacheManager.flushAll( ); // FLUSH DEFERRED CACHE
 			}
 			catch ( ChartException ex )
 			{

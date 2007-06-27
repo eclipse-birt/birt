@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BubbleSeriesImpl.java,v 1.1 2006/12/28 03:49:32 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type.impl;
@@ -363,4 +363,11 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		return Messages.getString( "BubbleSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
+	 */
+	public boolean isSingleCache( )
+	{
+		return true;
+	}
 } // BubbleSeriesImpl

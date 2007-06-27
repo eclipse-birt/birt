@@ -100,13 +100,13 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	}
 
 	/**
-	 * Compare two bounds regularly.
+	 * Compare two bounds in transposed way.
 	 * 
 	 * @param bo1
 	 * @param bo2
 	 * @return
 	 */
-	public static final int compareRegular( Bounds bo1, Bounds bo2 )
+	public static final int compareTransposed( Bounds bo1, Bounds bo2 )
 	{
 		final double dMinX1 = bo1.getLeft( );
 		final double dMinX2 = bo2.getLeft( );
@@ -126,17 +126,17 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 			}
 			else
 			{
-				final double dMinY1 = bo1.getTop( );
-				final double dMinY2 = bo2.getTop( );
+				final double dMinY1 = bo1.getTop( ) + bo1.getHeight( );
+				final double dMinY2 = bo2.getTop( ) + bo2.getHeight( );
 				dDiff = dMinY1 - dMinY2;
 				if ( dDiff != 0 )
 				{
-					return ( dDiff < 0 ) ? IConstants.MORE : IConstants.LESS;
+					return ( dDiff < 0 ) ? IConstants.MORE: IConstants.LESS;
 				}
 				else
 				{
-					final double dMaxY1 = bo1.getTop( ) + bo1.getHeight( );
-					final double dMaxY2 = bo2.getTop( ) + bo2.getHeight( );
+					final double dMaxY1 = bo1.getTop( );
+					final double dMaxY2 = bo2.getTop( );
 					dDiff = dMaxY1 - dMaxY2;
 					if ( dDiff != 0 )
 					{
@@ -153,13 +153,13 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	}
 
 	/**
-	 * Compare two bounds in transposed way.
+	 * Compare two bounds regularly.
 	 * 
 	 * @param bo1
 	 * @param bo2
 	 * @return
 	 */
-	public static final int compareTransposed( Bounds bo1, Bounds bo2 )
+	public static final int compareRegular( Bounds bo1, Bounds bo2 )
 	{
 		final double dMinY1 = bo1.getTop( ) + bo1.getHeight( );
 		final double dMinY2 = bo2.getTop( ) + bo2.getHeight( );
@@ -204,7 +204,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 			}
 		}
 	}
-
+	
 	/**
 	 * Compares two primitives in terms of Z-order rendering
 	 */

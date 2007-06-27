@@ -69,6 +69,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.DeferredCache;
+import org.eclipse.birt.chart.render.DeferredCacheManager;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
@@ -1242,7 +1243,12 @@ public final class Generator implements IGenerator
 		BaseRenderer br;
 		final Collection co = lhm.values( );
 		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( new LegendItemRenderingHints[co.size( )] );
-		final DeferredCache dc = new DeferredCache( idr, cm ); // USED IN
+
+		// Fixed bugzilla bug 193234.
+		// Use DeferredCacheManager instead of single DeferredCache to get
+		// correct z-order of series for only 2D.
+		final DeferredCacheManager dcm = new DeferredCacheManager( idr, cm );
+		DeferredCache dc = null;
 		// RENDERING
 		// ELEMENTS WITH
 		// THE CORRECT
@@ -1264,6 +1270,10 @@ public final class Generator implements IGenerator
 		for ( int i = 0; i < iSize; i++ )
 		{
 			br = lirha[i].getRenderer( );
+			
+			dc = dcm.createDeferredCache( br );
+			
+			br.setDeferredCacheManager( dcm );
 			br.set( dc );
 			br.set( idr );
 			br.set( gcs.getRunTimeContext( ) );

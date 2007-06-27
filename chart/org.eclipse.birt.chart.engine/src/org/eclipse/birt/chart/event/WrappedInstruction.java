@@ -85,7 +85,8 @@ public final class WrappedInstruction implements IRenderInstruction
 			bo = ( (IRenderInstruction) o ).getBounds( );
 		}
 
-		return (dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ), bo )
+		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
+				bo )
 				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
 	}
 
@@ -154,7 +155,7 @@ public final class WrappedInstruction implements IRenderInstruction
 				{
 					if ( i == 0 )
 					{
-						bo = ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( );
+						bo = BoundsImpl.copyInstance( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
 					}
 					else
 					{
