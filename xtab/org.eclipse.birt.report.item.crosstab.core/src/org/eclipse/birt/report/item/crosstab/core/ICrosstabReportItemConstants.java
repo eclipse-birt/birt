@@ -52,6 +52,11 @@ public interface ICrosstabReportItemConstants
 	String REPEAT_COLUMN_HEADER_PROP = "repeatColumnHeader"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that specifies if hide measure header.
+	 */
+	String HIDE_MEASURE_HEADER_PROP = "hideMeasureHeader"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that gives the value shown when the cell is empty in
 	 * the crosstab.
 	 */

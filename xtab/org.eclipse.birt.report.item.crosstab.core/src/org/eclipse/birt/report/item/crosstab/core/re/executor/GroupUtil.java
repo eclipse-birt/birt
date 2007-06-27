@@ -691,6 +691,11 @@ public class GroupUtil implements ICrosstabConstants
 	public static boolean hasMeasureHeader(
 			CrosstabReportItemHandle crosstabItem, int axisType )
 	{
+		if ( crosstabItem.isHideMeasureHeader( ) )
+		{
+			return false;
+		}
+
 		int mc = crosstabItem.getMeasureCount( );
 
 		if ( mc > 0 )

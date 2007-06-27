@@ -154,6 +154,13 @@
                name="pageLayout"
                visibility="hide">
          </propertyVisibility>
+         <property
+               defaultValue="false"
+               displayNameID="Element.HideMeasureHeader"
+               isList="false"
+               name="hideMeasureHeader"
+               type="boolean">
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

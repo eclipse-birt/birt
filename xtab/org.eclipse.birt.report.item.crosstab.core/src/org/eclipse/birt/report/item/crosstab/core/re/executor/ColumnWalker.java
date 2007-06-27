@@ -45,6 +45,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 	private final int mCount;
 	private final boolean isVerticalMeasure;
+	private final boolean isHideMeasureHeader;
 
 	private int currentState;
 	private int dimensionIndex, levelIndex, measureIndex;
@@ -67,6 +68,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 		mCount = crosstabItem.getMeasureCount( );
 		isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
+		isHideMeasureHeader = crosstabItem.isHideMeasureHeader( );
 
 		groupIndex = 0;
 		measureIndex = -1;
@@ -119,7 +121,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 				}
 
 				// process vertical measure header column if available
-				if ( mCount > 0 && isVerticalMeasure )
+				if ( mCount > 0 && isVerticalMeasure && !isHideMeasureHeader )
 				{
 					for ( int i = 0; i < mCount; i++ )
 					{
