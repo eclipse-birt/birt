@@ -7,7 +7,7 @@ AbstractDataSetWizard.ModelTrans.Create=Définir le type, la source et le nom du 
 CssErrDialog.shellTitle.ImportCssStyleMssageTitle=Message d'importation
 CssErrDialog.AreaTitle=Message d'importation des styles CSS
 CssErrDialog.AreaMessage=Des erreurs ou des avertissements sont apparus lors de l'importation des styles css.
-CssErrDialog.Serverity=Gravité :
+CssErrDialog.Severity=Severity:
 CssErrDialog.Message=Message :
 CssErrDialog.FatalError=Erreur fatale
 CssErrDialog.Error=Erreur
@@ -44,7 +44,7 @@ AddCSSWizardDialog.Message=Sélectionner un fichier CSS pour importer des styles 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Erreur
-PublishCSSAction.wizard.message=Impossible de publier le fichier CSS dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the directory where it exists, please choose another directory to publish.
 PublishCSSAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
 PublishCSSAction.wizard.notvalidfolder=Le dossier de ressources défini dans les préférences n'est pas valide.
 
@@ -105,7 +105,7 @@ AttributeView.dialg.Message.PromptMsg=Voulez-vous vraiment supprimer toutes les 
 AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=Effacer les propriétés locales.
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activer la modification des propriétés.
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Cette action n'est pas disponible pour les éléments locaux.
-AttributeView.view.message.Emptypage= {0} s''étend à partir de {1} dans la bibliothèque {2}. Pour activer la modification des propriétés de {3} dans ce modèle d''état, cliquez sur le bouton Activer la modification dans la barre d''outils de l''Editeur de propriétés.
+AttributeView.view.message.Emptypage= This {0} extends from {1} in library {2}. To modify the properties of this {3} in this report design, click Enable button in the Property Editor's toolbar.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurer les propriétés
 AttributeView.defaultText.noAttributeView = L'éditeur de propriétés n'est pas disponible.
 ###########################################################
@@ -415,7 +415,7 @@ dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doi
 dataset.editor.error.title=Avertissement
 dataset.editor.warning.correctParameter=BIRT tente de mettre à jour un paramètre de jeu de données incorrect.
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
-dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vierge. Voulez-vous laisser cette valeur vierge ?
+dataset.editor.error.validationParameter=There is input parameter [{0}] with empty value. Do you wish to leave it empty?
 dataset.editor.filters=Filtres
 dataset.editor.label.selectDataSource=Sélectionner une source de &données :
 dataset.editor.outputColumns=Colonnes de sortie
@@ -908,9 +908,9 @@ Element.Image.imageName=Nom de l'image :
 Element.Image.scale=échelle :
 Element.Image.size=taille :
 Element.Image.source=Source :
-Element.Image.typeExpr=Expression de type :
+Element.Image.typeExpr=Type expression:
 Element.Image.uri=uri :
-Element.Image.valueExpr=Expression de valeur :
+Element.Image.valueExpr=value expression:
 Element.JdbcDataSource.dataSource=Source de données :
 Element.JdbcDataSource.driver=Pilote :
 Element.JdbcDataSource.password=Mot de passe :
@@ -983,7 +983,7 @@ Element.Module.includeLibraries=Inclure les bibliothèques :
 Element.Module.includeResource=Fichier de &ressources :
 Element.Module.includeScripts=Inclure les scripts :
 Element.Module.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
-Element.Module.initialize=Initialiser :
+Element.Module.initialize=Initialize:
 Element.Module.theme=Thè&mes
 Element.Module.title=&Titre :
 Element.Module.titleID=Clé de titre :
@@ -1022,7 +1022,7 @@ Element.ReportDesign.beforeCloseDoc=Avant fermeture du document :
 Element.ReportDesign.beforeFactory.toolTip=Commande appelée au début du processus de génération après la méthode d'initialisation( ) mais avant l'ouverture de l'état (le cas échéant).
 Element.ReportDesign.beforeFactory=Avant génération :
 Element.ReportDesign.beforeOpenDoc.toolTip=Commande appelée juste avant l'ouverture de l'état pendant le processus de génération.
-Element.ReportDesign.beforeOpenDoc=Avant ouverture du document :
+Element.ReportDesign.beforeOpenDoc=Before open document:
 Element.ReportDesign.beforeRender.toolTip=Commande appelée avant le début d'une action chronologique de présentation.
 Element.ReportDesign.beforeRender=Avant rendu :
 Element.ReportDesign.displayName=Nom d'afficha&ge : 
@@ -1217,14 +1217,14 @@ ExceptionHandler.Label.PluginName=Plug-in Name :
 ExceptionHandler.Label.PluginProvider=Plug-in Provider :
 ExceptionHandler.Label.PluginVersion=Version :
 ExceptionHandler.Label.UnknownPlugin=Unknown plug-in
-ExceptionHandler.Meesage.UnexceptedExceptionOccur=Une exception interne inattendue s'est produite. Pour plus de détails, consultez le fichier journal.
+ExceptionHandler.Meesage.UnexceptedExceptionOccur=An unexpected internal exception occurred. Please see log for detail.
 ExceptionHandler.Message.BirtExceptionOccur=Une exception BIRT s'est produite.
 ExceptionHandler.Message.CausedBy=Caused by {0}.
 ExceptionHandler.Message.FileNotFound=File not found :
 ExceptionHandler.Message.OutOfMemory=Mémoire insuffisante.
 ExceptionHandler.Message.PartInitError=Echec de l'initialisation.
 ExceptionHandler.Message.SemanticFail=Echec de la vérification sémantique.
-ExceptionHandler.Message.UnexceptedExceptionOccur=Une exception interne s'est produite. Pour plus de détails, consultez le fichier journal.
+ExceptionHandler.Message.UnexceptedExceptionOccur=An internal exception occurred. Please see the log file for details.
 ExceptionHandler.Message.UnknownHost=Hôte inconnu :
 ExceptionHandler.Title.Error=Erreur
 ExceptionHandler.Title.FileNotFound=Fichier introuvable.
@@ -1290,8 +1290,8 @@ ExpressionProvider.Operator.Add=Ajoute deux valeurs ensemble.
 ExpressionProvider.Operator.AddTo=Raccourci pour ajouter à la valeur actuelle.
 ExpressionProvider.Operator.And=Compare deux expressions et renvoie une valeur true si les deux expressions sont vraies.
 ExpressionProvider.Operator.Assign=Définit une valeur égale à l'autre.
-ExpressionProvider.Operator.BitAnd=A & B : Renvoie la manipulation de bits ET le résultat de A et B.
-ExpressionProvider.Operator.BitOr=A | B : Renvoie la manipulation de bits OU le résultat de A et B.
+ExpressionProvider.Operator.BitAnd=A & B: Return the bitwise AND result of A and B.
+ExpressionProvider.Operator.BitOr=A | B: Return the bitwise OR result of A and B.
 ExpressionProvider.Operator.Dec=Réduit la valeur et renvoie le résultat.
 ExpressionProvider.Operator.DividingFrom=Raccourci pour diviser la valeur actuelle.
 ExpressionProvider.Tooltip.ColumnBinding=Fait référence à 
@@ -1731,7 +1731,7 @@ HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 
 HyperLinkPage.Label.LnikTo=&Lien vers :
 HyperLinkPage.Label.None=Aucun
-HyperLinkPage.Menu.Save=Modifier le lien hypertexte
+HyperLinkPage.Menu.Save=Change hyperlink
 HyperLinkPage.toolTipText.Button=Ouvrir les options de lien hypertexte
 
 ###########################################################
@@ -1970,7 +1970,7 @@ JSEditor.Button.Reset=Réinitialiser le script
 JSEditor.Display.DefaultText=//Editeur de scripts JS \n
 JSEditor.Display.NoExpression=Cet élément ne contient pas de méthode.
 JSEditor.Input.trial=évaluation
-JSEditor.Text.NoText=Aucun texte
+JSEditor.Text.NoText=No text
 
 ###########################################################
 #label properties
@@ -2265,7 +2265,6 @@ MultiPageEditorContributor.actionText.sampleAction=Exemple d'action
 MultiPageEditorContributor.actionToolTip.sampleActionToolTip=Info-bulle d'exemple d'action
 MultiPageEditorContributor.actionToolTipText.sampleActionToolTip=Info-bulle d'exemple d'action
 MultiPageEditorContributor.dialogMsg.sampleActionExecuted=Exemple d'action exécutée
-MultiPageEditorContributor.dialogTitle.infoObjectDesignerPlugIn=Plug-in Information Object Designer
 MultiPageEditorContributor.menuText.editorMenu=&Menu Editeur
 
 ###########################################################
@@ -2659,7 +2658,7 @@ PublishTemplateAction.wizard.page.label.image=&Image modèle :
 PublishTemplateAction.wizard.page.title=Publier dans le dossier modèle
 PublishTemplateAction.wizard.title=Publier dans le dossier modèle
 PublishTemplateAction.wizard.errorTitle=Erreur
-PublishTemplateAction.wizard.message=Impossible de publier le modèle dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
+PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
 PublishTemplateAction.wizard.notvalidfolder=Le dossier modèle défini dans la préférence n'est pas valide.
 PublishTemplateAction.wizard.page.nameInfo=Le nom d'affichage est requis
 PublishTemplateAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
@@ -2669,7 +2668,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=Le fichier de prévisua
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Erreur
-PublishLibraryAction.wizard.message=Impossible de publier la bibliothèque dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
+PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
 PublishLibraryAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
 PublishLibraryAction.wizard.notvalidfolder=Le dossier de bibliothèque défini dans la préférence n'est pas valide.
 
@@ -2788,7 +2787,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Sélectionnez le dossier de ressources par défaut à utiliser pour l'explorateur de bibliothèques, les images, les fichiers de propriété, etc.
+ResourecePreferencePage.title=Type or select the default resource folder to use for the library explorer, images,\nproperty files, and so on.
 ResourecePreferencePage.folder=Dossier de &ressources
 ResourecePreferencePage.select=&Sélectionner...
 ResourecePreferencePage.openDialogTitle=Parcourir le dossier
@@ -3074,7 +3073,7 @@ SelectValueDialog.selectValue=Sélectionner une valeur
 ###########################################################
 #SetConstraintCommand properties
 
-SetConstraintCommand.Error.SetConstraintError=Une erreur s'est produite lors de la définition d'une contrainte pour ce modèle.
+SetConstraintCommand.Error.SetConstraintError=An error occured when setting a constraint to the model.
 SetConstraintCommand.transLabel.setConstraint=Définir une contrainte
 
 ###########################################################
@@ -3307,10 +3306,10 @@ TextEditDialog.toolTip.tag.h4=Niveau de titre 4
 TextEditDialog.toolTip.tag.h5=Niveau de titre 5
 TextEditDialog.toolTip.tag.h6=Niveau de titre 6
 TextEditDialog.toolTip.tag.i=Style de texte en italique
-TextEditDialog.toolTip.tag.img=Référence d'image HTML standard
+TextEditDialog.toolTip.tag.img=Standard HTML image reference
 TextEditDialog.toolTip.tag.ins=Texte inséré
 TextEditDialog.toolTip.tag.li=Elément de liste
-TextEditDialog.toolTip.tag.p=Paragraphe
+TextEditDialog.toolTip.tag.p=Paragraph
 TextEditDialog.toolTip.tag.pre=Texte préformaté
 TextEditDialog.toolTip.tag.strong=Accentuation renforcée
 TextEditDialog.toolTip.tag.sub=Indice

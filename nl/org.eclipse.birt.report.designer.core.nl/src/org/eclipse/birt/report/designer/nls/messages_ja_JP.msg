@@ -7,7 +7,7 @@ AbstractDataSetWizard.ModelTrans.Create=ƒf[ƒ^ƒZƒbƒg‚Ì–¼‘OAƒ\[ƒXAŒ^‚ğ’è‹`
 CssErrDialog.shellTitle.ImportCssStyleMssageTitle=ƒCƒ“ƒ|[ƒg‚ÉŠÖ‚·‚éƒƒbƒZ[ƒW
 CssErrDialog.AreaTitle=CSS ƒXƒ^ƒCƒ‹‚ÌƒCƒ“ƒ|[ƒg‚ÉŠÖ‚·‚éƒƒbƒZ[ƒW
 CssErrDialog.AreaMessage=CSS ƒXƒ^ƒCƒ‹‚ÌƒCƒ“ƒ|[ƒg’†‚ÉƒGƒ‰[‚Ü‚½‚ÍŒx‚ª”­¶‚µ‚Ü‚µ‚½B
-CssErrDialog.Serverity=d—v“x :
+CssErrDialog.Severity=Severity:
 CssErrDialog.Message=ƒƒbƒZ[ƒW :
 CssErrDialog.FatalError=d‘å‚ÈƒGƒ‰[
 CssErrDialog.Error=ƒGƒ‰[
@@ -44,7 +44,7 @@ AddCSSWizardDialog.Message=‚±‚±‚Å‘I‘ğ‚µ‚½ CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ªƒŠƒ\[ƒXƒtƒHƒ‹
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=ƒGƒ‰[
-PublishCSSAction.wizard.message=CSS ƒtƒ@ƒCƒ‹‚ª‚·‚Å‚É‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É‚ÍACSS ƒtƒ@ƒCƒ‹‚ğŒöŠJ‚Å‚«‚Ü‚¹‚ñBŒöŠJ‚·‚é‚É‚ÍA•Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the directory where it exists, please choose another directory to publish.
 PublishCSSAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 
@@ -105,7 +105,7 @@ AttributeView.dialg.Message.PromptMsg=‚·‚×‚Ä‚Ìƒ[ƒJƒ‹ƒvƒƒpƒeƒB‚ğƒNƒŠƒA‚µ‚Ü‚·‚©
 AttributeView.toolbar.tooltip.EditingToggleAction.ClearMsg=ƒ[ƒJƒ‹ƒvƒƒpƒeƒB‚ğƒNƒŠƒA‚µ‚Ü‚·B
 AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=ƒvƒƒpƒeƒB‚Ì•ÒW‚ğ—LŒø‚É‚µ‚Ü‚·B
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=‚±‚Ì‘€ì‚ÍAƒ[ƒJƒ‹—v‘f‚É‚Ís‚¦‚Ü‚¹‚ñB
-AttributeView.view.message.Emptypage= ‚±‚ÌƒŒƒ|[ƒgƒfƒUƒCƒ“‚Ì {3} ‚ÌƒvƒƒpƒeƒB‚ğ•ÒW‚·‚é‚É‚ÍAƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Ìƒc[ƒ‹ƒo[‚É‚ ‚éƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚Ä•ÒW‚ğ—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B
+AttributeView.view.message.Emptypage= This {0} extends from {1} in library {2}. To modify the properties of this {3} in this report design, click Enable button in the Property Editor's toolbar.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=ƒvƒƒpƒeƒB‚Ì•œŒ³
 AttributeView.defaultText.noAttributeView = ƒvƒƒpƒeƒBƒGƒfƒBƒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 ###########################################################
@@ -415,7 +415,7 @@ dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É‹ó”’ˆÈŠO‚Ìƒ
 dataset.editor.error.title=Œx
 dataset.editor.warning.correctParameter=ŠÔˆá‚Á‚½ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ğXV‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
-dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?
+dataset.editor.error.validationParameter=There is input parameter [{0}] with empty value. Do you wish to leave it empty?
 dataset.editor.filters=ƒtƒBƒ‹ƒ^
 dataset.editor.label.selectDataSource=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ(&D) :
 dataset.editor.outputColumns=o—Í—ñ
@@ -908,9 +908,9 @@ Element.Image.imageName=ƒCƒ[ƒW–¼ :
 Element.Image.scale=ƒXƒP[ƒ‹ :
 Element.Image.size=ƒTƒCƒY :
 Element.Image.source=ƒ\[ƒX :
-Element.Image.typeExpr=Œ^® :
+Element.Image.typeExpr=Type expression:
 Element.Image.uri=URI :
-Element.Image.valueExpr=’l® :
+Element.Image.valueExpr=value expression:
 Element.JdbcDataSource.dataSource=ƒf[ƒ^ƒ\[ƒX :
 Element.JdbcDataSource.driver=ƒhƒ‰ƒCƒo :
 Element.JdbcDataSource.password=ƒpƒXƒ[ƒh :
@@ -983,7 +983,7 @@ Element.Module.includeLibraries=ƒCƒ“ƒNƒ‹[ƒh‚·‚éƒ‰ƒCƒuƒ‰ƒŠ :
 Element.Module.includeResource=ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹(&R) :
 Element.Module.includeScripts=ƒCƒ“ƒNƒ‹[ƒh‚·‚éƒXƒNƒŠƒvƒg :
 Element.Module.initialize.toolTip=ƒŒƒ|[ƒg‚ÌÀs‚ğŠJn‚·‚éÛ‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-Element.Module.initialize=‰Šú‰» :
+Element.Module.initialize=Initialize:
 Element.Module.theme=ƒe[ƒ}(&M)
 Element.Module.title=ƒ^ƒCƒgƒ‹(&T) :
 Element.Module.titleID=ƒ^ƒCƒgƒ‹ƒL[ :
@@ -1022,7 +1022,7 @@ Element.ReportDesign.beforeCloseDoc=•¶‘‚ğ•Â‚¶‚é‘O :
 Element.ReportDesign.beforeFactory.toolTip=¶¬ƒtƒF[ƒY‚Å‚Ìˆ—‚ğŠJn‚·‚éÛ‚ÉAinitialize( ) ƒƒ\ƒbƒh‚ğÀs‚µ‚½ŒãAƒŒƒ|[ƒg•¶‘ (ŠY“–‚·‚éê‡) ‚ğŠJ‚­‘O‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
 Element.ReportDesign.beforeFactory=Factory ‚Å‚Ìˆ—‘O :
 Element.ReportDesign.beforeOpenDoc.toolTip=¶¬ƒtƒF[ƒY‚ÅƒŒƒ|[ƒg•¶‘‚ğŠJ‚­’¼‘O‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-Element.ReportDesign.beforeOpenDoc=•¶‘‚ğŠJ‚­‘O :
+Element.ReportDesign.beforeOpenDoc=Before open document:
 Element.ReportDesign.beforeRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ÌƒAƒNƒVƒ‡ƒ“‚ğŠJn‚·‚é‘O‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
 Element.ReportDesign.beforeRender=ƒŒƒ“ƒ_ƒŠƒ“ƒO‘O :
 Element.ReportDesign.displayName=•\¦–¼(&Y) : 
@@ -1217,14 +1217,14 @@ ExceptionHandler.Label.PluginName=Plug-in Name:
 ExceptionHandler.Label.PluginProvider=Plug-in Provider:
 ExceptionHandler.Label.PluginVersion=Version:
 ExceptionHandler.Label.UnknownPlugin=Unknown plug-in
-ExceptionHandler.Meesage.UnexceptedExceptionOccur=“à•”‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½BÚ‚µ‚­‚ÍƒƒOƒtƒ@ƒCƒ‹‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+ExceptionHandler.Meesage.UnexceptedExceptionOccur=An unexpected internal exception occurred. Please see log for detail.
 ExceptionHandler.Message.BirtExceptionOccur=BIRT ‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 ExceptionHandler.Message.CausedBy=Caused by {0}
 ExceptionHandler.Message.FileNotFound=File not found:
 ExceptionHandler.Message.OutOfMemory=‹ó‚«ƒƒ‚ƒŠ‚ª•s‘«‚µ‚Ä‚¢‚Ü‚·B
 ExceptionHandler.Message.PartInitError=•”•ª‰Šú‰»’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 ExceptionHandler.Message.SemanticFail=Semantic Checker ‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
-ExceptionHandler.Message.UnexceptedExceptionOccur=“à•”‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½BÚ‚µ‚­‚ÍƒƒOƒtƒ@ƒCƒ‹‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+ExceptionHandler.Message.UnexceptedExceptionOccur=An internal exception occurred. Please see the log file for details.
 ExceptionHandler.Message.UnknownHost=•s–¾‚ÈƒzƒXƒg‚Å‚· :
 ExceptionHandler.Title.Error=ƒGƒ‰[
 ExceptionHandler.Title.FileNotFound=ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -1290,8 +1290,8 @@ ExpressionProvider.Operator.Add=2 ‚Â‚Ì’l‚ğ‰ÁZ‚µ‚Ü‚·B
 ExpressionProvider.Operator.AddTo=Œ»İ‚Ì’l‚É‰ÁZ‚·‚éƒVƒ‡[ƒgƒJƒbƒg‚Å‚·B
 ExpressionProvider.Operator.And=2 ‚Â‚Ì®‚ğ’²‚×A—¼•û‚Ì®‚ª True ‚Ìê‡‚ÉATrue ’l‚ğ•Ô‚µ‚Ü‚·B
 ExpressionProvider.Operator.Assign=’l‚ğ•Ê‚Ì’l‚Æ“™‚µ‚­‚µ‚Ü‚·B
-ExpressionProvider.Operator.BitAnd=A & B : A ‚Æ B ‚Ìƒrƒbƒg’PˆÊ‚Ì AND ‚ğ•Ô‚µ‚Ü‚·B
-ExpressionProvider.Operator.BitOr=A | B : A ‚Æ B ‚Ìƒrƒbƒg’PˆÊ‚Ì OR ‚ğ•Ô‚µ‚Ü‚·B
+ExpressionProvider.Operator.BitAnd=A & B: Return the bitwise AND result of A and B.
+ExpressionProvider.Operator.BitOr=A | B: Return the bitwise OR result of A and B.
 ExpressionProvider.Operator.Dec=’l‚ğŒ¸­‚³‚¹AŒ‹‰Ê‚ğ•Ô‚µ‚Ü‚·B
 ExpressionProvider.Operator.DividingFrom=Œ»İ‚Ì’l‚ğœZ‚·‚éƒVƒ‡[ƒgƒJƒbƒg‚Å‚·B
 ExpressionProvider.Tooltip.ColumnBinding=QÆæ 
@@ -1731,7 +1731,7 @@ HyperlinkBuilder.TargetReportFormat=ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚Ì‘®İ’è(&F) :
 
 HyperLinkPage.Label.LnikTo=ƒŠƒ“ƒNæ(&L) :
 HyperLinkPage.Label.None=‚È‚µ
-HyperLinkPage.Menu.Save=ƒnƒCƒp[ƒŠƒ“ƒN‚Ì•ÏX
+HyperLinkPage.Menu.Save=Change hyperlink
 HyperLinkPage.toolTipText.Button=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“‚ğŠJ‚­@
 
 ###########################################################
@@ -1970,7 +1970,7 @@ JSEditor.Button.Reset=ƒXƒNƒŠƒvƒg‚ÌƒŠƒZƒbƒg
 JSEditor.Display.DefaultText=//JS ƒXƒNƒŠƒvƒgƒGƒfƒBƒ^ \n
 JSEditor.Display.NoExpression=‚±‚Ì—v‘f‚É‚Íƒƒ\ƒbƒh‚ª‚ ‚è‚Ü‚¹‚ñB
 JSEditor.Input.trial=—p
-JSEditor.Text.NoText=ƒeƒLƒXƒg‚ª‚ ‚è‚Ü‚¹‚ñB
+JSEditor.Text.NoText=No text
 
 ###########################################################
 #label properties
@@ -2265,7 +2265,6 @@ MultiPageEditorContributor.actionText.sampleAction=ƒTƒ“ƒvƒ‹ƒAƒNƒVƒ‡ƒ“
 MultiPageEditorContributor.actionToolTip.sampleActionToolTip=ƒTƒ“ƒvƒ‹ƒAƒNƒVƒ‡ƒ“‚Ìƒc[ƒ‹ƒqƒ“ƒg
 MultiPageEditorContributor.actionToolTipText.sampleActionToolTip=ƒTƒ“ƒvƒ‹ƒAƒNƒVƒ‡ƒ“‚Ìƒc[ƒ‹ƒqƒ“ƒg
 MultiPageEditorContributor.dialogMsg.sampleActionExecuted=ƒTƒ“ƒvƒ‹ƒAƒNƒVƒ‡ƒ“‚ğÀs‚µ‚Ü‚µ‚½B
-MultiPageEditorContributor.dialogTitle.infoObjectDesignerPlugIn=Infoobjectdesigner ƒvƒ‰ƒOƒCƒ“
 MultiPageEditorContributor.menuText.editorMenu=ƒGƒfƒBƒ^ƒƒjƒ…[(&M)
 
 ###########################################################
@@ -2659,7 +2658,7 @@ PublishTemplateAction.wizard.page.label.image=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒCƒ[ƒW(&I) :
 PublishTemplateAction.wizard.page.title=ƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_‚ÖŒöŠJ
 PublishTemplateAction.wizard.title=ƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_‚ÖŒöŠJ
 PublishTemplateAction.wizard.errorTitle=ƒGƒ‰[
-PublishTemplateAction.wizard.message=ƒeƒ“ƒvƒŒ[ƒg‚ª‚·‚Å‚É‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É‚ÍAƒeƒ“ƒvƒŒ[ƒg‚ğŒöŠJ‚Å‚«‚Ü‚¹‚ñBŒöŠJ‚·‚é‚É‚ÍA•Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
 PublishTemplateAction.wizard.notvalidfolder=İ’è‚É–³Œø‚Èƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 PublishTemplateAction.wizard.page.nameInfo=•\¦–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 PublishTemplateAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
@@ -2669,7 +2668,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=ƒvƒŒƒrƒ…[—p‚ÌƒCƒ[ƒW
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=ƒGƒ‰[
-PublishLibraryAction.wizard.message=ƒ‰ƒCƒuƒ‰ƒŠ‚ª‚·‚Å‚É‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É‚ÍAƒ‰ƒCƒuƒ‰ƒŠ‚ğŒöŠJ‚Å‚«‚Ü‚¹‚ñBŒöŠJ‚·‚é‚É‚ÍA•Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
 PublishLibraryAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 PublishLibraryAction.wizard.notvalidfolder=’è‹`‚³‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠƒtƒHƒ‹ƒ_‚Í–³Œø‚Å‚·B
 
@@ -2788,7 +2787,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=ƒ‰ƒCƒuƒ‰ƒŠƒGƒNƒXƒvƒ[ƒ‰AƒCƒ[ƒWAƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚È‚Ç‚Ég—p‚·‚éƒfƒtƒHƒ‹ƒg‚ÌƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+ResourecePreferencePage.title=Type or select the default resource folder to use for the library explorer, images,\nproperty files, and so on.
 ResourecePreferencePage.folder=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_(&R)
 ResourecePreferencePage.select=‘I‘ğ(&S)...
 ResourecePreferencePage.openDialogTitle=ƒtƒHƒ‹ƒ_‚ÌQÆ
@@ -3074,7 +3073,7 @@ SelectValueDialog.selectValue=’l‚Ì‘I‘ğ
 ###########################################################
 #SetConstraintCommand properties
 
-SetConstraintCommand.Error.SetConstraintError=ƒ‚ƒfƒ‹‚É§–ñ‚ğİ’è’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
+SetConstraintCommand.Error.SetConstraintError=An error occured when setting a constraint to the model.
 SetConstraintCommand.transLabel.setConstraint=§–ñ‚Ìİ’è
 
 ###########################################################
@@ -3307,10 +3306,10 @@ TextEditDialog.toolTip.tag.h4=Œ©o‚µ 4
 TextEditDialog.toolTip.tag.h5=Œ©o‚µ 5
 TextEditDialog.toolTip.tag.h6=Œ©o‚µ 6
 TextEditDialog.toolTip.tag.i=Î‘ÌƒeƒLƒXƒg
-TextEditDialog.toolTip.tag.img=•W€ HTML ƒCƒ[ƒW‚ÌQÆ
+TextEditDialog.toolTip.tag.img=Standard HTML image reference
 TextEditDialog.toolTip.tag.ins=‘}“ü‚³‚ê‚½ƒeƒLƒXƒg
 TextEditDialog.toolTip.tag.li=ƒŠƒXƒg€–Ú
-TextEditDialog.toolTip.tag.p=’i—
+TextEditDialog.toolTip.tag.p=Paragraph
 TextEditDialog.toolTip.tag.pre=‘®İ’èÏ‚İƒeƒLƒXƒg
 TextEditDialog.toolTip.tag.strong=‚æ‚è‹­‚¢‹­’²
 TextEditDialog.toolTip.tag.sub=‰º•t‚«
