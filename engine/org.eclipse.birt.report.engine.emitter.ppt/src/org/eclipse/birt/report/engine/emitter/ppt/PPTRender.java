@@ -44,7 +44,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -62,6 +61,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.CSSValueList;
+
+import com.lowagie.text.Font;
 
 /**
  * The PPT render class.
@@ -549,6 +550,20 @@ public class PPTRender implements IAreaVisitor
 		}
 	}
 
+	protected ContainerPosition getContainerPosition( )
+	{
+		ContainerPosition curPos;
+		if ( !containerStack.isEmpty( ) )
+		{
+			curPos = (ContainerPosition) containerStack.peek( );
+		}
+		else
+		{
+			curPos = new ContainerPosition( 0, 0 );
+		}
+		return curPos;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -556,10 +571,13 @@ public class PPTRender implements IAreaVisitor
 	 */
 	public void setTotalPage( ITextArea totalPage )
 	{
-		// if(tpl!=null)
-		// {
-		// drawTextAt(totalPage, 0, 0, tpl, tpl.getHeight());
-		// }
+//		ContainerPosition curPos = getContainerPosition( );
+//
+//		// set default spacing for text
+//		int x = curPos.x + totalPage.getX( );
+//		int y = curPos.y + totalPage.getY( );
+//
+//		drawTextAt( totalPage, x, y );
 	}
 
 	/*
@@ -569,16 +587,7 @@ public class PPTRender implements IAreaVisitor
 	 */
 	public void visitText( ITextArea textArea )
 	{
-		ContainerPosition curPos;
-
-		if ( !containerStack.isEmpty( ) )
-		{
-			curPos = (ContainerPosition) containerStack.peek( );
-		}
-		else
-		{
-			curPos = new ContainerPosition( 0, 0 );
-		}
+		ContainerPosition curPos = getContainerPosition( );
 
 		// set default spacing for text
 		int x = curPos.x + textArea.getX( );
@@ -1213,6 +1222,7 @@ public class PPTRender implements IAreaVisitor
 
 		IStyle style = text.getStyle( );
 		assert style != null;
+		FontInfo fontInfo = text.getFontInfo( );
 
 		// style.getFontVariant(); small-caps or normal
 		// FIXME does NOT support small-caps now
@@ -1266,8 +1276,17 @@ public class PPTRender implements IAreaVisitor
 					+ green
 					+ blue + ";'>" ).getBytes( ) ); //$NON-NLS-1$
 			// + text.getText( ) + "</span></div>\n" ).getBytes( ) );
-			// //$NON-NLS-1$
-			pptOutput.write( encodedText.array( ) );
+
+			if ( fontInfo != null && fontInfo.getFontStyle( ) == Font.ITALIC )
+			{
+				pptOutput.write( ( "<i>" ).getBytes( ) );
+				pptOutput.write( encodedText.array( ) );
+				pptOutput.write( ( "</i>" ).getBytes( ) );
+			}
+			else
+			{
+				pptOutput.write( encodedText.array( ) );
+			}
 			pptOutput.write( ( "</span></div>\n" ).getBytes( ) );
 
 			pptOutput.write( ( "</div>\n" ).getBytes( ) ); //$NON-NLS-1$
