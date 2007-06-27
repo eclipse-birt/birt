@@ -2681,9 +2681,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			bookmark = idGenerator.generateUniqueID( );
 			group.setBookmark( bookmark );
 		}
-		writer.openTag( HTMLTags.TAG_SPAN );
+		writer.openTag( HTMLTags.TAG_DIV );
 		writer.attribute( HTMLTags.ATTR_ID, group.getBookmark( ) );
-		writer.closeTag( HTMLTags.TAG_SPAN );
+		writer.attribute( HTMLTags.ATTR_STYLE, "line-height: 0px" );
+		writer.text( " " );
+		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 }
 
