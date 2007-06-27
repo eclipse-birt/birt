@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,21 +46,21 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			Listener
 {
 
-	private transient Button btnCurve = null;
+	private Button btnCurve = null;
 
-	private transient Group grpLine1 = null;
+	private Group grpLine1 = null;
 
-	private transient LineAttributesComposite liacLine1 = null;
+	private LineAttributesComposite liacLine1 = null;
 	
-	private transient Group grpLine2 = null;
+	private Group grpLine2 = null;
 
-	private transient LineAttributesComposite liacLine2 = null;
+	private LineAttributesComposite liacLine2 = null;
 
-	private transient Button btnPalette = null;
+	private Button btnPalette = null;
 
-	private transient Series series = null;
+	private Series series = null;
 
-	private transient ChartWizardContext context;
+	private ChartWizardContext context;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -183,7 +183,7 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLineSettings( ( (DifferenceSeries) series ).getLineAttributes( )
+		enableLinePaletteSetting( ( (DifferenceSeries) series ).getLineAttributes( )
 				.isVisible( )
 				|| ( (DifferenceSeries) series ).getNegativeLineAttributes( )
 						.isVisible( ) );
@@ -233,7 +233,7 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			{
 				( (DifferenceSeries) series ).getLineAttributes( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( ( (DifferenceSeries) series ).getLineAttributes( )
+				enableLinePaletteSetting( ( (DifferenceSeries) series ).getLineAttributes( )
 						.isVisible( )
 						|| ( (DifferenceSeries) series ).getNegativeLineAttributes( )
 								.isVisible( ) );
@@ -260,7 +260,7 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			{
 				( (DifferenceSeries) series ).getNegativeLineAttributes( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( ( (DifferenceSeries) series ).getNegativeLineAttributes( )
+				enableLinePaletteSetting( ( (DifferenceSeries) series ).getNegativeLineAttributes( )
 						.isVisible( )
 						|| ( (DifferenceSeries) series ).getLineAttributes( )
 								.isVisible( ) );
@@ -283,13 +283,17 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		}
 	}
 
-	private void enableLineSettings( boolean isEnabled )
+	/**
+	 * Enable the LinePalette button.
+	 * 
+	 * @param isEnabled
+	 *            enabled status.
+	 */
+	private void enableLinePaletteSetting( boolean isEnabled )
 	{
 		if ( btnPalette != null )
 		{
 			btnPalette.setEnabled( isEnabled );
 		}
-		btnCurve.setEnabled( isEnabled );
 	}
-
 }
