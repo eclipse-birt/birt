@@ -116,6 +116,26 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,
 			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
+			
+			//fix bug 192781
+			ReportDesignConstants.ODA_HIERARCHY_ELEMENT,
+			ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT,
+			ReportDesignConstants.DIMENSION_ELEMENT,
+			ReportDesignConstants.ODA_CUBE_ELEMENT,
+			ReportDesignConstants.TABULAR_LEVEL_ELEMENT,
+			ReportDesignConstants.HIERARCHY_ELEMENT,
+			ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT,
+			ReportDesignConstants.ODA_DIMENSION_ELEMENT,
+			ReportDesignConstants.MEASURE_GROUP_ELEMENT,
+			ReportDesignConstants.MEASURE_ELEMENT,
+			ReportDesignConstants.TABULAR_CUBE_ELEMENT,
+			ReportDesignConstants.CUBE_ELEMENT,
+			ReportDesignConstants.ODA_MEASURE_ELEMENT,
+			ReportDesignConstants.ODA_LEVEL_ELEMENT,
+			ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT,
+			ReportDesignConstants.TABULAR_MEASURE_ELEMENT,
+			ReportDesignConstants.LEVEL_ELEMENT,
+			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
 	} );
 
 	private List reportExtensionNames;
