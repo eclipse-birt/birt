@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1155,6 +1155,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		writer.openTag( HTMLTags.TAG_TABLE );
 
+		String align = mergedStyle.getTextAlign( );
+		if ( align != null )
+		{
+			writer.attribute( HTMLTags.ATTR_ALIGN, align );
+		}
 		//output class attribute.
 		setStyleName( table.getStyleClass( ) );
 
@@ -1801,7 +1806,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start foreign" ); //$NON-NLS-1$
 
-		resizeTemplateElement( foreign);
+		boolean isTemplate = false;
+		Object genBy = foreign.getGenerateBy( );
+		if (genBy instanceof TemplateDesign)
+		{
+			isTemplate = true;
+			setupTemplateElement( (TemplateDesign)genBy, foreign);
+			//we will always output a DIV for the template.
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_ALIGN, "center" );
+		}
 		
 		StringBuffer styleBuffer = new StringBuffer( );
 		DimensionType x = foreign.getX( );
@@ -1812,18 +1826,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		int display;
 		display = checkElementType( x, y, width, height, mergedStyle,
 				styleBuffer );
-
-		// create default bookmark if we need output metadata
-		if ( foreign.getGenerateBy( ) instanceof TemplateDesign )
-		{
-			//FIXME: actually, it should be birt-template-design
-			String bookmark = foreign.getBookmark( );
-			if ( bookmark == null )
-			{
-				bookmark = idGenerator.generateUniqueID( );
-				foreign.setBookmark( bookmark );
-			}
-		}
 
 		// action
 		String tagName;
@@ -1860,16 +1862,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, foreign.getHelpText( ) );
 
-		if( isTalbeTemplateElement( foreign ) )
-		{
-			//set lines to dotted lines
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_FONT_FAMILY, IStyle.SANS_SERIF_VALUE );
-		}
-		
 		htmlEmitter.buildForeignStyle( foreign, styleBuffer, display, url );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
@@ -1889,6 +1881,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( enableMetadata )
 		{
 			metadataEmitter.endForeign( foreign );
+		}
+
+		if ( isTemplate )
+		{
+			// we will always output a DIV for the template.
+			writer.closeTag( HTMLTags.TAG_DIV );
 		}
 	}
 	
@@ -2544,60 +2542,59 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	/**
-	 * Resize chart template and table template element.
+	 * setup chart template and table template element for output.
 	 * 
+	 * <li>1. set the bookmark if there is no bookmark. </li>
+	 * <li>2. chage the styles of the element.</li>
+	 * 
+	 * @param template
+	 *            the design used to create the contnet.
 	 * @param content
 	 *            the styled element content
 	 */
-	private void resizeTemplateElement( IContent content )
+	private void setupTemplateElement( TemplateDesign template, IContent content )
 	{
+		// set up the bookmark if there is no bookmark for the template
+		String bookmark = content.getBookmark( );
+		if ( bookmark == null )
+		{
+			bookmark = idGenerator.generateUniqueID( );
+			content.setBookmark( bookmark );
+		}
 
-			Object genBy = content.getGenerateBy( );
-			if( genBy instanceof TemplateDesign )
-			{
-				TemplateDesign template = (TemplateDesign) genBy;
-				
-				String allowedType = template.getAllowedType( );
-				if ( "ExtendedItem".equals(allowedType ) )
-				{
-					// Resize chart template element
-					IStyle style = content.getStyle( );
-					style.setProperty( IStyle.STYLE_CAN_SHRINK, IStyle.FALSE_VALUE );
-					content.setWidth( new DimensionType( 3, DimensionType.UNITS_IN ) );
-					content.setHeight( new DimensionType( 3, DimensionType.UNITS_IN ) );
-				}
-				else if ( "Table".equals(allowedType) )
-				{
-					// Resize table template element
-					IStyle style = content.getStyle( );
-					style.setProperty( IStyle.STYLE_CAN_SHRINK, IStyle.FALSE_VALUE );
-					content.setWidth( new DimensionType( 5, DimensionType.UNITS_IN ) );
-				}
+		// setup the styles of the template
+		String allowedType = template.getAllowedType( );
+		if ( "ExtendedItem".equals( allowedType ) )
+		{
+			// Resize chart template element
+			IStyle style = content.getStyle( );
+			style.setProperty( IStyle.STYLE_CAN_SHRINK, IStyle.FALSE_VALUE );
+			content.setWidth( new DimensionType( 3, DimensionType.UNITS_IN ) );
+			content.setHeight( new DimensionType( 3, DimensionType.UNITS_IN ) );
+		}
+		else if ( "Table".equals( allowedType ) )
+		{
+			// Resize table template element
+			IStyle style = content.getStyle( );
+			style.setProperty( IStyle.STYLE_CAN_SHRINK, IStyle.FALSE_VALUE );
+			content.setWidth( new DimensionType( 5, DimensionType.UNITS_IN ) );
+			// set lines to dotted lines
+			style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE,
+					IStyle.DOTTED_VALUE );
+			style.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE,
+					IStyle.DOTTED_VALUE );
+			style.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE,
+					IStyle.DOTTED_VALUE );
+			style.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE,
+					IStyle.DOTTED_VALUE );
+			style.setProperty( IStyle.STYLE_FONT_FAMILY,
+					IStyle.SANS_SERIF_VALUE );
 		}
 	}
 	
-	/**
-	 *  judge the content is belong table template element or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param content
-	 *            the styled element content
-	 */
-	private boolean isTalbeTemplateElement( IContent content )
-	{
-		Object genBy = content.getGenerateBy( );
-		if( genBy instanceof TemplateDesign )
-		{
-			TemplateDesign template = (TemplateDesign) genBy;
-			String allowedType = template.getAllowedType( );
-			if ( "Table".equals(allowedType) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endGroup(org.eclipse.birt.report.engine.content.IGroupContent)
 	 */
 	public void endGroup( IGroupContent group )

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -508,6 +508,11 @@ public class MetadataEmitter
 			wrapperTableIID = table.getInstanceID( );
 
 			writer.openTag( HTMLTags.TAG_TABLE );
+			String align = table.getStyle( ).getTextAlign( );
+			if ( align != null )
+			{
+				writer.attribute( HTMLTags.ATTR_ALIGN, align );
+			}
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					" border: medium none ; border-collapse: collapse; width: 100%;" );
 			writer.openTag( HTMLTags.TAG_TBODY );
