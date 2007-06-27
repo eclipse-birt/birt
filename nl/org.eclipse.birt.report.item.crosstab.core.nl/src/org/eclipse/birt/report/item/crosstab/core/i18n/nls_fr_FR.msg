@@ -27,6 +27,7 @@ Element.RepeatRowHeader=Répéter l'en-tête de ligne
 Element.RepeatColumnHeader=Répéter l'en-tête de colonne
 Element.Mirrored=En miroir
 Element.MirroredStartingLevel=Mirrored Starting Level
+Element.HideMeasureHeader=Hide Measure Header
 
 ###########################################################
 # Crosstab exception

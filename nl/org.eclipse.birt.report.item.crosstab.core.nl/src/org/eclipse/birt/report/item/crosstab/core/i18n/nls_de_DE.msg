@@ -27,6 +27,7 @@ Element.RepeatRowHeader=Zeilenüberschrift wiederholen
 Element.RepeatColumnHeader=Spaltenüberschrift wiederholen
 Element.Mirrored=Gespiegelt
 Element.MirroredStartingLevel=Mirrored Starting Level
+Element.HideMeasureHeader=Hide Measure Header
 
 ###########################################################
 # Crosstab exception

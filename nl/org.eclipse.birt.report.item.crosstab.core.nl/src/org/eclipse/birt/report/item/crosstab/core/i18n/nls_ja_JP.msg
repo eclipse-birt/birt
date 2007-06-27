@@ -27,6 +27,7 @@ Element.RepeatRowHeader=行のヘッダの繰り返し
 Element.RepeatColumnHeader=列のヘッダの繰り返し
 Element.Mirrored=ミラー化
 Element.MirroredStartingLevel=Mirrored Starting Level
+Element.HideMeasureHeader=Hide Measure Header
 
 ###########################################################
 # Crosstab exception
