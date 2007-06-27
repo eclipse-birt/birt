@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -55,6 +57,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	protected Control createDialogArea( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.DIALOG_GROUP_AND_SORT );
 		getShell( ).setText( Messages.getString( "GroupSortingDialog.Label.GroupAndSorting" ) ); //$NON-NLS-1$
 
 		Composite cmpContent = new Composite( parent, SWT.NONE );

@@ -55,12 +55,10 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	private Button btnTitleProp;
 	
 	private Button btnVisible;
-//	
-//	private Button btnTooltip;
 
 	public void createControl( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_TITLE );
 
 		init( );
 

@@ -53,7 +53,7 @@ public class TitleTextSheet extends AbstractPopupSheet implements Listener
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.POPUP_CHART_TITLE_FORMAT );
+				ChartHelpContextIds.POPUP_TITLE_TEXT);
 
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );

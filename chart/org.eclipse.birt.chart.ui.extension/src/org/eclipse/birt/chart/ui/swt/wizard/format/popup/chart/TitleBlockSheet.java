@@ -73,7 +73,7 @@ public class TitleBlockSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_TITLE_FORMAT );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_TITLE_BLOCK);
 		
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );

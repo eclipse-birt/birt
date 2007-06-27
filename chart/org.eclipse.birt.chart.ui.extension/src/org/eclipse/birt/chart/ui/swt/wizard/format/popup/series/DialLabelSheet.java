@@ -69,7 +69,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LABEL );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_DIAL_LABELS);
 
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( 2, false );

@@ -74,7 +74,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_TEXT_FORMAT );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_LEGEND_BLOCK );
 		
 		cmpContent = new Composite( parent, SWT.NONE );
 		{

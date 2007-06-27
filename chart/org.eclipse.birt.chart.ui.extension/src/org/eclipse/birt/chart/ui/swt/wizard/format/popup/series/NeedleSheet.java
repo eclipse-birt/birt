@@ -35,7 +35,7 @@ public class NeedleSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_PALETTE );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_DIAL_NEEDLES);
 		// Sheet content composite
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		{
