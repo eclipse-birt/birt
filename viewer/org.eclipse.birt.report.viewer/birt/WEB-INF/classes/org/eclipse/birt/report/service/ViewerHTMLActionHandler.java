@@ -217,17 +217,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// Get bookmark
 		String bookmark = action.getBookmark( );
 
+		// In frameset/fun mode, use javascript function to fire Ajax request to
+		// link to internal bookmark
 		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 		{
-			// In frameset mode, use javascript function to fire Ajax request to
-			// link to internal bookmark
-			return "javascript:catchBookmark('" //$NON-NLS-1$
-					+ ParameterAccessor.htmlEncode( bookmark ) + "')"; //$NON-NLS-1$
+			String func = "catchBookmark('" + ParameterAccessor.htmlEncode( bookmark ) + "');"; //$NON-NLS-1$ //$NON-NLS-2$
+			return "javascript:try{" + func + "}catch(e){parent." + func + "};"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
 		{
-			// If run mode, append bookmark on the end of URL
-			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-1$ //$NON-NLS-2$
+			String func = "catchBookmark('" + bookmark + "');"; //$NON-NLS-1$ //$NON-NLS-2$
+			return "javascript:try{" + func + "}catch(e){parent." + func + "};"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		// Save the URL String
