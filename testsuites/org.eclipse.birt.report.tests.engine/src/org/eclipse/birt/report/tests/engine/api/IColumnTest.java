@@ -60,7 +60,6 @@ public class IColumnTest extends BaseEmitter
 
 	}
 
-	@Override
 	public void endCell( ICellContent cell )
 	{
 		assertEquals( "rgb(128, 128, 128)", cell.getStyle( ).getBackgroundColor( ));
