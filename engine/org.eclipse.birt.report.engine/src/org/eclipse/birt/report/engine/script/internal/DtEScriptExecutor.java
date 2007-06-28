@@ -60,7 +60,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 	protected JSScriptStatus handleJS( Scriptable scope, String type,
 			String name, String method, String script )
 	{
-		if ( script == null || type == null || name == null || method == null )
+		if ( script == null || type == null || name == null || method == null || isComments( script ) )
 			return JSScriptStatus.NO_RUN;
 		if ( !( DATA_SET.equals( type ) || DATA_SOURCE.equals( type ) ) )
 			return JSScriptStatus.NO_RUN;
@@ -81,4 +81,14 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 
 	protected abstract JSScriptStatus handleJS( Scriptable scope, String name,
 			String method, String script );
+	
+	private boolean isComments( String script )
+	{
+		String scriptWithoutComments = script.replaceAll( "(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)",
+				"" );
+		if ( scriptWithoutComments.trim( ).length( ) == 0 )
+			return true;
+		else
+			return false;
+	}
 }
