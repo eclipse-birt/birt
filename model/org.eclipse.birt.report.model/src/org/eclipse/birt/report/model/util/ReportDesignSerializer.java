@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -41,6 +42,8 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.css.CssStyle;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
@@ -827,11 +830,94 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * @param source
 	 * @return the localized design
 	 */
+
 	private ReportDesign localizeDesign( ReportDesign source )
 	{
 		ReportDesign design = new ReportDesign( source.getSession( ) );
+
+		design.setFileName( source.getFileName( ) );
+		design.setSystemId( source.getSystemId( ) );
+
+		ModuleOption options = source.getOptions( );
+		try
+		{
+			if ( options != null )
+				design.setOptions( ( (ModuleOption) options.copy( ) ) );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
 		localizePropertyValues( source, design );
+
+		// css style sheet must be treated here. It is different from other
+		// elements and property values.
+
+		visitCssStyleSheets( source, design );
 		return design;
+	}
+
+	// css style related methods.
+
+	/**
+	 * Localizes the css style sheets from the source to the target.
+	 * 
+	 * @param source
+	 *            the source module
+	 * @param target
+	 *            the target module
+	 */
+
+	private void visitCssStyleSheets( ReportDesign source, ReportDesign target )
+	{
+		List sheets = source.getCsses( );
+		for ( int i = 0; i < sheets.size( ); i++ )
+		{
+			CssStyleSheet sheet = (CssStyleSheet) sheets.get( i );
+			CssStyleSheet newSheet = visitCssStyleSheet( sheet );
+
+			newSheet.setContainer( target );
+			target.addCss( newSheet );
+		}
+
+	}
+
+	/**
+	 * Localizes a css style sheets.
+	 * 
+	 */
+
+	private CssStyleSheet visitCssStyleSheet( CssStyleSheet sheet )
+	{
+		CssStyleSheet newSheet = new CssStyleSheet( );
+
+		newSheet.setFileName( sheet.getFileName( ) );
+		List styles = sheet.getStyles( );
+		for ( int i = 0; i < styles.size( ); i++ )
+		{
+			CssStyle style = (CssStyle) styles.get( i );
+			CssStyle newStyle = visitCssStyle( style );
+			newStyle.setCssStyleSheet( newSheet );
+
+			newSheet.addStyle( newStyle );
+		}
+
+		return newSheet;
+	}
+
+	/**
+	 * Localizes a css style.
+	 * 
+	 */
+
+	private CssStyle visitCssStyle( CssStyle style )
+	{
+		CssStyle newStyle = new CssStyle( style.getName( ) );
+		localizePrivateStyleProperties( newStyle, style, (Module) style
+				.getContainer( ), new HashSet( ) );
+
+		return newStyle;
 	}
 
 	/**

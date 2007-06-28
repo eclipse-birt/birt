@@ -12,9 +12,12 @@
 package org.eclipse.birt.report.model.writer;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -78,6 +81,12 @@ public class DocumentUtilTest extends BaseTestCase
 	 */
 
 	private static final String DESIGN_WITH_FILTER_ELEMENT = "DocumentUtilTest_7.xml"; //$NON-NLS-1$
+
+	/**
+	 * Design file name.
+	 */
+
+	private static final String DESIGN_WITH_CSS_STYLES = "DocumentUtilTest_8.xml"; //$NON-NLS-1$
 
 	/**
 	 * Tests the element property value localization.
@@ -327,10 +336,7 @@ public class DocumentUtilTest extends BaseTestCase
 	}
 
 	/**
-	 * In the getPropertyFromElement() call of the
-	 * ReportDesignSerializer.localizePropertyValues(), the module should be
-	 * element.getRoot() instead of targetDesign. Otherwise, some elements
-	 * cannot be resolved. It could caused preview failure.
+	 * For content elements, they should be serialized.
 	 * 
 	 * @throws Exception
 	 */
@@ -342,6 +348,36 @@ public class DocumentUtilTest extends BaseTestCase
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_filter_element_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * For css styles, they must be visited and saved in the serialized design.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testLocalCssStyles( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_CSS_STYLES );
+
+		serializeDocument( );
+
+		List sheets = designHandle.getAllCssStyleSheets( );
+		assertEquals( 1, sheets.size( ) );
+
+		CssStyleSheetHandle sheet = (CssStyleSheetHandle) sheets.get( 0 );
+		Iterator styles = sheet.getStyleIterator( );
+
+		int count = 0;
+		while ( styles.hasNext( ) )
+		{
+			styles.next( );
+			count++;
+		}
+		assertEquals( 5, count );
+
+		assertNotNull( designHandle.getSystemId( ) );
+		assertNotNull( designHandle.getFileName( ) );
 	}
 
 	/*

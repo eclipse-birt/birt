@@ -145,11 +145,11 @@ public class ModuleOption implements IModuleOption
 	{
 		if ( !useSemanticCheck( ) )
 			return false;
-		
+
 		Object markLineNumber = options.get( MARK_LINE_NUMBER_KEY );
 		if ( markLineNumber != null )
 			return ( (Boolean) markLineNumber ).booleanValue( );
-		
+
 		return true;
 	}
 
@@ -166,7 +166,7 @@ public class ModuleOption implements IModuleOption
 	{
 		options.put( MARK_LINE_NUMBER_KEY, Boolean.valueOf( markLineNumber ) );
 	}
-	
+
 	/**
 	 * Gets the resource locator.
 	 * 
@@ -179,7 +179,7 @@ public class ModuleOption implements IModuleOption
 	}
 
 	/**
-	 * Sets the resource locator. 
+	 * Sets the resource locator.
 	 * 
 	 * @param locator
 	 *            the resource locator to set
@@ -190,7 +190,7 @@ public class ModuleOption implements IModuleOption
 		if ( locator != null )
 			options.put( RESOURCE_LOCATOR_KEY, locator );
 	}
-	
+
 	/**
 	 * Gets the locale.
 	 * 
@@ -213,5 +213,21 @@ public class ModuleOption implements IModuleOption
 	{
 		if ( locale != null )
 			options.put( LOCALE_KEY, locale );
+	}
+
+	/**
+	 * Returns the copy of the current options.
+	 * 
+	 * @return the copy of the current options
+	 * 
+	 * @throws CloneNotSupportedException
+	 */
+
+	public Object copy( ) throws CloneNotSupportedException
+	{
+		ModuleOption obj = new ModuleOption( );
+		obj.options = new HashMap( );
+		obj.options.putAll( options );
+		return obj;
 	}
 }

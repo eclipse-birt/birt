@@ -103,6 +103,7 @@ public class CssStyle extends Style
 	public void setCssStyleSheet( CssStyleSheet sheet )
 	{
 		this.sheet = sheet;
+		setContainer( sheet.getContainer( ) );
 	}
 
 }
