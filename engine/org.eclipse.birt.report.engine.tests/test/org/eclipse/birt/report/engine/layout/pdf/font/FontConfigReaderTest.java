@@ -34,6 +34,7 @@ public class FontConfigReaderTest extends TestCase
 {
 
 	private FontMappingManager fontMappingManager = null;
+	FontHandler handler = FontHandlerUtil.getInstance( );
 
 	public void testFontMapWhenAllFontsNotDefined( ) throws IOException,
 			FactoryConfigurationError, ParserConfigurationException,
@@ -194,8 +195,8 @@ public class FontConfigReaderTest extends TestCase
 
 	private boolean isMappedTo( char c, String from, String to )
 	{
-		BaseFont font = fontMappingManager.getMappedFont( c,
-				createCssValueList( from ), Font.NORMAL );
+		BaseFont font = FontHandlerUtil.getMappedFont( handler, c,
+				fontMappingManager, createCssValueList( from ), Font.NORMAL );
 		return isIn( to, font.getFullFontName( ) );
 	}
 

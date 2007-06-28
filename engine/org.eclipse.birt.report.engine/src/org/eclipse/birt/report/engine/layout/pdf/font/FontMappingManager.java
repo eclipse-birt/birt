@@ -20,8 +20,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.w3c.dom.css.CSSValueList;
-
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.BaseFont;
@@ -149,44 +147,9 @@ public class FontMappingManager
 		return -1;
 	}
 
-	/**
-	 * Gets the BaseFont object to display the given character. It will
-	 * <li> traverse the customer defined font list by the specified order, try
-	 * to display the character with the BaseFont using the font family name. If
-	 * the font family name is a generic font, or an alias of another font
-	 * family, the font family name will be replaced according to the mapping
-	 * defined in the fontMapping object. </li>
-	 * <li> If the above fails, the unicode block containing the given character
-	 * will be retrived. Then we will try each font defined for this block to
-	 * display the character. </li>
-	 * <li> If the above also fails, we can not find a font to display the given
-	 * character. null will be returned. </li>
-	 * 
-	 * @param c
-	 *            the given character.
-	 * @param fontFamilies
-	 *            the customer defined font list.
-	 * @param fontStyle
-	 *            the style of the font.
-	 * @return the BaseFont. If we fail to find one, return null.
-	 */
-	public BaseFont getMappedFont( char c, CSSValueList fontFamilies,
-			int fontStyle )
+	public String getDefaultPhysicalFont( char c )
 	{
-		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
-		{
-			String fontFamilyName = fontFamilies.item( i ).getCssText( );
-			String logicalFont = getLogicalFont( fontFamilyName );
-
-			String physicalFont = getPhysicalFont( c, logicalFont, logicalFont );
-			if ( isCharDefinedInFont( c, physicalFont, fontStyle ) )
-			{
-				return createFont( physicalFont, fontStyle );
-			}
-		}
-		String physicalFont = getPhysicalFont( c, FONT_NAME_ALL_FONTS,
-				DEFAULT_FONT );
-		return createFont( physicalFont, fontStyle );
+		return getPhysicalFont( c, FONT_NAME_ALL_FONTS, DEFAULT_FONT );
 	}
 
 	public void addFontPath( String path )
@@ -210,7 +173,7 @@ public class FontMappingManager
 		return fontPaths;
 	}
 	
-	private String getPhysicalFont( char c, String logicalFont,
+	public String getPhysicalFont( char c, String logicalFont,
 			String defaultFont )
 	{
 		if ( isCompositeFont( logicalFont ) )
@@ -242,7 +205,7 @@ public class FontMappingManager
 		return compositeFonts.containsKey( logicalFont );
 	}
 
-	private String getLogicalFont( String fontFamilyName )
+	public String getLogicalFont( String fontFamilyName )
 	{
 		String fontName = getMappedFontName( fontFamilyName, fontAliases );
 		return fontName == null ? fontFamilyName : fontName;
@@ -320,7 +283,7 @@ public class FontMappingManager
 	 *            the encoding for the font.
 	 * @return the created BaseFont.
 	 */
-	private BaseFont createFont( String ffn, int fontStyle )
+	public BaseFont createFont( String ffn, int fontStyle )
 	{
 		String key = ffn + fontStyle;
 		synchronized ( baseFonts )
@@ -350,7 +313,7 @@ public class FontMappingManager
 		}
 	}
 
-	private boolean isCharDefinedInFont( char c, String fontName, int fontStyle )
+	public boolean isCharDefinedInFont( char c, String fontName, int fontStyle )
 	{
 		BaseFont bf = createFont( fontName, fontStyle );
 		return null != bf && bf.charExists( c );

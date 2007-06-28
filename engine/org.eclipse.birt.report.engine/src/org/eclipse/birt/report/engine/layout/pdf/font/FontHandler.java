@@ -71,6 +71,13 @@ public class FontHandler
 	private FontMappingManager fontManager = null;
 	
 	private static boolean needDefaultConfig = true;
+	
+	private Map fonts = new HashMap( );
+	
+	FontHandler( )
+	{
+	}
+	
 	/**
 	 * The constructor
 	 * 
@@ -272,11 +279,75 @@ public class FontHandler
 	public boolean selectFont( char character )
 	{
 		assert ( fontManager != null );
-		BaseFont candidateFont = fontManager.getMappedFont( character,
-				fontFamilies, fontStyle );
+		BaseFont candidateFont = getMappedFont( character );
 		assert ( candidateFont != null );
 		checkFontStatus( candidateFont );
 		return candidateFont.charExists( character );
+	}
+	
+	public BaseFont getMappedFont(char c )
+	{
+		return getMappedFont( c, fontManager, fontFamilies, fontStyle );
+	}
+
+	/**
+	 * Gets the BaseFont object to display the given character. It will
+	 * <li> traverse the customer defined font list by the specified order, try
+	 * to display the character with the BaseFont using the font family name. If
+	 * the font family name is a generic font, or an alias of another font
+	 * family, the font family name will be replaced according to the mapping
+	 * defined in the fontMapping object. </li>
+	 * <li> If the above fails, the unicode block containing the given character
+	 * will be retrived. Then we will try each font defined for this block to
+	 * display the character. </li>
+	 * <li> If the above also fails, we can not find a font to display the given
+	 * character. null will be returned. </li>
+	 * 
+	 * @param c
+	 *            the given character.
+	 * @param fontFamilies
+	 *            the customer defined font list.
+	 * @param fontStyle
+	 *            the style of the font.
+	 * @return the BaseFont. If we fail to find one, return null.
+	 */
+	BaseFont getMappedFont( char c, FontMappingManager fontManager,
+			CSSValueList fontFamilies, int fontStyle )
+	{
+		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
+		{
+			String fontFamilyName = fontFamilies.item( i ).getCssText( );
+			String logicalFont = fontManager.getLogicalFont( fontFamilyName );
+
+			String physicalFont = fontManager.getPhysicalFont( c, logicalFont,
+					logicalFont );
+
+			BaseFont font = getPhysicalFont( fontManager, physicalFont,
+					fontStyle );
+			if ( isCharDefinedInFont( c, font ) )
+			{
+				return font;
+			}
+		}
+		String physicalFont = fontManager.getDefaultPhysicalFont( c );
+		return getPhysicalFont( fontManager, physicalFont, fontStyle );
+	}
+
+	private BaseFont getPhysicalFont( FontMappingManager fontManager,
+			String physicalFont, int fontStyle )
+	{
+		BaseFont font = (BaseFont) fonts.get( physicalFont );
+		if ( font == null )
+		{
+			font = fontManager.createFont( physicalFont, fontStyle );
+			fonts.put( physicalFont, font );
+		}
+		return font;
+	}
+
+	private boolean isCharDefinedInFont( char c, BaseFont bf )
+	{
+		return null != bf && bf.charExists( c );
 	}
 
 	private void registerPaths( FontMappingManager fontManager )
