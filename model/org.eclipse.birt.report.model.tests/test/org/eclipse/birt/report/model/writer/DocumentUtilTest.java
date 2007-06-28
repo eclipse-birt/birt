@@ -74,6 +74,12 @@ public class DocumentUtilTest extends BaseTestCase
 	private static final String DESIGN_WITH_TESTING_TABLE_EXTENDS = "DocumentUtilTest_6.xml"; //$NON-NLS-1$
 
 	/**
+	 * Design file name.
+	 */
+
+	private static final String DESIGN_WITH_FILTER_ELEMENT = "DocumentUtilTest_7.xml"; //$NON-NLS-1$
+
+	/**
 	 * Tests the element property value localization.
 	 * 
 	 * @throws Exception
@@ -317,7 +323,25 @@ public class DocumentUtilTest extends BaseTestCase
 
 		serializeDocument( );
 
-		saveOutputFile( "DocumentUtilTest_extends_testingtable_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_extends_testingtable_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * In the getPropertyFromElement() call of the
+	 * ReportDesignSerializer.localizePropertyValues(), the module should be
+	 * element.getRoot() instead of targetDesign. Otherwise, some elements
+	 * cannot be resolved. It could caused preview failure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testFilterElement( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_FILTER_ELEMENT );
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_filter_element_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/*

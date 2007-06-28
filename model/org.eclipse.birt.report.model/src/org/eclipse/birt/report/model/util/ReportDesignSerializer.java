@@ -41,22 +41,28 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.SortElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
@@ -732,18 +738,10 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private DesignElement createNewElement( DesignElement element )
 	{
-		// ElementFactory factory = new ElementFactory( targetDesign );
-		// DesignElement newElement = factory.newElement(
-		// element.getDefn( ).getName( ), element.getName( ) )
-		// .getElement( );
-
 		ContainerContext sourceContainment = element.getContainerInfo( );
 
 		DesignElement newElement = newElement( element.getDefn( ).getName( ),
 				element.getName( ), sourceContainment ).getElement( );
-
-		//
-		// newElement.setName( element.getName( ) );
 
 		// if the element is an external element. do not add to the design now.
 		// should be added in the end by addExternalElements.
@@ -784,7 +782,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			}
 		}
 
-		targetDesign.addElementID( newElement );
+		if ( !( newElement instanceof ContentElement ) )
+			targetDesign.addElementID( newElement );
 
 		return newElement;
 	}
@@ -1092,14 +1091,49 @@ public class ReportDesignSerializer extends ElementVisitor
 					handleStructureValue( newElement, propDefn, value );
 					break;
 				case IPropertyType.ELEMENT_TYPE :
+					break;
 				case IPropertyType.CONTENT_ELEMENT_TYPE :
-					// for element types, do nothing.
+					handleContentElementValue( newElement, propDefn, value );
 					break;
 				default :
 					if ( newElement.getLocalProperty( null, propDefn ) == null )
 						newElement.setProperty( propDefn, value );
 			}
 		}
+	}
+
+	/**
+	 * Localize values if the property type is content element or content
+	 * element list.
+	 * 
+	 * @param newElement
+	 *            the target element
+	 * @param propDefn
+	 *            the property definition
+	 * @param valueList
+	 *            the original property value
+	 */
+
+	private void handleContentElementValue( DesignElement newElement,
+			PropertyDefn propDefn, Object value )
+	{
+		elements.push( newElement );
+		if ( propDefn.isListType( ) )
+		{
+			List tmplist = (List) value;
+			for ( int i = 0; i < tmplist.size( ); i++ )
+			{
+				DesignElement tmpElement = (DesignElement) tmplist.get( i );
+				tmpElement.apply( this );
+			}
+
+			elements.pop( );
+			return;
+		}
+
+		( (DesignElement) value ).apply( this );
+		elements.pop( );
+
 	}
 
 	/**
@@ -1529,6 +1563,42 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
+	 * Visits the member value.
+	 * 
+	 * @param obj
+	 *            the member value to traverse
+	 */
+
+	public void visitMemberValue( MemberValue obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the filter condition element.
+	 * 
+	 * @param obj
+	 *            the filter condition element to traverse
+	 */
+
+	public void visitFilterConditionElement( FilterConditionElement obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the sort element.
+	 * 
+	 * @param obj
+	 *            the sort element to traverse
+	 */
+
+	public void visitSortElement( SortElement obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by
 	 * the meta-data system.
@@ -1747,5 +1817,27 @@ public class ReportDesignSerializer extends ElementVisitor
 			assert false;
 		}
 		return handle;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl(org.eclipse.birt.report.model.elements.AccessControl)
+	 */
+
+	public void visitAccessControl( AccessControl obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl(org.eclipse.birt.report.model.elements.ValueAccessControl)
+	 */
+
+	public void visitValueAccessControl( ValueAccessControl obj )
+	{
+		visitDesignElement( obj );
 	}
 }
