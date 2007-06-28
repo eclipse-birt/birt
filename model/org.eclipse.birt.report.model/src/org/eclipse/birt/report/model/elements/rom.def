@@ -841,7 +841,7 @@
     </Method>
     <Method displayNameID="Class.Array.join" name="join" returnType="String" toolTipID="Class.Array.join.toolTip"/>
     <Method displayNameID="Class.Array.join" name="join" returnType="String" toolTipID="Class.Array.join.toolTip">
-      <Argument name="seperator" tagID="Class.Array.join.seperator" type="String"/>
+      <Argument name="seperator" tagID="Class.Array.join.separator" type="String"/>
     </Method>
     <Method displayNameID="Class.Array.pop" name="pop" returnType="Object" toolTipID="Class.Array.pop.toolTip"/>
     <Method displayNameID="Class.Array.push" name="push" returnType="number" toolTipID="Class.Array.push.toolTip">
