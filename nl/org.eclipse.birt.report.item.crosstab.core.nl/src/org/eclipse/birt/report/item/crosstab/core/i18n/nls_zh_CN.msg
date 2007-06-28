@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Cross Tab
+Element.Crosstab=交叉表
 Element.CrosstabCell=交叉表单元格
 Element.CrosstabAggregationCell=交叉表聚合单元格
 Element.AggregationOnRow=遇到行时聚合

@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Cross Tab
+Element.Crosstab=Tabla de referencias cruzadas
 Element.CrosstabCell=Celda de tabla de referencias cruzadas
 Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruzadas
 Element.AggregationOnRow=Agregación en fila

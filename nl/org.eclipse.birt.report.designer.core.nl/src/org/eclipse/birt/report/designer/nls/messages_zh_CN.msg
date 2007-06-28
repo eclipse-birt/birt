@@ -2787,7 +2787,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=°
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Type or select the default resource folder to use for the library explorer, images,\nproperty files, and so on.
+ResourecePreferencePage.title=¼üÈë»òÑ¡ÔñÒªÓÃÓÚ¿â×ÊÔ´¹ÜÀíÆ÷¡¢Í¼Ïñ¡¢\nÊôĞÔÎÄ¼şµÈµÄÄ¬ÈÏ×ÊÔ´ÎÄ¼ş¼Ğ¡£
 ResourecePreferencePage.folder=×ÊÔ´ÎÄ¼ş¼Ğ(&R)
 ResourecePreferencePage.select=Ñ¡Ôñ(&S)...
 ResourecePreferencePage.openDialogTitle=ä¯ÀÀÎÄ¼ş¼Ğ
@@ -3794,7 +3794,7 @@ SampleReportsView.Action.openSampleReport=´ò¿ª
 SampleReportsView.Action.exportSampleReport.toolTipText=µ¼³öÑ¡ÔñµÄÊ¾Àı±¨±í
 SampleReportsView.Action.openSampleReport.toolTipText.ide=´´½¨±¨±íÏîÄ¿²¢½«±¨±í·ÅÈëÏîÄ¿ÎÄ¼ş¼Ğ
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=½«Ñ¡ÔñµÄÊ¾Àı±¨±íÖ±½Óµ¼³öµ½ RCP ¹¤×÷ÇøÎÄ¼ş¼Ğ
-SampleReportsView.Text.Contribute_Samples=Contribute Samples
+SampleReportsView.Text.Contribute_Samples=Ìá¹©Ê¾Àı
 
 UseCssStyleAction.text=Ê¹ÓÃ CSS ÎÄ¼ş...
 

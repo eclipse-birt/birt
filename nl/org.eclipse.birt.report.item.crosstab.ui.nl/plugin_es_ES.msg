@@ -11,5 +11,5 @@
 
 preference.crosstabPage=Tabla de referencias cruzadas
 crosstab.menu=Tabla de referencias cr&uzadas
-Crosstab.desc=Inserte una tabla de referencias cruzadas en el diseño
+Crosstab.desc=Introduzca una tabla de referencias cruzadas para visualizar los datos agregados en el formato de fila y columna.
 newcube.menu=Cubo de datos nuevo

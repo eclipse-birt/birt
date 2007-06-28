@@ -41,9 +41,9 @@ AggregationDialog.Label.Sub=Zwischensumme:
 ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
 ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 
-DeleteBindingDialog.Title=Remove Unused Bindings?
-DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
-DeleteBindingDialog.ToggleMessage=Don't show this message again
+DeleteBindingDialog.Title=Nicht verwendete Bindungen entfernen?
+DeleteBindingDialog.Message=Dieser Vorgang führt zu nicht verwendeten Datenbindungen.\n\nMöchten Sie nicht verwendete Bindungen entfernen?
+DeleteBindingDialog.ToggleMessage=Diese Nachricht nicht wieder anzeigen
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Spaltenbereich
@@ -194,8 +194,8 @@ CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit
 CrosstabPreferencePage.filterLimit.prompt=Maximale Anzahl anzuzeigender Werte:
 CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
-CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
-CrosstabPreferencePage.promptGroup=Prompt
+CrosstabPreferencePage.autoDelBindings.Text=Vor dem Entfernen nicht verwendeter Bindungen immer nachfragen.
+CrosstabPreferencePage.promptGroup=Eingabeaufforderung
 
 
 ###########################################################

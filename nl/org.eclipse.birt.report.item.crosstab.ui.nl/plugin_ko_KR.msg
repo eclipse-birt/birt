@@ -10,6 +10,6 @@
 ###############################################################################
 
 preference.crosstabPage=크로스 탭
-crosstab.menu=크로스 테이블(&O)
-Crosstab.desc=크로스 테이블을 레이아웃에 삽입
+crosstab.menu=크로스 탭(&O)
+Crosstab.desc=크로스 탭을 삽입하여 행 및 열 형식으로 집계 데이터를 표시합니다.
 newcube.menu=새 데이터 큐브

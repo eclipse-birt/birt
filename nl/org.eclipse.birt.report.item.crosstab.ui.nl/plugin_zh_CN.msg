@@ -11,5 +11,5 @@
 
 preference.crosstabPage=交叉表
 crosstab.menu=交叉表(&O)
-Crosstab.desc=将交叉表插入到布局
+Crosstab.desc=插入交叉表以按行和列格式显示聚合数据。
 newcube.menu=新建数据和多维数据集

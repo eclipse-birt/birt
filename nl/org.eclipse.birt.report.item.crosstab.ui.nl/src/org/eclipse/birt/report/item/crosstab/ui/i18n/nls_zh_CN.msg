@@ -41,9 +41,9 @@ AggregationDialog.Label.Sub=小计:
 ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
 ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
 
-DeleteBindingDialog.Title=Remove Unused Bindings?
-DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
-DeleteBindingDialog.ToggleMessage=Don't show this message again
+DeleteBindingDialog.Title=删除未使用的绑定?
+DeleteBindingDialog.Message=此操作将产生未使用的数据绑定。\n\n是否要删除未使用的绑定?
+DeleteBindingDialog.ToggleMessage=不再显示此消息
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列区域
@@ -194,8 +194,8 @@ CrosstabPreferencePage.Title=交叉表
 CrosstabPreferencePage.filterLimit=筛选限制
 CrosstabPreferencePage.filterLimit.prompt=要显示的最大值数:
 CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
-CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
-CrosstabPreferencePage.promptGroup=Prompt
+CrosstabPreferencePage.autoDelBindings.Text=删除未使用的绑定之前始终询问。
+CrosstabPreferencePage.promptGroup=提示
 
 
 ###########################################################

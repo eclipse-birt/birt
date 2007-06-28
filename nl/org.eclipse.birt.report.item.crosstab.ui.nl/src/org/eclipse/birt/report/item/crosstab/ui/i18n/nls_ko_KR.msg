@@ -41,9 +41,9 @@ AggregationDialog.Label.Sub=부분합:
 ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
 ShowSummaryFieldDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 
-DeleteBindingDialog.Title=Remove Unused Bindings?
-DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
-DeleteBindingDialog.ToggleMessage=Don't show this message again
+DeleteBindingDialog.Title=사용하지 않는 바인딩을 제거하시겠습니까?
+DeleteBindingDialog.Message=이 작업을 수행하면 사용하지 않는 데이터 바인딩이 발생합니다.\n\n사용하지 않는 바인딩을 제거하시겠습니까?
+DeleteBindingDialog.ToggleMessage=이 메시지를 다시 표시 안 함
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=열 영역
@@ -194,8 +194,8 @@ CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한
 CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수:
 CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
-CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
-CrosstabPreferencePage.promptGroup=Prompt
+CrosstabPreferencePage.autoDelBindings.Text=사용하지 않는 바인딩을 제거하기 전에 항상 확인
+CrosstabPreferencePage.promptGroup=묻기
 
 
 ###########################################################

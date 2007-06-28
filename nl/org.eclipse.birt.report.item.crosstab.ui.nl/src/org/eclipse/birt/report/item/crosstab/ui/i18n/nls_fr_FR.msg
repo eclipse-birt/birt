@@ -41,9 +41,9 @@ AggregationDialog.Label.Sub=Sous-totaux :
 ShowSummaryFieldDialog.Title=Afficher/Masquer les champs de récapitulation
 ShowSummaryFieldDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
 
-DeleteBindingDialog.Title=Remove Unused Bindings?
-DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
-DeleteBindingDialog.ToggleMessage=Don't show this message again
+DeleteBindingDialog.Title=Supprimer les liaisons inutilisées ?
+DeleteBindingDialog.Message=Cette action donnera des liaisons de données inutilisées.\n\nVoulez-vous supprimer les liaisons inutilisées ?
+DeleteBindingDialog.ToggleMessage=Ne plus afficher ce message
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Zone de colonne
@@ -194,8 +194,8 @@ CrosstabPreferencePage.Title=Tableau croisé
 CrosstabPreferencePage.filterLimit=Limite de filtre
 CrosstabPreferencePage.filterLimit.prompt=Nombre maximum de valeurs à afficher :
 CrosstabPreferencePage.Error.MaxRowInvalid=La valeur numérique est incorrecte.
-CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
-CrosstabPreferencePage.promptGroup=Prompt
+CrosstabPreferencePage.autoDelBindings.Text=Toujours demander avant de supprimer des liaisons inutilisées.
+CrosstabPreferencePage.promptGroup=Invite
 
 
 ###########################################################

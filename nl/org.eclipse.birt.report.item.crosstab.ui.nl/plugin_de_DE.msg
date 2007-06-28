@@ -10,6 +10,6 @@
 ###############################################################################
 
 preference.crosstabPage=Kreuztabelle
-crosstab.menu=&Kreuztabelle
-Crosstab.desc=Kreuztabelle in Layout einfügen
+crosstab.menu=Kr&euztabelle
+Crosstab.desc=Fügen Sie eine Kreuztabelle ein, um aggregierte Daten im Zeilen-/Spalten-Format anzuzeigen.
 newcube.menu=Neuer Datenquader

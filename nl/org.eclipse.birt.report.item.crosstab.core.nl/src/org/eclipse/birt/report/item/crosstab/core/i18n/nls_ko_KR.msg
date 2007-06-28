@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Cross Tab
+Element.Crosstab=Å©·Î½º ÅÇ
 Element.CrosstabCell=Å©·Î½º ÅÇ ¼¿
 Element.CrosstabAggregationCell=Å©·Î½º ÅÇ Áý°è ¼¿
 Element.AggregationOnRow=Çà¿¡¼­ Áý°è

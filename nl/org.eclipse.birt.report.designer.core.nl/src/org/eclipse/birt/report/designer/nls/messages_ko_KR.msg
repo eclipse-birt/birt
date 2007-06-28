@@ -2787,7 +2787,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Type or select the default resource folder to use for the library explorer, images,\nproperty files, and so on.
+ResourecePreferencePage.title=라이브러리 탐색기, 이미지, 속성 파일 등에서 사용할 기본 리소스 폴더를\n입력하거나 선택하십시오.
 ResourecePreferencePage.folder=리소스 폴더(&R)
 ResourecePreferencePage.select=선택(&S)...
 ResourecePreferencePage.openDialogTitle=폴더 찾아보기
@@ -3794,7 +3794,7 @@ SampleReportsView.Action.openSampleReport=열기
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
-SampleReportsView.Text.Contribute_Samples=Contribute Samples
+SampleReportsView.Text.Contribute_Samples=기여 예제
 
 UseCssStyleAction.text=CSS 파일 사용...
 
