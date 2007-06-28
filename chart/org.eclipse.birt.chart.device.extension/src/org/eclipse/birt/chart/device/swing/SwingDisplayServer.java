@@ -79,6 +79,15 @@ public class SwingDisplayServer extends DisplayAdapter
 						getULocale( ) ) );
 		_simc = new SwingImageCache( this );
 	}
+	
+	public void dispose( )
+	{
+		if ( _g2d != null )
+		{
+			_g2d.dispose( );
+			_g2d = null;
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -135,6 +135,19 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void dispose( )
 	{
+		// Dispose SwingDisplayServer and Graphics instance 
+		if ( _ids instanceof SwingDisplayServer )
+		{
+			( (SwingDisplayServer) _ids ).dispose( );
+			_ids = null;
+		}
+		
+		if ( _g2d != null )
+		{
+			_g2d.dispose( );
+			_g2d = null;
+		}
+		
 		_lhmAllTriggers.clear( );
 
 		if ( _iun != null )

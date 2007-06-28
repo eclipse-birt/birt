@@ -602,6 +602,13 @@ public final class ChartReportItemPresentationImpl extends
 		{
 			logger.log( ioex );
 		}
+		
+		// Dispose renderer resources
+		if ( idr != null )
+		{
+			idr.dispose( );
+			idr = null;
+		}
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
