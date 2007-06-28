@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
@@ -20,15 +21,14 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -215,17 +215,27 @@ public final class PaletteEditorComposite extends Composite implements
 		coPaletteEntries.addMouseListener( this );
 		coPaletteEntries.addKeyListener( this );
 
-		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			idrSWT = ps.getDevice( "dv.SWT" ); //$NON-NLS-1$
-			idrSWT.getDisplayServer( );
+			idrSWT = ChartEngine.instance( ).getRenderer( "dv.SWT" ); //$NON-NLS-1$
 		}
 		catch ( ChartException pex )
 		{
 			logger.log( pex );
 			return;
 		}
+		
+		addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( idrSWT != null )
+				{
+					idrSWT.dispose( );
+					idrSWT = null;
+				}
+			}
+		} );
 	}
 
 	/**

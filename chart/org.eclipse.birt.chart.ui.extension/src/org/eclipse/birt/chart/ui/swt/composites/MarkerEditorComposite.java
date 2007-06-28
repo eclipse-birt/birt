@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -28,7 +29,6 @@ import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
@@ -38,6 +38,8 @@ import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -149,14 +151,26 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		try
 		{
-			idrSWT = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
-			idrSWT.getDisplayServer( );
+			idrSWT = ChartEngine.instance( ).getRenderer( "dv.SWT" ); //$NON-NLS-1$
 		}
 		catch ( ChartException pex )
 		{
 			WizardBase.displayException( pex );
 		}
+		
+		addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( idrSWT != null )
+				{
+					idrSWT.dispose( );
+					idrSWT = null;
+				}
+			}
+		} );
 	}
+	
 
 	private void canvasEvent( Event event )
 	{

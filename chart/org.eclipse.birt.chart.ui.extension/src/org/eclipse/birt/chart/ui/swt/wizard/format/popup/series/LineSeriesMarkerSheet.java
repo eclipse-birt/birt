@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -33,11 +34,12 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.SelectionEvent;
@@ -203,13 +205,24 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 		try
 		{
-			idrSWT = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
+			idrSWT = ChartEngine.instance( ).getRenderer( "dv.SWT" ); //$NON-NLS-1$
 			idrSWT.getDisplayServer( );
 		}
 		catch ( ChartException pex )
 		{
 			WizardBase.displayException( pex );
 		}
+		
+		cmpContent.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( idrSWT != null )
+				{
+					idrSWT.dispose( );
+				}
+			}
+		} );
 
 		return cmpContent;
 	}

@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
@@ -40,7 +41,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.style.IStyleProcessor;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
@@ -86,8 +86,6 @@ public class ChartImageManager
 
 	private IExternalContext externalContext = null;
 
-	private IDeviceRenderer idr = null;
-
 	private String imageMap = null;
 
 	private File imageFile;
@@ -108,6 +106,8 @@ public class ChartImageManager
 		if ( externalContext == null )
 		{
 			this.externalContext = new IExternalContext( ) {
+
+				private static final long serialVersionUID = 4666361117214885689L;
 
 				public Object getObject( )
 				{
@@ -146,6 +146,7 @@ public class ChartImageManager
 	{
 		InputStream fis = null;
 		Generator gr = Generator.instance( );
+		IDeviceRenderer idr = null;
 		try
 		{
 			if ( evaluator == null )
@@ -164,7 +165,7 @@ public class ChartImageManager
 			rtc.setActionRenderer( new SimpleActionRenderer( evaluator ) );
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
-			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
+			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
 			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
@@ -259,6 +260,13 @@ public class ChartImageManager
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					ex );
+		}
+		finally
+		{
+			if ( idr != null )
+			{
+				idr.dispose( );
+			}
 		}
 
 		return fis;
