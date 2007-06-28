@@ -95,7 +95,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		colorLib.add( ColorDefinitionImpl.create( 192, 192, 192 ) );
 		colorLib.add( ColorDefinitionImpl.create( 255, 255, 128 ) );
 		colorLib.add( ColorDefinitionImpl.create( 128, 192, 128 ) );
-		colorLib.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
+		colorLib.add( ColorDefinitionImpl.create( 7, 146, 94 ) );
 		colorLib.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
 		colorLib.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
 		colorLib.add( ColorDefinitionImpl.create( 0, 255, 255 ) );
