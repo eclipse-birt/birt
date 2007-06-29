@@ -41,9 +41,9 @@ AggregationDialog.Label.Sub=小計 :
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
 
-DeleteBindingDialog.Title=Remove Unused Bindings?
-DeleteBindingDialog.Message=This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?
-DeleteBindingDialog.ToggleMessage=Don't show this message again
+DeleteBindingDialog.Title=未使用のバインドの削除
+DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます。\n\n未使用のバインドを削除しますか ?
+DeleteBindingDialog.ToggleMessage=今後、このメッセージを表示しない
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列の領域
@@ -194,8 +194,8 @@ CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
 CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
 CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
-CrosstabPreferencePage.autoDelBindings.Text=Always ask before removing unused bindings.
-CrosstabPreferencePage.promptGroup=Prompt
+CrosstabPreferencePage.autoDelBindings.Text=未使用のバインドを削除するときは、このメッセージを表示する
+CrosstabPreferencePage.promptGroup=プロンプト
 
 
 ###########################################################

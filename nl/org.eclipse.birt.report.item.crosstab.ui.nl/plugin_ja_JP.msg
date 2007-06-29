@@ -11,5 +11,5 @@
 
 preference.crosstabPage=クロスタブ
 crosstab.menu=クロスタブ(&O)
-Crosstab.desc=レイアウトにクロスタブを挿入してください。
+Crosstab.desc=クロスタブを挿入すると、列と行で集計データが表示されます。
 newcube.menu=データキューブの新規作成

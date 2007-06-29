@@ -1,6 +1,6 @@
 ###########################################################
 # Crosstab name conventions
-Element.Crosstab=Cross Tab
+Element.Crosstab=クロスタブ
 Element.CrosstabCell=クロスタブセル
 Element.CrosstabAggregationCell=クロスタブ集計セル
 Element.AggregationOnRow=行ごとの集計
