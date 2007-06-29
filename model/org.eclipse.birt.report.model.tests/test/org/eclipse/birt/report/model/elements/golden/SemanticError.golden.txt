@@ -7,7 +7,7 @@ Error.SemanticError.MISSING_PAGE_SIZE                       The size of the mast
 Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE                The master page "Table("customerTable")" cannot specify size since the page type is not custom. 
 Error.SemanticError.INVALID_PAGE_MARGINS                    The master page "Table("customerTable")" has invalid margin value.
 Error.SemanticError.MISSING_MASTER_PAGE                     The report must have at least one master page.
-Error.SemanticError.INVALID_MULTI_COLUMN                    The master page "Table("customerTable")" has the columns spaning outside the page content.
+Error.SemanticError.INVALID_MULTI_COLUMN                    The master page "Table("customerTable")" has the columns spanning outside the page content.
 Error.SemanticError.INVALID_ELEMENT_REF                     The element "Table("customerTable")" has property "dataSet" that refers an undefined element "unresolvedDataSet".
 Error.SemanticError.MISSING_SQL_STMT                        The JDBC select data set "Table("customerTable")" must have SQL statement.
 Error.SemanticError.MISSING_DATA_SET                        The Table "customerTable" must be able to access one data set.
@@ -17,7 +17,7 @@ Error.SemanticError.AT_LEAST_ONE_COLUMN                     The result set of da
 Error.SemanticError.UNSUPPORTED_ELEMENT                     The element Table is not supported yet.
 Error.SemanticError.DUPLICATE_GROUP_NAME                    The table/list "Table("customerTable")" has duplicate group name "group1".
 Error.SemanticError.INVALID_CUSTOM_COLOR_NAME               The custom color name "red" can not be used because it is a CSS standard color name.
-Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME             The color pallete has duplicate custom color name "BgColor".
+Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME             The color palette has duplicate custom color name "BgColor".
 Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE         The element Template Parameter Definition("test") must define an "allowedType" explicitly. 
 Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE    The default element Label("label") in element Template Parameter Definition("test") is not a kind of FreeForm.
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET       The data set "leftDataSet" is missed in joint data set "jointDataSet".
