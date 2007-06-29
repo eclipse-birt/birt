@@ -312,14 +312,16 @@ public abstract class ReportElementState extends DesignParseState
 		// name is not defined on this element
 		PropertyDefn propDefn = element
 				.getPropertyDefn( IDesignElementModel.NAME_PROP );
-		if ( propDefn == null )
+
+		if ( !StringUtil.isBlank( name ) && propDefn == null )
 		{
+
 			// if name is not defined, then fire a waring and do nothing
 			handler.getErrorHandler( ).semanticWarning(
 					new NameException( element, name,
 							NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN ) );
 		}
-		else
+		else if ( propDefn != null )
 		{
 			boolean isValidName = true;
 			try
@@ -341,8 +343,10 @@ public abstract class ReportElementState extends DesignParseState
 				{
 					if ( nameRequired )
 					{
-						// if version<3.2.8, add it to the list and allocate a
-						// name in end-document; if the version < 3.2.12, add it
+						// if version<3.2.8, add it to the list and allocate
+						// a
+						// name in end-document; if the version < 3.2.12,
+						// add it
 						// to the list.
 						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12
 								&& element instanceof ExtendedItem )
