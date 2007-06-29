@@ -94,15 +94,16 @@ public class PostscriptPage implements IPage
 				convertToPoint( height ) );
 	}
 
-	public void drawImage( byte[] imageData, int imageX, int imageY,
+	public void drawImage( byte[] imageData, String extension, int imageX, int imageY,
 			int height, int width, String helpText ) throws Exception
 	{
 		InputStream input = new ByteArrayInputStream( imageData );
 		drawImage( input, imageX, imageY, height, width, helpText );
 	}
 
-	public void drawImage( String uri, int imageX, int imageY, int height,
-			int width, String helpText ) throws Exception
+	public void drawImage( String uri, String extension, int imageX,
+			int imageY, int height, int width, String helpText )
+			throws Exception
 	{
 		if ( uri == null )
 		{

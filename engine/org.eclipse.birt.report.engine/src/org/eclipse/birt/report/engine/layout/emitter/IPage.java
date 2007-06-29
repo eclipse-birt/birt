@@ -66,11 +66,11 @@ public interface IPage
 	void drawText( String text, int textX, int textY, int width, int height,
 			TextStyle textStyle );
 
-	void drawImage( byte[] imageData, int imageX, int imageY, int height,
-			int width, String helpText ) throws Exception;
+	void drawImage( byte[] imageData, String extension, int imageX, int imageY,
+			int height, int width, String helpText ) throws Exception;
 
-	void drawImage( String uri, int imageX, int imageY, int height, int width,
-			String helpText ) throws Exception;
+	void drawImage( String uri, String extension, int imageX, int imageY,
+			int height, int width, String helpText ) throws Exception;
 
 	/**
 	 * Draws a line from the start position to the end position with the given

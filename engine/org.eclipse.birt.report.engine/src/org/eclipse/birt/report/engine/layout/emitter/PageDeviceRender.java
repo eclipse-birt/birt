@@ -614,6 +614,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			// lookup the source type of the image area
 			String uri = imageContent.getURI( );
+			String extension = imageContent.getExtension( );
 			switch ( imageContent.getImageSource( ) )
 			{
 				case IImageContent.IMAGE_FILE :
@@ -626,13 +627,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					}
 					if ( isSvg )
 					{
-						pageGraphic.drawImage( transSvgToArray( uri ), imageX,
-								imageY, height, width, helpText );
+						pageGraphic.drawImage( transSvgToArray( uri ),
+								extension, imageX, imageY, height, width,
+								helpText );
 					}
 					else
 					{
-						pageGraphic.drawImage( uri, imageX, imageY, height,
-								width, helpText );
+						pageGraphic.drawImage( uri, extension, imageX, imageY,
+								height, width, helpText );
 					}
 					break;
 				case IImageContent.IMAGE_NAME :
@@ -650,8 +652,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 											".svg" ) ); //$NON-NLS-1$
 					if ( isSvg )
 						data = transSvgToArray( in );
-					pageGraphic.drawImage( data, imageX, imageY, height, width,
-							helpText );
+					pageGraphic.drawImage( data, extension, imageX, imageY,
+							height, width, helpText );
 					break;
 			}
 			if ( in == null )

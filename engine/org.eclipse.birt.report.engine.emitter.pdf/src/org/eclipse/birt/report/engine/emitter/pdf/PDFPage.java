@@ -399,16 +399,18 @@ public class PDFPage implements IPage
 		cbUnder.restoreState( );
 	}
 
-	public void drawImage( byte[] imageData, int imageX, int imageY,
-			int height, int width, String helpText ) throws Exception
+	public void drawImage( byte[] imageData, String extension, int imageX,
+			int imageY, int height, int width, String helpText )
+			throws Exception
 	{
 		Image image = Image.getInstance( imageData );
 		drawImage( image, convertToPoint( imageX ), convertToPoint( imageY ),
 				convertToPoint( height ), convertToPoint( width ), helpText );
 	}
 
-	public void drawImage( String uri, int imageX, int imageY, int height,
-			int width, String helpText ) throws Exception
+	public void drawImage( String uri, String extension, int imageX,
+			int imageY, int height, int width, String helpText )
+			throws Exception
 	{
 		Image image = Image.getInstance( new URL( uri ) );
 		drawImage( image, convertToPoint( imageX ), convertToPoint( imageY ),
