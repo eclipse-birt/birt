@@ -34,6 +34,8 @@ public class JdbcToolKit
 {
 	// A list of JDBCDriverInformation objects
 	private static List jdbcDriverInfos = null;
+	// A list kept failure loaded driver files
+	private static List failLoadFileList = null;
 
 	// A map from driverClass (String) to JDBCDriverInformation
 	private static HashMap driverNameMap = null;
@@ -42,12 +44,13 @@ public class JdbcToolKit
 	private static final Class DriverClass = Driver.class;
 
 	/**
-	 * Resets cached jdbc driver list to null, force reget the infomation when
+	 * Resets cached jdbc driver list to null, force reget the information when
 	 * required next time.
 	 */
 	public static void resetJdbcDriverNames( )
 	{
 		jdbcDriverInfos = null;
+		failLoadFileList = null;
 		driverNameMap = null;
 		file2Drivers = null;
 	}
@@ -59,6 +62,10 @@ public class JdbcToolKit
 	  */
 	public static void getJdbcDriverFromFile( List fileList )
 	{
+		if ( !failLoadFileList.isEmpty( ) )
+		{
+			fileList.addAll( failLoadFileList );
+		}
 		URLClassLoader urlClassLoader = createClassLoader( fileList );
 		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList, urlClassLoader ) );
 	}
@@ -88,7 +95,8 @@ public class JdbcToolKit
 		}
 		
 		jdbcDriverInfos = new ArrayList( );
-		driverNameMap = new HashMap();
+		failLoadFileList = new ArrayList( );
+		driverNameMap = new HashMap( );
 		file2Drivers = new Hashtable( );
 
 		// Get drivers from drivers subdirectory
@@ -123,7 +131,7 @@ public class JdbcToolKit
 			}
 		}
 		
-		// Put ODBC-JDBC driver to the last posistion of list
+		// Put ODBC-JDBC driver to the last position of list
 		if ( ODBCJDBCInfo != null )
 		{
 			jdbcDriverInfos.add( ODBCJDBCInfo );
@@ -199,7 +207,18 @@ public class JdbcToolKit
 					}
 				}
 			}
-			file2Drivers.put(((File)fileList.get(i)).getName(),subDriverList);
+			if ( subDriverList.isEmpty( ) )
+			{
+				if ( !failLoadFileList.contains( fileList.get( i ) ) )
+					failLoadFileList.add( fileList.get( i ) );
+			}
+			else
+			{
+				if ( failLoadFileList.contains( fileList.get( i ) ) )
+					failLoadFileList.remove( fileList.get( i ) );
+			}
+			file2Drivers.put( ( (File) fileList.get( i ) ).getName( ),
+					subDriverList );
 		}
 		return driverList;
 	}
@@ -225,6 +244,8 @@ public class JdbcToolKit
 			String fileName = ( (File) fileList.get( i ) ).getName( );
 			jdbcDriverInfos.removeAll( (List) file2Drivers.get( fileName ) );
 			file2Drivers.remove( fileName );
+			if ( failLoadFileList.contains( fileList.get( i ) ) )
+				failLoadFileList.remove( fileList.get( i ) );
 		}
 	}
 
@@ -238,7 +259,7 @@ public class JdbcToolKit
 	}
 	
 	/**
-	 * modify resourceName,perpare for loadClass()
+	 * modify resourceName,prepare for loadClass()
 	 * @param resourceName
 	 * @return
 	 */
@@ -333,7 +354,7 @@ public class JdbcToolKit
 	}
 	
 	/**
-	 * Get all resouces included in a jar file
+	 * Get all resources included in a jar file
 	 * @param jarFile
 	 * @return
 	 */
@@ -371,7 +392,7 @@ public class JdbcToolKit
 	}
 
 	/**
-	 * Determin aClass implements java.sql.Driver interface
+	 * Determine aClass implements java.sql.Driver interface
 	 * @param aClass
 	 * @return
 	 */
