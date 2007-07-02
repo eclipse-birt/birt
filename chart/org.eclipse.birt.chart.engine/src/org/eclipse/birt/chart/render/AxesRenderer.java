@@ -1498,6 +1498,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		// RENDER MARKER RANGES (MARKER LINES ARE DRAWN LATER)
 		renderMarkerRanges( oaxa, bo );
 
+		// RENDER MARKER LINES
+		renderMarkerLines( oaxa, bo );
+
 		// RENDER GRID LINES (MAJOR=DONE; MINOR=DONE)
 		double x = 0, y = 0, vnext = 0;
 		LineAttributes lia;
@@ -2228,9 +2231,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			// CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
 			renderSeries( ipr, p, srh );
 			
-			// Flush render event of each series
-			flushSeries( );
-			
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.AFTER_DRAW_SERIES,
 					getSeries( ),
@@ -2280,10 +2280,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
 			}
-			Bounds bo = pwa.getPlotBounds( );
-
-			// RENDER MARKER LINES
-			renderMarkerLines( oaxa, bo );
 
 			// // restore clipping.
 			// cre.setVertices( null );
@@ -3322,16 +3318,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		getDeferredCache( ).flushOptions( DeferredCache.FLUSH_LINE
 				| DeferredCache.FLUSH_PLANE );
-	}
-
-	/**
-	 * Flushes Series render event in each series
-	 * 
-	 * @throws ChartException
-	 */
-	protected void flushSeries( ) throws ChartException
-	{
-		// Could be overridden, such as side-by-side case
 	}
 	
 	/**
