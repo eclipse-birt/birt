@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.util;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,7 +62,9 @@ import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -93,8 +96,11 @@ public class ChartUIUtil
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
+	private static HashMap htSeriesAttributeUIProviders = new HashMap( );
+	
 	static
 	{
+		// Get the SWT device
 		try
 		{
 			swtDisplayServer = PluginSettings.instance( )
@@ -103,6 +109,17 @@ public class ChartUIUtil
 		catch ( ChartException e )
 		{
 			logger.log( e );
+		}
+		
+		// Get collection of registered UI Providers
+		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+				.getSeriesUIComponents( );
+		Iterator iterEntries = cRegisteredEntries.iterator( );
+		while ( iterEntries.hasNext( ) )
+		{
+			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			String sSeries = provider.getSeriesClass( );
+			htSeriesAttributeUIProviders.put( sSeries, provider );
 		}
 	}
 
@@ -382,13 +399,16 @@ public class ChartUIUtil
 	{
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			EList ddList = ( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( )
-					.getDataDefinition( );
+			Series series = ( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( );
+			EList ddList = series.getDataDefinition( );
 			if ( ddList.size( ) == 0 )
 			{
 				return false;
 			}
-			for ( int j = 0; j < ddList.size( ); j++ )
+			
+			// Only check valid index
+			int[] validIndex = getSeriesUIProvider( series ).validationIndex( series );
+			for ( int j = 0; j < validIndex.length; j++ )
 			{
 				String query = ( (Query) ddList.get( j ) ).getDefinition( );
 				if ( query == null || query.length( ) == 0 )
@@ -1510,5 +1530,19 @@ public class ChartUIUtil
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Gets the specific series UI provider
+	 * 
+	 * @param series
+	 *            series in chart model
+	 * @return series UI provider
+	 * @since 2.2.1
+	 */
+	public static ISeriesUIProvider getSeriesUIProvider( Series series )
+	{
+		return (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
+				.getName( ) );
 	}
 }

@@ -1,17 +1,15 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
-
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -28,9 +26,7 @@ import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DecorationSheet;
@@ -43,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -56,7 +53,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * @author Actuate Corporation
+ * Subtask for Value Series
  * 
  */
 public class SeriesYSheetImpl extends SubtaskSheetImpl implements
@@ -64,21 +61,19 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private transient Button btnShowLine;
+	private Button btnShowLine;
 
-	private transient Button btnTrendline;
+	private Button btnTrendline;
 
-	private transient Button btnDialLabel;
+	private Button btnDialLabel;
 
-	private transient Button btnLabel;
+	private Button btnLabel;
 
-	private transient Button btnDecoration;
+	private Button btnDecoration;
 
-	private transient Button cbVisible;
+	private Button cbVisible;
 
-	private transient Button cbDecoVisible;
-
-	private transient Hashtable htSeriesAttributeUIProviders = null;
+	private Button cbDecoVisible;
 
 	public void createControl( Composite parent )
 	{
@@ -324,29 +319,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 	private void getSeriesAttributeUI( Series series, Composite parent )
 	{
-		if ( this.htSeriesAttributeUIProviders == null )
-		{
-			htSeriesAttributeUIProviders = new Hashtable( );
-			getSeriesAttributeUIProviders( );
-		}
-		( (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
-				.getName( ) ) ).getSeriesAttributeSheet( parent,
-				series,
-				getContext( ) );
-	}
-
-	private void getSeriesAttributeUIProviders( )
-	{
-		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
-		while ( iterEntries.hasNext( ) )
-		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
-			String sSeries = provider.getSeriesClass( );
-			htSeriesAttributeUIProviders.put( sSeries, provider );
-		}
+		ChartUIUtil.getSeriesUIProvider( series )
+				.getSeriesAttributeSheet( parent, series, getContext( ) );
 	}
 
 	/*

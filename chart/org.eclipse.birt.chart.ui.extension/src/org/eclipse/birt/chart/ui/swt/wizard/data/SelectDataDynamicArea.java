@@ -12,9 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -26,8 +23,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -44,7 +39,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 {
 
 	private ITask task = null;
-	private Hashtable htSeriesUIProviders = null;
 
 	private CustomPreviewTable customTable = null;
 
@@ -115,32 +109,12 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	public ISelectDataComponent getAreaComponent( int areaType,
 			SeriesDefinition seriesdefinition, ChartWizardContext context,
 			String sTitle )
-	{
-		if ( this.htSeriesUIProviders == null )
-		{
-			htSeriesUIProviders = new Hashtable( );
-			initSeriesDataUIProviders( );
-		}
-		return ( (ISeriesUIProvider) htSeriesUIProviders.get( seriesdefinition.getDesignTimeSeries( )
-				.getClass( )
-				.getName( ) ) ).getSeriesDataComponent( areaType,
-				seriesdefinition,
-				context,
-				sTitle );
-	}
-
-	private void initSeriesDataUIProviders( )
-	{
-		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
-		while ( iterEntries.hasNext( ) )
-		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
-			String sSeries = provider.getSeriesClass( );
-			htSeriesUIProviders.put( sSeries, provider );
-		}
+	{	
+		return ChartUIUtil.getSeriesUIProvider( seriesdefinition.getDesignTimeSeries( ) )
+				.getSeriesDataComponent( areaType,
+						seriesdefinition,
+						context,
+						sTitle );
 	}
 
 	public void refreshLeftBindingArea( )

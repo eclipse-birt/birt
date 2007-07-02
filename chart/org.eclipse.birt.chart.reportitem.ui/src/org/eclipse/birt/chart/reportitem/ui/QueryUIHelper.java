@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -25,8 +23,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
 
 public final class QueryUIHelper
@@ -41,8 +38,6 @@ public final class QueryUIHelper
 	private static final String Y_SERIES = Messages.getString( "QueryHelper.Text.YSeries" ); //$NON-NLS-1$
 
 	public static final String[] CAST_STRING_ARRAY = new String[0];
-
-	private transient Hashtable htSeriesAttributeUIProviders = null;
 
 	/**
 	 * 
@@ -236,29 +231,10 @@ public final class QueryUIHelper
 		}
 	}
 
-	private void getSeriesAttributeUIProviders( )
-	{
-		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
-		while ( iterEntries.hasNext( ) )
-		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
-			String sSeries = provider.getSeriesClass( );
-			htSeriesAttributeUIProviders.put( sSeries, provider );
-		}
-	}
-
 	private int[] getValidationIndex( Series series )
 	{
-		if ( this.htSeriesAttributeUIProviders == null )
-		{
-			htSeriesAttributeUIProviders = new Hashtable( );
-			getSeriesAttributeUIProviders( );
-		}
-		return ( (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
-				.getName( ) ) ).validationIndex( series );
+		return ChartUIUtil.getSeriesUIProvider( series )
+				.validationIndex( series );
 	}
 
 }
