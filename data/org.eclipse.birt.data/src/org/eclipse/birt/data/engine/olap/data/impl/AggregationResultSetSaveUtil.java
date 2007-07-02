@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResult
 
 public class AggregationResultSetSaveUtil
 {
+	private static String PREFIX_RESULTSET = "_ar_";
 	/**
 	 * 
 	 * @param name
@@ -52,9 +53,10 @@ public class AggregationResultSetSaveUtil
 		dataOutputStream.close( );
 		for( int i=0;i<resultSets.length;i++)
 		{
-			outputStream = writer.createRandomAccessStream( name + i );
+			outputStream = writer.createRandomAccessStream( name + PREFIX_RESULTSET + i );
 			dataOutputStream = new DataOutputStream( outputStream );
 			saveOneResultSet( dataOutputStream, resultSets[i] );
+			dataOutputStream.close( );
 		}
 	}
 	
@@ -78,9 +80,10 @@ public class AggregationResultSetSaveUtil
 		IAggregationResultSet[] result = new IAggregationResultSet[size];
 		for( int i=0;i<size;i++)
 		{
-			inputStream = reader.getStream( name + i );
+			inputStream = reader.getStream( name + PREFIX_RESULTSET + i );
 			dataInputStream = new DataInputStream( inputStream );
 			result[i] = loadOneResultSet( dataInputStream );
+			dataInputStream.close( );
 		}
 		return result;
 	}
