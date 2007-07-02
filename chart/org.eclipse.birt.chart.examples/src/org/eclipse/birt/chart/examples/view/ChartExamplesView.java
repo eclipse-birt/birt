@@ -14,8 +14,10 @@ package org.eclipse.birt.chart.examples.view;
 import org.eclipse.birt.chart.examples.view.util.OpenJavaSourceAction;
 import org.eclipse.birt.chart.examples.view.util.SaveXMLAction;
 import org.eclipse.birt.chart.examples.view.util.Tools;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IToolBarManager;
@@ -43,6 +45,9 @@ public class ChartExamplesView extends ViewPart
 	 */
 	public void createPartControl( Composite parent )
 	{
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( parent,
+				ChartHelpContextIds.VIEW_CHART_EXAMPLE );
+		
 		instance = new ChartExamples( parent );
 
 		final IActionBars actionBars = getViewSite( ).getActionBars( );
