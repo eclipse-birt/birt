@@ -372,4 +372,12 @@ public class LabelFigure extends ReportElementFigure {
 		super.setFont(f);
 		label.setFont(f);
 	}
+	
+	/**
+	 * @param specialPREFIX
+	 */
+	public void setSpecialPREFIX( String specialPREFIX )
+	{
+		label.setSpecialPREFIX( specialPREFIX );
+	}
 }

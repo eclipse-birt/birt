@@ -199,6 +199,7 @@ public class DataEditPart extends LabelEditPart
 		}
 		if (hasBindingFunction( ))
 		{
+			((LabelFigure)getFigure( )).setSpecialPREFIX( PREFIX );
 			text = PREFIX + text;
 		}
 		return text;

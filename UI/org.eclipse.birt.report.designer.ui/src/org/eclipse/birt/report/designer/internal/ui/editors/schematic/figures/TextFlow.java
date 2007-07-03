@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.ColorConstants;
@@ -21,6 +22,7 @@ import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.text.TextFragmentBox;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * An enhanced TextFlow inherited from org.eclipse.draw2d.text.TextFlow. Adds
@@ -30,6 +32,7 @@ import org.eclipse.draw2d.text.TextFragmentBox;
 public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 {
 
+	private String specialPREFIX = "";
 	/**
 	 * The multiple of this is the actual drawing line width.
 	 */
@@ -226,11 +229,13 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 //				g.setForegroundColor( ColorConstants.buttonLightest );
 //				g.drawString( draw, realX + 1, realY + 1 );
 				g.setForegroundColor( ColorConstants.buttonDarker );
-				g.drawString( draw, realX, realY );
+				//g.drawString( draw, realX, realY );
+				paintSpecial( g, draw, realX, realY, i==0 );
 			}
 			else
 			{
-				g.drawString( draw, realX, realY );
+				//g.drawString( draw, realX, realY );
+				paintSpecial( g, draw, realX, realY, i==0 );
 			}
 
 			/**
@@ -273,6 +278,25 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			}
 
 			g.restoreState( );
+		}
+	}
+	
+	private void paintSpecial(Graphics g, String text, int x, int y, boolean  firstBox)
+	{
+ 		if (firstBox && specialPREFIX.length( ) != 0 && text.indexOf( specialPREFIX ) == 0)
+		{
+			int with = FigureUtilities.getTextWidth( specialPREFIX, g.getFont( ));
+			Color c = g.getForegroundColor( );
+			
+			g.setForegroundColor(ReportColorConstants.greyFillColor );
+			g.drawString( specialPREFIX, x,y );
+			
+			g.setForegroundColor( c );
+			g.drawString( text.substring( specialPREFIX.length( )), x + with, y );
+		}
+		else
+		{
+			g.drawString( text, x, y );
 		}
 	}
 
@@ -414,6 +438,21 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	public void setVerticalAlign( String verticalAlign )
 	{
 		this.verticalAlign = verticalAlign;
+	}
+
+	
+	
+	/**
+	 * @param specialPREFIX
+	 */
+	public void setSpecialPREFIX( String specialPREFIX )
+	{
+		if (specialPREFIX == null)
+		{
+			return;
+		}
+		this.specialPREFIX = specialPREFIX;
+		repaint( );
 	}
 
 }

@@ -15,6 +15,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -48,6 +49,7 @@ public class MeasureAggregationEditPart extends DataEditPart
 		{
 			return super.getText( );
 		}
+		((LabelFigure)getFigure( )).setSpecialPREFIX( PREFIX );
 		return PREFIX+ "[" + retValue + "]"; //$NON-NLS-1$
 	}
 	
