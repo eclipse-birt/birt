@@ -141,10 +141,12 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			if( displayname )
 				s_displayname = displayname.data;
 				
-			spantmp.type = "button";
+			spantmp.type = "text";
+			spantmp.readOnly = true;			
 			spantmp.value = s_displayname;
 			spantmp.title = "TOC Link " + s_displayname;
-			spantmp.id =  'span_' + imgid;
+			spantmp.id =  'span_' + imgid;			
+			spantmp.size = s_displayname.length;
 			
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
@@ -154,7 +156,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 					spantmp.style.cssText = cssText + styles[0].firstChild.data;
 				else
 					spantmp.style.cssText = cssText;							
-			}				
+			}							
 			td1.appendChild( spantmp );
 			td1.noWrap = true;
 			
@@ -173,7 +175,8 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			//observe the text so that when click the text ,we can expand or collapse the toc
 			Event.observe( spantmp , 'mouseover', this.__neh_item_mouse_over, false );
 			Event.observe( spantmp , 'mouseout', this.__neh_item_mouse_out, false );	
-			Event.observe( spantmp , 'click', this.__neh_item_click, false );			
+			Event.observe( spantmp , 'click', this.__neh_item_click, false );
+			Event.observe( spantmp , 'keydown', this.__neh_item_click, false );
 		}
 		tableEle.appendChild( tbody );
 		var displayid = 'display' + this.__nodeid;
@@ -196,6 +199,12 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__neh_text_click : function ( event )
 	{
+		if( event.type == 'keydown' )
+		{
+			// Press "Enter" and "Space"
+			if( event.keyCode != 13 && event.keyCode != 32)
+				return;					
+		}
 		var clickText = Event.element( event );
 		var clickId = clickText.id;
 		//as the clicktextid is 'span_' + id, so we need to substr to get the imgid
@@ -206,6 +215,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		var plusMinus = clickImg.plusMinus;
 		var bookmark = clickImg.bookmark;
 		birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name: Constants.PARAM_BOOKMARK, value: bookmark } );
+		Event.stop(event);
 	},
 	
 	/**
