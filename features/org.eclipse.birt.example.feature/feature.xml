@@ -45,6 +45,7 @@
       <import feature="org.apache.derby.core" version="10.1.2.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.designer.feature" version="1.5.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.feature" version="1.5.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="compatible" />
    </requires>
 
    <plugin
