@@ -318,9 +318,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 			catch ( ChartException ilex )
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+				// Ignore the invalid path, and log it only
+				logger.log( new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						ilex );
+						ilex ) );
 			}
 			catch ( MalformedURLException muex )
 			{

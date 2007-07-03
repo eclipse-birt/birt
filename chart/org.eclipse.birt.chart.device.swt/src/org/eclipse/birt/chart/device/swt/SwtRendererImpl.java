@@ -115,7 +115,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SWT" ); //$NON-NLS-1$
-			_tr = new SwtTextRenderer( (SwtDisplayServer) _ids );
+			_tr = new SwtTextRenderer( _ids );
 			iv = new InteractiveRenderer( );
 		}
 		catch ( ChartException pex )
@@ -207,6 +207,13 @@ public class SwtRendererImpl extends DeviceAdapter
 			{
 				final String sUrl = pre.getImage( ).getURL( );
 				img = (Image) _ids.loadImage( new URL( sUrl ) );
+			}
+			catch ( ChartException ilex )
+			{
+				// Ignore the invalid path, and log it only
+				logger.log( new ChartException( ChartDeviceSwtActivator.ID,
+						ChartException.RENDERING,
+						ilex ) );
 			}
 			catch ( MalformedURLException muex )
 			{
