@@ -19,12 +19,19 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
+
 /**
  * Helper to handle viewer related classpath settings
  */
 
 public class ViewerClassPathHelper
 {
+
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
+	private static final String FINDER_BUNDLE_NAME = "org.eclipse.birt.report.debug.ui"; //$NON-NLS-1$
+	private static final String FINDER_CLASSNAME = "org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder"; //$NON-NLS-1$
 
 	static protected boolean inDevelopmentMode = false;
 	static protected String[] devDefaultClasspath;
@@ -121,5 +128,44 @@ public class ViewerClassPathHelper
 			// TODO consider logging here
 		}
 		return props;
+	}
+
+	/**
+	 * Set workspace classpath
+	 */
+	public static void setWorkspaceClassPath( )
+	{
+		try
+		{
+			Bundle bundle = Platform.getBundle( FINDER_BUNDLE_NAME );
+			if ( bundle != null )
+			{
+				if ( bundle.getState( ) == Bundle.RESOLVED )
+				{
+					bundle.start( Bundle.START_TRANSIENT );
+				}
+			}
+
+			if ( bundle == null )
+				return;
+
+			Class clz = bundle.loadClass( FINDER_CLASSNAME );
+
+			// register workspace classpath finder
+			IWorkspaceClasspathFinder finder = (IWorkspaceClasspathFinder) clz
+					.newInstance( );
+			WorkspaceClasspathManager.registerClassPathFinder( finder );
+
+			// Set the classpath property
+			String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
+			if ( projectClassPaths == null )
+				projectClassPaths = ""; //$NON-NLS-1$
+
+			System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
 	}
 }

@@ -298,6 +298,15 @@ public class WebViewer
 	{
 		try
 		{
+			// if don't load debug ui, viewer will handle to set workspace
+			// classpath
+			String debugMode = System.getProperty( REPORT_DEBUT_MODE );
+			if ( debugMode == null )
+			{
+				// initialize workspace classpath
+				ViewerClassPathHelper.setWorkspaceClassPath( );
+			}
+
 			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT, WebAppPlugin,
 					Path.EMPTY );
 		}
