@@ -410,10 +410,14 @@ public class ChartUIUtil
 			int[] validIndex = getSeriesUIProvider( series ).validationIndex( series );
 			for ( int j = 0; j < validIndex.length; j++ )
 			{
-				String query = ( (Query) ddList.get( j ) ).getDefinition( );
-				if ( query == null || query.length( ) == 0 )
+				int vi = validIndex[j];
+				if ( vi >= 0 && vi < ddList.size( ) )
 				{
-					return false;
+					String query = ( (Query) ddList.get( vi ) ).getDefinition( );
+					if ( query == null || query.length( ) == 0 )
+					{
+						return false;
+					}
 				}
 			}
 		}
