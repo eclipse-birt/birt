@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -147,16 +148,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( DataItemBindingDialog.this.getOkButton( ) != null )
-				{
-					if ( itemName.getText( ) == null
-							|| itemName.getText( ).trim( ).equals( "" ) )
-						DataItemBindingDialog.this.getOkButton( )
-								.setEnabled( false );
-					else
-						DataItemBindingDialog.this.getOkButton( )
-								.setEnabled( true );
-				}
+				checkOkButtonStatus( );
 
 			}
 
@@ -233,8 +225,11 @@ public class DataItemBindingDialog extends BaseDialog
 					itemAggregateOn.setVisible( false );
 					hiddenLabel.setVisible( false );
 				}
+				
+				checkOkButtonStatus( );
 			}
 		} );
+		
 
 		aggregateOnLabel = new Label( composite, SWT.NONE );
 		aggregateOnLabel.setText( AGGREGATE_ON );
@@ -635,6 +630,27 @@ public class DataItemBindingDialog extends BaseDialog
 	public ComputedColumnHandle getBindingColumn( )
 	{
 		return bindingColumn;
+	}
+
+	private void checkOkButtonStatus( )
+	{
+		if ( DataItemBindingDialog.this.getOkButton( ) != null )
+		{
+			if ( itemName.getText( ) == null
+					|| itemName.getText( ).trim( ).equals( "" ) 
+					|| itemExpression.getText() == null
+					|| itemExpression.getText().trim().equals( "" ) )
+				DataItemBindingDialog.this.getOkButton( )
+						.setEnabled( false );
+			else
+				DataItemBindingDialog.this.getOkButton( )
+						.setEnabled( true );
+		}
+	}
+	
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		checkOkButtonStatus( );
 	}
 
 }
