@@ -92,7 +92,7 @@
 		{
 			String label = ( String ) parameterBean.getSelectionList( ).get( i );
 			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
-			if (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )
+			if (parameterBean.getValue( ) != null && parameterBean.getValue( ).equals( value ) )
 			{
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= label %></OPTION>

@@ -68,7 +68,7 @@
 		ID="<%= encodedParameterName + i %>" 
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
-		<%= (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )? "CHECKED" : "" %>>
+		<%= (parameterBean.getValue( ) != null && parameterBean.getValue( ).equals( value ) )? "CHECKED" : "" %>>
 		<LABEL ID="<%= (encodedParameterName + i) + "_label" %>" FOR="<%= encodedParameterName + i %>"><%= label %></LABEL>
 	</INPUT>
 	<BR>
