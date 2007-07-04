@@ -233,8 +233,16 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 							(ICellContent) content, executionContext );
 					break;
 				case IContent.DATA_CONTENT :
-					DataItemScriptExecutor.handleOnPageBreak(
-							(IDataContent) content, executionContext );
+					if ( design instanceof MultiLineItemDesign )
+					{
+						TextItemScriptExecutor.handleOnPageBreak(
+								(ITextContent) content, executionContext );
+					}
+					else
+					{
+						DataItemScriptExecutor.handleOnPageBreak(
+								(IDataContent) content, executionContext );
+					}
 					break;
 				case IContent.FOREIGN_CONTENT :
 					// FIXME: handle the onPageBreak for other items
