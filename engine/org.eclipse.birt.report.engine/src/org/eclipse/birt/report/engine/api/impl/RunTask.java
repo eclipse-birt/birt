@@ -226,12 +226,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 				documentBuilder.build( );
 			}
-			
-			
+						
 			executionContext.closeDataEngine( );
-
-			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
-
 		}
 		catch ( Exception ex )
 		{
@@ -255,8 +251,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		finally
 		{
 			documentBuilder = null;
-			closeReportDocument();
 			closeFactory();
+			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
+			closeReportDocument();
 		}
 	}
 
