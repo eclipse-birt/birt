@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -46,7 +47,26 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	 */
 	public ICubeQueryResults execute( Scriptable scope )
 	{
-		return new CubeQueryResults( this, this.session, scope == null? this.session.getSharedScope( ):scope, this.context);
+		//Create a scope for each query execution.
+		Scriptable cubeScope;
+		Context cx = Context.enter( );
+		try
+		{
+			cubeScope = cx.newObject( scope == null
+					? this.session.getSharedScope( ) : scope );
+			cubeScope.setParentScope( scope == null
+					? this.session.getSharedScope( ) : scope );
+			cubeScope.setPrototype( scope == null
+					? this.session.getSharedScope( ) : scope );
+		}
+		finally
+		{
+			Context.exit( );
+		}
+		return new CubeQueryResults( this,
+				this.session,
+				cubeScope,
+				this.context );
 	}
 
 	/*
