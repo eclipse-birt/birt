@@ -1001,7 +1001,7 @@ public class UIUtil
 		}
 		else
 		{
-			if ( viewer.getControl( ).isVisible( ) )
+			if ( !viewer.getControl( ).isDisposed( ) )
 			{
 				if ( viewer instanceof DeferredGraphicalViewer )
 					( (DeferredGraphicalViewer) viewer ).setSelection( new StructuredSelection( list ),
