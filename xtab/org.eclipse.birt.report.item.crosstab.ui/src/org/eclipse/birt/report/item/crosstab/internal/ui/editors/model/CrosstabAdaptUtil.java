@@ -230,18 +230,16 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 
-	public static void processInvaildBindings( CrosstabReportItemHandle handle )
-	{
-		processInvaildBindings( handle, true );
-	}
+//	public static void processInvaildBindings( CrosstabReportItemHandle handle )
+//	{
+//		processInvaildBindings( handle, true );
+//	}
 
-	public static void processInvaildBindings( CrosstabReportItemHandle handle,
-			boolean isLevelRemoved )
+	public static void processInvaildBindings( CrosstabReportItemHandle handle)
 	{
 		if ( CrosstabPlugin.getDefault( )
 				.getPluginPreferences( )
-				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS )
-				&& isLevelRemoved )
+				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) )
 		{
 			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$

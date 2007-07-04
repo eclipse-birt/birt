@@ -103,8 +103,10 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 				boolean isLevelRemoved = processor( showLevels,
 						result,
 						nullLevelHandle );
-				CrosstabAdaptUtil.processInvaildBindings( reportHandle,
-						isLevelRemoved );
+				if (isLevelRemoved)
+				{
+					CrosstabAdaptUtil.processInvaildBindings( reportHandle );
+				}
 			}
 		}
 		catch ( SemanticException e )
