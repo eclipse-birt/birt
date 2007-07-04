@@ -154,8 +154,9 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	protected void iniValue( )
 	{
 		if ( levelHandle != null )
-		{
+		{			
 			levelCombo.add( levelHandle.getCubeLevelName( ) );
+			levelCombo.setEnabled( false );
 			levelCombo.select( 0 );
 			if ( levelHandle.getPageBreakBefore( ) != null )
 			{
@@ -171,6 +172,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		else
 		{
 			levelCombo.setItems( getLevelNames( reportItemHandle, axis ) );
+			levelCombo.setEnabled( true );
 			levelCombo.select( 0 );
 			pageBreakBeforeCombo.select( 0 );
 			pageBreakAfterCombo.select( 0 );
