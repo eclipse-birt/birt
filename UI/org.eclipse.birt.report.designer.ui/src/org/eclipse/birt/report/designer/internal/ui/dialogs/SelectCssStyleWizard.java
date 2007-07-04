@@ -31,7 +31,9 @@ import org.eclipse.swt.graphics.Image;
 public class SelectCssStyleWizard extends Wizard
 {
 
-	private static final String WIZARD_PAGE_DESCRIPTION = Messages.getString( "SelectCssStyleWizard.wizardPage.description" ); //$NON-NLS-1$
+	private static final String WIZARD_PAGE_DESCRIPTION_REPORT = Messages.getString( "SelectCssStyleWizard.wizardPage.description.report" ); //$NON-NLS-1$
+
+	private static final String WIZARD_PAGE_DESCRIPTION_LIBRARY = Messages.getString( "SelectCssStyleWizard.wizardPage.description.library" ); //$NON-NLS-1$
 
 	private static final String WIZARD_PAGE_TITLE = Messages.getString( "SelectCssStyleWizard.wizardPage.title" ); //$NON-NLS-1$
 
@@ -62,8 +64,16 @@ public class SelectCssStyleWizard extends Wizard
 
 		stylePage.setTitle( WIZARD_PAGE_TITLE );
 
-		stylePage.setDescription( WIZARD_PAGE_DESCRIPTION );
-
+		String pageDesc = WIZARD_PAGE_DESCRIPTION_REPORT;
+		if ( selection != null && selection instanceof DesignElementHandle )
+		{
+			DesignElementHandle element = (DesignElementHandle) selection;
+			if(element instanceof ThemeHandle || element.getContainer( ) instanceof ThemeHandle  )
+			{
+				pageDesc = WIZARD_PAGE_DESCRIPTION_LIBRARY;
+			}			
+		}
+		stylePage.setDescription( pageDesc );
 		addPage( stylePage );
 	}
 
