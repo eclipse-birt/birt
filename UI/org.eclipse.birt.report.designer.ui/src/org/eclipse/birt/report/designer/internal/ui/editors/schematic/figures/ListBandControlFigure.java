@@ -263,6 +263,15 @@ public class ListBandControlFigure extends Figure
 			graphics.setForegroundColor( ColorConstants.gray );
 			graphics.drawString( text, rect.x, rect.y - 6 );
 		}
+
+		
+		/**
+		 * @param text
+		 */
+		public void setText( String text )
+		{
+			this.text = text;
+		}
 	}
 
 	public static class ListIconFigure extends Figure
