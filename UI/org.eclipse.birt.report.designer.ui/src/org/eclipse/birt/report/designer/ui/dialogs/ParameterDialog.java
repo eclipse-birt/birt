@@ -938,6 +938,11 @@ public class ParameterDialog extends BaseDialog
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
 				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+				{
+					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
+							.getName( );
+				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
 						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
@@ -1377,7 +1382,8 @@ public class ParameterDialog extends BaseDialog
 			staticRadio.setEnabled( radioEnable );
 			dynamicRadio.setEnabled( radioEnable );
 		}
-		initFormatField( );
+		// should only reset format field when data type changed
+		//initFormatField( );
 	}
 
 	private void switchParamterType( )
