@@ -76,7 +76,15 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
-		//slothandle hasn't noe property now, so do nothing
+		//fix bug 195336
+		List list = controlFigure.getChildren( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (list.get( i ) instanceof ListControlDisplayNameFigure)
+			{
+				((ListControlDisplayNameFigure)list.get( i )).setText( ( (ListBandProxy) getModel( ) ).getDisplayName( ) );
+			}
+		}
 	}
 
 	/*
