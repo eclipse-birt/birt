@@ -95,10 +95,10 @@ public class ActionStructureState extends CompatibleStructureState
 		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new CompatibleActionExpressionState( handler, element,
 					propDefn, struct );
-		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue  )
+		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 			return new CompatibleActionPropertyState( handler, element,
 					propDefn, struct );
-		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue  )
+		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
 			return new CompatibleActionListPropertyState( handler, element,
 					propDefn, struct );
 
@@ -112,7 +112,9 @@ public class ActionStructureState extends CompatibleStructureState
 	 * <li>drillThroughParamBindings =>paramBindings
 	 */
 
-	static class CompatibleActionListPropertyState extends CompatibleListPropertyState
+	static class CompatibleActionListPropertyState
+			extends
+				CompatibleListPropertyState
 	{
 
 		CompatibleActionListPropertyState( ModuleParserHandler theHandler,
@@ -188,23 +190,8 @@ public class ActionStructureState extends CompatibleStructureState
 				return state;
 			}
 
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.parser.CompatibleMiscExpressionState#end()
-		 */
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.parser.ExpressionState#generalJumpTo()
-		 */
-		protected AbstractParseState generalJumpTo( )
-		{
-			if ( Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase( name ) )
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
+					&& Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase( name ) )
 			{
 				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 						handler, element );
@@ -213,7 +200,8 @@ public class ActionStructureState extends CompatibleStructureState
 				state.propDefn = propDefn;
 				return state;
 			}
-			return super.generalJumpTo( );
+
+			return null;
 		}
 
 		/*

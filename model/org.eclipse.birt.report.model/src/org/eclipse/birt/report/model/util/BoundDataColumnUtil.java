@@ -400,7 +400,10 @@ public class BoundDataColumnUtil
 				ElementPropertyDefn prop = (ElementPropertyDefn) tmpElement
 						.getDefn( ).getProperty( propName );
 				if ( prop == null )
+				{
+					tmpElement = tmpElement.getContainer( );
 					continue;
+				}
 			}
 
 			if ( retElement == null )
