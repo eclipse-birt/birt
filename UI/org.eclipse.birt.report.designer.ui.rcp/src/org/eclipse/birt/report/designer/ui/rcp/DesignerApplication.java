@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.rcp;
 
 import org.eclipse.birt.report.designer.ui.internal.rcp.DesignerWorkbenchAdvisor;
 import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
@@ -31,6 +32,7 @@ public class DesignerApplication implements IPlatformRunnable
 	{
 
 		Display display = PlatformUI.createDisplay( );
+		TrayDialog.setDialogHelpAvailable( true );
 		try
 		{
 			int code = PlatformUI.createAndRunWorkbench( display,
