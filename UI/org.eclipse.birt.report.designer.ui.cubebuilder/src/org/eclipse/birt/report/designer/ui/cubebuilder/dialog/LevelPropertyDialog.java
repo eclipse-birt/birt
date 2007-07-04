@@ -459,7 +459,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			if ( columnIndex == 1 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
+					return Messages.getString( "LevelPropertyDialog.MSG.Static.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof RuleHandle )
@@ -517,7 +517,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			if ( columnIndex == 1 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
+					return Messages.getString( "LevelPropertyDialog.MSG.Dynamic.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof LevelAttributeHandle )
@@ -908,7 +908,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 		column1.setWidth( 200 );
 
-		dynamicViewer.setColumnProperties( columns );
+		dynamicViewer.setColumnProperties( new String[]{"",prop_Attribute} );
 		editor = new ComboBoxCellEditor( dynamicViewer.getTable( ),
 				attributeItems,
 				SWT.READ_ONLY );
@@ -1108,6 +1108,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	protected int staticSelectIndex;
 	private static final String Prop_Name = "Name"; //$NON-NLS-1$
 	private static final String prop_Expression = "Expression"; //$NON-NLS-1$
+	private static final String prop_Attribute = "Attribute";
 	private Table dynamicTable;
 	private ExpressionCellEditor expressionEditor;
 	private Combo staticDataTypeCombo;
@@ -1221,7 +1222,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			column.setWidth( widths[i] );
 		}
 
-		staticViewer.setColumnProperties( columns );
+		staticViewer.setColumnProperties( new String[]{
+				"",LevelPropertyDialog.Prop_Name,LevelPropertyDialog.prop_Expression
+		} );
 
 		expressionEditor = new ExpressionCellEditor( staticTable );
 		CellEditor[] cellEditors = new CellEditor[]{
