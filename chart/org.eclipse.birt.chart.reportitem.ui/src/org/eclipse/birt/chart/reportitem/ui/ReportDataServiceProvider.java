@@ -411,8 +411,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 				| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		ChartUIUtil.bindHelp( shell,
-				ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
+		// #194163: Do not register CS help in chart since it's registered in
+		// super column binding dialog.
+		// ChartUIUtil.bindHelp( shell,
+		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
 		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
 		page.setInput( itemHandle );
 		
