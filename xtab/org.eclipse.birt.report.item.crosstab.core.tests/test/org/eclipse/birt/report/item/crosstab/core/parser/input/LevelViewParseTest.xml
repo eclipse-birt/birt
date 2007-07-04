@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14"
+	id="1">
+	<page-setup>
+		<simple-master-page name="Simple MasterPage" id="2" />
+	</page-setup>
+	<body>
+		<extended-item extensionName="Crosstab" id="3">
+			<property name="columns">
+				<extended-item extensionName="CrosstabView" id="4">
+					<property name="views">
+						<extended-item extensionName="DimensionView"
+							id="7">
+							<property name="levels">
+								<extended-item extensionName="LevelView"
+									name="NewLevel View" id="31">
+									<property name="displayField">
+										hello world
+									</property>
+									<property name="level">
+										Group3/PRODUCTCODE
+									</property>
+									<property name="filter">
+										<filter-condition-element />
+									</property>
+									<property name="sortType">
+										none
+									</property>
+									<property name="sortDirection">
+										asc
+									</property>
+									<property name="sort">
+										<sort-element />
+									</property>
+									<property name="pageBreakBefore">
+										auto
+									</property>
+									<property name="pageBreakAfter">
+										always
+									</property>
+									<property
+										name="aggregationHeaderLocation">
+										before
+									</property>
+									<property name="member">
+										<extended-item
+											extensionName="CrosstabCell" id="32" />
+									</property>
+									<property
+										name="aggregationHeader">
+										<extended-item
+											extensionName="CrosstabCell" id="33" />
+									</property>
+								</extended-item>
+							</property>
+						</extended-item>
+					</property>
+				</extended-item>
+			</property>
+		</extended-item>
+	</body>
+</report>

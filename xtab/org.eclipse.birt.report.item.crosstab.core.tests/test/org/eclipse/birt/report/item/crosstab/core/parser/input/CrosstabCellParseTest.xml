@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14"
+	id="1">
+	<page-setup>
+		<simple-master-page name="Simple MasterPage" id="2" />
+	</page-setup>
+	<body>
+		<extended-item extensionName="Crosstab" id="28">
+			<property name="measures">
+				<extended-item extensionName="MeasureView" id="39">
+					<property name="measure">COUNTRY</property>
+					<property name="detail">
+						<extended-item extensionName="CrosstabCell"
+							id="40">
+							<property name="content">
+								<data name="COUNTRY" id="42"/>
+							</property>
+						</extended-item>
+					</property>
+				</extended-item>
+			</property>
+		</extended-item>
+	</body>
+</report>
+
+
+
+
