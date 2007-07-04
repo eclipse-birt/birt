@@ -35,11 +35,6 @@ public class BasicLayoutStrategies
 	{
 		new FillCellsStrategy( layoutTable, fillsEmptyCells ).applyStrategy( );
 
-		// ReportElementHandle.isValidLayoutForCompoundElement() will check the
-		// overlapped area in the table. If applies the drop strategy, the drop
-		// overlapped will cause invalidation of the table. Disable this feature
-		// since on BIRT designer, the drop has no effects.
-
-		// new DropStrategy( layoutTable ).applyStrategy( );
+		new DropStrategy( layoutTable ).applyStrategy( );
 	}
 }

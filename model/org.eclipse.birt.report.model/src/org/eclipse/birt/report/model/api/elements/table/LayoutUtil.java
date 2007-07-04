@@ -274,8 +274,12 @@ public class LayoutUtil
 		if ( columnCount == 0 )
 			return false;
 
-		if ( layout.hasOverlappedArea( ) )
-			return false;
+		// ReportElementHandle.isValidLayoutForCompoundElement() will check the
+		// overlapped area in the table. If applies the drop strategy, the drop
+		// overlapped will cause invalidation of the table. Disable this feature
+		// since on BIRT designer, the drop has no effects.
+
+		// if there is overlapped area, it is valid for "drop".
 
 		List slots = getFlattenedLayoutSlots( layout );
 		for ( int i = 0; i < slots.size( ); i++ )
