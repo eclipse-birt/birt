@@ -1100,8 +1100,6 @@ public class CubeGroupContent extends Composite implements Listener
 
 					if ( table != null && dataset != table )
 						addBtn.setEnabled( false );
-					else
-						addBtn.setEnabled( true );
 
 					if ( dimenTemp.isTimeType( ) && dataField!=null)
 					{
@@ -1791,7 +1789,6 @@ public class CubeGroupContent extends Composite implements Listener
 		groupViewer.refresh( );
 		expandNodeAfterCreation( ev );
 		getListenerElementVisitor( ).addListener( focus );
-
 	}
 
 	private void expandNodeAfterCreation( NotificationEvent ev )
