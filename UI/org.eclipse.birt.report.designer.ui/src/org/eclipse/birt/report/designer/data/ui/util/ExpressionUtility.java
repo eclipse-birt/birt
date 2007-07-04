@@ -24,19 +24,31 @@ import org.mozilla.javascript.Token;
 /**
  * The utility class of expression, if the expression is column, return true,
  * else return false. The column format should like row.aaa , row["aaa"] or
- * row[index]
+ * row[index], dataSetRow.aaa, dataSetRow["xxx"] or dataSetRow[index]
  */
 public class ExpressionUtility
 {
 	private final static String STRING_ROW = "row";
-    //the default cache size
-	private final static int EXPR_CACHE_SIZE = 50;
+	private final static String STRING_DATASET_ROW = "dataSetRow";
+	// the default cache size
+	private final static int EXPR_CACHE_SIZE = 20;
 	/**
 	 * Use the LRU cache for the compiled expression.For performance reasons,
 	 * The compiled expression put in a cache. Repeated compile of the same
 	 * expression will then used the cached value.
 	 */
-	private static Map compiledExprCache = Collections.synchronizedMap( new LinkedHashMap( EXPR_CACHE_SIZE,
+	private static Map compiledExprCacheInRowMode = Collections.synchronizedMap( new LinkedHashMap( EXPR_CACHE_SIZE,
+			(float) 0.75,
+			true ) {
+
+		private static final long serialVersionUID = 54331232145454L;
+
+		protected boolean removeEldestEntry( Map.Entry eldest )
+		{
+			return size( ) > EXPR_CACHE_SIZE;
+		}
+	} );
+	private static Map compiledExprCacheInDataSetRowMode = Collections.synchronizedMap( new LinkedHashMap( EXPR_CACHE_SIZE,
 			(float) 0.75,
 			true ) {
 
@@ -53,13 +65,15 @@ public class ExpressionUtility
 	 * @param expression
 	 * @return
 	 */
-	public static boolean isColumnExpression( String expression )
+	public static boolean isColumnExpression( String expression, boolean mode )
 	{
 		boolean isColumn = false;
 		if ( expression == null || expression.trim( ).length( ) == 0 )
 			return isColumn;
-		if ( compiledExprCache.containsKey( expression ) )
-			return ( (Boolean) compiledExprCache.get( expression ) ).booleanValue( );
+		if ( getCompiledExpCacheMap( mode ).containsKey( expression ) )
+		{
+			return ( (Boolean)  getCompiledExpCacheMap( mode ).get( expression ) ).booleanValue( );
+		}
 		Context context = Context.enter( );
 		ScriptOrFnNode tree;
 		try
@@ -71,7 +85,8 @@ public class ExpressionUtility
 		}
 		catch ( Exception e )
 		{
-			compiledExprCache.put( expression, Boolean.valueOf( false ) );
+			getCompiledExpCacheMap( mode ).put( expression,
+					Boolean.valueOf( false ) );
 			return false;
 		}
 		finally
@@ -93,7 +108,7 @@ public class ExpressionUtility
 			assert ( child != null );
 			if ( child.getType( ) == Token.GETELEM
 					|| child.getType( ) == Token.GETPROP )
-				isColumn = getDirectColRefExpr( child );
+				isColumn = getDirectColRefExpr( child, mode );
 			else
 				isColumn = false;
 		}
@@ -101,9 +116,20 @@ public class ExpressionUtility
 		{
 			isColumn = false;
 		}
-
-		compiledExprCache.put( expression, Boolean.valueOf( isColumn ) );
+		getCompiledExpCacheMap( mode ).put( expression,
+				Boolean.valueOf( isColumn ) );
 		return isColumn;
+	}
+	
+	/**
+	 * 
+	 * @param mode
+	 * @return
+	 */
+	private static Map getCompiledExpCacheMap( boolean mode )
+	{
+		return mode ? compiledExprCacheInRowMode
+				: compiledExprCacheInDataSetRowMode;
 	}
 	
 	/**
@@ -114,7 +140,7 @@ public class ExpressionUtility
 	 */
 	public static String getReplacedColRefExpr( String columnStr )
 	{
-		if ( isColumnExpression( columnStr ) )
+		if ( isColumnExpression( columnStr, true ) )
 		{
 			return columnStr.replaceFirst( "\\Qrow\\E", "dataSetRow" );
 		}
@@ -128,7 +154,7 @@ public class ExpressionUtility
 	 * @param refNode
 	 * @return
 	 */
-	private static boolean getDirectColRefExpr( Node refNode )
+	private static boolean getDirectColRefExpr( Node refNode, boolean mode )
 	{
 		assert ( refNode.getType( ) == Token.GETPROP || refNode.getType( ) == Token.GETELEM );
 
@@ -139,7 +165,9 @@ public class ExpressionUtility
 
 		String str = rowName.getString( );
 		assert ( str != null );
-		if ( !str.equals( STRING_ROW ) )
+		if ( mode && !str.equals( STRING_ROW ) )
+			return false;
+		else if ( !mode && !str.equals( STRING_DATASET_ROW ) )
 			return false;
 
 		Node rowColumn = rowName.getNext( );
