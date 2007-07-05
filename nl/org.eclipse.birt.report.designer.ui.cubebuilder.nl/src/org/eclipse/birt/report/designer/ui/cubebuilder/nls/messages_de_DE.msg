@@ -91,7 +91,7 @@ LevelPropertyDialog.Message=Gruppenebene als dynamisch oder statisch definieren 
 LevelPropertyDialog.None=Ohne
 LevelPropertyDialog.GroupBy=Gruppieren nach:
 LevelPropertyDialog.Name=Name:
-LevelPropertyDialog.MSG.CreateNew=<Neuen Parameter erstellen>
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
 LevelPropertyDialog.Label.Name=Name:
 LevelPropertyDialog.Label.Interval=Intervall:
 LevelPropertyDialog.Label.Range=Bereich:
@@ -106,10 +106,11 @@ LevelPropertyDialog.Button.Prefix=Präfix
 LevelPropertyDialog.Interval.Base=Festen Basiswert für Intervall verwenden:
 LevelPropertyDialog.Label.Property=Ebeneneigenschaft
 LevelPropertyDialog.Label.Attribute=Attribut
-LevelPropertyDialog.Label.Name=Name:
+LevelPropertyDialog.Label.Name=Member
 LevelPropertyDialog.KeyField=Schlüsselfeld:
 LevelPropertyDialog.DataType=Datentyp:
-LevelPropertyDialog.Label.Expression=Ausdruck
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
 
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################

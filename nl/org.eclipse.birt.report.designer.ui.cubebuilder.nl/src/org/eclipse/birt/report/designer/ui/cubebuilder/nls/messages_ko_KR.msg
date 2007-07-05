@@ -91,8 +91,8 @@ LevelPropertyDialog.Message=그룹 수준을 동적 또는 정적으로 선택하고 필수 필드를 
 LevelPropertyDialog.None=없음
 LevelPropertyDialog.GroupBy=묶는 방법:
 LevelPropertyDialog.Name=이름:
-LevelPropertyDialog.MSG.CreateNew=<새 매개 변수 생성>
-LevelPropertyDialog.Label.Name=이름:
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.Label.Name=Name:
 LevelPropertyDialog.Label.Interval=간격:
 LevelPropertyDialog.Label.Range=범위:
 LevelPropertyDialog.Shell.Title=그룹 수준
@@ -106,10 +106,11 @@ LevelPropertyDialog.Button.Prefix=접두사
 LevelPropertyDialog.Interval.Base=간격에 고정된 기본값 사용:
 LevelPropertyDialog.Label.Property=수준 속성
 LevelPropertyDialog.Label.Attribute=특성
-LevelPropertyDialog.Label.Name=이름:
+LevelPropertyDialog.Label.Name=Member
 LevelPropertyDialog.KeyField=키 필드:
 LevelPropertyDialog.DataType=데이터 형식:
-LevelPropertyDialog.Label.Expression=식
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
 
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################

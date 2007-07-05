@@ -91,8 +91,8 @@ LevelPropertyDialog.Message=動的または静的にするグループレベルを選択し、各フィー
 LevelPropertyDialog.None=なし
 LevelPropertyDialog.GroupBy=グループ化 :
 LevelPropertyDialog.Name=名前 :
-LevelPropertyDialog.MSG.CreateNew=<パラメタの新規作成>
-LevelPropertyDialog.Label.Name=名前 :
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.Label.Name=Name:
 LevelPropertyDialog.Label.Interval=間隔 :
 LevelPropertyDialog.Label.Range=範囲 :
 LevelPropertyDialog.Shell.Title=グループレベル
@@ -106,10 +106,11 @@ LevelPropertyDialog.Button.Prefix=接頭辞
 LevelPropertyDialog.Interval.Base=丸めた数値を間隔の基準値として使用する :
 LevelPropertyDialog.Label.Property=レベルのプロパティ
 LevelPropertyDialog.Label.Attribute=属性
-LevelPropertyDialog.Label.Name=名前 :
+LevelPropertyDialog.Label.Name=Member
 LevelPropertyDialog.KeyField=キーフィールド :
 LevelPropertyDialog.DataType=データ型 :
-LevelPropertyDialog.Label.Expression=式
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
 
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
