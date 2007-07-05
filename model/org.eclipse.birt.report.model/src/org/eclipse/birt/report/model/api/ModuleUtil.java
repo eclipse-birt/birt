@@ -31,6 +31,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -127,8 +128,7 @@ public class ModuleUtil
 
 			public AbstractParseState startElement( String tagName )
 			{
-				if ( DesignSchemaConstants.STRUCTURE_TAG
-						.equalsIgnoreCase( tagName ) )
+				if ( DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
 					return new ActionStructureState( ActionParserHandler.this,
 							element );
 				return super.startElement( tagName );
@@ -175,8 +175,8 @@ public class ModuleUtil
 		DesignElement e = element == null ? image : element.getElement( );
 		ActionParserHandler handler = new ActionParserHandler( image );
 
-		Module module = element == null ? handler.getModule( ) : element
-				.getModule( );
+		Module module = element == null ? handler.getModule( )
+				: element.getModule( );
 
 		if ( streamData == null )
 		{
@@ -193,8 +193,9 @@ public class ModuleUtil
 		parse( handler, streamData, "" ); //$NON-NLS-1$
 
 		if ( element != null )
-			e.setProperty( IImageItemModel.ACTION_PROP, image.getProperty(
-					handler.getModule( ), IImageItemModel.ACTION_PROP ) );
+			e.setProperty( IImageItemModel.ACTION_PROP,
+					image.getProperty( handler.getModule( ),
+							IImageItemModel.ACTION_PROP ) );
 
 		return getActionHandle( e.getHandle( module ) );
 	}
@@ -208,8 +209,7 @@ public class ModuleUtil
 
 	private static ActionHandle getActionHandle( DesignElementHandle element )
 	{
-		PropertyHandle propHandle = element
-				.getPropertyHandle( IImageItemModel.ACTION_PROP );
+		PropertyHandle propHandle = element.getPropertyHandle( IImageItemModel.ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -308,8 +308,7 @@ public class ModuleUtil
 		{
 			try
 			{
-				is = new ByteArrayInputStream( streamToOpen
-						.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
+				is = new ByteArrayInputStream( streamToOpen.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -412,8 +411,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			design = DesignReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
+			design = DesignReader.getInstance( )
+					.read( sessionHandle.getSession( ), fileName, is, options );
 			return design != null;
 		}
 		catch ( DesignFileException e )
@@ -443,8 +442,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			lib = LibraryReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
+			lib = LibraryReader.getInstance( )
+					.read( sessionHandle.getSession( ), fileName, is, options );
 			return lib != null;
 		}
 		catch ( DesignFileException e )
@@ -477,8 +476,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			rtnModule = GenericModuleReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
+			rtnModule = GenericModuleReader.getInstance( )
+					.read( sessionHandle.getSession( ), fileName, is, options );
 		}
 		catch ( DesignFileException e )
 		{
@@ -520,10 +519,8 @@ public class ModuleUtil
 
 			public AbstractParseState startElement( String tagName )
 			{
-				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName )
-						|| DesignSchemaConstants.LIBRARY_TAG
-								.equalsIgnoreCase( tagName ) )
+				if ( DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase( tagName )
+						|| DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
 			}
@@ -539,8 +536,7 @@ public class ModuleUtil
 			public void parseAttrs( Attributes attrs )
 					throws XMLParserException
 			{
-				String version = attrs
-						.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+				String version = attrs.getValue( DesignSchemaConstants.VERSION_ATTRIB );
 				VersionParserHandler.this.version = version;
 			}
 
@@ -609,9 +605,7 @@ public class ModuleUtil
 		}
 		catch ( IOException e )
 		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
 			return rtnList;
 		}
 
@@ -636,9 +630,7 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e1 )
 		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
 		}
 		finally
 		{
@@ -694,4 +686,41 @@ public class ModuleUtil
 		return value;
 	}
 
+	/**
+	 * This API is only for helping GUI to draw the dimension joint condition
+	 * editor pad. When user extends an library cube to design, the hierarchy
+	 * handle from the joint condition should be same with the virtual hierarchy
+	 * in the reprot design cube.
+	 * 
+	 * @param conditionHierarchy
+	 *            the hierarchy handle from the dimension joint condition
+	 *            structure.
+	 * @param cubeHierarchy
+	 *            the hierarchy handle from the cube.
+	 * @return
+	 */
+	public static boolean isEqualHierarchiesForJointCondition(
+			HierarchyHandle conditionHierarchy, HierarchyHandle cubeHierarchy )
+	{
+
+		if ( conditionHierarchy == cubeHierarchy )
+			return true;
+
+		if ( ( conditionHierarchy != null ) && ( cubeHierarchy != null ) )
+		{
+			if ( conditionHierarchy.equals( cubeHierarchy ) )
+				return true;
+
+			DesignElement virtualParent = cubeHierarchy.getElement( )
+					.getVirtualParent( );
+			if ( virtualParent == null )
+				return false;
+
+			if ( conditionHierarchy.getElement( ).equals( virtualParent ) )
+				return true;
+
+			return false;
+		}
+		return false;
+	}
 }
