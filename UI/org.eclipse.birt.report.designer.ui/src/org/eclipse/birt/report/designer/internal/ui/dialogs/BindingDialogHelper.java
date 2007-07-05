@@ -45,6 +45,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -332,12 +333,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						return;
 					}
 				}
+				cmbGroup.setEnabled( true );
 			}
 			else
 			{
 				btnTable.setSelection( true );
+				cmbGroup.select( 0 );
+				cmbGroup.setEnabled( false );
 			}
-			cmbGroup.select( 0 );
 		}
 		else
 		{
@@ -456,10 +459,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					cmbDataField.setText( expr );
 				}
-				else
-				{
-					cmbDataField.setText( "" ); //$NON-NLS-1$
-				}
 			}
 		} );
 
@@ -511,11 +510,31 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		btnTable = new Button( aggOnComposite, SWT.RADIO );
 		btnTable.setText( getBindingHolder( ) instanceof TableHandle ? TABLE
 				: LIST );
+		btnTable.addSelectionListener( new SelectionListener(){
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				cmbGroup.setEnabled( false );
+			}} );
 
 		WidgetUtil.createGridPlaceholder( aggOnComposite, 1, false );
 
 		btnGroup = new Button( aggOnComposite, SWT.RADIO );
 		btnGroup.setText( GROUP );
+		btnGroup.addSelectionListener( new SelectionListener(){
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				cmbGroup.setEnabled( true );
+			}} );
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
