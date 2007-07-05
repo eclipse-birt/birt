@@ -244,7 +244,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public void dispose( )
 	{
-		if ( getCommandStack( ) != null )
+		if ( getCommandStack( ) != null && getCommandStack( ) instanceof WrapperCommandStack)
 		{
 			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 			stack.removeCommandStackListener( getCommandStackListener( ) );
