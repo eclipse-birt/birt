@@ -3040,7 +3040,8 @@ SelectAllAction.text=Seleccionar &todo
 #SelectCssStyleWizard properties
 
 SelectCssStyleWizard.wizard.title=Importar estilos CSS
-SelectCssStyleWizard.wizardPage.description=Seleccione un archivo CSS e importe estilos a un diseño de informe.
+SelectCssStyleWizard.wizardPage.description.report=Seleccione un archivo CSS e importe estilos a un diseño de informe.
+SelectCssStyleWizard.wizardPage.description.library=Select a CSS file and import styles into the library.
 SelectCssStyleWizard.wizardPage.name=Seleccionar estilos Css
 SelectCssStyleWizard.wizardPage.title=Importar estilo desde un archivo CSS
 

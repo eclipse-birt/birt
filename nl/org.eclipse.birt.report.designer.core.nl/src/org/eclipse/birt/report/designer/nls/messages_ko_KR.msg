@@ -3040,7 +3040,8 @@ SelectAllAction.text=모두 선택(&A)
 #SelectCssStyleWizard properties
 
 SelectCssStyleWizard.wizard.title=CSS 스타일 가져오기
-SelectCssStyleWizard.wizardPage.description=CSS 파일을 선택하고 스타일을 보고서 디자인으로 가져옵니다.
+SelectCssStyleWizard.wizardPage.description.report=CSS 파일을 선택하고 스타일을 보고서 디자인으로 가져옵니다.
+SelectCssStyleWizard.wizardPage.description.library=Select a CSS file and import styles into the library.
 SelectCssStyleWizard.wizardPage.name=Css 스타일 선택
 SelectCssStyleWizard.wizardPage.title=CSS 파일의 스타일 가져오기
 

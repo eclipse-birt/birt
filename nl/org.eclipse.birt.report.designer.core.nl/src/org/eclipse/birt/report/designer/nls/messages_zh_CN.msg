@@ -3040,7 +3040,8 @@ SelectAllAction.text=全选(&A)
 #SelectCssStyleWizard properties
 
 SelectCssStyleWizard.wizard.title=导入 CSS 样式
-SelectCssStyleWizard.wizardPage.description=选择一个 CSS 文件，将样式导入到报表设计。
+SelectCssStyleWizard.wizardPage.description.report=选择一个 CSS 文件，将样式导入到报表设计。
+SelectCssStyleWizard.wizardPage.description.library=Select a CSS file and import styles into the library.
 SelectCssStyleWizard.wizardPage.name=选择 Css 样式
 SelectCssStyleWizard.wizardPage.title=从 CSS 文件导入样式
 

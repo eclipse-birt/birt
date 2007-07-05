@@ -3040,7 +3040,8 @@ SelectAllAction.text=すべて選択(&A)
 #SelectCssStyleWizard properties
 
 SelectCssStyleWizard.wizard.title=CSS スタイルのインポート
-SelectCssStyleWizard.wizardPage.description=ここで選択した CSS ファイルから、レポートデザインにスタイルをインポートします。
+SelectCssStyleWizard.wizardPage.description.report=ここで選択した CSS ファイルから、レポートデザインにスタイルをインポートします。
+SelectCssStyleWizard.wizardPage.description.library=Select a CSS file and import styles into the library.
 SelectCssStyleWizard.wizardPage.name=CSS スタイルの選択
 SelectCssStyleWizard.wizardPage.title=CSS ファイルからスタイルをインポート
 
