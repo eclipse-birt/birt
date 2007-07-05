@@ -23,26 +23,34 @@ import org.eclipse.core.runtime.Status;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The main plugin class for embedded viewer web application.
  * <p>
  */
 public class ViewerPlugin extends Plugin
 {
+
 	public final static String PLUGIN_ID = "org.eclipse.birt.report.viewer"; //$NON-NLS-1$
+
+	/**
+	 * Default value of max rows setting displaying in preference page
+	 */
+	public final static int DEFAULT_MAX_ROWS = 500;
 
 	/**
 	 * The shared instance.
 	 */
 	private static ViewerPlugin plugin;
-	
+
 	/**
 	 * Resource bundle.
 	 */
 	private ResourceBundle resourceBundle;
-	
+
 	private BundleContext bundleContext;
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -50,10 +58,11 @@ public class ViewerPlugin extends Plugin
 	{
 		super( );
 		plugin = this;
-		
+
 		try
 		{
-			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class.getName( ) );
+			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class
+					.getName( ) );
 		}
 		catch ( MissingResourceException x )
 		{
@@ -64,20 +73,27 @@ public class ViewerPlugin extends Plugin
 	/**
 	 * This method is called upon plug-in activation.
 	 * 
-	 * @param context bundle context
+	 * @param context
+	 *            bundle context
 	 * @exception Exception
 	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
 		bundleContext = context;
-		plugin.getPluginPreferences( ).setDefault( WebViewer.MASTER_PAGE_CONTENT, true );
+		plugin.getPluginPreferences( ).setDefault(
+				WebViewer.MASTER_PAGE_CONTENT, true );
+		plugin.getPluginPreferences( ).setDefault( WebViewer.PREVIEW_MAXROW,
+				DEFAULT_MAX_ROWS );
+		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
+				ULocale.getDefault( ).getDisplayName( ) );
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped.
 	 * 
-	 * @param context bundle context
+	 * @param context
+	 *            bundle context
 	 * @exception Exception
 	 */
 	public void stop( BundleContext context ) throws Exception
@@ -97,16 +113,17 @@ public class ViewerPlugin extends Plugin
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not
+	 * found.
 	 * 
-	 * @param key resource key
+	 * @param key
+	 *            resource key
 	 * @return resource string
 	 */
 	public static String getResourceString( String key )
 	{
 		ResourceBundle bundle = ViewerPlugin.getDefault( ).getResourceBundle( );
-		
+
 		try
 		{
 			return ( bundle != null ) ? bundle.getString( key ) : key;
@@ -124,7 +141,8 @@ public class ViewerPlugin extends Plugin
 	 * @param arguments
 	 * @return formatte resource string
 	 */
-	public static String getFormattedResourceString( String key, Object[] arguments )
+	public static String getFormattedResourceString( String key,
+			Object[] arguments )
 	{
 		return MessageFormat.format( getResourceString( key ), arguments );
 	}
@@ -140,8 +158,9 @@ public class ViewerPlugin extends Plugin
 		{
 			message = ""; //$NON-NLS-1$
 		}
-		
-		Status errorStatus = new Status( IStatus.ERROR, PLUGIN_ID, IStatus.OK, message, ex );
+
+		Status errorStatus = new Status( IStatus.ERROR, PLUGIN_ID, IStatus.OK,
+				message, ex );
 		ViewerPlugin.getDefault( ).getLog( ).log( errorStatus );
 	}
 
@@ -154,16 +173,17 @@ public class ViewerPlugin extends Plugin
 	{
 		return resourceBundle;
 	}
-	
+
 	/**
-     * Return an array of all bundles contained in this workbench.
-     * 
-     * @return an array of bundles in the workbench or an empty array if none
-     * @since 3.0
-     */
-    public Bundle[] getBundles() {
-        return bundleContext == null ? new Bundle[0] : bundleContext
-                .getBundles();
-    }
-    
+	 * Return an array of all bundles contained in this workbench.
+	 * 
+	 * @return an array of bundles in the workbench or an empty array if none
+	 * @since 3.0
+	 */
+	public Bundle[] getBundles( )
+	{
+		return bundleContext == null ? new Bundle[0] : bundleContext
+				.getBundles( );
+	}
+
 }
