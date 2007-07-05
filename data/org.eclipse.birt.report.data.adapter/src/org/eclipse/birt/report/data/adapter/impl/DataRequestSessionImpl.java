@@ -387,7 +387,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			if ( column.getName( ).equals( boundColumnName ) )
 			{
 				ScriptExpression sxp = (ScriptExpression) column.getExpression( );
-				if ( ExpressionUtil.hasAggregation( sxp.getText( ) ) )
+				if ( column.getAggregateFunction( )!= null || ExpressionUtil.hasAggregation( sxp.getText( ) ) )
 				{
 					return true;
 				}
