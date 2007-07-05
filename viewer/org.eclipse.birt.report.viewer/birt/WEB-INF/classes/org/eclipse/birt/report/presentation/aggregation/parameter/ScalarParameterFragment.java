@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -173,6 +174,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		// Set parameter current value
 		parameterBean.setValue( parameterValue );
 
+		// Set parameter display text
+		Map displayTexts = attrBean.getDisplayTexts( );
+		if ( displayTexts.containsKey( parameterBean.getName( ) ) )
+		{
+			parameterBean.setDisplayText( DataUtil.getString( displayTexts
+					.get( parameterBean.getName( ) ) ) );
+		}
+
 		// Set parameter default value
 		Map defaultValues = attrBean.getDefaultValues( );
 		Object defaultValue = defaultValues.get( parameter.getName( ) );
@@ -180,6 +189,24 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		{
 			parameterBean.setDefaultValue( DataUtil
 					.getDisplayValue( defaultValue ) );
+		}
+
+		// parameter map
+		Map params = attrBean.getParameters( );
+		if ( params != null && params.containsKey( parameter.getName( ) ) )
+		{
+			Object param = params.get( parameter.getName( ) );
+			if ( param != null )
+			{
+				// display text
+				if ( !displayTexts.containsKey( parameterBean.getName( ) ) )
+				{
+					String displayText = ParameterValidationUtil
+							.getDisplayValue( null, parameter.getPattern( ),
+									param, locale );
+					parameterBean.setDisplayText( displayText );
+				}
+			}
 		}
 	}
 

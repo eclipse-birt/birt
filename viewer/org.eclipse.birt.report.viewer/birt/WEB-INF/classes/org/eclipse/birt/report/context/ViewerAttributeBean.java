@@ -33,7 +33,6 @@ import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -326,31 +325,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 											.equalsIgnoreCase( dataType ) )
 							{
 								continue;
-							}
-
-							try
-							{
-								// if parameter type isn't String or DateTime,
-								// convert it
-								if ( !DesignChoiceConstants.PARAM_TYPE_STRING
-										.equalsIgnoreCase( dataType )
-										&& !DesignChoiceConstants.PARAM_TYPE_DATETIME
-												.equalsIgnoreCase( dataType ) )
-								{
-									String pattern = parameter.getPattern( );
-									Object paramValueObj = ParameterValidationUtil
-											.validate( dataType, pattern,
-													paramValue, ULocale.US );
-
-									paramValue = ParameterValidationUtil
-											.getDisplayValue( dataType,
-													pattern, paramValueObj,
-													locale );
-								}
-							}
-							catch ( Exception err )
-							{
-								paramValue = configVar.getValue( );
 							}
 
 							this.configMap.put( paramName, paramValue );

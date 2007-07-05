@@ -31,6 +31,7 @@ import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 import com.ibm.icu.util.ULocale;
@@ -149,21 +150,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 								.validate( dataType, pattern, paramValue,
 										attrBean.getLocale( ) );
 
-						// if parameter type is String, cache the unformatted
-						// string
-						if ( DesignChoiceConstants.PARAM_TYPE_STRING
-								.equalsIgnoreCase( dataType ) )
-						{
-							pattern = null;
-						}
-						else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-								.equalsIgnoreCase( dataType ) )
-						{
-							pattern = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
-						}
-
-						paramValue = ParameterValidationUtil.getDisplayValue(
-								dataType, pattern, paramValueObj, ULocale.US );
+						paramValue = DataUtil.getDisplayValue( paramValueObj );
 
 					}
 					catch ( Exception err )
