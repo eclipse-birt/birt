@@ -73,7 +73,9 @@ public class NewReportTemplateWizard extends Wizard implements
 	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
 
 	private static final String TEMPLATE_FILE = "/templates/blank_report.rpttemplate"; //$NON-NLS-1$
-
+	
+	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" );
+	
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardReportSettingPage settingPage;
@@ -116,6 +118,7 @@ public class NewReportTemplateWizard extends Wizard implements
 		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
 				new Object[]{
 					Messages.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
+		settingPage.setPageDesc( SAVE_TEMPLATE_PROPERTIES_MESSAGES );
 
 		addPage( settingPage );
 	}
