@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.datafeed.DataProcessor;
 import org.eclipse.birt.chart.internal.factory.SqlDataRowEvaluator;
 import org.eclipse.birt.chart.internal.layout.LayoutManager;
-import org.eclipse.birt.chart.internal.script.ChartScriptContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -70,6 +69,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.DeferredCache;
 import org.eclipse.birt.chart.render.DeferredCacheManager;
+import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
