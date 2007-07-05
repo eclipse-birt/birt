@@ -458,4 +458,11 @@ public class StringFormatter
 		return ret.toString();
 	}
 
+	/**
+	 * @param trim the trim to set
+	 */
+	public void setTrim( boolean trim )
+	{
+		this.trim = trim;
+	}
 }
