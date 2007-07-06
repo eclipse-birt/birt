@@ -13,9 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -26,7 +30,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public abstract class BaseDialog extends TrayDialog
 {
+	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT";
 
+	private static final String DIALOG_WIDTH = "DIALOG_WIDTH";
 	/**
 	 * The title of the dialog
 	 */
@@ -35,6 +41,8 @@ public abstract class BaseDialog extends TrayDialog
 	private String okLabel = null;
 
 	protected Object result;
+
+	private IDialogSettings dialogSettings;
 
 	/**
 	 * 
@@ -223,6 +231,100 @@ public abstract class BaseDialog extends TrayDialog
 			return super.createButton( parent, id, okLabel, defaultButton );
 		}
 		return super.createButton( parent, id, label, defaultButton );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#getDialogBoundsSettings()
+	 */
+	protected IDialogSettings getDialogBoundsSettings( )
+	{
+		if ( dialogSettings == null )
+			dialogSettings = loadDialogSettings( );
+		return dialogSettings;
+	}
+
+	/**
+	 * @return
+	 */
+	private IDialogSettings loadDialogSettings( )
+	{
+		IDialogSettings dialogSettings = ReportPlugin.getDefault( ).getDialogSettings( );
+		StringBuffer buf = new StringBuffer();
+		Shell curShell = getShell( );
+		while ( curShell != null )
+		{
+			buf.append( curShell.toString( ) + '/' );
+			Composite parent = curShell.getParent( );
+			if ( parent != null )
+			{
+				curShell = parent.getShell( );
+			}
+			else
+			{
+				curShell = null;
+			}
+		}
+		if ( buf.length( ) > 0 )
+		{
+			buf.deleteCharAt( buf.length( ) - 1 );
+			String sectionName = buf.toString( );
+			IDialogSettings setting = dialogSettings.getSection( sectionName );
+			if ( setting == null )
+			{
+				setting = dialogSettings.addNewSection( sectionName );
+			}
+			return setting;
+		}
+		else
+		{
+			return dialogSettings;
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.window.Window#getInitialSize()
+	 */
+	protected Point getInitialSize( )
+	{
+		try
+		{
+			IDialogSettings setting = getDialogBoundsSettings( );
+			int width = setting.getInt( DIALOG_WIDTH );
+			int height = setting.getInt( DIALOG_HEIGHT );
+			return new Point( width, height );
+		}
+		catch ( NumberFormatException e )
+		{
+		}
+		return getDefaultSize( );
+	}
+
+	/**
+	 * Override this method to get the default size of current dialog.
+	 * 
+	 * @return a Point object which encapsulate the width and height of the
+	 *         dialog.
+	 */
+	protected Point getDefaultSize( )
+	{
+		return super.getInitialSize( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
+	 */
+	protected void initializeBounds( )
+	{
+		Point size = getInitialSize( );
+		Point location = getInitialLocation( size );
+		getShell( ).setBounds( getConstrainedShellBounds( new Rectangle( location.x,
+				location.y,
+				size.x,
+				size.y ) ) );
 	}
 
 }

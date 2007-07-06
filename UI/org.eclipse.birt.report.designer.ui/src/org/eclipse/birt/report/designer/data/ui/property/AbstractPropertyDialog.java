@@ -14,6 +14,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
 import org.eclipse.jface.dialogs.DialogMessageArea;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -56,13 +57,17 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.5 $ $Date: 2007/03/21 06:59:18 $
+ * @version $Revision: 1.6 $ $Date: 2007/05/24 09:01:58 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
 		implements
 			IPropertyPageContainer
 {
+
+	private static final String SASHFORM_RIGHT = "SASHFORM.RIGHT";
+
+	private static final String SASHFORM_LEFT = "SASHFORM.LEFT";
 
 	private transient Object modelObject = null;
 
@@ -86,6 +91,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	
 	protected boolean showPage = false;
 
+	private SashForm sashForm;
 	/**
 	 * The only constructor for this dialog. It takes the parentShell and the
 	 * model object as parameters.
@@ -246,14 +252,13 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
 		composite.setLayout( layout );
 
-		SashForm sashForm = new SashForm( composite, SWT.NONE );
+		sashForm = new SashForm( composite, SWT.NONE );
 		sashForm.setOrientation( SWT.HORIZONTAL );
 		sashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		createTreeViewer( sashForm );
 
 		createPropertyPane( sashForm );
-
-		sashForm.setWeights( new int[]{20, 80} );
+		
 		Label label = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -640,12 +645,12 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		cancelPressed( );
 	}
 
+	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.window.Window#getInitialSize()
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#getDefaultSize()
 	 */
-	protected Point getInitialSize( )
+	protected Point getDefaultSize( )
 	{
 		return new Point( 800, 500 );
 	}
@@ -716,6 +721,45 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	protected PropertyNode getCurrentNode( )
 	{
 		return currentNode;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.TrayDialog#close()
+	 */
+	public boolean close( )
+	{
+		IDialogSettings setting = getDialogBoundsSettings( );
+		int[] weights = sashForm.getWeights( );
+		assert weights != null && weights.length == 2;
+		setting.put( SASHFORM_LEFT, weights[0] );
+		setting.put( SASHFORM_RIGHT, weights[1] );
+		return super.close( );
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
+	 */
+	protected void initializeBounds( )
+	{
+		try
+		{
+			IDialogSettings setting = getDialogBoundsSettings( );
+			int leftWeight = setting.getInt( SASHFORM_LEFT );
+			int rightWeight = setting.getInt( SASHFORM_RIGHT );
+			sashForm.setWeights( new int[]{
+					leftWeight, rightWeight
+			} );
+		}
+		catch ( NumberFormatException e )
+		{
+			sashForm.setWeights( new int[]{
+					20, 80
+			} );
+		}
+		super.initializeBounds( );
 	}
 
 }
