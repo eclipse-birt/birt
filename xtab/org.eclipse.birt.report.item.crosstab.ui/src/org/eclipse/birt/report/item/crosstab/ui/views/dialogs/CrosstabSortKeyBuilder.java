@@ -111,6 +111,8 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	protected MemberValueHandle memberValueHandle;
 	protected List referencedLevelList;
 
+	protected Group group;
+	
 	public void setHandle( DesignElementHandle handle )
 	{
 		this.handle = handle;
@@ -447,7 +449,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 	protected void createMemberValuesGroup( Composite content )
 	{
-		Group group = new Group( content, SWT.NONE );
+		group = new Group( content, SWT.NONE );
 		group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
 
@@ -814,6 +816,15 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			return;
 		}
 
+		// fix bug 191080 to update Member value Label.
+		if(level.getAxisType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		{
+			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
+		}else
+		{
+			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) );
+		}
+		
 		String bindingExpr = ExpressionUtil.createJSDataExpression( textKey.getText( ) );
 		referencedLevelList = getReferencedLevels( level, bindingExpr );
 		if ( referencedLevelList == null || referencedLevelList.size( ) == 0 )
@@ -823,7 +834,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 
 		editor.setReferencedLevelList( referencedLevelList );
-
+		
 		memberValueTable.setEnabled( true );
 		memberValueHandle = null;
 		if ( level == levelViewHandle )

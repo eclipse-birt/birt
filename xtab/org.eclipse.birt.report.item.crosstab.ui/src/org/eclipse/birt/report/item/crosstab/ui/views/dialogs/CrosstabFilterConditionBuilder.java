@@ -111,7 +111,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	protected List groupLevelNameList;
 	protected FilterConditionElementHandle inputHandle;
 	protected LevelViewHandle levelViewHandle;
-
+	protected Group group;
 	protected Table memberValueTable;
 	protected TableViewer dynamicViewer;
 	protected ExpressionValue expressionValue1, expressionValue2;
@@ -179,7 +179,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		groupLevelParent.setLayout( glayout );
 
 		Label lbGroupLevel = new Label( groupLevelParent, SWT.NONE );
-		lbGroupLevel.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
+		lbGroupLevel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 
 		comboGroupLevel = new Combo( groupLevelParent, SWT.READ_ONLY
 				| SWT.BORDER );
@@ -306,7 +306,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 	protected void createMemberValuesGroup( Composite content )
 	{
-		Group group = new Group( content, SWT.NONE );
+		group = new Group( content, SWT.NONE );
 		group.setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
 
@@ -1325,7 +1325,16 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			memberValueTable.setEnabled( false );
 			return;
 		}
-
+		
+		// fix bug 191080 to update Member value Label.
+		if(level.getAxisType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		{
+			group.setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
+		}else
+		{
+			group.setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.SelRowMemberValue" ) );
+		}
+		
 		referencedLevelList = getReferencedLevels( level, expression.getText( ) );
 		if ( referencedLevelList == null || referencedLevelList.size( ) == 0 )
 		{
@@ -1359,6 +1368,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		dynamicViewer.setInput( memList );
 	}
 
+	
 	private List getReferencedLevels( LevelViewHandle level, String bindingExpr )
 	{
 		List retList = new ArrayList();;
