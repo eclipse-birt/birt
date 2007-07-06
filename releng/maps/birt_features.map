@@ -14,7 +14,7 @@ feature@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.example=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20070614,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
+feature@org.eclipse.birt.chart.runtime=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
 feature@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
@@ -38,7 +38,7 @@ feature@org.eclipse.birt.chart.integration.wtp=v20070529,:pserver:anonymous@dev.
 feature@org.eclipse.birt.integration.wtp.sdk=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.sdk.feature
 
 !*************** Third Party Features  ***********
-feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
+feature@org.eclipse.birt.thirdparty=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
 feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
@@ -51,8 +51,10 @@ feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroo
 feature@com.lowagie.itext=v20070608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
+!***
 feature@org.apache.commons.codec=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
 plugin@org.apache.commons.codec=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
+****
 
 feature@org.apache.derby.core=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
 plugin@org.apache.derby.core=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
