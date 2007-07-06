@@ -401,6 +401,7 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="org.apache.commons.codec_*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -416,8 +417,6 @@
 			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
 			<include name="org.mozilla.rhino_*/**" />
-			<include name="org.apache.batik.pdf_*/**" />
-			<include name="org.apache.commons.codec_*/**" />
 			<include name="com.lowagie.itext_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
