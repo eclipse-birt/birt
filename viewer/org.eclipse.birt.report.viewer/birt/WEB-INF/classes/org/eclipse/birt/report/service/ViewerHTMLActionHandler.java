@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -489,7 +490,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			}
 
 			// add bookmark
-			if ( action.getBookmark( ) != null )
+			String bookmark = action.getBookmark( );
+			if ( bookmark != null )
 			{
 
 				try
@@ -502,13 +504,25 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 									.equalsIgnoreCase( format ) )
 					{
 						link.append( "#" ); //$NON-NLS-1$
+
+						// use TOC to find bookmark, only link to document file
+						if ( !action.isBookmark( )
+								&& reportName.toLowerCase( ).endsWith(
+										".rptdocument" ) ) //$NON-NLS-1$
+						{
+							InputOptions options = new InputOptions( );
+							options.setOption( InputOptions.OPT_LOCALE, locale );
+							bookmark = BirtReportServiceFactory
+									.getReportService( ).findTocByName(
+											reportName, bookmark, options );
+						}
 					}
 					else
 					{
 						link.append( "&__bookmark=" ); //$NON-NLS-1$
 					}
 
-					link.append( URLEncoder.encode( action.getBookmark( ),
+					link.append( URLEncoder.encode( bookmark,
 							ParameterAccessor.UTF_8_ENCODE ) );
 				}
 				catch ( UnsupportedEncodingException e )

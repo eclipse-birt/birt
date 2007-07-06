@@ -537,28 +537,17 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName,
 						getModuleOptions( options ) );
+		if ( doc == null )
+			return null;
 
-		String tocId = null;
-
-		if ( doc != null )
+		try
 		{
-			Locale locale = null;
-			if ( options != null )
-				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-			if ( locale == null )
-				locale = Locale.getDefault( );
-			ITOCTree tocTree = doc.getTOCTree(
-					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
-							.forLocale( locale ) );
-			assert tocTree != null;
-			List tocList = tocTree.findTOCByValue( name );
-			if ( tocList != null && tocList.size( ) > 0 )
-				return ( (TOCNode) tocList.get( 0 ) ).getBookmark( );
-
+			return BirtUtility.findTocByName( doc, name, options );
+		}
+		finally
+		{
 			doc.close( );
 		}
-		return tocId;
-
 	}
 
 	/**

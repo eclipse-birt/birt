@@ -26,6 +26,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -41,20 +42,26 @@ import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
+import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utilities for Birt Report Service
@@ -889,4 +896,42 @@ public class BirtUtility
 
 		return context;
 	}
+
+	/**
+	 * Find toc id from document instance by name
+	 * 
+	 * @param doc
+	 * @param name
+	 * @param options
+	 * @return
+	 */
+	public static String findTocByName( IReportDocument doc, String name,
+			InputOptions options )
+	{
+		if ( doc == null || name == null )
+			return null;
+
+		String tocid = null;
+
+		// get locale information
+		Locale locale = null;
+		if ( options != null )
+			locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		if ( locale == null )
+			locale = Locale.getDefault( );
+
+		// get TOC tree
+		ITOCTree tocTree = doc.getTOCTree(
+				DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
+						.forLocale( locale ) );
+		if ( tocTree == null )
+			return null;
+
+		List tocList = tocTree.findTOCByValue( name );
+		if ( tocList != null && tocList.size( ) > 0 )
+			tocid = ( (TOCNode) tocList.get( 0 ) ).getBookmark( );
+
+		return tocid;
+	}
+
 }
