@@ -33,13 +33,9 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
-import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IWindowListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-
-import sun.security.krb5.internal.ac;
 
 import com.ibm.icu.util.ULocale;
 
