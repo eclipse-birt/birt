@@ -11,7 +11,7 @@ feature@org.eclipse.birt.chart.doc.isv=v20070209,:pserver:anonymous@dev.eclipse.
 feature@org.eclipse.birt.cshelp=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp.feature
 feature@org.eclipse.birt.doc.isv=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv.feature
 feature@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.example=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
 feature@org.eclipse.birt.chart.runtime=v20070614,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
@@ -20,13 +20,13 @@ plugin@org.eclipse.birt.chart.runtime=v20070531,:pserver:anonymous@dev.eclipse.o
 feature@org.eclipse.birt.chart=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20070604,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
+feature@org.eclipse.birt.report.designer=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
-feature@org.eclipse.birt.report.runtime=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
+feature@org.eclipse.birt.report.runtime=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
 plugin@org.eclipse.birt.report.runtime=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
-feature@org.eclipse.birt.crosstab=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.crosstab.feature
+feature@org.eclipse.birt.crosstab=v20070706,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.crosstab.feature
 
 feature@org.eclipse.birt.testhelper=v20070613,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.testhelper.feature
 feature@org.eclipse.birt.tests=v20070508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
