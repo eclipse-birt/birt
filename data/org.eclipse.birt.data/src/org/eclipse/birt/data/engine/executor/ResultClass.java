@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,34 @@ public class ResultClass implements IResultClass
 		
 		initColumnsInfo( projectedColumns );
 		
+	}
+	
+	/**
+	 * 
+	 * @param projectedColumns
+	 * @throws DataException 
+	 */
+	private void validateProjectColumns( ResultFieldMetadata[] projectedColumns ) throws DataException
+	{
+		Set columnNameSet = new HashSet();
+		for( int i = 0; i < projectedColumns.length; i++ )
+		{
+			ResultFieldMetadata column = projectedColumns[i];
+			if ( columnNameSet.contains( column.getName( ) ) )
+			{
+				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
+						column.getName( ) );
+			}
+			if ( columnNameSet.contains( column.getAlias( ) ) )
+			{
+				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
+						column.getAlias( ) );
+			}
+			columnNameSet.add( column.getName());
+			if( column.getAlias()!= null )
+				columnNameSet.add(column.getAlias());
+		}
+			
 	}
 	
 	/**
@@ -182,8 +211,21 @@ public class ResultClass implements IResultClass
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
-
+		
+		// If there are refrences on columnName and columnAlias in
+		// resultSetNameSet, size--;
 		int size = resultSetNameSet.size( );
+		for ( int i = 0; i < projectedCols.length; i++ )
+		{
+			String columnName = projectedCols[i].getName( );
+			String columnAlias = projectedCols[i].getAlias( );
+			if ( columnName != null &&
+					!columnName.equals( columnAlias ) &&
+					resultSetNameSet.contains( columnName ) &&
+					resultSetNameSet.contains( columnAlias ) )
+				size--;
+		}
+
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
@@ -191,9 +233,10 @@ public class ResultClass implements IResultClass
 			for ( int i = 0; i < m_fieldCount; i++ )
 			{
 				ResultFieldMetadata column = projectedCols[i];
-
-				if ( resultSetNameSet.contains( column.getName( ) ) ||
-					 resultSetNameSet.contains( column.getAlias()))
+				// check if result set contains the column, if exists, remove it
+				// from the result set for further invalid columns collecting
+				if (resultSetNameSet.remove(column.getName())
+						|| resultSetNameSet.remove(column.getAlias()))
 				{
 					IOUtil.writeInt( dos, column.getDriverPosition( ) );
 					IOUtil.writeString( dos, column.getName( ) );
@@ -211,8 +254,20 @@ public class ResultClass implements IResultClass
 				}
 			}
 			
-			if ( writeCount != size )
-				throw new DataException( ResourceConstants.RESULT_CLASS_SAVE_ERROR );
+			if ( writeCount != size)
+			{
+				validateProjectColumns( projectedCols );
+				StringBuffer buf = new StringBuffer( );
+				for ( Iterator i = resultSetNameSet.iterator( ); i.hasNext( ); )
+				{
+					String colName = (String) i.next( );
+					buf.append( colName );
+					buf.append( ',' );
+				}
+				buf.deleteCharAt( buf.length( ) - 1 );
+				throw new DataException( ResourceConstants.RESULT_CLASS_SAVE_ERROR,
+						buf.toString( ) );
+			}
 			
 			dos.close( );
 		}
