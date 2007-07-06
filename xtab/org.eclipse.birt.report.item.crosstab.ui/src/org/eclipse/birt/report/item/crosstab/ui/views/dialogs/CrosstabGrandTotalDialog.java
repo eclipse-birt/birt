@@ -33,9 +33,10 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.GrandT
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -415,16 +416,16 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 	{
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
 				DEUtil.getMetaDataDictionary( )
-						.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-						.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+						.getElement( ReportDesignConstants.MEASURE_ELEMENT )
+						.getProperty( IMeasureModel.FUNCTION_PROP )
 						.getAllowedChoices( ) );
 	}
 
 	private IChoice[] getFunctions( )
 	{
 		return DEUtil.getMetaDataDictionary( )
-				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
+				.getProperty( IMeasureModel.FUNCTION_PROP )
 				.getAllowedChoices( )
 				.getChoices( );
 	}
