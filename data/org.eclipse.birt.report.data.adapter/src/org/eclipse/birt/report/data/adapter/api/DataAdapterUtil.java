@@ -266,27 +266,32 @@ public class DataAdapterUtil
 		{
 			this.it = it;
 			if ( it.getCurrentResultType( ) == ILinkedResult.TYPE_TABLE )
-				this.currentIterator = ( IResultIterator ) it.getCurrentResult( );
+				this.currentIterator = (IResultIterator) it.getCurrentResult( );
 		}
+		
 		public String getClassName( )
 		{
 			return "JSResultIteratorObject";
 		}
-		
+
+		/*
+		 * @see org.mozilla.javascript.Scriptable#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
 		public Object get( String arg0, Scriptable scope )
 		{
 			try
 			{
 				if ( this.currentIterator == null )
 					return null;
-				
-				if( "__rownum".equalsIgnoreCase( arg0 )||"0".equalsIgnoreCase( arg0 ))
+
+				if ( "__rownum".equalsIgnoreCase( arg0 ) ||
+						"0".equalsIgnoreCase( arg0 ) )
 				{
 					return new Integer( this.currentIterator.getRowIndex( ) );
 				}
-				if( "_outer".equalsIgnoreCase( arg0 ))
+				if ( "_outer".equalsIgnoreCase( arg0 ) )
 				{
-					return new JSResultIteratorObject( it.getParent( ));
+					return new JSResultIteratorObject( it.getParent( ) );
 				}
 				return this.currentIterator.getValue( arg0 );
 			}
@@ -295,6 +300,13 @@ public class DataAdapterUtil
 				return null;
 			}
 		}
-		
+
+		/*
+		 * @see org.mozilla.javascript.Scriptable#get(int, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( int index, Scriptable start )
+		{
+			return this.get( String.valueOf( index ), start );
+		}
 	}
 }
