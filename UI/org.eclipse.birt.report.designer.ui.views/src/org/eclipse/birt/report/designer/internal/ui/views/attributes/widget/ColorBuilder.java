@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -87,7 +88,8 @@ public class ColorBuilder extends Composite
 			boolean isFormStyle )
 	{
 		setLayout( WidgetUtil.createSpaceGridLayout( 2, 1 ) );
-		if(isFormStyle)( (GridLayout) getLayout( ) ).horizontalSpacing = 3;
+		if ( isFormStyle )
+			( (GridLayout) getLayout( ) ).horizontalSpacing = 3;
 
 		colorSelector = new ColorSelector( this );
 		GridData data = new GridData( );
@@ -105,7 +107,7 @@ public class ColorBuilder extends Composite
 		} );
 
 		if ( isFormStyle )
-			combo = FormWidgetFactory.getInstance( ).createCCombo( this,false );
+			combo = FormWidgetFactory.getInstance( ).createCCombo( this, false );
 		else
 			combo = new CCombo( this, SWT.DROP_DOWN );
 		data = new GridData( );
@@ -367,7 +369,7 @@ public class ColorBuilder extends Composite
 		if ( colors != null )
 			return new RGB( colors[0], colors[1], colors[2] );
 
-		StringTokenizer st = new StringTokenizer( string, " ,()" );//$NON-NLS-1$//$NON-NLS-2$
+		StringTokenizer st = new StringTokenizer( string, " ,()" );//$NON-NLS-1$
 		if ( !st.hasMoreTokens( ) )
 			return null;
 		int[] rgb = new int[]{
@@ -624,9 +626,19 @@ public class ColorBuilder extends Composite
 		if ( rgb == null )
 		{
 			combo.deselectAll( );
-			setRGB( getRGB( ) );
+			if ( StringUtil.isBlank( string ) )
+			{
+				// for blank string or null string, we reset the value to null.
+				setRGB( null );
+			}
+			else
+			{
+				// for other invalid string, we keep current value.
+				setRGB( getRGB( ) );
+			}
 			notifyListeners( SWT.Modify, null );
 		}
-		else processAction( rgb );
+		else
+			processAction( rgb );
 	}
 }
