@@ -154,7 +154,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	}
 
-	protected Point getInitialSize( )
+	protected Point getDefaultSize( )
 	{
 		return new Point( 820, 600 );
 	}
