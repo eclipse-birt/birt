@@ -113,6 +113,11 @@ class CSSLengthValueHandler
 			throw new IllegalArgumentException(
 					"The argument \"fontSizeValue\" should be absolute." ); //$NON-NLS-1$
 		}
+		if ( relativeValue == null )
+		{
+			throw new IllegalArgumentException(
+					"The argument \"relativeValue\" should not be null." ); //$NON-NLS-1$
+		}
 
 		if ( CSSLengthValueHandler.isAbsoluteUnit( relativeValue.getUnits( ) ) )
 		{

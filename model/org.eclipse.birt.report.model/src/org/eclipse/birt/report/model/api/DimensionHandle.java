@@ -44,10 +44,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * For example:
  * 
  * <pre>
- * 
  * DesignElementHandle elementHandle = element.handle( );
  * <p>
- * 
  * DimensionHandle dimensionHandle = elementHandle
  * 		.getDimensionProperty( Style.FONT_SIZE_PROP );
  * </pre>
@@ -253,14 +251,15 @@ public class DimensionHandle extends ComplexValueHandle
 		}
 		else
 		{
-			assert value instanceof DimensionValue;
+			assert value instanceof DimensionValue || value == null;
 
 			DimensionValue dimensionValue = (DimensionValue) value;
 
 			// If the value is absolute value.
 
-			if ( CSSLengthValueHandler
-					.isAbsoluteUnit( dimensionValue.getUnits( ) ) )
+			if ( dimensionValue != null
+					&& CSSLengthValueHandler.isAbsoluteUnit( dimensionValue
+							.getUnits( ) ) )
 				return dimensionValue;
 
 			// Only the relative value of CSS property in the non-style

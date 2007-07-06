@@ -31,7 +31,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 	 * 
 	 * @param dimensionHandle
 	 */
-	
+
 	ComputedValueHandler( DimensionHandle dimensionHandle )
 	{
 		super( dimensionHandle );
@@ -62,8 +62,10 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 			}
 		}
 
-		return computeRelativeValue( absoluteFontSizeValue,
-				relativeDimensionValue );
+		return relativeDimensionValue == null
+				? absoluteFontSizeValue
+				: computeRelativeValue( absoluteFontSizeValue,
+						relativeDimensionValue );
 	}
 
 	/**
