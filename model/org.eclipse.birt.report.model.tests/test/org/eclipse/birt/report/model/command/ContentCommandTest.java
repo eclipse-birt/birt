@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -47,6 +49,9 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -69,6 +74,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -1727,6 +1733,34 @@ public class ContentCommandTest extends BaseTestCase
 				.getID( ) ) );
 		assertEquals( innerExtendedItem, designHandle
 				.getElementByID( innerExtendedItem.getID( ) ) );
+	}
+	
+	/**
+	 * @throws Exception 
+	 * 
+	 */
+	public void testRemoveReferencableElement( ) throws Exception
+	{
+		openDesign( "ContentCommandTest_1.xml" ); //$NON-NLS-1$
+		TabularCubeHandle cube = (TabularCubeHandle) designHandle.findCube( "Customer Cube" ); //$NON-NLS-1$
+		
+		// now resolve the 'level' member in DimensionJoinCondition
+		List conditions = cube.getListProperty( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
+		for ( int i = 0; i < conditions.size( ); i++ )
+		{
+			DimensionCondition dimensionCond = (DimensionCondition) conditions.get( i );
+			List joinConditions = (List) dimensionCond.getProperty( design, DimensionCondition.JOIN_CONDITIONS_MEMBER );
+			for ( int j = 0; j < joinConditions.size( ); j++ )
+			{
+				DimensionJoinCondition dimensionJoinCond = (DimensionJoinCondition) joinConditions.get( j );
+				dimensionJoinCond.getProperty( design, DimensionJoinCondition.LEVEL_MEMBER );
+			}
+		}
+		
+		cube.getDimension( "Region" ).dropAndClear( ); //$NON-NLS-1$
+		
+		save( );
+		assertTrue( compareFile( "ContentCommandTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	class MyGroupListener implements Listener

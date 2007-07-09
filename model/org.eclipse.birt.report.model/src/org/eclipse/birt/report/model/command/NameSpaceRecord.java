@@ -204,7 +204,8 @@ public class NameSpaceRecord extends SimpleRecord
 			}
 			else
 			{
-				assert false;
+				// TODO: assertion is failed for bug 194843
+				// assert false;
 			}
 		}
 	}

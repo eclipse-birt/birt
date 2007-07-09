@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -45,6 +47,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -492,9 +497,78 @@ public class ContentCommand extends AbstractContentCommand
 					}
 					else if ( ref.getPropertyName( ) != null )
 					{
-						PropertyCommand cmd = new PropertyCommand( module,
-								client );
-						cmd.setProperty( ref.propName, null );
+						// TODO: this solver is tempor for bug 194843, remove
+						// this hard code if memberref refactor is finished.
+						String propName = ref.getPropertyName( );
+						if ( referred instanceof Level )
+						{
+							ElementPropertyDefn defn = client
+									.getPropertyDefn( propName );
+							if ( defn != null )
+							{
+								PropertyCommand cmd = new PropertyCommand(
+										module, client );
+								cmd.setProperty( ref.propName, null );
+							}
+							else
+							{
+								// there is only one case: the
+								// DimensionJoinCondition 'level' member
+								assert client instanceof TabularCube;
+								TabularCube cube = (TabularCube) client;
+								defn = cube
+										.getPropertyDefn( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+								List conditions = (List) cube.getProperty(
+										module, defn );
+								if ( conditions != null )
+								{
+									for ( int i = 0; i < conditions.size( ); i++ )
+									{
+										DimensionCondition dimensionCondition = (DimensionCondition) conditions
+												.get( i );
+										StructPropertyDefn structPropertDefn = (StructPropertyDefn) dimensionCondition
+												.getDefn( )
+												.getMember(
+														DimensionCondition.JOIN_CONDITIONS_MEMBER );
+										List joinConditions = (List) dimensionCondition
+												.getProperty( module,
+														structPropertDefn );
+										CachedMemberRef parentRef = new CachedMemberRef(
+												new CachedMemberRef( defn ), i );
+										CachedMemberRef memberRef = new CachedMemberRef(
+												parentRef, structPropertDefn );
+										if ( joinConditions != null )
+										{
+											for ( int j = joinConditions.size( ) - 1; j >= 0; j-- )
+											{
+												DimensionJoinCondition dimensionJoinCondition = (DimensionJoinCondition) joinConditions
+														.get( j );
+
+												ElementRefValue refValue = (ElementRefValue) dimensionJoinCondition
+														.getLocalProperty(
+																module,
+																DimensionJoinCondition.LEVEL_MEMBER );
+												if ( refValue != null
+														&& refValue
+																.getElement( ) == referred )
+												{
+													ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+															module, cube );
+													cmd.removeItem( memberRef,
+															j );
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							PropertyCommand cmd = new PropertyCommand( module,
+									client );
+							cmd.setProperty( ref.propName, null );
+						}
 					}
 				}
 			}
