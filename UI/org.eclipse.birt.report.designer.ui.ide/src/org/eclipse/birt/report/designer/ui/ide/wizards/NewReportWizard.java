@@ -15,6 +15,8 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -41,6 +43,7 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.Assert;
@@ -59,6 +62,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.osgi.framework.Bundle;
 
 /**
  * An implementation of <code>INewWizard</code>. Creates a new blank report
@@ -128,13 +132,26 @@ public class NewReportWizard extends Wizard implements
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
-		if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
-		else
-		{
-			fileName = fn;
+		else{
+			if ( !fn.toLowerCase( Locale.getDefault( ) ).endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
 
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
