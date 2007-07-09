@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -417,12 +418,46 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
+	private boolean isVertical( CrosstabReportItemHandle reportHandle)
+	{
+		return ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( reportHandle.getMeasureDirection( ) );
+	}
+	
+	private boolean getAssociation()
+	{
+		DimensionViewHandle viewHandle = getDimensionViewHandle( );
+		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+		if (ICrosstabConstants.COLUMN_AXIS_TYPE == viewHandle.getAxisType( ))
+		{
+			if (isVertical( reportHandle ))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		if (ICrosstabConstants.ROW_AXIS_TYPE == viewHandle.getAxisType( ))
+		{
+			if (isVertical( reportHandle ))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private List getSubTotalInfo( )
 	{
 		List retValue = new ArrayList( );
 		DimensionViewHandle viewHandle = getDimensionViewHandle( );
-		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
-
+		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );		
+		
 		int count = viewHandle.getLevelCount( );
 		int measureCount = reportHandle.getMeasureCount( );
 		LevelViewHandle lastLevelHandle = getLastLevelViewHandle( );
@@ -443,6 +478,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				
 				info.setFunction(reportHandle.getMeasure( j ).getCubeMeasure( ).getFunction( ));
 				retValue.add( info );
+				//fix bug
+				info.setAssociation( getAssociation( ) );
 			}
 		}
 
@@ -499,6 +536,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			
 			info.setFunction( reportHandle.getMeasure(i).getCubeMeasure( ).getFunction( ));
 			retValue.add( info );
+			info.setAssociation( getAssociation( ) );
 		}
 
 		List measures = reportHandle.getAggregationMeasures( viewHandle.getAxisType( ) );

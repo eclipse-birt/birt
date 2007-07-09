@@ -251,6 +251,8 @@ public class AggregationDialog extends BaseDialog
 		private MeasureHandle measure;
 
 		private boolean aggregationOn = false;
+		
+		private boolean isAssociation = false;
 
 		private String function = ""; //$NON-NLS-1$
 
@@ -327,6 +329,18 @@ public class AggregationDialog extends BaseDialog
 					&& temp.getFunction( ) == function
 					&& temp.isAggregationOn( ) == aggregationOn;
 		}
+
+		
+		public boolean isAssociation( )
+		{
+			return isAssociation;
+		}
+
+		
+		public void setAssociation( boolean isAssociation )
+		{
+			this.isAssociation = isAssociation;
+		}
 	}
 
 	/**
@@ -340,6 +354,8 @@ public class AggregationDialog extends BaseDialog
 		private boolean aggregationOn = false;
 
 		private String function = ""; //$NON-NLS-1$
+		
+		private boolean isAssociation = false;
 
 		public GrandTotalInfo copy( )
 		{
@@ -388,6 +404,18 @@ public class AggregationDialog extends BaseDialog
 			}
 			GrandTotalInfo temp = (GrandTotalInfo) obj;
 			return temp.getMeasure( ) == measure;
+		}
+
+		
+		public boolean isAssociation( )
+		{
+			return isAssociation;
+		}
+
+		
+		public void setAssociation( boolean isAssociation )
+		{
+			this.isAssociation = isAssociation;
 		}
 
 	}
