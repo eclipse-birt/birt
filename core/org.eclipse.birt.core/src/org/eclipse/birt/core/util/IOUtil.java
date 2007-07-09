@@ -863,26 +863,18 @@ public class IOUtil
 	private static boolean isLongString( String str )
 	{
 		int strlen = str.length( );
-		int utflen = 0;
-		int c = 0;
-
-		/* use charAt instead of copying String to char array */
-		for ( int i = 0; i < strlen; i++ )
+		
+		if ( strlen > 65535 )
 		{
-			c = str.charAt( i );
-			if ( ( c >= 0x0001 ) && ( c <= 0x007F ) )
-			{
-				utflen++;
-			}
-			else if ( c > 0x07FF )
-			{
-				utflen += 3;
-			}
-			else
-			{
-				utflen += 2;
-			}
+			return true;
 		}
+		else if ( strlen < 21845 )
+		{
+			return false;
+		}
+		
+		int utflen = getBytesSize( str );
+
 		if ( utflen > 65535 )
 		{
 			return true;
@@ -901,9 +893,39 @@ public class IOUtil
 	 */
 	private static void writeUTF(  DataOutputStream dos, String str ) throws IOException
 	{
-		byte[] longBytes = convertString2Bytes( str );
-		dos.writeInt( longBytes.length );
-		dos.write( longBytes, 0 , longBytes.length );
+		int strlen = str.length( );
+		int c = 0;
+		int utflen = getBytesSize( str );
+		dos.writeInt( utflen );
+
+		int i = 0;
+		for ( ; i < strlen; i++ )
+		{
+			c = str.charAt( i );
+			if ( !( ( c >= 0x0001 ) && ( c <= 0x007F ) ) )
+				break;
+			dos.writeByte( (byte) c );
+		}
+
+		for ( ; i < strlen; i++ )
+		{
+			c = str.charAt( i );
+			if ( ( c >= 0x0001 ) && ( c <= 0x007F ) )
+			{
+				dos.writeByte( (byte) c );
+			}
+			else if ( c > 0x07FF )
+			{
+				dos.writeByte( (byte) ( 0xE0 | ( ( c >> 12 ) & 0x0F ) ) );
+				dos.writeByte( (byte) ( 0x80 | ( ( c >> 6 ) & 0x3F ) ) );
+				dos.writeByte( (byte) ( 0x80 | ( ( c >> 0 ) & 0x3F ) ) );
+			}
+			else
+			{
+				dos.writeByte( (byte) ( 0xC0 | ( ( c >> 6 ) & 0x1F ) ) );
+				dos.writeByte( (byte) ( 0x80 | ( ( c >> 0 ) & 0x3F ) ) );
+			}
+		}
 	}
 	
 	/**
@@ -921,19 +943,15 @@ public class IOUtil
 	}
 	
 	/**
-	 * private utility method to convert a String to byte[] 
+	 * private utility method to the size of a string in bytes 
 	 * 
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
-	private static byte[] convertString2Bytes( String str )
+	private static int getBytesSize( String str )
 	{
-		int strlen = str.length( );
-		int utflen = 0;
-		int c, count = 0;
-
-		/* use charAt instead of copying String to char array */
-		for ( int i = 0; i < strlen; i++ )
+		int c,utflen = 0;
+		for ( int i = 0; i < str.length( ); i++ )
 		{
 			c = str.charAt( i );
 			if ( ( c >= 0x0001 ) && ( c <= 0x007F ) )
@@ -949,65 +967,20 @@ public class IOUtil
 				utflen += 2;
 			}
 		}
-
-		byte[] bytearr = null;
-		bytearr = new byte[utflen];
-
-		int i = 0;
-		for ( i = 0; i < strlen; i++ )
-		{
-			c = str.charAt( i );
-			if ( !( ( c >= 0x0001 ) && ( c <= 0x007F ) ) )
-				break;
-			bytearr[count++] = (byte) c;
-		}
-
-		for ( ; i < strlen; i++ )
-		{
-			c = str.charAt( i );
-			if ( ( c >= 0x0001 ) && ( c <= 0x007F ) )
-			{
-				bytearr[count++] = (byte) c;
-
-			}
-			else if ( c > 0x07FF )
-			{
-				bytearr[count++] = (byte) ( 0xE0 | ( ( c >> 12 ) & 0x0F ) );
-				bytearr[count++] = (byte) ( 0x80 | ( ( c >> 6 ) & 0x3F ) );
-				bytearr[count++] = (byte) ( 0x80 | ( ( c >> 0 ) & 0x3F ) );
-			}
-			else
-			{
-				bytearr[count++] = (byte) ( 0xC0 | ( ( c >> 6 ) & 0x1F ) );
-				bytearr[count++] = (byte) ( 0x80 | ( ( c >> 0 ) & 0x3F ) );
-			}
-		}
-		return bytearr;
+		return utflen;
 	}
 	
 	/**
-	 * private utility method to convert a byte[] to String
+	 * private utility method helping to convert byte[] to a String 
 	 * 
-	 * @param bytearre
+	 * @param str
 	 * @throws UTFDataFormatException
 	 */
-	private static String convertBytes2String( byte[] bytearr ) throws UTFDataFormatException
+	private static int generateCharArray( char[] chararr, byte[] bytearr,
+			int count, int chararr_count ) throws UTFDataFormatException
 	{
-		int utflen = bytearr.length;
-		char[] chararr = new char[utflen];
 		int c, char2, char3;
-		int count = 0;
-		int chararr_count = 0;
-
-		while ( count < utflen )
-		{
-			c = (int) bytearr[count] & 0xff;
-			if ( c > 127 )
-				break;
-			count++;
-			chararr[chararr_count++] = (char) c;
-		}
-
+		int utflen = bytearr.length;
 		while ( count < utflen )
 		{
 			c = (int) bytearr[count] & 0xff;
@@ -1021,42 +994,69 @@ public class IOUtil
 				case 5 :
 				case 6 :
 				case 7 :
-					/* 0xxxxxxx*/
+					// 0xxxxxxx
 					count++;
 					chararr[chararr_count++] = (char) c;
 					break;
 				case 12 :
 				case 13 :
-					/* 110x xxxx   10xx xxxx*/
+					// 110x xxxx 10xx xxxx
 					count += 2;
 					if ( count > utflen )
-						throw new UTFDataFormatException( "malformed input: partial character at end" );
+						throw new UTFDataFormatException( "Malformed input: partial character at end" );
 					char2 = (int) bytearr[count - 1];
 					if ( ( char2 & 0xC0 ) != 0x80 )
-						throw new UTFDataFormatException( "malformed input around byte "
+						throw new UTFDataFormatException( "Malformed input around byte "
 								+ count );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x1F ) << 6 ) | ( char2 & 0x3F ) );
 					break;
 				case 14 :
-					/* 1110 xxxx  10xx xxxx  10xx xxxx */
+					// 1110 xxxx 10xx xxxx 10xx xxxx
 					count += 3;
 					if ( count > utflen )
-						throw new UTFDataFormatException( "malformed input: partial character at end" );
+						throw new UTFDataFormatException( "Malformed input: partial character at end" );
 					char2 = (int) bytearr[count - 2];
 					char3 = (int) bytearr[count - 1];
 					if ( ( ( char2 & 0xC0 ) != 0x80 )
 							|| ( ( char3 & 0xC0 ) != 0x80 ) )
-						throw new UTFDataFormatException( "malformed input around byte "
+						throw new UTFDataFormatException( "Malformed input around byte "
 								+ ( count - 1 ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x0F ) << 12 )
 							| ( ( char2 & 0x3F ) << 6 ) | ( ( char3 & 0x3F ) << 0 ) );
 					break;
 				default :
-					/* 10xx xxxx,  1111 xxxx */
-					throw new UTFDataFormatException( "malformed input around byte "
+					// 10xx xxxx, 1111 xxxx
+					throw new UTFDataFormatException( "Malformed input around byte "
 							+ count );
 			}
 		}
+		return chararr_count;
+	}
+	
+	/**
+	 * private utility method to convert a byte[] to String
+	 * 
+	 * @param bytearre
+	 * @throws UTFDataFormatException
+	 */
+	private static String convertBytes2String( byte[] bytearr ) throws UTFDataFormatException
+	{
+		int utflen = bytearr.length;
+		char[] chararr = new char[utflen];
+		int c;
+		int chararr_count = 0;
+
+		int count = 0;
+		while ( count < utflen )
+		{
+			c = (int) bytearr[count] & 0xff;
+			if ( c > 127 )
+				break;
+			count++;
+			chararr[chararr_count++] = (char) c;
+		}
+		chararr_count = generateCharArray( chararr, bytearr, count, chararr_count );
+
 		// The number of chars produced may be less than utflen
 		return new String( chararr, 0, chararr_count );
 	}
