@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.example"
       label="%featureName"
-      version="2.2.0.qualifier"
+      version="2.2.1.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.birt.example"
       image="eclipse_update_120.jpg">
@@ -45,7 +45,7 @@
       <import feature="org.apache.derby.core" version="10.1.2.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.designer.feature" version="1.5.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.feature" version="1.5.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="compatible" />
+      <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="compatible"/>
    </requires>
 
    <plugin

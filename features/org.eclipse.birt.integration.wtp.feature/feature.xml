@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.integration.wtp"
       label="%featureName"
-      version="2.2.0.qualifier"
+      version="2.2.1.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.integration.wtp.ui"
       image="eclipse_update_120.jpg">
@@ -40,7 +40,7 @@
       <import feature="org.eclipse.jst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
    </requires>
-   
+
    <plugin
          id="org.eclipse.birt.integration.wtp.ui"
          download-size="0"
