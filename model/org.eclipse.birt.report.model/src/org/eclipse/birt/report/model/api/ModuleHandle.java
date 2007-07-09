@@ -2051,6 +2051,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibrary( (Library) library.getElement( ) );
+		
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
 	}
 
 	/**
@@ -2081,6 +2085,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.reloadLibrary( libraryToReload.getLocation( ) );
+		
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
 	}
 
 	/**
@@ -2116,7 +2124,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 			}
 
 		}
-
+		
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
 	}
 
 	/**
@@ -2163,6 +2174,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.reloadLibrary( path );
+
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
 	}
 
 	/**
@@ -2185,6 +2200,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
+		
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
 	}
 
 	/**
