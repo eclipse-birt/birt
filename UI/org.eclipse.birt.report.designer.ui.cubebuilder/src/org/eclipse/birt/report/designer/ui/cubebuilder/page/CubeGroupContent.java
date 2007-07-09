@@ -1243,7 +1243,7 @@ public class CubeGroupContent extends Composite implements Listener
 			else if ( obj instanceof LevelHandle )
 			{
 				LevelHandle level = (LevelHandle) obj;
-				DesignElementHandle hierarchy = level.getContainer( );
+				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle)level.getContainer( );
 				DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
 
 				boolean hasExecuted = OlapUtil.enableDrop( level );
@@ -1251,18 +1251,18 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					new DeleteCommand( level ).execute( );
 				}
-				// try
-				// {
-				// if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP )
-				// == 0 )
-				// {
-				// dimension.setTimeType( false );
-				// }
-				// }
-				// catch ( SemanticException e )
-				// {
-				// ExceptionHandler.handle( e );
-				// }
+				 try
+				{
+					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) == 0 )
+					{
+						dimension.setTimeType( false );
+						hierarchy.setDataSet( null );
+					}
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 
 			}
 			else if ( obj instanceof MeasureGroupHandle )
