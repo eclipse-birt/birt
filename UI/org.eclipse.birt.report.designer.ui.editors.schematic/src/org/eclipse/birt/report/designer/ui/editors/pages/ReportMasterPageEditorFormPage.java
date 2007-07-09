@@ -51,6 +51,8 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		{
 			updateStackActions( );
 			editor.editorDirtyStateChanged( );
+			// fix bug 158254
+			staleType = IPageStaleType.MODEL_CHANGED;
 		}
 	};
 
@@ -63,7 +65,8 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 		if ( stack != null )
 		{
 			stack.addCommandStackListener( getCommandStackListener( ) );
-			staleType = IPageStaleType.MODEL_CHANGED;
+			// fix bug 158254
+			//staleType = IPageStaleType.MODEL_CHANGED;
 		}
 	}
 
