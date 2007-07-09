@@ -354,7 +354,9 @@ public class ImageBuilder extends BaseDialog
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( (String) uriEditorLabelMap.get( new Integer( type ) ) );
 
-		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY );
+		uriEditor = new Text( inputArea, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.READ_ONLY );
 		GridData textGd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		textGd.widthHint = 308;
 		if ( type == BLOB_TYPE )
@@ -752,6 +754,14 @@ public class ImageBuilder extends BaseDialog
 		{
 			String columnExpr = DEUtil.getColumnExpression( (String) dialog.getResult( ) );
 			uriEditor.setText( columnExpr );
+			try
+			{
+				inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		else
 		{
@@ -789,6 +799,5 @@ public class ImageBuilder extends BaseDialog
 		}
 		return false;
 	}
-
 
 }
