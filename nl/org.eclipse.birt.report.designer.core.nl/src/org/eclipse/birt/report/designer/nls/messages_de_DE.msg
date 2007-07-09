@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=Stil an&wenden
 DesignerActionBarContributor.menu.style-rule-edit=Stil bea&rbeiten
 DesignerActionBarContributor.style.new=&Neuer Stil...
 DesignerActionBarContributor.menu.data-NewParameter=Neuer Bericht&parameter
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=Neuer D&atensatz
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=Der angegebene Ordner ist nicht vo
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Bibliothek in Ressourcenordner aufnehmen...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Vorlage mit Assistent für neuen Bericht registrieren...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction

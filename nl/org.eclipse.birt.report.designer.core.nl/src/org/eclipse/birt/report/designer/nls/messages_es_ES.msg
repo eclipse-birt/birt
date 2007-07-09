@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=A&plicar estilo
 DesignerActionBarContributor.menu.style-rule-edit=E&ditar estilo
 DesignerActionBarContributor.style.new=&Nuevo estilo...
 DesignerActionBarContributor.menu.data-NewParameter=Nuevo &parámetro de informe
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=Nuevo c&onjunto de datos
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Colocar la librería en la carpeta de recursos...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Registrar plantilla con el asistente de nuevos informes...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction

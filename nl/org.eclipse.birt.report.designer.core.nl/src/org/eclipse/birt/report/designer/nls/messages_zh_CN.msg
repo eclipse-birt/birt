@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=应用样式(&P)
 DesignerActionBarContributor.menu.style-rule-edit=编辑样式(&D)
 DesignerActionBarContributor.style.new=新建样式(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=新报表参数(&P)
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=新建数据集(&E)
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=指定的文件夹不存在
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=将库置于资源文件夹...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction

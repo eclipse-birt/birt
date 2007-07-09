@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=스타일 적용(&P)
 DesignerActionBarContributor.menu.style-rule-edit=스타일 편집(&D)
 DesignerActionBarContributor.style.new=새 스타일(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=새 보고서 매개 변수(&P)
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=새 데이터 집합(&E)
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=리소스 폴더에 라이브러리 배치...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction

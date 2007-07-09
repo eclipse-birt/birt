@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=A&ppliquer un style
 DesignerActionBarContributor.menu.style-rule-edit=Mo&difier le style
 DesignerActionBarContributor.style.new=&Nouveau style...
 DesignerActionBarContributor.menu.data-NewParameter=Nouveau &paramètre d'état
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=Nouveau jeu de donné&es
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=Le dossier spécifié n'existe pas.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Placer la bibliothèque dans le dossier de ressources...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'assistant Nouvel état...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction

@@ -744,6 +744,9 @@ DesignerActionBarContributor.menu.style-rule-apply=スタイルの適用(&P)
 DesignerActionBarContributor.menu.style-rule-edit=スタイルの編集(&D)
 DesignerActionBarContributor.style.new=スタイルの新規作成(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=新規レポートパラメタ(&P)
+DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+designerActionBarContributor.menu.data-newDataset=新規データセット(&E)
+designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2692,12 +2695,12 @@ ExportToLibraryAction.wizard.page.foldererror=指定されたフォルダが存在しません。
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=ライブラリをリソースフォルダに保存...
+PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=テンプレートをレポートの新規作成ウィザードに登録...
+PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
 
 ###########################################################
 #RefreshModuleHandleAction
