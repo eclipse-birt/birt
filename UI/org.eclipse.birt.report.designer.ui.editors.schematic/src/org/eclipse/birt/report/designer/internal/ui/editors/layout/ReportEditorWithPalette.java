@@ -75,6 +75,7 @@ import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -415,6 +416,10 @@ abstract public class ReportEditorWithPalette extends
 		getSelectionActions( ).add( action.getId( ) );
 
 		action = new NewDataSetAction( );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+		
+		action = new NewJointDataSetAction( );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 

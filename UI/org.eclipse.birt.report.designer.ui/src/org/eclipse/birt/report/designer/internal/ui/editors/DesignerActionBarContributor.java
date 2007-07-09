@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
@@ -143,10 +144,16 @@ public class DesignerActionBarContributor extends
 	};
 
 	private static final RegisterActions[] dataActions = new RegisterActions[]{
-			new RegisterActions( NewDataSourceAction.ID,
-					Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ),//$NON-NLS-1$
+		new RegisterActions( NewDataSourceAction.ID,
+				Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ),//$NON-NLS-1$
+
+	};
+
+	private static final RegisterActions[] dataSetActions = new RegisterActions[]{
 			new RegisterActions( NewDataSetAction.ID,
 					Messages.getString( "designerActionBarContributor.menu.data-newdataset" ) ),//$NON-NLS-1$
+			new RegisterActions( NewJointDataSetAction.ID,
+					Messages.getString( "designerActionBarContributor.menu.data-newJointDataset" ) ),//$NON-NLS-1$		
 
 	};
 
@@ -180,7 +187,7 @@ public class DesignerActionBarContributor extends
 	 */
 	protected void buildActions( )
 	{
-		if(isBuilt)
+		if ( isBuilt )
 			return;
 		isBuilt = true;
 		addRetargetAction( new UndoRetargetAction( ) );
@@ -219,71 +226,74 @@ public class DesignerActionBarContributor extends
 		registerActions( getInsertElementActions( ) );
 		registerActions( elementActions );
 		registerActions( dataActions );
+		registerActions( dataSetActions );
 
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
 		registerActions( parameterActions );
-		//		ICommandService commandService = (ICommandService) PlatformUI.getWorkbench( )
-		//				.getAdapter( ICommandService.class );
-		//		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench( )
-		//				.getAdapter( IHandlerService.class );
+		// ICommandService commandService = (ICommandService)
+		// PlatformUI.getWorkbench( )
+		// .getAdapter( ICommandService.class );
+		// IHandlerService handlerService = (IHandlerService)
+		// PlatformUI.getWorkbench( )
+		// .getAdapter( IHandlerService.class );
 		//		
 		//		
-		//		Command command = commandService.getCommand( "testcommand" );
+		// Command command = commandService.getCommand( "testcommand" );
 		//
-		//		try
-		//		{
-		//			// IParameter viewIdParm = command.getParameter( "moduleHandle" );
-		//			//
-		//			// IParameterValues parmValues = viewIdParm.getValues( );
-		//			// String viewId = null;
-		//			// Iterator i = parmValues.getParameterValues( ).values( ).iterator(
-		//			// );
-		//			// while ( i.hasNext( ) )
-		//			// {
-		//			// String id = (String) i.next( );
-		//			// if ( id.indexOf( "ProblemView" ) != -1 )
-		//			// {
-		//			// viewId = id;
-		//			// break;
-		//			// }
-		//			// }
+		// try
+		// {
+		// // IParameter viewIdParm = command.getParameter( "moduleHandle" );
+		// //
+		// // IParameterValues parmValues = viewIdParm.getValues( );
+		// // String viewId = null;
+		// // Iterator i = parmValues.getParameterValues( ).values( ).iterator(
+		// // );
+		// // while ( i.hasNext( ) )
+		// // {
+		// // String id = (String) i.next( );
+		// // if ( id.indexOf( "ProblemView" ) != -1 )
+		// // {
+		// // viewId = id;
+		// // break;
+		// // }
+		// // }
 		//
-		//			Parameterization parm = CommandUtils.createParameter( command,
-		//					"moduleHandle",
-		//					SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
-		//			ParameterizedCommand parmCommand = new ParameterizedCommand( command,
-		//					new Parameterization[]{
-		//						parm
-		//					} );
+		// Parameterization parm = CommandUtils.createParameter( command,
+		// "moduleHandle",
+		// SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+		// ParameterizedCommand parmCommand = new ParameterizedCommand( command,
+		// new Parameterization[]{
+		// parm
+		// } );
 		//
-		//			handlerService.executeCommand( parmCommand, null );
-		//		}
-		//		catch ( ExecutionException e )
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace( );
-		//		}
-		//		catch ( NotDefinedException e )
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace( );
-		//		}
-		//		catch ( NotEnabledException e )
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace( );
-		//		}
-		//		catch ( NotHandledException e )
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace( );
-		//		}
-		//		catch ( ParameterValueConversionException e )
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+		// handlerService.executeCommand( parmCommand, null );
+		// }
+		// catch ( ExecutionException e )
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( );
+		// }
+		// catch ( NotDefinedException e )
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( );
+		// }
+		// catch ( NotEnabledException e )
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( );
+		// }
+		// catch ( NotHandledException e )
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( );
+		// }
+		// catch ( ParameterValueConversionException e )
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -296,9 +306,9 @@ public class DesignerActionBarContributor extends
 			insertElementActions = insertActions;
 			List extensionPoints = ExtensionPointManager.getInstance( )
 					.getExtendedElementPoints( );
-			//experimental
+			// experimental
 			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
-			//end experimental
+			// end experimental
 			insertElementActions = new RegisterActions[insertActions.length
 					+ extensionPoints.size( )
 					+ entries.length];
@@ -326,7 +336,7 @@ public class DesignerActionBarContributor extends
 					insertElementActions[insertActions.length + k] = extAction;
 				}
 			}
-			//experimental
+			// experimental
 			for ( int i = 0; i < entries.length; i++ )
 			{
 				RegisterActions extAction = new RegisterActions( entries[i].getItemName( ),
@@ -460,61 +470,15 @@ public class DesignerActionBarContributor extends
 		// Data Menu
 		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
 		dataMenu.add( getAction( dataActions[0].id ) );
-		dataMenu.add( getAction( dataActions[1].id ) );
-		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
+
+		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) );
+		contributeActionsToMenu( dataSetMenu, dataSetActions );
+		dataMenu.add( dataSetMenu );
+
+		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
 		//$NON-NLS-1$
-		contributeActionsToMenu( editGroupMenu, parameterActions );
-
-		// ================ Experimental, use nodeprovider to contribute menu
-		// ====================//
-		// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( );
-		//
-		// INodeProvider provider = (INodeProvider)
-		// ElementAdapterManager.getAdatper( moduleHandle.getDataSources( ),
-		// INodeProvider.class );
-		// try
-		// {
-		// provider.createContextMenu( null,
-		// moduleHandle.getDataSources( ),
-		// dataMenu );
-		// }
-		// catch ( Throwable e )
-		// {
-		// // because INodeProvider is general used in viewer context menu,
-		// // here invoke the createContextMenu method by null argument may
-		// // throw unexcepted excetion,
-		// // so add try/catch block
-		// // TODO we should define a more general useage NodeProvider
-		// }
-		// provider = (INodeProvider) ElementAdapterManager.getAdatper(
-		// moduleHandle.getDataSets( ),
-		// INodeProvider.class );
-		// try
-		// {
-		// provider.createContextMenu( null,
-		// moduleHandle.getDataSets( ),
-		// dataMenu );
-		// }
-		// catch ( Throwable e )
-		// {
-		// }
-		// provider = (INodeProvider) ElementAdapterManager.getAdatper(
-		// moduleHandle.getParameters( ),
-		// INodeProvider.class );
-		// try
-		// {
-		// provider.createContextMenu( null,
-		// moduleHandle.getParameters( ),
-		// dataMenu );
-		// }
-		// catch ( Throwable e )
-		// {
-		// }
-
-		// Add new parameter action
-
-		dataMenu.add( editGroupMenu );
+		contributeActionsToMenu( parameterMenu, parameterActions );
+		dataMenu.add( parameterMenu );
 
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
 				.getService( IMenuService.class );

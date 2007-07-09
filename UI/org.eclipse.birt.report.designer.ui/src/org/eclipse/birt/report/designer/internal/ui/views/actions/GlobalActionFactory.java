@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
+import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -76,7 +77,7 @@ public class GlobalActionFactory
 	};
 
 	public final static String[] GLOBAL_DATA_ACTIONS = {
-			NewDataSourceAction.ID, NewDataSetAction.ID,
+			NewDataSourceAction.ID, NewDataSetAction.ID,NewJointDataSetAction.ID
 	};
 
 	public static IAction createSelectionAction( String id,
@@ -107,6 +108,9 @@ public class GlobalActionFactory
 		else if ( NewDataSetAction.ID.equals( id ) )
 		{
 			return new NewDataSetAction( );
+		}else if ( NewJointDataSetAction.ID.equals( id ) )
+		{
+			return new NewJointDataSetAction( );
 		}
 		String elementType = null;
 		if ( GeneralInsertMenuAction.INSERT_TEXT_ID.equals( id ) )
