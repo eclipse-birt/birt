@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
@@ -32,17 +32,17 @@ import org.eclipse.swt.widgets.Label;
 public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 {
 
-	private transient SeriesDefinition seriesDefn;
+	private SeriesDefinition seriesDefn;
 
-	private transient ChartWizardContext context = null;
+	private ChartWizardContext context = null;
 
-	private transient String sTitle = null;
+	private String sTitle = null;
 
-	private transient String labelText = Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ); //$NON-NLS-1$
+	private String labelText = Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ); //$NON-NLS-1$
 
-	private transient String tooltipWhenBlank = null;
+	private String tooltipWhenBlank = null;
 
-	private transient ISelectDataComponent comData;
+	private ISelectDataComponent comData;
 
 	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
 			ChartWizardContext context, String sTitle )
@@ -70,7 +70,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 		{
 			GridData gridData = new GridData( );
 			leftAngle.setLayoutData( gridData );
-			leftAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_LEFTUP ) );
+			leftAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_LEFTUP ) );
 			leftAngle.getImage( ).setBackground( leftAngle.getBackground( ) );
 		}
 
@@ -87,7 +87,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 		comData.createArea( cmpBottom );
 
 		Label rightAngle = new Label( cmpBottom, SWT.NONE );
-		rightAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_RIGHTUP ) );
+		rightAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_RIGHTUP ) );
 		rightAngle.getImage( ).setBackground( rightAngle.getBackground( ) );
 
 		return cmpBottom;

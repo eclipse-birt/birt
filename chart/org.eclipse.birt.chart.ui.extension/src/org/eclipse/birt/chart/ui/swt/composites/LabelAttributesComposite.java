@@ -25,7 +25,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -128,13 +128,13 @@ public class LabelAttributesComposite extends Composite implements
 
 	public static final int LABEL_CHANGED_EVENT = 11;
 
-	public static final int ALLOW_ALL_POSITION = ChartUIConstancts.ALLOW_ALL_POSITION;
+	public static final int ALLOW_ALL_POSITION = ChartUIConstants.ALLOW_ALL_POSITION;
 
-	public static final int ALLOW_VERTICAL_POSITION = ChartUIConstancts.ALLOW_VERTICAL_POSITION;
+	public static final int ALLOW_VERTICAL_POSITION = ChartUIConstants.ALLOW_VERTICAL_POSITION;
 
-	public static final int ALLOW_HORIZONTAL_POSITION = ChartUIConstancts.ALLOW_HORIZONTAL_POSITION;
+	public static final int ALLOW_HORIZONTAL_POSITION = ChartUIConstants.ALLOW_HORIZONTAL_POSITION;
 
-	public static final int ALLOW_INOUT_POSITION = ChartUIConstancts.ALLOW_INOUT_POSITION;
+	public static final int ALLOW_INOUT_POSITION = ChartUIConstants.ALLOW_INOUT_POSITION;
 
 	private transient boolean bEnabled = true;
 

@@ -1346,41 +1346,41 @@ public class ChartUIUtil
 	 * @param dimension
 	 *            chart dimension
 	 * @return position scope of constants
-	 * @see ChartUIConstancts#ALLOW_ALL_POSITION
+	 * @see ChartUIConstants#ALLOW_ALL_POSITION
 	 */
 	public static int getPositionScopeOfSeriesLabel( Series series,
 			ChartDimension dimension )
 	{
 		// 4 positions by default
-		int positionScope = ChartUIConstancts.ALLOW_HORIZONTAL_POSITION
-				| ChartUIConstancts.ALLOW_VERTICAL_POSITION;
+		int positionScope = ChartUIConstants.ALLOW_HORIZONTAL_POSITION
+				| ChartUIConstants.ALLOW_VERTICAL_POSITION;
 		if ( series instanceof BarSeries )
 		{
 			if ( dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 			{
 				// Only one position
-				positionScope = ChartUIConstancts.ALLOW_OUT_POSITION;
+				positionScope = ChartUIConstants.ALLOW_OUT_POSITION;
 			}
 			else
 			{
 				// Only two positions
-				positionScope = ChartUIConstancts.ALLOW_INOUT_POSITION;
+				positionScope = ChartUIConstants.ALLOW_INOUT_POSITION;
 			}
 		}
 		else if ( series instanceof PieSeries )
 		{
 			// Only two positions
-			positionScope = ChartUIConstancts.ALLOW_INOUT_POSITION;
+			positionScope = ChartUIConstants.ALLOW_INOUT_POSITION;
 		}
 		else if ( series instanceof GanttSeriesImpl )
 		{
 			// Add one position
-			positionScope |= ChartUIConstancts.ALLOW_IN_POSITION;
+			positionScope |= ChartUIConstants.ALLOW_IN_POSITION;
 		}
 		else if ( series instanceof BubbleSeriesImpl )
 		{
 			// Add one position
-			positionScope |= ChartUIConstancts.ALLOW_IN_POSITION;
+			positionScope |= ChartUIConstants.ALLOW_IN_POSITION;
 		}
 
 		return positionScope;
@@ -1398,14 +1398,14 @@ public class ChartUIUtil
 	public static String[] getPositionDisplayNames( int positionScope,
 			boolean isFlipped )
 	{
-		if ( ( positionScope & ChartUIConstancts.ALLOW_ALL_POSITION ) == ChartUIConstancts.ALLOW_ALL_POSITION )
+		if ( ( positionScope & ChartUIConstants.ALLOW_ALL_POSITION ) == ChartUIConstants.ALLOW_ALL_POSITION )
 		{
 			return LiteralHelper.fullPositionSet.getDisplayNames( );
 		}
 
 		List items = new ArrayList( 5 );
 		// check vertical
-		if ( ( positionScope & ChartUIConstancts.ALLOW_VERTICAL_POSITION ) == ChartUIConstancts.ALLOW_VERTICAL_POSITION )
+		if ( ( positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION ) == ChartUIConstants.ALLOW_VERTICAL_POSITION )
 		{
 			if ( isFlipped )
 			{
@@ -1419,7 +1419,7 @@ public class ChartUIUtil
 			}
 		}
 		// check horizontal
-		if ( ( positionScope & ChartUIConstancts.ALLOW_HORIZONTAL_POSITION ) == ChartUIConstancts.ALLOW_HORIZONTAL_POSITION )
+		if ( ( positionScope & ChartUIConstants.ALLOW_HORIZONTAL_POSITION ) == ChartUIConstants.ALLOW_HORIZONTAL_POSITION )
 		{
 			if ( isFlipped )
 			{
@@ -1434,11 +1434,11 @@ public class ChartUIUtil
 		}
 		// check inout
 		// Inside or outside can be added separately
-		if ( ( positionScope & ChartUIConstancts.ALLOW_IN_POSITION ) == ChartUIConstancts.ALLOW_IN_POSITION )
+		if ( ( positionScope & ChartUIConstants.ALLOW_IN_POSITION ) == ChartUIConstants.ALLOW_IN_POSITION )
 		{
 			items.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.INSIDE_LITERAL.getName( ) ) );
 		}
-		if ( ( positionScope & ChartUIConstancts.ALLOW_OUT_POSITION ) == ChartUIConstancts.ALLOW_OUT_POSITION )
+		if ( ( positionScope & ChartUIConstants.ALLOW_OUT_POSITION ) == ChartUIConstants.ALLOW_OUT_POSITION )
 		{
 			items.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
 		}
@@ -1475,10 +1475,10 @@ public class ChartUIUtil
 			Series series = (Series) iter.next( );
 			if ( series instanceof BarSeries )
 			{
-				String stackedCase = ChartUIConstancts.NON_STACKED_TYPE;
+				String stackedCase = ChartUIConstants.NON_STACKED_TYPE;
 				if ( series.isStacked( ) )
 				{
-					stackedCase = ChartUIConstancts.STACKED_TYPE;
+					stackedCase = ChartUIConstants.STACKED_TYPE;
 				}
 
 				ChartCacheManager.getInstance( )
@@ -1511,10 +1511,10 @@ public class ChartUIUtil
 				Series series = (Series) iter.next( );
 				if ( series instanceof BarSeries )
 				{
-					String stackedCase = ChartUIConstancts.NON_STACKED_TYPE;
+					String stackedCase = ChartUIConstants.NON_STACKED_TYPE;
 					if ( series.isStacked( ) )
 					{
-						stackedCase = ChartUIConstancts.STACKED_TYPE;
+						stackedCase = ChartUIConstants.STACKED_TYPE;
 					}
 
 					Position labelPosition = ChartCacheManager.getInstance( )

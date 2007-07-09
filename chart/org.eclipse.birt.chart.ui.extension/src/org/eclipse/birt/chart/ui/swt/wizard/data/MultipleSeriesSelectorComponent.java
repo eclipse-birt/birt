@@ -16,7 +16,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
@@ -63,7 +63,7 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 		Label topAngle = new Label( parent, SWT.NONE );
 		{
 			topAngle.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-			topAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_TOPRIGHT ) );
+			topAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_TOPRIGHT ) );
 		}
 
 		cmpLeft = new Group( parent, SWT.NONE );
@@ -118,7 +118,7 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 		Label bottomAngle = new Label( parent, SWT.NONE );
 		{
 			bottomAngle.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-			bottomAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_BOTTOMRIGHT ) );
+			bottomAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_BOTTOMRIGHT ) );
 		}
 
 		return cmpLeft;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -40,10 +39,9 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -72,35 +70,35 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		SelectionListener
 {
 
-	private transient EList seriesDefns = null;
+	private EList seriesDefns = null;
 
-	private transient ChartWizardContext wizardContext = null;
+	private ChartWizardContext wizardContext = null;
 
-	private transient String sTitle = null;
+	private String sTitle = null;
 
-	private transient Composite cmpTop = null;
+	private Composite cmpTop = null;
 
-	private transient Composite cmpData = null;
+	private Composite cmpData = null;
 
-	private transient ISelectDataComponent dataComponent = null;
+	private ISelectDataComponent dataComponent = null;
 
-	private transient Button btnAxisDelete;
+	private Button btnAxisDelete;
 
-	private transient Combo cmbAxisSelect;
+	private Combo cmbAxisSelect;
 
-	private transient Button btnSeriesDelete;
+	private Button btnSeriesDelete;
 
-	private transient Combo cmbSeriesSelect;
+	private Combo cmbSeriesSelect;
 
-	private transient int axisIndex;
+	private int axisIndex;
 
-	private transient String selectionName = Messages.getString( "DataDefinitionSelector.Label.Series" ); //$NON-NLS-1$
+	private String selectionName = Messages.getString( "DataDefinitionSelector.Label.Series" ); //$NON-NLS-1$
 
-	private transient String description = ""; //$NON-NLS-1$
+	private String description = ""; //$NON-NLS-1$
 
-	private transient int areaType = ISelectDataCustomizeUI.ORTHOGONAL_SERIES;
+	private int areaType = ISelectDataCustomizeUI.ORTHOGONAL_SERIES;
 
-	private transient ISelectDataCustomizeUI selectDataUI = null;
+	private ISelectDataCustomizeUI selectDataUI = null;
 
 	/**
 	 * 
@@ -171,7 +169,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				gridData.heightHint = 20;
 				gridData.widthHint = 20;
 				btnAxisDelete.setLayoutData( gridData );
-				btnAxisDelete.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_DELETE ) );
+				btnAxisDelete.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
 				btnAxisDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveAxis" ) ); //$NON-NLS-1$
 				btnAxisDelete.addSelectionListener( this );
 				setAxisDeleteEnabled( );
@@ -206,7 +204,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			gridData.heightHint = 20;
 			gridData.widthHint = 20;
 			btnSeriesDelete.setLayoutData( gridData );
-			btnSeriesDelete.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_DELETE ) );
+			btnSeriesDelete.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
 			btnSeriesDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$
 			btnSeriesDelete.addSelectionListener( this );
 			setSeriesDeleteEnabled( );

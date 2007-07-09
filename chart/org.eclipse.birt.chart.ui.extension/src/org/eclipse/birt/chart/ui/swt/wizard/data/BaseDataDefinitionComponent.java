@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,7 +26,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -71,29 +71,29 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		KeyListener
 {
 
-	private transient Composite cmpTop;
+	private Composite cmpTop;
 
-	private transient Text txtDefinition = null;
+	private Text txtDefinition = null;
 
-	private transient Button btnBuilder = null;
+	private Button btnBuilder = null;
 
-	private transient Button btnGroup = null;
+	private Button btnGroup = null;
 
-	private transient Query query = null;
+	private Query query = null;
 
-	private transient SeriesDefinition seriesdefinition = null;
+	private SeriesDefinition seriesdefinition = null;
 
-	private transient ChartWizardContext context = null;
+	private ChartWizardContext context = null;
 
-	private transient String sTitle = null;
+	private String sTitle = null;
 
-	private transient String description = ""; //$NON-NLS-1$
+	private String description = ""; //$NON-NLS-1$
 
-	private transient String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
+	private String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
 
-	private transient boolean isQueryModified;
+	private boolean isQueryModified;
 
-	private transient int style = BUTTON_NONE;
+	private int style = BUTTON_NONE;
 
 	/** Indicates no button */
 	public static final int BUTTON_NONE = 0;
@@ -464,7 +464,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			public AggregationAction( )
 			{
 				super( "", IAction.AS_DROP_DOWN_MENU ); //$NON-NLS-1$
-				setImageDescriptor( ImageDescriptor.createFromURL( UIHelper.getURL( ChartUIConstancts.IMAGE_SIGMA ) ) );
+				setImageDescriptor( ImageDescriptor.createFromURL( UIHelper.getURL( ChartUIConstants.IMAGE_SIGMA ) ) );
 				setEnabled( getSDBase( ).getGrouping( ).isEnabled( ) );
 			}
 

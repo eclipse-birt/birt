@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2006, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.provider;
 
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -33,10 +33,10 @@ public class ChartViewNodeProvider extends DefaultNodeProvider
 	public Image getNodeIcon( Object model )
 	{
 		DesignElementHandle handle = (DesignElementHandle) model;
-		String iconPath = ChartUIConstancts.IMAGE_OUTLINE;
+		String iconPath = ChartUIConstants.IMAGE_OUTLINE;
 		if ( handle.getModule( ) instanceof Library )
 		{
-			iconPath = ChartUIConstancts.IMAGE_OUTLINE_LIB;
+			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
 		}
 		return UIHelper.getImage( iconPath );
 	}

@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -99,7 +99,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 		Label topAngle = new Label( cmp, SWT.NONE );
 		{
-			topAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_TOPLEFT ) );
+			topAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_TOPLEFT ) );
 		}
 
 		for ( int i = 0; i < seriesDefnsArray.length; i++ )
@@ -113,7 +113,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 		Label bottomAngle = new Label( cmp, SWT.NONE );
 		{
-			bottomAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_BOTTOMLEFT ) );
+			bottomAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_BOTTOMLEFT ) );
 		}
 
 		return cmp;
