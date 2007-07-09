@@ -301,9 +301,9 @@ public class IOUtilTest extends TestCase
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.writeObject(DataInputStream)'
 	 * particularly, the read and write object is a String with length more than 65535
 	 */
-	public void testRWLongString( )
+	public void testRWLongString( ) throws IOException, FileNotFoundException
 	{
-		String begin = "²âÊÔÓÃÀýThe first several words for test";
+		String begin = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½The first several words for test";
 		StringBuffer buffer = new StringBuffer( begin );
 		for ( int i = 1; i < 65537; i++ )
 		{
@@ -311,80 +311,65 @@ public class IOUtilTest extends TestCase
 		}
 		DataOutputStream dos = null;
 		DataInputStream dis = null;
-		try
+		boolean correct = true;
+
+		final int size = 600000;
+		byte[] content = null;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream( size );
+		dos = new DataOutputStream( bos );
+		IOUtil.writeString( dos, buffer.toString( ) );
+
+		content = bos.toByteArray( );
+		ByteArrayInputStream bis = new ByteArrayInputStream( content );
+		dis = new DataInputStream( bis );
+
+		String ret = IOUtil.readString( dis );
+		StringBuffer buf = new StringBuffer( ret );
+		if ( buf.length( ) != buffer.length( ) )
+			correct = false;
+
+		else
 		{
-			boolean correct = true;
-
-			final int size = 600000;
-			byte[] content = null;
-			ByteArrayOutputStream bos = new ByteArrayOutputStream( size );
-			dos = new DataOutputStream( bos );
-			IOUtil.writeString( dos, buffer.toString( ) );
-
-			content = bos.toByteArray( );
-			ByteArrayInputStream bis = new ByteArrayInputStream( content );
-			dis = new DataInputStream( bis );
-
-			String ret = IOUtil.readString( dis );
-			StringBuffer buf = new StringBuffer( ret );
-			if ( buf.length( ) != buffer.length( ) )
-				correct = false;
-
-			else
+			for ( int i = 1; i < buf.length( ); i++ )
 			{
-				for ( int i = 1; i < buf.length( ); i++ )
+				if ( buffer.charAt( i ) != buf.charAt( i ) )
 				{
-					if ( buffer.charAt( i ) != buf.charAt( i ) )
-					{
-						correct = false;
-						break;
-					}
+					correct = false;
+					break;
 				}
 			}
-			assertTrue( "I/O failed!!", correct );
+		}
+		assertTrue( "I/O failed!!", correct );
 
-			final int size2 = 600005;
-			bos = new ByteArrayOutputStream( size2 );
-			dos = new DataOutputStream( bos );
+		final int size2 = 600005;
+		bos = new ByteArrayOutputStream( size2 );
+		dos = new DataOutputStream( bos );
 
-			IOUtil.writeObject( dos, ret );
+		IOUtil.writeObject( dos, ret );
 
-			content = bos.toByteArray( );
-			bis = new ByteArrayInputStream( content );
-			dis = new DataInputStream( bis );
+		content = bos.toByteArray( );
+		bis = new ByteArrayInputStream( content );
+		dis = new DataInputStream( bis );
 
-			Object obj = IOUtil.readObject( dis );
+		Object obj = IOUtil.readObject( dis );
 
-			assertTrue( "IOUtil test failed!!", ( (String) obj ).startsWith( begin ) );
+		assertTrue( "IOUtil test failed!!", ( (String) obj ).startsWith( begin ) );
 
-			buf = new StringBuffer( (String) obj );
-			if ( buf.length( ) != buffer.length( ) )
-				correct = false;
-			else
+		buf = new StringBuffer( (String) obj );
+		if ( buf.length( ) != buffer.length( ) )
+			correct = false;
+		else
+		{
+			for ( int i = 1; i < buf.length( ); i++ )
 			{
-				for ( int i = 1; i < buf.length( ); i++ )
+				if ( buffer.charAt( i ) != buf.charAt( i ) )
 				{
-					if ( buffer.charAt( i ) != buf.charAt( i ) )
-					{
-						correct = false;
-						break;
-					}
+					correct = false;
+					break;
 				}
 			}
-			assertTrue( "IOUtil test failed!!", correct );
 		}
-		catch ( FileNotFoundException e )
-		{
-			System.out.println( "FileNotFoundException" );
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-		catch ( IOException e )
-		{
-			System.out.println( "IOException" );
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
+		assertTrue( "IOUtil test failed!!", correct );
 	}
 	
 	/*
