@@ -290,5 +290,11 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	{
 		container.setVisible( isVisible );
 	}
+	
+	public void setReadOnly( boolean isReadOnly )
+	{
+		text.setEditable( !isReadOnly );
+		combo.setEnabled( !isReadOnly );
+	}
 
 }

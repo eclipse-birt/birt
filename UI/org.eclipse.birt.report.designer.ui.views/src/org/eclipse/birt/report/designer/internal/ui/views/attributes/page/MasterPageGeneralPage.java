@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Uni
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -32,6 +33,10 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class MasterPageGeneralPage extends AttributePage
 {
+
+	private UnitSection heightSection;
+	private ComboPropertyDescriptorProvider typeProvider;
+	private UnitSection widthSection;
 
 	public void buildUI( Composite parent  )
 	{
@@ -105,7 +110,7 @@ public class MasterPageGeneralPage extends AttributePage
 		
 		UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
+		widthSection = new UnitSection( widthProvider.getDisplayName( ),
 				container,
 				true );
 		widthSection.setProvider( widthProvider );
@@ -113,7 +118,7 @@ public class MasterPageGeneralPage extends AttributePage
 		widthSection.setLayoutNum( 2 );
 		addSection( PageSectionId.MASTER_PAGE_WIDTH, widthSection );
 		
-		ComboPropertyDescriptorProvider typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
+		typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
 		ComboSection typeSection = new ComboSection( typeProvider.getDisplayName( ),
 				container,
@@ -128,7 +133,7 @@ public class MasterPageGeneralPage extends AttributePage
 
 		UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		UnitSection heightSection = new UnitSection( heightProvider.getDisplayName( ),
+		heightSection = new UnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
 		heightSection.setProvider( heightProvider );
@@ -178,4 +183,16 @@ public class MasterPageGeneralPage extends AttributePage
 		layoutSections( );
 	}
 
+	public void refresh( )
+	{
+		super.refresh( );
+		if(typeProvider.load( ).equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM )){
+			widthSection.getUnitComboControl( ).setReadOnly( false );
+			heightSection.getUnitComboControl( ).setReadOnly( false );
+		}
+		else {
+			widthSection.getUnitComboControl( ).setReadOnly( true );
+			heightSection.getUnitComboControl( ).setReadOnly( true );
+		}
+	}
 }
