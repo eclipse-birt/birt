@@ -1,13 +1,13 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+/*******************************************************************************
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
@@ -33,19 +33,21 @@ import org.eclipse.swt.widgets.Shell;
 public class TriggerEditorDialog extends TrayDialog
 {
 
-	private transient EList triggers = null;
+	private EList triggers = null;
 
-	private transient Collection vOriginalTriggers = null;
+	private Collection vOriginalTriggers = null;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
-	private transient boolean bEnableURLParameters;
+	private boolean bEnableURLParameters;
 
-	private transient boolean bEnableShowTooltipValue;
+	private boolean bEnableShowTooltipValue;
+	
+	private boolean bEnableDataPoints = false;
 
-	private transient String sTitle;
+	private String sTitle;
 
-	private transient TriggerDataComposite triggerUI;
+	private TriggerDataComposite triggerUI;
 
 	/**
 	 * 
@@ -69,6 +71,20 @@ public class TriggerEditorDialog extends TrayDialog
 		vOriginalTriggers = EcoreUtil.copyAll( triggers );
 	}
 
+	public TriggerEditorDialog( Shell shellParent, EList triggers,
+			ChartWizardContext wizardContext, String sTitle,
+			boolean bEnableDataPoints, boolean bEnableURLParameters,
+			boolean bEnableShowTooltipValue )
+	{
+		this( shellParent,
+				triggers,
+				wizardContext,
+				sTitle,
+				bEnableURLParameters,
+				bEnableShowTooltipValue );
+		this.bEnableDataPoints = bEnableDataPoints;
+	}
+
 	protected Control createContents( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_INTERACTIVITY );
@@ -88,6 +104,7 @@ public class TriggerEditorDialog extends TrayDialog
 				SWT.NONE,
 				triggers,
 				wizardContext,
+				bEnableDataPoints,
 				bEnableURLParameters,
 				bEnableShowTooltipValue );
 		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );

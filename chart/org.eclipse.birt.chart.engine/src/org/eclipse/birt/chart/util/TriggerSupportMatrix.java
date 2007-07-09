@@ -20,156 +20,13 @@ import org.eclipse.birt.chart.model.data.Trigger;
 
 /**
  * Provides a utility class to check supported Trigger combination of condition
- * event and action type. <br>
- * Matrix is below: 
- <table border="1">
- <tr>
-  <td>&nbsp;</td>
-  <td>URL_Redirect</td>
-  <td>Show_Tooltip</td>
-  <td>Invoke_Script</td>
-  <td>Toogle_Visibility</td>
-  <td>Toogle_DataPoint_Visibility</td>
-  <td>Highlight</td>
-  <td>Callback</td>
- </tr>
- <tr>
-  <td>Click</td>
-  <td>All</td>
-  <td>&nbsp;</td>
-  <td>All</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Double Click</td>
-  <td>All</td>
-  <td>&nbsp;</td>
-  <td>All</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Mouse Down</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Mouse UP</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Mouse Over</td>
-  <td>SVG</td>
-  <td>All</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Mouse Move</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Mouse Out</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Focus</td>
-  <td>All</td>
-  <td>&nbsp;</td>
-  <td>All</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Blur</td>
-  <td>All</td>
-  <td>&nbsp;</td>
-  <td>All</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Key Down</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Key Up</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Key Press</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
- <tr>
-  <td>Onload</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>SVG</td>
-  <td>&nbsp;</td>
- </tr>
-</table>
+ * event and action type.
  */
 
 public class TriggerSupportMatrix
 {
 
-	// Supported renderer
+	// Support criteria
 	private static final int SVG = 1;
 	private static final int SWING = 2;
 	private static final int ALL = SVG | SWING;
@@ -230,7 +87,8 @@ public class TriggerSupportMatrix
 
 		// mouse over
 		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
-				ActionType.SHOW_TOOLTIP_LITERAL ) );
+				ActionType.SHOW_TOOLTIP_LITERAL,
+				SWING ) );
 		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEOVER_LITERAL );
 
 		// mouse down
@@ -265,6 +123,9 @@ public class TriggerSupportMatrix
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.INVOKE_SCRIPT_LITERAL ) );
 		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.SHOW_TOOLTIP_LITERAL,
+				SVG ) );
+		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.HIGHLIGHT_LITERAL,
 				SVG ) );
 		supportedTriggers.add( new TriggerCombination( condition,
@@ -274,11 +135,14 @@ public class TriggerSupportMatrix
 				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
 				SVG ) );
 	}
-	
+
 	private static void addTriggersLikeMouseDown( TriggerCondition condition )
 	{
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.URL_REDIRECT_LITERAL,
+				SVG ) );
+		supportedTriggers.add( new TriggerCombination( condition,
+				ActionType.SHOW_TOOLTIP_LITERAL,
 				SVG ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.INVOKE_SCRIPT_LITERAL,
@@ -295,16 +159,20 @@ public class TriggerSupportMatrix
 	}
 
 	private final int iRenderer;
+	private final boolean isDataPointEnabled;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param outputFormat
 	 *            output type of chart renderer
+	 * @param isDataPointEnabled
+	 *            if the data point visibility can be enabled
 	 */
-	public TriggerSupportMatrix( String outputFormat )
+	public TriggerSupportMatrix( String outputFormat, boolean isDataPointEnabled )
 	{
 		this.iRenderer = "SVG".equalsIgnoreCase( outputFormat ) ? SVG : SWING; //$NON-NLS-1$
+		this.isDataPointEnabled = isDataPointEnabled;
 	}
 
 	/**
@@ -322,7 +190,8 @@ public class TriggerSupportMatrix
 			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
 			// Tests if current trigger condition is supported in this
 			// combination
-			if ( tc.test( condition, iRenderer ) )
+			if ( tc.test( condition, iRenderer )
+					&& isDPEnabled( tc.getActionType( ) ) )
 			{
 				actions.add( LiteralHelper.actionTypeSet.getDisplayNameByName( tc.getActionType( )
 						.getName( ) ) );
@@ -342,18 +211,40 @@ public class TriggerSupportMatrix
 	{
 		if ( trigger != null )
 		{
-			for ( int i = 0; i < supportedTriggers.size( ); i++ )
+			return check( trigger.getCondition( ), trigger.getAction( )
+					.getType( ) );
+		}
+		return false;
+	}
+
+	/**
+	 * Checks the trigger combination of condition and action type is supported
+	 * in current renderer.
+	 * 
+	 * @param condition
+	 * @param actionType
+	 * @return
+	 */
+	public boolean check( TriggerCondition condition, ActionType actionType )
+	{
+		for ( int i = 0; i < supportedTriggers.size( ); i++ )
+		{
+			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
+			if ( tc.test( condition, iRenderer ) )
 			{
-				TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
-				if ( tc.test( trigger.getCondition( ), iRenderer ) )
+				if ( tc.getActionType( ) == actionType
+						&& isDPEnabled( actionType ) )
 				{
-					if ( tc.getActionType( ) == trigger.getAction( ).getType( ) )
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	private boolean isDPEnabled( ActionType actionType )
+	{
+		return isDataPointEnabled
+				|| actionType != ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL;
 	}
 }

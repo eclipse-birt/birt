@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
 import org.eclipse.birt.chart.tests.engine.util.FractionTest;
 import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
 import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
+import org.eclipse.birt.chart.tests.engine.util.TriggerSupportMatrixTest;
 
 public class EngineTest
 {
@@ -72,6 +73,7 @@ public class EngineTest
 		suite.addTestSuite( FittingCalculatorTest.class );
 		suite.addTestSuite( FractionTest.class );
 		suite.addTestSuite( NameSetTest.class );
+		suite.addTestSuite( TriggerSupportMatrixTest.class );
 
 		// $JUnit-END$
 		return suite;

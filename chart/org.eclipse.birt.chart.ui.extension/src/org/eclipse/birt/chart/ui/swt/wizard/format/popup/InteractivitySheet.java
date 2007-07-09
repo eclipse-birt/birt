@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,18 +28,32 @@ import org.eclipse.swt.widgets.Composite;
 public class InteractivitySheet extends AbstractPopupSheet
 {
 
-	private transient EList triggers = null;
-	private transient boolean bEnableURLParameters = false;
-	private transient boolean bEnableShowTooltipValue = false;
+	private EList triggers = null;
+	private boolean bEnableURLParameters = false;
+	private boolean bEnableShowTooltipValue = false;
+	private boolean bEnableDataPoints = false;
 
 	public InteractivitySheet( String title, ChartWizardContext context,
 			EList triggers, boolean bEnableURLParameters,
 			boolean bEnableShowTooltipValue )
 	{
+		this( title,
+				context,
+				triggers,
+				false,
+				bEnableURLParameters,
+				bEnableShowTooltipValue );
+	}
+	
+	public InteractivitySheet( String title, ChartWizardContext context,
+			EList triggers, boolean bEnableDataPoints,
+			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
+	{
 		super( title, context, false );
 		this.triggers = triggers;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
+		this.bEnableDataPoints = bEnableDataPoints;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -49,6 +63,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 				SWT.NONE,
 				triggers,
 				getContext( ),
+				bEnableDataPoints,
 				bEnableURLParameters,
 				bEnableShowTooltipValue );
 		parent.getShell( ).addDisposeListener( new DisposeListener( ) {

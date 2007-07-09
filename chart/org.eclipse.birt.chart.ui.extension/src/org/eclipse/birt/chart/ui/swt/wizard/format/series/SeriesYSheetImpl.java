@@ -307,6 +307,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getTriggers( ),
 					true,
+					true,
 					false );
 			Button btnInteractivity = createToggleButton( cmp,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$

@@ -146,15 +146,16 @@ public class TriggerDataComposite extends Composite
 	private TriggerSupportMatrix triggerMatrix;
 
 	public TriggerDataComposite( Composite parent, int style, EList triggers,
-			ChartWizardContext wizardContext, boolean bEnableURLParameters,
-			boolean bEnableShowTooltipValue )
+			ChartWizardContext wizardContext, boolean bEnableDataPoints,
+			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
 		super( parent, style );
 		this.wizardContext = wizardContext;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.triggersList = triggers;
-		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ) );
+		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
+				bEnableDataPoints );
 		init( );
 		placeComponents( );
 
