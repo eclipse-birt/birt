@@ -44,17 +44,15 @@ public class RefreshLibraryHandler extends SelectionHandler
 		{
 			obj = ( (List) obj ).get( 0 );
 		}
-		
-		if((obj instanceof LibraryHandle)&&(((LibraryHandle)obj).getHostHandle() != obj))
+
+		if ( ( obj instanceof LibraryHandle )
+				&& ( (LibraryHandle) obj ).getHostHandle( ) != null )
 		{
-			ModuleHandle host = ((LibraryHandle)obj).getHostHandle();
-			if((host == null) ||(!host.isInclude( (LibraryHandle)obj )))
-			{
-				return new Boolean( retBoolean ); 
-			}
+			ModuleHandle host = ( (LibraryHandle) obj ).getHostHandle( );
+
 			try
 			{
-				host.reloadLibrary( (LibraryHandle)obj );
+				host.reloadLibrary( (LibraryHandle) obj );
 			}
 			catch ( SemanticException e )
 			{
@@ -67,16 +65,16 @@ public class RefreshLibraryHandler extends SelectionHandler
 				retBoolean = false;
 			}
 
-		}else
-		{
-			return reloadAllLibraries(obj);
 		}
-
+		else
+		{
+			return reloadAllLibraries( obj );
+		}
 
 		return new Boolean( retBoolean );
 	}
-	
-	private Boolean reloadAllLibraries(Object obj)
+
+	private Boolean reloadAllLibraries( Object obj )
 	{
 		boolean retBoolean = true;
 		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
@@ -100,6 +98,6 @@ public class RefreshLibraryHandler extends SelectionHandler
 			}
 
 		}
-		return new Boolean( retBoolean ); 
+		return new Boolean( retBoolean );
 	}
 }
