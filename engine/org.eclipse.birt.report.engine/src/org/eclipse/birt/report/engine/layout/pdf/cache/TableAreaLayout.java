@@ -170,6 +170,33 @@ public class TableAreaLayout
 		
 		rows.resetCursor( );
 	}
+	
+	protected IStyle getLeftCellContentStyle(Row lastRow, int columnID)
+	{
+		if(lastCellContent!=null && lastCellContent.getColumn( ) + lastCellContent.getColSpan( )<= columnID)
+		{
+			if(lastRow!=null && columnID>0)
+			{
+				CellArea cell = lastRow.getCell( columnID-1 );
+				if(cell!=null && cell.getRowSpan( )<0 && cell.getContent( )!=null)
+				{
+					return cell.getContent( ).getComputedStyle( );
+				}
+				
+			}
+			return lastCellContent.getComputedStyle( );
+			
+		}
+		if(lastRow!=null && columnID>0)
+		{
+			CellArea cell = lastRow.getCell( columnID-1 );
+			if(cell!=null && cell.getRowSpan( )>1 && cell.getContent( )!=null)
+			{
+				return cell.getContent( ).getComputedStyle( );
+			}
+		}
+		return null;
+	}
 	/**
 	 * resolve cell border conflict
 	 * 
@@ -191,19 +218,14 @@ public class TableAreaLayout
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
-		if ( lastCellContent!=null && lastCellContent.getColumn( )<columnID)
-		{
-			leftCellContentStyle = lastCellContent.getComputedStyle( );
-		}
 		Row lastRow = null;
 		if(rows.size( )>0 )
 		{
 			lastRow = (Row)rows.getCurrent( );
 		}
-		/*else
-		{
-			lastRow = unresolvedRow;
-		}*/
+		
+		leftCellContentStyle = getLeftCellContentStyle(lastRow, columnID);
+		
 		if(lastRow!=null)
 		{
 			preRowStyle = lastRow.getContent( ).getComputedStyle( );
