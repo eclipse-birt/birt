@@ -89,6 +89,9 @@ public class TriggerSupportMatrix
 		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
 				ActionType.SHOW_TOOLTIP_LITERAL,
 				SWING ) );
+		supportedTriggers.add( new TriggerCombination( TriggerCondition.ONMOUSEOVER_LITERAL,
+				ActionType.INVOKE_SCRIPT_LITERAL,
+				SWING ) );
 		addTriggersLikeMouseDown( TriggerCondition.ONMOUSEOVER_LITERAL );
 
 		// mouse down

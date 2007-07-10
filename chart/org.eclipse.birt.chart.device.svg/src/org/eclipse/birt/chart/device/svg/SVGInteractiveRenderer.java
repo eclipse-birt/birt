@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -446,10 +446,18 @@ public class SVGInteractiveRenderer
 						.getValue( ) );
 				if ( scriptEvent != null )
 				{
-
+					// Convert double click event
+					boolean bDblClick = false;
+					if ( scriptEvent.equals( "ondblclick" ) ) //$NON-NLS-1$
+					{
+						scriptEvent = "onclick";//$NON-NLS-1$
+						bDblClick = true;
+					}
+					
 					switch ( tg.getAction( ).getType( ).getValue( ) )
 					{
-						case ActionType.SHOW_TOOLTIP :							
+						case ActionType.SHOW_TOOLTIP :
+
 							String tooltipText = ( (TooltipValue) tg.getAction( )
 									.getValue( ) ).getText( );
 							// make sure the tooltip text is not empty
@@ -473,37 +481,42 @@ public class SVGInteractiveRenderer
 									else
 										elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
 								}
-								else{
-									if (componentId != null)
-									elm.setAttribute( scriptEvent,
-											"TM.toggleToolTip(evt,"+componentId+")" ); //$NON-NLS-1$ //$NON-NLS-2$
+								else
+								{
+									if ( componentId != null )
+									{
+										elm.setAttribute( scriptEvent,
+												wrapJS( bDblClick,
+														"TM.toggleToolTip(evt," + componentId + ")" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+									}
 									else
-									elm.setAttribute( scriptEvent,
-											"TM.toggleToolTip(evt)" ); //$NON-NLS-1$
+									{
+										elm.setAttribute( scriptEvent,
+												wrapJS( bDblClick,
+														"TM.toggleToolTip(evt)" ) ); //$NON-NLS-1$
+									}
 								}
 							}
 							break;
 						case ActionType.URL_REDIRECT :
-							String dblValue = "";//$NON-NLS-1$
-							String dblBrace = "";//$NON-NLS-1$
-							if ( scriptEvent.equals( "ondblclick" ) ) //$NON-NLS-1$
-							{
-								scriptEvent = "onclick";//$NON-NLS-1$
-								dblValue = "if ( evt.detail==2 ){"; //$NON-NLS-1$
-								dblBrace = "}";//$NON-NLS-1$
-							}
 							URLValue urlValue = ( (URLValue) tg.getAction( )
 									.getValue( ) );
 							// See if this is an internal anchor link
 							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
 								elm.setAttribute( scriptEvent,
-										dblValue + "top.document.location.hash='" + urlValue.getBaseUrl( ) + "';"  + dblBrace ); //$NON-NLS-1$ //$NON-NLS-2$ 
+										wrapJS( bDblClick,
+												"top.document.location.hash='" //$NON-NLS-1$
+														+ urlValue.getBaseUrl( )
+														+ "';" ) ); //$NON-NLS-1$
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							// check if this is a javascript call
-							else if ( urlValue.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
+							else if ( urlValue.getBaseUrl( )
+									.startsWith( "javascript:" ) ) //$NON-NLS-1$
 							{
-								elm.setAttribute( scriptEvent, dblValue + urlValue.getBaseUrl( )  + dblBrace );  
+								elm.setAttribute( scriptEvent,
+										wrapJS( bDblClick,
+												urlValue.getBaseUrl( ) ) );
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							else
@@ -512,7 +525,8 @@ public class SVGInteractiveRenderer
 								if ( target == null )
 									target = "null"; //$NON-NLS-1$
 								elm.setAttribute( scriptEvent,
-										dblValue + "redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" + dblBrace ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										wrapJS( bDblClick,
+												"redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 							}
 							break;
@@ -524,7 +538,8 @@ public class SVGInteractiveRenderer
 									tg,
 									elm,
 									scriptEvent,
-									tg.getAction( ).getType( ).getValue( ) );
+									tg.getAction( ).getType( ).getValue( ),
+									bDblClick );
 							break;
 
 						case ActionType.INVOKE_SCRIPT :
@@ -568,7 +583,9 @@ public class SVGInteractiveRenderer
 											dph );
 								}
 								callbackFunction += ");"; //$NON-NLS-1$
-								elm.setAttribute( scriptEvent, callbackFunction );
+								elm.setAttribute( scriptEvent,
+										wrapJS( bDblClick,
+												callbackFunction ) );
 								setCursor( elm );
 								if ( !( scripts.contains( script ) ) )
 								{
@@ -899,8 +916,9 @@ public class SVGInteractiveRenderer
 		}
 		return null;
 	}
+	
 	private void addJSCodeOnElement( StructureSource src, Trigger tg,
-			Element elm, String scriptEvent, int type )
+			Element elm, String scriptEvent, int type, boolean bDblClick )
 	{
 		final Series seRT = (Series) getElementFromSource( src,
 				StructureType.SERIES );
@@ -994,9 +1012,8 @@ public class SVGInteractiveRenderer
 
 				sb.append( ")" ); //$NON-NLS-1$
 
-				elm.setAttribute( scriptEvent, jsFunction
-						+ sb.toString( )
-						+ ")" ); //$NON-NLS-1$		
+				elm.setAttribute( scriptEvent, wrapJS( bDblClick,
+						jsFunction + sb.toString( ) + ")" ) ); //$NON-NLS-1$		
 
 				if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 				{
@@ -1062,9 +1079,8 @@ public class SVGInteractiveRenderer
 
 					sb.append( ")" ); //$NON-NLS-1$
 
-					elm.setAttribute( scriptEvent, jsFunction
-							+ sb.toString( )
-							+ ")" ); //$NON-NLS-1$		
+					elm.setAttribute( scriptEvent, wrapJS( bDblClick,
+							jsFunction + sb.toString( ) + ")" ) ); //$NON-NLS-1$		
 
 					if ( tg.getCondition( ).getValue( ) == TriggerCondition.ONMOUSEOVER )
 					{
@@ -1089,5 +1105,14 @@ public class SVGInteractiveRenderer
 					sb.append( "," ); //$NON-NLS-1$
 			}
 		}
+	}
+	
+	private String wrapJS( boolean bDblClick, String js )
+	{
+		if ( !bDblClick )
+		{
+			return js;
+		}
+		return "if ( evt.detail==2 ){" + js + "}";  //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

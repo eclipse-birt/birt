@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -68,7 +68,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private Bounds _bo = null;
 
-	private transient boolean _bImageExternallySpecified = false;
+	private boolean _bImageExternallySpecified = false;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
@@ -76,15 +76,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
 	
-	// Append timestamp to distinguish multiple callback methods
-	private final String SCRIPT_CLICK = "userCallBackByClick" //$NON-NLS-1$
-			+ System.currentTimeMillis( );
-
-	private final String SCRIPT_DBLCLICK = "userCallBackByDblClick" //$NON-NLS-1$
-			+ System.currentTimeMillis( );
+	private final long TIMESTAMP = System.currentTimeMillis( );
 
 	private boolean bAddCallbackByClick = false;
 	private boolean bAddCallbackByDBLClick = false;
+	private boolean bAddCallbackByMouseOver = false;
 	
 	/**
 	 * Returns the output format string for this writer.
@@ -275,7 +271,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						final DataPointHints dph = (DataPointHints) sa.getSource( )
 								.getSource( );
-						String callbackFunction = SCRIPT_CLICK + "("; //$NON-NLS-1$
+						String callbackFunction = getJSMethodName( TriggerCondition.ONCLICK_LITERAL )
+								+ "("; //$NON-NLS-1$
 						callbackFunction = ScriptUtil.script( callbackFunction,
 								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
@@ -308,7 +305,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						final DataPointHints dph = (DataPointHints) sa.getSource( )
 								.getSource( );
-						String callbackFunction = SCRIPT_DBLCLICK + "("; //$NON-NLS-1$
+						String callbackFunction = getJSMethodName( TriggerCondition.ONDBLCLICK_LITERAL )
+								+ "("; //$NON-NLS-1$
 						callbackFunction = ScriptUtil.script( callbackFunction,
 								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
@@ -352,8 +350,25 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					}
 					return false;
 				case ActionType.INVOKE_SCRIPT :
-					// not for onmouseover.
-					return false;
+					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+							.getType( ) ) )
+					{
+						final DataPointHints dph = (DataPointHints) sa.getSource( )
+								.getSource( );
+						String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL )
+								+ "("; //$NON-NLS-1$
+						callbackFunction = ScriptUtil.script( callbackFunction,
+								dph );
+						callbackFunction += ");"; //$NON-NLS-1$
+						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
+								eval2JS( callbackFunction ) );
+					}
+					else
+					{
+						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
+								eval2JS( generateJSContent( ac ) ) );
+					}
+					return true;
 			}
 		}
 		return false;
@@ -803,7 +818,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			addScriptCallBack( sa,
 					sb,
 					sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL ),
-					SCRIPT_CLICK );
+					getJSMethodName( TriggerCondition.ONCLICK_LITERAL ) );
 			bAddCallbackByClick = true;
 		}
 		if ( !bAddCallbackByDBLClick )
@@ -811,8 +826,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			addScriptCallBack( sa,
 					sb,
 					sa.getActionForCondition( TriggerCondition.ONDBLCLICK_LITERAL ),
-					SCRIPT_DBLCLICK );
+					getJSMethodName( TriggerCondition.ONDBLCLICK_LITERAL ) );
 			bAddCallbackByDBLClick = true;
+		}
+		if ( !bAddCallbackByMouseOver )
+		{
+			addScriptCallBack( sa,
+					sb,
+					sa.getActionForCondition( TriggerCondition.ONMOUSEOVER_LITERAL ),
+					getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL ) );
+			bAddCallbackByMouseOver = true;
 		}
 	}
 	
@@ -852,6 +875,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return "<Script>" //$NON-NLS-1$
 				+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
 				+ eval2JS( functionContent ) + "}</Script>"; //$NON-NLS-1$
+	}
+	
+	private String getJSMethodName( TriggerCondition tc )
+	{
+		// Append timestamp to distinguish multiple callback methods
+		return "userCallBack_" + tc.getLiteral( ) + TIMESTAMP; //$NON-NLS-1$
 	}
 
 }

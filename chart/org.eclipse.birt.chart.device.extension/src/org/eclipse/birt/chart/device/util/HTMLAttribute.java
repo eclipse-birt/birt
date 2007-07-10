@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ public class HTMLAttribute
 	public static final HTMLAttribute ONBLUR = new HTMLAttribute("onblur"); //$NON-NLS-1$
 	public static final HTMLAttribute ONCLICK = new HTMLAttribute("onclick"); //$NON-NLS-1$
 	public static final HTMLAttribute ONDBLCLICK = new HTMLAttribute("ondblclick"); //$NON-NLS-1$
+	public static final HTMLAttribute ONMOUSEOVER = new HTMLAttribute("onmouseover"); //$NON-NLS-1$
 	public static final HTMLAttribute TARGET = new HTMLAttribute("target"); //$NON-NLS-1$
 	public static final HTMLAttribute HREF = new HTMLAttribute("href"); //$NON-NLS-1$
 	public static final HTMLAttribute ALT = new HTMLAttribute("alt"); //$NON-NLS-1$

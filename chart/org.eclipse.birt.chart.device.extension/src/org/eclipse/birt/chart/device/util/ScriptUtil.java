@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,6 +65,10 @@ public class ScriptUtil
 		else if ( oValue instanceof DateTimeDataElement )
 		{
 			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( oValue == null )
+		{
+			return "''"; //$NON-NLS-1$
 		}
 		else
 		{
