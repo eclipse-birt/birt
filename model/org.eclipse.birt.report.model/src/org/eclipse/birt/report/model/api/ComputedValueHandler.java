@@ -49,6 +49,17 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 	DimensionValue getAbsoluteValueForLength(
 			DimensionValue relativeDimensionValue )
 	{
+		FactoryPropertyHandle factoryHandle = dimensionHandle
+				.getElementHandle( ).getFactoryPropertyHandle(
+						dimensionHandle.getPropertyDefn( ).getName( ) );
+		// Get the absolute dimension value of the container element.
+
+		DesignElementHandle containerHandle = dimensionHandle
+				.getElementHandle( ).getContainer( );
+		DimensionHandle dimensionHandleFromContainer = containerHandle
+				.getDimensionProperty( dimensionHandle.getPropertyDefn( )
+						.getName( ) );
+
 		DimensionValue absoluteFontSizeValue = getDefaultFontSizeValue( );
 
 		DimensionHandle factualFontSizeHanle = getFactualFontSizeHandle( );
@@ -62,10 +73,28 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 			}
 		}
 
-		return relativeDimensionValue == null
-				? absoluteFontSizeValue
-				: computeRelativeValue( absoluteFontSizeValue,
-						relativeDimensionValue );
+		// if value is set in this element, then compute the absolute value
+		if ( factoryHandle != null )
+			return computeRelativeValue( absoluteFontSizeValue,
+					relativeDimensionValue );
+
+		// if this property can inherit, then get the computed value from
+		// container directly
+		if ( dimensionHandle.getPropertyDefn( ).canInherit( ) )
+			return dimensionHandleFromContainer.getAbsoluteValue( );
+
+		// the property can not inherit, then get the default value
+		Object defaultValue = dimensionHandle.getPropertyDefn( ).getDefault( );
+		if ( defaultValue instanceof DimensionValue )
+		{
+			DimensionValue defaultDimensionValue = (DimensionValue) defaultValue;
+			if ( CSSLengthValueHandler.isAbsoluteUnit( defaultDimensionValue
+					.getUnits( ) ) )
+				return defaultDimensionValue;
+			return computeRelativeValue( absoluteFontSizeValue,
+					defaultDimensionValue );
+		}
+		return null;
 	}
 
 	/**

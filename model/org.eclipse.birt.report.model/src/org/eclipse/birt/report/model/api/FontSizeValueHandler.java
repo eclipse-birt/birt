@@ -206,6 +206,9 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 				|| !CSSLengthValueHandler
 						.isAbsoluteUnit( relativeDimensionValue.getUnits( ) );
 
+		FactoryPropertyHandle fontSizeFactoryHandle = dimensionHandle
+				.getElementHandle( ).getFactoryPropertyHandle(
+						dimensionHandle.getPropertyDefn( ).getName( ) );
 		// Get the absolute dimension value of the container element.
 
 		DesignElementHandle containerHandle = dimensionHandle
@@ -227,8 +230,10 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 			absoluteValueFromContainer = getDefaultFontSizeValue( );
 		}
 
-		DimensionValue absoluteDimensionValue = relativeDimensionValue == null ? absoluteValueFromContainer : computeRelativeValue(
-				absoluteValueFromContainer, relativeDimensionValue );
+		DimensionValue absoluteDimensionValue = fontSizeFactoryHandle == null
+				? absoluteValueFromContainer
+				: computeRelativeValue( absoluteValueFromContainer,
+						relativeDimensionValue );
 
 		assert ( isAbsoluteUnit( absoluteDimensionValue.getUnits( ) ) );
 
