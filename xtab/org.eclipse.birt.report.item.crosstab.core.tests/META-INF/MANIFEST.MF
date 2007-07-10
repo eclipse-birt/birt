@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Fragment
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core.tests
-Bundle-Version: 1.0.0
+Bundle-Version: 2.1.1.qualifier
 Fragment-Host: org.eclipse.birt.report.item.crosstab.core;bundle-version="1.0.0"
