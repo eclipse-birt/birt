@@ -24,6 +24,9 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -94,6 +97,42 @@ public class AggregationDialog extends BaseDialog
 					item.setChecked( ( (SubTotalInfo) item.getData( ) ).isAggregationOn( ) );
 				}
 			}
+			subTableViewer.getTable( )
+					.addSelectionListener( new SelectionAdapter( ) {
+
+						public void widgetSelected( SelectionEvent e )
+						{
+							TableItem item = (TableItem) e.item;
+							if ( item != null
+									&& item.getData( ) != null
+									&& item.getData( ) instanceof SubTotalInfo )
+							{
+								SubTotalInfo info = (SubTotalInfo) item.getData( );
+								info.setAggregationOn( item.getChecked( ) );
+								if ( info.isAssociation( ) )
+								{
+									for ( int i = 0; i < subTableViewer.getTable( )
+											.getItemCount( ); i++ )
+									{
+										TableItem temp = subTableViewer.getTable( )
+												.getItem( i );
+										if ( temp == item )
+											continue;
+										if ( temp.getData( ) != null
+												&& temp.getData( ) instanceof SubTotalInfo )
+										{
+											if ( ( (SubTotalInfo) temp.getData( ) ).getLevel( ) == info.getLevel( ) )
+											{
+												temp.setChecked( item.getChecked( ) );
+												( (SubTotalInfo) temp.getData( ) ).setAggregationOn( item.getChecked( ) );
+											}
+										}
+									}
+								}
+							}
+						}
+
+					} );
 		}
 
 		if ( grandList != null )
@@ -108,8 +147,40 @@ public class AggregationDialog extends BaseDialog
 					item.setChecked( ( (GrandTotalInfo) item.getData( ) ).isAggregationOn( ) );
 				}
 			}
-		}
+			grandTableViewer.getTable( )
+					.addSelectionListener( new SelectionAdapter( ) {
 
+						public void widgetSelected( SelectionEvent e )
+						{
+							TableItem item = (TableItem) e.item;
+							if ( item != null
+									&& item.getData( ) != null
+									&& item.getData( ) instanceof GrandTotalInfo )
+							{
+								GrandTotalInfo info = (GrandTotalInfo) item.getData( );
+								info.setAggregationOn( item.getChecked( ) );
+								if ( info.isAssociation( ) )
+								{
+									for ( int i = 0; i < grandTableViewer.getTable( )
+											.getItemCount( ); i++ )
+									{
+										TableItem temp = grandTableViewer.getTable( )
+												.getItem( i );
+										if ( temp == item )
+											continue;
+										if ( temp.getData( ) != null
+												&& temp.getData( ) instanceof GrandTotalInfo )
+										{
+											temp.setChecked( item.getChecked( ) );
+											( (GrandTotalInfo) temp.getData( ) ).setAggregationOn( item.getChecked( ) );
+										}
+									}
+								}
+							}
+						}
+
+					} );
+		}
 	}
 
 	private void createGrandTotalArea( Composite content )
@@ -148,21 +219,6 @@ public class AggregationDialog extends BaseDialog
 		grandTableViewer.setContentProvider( provider );
 		grandTableViewer.setLabelProvider( provider );
 		// grandTableViewer.setCellModifier( provider );
-
-		grandTableViewer.addCheckStateListener( new ICheckStateListener( ) {
-
-			public void checkStateChanged( CheckStateChangedEvent event )
-			{
-				GrandTotalInfo info = (GrandTotalInfo) event.getElement( );
-				if ( event.getChecked( ) )
-				{
-					info.setAggregationOn( true );
-				}
-				else
-					info.setAggregationOn( false );
-			}
-
-		} );
 
 	}
 
@@ -217,21 +273,6 @@ public class AggregationDialog extends BaseDialog
 		subTableViewer.setLabelProvider( provider );
 		// subTableViewer.setCellModifier( provider );
 
-		subTableViewer.addCheckStateListener( new ICheckStateListener( ) {
-
-			public void checkStateChanged( CheckStateChangedEvent event )
-			{
-				SubTotalInfo info = (SubTotalInfo) event.getElement( );
-				if ( event.getChecked( ) )
-				{
-					info.setAggregationOn( true );
-				}
-				else
-					info.setAggregationOn( false );
-			}
-
-		} );
-
 	}
 
 	public Object getResult( )
@@ -251,7 +292,7 @@ public class AggregationDialog extends BaseDialog
 		private MeasureHandle measure;
 
 		private boolean aggregationOn = false;
-		
+
 		private boolean isAssociation = false;
 
 		private String function = ""; //$NON-NLS-1$
@@ -263,6 +304,7 @@ public class AggregationDialog extends BaseDialog
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
 			retValue.setLevel( getLevel( ) );
+			retValue.setAssociation( isAssociation( ) );
 			return retValue;
 		}
 
@@ -330,13 +372,11 @@ public class AggregationDialog extends BaseDialog
 					&& temp.isAggregationOn( ) == aggregationOn;
 		}
 
-		
 		public boolean isAssociation( )
 		{
 			return isAssociation;
 		}
 
-		
 		public void setAssociation( boolean isAssociation )
 		{
 			this.isAssociation = isAssociation;
@@ -354,7 +394,7 @@ public class AggregationDialog extends BaseDialog
 		private boolean aggregationOn = false;
 
 		private String function = ""; //$NON-NLS-1$
-		
+
 		private boolean isAssociation = false;
 
 		public GrandTotalInfo copy( )
@@ -363,6 +403,7 @@ public class AggregationDialog extends BaseDialog
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
 			retValue.setMeasure( getMeasure( ) );
+			retValue.setAssociation( isAssociation( ) );
 			return retValue;
 		}
 
@@ -406,13 +447,11 @@ public class AggregationDialog extends BaseDialog
 			return temp.getMeasure( ) == measure;
 		}
 
-		
 		public boolean isAssociation( )
 		{
 			return isAssociation;
 		}
 
-		
 		public void setAssociation( boolean isAssociation )
 		{
 			this.isAssociation = isAssociation;
