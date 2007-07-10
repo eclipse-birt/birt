@@ -357,13 +357,14 @@ public class ImageBuilder extends BaseDialog
 		uriEditor = new Text( inputArea, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.READ_ONLY );
-		GridData textGd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		textGd.widthHint = 308;
-		if ( type == BLOB_TYPE )
-		{
-			textGd.widthHint = 270;
-			textGd.grabExcessHorizontalSpace = true;
-		}
+		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
+				| GridData.FILL_HORIZONTAL );
+		//		textGd.widthHint = 308;
+		//		if ( type == BLOB_TYPE )
+		//		{
+		//			textGd.widthHint = 270;
+		//			textGd.grabExcessHorizontalSpace = true;
+		//		}
 		uriEditor.setLayoutData( textGd );
 		uriEditor.addModifyListener( new ModifyListener( ) {
 
