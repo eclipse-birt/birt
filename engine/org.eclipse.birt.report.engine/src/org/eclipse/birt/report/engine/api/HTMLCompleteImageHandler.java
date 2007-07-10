@@ -170,6 +170,26 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		}
 		if ( imageDirectory == null )
 		{
+			IReportRunnable runnable = image.getReportRunnable( );
+			if ( runnable != null )
+			{
+				IReportEngine engine = runnable.getReportEngine( );
+				if ( engine != null )
+				{
+					EngineConfig config = engine.getConfig( );
+					if ( config != null )
+					{
+						imageDirectory = config.getTempDir( );
+					}
+				}
+			}
+		}
+		if ( imageDirectory == null )
+		{
+			imageDirectory = System.getProperty( "java.io.tmpdir" );
+		}
+		if ( imageDirectory == null )
+		{
 			imageDirectory = ".";
 		}
 		String outputFile = (String) image.getRenderOption( )
