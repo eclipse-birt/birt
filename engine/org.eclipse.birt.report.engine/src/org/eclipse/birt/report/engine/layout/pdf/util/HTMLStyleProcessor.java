@@ -44,10 +44,15 @@ public class HTMLStyleProcessor
 	private CSSEngine cssEngine;
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = new String[]{"7.5pt", "8.5pt", //$NON-NLS-1$ //$NON-NLS-2$
-			"10pt", "12pt",  //$NON-NLS-1$ //$NON-NLS-2$
-			"14.4pt", "19pt",  //$NON-NLS-1$//$NON-NLS-2$
-			"23pt", "36pt"};  //$NON-NLS-1$//$NON-NLS-2$
+	private static String[] FONT_SIZE = new String[]{
+		"7.5pt",  //$NON-NLS-1$
+		"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"7.5pt", "7.5pt",  //$NON-NLS-1$//$NON-NLS-2$
+		"8.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"7.5pt", "8.5pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"10pt", "12pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"14.4pt", "19pt", //$NON-NLS-1$//$NON-NLS-2$
+		"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
 
 	/**
 	 * Constructor
@@ -103,7 +108,7 @@ public class HTMLStyleProcessor
 				{
 					//FIXME
 					int size = Integer.parseInt( ele.getAttribute( "size" ) ); //$NON-NLS-1$
-					appendStyle(strStyle, "font-size", FONT_SIZE[size - 1]); //$NON-NLS-1$
+					appendStyle(strStyle, "font-size", FONT_SIZE[size + 7]); //$NON-NLS-1$
 				}
 				catch ( Exception e )
 				{
