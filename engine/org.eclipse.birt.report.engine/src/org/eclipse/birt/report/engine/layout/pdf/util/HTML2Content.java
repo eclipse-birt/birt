@@ -196,7 +196,7 @@ public class HTML2Content
 	 * 			  the parent content of the element
 	 * 		       
 	 */
-	public static void processNodes( Element ele, 
+	static void processNodes( Element ele, 
 			Map cssStyles, IContent content, IContent inlineParent,
 			ActionContent action )
 	{
@@ -263,8 +263,7 @@ public class HTML2Content
 		}
 	}
 
-//TODO: decrease the modifier.
-	public static void handleElement( Element ele, Map cssStyles,
+	static void handleElement( Element ele, Map cssStyles,
 			IContent content, IContent inlineParent, ActionContent action,
 			int index )
 	{
@@ -474,7 +473,7 @@ public class HTML2Content
 		return result;
 	}
 	
-	public static void handleStyle( Element ele, Map cssStyles, IContent content )
+	static void handleStyle( Element ele, Map cssStyles, IContent content )
 	{
 		String tagName = ele.getTagName();
 		StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
