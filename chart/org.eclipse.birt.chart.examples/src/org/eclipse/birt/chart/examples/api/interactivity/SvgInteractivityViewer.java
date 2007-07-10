@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.examples.api.interactivity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -43,6 +40,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class SvgInteractivityViewer extends Composite implements
+		IUpdateNotifier,
 		SelectionListener
 {
 
@@ -59,7 +57,6 @@ public class SvgInteractivityViewer extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private Chart cm = null;
-
 
 	SvgInteractivityViewer( Composite parent, int style )
 	{
@@ -158,6 +155,8 @@ public class SvgInteractivityViewer extends Composite implements
 						null );
 				
 				idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
+				idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+						new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 				gr.render( idr, gcs );
 			}
@@ -188,8 +187,45 @@ public class SvgInteractivityViewer extends Composite implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
+	 */
+	public Chart getDesignTimeModel( )
+	{
+		return cm;
+	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
+	 */
+	public Chart getRunTimeModel( )
+	{
+		return gcs.getChartModel( );
+	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
+	 */
+	public Object peerInstance( )
+	{
+		return this;
+	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
+	 */
+	public void regenerateChart( )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
+	 */
+	public void repaintChart( )
+	{
+		// TODO Auto-generated method stub
+
+	}
 }
