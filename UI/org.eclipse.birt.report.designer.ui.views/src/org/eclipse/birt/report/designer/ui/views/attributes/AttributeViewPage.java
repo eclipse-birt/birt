@@ -113,7 +113,7 @@ public class AttributeViewPage extends Page implements
 			this.view = view;
 			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_RESTORE_PROPERTIES ) );
 			setEnabled( false );
-			setToolTipText( Messages.getString( "AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg" ) );
+			setToolTipText( Messages.getString( "AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg" ) ); //$NON-NLS-1$
 		}
 
 		public void run( )
@@ -243,7 +243,7 @@ public class AttributeViewPage extends Page implements
 	private void setPartName( )
 	{
 		String typeInfo = builder.getTypeInfo( );
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
+		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" ); //$NON-NLS-1$
 		if ( view != null && typeInfo != null )
 			( (AttributeView) view ).setPartName( typeInfo );
 	}
@@ -390,6 +390,8 @@ public class AttributeViewPage extends Page implements
 		getSite( ).getActionBars( )
 				.setGlobalActionHandler( ActionFactory.SELECT_ALL.getId( ),
 						new SelectAllAction( ) );
+		
+		getSite( ).getActionBars( ).updateActionBars( );
 	}
 
 	private static class SelectAllAction extends Action

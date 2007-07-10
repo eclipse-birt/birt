@@ -74,6 +74,11 @@ public class ReportMultiBookPage extends Page implements
 			emptyPage.dispose( );
 			emptyPage = null;
 		}
+		if (currentPage != null)
+		{
+			currentPage.dispose( );
+		}
+		currentPage = null;
 		pagebook = null;
 		listeners = null;
 	}
@@ -183,7 +188,7 @@ public class ReportMultiBookPage extends Page implements
 				&& page != currentPage )
 		{
 			// currentPage.getControl( ).dispose( );
-			// currentPage.dispose( );
+			//currentPage.dispose( );
 			previousPage = currentPage;
 		}
 		this.currentPage = page;
