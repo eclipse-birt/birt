@@ -111,8 +111,8 @@
 				<!-- batik.pdf has been moved to Orbit -->
 				<!--
 				<include name="org.apache.batik.pdf_*/lib/*.jar" />
-				-->
 				<include name="org.apache.commons.codec_*/lib/*.jar" />
+				-->
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
@@ -121,6 +121,7 @@
 				<include name="org.w3c.dom*.jar"/>
 				<include name="org.apache.xml.resolver_*.jar"/>
 				<include name="org.apache.batik.*jar"/>
+				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="com.ibm.icu_*.jar" />
 				<include name="org.eclipse.tomcat_*/servlet.jar" />
 			</fileset>

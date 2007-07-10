@@ -474,9 +474,6 @@
 		<fileset dir="../org.eclipse.birt.report.engine/lib">
 			<include name="commons-cli*.jar" />
 		</fileset>
-		<fileset dir="../org.apache.commons.codec/lib">
-			<include name="*.jar" />
-		</fileset>
 		<fileset dir="../org.mozilla.rhino/lib">
 			<include name="*.jar" />
 		</fileset>
@@ -499,6 +496,7 @@
 		<fileset dir="${baseLocation}/plugins" >
 			<include name="javax.servlet*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="org.apache.commons.codec_*.jar"/>
 		</fileset>
 	</copy>
 	
