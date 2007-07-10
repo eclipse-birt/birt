@@ -104,19 +104,24 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 				selectionItem.setValue( displayValue );
 				parameterBean.getSelectionList( ).add( selectionItem );
 
-				// check whether parameter display text is in the label list
-				if ( !label.equals( parameterBean.getDisplayText( ) ) )
+				// If parameter value is in the list
+				if ( displayValue.equals( parameterBean.getValue( ) ) )
 				{
-					if ( parameterBean.getParameter( ).isDistinct( ) )
+					// check whether parameter display text is in the label list
+					if ( !label.equals( parameterBean.getDisplayText( ) ) )
 					{
-						selectionItem
-								.setLabel( parameterBean.getDisplayText( ) );
+						if ( parameterBean.getParameter( ).isDistinct( )
+								&& parameterBean.isDisplayTextInReq( ) )
+						{
+							selectionItem.setLabel( parameterBean
+									.getDisplayText( ) );
+							isDisplayTextInList = true;
+						}
+					}
+					else
+					{
 						isDisplayTextInList = true;
 					}
-				}
-				else
-				{
-					isDisplayTextInList = true;
 				}
 			}
 
@@ -130,7 +135,7 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 										.getValue( ) ) );
 				isDisplayTextInList = true;
 			}
-			
+
 			parameterBean.setDisplayTextInList( isDisplayTextInList );
 		}
 	}

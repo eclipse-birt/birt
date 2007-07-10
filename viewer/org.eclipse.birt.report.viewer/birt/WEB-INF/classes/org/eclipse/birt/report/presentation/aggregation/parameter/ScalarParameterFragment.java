@@ -186,6 +186,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				// display text
 				if ( !displayTexts.containsKey( parameterBean.getName( ) ) )
 				{
+					parameterBean.setDisplayTextInReq( false );
 					String displayText = ParameterValidationUtil
 							.getDisplayValue( null, parameter.getPattern( ),
 									param, locale );

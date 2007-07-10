@@ -143,7 +143,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					// check whether parameter display text is in the label list
 					if ( !label.equals( parameterBean.getDisplayText( ) ) )
 					{
-						if ( parameterBean.getParameter( ).isDistinct( ) )
+						if ( parameterBean.getParameter( ).isDistinct( )
+								&& parameterBean.isDisplayTextInReq( ) )
 						{
 							selectionItem.setLabel( parameterBean
 									.getDisplayText( ) );
@@ -175,7 +176,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 										.getValue( ) ) );
 				isDisplayTextInList = true;
 			}
-			
+
 			parameterBean.setDisplayTextInList( isDisplayTextInList );
 		}
 	}
