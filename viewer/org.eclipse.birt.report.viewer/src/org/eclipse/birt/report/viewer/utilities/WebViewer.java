@@ -37,6 +37,7 @@ public class WebViewer
 	 * HTML format name
 	 */
 	final public static String HTML = "html"; //$NON-NLS-1$
+	final public static String HTM = "htm"; //$NON-NLS-1$
 
 	/**
 	 * PDF format name
@@ -70,6 +71,15 @@ public class WebViewer
 
 	/** Preference key for max rows. */
 	final public static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
+
+	// preview model.
+	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
+
+	// frameset model.
+	public static final String VIEWER_FRAMESET = "frameset"; //$NON-NLS-1$
+
+	// running model.
+	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
 
 	// parameter name constants for the URL
 
@@ -162,20 +172,26 @@ public class WebViewer
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
-		if ( PDF.equalsIgnoreCase( format ) )
+
+		if ( format == null || format.trim( ).length( ) <= 0
+				|| HTM.equalsIgnoreCase( format ) )
+			format = HTML;
+
+		if ( !HTML.equalsIgnoreCase( format ) )
 		{
-			servletName = "run"; //$NON-NLS-1$
+			servletName = VIEWER_PREVIEW;
 		}
 		else
 		{
 			if ( servletName == null || servletName.trim( ).length( ) <= 0 )
 			{
 				if ( allowPage == null )
-					servletName = "frameset"; //$NON-NLS-1$
+					servletName = VIEWER_FRAMESET;
 				else
 				{
 					servletName = allowPage.booleanValue( )
-							? "frameset" : "run"; //$NON-NLS-1$ //$NON-NLS-2$
+							? VIEWER_FRAMESET
+							: VIEWER_PREVIEW;
 				}
 			}
 		}
@@ -381,16 +397,20 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, boolean allowPage )
 	{
-		String root = null;
+		if ( format == null || format.trim( ).length( ) <= 0
+				|| HTM.equalsIgnoreCase( format ) )
+			format = HTML;
 
-		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
+		String root = null;
+		if ( !HTML.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format, true, null, null ); //$NON-NLS-1$
+			root = createURL( VIEWER_PREVIEW, report, format, true, null, null );
 		}
 		else
 		{
-			root = createURL(
-					allowPage ? "frameset" : "run", report, format, true, null, null ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			root = createURL( allowPage ? VIEWER_FRAMESET : VIEWER_PREVIEW,
+					report, format, true, null, null )
+					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
 		}
 
 		try
