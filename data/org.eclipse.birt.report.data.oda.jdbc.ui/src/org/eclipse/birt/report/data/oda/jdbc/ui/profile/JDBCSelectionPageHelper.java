@@ -24,6 +24,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
@@ -532,16 +533,18 @@ public class JDBCSelectionPageHelper
 					}
 					else
 					{
-						MessageDialog.openError( getShell( ),
-								JdbcPlugin.getResourceString( "connection.test"),
-								JdbcPlugin.getResourceString( "connection.failed"));
+						ExceptionHandler.showException( getShell( ),
+								JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
+								JdbcPlugin.getResourceString( "connection.failed" ),
+								null );
 					}
 				}
 				catch ( OdaException e1 )
 				{
-					MessageDialog.openError( getShell( ),
-							JdbcPlugin.getResourceString( "connection.test"),
-							e1.getLocalizedMessage());
+					ExceptionHandler.showException( getShell( ),
+							JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
+							JdbcPlugin.getResourceString( e1.getLocalizedMessage( ) ),
+							e1 );
 				}
 				testButton.setEnabled(true);
 			}
