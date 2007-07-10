@@ -59,15 +59,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			archive.initialize( );
-			Object lock = archive.lock( CORE_STREAM );
-			try
-			{
-				saveCoreStreams( );
-			}
-			finally
-			{				
-				archive.unlock( lock );
-			}
+			saveCoreStreams( );
 		}
 		catch ( Exception e )
 		{
@@ -84,18 +76,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		try
 		{
-			Object lock = archive.lock( CORE_STREAM );
-			try
-			{
-				checkpoint = CHECKPOINT_END;
-				saveCoreStreams( );
-			}
-			finally
-			{
-				archive.unlock( lock );
-				archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
-				archive.finish( );
-			}
+			checkpoint = CHECKPOINT_END;
+			saveCoreStreams( );
+			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
+			archive.finish( );
 		}
 		catch ( Exception e )
 		{
@@ -227,6 +211,22 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	}
 
 	public void saveCoreStreams( ) throws Exception
+	{
+		Object lock = archive.lock( CORE_STREAM );
+		try
+		{
+			synchronized ( lock )
+			{
+				doSaveCoreStreams( );
+			}
+		}
+		finally
+		{
+			archive.unlock( lock );
+		}
+	}
+
+	protected void doSaveCoreStreams( ) throws Exception
 	{
 		RAOutputStream out = null;
 		DataOutputStream coreStream = null;

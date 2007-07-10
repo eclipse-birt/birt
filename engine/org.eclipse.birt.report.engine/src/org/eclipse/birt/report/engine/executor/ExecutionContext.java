@@ -1251,7 +1251,7 @@ public class ExecutionContext
 	 */
 	public void setTotalPage( long totalPage )
 	{
-		if ( totalPage > pageNumber )
+		if ( totalPage > this.totalPage )
 		{
 			this.totalPage = totalPage;
 			scriptContext.registerBean( "totalPage", new Long( totalPage ) );

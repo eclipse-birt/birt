@@ -22,6 +22,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
+import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 
 /**
@@ -254,6 +256,15 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			closeFactory();
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
 			closeReportDocument();
+
+			// notify that the document has been finished
+			if ( pageHandler != null && !executionContext.isCanceled( ) )
+			{
+				int totalPage = (int) executionContext.getTotalPage( );
+				IReportDocumentInfo docInfo = new ReportDocumentInfo(
+						executionContext, totalPage, true );
+				pageHandler.onPage( totalPage, true, docInfo );
+			}
 		}
 	}
 
