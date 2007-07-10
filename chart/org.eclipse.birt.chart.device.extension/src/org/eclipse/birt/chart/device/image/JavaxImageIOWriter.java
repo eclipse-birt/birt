@@ -299,6 +299,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			switch ( ac.getType( ).getValue( ) )
 			{
 				case ActionType.URL_REDIRECT :
+					// Do not use callback method which may be in the
+					// different page
+					tag.addAttribute( HTMLAttribute.ONDBLCLICK,
+							eval2JS( generateJSContent( ac ) ) );
+					return true;
 				case ActionType.INVOKE_SCRIPT :
 					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
 							.getType( ) ) )
@@ -846,8 +851,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				&& StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
 						.getType( ) ) )
 		{
-			if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT
-					|| ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+			// Do not use callback methods for URL_redirect since the target
+			// method may be in another page
+			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
 			{
 				sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
 			}
@@ -864,6 +870,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
 		{
 			URLValue uv = (URLValue) ac.getValue( );
+			if ( uv.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
+			{
+				return uv.getBaseUrl( );
+			}
+			if ( uv.getBaseUrl( ).startsWith( "#" ) ) //$NON-NLS-1$
+			{
+				return "window.location='" + uv.getBaseUrl( ) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			return "window.open('" //$NON-NLS-1$
 					+ uv.getBaseUrl( ) + "','" + uv.getTarget( ) + "')"; //$NON-NLS-1$//$NON-NLS-2$
 		}
