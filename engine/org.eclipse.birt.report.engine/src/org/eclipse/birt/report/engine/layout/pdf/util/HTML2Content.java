@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Stack;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -48,13 +48,7 @@ public class HTML2Content
 	protected static final HashSet htmlDisplayMode = new HashSet( );
 	
 	protected static final HashMap textTypeMapping = new HashMap( );
-	
-	protected ActionContent action = null;
-	
-	protected Stack inlineContainerStack = new Stack();
 
-	protected ReportDesignHandle report;
-	
 	static
 	{
 		tag2Style.put( "code", //$NON-NLS-1$
@@ -137,24 +131,20 @@ public class HTML2Content
 		htmlDisplayMode.add( "address" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "body" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "center" ); //$NON-NLS-1$
+		htmlDisplayMode.add( "table" ); //$NON-NLS-1$
 		
 		textTypeMapping.put( IForeignContent.HTML_TYPE, TextParser.TEXT_TYPE_HTML );
 		textTypeMapping.put( IForeignContent.TEXT_TYPE, TextParser.TEXT_TYPE_PLAIN );
 		textTypeMapping.put( IForeignContent.UNKNOWN_TYPE, TextParser.TEXT_TYPE_AUTO );
 
 	}
-	
-	public HTML2Content(ReportDesignHandle report)
+
+	public static void html2Content( IForeignContent foreign )
 	{
-		this.report = report;
+		processForeignData( foreign );
 	}
-	
-	public void html2Content( IForeignContent foreign)
-	{
-		processForeignData(foreign);
-	}
-	
-	protected void processForeignData( IForeignContent foreign)
+
+	protected static void processForeignData( IForeignContent foreign)
 	{
 		
 		if(foreign.getChildren( )!=null && foreign.getChildren( ).size( )>0)
@@ -163,8 +153,10 @@ public class HTML2Content
 		}
 		
 		HashMap styleMap = new HashMap( );
-		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( report );
-		Object rawValue = foreign.getRawValue();
+		ReportDesignHandle reportDesign = foreign.getReportContent( )
+				.getDesign( ).getReportDesign( );
+		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( reportDesign );
+		Object rawValue = foreign.getRawValue( );
 		Document doc = null;
 		if ( null != rawValue )
 		{
@@ -187,8 +179,8 @@ public class HTML2Content
 			htmlProcessor.execute( body, styleMap );
 			IContainerContent container = new ContainerContent((ReportContent)foreign.getReportContent());
 			
-			addChild(foreign, container);
-			processNodes( body, checkEscapeSpace( doc ), styleMap, container );
+			addChild( foreign, container, null );
+			processNodes( body, styleMap, container, null, null );
 		}
 	}
 	
@@ -204,7 +196,9 @@ public class HTML2Content
 	 * 			  the parent content of the element
 	 * 		       
 	 */
-	private void processNodes( Element ele, boolean needEscape, HashMap cssStyles, IContent content )
+	public static void processNodes( Element ele, 
+			Map cssStyles, IContent content, IContent inlineParent,
+			ActionContent action )
 	{
 		int level=0;
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
@@ -214,20 +208,22 @@ public class HTML2Content
 			{
 				if ( node.getFirstChild( ) instanceof Element )
 				{
-					processNodes( (Element) node.getFirstChild( ), checkEscapeSpace( node ), cssStyles, content );
+					processNodes( (Element) node.getFirstChild( ),
+							cssStyles, content, inlineParent, action );
 				}
 			}
 			else if ( node.getNodeName( ).equals( "image" ) ) //$NON-NLS-1$
 			{
 				if ( node.getFirstChild( ) instanceof Element )
 				{
-					processNodes( (Element) node.getFirstChild( ), needEscape, cssStyles, content);
+					processNodes( (Element) node.getFirstChild( ), cssStyles,
+							content, inlineParent, action );
 				}
 			}
 			else if(node.getNodeType() == Node.TEXT_NODE)
 			{
 				ILabelContent label = new LabelContent((ReportContent)content.getReportContent());
-				addChild(content, label);
+				addChild(content, label, inlineParent );
 				label.setText(node.getNodeValue());
 				StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
 				inlineStyle.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
@@ -261,12 +257,16 @@ public class HTML2Content
 			else if(//supportedHTMLElementTags.contains(node.getNodeName().toUpperCase()) && 
 					 node.getNodeType()== Node.ELEMENT_NODE)
 			{
-				handleElement((Element)node, needEscape, cssStyles, content, ++level);
+				handleElement( (Element) node, cssStyles, content,
+						inlineParent, action, ++level );
 			}
 		}
 	}
-	
-	private void handleElement(Element ele, boolean needEscape, HashMap cssStyles, IContent content, int index)
+
+//TODO: decrease the modifier.
+	public static void handleElement( Element ele, Map cssStyles,
+			IContent content, IContent inlineParent, ActionContent action,
+			int index )
 	{
 		IStyle cssStyle = ( IStyle ) cssStyles.get( ele );
 		if ( cssStyle != null )
@@ -282,24 +282,21 @@ public class HTML2Content
 		if ( tagName.toLowerCase().equals( "a" ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			setInlineParent( content, container);
+			setInlineParent( content, container, inlineParent );
 			handleStyle(ele, cssStyles, container);
-			ActionContent oldAction = action;
-			handleAnchor( ele, container );
-			inlineContainerStack.push( container );
-			processNodes( ele, needEscape, cssStyles, content );
-			inlineContainerStack.pop();
-			this.action = oldAction;
+			ActionContent actionContent = handleAnchor( ele, container, action );
+			processNodes( ele, cssStyles, content, container,
+					actionContent );
 		}
 		else if(tagName.toLowerCase().equals( "img" )) //$NON-NLS-1$
 		{
-			outputImg( ele, cssStyles, content);
+			outputImg( ele, cssStyles, content, inlineParent );
 		}
 		else if ( tagName.toLowerCase().equals( "br" ) ) //$NON-NLS-1$
 		{
 			
 			ILabelContent label = new LabelContent((ReportContent)content.getReportContent());
-			addChild(content, label);
+			addChild(content, label, inlineParent );
 			label.setText("\n"); //$NON-NLS-1$
 			StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
 			inlineStyle.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
@@ -313,7 +310,7 @@ public class HTML2Content
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.MIDDLE_VALUE );
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
 			container.setInlineStyle(style);
-			addChild(content, container);
+			addChild(content, container, inlineParent );
 			handleStyle(ele, cssStyles, container);
 			
 			//fix scr  157259In PDF <li> effect is incorrect when page break happens.
@@ -326,9 +323,9 @@ public class HTML2Content
 			CSSValue fontSizeValue = content.getComputedStyle( ).getProperty( IStyle.STYLE_FONT_SIZE ); 
 			orderContainer.setWidth( new DimensionType(2.1*PropertyUtil.getDimensionValue( fontSizeValue )/1000.0, EngineIRConstants.UNITS_PT) );
 			orderContainer.setInlineStyle( style );
-			addChild(container, orderContainer);
+			addChild(container, orderContainer, inlineParent );
 			TextContent text = new TextContent((ReportContent)content.getReportContent());
-			addChild(orderContainer, text);
+			addChild(orderContainer, text, inlineParent );
 			if(ele.getParentNode().getNodeName().equals("ol")) //$NON-NLS-1$
 			{
 				text.setText(new Integer(index).toString()+"."); //$NON-NLS-1$
@@ -341,14 +338,15 @@ public class HTML2Content
 			text.setInlineStyle(style);
 			
 			IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
-			addChild(container, childContainer);
+			addChild(container, childContainer, inlineParent );
 			childContainer.setInlineStyle(style);
-			processNodes( ele, needEscape, cssStyles, childContainer );
+			processNodes( ele, cssStyles, childContainer,
+					inlineParent, action );
 		}
 		else if (tagName.toLowerCase().equals("dd") || tagName.toLowerCase().equals("dt")) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			addChild(content, container);
+			addChild(content, container, inlineParent );
 			handleStyle(ele, cssStyles, container);
 			
 			if (tagName.toLowerCase().equals("dd")) //$NON-NLS-1$
@@ -358,7 +356,7 @@ public class HTML2Content
 				style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
 				TextContent text = new TextContent((ReportContent) content
 						.getReportContent());
-				addChild(content, text);
+				addChild( content, text, inlineParent );
 				if (ele.getParentNode().getNodeName().equals("dl")) //$NON-NLS-1$
 				{
 					text.setText(""); //$NON-NLS-1$
@@ -368,16 +366,23 @@ public class HTML2Content
 				
 				IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
 				childContainer.setInlineStyle(style);
-				addChild(container, childContainer);
-				
-				processNodes( ele, needEscape, cssStyles, container );
+				addChild( container, childContainer, inlineParent );
+
+				processNodes( ele, cssStyles, container,
+						inlineParent, action );
 				
 			}
 			else
 			{
-				processNodes(ele, needEscape, cssStyles, container);
+				processNodes( ele, cssStyles, container,
+						inlineParent, action );
 			}
-			
+
+		}
+		else if ( "table".equals( tagName.toLowerCase( ) ) ) //$NON-NLS-1$
+		{
+			TableProcessor.processTable( ele, cssStyles, content, inlineParent,
+					action );
 		}
 		else 
 		{
@@ -385,16 +390,14 @@ public class HTML2Content
 			handleStyle(ele, cssStyles, container);
 			if(htmlDisplayMode.contains(ele.getTagName()))
 			{
-				addChild(content, container);
-				processNodes( ele, needEscape, cssStyles, container );
+				addChild( content, container, inlineParent );
+				processNodes( ele, cssStyles, container, inlineParent, action );
 			}
 			else
 			{
-				setInlineParent(content, container);
-				//handleStyle(ele, cssStyles, container);
-				inlineContainerStack.push( container );
-				processNodes( ele, needEscape, cssStyles, content );
-				inlineContainerStack.pop( );
+				setInlineParent( content, container, inlineParent );
+				// handleStyle(ele, cssStyles, container);
+				processNodes( ele, cssStyles, content, container, action );
 			}
 			
 		}
@@ -407,7 +410,7 @@ public class HTML2Content
 	 *            the root of the DOM tree
 	 * @return true if the content needs escaping, otherwise false.
 	 */
-	private boolean checkEscapeSpace( Node doc )
+	private static boolean checkEscapeSpace( Node doc )
 	{
 		String textType = null;
 		if ( doc != null && doc.getFirstChild( ) != null
@@ -430,10 +433,12 @@ public class HTML2Content
 	 * @param ele
 	 *            the A element instance
 	 */
-	protected void handleAnchor( Element ele, IContent content )
+	protected static ActionContent handleAnchor( Element ele, IContent content,
+			ActionContent defaultAction )
 	{
 		//			If the "id" attribute is not empty, then use it,
 		// otherwise use the "name" attribute.
+		ActionContent result = defaultAction;
 		if ( ele.getAttribute( "id" ).trim( ).length( ) != 0 ) //$NON-NLS-1$
 		{
 			content.setBookmark(ele.getAttribute( "id" )); //$NON-NLS-1$
@@ -462,13 +467,14 @@ public class HTML2Content
 					}
 					action.setHyperlink(href, target);
 				}
-				this.action = action;
+				result = action;
 			}
 			
 		}
+		return result;
 	}
 	
-	private void handleStyle(Element ele, HashMap cssStyles, IContent content)
+	public static void handleStyle( Element ele, Map cssStyles, IContent content )
 	{
 		String tagName = ele.getTagName();
 		StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
@@ -522,13 +528,14 @@ public class HTML2Content
 	 * @param ele
 	 *            the IMG element instance
 	 */
-	protected void outputImg( Element ele, HashMap cssStyles, IContent content )
+	protected static void outputImg( Element ele, Map cssStyles,
+			IContent content, IContent inlineParent )
 	{
 	 	String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if(src!=null)
 		{		
 			IImageContent image = new ImageContent(content);
-			addChild(content, image);
+			addChild( content, image, inlineParent );
 			handleStyle(ele, cssStyles, image);
 			
 			if( !FileUtil.isLocalResource( src ) )
@@ -550,11 +557,11 @@ public class HTML2Content
 			
 			if(null!=ele.getAttribute("width") && !"".equals(ele.getAttribute("width"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setWidth( DimensionType.parserUnit( ele.getAttribute( "width" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
+				image.setWidth( PropertyUtil.getDimensionAttribute( ele, "width" ) ); //$NON-NLS-1$
 			}
 			if(ele.getAttribute("height")!=null &&! "".equals(ele.getAttribute("height"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				image.setHeight( DimensionType.parserUnit( ele.getAttribute( "height" ), DimensionType.UNITS_PX ) ); //$NON-NLS-1$
+				image.setHeight( PropertyUtil.getDimensionAttribute( ele, "height" ) ); //$NON-NLS-1$
 			}
 			if(ele.getAttribute("alt")!=null && !"".equals(ele.getAttribute("alt"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
@@ -563,7 +570,7 @@ public class HTML2Content
 		}
 	}
 
-	protected void addChild(IContent parent, IContent child)
+	protected static void addChild( IContent parent, IContent child, IContent inlineParent )
 	{
 		if(parent!=null && child!=null)
 		{
@@ -571,29 +578,30 @@ public class HTML2Content
 			if(!children.contains( child ))
 			{
 				children.add( child );
-				if(inlineContainerStack.isEmpty( ))
+				if ( inlineParent == null )
 				{
 					child.setParent( parent );
 				}
 				else
 				{
-					child.setParent( ( IContent) inlineContainerStack.peek( ));
+					child.setParent( inlineParent );
 				}
 			}
 		}
 	}
-	
-	protected void setInlineParent(IContent parent, IContent child)
+
+	protected static void setInlineParent( IContent parent, IContent child,
+			IContent inlineParent )
 	{
 		if(parent!=null && child!=null)
 		{
-			if(inlineContainerStack.isEmpty( ))
+			if ( inlineParent == null )
 			{
 				child.setParent( parent );
 			}
 			else
 			{
-				child.setParent( ( IContent) inlineContainerStack.peek( ));
+				child.setParent( inlineParent );
 			}
 		}
 	}

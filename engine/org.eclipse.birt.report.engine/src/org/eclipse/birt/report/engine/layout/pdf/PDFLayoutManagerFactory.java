@@ -50,8 +50,6 @@ public class PDFLayoutManagerFactory
 
 	private PDFLayoutEngineContext context = null;
 
-	protected HTML2Content converter = null;
-
 	protected IReportItemExecutor executor;
 
 	public PDFLayoutManagerFactory( PDFLayoutEngineContext context )
@@ -167,13 +165,8 @@ public class PDFLayoutManagerFactory
 		{
 			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 			{
-				if ( converter == null )
-				{
-					converter = new HTML2Content( foreign.getReportContent( )
-							.getDesign( ).getReportDesign( ) );
-				}
 				// build content DOM tree for HTML text
-				converter.html2Content( foreign );
+				HTML2Content.html2Content( foreign );
 				executor = new DOMReportItemExecutor( foreign );
 				executor.execute( );
 				return visitContent( foreign, value );

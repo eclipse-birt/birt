@@ -20,6 +20,8 @@ import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
@@ -155,6 +157,28 @@ public class PropertyUtil
 		return 0;
 	}
     
+	public static int getIntAttribute( Element element, String attribute )
+	{
+		String value = element.getAttribute( attribute );
+		int result = 1;
+		if ( value != null && value.length( ) != 0 )
+		{
+			result = Integer.parseInt( value );
+		}
+		return result;
+	}
+
+	public static DimensionType getDimensionAttribute( Element ele,
+			String attribute )
+	{
+		String value = ele.getAttribute( attribute );
+		if ( value == null || 0 == value.length( ) )
+		{
+			return null;
+		}
+		return DimensionType.parserUnit( value, DimensionType.UNITS_PX );
+	}
+
     public static float getPercentageValue(CSSValue value)
     {
     	if(value!=null && (value instanceof FloatValue))

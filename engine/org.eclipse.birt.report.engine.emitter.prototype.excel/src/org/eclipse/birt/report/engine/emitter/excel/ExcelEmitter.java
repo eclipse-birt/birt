@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
@@ -192,9 +193,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
 		{
-			HTML2Content convert = new HTML2Content( foreign.getReportContent( )
-					.getDesign( ).getReportDesign( ) );
-			convert.html2Content( foreign );
+			HTML2Content.html2Content( foreign );
 			HyperlinkDef link = parseHyperLink(foreign);
 			engine.addContainer( foreign.getComputedStyle( ), link );			
 			contentVisitor.visitChildren( foreign, null );
