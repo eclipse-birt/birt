@@ -117,6 +117,8 @@ public class DEUtil
 
 	private static ArrayList notSupportList = new ArrayList( );
 
+	private static int defaultFontSite = -1;
+
 	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 
 	private static final String XMLDATE_PATTERN_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -1267,39 +1269,27 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = getModelFontSize( handle );
-
-		if ( fontSizeValue instanceof DimensionValue )
+		if ( handle.getPrivateStyle( ) != null
+				&& handle.getPrivateStyle( ).getFontSize( ).getAbsoluteValue( ) != null )
 		{
-			// use parent's font size as the base size for converting sizeValue
-			// to a int value.
-			int size = getFontSizeIntValue( handle.getContainer( ) );
-			return (int) CSSUtil.convertToPoint( fontSizeValue, size );
-		}
-		else if ( fontSizeValue instanceof String )
-		{
-			String fontSize = (String) fontSizeValue;
-
-			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
-			{
-				return getLargerFontSizeIntValue( handle.getContainer( ) );
-			}
-			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
-			{
-				return getSmallerFontSizeIntValue( handle.getContainer( ) );
-			}
-			else
-			{
-				String size = (String) DesignerConstants.fontMap.get( fontSize );
-				return Integer.parseInt( size );
-			}
+			return (int) CSSUtil.convertToPoint( handle.getPrivateStyle( )
+					.getFontSize( )
+					.getAbsoluteValue( ), getDefaultFontSize( ) );
 		}
 		else
 		{
-			// return 10.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
-			return Integer.parseInt( size );
+			return getDefaultFontSize( );
 		}
+	}
+
+	private static int getDefaultFontSize( )
+	{
+		if ( defaultFontSite == -1 )
+		{
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			defaultFontSite = Integer.parseInt( size );
+		}
+		return defaultFontSite;
 	}
 
 	private static int getLargerFontSizeIntValue( DesignElementHandle handle )
@@ -1657,7 +1647,7 @@ public class DEUtil
 		}
 		return ExpressionUtil.createJSDataExpression( columnName );
 	}
-	
+
 	/**
 	 * Create a row expression base on a result set column name.
 	 * 
@@ -2614,13 +2604,14 @@ public class DEUtil
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the aggregate on display string
 	 * @param element
 	 * @return
 	 */
-	public static String getAggregateOn(ComputedColumnHandle element){
+	public static String getAggregateOn( ComputedColumnHandle element )
+	{
 		List aggregateOnList = element.getAggregateOnList( );
 		String value = "";
 		int i = 0;
