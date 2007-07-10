@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -79,7 +81,10 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 				SharedStyleHandle styleHandle = (SharedStyleHandle)iter.next( );
 				childrenList.add( styleHandle );
 			}
-			return childrenList.toArray( new SharedStyleHandle[childrenList.size( )]);
+
+			Object[] childrenArray = childrenList.toArray( new SharedStyleHandle[childrenList.size( )]);
+			Arrays.sort( childrenArray, new AlphabeticallyComparator( ) );
+			return childrenArray;
 		}
 		return super.getChildren( model );
 	}
