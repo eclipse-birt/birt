@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -59,7 +60,6 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String SAVE_TEMPLATE_PROPERTIES_TITLE = Messages.getString( "SaveReportAsWizard.SettingPage.title" );
 	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" );
 
-	
 	public NewTemplateWizard( )
 	{
 		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
@@ -110,7 +110,8 @@ public class NewTemplateWizard extends NewReportWizard
 	 */
 	public boolean canFinish( )
 	{
-		return newReportFileWizardPage.isPageComplete( ) && settingPage.canFinish( );
+		return newReportFileWizardPage.isPageComplete( )
+				&& settingPage.canFinish( );
 	}
 
 	/*
@@ -123,16 +124,31 @@ public class NewTemplateWizard extends NewReportWizard
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
-		if ( !fn.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
+		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			fileName = fn + getFileExtension( ); //$NON-NLS-1$
+			if ( !fn.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
+			{
+				fileName = fn + getFileExtension( ); //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
 		else
 		{
-			fileName = fn;
+			if ( !fn.toLowerCase( Locale.getDefault( ) )
+					.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
+			{
+				fileName = fn + getFileExtension( ); //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
-		
-		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+
+		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
 		{
 			return true;
 		}

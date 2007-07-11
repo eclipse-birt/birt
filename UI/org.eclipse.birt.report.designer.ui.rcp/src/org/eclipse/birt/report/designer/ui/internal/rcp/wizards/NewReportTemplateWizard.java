@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Locale;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -70,7 +72,7 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
-	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
+	private String fileExtension = "."+IReportElementConstants.TEMPLATE_FILE_EXTENSION;
 
 	private static final String TEMPLATE_FILE = "/templates/blank_report.rpttemplate"; //$NON-NLS-1$
 	
@@ -136,9 +138,8 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	private String getNewFileFullName( String defaultName )
 	{
-		String extension = NEW_REPORT_FILE_EXTENSION;
 		String path = getDefaultLocation( );
-		String name = defaultName + extension;
+		String name = defaultName + fileExtension;
 
 		int count = 0;
 
@@ -149,7 +150,7 @@ public class NewReportTemplateWizard extends Wizard implements
 		while ( file.exists( ) )
 		{
 			count++;
-			name = defaultName + "_" + count + extension; //$NON-NLS-1$
+			name = defaultName + "_" + count + fileExtension; //$NON-NLS-1$
 			file = null;
 			file = new File( path, name );
 		}
@@ -170,14 +171,29 @@ public class NewReportTemplateWizard extends Wizard implements
 		String fn = newReportFileWizardPage.getFileName( );
 
 		final String fileName;
-		if ( !fn.endsWith( NEW_REPORT_FILE_EXTENSION ) ) //$NON-NLS-1$
+		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			fileName = fn + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+			if ( !fn.endsWith( fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
 		else
 		{
-			fileName = fn;
-		}		
+			if ( !fn.toLowerCase( Locale.getDefault( ) )
+					.endsWith( fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
+		}	
 		
 		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
 		{

@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Locale;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -62,7 +64,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 
 	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 
-	private static final String SUFFIX = ".rptlibrary"; //$NON-NLS-1$
+	private String fileExtension = IReportElementConstants.LIBRARY_FILE_EXTENSION;
 
 	private static final String TEMPLATE_FILE = "/templates/blank_library.rpttemplate"; //$NON-NLS-1$
 
@@ -183,13 +185,26 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		String fn = getFileName( );
 
 		final String fileName;
-		if ( !fn.endsWith( SUFFIX ) ) //$NON-NLS-1$
+		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			fileName = fn + SUFFIX; //$NON-NLS-1$
+			if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
-		else
-		{
-			fileName = fn;
+		else{
+			if ( !fn.toLowerCase( Locale.getDefault( ) ).endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+			{
+				fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = fn;
+			}
 		}
 		
 		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
