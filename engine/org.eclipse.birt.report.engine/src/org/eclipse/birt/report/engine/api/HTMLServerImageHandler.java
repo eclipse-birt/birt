@@ -181,7 +181,10 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			mapID = getImageMapID( image );
 			if ( map.containsKey( mapID ) )
 			{
-				return (String) map.get( mapID );
+				synchronized( map )
+				{
+					return (String) map.get( mapID );
+				}
 			}
 		}
 		String ret = null;
@@ -233,7 +236,10 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 
 			if ( needMap )
 			{
-				map.put( mapID, ret );
+				synchronized( map )
+				{
+					map.put( mapID, ret );
+				}
 			}
 
 		}
@@ -257,7 +263,10 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			if ( needMap )
 			{
 				String mapID = getImageMapID( image );
-				map.put( mapID, fileName );
+				synchronized( map )
+				{
+					map.put( mapID, fileName );
+				}
 			}
 			return fileName;
 		}
