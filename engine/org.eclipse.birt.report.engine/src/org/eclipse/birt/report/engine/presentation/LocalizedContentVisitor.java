@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -52,12 +53,14 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -96,9 +99,37 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return context.getDesign( );
 	}
 	
+	/**
+	 * Checks the background image property. If it is given as a relative path,
+	 * gets its absolute path and sets it back to the style.
+	 * 
+	 * @param style
+	 *            the style that defines background image related properties
+	 */
+	protected void processBackgroundImage( IStyle style )
+	{
+		if ( style == null )
+			return;
+
+		String image = style.getBackgroundImage( );
+		if ( image == null )
+			return;
+
+		ReportDesignHandle reportDesign = context.getDesign( );
+		if ( reportDesign != null )
+		{
+			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE );
+			if ( url != null )
+			{
+				style.setBackgroundImage( url.toExternalForm( ) );
+			}
+		}
+	}
 	
 	public IContent localize(IContent content)
 	{
+		IStyle style = content.getInlineStyle( );
+		processBackgroundImage( style );
 		Object value = content.accept( this, content );
 		return (IContent) value;
 	}
@@ -454,6 +485,20 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitImage( IImageContent image, Object value )
 	{
+		if ( image.getImageSource( ) == IImageContent.IMAGE_FILE
+				|| image.getImageSource( ) == IImageContent.IMAGE_URL )
+		{
+			String strUri = image.getURI( );
+
+			ReportDesignHandle reportDesign = context.getDesign( );
+			URL uri = reportDesign
+					.findResource( strUri, IResourceLocator.IMAGE );
+			if ( uri != null )
+			{
+				image.setURI( uri.toExternalForm( ) );
+			}
+		}
+		
 		handleOnRender( image );
 		processImage( image );
 		return image;

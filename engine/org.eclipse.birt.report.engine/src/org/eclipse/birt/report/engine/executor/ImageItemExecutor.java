@@ -189,24 +189,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 			strUri = uriExpr;
 		}
 		
-		ReportDesignHandle reportDesign = context.getDesign( );
-		URL uri = reportDesign.findResource( strUri,
-				IResourceLocator.IMAGE );
-		if ( uri != null )
-		{
-			if ( "file".equals( uri.getProtocol( ) ) )
-			{
-				handleFileImage( strUri, imageContent );
-			}
-			else
-			{
-				imageContent.setURI( uri.toExternalForm( ) );
-			}
-		}
-		else
-		{
-			handleFileImage( strUri, imageContent );
-		}
+		imageContent.setURI( strUri );		
 	}
 
 	protected void handleNamedImage( String imageName,
@@ -282,19 +265,6 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 	protected void handleFileImage( String imageFile, IImageContent imageContent )
 	{
-
-		// image file may be file: or a file path.
-		ReportDesignHandle reportDesign = context.getDesign( );
-		if ( reportDesign != null )
-		{
-			URL url = reportDesign.findResource( imageFile,
-					IResourceLocator.IMAGE );
-			if ( url != null )
-			{
-				imageFile = url.toString( );
-			}
-		}
-
 		// Here uses the absolute file name as the URI for the image
 		// resource. The content of the file is loaded lazily to
 		// improve the performance.

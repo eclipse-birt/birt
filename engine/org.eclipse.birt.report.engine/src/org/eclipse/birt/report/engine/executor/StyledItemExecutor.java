@@ -140,11 +140,6 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			}
 		}
 
-		if ( style != null )
-		{
-			processBackgroundImage( style );
-		}
-
 		return style;
 	}
 
@@ -191,34 +186,5 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			}
 		}
 	}
-
-	/**
-	 * Checks the background image property. If it is given as a relative path,
-	 * gets its absolute path and sets it back to the style.
-	 * 
-	 * @param style
-	 *            the style that defines background image related properties
-	 */
-	protected void processBackgroundImage( IStyle style )
-	{
-		if ( style == null )
-			return;
-
-		String image = style.getBackgroundImage( );
-		if ( image == null )
-			return;
-
-		ReportDesignHandle reportDesign = context.getDesign( );
-		if ( reportDesign != null )
-		{
-			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE );
-			if ( url != null )
-			{
-				style.setBackgroundImage( url.toExternalForm( ) );
-			}
-		}
-	}
-
-	
 
 }
