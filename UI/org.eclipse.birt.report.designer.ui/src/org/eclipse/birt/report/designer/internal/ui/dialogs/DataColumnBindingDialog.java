@@ -152,12 +152,12 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			dialogHelper.save( );
 			this.bindingColumn = dialogHelper.getBindingColumn( );
+			super.okPressed( );
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
-		super.okPressed( );
 	}
 
 	protected void createButtonsForButtonBar( Composite parent )

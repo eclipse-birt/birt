@@ -99,6 +99,7 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 			//because this will raise annoying dialog
 //			ExceptionHandler.handle( e );
 //			e.printStackTrace( );
+			throw e.getCause( );
 		}
 		return null;
 	}

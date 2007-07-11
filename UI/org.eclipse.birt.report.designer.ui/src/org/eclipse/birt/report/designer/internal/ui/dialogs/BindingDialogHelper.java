@@ -510,7 +510,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		btnTable = new Button( aggOnComposite, SWT.RADIO );
 		btnTable.setText( getBindingHolder( ) instanceof TableHandle ? TABLE
 				: LIST );
-		btnTable.addSelectionListener( new SelectionListener(){
+		btnTable.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
@@ -519,13 +519,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent e )
 			{
 				cmbGroup.setEnabled( false );
-			}} );
+			}
+		} );
 
 		WidgetUtil.createGridPlaceholder( aggOnComposite, 1, false );
 
 		btnGroup = new Button( aggOnComposite, SWT.RADIO );
 		btnGroup.setText( GROUP );
-		btnGroup.addSelectionListener( new SelectionListener(){
+		btnGroup.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
@@ -534,7 +535,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent e )
 			{
 				cmbGroup.setEnabled( true );
-			}} );
+			}
+		} );
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
@@ -751,15 +753,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			if ( isAggregate( ) )
 			{
-				try
-				{
-					saveAggregate( );
-				}
-				catch ( Exception e )
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace( );
-				}
+				saveAggregate( );
 			}
 			else
 			{
