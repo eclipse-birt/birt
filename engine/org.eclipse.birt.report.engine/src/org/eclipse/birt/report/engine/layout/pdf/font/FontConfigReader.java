@@ -107,16 +107,24 @@ public class FontConfigReader
 
 	private static String getPlatformConfig( )
 	{
+		return CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + getOsName( );
+	}
+
+	private static String getOsName( )
+	{
 		String osName = System.getProperty( "os.name" );
 		osName = osName.replaceAll( " ", CONFIG_FILE_SEPERATOR );
-		return CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + osName;
+		return osName;
 	}
 
 	public boolean parseFormatRelatedConfigFile( String format )
 	{
 		String configFile = CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + format
 				+ CONFIG_FILE_SUFFIX;
-		return parseConfigFile( configFile );
+		boolean result = parseConfigFile( configFile );
+		configFile = CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + format
+				+ CONFIG_FILE_SEPERATOR + getOsName( ) + CONFIG_FILE_SUFFIX;
+		return result | parseConfigFile( configFile );
 	}
 
 	public boolean parseConfigFile( String configFile )

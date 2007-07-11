@@ -160,6 +160,11 @@ public class FontConfigReaderTest extends TestCase
 
 	private void testPriority( final String testDir )
 	{
+		testPriority( testDir, null );
+	}
+	
+	private void testPriority( final String testDir, String format )
+	{
 		FontConfigReader reader = new FontConfigReader( ) {
 
 			protected URL getURL( String configFile )
@@ -171,7 +176,16 @@ public class FontConfigReaderTest extends TestCase
 			}
 		};
 		reader.initialize( );
-		FontMappingManager manager = reader.getFontMappingManager( );
+		FontMappingManager manager = null;
+		if ( format == null )
+		{
+			manager = reader.getFontMappingManager( );
+		}
+		else
+		{
+			reader.parseFormatRelatedConfigFile( format );
+			manager = reader.getFontMappingManager( );
+		}
 		testMergedProperty( manager.getFontAliases( ), 8 );
 		testMergedProperty( manager.getFontEncodings( ), 9 );
 

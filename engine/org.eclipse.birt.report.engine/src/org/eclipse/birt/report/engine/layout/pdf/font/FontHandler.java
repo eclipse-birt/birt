@@ -216,7 +216,7 @@ public class FontHandler
 		prepared = true;
 	}
 
-	private FontMappingManager getFontManager( String format )
+	public FontMappingManager getFontManager( String format )
 	{
 		if ( format == null )
 		{
