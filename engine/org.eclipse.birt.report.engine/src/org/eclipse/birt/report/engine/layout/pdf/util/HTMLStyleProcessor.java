@@ -48,10 +48,10 @@ public class HTMLStyleProcessor
 		"7.5pt",  //$NON-NLS-1$
 		"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
 		"7.5pt", "7.5pt",  //$NON-NLS-1$//$NON-NLS-2$
-		"8.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"7.5pt", "8.5pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"7.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
+		"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
 		"10pt", "12pt", //$NON-NLS-1$ //$NON-NLS-2$
-		"14.4pt", "19pt", //$NON-NLS-1$//$NON-NLS-2$
+		"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
 		"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
 
 	/**

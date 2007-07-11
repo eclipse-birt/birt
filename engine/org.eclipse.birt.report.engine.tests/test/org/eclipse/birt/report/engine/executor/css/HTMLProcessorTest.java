@@ -51,7 +51,7 @@ public class HTMLProcessorTest extends TestCase
 		Element fontEle = (Element) iEle.getNextSibling( );
 		assertEquals( fontEle.getTagName( ), "span" );
 		assertEquals( "blue", getStyle( styles, fontEle, "color" ) );
-		assertEquals( "12pt", getStyle( styles, fontEle, "font-size" ) );
+		assertEquals( "13.8pt", getStyle( styles, fontEle, "font-size" ) );
 		assertEquals( "news", getStyle( styles, fontEle, "font-family" ) );
 
 		Element uEle = (Element) fontEle.getNextSibling( );
