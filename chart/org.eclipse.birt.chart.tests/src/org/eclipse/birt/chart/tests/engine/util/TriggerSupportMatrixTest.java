@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 
 public class TriggerSupportMatrixTest extends TestCase
@@ -35,7 +36,7 @@ public class TriggerSupportMatrixTest extends TestCase
 			ActionType.CALL_BACK_LITERAL
 	};
 
-	private static final String SPLITOR = "\r\n"; //$NON-NLS-1$
+	private static final String SPLITOR = "\n"; //$NON-NLS-1$
 
 	private TriggerSupportMatrix matSVG = new TriggerSupportMatrix( "svg", true ); //$NON-NLS-1$
 	private TriggerSupportMatrix matSwing = new TriggerSupportMatrix( "png", true ); //$NON-NLS-1$
@@ -53,8 +54,10 @@ public class TriggerSupportMatrixTest extends TestCase
 		{
 			for ( int i = 0; i < populatedArray.length; i++ )
 			{
+				// Need to remove additional splitor in windows
+				String golden = goldenArray[i].replaceAll( "\r", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 				assertEquals( "check line " + ( i + 1 ) + ":", //$NON-NLS-1$ //$NON-NLS-2$
-						goldenArray[i],
+						golden,
 						populatedArray[i] );
 			}
 		}
@@ -159,5 +162,19 @@ public class TriggerSupportMatrixTest extends TestCase
 		// Data Point visibility enabled
 		assertEquals( true, matSVG.check( TriggerCondition.ONCLICK_LITERAL,
 				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL ) );
+	}
+
+	public void testSupportedActionsDisplayName( )
+	{
+		String[] actions = matSVG.getSupportedActionsDisplayName( TriggerCondition.ONCLICK_LITERAL );
+		assertEquals( 6, actions.length );
+
+		actions = matSwing.getSupportedActionsDisplayName( TriggerCondition.ONCLICK_LITERAL );
+		assertEquals( 2, actions.length );
+		assertEquals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.URL_REDIRECT_LITERAL.getName( ) ),
+				actions[0] );
+		assertEquals( LiteralHelper.actionTypeSet.getDisplayNameByName( ActionType.INVOKE_SCRIPT_LITERAL.getName( ) ),
+				actions[1] );
+
 	}
 }

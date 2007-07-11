@@ -22,8 +22,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -53,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
  * JavaxImageIOWriter
@@ -78,9 +81,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	
 	private final long TIMESTAMP = System.currentTimeMillis( );
 
-	private boolean bAddCallbackByClick = false;
-	private boolean bAddCallbackByDBLClick = false;
-	private boolean bAddCallbackByMouseOver = false;
+	// Use this registry to make sure one callback method only be added once
+	private Map callbackMethodsRegistry = new HashMap( 5 );
 	
 	/**
 	 * Returns the output format string for this writer.
@@ -187,21 +189,30 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return sb.toString( );
 
 	}
-
-	protected boolean processOnFocus( ShapedAction sa, HTMLTag tag )
+	
+	private boolean processCommonEvent( ShapedAction sa, HTMLTag tag,
+			TriggerCondition condition, HTMLAttribute htmlAttr )
 	{
-
-		// 1. onfocus
-		Action ac = sa.getActionForCondition( TriggerCondition.ONFOCUS_LITERAL );
+		Action ac = sa.getActionForCondition( condition );
 		if ( checkSupportedAction( ac ) )
 		{
 			switch ( ac.getType( ).getValue( ) )
 			{
 				case ActionType.URL_REDIRECT :
 					URLValue uv = (URLValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					tag.addAttribute( HTMLAttribute.ONFOCUS,
-							getJsURLRedirect( uv ) );
+					if ( condition == TriggerCondition.ONCLICK_LITERAL )
+					{
+						// only click event uses href to redirect
+						tag.addAttribute( HTMLAttribute.HREF,
+								eval2HTML( uv.getBaseUrl( ) ) );
+						tag.addAttribute( HTMLAttribute.TARGET,
+								eval2HTML( uv.getTarget( ) ) );
+					}
+					else
+					{
+						tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+						tag.addAttribute( htmlAttr, getJsURLRedirect( uv ) );
+					}
 					return true;
 				case ActionType.SHOW_TOOLTIP :
 					// for onmouseover only.
@@ -209,127 +220,64 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				case ActionType.INVOKE_SCRIPT :
 					ScriptValue sv = (ScriptValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					tag.addAttribute( HTMLAttribute.ONFOCUS,
-							eval2JS( sv.getScript( ) ) );
+					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+							.getType( ) ) )
+					{
+						final DataPointHints dph = (DataPointHints) sa.getSource( )
+								.getSource( );
+						String callbackFunction = getJSMethodName( condition )
+								+ "("; //$NON-NLS-1$
+						callbackFunction = ScriptUtil.script( callbackFunction,
+								dph );
+						callbackFunction += ");"; //$NON-NLS-1$
+						tag.addAttribute( htmlAttr, eval2JS( callbackFunction,
+								true ) );
+					}
+					else
+					{
+						tag.addAttribute( htmlAttr, eval2JS( sv.getScript( ),
+								false ) );
+					}
 					return true;
 			}
 		}
 		return false;
+	}
+
+	protected boolean processOnFocus( ShapedAction sa, HTMLTag tag )
+	{
+		// 1. onfocus
+		return processCommonEvent( sa,
+				tag,
+				TriggerCondition.ONFOCUS_LITERAL,
+				HTMLAttribute.ONFOCUS );
 	}
 
 	protected boolean processOnBlur( ShapedAction sa, HTMLTag tag )
 	{
 		// 2. onblur
-		Action ac = sa.getActionForCondition( TriggerCondition.ONBLUR_LITERAL );
-		if ( checkSupportedAction( ac ) )
-		{
-			switch ( ac.getType( ).getValue( ) )
-			{
-				case ActionType.URL_REDIRECT :
-					URLValue uv = (URLValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					tag.addAttribute( HTMLAttribute.ONBLUR,
-							getJsURLRedirect( uv ) );
-					return true;
-				case ActionType.SHOW_TOOLTIP :
-					// for onmouseover only.
-					return false;
-				case ActionType.INVOKE_SCRIPT :
-					ScriptValue sv = (ScriptValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					tag.addAttribute( HTMLAttribute.ONBLUR,
-							eval2JS( sv.getScript( ) ) );
-					return true;
-			}
-		}
-		return false;
+		return processCommonEvent( sa,
+				tag,
+				TriggerCondition.ONBLUR_LITERAL,
+				HTMLAttribute.ONBLUR );
 	}
 
 	protected boolean processOnClick( ShapedAction sa, HTMLTag tag )
 	{
 		// 3. onclick
-		Action ac = sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL );
-		if ( checkSupportedAction( ac ) )
-		{
-			switch ( ac.getType( ).getValue( ) )
-			{
-				case ActionType.URL_REDIRECT :
-					URLValue uv = (URLValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF,
-							eval2HTML( uv.getBaseUrl( ) ) );
-					tag.addAttribute( HTMLAttribute.TARGET,
-							eval2HTML( uv.getTarget( ) ) );
-					return true;
-				case ActionType.SHOW_TOOLTIP :
-					// for onmouseover only.
-					return false;
-				case ActionType.INVOKE_SCRIPT :
-					ScriptValue sv = (ScriptValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-							.getType( ) ) )
-					{
-						final DataPointHints dph = (DataPointHints) sa.getSource( )
-								.getSource( );
-						String callbackFunction = getJSMethodName( TriggerCondition.ONCLICK_LITERAL )
-								+ "("; //$NON-NLS-1$
-						callbackFunction = ScriptUtil.script( callbackFunction,
-								dph );
-						callbackFunction += ");"; //$NON-NLS-1$
-						tag.addAttribute( HTMLAttribute.ONCLICK,
-								eval2JS( callbackFunction ) );
-					}
-					else
-					{
-						tag.addAttribute( HTMLAttribute.ONCLICK,
-								eval2JS( sv.getScript( ) ) );
-					}
-					return true;
-			}
-		}
-		return false;
+		return processCommonEvent( sa,
+				tag,
+				TriggerCondition.ONCLICK_LITERAL,
+				HTMLAttribute.ONCLICK );
 	}
 	
 	protected boolean processOnDoubleClick( ShapedAction sa, HTMLTag tag )
 	{
 		// ondblclick
-		Action ac = sa.getActionForCondition( TriggerCondition.ONDBLCLICK_LITERAL );
-		if ( checkSupportedAction( ac ) )
-		{
-			switch ( ac.getType( ).getValue( ) )
-			{
-				case ActionType.URL_REDIRECT :
-					// Do not use callback method which may be in the
-					// different page
-					tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-							eval2JS( generateJSContent( ac ) ) );
-					return true;
-				case ActionType.INVOKE_SCRIPT :
-					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-							.getType( ) ) )
-					{
-						final DataPointHints dph = (DataPointHints) sa.getSource( )
-								.getSource( );
-						String callbackFunction = getJSMethodName( TriggerCondition.ONDBLCLICK_LITERAL )
-								+ "("; //$NON-NLS-1$
-						callbackFunction = ScriptUtil.script( callbackFunction,
-								dph );
-						callbackFunction += ");"; //$NON-NLS-1$
-						tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-								eval2JS( callbackFunction ) );
-					}
-					else
-					{
-						tag.addAttribute( HTMLAttribute.ONDBLCLICK,
-								eval2JS( generateJSContent( ac ) ) );
-					}
-					return true;
-				case ActionType.SHOW_TOOLTIP :
-					// for onmouseover only.
-					return false;
-			}
-		}
-		return false;
+		return processCommonEvent( sa,
+				tag,
+				TriggerCondition.ONDBLCLICK_LITERAL,
+				HTMLAttribute.ONDBLCLICK );
 	}
 
 	protected boolean processOnMouseOver( ShapedAction sa, HTMLTag tag )
@@ -339,7 +287,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		if ( checkSupportedAction( ac ) )
 		{
 			switch ( ac.getType( ).getValue( ) )
-
 			{
 				case ActionType.URL_REDIRECT :
 					// not for onmouseover.
@@ -366,12 +313,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								dph );
 						callbackFunction += ");"; //$NON-NLS-1$
 						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
-								eval2JS( callbackFunction ) );
+								eval2JS( callbackFunction, true ) );
 					}
 					else
 					{
 						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
-								eval2JS( generateJSContent( ac ) ) );
+								eval2JS( generateJSContent( ac ), false ) );
 					}
 					return true;
 			}
@@ -381,12 +328,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	protected String getJsURLRedirect( URLValue uv )
 	{
-		StringBuffer js = new StringBuffer( "window.open('" ); //$NON-NLS-1$
-		js.append( eval2HTML( uv.getBaseUrl( ) ) );
-		js.append( "','" ); //$NON-NLS-1$
-		js.append( uv.getTarget( ) == null ? "self" : uv.getTarget( ) ); //$NON-NLS-1$
-		js.append( "');" );//$NON-NLS-1$
-		return js.toString( );
+		if ( uv.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
+		{
+			return uv.getBaseUrl( );
+		}
+		if ( uv.getBaseUrl( ).startsWith( "#" ) ) //$NON-NLS-1$
+		{
+			return "window.location='" + eval2HTML( uv.getBaseUrl( ) ) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return "window.open('" //$NON-NLS-1$
+				+ eval2HTML( uv.getBaseUrl( ) )
+				+ "','" + ( uv.getTarget( ) == null ? "self" : uv.getTarget( ) ) + "')"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+
 	}
 
 	/**
@@ -795,15 +748,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return expr;
 	}
 	
-	protected String eval2JS( String expr )
+	protected String eval2JS( String expr, boolean bCallback )
 	{
 		if ( expr == null )
 		{
 			return ""; //$NON-NLS-1$
 		}
-		// Do not eval script since it's not quoted
-		// return JavascriptEvalUtil.transformToJsConstants( expr );
-		return expr;
+		if ( bCallback )
+		{
+			// Do not eval script since it's not quoted in callback method
+			return expr;
+		}
+		return JavascriptEvalUtil.transformToJsConstants( expr );
 	}
 
 	/**
@@ -818,29 +774,23 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 */
 	private void userCallback( ShapedAction sa, StringBuffer sb )
 	{
-		if ( !bAddCallbackByClick )
+		addCallbackMethod( sa, sb, TriggerCondition.ONCLICK_LITERAL );
+		addCallbackMethod( sa, sb, TriggerCondition.ONDBLCLICK_LITERAL );
+		addCallbackMethod( sa, sb, TriggerCondition.ONMOUSEOVER_LITERAL );
+		addCallbackMethod( sa, sb, TriggerCondition.ONFOCUS_LITERAL );
+		addCallbackMethod( sa, sb, TriggerCondition.ONBLUR_LITERAL );
+	}
+	
+	private void addCallbackMethod( ShapedAction sa, StringBuffer sb,
+			TriggerCondition condition )
+	{
+		if ( !callbackMethodsRegistry.containsKey( condition ) )
 		{
 			addScriptCallBack( sa,
 					sb,
-					sa.getActionForCondition( TriggerCondition.ONCLICK_LITERAL ),
-					getJSMethodName( TriggerCondition.ONCLICK_LITERAL ) );
-			bAddCallbackByClick = true;
-		}
-		if ( !bAddCallbackByDBLClick )
-		{
-			addScriptCallBack( sa,
-					sb,
-					sa.getActionForCondition( TriggerCondition.ONDBLCLICK_LITERAL ),
-					getJSMethodName( TriggerCondition.ONDBLCLICK_LITERAL ) );
-			bAddCallbackByDBLClick = true;
-		}
-		if ( !bAddCallbackByMouseOver )
-		{
-			addScriptCallBack( sa,
-					sb,
-					sa.getActionForCondition( TriggerCondition.ONMOUSEOVER_LITERAL ),
-					getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL ) );
-			bAddCallbackByMouseOver = true;
+					sa.getActionForCondition( condition ),
+					getJSMethodName( condition ) );
+			callbackMethodsRegistry.put( condition, Boolean.TRUE );
 		}
 	}
 	
@@ -870,16 +820,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
 		{
 			URLValue uv = (URLValue) ac.getValue( );
-			if ( uv.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
-			{
-				return uv.getBaseUrl( );
-			}
-			if ( uv.getBaseUrl( ).startsWith( "#" ) ) //$NON-NLS-1$
-			{
-				return "window.location='" + uv.getBaseUrl( ) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			return "window.open('" //$NON-NLS-1$
-					+ uv.getBaseUrl( ) + "','" + uv.getTarget( ) + "')"; //$NON-NLS-1$//$NON-NLS-2$
+			return getJsURLRedirect( uv );
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -888,7 +829,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		return "<Script>" //$NON-NLS-1$
 				+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
-				+ eval2JS( functionContent ) + "}</Script>"; //$NON-NLS-1$
+				+ eval2JS( functionContent, true ) + "}</Script>"; //$NON-NLS-1$
 	}
 	
 	private String getJSMethodName( TriggerCondition tc )
