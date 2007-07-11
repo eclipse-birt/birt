@@ -277,8 +277,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 
 	public void save( Object obj ) throws SemanticException
 	{
-		getDescriptorProvider( ).save( obj );
-
+		if(!isReadOnly)getDescriptorProvider( ).save( obj );
 	}
 
 	public void setHidden( boolean isHidden )
@@ -291,10 +290,12 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		container.setVisible( isVisible );
 	}
 	
+	private boolean isReadOnly = false;
 	public void setReadOnly( boolean isReadOnly )
 	{
 		text.setEditable( !isReadOnly );
 		combo.setEnabled( !isReadOnly );
+		this.isReadOnly = isReadOnly;
 	}
 
 }
