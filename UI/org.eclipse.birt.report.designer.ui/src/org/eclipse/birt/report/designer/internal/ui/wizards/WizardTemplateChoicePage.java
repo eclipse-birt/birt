@@ -438,6 +438,25 @@ public class WizardTemplateChoicePage extends WizardPage
 				key = null;
 			}
 			Object img = null;
+			
+			if ( handle.getThumbnail( ) != null
+					&& handle.getThumbnail( ).length != 0 )
+			{
+				previewCanvas.setVisible( true );
+				previewThumbnail.setVisible( false );
+
+				byte[] thumbnailData = handle.getThumbnail( );
+				ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
+				if ( thumbnailImage != null )
+				{
+					thumbnailImage.dispose( );
+					thumbnailImage = null;
+				}
+				thumbnailImage = new Image( null, inputStream );
+
+				previewCanvas.clear( );
+				previewCanvas.loadImage( ( (Image) thumbnailImage ) );
+			}else			
 			if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
 			{
 				URL url = getPreviewImageURL( handle.getFileName( ), key );
@@ -485,27 +504,9 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 
 			}
-			// if (key == null)
-			if ( key == null
-					&& handle.getThumbnail( ) != null
-					&& handle.getThumbnail( ).length != 0 )
-			{
-				previewCanvas.setVisible( true );
-				previewThumbnail.setVisible( false );
 
-				byte[] thumbnailData = handle.getThumbnail( );
-				ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
-				if ( thumbnailImage != null )
-				{
-					thumbnailImage.dispose( );
-					thumbnailImage = null;
-				}
-				thumbnailImage = new Image( null, inputStream );
-
-				previewCanvas.clear( );
-				previewCanvas.loadImage( ( (Image) thumbnailImage ) );
-			}
-			else if ( key == null )
+			if ((handle.getThumbnail( ) == null
+					|| handle.getThumbnail( ).length == 0) &&  key == null )
 			{
 				previewCanvas.setVisible( false );
 				previewThumbnail.setVisible( true );
@@ -521,6 +522,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 				previewThumbnail.layout( );
 			}
+			
 			if ( handle.getCheatSheet( ) != null
 					&& handle.getCheatSheet( ).trim( ).length( ) != 0 )
 			{
