@@ -131,4 +131,10 @@ public class CommandUtils
 	{
 		getHandlerService( ).getCurrentState( ).addVariable( name, value );
 	}
+	
+	public static void removeVariable(String name)
+	{
+		getHandlerService( ).getCurrentState( ).removeVariable( name );
+	}
+	
 }

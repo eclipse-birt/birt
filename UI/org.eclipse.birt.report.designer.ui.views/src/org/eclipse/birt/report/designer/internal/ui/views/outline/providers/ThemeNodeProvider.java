@@ -25,9 +25,8 @@ import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
@@ -55,23 +54,25 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	{
 		if ( canContain( object ) )
 		{
-			menu.add( new InsertAction( object, Messages
-					.getString( "StylesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+			menu.add( new InsertAction( object,
+					Messages.getString( "StylesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
 		}
 
 		super.createContextMenu( sourceViewer, object, menu );
 
-		if(canContain(object))
+		if ( canContain( object ) )
 		{
 			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 					new Separator( ) );
-	
+
 			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-					new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
+					new ImportCSSStyleAction( object ) );
 		}
-		
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS, new ReloadCssStyleAction(object) );
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS, new UseCssStyleAction(object) );
+
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+				new ReloadCssStyleAction( object ) );
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+				new UseCssStyleAction( object ) );
 	}
 
 	public String getNodeDisplayName( Object model )
@@ -79,23 +80,18 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 		return ( (ThemeHandle) model ).getDisplayLabel( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#createElement(java.lang.String)
-	 */
-	protected DesignElementHandle createElement( String type ) throws Exception
+	protected DesignElementHandle createElement( SlotHandle slotHandle,
+			String type ) throws Exception
 	{
-		// ElementFactory factory = SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getElementFactory( );
 		DesignElementFactory factory = DesignElementFactory.getInstance( );
-		StyleHandle handle = factory.newStyle( null );
+		DesignElementHandle handle = factory.newStyle( (ThemeHandle) slotHandle.getElementHandle( ),
+				null );
 		if ( ProviderFactory.createProvider( handle ).performRequest( handle,
 				new Request( IRequestConstants.REQUEST_TYPE_EDIT ) ) )
 		{
 			return handle;
 		}
+
 		return null;
 	}
 
@@ -106,30 +102,28 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	 */
 	public Object[] getChildren( Object model )
 	{
-		
+
 		if ( model instanceof ThemeHandle )
 		{
-			ThemeHandle theme = (ThemeHandle)model;
+			ThemeHandle theme = (ThemeHandle) model;
 			int count, styleCount = 0;
-			styleCount += (super.getChildrenBySlotHandle( ( (ThemeHandle) model )
-					.getStyles( ))).length;
+			styleCount += ( super.getChildrenBySlotHandle( ( (ThemeHandle) model ).getStyles( ) ) ).length;
 			count = styleCount;
 			count += theme.getAllCssStyleSheets( ).size( );
 			Object obj[] = new Object[count];
-			
-			for(int i = 0; i < styleCount; i ++)
+
+			for ( int i = 0; i < styleCount; i++ )
 			{
-				obj[i] = (super.getChildrenBySlotHandle( ( (ThemeHandle) model )
-						.getStyles( )))[i];
+				obj[i] = ( super.getChildrenBySlotHandle( ( (ThemeHandle) model ).getStyles( ) ) )[i];
 			}
-			
-			for(int i = 0 ; i < theme.getAllCssStyleSheets( ).size( ); i ++)
+
+			for ( int i = 0; i < theme.getAllCssStyleSheets( ).size( ); i++ )
 			{
-				obj[styleCount + i] = (CssStyleSheetHandle)theme.getAllCssStyleSheets( ).get( i );
+				obj[styleCount + i] = theme.getAllCssStyleSheets( ).get( i );
 			}
 			Arrays.sort( obj, new AlphabeticallyComparator( ) );
 			return obj;
-			
+
 		}
 		return super.getChildren( model );
 	}
@@ -138,8 +132,7 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	{
 		if ( object instanceof ThemeHandle )
 		{
-			return ( (ThemeHandle) object ).canContain(
-					LibraryHandle.THEMES_SLOT,
+			return ( (ThemeHandle) object ).canContain( LibraryHandle.THEMES_SLOT,
 					ReportDesignConstants.STYLE_ELEMENT );
 		}
 		return true;

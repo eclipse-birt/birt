@@ -62,19 +62,23 @@ public class NewStyleHandler extends SelectionHandler
 		CommandStack stack = getActiveCommandStack( );
 		stack.startTrans( STACK_MSG_ADD_STYLE );
 
-		ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		// StyleHandle styleHandle = reportDesignHandle.getElementFactory( )
-		// .newStyle( null );
-		StyleHandle styleHandle = DesignElementFactory.getInstance( reportDesignHandle )
-				.newStyle( null );
-
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 		Object obj = context.getVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
-		if ( obj != null && obj instanceof ThemeHandle )
+		if ( obj instanceof ThemeHandle )
 		{
 			themeHandle = (ThemeHandle) obj;
 		}
+		else
+		{
+			themeHandle = null;
+		}
+
+		ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		StyleHandle styleHandle = themeHandle != null ? DesignElementFactory.getInstance( reportDesignHandle )
+				.newStyle( themeHandle, null )
+				: DesignElementFactory.getInstance( reportDesignHandle )
+						.newStyle( null );
 
 		try
 		{
@@ -90,12 +94,17 @@ public class NewStyleHandler extends SelectionHandler
 				else
 				{
 					reportDesignHandle.getStyles( ).add( styleHandle );
-				}
-				if ( !styleHandle.isPredefined( ) )
-				{
-					applyStyle( (SharedStyleHandle) styleHandle );
+					if ( !styleHandle.isPredefined( ) )
+					{
+						applyStyle( (SharedStyleHandle) styleHandle );
+					}
 				}
 				stack.commit( );
+			}
+			else
+			{
+				stack.rollbackAll( );
+				retBoolean = false;
 			}
 		}
 		catch ( Exception e )

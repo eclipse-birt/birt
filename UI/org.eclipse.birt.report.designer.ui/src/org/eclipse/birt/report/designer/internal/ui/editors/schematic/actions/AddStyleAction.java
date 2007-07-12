@@ -11,16 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -65,89 +59,97 @@ public class AddStyleAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-//		if ( Policy.TRACING_ACTIONS )
-//		{
-//			System.out.println( "Add Style rule action >> Run ..." ); //$NON-NLS-1$
-//		}
-//		CommandStack stack = getActiveCommandStack( );
-//		stack.startTrans( STACK_MSG_ADD_STYLE );
+// if ( Policy.TRACING_ACTIONS )
+// {
+// System.out.println( "Add Style rule action >> Run ..." ); //$NON-NLS-1$
+// }
+// CommandStack stack = getActiveCommandStack( );
+// stack.startTrans( STACK_MSG_ADD_STYLE );
 //
-//		ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
-//				.getReportDesignHandle( );
-//		// StyleHandle styleHandle = reportDesignHandle.getElementFactory( )
-//		// .newStyle( null );
-//		StyleHandle styleHandle = DesignElementFactory.getInstance( reportDesignHandle )
-//				.newStyle( null );
+// ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
+// .getReportDesignHandle( );
+// // StyleHandle styleHandle = reportDesignHandle.getElementFactory( )
+// // .newStyle( null );
+// StyleHandle styleHandle = DesignElementFactory.getInstance(
+// reportDesignHandle )
+// .newStyle( null );
 //
-//		try
-//		{
-//			StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
-//					.getDisplay( )
-//					.getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
-//			if ( dialog.open( ) == Window.OK )
-//			{
-//				if ( themeHandle != null )
-//				{
-//					themeHandle.getStyles( ).add( styleHandle );
-//				}
-//				else
-//				{
-//					reportDesignHandle.getStyles( ).add( styleHandle );
-//				}
-//				if ( !styleHandle.isPredefined( ) )
-//				{
-//					applyStyle( (SharedStyleHandle) styleHandle );
-//				}
-//				stack.commit( );
-//			}
-//		}
-//		catch ( Exception e )
-//		{
-//			stack.rollbackAll( );
-//			ExceptionHandler.handle( e );
-//		}
-		
-		if(themeHandle != null)
+// try
+// {
+// StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
+// .getDisplay( )
+// .getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
+// if ( dialog.open( ) == Window.OK )
+// {
+// if ( themeHandle != null )
+// {
+// themeHandle.getStyles( ).add( styleHandle );
+// }
+// else
+// {
+// reportDesignHandle.getStyles( ).add( styleHandle );
+// }
+// if ( !styleHandle.isPredefined( ) )
+// {
+// applyStyle( (SharedStyleHandle) styleHandle );
+// }
+// stack.commit( );
+// }
+// }
+// catch ( Exception e )
+// {
+// stack.rollbackAll( );
+// ExceptionHandler.handle( e );
+// }
+
+		if ( themeHandle != null )
 		{
-			CommandUtils.setVariable(ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME, themeHandle);	
+			CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
+					themeHandle );
 		}
-		
+
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.newStyleCommand" );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.newStyleCommand" ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-		
+		finally
+		{
+			if ( themeHandle != null )
+			{
+				CommandUtils.removeVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
+			}
+		}
+
 	}
 
-	/**
-	 * Applys style to selected elements.
-	 * 
-	 * @param styleHandle
-	 */
-	private void applyStyle( SharedStyleHandle styleHandle )
-	{
-		List handles = getElementHandles( );
-		for ( int i = 0; i < handles.size( ); i++ )
-		{
-			try
-			{
-				if ( handles.get( i ) instanceof ReportElementHandle )
-				{
-					// set style
-					( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
-				}
-			}
-			catch ( StyleException e )
-			{
-				e.printStackTrace( );
-			}
-		}
-	}
+//	/**
+//	 * Applys style to selected elements.
+//	 * 
+//	 * @param styleHandle
+//	 */
+//	private void applyStyle( SharedStyleHandle styleHandle )
+//	{
+//		List handles = getElementHandles( );
+//		for ( int i = 0; i < handles.size( ); i++ )
+//		{
+//			try
+//			{
+//				if ( handles.get( i ) instanceof ReportElementHandle )
+//				{
+//					// set style
+//					( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
+//				}
+//			}
+//			catch ( StyleException e )
+//			{
+//				e.printStackTrace( );
+//			}
+//		}
+//	}
 
 	public void setThemeHandle( ThemeHandle themeHandle )
 	{
