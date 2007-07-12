@@ -500,6 +500,7 @@ public class ResultIterator implements IResultIterator
 		
 		if ( state == BEFORE_FIRST_ROW )
 		{
+			clear( );
 			this.prepareCurrentRow( );
 			state = ON_ROW;
 		}
@@ -732,6 +733,7 @@ public class ResultIterator implements IResultIterator
 		while ( groupLevel < odiResult.getEndingGroupLevel( )
 				&& odiResult.getEndingGroupLevel( ) != 0 && odiResult.next( ) )
 		{
+			clear( );
 			this.prepareCurrentRow( );
 		}
 	}
