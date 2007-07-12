@@ -108,6 +108,7 @@ public class ResultIterator implements IResultIterator
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
 	private List columnList = null;
+	private List preparedList = null;
 	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
@@ -370,6 +371,7 @@ public class ResultIterator implements IResultIterator
 	public boolean next( ) throws BirtException
 	{
 		checkStarted( );
+		clear( );
 
 		boolean hasNext = false;
 		
@@ -393,6 +395,16 @@ public class ResultIterator implements IResultIterator
 			state = AFTER_LAST_ROW;
 		
 		return hasNext;
+	}
+
+	/**
+	 * clear the preparedList and boundColumnValueMap on next()
+	 */
+	private void clear( )
+	{
+		if ( preparedList != null )
+			this.preparedList.clear( );
+		this.boundColumnValueMap.clear( );
 	}
 	
 	/**
@@ -545,14 +557,47 @@ public class ResultIterator implements IResultIterator
 			this.prepareCurrentRow( );
 		
 		if ( !this.boundColumnValueMap.containsKey( exprName ) )
+		{
+			// If there is no value for this specified binding name, evaluate it
+			// firstly if resultService contains this binding column
+			if ( this.resultService.getBindingExpr( exprName ) != null )
+			{
+				return prepareBindingColumn( exprName );				
+			}
 			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );
-		
+		}
 		Object exprValue = boundColumnValueMap.get( exprName );
 		if ( exprValue instanceof BirtException )
 			throw (BirtException) exprValue;
 
 		return exprValue;
+	}
+	
+	/**
+	 * Evaluate the specified column binding in case of its value still not
+	 * calculate yet.
+	 * 
+	 * @param exprName
+	 * @return
+	 * @throws DataException
+	 */
+	private Object prepareBindingColumn( String exprName ) throws DataException
+	{
+		assert bindingColumnsEvalUtil != null;
+		if ( this.preparedList == null )
+		{
+			preparedList = new ArrayList( );
+		}
+		else if ( this.preparedList.contains( exprName ) )
+		{
+			return new DataException( ResourceConstants.COLUMN_BINDING_CYCLE,
+					exprName );
+		}
+		this.preparedList.add( exprName );
+		Object value = bindingColumnsEvalUtil.evaluateValue( exprName );
+		boundColumnValueMap.put( exprName, value );
+		return value;
 	}
 	
 	/**
@@ -574,7 +619,7 @@ public class ResultIterator implements IResultIterator
 						this.resultService.getAllAutoBindingExprs( ) );
 			}
 			
-			boundColumnValueMap = bindingColumnsEvalUtil.getColumnsValue( );
+			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap );
 			
 			if ( needCache() )
 			{
