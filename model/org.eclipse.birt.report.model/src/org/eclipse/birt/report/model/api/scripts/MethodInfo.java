@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.scripts;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,6 +70,9 @@ public class MethodInfo implements IMethodInfo
 
 	public Iterator argumentListIterator( )
 	{
+		if ( arguments == null )
+			return Collections.EMPTY_LIST.iterator( );
+
 		return arguments.iterator( );
 	}
 

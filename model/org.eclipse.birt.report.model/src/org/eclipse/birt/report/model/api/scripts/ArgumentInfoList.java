@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.scripts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,6 +95,9 @@ public class ArgumentInfoList implements IArgumentInfoList
 
 	public Iterator argumentsIterator( )
 	{
+		if ( arguments == null )
+			return Collections.EMPTY_LIST.iterator( );
+
 		return arguments.iterator( );
 	}
 }
