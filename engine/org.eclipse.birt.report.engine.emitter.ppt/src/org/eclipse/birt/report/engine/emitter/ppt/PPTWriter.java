@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.lowagie.text.Font;
@@ -348,36 +349,35 @@ public class PPTWriter
 
 		// draw the over line,through line or underline for the text if it has
 		// any.
+		float lineWidth = fontInfo.getLineWidth( );
 		if ( linethrough )
 		{
-			drawLine( textX,
-					textY + fontInfo.getLineThroughPosition( ),
-					textX + width,
-					textY + fontInfo.getLineThroughPosition( ),
-					width,
-					color,
-					"solid" ); //$NON-NLS-1$
+			drawDecoration( textX, textY, width, color, lineWidth,
+					fontInfo.getLineThroughPosition( ) );
 		}
 		if ( overline )
 		{
-			drawLine( textX,
-					textY + fontInfo.getOverlinePosition( ),
-					textX + width,
-					textY + fontInfo.getOverlinePosition( ),
-					width,
-					color,
-					"solid" ); //$NON-NLS-1$
+			drawDecoration( textX, textY, width, color, lineWidth,
+					fontInfo.getOverlinePosition( ) );
 		}
 		if ( underline )
 		{
-			drawLine( textX,
-					textY + fontInfo.getUnderlinePosition( ),
-					textX + width,
-					textY + fontInfo.getUnderlinePosition( ),
-					width,
-					color,
-					"solid" ); //$NON-NLS-1$
+			drawDecoration( textX, textY, width, color, lineWidth,
+					fontInfo.getUnderlinePosition( ) );
 		}
+	}
+
+	private void drawDecoration( float textX, float textY, float width,
+			Color color, float lineWidth, int linePosition )
+	{
+		float lineOffset = getDecorationPosition( linePosition );
+		drawLine( textX, textY + lineOffset, textX + width, textY + lineOffset,
+				lineWidth, color, "solid" ); //$NON-NLS-1$
+	}
+
+	private float getDecorationPosition( int linePosition )
+	{
+		return linePosition/PDFConstants.LAYOUT_TO_PDF_RATIO;
 	}
 
 	public void drawImage( byte[] imageData, String extension, float imageX,
