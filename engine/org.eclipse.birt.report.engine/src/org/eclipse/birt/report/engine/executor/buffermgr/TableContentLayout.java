@@ -47,7 +47,8 @@ public class TableContentLayout
 	
 	protected UnresolvedRowHint rowHint;
 	
-	
+	protected Row lastRow = null;
+
 	protected boolean formalized = false;
 	
 	public TableContentLayout( ITableContent tableContent, String format )
@@ -290,13 +291,13 @@ public class TableContentLayout
 
 	public void resolveDropCells( boolean finished )
 	{
-		if ( rowCount <= 0 )
-		{
-			return;
-		}
 		if(!finished)
 		{
 			keepUnresolvedCells( );
+		}
+		if ( rowCount <= 0 )
+		{
+			return;
 		}
 		Cell[] cells = rows[rowCount - 1].cells;
 		for ( int cellId = 0; cellId < realColCount; cellId++ )
@@ -436,6 +437,18 @@ public class TableContentLayout
 		if ( lastColId > colCount )
 			lastColId = colCount;
 
+		//keep the last row for page hint
+		if(lastRowId>0 && rows[lastRowId-1]!=null)
+		{
+			lastRow = new Row( rows[lastRowId-1].rowId);
+			lastRow.content = rows[lastRowId-1].content;
+			lastRow.cells = new Cell[lastColId - colId];
+			for(int i=colId; i < lastColId; i++)
+			{
+				lastRow.cells[i] = rows[lastRowId-1].cells[i];
+			}
+		}
+		
 		for ( int i = rowId; i < lastRowId; i++ )
 		{
 			Cell[] cells = rows[i].cells;
@@ -513,14 +526,22 @@ public class TableContentLayout
 
 	protected void keepUnresolvedCells( )
 	{
-		if ( rowCount <= 0 )
-		{
-			return;
-		}
 		if(rowHint==null)
 		{
-			Row row = rows[rowCount - 1];
-			Cell[] cells = rows[rowCount - 1].cells;
+			Row row = null;
+			if(rowCount>0)
+			{
+				row = rows[rowCount - 1];
+			}
+			else if(lastRow!=null)
+			{
+				row = lastRow;
+			}
+			else
+			{
+				return;
+			}
+			Cell[] cells = row.cells;
 			IRowContent rowContent = (IRowContent)row.getContent( );
 			ITableContent table = rowContent.getTable( );
 			InstanceID tableId = table.getInstanceID( );
