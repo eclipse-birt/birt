@@ -3059,6 +3059,7 @@ UseCssInReportDialog.TitleArea.Message=Sélectionnez un fichier CSS dans le dossi
 UseCssInReportDialog.Label.No.File=Aucun fichier CSS sélectionné
 UseCssInReportDialog.Dialog.Browse=Parcourir
 UseCssInReportDialog.Dialog.Browse.Title=Sélectionnez un fichier CSS à inclure dans l'état
+UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
 UseCssInReportDialog.Error.Already.Include={0} avait déjà été inclus
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états

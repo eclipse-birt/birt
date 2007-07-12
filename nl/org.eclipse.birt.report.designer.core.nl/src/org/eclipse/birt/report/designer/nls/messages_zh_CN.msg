@@ -3059,6 +3059,7 @@ UseCssInReportDialog.TitleArea.Message=从共享库文件夹中选择一个 CSS 文件并在报表
 UseCssInReportDialog.Label.No.File=未选择 CSS 文件
 UseCssInReportDialog.Dialog.Browse=浏览
 UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
+UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
 UseCssInReportDialog.Error.Already.Include=已包括 {0}
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件

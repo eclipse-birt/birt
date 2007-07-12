@@ -3059,6 +3059,7 @@ UseCssInReportDialog.TitleArea.Message=°øÀ¯ ¶óÀÌºê·¯¸® Æú´õ¿¡¼­ CSS ÆÄÀÏÀ» ¼±ÅÃÇ
 UseCssInReportDialog.Label.No.File=¼±ÅÃµÈ CSS ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.
 UseCssInReportDialog.Dialog.Browse=Ã£¾Æº¸±â
 UseCssInReportDialog.Dialog.Browse.Title=º¸°í¼­¿¡ Æ÷ÇÔÇÒ CSS ÆÄÀÏ ¼±ÅÃ
+UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
 UseCssInReportDialog.Error.Already.Include={0}Àº(´Â) ÀÌ¹Ì Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù.
 
 UseCssInThemeDialog.TitleArea.Title=º¸°í¼­ ¶óÀÌºê·¯¸®¿¡ ÀÖ´Â CSS ÆÄÀÏ »ç¿ë

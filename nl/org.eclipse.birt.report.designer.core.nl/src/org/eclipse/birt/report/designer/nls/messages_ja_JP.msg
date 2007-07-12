@@ -3059,6 +3059,7 @@ UseCssInReportDialog.TitleArea.Message=共有ライブラリフォルダから CSS ファイルを
 UseCssInReportDialog.Label.No.File=CSS ファイルが選択されていません。
 UseCssInReportDialog.Dialog.Browse=参照
 UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
+UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
 UseCssInReportDialog.Error.Already.Include={0} はすでに追加されています。
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用

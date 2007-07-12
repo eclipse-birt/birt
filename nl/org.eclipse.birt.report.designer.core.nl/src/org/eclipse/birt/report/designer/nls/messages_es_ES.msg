@@ -3059,6 +3059,7 @@ UseCssInReportDialog.TitleArea.Message=Seleccionar un archivo CSS de la carpeta 
 UseCssInReportDialog.Label.No.File=No se ha seleccionado ningún archivo CSS
 UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
+UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
