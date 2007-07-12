@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
+import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 
 public abstract class PageDeviceRender implements IAreaVisitor
@@ -576,8 +577,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		int width = getScaledValue( text.getWidth( ) );
 		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
-		int clipWidth = (int) ( width + height
-				* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		int clipWidth = width;
+		if ( fontInfo.getSimulation( )
+				&& Font.ITALIC == fontInfo.getFontStyle( ) )
+		{
+			clipWidth = (int) ( width + height
+					* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		}
 		pageGraphic.clip( textX, textY, clipWidth, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
 				wordSpacing, color, linethrough, overline, underline, align );
