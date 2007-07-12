@@ -27,7 +27,7 @@ Element.RepeatRowHeader=Zeilenüberschrift wiederholen
 Element.RepeatColumnHeader=Spaltenüberschrift wiederholen
 Element.Mirrored=Gespiegelt
 Element.MirroredStartingLevel=Mirrored Starting Level
-Element.HideMeasureHeader=Hide Measure Header
+Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
 ###########################################################
 # Crosstab exception
@@ -47,7 +47,7 @@ CrosstabQueryHelper.error.invalid.level=Die verknüpfte Ebene für die Kreuztabell
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.
-BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
+BaseCrosstabExecutor.error.process.row.height=Beim Verarbeiten der Zeilenhöhe ist ein Fehler aufgetreten.
 
 CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenposition ist ein Fehler aufgetreten.
 
@@ -81,7 +81,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=Beim Überprüfen des Status "R
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Beim Abrufen des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 
 TableColumnGenerator.error.process.visibility=Beim Verarbeiten der Spaltensichtbarkeit ist ein Fehler aufgetreten.
-TableColumnGenerator.error.process.column.width=Error happend when process column width.
+TableColumnGenerator.error.process.column.width=Beim Verarbeiten der Spaltenbreite ist ein Fehler aufgetreten.
 
 CrosstabReportItemHandle.error.locate.column.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Spalten
 CrosstabReportItemHandle.error.locate.row.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Zeilen

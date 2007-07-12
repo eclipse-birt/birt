@@ -27,7 +27,7 @@ Element.RepeatRowHeader=ÖØ¸´ĞĞ±êÌâ
 Element.RepeatColumnHeader=ÖØ¸´ÁĞ±êÌâ
 Element.Mirrored=¾µÏñ
 Element.MirroredStartingLevel=Mirrored Starting Level
-Element.HideMeasureHeader=Hide Measure Header
+Element.HideMeasureHeader=Òş²Ø¶ÈÁ¿Í·
 
 ###########################################################
 # Crosstab exception
@@ -47,7 +47,7 @@ CrosstabQueryHelper.error.invalid.level=½»²æ±íµÄ¹ØÁª¼¶±ğÎŞĞ§¡£
 
 BaseCrosstabExecutor.error.process.visibility=´¦Àí¿É¼ûĞÔÊ±³ö´í¡£
 BaseCrosstabExecutor.error.process.bookmark=´¦ÀíÊéÇ©Ê±³ö´í¡£
-BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
+BaseCrosstabExecutor.error.process.row.height=´¦ÀíĞĞ¸ßÊ±³ö´í¡£
 
 CrosstabCellExecutor.error.restor.data.position=»¹Ô­Êı¾İÎ»ÖÃÊ±³ö´í¡£
 
@@ -81,7 +81,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=¼ì²éµ±Ç°µ¥Ôª¸ñµÄ±ßÔµ¿ªÊ¼×´Ì¬Ê
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=¼ìË÷×ÓÖ´ĞĞ³ÌĞòÊ±³ö´í¡£
 
 TableColumnGenerator.error.process.visibility=´¦ÀíÁĞ¿É¼ûĞÔÊ±³ö´í¡£
-TableColumnGenerator.error.process.column.width=Error happend when process column width.
+TableColumnGenerator.error.process.column.width=´¦ÀíÁĞ¿íÊ±³ö´í¡£
 
 CrosstabReportItemHandle.error.locate.column.cell=ÔÚÁĞÖĞ²éÕÒÏà¹Ø½»²æ±íµ¥Ôª¸ñÊ±³ö´í
 CrosstabReportItemHandle.error.locate.row.cell=ÔÚĞĞÖĞ²éÕÒÏà¹Ø½»²æ±íµ¥Ôª¸ñÊ±³ö´í

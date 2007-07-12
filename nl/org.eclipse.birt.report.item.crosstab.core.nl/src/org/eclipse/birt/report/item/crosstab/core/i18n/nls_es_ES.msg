@@ -27,7 +27,7 @@ Element.RepeatRowHeader=Repetir encabezado de fila
 Element.RepeatColumnHeader=Repetir encabezado de columna
 Element.Mirrored=Reflejado
 Element.MirroredStartingLevel=Mirrored Starting Level
-Element.HideMeasureHeader=Hide Measure Header
+Element.HideMeasureHeader=Encabezado Ocultar medidas
 
 ###########################################################
 # Crosstab exception
@@ -47,7 +47,7 @@ CrosstabQueryHelper.error.invalid.level=El nivel asociado para la tabla de refer
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
 BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar marcador.
-BaseCrosstabExecutor.error.process.row.height=Error happend when processing row height.
+BaseCrosstabExecutor.error.process.row.height=Se ha producido un error al procesar la altura de fila.
 
 CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al restaurar posición de datos.
 
@@ -81,7 +81,7 @@ CrosstabSubTotalRowExecutor.error.check.edge.start=Se ha producido un error al c
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Se ha producido un error al recuperar ejecutor secundario.
 
 TableColumnGenerator.error.process.visibility=Se ha producido un error al procesar visibilidad de columna.
-TableColumnGenerator.error.process.column.width=Error happend when process column width.
+TableColumnGenerator.error.process.column.width=Se ha producido un error al procesar la anchura de columna.
 
 CrosstabReportItemHandle.error.locate.column.cell=Error al ubicar la celda de tabla de referencias cruzadas relevante en las columnas
 CrosstabReportItemHandle.error.locate.row.cell=Error al ubicar la celda de tabla de referencias cruzadas relevante en las filas
