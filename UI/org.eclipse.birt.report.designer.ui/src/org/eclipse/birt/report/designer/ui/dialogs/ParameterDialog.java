@@ -61,6 +61,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
@@ -291,7 +293,7 @@ public class ParameterDialog extends BaseDialog
 	// Combo chooser for dynamic
 	private Combo dataSetChooser, columnChooser, displayTextChooser,
 			sortKeyChooser, sortDirectionChooser;
-	
+
 	private Button valueColumnExprButton;
 
 	// Label
@@ -809,10 +811,11 @@ public class ParameterDialog extends BaseDialog
 					|| PARAM_CONTROL_LIST.equals( controlType ) )
 			{
 				initSorttingArea( );
-				
+
 				// To fix bug Bugzilla 169927
 				// Please also refer to Bugzilla 175788
-				if ( lastControlType != null && lastControlType.equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
+				if ( lastControlType != null
+						&& lastControlType.equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
 				{
 					defaultValue = null;
 				}
@@ -1116,7 +1119,7 @@ public class ParameterDialog extends BaseDialog
 		// columnChooser.select( 0 );
 		// }
 		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
-		valueColumnExprButton.setEnabled( columnChooser.getItemCount() > 0  );
+		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
 	}
 
@@ -1383,7 +1386,7 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setEnabled( radioEnable );
 		}
 		// should only reset format field when data type changed
-		//initFormatField( );
+		// initFormatField( );
 	}
 
 	private void switchParamterType( )
@@ -1858,6 +1861,41 @@ public class ParameterDialog extends BaseDialog
 
 	protected void okPressed( )
 	{
+		// Validate the date first -- begin -- bug 164765
+		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) && ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
+		{
+			String tempdefaultValue = defaultValue;
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+			{
+				try
+				{
+					tempdefaultValue = DEUtil.convertToXMLString( DataTypeUtil.toDate( defaultValue,
+							ULocale.getDefault( ) ) );
+				}
+				catch ( BirtException e )
+				{
+					// TODO Auto-generated catch block
+					ExceptionHandler.handle( e );
+					return;
+				}
+			}
+			
+			try
+			{
+				ParameterValidationUtil.validate( getSelectedDataType( ),
+						formatCategroy,
+						tempdefaultValue,
+						ULocale.getDefault( ) );
+			}
+			catch ( ValidationValueException e )
+			{
+				ExceptionHandler.handle( e );
+				return;
+			}
+
+		}
+		// Validate the date first -- end --
+		
 		try
 		{
 			// Save the name and display name
@@ -1891,7 +1929,7 @@ public class ParameterDialog extends BaseDialog
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
 				defaultValue = DEUtil.convertToXMLString( DataTypeUtil.toDate( defaultValue,
-						ULocale.US ) );
+						ULocale.getDefault( ) ) );
 			}
 			inputParameter.setDefaultValue( defaultValue );
 

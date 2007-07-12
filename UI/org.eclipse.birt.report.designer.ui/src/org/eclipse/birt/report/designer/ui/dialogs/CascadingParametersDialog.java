@@ -51,6 +51,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
@@ -164,7 +166,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final String BUTTON_IS_REQUIRED = Messages.getString( "CascadingParametersDialog.Button.isRequired" ); //$NON-NLS-1$
 
-	// private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode" ); //$NON-NLS-1$
+	// private static final String LABEL_SELECT_DATA_SET_MODE =
+	// Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode"
+	// ); //$NON-NLS-1$
 
 	private static final String RADIO_SINGLE = Messages.getString( "CascadingParametersDialog.Radio.Single" ); //$NON-NLS-1$
 
@@ -350,7 +354,8 @@ public class CascadingParametersDialog extends BaseDialog
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		composite.setLayout( new GridLayout( 2, true ) );
 
-		// new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE );
+		// new Label( composite, SWT.NONE ).setText( LABEL_SELECT_DATA_SET_MODE
+		// );
 
 		singleDataSet = new Button( composite, SWT.RADIO );
 		singleDataSet.setText( RADIO_SINGLE );
@@ -889,12 +894,43 @@ public class CascadingParametersDialog extends BaseDialog
 		return true;
 	}
 
+	private void validateDefaultValues( ) throws ValidationValueException
+	{
+		ArrayList elementsList = new ArrayList( inputParameterGroup.getParameters( )
+				.getContents( ) );
+		if(elementsList == null || elementsList.size( ) == 0)
+		{
+			return;
+		}
+		
+		for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
+		{
+			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
+			String tempDefaultValue = handle.getDefaultValue( );
+			String tempType = handle.getDataType( );
+			String tempformat = handle.getCategory( );
+
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( tempType )
+					|| DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( tempType ) )
+			{
+				continue;
+			}
+			ParameterValidationUtil.validate( tempType,
+					tempformat,
+					tempDefaultValue,
+					ULocale.getDefault( ) );
+		}
+	}
+
 	// ok pressed
 	protected void okPressed( )
 	{
 		try
 		{
 			saveParameterProperties( );
+			// Validate default value first -- begin -- bug 164765
+			validateDefaultValues( );
+			// Validate default value first -- end --
 			inputParameterGroup.setName( UIUtil.convertToModelString( cascadingNameEditor.getText( ),
 					true ) );
 			inputParameterGroup.setPromptText( promptTextEditor.getText( ) );
