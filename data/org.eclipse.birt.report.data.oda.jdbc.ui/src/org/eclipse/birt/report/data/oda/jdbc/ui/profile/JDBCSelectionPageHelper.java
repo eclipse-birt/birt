@@ -20,6 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.oda.jdbc.JDBCException;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
@@ -532,11 +534,12 @@ public class JDBCSelectionPageHelper
 								JdbcPlugin.getResourceString( "connection.success" ) );//$NON-NLS-1$
 					}
 					else
-					{
+					{ 
+						OdaException ex = new OdaException( JdbcPlugin.getResourceString( "connection.failed" ) );
 						ExceptionHandler.showException( getShell( ),
 								JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
 								JdbcPlugin.getResourceString( "connection.failed" ),
-								null );
+								ex );
 					}
 				}
 				catch ( OdaException e1 )
