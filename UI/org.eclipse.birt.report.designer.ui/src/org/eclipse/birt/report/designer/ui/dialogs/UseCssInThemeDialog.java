@@ -62,7 +62,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInThemeDialog.TitleArea.Title" ); //$NON-NLS-1$
 	private final static String TITLE_AREA_MESSAGE = Messages.getString( "UseCssInThemeDialog.TitleArea.Message" ); //$NON-NLS-1$
 	private final static String DIALOG_BROWSE = Messages.getString( "UseCssInReportDialog.Dialog.Browse" ); //$NON-NLS-1$
-	private final static String DIALOG_BROWSE_TITLE = Messages.getString( "UseCssInReportDialog.Dialog.Browse.Title" ); //$NON-NLS-1$
+	private final static String DIALOG_BROWSE_TITLE = Messages.getString( "UseCssInReportDialog.Dialog.Browse.Library.Title" ); //$NON-NLS-1$
 	private final static String DIALOG_LABEL_NOFILE = Messages.getString( "UseCssInReportDialog.Label.No.File" ); //$NON-NLS-1$
 
 	private Text fileNameField;
