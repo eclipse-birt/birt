@@ -91,8 +91,8 @@ LevelPropertyDialog.Message=选择要作为动态或静态对象的组级别并填写必填字段
 LevelPropertyDialog.None=无
 LevelPropertyDialog.GroupBy=分组依据:
 LevelPropertyDialog.Name=名称:
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.Label.Name=Name:
+LevelPropertyDialog.MSG.Static.CreateNew=<创建新的成员>
+LevelPropertyDialog.Label.Name=成员
 LevelPropertyDialog.Label.Interval=间隔:
 LevelPropertyDialog.Label.Range=范围:
 LevelPropertyDialog.Shell.Title=组级别
@@ -106,11 +106,11 @@ LevelPropertyDialog.Button.Prefix=前缀
 LevelPropertyDialog.Interval.Base=对间隔使用固定基值:
 LevelPropertyDialog.Label.Property=级别属性
 LevelPropertyDialog.Label.Attribute=属性
-LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Label.Name=成员
 LevelPropertyDialog.KeyField=键字段:
 LevelPropertyDialog.DataType=数据类型:
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.Label.Expression=条件表达式
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<创建新的属性>
 
 SetConstraintCommand.setUserProperty=设置用户属性
 ###########################################################

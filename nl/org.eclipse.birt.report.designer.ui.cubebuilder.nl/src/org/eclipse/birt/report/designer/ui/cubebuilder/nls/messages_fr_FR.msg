@@ -91,8 +91,8 @@ LevelPropertyDialog.Message=Choisissez entre un niveau de groupe dynamique ou st
 LevelPropertyDialog.None=Aucun
 LevelPropertyDialog.GroupBy=Grouper par :
 LevelPropertyDialog.Name=Nom :
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.Label.Name=Name:
+LevelPropertyDialog.MSG.Static.CreateNew=<Créer un nouveau membre>
+LevelPropertyDialog.Label.Name=Membre
 LevelPropertyDialog.Label.Interval=Intervalle :
 LevelPropertyDialog.Label.Range=Plage :
 LevelPropertyDialog.Shell.Title=Niveau de groupe
@@ -106,11 +106,11 @@ LevelPropertyDialog.Button.Prefix=Préfixe
 LevelPropertyDialog.Interval.Base=Utiliser une valeur de base fixe pour l'intervalle :
 LevelPropertyDialog.Label.Property=Propriété de niveau
 LevelPropertyDialog.Label.Attribute=Attribut
-LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Label.Name=Membre
 LevelPropertyDialog.KeyField=Champ clé :
 LevelPropertyDialog.DataType=Type de données :
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.Label.Expression=Expression de condition
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Créer un nouvel attribut>
 
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
