@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -203,13 +204,13 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				try
 				{
-					ReportDesignHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
+					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
-							.openDesign( filesArray[i].getAbsolutePath( ) );
+							.openModule( filesArray[i].getAbsolutePath( ) );
 					// templateArray[i] = reportDesignHandle;
-					if(reportDesignHandle != null)
+					if(moduleHandle != null && moduleHandle instanceof ReportDesignHandle)
 					{
-						reportDesingHandleList.add( reportDesignHandle );
+						reportDesingHandleList.add( (ReportDesignHandle)moduleHandle );
 					}					
 				}
 				catch ( Exception e )
