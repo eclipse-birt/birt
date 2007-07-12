@@ -50,10 +50,11 @@ public class DteMetaInfoIOUtil
 			throws IOException
 	{
 		ArrayList result = new ArrayList( );
-		if ( archive.exists( ReportDocumentConstants.DATA_META_STREAM ) )
+
+		if ( archive.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
 		{
 			InputStream in = archive
-					.getStream( ReportDocumentConstants.DATA_META_STREAM );
+					.getStream( ReportDocumentConstants.DATA_SNAP_META_STREAM );
 			try
 			{
 				loadDteMetaInfo( result, new DataInputStream( in ) );
@@ -63,10 +64,10 @@ public class DteMetaInfoIOUtil
 				in.close( );
 			}
 		}
-		if ( archive.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+		else if ( archive.exists( ReportDocumentConstants.DATA_META_STREAM ) )
 		{
 			InputStream in = archive
-					.getStream( ReportDocumentConstants.DATA_SNAP_META_STREAM );
+					.getStream( ReportDocumentConstants.DATA_META_STREAM );
 			try
 			{
 				loadDteMetaInfo( result, new DataInputStream( in ) );
