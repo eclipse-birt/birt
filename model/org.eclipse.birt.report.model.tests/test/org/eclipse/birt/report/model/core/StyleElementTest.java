@@ -149,9 +149,9 @@ public class StyleElementTest extends BaseTestCase
 		label2.setStyle( style );
 		assertEquals( 2, style.getClientList( ).size( ) );
 		assertEquals( label1,
-				( (BackRef) style.getClientList( ).get( 0 ) ).element );
+				( (BackRef) style.getClientList( ).get( 0 ) ).getElement( ) );
 		assertEquals( label2,
-				( (BackRef) style.getClientList( ).get( 1 ) ).element );
+				( (BackRef) style.getClientList( ).get( 1 ) ).getElement( ) );
 
 		style.dropClient( label1 );
 		assertEquals( 1, style.getClientList( ).size( ) );
@@ -160,7 +160,7 @@ public class StyleElementTest extends BaseTestCase
 
 		style.addClient( label1, (String)null );
 		assertEquals( label1,
-				( (BackRef) style.getClientList( ).get( 1 ) ).element );
+				( (BackRef) style.getClientList( ).get( 1 ) ).getElement( ) );
 
 	}
 

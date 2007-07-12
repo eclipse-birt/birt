@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 import org.xml.sax.SAXException;
 
 /**
@@ -28,7 +32,9 @@ import org.xml.sax.SAXException;
  * The compatible version is equals or less than 3.2.1.
  * 
  */
-public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyState
+public class CompatibleGroupBoundColumnsState
+		extends
+			CompatibleListPropertyState
 {
 
 	/**
@@ -54,7 +60,6 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 	{
 		super( theHandler, element );
 		this.group = group;
-
 	}
 
 	/*
@@ -78,4 +83,45 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 			handler.tempValue.put( group, list );
 		}
 	}
+
+	class CompatibleGroupBoundColumnState extends CompatibleStructureState
+	{
+
+		CompatibleGroupBoundColumnState( ModuleParserHandler theHandler,
+				DesignElement element, PropertyDefn propDefn, List list )
+		{
+			super( theHandler, element, propDefn );
+			this.list = list;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.parser.StructureState#end()
+		 */
+
+		public void end( ) throws SAXException
+		{
+			list.add( struct );
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java.lang.String)
+	 */
+
+	public AbstractParseState startElement( String tagName )
+	{
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		{
+			return new CompatibleGroupBoundColumnState( handler, element,
+					propDefn, list );
+		}
+
+		return new AnyElementState( handler );
+	}
+
 }

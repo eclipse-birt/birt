@@ -290,7 +290,7 @@ public class PropertyHandleTest extends BaseTestCase
 		assertEquals( "value1", mapRuleHandle1.getValue1( ) ); //$NON-NLS-1$
 
 		mapRuleHandle0.setValue1( "new value" ); //$NON-NLS-1$
-		assertEquals( "new value", mapRuleHandle1.getValue1( ) ); //$NON-NLS-1$
+		assertEquals( "new value", mapRuleHandle0.getValue1( ) ); //$NON-NLS-1$
 
 		propHandle.removeItem( newRule );
 		assertEquals( 1, propHandle.getListValue( ).size( ) );

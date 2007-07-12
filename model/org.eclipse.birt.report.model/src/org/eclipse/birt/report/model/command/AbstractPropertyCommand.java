@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -264,10 +266,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			BackRef ref = (BackRef) iter.next( );
-			DesignElement client = ref.element;
+			DesignElement client = ref.getElement( );
 
 			BackRefRecord record = new StructBackRefRecord( module, struct,
-					client, ref.propName );
+					client, ref.getPropertyName( ) );
 			getActivityStack( ).execute( record );
 
 		}
@@ -380,12 +382,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			IReferencableElement client = (IReferencableElement) ( (ElementRefValue) refValue )
 					.getElement( );
 
-			DesignElement referenceElement = referred.getContextElement( );
-			String propName = referred.getContextPropertyName( );
-
 			BackRefRecord record = new ElementBackRefRecord( module, client,
-					referenceElement, propName, new CachedMemberRef( memberRef,
-							memberDefn ) );
+					referred, memberDefn.getName( ) );
 			getActivityStack( ).execute( record );
 		}
 	}
@@ -434,7 +432,13 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					propDefn );
 
 			if ( inherited != null )
+			{
 				list = (List) ModelUtil.copyValue( propDefn, inherited );
+
+				// establish context when add items.
+
+				setupStructureContext( list );
+			}
 			else
 				list = new ArrayList( );
 
@@ -467,6 +471,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		if ( inherited != null )
 		{
 			IStructure copy = inherited.copy( );
+
+			setupStructureContext( (Structure) copy );
 			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
 					copy );
 			getActivityStack( ).execute( propRecord );
@@ -476,6 +482,58 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			( (CachedMemberRef) ref ).cacheStructureInForce( module, element );
 
 		return;
+	}
+
+	/**
+	 * @param struct
+	 */
+
+	protected static void setupStructureContext( Structure struct )
+	{
+		Iterator members = struct.getDefn( ).getPropertyIterator( );
+		while ( members.hasNext( ) )
+		{
+			IPropertyDefn member = (IPropertyDefn) members.next( );
+			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
+				continue;
+
+			Object tmpValue = struct.getLocalProperty( null,
+					(PropertyDefn) member );
+			if ( tmpValue == null )
+				continue;
+			if ( tmpValue instanceof List )
+			{
+				List tmpList = (List) tmpValue;
+				for ( int i = 0; i < tmpList.size( ); i++ )
+				{
+					Structure child = (Structure) tmpList.get( i );
+					child.setContext( new StructureContext( struct, member
+							.getName( ) ) );
+					setupStructureContext( child );
+				}
+
+				continue;
+			}
+
+			Structure child = (Structure) tmpValue;
+			child
+					.setContext( new StructureContext( struct, member.getName( ) ) );
+			setupStructureContext( child );
+		}
+
+	}
+
+	/**
+	 * @param values
+	 */
+
+	private static void setupStructureContext( List values )
+	{
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			Structure child = (Structure) values.get( i );
+			setupStructureContext( child );
+		}
 	}
 
 	/**

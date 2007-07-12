@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -77,15 +75,14 @@ abstract class CompatibleStructureState extends StructureState
 	 */
 
 	CompatibleStructureState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, ArrayList theList )
+			DesignElement element, PropertyDefn propDefn )
 	{
 		super( theHandler, element );
 
 		assert propDefn != null;
-		assert theList != null;
 
 		this.propDefn = propDefn;
-		this.list = theList;
+		this.name = propDefn.getName( );
 	}
 
 	/*

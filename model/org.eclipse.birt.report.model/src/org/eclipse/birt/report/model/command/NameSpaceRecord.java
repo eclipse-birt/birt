@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.BackRef;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -150,6 +149,12 @@ public class NameSpaceRecord extends SimpleRecord
 		}
 	}
 
+	/**
+	 * 
+	 * @param root
+	 * @param referred
+	 */
+
 	private void updateAllElementReferences( Module root,
 			IReferencableElement referred )
 	{
@@ -158,9 +163,19 @@ public class NameSpaceRecord extends SimpleRecord
 		while ( iter.hasNext( ) )
 		{
 			BackRef ref = (BackRef) iter.next( );
-			DesignElement client = ref.element;
+			DesignElement client = ref.getElement( );
 
-			Object value = client.getLocalProperty( root, ref.propName );
+			Structure struct = ref.getStructure( );
+
+			if ( struct != null )
+			{
+				updatePropertyListnMemberCase( root, referred, struct, ref
+						.getPropertyName( ), client );
+				continue;
+			}
+
+			Object value = client
+					.getLocalProperty( root, ref.getPropertyName( ) );
 			if ( value instanceof ElementRefValue )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
@@ -169,7 +184,7 @@ public class NameSpaceRecord extends SimpleRecord
 				referred.dropClient( client );
 
 				client.resolveElementReference( root, client
-						.getPropertyDefn( ref.propName ) );
+						.getPropertyDefn( ref.getPropertyName( ) ) );
 			}
 			else if ( value instanceof List )
 			{
@@ -185,16 +200,10 @@ public class NameSpaceRecord extends SimpleRecord
 							item.unresolved( item.getName( ) );
 							referred.dropClient( client );
 							ReferenceValueUtil.resolveElementReference( root,
-									client, client
-											.getPropertyDefn( ref.propName ),
-									item );
+									client, client.getPropertyDefn( ref
+											.getPropertyName( ) ), item );
 							break;
 						}
-					}
-					else
-					{
-						updatePropertyListnMemberCase( root, referred, ref
-								.getCachedMemberRef( ), valueList, client );
 					}
 				}
 			}
@@ -204,9 +213,9 @@ public class NameSpaceRecord extends SimpleRecord
 			}
 			else
 			{
-				// TODO: assertion is failed for bug 194843
-				// assert false;
+				assert false;
 			}
+
 		}
 	}
 
@@ -225,42 +234,31 @@ public class NameSpaceRecord extends SimpleRecord
 	 */
 
 	private void updatePropertyListnMemberCase( Module root,
-			IReferencableElement referred, CachedMemberRef memberRef,
-			List valueList, DesignElement client )
+			IReferencableElement referred, Structure struct, String memberName,
+			DesignElement client )
 	{
-		int index = memberRef.getIndex( );
-		if ( index >= 0 && index < valueList.size( ) )
+		IPropertyDefn propDefn = struct.getDefn( ).getMember( memberName );
+
+		// if member is element ref type , then do
+		// unreslove.
+
+		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
-			Structure structure = (Structure) valueList.get( index );
-			Iterator iterator = structure.getDefn( ).getPropertyIterator( );
-			while ( iterator.hasNext( ) )
+			ElementRefValue tempRefValue = (ElementRefValue) struct
+					.getProperty( root, (PropertyDefn) propDefn );
+
+			if ( referred == tempRefValue.getElement( ) )
 			{
-				IPropertyDefn propDefn = (IPropertyDefn) iterator.next( );
+				tempRefValue.unresolved( tempRefValue.getName( ) );
+				referred.dropClient( client );
 
-				// if member is element ref type , then do
-				// unreslove.
+				// reslove member
 
-				if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-				{
-					ElementRefValue tempRefValue = (ElementRefValue) structure
-							.getProperty( root, (PropertyDefn) propDefn );
-
-					if ( referred == tempRefValue.getElement( ) )
-					{
-						tempRefValue.unresolved( tempRefValue.getName( ) );
-						referred.dropClient( client );
-
-						// reslove member
-
-						ReferenceValueUtil.resolveElementReference( structure,
-								root, (StructPropertyDefn) propDefn,
-								tempRefValue );
-
-						break;
-					}
-				}
+				ReferenceValueUtil.resolveElementReference( struct, root,
+						(StructPropertyDefn) propDefn, tempRefValue );
 			}
 		}
+
 	}
 
 	/*

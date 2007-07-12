@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -62,10 +60,9 @@ public class SimpleStructureListState extends CompatibleListPropertyState
 		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
 		{
 			AbstractPropertyState state = new SimpleStructureState( handler,
-					element, propDefn, list );
+					element, propDefn );
 			return state;
 		}
-
 
 		return super.startElement( tagName );
 	}
@@ -74,9 +71,9 @@ public class SimpleStructureListState extends CompatibleListPropertyState
 	{
 
 		SimpleStructureState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, ArrayList theList )
+				DesignElement element, PropertyDefn propDefn )
 		{
-			super( theHandler, element, propDefn, theList );
+			super( theHandler, element, propDefn );
 		}
 
 		/*
@@ -87,7 +84,7 @@ public class SimpleStructureListState extends CompatibleListPropertyState
 
 		public void end( ) throws SAXException
 		{
-			struct = createStructure( (StructureDefn)propDefn.getStructDefn( ) );
+			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
 			assert struct != null;
 
 			String value = text.toString( );

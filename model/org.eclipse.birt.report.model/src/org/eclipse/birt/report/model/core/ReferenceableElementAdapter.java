@@ -119,8 +119,9 @@ public class ReferenceableElementAdapter
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
 			BackRef ref = (BackRef) clients.get( i );
-			if ( ref.element == client
-					&& ( propName == null || ref.propName.equals( propName ) ) )
+			if ( ref.getElement( ) == client
+					&& ( propName == null || ref.getPropertyName( ).equals(
+							propName ) ) )
 			{
 				clients.remove( i );
 				return;
@@ -165,7 +166,7 @@ public class ReferenceableElementAdapter
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
 			BackRef ref = (BackRef) clients.get( i );
-			DesignElement target = ref.element;
+			DesignElement target = ref.getElement( );
 			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( ref
 					.getPropertyName( ) ) )
 				ev.setDeliveryPath( NotificationEvent.EXTENDS_EVENT );
@@ -194,21 +195,21 @@ public class ReferenceableElementAdapter
 		while ( backRefIter.hasNext( ) )
 		{
 			BackRef ref = (BackRef) backRefIter.next( );
-			DesignElement client = ref.element;
+			DesignElement client = ref.getElement( );
 
 			Module root = client.getRoot( );
 
-			CachedMemberRef memberRef = ref.getCachedMemberRef( );
+			Structure struct = ref.getStructure( );
 			Object value = null;
-			if ( memberRef != null )
+			if ( struct != null )
 			{
-				value = client
-						.getLocalProperty( root, memberRef.getPropDefn( ) );
+				value = struct.getContext( ).getLocalValue( root );
 			}
 			else
 			{
-				value = client.getLocalProperty( root, ref.propName );
+				value = client.getLocalProperty( root, ref.getPropertyName( ) );
 			}
+			
 			if ( value instanceof ElementRefValue )
 			{
 				ElementRefValue refValue = (ElementRefValue) value;
@@ -231,11 +232,12 @@ public class ReferenceableElementAdapter
 
 			// for the style, send out a event to let UI repaint the element.
 			// otherwise, try to resolve it.
-			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref
+					.getPropertyName( ) ) )
 				client.broadcast( new StyleEvent( client ) );
 			else
 				client.resolveElementReference( root, client
-						.getPropertyDefn( ref.propName ) );
+						.getPropertyDefn( ref.getPropertyName( ) ) );
 		}
 	}
 
@@ -254,28 +256,29 @@ public class ReferenceableElementAdapter
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef,
+	 *      org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void addClient( DesignElement client, CachedMemberRef cachedMemberRef )
+	public void addClient( Structure struct, String memberName )
 	{
-		clients.add( new BackRef( client, cachedMemberRef ) );
+		clients.add( new BackRef( struct, memberName ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef,
+	 *      org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void dropClient( DesignElement client,
-			CachedMemberRef cachedMemberRef )
+
+	public void dropClient( Structure struct, String memberName )
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
 			BackRef ref = (BackRef) clients.get( i );
-			if ( ref.element == client
-					&& ( cachedMemberRef == null || cachedMemberRef.equals( ref
-							.getCachedMemberRef( ) ) ) )
+			if ( ref.getStructure( ) == struct
+					&& ( ref.getPropertyName( ).equalsIgnoreCase( memberName ) ) )
 			{
 				clients.remove( i );
 				return;
@@ -283,19 +286,4 @@ public class ReferenceableElementAdapter
 		}
 		assert false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.IReferencableElement#insertClient(int,
-	 *      org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
-	 */
-	public void insertClient( int index, DesignElement client,
-			CachedMemberRef cachedMemberRef )
-	{
-		assert index > 0 && index <= clients.size( );
-		clients.add( index, new BackRef( client, cachedMemberRef ) );
-	}
-
 }

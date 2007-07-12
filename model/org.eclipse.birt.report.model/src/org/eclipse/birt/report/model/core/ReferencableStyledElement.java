@@ -186,32 +186,23 @@ public abstract class ReferencableStyledElement extends StyledElement
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef,
+	 *      org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void addClient( DesignElement client, CachedMemberRef cachedMemberRef )
+	public void addClient( Structure struct, String memberName )
 	{
-		adapter.addClient( client, cachedMemberRef );
+		adapter.addClient( struct, memberName);
 	}
 
-	/*
+	/* 
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.CachedMemberRef)
+	 *      org.eclipse.birt.report.model.core.CachedMemberRef,
+	 *      org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void dropClient( DesignElement client,
-			CachedMemberRef cachedMemberRef )
+	public void dropClient( Structure struct, String memberName )
 	{
-		adapter.dropClient( client, cachedMemberRef );
+		adapter.dropClient( struct, memberName );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.IReferencableElement#insertClient(int, org.eclipse.birt.report.model.core.DesignElement, org.eclipse.birt.report.model.core.CachedMemberRef)
-	 */
-	public void insertClient( int index, DesignElement client,
-			CachedMemberRef cachedMemberRef )
-	{
-		adapter.insertClient( index, client, cachedMemberRef );
-	}
-
 }

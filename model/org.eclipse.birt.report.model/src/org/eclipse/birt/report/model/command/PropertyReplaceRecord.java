@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -118,11 +120,17 @@ public class PropertyReplaceRecord extends SimpleRecord
 	{
 		if ( undo )
 		{
-			list.set( position, oldItem );
+			StructureContext context = ( (Structure) newItem ).getContext( );
+			context.remove( (Structure) newItem );
+
+			context.add( position, (Structure) oldItem );
 		}
 		else
 		{
-			list.set( position, newItem );
+			StructureContext context = ( (Structure) oldItem ).getContext( );
+			context.remove( (Structure) oldItem );
+
+			context.add( position, (Structure) newItem );
 		}
 	}
 
@@ -150,7 +158,7 @@ public class PropertyReplaceRecord extends SimpleRecord
 		if ( eventTarget != null )
 			return new PropertyEvent( eventTarget.getElement( ), eventTarget
 					.getPropName( ) );
-		
+
 		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
 	}
 
@@ -166,7 +174,7 @@ public class PropertyReplaceRecord extends SimpleRecord
 		retList.addAll( super.getPostTasks( ) );
 
 		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
-		
+
 		// if the structure is referencable, then send notification to the
 		// clients
 
@@ -174,7 +182,7 @@ public class PropertyReplaceRecord extends SimpleRecord
 		{
 			ReferencableStructure refValue = (ReferencableStructure) oldItem;
 			retList.add( new NotificationRecordTask( refValue, getEvent( ) ) );
-			
+
 		}
 
 		return retList;

@@ -509,6 +509,8 @@ public class PropertyCommandTest extends BaseTestCase
 	 * <li>Add a map rule to a style which already has one</li>
 	 * <li>Add a map rule to a style which has no map rule, but its parent has
 	 * a map rule.</li>
+	 * <li>Add a structure in the list to the list again. The new structure
+	 * will be added.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -539,6 +541,21 @@ public class PropertyCommandTest extends BaseTestCase
 		AddItemRule( style, false );
 		saveOperate( "PropertyCommandTest_golden_6.xml" );//$NON-NLS-1$
 
+		// add the same structure to the list twice. The structure will be
+		// copied and added.
+		
+		PropertyHandle propHandle = style.getHandle( design )
+				.getPropertyHandle( Style.MAP_RULES_PROP );
+
+		MapRuleHandle rule = (MapRuleHandle) propHandle.iterator( ).next( );
+		propHandle.addItem( rule.getStructure( ) );
+
+		assertEquals( 2, propHandle.getListValue( ).size( ) );
+
+		MapRule rule1 = (MapRule) propHandle.getListValue( ).get( 0 );
+		MapRule rule2 = (MapRule) propHandle.getListValue( ).get( 1 );
+		assertTrue( rule1 != rule2 );
+		assertTrue( rule1.equals( rule2 ) );
 	}
 
 	/**

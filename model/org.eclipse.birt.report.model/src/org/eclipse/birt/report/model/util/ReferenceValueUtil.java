@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.util;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -56,9 +55,8 @@ public class ReferenceValueUtil
 	 *         the information of element resolution.
 	 */
 
-	public static ElementRefValue resolveElementReference(
-			Structure structure, Module module, StructPropertyDefn prop,
-			Object value )
+	public static ElementRefValue resolveElementReference( Structure structure,
+			Module module, StructPropertyDefn prop, Object value )
 	{
 		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return null;
@@ -87,7 +85,7 @@ public class ReferenceValueUtil
 		if ( !ref.isResolved( ) )
 			return ref;
 
-		DesignElement me = structure.getContextElement( );
+		DesignElement me = structure.getElement( );
 
 		// if it is recursively reference, not resolve it.
 
@@ -99,22 +97,9 @@ public class ReferenceValueUtil
 			return ref;
 		}
 
-		String propName = structure.getContextPropertyName( );
-		CachedMemberRef memberRef = structure.getContextCachedMemberRef( );
-
 		// how to handle back reference.
 
-		if ( me != null )
-		{
-			if ( memberRef != null )
-			{
-				ref.getTargetElement( ).addClient( me, memberRef );
-			}
-			else if ( propName != null )
-			{
-				ref.getTargetElement( ).addClient( me, propName );
-			}
-		}
+		ref.getTargetElement( ).addClient( structure, prop.getName( ) );
 		return ref;
 	}
 

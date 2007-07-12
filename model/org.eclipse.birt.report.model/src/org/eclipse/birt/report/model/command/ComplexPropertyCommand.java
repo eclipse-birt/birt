@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -85,22 +87,31 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		if ( item == null )
 			return;
 
+		Structure struct = (Structure) item;
+		if ( struct.getContext( ) != null )
+			struct = (Structure) struct.copy( );
+
+		// for the new structure, establish the context for its nested
+		// structures.
+
+		setupStructureContext( struct );
+
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		if ( item.isReferencable( ) )
-			assert !( (ReferencableStructure) item ).hasReferences( );
+		if ( struct.isReferencable( ) )
+			assert !( (ReferencableStructure) struct ).hasReferences( );
 
 		checkListMemberRef( ref );
-		checkItem( ref, item );
+		checkItem( ref, struct );
 
 		List list = ref.getList( module, element );
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		if ( memberDefn != null )
-			element.checkStructureList( module, memberDefn, list, item );
+			element.checkStructureList( module, memberDefn, list, struct );
 		else
-			element.checkStructureList( module, propDefn, list, item );
+			element.checkStructureList( module, propDefn, list, struct );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( ModelMessages
@@ -116,10 +127,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			stack.execute( memberRecord );
 		}
 
-		MemberRef insertRef = new CachedMemberRef( ref, list.size( ) );
-		PropertyListRecord record = new PropertyListRecord( element, insertRef,
-				insertRef.getList( module, element ), item );
-		record.setEventTarget( getEventTarget( insertRef.getPropDefn( ) ) );
+		PropertyListRecord record = constructStructureRecord( ref, struct, list
+				.size( ) );
+
+		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
 		stack.execute( record );
 		stack.commit( );
 
@@ -209,8 +220,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			stack.execute( memberRecord );
 		}
 
-		PropertyListRecord record = new PropertyListRecord( element,
-				new CachedMemberRef( ref, list.size( ) ), list, value );
+		PropertyListRecord record = new PropertyListRecord( element, ref
+				.getPropDefn( ), list, value, list.size( ) );
+
 		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
 
 		stack.execute( record );
@@ -263,15 +275,19 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		if ( item == null )
 			return;
 
+		Structure struct = (Structure) item;
+		if ( struct.getContext( ) != null )
+			struct = (Structure) struct.copy( );
+
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
 		checkListMemberRef( ref );
-		checkItem( ref, item );
+		checkItem( ref, struct );
 
 		List list = ref.getList( module, element );
-		element.checkStructureList( module, ref.getPropDefn( ), list, item );
+		element.checkStructureList( module, ref.getPropDefn( ), list, struct );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -292,10 +308,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		MemberRef insertRef = new CachedMemberRef( ref, posn );
-		PropertyListRecord record = new PropertyListRecord( element, insertRef,
-				list, item );
-		record.setEventTarget( getEventTarget( insertRef.getPropDefn( ) ) );
+		PropertyListRecord record = constructStructureRecord( ref, struct, posn );
+
+		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
 
 		stack.execute( record );
 		stack.commit( );
@@ -443,9 +458,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		assert list != null;
 
 		Structure struct = memberRef.getStructure( module, element );
-		if ( struct != null && struct.isReferencable( ) )
+		if ( struct != null )
 		{
-			adjustReferenceClients( (ReferencableStructure) struct );
+			if ( struct.isReferencable( ) )
+				adjustReferenceClients( (ReferencableStructure) struct );
 
 			// handle the structure member refers to other elements.
 
@@ -454,8 +470,17 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		Object item = list.get( memberRef.getIndex( ) );
 
-		PropertyListRecord record = new PropertyListRecord( element, memberRef,
-				list );
+		PropertyListRecord record = null;
+
+		if ( struct != null )
+			record = new PropertyListRecord( element, struct.getContext( ),
+					item );
+		else
+		{
+			record = new PropertyListRecord( element, memberRef.getPropDefn( ),
+					list, item );
+		}
+
 		record.setEventTarget( getEventTarget( memberRef.getPropDefn( ) ) );
 		stack.execute( record );
 
@@ -515,11 +540,16 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
+		Structure struct = (Structure) newItem;
+
 		if ( newItem != null )
 		{
-			checkItem( ref, newItem );
+			if ( struct.getContext( ) != null )
+				struct = (Structure) struct.copy( );
+
+			checkItem( ref, struct );
 			element.checkStructureList( module, ref.getPropDefn( ), list,
-					newItem );
+					struct );
 		}
 
 		ActivityStack stack = module.getActivityStack( );
@@ -538,7 +568,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
-				list, index, newItem );
+				list, index, struct );
 
 		record.setEventTarget( getEventTarget( propDefn ) );
 		stack.execute( record );
@@ -703,6 +733,28 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new IllegalOperationException(
 					CssException.DESIGN_EXCEPTION_READONLY );
 		}
+	}
+
+	private PropertyListRecord constructStructureRecord( MemberRef ref,
+			Structure struct, int posn )
+	{
+		PropertyListRecord record = null;
+		Object parentStruct = ref.getStructure( module, element );
+
+		IPropertyDefn tmpPropDefn = ref.getMemberDefn( );
+		if ( tmpPropDefn == null )
+			tmpPropDefn = ref.getPropDefn( );
+
+		StructureContext context = null;
+		if ( parentStruct == null )
+			context = new StructureContext( element, tmpPropDefn.getName( ) );
+		else
+			context = new StructureContext( (Structure) parentStruct,
+					tmpPropDefn.getName( ) );
+
+		record = new PropertyListRecord( element, context, struct, posn );
+
+		return record;
 	}
 
 }

@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -35,12 +35,8 @@ public class ElementBackRefRecord extends BackRefRecord
 
 	protected IReferencableElement referred = null;
 
-	/**
-	 * The element is referred by the structure member.
-	 */
-
-	private MemberRef memberRef = null;
-
+	private DesignElement target;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -63,7 +59,10 @@ public class ElementBackRefRecord extends BackRefRecord
 		super( module, reference, propName );
 		this.referred = referred;
 
+		
 		assert referred != null;
+		
+		target = reference;
 	}
 
 	/**
@@ -85,12 +84,14 @@ public class ElementBackRefRecord extends BackRefRecord
 	 */
 
 	public ElementBackRefRecord( Module module, IReferencableElement referred,
-			DesignElement reference, String propName, MemberRef memberRef )
+			Structure reference, String propName )
 	{
-		this( module, referred, reference, propName );
-		this.memberRef = memberRef;
+		super( module, reference, propName );
+		this.referred = referred;
 
-		assert memberRef != null;
+		assert referred != null;
+		
+		target = reference.getElement( );
 	}
 
 	/*
@@ -103,26 +104,27 @@ public class ElementBackRefRecord extends BackRefRecord
 	{
 		if ( undo )
 		{
-			if ( memberRef == null )
+			if ( reference instanceof DesignElement )
 			{
-				ElementPropertyDefn propDefn = reference
+				DesignElement tmpElement = (DesignElement) reference;
+				ElementPropertyDefn propDefn = tmpElement
 						.getPropertyDefn( propName );
 
 				// To add client is done in resolving element reference.
 
-				reference.getLocalProperty( module, propDefn );
+				tmpElement.getLocalProperty( module, propDefn );
 			}
 			else
 			{
 				// try to resolve the element reference for the structure
 				// member.
 
-				memberRef.getValue( module, reference );
+				( (Structure) reference ).getLocalProperty( module, propName );
 			}
 		}
 		else
 		{
-			if ( memberRef == null )
+			if ( reference instanceof DesignElement )
 			{
 				removeElementRefOfProperty( );
 			}
@@ -139,15 +141,15 @@ public class ElementBackRefRecord extends BackRefRecord
 
 	private void removeBackRefOfStructMember( )
 	{
-		Object value = memberRef.getStructure( module, reference )
-				.getLocalProperty( module, memberRef.getMemberDefn( ) );
+		Structure struct = (Structure) reference;
+		Object value = struct.getLocalProperty( module, propName );
 
 		assert value instanceof ElementRefValue;
 
 		ElementRefValue refValue = (ElementRefValue) value;
 		refValue.unresolved( refValue.getName( ) );
 
-		referred.dropClient( reference, propName );
+		referred.dropClient( struct, propName );
 	}
 
 	/**
@@ -156,13 +158,15 @@ public class ElementBackRefRecord extends BackRefRecord
 
 	private void removeElementRefOfProperty( )
 	{
-		Object value = reference.getLocalProperty( module, propName );
+		DesignElement tmpElement = (DesignElement) reference;
+		
+		Object value = tmpElement.getLocalProperty( module, propName );
 		if ( value instanceof ElementRefValue )
 		{
 			ElementRefValue refValue = (ElementRefValue) value;
 			refValue.unresolved( refValue.getName( ) );
 
-			referred.dropClient( reference );
+			referred.dropClient( tmpElement );
 		}
 		else if ( value instanceof List )
 		{
@@ -173,22 +177,15 @@ public class ElementBackRefRecord extends BackRefRecord
 				if ( item.getElement( ) == referred )
 				{
 					item.unresolved( item.getName( ) );
-					referred.dropClient( reference );
+					referred.dropClient( tmpElement );
 					break;
 				}
 			}
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
-	 */
-
+	
 	public DesignElement getTarget( )
 	{
-		return reference;
+		return target;
 	}
-
 }

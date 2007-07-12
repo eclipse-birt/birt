@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -26,8 +24,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -102,7 +98,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EX_PROPERTY_TAG ) )
 			return new CompatibleOdaDriverPropertyStructureState( handler,
-					element, propDefn, list );
+					element, propDefn );
 
 		return super.startElement( tagName );
 	}
@@ -130,14 +126,12 @@ public class CompatibleOdaDriverPropertyStructureListState
 		String propertyName = null;
 		String propertyValue = null;
 		List privatePropDefns = Collections.EMPTY_LIST;
-		private IPropertyDefn privatePropDefn = null;
 
 		CompatibleOdaDriverPropertyStructureState(
 				ModuleParserHandler theHandler, DesignElement element,
-				PropertyDefn propDefn, ArrayList theList )
+				PropertyDefn propDefn )
 		{
 			super( theHandler, element );
-			this.list = theList;
 
 			ODAExtensionElementDefn elementDefn = null;
 
@@ -145,33 +139,25 @@ public class CompatibleOdaDriverPropertyStructureListState
 			{
 				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSet) element )
 						.getExtDefn( );
-				privatePropDefn = element
+				propDefn = element
 						.getPropertyDefn( IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 			}
 			else if ( element instanceof OdaDataSource )
 			{
 				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSource) element )
 						.getExtDefn( );
-				privatePropDefn = element
+				propDefn = element
 						.getPropertyDefn( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 			}
 
 			if ( elementDefn != null )
 				privatePropDefns = elementDefn
 						.getODAPrivateDriverPropertyNames( );
+			
+			this.name = propDefn.getName( );
 
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-		 */
-
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-		}
-
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -207,9 +193,9 @@ public class CompatibleOdaDriverPropertyStructureListState
 				{
 					struct = new ExtendedProperty( );
 
-					setMember( struct, privatePropDefn.getName( ),
+					setMember( struct, propDefn.getName( ),
 							ExtendedProperty.NAME_MEMBER, newPropertyName );
-					setMember( struct, privatePropDefn.getName( ),
+					setMember( struct, propDefn.getName( ),
 							ExtendedProperty.VALUE_MEMBER, propertyValue );
 
 					super.end( );

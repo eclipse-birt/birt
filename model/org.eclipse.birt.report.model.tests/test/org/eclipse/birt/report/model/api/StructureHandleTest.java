@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -579,10 +578,6 @@ public class StructureHandleTest extends BaseTestCase
 				.findElement( "table1" ); //$NON-NLS-1$
 		Iterator filters = tableHandle.filtersIterator( );
 		FilterConditionHandle filter = (FilterConditionHandle) filters.next( );
-
-		CachedMemberRef ref = (CachedMemberRef) filter.getReference( );
-		assertTrue( ref
-				.checkOrCacheStructure( design, tableHandle.getElement( ) ) );
 
 		filter.setExpr( "new design expr" ); //$NON-NLS-1$
 		PropertyHandle propHandle = tableHandle

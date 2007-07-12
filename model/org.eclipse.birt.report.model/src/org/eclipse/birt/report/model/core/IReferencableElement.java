@@ -41,27 +41,14 @@ public interface IReferencableElement
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
 	 * 
-	 * @param client
+	 * @param struct
 	 *            The client to add.
-	 * @param ref
-	 *            member reference.
-	 */
-
-	void addClient( DesignElement client, CachedMemberRef ref );
-
-	/**
-	 * Adds a client. Should be called only from
-	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
+	 * @param propName
+	 *            the member name
 	 * 
-	 * @param index
-	 *            list index
-	 * @param client
-	 *            The client to add.
-	 * @param ref
-	 *            member reference.
 	 */
 
-	void insertClient( int index, DesignElement client, CachedMemberRef ref );
+	void addClient( Structure struct, String propName );
 
 	/**
 	 * Drops a client. Should be called only from
@@ -87,13 +74,13 @@ public interface IReferencableElement
 	/**
 	 * Drops a client.
 	 * 
-	 * @param client
-	 *            The client to drop.
-	 * @param cachedMemberRef
-	 *            member reference.
+	 * @param struct
+	 *            the structure
+	 * @param propName
+	 *            the member name
 	 */
 
-	void dropClient( DesignElement client, CachedMemberRef cachedMemberRef );
+	void dropClient( Structure struct, String propName );
 
 	/**
 	 * Returns the list of clients for this element.

@@ -56,7 +56,7 @@ public class ListPropertyState extends AbstractPropertyState
 	private static final int LIBRARIES_PROP = Module.LIBRARIES_PROP
 			.toLowerCase( ).hashCode( );
 	private static final int INCLUDE_LIBRARIES_PROP = "includeLibraries" //$NON-NLS-1$
-			.toLowerCase( ).hashCode( );
+	.toLowerCase( ).hashCode( );
 
 	private static final int BOUND_DATA_COLUMNS_PROP = IReportItemModel.BOUND_DATA_COLUMNS_PROP
 			.toLowerCase( ).hashCode( );
@@ -245,10 +245,15 @@ public class ListPropertyState extends AbstractPropertyState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-			return new StructureState( handler, element, propDefn, list );
+		{
+			if ( struct != null )
+				return new StructureState( handler, element, propDefn, struct );
+
+			return new StructureState( handler, element, propDefn );
+		}
 
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EX_PROPERTY_TAG ) )
-			return new ExtendedPropertyState( handler, element, propDefn, list );
+			return new ExtendedPropertyState( handler, element, propDefn );
 
 		return super.startElement( tagName );
 	}
@@ -261,18 +266,6 @@ public class ListPropertyState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
-		if ( struct != null )
-		{
-			// Ensure that the member is defined.
-
-			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn( )
-					.getMember( name );
-			struct.setProperty( memberDefn, list );
-		}
-		else
-		{
-			element.setProperty( name, list );
-		}
 	}
 
 	/*
@@ -369,7 +362,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&&  BOUND_DATA_COLUMNS_PROP == nameValue
+				&& BOUND_DATA_COLUMNS_PROP == nameValue
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(

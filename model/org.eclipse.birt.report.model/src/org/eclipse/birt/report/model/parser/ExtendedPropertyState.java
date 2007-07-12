@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
@@ -32,9 +30,9 @@ public class ExtendedPropertyState extends StructureState
 {
 
 	ExtendedPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, ArrayList list )
+			DesignElement element, PropertyDefn propDefn )
 	{
-		super( theHandler, element, propDefn, list );
+		super( theHandler, element, propDefn );
 
 		// till now, there is structure ODAProperty can be written as
 		// ex-property.

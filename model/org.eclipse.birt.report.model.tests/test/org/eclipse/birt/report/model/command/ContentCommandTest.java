@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -74,7 +73,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
-import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -626,8 +624,8 @@ public class ContentCommandTest extends BaseTestCase
 		// verify the reference to style is recovered
 
 		assertEquals( style, content.getStyle( ) );
-		assertEquals( content,
-				( (BackRef) style.getClientList( ).get( 0 ) ).element );
+		assertEquals( content, ( (BackRef) style.getClientList( ).get( 0 ) )
+				.getElement( ) );
 
 		// verify the reference to parent is recovered
 
@@ -1734,31 +1732,37 @@ public class ContentCommandTest extends BaseTestCase
 		assertEquals( innerExtendedItem, designHandle
 				.getElementByID( innerExtendedItem.getID( ) ) );
 	}
-	
+
 	/**
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
 	public void testRemoveReferencableElement( ) throws Exception
 	{
 		openDesign( "ContentCommandTest_1.xml" ); //$NON-NLS-1$
-		TabularCubeHandle cube = (TabularCubeHandle) designHandle.findCube( "Customer Cube" ); //$NON-NLS-1$
-		
+		TabularCubeHandle cube = (TabularCubeHandle) designHandle
+				.findCube( "Customer Cube" ); //$NON-NLS-1$
+
 		// now resolve the 'level' member in DimensionJoinCondition
-		List conditions = cube.getListProperty( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
+		List conditions = cube
+				.getListProperty( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
 		for ( int i = 0; i < conditions.size( ); i++ )
 		{
-			DimensionCondition dimensionCond = (DimensionCondition) conditions.get( i );
-			List joinConditions = (List) dimensionCond.getProperty( design, DimensionCondition.JOIN_CONDITIONS_MEMBER );
+			DimensionCondition dimensionCond = (DimensionCondition) conditions
+					.get( i );
+			List joinConditions = (List) dimensionCond.getProperty( design,
+					DimensionCondition.JOIN_CONDITIONS_MEMBER );
 			for ( int j = 0; j < joinConditions.size( ); j++ )
 			{
-				DimensionJoinCondition dimensionJoinCond = (DimensionJoinCondition) joinConditions.get( j );
-				dimensionJoinCond.getProperty( design, DimensionJoinCondition.LEVEL_MEMBER );
+				DimensionJoinCondition dimensionJoinCond = (DimensionJoinCondition) joinConditions
+						.get( j );
+				dimensionJoinCond.getProperty( design,
+						DimensionJoinCondition.LEVEL_MEMBER );
 			}
 		}
-		
+
 		cube.getDimension( "Region" ).dropAndClear( ); //$NON-NLS-1$
-		
+
 		save( );
 		assertTrue( compareFile( "ContentCommandTest_golden.xml" ) ); //$NON-NLS-1$
 	}

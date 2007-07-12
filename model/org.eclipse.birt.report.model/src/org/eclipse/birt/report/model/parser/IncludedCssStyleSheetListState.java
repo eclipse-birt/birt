@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
-import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.command.CssException;
@@ -49,8 +48,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-			return new IncludedCssStructureState( handler, element, propDefn,
-					list );
+			return new IncludedCssStructureState( handler, element, propDefn );
 
 		return super.startElement( tagName );
 	}
@@ -59,9 +57,9 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 	{
 
 		IncludedCssStructureState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, ArrayList theList )
+				DesignElement element, PropertyDefn propDefn )
 		{
-			super( theHandler, element, propDefn, theList );
+			super( theHandler, element, propDefn );
 			lineNumber = handler.getCurrentLineNo( );
 		}
 

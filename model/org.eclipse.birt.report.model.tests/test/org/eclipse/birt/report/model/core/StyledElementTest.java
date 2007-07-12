@@ -110,7 +110,7 @@ public class StyledElementTest extends BaseTestCase
 		styledElement.setStyle( style );
 		assertEquals( style, styledElement.getStyle( design ) );
 		assertEquals( styledElement,
-				( (BackRef) style.getClientList( ).get( 0 ) ).element );
+				( (BackRef) style.getClientList( ).get( 0 ) ).getElement( ) );
 	}
 
 	/**

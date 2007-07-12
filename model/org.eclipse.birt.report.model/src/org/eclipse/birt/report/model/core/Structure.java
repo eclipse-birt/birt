@@ -19,8 +19,10 @@ import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -288,21 +290,17 @@ public abstract class Structure implements IStructure
 	{
 		IReferencableElement target;
 
-		DesignElement me = getContextElement( );
-		String propName = getContextPropertyName( );
-		CachedMemberRef memberRef = getContextCachedMemberRef( );
+		String propName = prop.getName( );
+
 		// Drop the old reference. Clear the back pointer from the referenced
 		// element to this element.
 
 		if ( oldRef != null )
 		{
 			target = oldRef.getTargetElement( );
-			if ( target != null && me != null )
+			if ( target != null )
 			{
-				if ( memberRef != null )
-					target.dropClient( me, memberRef );
-				else if ( propName != null )
-					target.dropClient( me, propName );
+				target.dropClient( this, propName );
 			}
 		}
 
@@ -313,12 +311,9 @@ public abstract class Structure implements IStructure
 		if ( newRef != null )
 		{
 			target = newRef.getTargetElement( );
-			if ( target != null && me != null )
+			if ( target != null )
 			{
-				if ( memberRef != null )
-					target.addClient( me, memberRef );
-				else if ( propName != null )
-					target.addClient( me, propName );
+				target.addClient( this, propName );
 			}
 		}
 	}
@@ -452,45 +447,14 @@ public abstract class Structure implements IStructure
 	}
 
 	/**
-	 * Gets the element in the cached context.
-	 * 
-	 * @return the element
-	 */
-
-	public DesignElement getContextElement( )
-	{
-		if ( context != null )
-			return context.element;
-
-		return null;
-	}
-
-	/**
-	 * Gets the element property name in the cached context.
-	 * 
-	 * @return the property name
-	 */
-
-	public String getContextPropertyName( )
-	{
-		if ( context != null )
-			return context.elementPropName;
-
-		return null;
-	}
-
-	/**
 	 * Gets cached member ref.
 	 * 
 	 * @return cached member ref
 	 */
 
-	public CachedMemberRef getContextCachedMemberRef( )
+	public StructureContext getContext( )
 	{
-		if ( context != null )
-			return context.cachedMemberRef;
-
-		return null;
+		return context;
 	}
 
 	/**
@@ -505,52 +469,6 @@ public abstract class Structure implements IStructure
 		this.context = context;
 	}
 
-	/**
-	 * The structure context. It is used when establishes back reference.
-	 * 
-	 */
-
-	public static class StructureContext
-	{
-
-		private DesignElement element;
-		private String elementPropName;
-
-		private CachedMemberRef cachedMemberRef;
-
-		/**
-		 * Constructs the structure context.
-		 * 
-		 * @param element
-		 *            the design element
-		 * @param elementPropName
-		 *            the element property name
-		 */
-
-		public StructureContext( DesignElement element, String elementPropName )
-		{
-			this.element = element;
-			this.elementPropName = elementPropName;
-		}
-
-		/**
-		 * Constructs the structure context.
-		 * 
-		 * @param element
-		 *            the design element
-		 * @param cachedMemberRef
-		 *            member reference
-		 */
-
-		public StructureContext( DesignElement element,
-				CachedMemberRef cachedMemberRef )
-		{
-			this.element = element;
-			this.cachedMemberRef = cachedMemberRef;
-		}
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -559,6 +477,96 @@ public abstract class Structure implements IStructure
 	public boolean isDesignTime( )
 	{
 		return true;
+	}
+
+	/**
+	 * @return
+	 */
+
+	public DesignElement getElement( )
+	{
+		if ( context == null )
+			return null;
+
+		return context.getElement( );
+	}
+
+	/**
+	 * @return
+	 */
+
+	public MemberRef getListMemberRef( )
+	{
+		if ( context == null )
+			return null;
+
+		StructureContext tmpContext = context;
+
+		int index[] = new int[]{-1, -1, -1};
+		List propDefns = new ArrayList( );
+
+		Structure tmpStruct = this;
+		int i = 0;
+		while ( tmpContext != null )
+		{
+			IPropertyDefn propDefn = tmpContext.getPropDefn( );
+			propDefns.add( propDefn );
+
+			Object valueContainer = tmpContext.getValueContainer( );
+
+			Structure parentStruct = null;
+			if ( valueContainer instanceof Structure )
+			{
+				parentStruct = (Structure) valueContainer;
+				if ( propDefn.isList( ) )
+				{
+					List list = (List) parentStruct.getLocalProperty( null,
+							(PropertyDefn) propDefn );
+					int tmpIndex = list.indexOf( tmpStruct );
+					index[i] = tmpIndex;
+				}
+			}
+			else
+			{
+				DesignElement tmpElement = (DesignElement) valueContainer;
+				if ( propDefn.isList( ) )
+				{
+					List list = (List) tmpElement.getLocalProperty( null,
+							(ElementPropertyDefn) propDefn );
+					int tmpIndex = list.indexOf( tmpStruct );
+					index[i] = tmpIndex;
+				}
+				break;
+			}
+
+			tmpContext = parentStruct.getContext( );
+			tmpStruct = parentStruct;
+			i++;
+		}
+
+		ElementPropertyDefn elementPropDefn = (ElementPropertyDefn) propDefns
+				.get( propDefns.size( ) - 1 );
+		CachedMemberRef ref = new CachedMemberRef( elementPropDefn );
+
+		for ( int j = propDefns.size( ) - 1; j > 0; j-- )
+		{
+			int tmpIndex = index[j];
+
+			IPropertyDefn tmpPropDefn = (IPropertyDefn) propDefns.get( j - 1 );
+
+			if ( tmpIndex > 0 )
+			{
+				ref = new CachedMemberRef( ref, tmpIndex,
+						(StructPropertyDefn) tmpPropDefn );
+			}
+			else
+			{
+				ref = new CachedMemberRef( ref,
+						(StructPropertyDefn) tmpPropDefn );
+			}
+		}
+
+		return ref;
 	}
 
 }

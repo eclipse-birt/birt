@@ -19,7 +19,10 @@ import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEven
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -175,8 +178,85 @@ public class PropertyRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		Object value = undo ? oldValue : newValue;
-		element.setProperty( propDefn, value );
+		Object value = null;
+		Object tmpOldValue = null;
+
+		if ( !undo )
+		{
+			value = newValue;
+			tmpOldValue = oldValue;
+		}
+		else
+		{
+			value = oldValue;
+			tmpOldValue = newValue;
+		}
+
+		if ( propDefn.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
+		{
+			element.setProperty( propDefn, value );
+			return;
+		}
+
+		clearStructureContext( tmpOldValue );
+		setupStructureContext( value );
+
+		if ( value == null
+				|| ( value instanceof List && ( (List) value ).isEmpty( ) ) )
+			element.setProperty( propDefn, value );
+	}
+
+	/**
+	 * @param values
+	 */
+
+	private void setupStructureContext( Object values )
+	{
+		if ( values == null )
+			return;
+
+		if ( values instanceof List && ( (List) values ).isEmpty( ) )
+			return;
+
+		StructureContext context = new StructureContext( element, propDefn
+				.getName( ) );
+
+		if ( values instanceof Structure )
+			context.add( (Structure) values );
+		else if ( values instanceof List )
+		{
+			for ( int i = 0; i < ( (List) values ).size( ); i++ )
+				context.add( (Structure) ( (List) values ).get( i ) );
+		}
+	}
+
+	/**
+	 * @param values
+	 */
+
+	private void clearStructureContext( Object values )
+	{
+		if ( values == null )
+			return;
+
+		if ( values instanceof List && ( (List) values ).isEmpty( ) )
+			return;
+
+		StructureContext context = new StructureContext( element, propDefn
+				.getName( ) );
+
+		if ( values instanceof Structure )
+			context.remove( (Structure) values );
+		else if ( values instanceof List )
+		{
+			// always remove the first one
+			
+			int count = ( (List) values ).size( );
+			for ( int i = 0; i < count; i++ )
+			{
+				context.remove( 0 );
+			}
+		}
 	}
 
 	/*

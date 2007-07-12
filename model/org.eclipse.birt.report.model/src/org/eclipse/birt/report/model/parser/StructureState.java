@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -57,9 +57,9 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -68,7 +68,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -85,14 +84,18 @@ import org.xml.sax.SAXException;
 public class StructureState extends AbstractPropertyState
 {
 
-	private int lineNumber = 1;
+	/**
+	 * 
+	 */
+
+	protected int lineNumber = 1;
 
 	/**
 	 * The list property value if this state is used to parse one structure in
 	 * list.
 	 */
 
-	ArrayList list = null;
+	protected List list = null;
 
 	/**
 	 * The definition of the list property which this structure is in.
@@ -135,31 +138,6 @@ public class StructureState extends AbstractPropertyState
 	 *            the element holding this structure
 	 * @param propDefn
 	 *            the definition of the property which holds this structure
-	 * @param theList
-	 *            the structure list
-	 */
-
-	StructureState( ModuleParserHandler theHandler, DesignElement element,
-			PropertyDefn propDefn, ArrayList theList )
-	{
-		super( theHandler, element );
-
-		assert propDefn != null;
-		assert theList != null;
-
-		this.propDefn = propDefn;
-		this.list = theList;
-	}
-
-	/**
-	 * Constructs the state of the structure which is in one structure list.
-	 * 
-	 * @param theHandler
-	 *            the design parser handler
-	 * @param element
-	 *            the element holding this structure
-	 * @param propDefn
-	 *            the definition of the property which holds this structure
 	 * @param parentStruct
 	 *            the structure that contains the current structure
 	 */
@@ -173,6 +151,50 @@ public class StructureState extends AbstractPropertyState
 
 		this.propDefn = propDefn;
 		this.parentStruct = parentStruct;
+		this.name = propDefn.getName( );
+	}
+
+	/**
+	 * Constructs the state of the structure which is in another structure.
+	 * 
+	 * @param theHandler
+	 *            the design parser handler
+	 * @param element
+	 *            the element holding this structure
+	 * @param parentStruct
+	 *            the structure that contains the current structure
+	 */
+
+	StructureState( ModuleParserHandler theHandler, DesignElement element,
+			IStructure parentStruct )
+	{
+		super( theHandler, element );
+
+		this.parentStruct = parentStruct;
+	}
+
+	/**
+	 * Constructs the state of the structure which is in one structure list.
+	 * 
+	 * @param theHandler
+	 *            the design parser handler
+	 * @param element
+	 *            the element holding this structure
+	 * @param propDefn
+	 *            the definition of the property which holds this structure
+	 * @param theList
+	 *            the structure list
+	 */
+
+	StructureState( ModuleParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn )
+	{
+		super( theHandler, element );
+
+		assert propDefn != null;
+
+		this.propDefn = propDefn;
+		this.name = propDefn.getName( );
 	}
 
 	protected void setName( String name )
@@ -198,29 +220,6 @@ public class StructureState extends AbstractPropertyState
 			// created by the specific state.
 
 			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
-
-			// Now only support one level , that mean element->list property
-			// ->structure->member is elementRefValue
-
-			if ( propDefn instanceof ElementPropertyDefn && propDefn.isList( ) )
-			{
-				CachedMemberRef memberRef = new CachedMemberRef(
-						(ElementPropertyDefn) propDefn, list.size( ) );
-				
-				// cache the structure to the member reference.
-				
-				memberRef.checkOrCacheStructure( struct );
-				
-				Structure.StructureContext structContext = new Structure.StructureContext(
-						element, memberRef );
-				( (Structure) struct ).setContext( structContext );
-			}
-			else
-			{
-				Structure.StructureContext structContext = new Structure.StructureContext(
-						element, propDefn.getName( ) );
-				( (Structure) struct ).setContext( structContext );
-			}
 		}
 	}
 
@@ -234,10 +233,22 @@ public class StructureState extends AbstractPropertyState
 	{
 		lineNumber = handler.getCurrentLineNo( );
 
-		if ( name == null )
-			name = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
+		String tmpName = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
+		if ( !StringUtil.isBlank( tmpName ) && propDefn == null )
+		{
+			name = tmpName;
 
-		if ( list == null )
+			if ( parentStruct == null )
+			{
+				propDefn = element.getPropertyDefn( name );
+			}
+			else
+				propDefn = (PropertyDefn) parentStruct.getDefn( ).getMember(
+						name );
+
+		}
+
+		if ( propDefn == null || !propDefn.isList( ) )
 		{
 			if ( StringUtil.isBlank( name ) )
 			{
@@ -297,7 +308,7 @@ public class StructureState extends AbstractPropertyState
 			return new TextPropertyState( handler, element, struct );
 
 		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
-			return new StructureState( handler, element, propDefn, struct );
+			return new StructureState( handler, element, struct );
 
 		if ( ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue )
 			return new SimplePropertyListState( handler, element, propDefn,
@@ -321,19 +332,40 @@ public class StructureState extends AbstractPropertyState
 		{
 			if ( parentStruct != null )
 			{
-				parentStruct.setProperty( propDefn, struct );
-			}
-			else if ( list != null )
-			{
-				// structure in a list property.
+				StructureContext context = new StructureContext( parentStruct,
+						propDefn.getName( ) );
 
-				list.add( struct );
+				if ( propDefn.isList( ) )
+				{
+					// structure in a list property.
+
+					context.add( (Structure) struct );
+				}
+				else
+				{
+					( (Structure) struct ).setContext( context );
+					parentStruct.setProperty( propDefn, struct );
+				}
+
 			}
 			else
 			{
+				StructureContext context = new StructureContext( element,
+						propDefn.getName( ) );
+
 				// structure property.
 
-				element.setProperty( name, struct );
+				if ( propDefn.isList( ) )
+				{
+					// structure in a list property.
+
+					context.add( (Structure) struct );
+				}
+				else
+				{
+					( (Structure) struct ).setContext( context );
+					element.setProperty( name, struct );
+				}
 			}
 		}
 
@@ -368,7 +400,7 @@ public class StructureState extends AbstractPropertyState
 					.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
-						handler, element, propDefn, list );
+						handler, element, propDefn );
 				state.setName( propName );
 
 				return state;

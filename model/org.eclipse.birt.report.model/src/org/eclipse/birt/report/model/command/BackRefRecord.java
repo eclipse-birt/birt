@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 
 /**
@@ -33,7 +34,7 @@ abstract public class BackRefRecord extends SimpleRecord
 	 * The element that refers to another element.
 	 */
 
-	protected DesignElement reference = null;
+	protected Object reference = null;
 
 	/**
 	 * The property name.
@@ -44,7 +45,7 @@ abstract public class BackRefRecord extends SimpleRecord
 	/**
 	 * Module
 	 */
-	
+
 	protected Module module = null;
 
 	/**
@@ -69,6 +70,27 @@ abstract public class BackRefRecord extends SimpleRecord
 		this.propName = propName;
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param module
+	 *            module
+	 * @param reference
+	 *            the element that refers to another element.
+	 * @param propName
+	 *            the property name. The type of the property must be
+	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
+	 *            must not be <code>DesignElement.EXTENDS_PROP</code> and
+	 *            <code>DesignElement.STYLE_PROP</code>
+	 */
+
+	public BackRefRecord( Module module, Structure reference, String propName )
+	{
+		this.module = module;
+		this.reference = reference;
+		this.propName = propName;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,7 +100,15 @@ abstract public class BackRefRecord extends SimpleRecord
 	public NotificationEvent getEvent( )
 	{
 		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
-			return new StyleEvent( reference );
-		return new PropertyEvent( reference, propName );
+			return new StyleEvent( getTarget( ) );
+		return new PropertyEvent( getTarget( ), propName );
+	}
+
+	public DesignElement getTarget( )
+	{
+		if ( reference instanceof DesignElement )
+			return (DesignElement) reference;
+
+		return ( (Structure) reference ).getElement( );
 	}
 }

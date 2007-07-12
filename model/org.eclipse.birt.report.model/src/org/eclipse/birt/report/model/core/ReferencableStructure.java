@@ -92,7 +92,7 @@ public abstract class ReferencableStructure extends Structure
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			if ( ( (BackRef) clients.get( i ) ).element == client )
+			if ( ( (BackRef) clients.get( i ) ).getElement( ) == client )
 			{
 				clients.remove( i );
 				return;
@@ -136,7 +136,7 @@ public abstract class ReferencableStructure extends Structure
 		ev.setDeliveryPath( NotificationEvent.STRUCTURE_CLIENT );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			( (BackRef) clients.get( i ) ).element.broadcast( ev );
+			( (BackRef) clients.get( i ) ).getElement( ).broadcast( ev );
 		}
 	}
 

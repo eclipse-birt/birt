@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
-import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.command.LibraryException;
@@ -29,7 +28,9 @@ import org.xml.sax.SAXException;
  * which has only one member. So it also can be considered as String List.
  */
 
-public class IncludedLibrariesStructureListState extends CompatibleListPropertyState
+public class IncludedLibrariesStructureListState
+		extends
+			CompatibleListPropertyState
 {
 
 	private int lineNumber = 1;
@@ -50,7 +51,7 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 		int tagValue = tagName.toLowerCase( ).hashCode( );
 		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
 			return new IncludedLibraryStructureState( handler, element,
-					propDefn, list );
+					propDefn );
 
 		return super.startElement( tagName );
 	}
@@ -59,9 +60,9 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 	{
 
 		IncludedLibraryStructureState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, ArrayList theList )
+				DesignElement element, PropertyDefn propDefn )
 		{
-			super( theHandler, element, propDefn, theList );
+			super( theHandler, element, propDefn );
 			lineNumber = handler.getCurrentLineNo( );
 		}
 

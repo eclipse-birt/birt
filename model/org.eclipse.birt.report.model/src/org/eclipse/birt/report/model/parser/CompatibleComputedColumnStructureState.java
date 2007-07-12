@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -52,9 +50,9 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 {
 
 	CompatibleComputedColumnStructureState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, ArrayList theList )
+			DesignElement element, PropertyDefn propDefn )
 	{
-		super( theHandler, element, propDefn, theList );
+		super( theHandler, element, propDefn );
 	}
 
 	/*

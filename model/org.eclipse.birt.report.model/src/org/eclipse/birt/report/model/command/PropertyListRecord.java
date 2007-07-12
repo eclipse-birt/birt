@@ -19,15 +19,14 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Records adding or removing an item from a property list.
@@ -41,25 +40,31 @@ public class PropertyListRecord extends SimpleRecord
 	 * The element that contains the property list.
 	 */
 
-	protected DesignElement element = null;
+	private final DesignElement element;
+
+	/**
+	 * The element that contains the property list.
+	 */
+
+	private final ElementPropertyDefn propDefn;
 
 	/**
 	 * Reference to the property list.
 	 */
 
-	protected MemberRef listRef = null;
+	private final StructureContext context;
 
 	/**
 	 * The property list itself.
 	 */
 
-	protected List list = null;
+	private final List list;
 
 	/**
 	 * The item to add or remove.
 	 */
 
-	protected Object value = null;
+	private final Object value;
 
 	/**
 	 * Whether the operation is an add or remove.
@@ -67,72 +72,152 @@ public class PropertyListRecord extends SimpleRecord
 
 	protected final boolean isAdd;
 
+	private final int posn;
+
 	/**
-	 * Constructor for an add operation.
+	 * Constructor for a remove operation. Removes the item given by the member
+	 * reference.
 	 * 
-	 * @param obj
-	 *            the element that contains the property list
-	 * @param ref
-	 *            reference to the property list
-	 * @param theList
-	 *            the property list itself
-	 * @param struct
-	 *            the item to add
+	 * @param element
+	 *            the element
+	 * @param context
+	 *            the context to add the structure
+	 * @param toRemove
+	 *            the structure to remove
+	 * 
 	 */
 
-	public PropertyListRecord( DesignElement obj, MemberRef ref, List theList,
-			Object value )
+	public PropertyListRecord( DesignElement element, StructureContext context,
+			Object toRemove )
 	{
-		assert obj != null;
-		assert ref != null;
-		assert theList != null;
-		assert value != null;
+		this.element = element;
+		this.isAdd = false;
 
-		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
-				.getPropDefn( );
+		this.context = context;
+		this.value = toRemove;
+		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
 
-		this.element = obj;
-		this.listRef = ref;
-		this.list = theList;
-		this.value = value;
-		this.isAdd = true;
+		Object valueContainer = context.getValueContainer( );
+		if ( valueContainer instanceof Structure )
+			list = (List) ( (Structure) valueContainer ).getLocalProperty(
+					null, (PropertyDefn) context.getPropDefn( ) );
+		else
+			list = (List) ( (DesignElement) valueContainer ).getLocalProperty(
+					null, (ElementPropertyDefn) context.getPropDefn( ) );
 
+		posn = list.indexOf( toRemove );
+
+		label = ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
+						.getElementProp( ).getDisplayName( )} );
 	}
 
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
 	 * 
-	 * @param obj
-	 *            the element that contains the property list
-	 * @param ref
-	 *            reference to the structure in the list.
-	 * @param theList
-	 *            the property list itself
+	 * 
+	 * @param element
+	 *            the element
+	 * @param context
+	 *            the context to add the structure
+	 * @param toAdd
+	 *            the structure to add
+	 * @param posn
+	 *            the position to add
+	 * 
 	 */
 
-	public PropertyListRecord( DesignElement obj, MemberRef ref, List theList )
+	public PropertyListRecord( DesignElement element, StructureContext context,
+			Object toAdd, int posn )
 	{
-		assert obj != null;
-		assert ref != null;
-		assert theList != null;
+		this.element = element;
+		this.isAdd = true;
 
-		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
-				.getPropDefn( );
+		this.context = context;
+		this.value = toAdd;
+		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
 
-		assert ref.getIndex( ) >= 0 && ref.getIndex( ) < theList.size( );
+		Object valueContainer = context.getValueContainer( );
+		if ( valueContainer instanceof Structure )
+			list = (List) ( (Structure) valueContainer ).getLocalProperty(
+					null, (PropertyDefn) context.getPropDefn( ) );
+		else
+			list = (List) ( (DesignElement) valueContainer ).getLocalProperty(
+					null, (ElementPropertyDefn) context.getPropDefn( ) );
 
-		this.element = obj;
-		this.listRef = ref;
-		this.list = theList;
-		this.isAdd = false;
-
-		this.value = list.get( listRef.getIndex( ) );
+		this.posn = posn;
 
 		label = ModelMessages.getMessage(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{listRef
-						.getPropDefn( ).getDisplayName( )} );
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
+						.getElementProp( ).getDisplayName( )} );
+	}
 
+	/**
+	 * Constructor for a remove operation. Removes the item given by the member
+	 * reference.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @param propDefn
+	 *            the element property definition
+	 * 
+	 * @param theList
+	 *            the property list itself
+	 * @param toAdd
+	 *            the object to add, not the structure
+	 * @param posn
+	 *            the position to add
+	 */
+
+	public PropertyListRecord( DesignElement element,
+			ElementPropertyDefn propDefn, List theList, Object toAdd, int posn )
+	{
+		this.element = element;
+		this.isAdd = true;
+
+		this.value = toAdd;
+
+		this.list = theList;
+		this.context = null;
+		this.propDefn = propDefn;
+		this.posn = posn;
+
+		label = ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
+						.getDisplayName( )} );
+	}
+
+	/**
+	 * Constructor for a remove operation. Removes the item given by the member
+	 * reference.
+	 * 
+	 * @param element
+	 *            the element
+	 * @param propDefn
+	 *            the element property definition
+	 * @param theList
+	 *            the property list itself
+	 * @param toRemove
+	 *            the object to remove, not the structure
+	 */
+
+	public PropertyListRecord( DesignElement element,
+			ElementPropertyDefn propDefn, List theList, Object toRemove )
+	{
+		this.element = element;
+		this.isAdd = false;
+
+		this.value = toRemove;
+
+		this.list = theList;
+		posn = list.indexOf( toRemove );
+		this.context = null;
+		this.propDefn = propDefn;
+
+		label = ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
+						.getDisplayName( )} );
 	}
 
 	/*
@@ -146,33 +231,25 @@ public class PropertyListRecord extends SimpleRecord
 		boolean doAdd = ( undo && !isAdd || !undo && isAdd );
 		if ( doAdd )
 		{
-			list.add( listRef.getIndex( ), value );
+			if ( !( value instanceof Structure ) )
+			{
+				list.add( posn, value );
+				return;
+			}
 
 			// setup the context for the structure.
 
-			// Now only support level one case.
-
-			IPropertyDefn propDefn = listRef.getPropDefn( );
-			if ( listRef.getDepth( ) == 1
-					&& ( propDefn.isList( ) || propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-					&& value instanceof Structure )
-			{
-				CachedMemberRef memberRef = new CachedMemberRef( listRef
-						.getPropDefn( ), listRef.getIndex( ) );
-				Structure.StructureContext structContext = new Structure.StructureContext(
-						element, memberRef );
-				( (Structure) value ).setContext( structContext );
-			}
-			else if ( value instanceof Structure )
-			{
-				Structure.StructureContext structContext = new Structure.StructureContext(
-						element, listRef.getPropDefn( ).getName( ) );
-				( (Structure) value ).setContext( structContext );
-			}
+			context.add( posn, (Structure) value );
 		}
 		else
 		{
-			list.remove( listRef.getIndex( ) );
+			if ( !( value instanceof Structure ) )
+			{
+				list.remove( posn );			
+				return;
+			}
+
+			context.remove( posn );
 		}
 	}
 
@@ -204,7 +281,7 @@ public class PropertyListRecord extends SimpleRecord
 
 		// Use the same notification for the done/redone and undone states.
 
-		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
+		return new PropertyEvent( element, propDefn.getName( ) );
 	}
 
 	/*

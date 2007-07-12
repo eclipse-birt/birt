@@ -64,21 +64,22 @@ public class StructBackRefRecord extends BackRefRecord
 
 	protected void perform( boolean undo )
 	{
+		DesignElement tmpElement = (DesignElement) reference;
 		if ( undo )
 		{
-			ElementPropertyDefn propDefn = reference.getPropertyDefn( propName );
+			ElementPropertyDefn propDefn = tmpElement.getPropertyDefn( propName );
 
 			// To add client is done in resolving structure reference.
 
-			reference.resolveStructReference( module, propDefn );
+			tmpElement.resolveStructReference( module, propDefn );
 		}
 		else
 		{
-			StructRefValue value = (StructRefValue) reference.getLocalProperty(
+			StructRefValue value = (StructRefValue) tmpElement.getLocalProperty(
 					module, propName );
 			value.unresolved( value.getName( ) );
 
-			referred.dropClient( reference );
+			referred.dropClient( tmpElement );
 		}
 	}
 

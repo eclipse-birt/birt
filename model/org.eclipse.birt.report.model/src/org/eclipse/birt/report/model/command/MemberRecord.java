@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -112,7 +113,32 @@ public class MemberRecord extends SimpleRecord
 	{
 		PropertyDefn prop = memberRef.getMemberDefn( );
 		if ( structure != null )
-			structure.setProperty( prop, undo ? oldValue : newValue );
+		{
+			Object value = null;
+			Object tmpOldValue = null;
+
+			if ( !undo )
+			{
+				value = newValue;
+				tmpOldValue = oldValue;
+			}
+			else
+			{
+				value = oldValue;
+				tmpOldValue = newValue;
+			}
+
+			StructureContext context = new StructureContext( structure, prop
+					.getName( ) );
+
+			if ( tmpOldValue instanceof Structure )
+				context.remove( (Structure) tmpOldValue );
+
+			if ( value instanceof Structure )
+				context.add( (Structure) value );
+			else
+				structure.setProperty( prop, value );
+		}
 	}
 
 	/*

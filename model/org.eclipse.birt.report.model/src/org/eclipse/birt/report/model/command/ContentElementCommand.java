@@ -24,11 +24,11 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.command.ContentElementInfo.Step;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -350,7 +350,7 @@ class ContentElementCommand extends AbstractContentCommand
 			{
 				tmpElement = (DesignElement) ( (List) stepValue ).get( index );
 			}
-			else 
+			else
 				tmpElement = (DesignElement) stepValue;
 		}
 
@@ -360,6 +360,7 @@ class ContentElementCommand extends AbstractContentCommand
 	/**
 	 * @param ref
 	 * @param value
+	 *            the value should not be structure instance.
 	 */
 
 	protected void addItem( MemberRef ref, Object value )
@@ -373,15 +374,17 @@ class ContentElementCommand extends AbstractContentCommand
 		// for add action, the content parameter can be ignored.
 
 		DesignElement tmpElement = copyTopCompositeValue( );
+		List list = ref.getList( module, tmpElement );
 
-		List list = null;
+		PropertyListRecord record = null;
+		if ( value instanceof Structure )
+			assert false;
+		else
+			record = new PropertyListRecord( tmpElement, ref.getPropDefn( ),
+					list, value, list.size( ) );
 
-		PropertyDefn propDefn = ref.getPropDefn( );
-		list = (List) tmpElement.getLocalProperty( module,
-				(ElementPropertyDefn) propDefn );
+		assert record != null;
 
-		PropertyListRecord record = new PropertyListRecord( tmpElement,
-				new CachedMemberRef( ref, list.size( ) ), list, value );
 		stack.execute( record );
 		record.setEventTarget( eventTarget );
 
@@ -391,6 +394,7 @@ class ContentElementCommand extends AbstractContentCommand
 	/**
 	 * @param ref
 	 * @param value
+	 *            the value should not be structure instance.
 	 */
 
 	protected void removeItem( MemberRef ref )
@@ -412,8 +416,16 @@ class ContentElementCommand extends AbstractContentCommand
 
 		Object value = list.get( ref.getIndex( ) );
 
-		PropertyListRecord record = new PropertyListRecord( tmpElement, ref,
-				list );
+		PropertyListRecord record = null;
+
+		if ( value instanceof Structure )
+			assert false;
+		else
+		{
+			record = new PropertyListRecord( tmpElement, ref.getPropDefn( ),
+					list, value );
+		}
+		assert record != null;
 		stack.execute( record );
 		record.setEventTarget( eventTarget );
 

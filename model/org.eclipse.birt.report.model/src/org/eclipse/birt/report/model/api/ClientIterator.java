@@ -113,7 +113,7 @@ class ClientIterator implements Iterator
 		if ( iter != null )
 		{
 			BackRef client = (BackRef) iter.next( );
-			return client.element.getHandle( module );
+			return client.getElement( ).getHandle( module );
 		}
 		return null;
 	}

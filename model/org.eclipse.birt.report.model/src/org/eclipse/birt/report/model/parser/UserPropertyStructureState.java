@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -60,6 +61,8 @@ public class UserPropertyStructureState extends StructureState
 		this.propDefn = new UserPropertyDefn( );
 		this.struct = (IStructure) propDefn;
 		this.list = theList;
+
+		this.name = DesignElement.USER_PROPERTIES_PROP;
 	}
 
 	/*
@@ -81,6 +84,26 @@ public class UserPropertyStructureState extends StructureState
 			return new TextPropertyState( handler, element, struct );
 
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.StructureState#parseAttrs(org.xml.sax.Attributes)
+	 */
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		lineNumber = handler.getCurrentLineNo( );
+
+		if ( struct == null )
+		{
+			assert propDefn != null;
+
+			// If the structure has its specific state, the structure will be
+			// created by the specific state.
+
+			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
+		}
 	}
 
 	/*
@@ -146,7 +169,7 @@ public class UserPropertyStructureState extends StructureState
 		 * @param propDefn
 		 * @param struct
 		 */
-		
+
 		ChoiceStructureListState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
@@ -220,23 +243,25 @@ public class UserPropertyStructureState extends StructureState
 
 	class ChoiceStructureState extends InnerParseState
 	{
+
 		/**
 		 * Choice list.
 		 */
-		
+
 		ArrayList choices = null;
-		
+
 		/**
 		 * User choice to handle.
 		 */
-		
+
 		UserChoice choice = new UserChoice( null, null );
 
 		/**
 		 * Constructor.
+		 * 
 		 * @param theChoices
 		 */
-		
+
 		ChoiceStructureState( ArrayList theChoices )
 		{
 			this.choices = theChoices;
