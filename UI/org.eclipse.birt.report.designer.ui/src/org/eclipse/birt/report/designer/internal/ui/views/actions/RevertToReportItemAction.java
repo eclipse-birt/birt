@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
@@ -58,14 +62,28 @@ public class RevertToReportItemAction extends AbstractElementAction
 		}
 		if ( getSelectedElement( ).isTemplateParameterValue( ) )
 		{
+			DesignElementHandle handle;
 			if ( getSelectedElement( ) instanceof TemplateReportItemHandle )
 			{
-				return ProviderFactory.createProvider( getSelectedElement( ) )
-						.performRequest( getSelectedElement( ),
-								new Request( IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) );
+				TemplateReportItemHandle template = (TemplateReportItemHandle)getSelectedElement( );
+				handle = template.copyDefaultElement( )
+						.getHandle( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.getModule( ) );
+				try
+				{
+					template.transformToReportItem( (ReportItemHandle) handle );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
+			}else{
+				handle = (DesignElementHandle)getSelectedElement( );
 			}
 			return ProviderFactory.createProvider( getSelectedElement( ) )
-					.performRequest( getSelectedElement( ),
+					.performRequest( handle,
 							new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
 		}
 		return false;
