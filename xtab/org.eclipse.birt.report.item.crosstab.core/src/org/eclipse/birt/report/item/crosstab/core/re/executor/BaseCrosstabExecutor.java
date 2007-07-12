@@ -36,6 +36,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -233,7 +235,18 @@ public abstract class BaseCrosstabExecutor implements
 
 	protected CrosstabCellHandle findDetailRowCell( int rowIndex )
 	{
-		return crosstabItem.getMeasure( rowIndex ).getCell( );
+		if ( crosstabItem.getMeasureCount( ) > 0 )
+		{
+			return crosstabItem.getMeasure( rowIndex ).getCell( );
+		}
+
+		// if no measure returns the innerest level cell
+		int rdCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
+		DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
+				rdCount - 1 );
+		LevelViewHandle lv = dv.getLevel( dv.getLevelCount( ) - 1 );
+
+		return lv.getCell( );
 	}
 
 	protected CrosstabCellHandle findSubTotalRowCell( int dimIndex,
