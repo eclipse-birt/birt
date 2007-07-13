@@ -315,22 +315,19 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				ParameterAccessor.PARAM_MASTERPAGE, String
 						.valueOf( this.isMasterPageContent ) ) );
 
+		// append resource folder setting
 		try
 		{
 			if ( resourceFolder != null )
-				resourceFolder = URLEncoder.encode( resourceFolder,
+			{
+				String res = URLEncoder.encode( resourceFolder,
 						ParameterAccessor.UTF_8_ENCODE );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+			}
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-		}
-
-		// append resource folder setting
-		if ( resourceFolder != null )
-		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_RESOURCE_FOLDER,
-					this.resourceFolder ) );
 		}
 
 		if ( realBookmark )
@@ -471,22 +468,19 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					ParameterAccessor.PARAM_MASTERPAGE, String
 							.valueOf( this.isMasterPageContent ) ) );
 
+			// append resource folder setting
 			try
 			{
 				if ( resourceFolder != null )
-					resourceFolder = URLEncoder.encode( resourceFolder,
+				{
+					String res = URLEncoder.encode( resourceFolder,
 							ParameterAccessor.UTF_8_ENCODE );
+					link.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+				}
 			}
 			catch ( UnsupportedEncodingException e )
 			{
-			}
-
-			// append resource folder setting
-			if ( resourceFolder != null )
-			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_RESOURCE_FOLDER,
-						this.resourceFolder ) );
 			}
 
 			// add bookmark
