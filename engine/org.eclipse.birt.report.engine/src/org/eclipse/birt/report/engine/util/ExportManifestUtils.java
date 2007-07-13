@@ -13,7 +13,7 @@ public class ExportManifestUtils
 	static final String[] API_JAR_PATTERNS = new String[]{
 		"chartengineapi.jar",
 		"com.ibm.icu.*.jar",
-		"commons-codec-.*.jar", 
+		"org.apache.commons.codec_.*.jar", 
 		"coreapi.jar", 
 		"dataadapterapi.jar",
 		"dteapi.jar", 
@@ -27,6 +27,7 @@ public class ExportManifestUtils
 		"org.w3c.css.sac_.*.jar", 
 		"scriptapi.jar",
 		"modelodaapi.jar",
+		"dtpdesign.jar",
 		"javax.servlet_.*.jar",
 		"javax.servlet.jsp_.*.jar"
 	};
