@@ -65,7 +65,6 @@ import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -111,21 +110,21 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
-	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" );
+	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" ); //$NON-NLS-1$
 
-	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" );
+	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
 
-	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" );
+	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
 
-	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" );
+	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" ); //$NON-NLS-1$
 
-	private static final String CHOICE_ASCENDING = Messages.getString( "ParameterDialog.Choice.ASCENDING" );
+	private static final String CHOICE_ASCENDING = Messages.getString( "ParameterDialog.Choice.ASCENDING" ); //$NON-NLS-1$
 
-	private static final String CHOICE_DESCENDING = Messages.getString( "ParameterDialog.Choice.DESCENDING" );
+	private static final String CHOICE_DESCENDING = Messages.getString( "ParameterDialog.Choice.DESCENDING" ); //$NON-NLS-1$
 
-	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" );
+	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" ); //$NON-NLS-1$
 
-	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" );
+	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" ); //$NON-NLS-1$
 
 	private static final String GROUP_MORE_OPTION = Messages.getString( "ParameterDialog.Group.MoreOption" ); //$NON-NLS-1$
 
@@ -158,7 +157,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_LIST_OF_VALUE = Messages.getString( "ParameterDialog.Label.ListOfValue" ); //$NON-NLS-1$
 
-	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" );
+	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" ); //$NON-NLS-1$
 
 	private static final String LABEL_VALUES = Messages.getString( "ParameterDialog.Label.Value" ); //$NON-NLS-1$
 
@@ -176,9 +175,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_PREVIEW = Messages.getString( "ParameterDialog.Label.Preview" ); //$NON-NLS-1$
 
-	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" );
+	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" ); //$NON-NLS-1$
 
-	private static final String LABEL_SORT_DIRECTION = Messages.getString( "ParameterDialog.Label.SortDirection" );
+	private static final String LABEL_SORT_DIRECTION = Messages.getString( "ParameterDialog.Label.SortDirection" ); //$NON-NLS-1$
 
 	private static final String CHECKBOX_ISREQUIRED = Messages.getString( "ParameterDialog.CheckBox.IsRequired" ); //$NON-NLS-1$
 
@@ -186,7 +185,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHECKBOX_HIDDEN = Messages.getString( "ParameterDialog.CheckBox.Hidden" ); //$NON-NLS-1$
 
-	private static final String CHECKBOX_DISTINCT = Messages.getString( "ParameterDialog.CheckBox.Distinct" );
+	private static final String CHECKBOX_DISTINCT = Messages.getString( "ParameterDialog.CheckBox.Distinct" ); //$NON-NLS-1$
 
 	private static final String BUTTON_LABEL_CHANGE_FORMAT = Messages.getString( "ParameterDialog.Button.ChangeFormat" ); //$NON-NLS-1$
 
@@ -589,7 +588,7 @@ public class ParameterDialog extends BaseDialog
 		previewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// start create list limitation area
-		createLabel( displayOptionSection, LABEL_LIST_LIMIT ); //$NON-NLS-1$
+		createLabel( displayOptionSection, LABEL_LIST_LIMIT );
 
 		Composite limitArea = new Composite( displayOptionSection, SWT.NULL );
 		GridLayout layout = new GridLayout( 2, false );
@@ -686,14 +685,14 @@ public class ParameterDialog extends BaseDialog
 	 */
 	public void setInput( Object input )
 	{
-		Assert.isNotNull( input );
-		Assert.isLegal( input instanceof ScalarParameterHandle );
+		//Assert.isNotNull( input );
+		//Assert.isLegal( input instanceof ScalarParameterHandle );
 		inputParameter = (ScalarParameterHandle) input;
 	}
 
 	protected boolean initDialog( )
 	{
-		Assert.isNotNull( inputParameter );
+		//Assert.isNotNull( inputParameter );
 		nameEditor.setText( inputParameter.getName( ) );
 		if ( !StringUtil.isBlank( inputParameter.getPromptText( ) ) )
 		{
@@ -782,7 +781,7 @@ public class ParameterDialog extends BaseDialog
 					{
 						defaultValueChooser.select( 0 );
 					}
-					else if ( defaultValue.equals( "" ) )
+					else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
 					{
 						defaultValueChooser.select( 1 );
 					}
@@ -846,7 +845,7 @@ public class ParameterDialog extends BaseDialog
 				{
 					defaultValueChooser.select( 1 );
 				}
-				else if ( defaultValue.equals( "" ) )
+				else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
 				{
 					defaultValueChooser.select( 2 );
 				}
@@ -975,7 +974,7 @@ public class ParameterDialog extends BaseDialog
 		try
 		{
 			String queryExpr = getExpression( columnChooser.getText( ) );
-			if ( queryExpr == null || queryExpr.equals( "" ) )
+			if ( queryExpr == null || queryExpr.equals( "" ) ) //$NON-NLS-1$
 			{
 				return Collections.EMPTY_LIST;
 			}
@@ -988,7 +987,7 @@ public class ParameterDialog extends BaseDialog
 					.getReportQueryDefn( );
 
 			ScriptExpression expression = new ScriptExpression( queryExpr );
-			String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+			String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
 			query.addResultSetExpression( columnBindingName, expression );
 			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
 
@@ -1627,7 +1626,7 @@ public class ParameterDialog extends BaseDialog
 		valueColumnExprButton = new Button( composite, SWT.PUSH );
 		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( valueColumnExprButton );
-		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
+		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) ); //$NON-NLS-1$
 		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -1655,7 +1654,7 @@ public class ParameterDialog extends BaseDialog
 		Button displayTextExprButton = new Button( composite, SWT.PUSH );
 		// displayTextExprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( displayTextExprButton );
-		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
+		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) ); //$NON-NLS-1$
 		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -1711,8 +1710,6 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 			public void widgetSelected( SelectionEvent e )
@@ -1761,7 +1758,7 @@ public class ParameterDialog extends BaseDialog
 		if ( textValue != null
 				&& ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals( CHOICE_BLANK_VALUE ) ) )
 		{
-			defaultValueChooser.setText( "" );
+			defaultValueChooser.setText( "" ); //$NON-NLS-1$
 		}
 	}
 
@@ -1800,12 +1797,12 @@ public class ParameterDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					defaultValueChooser.setText( "" );
+					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					if ( getColumnValueList( ).isEmpty( ) )
 						return;
 					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
 							.getActiveShell( ),
-							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) );
+							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
 					dialog.setColumnValueList( getColumnValueList( ) );
 					int status = dialog.open( );
 					if ( status == Window.OK )
@@ -1816,7 +1813,7 @@ public class ParameterDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-						defaultValueChooser.setText( "" );
+						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 				else
@@ -1827,7 +1824,7 @@ public class ParameterDialog extends BaseDialog
 					}
 					else if ( selection.equals( CHOICE_BLANK_VALUE ) )
 					{
-						changeDefaultValue( "" );
+						changeDefaultValue( "" ); //$NON-NLS-1$
 					}
 					if ( isStatic( ) )
 					{
@@ -1874,7 +1871,6 @@ public class ParameterDialog extends BaseDialog
 				}
 				catch ( BirtException e )
 				{
-					// TODO Auto-generated catch block
 					ExceptionHandler.handle( e );
 					return;
 				}
@@ -1970,7 +1966,7 @@ public class ParameterDialog extends BaseDialog
 
 				if ( displayTextChooser.getText( ).equals( LABEL_NULL ) )
 				{
-					inputParameter.setLabelExpr( "" );
+					inputParameter.setLabelExpr( "" ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -2582,7 +2578,7 @@ public class ParameterDialog extends BaseDialog
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
 				{
 					previewString = new DateFormatter( isCustom( ) ? formatPattern
-							: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED
+							: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 									: formatCategroy ),
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
@@ -2705,8 +2701,8 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeBlank( )
 	{
 		boolean canBeBlank = false;
-		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
-				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+//		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
+//				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
 		{
 			if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 			{
