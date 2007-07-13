@@ -723,7 +723,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				tableWidth = avaWidth - marginWidth;
 			}
 			return new TableLayoutInfo(
-					handleColummVisibity( columnWidthResolver.resolve(
+					handleColumnVisibility( columnWidthResolver.resolve(
 							tableWidth, tableWidth ) ) );
 		}
 		else
@@ -732,7 +732,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				tableWidth = Math.min( specifiedWidth, avaWidth - marginWidth );
 				return new TableLayoutInfo(
-						handleColummVisibity( columnWidthResolver.resolve(
+						handleColumnVisibility( columnWidthResolver.resolve(
 								tableWidth, avaWidth - marginWidth ) ) );
 			}
 			else
@@ -740,13 +740,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 				tableWidth = Math.min( specifiedWidth, parentMaxWidth
 						- marginWidth );
 				return new TableLayoutInfo(
-						handleColummVisibity( columnWidthResolver.resolve(
+						handleColumnVisibility( columnWidthResolver.resolve(
 								tableWidth, parentMaxWidth - marginWidth ) ) );
 			}
 		}
 	}
 
-	private int[] handleColummVisibity( int[] columns )
+	private int[] handleColumnVisibility( int[] columns )
 	{
 		// enable visibility
 		int colWidth[] = new int[columnNumber];

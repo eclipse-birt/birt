@@ -1044,7 +1044,7 @@ public class TableAreaLayout
 					CellArea emptyCell = AreaFactory
 							.createCellArea( cellContent );
 					emptyCell.setRowSpan( cellContent.getRowSpan( ) );
-					resolveBorderConflict( emptyCell, false );
+					resolveBorderConflict( emptyCell, true );
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
 					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
 					emptyCell.setHeight( row.getHeight( ) );
