@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -21,8 +20,6 @@ import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.RenderOption;
-import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -79,11 +76,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	void doRun( ) throws EngineException
 	{
 		// register default parameters and validate
-		if ( !validateParameters( ) )
-		{
-			throw new EngineException(
-					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
-		}
+		doValidateParameters( );
 
 		setupRenderOption( );
 		loadDesign( );

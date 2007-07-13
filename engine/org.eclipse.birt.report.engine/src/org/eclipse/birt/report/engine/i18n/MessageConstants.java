@@ -23,6 +23,9 @@ public class MessageConstants
 	// Exceptions
 	public static final String	FORMAT_NOT_SUPPORTED_EXCEPTION = "Error.OutputFormatNotSupported";			//$NON-NLS-1$	
 	public static final String 	INVALID_PARAMETER_EXCEPTION = "Error.InvalidParameter"; 					//$NON-NLS-1$
+	public static final String 	INVALID_PARAMETER_TYPE_EXCEPTION = "Error.InvalidParameterType"; 			//$NON-NLS-1$
+	public static final String 	NULL_PARAMETER_EXCEPTION = "Error.ParameterValueNull"; 						//$NON-NLS-1$
+	public static final String 	PARAMETER_SCRIPT_VALIDATION_EXCEPTION = "Error.ParamScriptValidationError"; //$NON-NLS-1$
 	public static final String  DESIGN_FILE_NOT_FOUND_EXCEPTION = "Error.DesignFileNotFound"; 				//$NON-NLS-1$
 	public static final String  INVALID_DESIGN_FILE_EXCEPTION = "Error.InvalidDesignFile";  				//$NON-NLS-1$
 	public static final String  CANNOT_CREATE_EMITTER_EXCEPTION = "Error.CannotCreateExtensionInstance";  	//$NON-NLS-1$

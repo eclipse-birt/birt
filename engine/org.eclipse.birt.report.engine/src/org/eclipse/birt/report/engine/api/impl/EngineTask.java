@@ -463,6 +463,21 @@ public abstract class EngineTask implements IEngineTask
 		}
 
 		// set the parameter values into the execution context
+		try
+		{
+			doValidateParameters( );
+			return true;
+		}
+		catch(ParameterValidationException ex)
+		{
+			log.log( Level.SEVERE, ex.getMessage( ), ex );
+		}
+		return false;
+	}
+	
+	protected boolean doValidateParameters() throws ParameterValidationException
+	{
+		// set the parameter values into the execution context
 		usingParameterValues( );
 
 		if ( log.isLoggable( Level.FINE ) )
@@ -470,22 +485,39 @@ public abstract class EngineTask implements IEngineTask
 			loggerParamters( );
 		}
 		// validate each parameter to see if it is validate
-		return new ParameterVisitor( ) {
-
-			boolean visitScalarParameter( ScalarParameterHandle param,
-					Object value )
+		ParameterValidationVisitor pv = new ParameterValidationVisitor( );
+		boolean result = pv.visit( (ReportDesignHandle) runnable
+				.getDesignHandle( ), null );
+		if ( pv.engineException != null )
+		{
+			throw pv.engineException;
+		}
+		return result;
+	}
+	
+	private class ParameterValidationVisitor extends ParameterVisitor
+	{
+		ParameterValidationException engineException;
+		boolean visitScalarParameter( ScalarParameterHandle param,
+				Object value )
+		{
+			try
 			{
 				return validateScalarParameter( param );
 			}
-
-			boolean visitParameterGroup( ParameterGroupHandle group,
-					Object value )
+			catch ( ParameterValidationException pe )
 			{
-				return visitParametersInGroup( group, value );
+				engineException = pe;
 			}
-		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ), null );
+			return false;
+		}
 
-	}
+		boolean visitParameterGroup( ParameterGroupHandle group,
+				Object value )
+		{
+			return visitParametersInGroup( group, value );
+		}
+	};
 
 	protected void loggerParamters( )
 	{
@@ -504,8 +536,7 @@ public abstract class EngineTask implements IEngineTask
 					buffer.append( ":" );
 					buffer.append( paramValue );
 					buffer.append( "\n" );
-
-					return validateScalarParameter( param );
+					return true;
 				}
 
 				boolean visitParameterGroup( ParameterGroupHandle group,
@@ -529,6 +560,7 @@ public abstract class EngineTask implements IEngineTask
 	 * @return true if the given parameter value is valid; false otherwise
 	 */
 	private boolean validateScalarParameter( ScalarParameterHandle paramHandle )
+			throws ParameterValidationException
 	{
 
 		String paramName = paramHandle.getName( );
@@ -543,7 +575,10 @@ public abstract class EngineTask implements IEngineTask
 
 			log.log( Level.SEVERE, "Parameter {0} doesn't allow a null value.", //$NON-NLS-1$ 
 					paramName );
-			return false;
+			
+			throw new ParameterValidationException(
+					MessageConstants.NULL_PARAMETER_EXCEPTION,
+					new String[]{paramName} );
 		}
 
 		String source = paramHandle.getValidate( );
@@ -554,8 +589,10 @@ public abstract class EngineTask implements IEngineTask
 					|| !( (Boolean) result ).booleanValue( ) )
 			{
 				log.log( Level.SEVERE, "Parameter validate failed: ", //$NON-NLS-1$ 
-					source );
-				return false;
+						source );
+				throw new ParameterValidationException(
+						MessageConstants.NULL_PARAMETER_EXCEPTION,
+						new String[]{paramName, source} );
 			}
 		}
 		
@@ -567,51 +604,42 @@ public abstract class EngineTask implements IEngineTask
 		{
 			if ( paramValue instanceof Number )
 				return true;
-
-			log
-					.log(
-							Level.SEVERE,
-							"The supplied value {0} for parameter {1} is not a number.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
-			return false;
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{type, "Float or BigDecimal"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
 			if ( paramValue instanceof Date )
 				return true;
-			log
-					.log(
-							Level.SEVERE,
-							"The supplied value {0} for parameter {1} is not a valid date time.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
-			return false;
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{type, "DateTime"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
 			if ( paramValue instanceof java.sql.Date )
 				return true;
-			log
-					.log(
-							Level.SEVERE,
-							"The supplied value {0} for parameter {1} is not a valid date.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
-			return false;
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{type, "Date"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
 			if ( paramValue instanceof java.sql.Time )
 				return true;
-			log
-					.log(
-							Level.SEVERE,
-							"The supplied value {0} for parameter {1} is not a valid time.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
-			return false;
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{type, "Time"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
 			String value = paramValue.toString( ).trim( );
 			if ( paramHandle.isRequired( ) && value.equals( "" ) ) //$NON-NLS-1$
 			{
-				log.log( Level.SEVERE,
-						"parameter {0} can't be blank.", paramName ); //$NON-NLS-1$
-				return false;
+				throw new ParameterValidationException(
+						MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+						new String[]{type, "String"} );
 			}
 			return true;
 		}
@@ -619,11 +647,9 @@ public abstract class EngineTask implements IEngineTask
 		{
 			if ( paramValue instanceof Boolean )
 				return true;
-			log
-					.log(
-							Level.SEVERE,
-							"The supplied value {0} for parameter {1} is not a boolean.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
-			return false;
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{type, "Boolean"} );
 		}
 		return true;
 	}

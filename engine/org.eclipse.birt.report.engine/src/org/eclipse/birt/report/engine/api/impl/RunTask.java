@@ -177,13 +177,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 *             throws exception when there is a run error
 	 */
 	protected void doRun( ) throws EngineException
-	{
-		// using paramters
-		if ( !validateParameters( ) )
-		{
-			throw new EngineException(
-					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
-		}
+	{	
+		doValidateParameters( );
 
 //		setupRenderOption( );
 		
