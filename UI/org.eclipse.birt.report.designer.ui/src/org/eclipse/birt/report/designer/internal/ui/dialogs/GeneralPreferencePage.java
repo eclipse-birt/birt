@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -45,6 +46,8 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 {
 
 	private Object model;
+
+	private ThemeHandle theme;
 
 	private Combo preName;
 
@@ -70,9 +73,21 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	 */
 	public GeneralPreferencePage( Object model )
 	{
+		this( model, null );
+	}
+
+	/**
+	 * Constructor with theme.
+	 * 
+	 * @param model
+	 * @param theme
+	 */
+	public GeneralPreferencePage( Object model, ThemeHandle theme )
+	{
 		super( model );
 
 		this.model = model;
+		this.theme = theme;
 	}
 
 	/**
@@ -234,7 +249,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		}
 		super.initialize( );
 		initialized = true;
-		checkPageValid();
+		checkPageValid( );
 	}
 
 	private void setPredefinedStyle( boolean b )
@@ -277,7 +292,17 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	private boolean checkName( String name, boolean showError )
 	{
 		String trimName = name.trim( );
-		Iterator iterator = DEUtil.getStyles( );
+		Iterator iterator = null;
+
+		if ( theme != null )
+		{
+			iterator = DEUtil.getStyles( theme );
+		}
+		else
+		{
+			iterator = DEUtil.getLocalStyles( );
+		}
+
 		while ( iterator.hasNext( ) )
 		{
 			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );

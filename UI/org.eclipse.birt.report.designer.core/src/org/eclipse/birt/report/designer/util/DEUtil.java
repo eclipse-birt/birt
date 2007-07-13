@@ -1599,6 +1599,101 @@ public class DEUtil
 	}
 
 	/**
+	 * Get styles
+	 * 
+	 * @return Alphabetically sortted styles list.
+	 */
+	public static Iterator getLocalStyles( )
+	{
+		return getLocalStyles( new AlphabeticallyComparator( ) );
+	}
+
+	/**
+	 * Get styles
+	 * 
+	 * @param comparator
+	 * @return return styles list sortted with given comparator.
+	 */
+	public static Iterator getLocalStyles( Comparator comparator )
+	{
+		List styles = null;
+
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		{
+			styles = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getStyles( )
+					.getContents( );
+		}
+		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		{
+			styles = new ArrayList( );
+			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) ).getTheme( );
+
+			if ( theme != null )
+			{
+				styles.addAll( theme.getAllStyles( ) );
+			}
+		}
+
+		Object[] stylesArray = ( styles == null ? new Object[0]
+				: styles.toArray( ) );
+
+		if ( comparator != null )
+		{
+			Arrays.sort( stylesArray, comparator );
+		}
+		return Arrays.asList( stylesArray ).iterator( );
+	}
+
+	/**
+	 * Get styles
+	 * 
+	 * @return Alphabetically sortted styles list.
+	 */
+	public static Iterator getStyles( ThemeHandle theme )
+	{
+		return getStyles( theme, new AlphabeticallyComparator( ) );
+	}
+
+	/**
+	 * Get styles
+	 * 
+	 * @param comparator
+	 * @return return styles list sortted with given comparator.
+	 */
+	public static Iterator getStyles( ThemeHandle theme, Comparator comparator )
+	{
+		List styles = new ArrayList( );
+
+		if ( theme != null )
+		{
+			styles.addAll( theme.getAllStyles( ) );
+		}
+		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		{
+			styles = new ArrayList( );
+			theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) ).getTheme( );
+
+			if ( theme != null )
+			{
+				styles.addAll( theme.getAllStyles( ) );
+			}
+		}
+
+		Object[] stylesArray = styles.toArray( new Object[styles.size( )] );
+
+		if ( comparator != null )
+		{
+			Arrays.sort( stylesArray, comparator );
+		}
+
+		return Arrays.asList( stylesArray ).iterator( );
+	}
+
+	/**
 	 * Checks if two strings have same value.
 	 * 
 	 * @param str1
@@ -2607,6 +2702,7 @@ public class DEUtil
 
 	/**
 	 * Return the aggregate on display string
+	 * 
 	 * @param element
 	 * @return
 	 */

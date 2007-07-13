@@ -84,7 +84,7 @@ public class NewStyleHandler extends SelectionHandler
 		{
 			StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
-					.getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
+					.getActiveShell( ), styleHandle, themeHandle, StyleBuilder.DLG_TITLE_NEW );
 			if ( dialog.open( ) == Window.OK )
 			{
 				if ( themeHandle != null )

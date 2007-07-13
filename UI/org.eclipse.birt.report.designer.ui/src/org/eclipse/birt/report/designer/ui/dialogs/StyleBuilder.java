@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.MapPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PageBreakPreferencePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -63,7 +64,19 @@ public class StyleBuilder extends PreferenceDialog
 	public StyleBuilder( Shell parentShell, ReportElementHandle handle,
 			String title )
 	{
-		super( parentShell, createPreferenceManager( handle ) );		
+		this( parentShell, handle, null, title );
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param parentShell
+	 * @param handle
+	 */
+	public StyleBuilder( Shell parentShell, ReportElementHandle handle,
+			ThemeHandle theme, String title )
+	{
+		super( parentShell, createPreferenceManager( handle, theme ) );
 		this.title = title;
 	}
 
@@ -87,11 +100,11 @@ public class StyleBuilder extends PreferenceDialog
 	protected void configureShell( Shell newShell )
 	{
 		super.configureShell( newShell );
-		newShell.setText( title ); 
+		newShell.setText( title );
 	}
 
 	private static PreferenceManager createPreferenceManager(
-			ReportElementHandle handle )
+			ReportElementHandle handle, ThemeHandle theme )
 	{
 		PreferenceManager preferenceManager = new PreferenceManager( '/' );
 
@@ -100,7 +113,7 @@ public class StyleBuilder extends PreferenceDialog
 
 		// adds preference pages into page contributions.
 		pageContributions.add( new PreferenceNode( "General", //$NON-NLS-1$
-				new GeneralPreferencePage( handle ) ) );
+				new GeneralPreferencePage( handle, theme ) ) );
 		pageContributions.add( new PreferenceNode( "Font", //$NON-NLS-1$
 				new FontPreferencePage( handle ) ) );
 		pageContributions.add( new PreferenceNode( "Background", //$NON-NLS-1$

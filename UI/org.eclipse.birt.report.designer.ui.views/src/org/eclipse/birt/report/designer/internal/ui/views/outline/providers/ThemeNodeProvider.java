@@ -14,25 +14,26 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.UseCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with theme node
@@ -83,16 +84,19 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	protected DesignElementHandle createElement( SlotHandle slotHandle,
 			String type ) throws Exception
 	{
+		ThemeHandle theme = (ThemeHandle) slotHandle.getElementHandle( );
 		DesignElementFactory factory = DesignElementFactory.getInstance( );
-		DesignElementHandle handle = factory.newStyle( (ThemeHandle) slotHandle.getElementHandle( ),
-				null );
-		if ( ProviderFactory.createProvider( handle ).performRequest( handle,
-				new Request( IRequestConstants.REQUEST_TYPE_EDIT ) ) )
+		SharedStyleHandle handle = factory.newStyle( theme, null );
+
+		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), handle, theme, StyleBuilder.DLG_TITLE_NEW );
+		if ( builder.open( ) == Dialog.CANCEL )
 		{
-			return handle;
+			return null;
 		}
 
-		return null;
+		return handle;
 	}
 
 	/*

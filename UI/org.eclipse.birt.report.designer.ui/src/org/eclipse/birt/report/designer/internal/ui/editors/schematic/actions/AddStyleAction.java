@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.ArrayList;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -102,10 +106,25 @@ public class AddStyleAction extends ContextSelectionAction
 // ExceptionHandler.handle( e );
 // }
 
+		boolean hasTheme = false;
+
 		if ( themeHandle != null )
 		{
+			hasTheme = true;
 			CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
 					themeHandle );
+		}
+		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		{
+			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) ).getTheme( );
+
+			if ( theme != null )
+			{
+				hasTheme = true;
+				CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
+						theme );
+			}
 		}
 
 		try
@@ -118,7 +137,7 @@ public class AddStyleAction extends ContextSelectionAction
 		}
 		finally
 		{
-			if ( themeHandle != null )
+			if ( hasTheme )
 			{
 				CommandUtils.removeVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
 			}
@@ -126,30 +145,30 @@ public class AddStyleAction extends ContextSelectionAction
 
 	}
 
-//	/**
-//	 * Applys style to selected elements.
-//	 * 
-//	 * @param styleHandle
-//	 */
-//	private void applyStyle( SharedStyleHandle styleHandle )
-//	{
-//		List handles = getElementHandles( );
-//		for ( int i = 0; i < handles.size( ); i++ )
-//		{
-//			try
-//			{
-//				if ( handles.get( i ) instanceof ReportElementHandle )
-//				{
-//					// set style
-//					( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
-//				}
-//			}
-//			catch ( StyleException e )
-//			{
-//				e.printStackTrace( );
-//			}
-//		}
-//	}
+// /**
+// * Applys style to selected elements.
+// *
+// * @param styleHandle
+// */
+// private void applyStyle( SharedStyleHandle styleHandle )
+// {
+// List handles = getElementHandles( );
+// for ( int i = 0; i < handles.size( ); i++ )
+// {
+// try
+// {
+// if ( handles.get( i ) instanceof ReportElementHandle )
+// {
+// // set style
+// ( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
+// }
+// }
+// catch ( StyleException e )
+// {
+// e.printStackTrace( );
+// }
+// }
+// }
 
 	public void setThemeHandle( ThemeHandle themeHandle )
 	{
