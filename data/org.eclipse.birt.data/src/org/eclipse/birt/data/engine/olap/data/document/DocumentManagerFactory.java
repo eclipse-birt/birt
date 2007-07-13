@@ -98,6 +98,32 @@ public class DocumentManagerFactory
 		return FileDocumentManager.createManager( dirName, managerName );
 	}
 	
+	/**
+	 * 
+	 * @param dirName
+	 * @param managerName
+	 * @param cacheSize
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	static public IDocumentManager createFileDocumentManager( String dirName,
+			String managerName, int cacheSize ) throws DataException,
+			IOException
+	{
+		return FileDocumentManager.createManager( dirName,
+				managerName,
+				cacheSize );
+	}
+	
+	/**
+	 * 
+	 * @param dirName
+	 * @param managerName
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
 	static public IDocumentManager loadFileDocumentManager( String dirName, String managerName ) throws DataException, IOException
 	{
 		return FileDocumentManager.loadManager( dirName, managerName );

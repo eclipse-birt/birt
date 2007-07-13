@@ -30,9 +30,13 @@ import org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAcc
  */
 public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 {
-
-	RandomAccessFile delegate;
-
+	private RandomAccessFile delegate;
+	private byte[] memoryDelegate;
+	private int pointer;
+	private int length;
+	private File file;
+	private String mode;
+	
 	/**
 	 * Constructor for the BufferedRandomAccessFile object
 	 * 
@@ -45,12 +49,48 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 * @exception IOException
 	 *                Description of Exception
 	 */
-	public BufferedRandomAccessFile( File file, String mode, int bufferSize )
+	public BufferedRandomAccessFile( File file, String mode, int bufferSize, int cacheSize )
 			throws IOException
 	{
 		super( bufferSize );
-		delegate = new RandomAccessFile( file, mode );
+		this.file = file;
+		this.mode = mode;
+		if ( file.exists( ) || cacheSize <= 0 )
+		{
+			createRandomAccessFile( );
+		}
+		else
+		{
+			memoryDelegate = new byte[cacheSize];
+		}
 		fillBuffer( );
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param mode
+	 * @param bufferSize
+	 * @throws IOException
+	 */
+	public BufferedRandomAccessFile( File file, String mode, int bufferSize )
+		throws IOException
+	{
+		this( file, mode, bufferSize, 0 );
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void createRandomAccessFile( ) throws IOException
+	{
+		delegate = new RandomAccessFile( file, mode );
+		if ( memoryDelegate != null || length > 0 )
+		{
+			delegate.write( memoryDelegate, 0, length );
+			delegate.seek( pointer );
+		}
 	}
 	
 	/*
@@ -59,6 +99,10 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected void delegateClose( ) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			return;
+		}
 		delegate.close( );
 	}
 
@@ -68,6 +112,10 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected long delegateGetFilePointer( ) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			return pointer;
+		}
 		return delegate.getFilePointer( );
 	}
 
@@ -77,6 +125,10 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected long delegateLength( ) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			return length;
+		}
 		return delegate.length( );
 	}
 
@@ -86,6 +138,14 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected int delegateRead(byte[] b, int pos, int len) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			int size = Math.min( length - pointer, len );
+			if( size <= 0 )
+				return -1;
+			System.arraycopy( memoryDelegate, pointer, b, pos, size );
+			return size;
+		}
 		return delegate.read(b, pos, len);
 	}
 
@@ -95,7 +155,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected int delegateRead(byte[] b) throws IOException 
 	{
-		return delegate.read( b );
+		return delegateRead( b, 0, b.length );
 	}
 
 	/*
@@ -104,6 +164,18 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected void delegateSeek( long pos ) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			if( pos > memoryDelegate.length )
+			{
+				createRandomAccessFile( );
+			}
+			else
+			{
+				pointer = (int) pos;
+				return;
+			}
+		}
 		delegate.seek( pos );
 	}
 
@@ -113,6 +185,18 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected void delegateSetLength( long newLength ) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			if( newLength > memoryDelegate.length )
+			{
+				createRandomAccessFile( );
+			}
+			else
+			{
+				length = (int) newLength;
+			}
+			return;
+		}
 		delegate.setLength( newLength );
 	}
 
@@ -122,6 +206,23 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	protected void delegateWrite(byte[] b, int pos, int len) throws IOException 
 	{
+		if ( delegate == null )
+		{
+			if( pointer + len > memoryDelegate.length )
+			{
+				createRandomAccessFile( );
+			}
+			else
+			{
+				System.arraycopy( b, pos, memoryDelegate, pointer, len );
+				if( pointer + len > length )
+				{
+					length = pointer + len;
+				}
+				pointer += len;
+				return;
+			}
+		}
 		delegate.write(b, pos, len);
 	}
 }

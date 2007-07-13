@@ -27,7 +27,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 {
-	
+	private int dataFileCacheSize = 0;
 	private BufferedRandomAccessFile objectAccessFile = null;
 	private BufferedRandomAccessFile oatAccessFile = null;
 	private BufferedRandomAccessFile dataAccessFile = null;
@@ -46,7 +46,22 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	static FileDocumentManager createManager( String dirName, String managerName ) throws DataException, IOException
 	{
-		FileDocumentManager manager = new FileDocumentManager( );
+		return createManager( dirName, managerName, 0);
+	}
+	
+	/**
+	 * 
+	 * @param dirName
+	 * @param managerName
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	static FileDocumentManager createManager( String dirName,
+			String managerName, int cacheSize ) throws DataException,
+			IOException
+	{
+		FileDocumentManager manager = new FileDocumentManager( cacheSize );
 		manager.create( dirName, managerName );
 		return manager;
 	}
@@ -66,9 +81,21 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		return manager;
 	}
 	
+	/**
+	 * 
+	 */
 	private FileDocumentManager(  )
 	{
-		
+		this.dataFileCacheSize = 0;
+	}
+	
+	/**
+	 * 
+	 * @param fileCacheSize
+	 */
+	private FileDocumentManager( int fileCacheSize )
+	{
+		this.dataFileCacheSize = fileCacheSize;
 	}
 	
 	/**
@@ -81,51 +108,18 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	private void create( String dirName, String managerName ) throws IOException, DataException
 	{
 		documentObjectMap = new HashMap( );
-		
-		objectFile = new File( dirName + File.separatorChar + managerName + "obj" );
-		if ( !objectFile.exists( ) )
+		if ( !new File(dirName).exists( ) )
 		{
-			if ( !new File(dirName).exists( ) )
-			{
-				new File(dirName).mkdirs( );
-			}	
-			try
-			{
-				if ( !objectFile.createNewFile( ) )
-				{
-					throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-							objectFile.getAbsolutePath( ) );
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL, e,
-						objectFile.getAbsolutePath( ) );
-			}
+			new File(dirName).mkdirs( );
 		}
-		objectAccessFile = new BufferedRandomAccessFile( objectFile, "rw", 1024 );
+		objectFile = new File( dirName + File.separatorChar + managerName + "obj" );
+		objectAccessFile = new BufferedRandomAccessFile( objectFile, "rw", 1024, dataFileCacheSize / 5 );
 		objectAccessFile.setLength( 0 );
 		oatFile = new File( dirName + File.separatorChar + managerName + "Oat" );
-		if ( !oatFile.exists( ) )
-		{
-			if ( !oatFile.createNewFile( ) )
-			{
-				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-						oatFile.getAbsolutePath( ) );
-			}
-		}
-		oatAccessFile = new BufferedRandomAccessFile( oatFile, "rw", 1024 );
+		oatAccessFile = new BufferedRandomAccessFile( oatFile, "rw", 1024, dataFileCacheSize / 10 );
 		oatAccessFile.setLength( 0 );
 		dataFile = new File( dirName + File.separatorChar + managerName + "data" );
-		if ( !dataFile.exists( ) )
-		{
-			if ( !dataFile.createNewFile( ) )
-			{
-				throw new DataException( ResourceConstants.OLAPFILE_CREATE_FAIL,
-						dataFile.getAbsolutePath( ) );
-			}
-		}
-		dataAccessFile = new BufferedRandomAccessFile( dataFile, "rw", 1024 );
+		dataAccessFile = new BufferedRandomAccessFile( dataFile, "rw", 1024, dataFileCacheSize );
 		dataAccessFile.setLength( 0 );
 	}
 	
@@ -141,7 +135,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		documentObjectMap = new HashMap( );
 		
 		File file = new File( dirName + File.separatorChar + managerName + "obj" );
-		objectAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		objectAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 5 );
 		if ( !file.exists( ) )
 		{
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
@@ -154,7 +148,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
-		oatAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		oatAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize / 10 );
 		
 		file = new File( dirName + File.separatorChar + managerName + "data" );
 		if ( !file.exists( ) )
@@ -162,7 +156,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			throw new DataException( ResourceConstants.OLAPFILE_NOT_FOUND,
 					file.getAbsolutePath( ) );
 		}
-		dataAccessFile = new BufferedRandomAccessFile( file, "rw", 1024 );
+		dataAccessFile = new BufferedRandomAccessFile( file, "rw", 1024, dataFileCacheSize );
 		
 		objectAccessFile.seek( 0 );
 		while(true)
