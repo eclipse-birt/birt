@@ -16,7 +16,7 @@
 	<!-- Available parameters :                                                -->
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
-	<target name="pre.build.jars">
+	<target name="pre.viewer.jar">
 	</target>
 	<target name="post.viewer.jar">
 		<property name="basedir" location="." />
@@ -149,7 +149,8 @@
 	<!-- ===================================================================== -->
 	<target name="post.compile.name">
 	</target>
-
+	<target name="post.compile.viewer.jar">
+	</target>
 	<target name="post.compile.@dot">
 	</target>
 
