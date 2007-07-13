@@ -18,6 +18,8 @@
 	<!-- ===================================================================== -->
 	<target name="pre.viewer.jar">
 	</target>
+	<target name="pre.build.jars">
+	</target>
 	<target name="post.viewer.jar">
 		<property name="basedir" location="." />
 		<property name="birt.dir" value="birt" />
