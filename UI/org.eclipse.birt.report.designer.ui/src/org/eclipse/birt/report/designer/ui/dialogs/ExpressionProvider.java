@@ -57,6 +57,13 @@ import org.eclipse.swt.graphics.Image;
 public class ExpressionProvider implements IExpressionProvider
 {
 
+	private boolean hideCurrentCube = false;
+	
+	public void setHideCurrentCube(boolean hide)
+	{
+		hideCurrentCube = hide;
+	}
+	
 	private static class Expression
 	{
 
@@ -261,7 +268,7 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			categoryList.add( COLUMN_BINDINGS );
 		}
-		if ( elementHandle instanceof ReportItemHandle
+		if (hideCurrentCube == false &&  elementHandle instanceof ReportItemHandle
 				&& ( (ReportItemHandle) elementHandle ).getCube( ) != null )
 		{
 			categoryList.add( CURRENT_CUBE );

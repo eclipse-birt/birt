@@ -826,7 +826,9 @@ public class MapRuleBuilder extends BaseDialog
 
 		if ( designHandle != null )
 		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+			ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
+			expressionProvider.setHideCurrentCube( true );
+			expressionBuilder.setExpressionProvier( expressionProvider );
 		}
 
 		if ( expressionBuilder.open( ) == OK )
