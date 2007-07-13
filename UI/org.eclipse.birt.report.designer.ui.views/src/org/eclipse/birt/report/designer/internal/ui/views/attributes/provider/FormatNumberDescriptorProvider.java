@@ -142,7 +142,42 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 				String result = formater.format( 1 );
 				if ( result.endsWith( symbol ) )
 				{
-					pattern = "###,##0.00\u00A4";//$NON-NLS-1$
+					pattern = "###,##0.00";//$NON-NLS-1$
+
+					result = result.substring( 0, result.indexOf( symbol ) );
+
+					for ( int i = result.length( ) - 1; i >= 0; i-- )
+					{
+						if ( result.charAt( i ) == ' ' )
+						{
+							pattern += " "; //$NON-NLS-1$
+							continue;
+						}
+
+						break;
+					}
+
+					pattern += "\u00A4"; //$NON-NLS-1$
+				}
+				else
+				{
+					pattern = "\u00A4"; //$NON-NLS-1$
+
+					result = result.substring( result.indexOf( symbol )
+							+ symbol.length( ) );
+
+					for ( int i = 0; i < result.length( ); i++ )
+					{
+						if ( result.charAt( i ) == ' ' )
+						{
+							pattern += " "; //$NON-NLS-1$
+							continue;
+						}
+
+						break;
+					}
+
+					pattern += "###,##0.00"; //$NON-NLS-1$
 				}
 			}
 		}
@@ -152,7 +187,25 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 		}
 		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT.equals( category ) )
 		{
-			pattern = "0.00%"; //$NON-NLS-1$
+			pattern = "0.00"; //$NON-NLS-1$
+			NumberFormat formater = NumberFormat.getPercentInstance( );
+			String result = formater.format( 1 );
+			if ( result.indexOf( '%' ) > 0 )
+			{
+				result = result.substring( 0, result.indexOf( '%' ) );
+
+				for ( int i = result.length( ) - 1; i >= 0; i-- )
+				{
+					if ( result.charAt( i ) == ' ' )
+					{
+						pattern += " "; //$NON-NLS-1$
+						continue;
+					}
+
+					break;
+				}
+			}
+			pattern += "%"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC.equals( category ) )
 		{
@@ -303,6 +356,5 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 				baseCategory, basePattern
 		};
 	}
-	
 
 }

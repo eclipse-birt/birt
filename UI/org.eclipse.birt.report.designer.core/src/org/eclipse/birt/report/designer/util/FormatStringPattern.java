@@ -38,22 +38,22 @@ public class FormatStringPattern
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
-			pattern = Messages.getString( "FormatStringPage.simpleTexZipCodeFormat" );
+			pattern = Messages.getString( "FormatStringPage.simpleTexZipCodeFormat" ); //$NON-NLS-1$
 		//	pattern = "@@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
-			pattern = Messages.getString( "FormatStringPage.simpleTexZipCode4Format" );
+			pattern = Messages.getString( "FormatStringPage.simpleTexZipCode4Format" ); //$NON-NLS-1$
 		//	pattern = "@@@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
-			pattern = Messages.getString( "FormatStringPage.phoneNumberFormat" );
+			pattern = Messages.getString( "FormatStringPage.phoneNumberFormat" ); //$NON-NLS-1$
 		//	pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
-			pattern = Messages.getString( "FormatStringPage.securityNumberFormat" );
+			pattern = Messages.getString( "FormatStringPage.securityNumberFormat" ); //$NON-NLS-1$
 		//	pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
 		}
 		else
