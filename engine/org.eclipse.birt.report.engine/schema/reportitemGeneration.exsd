@@ -12,9 +12,11 @@
 
    <element name="extension">
       <complexType>
-         <sequence>
-            <element ref="reportItem" minOccurs="1" maxOccurs="unbounded"/>
-         </sequence>
+         <choice>
+            <element ref="reportItem" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="reportItemExecutor" minOccurs="0"
+maxOccurs="unbounded"/>
+         </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
@@ -44,15 +46,44 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the unique name of the extended item, i.e., &quot;org.eclipse.birt.chart&quot; for chart extension.
+                  the unique name of the extended item, i.e.,
+&quot;org.eclipse.birt.chart&quot; for chart extension.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  the fully qualified name of the java class that implements &lt;code&gt;IReportItemGeneration&lt;/code&gt;
+                  the fully qualified name of the java class that implements
+&lt;code&gt;IReportItemGeneration&lt;/code&gt;
                </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"
+basedOn=":org.eclipse.birt.report.engine.extension.IReportItemGeneration"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="reportItemExecutor">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"
+basedOn=":org.eclipse.birt.report.engine.extension.IReportItemExecutor"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

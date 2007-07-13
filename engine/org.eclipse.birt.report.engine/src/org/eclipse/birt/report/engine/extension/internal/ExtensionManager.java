@@ -144,7 +144,14 @@ public class ExtensionManager
 				return new ExtendedGenerateExecutor( manager,
 						(IReportItemGeneration) object );
 			}
+			logger
+					.log(
+							Level.WARNING,
+							"Create Report Item Executor fail, Config not exist class: {0}", config.getName( ) ); //$NON-NLS-1$
+			return null;
 		}
+		logger.log( Level.WARNING,
+				"Create Report Item Executor fail, config is null." ); //$NON-NLS-1$
 		return null;
 	}
 	
