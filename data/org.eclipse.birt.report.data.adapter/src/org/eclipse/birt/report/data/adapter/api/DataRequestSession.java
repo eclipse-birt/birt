@@ -153,7 +153,7 @@ public abstract class DataRequestSession
 	 * these events will be properly handled.
 	 * 
 	 * @param dataSetHandle
-	 * @return the result metadata of specfied dataSetHandle
+	 * @return the result metadata of specified dataSetHandle
 	 * @throws BirtException
 	 */
 	public abstract IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
@@ -265,7 +265,7 @@ public abstract class DataRequestSession
 	 * 
 	 * If and only if current mode is DataEngineContext.MODE_PRESENTATION, query
 	 * result can be retrieved from report document. Otherwise a BirtException
-	 * will be thrown immediatelly.
+	 * will be thrown immediately.
 	 */
 	public abstract IQueryResults getQueryResults( String queryResultID )
 			throws BirtException;
@@ -281,14 +281,34 @@ public abstract class DataRequestSession
 	public abstract void defineCube( CubeHandle cubeDesign ) throws BirtException;
 	
 	/**
-	 * Prepare an ICubeQueryDefinition intstance, return an IPreparedCubeQuery
-	 * instance, which is inturn used to acquire cube cursor.
+	 * Prepare an ICubeQueryDefinition instance, return an IPreparedCubeQuery
+	 * instance, which is in turn used to acquire cube cursor.
 	 * 
 	 * @param query
 	 * @return
 	 */
 	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query ) throws BirtException;
-	
+
+	/**
+	 * Prepare an ICubeQueryDefinition instance, return an IPreparedCubeQuery
+	 * instance, which is in turn used to acquire cube cursor.
+	 * 
+	 * @param query
+	 *            CubeQueryDefinition defines the logic of a cube query.
+	 * @param appContext
+	 *            Application context data associated with this query.
+	 *            appContext is passed to all data source and data set drivers
+	 *            involved with the query execution. Pass in null if the session
+	 *            application context (set by DataSessionContext.setAppContext)
+	 *            is to to used. If not null, this context is used instead of
+	 *            the session application context
+	 * @returnThe <code>IPreparedCubeQuery</code> object that contains a
+	 *            prepared query ready for execution.
+	 * @throws BirtException
+	 */
+	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query,
+			Map appContext ) throws BirtException;
+
 	/**
 	 * Get the ICubeQueryResults instance that is stored in report document
 	 * based on the given id. This is for presentation time only.
@@ -313,7 +333,7 @@ public abstract class DataRequestSession
 	 *            Application context data associated with this query. 
 	 *            appContext is passed to all data source and data set drivers
 	 *            involved with the query execution. Pass in null if the session
-	 *            applicaton context (set by DataSessionContext.setAppContext) is to
+	 *            application context (set by DataSessionContext.setAppContext) is to
 	 *            to used. If not null, this context is used instead of the session
 	 *            application context
 	 * @return The <code>IPreparedQuery</code> object that contains a prepared
@@ -357,7 +377,7 @@ public abstract class DataRequestSession
 	/**
 	 * Delete the cache content of the specified data set. Subsequent requests
 	 * using this data set will cause its cache to be regenerated with updated
-	 * dadta
+	 * data
 	 * 
 	 * @param dataSource,
 	 *            which is associated with the data set

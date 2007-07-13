@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -98,6 +99,19 @@ public class DataSetIterator implements IDatasetIterator
 	public DataSetIterator( DataRequestSessionImpl session,
 			TabularHierarchyHandle hierHandle ) throws AdapterException
 	{
+		this( session, hierHandle, null );
+	}
+	
+	/**
+	 * Create DataSetIterator for a hierarchy.
+	 * 
+	 * @param session
+	 * @param hierHandle
+	 * @throws BirtException
+	 */
+	public DataSetIterator( DataRequestSessionImpl session,
+			TabularHierarchyHandle hierHandle, Map appContext ) throws AdapterException
+	{
 		QueryDefinition query = new QueryDefinition( );
 		query.setUsesDetails( false );
 		
@@ -108,12 +122,12 @@ public class DataSetIterator implements IDatasetIterator
 				hierHandle, metaList, null );
 		
 		popualteFilter( session, hierHandle.filtersIterator( ), query );
-		executeQuery( session, query );
+		executeQuery( session, query, appContext );
 		
 		this.metadata = new ResultMeta( metaList );
 	}
 
-	private void executeQuery( DataRequestSessionImpl session, QueryDefinition query )
+	private void executeQuery( DataRequestSessionImpl session, QueryDefinition query, Map appContext )
 			throws AdapterException
 	{
 		try
@@ -122,7 +136,7 @@ public class DataSetIterator implements IDatasetIterator
 			Scriptable scope = session.getScope( );
 			TempDateTransformer tt = new TempDateTransformer();
 			ScriptableObject.putProperty( scope, tt.getClassName( ), tt );
-			this.it = session.prepare( query ).execute( scope ).getResultIterator( );
+			this.it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
 		}
 		catch ( BirtException e )
 		{
@@ -131,6 +145,19 @@ public class DataSetIterator implements IDatasetIterator
 	}
 
 	/**
+	 * 
+	 * @param session
+	 * @param cubeHandle
+	 * @param appContext
+	 * @throws BirtException
+	 */
+	public DataSetIterator( DataRequestSessionImpl session,
+			TabularCubeHandle cubeHandle ) throws BirtException
+	{
+		this( session, cubeHandle, null );
+	}
+	
+	/**
 	 * Create DataSetIterator for fact table.
 	 * 
 	 * @param session
@@ -138,7 +165,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSessionImpl session,
-			TabularCubeHandle cubeHandle ) throws BirtException
+			TabularCubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
 
@@ -206,7 +233,7 @@ public class DataSetIterator implements IDatasetIterator
 
 		prepareMeasure( cubeHandle, query, metaList );
 		this.popualteFilter( session, cubeHandle.filtersIterator( ), query );
-		executeQuery( session, query );
+		executeQuery( session, query, appContext );
 		this.metadata = new ResultMeta( metaList );
 
 	}

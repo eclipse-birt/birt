@@ -17,6 +17,7 @@ package org.eclipse.birt.report.data.adapter.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
+	private Map cubeHandleMap;
 
 	/**
 	 * Constructs the data request session with the provided session context
@@ -100,6 +102,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		dataEngine = DataEngine.newDataEngine( context.getDataEngineContext( ) );
 		modelAdaptor = new ModelAdapter( context );
 		sessionContext = context;
+		cubeHandleMap = new HashMap( );
 
 		// Comments out the following code. Now the definition of all data elements
 		// will be defered until necessary.
@@ -291,13 +294,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return dataEngine.prepare( query, appContext );
 	}
 
-	/**
+	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition)
 	 */
-	public IPreparedQuery prepare(IQueryDefinition query) throws BirtException
+	public IPreparedQuery prepare( IQueryDefinition query )
+			throws BirtException
 	{
 		// Use session app context
-		return dataEngine.prepare( query, this.sessionContext.getAppContext() );
+		return dataEngine.prepare( query, this.sessionContext.getAppContext( ) );
 	}
 
 	/*
@@ -443,14 +447,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IBasePreparedQuery prepare( IDataQueryDefinition query,
 			Map appContext ) throws AdapterException
 	{
-
 		try
 		{
 			if ( query instanceof IQueryDefinition )
 				return prepare( (IQueryDefinition) query, appContext == null
 						? this.sessionContext.getAppContext( ) : appContext );
 			else if ( query instanceof ICubeQueryDefinition )
-				return prepare( (ICubeQueryDefinition) query );
+				return prepare( (ICubeQueryDefinition) query,
+						appContext == null
+								? this.sessionContext.getAppContext( )
+								: appContext );
 			else
 				return null;
 		}
@@ -461,33 +467,49 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.DataEngine#defineCube(org.eclipse.birt.report.model.api.olap.CubeHandle)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#defineCube(org.eclipse.birt.report.model.api.olap.CubeHandle)
 	 */
-	public void defineCube( CubeHandle cubeHandle ) throws BirtException
+	public void defineCube( CubeHandle cubeDesign ) throws BirtException
+	{
+		if ( !cubeHandleMap.containsKey( cubeDesign.getQualifiedName( ) ) )
+		{
+			this.cubeHandleMap.put( cubeDesign.getQualifiedName( ), cubeDesign );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @param appContext
+	 * @throws BirtException
+	 */
+	private void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
 			CubeMaterializer cubeMaterializer = null;
+			if ( appContext == null )
+				appContext = sessionContext.getAppContext( );
 
 			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
 			{
 				cubeMaterializer = createCubeMaterializer( cubeHandle );
-				createCube( (TabularCubeHandle)cubeHandle, cubeMaterializer );
+				createCube( (TabularCubeHandle) cubeHandle,
+						cubeMaterializer,
+						appContext );
 				cubeMaterializer.close( );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
 				cubeMaterializer = createCubeMaterializer( cubeHandle );
-				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer );
+				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
 				cubeMaterializer.close( );
 			}
-		} 
+		}
 		catch ( Exception e )
 		{
 			throw new DataException( e.getLocalizedMessage( ) );
@@ -521,8 +543,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private void createCube( TabularCubeHandle cubeHandle,
-			CubeMaterializer cubeMaterializer ) throws IOException,
-			BirtException, DataException
+			CubeMaterializer cubeMaterializer, Map appContext )
+			throws IOException, BirtException, DataException
 	{
 		List measureNames = new ArrayList( );
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
@@ -537,7 +559,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 
-		IDimension[] dimensions = populateDimensions( cubeMaterializer, cubeHandle );
+		IDimension[] dimensions = populateDimensions( cubeMaterializer,
+				cubeHandle,
+				appContext );
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 
@@ -613,7 +637,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				factTableKey,
 				dimensionKey,
 				dimensions,
-				new DataSetIterator( this, cubeHandle ),
+				new DataSetIterator( this, cubeHandle, appContext ),
 				this.toStringArray( measureNames ),
 				null );
 	} 
@@ -678,14 +702,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
-			TabularCubeHandle cubeHandle ) throws IOException, BirtException, DataException
+			TabularCubeHandle cubeHandle, Map appContext ) throws IOException, BirtException, DataException
 	{
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
 		for ( int i = 0; i < dimHandles.size( ); i++ )
 		{
 			result.add( populateDimension( cubeMaterializer,
-					(DimensionHandle) dimHandles.get( i ), cubeHandle ) );
+					(DimensionHandle) dimHandles.get( i ),
+					cubeHandle,
+					appContext ) );
 		}
 		
 		IDimension[] dimArray = new IDimension[dimHandles.size( )];
@@ -707,7 +733,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension populateDimension( CubeMaterializer cubeMaterializer,
-			DimensionHandle dim, TabularCubeHandle cubeHandle ) throws IOException,
+			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext ) throws IOException,
 			BirtException, DataException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
@@ -751,7 +777,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
 		
 			iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ), hierhandle.getName( ),
-					new DataSetIterator( this, hierhandle ),
+					new DataSetIterator( this, hierhandle, appContext ),
 					levelInHier ) );
 		}
 		return cubeMaterializer.createDimension( dim.getName( ),
@@ -791,13 +817,26 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	public IPreparedCubeQuery prepare( ICubeQueryDefinition query )
+	public IPreparedCubeQuery prepare( ICubeQueryDefinition query ) throws BirtException
+	{
+		return this.prepare( query, null );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 */
+	public IPreparedCubeQuery prepare( ICubeQueryDefinition query, Map appContext )
 			throws BirtException
 	{
-		return this.dataEngine.prepare( query, null );
+		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
+		{
+			this.materializeCube( (CubeHandle) this.cubeHandleMap.get( query.getName( ) ),
+					appContext );
+			this.cubeHandleMap.remove( query.getName( ) );
+		}
+		return this.dataEngine.prepare( query, appContext );
 	}
 
 	/*
@@ -820,7 +859,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return new CubeQueryUtil( this );
 	}
 	
-	public Scriptable getScope() throws AdapterException
+	public Scriptable getScope( ) throws AdapterException
 	{
 		try
 		{

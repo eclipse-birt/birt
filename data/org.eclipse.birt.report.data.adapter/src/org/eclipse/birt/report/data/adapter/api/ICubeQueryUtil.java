@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.adapter.api;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -73,6 +74,20 @@ public interface ICubeQueryUtil
 			Object[] values ) throws AdapterException;
 	
 	/**
+	 * 
+	 * @param cubeHandle
+	 * @param targetLevel
+	 * @param higherLevelDefns
+	 * @param values
+	 * @param appContext
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, ILevelDefinition[] higherLevelDefns,
+			Object[] values, Map appContext ) throws AdapterException;
+	
+	/**
 	 * Return member value of a given level.
 	 * @param cubeHandle
 	 * @param dataBindingExpr
@@ -83,6 +98,19 @@ public interface ICubeQueryUtil
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String dataBindingExpr, ICubeQueryDefinition queryDefn )
 			throws AdapterException;
+	
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @param dataBindingExpr
+	 * @param queryDefn
+	 * @param appContext
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn,
+			Map appContext ) throws AdapterException;
 	
 	/**
 	 * This is a utility method for GUI to find out all the invalid bindings in

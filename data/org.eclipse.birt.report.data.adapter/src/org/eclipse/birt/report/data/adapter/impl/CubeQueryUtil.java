@@ -58,9 +58,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		this.session = session;
 	}
 	
-	/**
-	 * @throws DataException 
-	 * 
+	/*
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getReferableBindings(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition, boolean)
 	 */
 	public List getReferableBindings( String targetLevel,
 			ICubeQueryDefinition cubeDefn, boolean isSort )
@@ -281,6 +280,20 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			String dataBindingExpr, ICubeQueryDefinition queryDefn )
 			throws AdapterException
 	{
+		return this.getMemberValueIterator( cubeHandle,
+				dataBindingExpr,
+				queryDefn,
+				null );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn, Map appContext )
+			throws AdapterException
+	{
 		try
 		{
 			if ( cubeHandle == null
@@ -300,7 +313,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
+			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ) );
@@ -318,6 +331,21 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String targetLevel, ILevelDefinition[] higherLevelDefns,
 			Object[] values ) throws AdapterException
+	{
+		return this.getMemberValueIterator( cubeHandle,
+				targetLevel,
+				higherLevelDefns,
+				values,
+				null );
+	}
+		
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition[], java.lang.Object[])
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, ILevelDefinition[] higherLevelDefns,
+			Object[] values, Map appContext ) throws AdapterException
 	{
 		try
 		{
@@ -344,7 +372,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = new DataSetIterator( this.session, hierHandle );
+			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
 			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ));
 		}
 		catch ( BirtException e )
