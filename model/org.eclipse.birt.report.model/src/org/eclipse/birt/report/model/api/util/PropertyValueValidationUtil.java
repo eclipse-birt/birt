@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -66,7 +67,7 @@ public class PropertyValueValidationUtil
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					IPropertyType.STRUCT_TYPE );
 
-		return doValidateStructure( element, propDefn, item );
+		return doValidateStructure( element, propDefn, null, item );
 	}
 
 	/**
@@ -85,7 +86,8 @@ public class PropertyValueValidationUtil
 	 */
 
 	private static IStructure doValidateStructure( DesignElementHandle element,
-			IPropertyDefn propDefn, IStructure item ) throws SemanticException
+			IPropertyDefn propDefn, IStructure parentStruct, IStructure item )
+			throws SemanticException
 	{
 
 		IStructureDefn structDefn = propDefn.getStructDefn( );
@@ -95,7 +97,7 @@ public class PropertyValueValidationUtil
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
 					&& memberDefn.isList( ) )
-				validateList( element, propDefn, memberDefn,
+				validateList( element, propDefn, item, memberDefn,
 						( (Structure) item ).getLocalProperty( element
 								.getModule( ), memberDefn ) );
 			else
@@ -106,6 +108,17 @@ public class PropertyValueValidationUtil
 
 		if ( item instanceof Structure )
 		{
+			StructureContext context = null;
+
+			if ( parentStruct == null )
+				context = new StructureContext( element.getElement( ), propDefn
+						.getName( ) );
+			else
+				context = new StructureContext( parentStruct, propDefn
+						.getName( ) );
+
+			( (Structure) item ).setContext( context );
+
 			List errorList = ( (Structure) item ).validate(
 					element.getModule( ), element.getElement( ) );
 			if ( errorList.size( ) > 0 )
@@ -136,8 +149,8 @@ public class PropertyValueValidationUtil
 	 */
 
 	private static Object validateList( DesignElementHandle element,
-			IPropertyDefn propDefn, IPropertyDefn memberDefn, Object value )
-			throws SemanticException
+			IPropertyDefn propDefn, IStructure item, IPropertyDefn memberDefn,
+			Object value ) throws SemanticException
 	{
 		if ( !( value instanceof List ) )
 			return null;
@@ -156,24 +169,25 @@ public class PropertyValueValidationUtil
 		IStructureDefn structDefn = tmpPropDefn.getStructDefn( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			IStructure item = (IStructure) list.get( i );
-			if ( item.getDefn( ) != structDefn )
+			IStructure tmpItem = (IStructure) list.get( i );
+			if ( tmpItem.getDefn( ) != structDefn )
 			{
 				if ( memberDefn != null )
 					throw new PropertyValueException(
 							element.getElement( ),
 							propDefn,
 							memberDefn,
-							item,
+							tmpItem,
 							PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 
 				throw new PropertyValueException( element.getElement( ),
-						propDefn, item,
+						propDefn, tmpItem,
 						PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 
 			}
 
-			retList.add( doValidateStructure( element, tmpPropDefn, item ) );
+			retList.add( doValidateStructure( element, tmpPropDefn, item,
+					tmpItem ) );
 		}
 
 		return retList;
@@ -197,7 +211,7 @@ public class PropertyValueValidationUtil
 	private static Object validateList( DesignElementHandle element,
 			IPropertyDefn propDefn, Object value ) throws SemanticException
 	{
-		return validateList( element, propDefn, null, value );
+		return validateList( element, propDefn, null, null, value );
 	}
 
 	/**
