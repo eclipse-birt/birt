@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -72,7 +73,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.getTriggers( ),
-				true,
+				TriggerSupportMatrix.TYPE_DATAPOINT,
 				true,
 				false );
 		Button btnInteractivity = createToggleButton( cmp,

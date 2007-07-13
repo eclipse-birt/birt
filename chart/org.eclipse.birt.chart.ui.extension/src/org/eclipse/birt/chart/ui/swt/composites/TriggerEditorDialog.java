@@ -33,19 +33,19 @@ import org.eclipse.swt.widgets.Shell;
 public class TriggerEditorDialog extends TrayDialog
 {
 
-	private EList triggers = null;
+	private final EList triggers;
 
-	private Collection vOriginalTriggers = null;
+	private final Collection vOriginalTriggers;
 
-	private ChartWizardContext wizardContext;
+	private final ChartWizardContext wizardContext;
 
-	private boolean bEnableURLParameters;
+	private final boolean bEnableURLParameters;
 
-	private boolean bEnableShowTooltipValue;
+	private final boolean bEnableShowTooltipValue;
 	
-	private boolean bEnableDataPoints = false;
+	private final int iInteractivityType;
 
-	private String sTitle;
+	private final String sTitle;
 
 	private TriggerDataComposite triggerUI;
 
@@ -55,12 +55,15 @@ public class TriggerEditorDialog extends TrayDialog
 	 * @param triggers
 	 * @param wizardContext
 	 * @param sTitle
+	 * @param iInteractivityType
+	 *            see <code>TriggerSupportMatrix</code>
 	 * @param bEnableURLParameters
 	 * @param bEnableShowTooltipValue
 	 */
 	public TriggerEditorDialog( Shell shellParent, EList triggers,
 			ChartWizardContext wizardContext, String sTitle,
-			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
+			int iInteractivityType, boolean bEnableURLParameters,
+			boolean bEnableShowTooltipValue )
 	{
 		super( shellParent );
 		this.triggers = triggers;
@@ -68,21 +71,8 @@ public class TriggerEditorDialog extends TrayDialog
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.sTitle = sTitle;
+		this.iInteractivityType = iInteractivityType;
 		vOriginalTriggers = EcoreUtil.copyAll( triggers );
-	}
-
-	public TriggerEditorDialog( Shell shellParent, EList triggers,
-			ChartWizardContext wizardContext, String sTitle,
-			boolean bEnableDataPoints, boolean bEnableURLParameters,
-			boolean bEnableShowTooltipValue )
-	{
-		this( shellParent,
-				triggers,
-				wizardContext,
-				sTitle,
-				bEnableURLParameters,
-				bEnableShowTooltipValue );
-		this.bEnableDataPoints = bEnableDataPoints;
 	}
 
 	protected Control createContents( Composite parent )
@@ -104,7 +94,7 @@ public class TriggerEditorDialog extends TrayDialog
 				SWT.NONE,
 				triggers,
 				wizardContext,
-				bEnableDataPoints,
+				iInteractivityType,
 				bEnableURLParameters,
 				bEnableShowTooltipValue );
 		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );

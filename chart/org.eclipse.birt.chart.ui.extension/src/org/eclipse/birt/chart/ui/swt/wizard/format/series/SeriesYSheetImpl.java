@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -306,7 +307,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getTriggers( ),
-					true,
+					TriggerSupportMatrix.TYPE_DATAPOINT,
 					true,
 					false );
 			Button btnInteractivity = createToggleButton( cmp,

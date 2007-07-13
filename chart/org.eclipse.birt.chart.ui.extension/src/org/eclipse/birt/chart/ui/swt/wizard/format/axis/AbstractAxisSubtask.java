@@ -1,11 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+/***********************************************************************
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
@@ -41,15 +43,16 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTitleSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -80,25 +83,25 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private Button btnCategoryAxis;
 
-	private transient ExternalizedTextEditorComposite txtTitle;
+	private ExternalizedTextEditorComposite txtTitle;
 
-	private transient Button btnTitleVisible;
+	private Button btnTitleVisible;
 
-	private transient Combo cmbTypes;
+	private Combo cmbTypes;
 
-	private transient Combo cmbOrigin;
+	private Combo cmbOrigin;
 
-	private transient Button btnFormatSpecifier;
+	private Button btnFormatSpecifier;
 
-	private transient Label lblValue;
+	private Label lblValue;
 
-	private transient TextEditorComposite txtValue;
+	private TextEditorComposite txtValue;
 
-	private transient Button btnLabelVisible;
+	private Button btnLabelVisible;
 
-	private transient FontDefinitionComposite fdcFont;
+	private FontDefinitionComposite fdcFont;
 
-	private transient Button cbStaggered;
+	private Button cbStaggered;
 
 	private Button btnAxisTitle;
 
@@ -398,6 +401,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ).getTriggers( ),
+				TriggerSupportMatrix.TYPE_AXIS,
 				false,
 				true );
 		Button btnInteractivity = createToggleButton( cmp,

@@ -57,6 +57,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -822,7 +823,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 					( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
 							.get( getMarkerIndex( ) ) ).getTriggers( ),
 					getContext( ),
-					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), false, true ).open( ); //$NON-NLS-1$
+					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), TriggerSupportMatrix.TYPE_MARKERLINE, false, true ).open( ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnRangeTriggers ) )
 		{
@@ -830,7 +831,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 					( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
 							.get( getMarkerIndex( ) ) ).getTriggers( ),
 					getContext( ),
-					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), false, true ).open( ); //$NON-NLS-1$
+					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), TriggerSupportMatrix.TYPE_MARKERRANGE, false, true ).open( ); //$NON-NLS-1$
 		}
 	}
 

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite; // import
 																					// org.eclipse.birt.chart.ui.swt.composites.TooltipDialog;
@@ -275,6 +276,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getLegend( ).getTriggers( ),
+				TriggerSupportMatrix.TYPE_LEGEND,
 				false,
 				true );
 		btnInteractivity = createToggleButton( cmp,

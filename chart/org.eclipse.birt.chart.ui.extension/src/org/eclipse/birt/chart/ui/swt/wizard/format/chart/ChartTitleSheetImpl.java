@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleBlockSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleTextSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 //import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -188,6 +189,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getTitle( ).getTriggers( ),
+				TriggerSupportMatrix.TYPE_CHARTTITLE,
 				false,
 				true );
 		Button btnInteractivity = createToggleButton( cmp,

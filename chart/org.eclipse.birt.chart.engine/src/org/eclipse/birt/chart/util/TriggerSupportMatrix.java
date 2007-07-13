@@ -26,10 +26,28 @@ import org.eclipse.birt.chart.model.data.Trigger;
 public class TriggerSupportMatrix
 {
 
-	// Support criteria
+	// Supported renderer
 	private static final int SVG = 1;
 	private static final int SWING = 2;
 	private static final int ALL = SVG | SWING;
+
+	// Supported interactivity type
+	public static final int TYPE_DATAPOINT = 1;
+	public static final int TYPE_CHARTTITLE = 2;
+	public static final int TYPE_CHARTAREA = 4;
+	public static final int TYPE_AXIS = 8;
+	public static final int TYPE_LEGEND = 16;
+	public static final int TYPE_MARKERLINE = 32;
+	public static final int TYPE_MARKERRANGE = 64;
+	private static final int TYPE_ALL = 127;
+
+	// These constants indicate supported interactivity types for certain action
+	// type
+	private static final int VALID_TYPES_HIGHLIGHT = TYPE_DATAPOINT
+			| TYPE_AXIS | TYPE_LEGEND;
+	private static final int VALID_TYPES_TOOGLE_VISIBILITY = TYPE_DATAPOINT
+			| TYPE_AXIS | TYPE_LEGEND | TYPE_CHARTTITLE;
+	private static final int VALID_TYPES_TOOGLE_DP_VISIBILITY = TYPE_DATAPOINT;
 
 	static class TriggerCombination
 	{
@@ -37,18 +55,26 @@ public class TriggerSupportMatrix
 		private final TriggerCondition condition;
 		private final ActionType actionType;
 		private final int renderer;
+		private final int type;
 
 		TriggerCombination( TriggerCondition condition, ActionType actionType )
 		{
-			this( condition, actionType, ALL );
+			this( condition, actionType, ALL, TYPE_ALL );
+		}
+
+		TriggerCombination( TriggerCondition condition, ActionType actionType,
+				int iRenderer )
+		{
+			this( condition, actionType, iRenderer, TYPE_ALL );
 		}
 
 		TriggerCombination( TriggerCondition tCondition, ActionType actionType,
-				int iRenderer )
+				int iRenderer, int iType )
 		{
 			this.condition = tCondition;
 			this.actionType = actionType;
 			this.renderer = iRenderer;
+			this.type = iType;
 		}
 
 		/**
@@ -56,12 +82,15 @@ public class TriggerSupportMatrix
 		 * 
 		 * @param tCondition
 		 * @param iRenderer
+		 * @param iType
 		 * @return
 		 */
-		public boolean test( TriggerCondition tCondition, int iRenderer )
+		public boolean test( TriggerCondition tCondition, int iRenderer,
+				int iType )
 		{
 			return this.condition == tCondition
-					&& ( this.renderer & iRenderer ) == iRenderer;
+					&& ( this.renderer & iRenderer ) == iRenderer
+					&& ( this.type & iType ) == iType;
 		}
 
 		public ActionType getActionType( )
@@ -130,13 +159,16 @@ public class TriggerSupportMatrix
 				SVG ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.HIGHLIGHT_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_HIGHLIGHT ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.TOGGLE_VISIBILITY_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_TOOGLE_VISIBILITY ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_TOOGLE_DP_VISIBILITY ) );
 	}
 
 	private static void addTriggersLikeMouseDown( TriggerCondition condition )
@@ -152,30 +184,33 @@ public class TriggerSupportMatrix
 				SVG ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.HIGHLIGHT_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_HIGHLIGHT ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.TOGGLE_VISIBILITY_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_TOOGLE_VISIBILITY ) );
 		supportedTriggers.add( new TriggerCombination( condition,
 				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
-				SVG ) );
+				SVG,
+				VALID_TYPES_TOOGLE_DP_VISIBILITY ) );
 	}
 
 	private final int iRenderer;
-	private final boolean isDataPointEnabled;
+	private final int iType;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param outputFormat
 	 *            output type of chart renderer
-	 * @param isDataPointEnabled
-	 *            if the data point visibility can be enabled
+	 * @param iType
+	 *            the type of interactivity support
 	 */
-	public TriggerSupportMatrix( String outputFormat, boolean isDataPointEnabled )
+	public TriggerSupportMatrix( String outputFormat, int iType )
 	{
 		this.iRenderer = "SVG".equalsIgnoreCase( outputFormat ) ? SVG : SWING; //$NON-NLS-1$
-		this.isDataPointEnabled = isDataPointEnabled;
+		this.iType = iType;
 	}
 
 	/**
@@ -193,8 +228,7 @@ public class TriggerSupportMatrix
 			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
 			// Tests if current trigger condition is supported in this
 			// combination
-			if ( tc.test( condition, iRenderer )
-					&& isDPEnabled( tc.getActionType( ) ) )
+			if ( tc.test( condition, iRenderer, iType ) )
 			{
 				actions.add( LiteralHelper.actionTypeSet.getDisplayNameByName( tc.getActionType( )
 						.getName( ) ) );
@@ -233,21 +267,14 @@ public class TriggerSupportMatrix
 		for ( int i = 0; i < supportedTriggers.size( ); i++ )
 		{
 			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
-			if ( tc.test( condition, iRenderer ) )
+			if ( tc.test( condition, iRenderer, iType ) )
 			{
-				if ( tc.getActionType( ) == actionType
-						&& isDPEnabled( actionType ) )
+				if ( tc.getActionType( ) == actionType )
 				{
 					return true;
 				}
 			}
 		}
 		return false;
-	}
-
-	private boolean isDPEnabled( ActionType actionType )
-	{
-		return isDataPointEnabled
-				|| actionType != ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL;
 	}
 }

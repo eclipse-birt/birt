@@ -38,13 +38,19 @@ public class TriggerSupportMatrixTest extends TestCase
 
 	private static final String SPLITOR = "\n"; //$NON-NLS-1$
 
-	private TriggerSupportMatrix matSVG = new TriggerSupportMatrix( "svg", true ); //$NON-NLS-1$
-	private TriggerSupportMatrix matSwing = new TriggerSupportMatrix( "png", true ); //$NON-NLS-1$
-
 	public void testMatrixAll( )
 	{
+		StringBuffer sb = new StringBuffer( );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_DATAPOINT ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_AXIS ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_LEGEND ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_CHARTTITLE ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_CHARTAREA ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_MARKERLINE ).getMatrixGeneratedString( ) );
+		sb.append( new InteractivityTypeInnerTest( TriggerSupportMatrix.TYPE_MARKERRANGE ).getMatrixGeneratedString( ) );
+
+		String[] populatedArray = sb.toString( ).split( SPLITOR );
 		String[] goldenArray = getMatrixGoldenString( ).split( SPLITOR );
-		String[] populatedArray = getMatrixGeneratedString( ).split( SPLITOR );
 
 		assertEquals( "check line of code", //$NON-NLS-1$
 				goldenArray.length,
@@ -60,6 +66,114 @@ public class TriggerSupportMatrixTest extends TestCase
 						golden,
 						populatedArray[i] );
 			}
+		}
+	}
+
+	private static class InteractivityTypeInnerTest
+	{
+
+		private TriggerSupportMatrix matSVG = null;
+		private TriggerSupportMatrix matSwing = null;
+
+		private final int iInteractivityType;
+
+		public InteractivityTypeInnerTest( int iInteractivityType )
+		{
+			this.iInteractivityType = iInteractivityType;
+			matSVG = new TriggerSupportMatrix( "svg", iInteractivityType ); //$NON-NLS-1$
+			matSwing = new TriggerSupportMatrix( "png", iInteractivityType ); //$NON-NLS-1$
+		}
+
+		public String getMatrixGeneratedString( )
+		{
+			StringBuffer sb = new StringBuffer( );
+			// Add table headers
+			sb.append( "Type: " + getInteractivityTypeName( ) + SPLITOR );//$NON-NLS-1$
+			sb.append( "<table border=\"1\">" + SPLITOR ); //$NON-NLS-1$
+			sb.append( " <tr>" + SPLITOR ); //$NON-NLS-1$
+			printTd( sb, "&nbsp;" ); //$NON-NLS-1$
+			for ( int i = 0; i < ACTION_TYPES.length; i++ )
+			{
+				printTd( sb, ACTION_TYPES[i].getLiteral( ) );
+			}
+			sb.append( " </tr>" + SPLITOR ); //$NON-NLS-1$
+
+			// Add table details
+			printTriggerCondition( sb, TriggerCondition.ONCLICK_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONDBLCLICK_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONMOUSEDOWN_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONMOUSEUP_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONMOUSEOVER_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONMOUSEMOVE_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONMOUSEOUT_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONFOCUS_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONBLUR_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONKEYDOWN_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONKEYUP_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONKEYPRESS_LITERAL );
+			printTriggerCondition( sb, TriggerCondition.ONLOAD_LITERAL );
+
+			sb.append( "</table>" + SPLITOR ); //$NON-NLS-1$
+			return sb.toString( );
+		}
+
+		private void printTd( StringBuffer sb, String str )
+		{
+			sb.append( "  <td>" + str + "</td>" + SPLITOR ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		private void printTriggerCondition( StringBuffer sb,
+				TriggerCondition condition )
+		{
+			sb.append( " <tr>" + SPLITOR ); //$NON-NLS-1$
+			printTd( sb, condition.getLiteral( ) );
+			for ( int i = 0; i < ACTION_TYPES.length; i++ )
+			{
+				printTd( sb, getSupportRenderer( condition, ACTION_TYPES[i] ) );
+			}
+			sb.append( " </tr>" + SPLITOR ); //$NON-NLS-1$
+		}
+
+		private String getSupportRenderer( TriggerCondition condition,
+				ActionType actionType )
+		{
+			boolean supportSVG = matSVG.check( condition, actionType );
+			boolean supportSwing = matSwing.check( condition, actionType );
+			if ( supportSVG && supportSwing )
+			{
+				return "All"; //$NON-NLS-1$
+			}
+			if ( supportSVG )
+			{
+				return "SVG"; //$NON-NLS-1$
+			}
+			if ( supportSwing )
+			{
+				return "Swing"; //$NON-NLS-1$
+			}
+			return "&nbsp;"; //$NON-NLS-1$
+		}
+
+		private String getInteractivityTypeName( )
+		{
+			switch ( iInteractivityType )
+			{
+				case TriggerSupportMatrix.TYPE_AXIS :
+					return "Axis"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_CHARTAREA :
+					return "Chart Area"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_CHARTTITLE :
+					return "Chart Title"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_DATAPOINT :
+					return "Data Point"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_LEGEND :
+					return "Legend"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_MARKERLINE :
+					return "Marker Line"; //$NON-NLS-1$
+				case TriggerSupportMatrix.TYPE_MARKERRANGE :
+					return "Marker Range"; //$NON-NLS-1$
+			}
+			return ""; //$NON-NLS-1$
 		}
 	}
 
@@ -84,88 +198,11 @@ public class TriggerSupportMatrixTest extends TestCase
 		return sb.toString( );
 	}
 
-	private String getMatrixGeneratedString( )
-	{
-		StringBuffer sb = new StringBuffer( );
-		// Add table headers
-		sb.append( "<table border=\"1\">" + SPLITOR ); //$NON-NLS-1$
-		sb.append( " <tr>" + SPLITOR ); //$NON-NLS-1$
-		printTd( sb, "&nbsp;" ); //$NON-NLS-1$
-		for ( int i = 0; i < ACTION_TYPES.length; i++ )
-		{
-			printTd( sb, ACTION_TYPES[i].getLiteral( ) );
-		}
-		sb.append( " </tr>" + SPLITOR ); //$NON-NLS-1$
-
-		// Add table details
-		printTriggerCondition( sb, TriggerCondition.ONCLICK_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONDBLCLICK_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONMOUSEDOWN_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONMOUSEUP_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONMOUSEOVER_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONMOUSEMOVE_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONMOUSEOUT_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONFOCUS_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONBLUR_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONKEYDOWN_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONKEYUP_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONKEYPRESS_LITERAL );
-		printTriggerCondition( sb, TriggerCondition.ONLOAD_LITERAL );
-
-		sb.append( "</table>" + SPLITOR ); //$NON-NLS-1$
-		return sb.toString( );
-	}
-
-	private void printTd( StringBuffer sb, String str )
-	{
-		sb.append( "  <td>" + str + "</td>" + SPLITOR ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	private void printTriggerCondition( StringBuffer sb,
-			TriggerCondition condition )
-	{
-		sb.append( " <tr>" + SPLITOR ); //$NON-NLS-1$
-		printTd( sb, condition.getLiteral( ) );
-		for ( int i = 0; i < ACTION_TYPES.length; i++ )
-		{
-			printTd( sb, getSupport( condition, ACTION_TYPES[i] ) );
-		}
-		sb.append( " </tr>" + SPLITOR ); //$NON-NLS-1$
-	}
-
-	private String getSupport( TriggerCondition condition, ActionType actionType )
-	{
-		boolean supportSVG = matSVG.check( condition, actionType );
-		boolean supportSwing = matSwing.check( condition, actionType );
-		if ( supportSVG && supportSwing )
-		{
-			return "All"; //$NON-NLS-1$
-		}
-		if ( supportSVG )
-		{
-			return "SVG"; //$NON-NLS-1$
-		}
-		if ( supportSwing )
-		{
-			return "Swing"; //$NON-NLS-1$
-		}
-		return "&nbsp;"; //$NON-NLS-1$
-	}
-
-	public void testMatrixDataPointVisibility( )
-	{
-		// Data Point visibility disabled
-		TriggerSupportMatrix mat = new TriggerSupportMatrix( "svg", false ); //$NON-NLS-1$
-		assertEquals( false, mat.check( TriggerCondition.ONCLICK_LITERAL,
-				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL ) );
-
-		// Data Point visibility enabled
-		assertEquals( true, matSVG.check( TriggerCondition.ONCLICK_LITERAL,
-				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL ) );
-	}
-
 	public void testSupportedActionsDisplayName( )
 	{
+		TriggerSupportMatrix matSVG = new TriggerSupportMatrix( "svg", TriggerSupportMatrix.TYPE_DATAPOINT ); //$NON-NLS-1$
+		TriggerSupportMatrix matSwing = new TriggerSupportMatrix( "png", TriggerSupportMatrix.TYPE_DATAPOINT ); //$NON-NLS-1$
+
 		String[] actions = matSVG.getSupportedActionsDisplayName( TriggerCondition.ONCLICK_LITERAL );
 		assertEquals( 6, actions.length );
 

@@ -28,32 +28,30 @@ import org.eclipse.swt.widgets.Composite;
 public class InteractivitySheet extends AbstractPopupSheet
 {
 
-	private EList triggers = null;
-	private boolean bEnableURLParameters = false;
-	private boolean bEnableShowTooltipValue = false;
-	private boolean bEnableDataPoints = false;
+	private final EList triggers;
+	private final boolean bEnableURLParameters;
+	private final boolean bEnableShowTooltipValue;
+	private final int iInteractivityType;
 
+	/**
+	 * 
+	 * @param title
+	 * @param context
+	 * @param triggers
+	 * @param iInteractivityType
+	 *            see <code>TriggerSupportMatrix</code>
+	 * @param bEnableURLParameters
+	 * @param bEnableShowTooltipValue
+	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, boolean bEnableURLParameters,
-			boolean bEnableShowTooltipValue )
-	{
-		this( title,
-				context,
-				triggers,
-				false,
-				bEnableURLParameters,
-				bEnableShowTooltipValue );
-	}
-	
-	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, boolean bEnableDataPoints,
+			EList triggers, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
 		super( title, context, false );
 		this.triggers = triggers;
 		this.bEnableURLParameters = bEnableURLParameters;
 		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
-		this.bEnableDataPoints = bEnableDataPoints;
+		this.iInteractivityType = iInteractivityType;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -63,7 +61,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 				SWT.NONE,
 				triggers,
 				getContext( ),
-				bEnableDataPoints,
+				iInteractivityType,
 				bEnableURLParameters,
 				bEnableShowTooltipValue );
 		parent.getShell( ).addDisposeListener( new DisposeListener( ) {

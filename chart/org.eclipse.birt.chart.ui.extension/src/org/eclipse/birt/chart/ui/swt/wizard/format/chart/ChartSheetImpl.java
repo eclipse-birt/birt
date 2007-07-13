@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -322,6 +323,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getBlock( ).getTriggers( ),
+				TriggerSupportMatrix.TYPE_CHARTAREA,
 				false,
 				true );
 		btnInteractivity = createToggleButton( cmp,
