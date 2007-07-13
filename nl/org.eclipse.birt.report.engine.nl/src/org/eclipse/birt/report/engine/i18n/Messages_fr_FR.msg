@@ -9,6 +9,9 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
+Error.InvalidParameterType=Parameter type "{0}" is expected, but not "{1}".
+Error.ParameterValueNull=Required parameter {0} is not set.
+Error.ParamScriptValidationError=Parameter "{0}" script source validation error, the source is {1}.
 Error.InvalidDesignFile=Le fichier modèle {0} comporte une erreur et ne peut pas être exécuté.
 Error.DesignFileNotFound=Le fichier modèle {0} est introuvable.
 Error.CannotCreateExtensionInstance=L''initialisation de l''émetteur {0} par le moteur d''états a échoué, assurez-vous que les bibliothèques nécessaires à cet émetteur sont installées.

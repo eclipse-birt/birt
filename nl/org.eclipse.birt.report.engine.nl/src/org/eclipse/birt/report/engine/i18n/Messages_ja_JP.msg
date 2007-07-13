@@ -9,6 +9,9 @@ Error.Msg001=ja_JP: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=出力形式 {0} はサポートされていません。
 Error.InvalidParameter=いくつかの必須パラメタの値が設定されていないか、互換性のないデータ型に設定されています。
+Error.InvalidParameterType=Parameter type "{0}" is expected, but not "{1}".
+Error.ParameterValueNull=Required parameter {0} is not set.
+Error.ParamScriptValidationError=Parameter "{0}" script source validation error, the source is {1}.
 Error.InvalidDesignFile=デザインファイル {0} にエラーがあるため、実行できません。
 Error.DesignFileNotFound=デザインファイル {0} が見つかりません。
 Error.CannotCreateExtensionInstance=レポートエンジンで {0} エミッターを初期化できません。このエミッターに必要なライブラリがインストールされていることを確認してください。
