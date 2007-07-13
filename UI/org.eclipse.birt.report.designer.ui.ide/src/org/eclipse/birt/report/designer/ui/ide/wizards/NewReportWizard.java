@@ -141,8 +141,10 @@ public class NewReportWizard extends Wizard implements
 				fileName = fn;
 			}
 		}
-		else{
-			if ( !fn.toLowerCase( Locale.getDefault( ) ).endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		else
+		{
+			if ( !fn.toLowerCase( Locale.getDefault( ) )
+					.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
 			{
 				fileName = fn + "." + fileExtension; //$NON-NLS-1$
 			}
@@ -438,10 +440,18 @@ public class NewReportWizard extends Wizard implements
 					public boolean visit( IResource resource )
 							throws CoreException
 					{
-						if ( resource.getType( ) == IResource.FILE
-								&& name.equals( ( (IFile) resource ).getName( ) ) )
+						if ( resource.getType( ) == IResource.FILE )
 						{
-							tmpList.add( Boolean.TRUE );
+							if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
+							{
+								if ( name.equals( ( (IFile) resource ).getName( ) ) )
+								{
+									tmpList.add( Boolean.TRUE );
+								}
+							}
+							else if(name.equalsIgnoreCase( ( (IFile) resource ).getName( ) )){
+								tmpList.add( Boolean.TRUE );
+							}
 						}
 
 						return true;
