@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,8 +27,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -51,8 +50,8 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of charts in Swing JPanel.
@@ -113,10 +112,11 @@ public final class SwingChartViewerSelector extends JPanel implements
 	SwingChartViewerSelector( )
 	{
 
-		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
+			PlatformConfig config = new PlatformConfig( );
+			config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+			idr = ChartEngine.instance( config ).getRenderer( "dv.SWING" );//$NON-NLS-1$
 		}
 		catch ( ChartException ex )
 		{

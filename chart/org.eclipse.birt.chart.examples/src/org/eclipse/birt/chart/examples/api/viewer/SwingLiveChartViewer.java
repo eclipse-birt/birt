@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
@@ -59,7 +60,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
-import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * Generates a combination of live chart (Line chart + bar chart) using a Swing JPanel.
@@ -165,10 +166,11 @@ public final class SwingLiveChartViewer extends JPanel
 	 */
 	SwingLiveChartViewer( )
 	{
-		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			dRenderer = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
+			PlatformConfig config = new PlatformConfig( );
+			config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+			dRenderer = ChartEngine.instance( config ).getRenderer( "dv.SWING" );//$NON-NLS-1$
 		}
 		catch ( ChartException ex )
 		{

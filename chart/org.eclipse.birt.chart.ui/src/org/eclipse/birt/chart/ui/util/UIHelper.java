@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,7 +21,6 @@ import java.net.URL;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
@@ -39,7 +38,6 @@ public final class UIHelper
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/util" ); //$NON-NLS-1$
 
-	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
 	/**
 	 * This is a helper method created to get the location on screen of a
 	 * composite. It does not take into account multiple monitors.
@@ -78,13 +76,7 @@ public final class UIHelper
 	 */
 	public static void centerOnScreen( Shell shell )
 	{
-		shell.setLocation( Display.getCurrent( )
-				.getPrimaryMonitor( )
-				.getClientArea( ).width
-				/ 2 - ( shell.getSize( ).x / 2 ), Display.getCurrent( )
-				.getPrimaryMonitor( )
-				.getClientArea( ).height
-				/ 2 - ( shell.getSize( ).y / 2 ) );
+		org.eclipse.birt.core.ui.utils.UIHelper.centerOnScreen( shell );
 	}
 
 	/**
@@ -99,7 +91,7 @@ public final class UIHelper
 	public static URL getURL( String sPluginRelativePath )
 	{
 		URL url = null;
-		if ( Platform.getExtensionRegistry( ) != null )
+		if ( isEclipseMode( ) )
 		{
 			try
 			{
@@ -114,7 +106,7 @@ public final class UIHelper
 		}
 		else
 		{
-			url = UIHelper.class.getResource(  "/" + sPluginRelativePath );
+			url = UIHelper.class.getResource(  "/" + sPluginRelativePath ); //$NON-NLS-1$
 			if ( url == null )
 			{
 				try
@@ -196,6 +188,6 @@ public final class UIHelper
 	 */
 	public static boolean isEclipseMode( )
 	{
-		return ( !STANDALONE_MODE && Platform.getExtensionRegistry( ) != null );
+		return org.eclipse.birt.core.ui.utils.UIHelper.isEclipseMode( );
 	}
 }

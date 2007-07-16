@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -278,6 +278,9 @@ public final class PluginSettings
 	 * Returns a singleton instance of the plugin settings framework with
 	 * specific configuration.
 	 * 
+	 * Initializes the OSGi Platform framework to load chart extension bundles
+	 * unless the STANDALONE flag was set in PlatformConfig property.
+	 * 
 	 * @return A singleton instance of the plugin settings framework
 	 */
 	public static synchronized PluginSettings instance( PlatformConfig config )
@@ -285,7 +288,8 @@ public final class PluginSettings
 		if ( ps == null )
 		{
 			ps = new PluginSettings( );
-			ps.bStandalone = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
+			ps.bStandalone = config != null
+					&& config.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
 
 			if ( !ps.bStandalone )
 			{

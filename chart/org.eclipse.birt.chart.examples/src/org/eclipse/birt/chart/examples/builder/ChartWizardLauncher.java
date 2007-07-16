@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.utils.UIHelper;
@@ -36,10 +38,6 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * A wizard launcher for Chart builder.
- * <p>
- * If the eclipse extension is expected to use, append
- * <b>-DBIRT_HOME=birt_home_directory</b> in VM arguments; or <b>-DSTANDALONE</b>
- * to use hard-coded configuration. Default value is standalone.
  * <p>
  * Set special locale to enable BiDi support, for example, append VM arguments
  * <b>-Duser.language=ar_AB</b>.
@@ -95,7 +93,7 @@ public class ChartWizardLauncher
 		// This array is for storing the latest chart data before pressing
 		// apply button
 		final Object[] applyData = new Object[1];
-		
+
 		// Add Apply button
 		chartWizard.addCustomButton( new ApplyButtonHandler( chartWizard ) {
 
@@ -145,6 +143,11 @@ public class ChartWizardLauncher
 	{
 		// Create display
 		Display.getDefault( );
+
+		// Set standalone mode rather than OSGI mode
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
 
 		if ( !UIHelper.isEclipseMode( ) )
 		{

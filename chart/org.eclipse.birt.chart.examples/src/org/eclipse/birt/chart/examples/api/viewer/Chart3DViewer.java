@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.examples.api.viewer;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.examples.api.script.JavaScriptViewer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -21,11 +22,13 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
@@ -42,8 +45,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionListener;
 
 public class Chart3DViewer extends Composite implements
 		PaintListener,
@@ -111,10 +112,12 @@ public class Chart3DViewer extends Composite implements
 	Chart3DViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		final PluginSettings ps = PluginSettings.instance( );
+
 		try
 		{
-			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$
+			PlatformConfig config = new PlatformConfig( );
+			config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+			idr = ChartEngine.instance( config ).getRenderer( "dv.SWT" );//$NON-NLS-1$
 		}
 		catch ( ChartException pex )
 		{

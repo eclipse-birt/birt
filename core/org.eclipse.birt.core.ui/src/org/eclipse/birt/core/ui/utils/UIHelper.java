@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,13 +36,11 @@ import org.eclipse.swt.widgets.Shell;
 public final class UIHelper
 {
 
-	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
-
 	public static final String IMAGE_NAV_FORWARD = "icons/obj16/forward_nav.gif"; //$NON-NLS-1$
 	public static final String IMAGE_NAV_FORWARD_DIS = "icons/obj16/forward_nav_disabled.gif"; //$NON-NLS-1$
 	public static final String IMAGE_NAV_BACKWARD = "icons/obj16/backward_nav.gif"; //$NON-NLS-1$
 	public static final String IMAGE_NAV_BACKWARD_DIS = "icons/obj16/backward_nav_disabled.gif"; //$NON-NLS-1$
-	
+
 	/**
 	 * This is a helper method created to get the location on screen of a
 	 * composite. It does not take into account multiple monitors.
@@ -196,6 +194,6 @@ public final class UIHelper
 	 */
 	public static boolean isEclipseMode( )
 	{
-		return ( !STANDALONE_MODE && Platform.getExtensionRegistry( ) != null );
+		return Platform.getExtensionRegistry( ) != null;
 	}
 }

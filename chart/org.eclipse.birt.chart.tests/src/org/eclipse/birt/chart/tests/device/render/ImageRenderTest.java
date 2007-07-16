@@ -14,6 +14,9 @@ package org.eclipse.birt.chart.tests.device.render;
 import java.io.File;
 import java.util.Properties;
 
+import org.eclipse.birt.chart.api.ChartEngine;
+import org.eclipse.birt.core.framework.PlatformConfig;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -58,7 +61,9 @@ public class ImageRenderTest
 	{
 		Properties p = System.getProperties();
 		//This is a standlone test
-		System.setProperty("STANDALONE", "true");//$NON-NLS-1$ //$NON-NLS-2$
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
 		fixedDir = File.separator+"src"+File.separator+"org"//$NON-NLS-1$ //$NON-NLS-2$
 		+File.separator+"eclipse"+File.separator+"birt"+File.separator+"chart"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		+File.separator+"tests"+File.separator+"device";//$NON-NLS-1$ //$NON-NLS-2$

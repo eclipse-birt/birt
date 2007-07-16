@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,7 +43,7 @@ public class ChartEngine
 	 * Retrieves a singleton instance of the Chart Engine
 	 * 
 	 * Initializes the OSGi Platform framework to load chart extension bundles
-	 * unless the -DSTANDALONE flag was set as a JVM property.
+	 * unless the STANDALONE flag was set in PlatformConfig property.
 	 * 
 	 * If the config is null, it will use the BIRT_HOME JVM property to find the
 	 * OSGi chart bundles. Subsequent calls to this method will ignore the

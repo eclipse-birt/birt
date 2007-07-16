@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.examples.api.pdf;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.pdf.PDFRendererImpl;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -19,6 +20,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 import com.ibm.icu.util.ULocale;
 
@@ -32,8 +34,10 @@ public class PDFChartGenerator {
 	 * Generates a pdf chart to a file
 	 */
 	public static void generateChart(){
-		//Tell chart engine that we are running in stand alone mode.  Note running in an eclipse environment.
-		System.setProperty("STANDALONE", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		// Set standalone mode rather than OSGI mode
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
 		
 		//Create the chart we want to render
 		Chart cm = ChartModels.createHSChart( );
