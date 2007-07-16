@@ -50,7 +50,7 @@ public class ParameterValueUtilTest extends TestCase
 		assertQuoteConversion( "'\\'\\''", "''" );//$NON-NLS-1$//$NON-NLS-2$
 
 		// test empty or null literal value
-		assertQuoteConversion( "", "" ); //$NON-NLS-1$  //$NON-NLS-2$
+		assertQuoteConversion( "''", "" ); //$NON-NLS-1$  //$NON-NLS-2$
 		assertNull( ParameterValueUtil.toJsExprValue( null ) );
 
 		// test conversion of non-quoted js expression value

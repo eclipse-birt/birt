@@ -35,7 +35,7 @@ public class ParameterValueUtil
 	 */
 	public static String toJsExprValue( String literalValue )
 	{
-		if ( literalValue == null || literalValue.length( ) == 0 )
+		if ( literalValue == null )
 			return literalValue;
 
 		StringBuffer value = new StringBuffer( literalValue );
