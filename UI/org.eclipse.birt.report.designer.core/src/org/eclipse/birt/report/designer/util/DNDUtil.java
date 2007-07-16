@@ -365,7 +365,14 @@ public class DNDUtil
 		else if ( transferData instanceof DesignElementHandle
 				|| transferData instanceof IDesignElement )
 		{
-			if ( // targetObj instanceof ReportElementModel
+			//fix bug 193019
+			if ( transferData instanceof DesignElementHandle
+					&& targetObj instanceof SlotHandle
+					&& ( (DesignElementHandle) transferData ).getContainerSlotHandle( ) == targetObj )
+			{
+				( (DesignElementHandle) transferData ).moveTo( position );
+			}
+			else if ( // targetObj instanceof ReportElementModel
 			// ||
 			targetObj instanceof DesignElementHandle
 					|| targetObj instanceof SlotHandle
@@ -722,10 +729,10 @@ public class DNDUtil
 	 */
 	public static Object unwrapToModel( Object obj )
 	{
-//		if ( obj instanceof ThemeHandle )
-//		{
-//			return ( (ThemeHandle) obj ).getStyles( );
-//		}
+		// if ( obj instanceof ThemeHandle )
+		// {
+		// return ( (ThemeHandle) obj ).getStyles( );
+		// }
 		if ( obj instanceof ListBandProxy )
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
@@ -1118,10 +1125,11 @@ public class DNDUtil
 			// {
 			// return CONTAIN_NO;
 			// }
-			
+
 			// After discussing with Hongchang, fix bug 191202.
 			// When fixing 145964, Hongchang add this line of code
-			if ( (childHandle.getModuleHandle( ) instanceof LibraryHandle )&&(!childHandle.getElement( ).getDefn( ).canExtend( )) )
+			if ( ( childHandle.getModuleHandle( ) instanceof LibraryHandle )
+					&& ( !childHandle.getElement( ).getDefn( ).canExtend( ) ) )
 			{
 				return CONTAIN_NO;
 			}
@@ -1219,8 +1227,8 @@ public class DNDUtil
 			}
 			if ( targetHandle.getClass( ).equals( childHandle.getClass( ) ) )
 			{
-				//183888
-				if(childHandle instanceof LevelHandle)
+				// 183888
+				if ( childHandle instanceof LevelHandle )
 					return CONTAIN_NO;
 				// If class type is same
 				return CONTAIN_PARENT;
