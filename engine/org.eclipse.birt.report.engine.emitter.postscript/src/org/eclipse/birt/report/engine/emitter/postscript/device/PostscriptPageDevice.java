@@ -60,9 +60,8 @@ public class PostscriptPageDevice implements IPageDevice
 		{
 			currentPage.dispose( );
 		}
-		currentPage = new PostscriptPage( writer );
-		currentPage.setPageSize( width, height );
-		currentPage.drawPageBackgroundColor( backgroundColor );
+		currentPage = new PostscriptPage( width, height, backgroundColor,
+				writer );
 		return currentPage;
 	}
 }

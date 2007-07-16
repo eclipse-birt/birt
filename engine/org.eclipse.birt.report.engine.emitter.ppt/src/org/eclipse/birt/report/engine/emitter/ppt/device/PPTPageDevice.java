@@ -42,8 +42,7 @@ public class PPTPageDevice implements IPageDevice
 		{
 			currentPage.dispose( );
 		}
-		currentPage = new PPTPage( writer );
-		currentPage.setPageSize( width, height, backgroundColor );
+		currentPage = new PPTPage( width, height, backgroundColor, writer );
 		return currentPage;
 	}
 }

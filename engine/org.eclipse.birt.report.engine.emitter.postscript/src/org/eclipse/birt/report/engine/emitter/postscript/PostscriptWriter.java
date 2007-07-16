@@ -126,15 +126,12 @@ public class PostscriptWriter
 	 * Current page index with 1 as default value.
 	 */
 	private int pageIndex = 1;
+	
 	/**
 	 * Height of current page.
 	 */
-	private int pageHeight = DEFAULT_PAGE_HEIGHT;
-	/**
-	 * Width of current page.
-	 */
-	private int pageWidth = DEFAULT_PAGE_WIDTH;
-
+	private float pageHeight = DEFAULT_PAGE_HEIGHT;
+	
 	private static Set intrinsicFonts = new HashSet( );
 
 	static
@@ -635,15 +632,12 @@ public class PostscriptWriter
 		out.print( " " );
 		out.print( y );
 		out.print( " moveto " );
-		out.print( overline ? " 1 " : " 0 " );
-		out.print( linethrough ? " 1 " : " 0 " );
-		out.print( underline ? " 1 " : " 0 " );
 		out.print( wordSpacing );
 		out.print( " 0 8#040 " );
 		out.print( letterSpacing );
 		out.print( " 0 " );
 		out.print( text );
-		out.println( "mshow stroke" );
+		out.println( "awidthshow stroke" );
 		gRestore( );
 	}
 
@@ -913,11 +907,10 @@ public class PostscriptWriter
 	 */
 	public void startPage( float pageWidth, float pageHeight )
 	{
-		this.pageHeight = (int) Math.round( pageHeight );
-		this.pageWidth = (int) Math.round( pageWidth );
+		this.pageHeight = pageHeight;
 		out.println( "%%Page: " + pageIndex + " " + pageIndex );
-		out.println( "%%PageBoundingBox: 0 0 " + this.pageWidth + " "
-				+ this.pageHeight );
+		out.println( "%%PageBoundingBox: 0 0 " + (int) Math.round( pageWidth )
+				+ " " + (int) Math.round( pageHeight ) );
 		out.println( "%%BeginPage" );
 		++pageIndex;
 	}

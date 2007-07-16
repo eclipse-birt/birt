@@ -10,62 +10,7 @@
 %%BeginSetup
 %%BeginResource: procset FOPprocs
 %%Title: Utility procedures
-/getCurrentFont {
-  currentfont dup
-  /FontBBox known not{
-    /FDepVector get 0 get
-  }if
-} def
 
-/getFontHeight {
-  0 getCurrentFont 
-  /FontBBox get 3 get
-  currentfont /FontMatrix get dtransform exch pop
-} def
-
-/getUnderline {
-  currentpoint pop 7 1 roll awidthshow currentpoint pop
-  sub 0 getCurrentFont dup
-  /FontInfo get /UnderlineThickness get
-  exch /FontMatrix get dtransform setlinewidth
-  0 getCurrentFont dup
-  /FontInfo get /UnderlinePosition get
-  exch /FontMatrix get dtransform
-} def
-/mshow {
-  /fontheight getFontHeight def
-  0 fontheight -1 mul rmoveto
-  getUnderline gsave
-  /y1 exch def
-  /x1 exch def
-  /y2 exch def
-  /x2 exch def
-  1 eq {underline}if
-  1 eq {linethrough}if
-  1 eq {overline}if
-grestore
-} def
-
-/linethrough {
-  gsave
-  x1 y1 fontheight 2 div add rmoveto
-  x2 y2 rlineto stroke
-  grestore
-} def
-
-/overline{
-  gsave
-  x1 y1 fontheight add rmoveto
-  x2 y2 rlineto stroke
-  grestore
-} def
-
-/underline{
-  gsave
-  x1 y1 rmoveto
-  x2 y2 rlineto stroke
-  grestore
-} def
 /pix 3 string def
 % define space for color conversions
 /grays 1 string def  % space for gray scale line

@@ -16,43 +16,30 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.engine.emitter.ppt.PPTWriter;
-import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
-import org.eclipse.birt.report.engine.layout.emitter.IPage;
+import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 
-public class PPTPage implements IPage
+public class PPTPage extends AbstractPage
 {
 
 	private PPTWriter writer;
 	private boolean isDisposed;
 
-	public PPTPage( PPTWriter writer )
+	public PPTPage( int pageWidth, int pageHeight, Color backgroundColor,
+			PPTWriter writer )
 	{
+		super( pageWidth, pageHeight );
+		writer.newPage( this.pageWidth, this.pageHeight, backgroundColor );
 		this.writer = writer;
 		this.isDisposed = false;
 	}
 
-	void setPageSize( int pageWidth, int pageHeight, Color backgroundColor )
-	{
-		writer.newPage( convertToPoint( pageWidth ),
-				convertToPoint( pageHeight ),
-				backgroundColor );
-	}
-
-	// clip handling needs to implement in future
-	public void clip( int startX, int startY, int width, int height )
-	{
-		// TODO Auto-generated method stub
-	}
-
 	public void clipRestore( )
 	{
-		// TODO Auto-generated method stub
 	}
 
 	public void clipSave( )
 	{
-		// TODO Auto-generated method stub
 	}
 
 	public void dispose( )
@@ -64,45 +51,34 @@ public class PPTPage implements IPage
 		}
 	}
 
-	public void drawBackgroundColor( Color color, int x, int y, int width,
-			int height )
+	protected void clip( float startX, float startY, float width, float height )
 	{
-		writer.drawBackgroundColor( color,
-				convertToPoint( x ),
-				convertToPoint( y ),
-				convertToPoint( width ),
-				convertToPoint( height ) );
+	}
+	
+	protected void drawBackgroundColor( Color color, float x, float y,
+			float width, float height )
+	{
+		writer.drawBackgroundColor( color, x, y, width, height );
 	}
 
-	public void drawBackgroundImage( int x, int y, int width, int height,
-			String repeat, String imageUrl, int absPosX, int absPosY )
-			throws IOException
+	protected void drawBackgroundImage( float x, float y, float width,
+			float height, String repeat, String imageUrl, float absPosX,
+			float absPosY ) throws IOException
 	{
-		writer.drawBackgroundImage( imageUrl,
-				convertToPoint( x ),
-				convertToPoint( y ),
-				convertToPoint( width ),
-				convertToPoint( height ),
-				convertToPoint( absPosX ),
-				convertToPoint( absPosY ),
-				repeat );
+		writer.drawBackgroundImage( imageUrl, x, y, width, height, absPosX,
+				absPosY, repeat );
 	}
 
-	public void drawImage( byte[] imageData, String extension, int imageX,
-			int imageY, int height, int width, String helpText )
+	protected void drawImage( byte[] imageData, String extension, float imageX,
+			float imageY, float height, float width, String helpText )
 			throws Exception
 	{
-		writer.drawImage( imageData,
-				extension,
-				convertToPoint( imageX ),
-				convertToPoint( imageY ),
-				convertToPoint( height ),
-				convertToPoint( width ),
+		writer.drawImage( imageData, extension, imageX, imageY, height, width,
 				helpText );
 	}
 
-	public void drawImage( String uri, String extension, int imageX,
-			int imageY, int height, int width, String helpText )
+	protected void drawImage( String uri, String extension, float imageX,
+			float imageY, float height, float width, String helpText )
 			throws Exception
 	{
 		if ( uri == null )
@@ -114,44 +90,20 @@ public class PPTPage implements IPage
 		imageData = new byte[imageStream.available( )];
 		imageStream.read( imageData );
 
-		drawImage( imageData,
-				extension,
-				imageX,
-				imageY,
-				height,
-				width,
+		drawImage( imageData, extension, imageX, imageY, height, width,
 				helpText );
 	}
 
-	public void drawLine( int startX, int startY, int endX, int endY,
-			int width, Color color, String lineStyle )
+	protected void drawLine( float startX, float startY, float endX,
+			float endY, float width, Color color, String lineStyle )
 	{
-		writer.drawLine( convertToPoint( startX ),
-				convertToPoint( startY ),
-				convertToPoint( endX ),
-				convertToPoint( endY ),
-				convertToPoint( width ),
-				color,
-				lineStyle );
+		writer.drawLine( startX, startY, endX, endY, width, color, lineStyle );
 	}
 
-	public void drawText( String text, int textX, int textY, int width,
-			int height, TextStyle textStyle )
+	protected void drawText( String text, float textX, float textY, float baseline,
+			float width, float height, TextStyle textStyle )
 	{
-		writer.drawText( text,
-				convertToPoint( textX ),
-				convertToPoint( textY ),
-				convertToPoint( width ),
-				convertToPoint( height ),
-				textStyle.getFontInfo( ),
-				textStyle.getColor( ),
-				textStyle.isLinethrough( ),
-				textStyle.isOverline( ),
-				textStyle.isUnderline( ) );
-	}
-
-	private float convertToPoint( int value )
-	{
-		return value / PDFConstants.LAYOUT_TO_PDF_RATIO;
+		writer.drawText( text, textX, textY, width, height, textStyle
+				.getFontInfo( ), textStyle.getColor( ) );
 	}
 }
