@@ -90,6 +90,32 @@
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
+        <!-- Repackage latest odadesigneapi.jar and copy to model.adatpter.oda/lib folder-->
+        <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
+                <fileset dir="${baseLocation}/plugins" />
+                <mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda.design_.*.jar" to="org.eclipse.datatools.connectivity.oda.design.jar"/>
+        </copy>
+        
+        <mkdir dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder"/>
+        <unzip dest="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" overwrite="true">
+                <fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib">
+                        <include name="org.eclipse.datatools.connectivity.oda.design.jar" />
+                </fileset>
+        </unzip>
+        <delete file="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/org.eclipse.datatools.connectivity.oda.design.jar" failonerror="false"/>
+        <delete file="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/odadesignapi.jar" failonerror="false"/>
+        
+        <property name="work.dir" value="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda"/>
+        <property name="api.package.path" value="org/eclipse/datatools/connectivity/oda/design" />
+        
+        <jar destfile="${work.dir}/lib/odadesignapi.jar" manifest="${work.dir}/lib/temp.folder/META-INF/MANIFEST.MF">
+                <fileset dir="${work.dir}/lib/temp.folder">
+                        <include name="${api.package.path}/*.class"/>
+                        <exclude name="${api.package.path}/DesignFactory*"/>
+                        <exclude name="${api.package.path}/DesignPackage*"/>
+                </fileset>
+        </jar>
+        <delete dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" failonerror="false"/>     
 	</target>
 
 	<!-- ===================================================================== -->
