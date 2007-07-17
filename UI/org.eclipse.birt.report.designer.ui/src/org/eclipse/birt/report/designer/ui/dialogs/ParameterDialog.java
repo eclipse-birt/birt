@@ -685,14 +685,14 @@ public class ParameterDialog extends BaseDialog
 	 */
 	public void setInput( Object input )
 	{
-		//Assert.isNotNull( input );
-		//Assert.isLegal( input instanceof ScalarParameterHandle );
+		// Assert.isNotNull( input );
+		// Assert.isLegal( input instanceof ScalarParameterHandle );
 		inputParameter = (ScalarParameterHandle) input;
 	}
 
 	protected boolean initDialog( )
 	{
-		//Assert.isNotNull( inputParameter );
+		// Assert.isNotNull( inputParameter );
 		nameEditor.setText( inputParameter.getName( ) );
 		if ( !StringUtil.isBlank( inputParameter.getPromptText( ) ) )
 		{
@@ -1856,13 +1856,19 @@ public class ParameterDialog extends BaseDialog
 		promptMessageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
-	protected void okPressed( )
+	private Object validateValue( String value ) throws BirtException
 	{
-		// Validate the date first -- begin -- bug 164765
+		String tempdefaultValue = value;
+		if ( value == null )
+		{
+			tempdefaultValue = defaultValue;
+		}
+
 		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) && ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 		{
-			String tempdefaultValue = defaultValue;
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
+					|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
+					|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 			{
 				try
 				{
@@ -1872,26 +1878,38 @@ public class ParameterDialog extends BaseDialog
 				catch ( BirtException e )
 				{
 					ExceptionHandler.handle( e );
-					return;
+					return null;
 				}
 			}
-			
-			try
-			{
-				ParameterValidationUtil.validate( getSelectedDataType( ),
-						formatCategroy,
-						tempdefaultValue,
-						ULocale.getDefault( ) );
-			}
-			catch ( ValidationValueException e )
-			{
-				ExceptionHandler.handle( e );
-				return;
-			}
+
+			return ParameterValidationUtil.validate( getSelectedDataType( ),
+					formatCategroy,
+					tempdefaultValue,
+					ULocale.getDefault( ) );
 
 		}
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toBoolean( tempdefaultValue );
+		}
+		else
+			return tempdefaultValue;
+	}
+
+	protected void okPressed( )
+	{
+		// Validate the date first -- begin -- bug 164765
+		try
+		{
+			validateValue(null);
+		}
+		catch ( BirtException e1 )
+		{
+			ExceptionHandler.handle( e1 );
+			return;
+		}
 		// Validate the date first -- end --
-		
+
 		try
 		{
 			// Save the name and display name
@@ -2314,7 +2332,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				try
 				{
-					getValue( defaultValueChooser.getText( ) );
+					validateValue(defaultValueChooser.getText( ) );
 				}
 				catch ( BirtException e )
 				{
@@ -2435,7 +2453,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		try
 		{
-			getValue( value );
+			validateValue( value );
 		}
 		catch ( BirtException e )
 		{
@@ -2450,8 +2468,8 @@ public class ParameterDialog extends BaseDialog
 		Object v2 = null;
 		try
 		{
-			v1 = getValue( value1 );
-			v2 = getValue( value2 );
+			v1 = validateValue( value1 );
+			v2 = validateValue( value2 );
 		}
 		catch ( BirtException e )
 		{
@@ -2485,9 +2503,11 @@ public class ParameterDialog extends BaseDialog
 		{
 			return DataTypeUtil.toBigDecimal( value );
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
+				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
+				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 		{
-			return DataTypeUtil.toDate( value, ULocale.US );
+			return DataTypeUtil.toDate( value, ULocale.getDefault( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
 		{
@@ -2701,8 +2721,9 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeBlank( )
 	{
 		boolean canBeBlank = false;
-//		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
-//				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+		// if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
+		// || DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals(
+		// getSelectedControlType( ) ) )
 		{
 			if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 			{
