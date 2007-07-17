@@ -46,9 +46,16 @@ public class Util
 	public static  String toHexString( byte[] bytes )
 	{
 		StringBuffer result = new StringBuffer( );
+		int length = 0;
 		for ( int i = 0; i < bytes.length; i++ )
 		{
 			result.append( toHexString( bytes[i] ) );
+			length += 2;
+			if ( length > 80 )
+			{
+				result.append( "\n" );
+				length = 0;
+			}
 		}
 		return result.toString( );
 	}
