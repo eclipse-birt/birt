@@ -184,6 +184,18 @@ public class SqlBlobUtil
 		{
 			throw new SQLException( "Unsupported in this database" );
 		}
+		
+		public void free( ) throws SQLException
+		{
+			throw new SQLException( "Unsupported in this database" );
+		}
+
+		public InputStream getBinaryStream( long pos, long length )
+				throws SQLException
+		{
+			throw new SQLException( "Unsupported in this database" );
+		}
+		
 	}
 
 }
