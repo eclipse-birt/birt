@@ -20,6 +20,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSetQuery;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
+import org.eclipse.datatools.connectivity.oda.design.DesignSessionResponse;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.DesignerStateContent;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
@@ -97,4 +98,8 @@ public interface IODADesignFactory
     OutputElementAttributes createOutputElementAttributes();
     
     ValueFormatHints createValueFormatHints();
+    
+    void validateObject(org.eclipse.emf.ecore.EObject eObject);
+    
+    DesignSessionResponse createDesignSessionResponse();
 }
