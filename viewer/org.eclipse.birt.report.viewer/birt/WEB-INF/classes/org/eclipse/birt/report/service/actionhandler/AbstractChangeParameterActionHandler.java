@@ -1,3 +1,13 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
 
 package org.eclipse.birt.report.service.actionhandler;
 
@@ -20,6 +30,9 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
 
+/**
+ * The abstract action handler to handle "ChangeParameter" action.
+ */
 public abstract class AbstractChangeParameterActionHandler
 		extends
 			AbstractBaseActionHandler
@@ -49,15 +62,21 @@ public abstract class AbstractChangeParameterActionHandler
 
 		if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
 		{
-			InputOptions options = new InputOptions( );
 			bookmark = getBookmark( operation.getOprand( ), attrBean );
-
 			if ( bookmark != null && bookmark.length( ) > 0 )
 			{
+				InputOptions options = new InputOptions( );
 				options.setOption( InputOptions.OPT_REQUEST, context
 						.getRequest( ) );
 				options.setOption( InputOptions.OPT_LOCALE, attrBean
 						.getLocale( ) );
+
+				// Bookmark is a TOC name, then find TOC id by name
+				if ( attrBean.isToc( ) )
+				{
+					bookmark = ( getReportService( ) ).findTocByName( docName,
+							bookmark, options );
+				}
 
 				pageNumber = getReportService( ).getPageNumberByBookmark(
 						docName, bookmark, options );
@@ -65,20 +84,17 @@ public abstract class AbstractChangeParameterActionHandler
 				if ( !isValidPageNumber( context.getRequest( ), pageNumber,
 						docName ) )
 				{
-					bookmark = ( getReportService( ) ).findTocByName( docName,
-							bookmark, options );
-
-					pageNumber = getReportService( ).getPageNumberByBookmark(
-							docName, bookmark, options );
+					AxisFault fault = new AxisFault( );
+					fault
+							.setFaultReason( BirtResources
+									.getMessage(
+											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
+											new String[]{getBookmark( operation
+													.getOprand( ), attrBean )} ) );
+					throw fault;
 				}
 				useBookmark = true;
 			}
-			if ( !isValidPageNumber( context.getRequest( ), pageNumber, docName ) )
-			{
-				pageNumber = 1;
-				useBookmark = false;
-			}
-
 		}
 
 		doRenderPage( docName, pageNumber, attrBean.getFormat( ), svgFlag,
@@ -164,41 +180,5 @@ public abstract class AbstractChangeParameterActionHandler
 		}
 
 		return pageNumber;
-	}
-
-	/**
-	 * Get page number by bookmark.
-	 * 
-	 * @param params
-	 * @param bean
-	 * @param document
-	 * @return
-	 * @throws RemoteException
-	 */
-	protected String getBookmark( Oprand[] params, BaseAttributeBean bean )
-	{
-		assert bean != null;
-
-		String bookmark = null;
-		if ( params != null && params.length > 0 )
-		{
-			for ( int i = 0; i < params.length; i++ )
-			{
-				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
-						.getName( ) ) )
-				{
-					bookmark = params[i].getValue( );
-					break;
-				}
-			}
-		}
-
-		// Then use url bookmark.
-		if ( bookmark == null || bookmark.length( ) <= 0 )
-		{
-			bookmark = bean.getBookmark( );
-		}
-
-		return bookmark;
 	}
 }

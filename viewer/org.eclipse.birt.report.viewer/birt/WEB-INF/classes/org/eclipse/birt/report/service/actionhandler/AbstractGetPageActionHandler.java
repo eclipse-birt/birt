@@ -1,3 +1,13 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
 
 package org.eclipse.birt.report.service.actionhandler;
 
@@ -29,6 +39,9 @@ import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
+/**
+ * The abstract action handler to handle "GetPage" action.
+ */
 public abstract class AbstractGetPageActionHandler
 		extends
 			AbstractBaseActionHandler
@@ -55,13 +68,14 @@ public abstract class AbstractGetPageActionHandler
 	protected ArrayList __activeIds = null;
 
 	/**
-	 * 
+	 * Returns report document file name.
 	 * @param bean
 	 * @return
 	 */
 	abstract protected String __getReportDocument( );
 
 	/**
+	 * Check whether report document file existed.
 	 * 
 	 * @param docName
 	 * @throws RemoteException
@@ -69,6 +83,7 @@ public abstract class AbstractGetPageActionHandler
 	abstract protected void __checkDocumentExists( ) throws Exception;
 
 	/**
+	 * default constructor
 	 * 
 	 * @param context
 	 * @param operation
@@ -80,6 +95,9 @@ public abstract class AbstractGetPageActionHandler
 		super( context, operation, response );
 	}
 
+	/**
+	 * execute action hanlder
+	 */
 	protected void __execute( ) throws Exception
 	{
 		prepareParameters( );
@@ -87,6 +105,12 @@ public abstract class AbstractGetPageActionHandler
 		prepareResponse( );
 	}
 
+	/**
+	 * Prepare parameters
+	 * 
+	 * @throws Exception
+	 * @throws RemoteException
+	 */
 	protected void prepareParameters( ) throws Exception, RemoteException
 	{
 		__bean = context.getBean( );
@@ -120,18 +144,23 @@ public abstract class AbstractGetPageActionHandler
 		if ( !isValidPageNumber( context.getRequest( ), __pageNumber, __docName ) )
 		{
 			__bookmark = getBookmark( operation.getOprand( ), __bean );
-			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-			options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
-			__pageNumber = getReportService( ).getPageNumberByBookmark(
-					__docName, __bookmark, options );
-
-			if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
-					__docName ) )
+			if ( __bookmark != null && __bookmark.length( ) > 0 )
 			{
-				__bookmark = ( getReportService( ) ).findTocByName( __docName,
-						__bookmark, options );
+				options.setOption( InputOptions.OPT_REQUEST, context
+						.getRequest( ) );
+				options
+						.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
+
+				// Bookmark is a TOC name, then find TOC id by name
+				if ( __bean.isToc( ) )
+				{
+					__bookmark = ( getReportService( ) ).findTocByName(
+							__docName, __bookmark, options );
+				}
+
 				__pageNumber = getReportService( ).getPageNumberByBookmark(
 						__docName, __bookmark, options );
+
 				if ( !isValidPageNumber( context.getRequest( ), __pageNumber,
 						__docName ) )
 				{
@@ -144,10 +173,8 @@ public abstract class AbstractGetPageActionHandler
 													.getOprand( ), __bean )} ) );
 					throw fault;
 				}
-
+				__useBookmark = true;
 			}
-			__useBookmark = true;
-
 		}
 
 		// Verify the page number again.
@@ -163,6 +190,12 @@ public abstract class AbstractGetPageActionHandler
 		__svgFlag = getSVGFlag( operation.getOprand( ) );
 	}
 
+	/**
+	 * Execution process
+	 * 
+	 * @throws ReportServiceException
+	 * @throws RemoteException
+	 */
 	protected void doExecution( ) throws ReportServiceException,
 			RemoteException
 	{
@@ -197,6 +230,12 @@ public abstract class AbstractGetPageActionHandler
 		}
 	}
 
+	/**
+	 * Prepare response
+	 * 
+	 * @throws ReportServiceException
+	 * @throws RemoteException
+	 */
 	protected void prepareResponse( ) throws ReportServiceException,
 			RemoteException
 	{

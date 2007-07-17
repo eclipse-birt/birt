@@ -102,6 +102,13 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 		}
 		else if ( context.getBean( ).documentInUrl )
 		{
+			// Bookmark is a TOC name, then find TOC id by name
+			if ( attrBean.isToc( ) )
+			{
+				bookmark = getReportService( ).findTocByName( docName,
+						bookmark, options );
+			}
+
 			// render document file
 			getReportService( ).renderReport( docName,
 					attrBean.getReportPage( ), attrBean.getReportPageRange( ),

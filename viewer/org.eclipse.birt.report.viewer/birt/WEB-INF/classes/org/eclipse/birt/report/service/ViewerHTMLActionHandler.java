@@ -339,6 +339,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
+
+			// Bookmark is TOC name.
+			if ( !action.isBookmark( ) )
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_ISTOC, "true" ) ); //$NON-NLS-1$
 		}
 
 		return link.toString( );
@@ -510,14 +515,25 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 									.getReportService( ).findTocByName(
 											reportName, bookmark, options );
 						}
+
+						link.append( URLEncoder.encode( bookmark,
+								ParameterAccessor.UTF_8_ENCODE ) );
 					}
 					else
 					{
-						link.append( "&__bookmark=" ); //$NON-NLS-1$
+						bookmark = URLEncoder.encode( bookmark,
+								ParameterAccessor.UTF_8_ENCODE );
+						link.append( ParameterAccessor.getQueryParameterString(
+								ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
+
+						// Bookmark is TOC name.
+						if ( !action.isBookmark( ) )
+							link.append( ParameterAccessor
+									.getQueryParameterString(
+											ParameterAccessor.PARAM_ISTOC,
+											"true" ) ); //$NON-NLS-1$
 					}
 
-					link.append( URLEncoder.encode( bookmark,
-							ParameterAccessor.UTF_8_ENCODE ) );
 				}
 				catch ( UnsupportedEncodingException e )
 				{

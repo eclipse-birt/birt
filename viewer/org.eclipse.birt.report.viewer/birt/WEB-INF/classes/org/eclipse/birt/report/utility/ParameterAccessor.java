@@ -165,6 +165,11 @@ public class ParameterAccessor
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that indicate the bookmark is TOC name.
+	 */
+	public static final String PARAM_ISTOC = "__istoc"; //$NON-NLS-1$
+
+	/**
 	 * URL parameter name that gives that image rtl option.
 	 */
 	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
@@ -522,6 +527,26 @@ public class ParameterAccessor
 		return page < 1
 				? getReportParameter( request, PARAM_BOOKMARK, null )
 				: null;
+	}
+
+	/**
+	 * Returns whether the bookmark is TOC
+	 * 
+	 * @param request
+	 * @return boolean
+	 */
+
+	public static boolean isToc( HttpServletRequest request )
+	{
+		boolean flag = false;
+
+		String isToc = getParameter( request, PARAM_ISTOC );
+		if ( "true".equalsIgnoreCase( isToc ) ) //$NON-NLS-1$
+		{
+			flag = true;
+		}
+
+		return flag;
 	}
 
 	/**
