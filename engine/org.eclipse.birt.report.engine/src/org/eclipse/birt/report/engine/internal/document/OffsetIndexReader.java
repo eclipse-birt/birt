@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.internal.document;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * read a index (binary search) 
@@ -21,7 +23,11 @@ import java.io.RandomAccessFile;
  */
 public class OffsetIndexReader
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( OffsetIndexReader.class.getName( ) );
+	
 	protected String indexFile;
 	protected RandomAccessFile index;
 
@@ -95,7 +101,7 @@ public class OffsetIndexReader
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
 		}
 		return -1;
 	}

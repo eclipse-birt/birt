@@ -1,10 +1,15 @@
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
+import org.eclipse.birt.report.engine.internal.document.OffsetIndexReader;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.internal.executor.doc.Segment;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -38,7 +43,11 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  */
 abstract public class ContainerExecutor extends ReportItemExecutor
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( ContainerExecutor.class.getName( ) );
+	
 	/**
 	 * we need prepare the next executable child
 	 */
@@ -99,7 +108,8 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 			}
 			catch ( Exception ex )
 			{
-				ex.printStackTrace( );
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				context.addException( new EngineException( ex.getLocalizedMessage( ) ) );
 			}
 			needPrepareNext = false;
 		}

@@ -177,7 +177,8 @@ public class DataExtractionTaskV0 extends EngineTask
 		}
 		catch ( EngineException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
+			executionContext.addException( e );
 		}
 
 		isMetaDataPrepared = true;
@@ -555,7 +556,8 @@ public class DataExtractionTaskV0 extends EngineTask
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
+			executionContext.addException( e );
 		}
 		return null;
 	}

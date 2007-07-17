@@ -166,8 +166,8 @@ public class OSGILauncher
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
-			return;
+			throw new BirtException( PluginId, "Can not start up OSGI - {0}", e
+					.getLocalizedMessage( ) ); 
 		}
 		finally
 		{
@@ -576,7 +576,7 @@ public class OSGILauncher
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.WARNING, ex.getMessage( ) );
 		}
 		return null;
 	}

@@ -83,6 +83,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		catch ( BirtException e )
 		{
+			//FIXME: code review. throw out the exception.
 			logger.log( Level.SEVERE, e.getMessage( ) );
 		}
 	}
@@ -163,10 +164,12 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			if ( parent == null )
 			{
+				//FIXME: code review. for subQuery's parent result can't be null, throw out exception.
 				return null;
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
+				//FIXME: code review. throw exception.
 				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
 						+ ( (ISubqueryDefinition) query ).getName( ) ) );
 			}
@@ -175,9 +178,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 		else if ( query instanceof IQueryDefinition
 				|| query instanceof ICubeQueryDefinition )
 		{
+			//FIXME: code review. move the source code of the method here.
 			return doExecuteQuery( parent, query, useCache );
 		}
-
+		//FIXME: code review. throw exception, "Unsupport query"
 		return null;
 	}
 
@@ -190,6 +194,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param query
 	 * @return
 	 */
+	//FIXME: code review. change IDataQueryDefinition to be ISubQUeryDefinition
 	protected IBaseResultSet doExecuteSubQuery( QueryResultSet parent,
 			IDataQueryDefinition query )
 	{
@@ -197,7 +202,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 		// error handling.
 		assert query instanceof ISubqueryDefinition;
 
-		QueryResultSet resultSet;
 		try
 		{
 			ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
@@ -206,7 +210,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
 					context.getSharedScope( ) );
 			assert ri != null;
-			resultSet = new QueryResultSet( parent, subQuery, ri );
+			QueryResultSet resultSet = new QueryResultSet( parent, subQuery, ri );
 			return resultSet;
 		}
 		catch ( BirtException e )
@@ -220,6 +224,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#close(org.eclipse.birt.report.engine.data.IResultSet)
 	 */
+	// FIXME: code review: remove this method.
 	public void close( IBaseResultSet rs )
 	{
 	}
@@ -236,6 +241,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @deprecated need to be deleted by LiangYu
 	 * @return
 	 */
+	// FIXME: code review: remove this method.
 	public Object evaluate( IBaseExpression expr )
 	{
 		if ( expr == null )
@@ -258,6 +264,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		return null;
 	}
 
+	// FIXME: code review: remove this method.
 	public Object evaluate( String expr )
 	{
 		return context.evaluate( expr );
@@ -288,6 +295,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
 			throws BirtException
 	{
+		// FIXME: code review: check if cachedQueryIdMap.get( query ) returns NULL. 
 		String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
 		return dteSession.getQueryResults( rsetId );
 	}

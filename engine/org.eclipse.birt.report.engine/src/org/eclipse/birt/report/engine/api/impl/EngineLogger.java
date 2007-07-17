@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
-import com.ibm.icu.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * BIRT Logger is a logger associated with the global "org.eclipse.birt" name
@@ -39,6 +40,11 @@ import java.util.logging.SimpleFormatter;
 public class EngineLogger
 {
 
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( EngineLogger.class.getName( ) );
+	
 	static private final String BIRT_NAME_SPACE = "org.eclipse.birt"; //$NON-NLS-1$;
 
 	/**
@@ -221,11 +227,11 @@ public class EngineLogger
 		}
 		catch ( SecurityException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		return null;
 	}

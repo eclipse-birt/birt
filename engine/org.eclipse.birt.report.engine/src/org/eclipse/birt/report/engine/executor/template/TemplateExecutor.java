@@ -10,13 +10,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.impl.EngineLogger;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -24,6 +28,10 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class TemplateExecutor implements TextTemplate.Visitor
 {
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( TemplateExecutor.class.getName( ) );
 
 	protected StringBuffer buffer;
 	protected HashMap values;
@@ -221,7 +229,10 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		}
 		catch ( IOException ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
+			context
+					.addException( new EngineException( ex
+							.getLocalizedMessage( ) ) );
 		}
 		return null;
 	}

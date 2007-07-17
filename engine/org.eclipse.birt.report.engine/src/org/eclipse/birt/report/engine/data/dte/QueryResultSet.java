@@ -173,7 +173,7 @@ public class QueryResultSet implements IQueryResultSet
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
 

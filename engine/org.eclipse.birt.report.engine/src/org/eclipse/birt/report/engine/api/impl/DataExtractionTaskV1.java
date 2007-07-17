@@ -194,7 +194,8 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		catch ( EngineException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
+			executionContext.addException( e );
 		}
 
 		isMetaDataPrepared = true;

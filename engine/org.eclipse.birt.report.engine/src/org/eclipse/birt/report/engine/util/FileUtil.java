@@ -100,7 +100,6 @@ public class FileUtil
 		catch ( IOException e )
 		{
 		    logger.log( Level.SEVERE, e.getMessage(),  e );
-			e.printStackTrace( );
 			return null;
 		}
 	}

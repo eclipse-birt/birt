@@ -111,7 +111,7 @@ public class PPTWriter
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
 
@@ -185,7 +185,7 @@ public class PPTWriter
 			}
 			catch ( IOException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
 
@@ -265,7 +265,7 @@ public class PPTWriter
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 
 		drawBackgroundColor( backgroundColor, 0, 0, pageWidth, pageHeight );
@@ -351,7 +351,6 @@ public class PPTWriter
 		}
 		catch ( IOException ioe )
 		{
-			// e.printStackTrace( );
 			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
 		}
 	}

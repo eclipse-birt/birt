@@ -40,6 +40,8 @@ import org.mozilla.javascript.Scriptable;
  */
 public class DteDataEngine extends AbstractDataEngine
 {
+	
+	//FIXME: code review. throw out all exceptions in data engines.
 
 	/*
 	 * need not be stored in report document.
@@ -80,8 +82,8 @@ public class DteDataEngine extends AbstractDataEngine
 		}
 		catch ( Exception ex )
 		{
+			//FIXME: code review. throw engine exception. 
 			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
-			ex.printStackTrace( );
 		}
 	}
 

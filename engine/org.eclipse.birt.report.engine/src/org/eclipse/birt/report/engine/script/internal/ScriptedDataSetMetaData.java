@@ -45,7 +45,6 @@ class ScriptedDataSetMetaData implements IScriptedDataSetMetaData
 		catch ( BirtException e )
 		{
 			log.log( Level.WARNING, e.getLocalizedMessage(), e);
-			e.printStackTrace( );
 		}
 	}
 

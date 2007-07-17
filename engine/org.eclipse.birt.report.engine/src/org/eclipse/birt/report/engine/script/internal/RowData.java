@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +39,11 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 public class RowData implements IRowData
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( IRowData.class.getName( ) );
+	
 	private IBaseResultSet rset;
 	private ArrayList bindingNames = new ArrayList( );
 
@@ -93,8 +99,7 @@ public class RowData implements IRowData
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		return null;
 	}
@@ -161,7 +166,7 @@ public class RowData implements IRowData
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		return null;
 	}

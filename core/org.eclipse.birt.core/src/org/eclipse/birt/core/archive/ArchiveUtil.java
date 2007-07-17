@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -35,6 +37,8 @@ import com.ibm.icu.text.SimpleDateFormat;
 public class ArchiveUtil
 {
 
+	protected static Logger logger = Logger.getLogger( ArchiveUtil.class.getName( ) );
+	
 	// We need this because the report document should be platform neutual. Here
 	// we define the neutual is the unix seperator.
 	public static String UNIX_SEPERATOR = "/";
@@ -212,13 +216,11 @@ public class ArchiveUtil
 		}
 		catch ( FileNotFoundException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ) );
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ) );
 		}
 	}
 
@@ -345,13 +347,11 @@ public class ArchiveUtil
 		}
 		catch ( ZipException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ) );
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.WARNING, e.getMessage( ) );
 		}
 	}
 

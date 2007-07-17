@@ -98,6 +98,11 @@ import com.ibm.icu.util.ULocale;
 public class ExecutionContext
 {
 	public static final String PROPERTYSEPARATOR = File.pathSeparator;
+	
+	/**
+	 * how many errors or exceptions will be registered.
+	 */
+	protected static final int ERROR_TOTAL_COUNT = 60;
 
 	// engines used to create the context
 	/** the engine used to create this context */
@@ -1010,10 +1015,23 @@ public class ExecutionContext
 		{
 			exInfo = new ElementExceptionInfo( element );
 			if ( reportContent != null )
-				reportContent.getErrors( ).add( exInfo );
+			{
+				if ( reportContent.getErrors( ).size( ) < ERROR_TOTAL_COUNT )
+				{
+					reportContent.getErrors( ).add( exInfo );
+				}
+			}
 			else
-				onPrepareErrors.add( exInfo );
-			elementExceptions.put( element, exInfo );
+			{
+				if ( onPrepareErrors.size( ) < ERROR_TOTAL_COUNT )
+				{
+					onPrepareErrors.add( exInfo );
+				}
+			}
+			if ( elementExceptions.size( ) < ERROR_TOTAL_COUNT )
+			{
+				elementExceptions.put( element, exInfo );
+			}
 		}
 		exInfo.addException( ex );
 		
@@ -1489,6 +1507,11 @@ public class ExecutionContext
 	 */
 	static private class ApplicationClassLoader extends ClassLoader
 	{
+		
+		/**
+		 * the logger
+		 */
+		protected static Logger logger = Logger.getLogger( ClassLoader.class.getName( ) );
 
 		private static String[] classPathes = new String[]{
 				EngineConstants.WEBAPP_CLASSPATH_KEY,
@@ -1582,7 +1605,7 @@ public class ExecutionContext
 							}
 							catch ( MalformedURLException e )
 							{
-								e.printStackTrace( );
+								logger.log( Level.WARNING, e.getMessage( ), e );
 							}
 						}
 					}

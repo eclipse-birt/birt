@@ -448,7 +448,7 @@ public class ReportEngineHelper
 		}
 		catch ( EngineException ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.SEVERE, ex.getMessage( ), ex ); //$NON-NLS-1$
 		}
 		return null;
 	}

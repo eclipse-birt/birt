@@ -39,7 +39,11 @@ import org.osgi.framework.BundleContext;
  */
 public class EclipsePlatform implements IPlatform
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( IPlatform.class.getName( ) );
+	
 	BundleContext context;
 
 	public EclipsePlatform( BundleContext context )
@@ -233,7 +237,7 @@ public class EclipsePlatform implements IPlatform
 			}
 			catch ( Exception ex )
 			{
-				ex.printStackTrace( );
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
 			}
 		}
 	}
@@ -360,7 +364,7 @@ public class EclipsePlatform implements IPlatform
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
 		}
 		return null;
 

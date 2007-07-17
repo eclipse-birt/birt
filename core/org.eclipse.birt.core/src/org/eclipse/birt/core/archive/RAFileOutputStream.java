@@ -13,6 +13,8 @@ package org.eclipse.birt.core.archive;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is to be used by engine host (viewer), but not engine.  
@@ -20,6 +22,11 @@ import java.io.RandomAccessFile;
  */
 public class RAFileOutputStream extends RAOutputStream
 {
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( RAFileOutputStream.class.getName( ) );
+	
 	private RandomAccessFile parent;
 	private long startPos; 	// in parentFile, the position of the first character
 	private long endPos;   	// in parentFile, the position of EOF mark (not a valid character in the file)
@@ -43,7 +50,7 @@ public class RAFileOutputStream extends RAOutputStream
 		catch (IOException e) 
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.WARNING, e.getMessage( ) );
 		}
 	}
 

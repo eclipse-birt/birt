@@ -170,7 +170,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to load the page", ex );
-			ex.printStackTrace( );
 		}
 		finally
 		{
@@ -191,7 +190,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to load the page", ex );
-			ex.printStackTrace( );
 		}
 		finally
 		{
@@ -508,7 +506,6 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to load the page", ex ); //$NON-NLS-1$
-			ex.printStackTrace( );
 		}
 		finally
 		{

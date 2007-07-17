@@ -25,6 +25,7 @@ import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -53,7 +54,6 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
@@ -199,7 +199,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace( );
+			context
+					.addException( new EngineException( ex
+							.getLocalizedMessage( ) ) );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
 		}
 		return template;
 	}

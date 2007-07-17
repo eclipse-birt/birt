@@ -31,7 +31,11 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ReportEngine implements IReportEngine
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( IReportEngine.class.getName( ) );
+	
 	/**
 	 * 
 	 */
@@ -55,7 +59,7 @@ public class ReportEngine implements IReportEngine
 		}
 		catch ( BirtException ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.SEVERE, ex.getMessage( ) );
 		}
 
 		Object factory = Platform

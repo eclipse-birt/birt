@@ -543,7 +543,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			catch ( BirtException ex )
 			{
-				ex.printStackTrace( );
+				log.log( Level.WARNING, ex.getMessage( ), ex );
+				executionContext.addException( ex );
 			}
 		}
 		if ( !fixedOrder )
@@ -668,7 +669,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			catch ( BirtException ex )
 			{
-				ex.printStackTrace( );
+				log.log( Level.WARNING, ex.getMessage( ), ex );
+				executionContext.addException( ex );
 			}
 		}
 
@@ -780,7 +782,8 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, e.getMessage( ), e );
+			executionContext.addException( e );
 		}
 		if ( !parameter.isFixedOrder( ) )
 			Collections.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );

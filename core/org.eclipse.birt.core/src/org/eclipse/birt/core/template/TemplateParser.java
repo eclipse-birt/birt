@@ -9,9 +9,15 @@
 package org.eclipse.birt.core.template;
 
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TemplateParser
 {
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( TemplateParser.class.getName( ) );
 
 	public TextTemplate parse( String text )
 	{
@@ -30,7 +36,7 @@ public class TemplateParser
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace( );
+			logger.log( Level.WARNING, ex.getMessage( ) );
 		}
 		return null;
 	}

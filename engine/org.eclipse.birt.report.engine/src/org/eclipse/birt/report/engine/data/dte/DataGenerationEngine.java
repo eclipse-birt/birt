@@ -311,7 +311,6 @@ public class DataGenerationEngine extends AbstractDataEngine
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ) );
-			e.printStackTrace( );
 		}
 	}
 	

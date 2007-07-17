@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -31,7 +35,11 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  */
 public class ExtendedItemExecutor extends ContainerExecutor
 {
-
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( ExtendedItemExecutor.class.getName( ) );
+	
 	public ExtendedItemExecutor( ExecutorManager manager )
 	{
 		super( manager, ExecutorManager.EXTENDEDITEM );
@@ -179,7 +187,9 @@ public class ExtendedItemExecutor extends ContainerExecutor
 			}
 			catch ( Exception ex )
 			{
-				ex.printStackTrace( );
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				context.addException( new EngineException( ex
+						.getLocalizedMessage( ) ) );
 			}
 		}
 		return content;

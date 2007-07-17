@@ -13,6 +13,7 @@ package org.eclipse.birt.core.framework;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -116,7 +117,7 @@ public class Platform
 		}
 		catch ( BirtException ex )
 		{
-			ex.printStackTrace( );
+			log.log( Level.SEVERE, ex.getMessage( ) );
 		}
 	}
 
