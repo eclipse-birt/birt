@@ -52,7 +52,9 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 			{
 				return false;
 			}
-		} else {
+		}
+		else
+		{
 			PaletteEntryExtension[] extensions = EditpartExtensionManager.getPaletteEntries( );
 			for ( int i = 0; i < extensions.length; i++ )
 			{
@@ -60,7 +62,8 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 				{
 					try
 					{
-						CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
+						CommandUtils.setVariable( "targetEditPart",
+								getTargetEditPart( ) );
 						setModel( extensions[i].executeCreate( ) );
 						return super.preHandleMouseUp( );
 					}
@@ -68,24 +71,17 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 					{
 						ExceptionHandler.handle( e );
 					}
+
+					return false;
 				}
 			}
-			return false;
 		}
-		
+
 		return super.postHandleCreation( );
 	}
 
 	public boolean preHandleMouseUp( )
 	{
-		// ExtendedItemHandle handle = SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getElementFactory( )
-		// .newExtendedItem( null, extensionName );
-		//FIXME
-		if(getbuilder( )==null)
-			return true;
-		
 		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
 				.newExtendedItem( null, extensionName );
 		if ( handle == null )

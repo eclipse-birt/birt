@@ -63,7 +63,7 @@ public class ExtenedElementProcessor extends AbstractElementProcessor
 		{
 			return getBuilder( ).open( (ExtendedItemHandle) handle ) == Window.OK;
 		}
-		return false;
+		return true;
 	}
 
 	private IReportItemBuilderUI getBuilder( )
