@@ -67,6 +67,15 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 	private ITextContent textContent = null;
 	
+	private static HashSet splitChar = new HashSet();
+	
+	static 
+	{
+		splitChar.add( new Character( ' ' ) );
+		splitChar.add( new Character( '\r') );
+		splitChar.add( new Character( '\n') );
+	};
+	
 	public PDFTextLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
 	{
@@ -150,31 +159,20 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 	private String capitalize( String text )
 	{
-		HashSet splitChar = new HashSet( );
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( (char) 0x0A ) );
+		boolean capitalizeNextChar = true;
 		char[] array = text.toCharArray( );
-		int index = 0;
-		while ( index < array.length )
+		for ( int i = 0; i < array.length; i++ )
 		{
-			Character c = new Character( text.charAt( index ) );
-			while ( splitChar.contains( c ) )
+			Character c = new Character( text.charAt( i ) );
+			if ( splitChar.contains( c ) )
+				capitalizeNextChar = true;
+			else if (capitalizeNextChar)
 			{
-				index++;
-				if ( index == array.length )
-					return new String( array );
-				c = new Character( text.charAt( index ) );
-			}
-			array[index] = Character.toUpperCase( array[index] );
-			while ( !splitChar.contains( c ) )
-			{
-				index++;
-				if ( index == array.length )
-					break;
-				c = new Character( text.charAt( index ) );
+				array[i] = Character.toUpperCase( array[i] );
+				capitalizeNextChar = false;
 			}
 		}
-		return new String( array );
+		return new String(array);
 	}
 	
 	
@@ -362,11 +360,6 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 				// The first word of the chunk is empty, so it means this chunk is a blank one. 
 				if (null == currentWord)
 				{
-					Dimension d = new Dimension( 0, 
-							(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO ));
-					IArea builtArea = buildArea("", content,  //$NON-NLS-1$
-							chunk.getFontInfo(), d);
-					PDFTextLM.this.addTextLine(builtArea);
 					return;
 				}
 				str = currentWord.getValue();
@@ -474,6 +467,17 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						nothingSplitted = true;
 						vestigeIndex = currentPos;
 						vestigeLength = (null == currentWord) ? vestigeLength : currentWord.getLength();
+						
+						Dimension d = new Dimension( prevAreaWidth,
+								(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));	
+						
+						String originalText = chunk.getText().substring(areaStartPos - chunk.getOffset(),
+								currentPos);
+						
+						IArea builtArea = buildArea(getReverseText(originalText), content, chunk.getFontInfo(), d);
+						PDFTextLM.this.addTextLine(builtArea);
+						PDFTextLM.this.newLine();
+						
 						return;
 					}
 				}
@@ -667,10 +671,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			textArea.setPosition( 0, topPadding + topBorder );
 			return con;
 		}
-		
-		
 			
 	}
-
 
 }
