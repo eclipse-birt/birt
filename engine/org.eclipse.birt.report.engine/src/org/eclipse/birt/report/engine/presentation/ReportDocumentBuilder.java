@@ -563,6 +563,7 @@ public class ReportDocumentBuilder
 				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
 				{
+					writeTotalPage( pageNumber );
 					close( );
 					return;
 				}
@@ -594,7 +595,6 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
-						writeTotalPage( pageNumber );
 						document.saveCoreStreams( );
 						archive.flush( );
 					}
