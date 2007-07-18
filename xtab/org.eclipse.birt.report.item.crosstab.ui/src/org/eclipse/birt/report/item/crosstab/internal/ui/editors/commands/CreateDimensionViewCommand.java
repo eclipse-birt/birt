@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
- * Add the dimension handle to the cross tab through the virtual cell editpart.So
- * the insert position is 0.
+ * Add the dimension handle to the cross tab through the virtual cell
+ * editpart.So the insert position is 0.
  */
 // TODO binding the data
 public class CreateDimensionViewCommand extends AbstractCrosstabCommand
@@ -49,10 +49,12 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	/**
 	 * trans name
 	 */
-	//private static final String NAME = "Create DiminsionViewHandle";
+	// private static final String NAME = "Create DiminsionViewHandle";
 	private static final String NAME = Messages.getString( "CreateDimensionViewCommand.TransName" );//$NON-NLS-1$
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param handleAdpter
 	 * @param type
 	 * @param dimensionHandle
@@ -125,26 +127,23 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					0 );
-			
+
 			LevelHandle levelHandle = getLevelHandle( );
 			if ( levelHandle == null )
 			{
 				rollBack( );
 				return;
 			}
-			//new a bing
-			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
-			
-			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-						
-			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle, 0 );
-		
+
+			// add dataitem to cell
+			DataItemHandle dataHandle = CrosstabAdaptUtil.createDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+					levelHandle );
+
+			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
+					0 );
+
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( levelHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-			
 			cellHandle.addContent( dataHandle );
 		}
 		catch ( SemanticException e )
@@ -171,17 +170,16 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	{
 		this.dimensionHandle = dimensionHandle;
 	}
-	
+
 	public LevelHandle getLevelHandle( )
 	{
-		if (levelHandle == null)
+		if ( levelHandle == null )
 		{
 			return getDimensionHandle( ).getDefaultHierarchy( ).getLevel( 0 );
 		}
 		return levelHandle;
 	}
 
-	
 	public void setLevelHandle( LevelHandle levelHandle )
 	{
 		this.levelHandle = levelHandle;

@@ -157,17 +157,13 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 				return;
 			}
 
-			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
-			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+			DataItemHandle dataHandle = CrosstabAdaptUtil.createDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+					levelHandle );
 						
 			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle, 0 );
 
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( levelHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-			
 			cellHandle.addContent( dataHandle );
 		}
 		catch ( SemanticException e )

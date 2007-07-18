@@ -14,11 +14,11 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -30,10 +30,13 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -88,6 +91,29 @@ public class CrosstabAdaptUtil
 		bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
 
 		return bindingColumn;
+	}
+
+	public static DataItemHandle createDataItem( ReportItemHandle owner,
+			LevelHandle levelHandle ) throws SemanticException
+	{
+		ComputedColumn bindingColumn = createComputedColumn( owner, levelHandle );
+
+		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
+				false );
+
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( levelHandle.getName( ) );
+		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+
+		if ( levelHandle.getDateTimeFormat( ) != null )
+		{
+			dataHandle.getPrivateStyle( )
+					.setDateTimeFormatCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
+			dataHandle.getPrivateStyle( )
+					.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
+		}
+
+		return dataHandle;
 	}
 
 	/**
@@ -230,12 +256,13 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 
-//	public static void processInvaildBindings( CrosstabReportItemHandle handle )
-//	{
-//		processInvaildBindings( handle, true );
-//	}
+	// public static void processInvaildBindings( CrosstabReportItemHandle
+	// handle )
+	// {
+	// processInvaildBindings( handle, true );
+	// }
 
-	public static void processInvaildBindings( CrosstabReportItemHandle handle)
+	public static void processInvaildBindings( CrosstabReportItemHandle handle )
 	{
 		if ( CrosstabPlugin.getDefault( )
 				.getPluginPreferences( )

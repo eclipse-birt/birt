@@ -242,20 +242,13 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			}
 			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
 			//new a bing
-			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
+			DataItemHandle dataHandle = CrosstabAdaptUtil.createDataItem( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
 					levelHandle );
-
-			ComputedColumnHandle bindingHandle = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).addColumnBinding( bindingColumn,
-					false );
 
 			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
 					0 );
 
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( levelHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 
 			cellHandle.addContent( dataHandle );
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
