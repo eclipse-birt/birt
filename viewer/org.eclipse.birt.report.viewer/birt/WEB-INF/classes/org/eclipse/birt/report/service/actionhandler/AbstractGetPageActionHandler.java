@@ -69,6 +69,7 @@ public abstract class AbstractGetPageActionHandler
 
 	/**
 	 * Returns report document file name.
+	 * 
 	 * @param bean
 	 * @return
 	 */
@@ -152,7 +153,7 @@ public abstract class AbstractGetPageActionHandler
 						.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
 
 				// Bookmark is a TOC name, then find TOC id by name
-				if ( __bean.isToc( ) )
+				if ( isToc( operation.getOprand( ), __bean ) )
 				{
 					__bookmark = ( getReportService( ) ).findTocByName(
 							__docName, __bookmark, options );

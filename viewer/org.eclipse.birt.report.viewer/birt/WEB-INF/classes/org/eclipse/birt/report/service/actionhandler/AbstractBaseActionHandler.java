@@ -118,6 +118,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	/**
 	 * Get page number from incoming soap request.
 	 * 
+	 * @param request
 	 * @param params
 	 * @param document
 	 * @return
@@ -167,13 +168,11 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	}
 
 	/**
-	 * Get page number by bookmark.
+	 * Get bookmark name from SOAP params and request.
 	 * 
 	 * @param params
 	 * @param bean
-	 * @param document
 	 * @return
-	 * @throws RemoteException
 	 */
 	protected String getBookmark( Oprand[] params, BaseAttributeBean bean )
 	{
@@ -201,6 +200,44 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		}
 
 		return bookmark;
+	}
+
+	/**
+	 * Get isToc flag from SOAP params and request.
+	 * 
+	 * @param params
+	 * @param bean
+	 * @return
+	 */
+	protected boolean isToc( Oprand[] params, BaseAttributeBean bean )
+	{
+		assert bean != null;
+
+		String tocFlag = null;
+		if ( params != null && params.length > 0 )
+		{
+			for ( int i = 0; i < params.length; i++ )
+			{
+				if ( IBirtConstants.OPRAND_ISTOC.equalsIgnoreCase( params[i]
+						.getName( ) ) )
+				{
+					tocFlag = ParameterAccessor.htmlDecode( params[i]
+							.getValue( ) );
+					break;
+				}
+			}
+		}
+
+		// Then use url istoc.
+		if ( tocFlag == null || tocFlag.length( ) <= 0 )
+		{
+			return bean.isToc( );
+		}
+
+		if ( "true".equalsIgnoreCase( tocFlag ) ) //$NON-NLS-1$
+			return true;
+
+		return false;
 	}
 
 	/**
@@ -406,16 +443,17 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	 * @throws RemoteException
 	 */
 	protected boolean getSVGFlag( Oprand[] params )
-	{		
+	{
 		boolean flag = false;
-		
+
 		// if set __svg in URL, return it. High priority
-		HttpServletRequest request = context.getRequest( );		
-		if( ParameterAccessor.isReportParameterExist( request, ParameterAccessor.PARAM_SVG ))
+		HttpServletRequest request = context.getRequest( );
+		if ( ParameterAccessor.isReportParameterExist( request,
+				ParameterAccessor.PARAM_SVG ) )
 		{
 			return ParameterAccessor.getSVGFlag( request );
 		}
-		
+
 		// if not, get svg flag from soap message
 		if ( params != null && params.length > 0 )
 		{

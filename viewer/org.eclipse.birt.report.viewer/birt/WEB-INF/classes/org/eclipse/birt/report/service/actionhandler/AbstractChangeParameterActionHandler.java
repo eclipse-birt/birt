@@ -72,7 +72,7 @@ public abstract class AbstractChangeParameterActionHandler
 						.getLocale( ) );
 
 				// Bookmark is a TOC name, then find TOC id by name
-				if ( attrBean.isToc( ) )
+				if ( isToc( operation.getOprand( ), attrBean ) )
 				{
 					bookmark = ( getReportService( ) ).findTocByName( docName,
 							bookmark, options );

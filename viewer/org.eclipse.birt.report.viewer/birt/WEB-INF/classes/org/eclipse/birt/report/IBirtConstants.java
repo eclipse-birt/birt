@@ -21,7 +21,7 @@ public interface IBirtConstants
 	public static final String OPRAND_BOOKMARK = "__bookmark"; //$NON-NLS-1$	
 	public static final String OPRAND_SVG = "__svg"; //$NON-NLS-1$
 	public static final String OPRAND_TASKID = "__taskid"; //$NON-NLS-1$
-	public static final String OPRAND_TOC = "isToc"; //$NON-NLS-1$
+	public static final String OPRAND_ISTOC = "__istoc"; //$NON-NLS-1$
 	public static final String OPRAND_PARAM = "param"; //$NON-NLS-1$
 	public static final String OPRAND_IID = "iid"; //$NON-NLS-1$	
 	

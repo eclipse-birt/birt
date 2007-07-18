@@ -52,6 +52,7 @@ var Constants = {
 	PARAM_BOOKMARK : '__bookmark',
 	PARAM_SVG : '__svg',
 	PARAM_TASKID : '__taskid',
+	PARAM_ISTOC : '__istoc',
 	PARAM_EXPORT_ENCODING : '__exportEncoding',
 	PARAM_SEP : '__sep',
 	PARAM_ISNULL : '__isnull',

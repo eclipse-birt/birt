@@ -214,7 +214,18 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		var query = clickImg.query;
 		var plusMinus = clickImg.plusMinus;
 		var bookmark = clickImg.bookmark;
-		birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name: Constants.PARAM_BOOKMARK, value: bookmark } );
+		
+		var params = new Array( );
+		params[0] = { };
+		params[0].name = Constants.PARAM_BOOKMARK;
+		params[0].value = bookmark;
+		
+		// passed bookmark name is not a TOC name.
+		params[1] = { };
+		params[1].name = Constants.PARAM_ISTOC;
+		params[1].value = "false";
+		
+		birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, params );
 		Event.stop(event);
 	},
 	
