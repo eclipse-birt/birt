@@ -1027,6 +1027,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( newRefEelement == null )
 			{
 				newRefEelement = visitExternalElement( refElement );
+				refElement.apply( this );
 			}
 
 			assert newRefEelement != null;
@@ -1066,6 +1067,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				if ( newRefEelement == null )
 				{
 					newRefEelement = visitExternalElement( refElement );
+					refElement.apply( this );
 				}
 				values.add( new ElementRefValue( null, newRefEelement ) );
 			}
@@ -1131,6 +1133,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( newRefEelement == null )
 			{
 				newRefEelement = visitExternalElement( refElement );
+				refElement.apply( this );
 			}
 
 			// if it is theme, newRefElement can be null.
