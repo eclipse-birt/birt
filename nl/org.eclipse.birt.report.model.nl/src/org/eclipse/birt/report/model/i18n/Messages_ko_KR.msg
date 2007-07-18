@@ -2970,6 +2970,7 @@ Element.Hierarchy.accessControls=액세스 컨트롤
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=데이터 형식
 Element.Level.dateTimeLevelType=날짜 시간 수준 형식
+Element.Level.dateTimeFormat=Date Time Format
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격

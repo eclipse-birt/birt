@@ -2970,6 +2970,7 @@ Element.Hierarchy.accessControls=Zugriffssteuerungen
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Datentyp
 Element.Level.dateTimeLevelType=Ebenentyp für Datum/Uhrzeit
+Element.Level.dateTimeFormat=Date Time Format
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
 Element.Level.interval=Intervall

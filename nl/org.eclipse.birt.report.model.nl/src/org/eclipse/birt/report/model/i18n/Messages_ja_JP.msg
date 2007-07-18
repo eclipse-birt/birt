@@ -2970,6 +2970,7 @@ Element.Hierarchy.accessControls=アクセスコントロール
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=データ型
 Element.Level.dateTimeLevelType=日付と時間のレベルの種類
+Element.Level.dateTimeFormat=Date Time Format
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔の基準
 Element.Level.interval=間隔
