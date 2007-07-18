@@ -3432,6 +3432,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitLevel( obj );
 		property( obj, ILevelModel.DATA_TYPE_PROP );
 		property( obj, ILevelModel.DATE_TIME_LEVEL_TYPE );
+		property( obj, ILevelModel.DATE_TIME_FORMAT_PROP );
 		property( obj, ILevelModel.INTERVAL_BASE_PROP );
 		property( obj, ILevelModel.INTERVAL_PROP );
 		property( obj, ILevelModel.INTERVAL_RANGE_PROP );

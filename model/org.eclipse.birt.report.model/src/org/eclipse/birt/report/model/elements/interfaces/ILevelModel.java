@@ -69,4 +69,9 @@ public interface ILevelModel
 	 * year, quater, month, week, day.
 	 */
 	String DATE_TIME_LEVEL_TYPE = "dateTimeLevelType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the format for the date-time level.
+	 */
+	String DATE_TIME_FORMAT_PROP = "dateTimeFormat"; //$NON-NLS-1$
 }

@@ -201,6 +201,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "none", level.getInterval( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH, level
 				.getDateTimeLevelType( ) );
+		assertEquals( "mmm", level.getDateTimeFormat( ) ); //$NON-NLS-1$
 		assertEquals( 3.0, level.getIntervalRange( ), 0.00 );
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level
@@ -381,6 +382,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
 		level
 				.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
+		level.setDateTimeFormat( "mm" ); //$NON-NLS-1$
 		// level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );

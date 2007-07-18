@@ -3552,6 +3552,7 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="(Dimension, level)" since="2.2" xmlName="level">
   	<Property detailType="columnDataType" displayNameID="Element.Level.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice"/>
   	<Property detailType="dateTimeLevelType" displayNameID="Element.Level.dateTimeLevelType" name="dateTimeLevelType" runtimeSettable="false" since="2.2" type="choice"/>
+  	<Property displayNameID="Element.Level.dateTimeFormat" name="dateTimeFormat" runtimeSettable="false" since="2.2" type="string"/>
   	<PropertyGroup displayNameID="Element.Level.Interval">
 		<Property displayNameID="Element.Level.intervalBase" name="intervalBase" runtimeSettable="false" since="2.2" type="string" />
    		<Property detailType="intervalType" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">

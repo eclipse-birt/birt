@@ -312,7 +312,7 @@ public abstract class LevelHandle extends ReportElementHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 *  <li>DATE_TIME_LEVEL_TYPE_YEAR
+	 * <li>DATE_TIME_LEVEL_TYPE_YEAR
 	 * <li>DATE_TIME_LEVEL_TYPE_MONTH
 	 * <li>DATE_TIME_LEVEL_TYPE_QUARTER
 	 * <li>DATE_TIME_LEVEL_TYPE_WEEK
@@ -328,9 +328,35 @@ public abstract class LevelHandle extends ReportElementHandle
 	 *             if the dateTimeType is not in the choice list.
 	 */
 
-	public void setDateTimeLevelType( String dateTimeType ) throws SemanticException
+	public void setDateTimeLevelType( String dateTimeType )
+			throws SemanticException
 	{
 		setStringProperty( DATE_TIME_LEVEL_TYPE, dateTimeType );
 	}
 
+	/**
+	 * Returns the date-time format of this level.
+	 * 
+	 * @return the date-time format of this level.
+	 */
+
+	public String getDateTimeFormat( )
+	{
+		return getStringProperty( DATE_TIME_FORMAT_PROP );
+	}
+
+	/**
+	 * Sets the date-time format of this level.
+	 * 
+	 * @param dateTimeFormat
+	 *            the date-time format to set
+	 * @throws SemanticException
+	 *             if the date-time-format is locked
+	 */
+
+	public void setDateTimeFormat( String dateTimeFormat )
+			throws SemanticException
+	{
+		setStringProperty( DATE_TIME_FORMAT_PROP, dateTimeFormat );
+	}
 }
