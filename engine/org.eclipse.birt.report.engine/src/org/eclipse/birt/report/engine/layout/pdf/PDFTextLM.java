@@ -468,6 +468,9 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						vestigeIndex = currentPos;
 						vestigeLength = (null == currentWord) ? vestigeLength : currentWord.getLength();
 						
+						if ( 0 == prevAreaWidth )
+							return;
+						
 						Dimension d = new Dimension( prevAreaWidth,
 								(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));	
 						
