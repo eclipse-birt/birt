@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -85,9 +86,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	private TreeViewer treeViewer;
 
 	private static final String[] LIBRARY_FILENAME_PATTERN = new String[]{
-			"*.rptlibrary", //$NON-NLS-1$£¬
-			"*.css",
-			"*.CSS"
+			"*.rptlibrary", //$NON-NLS-1$
+			"*.RPTLIBRARY", //$NON-NLS-1$
+			"*.css", //$NON-NLS-1$
+			"*.CSS" //$NON-NLS-1$
 	};
 
 	public LibraryExplorerTreeViewPage( )
@@ -284,9 +286,37 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					}
 				}
 			}
+			else if ( object instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) object ).getType( ) == ResourceEntryWrapper.LIBRARY )
+			{
+				LibraryHandle libHandle = (LibraryHandle) ( (ResourceEntryWrapper) object ).getAdapter( LibraryHandle.class );
+
+				return libHandle.getFileName( );
+			}
+			else if ( object instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) object ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
+			{
+				CssStyleSheetHandle cssHandle = (CssStyleSheetHandle) ( (ResourceEntryWrapper) object ).getAdapter( CssStyleSheetHandle.class );
+
+				if ( cssHandle.getFileName( ).startsWith( BUNDLE_PROTOCOL ) )
+				{
+					return cssHandle.getFileName( );
+				}
+				else
+				{
+					ModuleHandle moudleHandle = cssHandle.getModule( )
+							.getModuleHandle( );
+					URL url = moudleHandle.findResource( cssHandle.getFileName( ),
+							IResourceLocator.CASCADING_STYLE_SHEET );
+					if ( url != null )
+					{
+						return url.getFile( );
+					}
+				}
+			}
 			else if ( object instanceof PathResourceEntry )
 			{
-				return ( ( PathResourceEntry ) object ).getURL( ).getPath( );
+				return ( (PathResourceEntry) object ).getURL( ).getPath( );
 			}
 		}
 		return ""; //$NON-NLS-1$

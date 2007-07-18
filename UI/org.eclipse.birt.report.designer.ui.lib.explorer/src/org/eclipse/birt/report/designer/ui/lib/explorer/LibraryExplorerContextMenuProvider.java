@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryandC
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInThemeAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -51,8 +52,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	private DeleteLibraryandCSSAction deleteLibraryandCssAction;
 	private AddCSSAction addCSSAction;
 
-	
 	private LibraryExplorerTreeViewPage page;
+
 	/**
 	 * constructor
 	 * 
@@ -69,7 +70,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		addLibraryAction = new AddLibraryAction( page.getTreeViewer( ) );
 		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
 		deleteLibraryandCssAction = new DeleteLibraryandCSSAction( page );
-		addCSSAction = new AddCSSAction(page.getTreeViewer( ) );
+		addCSSAction = new AddCSSAction( page.getTreeViewer( ) );
 
 	}
 
@@ -101,9 +102,9 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
 
-			if ( selected instanceof LibraryHandle )
+			if ( selected instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
-//				menu.add( addLibraryAction );
 				if ( useLibraryAction.isEnabled( ) )
 				{
 					menu.add( useLibraryAction );
@@ -112,17 +113,35 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 				{
 					menu.add( deleteLibraryandCssAction );
 				}
-			}else
-			if(selected instanceof CssStyleSheetHandle)
+			}
+			else if ( selected instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
 			{
-				menu.add(  new UseCssInReportDesignAction(page) );
-				menu.add( new UseCssInThemeAction(page) );
+				menu.add( new UseCssInReportDesignAction( page ) );
+				menu.add( new UseCssInThemeAction( page ) );
 				menu.add( deleteLibraryandCssAction );
+			}
+			else if ( selected instanceof LibraryHandle )
+			{
+				if ( useLibraryAction.isEnabled( ) )
+				{
+					menu.add( useLibraryAction );
+				}
+				// if ( deleteLibraryandCssAction.isEnabled( ) )
+				// {
+				// menu.add( deleteLibraryandCssAction );
+				// }
+			}
+			else if ( selected instanceof CssStyleSheetHandle )
+			{
+				menu.add( new UseCssInReportDesignAction( page ) );
+				menu.add( new UseCssInThemeAction( page ) );
+				// menu.add( deleteLibraryandCssAction );
 			}
 			else
 			{
 				// addLibraryAction.setFolder( (File) selected );
-				if(selected instanceof PathResourceEntry)
+				if ( selected instanceof PathResourceEntry )
 				{
 					menu.add( addLibraryAction );
 					menu.add( addCSSAction );

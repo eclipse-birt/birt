@@ -11,36 +11,22 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
-import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ * UseCssInReportDesignAction
  */
-
 public class UseCssInReportDesignAction extends Action
 {
 
@@ -82,9 +68,15 @@ public class UseCssInReportDesignAction extends Action
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
 		if ( selection != null )
 		{
-			if ( selection.getFirstElement( ) instanceof CssStyleSheetHandle )
+			Object selected = selection.getFirstElement( );
+			if ( selected instanceof CssStyleSheetHandle )
 			{
-				return (CssStyleSheetHandle) selection.getFirstElement( );
+				return (CssStyleSheetHandle) selected;
+			}
+			else if ( selected instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
+			{
+				return (CssStyleSheetHandle) ( (ResourceEntryWrapper) selected ).getAdapter( CssStyleSheetHandle.class );
 			}
 		}
 		return null;

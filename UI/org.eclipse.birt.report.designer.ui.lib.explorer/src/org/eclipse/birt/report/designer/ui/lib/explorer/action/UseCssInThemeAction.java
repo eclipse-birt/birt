@@ -16,28 +16,22 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 
 /**
- * 
+ * UseCssInThemeAction
  */
-
 public class UseCssInThemeAction extends Action
 {
 	private LibraryExplorerTreeViewPage viewer;
@@ -88,9 +82,15 @@ public class UseCssInThemeAction extends Action
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
 		if ( selection != null )
 		{
-			if ( selection.getFirstElement( ) instanceof CssStyleSheetHandle )
+			Object selected = selection.getFirstElement( );
+			if ( selected instanceof CssStyleSheetHandle )
 			{
-				return (CssStyleSheetHandle) selection.getFirstElement( );
+				return (CssStyleSheetHandle) selected;
+			}
+			else if ( selected instanceof ResourceEntryWrapper
+					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
+			{
+				return (CssStyleSheetHandle) ( (ResourceEntryWrapper) selected ).getAdapter( CssStyleSheetHandle.class );
 			}
 		}
 		return null;

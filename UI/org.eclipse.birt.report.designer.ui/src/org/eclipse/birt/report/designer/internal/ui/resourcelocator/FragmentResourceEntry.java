@@ -32,16 +32,15 @@ import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 /**
- * 
+ * FragmentResourceEntry
  */
-
 public class FragmentResourceEntry extends BaseResourceEntity
 {
 
 	private static Bundle bundle;
 
 	private String name;
-	
+
 	private String displayName;
 
 	private FragmentResourceEntry parent;
@@ -51,7 +50,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	private List children = new ArrayList( );
 
 	private LibraryHandle library;
-	
+
 	private CssStyleSheetHandle cssStyleHandle;
 
 	private boolean isRoot;
@@ -171,7 +170,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		return this.name;
 	}
-	
+
 	public String getDisplayName( )
 	{
 		return this.displayName;
@@ -202,7 +201,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		return this.isFile;
 	}
-	
+
 	public boolean isRoot( )
 	{
 		return this.isRoot;
@@ -215,13 +214,13 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			this.library.close( );
 			this.library = null;
 		}
-		
+
 		if ( this.cssStyleHandle != null )
 		{
 			// according to Xingjie, GUI needn't close() it.
 			this.cssStyleHandle = null;
 		}
-		
+
 		ResourceEntry[] children = getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
@@ -233,7 +232,11 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		if ( adapter == LibraryHandle.class )
 		{
-			if ( getChildren( ).length == 0 && this.library == null && getURL().toString( ).toLowerCase( ).endsWith( ".rptlibrary" ))
+			if ( getChildren( ).length == 0
+					&& this.library == null
+					&& getURL( ).toString( )
+							.toLowerCase( )
+							.endsWith( ".rptlibrary" ) )
 			{
 				try
 				{
@@ -241,7 +244,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 							.getSessionHandle( )
 							.openLibrary( getURL( ).toString( ) );
 				}
-				catch ( DesignFileException e )
+				catch ( Exception e )
 				{
 				}
 			}
@@ -249,7 +252,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		}
 		else if ( adapter == CssStyleSheetHandle.class )
 		{
-			if ( this.cssStyleHandle == null && getURL().toString( ).toLowerCase( ).endsWith( ".css" ) )
+			if ( this.cssStyleHandle == null
+					&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) )
 			{
 				String projectFolder = UIUtil.getProjectFolder( );
 
@@ -259,9 +263,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 							.getReportDesignHandle( )
 							.openCssStyleSheet( getURL( ).toString( ) );
 				}
-				catch ( StyleSheetException e )
+				catch ( Exception e )
 				{
-
 				}
 
 			}

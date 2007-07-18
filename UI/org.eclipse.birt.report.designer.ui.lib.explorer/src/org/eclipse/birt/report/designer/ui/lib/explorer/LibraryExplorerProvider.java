@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResource
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.viewers.Viewer;
@@ -39,21 +40,46 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
+		if ( parentElement instanceof ResourceEntryWrapper )
+		{
+			if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.LIBRARY )
+			{
+				Object object = ( (ResourceEntryWrapper) parentElement ).getAdapter( LibraryHandle.class );
+				return super.getChildren( object );
+			}
+			else if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
+			{
+				Object object = ( (ResourceEntryWrapper) parentElement ).getAdapter( CssStyleSheetHandle.class );
+				return super.getChildren( object );
+			}
+		}
+
 		if ( parentElement instanceof ResourceEntry )
 		{
-			Object[] children = ( (ResourceEntry) parentElement ).getChildren( );
+			ResourceEntry[] children = ( (ResourceEntry) parentElement ).getChildren( );
 			List childrenList = new ArrayList( );
 			for ( int i = 0; i < children.length; i++ )
 			{
-				Object object = ( (ResourceEntry) children[i] ).getAdapter( LibraryHandle.class );
-				if ( object == null )
-				{
-					object = ( (ResourceEntry) children[i] ).getAdapter( CssStyleSheetHandle.class );
-				}
+				Object object = children[i].getAdapter( LibraryHandle.class );
 				if ( object != null )
-					childrenList.add( object );
+				{
+					childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.LIBRARY,
+							children[i] ) );
+				}
 				else
-					childrenList.add( children[i] );
+				{
+					object = children[i].getAdapter( CssStyleSheetHandle.class );
+
+					if ( object != null )
+					{
+						childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.CSS_STYLE_SHEET,
+								children[i] ) );
+					}
+					else
+					{
+						childrenList.add( children[i] );
+					}
+				}
 			}
 			return childrenList.toArray( );
 		}
@@ -67,6 +93,20 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Image getImage( Object element )
 	{
+		if ( element instanceof ResourceEntryWrapper )
+		{
+			if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
+			{
+				Object object = ( (ResourceEntryWrapper) element ).getAdapter( LibraryHandle.class );
+				return super.getImage( object );
+			}
+			else if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
+			{
+				Object object = ( (ResourceEntryWrapper) element ).getAdapter( CssStyleSheetHandle.class );
+				return super.getImage( object );
+			}
+		}
+
 		if ( element instanceof ResourceEntry )
 		{
 			return ( (ResourceEntry) element ).getImage( );
@@ -81,24 +121,29 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public String getText( Object element )
 	{
-		if ( element instanceof LibraryHandle )
+		if ( element instanceof ResourceEntryWrapper
+				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
 		{
+			LibraryHandle lib = (LibraryHandle) ( (ResourceEntryWrapper) element ).getAdapter( LibraryHandle.class );
 			// fileName of the LibraryHandle is a relative path.
-			String fileName = ( (LibraryHandle) element ).getFileName( );
+			String fileName = lib.getFileName( );
 			// fileName is a URL string.
 			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
-		}else
-		if(element instanceof CssStyleSheetHandle)
+		}
+		else if ( element instanceof ResourceEntryWrapper
+				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
 		{
-			String fileName = ( (CssStyleSheetHandle) element ).getFileName( );
-			//should be removed later -- begin ---
-			if(fileName == null || fileName.length( ) == 0)
+			CssStyleSheetHandle css = (CssStyleSheetHandle) ( (ResourceEntryWrapper) element ).getAdapter( CssStyleSheetHandle.class );
+			String fileName = css.getFileName( );
+			// should be removed later -- begin ---
+			if ( fileName == null || fileName.length( ) == 0 )
 			{
-				fileName = "base.css";
+				fileName = "base.css"; //$NON-NLS-1$
 			}
-			//should be removed later -- end ---
-			return fileName.substring ( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
-		}	
+			// should be removed later -- end ---
+			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+		}
+
 		if ( element instanceof ResourceEntry )
 		{
 			if ( !( (ResourceEntry) element ).isRoot( ) )
@@ -107,14 +152,14 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			}
 			if ( element instanceof FragmentResourceEntry )
 			{
-				return Messages.getString( "FragmentResourceEntry.RootDisplayName" );
+				return Messages.getString( "FragmentResourceEntry.RootDisplayName" );//$NON-NLS-1$
 			}
 			else if ( element instanceof PathResourceEntry )
 			{
-				return Messages.getString( "PathResourceEntry.RootDisplayName" );
+				return Messages.getString( "PathResourceEntry.RootDisplayName" );//$NON-NLS-1$
 			}
 		}
-		if ( element instanceof String )
+		else if ( element instanceof String )
 		{
 			return element.toString( );
 		}
