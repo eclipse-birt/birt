@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 
