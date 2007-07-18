@@ -61,7 +61,6 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
@@ -630,6 +629,10 @@ public class ParameterDialog extends BaseDialog
 		isHidden = new Button( checkBoxArea, SWT.CHECK );
 		isHidden.setText( CHECKBOX_HIDDEN );
 		addCheckBoxListener( isHidden, CHECKBOX_HIDDEN );
+
+		distinct = new Button( checkBoxArea, SWT.CHECK );
+		distinct.setText( CHECKBOX_DISTINCT );
+		distinct.setSelection( false );
 	}
 
 	private void createValuesDefineSection( Composite composite )
@@ -665,7 +668,7 @@ public class ParameterDialog extends BaseDialog
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 330;
+		gd.heightHint = 300;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
 		valueArea.setLayoutData( gd );
@@ -740,7 +743,7 @@ public class ParameterDialog extends BaseDialog
 		isRequired.setSelection( inputParameter.isRequired( ) );
 		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
 		// needSort.setSelection( !inputParameter.isFixedOrder( ) );
-
+		distinct.setSelection( !inputParameter.distinct( ) );
 		changeDataType( );
 		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( inputParameter.getDataType( ) )
 				.getDisplayName( ) );
@@ -1718,13 +1721,11 @@ public class ParameterDialog extends BaseDialog
 				{
 					sortDirectionLabel.setEnabled( true );
 					sortDirectionChooser.setEnabled( true );
-					distinct.setEnabled( true );
 				}
 				else
 				{
 					sortDirectionLabel.setEnabled( false );
 					sortDirectionChooser.setEnabled( false );
-					distinct.setEnabled( false );
 				}
 			}
 
@@ -1741,13 +1742,6 @@ public class ParameterDialog extends BaseDialog
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
-
-		Composite distinctBtnArea = new Composite( sortGroup, SWT.NONE );
-		distinctBtnArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		distinctBtnArea.setLayout( new GridLayout( ) );
-		distinct = new Button( distinctBtnArea, SWT.CHECK );
-		distinct.setText( CHECKBOX_DISTINCT );
-		distinct.setSelection( true );
 	}
 
 	private void clearDefaultValueText( )
@@ -1901,7 +1895,7 @@ public class ParameterDialog extends BaseDialog
 		// Validate the date first -- begin -- bug 164765
 		try
 		{
-			validateValue(null);
+			validateValue( null );
 		}
 		catch ( BirtException e1 )
 		{
@@ -2031,6 +2025,15 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 
+			if ( distinct.isEnabled( ) )
+			{
+				inputParameter.setDistinct( !distinct.getSelection( ) );
+			}
+			else
+			{
+				inputParameter.setDistinct( true );
+			}
+
 			if ( sorttingArea != null
 					&& !sorttingArea.isDisposed( )
 					&& sorttingArea.isVisible( ) )
@@ -2038,7 +2041,6 @@ public class ParameterDialog extends BaseDialog
 				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
 				{
 					inputParameter.setFixedOrder( false );
-					inputParameter.setDistinct( !distinct.getSelection( ) );
 					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
 					{
 						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
@@ -2065,7 +2067,6 @@ public class ParameterDialog extends BaseDialog
 					inputParameter.setFixedOrder( true );
 					inputParameter.setSortBy( null );
 					inputParameter.setSortDirection( null );
-					inputParameter.setDistinct( false );
 				}
 			}
 			else
@@ -2241,10 +2242,12 @@ public class ParameterDialog extends BaseDialog
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
 		{
 			doNotEcho.setEnabled( true );
+			distinct.setEnabled( false );
 		}
 		else
 		{
 			doNotEcho.setEnabled( false );
+			distinct.setEnabled( true );
 		}
 	}
 
@@ -2332,7 +2335,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				try
 				{
-					validateValue(defaultValueChooser.getText( ) );
+					validateValue( defaultValueChooser.getText( ) );
 				}
 				catch ( BirtException e )
 				{
