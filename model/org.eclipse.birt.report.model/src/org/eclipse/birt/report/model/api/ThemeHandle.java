@@ -153,7 +153,8 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		Iterator iterator = propHandle.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			CssStyleSheetHandle handle = (CssStyleSheetHandle) iterator.next( );
+			IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) iterator
+					.next( );
 			set.add( handle.getFileName( ) );
 		}
 
