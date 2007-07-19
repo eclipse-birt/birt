@@ -1,7 +1,7 @@
 <project name="Build specific targets and properties" default="noDefault" basedir=".">
 
 	<property name="postingDirectory" value="${buildDirectory}" />
-	<property name="package.version" value="2_2_0" />
+	<property name="package.version" value="2_2_1" />
 	<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 
 	
@@ -21,16 +21,19 @@
 	<!-- ${assembleScriptName}) but may also add pre and post processing -->
 	<!-- Add one target for each root element and each configuration -->
 	<!-- ===================================================================== -->
+	
 	<!--
 	<target name="assemble.org.eclipse.birt.rcp">
 		<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 		<antcall target="assemble" />
 	</target>
 	-->
+
 	<target name="assemble.org.eclipse.pde.build.container.feature.win32.win32.x86">
 		<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 		<antcall target="assemble" />
 	</target>
+
 
 	<target name="assemble">
 		<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
@@ -38,18 +41,18 @@
 	</target>
 	
 	<target name="postPackage">
-        <move todir="${postingDirectory}/${buildId}">
-                <fileset dir="${buildDirectory}/${buildId}">
-                        <include name="${archiveName}" />
-                </fileset>
-        </move>
-		
+		<move todir="${postingDirectory}/${buildId}">
+			<fileset dir="${buildDirectory}/${buildId}">
+		 		<include name="${archiveName}" />
+		 	</fileset>
+		</move>
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
 		    <arg line="-o -q ${archiveName} -d ${postingDirectory}/${buildId}/rcp" />
 		</exec>
 		<delete file="${postingDirectory}/${buildId}/${archiveName}" failonerror="false"/>
 		<!-- extract birt.resources, engine.fonts, and five doc plugins as directory  -->
+
 		<echo message="unzip org.eclipse.birt.resources..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.resources_${org.eclipse.birt.resources}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.resources_${org.eclipse.birt.resources}" />
