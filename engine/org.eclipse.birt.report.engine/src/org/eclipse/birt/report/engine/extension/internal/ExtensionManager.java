@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -150,9 +150,10 @@ public class ExtensionManager
 							"Create Report Item Executor fail, Config not exist class: {0}", config.getName( ) ); //$NON-NLS-1$
 			return null;
 		}
-		logger.log( Level.WARNING,
-				"Create Report Item Executor fail, config is null." ); //$NON-NLS-1$
-		return null;
+		// provide an default extendedGenerationExecutor if the extended
+		// item do not implement IReportItemGeneration or
+		// IReportItemExecutor interfaces. see bug196779
+		return new ExtendedGenerateExecutor( manager, null );
 	}
 	
 	/**
