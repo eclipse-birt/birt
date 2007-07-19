@@ -281,7 +281,7 @@
 		<!--eclipse-master-${buildId}.bak.zip contains the signed update jars. eclipse-master-${buildId}.zip contains the
 		features and plug-ins unpacked.  Need features in directory structures for tool to work. -->
 
-		<unzip src="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.zip" dest="${updateJarWorkingDir}" />
+		<unzip src="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.zip" dest="${updateJarWorkingDir}" />
 
 		<!--
 		<delete includeemptydirs="true">
@@ -312,11 +312,11 @@
 		<!--use original signed update jars-->
 		<!-- back up 
 		<exec executable="unzip" dir=".">
-			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.bak.zip -i */features/* -x */master-equinox* */com.ibm.icu.base* -d ${updateSite}/features" />
+			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip -i */features/* -x */master-equinox* */com.ibm.icu.base* -d ${updateSite}/features" />
 		</exec>
 		-->
 		<exec executable="unzip" dir=".">
-			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.bak.zip -i */features/* -d ${updateSite}/features" />
+			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip -i */features/* -d ${updateSite}/features" />
 		</exec>
 	    <java jar="${eclipse.home}/startup.jar"
 	           fork="true"
@@ -453,9 +453,9 @@
 			<fileset dir="${package-dest}/dtp/eclipse/plugins" >
 				<include name="*.datatools.*.jar" />
 				<include name="org.eclipse.datatools.*/**" />
-			    <include name="org.apache.xerces_*.jar"/>
-			    <include name="org.apache.xml.resolver_*.jar"/>
-			    <include name="javax.wsdl_*.jar"/>
+			        <include name="org.apache.xerces_*.jar"/>
+			        <include name="org.apache.xml.resolver_*.jar"/>
+			        <include name="javax.wsdl_*.jar"/>
 			</fileset>
 			<fileset dir="${package-dest}/dtp/eclipse/features" >
 				<include name="org.eclipse.datatools.*/**" />
@@ -615,22 +615,22 @@
 		<!-- prepare unit test components -->
 		<copy todir="${test.dir}">
 			<fileset dir="${postingDirectory}/${buildId}">
-				<include name="birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz"/>
-				<include name="birt-tests-suite-2_2_0.zip"/>
+				<include name="birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz"/>
+				<include name="birt-tests-suite-2_2_1.zip"/>
 			</fileset>
 		</copy>
 		
 		<exec executable="gunzip" dir="${test.dir}">
-			<arg line="birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz" />
+			<arg line="birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz" />
 		</exec>
 		<exec executable="tar" dir="${test.dir}">
-			<arg line="-xvf birt-report-designer-all-in-one-2_2_0-linux-gtk.tar" />
+			<arg line="-xvf birt-report-designer-all-in-one-2_2_1-linux-gtk.tar" />
 		</exec>
 		<exec executable="unzip" dir="${test.dir}">
-			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
+			<arg line="-o -q birt-tests-suite-2_2_1.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/RC3_platform">
-			<arg line="-o -q eclipse-test-framework-3.3RC3.zip -d ${test.dir}" />
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.2.0_release_platform">
+			<arg line="-o -q eclipse-test-framework-I20070625-1500.zip -d ${test.dir}" />
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}">
@@ -728,13 +728,13 @@ ${build.environment}
                 	
 Please download :
                 	
-AllInOne from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_0.zip${rtn}               	
-AllInOne for linux from: ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz${rtn}               	
-RCP from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-rcp-report-designer-2_2_0.zip${rtn}            	
-Runtime from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-runtime-2_2_0.zip${rtn}           	
-Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-framework-2_2_0.zip${rtn}
-Source drops from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-source-2_2_0.zip${rtn}              	
-JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-tests-suite-2_2_0.zip${rtn}
+AllInOne from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_1.zip${rtn}               	
+AllInOne for linux from: ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz${rtn}               	
+RCP from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-rcp-report-designer-2_2_1.zip${rtn}            	
+Runtime from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-runtime-2_2_1.zip${rtn}           	
+Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-framework-2_2_1.zip${rtn}
+Source drops from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-source-2_2_1.zip${rtn}              	
+JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-tests-suite-2_2_1.zip${rtn}
                 	
 NL pack from ${QA.test.dir}\BIRT2.2-download\${buildId}\
 
@@ -747,10 +747,10 @@ Have a nice day!
         </mail>
 		<!-- create download info file -->
 		<echo file="download.properties" append="false">
-			allInOne=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-designer-all-in-one-2_2_0.zip
-			runtime=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-runtime-2_2_0.zip
-			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-2_2_0.zip
-			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-2_2_0.zip
+			allInOne=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-designer-all-in-one-2_2_1.zip
+			runtime=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-runtime-2_2_1.zip
+			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-2_2_1.zip
+			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-2_2_1.zip
 		</echo>
 		<copy tofile="${postingDirectory}/../download.properties" file="download.properties" overwrite="true" />
 	</target>
