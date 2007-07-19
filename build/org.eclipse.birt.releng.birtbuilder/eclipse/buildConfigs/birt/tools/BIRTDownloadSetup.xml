@@ -64,7 +64,7 @@
 
 	
 	<property name="viewer.version" value="${org.eclipse.birt.report.viewer.plugin.version}" />
-	<property name="package.version" value="2_2_0" />
+	<property name="package.version" value="2_2_1" />
 	<property name="sdk.zip.name" value="birt-report-framework-sdk-${package.version}.zip" />
 	<property name="framework.zip.name" value="birt-report-framework-${package.version}.zip" />
 	<property name="allinone.zip.name" value="birt-report-designer-all-in-one-${package.version}.zip" />
@@ -94,6 +94,7 @@
 	<property name="birt.source.zip.name" value="birt-source-${package.version}.zip" />	
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 	<property name="birt.dtp.integration.name" value="birt-dtp-integration-${package.version}.zip" />
+
 
 	<property name="nl.group1.zip.name.allinone" value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
 	<property name="nl.group1.zip.name.runtime"  value="NLpack1-birt-runtime-${package.version}.zip" />
@@ -169,7 +170,7 @@
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.core.ui_*.jar" />
 			<include name="org.mozilla.rhino*/**" />
-			<include name="org.apache.commons.codec*/**" />
+			<include name="org.apache.commons.codec_*.jar" />
 			<!--
 			<include name="org.eclipse.birt.doc_*/**" />
 			<include name="org.eclipse.birt.chart.cshelp_*/**"/>
@@ -257,7 +258,7 @@
 		
 		<antcall target="createBirtSDK"/>
 
-	    <antcall target="createWTPIntegration"/>
+	        <antcall target="createWTPIntegration"/>
 		
 		<antcall target="createBirtSourceBuild"/>
 
@@ -265,12 +266,12 @@
 
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="2.2.0"/>
-		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.3RC3 SDK"/>
-		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.3RC3 EMF+SDO+XSD"/>
-		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.3RC3 runtime"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.5RC3"/>
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="2.0RC3"/>
+		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="2.2.1"/>
+		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.3 SDK"/>
+		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.3 EMF+SDO+XSD"/>
+		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.3 runtime"/>
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.5.1 nightly" />
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="2.0"/>
 	
 	</target>
 
@@ -465,9 +466,9 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<patternset refid="exclude.jars" />
 			</tarfileset>
-            <tarfileset dir="${baseLocation}/plugins" prefix="${ZipPrefix}">
-                <patternset refid="orbit.include.jars" />
-            </tarfileset>
+                        <tarfileset dir="${baseLocation}/plugins" prefix="${ZipPrefix}">
+                                <patternset refid="orbit.include.jars" />
+                        </tarfileset>
 			<tarfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="**/*" />
 				<exclude name="*.source_*/**" />
@@ -555,35 +556,6 @@
 	</target>
 
 	<target name="createBirtRuntime"  depends="createWAR">
-		<!--   Zip Engine runtime file    -->
-		<!--
-		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<patternset refid="chart.runtime.jars" />
-				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
-				<exclude name="*.nl1_*/**"/>
-				<exclude name="*.nl/**" />
-				<exclude name="*.nl1_*.jar"/>
-			</fileset>
-			<fileset dir="${template.dir}/chart.runtime.libs">
-				<include name="*.*" />
-			</fileset>
-			<fileset dir="${template.dir}/chart.runtime.files">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.tmp}/ChartEngine/docs">
-			<fileset dir="${template.dir}/chart.docs">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.tmp}/ChartEngine" >
-			<fileset dir="${baseLocation}/plugins">
-                <patternset refid="orbit.include.jars" />
-			</fileset>
-		</copy>
-		-->
-
         <!-- ReportEngine-->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
