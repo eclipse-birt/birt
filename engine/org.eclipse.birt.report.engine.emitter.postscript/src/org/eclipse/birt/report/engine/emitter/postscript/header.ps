@@ -97,6 +97,14 @@
 	exch /CIDMap get 3 1 roll put
 } def
 
+/AddT42Glyph
+{
+  /CIDFont findresource
+  /GlyphDirectory get begin
+    def
+  end
+} def
+
 /CIDInit /ProcSet findresource begin
   10 dict begin
     begincmap
