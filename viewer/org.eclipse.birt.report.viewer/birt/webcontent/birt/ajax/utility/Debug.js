@@ -52,7 +52,14 @@ function showDebug(soapMessageDebug, regularDebug)
  */
 function isDebugging( )
 {
-	return window.top.debugWindow && !window.top.debugWindow.closed;
+	try
+	{
+		return window.top.debugWindow && !window.top.debugWindow.closed;
+	}
+	catch(e)
+	{
+		return false; 
+	}
 }
 
 
