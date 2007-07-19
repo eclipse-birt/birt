@@ -595,6 +595,7 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
+						writeTotalPage( pageNumber );
 						document.saveCoreStreams( );
 						archive.flush( );
 					}
