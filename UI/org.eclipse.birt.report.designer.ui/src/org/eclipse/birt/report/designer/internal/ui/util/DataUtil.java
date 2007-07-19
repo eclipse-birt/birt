@@ -27,9 +27,11 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -214,9 +216,11 @@ public class DataUtil
 	{
 		if ( dataSet != null )
 		{
-			ModelDteApiAdapter adaptor = new ModelDteApiAdapter( );
-			IBaseDataSetDesign dataSetDesign = adaptor
-					.createDataSetDesign( dataSet );
+			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSet.getModuleHandle( ) );
+			DataRequestSession session = DataRequestSession.newSession( context );
+			IModelAdapter adaptor = session.getModelAdaptor( );
+			IBaseDataSetDesign dataSetDesign = adaptor.adaptDataSet( dataSet );
 
 			if ( !useColumnHints )
 			{
@@ -228,16 +232,15 @@ public class DataUtil
 			}
 			if ( !( dataSet instanceof JointDataSetHandle ) )
 			{
-				IBaseDataSourceDesign dataSourceDesign = adaptor
-						.createDataSourceDesign( dataSet.getDataSource( ) );
+				IBaseDataSourceDesign dataSourceDesign = adaptor.adaptDataSource( dataSet.getDataSource( ) );
 				engine.defineDataSource( dataSourceDesign );
-
 			}
 			if ( dataSet instanceof JointDataSetHandle )
 			{
 				defineSourceDataSets( engine, dataSet, dataSetDesign );
 			}
 			engine.defineDataSet( dataSetDesign );
+			session.shutdown( );
 			return dataSetDesign;
 		}
 		return null;
