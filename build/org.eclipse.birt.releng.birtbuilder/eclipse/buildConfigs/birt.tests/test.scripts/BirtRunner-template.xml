@@ -57,6 +57,7 @@
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="jvm" value="${jvm.15.home}"/>
+			<property name="vmargs" value="-Djava.awt.headless=true"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.engine.AllTests.xml"/>
 		</ant>
 	</target>
