@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.ExceptionConverter;
@@ -162,6 +164,9 @@ public class TrueTypeFont
 	 */
 	private boolean isFixedPitch = false;
 
+	private static Logger logger = Logger.getLogger( TrueTypeFont.class
+			.getName( ) );
+	
     static final int ARG_1_AND_2_ARE_WORDS = 1;
     static final int WE_HAVE_A_SCALE = 8;
     static final int MORE_COMPONENTS = 32;
@@ -1203,6 +1208,22 @@ public class TrueTypeFont
 		return "(" + data + ")";
 	}
 
+	public int getGlyphIndex( char c )
+	{
+		int[] glyphIndexs = (int[]) getCMap( ).get( new Integer( c ) );
+		return glyphIndexs[0];
+	}
+
+	private static void outputAsPsString( PrintStream out, byte[] data )
+	{
+		out.print( toPSDataString( Util.toHexString( data ) ) );
+	}
+	
+	public static String toPSDataString( String data )
+	{
+		return "<" + data + ">";
+	}
+
 	class TrueTypeWriter implements ITrueTypeWriter
 	{
 
@@ -1282,30 +1303,171 @@ public class TrueTypeFont
 			List charactersToOutput = getCharactersToOutput( c );
 			for ( int i = 0; i < charactersToOutput.size( ); i++ )
 			{
-			    ensureRawDataAvailable( ( (Character) charactersToOutput
-						.get( i ) ).charValue( ) );
+			    ensureRawDataAvailable( ( (TrueTypeGlyph) charactersToOutput
+						.get( i ) ));
 			}
-			ensureRawDataAvailable(c);
 		}
 
-		private void ensureRawDataAvailable( char c ) throws IOException
+		private void ensureRawDataAvailable( TrueTypeGlyph glyph ) throws IOException
 		{
-			Character character = new Character( c );
-			if ( !glyphDefined.contains( character ) )
+			if ( !glyphDefined.contains( glyph ) )
 			{
-				glyphDefined.add( character );
+				glyph.ensureRawDataAvailable( out, fontName );
+				glyphDefined.add( glyph );
+			}
+		}
+
+		public void ensureGlyphsAvailable( String string ) throws IOException
+		{
+			for ( int i = 0; i < string.length( ); i++ )
+			{
+				ensureGlyphAvailable( string.charAt( i ) );
+			}
+		}
+
+		protected List getCharactersToOutput(char c) throws IOException {
+			int glyph = getGlyphIndex( c );
+			List result = getCharactersToOutput( glyph );
+			result.add( new TrueTypeCharacter( c, glyph) );
+			return result;
+		}
+		
+	    protected List getCharactersToOutput(int glyph) throws IOException {
+	    	ArrayList characters = new ArrayList();
+	    	int[] glyphDataPosition = getGlyphDataPosition( glyph );
+	    	int glyphDataOffset = glyphDataPosition[0];
+	    	int glyphDataLength = glyphDataPosition[1];
+	        if (glyphDataLength == 0) // no contour
+	            return characters;
+	        int tableGlyphOffset = ( (int[]) positionTables.get( "glyf" ) )[0];
+	        rf.seek(tableGlyphOffset + glyphDataOffset);
+	        int numContours = rf.readShort();
+	        if (numContours >= 0)
+	            return characters;
+	        rf.skipBytes(8);
+	        for(;;) {
+	            int flags = rf.readUnsignedShort();
+	            Integer cGlyph = new Integer(rf.readUnsignedShort());
+	            TrueTypeGlyph trueTypeGlyph = getGlyph( cGlyph.intValue( ) );
+				if (!glyphDefined.contains(trueTypeGlyph)) {
+	            	characters.add( trueTypeGlyph );
+	            }
+	            if ((flags & MORE_COMPONENTS) == 0)
+	                return characters;
+	            int skip;
+	            if ((flags & ARG_1_AND_2_ARE_WORDS) != 0)
+	                skip = 4;
+	            else
+	                skip = 2;
+	            if ((flags & WE_HAVE_A_SCALE) != 0)
+	                skip += 2;
+	            else if ((flags & WE_HAVE_AN_X_AND_Y_SCALE) != 0)
+	                skip += 4;
+	            if ((flags & WE_HAVE_A_TWO_BY_TWO) != 0)
+	                skip += 8;
+	            rf.skipBytes(skip);
+	        }
+	    }
+
+	    private TrueTypeGlyph getGlyph( int glyph )
+	    {
+	    	HashMap cmap = getCMap( );
+	    	Iterator iterator = cmap.entrySet( ).iterator( );
+	    	while ( iterator.hasNext( ) )
+	    	{
+	    		Map.Entry entry = (Map.Entry) iterator.next( );
+				int[] glyphIndice = (int[]) entry.getValue( );
+				if ( glyphIndice[0] == glyph )
+				{
+					char character = (char) ( (Integer) entry.getKey( ) )
+							.intValue( );
+					return new TrueTypeCharacter( character, glyph );
+				}
+			}
+			return new TrueTypeGlyph( glyph );
+	    }
+	    
+		private class TrueTypeGlyph
+		{
+			protected int glyph;
+			
+			public TrueTypeGlyph( int glyph )
+			{
+				this.glyph = glyph;
+			}
+
+			public TrueTypeGlyph( char c, TrueTypeFont trueTypeFont )
+			{
+				this( trueTypeFont.getGlyphIndex( c ) );
+			}
+			
+			public int getGlyph( )
+			{
+				return this.glyph;
+			}
+			
+			public boolean equals( Object obj )
+			{
+				if ( !( obj instanceof TrueTypeGlyph ) )
+					return false;
+				if ( obj == this )
+					return true;
+				TrueTypeGlyph glyph = (TrueTypeGlyph)obj;
+				return this.glyph == glyph.glyph;
+			}
+			
+			public int hashCode( )
+			{
+				return glyph;
+			}
+			
+			public void ensureRawDataAvailable(  PrintStream out, String fontName )
+			{
+				out.print( glyph + " " );// glyph index.
+				try
+				{
+					outputAsPsString( out, getGlyphData( glyph ) );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ) );
+				}
+				// output glyph data
+				out.println( " /" + fontName + " AddT42Glyph" );
+			}
+		}
+		
+		private class TrueTypeCharacter extends TrueTypeGlyph
+		{
+			protected char c;
+			
+			TrueTypeCharacter( char c, int glyph )
+			{
+				super( glyph );
+				this.c = c;
+			}
+
+			public void ensureRawDataAvailable( PrintStream out, String fontName )
+			{
 				out.print( ( (int) c ) + " " );// CID
-				out.print( getGlyphIndex( c ) );// glyph index.
-				outputAsPsString( out, getGlyphData( c ) );
+				out.print( glyph + " " );// glyph index.
+				try
+				{
+					outputAsPsString( out, getGlyphData( glyph ) );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ) );
+				}
 				// output glyph data
 				out.println( " /" + fontName + " AddT42Char" );
 			}
 		}
-
-		private byte[] getGlyphData( char c ) throws IOException
+		
+		public byte[] getGlyphData( int glyph ) throws IOException
 		{
 			int dataOffsetRelativeToGlyfTable, dataLength;
-			int[] glyphDataPosition = getGlyphDataPosition( c );
+			int[] glyphDataPosition = getGlyphDataPosition( glyph );
 			dataOffsetRelativeToGlyfTable = glyphDataPosition[0];
 			dataLength = glyphDataPosition[1];
 			int[] glyphLocation = (int[]) positionTables.get( "glyf" );
@@ -1315,13 +1477,7 @@ public class TrueTypeFont
 			rf.readFully( result );
 			return result;
 		}
-
-		private int[] getGlyphDataPosition( char c ) throws IOException
-		{
-			int glyphIndex = getGlyphIndex( c );
-			return getGlyphDataPosition( glyphIndex );
-		}
-
+		
 		private int[] getGlyphDataPosition( int glyphIndex ) throws IOException
 		{
 			int[] glyphDataPosition = new int[2];
@@ -1342,74 +1498,6 @@ public class TrueTypeFont
 			return glyphDataPosition;
 		}
 
-		public void ensureGlyphsAvailable( String string ) throws IOException
-		{
-			for ( int i = 0; i < string.length( ); i++ )
-			{
-				ensureGlyphAvailable( string.charAt( i ) );
-			}
-		}
-
-		protected List getCharactersToOutput(char c) throws IOException {
-			int glyph = getGlyphIndex( c );
-			List result = getCharactersToOutput( glyph );
-			return result;
-		}
-		
-	    protected List getCharactersToOutput(int glyph) throws IOException {
-	    	ArrayList characters = new ArrayList();
-	    	int[] glyphDataPosition = getGlyphDataPosition( glyph );
-	    	int glyphDataOffset = glyphDataPosition[0];
-	    	int glyphDataLength = glyphDataPosition[1];
-	        if (glyphDataLength == 0) // no contour
-	            return characters;
-	        int tableGlyphOffset = ( (int[]) positionTables.get( "glyf" ) )[0];
-	        rf.seek(tableGlyphOffset + glyphDataOffset);
-	        int numContours = rf.readShort();
-	        if (numContours >= 0)
-	            return characters;
-	        rf.skipBytes(8);
-	        for(;;) {
-	            int flags = rf.readUnsignedShort();
-	            Integer cGlyph = new Integer(rf.readUnsignedShort());
-	            char character = getChar( cGlyph.intValue( ) );
-	            Character charObject = new Character(character);
-				if (!glyphDefined.contains(charObject)) {
-	            	characters.add( charObject );
-	            }
-	            if ((flags & MORE_COMPONENTS) == 0)
-	                return characters;
-	            int skip;
-	            if ((flags & ARG_1_AND_2_ARE_WORDS) != 0)
-	                skip = 4;
-	            else
-	                skip = 2;
-	            if ((flags & WE_HAVE_A_SCALE) != 0)
-	                skip += 2;
-	            else if ((flags & WE_HAVE_AN_X_AND_Y_SCALE) != 0)
-	                skip += 4;
-	            if ((flags & WE_HAVE_A_TWO_BY_TWO) != 0)
-	                skip += 8;
-	            rf.skipBytes(skip);
-	        }
-	    }
-
-	    private char getChar( int glyph )
-	    {
-	    	HashMap cmap = getCMap( );
-	    	Iterator iterator = cmap.entrySet( ).iterator( );
-	    	while ( iterator.hasNext( ) )
-	    	{
-	    		Map.Entry entry = (Map.Entry) iterator.next( );
-				int[] glyphIndice = (int[]) entry.getValue( );
-				if ( glyphIndice[0] == glyph )
-				{
-					return (char)((Integer)entry.getKey( )).intValue( );
-				}
-	    	}
-	    	return (char)-1;
-	    }
-	    
 	    public void close( ) throws IOException
 		{
 			rf.close( );
@@ -1421,17 +1509,6 @@ public class TrueTypeFont
 			{
 				out.println( key + " " + value );
 			}
-		}
-
-		private int getGlyphIndex( char c )
-		{
-			int[] glyphIndexs = (int[]) getCMap( ).get( new Integer( c ) );
-			return glyphIndexs[0];
-		}
-
-		private String toPSDataString( String data )
-		{
-			return "<" + data + ">";
 		}
 
 		private boolean isBigTable( String name, String[] bigTables )
@@ -1557,11 +1634,6 @@ public class TrueTypeFont
 				e.printStackTrace( );
 			}
 			return result;
-		}
-
-		private void outputAsPsString( PrintStream out, byte[] data )
-		{
-			out.println( toPSDataString( Util.toHexString( data ) ) );
 		}
 
 		private byte[] readDataWithPadding( int length ) throws IOException

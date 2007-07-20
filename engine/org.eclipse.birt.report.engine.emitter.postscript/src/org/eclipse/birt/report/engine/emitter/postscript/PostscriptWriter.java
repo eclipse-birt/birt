@@ -637,7 +637,7 @@ public class PostscriptWriter
 		out.print( letterSpacing );
 		out.print( " 0 " );
 		out.print( text );
-		out.println( "awidthshow stroke" );
+		out.println( " awidthshow stroke" );
 		gRestore( );
 	}
 
