@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
+import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -151,9 +152,13 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 	{
 		if ( currentLevel != null )
 		{
+			// handle special logic for page_break_before_always_excluding_first
+			boolean isFirst = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isFirst( );
+			// isFirst = rowCursor.isFirst();
+
 			String pageBreakBefore = currentLevel.getPageBreakBefore( );
 			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreakBefore )
-					|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !rowCursor.isFirst( ) ) )
+					|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !isFirst ) )
 			{
 				getContent( ).getStyle( )
 						.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
@@ -170,12 +175,11 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		}
 
 		// handle special logic for page_break_after_excluding_last
-		// TODO confirm the correct behavior
 		boolean hasPageBreak = false;
 		IReportItemExecutor parentExecutor = getParent( );
 
 		// TODO code refactor
-		while ( ( parentExecutor instanceof CrosstabGroupExecutor || parentExecutor instanceof CrosstabReportItemExecutor ) )
+		if ( ( parentExecutor instanceof CrosstabGroupExecutor || parentExecutor instanceof CrosstabReportItemExecutor ) )
 		{
 			if ( parentExecutor instanceof CrosstabGroupExecutor )
 			{
@@ -196,7 +200,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 				}
 			}
 
-			parentExecutor = parentExecutor.getParent( );
+			//parentExecutor = parentExecutor.getParent( );
 		}
 
 		if ( hasPageBreak )
@@ -220,8 +224,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 					&& !rowCursor.isLast( ) )
 			{
 				// TODO code refactor
-				// TODO confirm the correct behavior
-				while ( parentExecutor instanceof CrosstabGroupExecutor
+				if ( parentExecutor instanceof CrosstabGroupExecutor
 						|| parentExecutor instanceof CrosstabReportItemExecutor )
 				{
 					if ( parentExecutor instanceof CrosstabGroupExecutor )
@@ -233,7 +236,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 						( (CrosstabReportItemExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
 					}
 
-					parentExecutor = parentExecutor.getParent( );
+					//parentExecutor = parentExecutor.getParent( );
 				}
 			}
 		}
