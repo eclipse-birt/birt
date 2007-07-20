@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -116,10 +117,16 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		{
 			String fn = getFileName( );
 
-			if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+			if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 			{
-				IPath resourcePath = getContainerFullPath( ).append( getFileName( )
-						+ "." + fileExtension ); //$NON-NLS-1$
+				IPath resourcePath;
+				if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+				{
+					resourcePath = getContainerFullPath( ).append( getFileName( )
+							+ "." + fileExtension ); //$NON-NLS-1$
+				}
+				else
+					resourcePath = getContainerFullPath( ).append( getFileName( ) );
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 
 				if ( workspace.getRoot( ).getFolder( resourcePath ).exists( )
@@ -130,7 +137,32 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
 					rt = false;
 				}
+
 			}
+			else
+			{
+				IPath resourcePath;
+				if ( !fn.toLowerCase( )
+						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) )
+				{
+
+					resourcePath = getContainerFullPath( ).append( getFileName( )
+							+ "." + fileExtension ); //$NON-NLS-1$
+				}
+				else
+					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+	
+				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+				if ( workspace.getRoot( ).getFolder( resourcePath ).getLocation( ).toFile( ).exists( )
+						|| workspace.getRoot( )
+								.getFile( resourcePath ).getLocation( ).toFile( )
+								.exists( ) )
+				{
+					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
+					rt = false;
+				}
+			}
+
 		}
 
 		return rt;
@@ -138,6 +170,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 
 	/**
 	 * Get File extension
+	 * 
 	 * @return The file extension
 	 */
 	public String getFileExtension( )
@@ -147,6 +180,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 
 	/**
 	 * Set file extension
+	 * 
 	 * @param fileExtension
 	 */
 	public void setFileExtension( String fileExtension )

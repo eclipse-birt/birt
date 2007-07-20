@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -106,12 +107,15 @@ public class WizardNewReportCreationPage extends WizardPage
 		}
 	}
 
+	public boolean validatePage(){
+		return validatePage(IReportEditorContants.DESIGN_FILE_EXTENTION);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
-	public boolean validatePage( )
+	public boolean validatePage(String suffix)
 	{
 		if ( getFileName( ).equals( "" ) )//$NON-NLS-1$
 		{
@@ -131,14 +135,30 @@ public class WizardNewReportCreationPage extends WizardPage
 
 		IPath path;
 
-		if ( !getFileName( ).endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION ) )
+		if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
-			path = getFileLocationFullPath( ).append( getFileName( )
-					+ IReportEditorContants.DESIGN_FILE_EXTENTION ); 
+			if ( !getFileName( ).endsWith( suffix ) )
+			{
+				path = getFileLocationFullPath( ).append( getFileName( )
+						+ suffix );
+			}
+			else
+			{
+				path = getFileLocationFullPath( ).append( getFileName( ) );
+			}
 		}
 		else
 		{
-			path = getFileLocationFullPath( ).append( getFileName( ) );
+			if ( !getFileName( ).toLowerCase( )
+					.endsWith( suffix.toLowerCase( ) ) )
+			{
+				path = getFileLocationFullPath( ).append( getFileName( )
+						+ suffix );
+			}
+			else
+			{
+				path = getFileLocationFullPath( ).append( getFileName( ) );
+			}
 		}
 
 		if ( path.toFile( ).exists( ) )

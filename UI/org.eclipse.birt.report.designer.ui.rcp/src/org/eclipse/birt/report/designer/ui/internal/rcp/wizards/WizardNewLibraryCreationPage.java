@@ -138,16 +138,29 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 
 		IPath path;
 
-		if ( !getFileName( ).endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
+		if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
-			path = getContainerFullPath( ).append( getFileName( )
-					+ IReportEditorContants.LIBRARY_FILE_EXTENTION );
+			if ( !getFileName( ).endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
+			{
+				path = getContainerFullPath( ).append( getFileName( )
+						+ IReportEditorContants.LIBRARY_FILE_EXTENTION );
+			}
+			else
+			{
+				path = getContainerFullPath( ).append( getFileName( ) );
+			}
 		}
-		else
-		{
-			path = getContainerFullPath( ).append( getFileName( ) );
+		else{
+			if ( !getFileName( ).toLowerCase( ).endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION.toLowerCase( ) ) )
+			{
+				path = getContainerFullPath( ).append( getFileName( )
+						+ IReportEditorContants.LIBRARY_FILE_EXTENTION );
+			}
+			else
+			{
+				path = getContainerFullPath( ).append( getFileName( ) );
+			}
 		}
-
 		if ( path.toFile( ).exists( ) )
 		{
 			setErrorMessage( MSG_DUPLICATE_FILE_NAME );
@@ -164,9 +177,40 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		pageSupport.setInitialFileLocation( initPath.toOSString( ) );
 	}
 
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	public void setFileName( String initFileName )
 	{
-		pageSupport.setInitialFileName( initFileName );
+		pageSupport.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
+	}
+	
+	private String getNewFileFullName( String defaultName )
+	{
+		String path = getDefaultLocation( );
+		String name = defaultName + "." + fileExtension;
+
+		int count = 0;
+
+		File file;
+
+		file = new File( path, name );
+
+		while ( file.exists( ) )
+		{
+			count++;
+			name = defaultName + "_" + count + "." + fileExtension; //$NON-NLS-1$
+			file = null;
+			file = new File( path, name );
+		}
+
+		file = null;
+
+		return name;
+	}
+	
+	private String getDefaultLocation( )
+	{
+		IPath defaultPath = Platform.getLocation( );
+		return defaultPath.toOSString( );
 	}
 
 	public String getFileName( )
@@ -196,8 +240,10 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				fileName = fn;
 			}
 		}
-		else{
-			if ( !fn.toLowerCase( Locale.getDefault( ) ).endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		else
+		{
+			if ( !fn.toLowerCase( Locale.getDefault( ) )
+					.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
 			{
 				fileName = fn + "." + fileExtension; //$NON-NLS-1$
 			}
@@ -206,15 +252,16 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				fileName = fn;
 			}
 		}
-		
-		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+
+		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
 		{
 			return true;
 		}
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( TEMPLATE_FILE ), null );
+				new Path( TEMPLATE_FILE ),
+				null );
 
-		if(url == null)
+		if ( url == null )
 		{
 			return true;
 		}
@@ -228,7 +275,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		{
 			return false;
 		}
-		
+
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -266,7 +313,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 
-//		final File file = new File( locationPath.toString( ), fileName );
+		// final File file = new File( locationPath.toString( ), fileName );
 		File container = null;
 		try
 		{
@@ -275,19 +322,19 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			{
 				container.mkdirs( );
 			}
-	
+
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
 
-		if(container == null)
+		if ( container == null )
 		{
 			return;
 		}
 		final File file = new File( locationPath.toString( ), fileName );
-		
+
 		try
 		{
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
@@ -316,7 +363,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		catch ( Exception e )
 		{
 		}
-		
+
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -329,7 +376,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-				    	page.openEditor( new ReportEditorInput( file ),
+					page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.LIBRARY_EDITOR_ID,
 							true );
 				}
@@ -341,16 +388,17 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		} );
 
 		monitor.worked( 1 );
-		fireLibraryChanged(fileName);
+		fireLibraryChanged( fileName );
 
 	}
-	
+
 	private void fireLibraryChanged( String fileName )
 	{
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
 				.fireResourceChange( new LibraryChangeEvent( fileName ) );
 	}
-	
+
 	protected boolean inPredifinedTemplateFolder( String sourceFileName )
 	{
 		String predifinedDir = UIUtil.getFragmentDirectory( );
@@ -363,7 +411,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		}
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

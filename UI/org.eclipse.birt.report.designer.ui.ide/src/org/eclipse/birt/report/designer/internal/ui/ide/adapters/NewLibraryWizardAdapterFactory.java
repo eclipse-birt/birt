@@ -33,6 +33,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -326,4 +327,64 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	{
 		BasicNewProjectResourceWizard.updatePerspective( configElement );
 	}
+	
+	protected boolean validatePage( )
+	{
+		boolean rt = super.validatePage( );
+
+		if ( rt )
+		{
+			String fn = getFileName( );
+
+			if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
+			{
+				IPath resourcePath;
+				if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+				{
+					resourcePath = getContainerFullPath( ).append( getFileName( )
+							+ "." + fileExtension ); //$NON-NLS-1$
+				}
+				else
+					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+
+				if ( workspace.getRoot( ).getFolder( resourcePath ).exists( )
+						|| workspace.getRoot( )
+								.getFile( resourcePath )
+								.exists( ) )
+				{
+					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
+					rt = false;
+				}
+
+			}
+			else
+			{
+				IPath resourcePath;
+				if ( !fn.toLowerCase( )
+						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) )
+				{
+
+					resourcePath = getContainerFullPath( ).append( getFileName( )
+							+ "." + fileExtension ); //$NON-NLS-1$
+				}
+				else
+					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+	
+				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+				if ( workspace.getRoot( ).getFolder( resourcePath ).getLocation( ).toFile( ).exists( )
+						|| workspace.getRoot( )
+								.getFile( resourcePath ).getLocation( ).toFile( )
+								.exists( ) )
+				{
+					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
+					rt = false;
+				}
+			}
+
+		}
+
+		return rt;
+	}
+
 }

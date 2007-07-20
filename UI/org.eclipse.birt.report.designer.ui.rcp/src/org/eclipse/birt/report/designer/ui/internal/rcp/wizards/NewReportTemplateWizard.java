@@ -104,7 +104,11 @@ public class NewReportTemplateWizard extends Wizard implements
 	 */
 	public void addPages( )
 	{
-		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE );
+		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE ){
+			public boolean validatePage(){
+				return validatePage(fileExtension);
+			}
+		};
 
 		addPage( newReportFileWizardPage );
 
