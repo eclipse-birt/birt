@@ -10,19 +10,23 @@
 package org.eclipse.birt.report.model.api.elements.table;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * The utility class for <code>LayoutTable</code>.
@@ -248,6 +252,65 @@ public class LayoutUtil
 	}
 
 	/**
+	 * Check all columns of table item/ grid item. If there is repeat value
+	 * which bigger than one in column slot, return false, else return true. for
+	 * bugzilla 191687
+	 * 
+	 * @param module
+	 * @param element
+	 * @return
+	 */
+	private static boolean checkColumnRepeat( Module module,
+			DesignElement element )
+	{
+		assert element instanceof TableItem || element instanceof GridItem;
+		ContainerSlot slot = null;
+		if ( element instanceof TableItem )
+			slot = ( (TableItem) element ).getSlot( TableItem.COLUMN_SLOT );
+		else if ( element instanceof GridItem )
+			slot = ( (GridItem) element ).getSlot( GridItem.COLUMN_SLOT );
+
+		Iterator iterator = slot.getContents( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			TableColumn e = (TableColumn) iterator.next( );
+
+			int repeat = e.getIntProperty( module,
+					ITableColumnModel.REPEAT_PROP );
+			if ( repeat > 1 )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Checks whether the layout grid is valid or not. The invalid grid has
+	 * following cases:
+	 * <ul>
+	 * <li>column count bigger than zero.
+	 * <li>no repeat value bigger than one in column slot
+	 * </ul>
+	 * 
+	 * @param grid
+	 *            the table
+	 * @param module
+	 *            the root of the table
+	 * @return <code>true</code> if the table is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+	public static boolean isValidLayout( GridItem grid, Module module )
+	{
+		int columnCount = grid.getColumnCount( module );
+		if ( columnCount == 0 )
+			return false;
+
+		// for bugzilla 191687
+		if ( !checkColumnRepeat( module, grid ) )
+			return false;
+		return true;
+	}
+
+	/**
 	 * Checks whether the layout table is valid or not. The invalid table has
 	 * following cases:
 	 * <ul>
@@ -272,6 +335,10 @@ public class LayoutUtil
 		int columnCount = layout.getColumnCount( );
 
 		if ( columnCount == 0 )
+			return false;
+
+		// for bugzilla 191687
+		if ( !checkColumnRepeat( module, table ) )
 			return false;
 
 		// if there is overlapped area, it is valid for "drop".

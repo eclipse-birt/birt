@@ -1316,14 +1316,11 @@ public class ModelUtil
 			return LayoutUtil.isValidLayout( (TableItem) element, module );
 
 		if ( element instanceof GridItem )
-		{
-			int columnCount = ( (GridItem) element ).getColumnCount( module );
-			if ( columnCount == 0 )
-				return false;
-		}
+			return LayoutUtil.isValidLayout( (GridItem) element, module );
+
 		return true;
 	}
-
+	
 	/**
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by

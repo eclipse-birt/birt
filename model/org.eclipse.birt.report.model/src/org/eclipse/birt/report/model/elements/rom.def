@@ -3141,6 +3141,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
     <PropertyVisibility name="viewAction" visibility="hide"/> 
+    <PropertyVisibility name="repeat" visibility="hide"/>      
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>

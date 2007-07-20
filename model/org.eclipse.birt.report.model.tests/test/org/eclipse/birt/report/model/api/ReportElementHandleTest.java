@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Test ReportItemHandle.
@@ -380,5 +381,23 @@ public class ReportElementHandleTest extends BaseTestCase
 					e.getElement( ).getLocalProperty( design,
 							GroupElement.GROUP_NAME_PROP ) );
 		}
+	}
+	
+	/**
+	 * Test isValidLayout method.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testIsValidLayout( ) throws Exception
+	{
+		openDesign( "ReportElementHandleTest_isValidLayout.xml" ); //$NON-NLS-1$
+		GridHandle gridHandle = (GridHandle) designHandle.getBody( ).get( 0 );
+		assertFalse( ModelUtil.isValidLayout( designHandle.getModule( ),
+				gridHandle.getElement( ) ) );
+		// remove column property in grid
+		gridHandle.getSlot( GridHandle.COLUMN_SLOT ).drop( 0 );
+		assertTrue( ModelUtil.isValidLayout( designHandle.getModule( ),
+				gridHandle.getElement( ) ) );
 	}
 }
