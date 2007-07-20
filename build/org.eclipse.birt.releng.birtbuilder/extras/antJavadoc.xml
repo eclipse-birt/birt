@@ -60,6 +60,22 @@
 				<property name="windowTitle" value="Birt Word Emitter API" />
 				<property name="packagenames" value="org.eclipse.birt.report.engine.emitter.wpml.*"/>
 		</projectInfo>
+		<projectInfo>
+				<property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript" />
+				<property name="windowTitle" value="Birt Postscript Emitter API" />
+				<property name="packagenames" value="org.eclipse.birt.report.engine.emitter.postscript.*"/>
+		</projectInfo>
+		<projectInfo>
+				<property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt" />
+				<property name="windowTitle" value="Birt ppt Emitter API" />
+				<property name="packagenames" value="org.eclipse.birt.report.engine.emitter.ppt.*"/>
+		</projectInfo>
+		<projectInfo>
+				<property name="projectName" value="org.eclipse.birt.report.engine.emitter.prototype.excel" />
+				<property name="windowTitle" value="Birt Excel Emitter API" />
+				<property name="packagenames" value="org.eclipse.birt.report.engine.emitter.excel.*"/>
+		</projectInfo>
+				
 		<!-- data team -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.data.adapter" />
@@ -217,7 +233,22 @@
 			<property name="projectName" value="org.eclipse.birt.chart.engine" />
 			<property name="windowTitle" value="Birt Chart Report Engine API" />
 			<property name="packagenames" value="org.eclipse.birt.chart.engine.*"/>
-
+		</projectInfo>	
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.preview.web" />
+			<property name="windowTitle" value="Birt Designer Core API" />
+			<property name="packagenames" value="org.eclipse.birt.report.designer.ui.preview.web.*"/>
+		</projectInfo>
+		
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.item.crosstab.ui" />
+			<property name="windowTitle" value="Birt Crosstab Project API" />
+			<property name="packagenames" value="org.eclipse.birt.report.item.crosstab.ui.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.item.crosstab.core" />
+			<property name="windowTitle" value="Birt Crosstab Project API" />
+			<property name="packagenames" value="org.eclipse.birt.report.item.crosstab.core.*"/>
 		</projectInfo>
 		<!-- model & viewer -->
 		<projectInfo>
@@ -229,6 +260,17 @@
 			<property name="projectName" value="org.eclipse.birt.report.model.adapter.oda" />
 			<property name="windowTitle" value="Birt Model ODA Adapter API (Provisional)" />
 			<property name="packagenames" value="org.eclipse.birt.report.model.adapter.oda.*"/>
+		</projectInfo>
+		
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.chart.integration.wtp.ui" />
+			<property name="windowTitle" value="Birt Web Viewer Project" />
+			<property name="packagenames" value="org.eclipse.birt.chart.integration.wtp.ui.*"/>
+		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.integration.wtp.ui" />
+			<property name="windowTitle" value="Birt Web Viewer Project" />
+			<property name="packagenames" value="org.eclipse.birt.integration.wtp.ui.*"/>
 		</projectInfo>
 	</projectList>
 	<projectList id="project.doctitle.list">
