@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.presentation;
 
 import java.io.BufferedInputStream;
@@ -699,7 +710,16 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 									(ReportElementHandle) elementHandle );
 				}
 			}
-			if ( queries != null )
+			if ( rsets != null && rsets.length > 0 && rsets[0] != null
+					&& rsets[0].getType( ) == IBaseResultSet.CUBE_RESULTSET )
+			{
+				String msg = tagName
+						+ " does not support data inheritance inside a crosstab, please bind it to a dataset or move it outside the crosstab.";
+				logger.log( Level.SEVERE, msg );
+				context.addException( design.getHandle( ), new EngineException(
+						msg ) );
+			}
+			else if ( queries != null )
 			{
 				if ( rsets != null )
 				{
@@ -707,7 +727,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					for ( int i = 0; i < rowSets.length; i++ )
 					{
 						rowSets[i] = new RowSet( context,
-								(IQueryResultSet) rsets[i] );
+									(IQueryResultSet) rsets[i] );
 					}
 				}
 			}
