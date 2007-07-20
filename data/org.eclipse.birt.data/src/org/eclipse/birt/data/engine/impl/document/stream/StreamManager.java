@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.impl.document.stream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
@@ -104,6 +106,8 @@ public class StreamManager
 	private HashMap cachedStreamManagers;
 	private HashMap metaManagers;
 	private int version;
+	private static Logger logger = Logger.getLogger( StreamManager.class.getName( ) );
+
 	/**
 	 * @param context
 	 * @throws DataException 
@@ -161,7 +165,7 @@ public class StreamManager
 				catch ( IOException e )
 				{
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.log( Level.FINE, e.getMessage( ), e );
 				}
 			}
 			return outputStream;
@@ -245,7 +249,7 @@ public class StreamManager
 				catch ( IOException e )
 				{
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.log( Level.FINE, e.getMessage( ), e );
 				}
 			}
 			return stream;

@@ -16,6 +16,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
@@ -43,6 +45,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	private String driverClass = null;
 	private String pass = null;
 	private DatabaseMetaData metaData;
+	private static Logger logger = Logger.getLogger( JdbcMetaDataProvider.class.getName( ) );
 	
 	public JdbcMetaDataProvider( Connection connection)
 	{
@@ -177,7 +180,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 					jdbcConnection.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 	}
@@ -220,7 +223,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			databaseName =  metaData.getDatabaseProductName();
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 		
 		if(databaseName == null)
@@ -251,7 +254,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 
@@ -287,7 +290,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e1 )
 			{
-				e1.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 		
@@ -312,7 +315,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 
 		return false;
@@ -360,7 +363,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 				}
 				catch ( SQLException e1 )
 				{
-					e1.printStackTrace();
+					logger.log( Level.FINE, e.getMessage( ), e );
 				}
 			}
 		}
@@ -422,7 +425,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 		return procedureList;
@@ -494,7 +497,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 		return columnList;
@@ -515,7 +518,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 		return false;
 	}
@@ -571,7 +574,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 
 		return columnList;
@@ -620,7 +623,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 				}
 				catch ( SQLException e1 )
 				{
-					e1.printStackTrace( );
+					logger.log( Level.FINE, e.getMessage( ), e );
 				}
 			}
 		}
@@ -653,7 +656,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 
 		return null;

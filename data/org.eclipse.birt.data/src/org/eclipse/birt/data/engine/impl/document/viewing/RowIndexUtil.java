@@ -16,6 +16,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
 
@@ -26,6 +28,7 @@ public class RowIndexUtil
 {
 	private DataOutputStream rowDos;
 	private DataInputStream rowDis;
+	private static Logger logger = Logger.getLogger( RowIndexUtil.class.getName( ) );
 
 	/**
 	 * @param rowOs
@@ -55,7 +58,7 @@ public class RowIndexUtil
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	}
 

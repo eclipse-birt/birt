@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.math.BigDecimal;
 
 /**
@@ -113,6 +115,7 @@ class BytesRandomWriter implements IObjectWriter
 
 class BooleanRandomWriter implements IObjectWriter
 {
+	private static Logger logger = Logger.getLogger( BooleanRandomWriter.class.getName( ) );
 
 	public void write( BufferedRandomAccessFile file, Object obj )
 			throws IOException
@@ -123,13 +126,14 @@ class BooleanRandomWriter implements IObjectWriter
 		}
 		catch( ClassCastException ce )
 		{
-			ce.printStackTrace( );
+			logger.log( Level.FINE, ce.getMessage( ), ce );
 		}
 	}
 }
 
 class DoubleRandomWriter implements IObjectWriter
 {
+	private static Logger logger = Logger.getLogger( DoubleRandomWriter.class.getName( ) );
 
 	public void write( BufferedRandomAccessFile file, Object obj )
 			throws IOException
@@ -140,13 +144,14 @@ class DoubleRandomWriter implements IObjectWriter
 		}
 		catch( ClassCastException ce )
 		{
-			ce.printStackTrace( );
+			logger.log( Level.FINE, ce.getMessage( ), ce );
 		}
 	}
 }
 
 class StringRandomWriter implements IObjectWriter
 {
+	private static Logger logger = Logger.getLogger( StringRandomWriter.class.getName( ) );
 
 	public void write( BufferedRandomAccessFile file, Object obj )
 			throws IOException
@@ -157,13 +162,14 @@ class StringRandomWriter implements IObjectWriter
 		}
 		catch( ClassCastException ce )
 		{
-			ce.printStackTrace( );
+			logger.log( Level.FINE, ce.getMessage( ), ce );
 		}
 	}
 }
 
 class DateRandomWriter implements IObjectWriter
 {
+	private static Logger logger = Logger.getLogger( DateRandomWriter.class.getName( ) );
 
 	public void write( BufferedRandomAccessFile file, Object obj )
 			throws IOException
@@ -174,7 +180,7 @@ class DateRandomWriter implements IObjectWriter
 		}
 		catch( ClassCastException ce )
 		{
-			ce.printStackTrace( );
+			logger.log( Level.FINE, ce.getMessage( ), ce );
 		}
 	}
 }
@@ -182,6 +188,7 @@ class DateRandomWriter implements IObjectWriter
 
 class BigDecimalRandomWriter implements IObjectWriter
 {
+	private static Logger logger = Logger.getLogger( BigDecimalRandomWriter.class.getName( ) );
 
 	public void write( BufferedRandomAccessFile file, Object obj )
 			throws IOException
@@ -192,7 +199,7 @@ class BigDecimalRandomWriter implements IObjectWriter
 		}
 		catch( ClassCastException ce )
 		{
-			ce.printStackTrace( );
+			logger.log( Level.FINE, ce.getMessage( ), ce );
 		}
 	}
 }

@@ -244,8 +244,7 @@ public class CachedResultSet implements IResultIterator
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 	}

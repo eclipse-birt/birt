@@ -14,6 +14,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -33,6 +35,7 @@ public class VersionManager
 	public final static int VERSION_2_2_1 = 20;
 	
 	private DataEngineContext dataEngineContext;
+	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
 	VersionManager( DataEngineContext context )
 	{
@@ -63,13 +66,11 @@ public class VersionManager
 		}
 		catch ( DataException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	
 		return version;

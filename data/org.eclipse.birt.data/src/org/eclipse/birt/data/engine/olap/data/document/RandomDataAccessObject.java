@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.UTFDataFormatException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
@@ -28,6 +30,7 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 {
 
 	IRandomAccessObject delegate;
+	private static Logger logger = Logger.getLogger( RandomDataAccessObject.class.getName( ) );
 
 	/**
 	 * Constructor for the BufferedRandomAccessFile object
@@ -73,7 +76,7 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 			return -1;
 		}
 	}

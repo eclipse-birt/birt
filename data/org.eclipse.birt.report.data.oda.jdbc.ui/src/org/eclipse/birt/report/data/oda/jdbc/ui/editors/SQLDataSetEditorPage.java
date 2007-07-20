@@ -17,6 +17,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
@@ -142,6 +144,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private static String ENABLED = "YES";
 	
 	private static boolean isPageInitialization = true;
+	private static Logger logger = Logger.getLogger( SQLDataSetEditorPage.class.getName( ) );
 	
 	static
 	{
@@ -820,7 +823,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
 		if ( hasNonSystemTable )
@@ -1017,7 +1020,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				}
 				catch ( SQLException e )
 				{
-					e.printStackTrace( );
+					logger.log( Level.FINE, e.getMessage( ), e );
 				}
 			}
 		}
@@ -1164,7 +1167,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	}
 
@@ -1291,7 +1294,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 
 		return allSchemas;
@@ -1433,7 +1436,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			catch ( SQLException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 			
 		}

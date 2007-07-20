@@ -1570,7 +1570,7 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 
 		return schemas;

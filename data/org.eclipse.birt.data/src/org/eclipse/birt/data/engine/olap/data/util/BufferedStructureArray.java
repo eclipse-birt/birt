@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -26,6 +28,7 @@ public class BufferedStructureArray implements IDiskArray
 
 	private Object[] buffer = null;
 	private int bufferPos = 0;
+	private static Logger logger = Logger.getLogger( BufferedStructureArray.class.getName( ) );
 
 	public BufferedStructureArray( IStructureCreator creator, int bufferSize )
 	{
@@ -92,8 +95,7 @@ public class BufferedStructureArray implements IDiskArray
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	}
 

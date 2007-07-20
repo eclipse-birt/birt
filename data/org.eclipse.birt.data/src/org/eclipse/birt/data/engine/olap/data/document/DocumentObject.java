@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.olap.data.document;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
@@ -25,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 public class DocumentObject implements IDocumentObject
 {
 	IRandomDataAccessObject delegate = null;
+	private static Logger logger = Logger.getLogger( DocumentObject.class.getName( ) );
 	
 	DocumentObject( IRandomDataAccessObject randomAccessObject ) throws IOException
 	{
@@ -43,7 +46,7 @@ public class DocumentObject implements IDocumentObject
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			logger.log( Level.FINE, e.getMessage( ), e );
 			return -1;
 		}
 	}

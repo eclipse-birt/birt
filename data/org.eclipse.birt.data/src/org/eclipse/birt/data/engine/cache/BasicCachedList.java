@@ -137,13 +137,11 @@ public class BasicCachedList implements List
 		{
 			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
 					+ e.toString( ) );
-			e.printStackTrace( );
 		}
 		catch ( IOException e )
 		{
 			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
 					+ e.toString( ) );
-			e.printStackTrace( );
 		}
 
 	}
@@ -220,13 +218,11 @@ public class BasicCachedList implements List
 		{
 			logger.severe( "Exception happened when load data from disk in CachedList. Exception message: "
 					+ e.toString( ) );
-			e.printStackTrace( );
 		}
 		catch ( IOException e )
 		{
 			logger.severe( "Exception happened when load data from disk in CachedList. Exception message: "
 					+ e.toString( ) );
-			e.printStackTrace( );
 		}
 	}
 

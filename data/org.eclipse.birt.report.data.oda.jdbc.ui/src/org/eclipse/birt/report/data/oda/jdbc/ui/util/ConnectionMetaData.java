@@ -19,13 +19,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
+ * @version $Revision: 1.7 $ $Date: 2007/02/01 10:58:57 $
  */
 
 public class ConnectionMetaData implements Serializable
@@ -44,6 +46,7 @@ public class ConnectionMetaData implements Serializable
 	private ArrayList schemas = null;
 	private transient Connection connection = null;
 	private transient DatabaseMetaData metadata = null;
+	private static Logger logger = Logger.getLogger( ConnectionMetaData.class.getName( ) );
 
 	/**
 	 *  
@@ -272,7 +275,7 @@ public class ConnectionMetaData implements Serializable
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 		if ( schemas != null )
 		{

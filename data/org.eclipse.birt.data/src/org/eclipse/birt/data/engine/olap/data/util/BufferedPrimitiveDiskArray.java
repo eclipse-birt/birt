@@ -12,7 +12,8 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 
 /**
@@ -26,6 +27,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 	private PrimitiveDiskArray delegate = null;
 	private Object[] buffer = null;
 	private int bufferUsedSize = 0;
+	private static Logger logger = Logger.getLogger( BufferedPrimitiveDiskArray.class.getName( ) );
 
 	public BufferedPrimitiveDiskArray( )
 	{
@@ -99,7 +101,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 		catch ( IOException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	}
 
