@@ -640,6 +640,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ) ); //$NON-NLS-1$
+		
 	}
 
 	/**

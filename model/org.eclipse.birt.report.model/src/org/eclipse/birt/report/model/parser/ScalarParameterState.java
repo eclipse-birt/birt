@@ -111,11 +111,14 @@ public class ScalarParameterState extends ParameterState
 
 		Boolean[] allowValues = (Boolean[]) handler.tempValue.get( param );
 		if ( allowValues == null )
-			return;
-
-		// remove the element from the map
-
-		handler.tempValue.remove( param );
+		{
+			allowValues = new Boolean[2];
+			allowValues[0] = Boolean.FALSE;
+			allowValues[1] = Boolean.TRUE;
+		}
+		else
+			// remove the element from the map
+			handler.tempValue.remove( param );
 
 		Boolean allowNull = allowValues[0];
 		Boolean allowBlank = allowValues[1];
@@ -127,8 +130,8 @@ public class ScalarParameterState extends ParameterState
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING
 				.equalsIgnoreCase( valueType ) )
 		{
-			if ( ( allowBlank != null && allowBlank.booleanValue( ) )
-					|| ( allowNull != null && allowNull.booleanValue( ) ) )
+			if ( ( allowBlank != null && allowBlank.booleanValue( ) ) ||
+					( allowNull != null && allowNull.booleanValue( ) ) )
 				isRequired = Boolean.FALSE;
 			else
 				isRequired = Boolean.TRUE;

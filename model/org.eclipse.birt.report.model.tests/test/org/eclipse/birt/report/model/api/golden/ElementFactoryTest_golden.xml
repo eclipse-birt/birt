@@ -12,6 +12,7 @@
             <parameters>
                 <scalar-parameter name="NewParameter" id="9">
                     <property name="valueType">dynamic</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">open_dt</expression>
                     <structure name="format">
@@ -20,6 +21,7 @@
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter1" id="10">
                     <property name="valueType">dynamic</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_id</expression>
                     <structure name="format">
@@ -29,6 +31,7 @@
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter2" id="11">
                     <property name="valueType">dynamic</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_nm</expression>
                     <structure name="format">

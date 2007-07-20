@@ -22,6 +22,10 @@
             <property name="dataType">string</property>
             <property name="isRequired">true</property>
         </scalar-parameter>
+        <scalar-parameter name="Param 6" id="9">
+            <property name="dataType">string</property>
+            <property name="isRequired">false</property>
+        </scalar-parameter>        
     </parameters>
     <data-sources>
         <oda-data-source name="DataSource" id="2"/>
@@ -32,9 +36,9 @@
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="My Page" id="9">
+        <graphic-master-page name="My Page" id="10">
             <contents>
-                <label id="10">
+                <label id="11">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>

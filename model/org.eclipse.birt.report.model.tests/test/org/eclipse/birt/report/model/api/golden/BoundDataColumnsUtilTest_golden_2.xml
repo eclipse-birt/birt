@@ -2,6 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <parameters>
         <scalar-parameter name="MyParam1" id="4">
+        	<property name="isRequired">false</property>
             <expression name="labelExpr">row["COLUMN_1"]</expression>
             <list-property name="boundDataColumns">
                 <structure>

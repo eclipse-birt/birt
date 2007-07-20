@@ -149,6 +149,7 @@
             <expression name="labelExpr">test column</expression>
             <property name="promptText">City</property>
             <property name="listLimit">100</property>
+            <property name="allowNull">true</property>
         </scalar-parameter>
     </parameters>
     <page-setup>

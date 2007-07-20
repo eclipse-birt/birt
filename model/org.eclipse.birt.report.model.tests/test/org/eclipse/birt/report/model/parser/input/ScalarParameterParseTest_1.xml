@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+	<data-sources>
+        <oda-data-source name="DataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1">
+            <property name="dataSource">DataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <parameters>
+        <scalar-parameter name="Param 3">
+	    	<text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <property name="dataType">string</property>
+			<property name="valueType">dynamic</property>
+            <property name="controlType">check-box</property>
+	        <property name="dataSetName">ds1</property>
+            <expression name="valueExpr">row["test"]</expression>
+            <expression name="labelExpr">test column</expression>
+            <property name="listLimit">100</property>
+            <property name="defaultValue">"default value"</property>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

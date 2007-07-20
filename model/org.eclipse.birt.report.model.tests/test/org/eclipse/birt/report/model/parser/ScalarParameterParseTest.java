@@ -243,8 +243,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 	public void testBackwardCompatibility( ) throws Exception
 	{
+		openDesign( "ScalarParameterParseTest_1.xml" ); //$NON-NLS-1$ 	
+		
 		SlotHandle params = designHandle.getParameters( );
-		ScalarParameterHandle param = (ScalarParameterHandle) params.get( 2 );
+		ScalarParameterHandle param = (ScalarParameterHandle) params.get( 0 );
 		assertEquals( "default value", param.getDefaultValue( ) ); //$NON-NLS-1$
 	}
 }

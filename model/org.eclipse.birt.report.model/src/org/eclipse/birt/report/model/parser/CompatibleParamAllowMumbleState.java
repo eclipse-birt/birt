@@ -79,6 +79,8 @@ class CompatibleParamAllowMumbleState extends CompatiblePropertyState
 		if ( blnValues == null )
 		{
 			blnValues = new Boolean[2];
+			blnValues[0] = Boolean.FALSE;
+			blnValues[1] = Boolean.TRUE;
 			handler.tempValue.put( element, blnValues );
 		}
 

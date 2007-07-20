@@ -234,9 +234,6 @@ public class ElementFactoryTest extends BaseTestCase
 
 		designHandle.getParameters( ).add( childParameterGroup );
 		save( );
-		// assertTrue( compareTextFile( "ElementFactoryTest_golden_1.xml" ) );
-		// //$NON-NLS-1$
-
 	}
 
 	/**

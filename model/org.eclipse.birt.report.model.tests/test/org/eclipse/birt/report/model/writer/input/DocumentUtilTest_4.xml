@@ -11,11 +11,6 @@
             <property name="namespace">styles</property>
         </structure>
     </list-property>
-    <parameters>
-        <scalar-parameter name="NewParameter" id="28">
-            <property name="valueType">dynamic</property>
-        </scalar-parameter>
-    </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>

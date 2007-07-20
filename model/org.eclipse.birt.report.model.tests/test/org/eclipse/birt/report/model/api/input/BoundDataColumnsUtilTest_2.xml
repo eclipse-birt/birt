@@ -13,6 +13,7 @@
 	<parameters>	
         <scalar-parameter name="MyParam1">
             <expression name="labelExpr">row["COLUMN_1"]</expression>
+            <property name="allowNull">true</property>
             <list-property name="boundDataColumns">
 				<structure>
 					<property name="name">COLUMN_1</property>

@@ -37,7 +37,9 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="para" id="26"/>
+        <scalar-parameter name="para" id="26">
+        	<property name="isRequired">false</property>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source name="dataSource1" id="27"/>

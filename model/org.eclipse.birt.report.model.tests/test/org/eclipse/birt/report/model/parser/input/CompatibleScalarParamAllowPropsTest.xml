@@ -35,7 +35,10 @@
             <property name="dataType">string</property>
             <property name="allowBlank">false</property>
             <property name="allowNull">false</property>
-		</scalar-parameter>  				         
+		</scalar-parameter>  
+		<scalar-parameter name="Param 6">
+            <property name="dataType">string</property>
+		</scalar-parameter> 
     </parameters>
     <page-setup>
         <graphic-master-page name="My Page">
