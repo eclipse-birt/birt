@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <property name="createdBy">createdByOption</property>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="columns">1</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

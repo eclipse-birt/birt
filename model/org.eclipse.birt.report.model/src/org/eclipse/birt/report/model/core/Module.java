@@ -653,6 +653,12 @@ public abstract class Module extends DesignElement
 
 	public void prepareToSave( )
 	{
+		if ( options != null )
+		{
+			String createdBy = (String) options.getProperty( ModuleOption.CREATED_BY_KEY );
+			if ( createdBy != null )
+				setProperty( Module.CREATED_BY_PROP, createdBy );			
+		}
 	}
 
 	/**

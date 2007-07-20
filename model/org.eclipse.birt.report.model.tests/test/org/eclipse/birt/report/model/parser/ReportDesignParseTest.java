@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
@@ -875,5 +876,25 @@ public class ReportDesignParseTest extends BaseTestCase
 		// test theme property
 		ThemeHandle theme = designHandle.getTheme( );
 		assertEquals( 6, designHandle.getLineNo( theme ) );
+	}
+	
+	/**
+	 * Tests the created-by in moduleOption.
+	 * @throws Exception
+	 */
+	public void testWriterForCreatedBy() throws Exception
+	{
+		openDesign( fileName );
+		
+		// clear all properties
+		designHandle.clearAllProperties( );
+		
+		ModuleOption options = new ModuleOption( );
+		options.setProperty( ModuleOption.CREATED_BY_KEY, "createdByOption" ); //$NON-NLS-1$
+		design.setOptions( options );
+		
+		designHandle.setCreatedBy( "created by Birt2.2" ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "ReportDesignParseTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 }
