@@ -300,12 +300,15 @@ public class IDEFileReportProvider implements IReportProvider
 							.getContents( );
 
 					Map properties = new HashMap( );
+					
+					String designerVersion = MessageFormat.format( VERSION_MESSAGE,
+							new String[]{
+							ReportPlugin.getVersion( ),
+							ReportPlugin.getBuildInfo( )
+					} );
 					properties.put( IModuleModel.CREATED_BY_PROP,
-							MessageFormat.format( VERSION_MESSAGE,
-									new String[]{
-											ReportPlugin.getVersion( ),
-											ReportPlugin.getBuildInfo( )
-									} ) );
+							 designerVersion);
+					properties.put( IModuleOption.CREATED_BY_KEY, designerVersion );
 					String projectFolder = getProjectFolder( input );
 					if ( projectFolder != null )
 					{
