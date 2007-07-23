@@ -2718,7 +2718,6 @@ public abstract class Module extends DesignElement
 			{
 				CssStyle style = (CssStyle) styles.get( i );
 				style.setCssStyleSheet( sheet );
-				style.setContainer( container );
 			}
 			return sheet;
 		}

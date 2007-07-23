@@ -28,14 +28,16 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 public class CssStyle extends Style
 {
+
 	private CssStyleSheet sheet;
-	
+
 	/**
 	 * Set css style container.
+	 * 
 	 * @param obj
 	 */
-	
-	public void setContainer( DesignElement obj )
+
+	protected void setContainer( DesignElement obj )
 	{
 		if ( obj instanceof ReportDesign )
 		{
@@ -80,16 +82,17 @@ public class CssStyle extends Style
 	{
 		if ( handle == null )
 		{
-			handle = new CssSharedStyleHandle( module, this , sheet );
+			handle = new CssSharedStyleHandle( module, this, sheet );
 		}
 		return (SharedStyleHandle) handle;
 	}
 
 	/**
 	 * Gets css style sheet.
+	 * 
 	 * @return css style sheet.
 	 */
-	
+
 	public CssStyleSheet getCssStyleSheet( )
 	{
 		return sheet;
@@ -97,9 +100,10 @@ public class CssStyle extends Style
 
 	/**
 	 * Set css style sheet.
+	 * 
 	 * @param sheet
 	 */
-	
+
 	public void setCssStyleSheet( CssStyleSheet sheet )
 	{
 		this.sheet = sheet;
@@ -107,4 +111,3 @@ public class CssStyle extends Style
 	}
 
 }
-

@@ -155,7 +155,7 @@ public class CssRecord extends SimpleRecord
 	 * @param element
 	 * @param sheet
 	 */
-	
+
 	private void setContainer( DesignElement element, CssStyleSheet sheet )
 	{
 		if ( sheet == null )
@@ -166,7 +166,7 @@ public class CssRecord extends SimpleRecord
 		while ( iter.hasNext( ) )
 		{
 			CssStyle style = (CssStyle) iter.next( );
-			style.setContainer( element );
+			style.setCssStyleSheet( sheet );
 		}
 	}
 

@@ -282,6 +282,12 @@ public final class CssStyleSheet
 	public void setContainer( DesignElement container )
 	{
 		this.container = container;
+		List tmpStyles = getStyles( );
+		for ( int i = 0; i < tmpStyles.size( ); i++ )
+		{
+			CssStyle tmpStyle = (CssStyle) tmpStyles.get( i );
+			tmpStyle.setContainer( container );
+		}
 	}
 
 }

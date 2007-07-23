@@ -77,32 +77,35 @@
 	</xs:element>
 	<xs:simpleType name="PropertyType" final="restriction">
 		<xs:annotation>
-			<xs:documentation>Supported property types</xs:documentation>
+			<xs:documentation>
+				Supported property types
+			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="string"/>
-			<xs:enumeration value="number"/>
-			<xs:enumeration value="integer"/>
-			<xs:enumeration value="dimension"/>
-			<xs:enumeration value="color"/>
-			<xs:enumeration value="choice"/>
-			<xs:enumeration value="boolean"/>
-			<xs:enumeration value="expression"/>
-			<xs:enumeration value="html"/>
-			<xs:enumeration value="uri"/>
-			<xs:enumeration value="dateTime"/>
-			<xs:enumeration value="xml"/>
-			<xs:enumeration value="name"/>
-			<xs:enumeration value="extends"/>
-			<xs:enumeration value="float"/>
-			<xs:enumeration value="structure"/>
-			<xs:enumeration value="resourceKey"/>
-			<xs:enumeration value="literalString"/>
-			<xs:enumeration value="structRef"/>
-			<xs:enumeration value="memberKey"/>
-			<xs:enumeration value="list"/>
-			<xs:enumeration value="elementRef"/>
-			<xs:enumeration value="element"/>
+			<xs:enumeration value="string" />
+			<xs:enumeration value="number" />
+			<xs:enumeration value="integer" />
+			<xs:enumeration value="dimension" />
+			<xs:enumeration value="color" />
+			<xs:enumeration value="choice" />
+			<xs:enumeration value="boolean" />
+			<xs:enumeration value="expression" />
+			<xs:enumeration value="html" />
+			<xs:enumeration value="uri" />
+			<xs:enumeration value="dateTime" />
+			<xs:enumeration value="xml" />
+			<xs:enumeration value="name" />
+			<xs:enumeration value="extends" />
+			<xs:enumeration value="float" />
+			<xs:enumeration value="structure" />
+			<xs:enumeration value="resourceKey" />
+			<xs:enumeration value="literalString" />
+			<xs:enumeration value="structRef" />
+			<xs:enumeration value="memberKey" />
+			<xs:enumeration value="list" />
+			<xs:enumeration value="elementRef" />
+			<xs:enumeration value="element" />
+			<xs:enumeration value="contentElement"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="PropertyTypeDefnType">
