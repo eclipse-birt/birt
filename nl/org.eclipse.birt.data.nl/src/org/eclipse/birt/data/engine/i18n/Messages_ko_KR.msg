@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Àß¸øµÈ ¹ÙÀÎµùµÈ ¿­ ÀÌ¸§: {0}.
 data.engine.InvalidGroupKey={1} ±×·ìÀÇ "{0}" ±×·ì Å°¸¦ ÇÏÀ§ ±×·ì¿¡ Á¤ÀÇµÈ ¿­ ¹ÙÀÎµù¿¡ Á¾¼Ó½ÃÅ³ ¼ö ¾ø½À´Ï´Ù. 
 data.engine.ColumnBindingNotExist=¿­ ¹ÙÀÎµù "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
 data.engine.ColumnBindingCycle="{0}" ¿­ ¹ÙÀÎµù¿¡ Á¾¼Ó »çÀÌÅ¬ÀÌ Çü¼ºµÇ¾î ÀÖ½À´Ï´Ù.
-data.engine.ColumnBindingReferToInexistColumn=¿­ ¹ÙÀÎµù "{0}"ÀÌ(°¡) Á¸ÀçÇÏÁö ¾Ê´Â µ¥ÀÌÅÍ ÁıÇÕ ¿­ "{1}"À»(¸¦) ÂüÁ¶Çß½À´Ï´Ù.
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=¿­ ¹ÙÀÎµù"{0}"ÀÌ Àß¸øµÇ¾ú½À´Ï´Ù:Áı°è¸¦ Æ÷ÇÔÇÑ ºÎ¸ğ Äõ¸® ¿­ ¹ÙÀÎµùÀº ÇÏÀ§ Äõ¸® ¿­ ¹ÙÀÎµù¿¡ »ç¿ëµÉ ¼ö ¾ø½À´Ï´Ù.
 #computed column value
 data.engine.BadCompColExpr=°è»êµÈ ¿­ "{0}"¿¡ ´ëÇÑ ½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
@@ -340,3 +340,11 @@ data.olap.invalidBindingAggrFilterNotSupported=¹ÙÀÎµù "{0}"¿¡ Å©·Î½º ÅÇ¿¡ ´ëÇØ Ç
 data.olap.invalidAggrArgument=¼öÁØ Æ¯¼º¸¸ Áı°è ÀÎ¼ö·Î »ç¿ëµÉ ¼ö ÀÖ½À´Ï´Ù.
 data.olap.axis.level.CantBeNull=¿­ ±¸¼º¿øÀÇ ¼öÁØÀº ³Î(null)ÀÌ µÉ ¼ö ¾ø½À´Ï´Ù!
 data.olap.axis.value.CantBeNull=¼öÁØ \"{0}\"ÀÇ ¿­ ±¸¼º¿ø °ªÀº ³Î(null)ÀÌ µÉ ¼ö ¾ø½À´Ï´Ù!
+
+data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+# Configuration file parser error code
+data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
+data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
+data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.

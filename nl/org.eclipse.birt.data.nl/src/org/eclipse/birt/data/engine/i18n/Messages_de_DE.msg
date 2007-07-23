@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
-data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spaltenbindung "{0}" ist nicht korrekt: die übergeordneten Abfragespaltenbindungen, zu denen Aggregate gehören, können nicht als Spaltenbindung von Teilabfragen verwendet werden.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
@@ -340,3 +340,11 @@ data.olap.invalidBindingAggrFilterNotSupported=Die Bindung "{0}" enthält einen A
 data.olap.invalidAggrArgument=Nur ein Ebenenattribut kann als Aggregat-Argument fungieren.
 data.olap.axis.level.CantBeNull=Mitgliedsebene der Spalte darf nicht Null sein.
 data.olap.axis.value.CantBeNull=Wert von Mitgliedsebene \"{0}\" der Spalte darf nicht Null sein.
+
+data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+# Configuration file parser error code
+data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
+data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
+data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.

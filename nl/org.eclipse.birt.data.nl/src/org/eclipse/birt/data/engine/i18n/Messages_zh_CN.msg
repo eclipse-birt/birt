@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=无效的绑定列名称: {0}。
 data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中定义的列绑定。 
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
-data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
@@ -340,3 +340,11 @@ data.olap.invalidBindingAggrFilterNotSupported=绑定“{0}”包含交叉表当前不支持的
 data.olap.invalidAggrArgument=仅级别属性可以用作聚合参数。
 data.olap.axis.level.CantBeNull=列成员级别不能为空!
 data.olap.axis.value.CantBeNull=级别\“{0}\”的列成员值不能为空!
+
+data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+# Configuration file parser error code
+data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
+data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
+data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.

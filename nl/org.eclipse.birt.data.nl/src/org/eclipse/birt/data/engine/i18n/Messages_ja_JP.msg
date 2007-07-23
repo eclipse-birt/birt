@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=バインドされたカラムの名前が無効です : {0}
 data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位のグループで定義されているカラムバインドに依存させることはできません。 
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になっています。
-data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド "{0}" が正しくありません。親クエリの列バインドに集計が含まれていますが、サブクエリの列バインドには使用できません。
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
@@ -340,3 +340,11 @@ data.olap.invalidBindingAggrFilterNotSupported=バインド "{0}" には集計フィルタが
 data.olap.invalidAggrArgument=集計引数に指定できるのはレベルの属性だけです。
 data.olap.axis.level.CantBeNull=列メンバのレベルは null にできません。
 data.olap.axis.value.CantBeNull=列メンバのレベル \"{0}\" の値は null にできません。
+
+data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+# Configuration file parser error code
+data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
+data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
+data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
+data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.
