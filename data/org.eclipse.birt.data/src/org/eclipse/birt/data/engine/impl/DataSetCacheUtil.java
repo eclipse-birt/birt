@@ -10,15 +10,18 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 
 /**
  * 
  */
-class DataSetCacheUtil
+public class DataSetCacheUtil
 {
 	/**
 	 * @param context
@@ -137,5 +140,111 @@ class DataSetCacheUtil
 			}
 		}
 		return DataEngineContext.CACHE_MODE_IN_DISK;
+	}
+	
+	/**
+	 * the specified configure value can be a path or an URL object represents
+	 * the location of the configure file, but the final returned value must be
+	 * an URL object or null if fails to parse it.
+	 * 
+	 * @param appContext
+	 * @return
+	 */
+	public static URL getCacheConfig( Map appContext )
+	{
+		if ( appContext != null )
+		{
+			Object configValue = appContext.get( DataEngine.INCREMENTAL_CACHE_CONFIG );
+			URL url = null;
+			if ( configValue instanceof URL )
+			{
+				url = (URL) configValue;
+			}
+			else if ( configValue instanceof String )
+			{
+				String configPath = configValue.toString( );
+				try
+				{
+					url = new URL( configPath );
+				}
+				catch ( MalformedURLException e )
+				{
+					try
+					{// try to use file protocol to parse configPath
+						url = new URL( "file", "/", configPath );
+					}
+					catch ( MalformedURLException e1 )
+					{
+						return null;
+					}
+				}
+			}
+			return url;
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param dataSetDesign
+	 * @param cacheOption
+	 * @param alwaysCacheRowCount
+	 * @return
+	 */
+	public static boolean needsToCache( IBaseDataSetDesign dataSetDesign,
+			int cacheOption, int alwaysCacheRowCount )
+	{
+		if ( dataSetDesign == null )
+			return false;
+
+		if ( dataSetDesign instanceof IIncreCacheDataSetDesign )
+		{
+			return true;
+		}
+		if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
+		{
+			return false;
+		}
+		else if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
+		{
+			if ( alwaysCacheRowCount == 0 )
+				return false;
+		}
+		else if ( dataSetDesign.getCacheRowCount( ) == 0 )
+		{
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param cacheOption
+	 * @param alwaysCacheRowCount
+	 * @param cacheRowCount
+	 * @return
+	 */
+	public static int getCacheRowCount( int cacheOption,
+			int alwaysCacheRowCount, int cacheRowCount )
+	{
+		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
+		{
+			if ( alwaysCacheRowCount <= 0 )
+				return Integer.MAX_VALUE;
+			else
+				return alwaysCacheRowCount;
+		}
+		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
+		{
+			return Integer.MAX_VALUE;
+		}
+		else
+		{
+			if ( cacheRowCount == -1 )
+				return Integer.MAX_VALUE;
+			else
+				return cacheRowCount;
+		}
 	}
 }

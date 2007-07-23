@@ -12,11 +12,6 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Map;
-
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 
 
 /**
@@ -35,10 +30,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 	 * @param baseDataSetDesign 
 	 * @param baseDataSourceDesign 
 	 */
-	public DiskDataSetCacheObject( String tempFolder,
-			IBaseDataSourceDesign baseDataSourceDesign,
-			IBaseDataSetDesign baseDataSetDesign, Collection parameterHints,
-			Map appContext )
+	public DiskDataSetCacheObject( String tempFolder )
 	{
 		this.tempFolder = tempFolder;
 	}

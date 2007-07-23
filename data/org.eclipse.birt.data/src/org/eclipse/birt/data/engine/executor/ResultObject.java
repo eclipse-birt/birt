@@ -13,10 +13,10 @@ package org.eclipse.birt.data.engine.executor;
 
 import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -246,7 +246,7 @@ public class ResultObject implements IResultObject
 			{
 				Object value1 = this.getFieldValue( i + 1 );
 				Object value2 = ob2.getFieldValue( i + 1 );
-				if ( CacheUtil.compareObjects( value1, value2 ) != 0 )
+				if ( CompareUtil.compare( value1, value2 ) != 0 )
 					return false;
 			}
 			catch ( DataException e )

@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -35,13 +36,13 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * 
  * Please notice the whole procedure: 1: first check whether data can be loaded
  * from cache 2.1: if yes, then data will be loaded and check whether data needs
- * to be saved into cache will be skiped. 2.2: if no, then data will be retrived
+ * to be saved into cache will be skipped. 2.2: if no, then data will be retrieved
  * from data set and then whether saving into cache will be checked 2.2.1: if
  * yes, then data will be saved into cache 2.2.2: if no, then nothing will be
  * done
  * 
  * There are three possible value of cacheRowCount: 1: -1, cache all data set 2:
- * 0, don't cache 3: >0, cahe the specified value
+ * 0, don't cache 3: >0, cache the specified value
  * 
  * Here whether data will be loaded from cache can be observed by external
  * caller, but about saving into cache is not.
@@ -64,11 +65,17 @@ public class DataSetCacheManager
 	private CacheMapManager cacheMapManager;
 
 	private int mode;
+	
+	/**
+	 * user specified cache root directory.
+	 */
+	private String tempDir;
 	/**
 	 * Construction
 	 */
 	public DataSetCacheManager( String tempDir, DataEngine dataEngine )
 	{
+		this.tempDir = tempDir;
 		this.dataSourceDesign = null;
 		this.dataSetDesign = null;
 		this.cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
@@ -344,7 +351,23 @@ public class DataSetCacheManager
 		else
 			return null;
 	}
+	
+	/**
+	 * get the user specified cache root directory.
+	 * @return
+	 */
+	public String getTempDir( )
+	{
+		return tempDir;
+	}
 
-
-
+	/**
+	 * 
+	 * @param dataSetDesign
+	 * @param cacheDir
+	 */
+	public void registerCacheDir( IBaseDataSetDesign dataSetDesign, String cacheDir )
+	{
+		cacheMapManager.getCacheDirMap( ).put( dataSetDesign, cacheDir );
+	}
 }

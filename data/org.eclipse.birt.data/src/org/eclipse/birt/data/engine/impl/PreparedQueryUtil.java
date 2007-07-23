@@ -11,13 +11,23 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -69,7 +79,6 @@ class PreparedQueryUtil
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
-
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
@@ -79,8 +88,8 @@ class PreparedQueryUtil
 			}
 			return newIVInstance( dataEngine, queryDefn );
 		}
-
-		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) );
+		
+		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		if ( dset == null )
 		{
 			// In new column binding feature, when there is no data set,
@@ -105,10 +114,20 @@ class PreparedQueryUtil
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
-			preparedQuery = new PreparedOdaDSQuery( dataEngine,
-					queryDefn,
-					dset,
-					appContext );
+			if ( dset instanceof IIncreCacheDataSetDesign )
+			{
+				preparedQuery = new PreparedIncreCacheDSQuery( dataEngine,
+						queryDefn,
+						dset,
+						appContext );
+			}
+			else
+			{
+				preparedQuery = new PreparedOdaDSQuery( dataEngine,
+						queryDefn,
+						dset,
+						appContext );
+			}
 		}
 		else if ( dset instanceof IJointDataSetDesign )
 		{
@@ -129,11 +148,12 @@ class PreparedQueryUtil
 	/**
 	 * 
 	 * @param dataSetDesign
+	 * @param appContext 
 	 * @return
 	 * @throws DataException
 	 */
 	private static IBaseDataSetDesign cloneDataSetDesign(
-			IBaseDataSetDesign dataSetDesign ) throws DataException
+			IBaseDataSetDesign dataSetDesign, Map appContext ) throws DataException
 	{
 		if ( dataSetDesign instanceof IScriptDataSetDesign )
 		{
@@ -141,7 +161,7 @@ class PreparedQueryUtil
 		}
 		else if ( dataSetDesign instanceof IOdaDataSetDesign )
 		{
-			return new OdaDataSetAdapter( dataSetDesign );
+			return adaptOdaDataSetDesign( dataSetDesign, appContext );
 		}
 		else if ( dataSetDesign instanceof IJointDataSetDesign )
 		{
@@ -153,6 +173,68 @@ class PreparedQueryUtil
 		}
 		throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
 				dataSetDesign.getName( ) );
+	}
+
+	/**
+	 * @param dataSetDesign
+	 * @param appContext
+	 * @return
+	 * @throws DataException
+	 */
+	private static IBaseDataSetDesign adaptOdaDataSetDesign(
+			IBaseDataSetDesign dataSetDesign, Map appContext )
+			throws DataException
+	{
+		IBaseDataSetDesign adaptedDesign = null;
+		URL configFileUrl = DataSetCacheUtil.getCacheConfig( appContext );
+		if ( configFileUrl != null )
+		{
+			try
+			{
+				InputStream is = configFileUrl.openStream( );
+				ConfigFileParser parser = new ConfigFileParser( is );
+				String id = dataSetDesign.getName( );
+				if ( parser.containDataSet( id ) )
+				{
+					String mode = parser.getModeByID( id );
+					if ( "incremental".equalsIgnoreCase( mode ) )
+					{
+						String queryTemplate = parser.getQueryTextByID( id );
+						String timestampColumn = parser.getTimeStampColumnByID( id );
+						String formatPattern = parser.getTSFormatByID( id );
+						IncreCacheDataSetAdapter pscDataSet = new IncreCacheDataSetAdapter( dataSetDesign );
+						pscDataSet.setCacheMode( IIncreCacheDataSetDesign.MODE_PERSISTENT );
+						pscDataSet.setConfigFileUrl( configFileUrl );
+						pscDataSet.setQueryTemplate( queryTemplate );
+						pscDataSet.setTimestampColumn( timestampColumn );
+						pscDataSet.setFormatPattern( formatPattern );
+						adaptedDesign = pscDataSet;
+					}
+					else
+					{
+						String message = MessageFormat.format( ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
+								new Object[]{
+									mode
+								} );
+						throw new UnsupportedOperationException( message );
+					}
+				}
+				is.close( );
+			}
+			catch ( FileNotFoundException e )
+			{
+				e.printStackTrace( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace( );
+			}
+		}
+		if ( adaptedDesign == null )
+		{
+			adaptedDesign = new OdaDataSetAdapter( dataSetDesign );
+		}
+		return adaptedDesign;
 	}
 
 	/**
@@ -824,5 +906,155 @@ class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesig
 	public String getOpenScript( )
 	{
 		return this.source.getOpenScript( );
+	}
+}
+
+
+/**
+ * 
+ */
+class IncreCacheDataSetAdapter extends OdaDataSetAdapter
+		implements
+			IIncreCacheDataSetDesign
+{
+
+	/**
+	 * string patterns for parsing the query.
+	 */
+	private final String DATE = "\\Q${DATE}$\\E";
+	private final String TS_COLUMN = "\\Q${TIMESTAMP-COLUMN}$\\E";
+	private final String TS_FORMAT = "\\Q${TIMESTAMP-FORMAT}$\\E";
+	
+	protected URL configFileUrl;
+	protected String queryTemplate;
+	protected String timestampColumn;
+	protected String formatPattern;
+	protected int cacheMode;
+
+	private String queryForUpdate;
+
+	public IncreCacheDataSetAdapter( IBaseDataSetDesign source )
+	{
+		super( source );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getCacheMode()
+	 */
+	public int getCacheMode( )
+	{
+		return cacheMode;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getConfigFilePath()
+	 */
+	public URL getConfigFileUrl( )
+	{
+		return configFileUrl;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getQueryForUpdate(long)
+	 */
+	public String getQueryForUpdate( long timestamp )
+	{
+		return parseQuery( timestamp );
+	}
+
+	/**
+	 * 
+	 * @param time
+	 * @return
+	 */
+	private String parseQuery( long time )
+	{
+		SimpleDateFormat formater = new SimpleDateFormat( formatPattern );
+		String timestamp = formater.format( new Timestamp( time ) );
+		if ( queryForUpdate == null )
+		{
+			queryForUpdate = replace( queryTemplate, TS_COLUMN, timestampColumn );
+			queryForUpdate = replace( queryForUpdate, TS_FORMAT, formatPattern );
+		}
+		return replace( queryForUpdate, DATE, timestamp );
+	}
+
+	/**
+	 * replace the target substring <code>target</code> in <code>source</code>
+	 * with <code>replacement</code> case insensively.
+	 * 
+	 * @param source
+	 * @param target
+	 * @param replacement
+	 * @return
+	 */
+	private String replace( String source, CharSequence target,
+			CharSequence replacement )
+	{
+		return Pattern.compile( target.toString( ), Pattern.CASE_INSENSITIVE )
+				.matcher( source )
+				.replaceAll( Matcher.quoteReplacement( replacement.toString( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getTimestampColumn()
+	 */
+	public String getTimestampColumn( )
+	{
+		return timestampColumn;
+	}
+
+	/**
+	 * @param configFilePath
+	 *            the configFilePath to set
+	 */
+	public void setConfigFileUrl( URL configFileUrl )
+	{
+		this.configFileUrl = configFileUrl;
+	}
+
+	/**
+	 * @param queryTemplate
+	 *            the queryTemplate to set
+	 */
+	public void setQueryTemplate( String queryTemplate )
+	{
+		this.queryTemplate = queryTemplate;
+	}
+
+	/**
+	 * @param timestampColumn
+	 *            the timestampColumn to set
+	 */
+	public void setTimestampColumn( String timestampColumn )
+	{
+		this.timestampColumn = timestampColumn;
+	}
+
+	/**
+	 * @param formatPattern
+	 *            the formatPattern to set
+	 */
+	public void setFormatPattern( String formatPattern )
+	{
+		this.formatPattern = formatPattern;
+	}
+
+	
+	/**
+	 * @param cacheMode
+	 *            the cacheMode to set
+	 */
+	public void setCacheMode( int cacheMode )
+	{
+		this.cacheMode = cacheMode;
 	}
 }

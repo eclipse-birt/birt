@@ -1,0 +1,9 @@
+<report>
+	<dataset id = "Test Data Set"> 
+		<mode> incremental </mode>
+		<query-text><![CDATA[ select * from IncreCacheDS where ${TIMESTAMP-COLUMN}$>=timestamp('${DATE}$')]]></query-text>
+	 	<timestamp-column>SALE_DATE</timestamp-column>
+		<timestamp-format>yyyy-MM-dd HH:mm:ss</timestamp-format>
+    </dataset>	
+</report>
+

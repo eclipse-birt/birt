@@ -24,6 +24,7 @@ public class ResourceConstants
 	public final static String UNSUPPORTED_GROUP_ON_BLOBAndCLOB ="data.engine.UnsupportedGroupOnClobAndBLOB";
 	public final static String UNSUPPORTED_SORT_ON_BLOBAndCLOB ="data.engine.UnsupportedSortOnClobAndBLOB";
 	public final static String UNSUPPORTED_DIRECT_NESTED_AGGREGATE="data.engine.UnsupportedDirectNestedAggregate";
+	public final static String UNSUPPORTED_INCRE_CACHE_MODE="data.cache.UnsupportedIncrementalCacheMode";
 	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
 	public final static String INVALID_AGGR = "data.engine.InvalidAggregation";
 	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
@@ -335,4 +336,10 @@ public class ResourceConstants
 	public final static String INVALID_BINDING_AGGR_FILTER_NOT_SUPPORTED = "data.olap.invalidBindingAggrFilterNotSupported";
 	public final static String AXIS_LEVEL_CANNOT_BE_NULL = "data.olap.axis.level.CantBeNull";
 	public final static String AXIS_VALUE_CANNOT_BE_NULL = "data.olap.axis.value.CantBeNull";
+	
+	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
+	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";
+	public final static String CONFIG_FILE_PARSER_TIMESTAMP_COLUMN_FAIL = "data.executor.configFileParser.getTimeStampColumnByID";
+	public final static String CONFIG_FILE_PARSER_QUERYTEXT_FAIL = "data.executor.configFileParser.getQueryTextByID";
+	public final static String CONFIG_FILE_PARSER_PARAMETERS_FORMAT_FAIL = "data.executor.configFileParser.getParametersByID";
 }

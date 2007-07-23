@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DiskDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.MemoryDataSetCacheObject;
+import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
@@ -72,7 +73,12 @@ class CacheUtilFactory
 		} else if ( cacheObject instanceof MemoryDataSetCacheObject )
 		{
 			return new MemorySaveUtil( (MemoryDataSetCacheObject)cacheObject, rs );
-		}	
+		}
+		else if ( cacheObject instanceof IncreDataSetCacheObject )
+		{
+			return new IncreCacheSaveUtil( (IncreDataSetCacheObject) cacheObject, rs );
+
+		}
 		return null;
 	}
 	
@@ -91,6 +97,10 @@ class CacheUtilFactory
 		else if ( cacheObject instanceof MemoryDataSetCacheObject )
 		{
 			return new MemoryLoadUtil( (MemoryDataSetCacheObject) cacheObject );
+		}
+		else if ( cacheObject instanceof IncreDataSetCacheObject )
+		{
+			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject );
 		}
 		return null;
 	}
@@ -118,8 +128,6 @@ class CacheUtilFactory
 		 */
 		public DiskSaveUtil( DiskDataSetCacheObject cacheObject, IResultClass rsClass )
 		{
-			assert file != null;
-			assert metaFile != null;
 			assert rsClass != null;
 
 			this.file = cacheObject.getDataFile( );
@@ -228,7 +236,7 @@ class CacheUtilFactory
 		
 				/**
 		 * @param file
-		 * @param rsClass
+		 * @param rsMeta
 		 */
 		public MemorySaveUtil( MemoryDataSetCacheObject cacheObject, IResultClass rs )
 		{
@@ -257,7 +265,246 @@ class CacheUtilFactory
 		{			
 		}
 	}
-	
+	/**
+	 * Helper class to save result set to cache file.
+	 *
+	 */
+	private static class IncreCacheSaveUtil implements ISaveUtil
+	{
+		private File file;
+		private File metaFile;
+		
+		private BufferedOutputStream bos;
+		
+		private IResultClass rsMeta;
+		private ResultObjectUtil roUtil;
+		
+		private int rowCount;
+		private String tempDir;
+
+		public IncreCacheSaveUtil( IncreDataSetCacheObject cacheObject, IResultClass rs )
+		{
+			this.file = cacheObject.getDataFile( );
+			this.metaFile = cacheObject.getMetaFile( );
+			this.rsMeta = rs;
+			this.rowCount = 0;
+			this.tempDir = cacheObject.getCacheDir( );
+		}
+
+		/**
+		 * @param resultObject
+		 * @throws DataException
+		 */
+		public void saveObject( IResultObject resultObject ) throws DataException
+		{
+			assert resultObject!=null;
+			
+			if ( roUtil == null )
+			{				
+				roUtil = ResultObjectUtil.newInstance( rsMeta );
+				try
+				{
+					bos = new BufferedOutputStream( new FileOutputStream( file,
+							true ) );
+				}
+				catch ( Exception e )
+				{
+					throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
+							e );
+				}
+			}
+			
+			try
+			{
+				rowCount ++;
+				roUtil.writeData( bos, resultObject );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
+						e );
+			}
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		public void close( ) throws DataException
+		{			
+			try
+			{
+				if ( bos != null )
+				{
+					bos.close( );
+				}
+				if ( metaFile.exists( ) )
+				{
+					FileInputStream fis1 = new FileInputStream( metaFile );
+					BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+					int oldCount = IOUtil.readInt( bis1 );
+					rowCount += oldCount;
+					bis1.close( );
+					fis1.close( );
+				}
+				FileOutputStream fos1 = new FileOutputStream( metaFile );
+				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+
+				// save the count of data
+				IOUtil.writeInt( bos1, this.rowCount );
+				// save the meta data of result
+				Map metaMap = new HashMap( );
+				populateDataSetRowMapping( metaMap );
+				( (ResultClass) rsMeta ).doSave( bos1, metaMap );
+
+				bos1.close( );
+				fos1.close( );
+				
+				// save the current time as the timestamp
+				CacheUtil.saveCurrentTimestamp( this.tempDir );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
+						e );
+			}			
+		}
+
+		/**
+		 * 
+		 * @param metaMap
+		 * @throws DataException
+		 */
+		private void populateDataSetRowMapping( Map metaMap )
+				throws DataException
+		{
+			for ( int i = 0; i < rsMeta.getFieldCount( ); i++ )
+			{
+				IBinding binding = new Binding( rsMeta.getFieldName( i + 1 ) );
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsMeta.getFieldName( i + 1 ) ) ) );
+				metaMap.put( rsMeta.getFieldName( i + 1 ), binding );
+			}
+		}
+
+		
+	}
+	/**
+	 * Helper class to load result set from cache file. 
+	 *
+	 */
+	private static class IncreCacheLoadUtil implements ILoadUtil
+	{
+		private File file;
+		private File metaFile;
+		
+		private FileInputStream fis;
+		private BufferedInputStream bis;
+		
+		private ResultObjectUtil roUtil;
+		private IResultClass rsClass;
+		
+		private int rowCount;
+		private int currIndex;
+		
+
+		public IncreCacheLoadUtil( IncreDataSetCacheObject cacheObject )
+		{
+			assert cacheObject != null;
+			this.file = cacheObject.getDataFile( );
+			this.metaFile = cacheObject.getMetaFile( );
+			this.rowCount = 0;
+			this.currIndex = -1;
+		}
+		
+		
+		/**
+		 * @param resultObject
+		 * @throws DataException
+		 */
+		public IResultObject loadObject( ) throws DataException
+		{			
+			if ( roUtil == null )
+				init( );
+			
+			try
+			{
+				if ( currIndex == rowCount - 1 )
+					return null;
+				currIndex++;
+				return roUtil.readData( bis, 1 )[0];
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		public IResultClass loadResultClass( ) throws DataException
+		{			
+			if ( roUtil == null )
+				init( );
+			
+			return this.rsClass;
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		private void init( ) throws DataException
+		{
+			try
+			{
+				FileInputStream fis1 = new FileInputStream( metaFile );
+				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+
+				rowCount = IOUtil.readInt( bis1 );
+				rsClass = new ResultClass( bis1 );
+
+				bis1.close( );
+				fis1.close( );
+
+				if ( rowCount > 0 )
+				{
+					roUtil = ResultObjectUtil.newInstance( rsClass );
+					fis = new FileInputStream( file );
+					bis = new BufferedInputStream( fis );
+				}
+			}
+			catch ( FileNotFoundException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+		}
+		
+		/**
+		 * @throws DataException
+		 */
+		public void close( ) throws DataException
+		{
+			if ( bis != null )
+			{
+				try
+				{
+					bis.close( );
+					fis.close( );
+				}
+				catch ( IOException e )
+				{
+					throw new DataException( "", e );
+				}
+			}
+		}
+	}
 	/**
 	 * Util class to retrieve data from stored cache file.
 	 */
@@ -737,7 +984,7 @@ class CacheUtilFactory
 		 * constructor of class MergeUtil
 		 * 
 		 * @param file
-		 * @param rsClass
+		 * @param rsMeta
 		 * @throws DataException
 		 */
 		private MergeUtil( File dataFile, File metaFile ) throws DataException

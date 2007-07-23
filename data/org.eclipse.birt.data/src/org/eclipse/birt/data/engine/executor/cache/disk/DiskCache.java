@@ -68,7 +68,7 @@ public class DiskCache implements ResultSetCache
 	 * The MemoryCacheRowCount indicates the upper limitation of how many rows
 	 * can be loaded into memory. Note this value is included as well. Look at
 	 * the start three parameters of the parameter list, the first is the result
-	 * object array which length is MemoryCacheRowCount, and the sceond is one
+	 * object array which length is MemoryCacheRowCount, and the second is one
 	 * result object which follows the object array according to the position
 	 * sequence of data source. The last is the RowResultSet, and it might have
 	 * or not have more result object.
@@ -295,19 +295,8 @@ public class DiskCache implements ResultSetCache
 		if ( tempRootDirStr == null )
 			tempRootDirStr = createTempRootDir( );
 
-
-		
-		sessionRootDirStr = getCacheUtil().createSessionTempDir( tempRootDirStr );
+		sessionRootDirStr = CacheUtil.createSessionTempDir( tempRootDirStr );
 		return sessionRootDirStr;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private CacheUtil getCacheUtil( )
-	{
-		return this.session.getCacheUtil( );
 	}
 	
 	/**
@@ -320,10 +309,13 @@ public class DiskCache implements ResultSetCache
 			synchronized ( DiskCache.class )
 			{
 				if ( tempRootDirStr == null )
-					tempRootDirStr = getCacheUtil().doCreateTempRootDir( logger );
+				{
+					// tempDir is user specified temporary directory
+					String tempDir = session.getDataSetCacheManager( ).getTempDir( );
+					tempRootDirStr = CacheUtil.createTempRootDir( tempDir );
+				}
 			}
 		}
-		
 		return tempRootDirStr;
 	}
 	

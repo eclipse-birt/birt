@@ -1,0 +1,70 @@
+{report}
+	value:
+	{dataset}
+		value:
+		[id]:dset1
+		{mode}
+			value:expire
+		{query-text}
+			value:select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')
+		{parameter}
+			value:
+			{param1}
+				value:value1
+			{param2}
+				value:value2
+		{timestamp-column}
+			value:timestamp
+		{timestamp-format}
+			value:yy-MM-dd hh:mm:ss
+	{dataset}
+		value:
+		[id]:dset2
+		{mode}
+			value:persistent
+		{query-text}
+			value:select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')
+		{parameter}
+			value:
+			{param1}
+				value:value1
+			{param2}
+				value:value2
+		{timestamp-column}
+			value:timestamp
+		{timestamp-format}
+			value:yy-MM-dd hh:mm:ss
+	{dataset}
+		value:
+		[id]:dset3
+		{mode}
+			value:persistent
+		{query-text}
+			value:select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')
+		{parameter}
+			value:
+			{param1}
+				value:value1
+			{param2}
+				value:value2
+		{timestamp-column}
+			value:timestamp1
+		{timestamp-format}
+			value:yy-MM-dd
+	{dataset}
+		value:
+		[id]:dset4
+		{mode}
+			value:persistent
+		{query-text}
+			value:select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')
+		{parameter}
+			value:
+			{param1}
+				value:value1
+			{param2}
+				value:value2
+		{timestamp-column}
+			value:timestamp2
+		{timestamp-format}
+			value:yy-MM-dd

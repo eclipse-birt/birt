@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
 /**
  * Help SmartCache to get the ResultSetCache, the real data cache.
@@ -91,7 +93,7 @@ class SmartCacheHelper
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( this.session );
 		ResultSetCache smartCache = smartCacheHelper.getSortedResultSetCache( new CacheRequest( 0,
 				null,
-				CacheUtil.getSortSpec( rsMeta ),
+				getSortSpec( rsMeta ),
 				cacheRequest.getEventHandler( ),
 				true ),
 				odaResultSet,
@@ -99,6 +101,24 @@ class SmartCacheHelper
 
 		initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
 		return this.resultSetCache;
+	}
+	
+	/**
+	 * @param rsMeta
+	 * @return
+	 */
+	private static SortSpec getSortSpec( IResultClass rsMeta )
+	{
+		int fieldCount = rsMeta.getFieldCount( );
+		int[] sortKeyIndexs = new int[fieldCount];
+		String[] sortKeyNames = new String[fieldCount];
+		boolean[] ascending = new boolean[fieldCount];
+		for ( int i = 0; i < fieldCount; i++ )
+		{
+			sortKeyIndexs[i] = i + 1; // 1-based
+			ascending[i] = true;
+		}
+		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
 	}
 
 	/**
@@ -303,7 +323,7 @@ class SmartCacheHelper
 						odaObject,
 						rowResultSet,
 						rsMeta,
-						CacheUtil.getComparator( sortSpec, eventHandler ),
+						getComparator( sortSpec, eventHandler ),
 						dataCount,
 						this.session );
 				break;
@@ -318,7 +338,7 @@ class SmartCacheHelper
 
 			resultSetCache = new MemoryCache( resultObjects,
 					rsMeta,
-					CacheUtil.getComparator( sortSpec, eventHandler ) );
+					getComparator( sortSpec, eventHandler ) );
 		}
 
 		odaObject = null;
@@ -328,5 +348,81 @@ class SmartCacheHelper
 
 		long consumedTime = ( System.currentTimeMillis( ) - startTime ) / 1000;
 		logger.fine( "Time consumed by cache is: " + consumedTime + " second" );
+	}
+	
+	/**
+	 * @param sortSpec
+	 * @return Comparator based on specified sortSpec, null indicates there is
+	 *         no need to do sorting
+	 */
+	private static Comparator getComparator( SortSpec sortSpec,
+			final IEventHandler eventHandler )
+	{
+		if ( sortSpec == null )
+			return null;
+
+		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
+		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
+
+		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
+			return null;
+
+		final boolean[] sortAscending = sortSpec.sortAscending;
+
+		Comparator comparator = new Comparator( ) {
+
+			/**
+			 * compares two row indexes, actually compares two rows pointed by
+			 * the two row indexes
+			 */
+			public int compare( Object obj1, Object obj2 )
+			{
+				IResultObject row1 = (IResultObject) obj1;
+				IResultObject row2 = (IResultObject) obj2;
+
+				// compare group keys first
+				for ( int i = 0; i < sortKeyIndexes.length; i++ )
+				{
+					int colIndex = sortKeyIndexes[i];
+					String colName = sortKeyColumns[i];
+					try
+					{
+						Object colObj1 = null;
+						Object colObj2 = null;
+
+						if ( eventHandler != null )
+						{
+							colObj1 = eventHandler.getValue( row1,
+									colIndex,
+									colName );
+							colObj2 = eventHandler.getValue( row2,
+									colIndex,
+									colName );
+						}
+						else
+						{
+							colObj1 = row1.getFieldValue( colIndex );
+							colObj2 = row2.getFieldValue( colIndex );
+						}
+
+						int result = CompareUtil.compare( colObj1, colObj2 );
+						if ( result != 0 )
+						{
+							return sortAscending[i] ? result : -result;
+						}
+					}
+					catch ( DataException e )
+					{
+						// Should never get here
+						// colIndex is always valid
+					}
+				}
+
+				// all equal, so return 0
+				return 0;
+			}
+		};
+
+		return comparator;
 	}
 }

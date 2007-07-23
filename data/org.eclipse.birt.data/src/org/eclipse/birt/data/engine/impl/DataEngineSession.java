@@ -18,7 +18,6 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
@@ -33,7 +32,6 @@ public class DataEngineSession
 	private Map context;
 	private Scriptable scope;
 	private DataSetCacheManager dataSetCacheManager;
-	private CacheUtil cacheUtil;
 	private DataEngine engine;
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
 	/**
@@ -52,7 +50,6 @@ public class DataEngineSession
 		this.context = new HashMap();
 		
 		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
-		this.cacheUtil = new CacheUtil( context.getTmpdir( ) );
 		this.engine = engine;
 		this.scope = context.getJavaScriptScope( );
 		
@@ -115,14 +112,5 @@ public class DataEngineSession
 	public DataSetCacheManager getDataSetCacheManager( )
 	{
 		return this.dataSetCacheManager;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public CacheUtil getCacheUtil( )
-	{
-		return this.cacheUtil;
 	}
 }

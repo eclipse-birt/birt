@@ -90,6 +90,8 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.JointDataSetTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ResultMetaDataTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ScriptEvalTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ConfigFileParserTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.IncreCacheDataSetTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.impl.binding  */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.binding.AggregationTest.class );

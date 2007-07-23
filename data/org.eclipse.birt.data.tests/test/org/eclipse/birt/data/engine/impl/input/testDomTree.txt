@@ -1,0 +1,51 @@
+
+<report>
+	<dataset id = "dset1"> 
+		<mode> expire </mode>
+	
+		<query-text><![CDATA[select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')]]></query-text>
+		<parameter>
+			<param1> value1 </param1>
+			<param2> value2 </param2>
+		</parameter>
+ 		<timestamp-column> timestamp </timestamp-column>
+		<timestamp-format>yy-MM-dd hh:mm:ss </timestamp-format>
+    </dataset>
+	
+	<dataset id = "dset2"> 
+		<mode> persistent </mode>
+		<query-text><![CDATA[select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')]]></query-text>
+		<parameter>
+			<param1> value1 </param1>
+			<param2> value2 </param2>
+		</parameter>
+ 		<timestamp-column> timestamp </timestamp-column>
+		<timestamp-format>yy-MM-dd hh:mm:ss </timestamp-format>
+	</dataset>
+	
+	<dataset id = "dset3"> 
+		<mode> persistent </mode>
+		<query-text><![CDATA[select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')]]></query-text>
+		<parameter>
+			<param1> value1 </param1>
+			<param2> value2 </param2>
+		</parameter>
+		<timestamp-column> timestamp1 </timestamp-column>
+		<timestamp-format>yy-MM-dd </timestamp-format>
+    </dataset>
+	
+	<dataset id = "dset4"> 
+		<mode> persistent </mode>
+		<query-text><![CDATA[select * from BBHEGDCGHEBEA where ${timestamp-column}$ >=date('${date}$')]]></query-text>
+		<parameter>
+			<param1> value1 </param1>
+			<param2> value2 </param2>
+		</parameter>
+		<timestamp-column> timestamp2 </timestamp-column>
+		<timestamp-format>yy-MM-dd </timestamp-format>
+	</dataset>
+</report>
+
+
+
+

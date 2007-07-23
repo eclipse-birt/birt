@@ -17,51 +17,53 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.odi.IEventHandler;
-import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * 
  */
 public class CacheUtil
 {
-	private static String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";	
+	private static final String PATH_SEP = File.separator;
+	private static final String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";
 	
+	/**
+	 * timestamp.data file will be used in incremental cache, while
+	 * time.data file will be used in disk cache.
+	 */
+	private static final String TIME_DATA = "time.data";
+	/**
+	 * root directory for incremental cache, which should under the user
+	 * specified cache directory.
+	 */
+	private static final String PS_ = "PS_"; 
+	
+	/**
+	 * counters for creating unique temporary directory.
+	 */
 	private static Integer cacheCounter1 = new Integer( 0 );
 	private static Integer cacheCounter2 = new Integer( 0 );
-
-	private String tempDir;
-
-	/**
-	 * 
-	 * @param context
-	 */
-	public CacheUtil( String tempDir )
+	
+	private CacheUtil( )
 	{
-		this.tempDir = tempDir;
 	}
-
+	
 	// --------------------service for SmartCache----------------------
-
 	/**
 	 * @return
 	 */
-	static int computeMemoryBufferSize( Map appContext )
+	public static int computeMemoryBufferSize( Map appContext )
 	{
 		//here a simple assumption, that 1M memory can accomondate 2000 rows
 		if ( appContext == null )
 			return 10*1024*1024;
-
 		if ( appContext.get( TEST_MEM_BUFFER_SIZE )!= null )
 		{
 			//For unit test.The unit is 1 byte.
@@ -91,107 +93,9 @@ public class CacheUtil
 		return memoryCacheSize;
 	}
 	
-
-	/**
-	 * @param sortSpec
-	 * @return Comparator based on specified sortSpec, null indicates there is
-	 *         no need to do sorting
-	 */
-	static Comparator getComparator( SortSpec sortSpec,
-			final IEventHandler eventHandler )
-	{
-		if ( sortSpec == null )
-			return null;
-
-		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
-		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
-
-		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
-			return null;
-
-		final boolean[] sortAscending = sortSpec.sortAscending;
-
-		Comparator comparator = new Comparator( ) {
-
-			/**
-			 * compares two row indexes, actually compares two rows pointed by
-			 * the two row indexes
-			 */
-			public int compare( Object obj1, Object obj2 )
-			{
-				IResultObject row1 = (IResultObject) obj1;
-				IResultObject row2 = (IResultObject) obj2;
-
-				// compare group keys first
-				for ( int i = 0; i < sortKeyIndexes.length; i++ )
-				{
-					int colIndex = sortKeyIndexes[i];
-					String colName = sortKeyColumns[i];
-					try
-					{
-						Object colObj1 = null;
-						Object colObj2 = null;
-
-						if ( eventHandler != null )
-						{
-							colObj1 = eventHandler.getValue( row1,
-									colIndex,
-									colName );
-							colObj2 = eventHandler.getValue( row2,
-									colIndex,
-									colName );
-						}
-						else
-						{
-							colObj1 = row1.getFieldValue( colIndex );
-							colObj2 = row2.getFieldValue( colIndex );
-						}
-
-						int result = compareObjects( colObj1, colObj2 );
-						if ( result != 0 )
-						{
-							return sortAscending[i] ? result : -result;
-						}
-					}
-					catch ( DataException e )
-					{
-						// Should never get here
-						// colIndex is always valid
-					}
-				}
-
-				// all equal, so return 0
-				return 0;
-			}
-		};
-
-		return comparator;
-	}
-
-	/**
-	 * @param ob1
-	 * @param ob2
-	 * @return
-	 */
-	public static int compareObjects( Object ob1, Object ob2 )
-	{
-		try
-		{
-			return ScriptEvalUtil.compare( ob1, ob2 );
-		}
-		catch ( DataException e )
-		{
-			//should never get here
-			return -1;
-		}
-	}
-
 	// ------------------------service for DiskCache-------------------------
 
-	/**
-	 * @return
-	 */
-	public String doCreateTempRootDir( Logger logger )
+	public static String createTempRootDir( String tempDir )
 	{
 		String rootDirStr = null;
 
@@ -210,52 +114,83 @@ public class CacheUtil
 						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
 			}
 			tempDtEDir.mkdir( );
-			//tempDtEDir.deleteOnExit( );
+			tempDtEDir.deleteOnExit( );
 		}
-
-		try
-		{
-			rootDirStr = tempDtEDir.getCanonicalPath( );
-		}
-		catch ( IOException e )
-		{
-			// normally this exception will never be thrown
-		}
-		logger.info( "Temp directory used to cache data is " + rootDirStr );
-
+		rootDirStr = getCanonicalPath( tempDtEDir );
 		return rootDirStr;
 	}
 
 	/**
 	 * @return session temp dir
+	 * @throws IOException 
 	 */
-	public String createSessionTempDir( String tempRootDirStr )
+	public static String createSessionTempDir( String tempRootDir )
 	{
-		String sessionTempDirStr;
 
 		final String prefix = "session_";
-
+		File sessionFile = null;
 		synchronized ( cacheCounter2 )
 		{
 			// Here we use complex algorithm so that to avoid the repeating of
 			// dir names in 1.same jvm but different threads 2.different jvm.
-			sessionTempDirStr = tempRootDirStr
+			String sessionTempDir = tempRootDir
 					+ File.separator + prefix + System.currentTimeMillis( )
 					+ cacheCounter2.intValue( );
 			cacheCounter2 = new Integer( cacheCounter2.intValue( ) + 1 );
-			File file = new File( sessionTempDirStr );
+			sessionFile = new File( sessionTempDir );
 
 			int i = 0;
-			while ( file.exists( ) || !file.mkdir( ) )
+			while ( sessionFile.exists( ) || !sessionFile.mkdir( ) )
 			{
 				i++;
-				sessionTempDirStr = sessionTempDirStr + "_" + i;
-				file = new File( sessionTempDirStr );
+				sessionTempDir = sessionTempDir + "_" + i;
+				sessionFile = new File( sessionTempDir );
 			}
+			sessionFile.deleteOnExit( );
 		}
-		return sessionTempDirStr;
-
+		System.out.println("create session directory: "+sessionFile.getAbsolutePath( ));
+		return getCanonicalPath( sessionFile );
 	}
+
+	/**
+	 * get the canonical path without exception.
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	private static String getCanonicalPath( File file )
+	{
+		try
+		{
+			return file.getCanonicalPath( );
+		}
+		catch ( IOException e )
+		{
+			return file.getAbsolutePath( );
+		}
+	}
+	
+	// ------------------------service for incremental cache-------------------------
+	/**
+	 * 
+	 * @param tempDir
+	 * @param dataSetDesign
+	 * @return
+	 */
+	public static String createIncrementalTempDir( String tempDir,
+			String configFilePath, String dataSetName )
+	{
+		final String prefix = PS_;
+		File cacheDir = new File( tempDir
+				+ PATH_SEP + prefix + PATH_SEP
+				+ Md5Util.getMD5( configFilePath ) + PATH_SEP + dataSetName );
+		if ( cacheDir.exists( ) == false )
+		{
+			cacheDir.mkdirs( );
+		}
+		return getCanonicalPath( cacheDir );
+	}
+
 
 	/**
 	 * To get the last time doing caching or merging
@@ -265,12 +200,11 @@ public class CacheUtil
 	 * @throws DataException
 	 * @throws ClassNotFoundException
 	 */
-	public static String getLastTime( String folder ) throws IOException,
-			DataException, ClassNotFoundException
+	public static String getLastTime( String folder ) throws DataException
 	{
 		try
 		{
-			File file = new File( folder + "\\time.data" );
+			File file = new File( folder + PATH_SEP + TIME_DATA );
 			if ( !file.exists( ) )
 			{
 				return null;
@@ -290,6 +224,12 @@ public class CacheUtil
 			throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 					e );
 		}
+		catch ( ClassNotFoundException e )
+		{
+			e.printStackTrace( );
+			assert false;
+		}
+		return null;
 	}
 
 	/**
@@ -303,7 +243,7 @@ public class CacheUtil
 		{
 			FileOutputStream fos;
 
-			fos = new FileOutputStream( new File( folder + "\\time.data" ) );
+			fos = new FileOutputStream( new File( folder + PATH_SEP + TIME_DATA ) );
 
 			ObjectOutputStream oos = new ObjectOutputStream( fos );
 
@@ -323,7 +263,6 @@ public class CacheUtil
 
 			fos.close( );
 			oos.close( );
-
 		}
 		catch ( IOException e )
 		{
@@ -331,7 +270,7 @@ public class CacheUtil
 		}
 
 	}
-
+	
 	/**
 	 * 
 	 * @param value
@@ -340,28 +279,54 @@ public class CacheUtil
 	private static String populate2DigitString( int value )
 	{
 		if ( value < 10 )
-			return "0"+value;
+			return "0" + value;
 		else
 			return String.valueOf( value );
 	}
 	
 	/**
-	 * @param rsMeta
-	 * @return
+	 * To get the last timestamp in incremental cache.
+	 * 
+	 * @param folder
+	 * @return String that contains the last time doing caching or merging
+	 * @throws DataException
+	 * @throws ClassNotFoundException
 	 */
-	public static SortSpec getSortSpec( IResultClass rsMeta )
+	public static long getLastTimestamp( String folder ) throws DataException
 	{
-		int fieldCount = rsMeta.getFieldCount( );
-		int[] sortKeyIndexs = new int[fieldCount];
-		String[] sortKeyNames = new String[fieldCount];
-		boolean[] ascending = new boolean[fieldCount];
-		for ( int i = 0; i < fieldCount; i++ )
+		try
 		{
-			sortKeyIndexs[i] = i + 1; // 1-based
-			ascending[i] = true;
+			RandomAccessFile raf = new RandomAccessFile( folder
+					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "r" );
+			long timestamp = raf.readLong( );
+			raf.close( );
+			return timestamp;
 		}
-
-		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
+		catch ( Exception e )
+		{
+			throw new DataException( e.getMessage( ) );
+		}
 	}
 
+	/**
+	 * To save the current timestamp in incremental cache.
+	 * 
+	 * @param folder
+	 */
+	public static void saveCurrentTimestamp( String folder )
+			throws DataException
+	{
+		try
+		{
+			RandomAccessFile raf = new RandomAccessFile( folder
+					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "rw" );
+			Calendar calendar = Calendar.getInstance( );
+			raf.writeLong( calendar.getTimeInMillis( ) );
+			raf.close( );
+		}
+		catch ( Exception e )
+		{
+			throw new DataException( e.getMessage( ) );
+		}
+	}
 }

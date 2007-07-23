@@ -83,6 +83,11 @@ abstract public class DataEngine
 	 * DataEngineContext settings. 
 	 */
 	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
+	
+	/**
+	 * data set incremental cache file URL.
+	 */
+	public static String INCREMENTAL_CACHE_CONFIG = "org.eclipse.birt.data.cache.incremental.config";
 
 	
 	/**

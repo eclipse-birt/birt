@@ -27,7 +27,9 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.IIncreCacheDataSetDesign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -35,29 +37,24 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 class CacheMapManager
 {
-	// map of cache relationship
-	//private Map cacheMap;
-		
-	// folder util instance
-	private FolderUtil folderUtil;
-	private String tempDir;
-	
-	private static Integer cacheCounter1 = new Integer(0);
-	private static Integer cacheCounter2 = new Integer(0);
-	
 	/**
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
 	 */
 	private static Map cacheMap = new HashMap( );
-
+	
+	/**
+	 * cache directory map for disk based cache( disk cache and incremental
+	 * cache )
+	 */
+	private Map cacheDirMap = new HashMap( );
+	
+	private String tempDir;
 	/**
 	 * construction
 	 */
 	CacheMapManager( String tempDir )
 	{
-		
-		this.folderUtil = new FolderUtil( );
 		this.tempDir = tempDir;
 	}
 	
@@ -94,15 +91,31 @@ class CacheMapManager
 				{
 					return needSaveToCache( cacheObject );					
 				}
+				
+				IDataSetCacheObject dsCacheObject = null;
+				String cacheDir = (String) cacheDirMap.get( baseDataSetDesign );
+				if ( baseDataSetDesign instanceof IIncreCacheDataSetDesign )
+				{
+					dsCacheObject = (IDataSetCacheObject) new IncreDataSetCacheObject( cacheDir );
+				}
 				else
 				{
-					cacheMap.put( dsAndDs, mode == DataEngineContext.CACHE_MODE_IN_MEMORY?
-							(IDataSetCacheObject )new MemoryDataSetCacheObject():
-							(IDataSetCacheObject )new DiskDataSetCacheObject(folderUtil.createSessionTempDir( ), baseDataSourceDesign,
-									baseDataSetDesign, parameterHints,
-									appContext) );
-					return true;
+					switch ( mode )
+					{
+						case DataEngineContext.CACHE_MODE_IN_MEMORY :
+							dsCacheObject = (IDataSetCacheObject) new MemoryDataSetCacheObject( );
+							break;
+						case DataEngineContext.CACHE_MODE_IN_DISK :
+							String tempRootDir = CacheUtil.createTempRootDir( tempDir );
+							String sessionTempDir = CacheUtil.createSessionTempDir( tempRootDir );
+							dsCacheObject = (IDataSetCacheObject) new DiskDataSetCacheObject( sessionTempDir );
+							break;
+						default :
+							return false;
+					}
 				}
+				cacheMap.put( dsAndDs, dsCacheObject );
+				return true;
 			}
 		}
 	}
@@ -116,11 +129,17 @@ class CacheMapManager
 	{
 		if ( cacheObject instanceof DiskDataSetCacheObject )
 		{
-			DiskDataSetCacheObject diskCacheObject = (DiskDataSetCacheObject)cacheObject;
-			return !( diskCacheObject.getDataFile( ).exists( ) && diskCacheObject.getMetaFile( ).exists( ));
-		}else if ( cacheObject instanceof MemoryDataSetCacheObject )
+			DiskDataSetCacheObject diskCacheObject = (DiskDataSetCacheObject) cacheObject;
+			return !( diskCacheObject.getDataFile( ).exists( ) && diskCacheObject.getMetaFile( )
+					.exists( ) );
+		}
+		else if ( cacheObject instanceof MemoryDataSetCacheObject )
 		{
-			return ((MemoryDataSetCacheObject)cacheObject).needPopulateResult( );
+			return ( (MemoryDataSetCacheObject) cacheObject ).needPopulateResult( );
+		}
+		else if ( cacheObject instanceof IncreDataSetCacheObject )
+		{
+			return true;
 		}
 		return false;
 	}
@@ -131,14 +150,15 @@ class CacheMapManager
 	 */
 	boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
 	{
-		Object cacheDirStr = null;
+		Object cacheObject = null;
 		synchronized ( cacheMap )
 		{
-			cacheDirStr = cacheMap.get( dsAndDs );
+			cacheObject = cacheMap.get( dsAndDs );
 		}
-		if ( cacheDirStr != null )
+		if ( cacheObject != null )
 		{
-			return !needSaveToCache( cacheDirStr );
+			return ( cacheObject instanceof IncreDataSetCacheObject ) ? true
+					: !needSaveToCache( cacheObject );
 		}
 		return false;
 	}
@@ -165,10 +185,18 @@ class CacheMapManager
 		}
 		for ( int i = 0; i < cacheDir.size( ); i++ )
 		{
-			if ( cacheDir.get( i ) instanceof DiskDataSetCacheObject )
-
+			Object cacheObject = cacheDir.get( i );
+			if ( cacheObject instanceof DiskDataSetCacheObject )
+			{
 				// assume the following statement is thread-safe
-				folderUtil.deleteDir( ( (DiskDataSetCacheObject) cacheDir.get( i ) ).getTempDir( ) );
+				DiskDataSetCacheObject diskObject = (DiskDataSetCacheObject) cacheObject;
+				deleteDir( diskObject.getTempDir( ) );
+			}
+			else if ( cacheObject instanceof IncreDataSetCacheObject )
+			{
+				IncreDataSetCacheObject psObject = (IncreDataSetCacheObject) cacheObject;
+				deleteDir( psObject.getCacheDir( ) );
+			}
 		}
 
 	}
@@ -181,7 +209,6 @@ class CacheMapManager
 		synchronized ( this )
 		{
 			cacheMap = new HashMap( );
-			folderUtil = new FolderUtil( );
 		}
 	}
 	
@@ -259,99 +286,31 @@ class CacheMapManager
 		}
 		return null;
 	}
+	
 	/**
-	 * Folder util class to manager temp folder
+	 * Delete folder
+	 * 
+	 * @param dirStr
 	 */
-	private class FolderUtil
+	private void deleteDir( String dirStr )
 	{
-		// temp root directory
-		private String tempRootDirStr = null;
-
-		/**
-		 * @return temp root dir directory
-		 */
-		private void createTempRootDir( )
-		{
-			if ( tempRootDirStr != null
-					&& new File( tempRootDirStr ).exists( ) == true )
-				return;
-					
-			File tempDtEDir = null;
-			// system default temp dir is used
-			synchronized ( cacheCounter1 )
-			{
-				tempDtEDir = new File( tempDir, "BirtDataCache"
-						+ System.currentTimeMillis( ) + cacheCounter1 );
-				cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
-				int x = 0;
-				while ( tempDtEDir.exists( ) )
-				{
-					x++;
-					tempDtEDir = new File( tempDir, "BirtDataCache"
-							+ System.currentTimeMillis( ) + cacheCounter1 + "_"
-							+ x );
-				}
-				tempDtEDir.mkdir( );
-				tempDtEDir.deleteOnExit( );
-			}
-			
-			try
-			{
-				tempRootDirStr = tempDtEDir.getCanonicalPath( );
-			}
-			catch ( IOException e )
-			{
-				// normally this exception will never be thrown
-			}
-		}
-
-		/**
-		 * @return session temp dir
-		 */
-		private String createSessionTempDir( )
-		{
-			this.createTempRootDir();
-			
-			final String prefix = "session_";
-
-			
-			// system default temp dir is used
-			synchronized ( cacheCounter2 )
-			{
-				String sessionTempDir = tempRootDirStr
-						+ File.separator + prefix + System.currentTimeMillis( )
-						+ cacheCounter2;
-				cacheCounter2 = new Integer( cacheCounter2.intValue( ) + 1 );
-				File sessionDirFile = new File( sessionTempDir );
-				int x = 0;
-				while ( sessionDirFile.exists( ) )
-				{
-					x++;
-					sessionTempDir =  tempRootDirStr
-					+ File.separator + prefix + System.currentTimeMillis( )
-					+ cacheCounter2 + "_" + x;
-					sessionDirFile = new File( sessionTempDir );
-				}
-				sessionDirFile.mkdir( );
-				sessionDirFile.deleteOnExit( );
-				return sessionTempDir;
-			}
-		}
-
-		/**
-		 * Delete folder
-		 * 
-		 * @param dirStr
-		 */
-		private void deleteDir( String dirStr )
-		{
-			File sessionsFolder = new File( dirStr );
-			if ( !sessionsFolder.exists( ) )
-				return;
-			File[] sessionFiles = sessionsFolder.listFiles( );
-			for ( int i = 0; i < sessionFiles.length; i++ )
-				sessionFiles[i].delete( );
-			sessionsFolder.delete( );
-		}
+		File curDir = new File( dirStr );
+		if ( !curDir.exists( ) )
+			return;
+		File[] files = curDir.listFiles( );
+		for ( int i = 0; i < files.length; i++ )
+			files[i].delete( );
+		curDir.delete( );
 	}
+
+	
+	/**
+	 * @return the cacheDirMap
+	 */
+	Map getCacheDirMap( )
+	{
+		return cacheDirMap;
+	}
+	
+	
 }
