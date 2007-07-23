@@ -20,10 +20,10 @@ public class ExpressionPropertyDescriptorProvider extends
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	public boolean isEnable( )
 	{
-		List list = DEUtil.getInputElements( input );
-		if ( list == null || list.size( ) == 0 )
+		if ( DEUtil.getInputSize( input ) != 1 )
 			return false;
 		else
 			return true;
