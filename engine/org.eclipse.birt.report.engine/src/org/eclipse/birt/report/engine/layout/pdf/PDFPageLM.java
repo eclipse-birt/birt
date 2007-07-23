@@ -363,10 +363,16 @@ public class PDFPageLM extends PDFBlockContainerLM
 		page = (PageArea) root;
 		int pageWidth = getDimensionValue( pageContent.getPageWidth( ) );
 		int pageHeight = getDimensionValue( pageContent.getPageHeight( ) );
-		// validate
-		if ( pageWidth <= 0 || pageHeight <= 0 )
+		
+		// validate page width
+		if ( pageWidth <= 0 )
 		{
 			pageWidth = DEFAULT_PAGE_WIDTH;
+		}
+
+		// validate page height
+		if ( pageHeight <= 0 )
+		{
 			pageHeight = DEFAULT_PAGE_HEIGHT;
 		}
 
