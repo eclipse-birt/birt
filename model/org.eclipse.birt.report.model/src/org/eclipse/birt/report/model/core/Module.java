@@ -2045,9 +2045,9 @@ public abstract class Module extends DesignElement
 		if ( !StringUtil.isBlank( units ) )
 			return units;
 		String tempUnits = (String) getPropertyDefn( UNITS_PROP ).getDefault( );
-		if( !StringUtil.isBlank( tempUnits ))
+		if ( !StringUtil.isBlank( tempUnits ) )
 			return tempUnits;
-		//see bugzilla 191168.
+		// see bugzilla 191168.
 		return getSession( ).getUnits( );
 	}
 
@@ -2259,9 +2259,9 @@ public abstract class Module extends DesignElement
 		if ( element == null )
 			return;
 
-		if (element instanceof ContentElement)
+		if ( element instanceof ContentElement )
 			return;
-		
+
 		// if the element is hanging and not in the module, return
 
 		if ( element.getRoot( ) != this )
@@ -2568,6 +2568,30 @@ public abstract class Module extends DesignElement
 	public void rename( DesignElement element )
 	{
 		nameHelper.rename( element );
+	}
+
+	/**
+	 * Recurse to rename element
+	 * 
+	 * @param module
+	 * @param container
+	 * @param element
+	 */
+	public void rename( DesignElement container, DesignElement element )
+	{
+		NameExecutor executor = new NameExecutor( element );
+		INameHelper nameHelper = executor.getNameHelper( this , container );
+		if ( nameHelper != null )
+		{
+			nameHelper.makeUniqueName( element );
+		}
+
+		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = (DesignElement) iter.next( );
+			rename( element, innerElement );
+		}
 	}
 
 	/*

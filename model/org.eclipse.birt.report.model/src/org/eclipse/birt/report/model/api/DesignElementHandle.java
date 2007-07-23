@@ -1817,7 +1817,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly. 
 	 * @param slotId
 	 *            the slot id
 	 * @param type
@@ -1836,7 +1836,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Determines if the given slot can contain the <code>content</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly .
 	 * @param slotId
 	 *            the slot id
 	 * @param content
@@ -1861,7 +1861,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly. 
 	 * @param propName
 	 *            name of the property where the type to insert
 	 * @param type
@@ -1880,7 +1880,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Determines if the given slot can contain the <code>content</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly. 
 	 * @param propName
 	 *            the name of the property where the content to insert
 	 * @param content

@@ -549,7 +549,7 @@ public class SlotHandle extends ElementDetailHandle
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly. 
 	 * @param type
 	 *            the name of the element type, like "Table", "List", etc.
 	 * @return <code>true</code> if the slot can contain the an element with
@@ -564,7 +564,7 @@ public class SlotHandle extends ElementDetailHandle
 
 	/**
 	 * Determines if the given slot can contain the <code>content</code>.
-	 * 
+	 * If canContain return true, doesn't mean it must be inserted properly. 
 	 * @param content
 	 *            the design element handle to check
 	 * 

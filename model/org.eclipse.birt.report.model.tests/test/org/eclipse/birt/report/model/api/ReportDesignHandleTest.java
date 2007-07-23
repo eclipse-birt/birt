@@ -27,15 +27,28 @@ import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -402,6 +415,159 @@ public class ReportDesignHandleTest extends BaseTestCase
 				.getMasterPages( ).get( 0 ).getElement( );
 		designHandle.rename( page.getHandle( design ) );
 
+	}
+
+	/**
+	 * Test rename( Object , DesignElementHandle ) method Test cases:
+	 * 
+	 * <ul>
+	 * <li>style in theme
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUniqueStyleName( ) throws Exception
+	{
+		createLibrary( );
+
+		// Data prepare
+		ElementFactory libFactory = libraryHandle.getElementFactory( );
+
+		ThemeHandle theme = libFactory.newTheme( "theme1" ); //$NON-NLS-1$
+		libraryHandle.getThemes( ).add( theme );
+
+		StyleHandle style = libFactory.newStyle( "NewStyle" );//$NON-NLS-1$	
+		theme.getStyles( ).add( style );
+		assertEquals( "NewStyle", style.getName( ) );//$NON-NLS-1$	
+		StyleHandle style1 = libFactory.newStyle( "NewStyle1" );//$NON-NLS-1$		
+		theme.getStyles( ).add( style1 );
+		assertEquals( "NewStyle1", style1.getName( ) );//$NON-NLS-1$
+		StyleHandle style2 = libFactory.newStyle( "NewStyle2" );//$NON-NLS-1$		
+		theme.getStyles( ).add( style2 );
+		assertEquals( "NewStyle2", style2.getName( ) );//$NON-NLS-1$
+
+		IDesignElement clonedElement = style2.copy( );
+		DesignElementHandle clonedElementHandle = clonedElement
+				.getHandle( libraryHandle.getModule( ) );
+
+		// rename in themehandle
+		libraryHandle.getRoot( ).rename( theme, clonedElementHandle );
+		assertEquals( "NewStyle21", clonedElementHandle.getName( ) );//$NON-NLS-1$	
+
+		// do nothing in libraryhandle
+		clonedElement = style2.copy( );
+		clonedElementHandle = clonedElement.getHandle( libraryHandle
+				.getModule( ) );
+		libraryHandle.getRoot( ).rename( libraryHandle, clonedElementHandle );
+		assertEquals( "NewStyle2", clonedElementHandle.getName( ) );//$NON-NLS-1$	
+	}
+
+	/**
+	 * Test rename( Object , DesignElementHandle ) method Test cases:
+	 * 
+	 * <ul>
+	 * <li>level in hierarchy
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUniqueLevelName( ) throws Exception
+	{
+		openLibrary( "ReportDesignHandleTest_UniqueLevelName.xml" );//$NON-NLS-1$	
+
+		// hierarchy is in tree.
+		// in this case name change in level
+
+		CubeHandle cubeHandle = (CubeHandle) libraryHandle.getCubes( ).get( 0 );
+		DimensionHandle dimensionHandle = cubeHandle.getDimension( "Group" );//$NON-NLS-1$	
+		HierarchyHandle hierarchyHandle = (HierarchyHandle) dimensionHandle
+				.getListProperty( DimensionHandle.HIERARCHIES_PROP ).get( 0 );
+
+		Level level = new TabularLevel( "ORDERNUMBER" ); //$NON-NLS-1$	
+		LevelHandle levelHandle = (LevelHandle) level.getHandle( libraryHandle
+				.getModule( ) );
+		libraryHandle.getRoot( ).rename( hierarchyHandle, levelHandle );
+		assertEquals( "ORDERNUMBER1", levelHandle.getName( ) );//$NON-NLS-1$	
+
+		// hierarchy not in the tree and not find the dimension
+		// in this case no name change in level.
+
+		Hierarchy hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$	
+		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
+				.getModule( ) );
+		level = new TabularLevel( "ORDERNUMBER" );//$NON-NLS-1$	
+		levelHandle = (LevelHandle) level
+				.getHandle( libraryHandle.getModule( ) );
+		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
+
+		libraryHandle.getRoot( ).rename( hierarchyHandle, levelHandle );
+		assertEquals( "ORDERNUMBER", levelHandle.getName( ) );//$NON-NLS-1$
+		
+		// hierarchy not in the tree, but can find dimension
+		// in this case name change in level
+
+		Dimension dimension = (Dimension)dimensionHandle.copy( );
+		dimensionHandle = (DimensionHandle)dimension.getHandle( libraryHandle.getModule() );
+		
+		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
+		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
+				.getModule( ) );
+		dimensionHandle.add( DimensionHandle.HIERARCHIES_PROP, hierarchyHandle );
+		level = new TabularLevel( "ORDERNUMBER" );//$NON-NLS-1$	
+		levelHandle = (LevelHandle) level
+				.getHandle( libraryHandle.getModule( ) );
+		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
+
+		libraryHandle.getRoot( ).rename( hierarchyHandle, levelHandle );
+		assertEquals( "ORDERNUMBER1", levelHandle.getName( ) );//$NON-NLS-1$	
+
+		// rename about 'hierarchy': hierarchy is managed by module however
+		// the content level is managed by dimension
+		
+		dimensionHandle = cubeHandle.getDimension( "Group" );//$NON-NLS-1$	
+		dimension = (Dimension)dimensionHandle.copy( );
+		dimensionHandle = (DimensionHandle)dimension.getHandle( libraryHandle.getModule() );
+		
+		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
+		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
+				.getModule( ) );
+		dimensionHandle.add( DimensionHandle.HIERARCHIES_PROP, hierarchyHandle );
+		level = new TabularLevel( "ORDERNUMBER" );//$NON-NLS-1$	
+		levelHandle = (LevelHandle) level
+				.getHandle( libraryHandle.getModule( ) );
+		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
+
+		libraryHandle.getRoot( ).rename( dimensionHandle , hierarchyHandle );
+
+		assertEquals( "NewTabularHierarchy2", hierarchyHandle.getName( ) );//$NON-NLS-1$
+		assertEquals( "ORDERNUMBER1", levelHandle.getName( ) );//$NON-NLS-1$
+
+		// rename about table
+
+		TableItem table = new TableItem( "table" );//$NON-NLS-1$
+		libraryHandle.getComponents( ).add(
+				table.getHandle( libraryHandle.getModule( ) ) );
+		TableHandle tableHandle = (TableHandle) libraryHandle.getComponents( )
+				.get( 0 );
+		TableItem innerTable = new TableItem( "table" );//$NON-NLS-1$
+
+		libraryHandle.getRoot( ).rename( tableHandle,
+				innerTable.getHandle( libraryHandle.getModule( ) ) );
+		assertEquals( "table1", innerTable.getName( ) );//$NON-NLS-1$
+
+		// rename about table contains table.
+
+		table = new TableItem( "another table" );//$NON-NLS-1$
+		ContainerSlot slot = table.getSlot( TableItem.DETAIL_SLOT );
+		innerTable = new TableItem( "another table" );//$NON-NLS-1$
+		slot.add( innerTable );
+
+		libraryHandle.getRoot( ).rename( libraryHandle,
+				table.getHandle( libraryHandle.getModule( ) ) );
+		assertEquals( "another table", table.getName( ) );//$NON-NLS-1$
+		assertEquals( "another table1", innerTable.getName( ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -1112,7 +1278,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		styleHandle = labelHandle.getStyle( );
 		assertNotNull( styleHandle );
-		assertEquals( "\"Arial\"", styleHandle.getFontFamilyHandle( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals(
+				"\"Arial\"", styleHandle.getFontFamilyHandle( ).getStringValue( ) );//$NON-NLS-1$
 
 	}
 

@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -58,6 +59,31 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	}
 
 	/**
+	 * Gets all styles in theme with the same name.
+	 * 
+	 * @param themeHandle
+	 * @param styleName
+	 * @return
+	 */
+
+	private List getSameNameStyles( ThemeHandle themeHandle, String styleName )
+	{
+		SlotHandle slot = themeHandle.getSlot( ThemeHandle.STYLES_SLOT );
+		Iterator iterator = slot.iterator( );
+		List sameNameList = new ArrayList( );
+
+		while ( iterator.hasNext( ) )
+		{
+			StyleHandle style = (StyleHandle) iterator.next( );
+			if ( style.getName( ).equalsIgnoreCase( styleName ) )
+			{
+				sameNameList.add( style );
+			}
+		}
+		return sameNameList;
+	}
+
+	/**
 	 * Validates whether the style with the given name can be added into the
 	 * given theme element.
 	 * 
@@ -73,10 +99,7 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 
-		// Collect all groups in this element.
-
-		StyleHandle style = theme.findStyle( styleName );
-		if ( style != null )
+		if ( getSameNameStyles( theme, styleName ).size( ) > 1 )
 			list.add( new NameException( theme.getElement( ), styleName,
 					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 
@@ -99,17 +122,28 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	public List validateForRenamingStyle( ThemeHandle theme, StyleHandle style,
 			String styleName )
 	{
-		if ( style.getName( ) == styleName
-				|| ( styleName != null && styleName.equals( style.getName( ) ) ) )
-			return Collections.EMPTY_LIST;
+		// Specially deal with style name in theme.
 
 		List list = new ArrayList( );
-		StyleHandle tmpStyle = theme.findStyle( styleName );
-		if ( tmpStyle != null && style != tmpStyle )
+
+		List sameNameStyles = getSameNameStyles( theme, styleName );
+
+		// style is in theme slot, so if duplicate there must be two style
+		// instance with same style name
+		if ( sameNameStyles.size( ) > 1 )
 		{
 			list.add( new NameException( theme.getElement( ), styleName,
 					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 		}
+		// style is not in theme slot, just check name is unique or not
+		else if ( sameNameStyles.size( ) == 1 )
+		{
+			StyleHandle tempStyle = (StyleHandle) sameNameStyles.get( 0 );
+			if ( tempStyle != style )
+				list.add( new NameException( theme.getElement( ), styleName,
+						NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+		}
+
 		return list;
 	}
 

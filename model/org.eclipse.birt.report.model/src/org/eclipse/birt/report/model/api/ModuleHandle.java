@@ -706,7 +706,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Finds a cube element by name in this module and the included modules.
 	 * 
 	 * @param name
-	 *            the element name, name must be Dimension name + "/" + level name.
+	 *            the element name, name must be Dimension name + "/" + level
+	 *            name.
 	 * @return the cube element handle, if found, otherwise null
 	 */
 
@@ -1401,9 +1402,51 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void rename( DesignElementHandle elementHandle )
 	{
+		rename( (DesignElementHandle) null, elementHandle );
+	}
+
+	/**
+	 * Checks element name is unique in container.
+	 * 
+	 * @param containerHandle
+	 *            container of element
+	 * @param elementHandle
+	 *            element handle
+	 */
+
+	public void rename( DesignElementHandle containerHandle,
+			DesignElementHandle elementHandle )
+	{
 		if ( elementHandle == null )
 			return;
-		module.rename( elementHandle.getElement( ) );
+
+		if ( containerHandle == null )
+		{
+			module.rename( elementHandle.getElement( ) );
+			return;
+		}
+
+		// Specially for case rename copied style in theme.
+
+		if ( elementHandle instanceof StyleHandle )
+		{
+			if ( containerHandle instanceof ThemeHandle )
+			{
+				String name = ( (ThemeHandle) containerHandle )
+						.makeUniqueStyleName( elementHandle.getName( ) );
+				elementHandle.getElement( ).setName( name );
+			}
+			else if ( containerHandle instanceof ReportDesignHandle )
+				module.rename( elementHandle.getElement( ) );
+			return;
+		}
+
+		// If both have root, let name helper decide unique name
+		// Now only for rename level name in hierarchy.
+
+		module.rename( containerHandle.getElement( ), elementHandle
+				.getElement( ) );
+
 	}
 
 	/**
@@ -2051,7 +2094,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibrary( (Library) library.getElement( ) );
-		
+
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
 			checkReport( );
@@ -2085,7 +2128,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.reloadLibrary( libraryToReload.getLocation( ) );
-		
+
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
 			checkReport( );
@@ -2124,7 +2167,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			}
 
 		}
-		
+
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
 			checkReport( );
@@ -2200,7 +2243,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
-		
+
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
 			checkReport( );

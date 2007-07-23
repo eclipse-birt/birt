@@ -19,8 +19,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -192,28 +190,6 @@ public class Theme extends ReferenceableElement
 			}
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.ContainerInfo,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
-	 */
-
-	public List checkContent( Module module, ContainerContext containerInfo,
-			DesignElement content )
-	{
-		List tmpErrors = super.checkContent( module, containerInfo, content );
-		if ( !tmpErrors.isEmpty( ) )
-			return tmpErrors;
-
-		tmpErrors.addAll( ThemeStyleNameValidator.getInstance( )
-				.validateForAddingStyle( (ThemeHandle) getHandle( module ),
-						content.getFullName( ) ) );
-
-		return tmpErrors;
 	}
 
 	/**

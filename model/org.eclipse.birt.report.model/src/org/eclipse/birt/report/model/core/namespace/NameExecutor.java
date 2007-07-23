@@ -49,6 +49,19 @@ public class NameExecutor
 	 */
 	public INameHelper getNameHelper( Module module )
 	{
+		return getNameHelper( module , focus );
+	}
+
+	/**
+	 * Get name helper of element.
+	 * 
+	 * @param container
+	 * @return <code>ModuleNameHelper</code> or
+	 *         <code>DimensionNameHelper</code>
+	 */
+	public INameHelper getNameHelper( Module module , DesignElement container )
+	{
+		DesignElement e = container;
 		ElementDefn elementDefn = (ElementDefn) focus.getDefn( );
 		IElementDefn holderDefn = elementDefn.getNameConfig( )
 				.getNameContainer( );
@@ -60,7 +73,6 @@ public class NameExecutor
 		if ( !ReportDesignConstants.MODULE_ELEMENT.equalsIgnoreCase( holderDefn
 				.getName( ) ) )
 		{
-			DesignElement e = focus;
 			while ( e != null )
 			{
 				if ( e.getDefn( ).isKindOf( holderDefn ) )

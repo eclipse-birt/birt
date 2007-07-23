@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.TemplateElement;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
@@ -831,7 +830,6 @@ public final class ContainerContext
 				}
 
 				if ( container instanceof ListingElement
-						|| container instanceof Theme
 						|| container instanceof MasterPage )
 				{
 					errors = container.checkContent( module, this.focus,
