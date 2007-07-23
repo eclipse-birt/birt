@@ -56,7 +56,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	{
 		UIUtil.bindHelp( parent,
 				IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE );
-		
+
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
@@ -160,7 +160,16 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		if ( dataSetCombo != null && !dataSetCombo.isDisposed( ) )
 		{
 			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
-			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ( (TabularCubeHandle) input ).getDataSet( ) ) );
+			if ( ( (TabularCubeHandle) input ).getDataSet( ) != null )
+			{
+				String datasetName = ( (TabularCubeHandle) input ).getDataSet( )
+						.getQualifiedName( );
+				if ( dataSetCombo.indexOf( datasetName ) == -1 )
+				{
+					dataSetCombo.add( datasetName, 0 );
+				}
+				dataSetCombo.setText( datasetName );
+			}
 			if ( dataSetCombo.getSelectionIndex( ) == -1 )
 			{
 				builder.setOKEnable( false );

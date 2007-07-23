@@ -223,8 +223,8 @@ public final class UIHelper
 	private static void dropProperty( TabularCubeHandle cube,
 			HierarchyHandle hierarcy, String type ) throws Exception
 	{
-		ModuleHandle module = cube.getModuleHandle( );
-		if ( UIHelper.existIntProperty( hierarcy.getModuleHandle( ),
+		ModuleHandle module = cube.getRoot( );
+		if ( UIHelper.existIntProperty( hierarcy.getRoot( ),
 				UIHelper.getId( hierarcy, cube ),
 				type ) )
 		{

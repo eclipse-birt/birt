@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -332,6 +331,10 @@ public class CubeGroupContent extends Composite implements Listener
 			public void dragOver( DropTargetEvent event )
 			{
 				event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
+				if(OlapUtil.isFromLibrary( input )){
+					event.detail = DND.DROP_NONE;
+					return;
+				}
 				if ( event.item != null )
 				{
 					TreeItem item = (TreeItem) event.item;
@@ -797,7 +800,7 @@ public class CubeGroupContent extends Composite implements Listener
 												if ( hasExecuted )
 												{
 													UIHelper.dropDimensionProperties( dimension );
-													new DeleteCommand( dimension ).execute( );
+													dimension.dropAndClear( );
 													refresh( );
 													return;
 												}
@@ -1101,7 +1104,7 @@ public class CubeGroupContent extends Composite implements Listener
 					if ( table != null && dataset != table )
 						addBtn.setEnabled( false );
 
-					if ( dimenTemp.isTimeType( ) && dataField!=null)
+					if ( dimenTemp.isTimeType( ) && dataField != null )
 					{
 						if ( isDateType( dataField.getDataType( ) )
 								&& dimenTemp.getDefaultHierarchy( )
@@ -1209,6 +1212,10 @@ public class CubeGroupContent extends Composite implements Listener
 				else
 					editBtn.setEnabled( false );
 			}
+			if(OlapUtil.isFromLibrary( input )){
+				addBtn.setEnabled( false );
+				delBtn.setEnabled( false );
+			}
 		}
 		else
 		{
@@ -1223,73 +1230,75 @@ public class CubeGroupContent extends Composite implements Listener
 
 	private void handleDelEvent( )
 	{
+		if(OlapUtil.isFromLibrary( input ))return;
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 		Iterator iter = slections.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
-			if ( obj instanceof DimensionHandle )
+			try
 			{
-				DimensionHandle dimension = (DimensionHandle) obj;
-
-				boolean hasExecuted = OlapUtil.enableDrop( dimension );
-				if ( hasExecuted )
+				if ( obj instanceof DimensionHandle )
 				{
-					UIHelper.dropDimensionProperties( dimension );
-					new DeleteCommand( dimension ).execute( );
+					DimensionHandle dimension = (DimensionHandle) obj;
+
+					boolean hasExecuted = OlapUtil.enableDrop( dimension );
+					if ( hasExecuted )
+					{
+						UIHelper.dropDimensionProperties( dimension );
+						dimension.dropAndClear( );
+					}
+
 				}
-
-			}
-			else if ( obj instanceof LevelHandle )
-			{
-				LevelHandle level = (LevelHandle) obj;
-				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle)level.getContainer( );
-				DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
-
-				boolean hasExecuted = OlapUtil.enableDrop( level );
-				if ( hasExecuted )
+				else if ( obj instanceof LevelHandle )
 				{
-					new DeleteCommand( level ).execute( );
-				}
-				 try
-				{
+					LevelHandle level = (LevelHandle) obj;
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) level.getContainer( );
+					DimensionHandle dimension = (DimensionHandle) hierarchy.getContainer( );
+
+					boolean hasExecuted = OlapUtil.enableDrop( level );
+					if ( hasExecuted )
+					{
+						level.dropAndClear( );
+					}
+
 					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) == 0 )
 					{
 						dimension.setTimeType( false );
 						hierarchy.setDataSet( null );
 					}
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
 
-			}
-			else if ( obj instanceof MeasureGroupHandle )
-			{
-				MeasureGroupHandle measureGroup = (MeasureGroupHandle) obj;
-				boolean hasExecuted = OlapUtil.enableDrop( measureGroup );
-				if ( hasExecuted )
+				}
+				else if ( obj instanceof MeasureGroupHandle )
 				{
-					new DeleteCommand( measureGroup ).execute( );
+					MeasureGroupHandle measureGroup = (MeasureGroupHandle) obj;
+					boolean hasExecuted = OlapUtil.enableDrop( measureGroup );
+					if ( hasExecuted )
+					{
+						measureGroup.dropAndClear( );
+					}
+				}
+				else if ( obj instanceof MeasureHandle )
+				{
+					MeasureHandle measure = (MeasureHandle) obj;
+					boolean hasExecuted = OlapUtil.enableDrop( measure );
+					if ( hasExecuted )
+					{
+						measure.dropAndClear( );
+					}
 				}
 			}
-			else if ( obj instanceof MeasureHandle )
+			catch ( SemanticException e )
 			{
-				MeasureHandle measure = (MeasureHandle) obj;
-				boolean hasExecuted = OlapUtil.enableDrop( measure );
-				if ( hasExecuted )
-				{
-					new DeleteCommand( measure ).execute( );
-				}
+				ExceptionHandler.handle( e );
 			}
-
 		}
 		updateButtons( );
 	}
 
 	private void handleAddEvent( )
 	{
+		if(OlapUtil.isFromLibrary( input ))return;
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 		Iterator iter = slections.iterator( );
 		while ( iter.hasNext( ) )
@@ -1510,6 +1519,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 	protected void handleDataAddEvent( )
 	{
+		if(OlapUtil.isFromLibrary( input ))return;
 		TreeSelection dataFields = (TreeSelection) dataFieldsViewer.getSelection( );
 		Iterator iterator = dataFields.iterator( );
 		while ( iterator.hasNext( ) )

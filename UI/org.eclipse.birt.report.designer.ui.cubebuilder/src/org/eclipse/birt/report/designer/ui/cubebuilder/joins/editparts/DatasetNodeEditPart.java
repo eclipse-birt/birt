@@ -68,7 +68,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	protected IFigure createFigure( )
 	{
 		String name = ( (DataSetHandle) cube.getDataSet( ) ).getName( )
-				+ Messages.getString("DatasetNodeEditPart.Primary.Dataset"); //$NON-NLS-1$
+				+ Messages.getString( "DatasetNodeEditPart.Primary.Dataset" ); //$NON-NLS-1$
 		tableNode = new TableNodeFigure( name, true );
 		scrollPane = new TablePaneFigure( name, true );
 		scrollPane.setContents( tableNode );
@@ -107,8 +107,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	protected void refreshVisuals( )
 	{
 		Rectangle r;
-		if ( !UIHelper.existIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-				UIHelper.getId( getModel( ), cube ),
+		if ( !UIHelper.existIntProperty( cube.getRoot( ),
+				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.POSITION_X ) )
 		{
 			int width = getWidth( );
@@ -131,7 +131,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	private int getWidth( )
 	{
-		int width = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+		int width = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.SIZE_WIDTH );
 		return width == 0 ? 150 : width;
@@ -139,7 +139,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	private int getHeight( )
 	{
-		int height = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+		int height = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.SIZE_HEIGHT );
 		return height == 0 ? 200 : height;
@@ -147,7 +147,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	private int getPosX( )
 	{
-		int x = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+		int x = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.POSITION_X );
 		return x;
@@ -155,7 +155,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	private int getPosY( )
 	{
-		int y = UIHelper.getIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+		int y = UIHelper.getIntProperty( cube.getRoot( ),
 				UIHelper.getId( cube.getDataSet( ), cube ),
 				BuilderConstancts.POSITION_Y );
 		return y;
@@ -165,8 +165,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		try
 		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-					UIHelper.getId( getModel( ), cube ),
+			UIHelper.setIntProperty( cube.getRoot( ),
+					UIHelper.getId( cube.getDataSet( ), cube ),
 					BuilderConstancts.POSITION_X,
 					x );
 		}
@@ -181,8 +181,8 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		try
 		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
-					UIHelper.getId( getModel( ), cube ),
+			UIHelper.setIntProperty( cube.getRoot( ),
+					UIHelper.getId( cube.getDataSet( ), cube ),
 					BuilderConstancts.POSITION_Y,
 					y );
 		}
@@ -227,7 +227,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( isActive( ) && !isDelete( ))
+		if ( isActive( ) && !isDelete( ) )
 		{
 			refresh( );
 		}
@@ -237,16 +237,14 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	{
 		// TODO Auto-generated method stub
 		super.deactivate( );
-		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
-				.removeListener( this );
+		cube.getRoot( ).removeListener( this );
 	}
 
 	public void activate( )
 	{
 		// TODO Auto-generated method stub
 		super.activate( );
-		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
-				.addListener( this );
+		cube.getRoot( ).addListener( this );
 	}
 
 	public DragTracker getDragTracker( Request req )

@@ -140,7 +140,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	protected void refreshVisuals( )
 	{
 		Rectangle r;
-		if ( !UIHelper.existIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+		if ( !UIHelper.existIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 				UIHelper.getId( getModel( ), cube ),
 				BuilderConstancts.POSITION_X ) )
 		{
@@ -234,7 +234,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	private int getWidth( Object model )
 	{
-		int width = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getModuleHandle( ),
+		int width = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
 				BuilderConstancts.SIZE_WIDTH );
 		return width == 0 ? 150 : width;
@@ -242,7 +242,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	private int getHeight( Object model )
 	{
-		int height = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getModuleHandle( ),
+		int height = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
 				BuilderConstancts.SIZE_HEIGHT );
 		return height == 0 ? 200 : height;
@@ -250,7 +250,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	private int getPosX( Object model )
 	{
-		int x = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getModuleHandle( ),
+		int x = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
 				BuilderConstancts.POSITION_X );
 		return x;
@@ -258,7 +258,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	private int getPosY( Object model )
 	{
-		int y = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getModuleHandle( ),
+		int y = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
 				BuilderConstancts.POSITION_Y );
 		return y;
@@ -268,7 +268,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		try
 		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 					UIHelper.getId( getModel( ), cube ),
 					BuilderConstancts.POSITION_X,
 					x );
@@ -284,7 +284,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	{
 		try
 		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getModuleHandle( ),
+			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
 					UIHelper.getId( getModel( ), cube ),
 					BuilderConstancts.POSITION_Y,
 					y );
@@ -298,7 +298,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	private boolean existPosX( Object model )
 	{
-		return UIHelper.existIntProperty( ( (ReportElementHandle) model ).getModuleHandle( ),
+		return UIHelper.existIntProperty( ( (ReportElementHandle) model ).getRoot( ),
 				UIHelper.getId( model, cube ),
 				BuilderConstancts.POSITION_X );
 	}
@@ -346,14 +346,14 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	public void deactivate( )
 	{
 		super.deactivate( );
-		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+		( (DesignElementHandle) getModel( ) ).getRoot( )
 				.removeListener( this );
 	}
 
 	public void activate( )
 	{
 		super.activate( );
-		( (DesignElementHandle) getModel( ) ).getModuleHandle( )
+		( (DesignElementHandle) getModel( ) ).getRoot( )
 				.addListener( this );
 	}
 

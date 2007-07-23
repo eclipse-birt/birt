@@ -10,7 +10,9 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.SetConstraintCommand;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -26,7 +28,6 @@ import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.graphics.Color;
-
 
 public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 {
@@ -60,7 +61,14 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 			Object constraint )
 	{
 		SetConstraintCommand locationCommand = new SetConstraintCommand( );
-		locationCommand.setPart( child.getModel( ) );
+		if ( child instanceof DatasetNodeEditPart )
+		{
+			locationCommand.setModuleHandle( ( (DatasetNodeEditPart) child ).getCube( )
+					.getRoot( ) );
+		}
+		else
+			locationCommand.setModuleHandle( ((DesignElementHandle)child.getModel( )).getRoot( ) );
+
 		locationCommand.setId( UIHelper.getId( child.getModel( ), cube ) );
 
 		Rectangle rect = new Rectangle( (Rectangle) constraint );
@@ -98,47 +106,54 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 			protected IFigure createDragSourceFeedbackFigure( )
 			{
 				// Use a ghost rectangle for feedback
-				Figure r = new Figure( ){
-					protected void paintFigure(Graphics graphics) {
-						Rectangle rect = getBounds().getCopy();
-						
-						graphics.setXORMode(true);
-						graphics.setForegroundColor(ColorConstants.white);
-						graphics.setBackgroundColor(new Color(null, 31, 31, 31));
-						
-						graphics.translate(getLocation());
-						
-						PointList outline = new PointList();
-						
-						outline.addPoint(0, 0);
-						outline.addPoint(rect.width , 0);
-						outline.addPoint(rect.width - 1, 0);
-						outline.addPoint(rect.width - 1, rect.height - 1);
-						outline.addPoint(0, rect.height - 1);
-						
-						graphics.fillPolygon(outline); 
-						
+				Figure r = new Figure( ) {
+
+					protected void paintFigure( Graphics graphics )
+					{
+						Rectangle rect = getBounds( ).getCopy( );
+
+						graphics.setXORMode( true );
+						graphics.setForegroundColor( ColorConstants.white );
+						graphics.setBackgroundColor( new Color( null,
+								31,
+								31,
+								31 ) );
+
+						graphics.translate( getLocation( ) );
+
+						PointList outline = new PointList( );
+
+						outline.addPoint( 0, 0 );
+						outline.addPoint( rect.width, 0 );
+						outline.addPoint( rect.width - 1, 0 );
+						outline.addPoint( rect.width - 1, rect.height - 1 );
+						outline.addPoint( 0, rect.height - 1 );
+
+						graphics.fillPolygon( outline );
+
 						// draw the inner outline
-						PointList innerLine = new PointList();
+						PointList innerLine = new PointList( );
 
-						innerLine.addPoint(rect.width - 0 - 1, 0);
-						innerLine.addPoint(rect.width - 0 - 1, 0);
-						innerLine.addPoint(rect.width - 1, 0);
-						innerLine.addPoint(rect.width - 0 - 1, 0);
-						innerLine.addPoint(0, 0);
-						innerLine.addPoint(0, rect.height - 1);
-						innerLine.addPoint(rect.width - 1, rect.height - 1);
-						innerLine.addPoint(rect.width - 1, 0);
+						innerLine.addPoint( rect.width - 0 - 1, 0 );
+						innerLine.addPoint( rect.width - 0 - 1, 0 );
+						innerLine.addPoint( rect.width - 1, 0 );
+						innerLine.addPoint( rect.width - 0 - 1, 0 );
+						innerLine.addPoint( 0, 0 );
+						innerLine.addPoint( 0, rect.height - 1 );
+						innerLine.addPoint( rect.width - 1, rect.height - 1 );
+						innerLine.addPoint( rect.width - 1, 0 );
 
-						graphics.drawPolygon(innerLine);
-						
-						graphics.drawLine(rect.width - 0 - 1, 0, rect.width - 1, 0);
-						
-						graphics.translate(getLocation().getNegated());
+						graphics.drawPolygon( innerLine );
+
+						graphics.drawLine( rect.width - 0 - 1,
+								0,
+								rect.width - 1,
+								0 );
+
+						graphics.translate( getLocation( ).getNegated( ) );
 					}
 				};
 
-			
 				r.setBounds( getInitialFeedbackBounds( ) );
 				addFeedback( r );
 				return r;

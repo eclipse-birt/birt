@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.action;
 
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinConditionEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
@@ -65,11 +67,10 @@ public class DeleteJoinAction extends AbstractViewAction
 					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
 					if ( joinCondition.equals( editPart.getModel( ) ) )
 					{
-						condition.removeJoinCondition( (DimensionJoinCondition)joinCondition.getStructure( ) );
+						condition.removeJoinCondition( (DimensionJoinCondition) joinCondition.getStructure( ) );
 					}
 				}
-				if ( !condition.getJoinConditions( ).iterator( ).hasNext( ) )
-					condition.drop( );
+			
 			}
 			editPart.setFocus( false );
 			editPart.setSelected( 0 );
@@ -79,6 +80,7 @@ public class DeleteJoinAction extends AbstractViewAction
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( );
 			ExceptionHandler.handle( e );
 		}
 

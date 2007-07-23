@@ -49,7 +49,7 @@ public class CubesNodeProvider extends DefaultNodeProvider
 	public Object[] getChildren( Object model )
 	{
 		return ( (SlotHandle) model ).getElementHandle( )
-				.getModuleHandle( )
+				.getRoot( )
 				.getVisibleCubes( )
 				.toArray( );
 	}

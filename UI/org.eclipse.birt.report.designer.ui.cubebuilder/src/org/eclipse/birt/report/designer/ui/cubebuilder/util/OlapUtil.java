@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -147,16 +148,17 @@ public class OlapUtil
 			return null;
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
-			if ( ((DataSetHandle)slot.get( i )).getName( ).equals( datasetName ) )
-				return (DataSetHandle)slot.get( i );
+			if ( ( (DataSetHandle) slot.get( i ) ).getName( )
+					.equals( datasetName ) )
+				return (DataSetHandle) slot.get( i );
 		}
 		return null;
 	}
-	
+
 	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "GroupsPage.Reference" ); //$NON-NLS-1$
 	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "GroupsPage.Clients" ); //$NON-NLS-1$
 	public static final String DLG_CONFIRM_MSG = Messages.getString( "GroupsPage.Dlg.Confirm" ); //$NON-NLS-1$
-	
+
 	public static boolean enableDrop( Object model )
 	{
 		if ( model instanceof DesignElementHandle )
@@ -182,6 +184,17 @@ public class OlapUtil
 			return true;
 		}
 		return true;
+	}
+
+	public static boolean isFromLibrary( Object model )
+	{
+		if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
+			if ( handle.getExtends( ) != null )
+				return true;
+		}
+		return false;
 	}
 
 }
