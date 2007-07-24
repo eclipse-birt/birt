@@ -476,7 +476,7 @@ public class ResourceEditDialog extends BaseDialog
 				}
 			}
 		} );
-		
+
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -650,9 +650,24 @@ public class ResourceEditDialog extends BaseDialog
 		if ( saveMessage( ) == true )
 		{
 			setResult( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+			setDetailResult( new String[]{
+					viewer.getTable( ).getSelection( )[0].getText( 0 ),
+					viewer.getTable( ).getSelection( )[0].getText( 1 )
+			} );
 		}
 
 		super.okPressed( );
+	}
+	
+	public Object getDetailResult( )
+	{
+		return detailResult;
+	}
+
+	private Object detailResult;
+	final protected void setDetailResult( Object value )
+	{
+		detailResult = value;
 	}
 
 	public boolean isKeyValueListChanged( )

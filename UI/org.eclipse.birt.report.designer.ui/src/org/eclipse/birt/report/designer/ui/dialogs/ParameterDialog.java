@@ -209,6 +209,8 @@ public class ParameterDialog extends BaseDialog
 	private static final String ERROR_MSG_DUPLICATED_VALUE = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedValue" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_DUPLICATED_LABEL = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedLabel" ); //$NON-NLS-1$
+	
+	private static final String ERROR_MSG_DUPLICATED_LABELKEY = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedLabelKey" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_MISMATCH_DATA_TYPE = Messages.getString( "ParameterDialog.ErrorMessage.MismatchDataType" ); //$NON-NLS-1$
 
@@ -228,6 +230,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String COLUMN_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Column.DisplayText" ); //$NON-NLS-1$
 
+	private static final String COLUMN_DISPLAY_TEXT_KEY = Messages.getString( "ParameterDialog.Column.DisplayTextKey" ); //$NON-NLS-1$
+	
 	private static final String COLUMN_IS_DEFAULT = Messages.getString( "ParameterDialog.Column.Default" ); //$NON-NLS-1$
 
 	private static final String BOOLEAN_TRUE = Messages.getString( "ParameterDialog.Boolean.True" ); //$NON-NLS-1$
@@ -347,7 +351,7 @@ public class ParameterDialog extends BaseDialog
 		public String getColumnText( Object element, int columnIndex )
 		{
 			SelectionChoice choice = ( (SelectionChoice) element );
-			final int valueIndex = valueTable.getColumnProperties( ).length - 2;
+			final int valueIndex = valueTable.getColumnProperties( ).length - 3;
 			String text = null;
 			if ( valueTable.getColumnProperties( ).length == 4
 					&& columnIndex == 1 )
@@ -368,6 +372,10 @@ public class ParameterDialog extends BaseDialog
 				{
 					text = format( choice.getValue( ) );
 				}
+			}
+			else if ( columnIndex == valueIndex + 2 )
+			{
+				text = choice.getLabelResourceKey( );
 			}
 			if ( text == null )
 			{
@@ -405,9 +413,9 @@ public class ParameterDialog extends BaseDialog
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
-				public String validate( String displayLabel, String value )
+				public String validate( String displayLableKey, String displayLabel, String value )
 				{
-					return validateChoice( choice, displayLabel, value );
+					return validateChoice( choice, displayLableKey, displayLabel, value );
 				}
 
 			} );
@@ -430,9 +438,9 @@ public class ParameterDialog extends BaseDialog
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
-				public String validate( String displayLabel, String value )
+				public String validate( String displayLabelKey, String displayLabel, String value )
 				{
-					return validateChoice( null, displayLabel, value );
+					return validateChoice( null, displayLabelKey, displayLabel, value );
 				}
 			} );
 			if ( dialog.open( ) == Dialog.OK )
@@ -1456,10 +1464,10 @@ public class ParameterDialog extends BaseDialog
 		String[] columns;
 		int[] columnWidth;
 		columns = new String[]{
-				null, COLUMN_IS_DEFAULT, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
+				null, COLUMN_IS_DEFAULT, COLUMN_VALUE, COLUMN_DISPLAY_TEXT, COLUMN_DISPLAY_TEXT_KEY
 		};
 		columnWidth = new int[]{
-				20, 70, 145, 145,
+				10, 60, 110, 110,110
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
@@ -2657,6 +2665,14 @@ public class ParameterDialog extends BaseDialog
 						return true;
 					}
 				}
+				if ( COLUMN_DISPLAY_TEXT_KEY.equals( property ) )
+				{
+					value = choice.getLabelResourceKey( );
+					if ( isEqual( value, newValue ) )
+					{
+						return true;
+					}
+				}
 				if ( COLUMN_DISPLAY_TEXT.equals( property ) )
 				{
 					value = choice.getLabel( );
@@ -2852,7 +2868,7 @@ public class ParameterDialog extends BaseDialog
 		return displayName;
 	}
 
-	private String validateChoice( SelectionChoice choice, String displayLabel,
+	private String validateChoice( SelectionChoice choice, String displayLabelKey, String displayLabel,
 			String value )
 	{
 		String errorMessage = isValidValue( value );
@@ -2871,6 +2887,10 @@ public class ParameterDialog extends BaseDialog
 		if ( containValue( choice, newValue, COLUMN_VALUE ) )
 		{
 			return ERROR_MSG_DUPLICATED_VALUE;
+		}
+		if ( containValue( choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY ) )
+		{
+			return ERROR_MSG_DUPLICATED_LABELKEY;
 		}
 		return null;
 	}
