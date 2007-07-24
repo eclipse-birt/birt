@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,8 +45,6 @@ import org.mozilla.javascript.Scriptable;
 public class CacheResultIterator implements IResultIterator
 {
 
-	private static final String CACHED_FILE_PREFIX = "cacheresultiterator";
-
 	private DataEngineContext context = null;
 	private String queryResultID = null;
 	private InputStream metaInputStream = null;
@@ -79,7 +76,7 @@ public class CacheResultIterator implements IResultIterator
 		logger.entering( CacheResultIterator.class.getName( ),
 				"CacheResultIterator",
 				params );
-		
+
 		this.context = context;
 		this.queryResultID = queryResultID;
 		this.columnValueMap = new HashMap( );
@@ -114,32 +111,12 @@ public class CacheResultIterator implements IResultIterator
 	 */
 	private void createCacheInputStream( ) throws FileNotFoundException
 	{
-		metaInputStream = new BufferedInputStream( new FileInputStream( getMetaCacheFile( ) ),
+		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+				queryResultID ) ),
 				1024 );
-		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( getRowCacheFile( ) ),
+		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+				queryResultID ) ),
 				1024 ) );
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private File getMetaCacheFile( )
-	{
-		File file = new File( context.getTmpdir( )
-				+ CACHED_FILE_PREFIX + queryResultID + "meta" );
-		return file;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private File getRowCacheFile( )
-	{
-		File file = new File( context.getTmpdir( )
-				+ CACHED_FILE_PREFIX + queryResultID + "row" );
-		return file;
 	}
 
 	/*

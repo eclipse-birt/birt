@@ -98,7 +98,7 @@ public class ResultIterator implements IResultIterator
 	private static final int ON_ROW = 2;
 	private static final int AFTER_LAST_ROW = 3;
 	private static final int CLOSED = -1;
-	private static final String CACHED_FILE_PREFIX = "cacheresultiterator";
+	
 	private boolean isFirstRowPepared = true;
 	
 	private OutputStream metaOutputStream = null;
@@ -165,17 +165,20 @@ public class ResultIterator implements IResultIterator
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	private void createCacheOutputStream() throws FileNotFoundException 
+	private void createCacheOutputStream( ) throws FileNotFoundException
 	{
-		metaOutputStream = new BufferedOutputStream(new FileOutputStream(
-				getMetaCacheFile()), 1024);
-		rowOutputStream = new DataOutputStream(
-				new BufferedOutputStream(new FileOutputStream(
-						getRowCacheFile()), 1024));
-		File file = getRowCacheFile( );
-		file.deleteOnExit();
-		file = getMetaCacheFile( );
-		file.deleteOnExit();
+		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+				resultService.getQueryResults( ).getID( ) ) ),
+				1024 );
+		rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+				resultService.getQueryResults( ).getID( ) ) ),
+				1024 ) );
+		File file = ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+				resultService.getQueryResults( ).getID( ) );
+		file.deleteOnExit( );
+		file = ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+				resultService.getQueryResults( ).getID( ) );
+		file.deleteOnExit( );
 	}
 	
 	/**
@@ -210,29 +213,7 @@ public class ResultIterator implements IResultIterator
 		return resultService.getQueryDefn( ).cacheQueryResults();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	private File getMetaCacheFile( )
-	{
-		File file = new File(context.getTmpdir()
-				+ CACHED_FILE_PREFIX
-				+ resultService.getQueryResults().getID()+"meta");
-		return file;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private File getRowCacheFile( )
-	{
-		File file = new File(context.getTmpdir()
-				+ CACHED_FILE_PREFIX
-				+ resultService.getQueryResults().getID()+"row");
-		return file;
-	}
+
 	
 	/**
 	 * 
