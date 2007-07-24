@@ -1,0 +1,100 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.internal.ui.views.provider;
+
+import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
+
+public class CrossTabLevelNodeProvider extends DefaultNodeProvider
+{
+
+	public Object[] getChildren( Object model )
+	{
+		ExtendedItemHandle element = (ExtendedItemHandle) model;
+		try
+		{
+			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
+			if ( levelView != null )
+				return new Object[]{
+					levelView.getCell( ).getModelHandle( )
+				};
+		}
+		catch ( ExtendedElementException e )
+		{
+		}
+		return new Object[0];
+	}
+
+	public Object getParent( Object model )
+	{
+		ExtendedItemHandle element = (ExtendedItemHandle) model;
+		try
+		{
+			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
+			if ( levelView.getContainer( ) != null )
+			{
+				DimensionViewHandle dimension = (DimensionViewHandle) levelView.getContainer( );
+				if ( dimension.getContainer( ) != null )
+				{
+					return dimension.getContainer( ).getModelHandle( );
+				}
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+		}
+		return null;
+	}
+
+	public boolean hasChildren( Object model )
+	{
+		return getChildren( model ).length != 0;
+	}
+
+	public String getNodeDisplayName( Object model )
+	{
+		ExtendedItemHandle element = (ExtendedItemHandle) model;
+		try
+		{
+			LevelHandle level = ( (LevelViewHandle) element.getReportItem( ) ).getCubeLevel( );
+			String levelName = ""; //$NON-NLS-1$
+			if(level!=null) levelName= level.getName( );
+			return Messages.getString("CrossTabLevelNodeProvider.Level")+levelName; //$NON-NLS-1$
+		}
+		catch ( ExtendedElementException e )
+		{
+			e.printStackTrace( );
+		}
+		return super.getNodeDisplayName( model );
+	}
+
+	public Image getNodeIcon( Object element )
+	{
+		if ( element instanceof DesignElementHandle
+				&& ( (DesignElementHandle) element ).getSemanticErrors( )
+						.size( ) > 0 )
+		{
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+		}
+		return CrosstabUIHelper.getImage( CrosstabUIHelper.LEVEL_IMAGE );
+	}
+}
