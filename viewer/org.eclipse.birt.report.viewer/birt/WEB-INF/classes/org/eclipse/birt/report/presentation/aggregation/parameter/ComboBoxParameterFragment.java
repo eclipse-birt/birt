@@ -197,7 +197,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					.getParameters( ).get( i );
 			String parameterName = def.getName( );
 			groupKeys[i] = paramValues.get( parameterName );
-			if ( groupKeys[i] == null )
+			if ( def.isRequired( )
+					&& DataUtil.trimString( (String) groupKeys[i] ).length( ) <= 0 )
 			{
 				groupKeys[i] = service.getParameterDefaultValue( design,
 						parameterName, options );
