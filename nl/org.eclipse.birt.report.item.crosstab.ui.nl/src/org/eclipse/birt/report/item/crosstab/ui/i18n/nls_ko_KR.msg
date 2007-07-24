@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=행 영역
 AreaNodeProvider.DetailArea=세부 영역
 CrossTabViewNodeProvider.ColumnArea=열 영역
 CrossTabViewNodeProvider.RowArea=행 영역
-CrosstTabCellNodeProvider.Cell=셀
-CrosstTabLevelNodeProvider.Level=수준 - 
-CrosstTabMeasureNodeProvider.Detail=상세 정보 - 
+CrossTabCellNodeProvider.Cell=셀
+CrossTabLevelNodeProvider.Level=수준 - 
+CrossTabMeasureNodeProvider.Detail=상세 정보 - 
 MeasureSubNodeProvider.Header=머리글
 MeasureSubNodeProvider.Detail=상세 정보
 MeasureSubNodeProvider.Aggregation=집계
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=묻기
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=큐브 변경?
 CrosstabDataBinding.message.changeCube=교차 테이블의 데이터 바인딩을 변경하려고 합니다.  \n\n기존의 데이터 열 바인딩을 모두 지우시겠습니까?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube

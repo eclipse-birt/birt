@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=Zeilenbereich
 AreaNodeProvider.DetailArea=Detailbereich
 CrossTabViewNodeProvider.ColumnArea=Spaltenbereich
 CrossTabViewNodeProvider.RowArea=Zeilenbereich
-CrosstTabCellNodeProvider.Cell=Zelle
-CrosstTabLevelNodeProvider.Level=Ebene - 
-CrosstTabMeasureNodeProvider.Detail=Detail - 
+CrossTabCellNodeProvider.Cell=Zelle
+CrossTabLevelNodeProvider.Level=Ebene - 
+CrossTabMeasureNodeProvider.Detail=Detail - 
 MeasureSubNodeProvider.Header=Kopfzeile
 MeasureSubNodeProvider.Detail=Detail
 MeasureSubNodeProvider.Aggregation=Aggregat
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=Eingabeaufforderung
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=Quader ändern?
 CrosstabDataBinding.message.changeCube=Sie sind im Begriff, die Datenbindung der Kreuztabelle zu ändern.\n\nMöchten Sie alle bestehenden Datenspaltenbindungen löschen?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube

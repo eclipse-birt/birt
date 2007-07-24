@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=行区域
 AreaNodeProvider.DetailArea=详细信息区域
 CrossTabViewNodeProvider.ColumnArea=列区域
 CrossTabViewNodeProvider.RowArea=行区域
-CrosstTabCellNodeProvider.Cell=单元格
-CrosstTabLevelNodeProvider.Level=级别 - 
-CrosstTabMeasureNodeProvider.Detail=详细资料 - 
+CrossTabCellNodeProvider.Cell=单元格
+CrossTabLevelNodeProvider.Level=级别 - 
+CrossTabMeasureNodeProvider.Detail=详细资料 - 
 MeasureSubNodeProvider.Header=页眉
 MeasureSubNodeProvider.Detail=详细资料
 MeasureSubNodeProvider.Aggregation=聚合
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=提示
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=更改多维数据集?
 CrosstabDataBinding.message.changeCube=您将要更改交叉表的数据绑定。\n\n是否要清除全部现有的数据列绑定?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube

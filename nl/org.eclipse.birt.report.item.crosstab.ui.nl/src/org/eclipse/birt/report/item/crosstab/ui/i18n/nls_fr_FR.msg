@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=Zone de ligne
 AreaNodeProvider.DetailArea=Zone de détails
 CrossTabViewNodeProvider.ColumnArea=Zone de colonne
 CrossTabViewNodeProvider.RowArea=Zone de ligne
-CrosstTabCellNodeProvider.Cell=Cellule
-CrosstTabLevelNodeProvider.Level=Niveau - 
-CrosstTabMeasureNodeProvider.Detail=Détails - 
+CrossTabCellNodeProvider.Cell=Cellule
+CrossTabLevelNodeProvider.Level=Niveau - 
+CrossTabMeasureNodeProvider.Detail=Détails - 
 MeasureSubNodeProvider.Header=En-tête
 MeasureSubNodeProvider.Detail=Détails
 MeasureSubNodeProvider.Aggregation=Agrégation
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=Invite
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=Changer le cube ?
 CrosstabDataBinding.message.changeCube=Vous allez modifier la liaison des données du tableau croisé.  \n\nVoulez-vous effacer toutes les liaisons de colonnes de données ?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube

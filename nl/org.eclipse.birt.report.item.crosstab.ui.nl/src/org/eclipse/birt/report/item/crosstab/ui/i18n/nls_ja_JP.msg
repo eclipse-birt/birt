@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=行の領域
 AreaNodeProvider.DetailArea=詳細の領域
 CrossTabViewNodeProvider.ColumnArea=列の領域
 CrossTabViewNodeProvider.RowArea=行の領域
-CrosstTabCellNodeProvider.Cell=セル
-CrosstTabLevelNodeProvider.Level=レベル - 
-CrosstTabMeasureNodeProvider.Detail=詳細 - 
+CrossTabCellNodeProvider.Cell=セル
+CrossTabLevelNodeProvider.Level=レベル - 
+CrossTabMeasureNodeProvider.Detail=詳細 - 
 MeasureSubNodeProvider.Header=ヘッダ
 MeasureSubNodeProvider.Detail=詳細
 MeasureSubNodeProvider.Aggregation=集計
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=プロンプト
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=キューブの変更
 CrosstabDataBinding.message.changeCube=クロスタブのデータバインドを変更しようとしています。\n\n既存のデータ列のバインドをすべて削除しますか ?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube

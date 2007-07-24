@@ -51,9 +51,9 @@ AreaNodeProvider.RowArea=Área de fila
 AreaNodeProvider.DetailArea=Área de detalle
 CrossTabViewNodeProvider.ColumnArea=Área de columna
 CrossTabViewNodeProvider.RowArea=Área de fila
-CrosstTabCellNodeProvider.Cell=Celda
-CrosstTabLevelNodeProvider.Level=Nivel - 
-CrosstTabMeasureNodeProvider.Detail=Detalle - 
+CrossTabCellNodeProvider.Cell=Celda
+CrossTabLevelNodeProvider.Level=Nivel - 
+CrossTabMeasureNodeProvider.Detail=Detalle - 
 MeasureSubNodeProvider.Header=Encabezado
 MeasureSubNodeProvider.Detail=Detalle
 MeasureSubNodeProvider.Aggregation=Agregación
@@ -205,3 +205,7 @@ CrosstabPreferencePage.promptGroup=Solicitar
 #Crosstab DataBinding properties
 CrosstabDataBinding.title.ChangeCube=¿Cambiar cubo?
 CrosstabDataBinding.message.changeCube=Va a cambiar el enlace de datos de la tabla de referencias cruzadas.  \n\n¿Desea borrar todos los enlaces de columna de datos existentes?
+
+###########################################################
+#Crosstab DropAdapter properties
+DataColumnXTabDropAdapter.DataCube=Data Cube
