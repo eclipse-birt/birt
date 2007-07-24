@@ -56,7 +56,7 @@ public class WordUtil
 	{
 		if ( value == null )
 		{
-			return 0;
+			return prefValue;
 		}
 
 		if ( DimensionType.UNITS_PERCENTAGE
