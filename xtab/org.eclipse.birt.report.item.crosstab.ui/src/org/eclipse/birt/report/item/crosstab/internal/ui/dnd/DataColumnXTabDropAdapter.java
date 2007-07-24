@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -139,7 +140,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						DataSetHandle dataSetHandle = (DataSetHandle) columnHandle.getElementHandle( );
 
 						TabularCubeHandle newCube = DesignElementFactory.getInstance( )
-								.newTabularCube( null );
+								.newTabularCube( Messages.getString("DataColumnXTabDropAdapter.DataCube") + " - " +dataSetHandle.getName( ));
 
 						SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
