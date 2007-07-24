@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
@@ -109,13 +107,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		errorDetail = null;
 		IEditorInput input = getEditorInput( );
 
-		if ( !( input instanceof IPathEditorInput ) )
-		{
-			return 0;
-		}
-		IPath path = ( (IPathEditorInput) input ).getPath( );
 		try
 		{
+			IPath path = getProvider( ).getInputPath( input );
 			if ( path.toOSString( )
 					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 			{
@@ -170,7 +164,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				}
 			}
 		}
-		catch ( FileNotFoundException e )
+		catch ( Exception e )
 		{
 			return 0;
 		}
@@ -185,7 +179,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			Object element = iter.next( );
 			if ( element instanceof ErrorDetail )
 			{
-				errorDetail = (ErrorDetail)element;
+				errorDetail = (ErrorDetail) element;
 				return ( (ErrorDetail) element ).getLineNo( );
 			}
 		}
@@ -291,12 +285,15 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 
 		if ( errorLine > -1 )
 		{
-			if(errorDetail != null && errorDetail.getErrorCode( ).equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ))
+			if ( errorDetail != null
+					&& errorDetail.getErrorCode( )
+							.equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ) )
 			{
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
 						errorDetail.getMessage( ) ); //$NON-NLS-1$
-			}else
+			}
+			else
 			{
 				// Display.getCurrent( ).beep( );
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
@@ -381,62 +378,62 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	public boolean selectReveal( Object marker )
 	{
-//		int start = MarkerUtilities.getCharStart( (IMarker) marker );
-//		int end = MarkerUtilities.getCharEnd( (IMarker) marker );
-//
-//		boolean selectLine = start < 0 || end < 0;
-//
-//		// look up the current range of the marker when the document has been
-//		// edited
-//		IAnnotationModel model = getDocumentProvider( ).getAnnotationModel( getEditorInput( ) );
-//		if ( model instanceof AbstractMarkerAnnotationModel )
-//		{
-//			AbstractMarkerAnnotationModel markerModel = (AbstractMarkerAnnotationModel) model;
-//			Position pos = markerModel.getMarkerPosition( (IMarker) marker );
-//			if ( pos != null )
-//			{
-//				if ( !pos.isDeleted( ) )
-//				{
-//					// use position instead of marker values
-//					start = pos.getOffset( );
-//					end = pos.getOffset( ) + pos.getLength( );
-//				}
-//				else
-//				{
-//					return false;
-//				}
-//			}
-//		}
-//
-//		IDocument document = getDocumentProvider( ).getDocument( getEditorInput( ) );
-//		if ( selectLine )
-//		{
-//			int line;
-//			try
-//			{
-//				if ( start >= 0 )
-//					line = document.getLineOfOffset( start );
-//				else
-//				{
-//					line = MarkerUtilities.getLineNumber( (IMarker) marker );
-//					// Marker line numbers are 1-based
-//					if ( line >= 1 )
-//					{
-//						line--;
-//					}
-//					start = document.getLineOffset( line );
-//				}
-//				end = start + document.getLineLength( line ) - 1;
-//			}
-//			catch ( BadLocationException e )
-//			{
-//				return false;
-//			}
-//		}
-//
-//		int length = document.getLength( );
-//		if ( end - 1 < length && start < length )
-//			selectAndReveal( start, end - start );
+		//		int start = MarkerUtilities.getCharStart( (IMarker) marker );
+		//		int end = MarkerUtilities.getCharEnd( (IMarker) marker );
+		//
+		//		boolean selectLine = start < 0 || end < 0;
+		//
+		//		// look up the current range of the marker when the document has been
+		//		// edited
+		//		IAnnotationModel model = getDocumentProvider( ).getAnnotationModel( getEditorInput( ) );
+		//		if ( model instanceof AbstractMarkerAnnotationModel )
+		//		{
+		//			AbstractMarkerAnnotationModel markerModel = (AbstractMarkerAnnotationModel) model;
+		//			Position pos = markerModel.getMarkerPosition( (IMarker) marker );
+		//			if ( pos != null )
+		//			{
+		//				if ( !pos.isDeleted( ) )
+		//				{
+		//					// use position instead of marker values
+		//					start = pos.getOffset( );
+		//					end = pos.getOffset( ) + pos.getLength( );
+		//				}
+		//				else
+		//				{
+		//					return false;
+		//				}
+		//			}
+		//		}
+		//
+		//		IDocument document = getDocumentProvider( ).getDocument( getEditorInput( ) );
+		//		if ( selectLine )
+		//		{
+		//			int line;
+		//			try
+		//			{
+		//				if ( start >= 0 )
+		//					line = document.getLineOfOffset( start );
+		//				else
+		//				{
+		//					line = MarkerUtilities.getLineNumber( (IMarker) marker );
+		//					// Marker line numbers are 1-based
+		//					if ( line >= 1 )
+		//					{
+		//						line--;
+		//					}
+		//					start = document.getLineOffset( line );
+		//				}
+		//				end = start + document.getLineLength( line ) - 1;
+		//			}
+		//			catch ( BadLocationException e )
+		//			{
+		//				return false;
+		//			}
+		//		}
+		//
+		//		int length = document.getLength( );
+		//		if ( end - 1 < length && start < length )
+		//			selectAndReveal( start, end - start );
 		return true;
 	}
 

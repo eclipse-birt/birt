@@ -339,45 +339,51 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	protected void refreshMarkers( IEditorInput input ) throws CoreException
 	{
 		IResource file = getFile( input );
-
-		// Deletes existed markers
-		file.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_INFINITE );
-
-		// Adds markers
-		ModuleHandle reportDesignHandle = getModel( );
-		if ( reportDesignHandle == null )
+		if ( file != null )
 		{
-			return;
-		}
+			// Deletes existed markers
+			file.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_INFINITE );
 
-		// Model said that should checkReport( ) before getting error and
-		// warning list.
-		reportDesignHandle.checkReport( );
-		List list = reportDesignHandle.getErrorList( );
-		int errorListSize = list.size( );
-		list.addAll( reportDesignHandle.getWarningList( ) );
-
-		for ( int i = 0, m = list.size( ); i < m; i++ )
-		{
-			ErrorDetail errorDetail = (ErrorDetail) list.get( i );
-			IMarker marker = file.createMarker( IMarker.PROBLEM );
-
-			// The first part is from error list, the other is from warning list
-			if ( i < errorListSize )
-				marker.setAttribute( IMarker.SEVERITY, IMarker.SEVERITY_ERROR );
-			else
-				marker.setAttribute( IMarker.SEVERITY, IMarker.SEVERITY_WARNING );
-			marker.setAttribute( IMarker.MESSAGE, errorDetail.getMessage( ) );
-			marker.setAttribute( IMarker.LINE_NUMBER, errorDetail.getLineNo( ) );
-			marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
-
-			if ( errorDetail.getElement( ) != null
-					&& errorDetail.getElement( ).getID( ) != 0 )
+			// Adds markers
+			ModuleHandle reportDesignHandle = getModel( );
+			if ( reportDesignHandle == null )
 			{
-				marker.setAttribute( ELEMENT_ID,
-						new Integer( (int) errorDetail.getElement( ).getID( ) ) );
+				return;
 			}
 
+			// Model said that should checkReport( ) before getting error and
+			// warning list.
+			reportDesignHandle.checkReport( );
+			List list = reportDesignHandle.getErrorList( );
+			int errorListSize = list.size( );
+			list.addAll( reportDesignHandle.getWarningList( ) );
+
+			for ( int i = 0, m = list.size( ); i < m; i++ )
+			{
+				ErrorDetail errorDetail = (ErrorDetail) list.get( i );
+				IMarker marker = file.createMarker( IMarker.PROBLEM );
+
+				// The first part is from error list, the other is from warning list
+				if ( i < errorListSize )
+					marker.setAttribute( IMarker.SEVERITY,
+							IMarker.SEVERITY_ERROR );
+				else
+					marker.setAttribute( IMarker.SEVERITY,
+							IMarker.SEVERITY_WARNING );
+				marker.setAttribute( IMarker.MESSAGE, errorDetail.getMessage( ) );
+				marker.setAttribute( IMarker.LINE_NUMBER,
+						errorDetail.getLineNo( ) );
+				marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
+
+				if ( errorDetail.getElement( ) != null
+						&& errorDetail.getElement( ).getID( ) != 0 )
+				{
+					marker.setAttribute( ELEMENT_ID,
+							new Integer( (int) errorDetail.getElement( )
+									.getID( ) ) );
+				}
+
+			}
 		}
 	}
 
@@ -441,7 +447,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	protected void clearMarkers( ) throws CoreException
 	{
 		IResource resource = getFile( getEditorInput( ) );
-		if ( resource.exists( ) )
+		if ( resource != null && resource.exists( ) )
 		{
 			resource.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_ONE );
 		}
@@ -491,15 +497,15 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			isOldDirty = ( (IReportEditorPage) oldPage ).isDirty( );
 		}
 		isNewPageValid = super.prePageChanges( oldPage, newPage );
-		
+
 		boolean isOldDirtyNow = true;
 		if ( oldPage instanceof IReportEditorPage )
 		{
 			isOldDirtyNow = ( (IReportEditorPage) oldPage ).isDirty( );
 		}
-		
+
 		if ( oldPage instanceof IReportEditorPage
-				&& ( isOldDirty && (!isOldDirtyNow )) )
+				&& ( isOldDirty && ( !isOldDirtyNow ) ) )
 		{
 			try
 			{

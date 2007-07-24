@@ -14,8 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -43,14 +44,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPathEditorInput;
-import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 
@@ -99,10 +100,106 @@ public class IDEFileReportProvider implements IReportProvider
 			IFileEditorInput input = (IFileEditorInput) element;
 			saveFile( moduleHandle, input.getFile( ), monitor );
 		}
+		else if ( element instanceof IEditorInput )
+		{
+			IPath path = getInputPath( (IEditorInput) element );
+			if ( path != null )
+			{
+				saveFile( moduleHandle, path.toFile( ), monitor );
+			}
+		}
 
 	}
 
 	/**
+	 * Save content to a java.io.File
+	 * @param moduleHandle
+	 * @param file
+	 * @param monitor
+	 */
+	private void saveFile( final ModuleHandle moduleHandle, final File file,
+			IProgressMonitor monitor )
+	{
+		if ( file.exists( ) && !file.canWrite( ) )
+		{
+			MessageDialog.openError( UIUtil.getDefaultShell( ),
+					Messages.getString( "IDEFileReportProvider.ReadOnlyEncounter.Title" ),
+					Messages.getFormattedString( "IDEFileReportProvider.ReadOnlyEncounter.Message",
+							new Object[]{
+								file.getAbsolutePath( )
+							} ) );
+			return;
+		}
+		
+		IRunnableWithProgress op = new IRunnableWithProgress( ) {
+
+			public synchronized final void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				try
+				{
+					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable( ) {
+
+						public void run( IProgressMonitor pm )
+								throws CoreException
+						{
+							try
+							{
+								execute( pm );
+							}
+							catch ( CoreException e )
+							{
+								throw e;
+							}
+							catch ( IOException e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
+					};
+
+					ResourcesPlugin.getWorkspace( ).run( workspaceRunnable,
+							ResourcesPlugin.getWorkspace( ).getRoot( ),
+							IResource.NONE,
+							monitor );
+				}
+				catch ( CoreException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				catch ( OperationCanceledException e )
+				{
+					throw new InterruptedException( e.getMessage( ) );
+				}
+			}
+
+			public void execute( final IProgressMonitor monitor )
+					throws CoreException, IOException
+			{
+				if ( file.exists( ) || file.createNewFile( ) )
+				{
+					FileOutputStream out = new FileOutputStream( file );
+					moduleHandle.serialize( out );
+					out.close( );
+				}
+			}
+		};
+
+		try
+		{
+			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
+					true,
+					op );
+		}
+
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	/**
+	 * Save content to workspace file.
 	 * @param moduleHandle
 	 * @param file
 	 * @param monitor
@@ -110,8 +207,6 @@ public class IDEFileReportProvider implements IReportProvider
 	private void saveFile( final ModuleHandle moduleHandle, final IFile file,
 			IProgressMonitor monitor )
 	{
-		// TODO
-
 		if ( file.exists( ) && file.isReadOnly( ) )
 		{
 			MessageDialog.openError( UIUtil.getDefaultShell( ),
@@ -122,6 +217,7 @@ public class IDEFileReportProvider implements IReportProvider
 							} ) );
 			return;
 		}
+		
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public synchronized final void run( IProgressMonitor monitor )
@@ -199,7 +295,6 @@ public class IDEFileReportProvider implements IReportProvider
 					true,
 					op );
 		}
-
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
@@ -222,17 +317,17 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public IPath getSaveAsPath( Object element )
 	{
+		IFile file = null;
 		if ( element instanceof IFileEditorInput )
 		{
 			IFileEditorInput input = (IFileEditorInput) element;
-
-			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( (ModuleHandle) model,
-							input.getFile( ) ) );
-			if ( dialog.open( ) == Window.OK )
-			{
-				return dialog.getResult( );
-			}
+			file = input.getFile( );
+		}
+		SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
+				new SaveReportAsWizard( (ModuleHandle) model, file ) );
+		if ( dialog.open( ) == Window.OK )
+		{
+			return dialog.getResult( );
 		}
 		return null;
 	}
@@ -260,6 +355,10 @@ public class IDEFileReportProvider implements IReportProvider
 		{
 			return ( (FileEditorInput) input ).getPath( );
 		}
+		else if ( input instanceof IURIEditorInput )
+		{
+			return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
+		}
 		return null;
 	}
 
@@ -270,35 +369,29 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public IDocumentProvider getReportDocumentProvider( Object element )
 	{
-		return new ReportDocumentProvider( );
+		if ( element instanceof FileEditorInput )
+		{
+			//workspace file
+			return new ReportDocumentProvider( );
+		}
+		else
+		{
+			//system file
+			return new IDEFileReportDocumentProvider( );
+		}
 	}
 
 	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
 	{
 		if ( model == null || reset )
 		{
-			if ( element instanceof IStorageEditorInput )
+			IEditorInput input = (IEditorInput) element;
+			IPath path = getInputPath( (IEditorInput) input );
+			if ( path != null )
 			{
-				IEditorInput input = (IEditorInput) element;
-				String fileName = input.getName( );
-				int blankIndex;
-				if ( ( blankIndex = fileName.lastIndexOf( " " ) ) > 0 ) //$NON-NLS-1$
-				{
-					fileName = fileName.substring( 0, blankIndex );
-				}
-
-				if ( element instanceof IFileEditorInput )
-				{
-					fileName = ( (IFileEditorInput) element ).getFile( )
-							.getLocation( )
-							.toOSString( );
-				}
-				InputStream stream;
+				String fileName = path.toOSString( );
 				try
 				{
-					stream = ( (IStorageEditorInput) element ).getStorage( )
-							.getContents( );
-
 					Map properties = new HashMap( );
 					
 					String designerVersion = MessageFormat.format( VERSION_MESSAGE,
@@ -316,21 +409,19 @@ public class IDEFileReportProvider implements IReportProvider
 								projectFolder );
 					}
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream,
+							new FileInputStream( path.toFile( ) ),
 							properties );
-				}
-				catch ( CoreException e )
-				{
-					// TODO throw exception
-					// ExceptionHandler.handle( e );
 				}
 				catch ( DesignFileException e )
 				{
-					// ExceptionHandler.handle( e );
+					ExceptionHandler.handle( e );
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
 				}
 			}
 		}
-
 		return model;
 	}
 
@@ -344,11 +435,10 @@ public class IDEFileReportProvider implements IReportProvider
 		{
 			return file.getProject( ).getLocation( ).toOSString( );
 		}
-		if ( input instanceof IPathEditorInput )
+		IPath path = getInputPath( (IEditorInput) input );
+		if ( path != null )
 		{
-			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-					.toFile( );
-			return fileSystemFile.getParent( );
+			return path.toFile( ).getParent( );
 		}
 		return null;
 	}

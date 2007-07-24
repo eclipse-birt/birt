@@ -197,9 +197,13 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	 */
 	protected IDocument createDocument( Object element ) throws CoreException
 	{
-		String encoding = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileEncoding( );
+		String encoding = null;
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
+		{
+			encoding = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getFileEncoding( );
+		}
 		if ( element instanceof IEditorInput )
 		{
 			IDocument document = createEmptyDocument( );

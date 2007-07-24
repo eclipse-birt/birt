@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
@@ -93,7 +94,7 @@ public class ReportEditorProxy extends EditorPart implements
 			instance.dispose( );
 		}
 
-		if ( input instanceof IFileEditorInput )
+		if ( input instanceof IFileEditorInput || input instanceof IURIEditorInput)
 		{
 			instance = new IDEMultiPageReportEditor( );
 			instance.addPropertyListener( this );

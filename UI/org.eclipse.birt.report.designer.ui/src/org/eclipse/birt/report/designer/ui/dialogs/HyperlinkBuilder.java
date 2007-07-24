@@ -899,7 +899,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				String filename = null;
-				if ( !isIDE )
+				if ( !isIDE || getProjectFolder( ) == null)
 				{
 					FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
 					if ( needFilter )

@@ -111,7 +111,7 @@ public class XMLEditor extends StatusTextEditor
 		IReportProvider provider = getProvider();
 		if ( provider != null )
 		{
-			setDocumentProvider( provider.getReportDocumentProvider( null ) );
+			setDocumentProvider( provider.getReportDocumentProvider( input ) );
 		}
 		super.init( site, input );
 	}
