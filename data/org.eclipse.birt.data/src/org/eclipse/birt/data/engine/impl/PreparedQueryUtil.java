@@ -23,11 +23,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -979,10 +977,10 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 		String timestamp = formater.format( new Timestamp( time ) );
 		if ( queryForUpdate == null )
 		{
-			queryForUpdate = replace( queryTemplate, TS_COLUMN, timestampColumn );
-			queryForUpdate = replace( queryForUpdate, TS_FORMAT, formatPattern );
+			queryForUpdate = replaceIgnoreCase( queryTemplate, TS_COLUMN, timestampColumn );
+			queryForUpdate = replaceIgnoreCase( queryForUpdate, TS_FORMAT, formatPattern );
 		}
-		return replace( queryForUpdate, DATE, timestamp );
+		return replaceIgnoreCase( queryForUpdate, DATE, timestamp );
 	}
 
 	/**
@@ -994,12 +992,44 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 	 * @param replacement
 	 * @return
 	 */
-	private String replace( String source, CharSequence target,
+	private String replaceIgnoreCase( String source, CharSequence target,
 			CharSequence replacement )
 	{
 		return Pattern.compile( target.toString( ), Pattern.CASE_INSENSITIVE )
 				.matcher( source )
-				.replaceAll( Matcher.quoteReplacement( replacement.toString( ) ) );
+				.replaceAll( quote( replacement.toString( ) ) );
+	}
+	
+	/**
+	 * Returns a literal replacement <code>String</code> for the specified
+     * <code>String</code>.
+	 * @param s
+	 * @return
+	 */
+	private static String quote( String s )
+	{
+		if ( ( s.indexOf( '\\' ) == -1 ) && ( s.indexOf( '$' ) == -1 ) )
+			return s;
+		StringBuffer sb = new StringBuffer( );
+		for ( int i = 0; i < s.length( ); i++ )
+		{
+			char c = s.charAt( i );
+			if ( c == '\\' )
+			{
+				sb.append( '\\' );
+				sb.append( '\\' );
+			}
+			else if ( c == '$' )
+			{
+				sb.append( '\\' );
+				sb.append( '$' );
+			}
+			else
+			{
+				sb.append( c );
+			}
+		}
+		return sb.toString( );
 	}
 
 	/*
