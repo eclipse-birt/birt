@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -104,6 +103,10 @@ public class JSEditor extends StatusTextEditor implements
 {
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
+
+	static final String VIEWER_CATEGORY_KEY = "Category"; //$NON-NLS-1$
+
+	static final String VIEWER_CATEGORY_CONTEXT = "context"; //$NON-NLS-1$
 
 	private IEditorPart editingDomainEditor;
 
@@ -245,40 +248,21 @@ public class JSEditor extends StatusTextEditor implements
 
 	private void updateScriptContext( DesignElementHandle handle, String method )
 	{
-		Map argMap = DEUtil.getDesignElementMethodArguments( handle, method );
+		List args = DEUtil.getDesignElementMethodArgumentsInfo( handle, method );
 		context.clear( );
 
-		for ( Iterator iter = argMap.entrySet( ).iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = args.iterator( ); iter.hasNext( ); )
 		{
-			Map.Entry element = (Map.Entry) iter.next( );
-			String name = (String) element.getKey( );
-			String type = (String) element.getValue( );
-			// try
-			// {
-			// Class typeClass = Class.forName( type
-			// );
-			// if ( typeClass ==
-			// IReportElement.class
-			// || typeClass ==
-			// IReportElementInstance.class
-			// )
-			// {
-			// context.setVariable( name, typeClass
-			// );
-			// }
-			// else
-			// {
-			// context.removeVariable( name );
-			// }
-			// }
-			// catch ( Exception e )
-			// {
-			// // class not found, may by engine
-			// defined
-			// objects.
-			// context.setVariable( name, type );
-			// }
-			context.setVariable( name, type );
+			IArgumentInfo element = (IArgumentInfo) iter.next( );
+			String name = element.getName( );
+			String type = element.getType( );
+
+			// try load system class info first, if failed, then try extension
+			// class info
+			if ( !context.setVariable( name, type ) )
+			{
+				context.setVariable( name, element.getClassType( ) );
+			}
 		}
 
 		if ( handle instanceof ExtendedItemHandle )
@@ -287,8 +271,8 @@ public class JSEditor extends StatusTextEditor implements
 
 			List mtds = exHandle.getMethods( method );
 
-			//TODO implement better function-wise code assistant.
-			
+			// TODO implement better function-wise code assistant.
+
 			if ( mtds != null && mtds.size( ) > 0 )
 			{
 				for ( int i = 0; i < mtds.size( ); i++ )
@@ -326,10 +310,15 @@ public class JSEditor extends StatusTextEditor implements
 		JSExpListProvider provider = new JSExpListProvider( );
 		cmbExprListViewer.setContentProvider( provider );
 		cmbExprListViewer.setLabelProvider( provider );
+		cmbExprListViewer.setData( VIEWER_CATEGORY_KEY, VIEWER_CATEGORY_CONTEXT );
 
 		// SubFunctions combo
-		cmbSubFunctionsViewer = new ComboViewer( cmbSubFunctions );
 		JSSubFunctionListProvider subProvider = new JSSubFunctionListProvider( this );
+
+		// also add subProvider as listener of expr viewer.
+		cmbExprListViewer.addSelectionChangedListener( subProvider );
+
+		cmbSubFunctionsViewer = new ComboViewer( cmbSubFunctions );
 		cmbSubFunctionsViewer.setContentProvider( subProvider );
 		cmbSubFunctionsViewer.setLabelProvider( subProvider );
 		cmbSubFunctionsViewer.addSelectionChangedListener( subProvider );
@@ -824,14 +813,7 @@ public class JSEditor extends StatusTextEditor implements
 		{
 			try
 			{
-
-				// Need to remove these 3 lines when bugzilla
-				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=188862 is fixed
-				if ( desHdl instanceof ExtendedItemHandle )
-				{
-					( (ExtendedItemHandle) desHdl ).setExternalScript( getEditorText( ) );
-				}
-				else if ( cmbItemLastSelected != null )
+				if ( cmbItemLastSelected != null )
 				{
 					desHdl.setStringProperty( cmbItemLastSelected.getName( ),
 							getEditorText( ) );
@@ -1018,7 +1000,8 @@ public class JSEditor extends StatusTextEditor implements
 	{
 		super.handleCursorPositionChanged( );
 
-		//TODO monitor cursor position to implement function-wise content assistant.
+		// TODO monitor cursor position to implement function-wise content
+		// assistant.
 	}
 
 }
@@ -1045,7 +1028,13 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 			{
 				IElementPropertyDefn method = (IElementPropertyDefn) iter.next( );
 				if ( extHandle.getMethods( method.getName( ) ) != null )
+				// TODO user visibility to filter context list instead subfunction count.
+				// if ( extHandle.getElement( )
+				// .getDefn( )
+				// .isPropertyVisible( method.getName( ) ) )
+				{
 					returnList.add( method );
+				}
 			}
 			return returnList.toArray( );
 		}
@@ -1131,7 +1120,8 @@ class JSSubFunctionListProvider implements
 		ISelectionChangedListener
 {
 
-	//private static final String NO_TEXT = Messages.getString( "JSEditor.Text.NoText" ); //$NON-NLS-1$;
+	// private static final String NO_TEXT = Messages.getString(
+	// "JSEditor.Text.NoText" ); //$NON-NLS-1$;
 	private JSEditor editor;
 
 	public JSSubFunctionListProvider( JSEditor editor )
@@ -1211,6 +1201,13 @@ class JSSubFunctionListProvider implements
 
 	public void selectionChanged( SelectionChangedEvent event )
 	{
+		boolean isContextChange = false;
+
+		if ( event.getSource( ) instanceof ComboViewer )
+		{
+			isContextChange = JSEditor.VIEWER_CATEGORY_CONTEXT.equals( ( (ComboViewer) event.getSource( ) ).getData( JSEditor.VIEWER_CATEGORY_KEY ) );
+		}
+
 		ISelection selection = event.getSelection( );
 		if ( selection != null )
 		{
@@ -1218,34 +1215,45 @@ class JSSubFunctionListProvider implements
 			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
 			if ( sel.length == 1 )
 			{
-				if ( sel[0] instanceof IMethodInfo )
+				if ( isContextChange )
 				{
-					IMethodInfo methodInfo = (IMethodInfo) sel[0];
-
-					String signature = createSignature( methodInfo );
-
-					try
+					editor.cmbSubFunctionsViewer.refresh( );
+					int itemCount = editor.cmbSubFunctions.getItemCount( );
+					if ( itemCount > 0 )
 					{
-						IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( editor.getEditorInput( ) );
-						int length = doc.getLength( );
-						doc.replace( length, 0, signature );
-						editor.selectAndReveal( length + 1, signature.length( ) );
-						editor.setIsModified( true );
+						// select first element always
+						editor.cmbSubFunctions.select( 0 );
 					}
-					catch ( BadLocationException e )
-					{
-
-						e.printStackTrace( );
-					}
-
-					editor.cmbSubFunctions.select( 0 );
-
+					editor.cmbSubFunctions.setEnabled( itemCount > 0 );
 				}
+				else
+				{
+					if ( sel[0] instanceof IMethodInfo )
+					{
+						IMethodInfo methodInfo = (IMethodInfo) sel[0];
 
+						String signature = createSignature( methodInfo );
+
+						try
+						{
+							IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( editor.getEditorInput( ) );
+							int length = doc.getLength( );
+							doc.replace( length, 0, signature );
+							editor.selectAndReveal( length + 1,
+									signature.length( ) );
+							editor.setIsModified( true );
+						}
+						catch ( BadLocationException e )
+						{
+
+							e.printStackTrace( );
+						}
+
+						editor.cmbSubFunctions.select( 0 );
+					}
+				}
 			}
-
 		}
-
 	}
 
 	// create the signature to insert in the document:

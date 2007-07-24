@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
@@ -923,11 +922,11 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			clearTreeItem( contextItem );
 			DesignElementHandle handle = (DesignElementHandle) currentEditObject;
-			Map argMap = DEUtil.getDesignElementMethodArguments( handle,
+			List args = DEUtil.getDesignElementMethodArgumentsInfo( handle,
 					methodName );
-			for ( Iterator iter = argMap.keySet( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = args.iterator( ); iter.hasNext( ); )
 			{
-				String argName = (String) iter.next( );
+				String argName = ((IArgumentInfo) iter.next( )).getName( );
 				createSubTreeItem( contextItem,
 						argName,
 						IMAGE_METHOD,

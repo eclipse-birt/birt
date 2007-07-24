@@ -2051,30 +2051,13 @@ public class DEUtil
 	 * 
 	 * @param handle
 	 * @param methodName
-	 * @return Arguments map, key is argument name, value is argument type.
+	 * @return Arguments list, each value is an IArgumentInfo object.
 	 */
-	public static Map getDesignElementMethodArguments(
+	public static List getDesignElementMethodArgumentsInfo(
 			DesignElementHandle handle, String methodName )
 	{
 		List methods = handle.getDefn( ).getMethods( );
-		// if ( handle instanceof DataSetHandle )
-		// {
-		// methods = DesignEngine.getMetaDataDictionary( )
-		// .getElement( ReportDesignConstants.DATA_SET_ELEMENT ) //$NON-NLS-1$
-		// .getMethods( );
-		// }
-		// else if ( handle instanceof DataSourceHandle )
-		// {
-		// methods = DesignEngine.getMetaDataDictionary( )
-		// .getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT )
-		// //$NON-NLS-1$
-		// .getMethods( );
-		// }
-		// else
-		// {
-		// methods = handle.getDefn( ).getLocalMethods( );
-		// }
-		Map argMap = new LinkedHashMap( methods.size( ) * 2 );
+		List args = new ArrayList( );
 
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
 		{
@@ -2085,16 +2068,20 @@ public class DEUtil
 				if ( argumentListIterator.hasNext( ) )
 				{
 					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator.next( );
-					int i = 0;
-					for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
+
+					if ( argumentInfoList != null )
 					{
-						IArgumentInfo arg = (IArgumentInfo) iterator.next( );
-						argMap.put( arg.getName( ), arg.getType( ) );
+						int i = 0;
+						for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
+						{
+							IArgumentInfo arg = (IArgumentInfo) iterator.next( );
+							args.add( arg );
+						}
 					}
 				}
 			}
 		}
-		return argMap;
+		return args;
 	}
 
 	/**
