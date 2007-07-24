@@ -285,7 +285,7 @@
 	<target name="createBirtSDK">
 		<!--  Make BIRT SDK ZIP file-->
 		<zip destfile="${OutputDir}/${sdk.zip.name}">
-			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}" duplicate="preserve"> 
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
@@ -316,7 +316,7 @@
 		<!--  Make birt framework ZIP file-->
 		<!-- Exclude SDK feature and corresponding plug-ins-->
 
-		<zip destfile="${OutputDir}/${framework.zip.name}">
+		<zip destfile="${OutputDir}/${framework.zip.name}" duplicate="preserve">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
