@@ -128,3 +128,7 @@ DateGroupDialog.Name=Nom :
 DateLevelDialog.Name=Nom :
 DateLevelDialog.Type=Type :
 FilterListDialog.Shell.Title=Filtre
+
+############################################################
+#Cube Action properties
+NewCubeAction.DataCube=Data Cube

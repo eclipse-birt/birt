@@ -128,3 +128,7 @@ DateGroupDialog.Name=名前 :
 DateLevelDialog.Name=名前 :
 DateLevelDialog.Type=次のように入力します。
 FilterListDialog.Shell.Title=フィルタ
+
+############################################################
+#Cube Action properties
+NewCubeAction.DataCube=Data Cube

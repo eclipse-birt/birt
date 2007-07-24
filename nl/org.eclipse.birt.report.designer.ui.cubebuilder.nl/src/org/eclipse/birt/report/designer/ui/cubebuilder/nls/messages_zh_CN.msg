@@ -128,3 +128,7 @@ DateGroupDialog.Name=名称:
 DateLevelDialog.Name=名称:
 DateLevelDialog.Type=类型:
 FilterListDialog.Shell.Title=筛选器
+
+############################################################
+#Cube Action properties
+NewCubeAction.DataCube=Data Cube

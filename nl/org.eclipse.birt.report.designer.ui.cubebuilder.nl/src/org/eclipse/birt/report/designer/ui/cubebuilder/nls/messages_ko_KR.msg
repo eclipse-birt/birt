@@ -128,3 +128,7 @@ DateGroupDialog.Name=이름:
 DateLevelDialog.Name=이름:
 DateLevelDialog.Type=유형:
 FilterListDialog.Shell.Title=필터
+
+############################################################
+#Cube Action properties
+NewCubeAction.DataCube=Data Cube
