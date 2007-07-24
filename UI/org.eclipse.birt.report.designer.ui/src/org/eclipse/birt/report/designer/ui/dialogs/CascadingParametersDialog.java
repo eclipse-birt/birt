@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -70,6 +72,8 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -231,6 +235,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private TableViewer valueTable;
 	private CellEditor[] cellEditors;
 	private boolean givenName;
+	private Button addBtn, editBtn, delBtn;
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
@@ -240,10 +245,6 @@ public class CascadingParametersDialog extends BaseDialog
 	private CascadingParameterGroupHandle inputParameterGroup;
 
 	private ScalarParameterHandle selectedParameter;
-
-	// private ArrayList inputParameters = new ArrayList( );
-
-	protected ScalarParameterHandle newParameter = null;
 
 	private String defaultValue;
 
@@ -384,11 +385,16 @@ public class CascadingParametersDialog extends BaseDialog
 	private void createDynamicParamsPart( Composite parent )
 	{
 		Composite comp = new Composite( parent, SWT.NULL );
-		comp.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( );
+		layout.numColumns = 2;
+		comp.setLayout( layout );
 		comp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Label label = new Label( comp, SWT.NULL );
 		label.setText( LABEL_PARAMETERS );
+
+		// creat dummy label
+		new Label( comp, SWT.NULL );
 
 		table = new Table( comp, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
@@ -411,7 +417,7 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 
 		int[] columnWidths = new int[]{
-				160, 115, 135, 145,
+				140, 110, 130, 130,
 		};
 		String[] columns = new String[]{
 				COLUMN_NAME, COLUMN_DATA_SET, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
@@ -434,6 +440,36 @@ public class CascadingParametersDialog extends BaseDialog
 			column.setWidth( columnWidths[i] );
 		}
 		table.setLayoutData( data );
+		table.addFocusListener( new FocusListener( ) {
+
+			public void focusGained( FocusEvent e )
+			{
+				int index = table.getSelectionIndex( );
+				boolean setBtnEnable = true;
+				if ( index == -1 )
+				{
+					setBtnEnable = false;
+				}
+
+				editBtn.setEnabled( setBtnEnable );
+				delBtn.setEnabled( setBtnEnable );
+
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				int index = table.getSelectionIndex( );
+				boolean setBtnEnable = true;
+				if ( index == -1 )
+				{
+					setBtnEnable = false;
+				}
+
+				editBtn.setEnabled( setBtnEnable );
+				delBtn.setEnabled( setBtnEnable );
+			}
+
+		} );
 
 		valueTable = new TableViewer( table );
 
@@ -441,7 +477,7 @@ public class CascadingParametersDialog extends BaseDialog
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
-		valueTable.setCellModifier( cellModifier );
+		// valueTable.setCellModifier( cellModifier );
 
 		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
@@ -469,6 +505,78 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 			}
 		} );
+
+		// create Add, edit, and delete buttons.
+		Composite composite = new Composite( comp, SWT.NULL );
+		composite.setLayout( new GridLayout( ) );
+		composite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+
+		addBtn = new Button( composite, SWT.NONE );
+		addBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		addBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Add" ) );
+		addBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) );
+				if ( dialog.open( ) != Dialog.OK )
+				{
+					return;
+				}
+				try
+				{
+					inputParameterGroup.getParameters( )
+							.add( dialog.getParameter( ) );
+				}
+				catch ( ContentException e1 )
+				{
+					// TODO Auto-generated catch block
+					ExceptionHandler.handle( e1 );
+				}
+				catch ( NameException e1 )
+				{
+					// TODO Auto-generated catch block
+					ExceptionHandler.handle( e1 );
+				}
+				refreshValueTable( );
+				updateButtons( );
+			}
+		} );
+
+		editBtn = new Button( composite, SWT.NONE );
+		editBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		editBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Edit" ) );
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( selectedParameter == null )
+				{
+					return;
+				}
+				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) );
+				dialog.setParameter( selectedParameter );
+				if ( dialog.open( ) != Dialog.OK )
+				{
+					return;
+				}
+				refreshValueTable( );
+				updateButtons( );
+			}
+		} );
+
+		delBtn = new Button( composite, SWT.NONE );
+		delBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		delBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Delete" ) );
+		delBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				deleteRow( );
+				updateButtons( );
+			}
+		} );
+
 	}
 
 	private void createPropertiesPart( Composite parent )
@@ -507,8 +615,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( selectedParameter != null
-						&& selectedParameter != newParameter )
+				if ( selectedParameter != null )
 				{
 					changeDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 							.getName( ) );
@@ -536,8 +643,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( selectedParameter != null
-						&& selectedParameter != newParameter )
+				if ( selectedParameter != null )
 				{
 					try
 					{
@@ -801,8 +907,7 @@ public class CascadingParametersDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				isRequiredChange( isRequired.getSelection( ) );
-				if ( selectedParameter != null
-						&& selectedParameter != newParameter )
+				if ( selectedParameter != null )
 				{
 					try
 					{
@@ -898,11 +1003,11 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		ArrayList elementsList = new ArrayList( inputParameterGroup.getParameters( )
 				.getContents( ) );
-		if(elementsList == null || elementsList.size( ) == 0)
+		if ( elementsList == null || elementsList.size( ) == 0 )
 		{
 			return;
 		}
-		
+
 		for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
 		{
 			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
@@ -958,9 +1063,18 @@ public class CascadingParametersDialog extends BaseDialog
 	private void deleteRow( )
 	{
 		int index = valueTable.getTable( ).getSelectionIndex( );
+		boolean setBtnEnable = true;
+		if ( index == -1 )
+		{
+			setBtnEnable = false;
+		}
+
+		editBtn.setEnabled( setBtnEnable );
+		delBtn.setEnabled( setBtnEnable );
+
 		ScalarParameterHandle choice = (ScalarParameterHandle) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
 
-		if ( choice == null || choice == newParameter )
+		if ( choice == null )
 		{
 			return;
 		}
@@ -1090,22 +1204,6 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 				}
 			}
-			if ( newParameter == null )
-			{
-				newParameter = DesignElementFactory.getInstance( )
-						.newScalarParameter( null ); //$NON-NLS-1$
-				givenName = false;
-				try
-				{
-					newParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX );
-					newParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-			elementsList.add( newParameter );
 			return elementsList.toArray( );
 		}
 
@@ -1137,57 +1235,23 @@ public class CascadingParametersDialog extends BaseDialog
 				paramHandle = (ScalarParameterHandle) element;
 			}
 
-			if ( paramHandle == newParameter )
-			{
-				if ( columnIndex == 0 )
-				{
-					String paramName;
-					paramName = paramHandle.getName( );
-
-					if ( !givenName )
-					{
-						value = LABEL_CREATE_NEW_PARAMETER;
-					}
-					else
-					{
-						value = getDummyText( paramHandle ) + paramName;
-					}
-
-				}
-				else if ( columnIndex == 1 )
-				{
-					if ( !isSingle( ) || paramHandle == getFirstParameter( ) )
-					{
-						value = LABEL_SELECT_DATA_SET;
-					}
-				}
-				else if ( columnIndex == 2 )
-				{
-					if ( isSingle( ) && paramHandle != getFirstParameter( ) )
-					{
-						value = LABEL_SELECT_VALUE_COLUMN;
-					}
-				}
-			}
-			else
 			{
 				switch ( columnIndex )
 				{
 					case 0 :
 					{
-						if ( paramHandle != newParameter )
+
+						String paramName;
+						if ( paramHandle != selectedParameter )
 						{
-							String paramName;
-							if ( paramHandle != selectedParameter )
-							{
-								paramName = paramHandle.getName( );
-							}
-							else
-							{
-								paramName = paramNameEditor.getText( ).trim( );
-							}
-							value = getDummyText( paramHandle ) + paramName;
+							paramName = paramHandle.getName( );
 						}
+						else
+						{
+							paramName = paramNameEditor.getText( ).trim( );
+						}
+						value = getDummyText( paramHandle ) + paramName;
+
 						break;
 					}
 					case 1 :
@@ -1289,216 +1353,23 @@ public class CascadingParametersDialog extends BaseDialog
 
 	};
 
-	private ICellModifier cellModifier = new ICellModifier( ) {
 
-		public boolean canModify( Object element, String property )
-		{
-			if ( element != selectedParameter )
-			{
-				return false;
-			}
-
-			if ( property.equals( COLUMN_NAME ) )
-			{
-				return true;
-			}
-
-			if ( COLUMN_DATA_SET.equals( property ) )
-			{
-				if ( isSingle( ) && getFirstParameter( ) != element )
-				{
-					return false;
-				}
-			}
-			if ( element == newParameter )
-			{
-				if ( isSingle( ) )
-				{
-					if ( element == getFirstParameter( ) )
-					{
-						if ( !COLUMN_DATA_SET.equals( property ) )
-						{
-							return false;
-						}
-					}
-					else
-					{
-						if ( !COLUMN_VALUE.equals( property ) )
-						{
-							return false;
-						}
-					}
-				}
-				else if ( !COLUMN_DATA_SET.equals( property ) )
-				{
-					return false;
-				}
-			}
-			if ( COLUMN_VALUE.equals( property ) )
-			{
-				if ( getDataSetColumns( (ScalarParameterHandle) element, true ).length == 0 )
-				{
-					return false;
-				}
-			}
-			setCellEditorItems( );
-			return true;
-		}
-
-		public Object getValue( Object element, String property )
-		{
-			if ( element instanceof ScalarParameterHandle )
-			{
-				ScalarParameterHandle parameter = (ScalarParameterHandle) element;
-				String value = null;
-
-				if ( COLUMN_NAME.equals( property ) )
-				{
-					value = parameter.getName( );
-				}
-				else if ( COLUMN_DATA_SET.equals( property ) )
-				{
-					if ( isSingle( )
-							&& inputParameterGroup.getDataSet( ) != null )
-					{
-						value = inputParameterGroup.getDataSet( ).getName( );
-					}
-					else if ( getDataSet( parameter ) != null )
-					{
-						value = getDataSet( parameter ).getName( );
-					}
-				}
-				else if ( COLUMN_VALUE.equals( property ) )
-				{
-					value = getColumnName( parameter, COLUMN_VALUE );
-
-				}
-				else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
-				{
-					value = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
-				}
-
-				if ( value == null )
-				{
-					value = ""; //$NON-NLS-1$
-				}
-				return value;
-			}
-			return ""; //$NON-NLS-1$
-
-		}
-
-		public void modify( Object element, String property, Object value )
-		{
-			Object actualElement = ( (TableItem) element ).getData( );
-
-			try
-			{
-				saveParameterProperties( );
-			}
-			catch ( SemanticException e1 )
-			{
-				e1.printStackTrace( );
-			}
-			if ( COLUMN_NAME.equals( property ) )
-			{
-				try
-				{
-					( (ScalarParameterHandle) actualElement ).setName( (String) value );
-					givenName = true;
-				}
-				catch ( NameException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-			if ( COLUMN_DATA_SET.equals( property ) )
-			{
-				try
-				{
-					if ( isSingle( ) )
-					{
-						inputParameterGroup.setDataSet( getDataSet( (String) value ) );
-					}
-					else
-					{
-						( (ScalarParameterHandle) actualElement ).setDataSetName( (String) value );
-					}
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-			else if ( COLUMN_VALUE.equals( property ) )
-			{
-				try
-				{
-					( (ScalarParameterHandle) actualElement ).setValueExpr( DEUtil.getColumnExpression( (String) value ) );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-			else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
-			{
-				try
-				{
-					( (ScalarParameterHandle) actualElement ).setLabelExpr( DEUtil.getColumnExpression( (String) value ) );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-
-			if ( actualElement == newParameter )
-			{
-				if ( ( isSingle( ) || ( newParameter.getDataSetName( ) != null && newParameter.getDataSetName( )
-						.length( ) > 0 ) )
-						&& ( !COLUMN_NAME.equals( property ) ) )
-				{
-					try
-					{
-						inputParameterGroup.getParameters( ).add( newParameter );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-						return;
-					}
-					clearNewParameter( );
-				}
-			}
-			refreshValueTable( );
-			refreshParameterProperties( );
-			updateButtons( );
-		}
-	};
-
-	private void clearNewParameter( )
-	{
-		newParameter = null;
-		givenName = false;
-	}
 
 	protected int getTableIndex( Object element )
 	{
 		Object[] input = ( (IStructuredContentProvider) valueTable.getContentProvider( ) ).getElements( valueTable.getInput( ) );
 
 		int index = 0;
-		if ( element != newParameter )
+
+		for ( int i = 0; i < input.length; i++ )
 		{
-			for ( int i = 0; i < input.length; i++ )
+			if ( element == input[i] )
 			{
-				if ( element == input[i] )
-				{
-					index = i;
-					break;
-				}
+				index = i;
+				break;
 			}
 		}
+
 		return index;
 	}
 
@@ -1512,7 +1383,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void refreshParameterProperties( )
 	{
-		if ( selectedParameter == null || selectedParameter == newParameter )
+		if ( selectedParameter == null )
 		{
 			clearParamProperties( );
 			setControlEnabled( false );
@@ -1607,7 +1478,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		previewLable.setText( "" ); //$NON-NLS-1$
 		// allowNull.setSelection( false );
-		isRequired.setSelection( true );
+		isRequired.setSelection( false );
 	}
 
 	private void setControlEnabled( boolean enable )
@@ -1621,6 +1492,7 @@ public class CascadingParametersDialog extends BaseDialog
 		formatField.setEnabled( enable );
 		listLimit.setEnabled( enable );
 		changeFormat.setEnabled( enable );
+		isRequired.setEnabled( enable );
 	}
 
 	private void changeDataType( String type )
@@ -1971,8 +1843,18 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void updateButtons( )
 	{
-		boolean okEnable = true;
 
+		int index = valueTable.getTable( ).getSelectionIndex( );
+		boolean setBtnEnable = true;
+		if ( index == -1 )
+		{
+			setBtnEnable = false;
+		}
+
+		editBtn.setEnabled( setBtnEnable );
+		delBtn.setEnabled( setBtnEnable );
+
+		boolean okEnable = true;
 		Iterator iter = inputParameterGroup.getParameters( ).iterator( );
 		if ( !iter.hasNext( ) )
 		{
@@ -2048,7 +1930,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void saveParameterProperties( ) throws SemanticException
 	{
-		if ( selectedParameter != null && selectedParameter != newParameter )
+		if ( selectedParameter != null )
 		{
 			selectedParameter.setPromptText( UIUtil.convertToModelString( promptText.getText( ),
 					false ) );
@@ -2109,7 +1991,7 @@ public class CascadingParametersDialog extends BaseDialog
 			return (ScalarParameterHandle) inputParameterGroup.getParameters( )
 					.get( 0 );
 		}
-		return newParameter;
+		return null;
 	}
 
 	private boolean checkParameter( ScalarParameterHandle paramHandle )
@@ -2121,4 +2003,243 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		return true;
 	}
+
+	class AddEditCascadingParameterDialog extends BaseDialog
+	{
+
+		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" );
+		Text name;
+		Combo dataset, value, displayText;
+		protected ScalarParameterHandle parameter = null;
+
+		public ScalarParameterHandle getParameter( )
+		{
+			return parameter;
+		}
+
+		protected AddEditCascadingParameterDialog( String title )
+		{
+			super( title );
+		}
+
+		protected AddEditCascadingParameterDialog( Shell parentShell,
+				String title )
+		{
+			super( parentShell, title );
+		}
+
+		protected void updateButtons( )
+		{
+			if ( name.getText( ).trim( ).length( ) == 0
+					|| ( dataset.getItemCount( ) == 1 && dataset.getItem( 0 )
+							.equals( DATASET_NONE ) )
+					|| value.getText( ).length( ) == 0 )
+			{
+				getOkButton( ).setEnabled( false );
+			}
+			else
+			{
+				getOkButton( ).setEnabled( true );
+			}
+
+		}
+
+		public void setParameter( ScalarParameterHandle param )
+		{
+			parameter = param;
+		}
+
+		protected Control createDialogArea( Composite parent )
+		{
+			UIUtil.bindHelp( parent,
+					IHelpContextIds.ADD_EDIT_CASCADING_PARAMETER_DIALOG_ID );
+			Composite topComposite = (Composite) super.createDialogArea( parent );
+
+			Composite composite = new Composite( topComposite, SWT.NONE );
+			composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+			composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+			Label labelName = new Label( composite, SWT.NONE );
+			labelName.setText( Messages.getString( "AddEditCascadingParameterDialog.label.name" ) );
+			name = new Text( composite, SWT.BORDER );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.widthHint = 250;
+			name.setLayoutData( gd );
+
+			Label labelDataset = new Label( composite, SWT.NONE );
+			labelDataset.setText( Messages.getString( "AddEditCascadingParameterDialog.label.dataset" ) );
+			dataset = new Combo( composite, SWT.READ_ONLY );
+			dataset.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			dataset.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					if ( dataset.getSelectionIndex( ) == -1
+							|| ( dataset.getItemCount( ) == 1 && dataset.getText( )
+									.equals( DATASET_NONE ) ) )
+					{
+						value.setEnabled( false );
+						displayText.setEnabled( false );
+					}
+					else
+					{
+						try
+						{
+							parameter.setDataSetName( dataset.getText( ) );
+							if ( parameter.getDataSet( ) != null )
+							{
+								if ( getFirstParameter( ) == null )
+								{
+									inputParameterGroup.setDataSet( parameter.getDataSet( ) );
+								}
+
+								updateComboFromDataSet( );
+							}
+						}
+						catch ( SemanticException e1 )
+						{
+
+						}
+
+					}
+					updateButtons( );
+				}
+			} );
+
+			Label labelValue = new Label( composite, SWT.NONE );
+			labelValue.setText( Messages.getString( "AddEditCascadingParameterDialog.label.value" ) );
+			value = new Combo( composite, SWT.READ_ONLY );
+			value.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			value.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					try
+					{
+						parameter.setValueExpr( DEUtil.getColumnExpression( value.getText( ) ) );
+					}
+					catch ( SemanticException e1 )
+					{
+					}
+					updateButtons( );
+				}
+			} );
+
+			Label labelDisplayText = new Label( composite, SWT.NONE );
+			labelDisplayText.setText( Messages.getString( "AddEditCascadingParameterDialog.label.displaytext" ) );
+			displayText = new Combo( composite, SWT.READ_ONLY );
+			displayText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			displayText.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					try
+					{
+						parameter.setLabelExpr( DEUtil.getColumnExpression( displayText.getText( ) ) );
+					}
+					catch ( SemanticException e1 )
+					{
+					}
+					updateButtons( );
+				}
+			} );
+
+			return topComposite;
+		}
+
+		protected boolean initDialog( )
+		{
+			dataset.setItems( ChoiceSetFactory.getDataSets( ) );
+			if ( dataset.getItemCount( ) == 0 )
+			{
+				dataset.add( DATASET_NONE );
+				dataset.select( 0 );
+			}
+			if ( isSingle( )
+					&& ( getFirstParameter( ) != null && getFirstParameter( ) != parameter ) )
+			{
+				if ( inputParameterGroup.getDataSet( ) != null )
+				{
+					dataset.select( dataset.indexOf( inputParameterGroup.getDataSet( )
+							.getName( ) ) );
+					dataset.setEnabled( false );
+				}
+			}
+
+			updateComboFromDataSet( );
+			updateButtons( );
+			return super.initDialog( );
+		}
+
+		private void updateComboFromDataSet( )
+		{
+			value.setEnabled( false );
+			displayText.setEnabled( false );
+			if ( parameter != null )
+			{
+				DataSetHandle dataSet = getDataSet( parameter );
+				if ( dataSet != null )
+				{
+					name.setText( parameter.getName( ) );
+					dataset.select( dataset.indexOf( dataSet.getName( ) ) );
+					value.setItems( getDataSetColumns( parameter, true ) );
+					displayText.setItems( getDataSetColumns( parameter, false ) );
+
+					value.setEnabled( true );
+					String temp = getColumnName( parameter, COLUMN_VALUE );
+					if ( temp != null )
+					{
+						value.select( value.indexOf( temp ) );
+					}
+
+					displayText.setEnabled( true );
+					temp = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
+					if ( temp != null )
+					{
+						displayText.select( value.indexOf( temp ) );
+					}
+
+				}
+			}
+			else
+			// ( newParameter == null )
+			{
+				parameter = DesignElementFactory.getInstance( )
+						.newScalarParameter( null ); //$NON-NLS-1$
+				try
+				{
+					parameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX );
+					parameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+
+				name.setText( parameter.getName( ) );
+				if ( getFirstParameter( ) != null )
+				{
+					try
+					{
+						parameter.setDataSetName( inputParameterGroup.getDataSet( )
+								.getName( ) );
+						value.setItems( getDataSetColumns( parameter, true ) );
+						displayText.setItems( getDataSetColumns( parameter,
+								false ) );
+						value.setEnabled( true );
+						displayText.setEnabled( true );
+					}
+					catch ( SemanticException e )
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace( );
+					}
+
+				}
+
+			}
+
+		}
+	}
+
 }

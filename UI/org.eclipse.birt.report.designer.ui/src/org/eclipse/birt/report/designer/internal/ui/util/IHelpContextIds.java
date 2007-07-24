@@ -109,6 +109,9 @@ public interface IHelpContextIds
 	public static final String CASCADING_PARAMETER_DIALOG_ID = PREFIX
 			+ "CascadingParametersDialog_ID";
 
+	public static final String ADD_EDIT_CASCADING_PARAMETER_DIALOG_ID = PREFIX
+	+ "AddEditCascadingParametersDialog_ID";
+	
 	public static final String IMAGE_BUIDLER_ID = PREFIX + "ImageBuilder_ID";
 
 	public static final String THUMBNAIL_BUIDLER_ID = PREFIX

@@ -18,6 +18,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
@@ -247,7 +248,11 @@ public abstract class BaseDialog extends TrayDialog
 	 * @return
 	 */
 	private IDialogSettings loadDialogSettings( )
-	{
+	{		
+		if(getShell() != null && ((getShell().getStyle( ) & SWT.RESIZE) == 0 ))
+		{
+			return null;
+		}
 		IDialogSettings dialogSettings = ReportPlugin.getDefault( ).getDialogSettings( );
 		StringBuffer buf = new StringBuffer();
 		Shell curShell = getShell( );
@@ -291,9 +296,12 @@ public abstract class BaseDialog extends TrayDialog
 		try
 		{
 			IDialogSettings setting = getDialogBoundsSettings( );
-			int width = setting.getInt( DIALOG_WIDTH );
-			int height = setting.getInt( DIALOG_HEIGHT );
-			return new Point( width, height );
+			if(setting != null)
+			{
+				int width = setting.getInt( DIALOG_WIDTH );
+				int height = setting.getInt( DIALOG_HEIGHT );
+				return new Point( width, height );
+			}
 		}
 		catch ( NumberFormatException e )
 		{
@@ -319,7 +327,14 @@ public abstract class BaseDialog extends TrayDialog
 	 */
 	protected void initializeBounds( )
 	{
-		Point size = getInitialSize( );
+		Point size;
+		if((getShell().getStyle( ) & SWT.RESIZE)  == 0 )
+		{
+			size = getShell( ).computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+		}else
+		{
+			size = getInitialSize( );
+		}
 		Point location = getInitialLocation( size );
 		getShell( ).setBounds( getConstrainedShellBounds( new Rectangle( location.x,
 				location.y,
