@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device.svg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -71,6 +72,12 @@ public class SVGInteractiveRenderer
 	SVGGraphics2D svg_g2d;
 	private ULocale locale;
 	private List cacheEvents = new ArrayList( );
+	
+	/**
+	 * Indicates if onload method of data points has been added. This map is
+	 * used for saving states of multiple series
+	 */
+	private Map mapOnloadAdded = new HashMap( 4 );
 	
 	private int iFirstDataPointIndex = -1;
 
@@ -384,10 +391,60 @@ public class SVGInteractiveRenderer
 	public void prepareInteractiveEvent( Element elm, InteractionEvent ie,
 			Trigger[] triggers )
 	{
+		// Bug#197269: onload methods for data points should be invoked once for
+		// each series
+		triggers = removeAddedOnloadEvent( ie, triggers );
+
 		// Cache events to make sure the groups are complete
-		cacheEvents.add( new CacheEvent( elm,
-				ie.getStructureSource( ),
-				triggers ) );
+		if ( triggers != null && triggers.length > 0 )
+		{
+			cacheEvents.add( new CacheEvent( elm,
+					ie.getStructureSource( ),
+					triggers ) );
+		}
+	}
+	
+	private Trigger[] removeAddedOnloadEvent( InteractionEvent ie,
+			Trigger[] triggers )
+	{
+		int indexOnload = -1;
+		if ( ie.getStructureSource( ).getType( ) == StructureType.SERIES_DATA_POINT )
+		{
+			// To get the index of onload event in the array
+			for ( int i = 0; i < triggers.length; i++ )
+			{
+				if ( triggers[i].getCondition( ).getValue( ) == TriggerCondition.ONLOAD )
+				{
+					indexOnload = i;
+					break;
+				}
+			}
+			if ( indexOnload >= 0 )
+			{
+				// To check if current series has added onload event for this
+				// data point
+				Object series = ( (WrappedStructureSource) ie.getStructureSource( ) ).getParent( )
+						.getSource( );
+				if ( mapOnloadAdded.containsKey( series ) )
+				{
+					// To remove the duplicate onload event from array
+					if ( triggers.length == 1 )
+					{
+						return null;
+					}
+					Trigger[] newTriggers = new Trigger[triggers.length - 1];
+					System.arraycopy( triggers, 0, newTriggers, 0, indexOnload );
+					System.arraycopy( triggers,
+							indexOnload + 1,
+							newTriggers,
+							indexOnload,
+							triggers.length - indexOnload - 1 );
+					return newTriggers;
+				}
+				mapOnloadAdded.put( series, Boolean.TRUE );
+			}
+		}
+		return triggers;
 	}
 
 	/**
@@ -850,6 +907,7 @@ public class SVGInteractiveRenderer
 		labelPrimitives.clear( );
 		componentPrimitives.clear( );
 		scripts.clear( );
+		mapOnloadAdded.clear( );
 	}
 
 	public Node getHotspotLayer( )
