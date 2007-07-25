@@ -336,7 +336,7 @@ public class ParameterDialog extends BaseDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			if ( valueTable.getColumnProperties( ).length == 4
+			if ( valueTable.getColumnProperties( ).length == 5
 					&& columnIndex == 1 )
 			{
 				SelectionChoice choice = ( (SelectionChoice) element );
@@ -353,7 +353,7 @@ public class ParameterDialog extends BaseDialog
 			SelectionChoice choice = ( (SelectionChoice) element );
 			final int valueIndex = valueTable.getColumnProperties( ).length - 3;
 			String text = null;
-			if ( valueTable.getColumnProperties( ).length == 4
+			if ( valueTable.getColumnProperties( ).length == 5
 					&& columnIndex == 1 )
 			{
 				if ( isDefaultChoice( choice ) )
@@ -1467,7 +1467,7 @@ public class ParameterDialog extends BaseDialog
 				null, COLUMN_IS_DEFAULT, COLUMN_VALUE, COLUMN_DISPLAY_TEXT, COLUMN_DISPLAY_TEXT_KEY
 		};
 		columnWidth = new int[]{
-				10, 60, 110, 110,110
+				10, 70, 105, 105,105
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
