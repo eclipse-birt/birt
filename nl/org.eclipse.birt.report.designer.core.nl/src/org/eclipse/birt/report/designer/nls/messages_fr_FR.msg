@@ -3168,7 +3168,7 @@ TableEditPart.Label.ResizeRow=Redimensionner la ligne
 
 TableFigure.BORDER_TEXT=Table
 TableArea.Button.New=&Nouveau...
-TableArea.Button.Edit=&Edition
+TableArea.Button.Edit=&Modifier...
 TableArea.Button.Remove=&Supprimer
 TableArea.Button.Down=Vers le &bas
 
