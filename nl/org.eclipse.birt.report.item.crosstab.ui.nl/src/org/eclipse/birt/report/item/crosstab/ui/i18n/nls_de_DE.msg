@@ -32,7 +32,7 @@ GrandTotalProvider.Column.DataField=Datenfeld
 GrandTotalProvider.Column.Function=Funktion
 SubTotalProvider.Column.DataField=Datenfeld
 SubTotalProvider.Column.Function=Funktion
-SubTotalProvider.Column.AggregateOn=Aggregat ein
+SubTotalProvider.Column.AggregateOn=Aggregat in
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 AggregationDialog.Title=Summen
@@ -142,7 +142,7 @@ CrosstabPageBreakProvider.Column.After=Nach
 
 ###########################################################
 # Crosstab RowArea SubTotal
-CrosstabSubToatalProvider.Column.AggregateOn=Aggregate On
+CrosstabSubToatalProvider.Column.AggregateOn=Aggregat in
 CrosstabSubToatalProvider.Column.DataField=Datenfeld
 CrosstabSubToatalProvider.Column.Function=Funktion
 
@@ -156,7 +156,7 @@ CrosstabPageBreakDialog.Text.PageBreakAfter=Nachher:
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=Zwischensumme
-SubTotalDialog.Text.AggregateOn=Aggregat ein:
+SubTotalDialog.Text.AggregateOn=Aggregat in:
 SubTotalDialog.Text.Function=Funktion:
 SubTotalDialog.Text.DataField=Datenfeld:
 

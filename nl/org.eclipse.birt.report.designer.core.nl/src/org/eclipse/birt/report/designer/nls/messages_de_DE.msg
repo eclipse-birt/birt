@@ -169,7 +169,7 @@ ColumnBindingDialog.Column.displayName=Angezeigter Name
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
-ColumnBindingDialog.Column.AggregateOn=Aggregat ein
+ColumnBindingDialog.Column.AggregateOn=Aggregat in
 ColumnBindingDialog.All=Alles
 ColumnBindingDialog.NONE=Ohne
 ColumnBindingDialog.Choice.FromContainer=Datensatz des Containers
@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verw
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&erforderlich 
+CascadingParametersDialog.Button.isRequired=&Erforderlich 
 CascadingParametersDialog.default.preview.string=Beispielzeichenfolge
 CascadingParametersDialog.display.controlType.comboBox=Kombinationsfeld
 CascadingParametersDialog.display.controlType.listBox=Listenfeld
@@ -369,7 +369,7 @@ parameterBinding.title=Parameterbindung für Datensatz...
 DataEditPart.Figure.Dafault=Daten
 DataEditPart.Figure.Expression=Ausdruck
 
-DataEditPart.text.AggregateOn=Aggregat ein
+DataEditPart.text.AggregateOn=Aggregat in
 
 ###########################################################
 #DataEditPart properties
@@ -1515,7 +1515,7 @@ FormPage.Button.Add.AggregateOn=Aggregat &hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
 FormPage.Button.AddWithDialog.AggregateOn=Aggregat &hinzufügen...
 FormPage.Button.Delete=&Entfernen
-FormPage.Button.Down=Nach-&unten
+FormPage.Button.Down=Nach &unten
 FormPage.Button.Edit=&Bearbeiten
 FormPage.Button.EditWithDialog=&Bearbeiten...
 FormPage.Button.Up=&Nach oben
@@ -1660,7 +1660,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=Fett
 HighlightRuleBuilderDialog.tooltip.Italic=Kursiv
 HighlightRuleBuilderDialog.tooltip.Underline=Unterstrichen
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Durchgestrichener Text
-HighlightRuleBuilderDialog.text.applyStyle=Verwenden Sie die Formatierung von Stil:
+HighlightRuleBuilderDialog.text.applyStyle=Formatierung von folgendem Stil verwenden:
 HighlightRuleBuilderDialog.displayText.None=Ohne
 
 ###########################################################
@@ -2451,7 +2451,7 @@ ParameterDialog.Button.CreateDataSet=&Neu erstellen...
 ParameterDialog.Button.ImportValue=&Werte importieren...
 ParameterDialog.Button.RemoveDefault=Standard entfernen
 ParameterDialog.Button.SetDefault=&Als Standard einstellen
-ParameterDialog.CheckBox.IsRequired=&erforderlich
+ParameterDialog.CheckBox.IsRequired=&Erforderlich
 ParameterDialog.CheckBox.DoNotEchoInput=E&ingabe nicht wiederholen
 ParameterDialog.CheckBox.Hidden=Ausgeblendet
 ParameterDialog.CheckBox.Distinct=&Doppelte Werte zulassen
@@ -3624,7 +3624,7 @@ DataSetColumnBindingsFormHandleProvider.TableTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck
-DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Aggregat ein
+DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Aggregat in
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filter
 DataSetColumnBindingsFormHandleProvider.ALL=Alles
 DataSetColumnBindingsFormHandleProvider.NONE=n.a.
@@ -3743,7 +3743,7 @@ DataItemBindingDialog.text.Name=Name:
 DataItemBindingDialog.text.displayName=Anzeigename:
 DataItemBindingDialog.text.DataType=Datentyp:
 DataItemBindingDialog.text.Expression=Ausdruck:
-DataItemBindingDialog.text.AggregateOn=Aggregat ein:
+DataItemBindingDialog.text.AggregateOn=Aggregat in:
 DataItemBindingDialog.text.ForceBinding=Erstellt neue Bindung mit demselben Ausdruck
 DataItemBindingDialog.text.All=Alles
 DataItemBindingDialog.text.None=n.a.
@@ -3864,7 +3864,7 @@ BindingDialogHelper.text.DataType=Datentyp:
 BindingDialogHelper.text.Function=Funktion:
 BindingDialogHelper.text.DataField=Datenfeld:
 BindingDialogHelper.text.Filter=Filterbedingung:
-BindingDialogHelper.text.AggOn=Aggregat ein:
+BindingDialogHelper.text.AggOn=Aggregat in:
 BindingDialogHelper.text.Table=Tabelle
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Gruppieren
