@@ -12,16 +12,25 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 public class HyperlinkInfo
 {
-	HyperlinkInfo ( int type, String url )
+	
+	
+	HyperlinkInfo ( int type, String url)
+	{
+		
+		this(type, url, null);
+	}
+	
+	HyperlinkInfo ( int type, String url, String bookmark)
 	{
 		this.type = type;
 		this.url = url;
+		this.mark = bookmark;
 	}
-
+	
 	int type;
 
-	String url;
-
+	String url, mark;
+    	
 	static int BOOKMARK = 0;
 
 	static int HYPERLINK = 1;
