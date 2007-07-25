@@ -275,14 +275,20 @@ CascadingParametersDialog.Label.preview=Vista previa con formato
 CascadingParametersDialog.Label.groupPromptText=Texto de solicit&ud:
 CascadingParametersDialog.Label.parameterPromptText=T&exto de solicitud:
 CascadingParametersDialog.Label.selectDataSet=<Seleccionar un conjunto de datos>
-CascadingParametersDialog.Label.selectDisplayColumn=<Seleccionar una columna en pantalla>
-CascadingParametersDialog.Label.selectValueColumn=<Seleccionar una columna de valores>
+CascadingParametersDialog.Label.selectDisplayColumn=<Display Column not set>
+CascadingParametersDialog.Label.selectValueColumn=<Value Column not set>
 CascadingParametersDialog.Label.values=valores
 CascadingParametersDialog.Radio.Single=Conjunto de datos úni&co
 CascadingParametersDialog.Radio.Mutli=Conjunto de datos m&últiple
 CascadingParametersDialog.Choice.NullValue=Valor nulo
 CascadingParametersDialog.Choice.BlankValue=Valor en blanco
 CascadingParametersDialog.Choice.SelectValue=<Seleccionar valor...>
+CascadingParametersDialog.Button.Add=&Añadir
+CascadingParametersDialog.Button.Edit=Ed&itar
+CascadingParametersDialog.Button.Delete=Dele&te
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Paramenter
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Paramenter
+CascadingParametersDialog.items.None=<Ninguno>
 
 ###########################################################
 #CellPageGenerator properties
@@ -3877,3 +3883,8 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
+
+AddEditCascadingParameterDialog.label.name=&Nombre:
+AddEditCascadingParameterDialog.label.dataset=&Data Set:
+AddEditCascadingParameterDialog.label.value=&Value:
+AddEditCascadingParameterDialog.label.displaytext=Display &Text:

@@ -275,14 +275,20 @@ CascadingParametersDialog.Label.preview=带格式预览
 CascadingParametersDialog.Label.groupPromptText=提示文本(&P):
 CascadingParametersDialog.Label.parameterPromptText=提示文本(&R):
 CascadingParametersDialog.Label.selectDataSet=<选择数据集>
-CascadingParametersDialog.Label.selectDisplayColumn=<选择显示列>
-CascadingParametersDialog.Label.selectValueColumn=<选择值列>
+CascadingParametersDialog.Label.selectDisplayColumn=<Display Column not set>
+CascadingParametersDialog.Label.selectValueColumn=<Value Column not set>
 CascadingParametersDialog.Label.values=值
 CascadingParametersDialog.Radio.Single=单个数据集(&E)
 CascadingParametersDialog.Radio.Mutli=多个数据集(&U)
 CascadingParametersDialog.Choice.NullValue=空值
 CascadingParametersDialog.Choice.BlankValue=空白值
 CascadingParametersDialog.Choice.SelectValue=<选择值...>
+CascadingParametersDialog.Button.Add=添加(&A)
+CascadingParametersDialog.Button.Edit=编辑(&D)
+CascadingParametersDialog.Button.Delete=Dele&te
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Paramenter
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Paramenter
+CascadingParametersDialog.items.None=<无>
 
 ###########################################################
 #CellPageGenerator properties
@@ -3877,3 +3883,8 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=全部
+
+AddEditCascadingParameterDialog.label.name=名称(&N):
+AddEditCascadingParameterDialog.label.dataset=&Data Set:
+AddEditCascadingParameterDialog.label.value=&Value:
+AddEditCascadingParameterDialog.label.displaytext=Display &Text:

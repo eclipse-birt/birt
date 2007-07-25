@@ -275,14 +275,20 @@ CascadingParametersDialog.Label.preview=미리보기 형식
 CascadingParametersDialog.Label.groupPromptText=프롬프트 텍스트(&P):
 CascadingParametersDialog.Label.parameterPromptText=프롬프트 텍스트(&R):
 CascadingParametersDialog.Label.selectDataSet=<데이터 집합 선택>
-CascadingParametersDialog.Label.selectDisplayColumn=<표시 열 선택>
-CascadingParametersDialog.Label.selectValueColumn=<값 열 선택>
+CascadingParametersDialog.Label.selectDisplayColumn=<Display Column not set>
+CascadingParametersDialog.Label.selectValueColumn=<Value Column not set>
 CascadingParametersDialog.Label.values=값
 CascadingParametersDialog.Radio.Single=단일 데이터 집합(&E)
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합(&U)
 CascadingParametersDialog.Choice.NullValue=널(null) 값
 CascadingParametersDialog.Choice.BlankValue=빈 값
 CascadingParametersDialog.Choice.SelectValue=<값 선택...>
+CascadingParametersDialog.Button.Add=추가(&A)
+CascadingParametersDialog.Button.Edit=편집(&D)
+CascadingParametersDialog.Button.Delete=Dele&te
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Paramenter
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Paramenter
+CascadingParametersDialog.items.None=<없음>
 
 ###########################################################
 #CellPageGenerator properties
@@ -3877,3 +3883,8 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
+
+AddEditCascadingParameterDialog.label.name=이름(&N):
+AddEditCascadingParameterDialog.label.dataset=&Data Set:
+AddEditCascadingParameterDialog.label.value=&Value:
+AddEditCascadingParameterDialog.label.displaytext=Display &Text:

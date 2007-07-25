@@ -275,14 +275,20 @@ CascadingParametersDialog.Label.preview=書式付きプレビュー
 CascadingParametersDialog.Label.groupPromptText=プロンプトテキスト(&P) :
 CascadingParametersDialog.Label.parameterPromptText=プロンプトテキスト(&R) :
 CascadingParametersDialog.Label.selectDataSet=<データセットの選択>
-CascadingParametersDialog.Label.selectDisplayColumn=<表示列を選択>
-CascadingParametersDialog.Label.selectValueColumn=<値の列を選択>
+CascadingParametersDialog.Label.selectDisplayColumn=<Display Column not set>
+CascadingParametersDialog.Label.selectValueColumn=<Value Column not set>
 CascadingParametersDialog.Label.values=個の値
 CascadingParametersDialog.Radio.Single=単一のデータセット(&E)
 CascadingParametersDialog.Radio.Mutli=複数のデータセット(&U)
 CascadingParametersDialog.Choice.NullValue=NULL 値
 CascadingParametersDialog.Choice.BlankValue=空白値
 CascadingParametersDialog.Choice.SelectValue=<値の選択...>
+CascadingParametersDialog.Button.Add=追加(&A)
+CascadingParametersDialog.Button.Edit=編集(&D)
+CascadingParametersDialog.Button.Delete=Dele&te
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Paramenter
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Paramenter
+CascadingParametersDialog.items.None=<なし>
 
 ###########################################################
 #CellPageGenerator properties
@@ -3877,3 +3883,8 @@ ReportPage.PreviewImage.Button.ToolTip=サムネールの管理
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
+
+AddEditCascadingParameterDialog.label.name=名前(&N) :
+AddEditCascadingParameterDialog.label.dataset=&Data Set:
+AddEditCascadingParameterDialog.label.value=&Value:
+AddEditCascadingParameterDialog.label.displaytext=Display &Text:
