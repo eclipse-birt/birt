@@ -97,7 +97,7 @@ parameterBinding.title=数据集参数绑定...
 
 ###########################################################
 #SortingHandleProvider properties
-SortingHandleProvider.Label.SortOn=排序时间:
+SortingHandleProvider.Label.SortOn=排序依据:
 Element.ReportItem.dataSet=数据集:
 Element.ReportElement.Cube=数据(&D):
 BindingPage.None=无

@@ -749,7 +749,7 @@ DesignerActionBarContributor.menu.page=页面(&G)
 DesignerActionBarContributor.menu.style-rule-apply=应用样式(&P)
 DesignerActionBarContributor.menu.style-rule-edit=编辑样式(&D)
 DesignerActionBarContributor.style.new=新建样式(&N)...
-DesignerActionBarContributor.menu.data-NewParameter=新报表参数(&P)
+DesignerActionBarContributor.menu.data-NewParameter=新建报表参数(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
 designerActionBarContributor.menu.data-newDataset=新建数据集(&E)
 designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
@@ -2566,7 +2566,7 @@ ParameterGroupProcess.text.Show=显示数据源编辑器页
 
 ParameterNodeProvider.dial.title.editCascading=编辑级联参数
 ParameterNodeProvider.dial.title.editScalar=编辑参数
-ParameterNodeProvider.dial.title.newCascading=新级联参数
+ParameterNodeProvider.dial.title.newCascading=新建级联参数
 ParameterNodeProvider.menu.text.edit=编辑
 ParameterNodeProvider.menu.text.new=新建参数
 
@@ -2593,7 +2593,7 @@ parameters.menuItem.refresh=刷新
 
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
-ParametersNodeProvider.menu.text.cascadingParameter=新级联参数(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数(&D)
 ParametersNodeProvider.menu.text.group=新建度量组(&M)
 ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 

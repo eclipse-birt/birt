@@ -3240,7 +3240,7 @@ Message.SetTheme=设置主题
 
 New.ReportDesign=新报表设计
 New.Parameter=新参数
-New.CascadingParameterGroup=新级联参数组
+New.CascadingParameterGroup=新建级联参数
 New.ScalarParameter=新参数
 New.ParameterGroup=新参数组
 New.Style=新样式
