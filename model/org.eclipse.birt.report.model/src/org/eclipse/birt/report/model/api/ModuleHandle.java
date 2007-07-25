@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -190,8 +191,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
 		}
 
-		if ( configVar != null
-				&& findConfigVariable( configVar.getName( ) ) != null )
+		if ( configVar != null &&
+				findConfigVariable( configVar.getName( ) ) != null )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
 					configVar.getName( ),
@@ -779,8 +780,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		{
 			EmbeddedImage image = (EmbeddedImage) iter.next( );
 
-			if ( image.getName( ) != null
-					&& image.getName( ).equalsIgnoreCase( name ) )
+			if ( image.getName( ) != null &&
+					image.getName( ).equalsIgnoreCase( name ) )
 			{
 				return i;
 			}
@@ -818,7 +819,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public ParameterHandle findParameter( String name )
 	{
 		DesignElement element = module.findParameter( name );
-		if ( element == null )
+		if ( element == null || !( element instanceof Parameter ) )
 			return null;
 		return (ParameterHandle) element.getHandle( element.getRoot( ) );
 	}
