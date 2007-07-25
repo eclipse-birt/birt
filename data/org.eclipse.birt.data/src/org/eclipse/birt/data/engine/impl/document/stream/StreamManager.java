@@ -129,8 +129,8 @@ public class StreamManager
 		VersionManager vm = new VersionManager( context );
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
-			vm.setVersion( vm.getLatestVersion( ) );
-			this.version = vm.getLatestVersion( );
+			vm.setVersion( VersionManager.getLatestVersion( ) );
+			this.version = VersionManager.getLatestVersion( );
 		}
 		else
 		{	

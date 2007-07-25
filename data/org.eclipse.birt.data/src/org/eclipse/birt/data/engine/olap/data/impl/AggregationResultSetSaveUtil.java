@@ -20,6 +20,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
@@ -66,7 +67,7 @@ public class AggregationResultSetSaveUtil
 	 * @param reader
 	 * @throws IOException
 	 */
-	public static IAggregationResultSet[] load( String name, IDocArchiveReader reader ) throws IOException
+	public static IAggregationResultSet[] load( String name, IDocArchiveReader reader, int version ) throws IOException
 	{
 		RAInputStream inputStream = reader.getStream( name );
 		DataInputStream dataInputStream = new DataInputStream( inputStream );
@@ -80,7 +81,11 @@ public class AggregationResultSetSaveUtil
 		IAggregationResultSet[] result = new IAggregationResultSet[size];
 		for( int i=0;i<size;i++)
 		{
-			inputStream = reader.getStream( name + PREFIX_RESULTSET + i );
+			//Only in version 2_2_1 we save aggregation result set without PREFIX_RESULTSET.
+			if( version != VersionManager.VERSION_2_2_1 )
+				inputStream = reader.getStream( name + PREFIX_RESULTSET + i );
+			else
+				inputStream = reader.getStream( name + i );
 			dataInputStream = new DataInputStream( inputStream );
 			result[i] = loadOneResultSet( dataInputStream );
 			dataInputStream.close( );

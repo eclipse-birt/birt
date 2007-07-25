@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -94,7 +95,7 @@ public class QueryExecutor
 			//In presentation mode, we need to load aggregation result set from report document.
 			rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 					.getQueryResultsID( ),
-					executor.getContext( ).getDocReader( ) );
+					executor.getContext( ).getDocReader( ),new VersionManager( executor.getContext()).getVersion( ));
 		}
 		else
 		{
@@ -162,7 +163,7 @@ public class QueryExecutor
 			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			rs = AggregationResultSetSaveUtil.load( id,
 					new FileArchiveReader( executor.getContext( )
-							.getTmpdir( ) + "Cache" ) );
+							.getTmpdir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
 		}
 		
 		executor.setQueryResultsId( id );

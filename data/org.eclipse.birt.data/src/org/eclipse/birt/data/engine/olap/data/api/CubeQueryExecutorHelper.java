@@ -26,6 +26,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -177,7 +178,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public static IAggregationResultSet[] loadAggregationResultSet( IDocArchiveReader reader, String name ) throws IOException
 	{
-		return AggregationResultSetSaveUtil.load( name, reader );
+		return AggregationResultSetSaveUtil.load( name, reader, VersionManager.getLatestVersion( ) );
 	}
 	
 	/**
@@ -189,8 +190,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public static IAggregationResultSet[] loadAggregationResultSet( String pathName, String name ) throws IOException
 	{
-		IDocArchiveReader reader = new FileArchiveReader( getTmpFileName( pathName, name ) );
-		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name, reader );
+		IDocArchiveReader reader = new FileArchiveReader( getTmpFileName( pathName,
+				name ) );
+		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name,
+				reader,
+				VersionManager.getLatestVersion( ) );
 		reader.close( );
 		return result;
 	}

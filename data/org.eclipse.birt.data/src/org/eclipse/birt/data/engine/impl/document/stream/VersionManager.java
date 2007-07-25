@@ -33,11 +33,12 @@ public class VersionManager
 	public final static int VERSION_2_2 = 2;
 	public final static int VERSION_2_2_0 = 10;
 	public final static int VERSION_2_2_1 = 20;
+	public final static int VERSION_2_2_1_1 = 25;
 	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
-	VersionManager( DataEngineContext context )
+	public VersionManager( DataEngineContext context )
 	{
 		this.dataEngineContext = context;
 	}
@@ -45,10 +46,10 @@ public class VersionManager
 	/**
 	 * @return
 	 */
-	int getVersion( )
+	public int getVersion( )
 	{
 		//Default is 2.2
-		int version = this.getLatestVersion( );
+		int version = getLatestVersion( );
 
 		if ( dataEngineContext.hasInStream( null,
 				null,
@@ -105,9 +106,9 @@ public class VersionManager
 	 * 
 	 * @return
 	 */
-	int getLatestVersion( )
+	public static int getLatestVersion( )
 	{
-		return VERSION_2_2_1;
+		return VERSION_2_2_1_1;
 	}
 
 }
