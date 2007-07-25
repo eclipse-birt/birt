@@ -2668,7 +2668,15 @@ public class ParameterDialog extends BaseDialog
 				if ( COLUMN_DISPLAY_TEXT_KEY.equals( property ) )
 				{
 					value = choice.getLabelResourceKey( );
-					if ( isEqual( value, newValue ) )
+					if ( value == null )
+					{
+						value = choice.getValue( );
+					}
+					if ( value == null )
+					{
+						value = LABEL_NULL;
+					}
+					if ( value.equals( newValue ) )
 					{
 						return true;
 					}
