@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -3221,5 +3221,55 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public DeferredCacheManager getDeferredCacheManager( )
 	{
 		return fDeferredCacheManager;
+	}
+	
+	/**
+	 * Creates the interaction event for triggers list
+	 * 
+	 * @param iSource
+	 * @param elTriggers
+	 * @param ipr
+	 * @return
+	 */
+	protected final InteractionEvent createEvent( StructureSource iSource,
+			List elTriggers, IPrimitiveRenderer ipr )
+	{
+		final InteractionEvent iev = new InteractionEvent( iSource );
+		for ( int t = 0; t < elTriggers.size( ); t++ )
+		{
+			Trigger tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+			processTrigger( tg, iSource );
+			iev.addTrigger( tg );
+		}
+		return iev;
+	}
+
+	/**
+	 * Renders the interactivity hotspot for a data point
+	 * 
+	 * @param ipr
+	 * @param dph
+	 * @param pre
+	 * @throws ChartException
+	 */
+	protected final void renderInteractivity( IPrimitiveRenderer ipr,
+			DataPointHints dph, PrimitiveRenderEvent pre ) throws ChartException
+	{
+		if ( isInteractivityEnabled( ) && dph != null )
+		{
+			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
+			final EList elTriggers = getSeries( ).getTriggers( );
+			if ( !elTriggers.isEmpty( ) )
+			{
+				final StructureSource iSource = WrappedStructureSource.createSeriesDataPoint( getSeries( ),
+						dph );
+
+				final InteractionEvent iev = createEvent( iSource,
+						elTriggers,
+						ipr );
+				iev.setHotSpot( pre );
+				ipr.enableInteraction( iev );
+			}
+		}
 	}
 }
