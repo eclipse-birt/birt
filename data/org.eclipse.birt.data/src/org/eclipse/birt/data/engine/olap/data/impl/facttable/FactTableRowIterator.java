@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
+import org.eclipse.birt.data.engine.olap.data.api.IMeasureList;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
@@ -42,11 +44,16 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private IDocumentObject currentSegment;
 	private int[] currentPos;
 	private Object[] currentMeasures;
+	private MeasureList measureList;
+	private Object[] computedMeasureNames;
+	private Object[] currentComputedMeasures;
 
 	private Traversalor traversalor;
 	private StopSign stopSign;
 	
 	private int[][] selectedPosOfCurSegment;
+	
+	private IComputedMeasureHelper computedMeasureHelper;
 
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
 
@@ -61,6 +68,19 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
 			IDiskArray[] dimensionPos, StopSign stopSign ) throws IOException
 	{
+		this( factTable, dimensionName, dimensionPos, null, stopSign );
+	}
+	/**
+	 * 
+	 * @param factTable
+	 * @param dimensionName
+	 * @param dimensionPos
+	 * @param stopSign
+	 * @throws IOException
+	 */
+	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
+			IDiskArray[] dimensionPos, IComputedMeasureHelper computedMeasureHelper, StopSign stopSign ) throws IOException
+	{
 		Object[] params = {
 				factTable, dimensionName, dimensionPos, stopSign
 		};
@@ -73,7 +93,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		this.selectedSubDim = new List[factTable.getDimensionInfo( ).length];
 		this.selectedPosOfCurSegment = new int[factTable.getDimensionInfo( ).length][];
 		this.stopSign = stopSign;
-		
+		this.computedMeasureHelper = computedMeasureHelper;
 		assert dimensionName.length == dimensionPos.length;
 		
 		for ( int i = 0; i < selectedSubDim.length; i++ )
@@ -93,6 +113,11 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		filterSubDimension( );
 		this.currentPos = new int[factTable.getDimensionInfo( ).length];
 		this.currentMeasures = new Object[factTable.getMeasureInfo( ).length];
+		this.measureList = new MeasureList( this.measureInfo );
+		if ( this.computedMeasureHelper != null )
+		{
+			computedMeasureNames = this.computedMeasureHelper.getAllComputedMeasureNames( );
+		}
 
 		nextSegment( );
 		logger.exiting( FactTableRowIterator.class.getName( ),
@@ -180,6 +205,11 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				{
 					currentMeasures[i] = DocumentObjectUtil.readValue( currentSegment,
 							measureInfo[i].dataType );
+				}
+				if ( computedMeasureHelper != null )
+				{
+					measureList.setMeasureValue( currentMeasures );
+					currentComputedMeasures = computedMeasureHelper.computeMeasureValues( measureList );
 				}
 				if ( !isSelectedRow( ) )
 				{
@@ -312,7 +342,16 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public int getMeasureIndex( String measureName )
 	{
-		return factTable.getMeasureIndex( measureName );
+		int reValue = factTable.getMeasureIndex( measureName );
+		if( reValue < 0 && computedMeasureNames != null )
+		{
+			for ( int i = 0; i < computedMeasureNames.length; i++ )
+			{
+				if( measureName.equals( computedMeasureNames[i] ) )
+					reValue = i + measureInfo.length;
+			}
+		}
+		return reValue;
 	}
 	
 	/*
@@ -330,7 +369,14 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public int getMeasureCount( )
 	{
-		return currentMeasures.length;
+		if( computedMeasureNames != null )
+		{
+			return currentMeasures.length + computedMeasureNames.length;
+		}
+		else
+		{
+			return currentMeasures.length;
+		}
 	}
 	
 	/*
@@ -339,7 +385,22 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public Object getMeasure( int measureIndex )
 	{
-		return currentMeasures[measureIndex];
+		if ( measureIndex < currentMeasures.length )
+		{
+			return currentMeasures[measureIndex];
+		}
+		else
+		{
+			if ( ( measureIndex - currentMeasures.length ) < currentComputedMeasures.length )
+			{
+				return currentComputedMeasures[measureIndex -
+						currentMeasures.length];
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 }
 
@@ -348,4 +409,43 @@ class SelectedSubDimension
 	int subDimensionIndex;
 	int start;
 	int end;
+}
+
+class MeasureList implements IMeasureList
+{
+	private MeasureInfo[] measureInfo = null;
+	private Object[] measureValue = null;
+	/**
+	 * 
+	 * @param measureInfo
+	 */
+	MeasureList( MeasureInfo[] measureInfo )
+	{
+		this.measureInfo = measureInfo;
+	}
+	
+	/**
+	 * 
+	 * @param measureValue
+	 */
+	void setMeasureValue( Object[] measureValue )
+	{
+		this.measureValue = measureValue;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IMeasureList#getMeasureValue(java.lang.String)
+	 */
+	public Object getMeasureValue( String measureName )
+	{
+		for ( int i = 0; i < measureInfo.length; i++ )
+		{
+			if ( measureInfo[i].measureName.equals( measureName ) )
+			{
+				return measureValue[i];
+			}
+		}
+		return null;
+	}
 }

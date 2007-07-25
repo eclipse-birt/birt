@@ -78,6 +78,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private boolean isEmptyXTab;
 	private boolean isBreakHierarchy = true;
 	
+	private IComputedMeasureHelper computedMeasureHelper = null;
+	
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	/**
@@ -204,6 +206,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return pathName + File.separator + "cubequeryresult" +name;
 	}
 	
+	/**
+	 * 
+	 * @param computedMeasureHelper
+	 */
+	public void addComputedMeasure( IComputedMeasureHelper computedMeasureHelper )
+	{
+		this.computedMeasureHelper = computedMeasureHelper;
+	}
 	
 	/**
 	 * 
@@ -560,6 +570,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		FactTableRowIterator facttableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
 				validDimensionName,
 				validDimPosition,
+				computedMeasureHelper,
 				stopSign );
 
 		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition );

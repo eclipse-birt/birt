@@ -41,7 +41,9 @@ import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.api.IMeasureList;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
@@ -335,14 +337,17 @@ public class CubeAggregationTest extends TestCase
 				true,
 				false );
 		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
+		cubeQueryExcutorHelper.addComputedMeasure( new ComputedMeasureHelper( ) );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
 		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
-		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[2];
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
-		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[2];
+		funcitons[1] = new AggregationFunctionDefinition( "C_Measure1",
+				IBuildInAggregation.TOTAL_SUM_FUNC );
+		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[3];
 		funcitonsWithParameterCol[0] = new AggregationFunctionDefinition( "measure1",
 				IBuildInAggregation.TOTAL_SUM_FUNC );
 		funcitonsWithParameterCol[1] = new AggregationFunctionDefinition( null,
@@ -350,6 +355,7 @@ public class CubeAggregationTest extends TestCase
 				new DimLevel( "dimension1", "level12" ),
 				"col12",
 				IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -373,9 +379,11 @@ public class CubeAggregationTest extends TestCase
 		resultSet[0].seek( 0 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );
+		assertEquals( resultSet[0].getAggregationValue( 1 ), new Double(10) );
 		resultSet[0].seek( 1 );
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(22) );
+		assertEquals( resultSet[0].getAggregationValue( 1 ), new Double(26) );
 		//result set for aggregation 1
 		assertEquals( resultSet[1].length( ), 8 );
 		assertEquals( resultSet[1].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
@@ -1410,5 +1418,22 @@ class TestFactTable implements IDatasetIterator
 			return false;
 		}
 		return true;
+	}
+}
+
+class ComputedMeasureHelper implements IComputedMeasureHelper
+{
+	private String[] measureNames = {"C_Measure1"};
+	public Object[] computeMeasureValues( IMeasureList measureList )
+	{
+		Object[] result = new Object[1];
+		Integer value = new Integer( ( (Integer) measureList.getMeasureValue( "measure1" ) ).intValue( ) + 1 );
+		result[0] = value;
+		return result;
+	}
+
+	public String[] getAllComputedMeasureNames( )
+	{
+		return measureNames;
 	}
 }
