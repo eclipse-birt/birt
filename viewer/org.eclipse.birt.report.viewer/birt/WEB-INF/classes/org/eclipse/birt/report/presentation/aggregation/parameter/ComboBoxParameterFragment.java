@@ -195,14 +195,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		{
 			ParameterDefinition def = (ParameterDefinition) group
 					.getParameters( ).get( i );
-			String parameterName = def.getName( );
-			groupKeys[i] = paramValues.get( parameterName );
-			if ( def.isRequired( )
-					&& DataUtil.trimString( (String) groupKeys[i] ).length( ) <= 0 )
-			{
-				groupKeys[i] = service.getParameterDefaultValue( design,
-						parameterName, options );
-			}
+			groupKeys[i] = paramValues.get( def.getName( ) );
 		}
 		return service.getSelectionListForCascadingGroup( design, group
 				.getName( ), groupKeys, options );
