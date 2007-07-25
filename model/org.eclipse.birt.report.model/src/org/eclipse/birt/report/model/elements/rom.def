@@ -1723,7 +1723,7 @@
     <Member detailType="SearchKey" displayNameID="Structure.Action.search" isList="true" name="search" since="reserved" type="structure"/>
   </Structure>
   <Structure displayNameID="Structure.SelectionChoice" name="SelectionChoice" since="1.0">
-    <Member displayNameID="Structure.SelectionChoice.value" isIntrinsic="true" name="value" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.SelectionChoice.value" isIntrinsic="true" name="value" runtimeSettable="false" since="1.0" type="literalString" valueRequired="true"/>
     <Member displayNameID="Structure.SelectionChoice.label" isIntrinsic="true" name="label" runtimeSettable="false" since="1.0" type="string"/>
     <Member displayNameID="Structure.SelectionChoice.labelID" isIntrinsic="true" name="labelID" since="1.0" type="string"/>
   </Structure>
