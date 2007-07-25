@@ -335,7 +335,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				if ( ac != null && ac instanceof IHTMLActionHandler )
 				{
 					actionHandler = (IHTMLActionHandler) ac;
-					actionHandler.getURL( act, null );
 					return new HyperlinkDef( actionHandler.getURL( act, service
 							.getReportContext( ) ),
 							IHyperlinkAction.ACTION_DRILLTHROUGH, null );
