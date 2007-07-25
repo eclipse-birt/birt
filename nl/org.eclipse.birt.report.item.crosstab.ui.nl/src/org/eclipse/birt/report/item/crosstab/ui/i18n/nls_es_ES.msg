@@ -118,7 +118,7 @@ FilterConditionBuilder.DialogTitle.Edit=Editar condición de filtro
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 FilterConditionBuilder.tooltip.ExpBuilder=Hacer clic para llamar al compilador de expresiones.
 FilterConditionBuilder.text.AND=Y
-FilterConditionBuilder.text.Condition=Introducir una condición filtro:
+FilterConditionBuilder.text.Condition=Introducir una condicion de filtro:
 FilterConditionBuilder.text.GroupLevel=Nivel de grupo:
 
 ###########################################################

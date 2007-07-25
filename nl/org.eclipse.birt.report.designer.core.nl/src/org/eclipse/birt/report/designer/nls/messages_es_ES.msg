@@ -2182,7 +2182,7 @@ FilterConditionBuilder.DialogMessage.Edit=Edite el siguiente contenido para actu
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 FilterConditionBuilder.tooltip.ExpBuilder=Abrir el compilador de expresiones
 FilterConditionBuilder.text.AND=Y
-FilterConditionBuilder.text.Condition=Introducir una condición filtro:
+FilterConditionBuilder.text.Condition=Introducir una condicion de filtro:
 FilterConditionBuilder.Shell.Title=Condición de filtro
 
 ###########################################################
