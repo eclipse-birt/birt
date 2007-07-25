@@ -655,9 +655,10 @@ public abstract class Module extends DesignElement
 	{
 		if ( options != null )
 		{
-			String createdBy = (String) options.getProperty( ModuleOption.CREATED_BY_KEY );
+			String createdBy = (String) options
+					.getProperty( ModuleOption.CREATED_BY_KEY );
 			if ( createdBy != null )
-				setProperty( Module.CREATED_BY_PROP, createdBy );			
+				setProperty( Module.CREATED_BY_PROP, createdBy );
 		}
 	}
 
@@ -845,15 +846,15 @@ public abstract class Module extends DesignElement
 		// should have already caught this case.
 
 		String name = element.getName( );
-		assert !StringUtil.isBlank( name )
-				|| defn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
+		assert !StringUtil.isBlank( name ) ||
+				defn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
 
 		// Disallow duplicate names.
 
 		assert element.getContainer( ) != null;
 		int id = defn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& element.isManagedByNameSpace( ) )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE &&
+				element.isManagedByNameSpace( ) )
 		{
 			// most element name resides in module, however not all; for
 			// example, level resides in dimension. Therefore, we will get name
@@ -1955,8 +1956,8 @@ public abstract class Module extends DesignElement
 
 	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
 	{
-		if ( resourceChangeListeners == null
-				|| resourceChangeListeners.isEmpty( ) )
+		if ( resourceChangeListeners == null ||
+				resourceChangeListeners.isEmpty( ) )
 			return;
 
 		List temp = new ArrayList( resourceChangeListeners );
@@ -2270,8 +2271,8 @@ public abstract class Module extends DesignElement
 		{
 			// the element has no id or a duplicate id, re-allocate another one
 
-			if ( element.getID( ) <= NO_ID
-					|| ( getElementByID( element.getID( ) ) != null && getElementByID( element
+			if ( element.getID( ) <= NO_ID ||
+					( getElementByID( element.getID( ) ) != null && getElementByID( element
 							.getID( ) ) != element ) )
 			{
 				element.setID( getNextID( ) );
@@ -2408,8 +2409,8 @@ public abstract class Module extends DesignElement
 	public boolean isDuplicateNamespace( String namespaceToCheck )
 	{
 		Module rootHost = this;
-		while ( rootHost instanceof Library
-				&& ( (Library) rootHost ).getHost( ) != null )
+		while ( rootHost instanceof Library &&
+				( (Library) rootHost ).getHost( ) != null )
 			rootHost = ( (Library) rootHost ).getHost( );
 
 		// List libraries = rootHost.getAllLibraries( );
@@ -2465,9 +2466,9 @@ public abstract class Module extends DesignElement
 			PropertyBinding propBinding = (PropertyBinding) propertyBindings
 					.get( i );
 			BigDecimal id = propBinding.getID( );
-			if ( id != null
-					&& propName.equalsIgnoreCase( propBinding.getName( ) )
-					&& getElementByID( id.longValue( ) ) == element )
+			if ( id != null &&
+					propName.equalsIgnoreCase( propBinding.getName( ) ) &&
+					getElementByID( id.longValue( ) ) == element )
 				return propBinding;
 
 		}
@@ -2571,16 +2572,24 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Recurse to rename element
+	 * Recursively changes the element name in the context of the container.
 	 * 
-	 * @param module
+	 * <ul>
+	 * <li>If the element name is required and duplicated name is found rename
+	 * the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
+	 * </ul>
+	 * 
 	 * @param container
+	 *            the container of the element 
 	 * @param element
+	 *            the element handle whose name is need to check.
 	 */
+
 	public void rename( DesignElement container, DesignElement element )
 	{
 		NameExecutor executor = new NameExecutor( element );
-		INameHelper nameHelper = executor.getNameHelper( this , container );
+		INameHelper nameHelper = executor.getNameHelper( this, container );
 		if ( nameHelper != null )
 		{
 			nameHelper.makeUniqueName( element );
