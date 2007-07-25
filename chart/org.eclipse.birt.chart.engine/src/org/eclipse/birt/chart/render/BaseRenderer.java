@@ -2431,8 +2431,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			pre.setPoints( loaFront );
 			pre.setBackground( f );
 			pre.setOutline( lia );
-			ipr.fillPolygon( pre );
-			ipr.drawPolygon( pre );
+			if ( bDeferred )
+			{
+				dc.addPlane( pre, PrimitiveRenderEvent.FILL |
+						PrimitiveRenderEvent.DRAW );
+			}
+			else
+			{
+				ipr.fillPolygon( pre );
+				ipr.drawPolygon( pre );
+			}
 			return;
 		}
 
