@@ -64,6 +64,11 @@ public class LevelAttribute extends Structure
 	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
 
 	/**
+	 * Constant for the name of the 'DateTime' level attribute.
+	 */
+	public static final String DATE_TIME_ATTRIBUTE_NAME = "DateTime"; //$NON-NLS-1$
+
+	/**
 	 * The column name.
 	 */
 

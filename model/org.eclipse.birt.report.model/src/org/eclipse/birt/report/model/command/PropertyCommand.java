@@ -277,7 +277,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		stack.startTrans( record.getLabel( ) );
 		ContentCommand cmd = new ContentCommand( module, context );
-		
+
 		List contents = context.getContents( module );
 		try
 		{
@@ -302,7 +302,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			else if ( value instanceof List )
 			{
 				contents = (List) value;
-				for ( int i = 0; i < contents.size( );i++ )
+				for ( int i = 0; i < contents.size( ); i++ )
 				{
 					Object item = contents.get( i );
 					if ( item instanceof DesignElement )
@@ -446,7 +446,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( element instanceof TabularLevel )
 			{
 				LevelAttribute attibute = new LevelAttribute( );
-				attibute.setName( "DateTime" ); //$NON-NLS-1$
+				attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
 				attibute
 						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				struct = attibute;
@@ -454,7 +454,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			else if ( element instanceof OdaLevel )
 			{
 				OdaLevelAttribute attibute = new OdaLevelAttribute( );
-				attibute.setName( "DateTime" ); //$NON-NLS-1$
+				attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
 				attibute
 						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 				struct = attibute;
