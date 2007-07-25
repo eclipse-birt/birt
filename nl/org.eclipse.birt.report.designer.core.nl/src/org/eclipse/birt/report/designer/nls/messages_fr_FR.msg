@@ -3869,7 +3869,7 @@ BindingDialogHelper.text.Table=Table
 BindingDialogHelper.text.List=Liste
 BindingDialogHelper.text.Group=Groupe
 BindingDialogHelper.text.Expression=Expression :
-BindingDialogHelper.text.displayName=Afficher le nom :
+BindingDialogHelper.text.displayName=Nom d'affichage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 
