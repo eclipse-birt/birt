@@ -43,75 +43,13 @@ import org.w3c.dom.css.CSSValue;
 
 public class HTML2Content
 {
-	protected static final HashMap tag2Style = new HashMap( );
-	
 	protected static final HashSet htmlDisplayMode = new HashSet( );
 	
 	protected static final HashMap textTypeMapping = new HashMap( );
 
 	static
 	{
-		tag2Style.put( "code", //$NON-NLS-1$
-				"font-family: monospace"); //$NON-NLS-1$
-		
-		tag2Style.put( "em", //$NON-NLS-1$
-				"font-style: italic"); //$NON-NLS-1$
-		tag2Style.put( "h1", //$NON-NLS-1$
-			"font-size: 2em; margin-top: 0.67em; margin-bottom:0.67em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-		tag2Style.put( "h2", //$NON-NLS-1$
-			"font-size: 1.5em; margin-top: 0.75em; margin-bottom:0.75em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-		tag2Style.put( "h3", //$NON-NLS-1$
-			"font-size: 1.17em; margin-top: 0.83em; margin-bottom:0.83em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-	
-		tag2Style.put( "h4", //$NON-NLS-1$
-			"font-size: 1.12em; margin-top: 1.12em; margin-bottom:1.12em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-	
-		tag2Style.put( "h5", //$NON-NLS-1$
-			"font-size: 0.83em; margin-top: 1.5em; margin-bottom:1.5em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-	
-		tag2Style.put( "h6", //$NON-NLS-1$
-			"font-size: 0.75em; margin-top: 1.67em; margin-bottom:1.67em; font-weight: bold; page-break-after: avoid"); //$NON-NLS-1$
-		tag2Style.put( "pre", //$NON-NLS-1$
-				"font-family: monospace; white-space: no-wrap; "); //$NON-NLS-1$
-		tag2Style.put( "strong", //$NON-NLS-1$
-				"font-weight: bold"); //$NON-NLS-1$
-		tag2Style.put( "sub", //$NON-NLS-1$
-				"vertical-align: bottom; font-size: 75%"); //$NON-NLS-1$
-		
-		tag2Style.put( "sup", //$NON-NLS-1$
-			"vertical-align: top; font-size: 75%"); //$NON-NLS-1$
-		tag2Style.put( "tt", //$NON-NLS-1$
-				"font-family: monospace;"); //$NON-NLS-1$
-		tag2Style.put( "center", //$NON-NLS-1$
-			"text-align: center;"); //$NON-NLS-1$
-		tag2Style.put( "i", //$NON-NLS-1$
-			"font-style: italic;"); //$NON-NLS-1$
-		tag2Style.put( "address",
-			"font-style: italic;");
-		
-		tag2Style.put( "b", //$NON-NLS-1$
-			"font-weight: bold;"); //$NON-NLS-1$
-		tag2Style.put( "p", //$NON-NLS-1$
-		"margin-top: 1.33em; margin-bottom: 1.33em"); //$NON-NLS-1$
-		
-		tag2Style.put( "u", //$NON-NLS-1$
-		"text-decoration: underline;"); //$NON-NLS-1$
-		
-		tag2Style.put( "del", //$NON-NLS-1$
-		"text-decoration: line-through;"); //$NON-NLS-1$
-		
-		// All unsupported element tags will be converted into plain text.
-		/* The following are the currently supported tags:
-			("H1")("H2")("H3")("H4")("H5")("H6")
-			("A")("ADDRESS")("B")("BODY")("BR")
-			("CENTER")("CODE")("DD")("DEL")("DIV")
-			("DL")("DT")("FONT")("EM")("HEAD")
-			("HTML")("I")("IMAGE")("IMG")("INS")
-			("LI")("OL")("PRE")("P")("SPAN")
-			("STRONG")("SUB")("SUP")("TITLE")
-			("UL")("TT")("U")
-		*/
-		//block-level elements
+		// block-level elements
 		htmlDisplayMode.add( "dd" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "div" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "dl" ); //$NON-NLS-1$
@@ -132,10 +70,13 @@ public class HTML2Content
 		htmlDisplayMode.add( "body" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "center" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "table" ); //$NON-NLS-1$
-		
-		textTypeMapping.put( IForeignContent.HTML_TYPE, TextParser.TEXT_TYPE_HTML );
-		textTypeMapping.put( IForeignContent.TEXT_TYPE, TextParser.TEXT_TYPE_PLAIN );
-		textTypeMapping.put( IForeignContent.UNKNOWN_TYPE, TextParser.TEXT_TYPE_AUTO );
+
+		textTypeMapping.put( IForeignContent.HTML_TYPE,
+				TextParser.TEXT_TYPE_HTML );
+		textTypeMapping.put( IForeignContent.TEXT_TYPE,
+				TextParser.TEXT_TYPE_PLAIN );
+		textTypeMapping.put( IForeignContent.UNKNOWN_TYPE,
+				TextParser.TEXT_TYPE_AUTO );
 
 	}
 
@@ -227,27 +168,6 @@ public class HTML2Content
 				label.setText(node.getNodeValue());
 				StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
 				inlineStyle.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
-				//support del, ins and u
-				Node pNode = node.getParentNode();
-				if(pNode!=null)
-				{
-					if("u".equalsIgnoreCase(pNode.getNodeName()) || "ins".equalsIgnoreCase(pNode.getNodeName()))  //$NON-NLS-1$//$NON-NLS-2$
-					{
-						inlineStyle.setProperty( IStyle.STYLE_TEXT_UNDERLINE, IStyle.UNDERLINE_VALUE );
-					}
-					else if("del".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
-					{
-						inlineStyle.setProperty( IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE );
-					}
-					else if("sub".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
-					{
-						inlineStyle.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.BOTTOM_VALUE );
-					}
-					else if("sup".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
-					{
-						inlineStyle.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.TOP_VALUE);
-					}
-				}
 				label.setInlineStyle(inlineStyle);
 				if(action!=null)
 				{
@@ -509,16 +429,12 @@ public class HTML2Content
 		{
 			style.setProperties(inlineStyle);
 		}
-		if(tag2Style.containsKey(ele.getTagName()))
+		StyleProcessor tag2Style = StyleProcessor.getStyleProcess( tagName );
+		if ( tag2Style != null )
 		{
-			StyleDeclaration tagStyle = (StyleDeclaration)content.getCSSEngine().parseStyleDeclaration((String)tag2Style.get(ele.getTagName()));
-			if(tagStyle!=null)
-			{
-				style.setProperties(tagStyle);
-				
-			}
+			tag2Style.process( style );
 		}
-		content.setInlineStyle(style);
+		content.setInlineStyle( style );
 	}
 
 	/**
