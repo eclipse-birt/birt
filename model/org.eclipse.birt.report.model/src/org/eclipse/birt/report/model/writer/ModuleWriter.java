@@ -3211,7 +3211,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
 				else if ( propDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
-					writeContentElement( virtualElement, propDefn );
+					writeContents( virtualElement, propDefn.getName() );
 				else
 					writeProperty( virtualElement, ModelUtil
 							.getTagByPropertyType( propDefn ), propDefn
@@ -3224,21 +3224,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( ); // end of Overridden-values
 
-	}
-
-	private void writeContentElement( DesignElement virtualElement,
-			PropertyDefn propDefn )
-	{
-		List values = (List) virtualElement.getLocalProperty( getModule( ),
-				(ElementPropertyDefn) propDefn );
-		if ( values == null || values.isEmpty( ) )
-			return;
-
-		for ( int i = 0; i < values.size( ); i++ )
-		{
-			ContentElement tmpElement = (ContentElement) values.get( i );
-			tmpElement.apply( this );
-		}
 	}
 
 	/*

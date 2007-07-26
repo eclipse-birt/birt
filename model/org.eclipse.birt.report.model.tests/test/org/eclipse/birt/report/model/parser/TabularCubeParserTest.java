@@ -509,7 +509,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.findCube( "testCube" ); //$NON-NLS-1$
 
 		TabularCubeHandle newCube = (TabularCubeHandle) designHandle
-				.getElementFactory( ).newElementFrom( cube, null );
+				.getElementFactory( ).newElementFrom( cube, "Customer Cube" ); //$NON-NLS-1$
 
 		designHandle.getCubes( ).add( newCube );
 
