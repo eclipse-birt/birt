@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.viewer.internal.listener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.viewer.internal.util.ChartImageManager;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * 
@@ -30,6 +32,10 @@ public class ChartHttpSessionListener implements HttpSessionListener
 	 */
 	public void sessionCreated( HttpSessionEvent event )
 	{
+		// Initialize chart engine in standalone mode
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
 	}
 
 	/**

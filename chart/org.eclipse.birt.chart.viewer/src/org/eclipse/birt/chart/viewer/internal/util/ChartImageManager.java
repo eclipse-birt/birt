@@ -42,7 +42,6 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
@@ -166,10 +165,7 @@ public class ChartImageManager
 			rtc.setActionRenderer( new SimpleActionRenderer( evaluator ) );
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
-			// Set standalone mode rather than OSGI mode
-			PlatformConfig config = new PlatformConfig( );
-			config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-			idr = ChartEngine.instance( config ).getRenderer( "dv." //$NON-NLS-1$
+			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
 			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
