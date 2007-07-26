@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
@@ -53,11 +54,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ChartImageManager
 {
-
-	/**
-	 * Flag indicating that if initialize the context.
-	 */
-	protected static boolean isInitContext = false;
 
 	private static final String IMAGE_FOLDER = "imageTemp"; //$NON-NLS-1$
 
@@ -307,11 +303,11 @@ public class ChartImageManager
 
 	public synchronized static void init( ServletContext context )
 	{
-		if ( isInitContext )
-		{
-			return;
-		}
-
+		// Initialize chart engine in standalone mode
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
+		
 		// Image folder setting
 		imageFolder = processRealPath( context, IMAGE_FOLDER, true );
 	}
@@ -321,7 +317,6 @@ public class ChartImageManager
 	 */
 	public static void dispose( )
 	{
-		isInitContext = false;
 		for ( int i = 0, n = sessionIds.size( ); i < n; i++ )
 		{
 			String sessionId = (String) sessionIds.get( i );
