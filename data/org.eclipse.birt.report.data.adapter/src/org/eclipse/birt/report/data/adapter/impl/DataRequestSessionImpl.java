@@ -64,6 +64,7 @@ import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -761,7 +762,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					levelKeys.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) ) );
 				}
-				if ( level.getDisplayColumnName( ) != null )
+				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
+						&& level.getDisplayColumnName( ) != null )
 				{
 					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
 				}

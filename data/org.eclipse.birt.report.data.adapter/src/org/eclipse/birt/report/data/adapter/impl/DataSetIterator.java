@@ -470,9 +470,12 @@ public class DataSetIterator implements IDatasetIterator
 							new ScriptExpression( bindingExpr ) ));
 				}
 				
-				if( level.getDisplayColumnName( )!= null )
+				//Only dynamical level can use display name.
+				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
+						&& level.getDisplayColumnName( ) != null )
 				{
-					ColumnMeta meta = new ColumnMeta( createLevelName( dimName, OlapExpressionUtil.getDisplayColumnName( level.getName( ) )),
+					ColumnMeta meta = new ColumnMeta( createLevelName( dimName,
+							OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) ),
 							null,
 							ColumnMeta.UNKNOWN_TYPE );
 					meta.setDataType( DataType.STRING_TYPE );
