@@ -28,8 +28,11 @@ import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataPageBackup;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.OutlinePageBackup;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.IVersionInfo;
@@ -97,6 +100,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider( this );
 	private boolean isChanging = false;
 	private ReportMultiBookPage attributePage;
+	private IPageViewerBackup outlineBackup;
+	private DataPageBackup dataBackup;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
@@ -158,6 +163,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public MultiPageReportEditor( )
 	{
 		super( );
+		outlineBackup = new OutlinePageBackup();
+		dataBackup = new DataPageBackup();
 	}
 
 	/*
@@ -476,6 +483,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 
 		Object adapter = activePageInstance.getAdapter( DataViewPage.class );
+		if(adapter instanceof DataViewTreeViewerPage){
+			((DataViewTreeViewerPage)adapter).setBackupState(dataBackup);
+		}
 		dataPage.setActivePage( (IPageBookViewPage) adapter );
 	}
 
@@ -491,6 +501,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
+		if(designOutLinePage instanceof DesignerOutlinePage){
+			((DesignerOutlinePage)designOutLinePage).setBackupState(outlineBackup);
+		}
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
 
@@ -612,7 +625,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// is canleave.
 			isChanging = true;
 			super.pageChange( newPageIndex );
-			updateRelatedViews( );
+			//updateRelatedViews( );
 			// check new page status
 			if ( !prePageChanges( oldPage, newPage ) )
 			{
@@ -1000,6 +1013,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public void dispose( )
 	{
 		// dispose page
+		outlineBackup.dispose( );
+		dataBackup.dispose( );
 		List list = new ArrayList( pages );
 		int size = list.size( );
 		for ( int i = 0; i < size; i++ )

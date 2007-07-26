@@ -36,6 +36,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryA
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
+import org.eclipse.birt.report.designer.ui.editors.IPageViewerBackup;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -63,11 +64,14 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
@@ -91,6 +95,8 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	private ModuleHandle reportHandle;
 
 	private NonGEFSynchronizerWithTreeView synchronizer;
+
+	private IPageViewerBackup backup;
 
 	// private ListenerElementVisitor visitor;
 
@@ -153,7 +159,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 					if ( !item.getForeground( ).equals( gray ) )
 					{
 						item.setForeground( gray );
-					}	
+					}
 				}
 				else
 				{
@@ -308,6 +314,29 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.addColleague( getSelectionSynchronizer( ) );
+		if ( backup != null )
+		{
+			backup.restoreBackup( getTreeViewer( ) );
+			getTreeViewer( ).getTree( ).addTreeListener( new TreeListener( ) {
+
+				public void treeCollapsed( TreeEvent e )
+				{
+					Item item = (Item) e.item;
+					backup.updateCollapsedStatus( getTreeViewer( ),
+							item.getData( ) );
+
+				}
+
+				public void treeExpanded( TreeEvent e )
+				{
+					Item item = (Item) e.item;
+					backup.updateExpandedStatus( getTreeViewer( ),
+							item.getData( ) );
+				}
+
+			} );
+		}
+
 	}
 
 	protected void addDragAndDropListener( )
@@ -402,7 +431,6 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.removeColleague( getSelectionSynchronizer( ) );
-		super.dispose( );
 	}
 
 	/**
@@ -669,5 +697,10 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			return true;
 		else
 			return getTreeViewer( ).getTree( ).isDisposed( );
+	}
+
+	public void setBackupState( IPageViewerBackup backup )
+	{
+		this.backup = backup;
 	}
 }

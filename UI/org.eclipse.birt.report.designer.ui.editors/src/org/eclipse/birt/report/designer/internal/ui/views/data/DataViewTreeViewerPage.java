@@ -59,9 +59,12 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -178,6 +181,30 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 					}
 
 				} );
+
+		if ( backup != null )
+		{
+			backup.restoreBackup( getTreeViewer( ) );
+			getTreeViewer( ).getTree( ).addTreeListener( new TreeListener( ) {
+
+				public void treeCollapsed( TreeEvent e )
+				{
+					Item item = (Item) e.item;
+					backup.updateCollapsedStatus( getTreeViewer( ),
+							item.getData( ) );
+
+				}
+
+				public void treeExpanded( TreeEvent e )
+				{
+					Item item = (Item) e.item;
+					backup.updateExpandedStatus( getTreeViewer( ),
+							item.getData( ) );
+				}
+
+			} );
+		}
+
 	}
 
 	private String getTooltip( TreeItem item )
@@ -516,5 +543,12 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 			ValidationEvent ev )
 	{
 		getTreeViewer( ).refresh( );
+	}
+
+	private DataPageBackup backup;
+
+	public void setBackupState( DataPageBackup dataBackup )
+	{
+		this.backup = dataBackup;
 	}
 }
