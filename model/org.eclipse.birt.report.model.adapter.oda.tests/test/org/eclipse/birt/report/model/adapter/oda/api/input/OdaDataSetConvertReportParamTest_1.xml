@@ -439,6 +439,7 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <property name="listLimit">100</property>
+            <property name="allowNull">true</property>
         </scalar-parameter>
 		<!-- the control type is combo box -->
         <scalar-parameter name="Param 3">
@@ -451,6 +452,7 @@
             <expression name="labelExpr">test column</expression>
             <property name="listLimit">100</property>
             <property name="defaultValue">"default value param 3"</property>
+            <property name="allowNull">true</property>
         </scalar-parameter>
     </parameters>	
     <page-setup>

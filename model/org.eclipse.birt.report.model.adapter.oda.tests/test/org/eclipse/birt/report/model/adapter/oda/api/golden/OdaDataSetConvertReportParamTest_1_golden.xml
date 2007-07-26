@@ -27,6 +27,7 @@
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
@@ -38,6 +39,7 @@
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
