@@ -142,6 +142,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 
 		currentColIndex = -1;
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
+		
+		currentEdgePosition = -1;
 
 		walker.reload( );
 	}
@@ -302,6 +304,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 									rowSpan,
 									colSpan,
 									currentColIndex - colSpan + 1 );
+
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 							blankStarted = false;
 							hasLast = false;
 						}
@@ -444,6 +449,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 			}
 			else if ( edgeStarted )
 			{

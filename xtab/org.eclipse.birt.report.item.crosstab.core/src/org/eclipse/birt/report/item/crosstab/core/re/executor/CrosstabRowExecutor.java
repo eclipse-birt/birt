@@ -90,6 +90,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
 
+		currentEdgePosition = -1;
+		
 		isFirst = true;
 
 		rowSpan = 1;
@@ -273,6 +275,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 									colSpan,
 									currentColIndex - colSpan + 1 );
 
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							
 							( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 							rowEdgeStarted = false;
@@ -286,6 +290,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
@@ -396,6 +403,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								colSpan,
 								currentColIndex - colSpan + 1 );
 
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 						rowEdgeStarted = false;
@@ -408,6 +417,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
 				case ColumnEvent.COLUMN_EDGE_CHANGE :

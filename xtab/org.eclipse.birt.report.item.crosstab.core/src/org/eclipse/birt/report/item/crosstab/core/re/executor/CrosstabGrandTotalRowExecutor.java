@@ -74,6 +74,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
 
+		currentEdgePosition = -1;
+		
 		rowSpan = 1;
 		colSpan = 0;
 		lastMeasureIndex = -1;
@@ -142,6 +144,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 									rowSpan,
 									colSpan,
 									currentColIndex - colSpan + 1 );
+							
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							
 							hasLast = false;
 						}
 						break;
@@ -152,6 +157,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
@@ -254,6 +262,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );						
 					}
 					break;
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
@@ -263,6 +273,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
 				case ColumnEvent.COLUMN_EDGE_CHANGE :

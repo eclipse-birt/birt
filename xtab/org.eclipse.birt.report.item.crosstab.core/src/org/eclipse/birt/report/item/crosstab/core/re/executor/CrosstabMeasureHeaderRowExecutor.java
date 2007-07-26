@@ -34,6 +34,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	private int currentColIndex;
 	private int lastMeasureIndex;
 
+	private long currentEdgePosition;
+
 	private boolean hasColumnGroups;
 	private boolean blankStarted;
 	private boolean hasLast;
@@ -60,6 +62,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	{
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
+		
+		currentEdgePosition = -1;
 
 		blankStarted = false;
 		hasColumnGroups = columnGroups != null && columnGroups.size( ) > 0;
@@ -98,6 +102,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 									colSpan,
 									currentColIndex - colSpan + 1 );
 
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 							blankStarted = false;
 							hasLast = false;
 						}
@@ -113,6 +119,9 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 						hasLast = false;
 						break;
 				}
@@ -136,6 +145,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					colSpan = 0;
 					hasLast = true;
 				}
+
+				currentEdgePosition = ev.dataPosition;
 
 				currentChangeType = ev.type;
 				colSpan++;
@@ -172,6 +183,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 					}
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
@@ -185,6 +198,9 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 					break;
 			}
 		}

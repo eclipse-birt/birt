@@ -107,7 +107,21 @@ class ContentUtil
 		// process highlight
 		if ( evaluator != null )
 		{
-			setupHighlightStyle( modelHandle, style, evaluator );
+			IStyle highlightStyle = reportContent.createStyle( );
+
+			setupHighlightStyle( modelHandle, highlightStyle, evaluator );
+
+			if ( !highlightStyle.isEmpty( ) )
+			{
+				// get a private style copy and merge highlight styles, this is
+				// to avoid cached style has highlight infos.
+				IStyle newStyle = reportContent.createStyle( );
+
+				newStyle.setProperties( style );
+				newStyle.setProperties( highlightStyle );
+
+				return newStyle;
+			}
 		}
 
 		return style;

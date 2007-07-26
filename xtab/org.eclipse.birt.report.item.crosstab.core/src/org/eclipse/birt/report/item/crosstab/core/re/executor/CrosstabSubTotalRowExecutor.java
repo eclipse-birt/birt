@@ -97,6 +97,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	{
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
+		
+		currentEdgePosition = -1;
 
 		isFirst = true;
 
@@ -265,6 +267,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 									colSpan,
 									currentColIndex - colSpan + 1 );
 
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							
 							rowEdgeStarted = false;
 							hasLast = false;
 						}
@@ -280,6 +284,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 									colSpan,
 									currentColIndex - colSpan + 1 );
 
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							
 							rowSubTotalStarted = false;
 							hasLast = false;
 						}
@@ -291,6 +297,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
@@ -416,6 +425,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 								colSpan,
 								currentColIndex - colSpan + 1 );
 
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						rowEdgeStarted = false;
 					}
 					else if ( rowSubTotalStarted )
@@ -428,6 +439,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );						
 					}
 					break;
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
@@ -437,6 +450,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
 				case ColumnEvent.COLUMN_EDGE_CHANGE :

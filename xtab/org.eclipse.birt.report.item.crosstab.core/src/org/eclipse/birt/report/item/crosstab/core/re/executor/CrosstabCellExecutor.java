@@ -77,25 +77,23 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		content.setColSpan( colSpan );
 		content.setColumn( colIndex );
 
-		if ( position != -1 )
+		// reset data position before style processing
+		try
 		{
-			try
-			{
-				EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
+			EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
 
-				if ( columnEdgeCursor != null )
-				{
-					columnEdgeCursor.setPosition( position );
-				}
-			}
-			catch ( OLAPException e )
+			if ( columnEdgeCursor != null )
 			{
-				logger.log( Level.SEVERE,
-						Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
-						e );
+				columnEdgeCursor.setPosition( position );
 			}
 		}
-		
+		catch ( OLAPException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
+					e );
+		}
+
 		// user crosstab style for blank cells
 		processStyle( cellHandle );
 		processVisibility( cellHandle );
@@ -124,23 +122,20 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		}
 
 		// must reset data position
-		if ( position != -1 )
+		try
 		{
-			try
-			{
-				EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
+			EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
 
-				if ( columnEdgeCursor != null )
-				{
-					columnEdgeCursor.setPosition( position );
-				}
-			}
-			catch ( OLAPException e )
+			if ( columnEdgeCursor != null )
 			{
-				logger.log( Level.SEVERE,
-						Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
-						e );
+				columnEdgeCursor.setPosition( position );
 			}
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
+					e );
 		}
 
 		IReportItemExecutor executor = context.createExecutor( this,

@@ -82,7 +82,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		groupCursors = null;
 		currentLevel = null;
 		elements = null;
-		rowCursor = null;
 	}
 
 	public IContent execute( )
