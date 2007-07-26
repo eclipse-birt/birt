@@ -46,8 +46,8 @@ designer.action.redo.label=やり直し
 
 extension.odadatasource=ODA データソースの拡張ポイント
 
-publish.template=テンプレートをレポートの新規作成ウィザードに登録...
-publish.library=ライブラリをリソースフォルダに保存...
+publish.template=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
+publish.library=ライブラリをリソースフォルダに配置(&D)..
 
 ActionSet.Publish=公開
 

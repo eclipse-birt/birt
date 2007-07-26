@@ -2970,7 +2970,7 @@ Element.Hierarchy.accessControls=アクセスコントロール
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=データ型
 Element.Level.dateTimeLevelType=日付と時間のレベルの種類
-Element.Level.dateTimeFormat=Date Time Format
+Element.Level.dateTimeFormat=日付/時間の書式
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔の基準
 Element.Level.interval=間隔
@@ -3277,7 +3277,7 @@ New.TemplateDataSet=新しいテンプレートのデータセット
 New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
-New.TabularCube=カスタマキューブ
+New.TabularCube=Data Cube
 New.TabularDimension=グループ
 New.TabularHierarchy=新規テーブル形式の階層
 New.TabularLevel=新規テーブル形式のレベル

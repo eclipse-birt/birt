@@ -2970,7 +2970,7 @@ Element.Hierarchy.accessControls=访问控制
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=数据类型
 Element.Level.dateTimeLevelType=日期时间级别类型
-Element.Level.dateTimeFormat=Date Time Format
+Element.Level.dateTimeFormat=日期时间格式
 Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔
@@ -3277,7 +3277,7 @@ New.TemplateDataSet=新模板数据集
 New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
-New.TabularCube=客户多维数据集
+New.TabularCube=Data Cube
 New.TabularDimension=组
 New.TabularHierarchy=新建表格式层次结构
 New.TabularLevel=新建表格式级别

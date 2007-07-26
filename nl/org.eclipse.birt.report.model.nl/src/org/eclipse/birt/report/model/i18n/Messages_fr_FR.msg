@@ -2970,7 +2970,7 @@ Element.Hierarchy.accessControls=Contrôles d'accès
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Type de données
 Element.Level.dateTimeLevelType=Type de niveau date heure
-Element.Level.dateTimeFormat=Date Time Format
+Element.Level.dateTimeFormat=Format Date/Heure
 Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle
@@ -3277,7 +3277,7 @@ New.TemplateDataSet=Nouveau jeu de données de modèle
 New.TemplateReportItem=Nouvel élément d'état de modèle
 New.Theme=Nouveau thème
 New.AutoText=Nouveau texte auto
-New.TabularCube=Cube client
+New.TabularCube=Data Cube
 New.TabularDimension=Groupe
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel

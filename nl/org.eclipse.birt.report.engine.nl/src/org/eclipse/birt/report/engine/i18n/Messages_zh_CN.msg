@@ -9,9 +9,9 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=不支持输出格式 {0}。
 Error.InvalidParameter=某些所需的参数值未设置或设为不兼容的数据类型。
-Error.InvalidParameterType=Parameter type "{0}" is expected, but not "{1}".
-Error.ParameterValueNull=Required parameter {0} is not set.
-Error.ParamScriptValidationError=Parameter "{0}" script source validation error, the source is {1}.
+Error.InvalidParameterType=需要参数类型“{0}”，而不是“{1}”。
+Error.ParameterValueNull=未设置必需参数 {0}。
+Error.ParamScriptValidationError=参数“{0}”脚本源验证错误，源为 {1}。
 Error.InvalidDesignFile=设计文件 {0} 有错误且不能运行。
 Error.DesignFileNotFound=无法找到设计文件 {0}。
 Error.CannotCreateExtensionInstance=报表引擎无法初始化 {0} 发射器，请确保安装发射器必需的库。
