@@ -209,7 +209,7 @@ public class ParameterDialog extends BaseDialog
 	private static final String ERROR_MSG_DUPLICATED_VALUE = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedValue" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_DUPLICATED_LABEL = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedLabel" ); //$NON-NLS-1$
-	
+
 	private static final String ERROR_MSG_DUPLICATED_LABELKEY = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedLabelKey" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_MISMATCH_DATA_TYPE = Messages.getString( "ParameterDialog.ErrorMessage.MismatchDataType" ); //$NON-NLS-1$
@@ -231,7 +231,7 @@ public class ParameterDialog extends BaseDialog
 	private static final String COLUMN_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Column.DisplayText" ); //$NON-NLS-1$
 
 	private static final String COLUMN_DISPLAY_TEXT_KEY = Messages.getString( "ParameterDialog.Column.DisplayTextKey" ); //$NON-NLS-1$
-	
+
 	private static final String COLUMN_IS_DEFAULT = Messages.getString( "ParameterDialog.Column.Default" ); //$NON-NLS-1$
 
 	private static final String BOOLEAN_TRUE = Messages.getString( "ParameterDialog.Boolean.True" ); //$NON-NLS-1$
@@ -413,9 +413,13 @@ public class ParameterDialog extends BaseDialog
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
-				public String validate( String displayLableKey, String displayLabel, String value )
+				public String validate( String displayLableKey,
+						String displayLabel, String value )
 				{
-					return validateChoice( choice, displayLableKey, displayLabel, value );
+					return validateChoice( choice,
+							displayLableKey,
+							displayLabel,
+							value );
 				}
 
 			} );
@@ -438,9 +442,13 @@ public class ParameterDialog extends BaseDialog
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
-				public String validate( String displayLabelKey, String displayLabel, String value )
+				public String validate( String displayLabelKey,
+						String displayLabel, String value )
 				{
-					return validateChoice( null, displayLabelKey, displayLabel, value );
+					return validateChoice( null,
+							displayLabelKey,
+							displayLabel,
+							value );
 				}
 			} );
 			if ( dialog.open( ) == Dialog.OK )
@@ -727,18 +735,29 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setSelection( true );
 		}
 		defaultValue = inputParameter.getDefaultValue( );
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+
+		try
 		{
-			try
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
 				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
 			}
-			catch ( BirtException e )
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
-				ExceptionHandler.handle( e );
-				return false;
+				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+			{
+				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
 			}
 		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			ExceptionHandler.handle( e );
+			e.printStackTrace( );
+		}
+
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -1009,14 +1028,14 @@ public class ParameterDialog extends BaseDialog
 				IResultIterator iter = results.getResultIterator( );
 				if ( iter != null )
 				{
-					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-							ULocale.US );
+
 					while ( iter.next( ) )
 					{
 						String result = null;
 						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 						{
-
+							DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+									ULocale.US );
 							result = formatter.format( iter.getDate( columnBindingName ) );
 						}
 						else
@@ -1464,10 +1483,14 @@ public class ParameterDialog extends BaseDialog
 		String[] columns;
 		int[] columnWidth;
 		columns = new String[]{
-				null, COLUMN_IS_DEFAULT, COLUMN_VALUE, COLUMN_DISPLAY_TEXT, COLUMN_DISPLAY_TEXT_KEY
+				null,
+				COLUMN_IS_DEFAULT,
+				COLUMN_VALUE,
+				COLUMN_DISPLAY_TEXT,
+				COLUMN_DISPLAY_TEXT_KEY
 		};
 		columnWidth = new int[]{
-				10, 70, 105, 105,105
+				10, 70, 105, 105, 105
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
@@ -1711,7 +1734,7 @@ public class ParameterDialog extends BaseDialog
 		// createLabel( sortKeyArea, LABEL_SORT_KEY );
 		sortKeyLabel = new Label( sortKeyArea, SWT.NONE );
 		sortKeyLabel.setText( LABEL_SORT_KEY );
-		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER );
+		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sortKeyChooser.add( CHOICE_NONE );
 		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
@@ -1745,7 +1768,8 @@ public class ParameterDialog extends BaseDialog
 		// createLabel( sortDirectionArea, LABEL_SORT_DIRECTION );
 		sortDirectionLabel = new Label( sortDirectionArea, SWT.NONE );
 		sortDirectionLabel.setText( LABEL_SORT_DIRECTION );
-		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER );
+		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER
+				| SWT.READ_ONLY );
 		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sortDirectionChooser.add( CHOICE_ASCENDING );
 		sortDirectionChooser.add( CHOICE_DESCENDING );
@@ -1868,26 +1892,23 @@ public class ParameterDialog extends BaseDialog
 
 		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) && ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 		{
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
-					|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
-					|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				try
-				{
-					tempdefaultValue = DEUtil.convertToXMLString( DataTypeUtil.toDate( defaultValue,
-							ULocale.getDefault( ) ) );
-				}
-				catch ( BirtException e )
-				{
-					ExceptionHandler.handle( e );
-					return null;
-				}
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+			{
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+			{
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
 			}
 
 			return ParameterValidationUtil.validate( getSelectedDataType( ),
 					formatCategroy,
 					tempdefaultValue,
-					ULocale.getDefault( ) );
+					ULocale.US );
 
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
@@ -1944,8 +1965,15 @@ public class ParameterDialog extends BaseDialog
 			// Save default value
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = DEUtil.convertToXMLString( DataTypeUtil.toDate( defaultValue,
-						ULocale.getDefault( ) ) );
+				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+			{
+				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+			{
+				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
 			}
 			inputParameter.setDefaultValue( defaultValue );
 
@@ -2335,7 +2363,9 @@ public class ParameterDialog extends BaseDialog
 		{
 			return ERROR_MSG_DUPLICATED_NAME;
 		}
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
+				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
+				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 		{
 			if ( defaultValueChooser != null
 					&& ( !defaultValueChooser.isDisposed( ) )
@@ -2391,12 +2421,17 @@ public class ParameterDialog extends BaseDialog
 				pattern = formatCategroy;
 			}
 			String type = getSelectedDataType( );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type )
-					|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( type )
-					|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 			{
-				Date date = DataTypeUtil.toDate( string, ULocale.US );
-				string = new DateFormatter( pattern ).format( date );
+				string = convertToStandardFormat( DataTypeUtil.toDate( string ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+			{
+				string = convertToStandardFormat( DataTypeUtil.toSqlDate( string ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+			{
+				string = convertToStandardFormat( DataTypeUtil.toSqlTime( string ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 			{
@@ -2514,11 +2549,17 @@ public class ParameterDialog extends BaseDialog
 		{
 			return DataTypeUtil.toBigDecimal( value );
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
-				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
-				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 		{
-			return DataTypeUtil.toDate( value, ULocale.getDefault( ) );
+			return DataTypeUtil.toDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toSqlDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+		{
+			return DataTypeUtil.toSqlTime( value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
 		{
@@ -2876,8 +2917,8 @@ public class ParameterDialog extends BaseDialog
 		return displayName;
 	}
 
-	private String validateChoice( SelectionChoice choice, String displayLabelKey, String displayLabel,
-			String value )
+	private String validateChoice( SelectionChoice choice,
+			String displayLabelKey, String displayLabel, String value )
 	{
 		String errorMessage = isValidValue( value );
 		if ( errorMessage != null )
