@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -80,6 +80,13 @@ public class MetadataEmitter
 		this.idGenerator = idGenerator;
 	}
 
+	/**
+	 * Starts a table. To ensure column filter is output in the first detail
+	 * row, a state is used to record if first detail row is reached and if
+	 * column filter icon is ouput.
+	 * 
+	 * @param table
+	 */
 	public void startTable( ITableContent table )
 	{
 		Object generateBy = table.getGenerateBy( );
@@ -96,13 +103,34 @@ public class MetadataEmitter
 		detailRowStateStack.push( state );
 	}
 
+	/**
+	 * Ends a table. Pop the detail row state for this table.
+	 * 
+	 * @param table
+	 */
 	public void endTable( ITableContent table )
 	{
 		detailRowStateStack.pop( );
 	}
 
+	/**
+	 * Starts a row. If the row is the first row of the table, the
+	 * <code>isStartOfDetail</code> is set so that column filter icon will be
+	 * input into the cells in this row.
+	 * 
+	 * @param row
+	 */
 	public void startRow( IRowContent row )
 	{
+		//FIXME: code view: hasOutput has same meaning as isStartOfDetail?
+//		if (!state.hasOutput)
+//		{
+//			if (isRowInDtealBand(row))
+//			{
+//				hasOutput = true;
+//				isStartOfDeatil = true;
+//			}
+//		}
 		if ( isRowInDetailBand( row ) )
 		{
 			DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
@@ -123,6 +151,12 @@ public class MetadataEmitter
 		}
 	}
 
+	/**
+	 * Starts a cell. Output a wrap table if group icon or column filter need to
+	 * be output in this cell. Output group icon before the items in this cell.
+	 * 
+	 * @param cell
+	 */
 	public void startCell( ICellContent cell )
 	{
 		boolean needColumnFilter = needColumnFilter(cell);
@@ -133,6 +167,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
 			writer.attribute( HTMLTags.ATTR_WIDTH, "100%" );
 			writer.openTag( HTMLTags.TAG_TR );
+			//FIXME: code review: move the td outputting to "if ( needGroupIcon )". remove useless style.
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 		}
@@ -141,6 +176,7 @@ public class MetadataEmitter
 			// include select handle table
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top"
 					+ ";text-align:right" );
+			//FIXME: code review: in performance mode the computedStyel can't be used.
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_WIDTH, "16px" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
@@ -155,7 +191,13 @@ public class MetadataEmitter
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 		}
 	}
-	
+
+	/**
+	 * Ends a cell. Complete the wrap table for group icon and column filter
+	 * icon and output the column filter icon.
+	 * 
+	 * @param cell
+	 */
 	public void endCell( ICellContent cell )
 	{
 		boolean needColumnFilter = needColumnFilter(cell);
@@ -167,6 +209,7 @@ public class MetadataEmitter
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
+			//FIXME: code review: output the width?
 			writer.attribute( HTMLTags.ATTR_SRC, "iv/images/columnicon.gif" );
 			writer.attribute( HTMLTags.ATTR_ALT, getColumnFilterText( cell ) );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
@@ -185,6 +228,13 @@ public class MetadataEmitter
 		}
 	}
 
+	/**
+	 * Output instance id and bookmark for text items.
+	 * 
+	 * @param text
+	 * @param tag
+	 * @return
+	 */
 	public boolean startText( ITextContent text, String tag )
 	{
 		if ( needMetadata( text ) )
@@ -204,6 +254,13 @@ public class MetadataEmitter
 		}
 	}
 
+	/**
+	 * Outputs instance id and bookmark for foreign contents.
+	 * 
+	 * @param foreign
+	 * @param tag
+	 * @return
+	 */
 	public boolean startForeign ( IForeignContent foreign, String tag )
 	{
 		if ( needMetadata( foreign ) )
@@ -223,6 +280,12 @@ public class MetadataEmitter
 		}
 	}
 
+	/**
+	 * Outputs instance id and bookmark for charts.
+	 * 
+	 * @param image
+	 * @return
+	 */
 	public boolean startImage( IImageContent image )
 	{
 		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
@@ -251,6 +314,14 @@ public class MetadataEmitter
 		}
 	}
 
+	/**
+	 * Outputs instance id.
+	 * 
+	 * @param bookmark
+	 * @param type
+	 * @param iid
+	 * @param elementId
+	 */
 	private void setActiveIDTypeIID( String bookmark, String type,
 			InstanceID iid, int elementId )
 	{
@@ -274,6 +345,13 @@ public class MetadataEmitter
 		writer.closeTag( HTMLEmitterUtil.getTagByType( display, blockType ) );
 	}
 
+	/**
+	 * Output instance id and bookmark for a content.
+	 * 
+	 * @param content
+	 * @param tag
+	 * @param styleName
+	 */
 	private void startContent( IContent content, String tag, String styleName )
 	{
 		tagStack.push( tag );
@@ -336,6 +414,12 @@ public class MetadataEmitter
 		return false;
 	}
 
+	/**
+	 * Checks if a row is in detail band.
+	 * 
+	 * @param row
+	 * @return
+	 */
 	private boolean isRowInDetailBand( IRowContent row )
 	{
 		IElement parent = row.getParent( );
@@ -361,6 +445,7 @@ public class MetadataEmitter
 	 */
 	private boolean isAggregatable( ITextContent text )
 	{
+		//FIXME: code review: getGenerateBy may return a null value.
 		Object generateBy = text.getGenerateBy( );
 		Boolean isAggregate = (Boolean)aggregatables.get(generateBy);  
 		if ( isAggregate != null)
@@ -413,6 +498,7 @@ public class MetadataEmitter
 						aggregatables.put(generateBy, Boolean.TRUE);
 						return true;
 					}
+					//FIXME: code review: needs return a false value?
 				}
 			}
 			parent = parent.getParent( );
@@ -421,6 +507,7 @@ public class MetadataEmitter
 		return false;
 	}
 	
+	//FIXME: code review: rename to getPredefineStyle or other names????
 	private String getStyleClass( IContent content )
 	{
 		Object generateBy = content.getGenerateBy( );
@@ -441,8 +528,22 @@ public class MetadataEmitter
 		return styleName;
 	}
 
+	/**
+	 * Checks if column filter icons need to be output. Column filter icons need
+	 * to be output when:
+	 * <ol>
+	 * <li><code>displayGroupIcon</code> is set to true. And
+	 * <li>The cell is in the first row of detail. And
+	 * <li>The cell has child(any items). And
+	 * <li>The column containing the cell has column filters.
+	 * </ol>
+	 * 
+	 * @param cell
+	 * @return
+	 */
 	private boolean needColumnFilter( ICellContent cell )
 	{
+		//FIXME: code review: do the action only when displayFilterIcon is true.
 		IColumn columnInstance = cell.getColumnInstance( );
 		if ( columnInstance == null )
 		{
@@ -456,8 +557,15 @@ public class MetadataEmitter
 				&& getFilterConditions( cell ).size() > 0;
 	}
 
+	/**
+	 * Checks if group icon needs to be displayed in this cell.
+	 * 
+	 * @param cell
+	 * @return
+	 */
 	private boolean needGroupIcon( ICellContent cell )
 	{
+		//FIXME: code view: put displayGroupIcon ahead.
 		return cell.getDisplayGroupIcon( ) && displayGroupIcon;
 	}
 	
@@ -597,6 +705,7 @@ public class MetadataEmitter
 					tableFilters = new List[columnCount];
 					filterConditions.put(tableHandle, tableFilters);
 				}
+				//FIXME: code view: column id should be gotten from design. 
 				int columnId = cell.getColumn();
 				if (columnId < columnCount)
 				{
@@ -619,6 +728,8 @@ class DetailRowState
 	public boolean isStartOfDetail;
 	public boolean hasOutput;
 	public boolean isTable;
+	// FIXME: code view: remove isStartOfDetail and hasOutput parameters since
+	// they are both false from start.
 	public DetailRowState( boolean isStartOfDetail, boolean hasOutput,
 			boolean isTable )
 	{

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 
 public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 {
-	private static String designFile = "org/eclipse/birt/report/engine/emitter/html/TableBorderAlign.xml";
+	private static String designFile = "org/eclipse/birt/report/engine/emitter/html/TableTextDecoration.xml";
 	public String getWorkSpace( )
 	{
 		// TODO Auto-generated method stub
@@ -39,6 +39,7 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 	{
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setEnableAgentStyleEngine( true );
+		options.setEmbeddable( true );
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream( );
 		List instanceIDs = new ArrayList( );
@@ -52,17 +53,20 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 		String content = new String( output.toByteArray( ) );
 		output.close( );
 		
-		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "valign=\"top\"";
+		String regex = "text-decoration: underline;";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
+		assertEquals( true, matcher.find( ) );
+		
+		regex = "<div style=\" text-decoration: underline;\">";
+		matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( false, matcher.find( ) );
-
 	}
 	
 	public void testVisionOptimize( ) throws EngineException, IOException
 	{
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setEnableAgentStyleEngine( false );
+		options.setEmbeddable( true );
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream( );
 		List instanceIDs = new ArrayList( );
@@ -76,8 +80,7 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 		String content = new String( output.toByteArray( ) );
 		output.close( );
 		
-		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "valign=\"top\"";
+		String regex = "<div style=\" text-decoration: underline;\">";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
 

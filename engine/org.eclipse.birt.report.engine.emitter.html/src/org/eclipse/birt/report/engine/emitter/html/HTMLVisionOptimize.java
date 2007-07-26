@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import java.util.HashMap;
-import java.util.Stack;
-
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -39,7 +36,6 @@ import org.w3c.dom.css.CSSValue;
 
 public class HTMLVisionOptimize extends HTMLEmitter
 {
-
 	private static HashMap borderStyleMap = null;
 	static
 	{
@@ -55,36 +51,110 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		borderStyleMap.put( CSSConstants.CSS_DOUBLE_VALUE, new Integer( 8 ) );
 	}
 
-	/**
-	 * The <code>cellDisplayStack</code> that stores the display value of cell.
-	 */
-	private Stack cellDisplayStack = new Stack( );
-
-	public HTMLVisionOptimize( HTMLReportEmitter parentEmitter,
-			HTMLWriter writer, boolean isEmbeddable )
+	public HTMLVisionOptimize( HTMLReportEmitter reportEmitter,
+			HTMLWriter writer, boolean isEmbeddable, String layoutPreference )
 	{
-		super( parentEmitter, writer, isEmbeddable );
+		super( reportEmitter, writer, isEmbeddable, layoutPreference );
 	}
+	
+	/**
+	 * Build the report default style
+	 */
+	public void buildDefaultStyle( StringBuffer styleBuffer, IStyle style )
+	{
+		if ( style == null || style.isEmpty( ) )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
 
+		// Build the textAlign
+		String value = style.getTextAlign( );
+		if ( null != value )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( value );
+			styleBuffer.append( ";" );
+		}
+	}
+	
+	/**
+	 * Build attribute class
+	 */
+	public void buildStyle( StringBuffer styleBuffer, IStyle style )
+	{
+		if ( style == null || style.isEmpty( ) )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+	}
+	
+	/**
+	 * Build the style of the page head and page footer
+	 */
+	public void buildPageBandStyle( StringBuffer styleBuffer,
+			IStyle style )
+	{
+		if ( style == null || style.isEmpty( ) )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+		
+		// Build the vertical-align
+		String value = style.getVerticalAlign( );
+		if ( null != value )
+		{
+			styleBuffer.append( " vertical-align:" );
+			styleBuffer.append( value );
+			styleBuffer.append( ";" );
+		}
+		// Build the textAlign
+		value = style.getTextAlign( );
+		if ( null != value )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( value );
+			styleBuffer.append( ";" );
+		}
+	}
+	
 	/**
 	 * Build the style of table content
 	 */
-	public void buildTableStyle( ITableContent table, StringBuffer styleBuffer,
-			String layoutPreference )
+	public void buildTableStyle( ITableContent table, StringBuffer styleBuffer )
 	{
-		IStyle style = table.getStyle( );
-
 		addDefaultTableStyles( styleBuffer );
 
-		// display
-		DimensionType x = table.getX( );
-		DimensionType y = table.getY( );
-		int display = getElementType( x, y, null, null, style );
-		setDisplayProperty( display,
-				HTMLEmitterUtil.DISPLAY_INLINE,
-				styleBuffer );
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = table.getStyle( );
+		
+		// output the display
+		CSSValue display = null;
+		display = style.getProperty( IStyle.STYLE_DISPLAY );
+		if ( IStyle.NONE_VALUE == display )
+		{
+			styleBuffer.append( " display: none;" );
+		}
+		else if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
+		{
+			styleBuffer.append( " display:-moz-inline-box !important; display:inline;" );
+		}
 
-		// table doesn¡¯t support shrink
+		// Table doesn¡¯t support shrink. The shrink of table is only used to
+		// judge outputting table-layout or not.
 		// height
 		DimensionType height = table.getHeight( );
 		if ( null != height )
@@ -101,19 +171,33 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		{
 			styleBuffer.append( " width: 100%;" );
 		}
-		
-		//implement table-layout
+
+		// implement table-layout
 		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 		{
 			// shrink table will not output table-layout;
-			if ( ( null == style )
-					|| !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
+			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
 			{
 				// build the table-layout
 				styleBuffer.append( " table-layout:fixed;" );
 			}
 		}
-		buildStyle( table, styleBuffer );
+		
+		// Table's text-align property will be handled at the row content
+		// with the ComputedStyle.
+		// Table doesn¡¯t support vertical-align.
+
+		style = getElementStyle( table );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
 	}
 
 	/**
@@ -123,6 +207,16 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, column.getWidth( ) );
 	}
+	
+	/**
+	 * Handles the alignment property of the column content.
+	 */
+	public void handleColumnAlign( IColumn column )
+	{
+		// Column's vertical-align property will be handled at the cell content
+		// with the CellMergedStyle.
+		// Column doesn¡¯t support text-align in BIRT.
+	}
 
 	/**
 	 * Build the style of row content.
@@ -130,86 +224,149 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	public void buildRowStyle( IRowContent row, StringBuffer styleBuffer )
 	{
 		buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row.getHeight( ) ); //$NON-NLS-1$
-		buildStyle( row, styleBuffer );
+		
+		IStyle style = getElementStyle( row );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+	}
+	
+	/**
+	 * Handles the alignment property of the row content.
+	 */
+	public void handleRowAlign( IRowContent row )
+	{
+		IStyle rowComputedStyle = row.getComputedStyle( );
+
+		// Build the Vertical-Align property of the row content
+		CSSValue vAlign = rowComputedStyle.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		if ( null == vAlign || IStyle.BASELINE_VALUE == vAlign )
+		{
+			// The default vertical-align value of cell is top. And the cell can
+			// inherit the valign from parent row.
+			vAlign = IStyle.TOP_VALUE;
+		}
+		writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
+		
+		CSSValue hAlign = rowComputedStyle.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
+		{
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
+		}
 	}
 
 	/**
 	 * Build the style of cell content.
 	 */
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
-			boolean isInTableHead )
+			boolean isHead )
 	{
-		//build column related style
-		IStyle style = new CellMergedStyle( cell );
-		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
-
-		// set font weight to be normal if the cell use "th" tag while it is in
-		// table header.
-		if ( isInTableHead )
-		{
-			handleCellFont( cell, styleBuffer );
-		}
 		// implement the cell's clip.
-		styleBuffer.append( "overflow:hidden;" );
-		buildCellBaseStyle( cell, styleBuffer );
+		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
+		{
+			styleBuffer.append( "overflow:hidden;" );
+		}
+
+		IStyle style = getElementStyle( cell );
+		IStyle cellMergedStyle = new CellMergedStyle( cell );
+
+		// build the font properties
+		if ( null != style )
+		{
+			AttributeBuilder.buildFont( styleBuffer, style );
+		}
+		AttributeBuilder.buildFont( styleBuffer, cellMergedStyle );
+		// set font weight to be normal if the cell use "th" tag while it is in
+		// table header
+		if ( isHead )
+		{
+			String fontWeight = null;
+			if ( null != style )
+			{
+				fontWeight = style.getFontWeight( );
+			}
+			String mergedFontWeight = cellMergedStyle.getFontWeight( );
+			if ( null == fontWeight && null == mergedFontWeight )
+			{
+				// The method getComputedStyle( ) will nevel return a null
+				// value;
+				IStyle cellComputedStyle = cell.getComputedStyle( );
+				if ( null != cellComputedStyle )
+				{
+					fontWeight = cellComputedStyle.getFontWeight( );
+				}
+				if ( fontWeight == null )
+				{
+					fontWeight = "normal";
+				}
+				styleBuffer.append( "font-weight: " );
+				styleBuffer.append( fontWeight );
+				styleBuffer.append( ";" );
+			}
+		}
+
+		// build the box properties except border
+		if ( null != style )
+		{
+			AttributeBuilder.buildMargins( styleBuffer, style );
+			AttributeBuilder.buildPaddings( styleBuffer, style );
+		}
+		AttributeBuilder.buildMargins( styleBuffer, cellMergedStyle );
+		AttributeBuilder.buildPaddings( styleBuffer, cellMergedStyle );
+		// build the cell's border
+		buildCellBorder( cell, styleBuffer );
+
+		if ( null != style )
+		{
+			AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+			AttributeBuilder.buildText( styleBuffer, style );
+			AttributeBuilder.buildVisual( styleBuffer, style );
+		}
+		AttributeBuilder.buildBackground( styleBuffer,
+				cellMergedStyle,
+				reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, cellMergedStyle );
+		AttributeBuilder.buildVisual( styleBuffer, cellMergedStyle );
 	}
 
 	/**
-	 * Handles the Vertical-Align property of the element content.
+	 * Handles the alignment property of the element content.
 	 */
 	public void handleCellAlign( ICellContent cell )
 	{
-		/*
-		 * in fireforx, the text-align is used by text item, it defines the
-		 * alignment of the content in the text item instead of the text item in
-		 * its container. we can put a text item with a width into the cell to
-		 * see the difference. We must use computeStyle as the text-align is not
-		 * inherited across the table.
-		 */
-		IStyle cellStyle = cell.getComputedStyle( );
-		CSSValue vAlign = cellStyle.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
-		if ( null == vAlign || IStyle.BASELINE_VALUE == vAlign )
+		
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = cell.getStyle( );
+		
+		// Build the Vertical-Align property.
+		CSSValue vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		if( null == vAlign )
 		{
-			// The default vertical-align value of cell is top.
+			IStyle cellMergedStyle = new CellMergedStyle( cell );
+			vAlign = cellMergedStyle.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		}
+		if ( IStyle.BASELINE_VALUE == vAlign )
+		{
 			vAlign = IStyle.TOP_VALUE;
 		}
-		writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
-		handleHorizontalAlign( cellStyle );
-	}
-
-	/**
-	 * Open the container tag.
-	 */
-	public void openContainerTag( IContainerContent container )
-	{
-		DimensionType x = container.getX( );
-		DimensionType y = container.getY( );
-		DimensionType width = container.getWidth( );
-		DimensionType height = container.getHeight( );
-		int display = getElementType( x, y, width, height, container.getStyle( ) );
-		// The display value is pushed in Stack. It will be popped when close the container tag.
-		cellDisplayStack.push( new Integer( display ) );
-		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
-				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		if ( null != vAlign )
 		{
-			// Open the inlineBox tag when implement the inline box.
-			openInlineBoxTag( );
+			// The default vertical-align value has already been outputted on
+			// the parent row.
+			writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
 		}
-		writer.openTag( HTMLTags.TAG_DIV );
-	}
-
-	/**
-	 * Close the container tag.
-	 */
-	public void closeContainerTag( )
-	{
-		writer.closeTag( HTMLTags.TAG_DIV );
-		int display = ( (Integer) cellDisplayStack.pop( ) ).intValue( );
-		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
-				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
+		
+		// Build the Text-Align property.
+		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
 		{
-			// Close the inlineBox tag when implement the inline box.
-			closeInlineBoxTag( );
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
 		}
 	}
 
@@ -219,7 +376,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	public void buildContainerStyle( IContainerContent container,
 			StringBuffer styleBuffer )
 	{
-		int display = ( (Integer) cellDisplayStack.peek( ) ).intValue( );
+		int display = ( (Integer) containerDisplayStack.peek( ) ).intValue( );
 		// shrink
 		handleShrink( display,
 				container.getStyle( ),
@@ -229,7 +386,34 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		setDisplayProperty( display,
 				HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 				styleBuffer );
-		buildStyle( container, styleBuffer );
+		
+		IStyle style = getElementStyle( container );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+	}
+	
+	/**
+	 * Handles the alignment property of the container content.
+	 */
+	public void handleContainerAlign( IContainerContent container )
+	{
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = container.getStyle( );
+		// Container doesn¡¯t support vertical-align.
+		// Build the Text-Align property.
+		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
+		{
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
+		}
 	}
 
 	/**
@@ -257,18 +441,33 @@ public class HTMLVisionOptimize extends HTMLEmitter
 					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 		}
-
+		
+		IStyle textComputedStyle = text.getComputedStyle( );
+		if( null != textComputedStyle )
+		{
+			AttributeBuilder.buildTextDecoration( styleBuffer, textComputedStyle );
+		}
+		
+		style = getElementStyle( text );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+		
 		// build the text-align
-		String textAlign = text.getComputedStyle( ).getTextAlign( );
+		String textAlign = style.getTextAlign( );
 		if ( textAlign != null )
 		{
 			styleBuffer.append( " text-align:" );
 			styleBuffer.append( textAlign );
 			styleBuffer.append( ";" );
 		}
-		buildSimpleStyle( text, styleBuffer );
-		AttributeBuilder.checkHyperlinkTextDecoration( text.getComputedStyle( ),
-				styleBuffer );
 	}
 
 	/**
@@ -296,18 +495,33 @@ public class HTMLVisionOptimize extends HTMLEmitter
 					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 		}
-
+		
+		IStyle textComputedStyle = foreign.getComputedStyle( );
+		if( null != textComputedStyle )
+		{
+			AttributeBuilder.buildTextDecoration( styleBuffer, textComputedStyle );
+		}
+		
+		style = getElementStyle( foreign );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+		
 		// build the text-align
-		String textAlign = foreign.getComputedStyle( ).getTextAlign( );
+		String textAlign = style.getTextAlign( );
 		if ( textAlign != null )
 		{
 			styleBuffer.append( " text-align:" );
 			styleBuffer.append( textAlign );
 			styleBuffer.append( ";" );
 		}
-		buildSimpleStyle( foreign, styleBuffer );
-		AttributeBuilder.checkHyperlinkTextDecoration( foreign.getComputedStyle( ),
-				styleBuffer );
 	}
 
 	/**
@@ -319,193 +533,44 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		// image size
 		buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth( ) ); //$NON-NLS-1$
 		buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, image.getHeight( ) ); //$NON-NLS-1$
+		
 		// build the none value of display
 		setDisplayProperty( display, 0, styleBuffer );
-		buildStyle( image, styleBuffer );
+		
+		IStyle imageComputedStyle = image.getComputedStyle( );
+		if( null != imageComputedStyle )
+		{
+			AttributeBuilder.buildTextDecoration( styleBuffer, imageComputedStyle );
+		}
+		
+		IStyle style = getElementStyle( image );
+		if ( style == null )
+		{
+			return;
+		}
+		
+		AttributeBuilder.buildFont( styleBuffer, style );
+		AttributeBuilder.buildBox( styleBuffer, style );
+		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		AttributeBuilder.buildText( styleBuffer, style );
+		AttributeBuilder.buildVisual( styleBuffer, style );
+		
+		// Image doesn¡¯t support vertical-align and text-align.
+		// Text-align has been build in the style class. But the text-align
+		// doesn¡¯t work with the image.
 	}
 
 	/**
-	 * Handle the text-align.
-	 * Using the align property to implement the text-align.
-	 */
-	public void handleHorizontalAlign( IStyle style )
-	{
-		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
-		if ( null != hAlign )
-		{
-			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
-		}
-	}
-
-	/**
-	 * Handle the vertical-align.
-	 * Using the valign property to implement the text-align.
-	 */
-	public void handleVerticalAlign( IStyle style )
-	{
-		CSSValue vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
-		if ( null != vAlign )
-		{
-			writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
-		}
-	}
-
-	/**
-	 * Open the vertical-align box tag if the element needs implementing the
-	 * vertical-align.
-	 */
-	public void handleVerticalAlignBegine( IContent element )
-	{
-		IStyle style = element.getStyle( );
-		CSSValue vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
-		CSSValue canShrink = style.getProperty( IStyle.STYLE_CAN_SHRINK );
-		DimensionType height = element.getHeight( );
-		if ( vAlign != null
-				&& vAlign != IStyle.BASELINE_VALUE && height != null
-				&& canShrink != IStyle.TRUE_VALUE )
-		{
-			// implement vertical align.
-			writer.openTag( HTMLTags.TAG_TABLE );
-			StringBuffer nestingTableStyleBuffer = new StringBuffer( );
-			nestingTableStyleBuffer.append( " width:100%; height:" );
-			nestingTableStyleBuffer.append( height.toString( ) );
-			writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
-			writer.openTag( HTMLTags.TAG_TR );
-			writer.openTag( HTMLTags.TAG_TD );
-
-			StringBuffer textStyleBuffer = new StringBuffer( );
-			textStyleBuffer.append( " vertical-align:" );
-			textStyleBuffer.append( vAlign.getCssText( ) );
-			textStyleBuffer.append( ";" );
-			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
-		}
-	}
-
-	/**
-	 * Close the vertical-align box tag if the element needs implementing the
-	 * vertical-align.
-	 */
-	public void handleVerticalAlignEnd( IContent element )
-	{
-		IStyle style = element.getStyle( );
-		CSSValue vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
-		CSSValue canShrink = style.getProperty( IStyle.STYLE_CAN_SHRINK );
-		DimensionType height = element.getHeight( );
-		if ( vAlign != null
-				&& vAlign != IStyle.BASELINE_VALUE && height != null
-				&& canShrink != IStyle.TRUE_VALUE )
-		{
-			writer.closeTag( HTMLTags.TAG_TD );
-			writer.closeTag( HTMLTags.TAG_TR );
-			writer.closeTag( HTMLTags.TAG_TABLE );
-		}
-	}
-
-	/**
-	 * Set the display property to style.
-	 * 
-	 * @param display
-	 *            The display type.
-	 * @param mask
-	 *            The mask.
-	 * @param styleBuffer
-	 *            The <code>StringBuffer</code> object that returns 'style'
-	 *            content.
-	 */
-	protected void setDisplayProperty( int display, int mask,
-			StringBuffer styleBuffer )
-	{
-		int flag = display & mask;
-		if ( ( display & HTMLEmitterUtil.DISPLAY_NONE ) > 0 )
-		{
-			styleBuffer.append( "display: none;" ); //$NON-NLS-1$
-		}
-		else if ( flag > 0 )
-		{
-			if ( ( flag & HTMLEmitterUtil.DISPLAY_BLOCK ) > 0 )
-			{
-				styleBuffer.append( "display: block;" ); //$NON-NLS-1$
-			}
-			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 )
-			{
-				styleBuffer.append( "display: inline-block;" ); //$NON-NLS-1$
-			}
-			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
-			{
-				styleBuffer.append( "display: inline;" ); //$NON-NLS-1$
-			}
-		}
-	}
-
-	/**
-	 * Build size style string say, "width: 10.0mm;".
-	 * The min-height should be implemented by sepcial way.
-	 */
-	public void buildSize( StringBuffer content, String name,
-			DimensionType value )
-	{
-		if ( value != null )
-		{
-			if ( HTMLTags.ATTR_MIN_HEIGHT.equals( name ) )
-			{
-				//To solve the problem that IE do not support min-height.
-				//Use this way to make Firefox and IE both work well.
-				content.append( " height: auto !important; height: " );
-				content.append( value.toString( ) );
-				content.append( "; min-height: " );
-				content.append( value.toString( ) );
-				content.append( ';' );
-			}
-			else
-			{
-				super.buildSize( content, name, value );
-			}
-		}
-	}
-	
-	public void buildStyle( IContent element, StringBuffer styleBuffer )
-	{
-		buildSimpleStyle( element, styleBuffer );
-		AttributeBuilder.checkHyperlinkTextDecoration( element.getComputedStyle(), styleBuffer );
-	}
-	
-	private void buildSimpleStyle( IContent element, StringBuffer styleBuffer )
-	{
-		IStyle style;
-		if ( isEmbeddable )
-		{
-			style = element.getStyle( );
-		}
-		else
-		{
-			style = element.getInlineStyle( );
-		}
-		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
-	}
-
-	/**
-	 * Handles the style of a cell
+	 * Handles the border of a cell
 	 * 
 	 * @param cell:
 	 *            the cell content
 	 * @param styleBuffer:
 	 *            the buffer to store the tyle building result.
 	 */
-	protected void buildCellBaseStyle( ICellContent cell,
+	protected void buildCellBorder( ICellContent cell,
 			StringBuffer styleBuffer )
 	{
-		IStyle style = null;
-		if ( isEmbeddable )
-		{
-			style = cell.getStyle( );
-		}
-		else
-		{
-			style = cell.getInlineStyle( );
-		}
-		// build the cell's style except border
-		AttributeBuilder.buildCellStyle( styleBuffer, style, parentEmitter );
-
 		// prepare build the cell's border
 		int columnCount = -1;
 		IStyle cellStyle = null, cellComputedStyle = null;
@@ -848,34 +913,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 					rowBorderWidth,
 					rowBorderStyle,
 					rowBorderColor );
-		}
-	}
-
-	/**
-	 * Handles the font-weight property of the cell content while the cell is in
-	 * table header
-	 * 
-	 * @param element
-	 *            the styled element content
-	 * @param styleBuffer
-	 *            the StringBuffer instance
-	 */
-	protected void handleCellFont( ICellContent element,
-			StringBuffer styleBuffer )
-	{
-		IStyle style = element.getStyle( );
-		String fontWeight = style.getFontWeight( );
-		if ( fontWeight == null )
-		{
-			style = element.getComputedStyle( );
-			fontWeight = style.getFontWeight( );
-			if ( fontWeight == null )
-			{
-				fontWeight = "normal";
-			}
-			styleBuffer.append( "font-weight: " );
-			styleBuffer.append( fontWeight );
-			styleBuffer.append( ";" );
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.emitter.html;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.css.CSSValue;
+
+//FIXME: code review: We should list all the properties according the CSS.
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
@@ -45,148 +47,50 @@ public class AttributeBuilder
 	}
 
 	/**
-	 * Output the style content to a given <code>StringBuffer</code> object.
-	 * 
-	 * @param content
-	 *            The <code>StringBuffer</code> to which the result is output.
-	 * @param style
-	 *            The style object.
-	 * @param emitter
-	 *            The <code>HTMLReportEmitter</code> object which provides
-	 *            resource manager and hyperlink builder objects for
-	 *            background-image property.
-	 * @param bContainer
-	 *            true: it is the container, we shouldn't output the
-	 *            text-decoration.
-	 */
-	public static void buildStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter )
-	{
-		if ( style == null || style.isEmpty( ) )
-		{
-			return;
-		}
-		buildFont( content, style );
-		buildText( content, style );
-		buildBox( content, style );
-		buildBackground( content, style, emitter );
-		buildPagedMedia( content, style );
-		buildVisual( content, style );
-
-		/*
-		 * style.getNumberAlign(); style.getID(); style.getName();
-		 */
-	}
-	
-	public static void buildBackgroundStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter )
-	{
-		if ( style == null || style.isEmpty( ) )
-		{
-			return;
-		}
-		buildBackground( content, style, emitter );
-	}
-	
-	public static void buildPageStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter )
-	{
-		if ( style == null || style.isEmpty( ) )
-		{
-			return;
-		}
-		buildFont( content, style );
-		buildText( content, style );
-		buildBox( content, style );
-		buildPagedMedia( content, style );
-		buildVisual( content, style );
-	}
-	
-	/**
-	 * Build the cell's style. The border information will not be build.
-	 * @param content
-	 * @param cellStyle
-	 * @param emitter
-	 * @param bContainer
-	 */
-	public static void buildCellStyle( StringBuffer content, IStyle cellStyle,
-			HTMLReportEmitter emitter )
-	{
-		if ( cellStyle == null )
-		{
-			return;
-		}
-		buildFont( content, cellStyle );
-		buildText( content, cellStyle );
-		
-		//buildBox without border
-		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, cellStyle.getMarginTop( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, cellStyle
-				.getMarginRight( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, cellStyle
-				.getMarginBottom( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, cellStyle
-				.getMarginLeft( ) );
-		
-		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, cellStyle
-				.getPaddingTop( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, cellStyle
-				.getPaddingRight( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, cellStyle
-				.getPaddingBottom( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, cellStyle
-				.getPaddingLeft( ) );
-		
-		buildBackground( content, cellStyle, emitter );
-		buildPagedMedia( content, cellStyle );
-		buildVisual( content, cellStyle );
-	}
-
-	/**
 	 * Builds the Visual style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildVisual( StringBuffer content, IStyle style )
+	public static void buildVisual( StringBuffer styleBuffer, IStyle style )
 	{
 		// move display property from css file to html file
-		// buildProperty( content, "display", style.getDisplay( ) );
+		// buildProperty( styleBuffer, "display", style.getDisplay( ) );
 		//vertical-align has effect on inline-object and table-cell, so remove it
 		//from the standard style builder.
-		//buildProperty( content, HTMLTags.ATTR_VERTICAL_ALIGN, style
+		//buildProperty( styleBuffer, HTMLTags.ATTR_VERTICAL_ALIGN, style
 		//		.getVerticalAlign( ) );
-		buildProperty( content, HTMLTags.ATTR_LINE_HEIGHT, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_LINE_HEIGHT, style
 				.getLineHeight( ) ); //$NON-NLS-1$
 	}
 
 	/**
 	 * Build the PagedMedia style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildPagedMedia( StringBuffer content, IStyle style )
-	{
-		//We should not write the extra pagination information in style classes. 
-		//buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
-		//buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
-		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
-		//		.getPageBreakBefore( ) );
-		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style
-		//		.getPageBreakAfter( ) );
-		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style
-		//		.getPageBreakInside( ) );
-	}
+//	private static void buildPagedMedia( StringBuffer styleBuffer, IStyle style )
+//	{
+//		We should not write the extra pagination information in style classes. 
+//		buildProperty( styleBuffer, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
+//		buildProperty( styleBuffer, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
+//		buildProperty( styleBuffer, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
+//				.getPageBreakBefore( ) );
+//		buildProperty( styleBuffer, HTMLTags.ATTR_PAGE_BREAK_AFTER, style
+//				.getPageBreakAfter( ) );
+//		buildProperty( styleBuffer, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style
+//				.getPageBreakInside( ) );
+//	}
 
 	/**
 	 * Build the background style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
@@ -194,11 +98,10 @@ public class AttributeBuilder
 	 *            The <code>HTMLReportEmitter</code> object which provides
 	 *            resource manager and hyperlink builder objects.
 	 */
-	private static void buildBackground( StringBuffer content, IStyle style,
+	public static void buildBackground( StringBuffer styleBuffer, IStyle style,
 			HTMLReportEmitter emitter )
 	{
-		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) );
-		buildProperty( content, HTMLTags.ATTR_BACKGROUND_COLOR, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style
 				.getBackgroundColor( ) );
 
 		String image = style.getBackgroundImage( );
@@ -210,10 +113,10 @@ public class AttributeBuilder
 		image = emitter.handleStyleImage( image );
 		if ( image != null && image.length( ) > 0 )
 		{
-			buildURLProperty( content, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
-			buildProperty( content, HTMLTags.ATTR_BACKGROUND_REPEAT, style
+			buildURLProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
+			buildProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_REPEAT, style
 					.getBackgroundRepeat( ) );
-			buildProperty( content, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style
+			buildProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style
 					.getBackgroundAttachment( ) );
 
 			String x = style.getBackgroundPositionX( );
@@ -228,10 +131,10 @@ public class AttributeBuilder
 				{
 					y = "0pt";
 				}
-				addPropName( content, HTMLTags.ATTR_BACKGROUND_POSITION );
-				addPropValue( content, x );
-				addPropValue( content, y );
-				content.append( ';' );
+				addPropName( styleBuffer, HTMLTags.ATTR_BACKGROUND_POSITION );
+				addPropValue( styleBuffer, x );
+				addPropValue( styleBuffer, y );
+				styleBuffer.append( ';' );
 			}
 		}
 	}
@@ -239,115 +142,304 @@ public class AttributeBuilder
 	/**
 	 * Build the Box style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildBox( StringBuffer content, IStyle style )
+	public static void buildBox( StringBuffer styleBuffer, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, style.getMarginTop( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, style
-				.getMarginRight( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, style
-				.getMarginBottom( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, style
-				.getMarginLeft( ) );
+		buildMargins( styleBuffer, style );
+		buildPaddings( styleBuffer, style );
+		buildBorders( styleBuffer, style );
+	}
 
-		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, style
-				.getPaddingTop( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, style
-				.getPaddingRight( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, style
-				.getPaddingBottom( ) );
-		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, style
-				.getPaddingLeft( ) );
+	/**
+	 * Build the margins.
+	 * @param styleBuffer
+	 * @param style
+	 */
+	public static void buildMargins( StringBuffer styleBuffer, IStyle style )
+	{
+		// build the margins
+		String topMargin = style.getMarginTop( );
+		String rightMargin = style.getMarginRight( );
+		String bottomMargin = style.getMarginBottom( );
+		String leftMargin = style.getMarginLeft( );
+		
+		if ( null != topMargin
+				&& null != rightMargin && null != bottomMargin
+				&& null != leftMargin )
+		{
+			if ( rightMargin.equals( leftMargin ) )
+			{
+				if ( topMargin.equals( bottomMargin ) )
+				{
+					if ( topMargin.equals( rightMargin ) )
+					{
+						// The four margins have the same value
+						buildProperty( styleBuffer,
+								HTMLTags.ATTR_MARGIN,
+								topMargin );
+					}
+					else
+					{
+						// The top & bottom margins have the same value. The
+						// right & left margins have the same value.
+						addPropName( styleBuffer, HTMLTags.ATTR_MARGIN );
+						addPropValue( styleBuffer, topMargin );
+						addPropValue( styleBuffer, rightMargin );
+						styleBuffer.append( ';' );
+					}
+				}
+				else
+				{
+					// only the right & left margins have the same value.
+					addPropName( styleBuffer, HTMLTags.ATTR_MARGIN );
+					addPropValue( styleBuffer, topMargin );
+					addPropValue( styleBuffer, rightMargin );
+					addPropValue( styleBuffer, bottomMargin );
+					styleBuffer.append( ';' );
+				}
+			}
+			else
+			{
+				// four margins have different values.
+				addPropName( styleBuffer, HTMLTags.ATTR_MARGIN );
+				addPropValue( styleBuffer, topMargin );
+				addPropValue( styleBuffer, rightMargin );
+				addPropValue( styleBuffer, bottomMargin );
+				addPropValue( styleBuffer, leftMargin );
+				styleBuffer.append( ';' );
+			}
+		}
+		else
+		{
+			// At least one margin has null value.
+			buildProperty( styleBuffer, HTMLTags.ATTR_MARGIN_TOP, topMargin );
+			buildProperty( styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT, rightMargin );
+			buildProperty( styleBuffer,
+					HTMLTags.ATTR_MARGIN_BOTTOM,
+					bottomMargin );
+			buildProperty( styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin );
+		}
+	}
+	
+	/**
+	 * Build the paddings.
+	 * @param styleBuffer
+	 * @param style
+	 */
+	public static void buildPaddings( StringBuffer styleBuffer, IStyle style )
+	{
+		// build the paddings
+		String topPadding = style.getPaddingTop( );
+		String rightPadding = style.getPaddingRight( );
+		String bottomPadding = style.getPaddingBottom( );
+		String leftPadding = style.getPaddingLeft( );
+		if ( null != topPadding
+				&& null != rightPadding && null != bottomPadding
+				&& null != leftPadding )
+		{
+			if ( rightPadding.equals( leftPadding ) )
+			{
+				if ( topPadding.equals( bottomPadding ) )
+				{
+					if ( topPadding.equals( rightPadding ) )
+					{
+						// The four paddings have the same value
+						buildProperty( styleBuffer,
+								HTMLTags.ATTR_PADDING,
+								topPadding );
+					}
+					else
+					{
+						// The top & bottom paddings have the same value. The
+						// right & left paddings have the same value.
+						addPropName( styleBuffer, HTMLTags.ATTR_PADDING );
+						addPropValue( styleBuffer, topPadding );
+						addPropValue( styleBuffer, rightPadding );
+						styleBuffer.append( ';' );
+					}
+				}
+				else
+				{
+					// only the right & left paddings have the same value.
+					addPropName( styleBuffer, HTMLTags.ATTR_PADDING );
+					addPropValue( styleBuffer, topPadding );
+					addPropValue( styleBuffer, rightPadding );
+					addPropValue( styleBuffer, bottomPadding );
+					styleBuffer.append( ';' );
+				}
+			}
+			else
+			{
+				// four paddings have different values.
+				addPropName( styleBuffer, HTMLTags.ATTR_PADDING );
+				addPropValue( styleBuffer, topPadding );
+				addPropValue( styleBuffer, rightPadding );
+				addPropValue( styleBuffer, bottomPadding );
+				addPropValue( styleBuffer, leftPadding );
+				styleBuffer.append( ';' );
+			}
+		}
+		else
+		{
+			// At least one paddings has null value.
+			buildProperty( styleBuffer, HTMLTags.ATTR_PADDING_TOP, topPadding );
+			buildProperty( styleBuffer,
+					HTMLTags.ATTR_PADDING_RIGHT,
+					rightPadding );
+			buildProperty( styleBuffer,
+					HTMLTags.ATTR_PADDING_BOTTOM,
+					bottomPadding );
+			buildProperty( styleBuffer, HTMLTags.ATTR_PADDING_LEFT, leftPadding );
+		}
+	}
+	
+	/**
+	 * Build the borders.
+	 * @param styleBuffer
+	 * @param style
+	 */
+	public static void buildBorders( StringBuffer styleBuffer, IStyle style )
+	{
+		// build the borders
+		String topBorderWidth = style.getBorderTopWidth( );
+		String topBorderStyle = style.getBorderTopStyle( );
+		String topBorderColor = style.getBorderTopColor( );
+		String rightBorderWidth = style.getBorderRightWidth( );
+		String rightBorderStyle = style.getBorderRightStyle( );
+		String rightBorderColor = style.getBorderRightColor( );
+		String bottomBorderWidth = style.getBorderBottomWidth( );
+		String bottomBorderStyle = style.getBorderBottomStyle( );
+		String bottomBorderColor = style.getBorderBottomColor( );
+		String leftBorderWidth = style.getBorderLeftWidth( );
+		String leftBorderStyle = style.getBorderLeftStyle( );
+		String leftBorderColor = style.getBorderLeftColor( );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_TOP, style
-				.getBorderTopWidth( ), style.getBorderTopStyle( ), style
-				.getBorderTopColor( ) );
+		if ( ( null != topBorderWidth
+				&& topBorderWidth.equals( rightBorderWidth )
+				&& topBorderWidth.equals( bottomBorderWidth ) && topBorderWidth.equals( leftBorderWidth ) )
+				|| ( null == topBorderWidth
+						&& null == rightBorderWidth
+						&& null == bottomBorderWidth && null == leftBorderWidth ) )
+		{
+			if ( ( null != topBorderStyle
+					&& topBorderStyle.equals( rightBorderStyle )
+					&& topBorderStyle.equals( bottomBorderStyle ) && topBorderStyle.equals( leftBorderStyle ) )
+					|| ( null == topBorderStyle
+							&& null == rightBorderStyle
+							&& null == bottomBorderStyle && null == leftBorderStyle ) )
+			{
+				if ( ( null != topBorderColor
+						&& topBorderColor.equals( rightBorderColor )
+						&& topBorderColor.equals( bottomBorderColor ) && topBorderColor.equals( leftBorderColor ) )
+						|| ( null == topBorderColor
+								&& null == rightBorderColor
+								&& null == bottomBorderColor && null == leftBorderColor ) )
+				{
+					// if the four borders have the same value, compact html
+					// ouput
+					buildBorder( styleBuffer,
+							HTMLTags.ATTR_BORDER,
+							topBorderWidth,
+							topBorderStyle,
+							topBorderColor );
+					return;
+				}
+			}
+		}
+		
+		buildBorder( styleBuffer,
+				HTMLTags.ATTR_BORDER_TOP,
+				topBorderWidth,
+				topBorderStyle,
+				topBorderColor );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_RIGHT, style
-				.getBorderRightWidth( ), style.getBorderRightStyle( ), style
-				.getBorderRightColor( ) );
+		buildBorder( styleBuffer,
+				HTMLTags.ATTR_BORDER_RIGHT,
+				rightBorderWidth,
+				rightBorderStyle,
+				rightBorderColor );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_BOTTOM, style
-				.getBorderBottomWidth( ), style.getBorderBottomStyle( ), style
-				.getBorderBottomColor( ) );
+		buildBorder( styleBuffer,
+				HTMLTags.ATTR_BORDER_BOTTOM,
+				bottomBorderWidth,
+				bottomBorderStyle,
+				bottomBorderColor );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_LEFT, style
-				.getBorderLeftWidth( ), style.getBorderLeftStyle( ), style
-				.getBorderLeftColor( ) );
+		buildBorder( styleBuffer,
+				HTMLTags.ATTR_BORDER_LEFT,
+				leftBorderWidth,
+				leftBorderStyle,
+				leftBorderColor );
 	}
 
 	/**
 	 * Build the Text style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
 	 * @param bContainer
 	 *            true: shouldn't output the text-decoration.
 	 */
-	private static void buildText( StringBuffer content, IStyle style )
+	public static void buildText( StringBuffer styleBuffer, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_TEXT_INDENT, style
 				.getTextIndent( ) );
-		//buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
+		//buildProperty( styleBuffer, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
 
 		//as the HTML handles text-decoration different in IE/FIREFOX, so we need
 		//handle the text-decoration as computed column. It doesn't need output to 
 		//style definition.
 		//if ( !bContainer )
 		//{
-		//	buildTextDecoration( content, style );
+		//	buildTextDecoration( styleBuffer, style );
 		//}
 
-		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_LETTER_SPACING, style
 				.getLetterSpacing( ) );
-		buildProperty( content, HTMLTags.ATTR_WORD_SPACING, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_WORD_SPACING, style
 				.getWordSpacing( ) );
-		buildProperty( content, HTMLTags.ATTR_TEXT_TRANSFORM, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_TEXT_TRANSFORM, style
 				.getTextTransform( ) );
-		buildProperty( content, HTMLTags.ATTR_WHITE_SPACE, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_WHITE_SPACE, style
 				.getWhiteSpace( ) );
 	}
 
 	/**
 	 * Build Font style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildFont( StringBuffer content, IStyle style )
+	public static void buildFont( StringBuffer styleBuffer, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_FONT_FAMILY, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_FONT_FAMILY, style
 				.getFontFamily( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_STYLE, style.getFontStyle( ) );
+		buildProperty( styleBuffer, HTMLTags.ATTR_FONT_STYLE, style.getFontStyle( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_VARIANT, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_FONT_VARIANT, style
 				.getFontVariant( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_WEIGTH, style
+		buildProperty( styleBuffer, HTMLTags.ATTR_FONT_WEIGTH, style
 				.getFontWeight( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) );
-	}
-
-	public static void checkHyperlinkTextDecoration( IStyle style,
-			StringBuffer content )
-	{
-		buildTextDecoration( content, style );
+		buildProperty( styleBuffer, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) );
+		
+		buildProperty( styleBuffer, HTMLTags.ATTR_COLOR, style.getColor( ) );
 	}
 
 	/**
 	 * Build the Text-Decoration style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param linethrough
 	 *            The line-through value.
@@ -356,7 +448,7 @@ public class AttributeBuilder
 	 * @param overline
 	 *            The overline value.
 	 */
-	public static void buildTextDecoration( StringBuffer content,
+	public static void buildTextDecoration( StringBuffer styleBuffer,
 			IStyle style )
 	{
 		CSSValue linethrough = style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH);
@@ -365,20 +457,20 @@ public class AttributeBuilder
 
 		if (linethrough == IStyle.LINE_THROUGH_VALUE || underline == IStyle.UNDERLINE_VALUE || overline == IStyle.OVERLINE_VALUE)
 		{
-			content.append( " text-decoration:" ); //$NON-NLS-1$
+			styleBuffer.append( " text-decoration:" ); //$NON-NLS-1$
 			if (IStyle.LINE_THROUGH_VALUE == linethrough )
 			{
-				addPropValue( content, "line-through" );
+				addPropValue( styleBuffer, "line-through" );
 			}
 			if ( IStyle.UNDERLINE_VALUE == underline)
 			{
-				addPropValue( content, "underline" );
+				addPropValue( styleBuffer, "underline" );
 			}
 			if ( IStyle.OVERLINE_VALUE == overline)
 			{
-				addPropValue( content, "overline" );
+				addPropValue( styleBuffer, "overline" );
 			}
-			content.append( ';' );
+			styleBuffer.append( ';' );
 		}
 	}
 
@@ -388,7 +480,7 @@ public class AttributeBuilder
 	 * <li>CSS default border-color is the font-color, while BIRT is black
 	 * <li>border-color is not inheritable.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param name
 	 *            The proerty name.
@@ -399,31 +491,31 @@ public class AttributeBuilder
 	 * @param color
 	 *            The border-color value
 	 */
-	static void buildBorder( StringBuffer content, String name,
+	static void buildBorder( StringBuffer styleBuffer, String name,
 			String width, String style, String color )
 	{
 		if ( style == null || style.length( ) <= 0 )
 		{
 			return;
 		}
-		addPropName( content, name );
-		addPropValue( content, width );
-		addPropValue( content, style );
-		addPropValue( content, color == null ? "black" : color ); //$NON-NLS-1$
-		content.append( ';' );
+		addPropName( styleBuffer, name );
+		addPropValue( styleBuffer, width );
+		addPropValue( styleBuffer, style );
+		addPropValue( styleBuffer, color == null ? "black" : color ); //$NON-NLS-1$
+		styleBuffer.append( ';' );
 	}
 
 	/**
 	 * Build size style string say, "width: 10.0mm;".
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param name
 	 *            The property name
 	 * @param value
 	 *            The values of the property
 	 */
-	public static void buildSize( StringBuffer content, String name,
+	public static void buildSize( StringBuffer styleBuffer, String name,
 			DimensionType value )
 	{
 		if ( value != null )
@@ -432,21 +524,21 @@ public class AttributeBuilder
 			{
 				//To solve the problem that IE do not support min-height.
 				//Use this way to make Firefox and IE both work well.
-				addPropName( content, HTMLTags.ATTR_HEIGHT );
-				addPropValue( content, "auto !important" );
-				content.append( ';' );
-				addPropName( content, HTMLTags.ATTR_HEIGHT );
-				addPropValue( content, value.toString( ) );
-				content.append( ';' );
-				addPropName( content, HTMLTags.ATTR_MIN_HEIGHT );
-				addPropValue( content, value.toString( ) );
-				content.append( ';' );
+				addPropName( styleBuffer, HTMLTags.ATTR_HEIGHT );
+				addPropValue( styleBuffer, "auto !important" );
+				styleBuffer.append( ';' );
+				addPropName( styleBuffer, HTMLTags.ATTR_HEIGHT );
+				addPropValue( styleBuffer, value.toString( ) );
+				styleBuffer.append( ';' );
+				addPropName( styleBuffer, HTMLTags.ATTR_MIN_HEIGHT );
+				addPropValue( styleBuffer, value.toString( ) );
+				styleBuffer.append( ';' );
 			}
 			else
 			{
-				addPropName( content, name );
-				addPropValue( content, value.toString( ) );
-				content.append( ';' );
+				addPropName( styleBuffer, name );
+				addPropValue( styleBuffer, value.toString( ) );
+				styleBuffer.append( ';' );
 			}
 		}
 	}
@@ -454,78 +546,78 @@ public class AttributeBuilder
 	/**
 	 * Build the style property.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param name
 	 *            The name of the property
 	 * @param value
 	 *            The values of the property
 	 */
-	private static void buildProperty( StringBuffer content, String name,
+	private static void buildProperty( StringBuffer styleBuffer, String name,
 			String value )
 	{
 		if ( value != null )
 		{
-			addPropName( content, name );
-			addPropValue( content, value );
-			content.append( ';' );
+			addPropName( styleBuffer, name );
+			addPropValue( styleBuffer, value );
+			styleBuffer.append( ';' );
 		}
 	}
 
-	private static void buildURLProperty( StringBuffer content, String name,
+	private static void buildURLProperty( StringBuffer styleBuffer, String name,
 			String url )
 	{
 		if ( url != null )
 		{
-			addPropName( content, name );
-			addURLValue( content, url );
-			content.append( ';' );
+			addPropName( styleBuffer, name );
+			addURLValue( styleBuffer, url );
+			styleBuffer.append( ';' );
 		}
 	}
 
 	/**
 	 * Add property name to the Style string.
 	 * 
-	 * @param content
+	 * @param styleBuffer
 	 *            The StringBuffer to which the result should be output.
 	 * @param name
 	 *            The property name.
 	 */
-	private static void addPropName( StringBuffer content, String name )
+	private static void addPropName( StringBuffer styleBuffer, String name )
 	{
-		content.append( ' ' );
-		content.append( name );
-		content.append( ':' );
+		styleBuffer.append( ' ' );
+		styleBuffer.append( name );
+		styleBuffer.append( ':' );
 	}
 
 	/**
-	 * Add property value to the Style content.
+	 * Add property value to the Style styleBuffer.
 	 * 
-	 * @param content -
+	 * @param styleBuffer -
 	 *            specifies the StringBuffer to which the result should be
 	 *            output
 	 * @param value -
 	 *            specifies the values of the property
 	 */
-	private static void addPropValue( StringBuffer content, String value )
+	private static void addPropValue( StringBuffer styleBuffer, String value )
 	{
 		if ( value != null )
 		{
-			content.append( ' ' );
-			content.append( value );
+			styleBuffer.append( ' ' );
+			styleBuffer.append( value );
 		}
 	}
 
 	/**
-	 * Add URL property name to the Style content.
+	 * Add URL property name to the Style styleBuffer.
 	 * 
-	 * @param content -
+	 * @param styleBuffer -
 	 *            specifies the StringBuffer to which the result should be
 	 *            output
 	 * @param url -
 	 *            specifies the values of the property
 	 */
-	private static void addURLValue( StringBuffer content, String url )
+	private static void addURLValue( StringBuffer styleBuffer, String url )
 	{
 		if ( url == null )
 		{
@@ -577,9 +669,9 @@ public class AttributeBuilder
 
 		if ( url.length( ) > 0 )
 		{
-			content.append( " url('" ); //$NON-NLS-1$
-			content.append( url );
-			content.append( "')" ); //$NON-NLS-1$
+			styleBuffer.append( " url('" ); //$NON-NLS-1$
+			styleBuffer.append( url );
+			styleBuffer.append( "')" ); //$NON-NLS-1$
 		}
 	}
 }
