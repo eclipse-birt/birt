@@ -46,7 +46,7 @@ org.eclipse.birt.category.description=Business Intelligence and Report Tools
 ###############################################################################
 # Actions
 ###############################################################################
-Action.Publish=Vorlage mit Assistent für neuen Bericht registrieren...
-Action.PublishLibrary=Bibliothek in Ressourcenordner aufnehmen..
+Action.Publish=Vorlage mit Ass&istent für neuen Bericht registrieren...
+Action.PublishLibrary=Bibliothek in Ressourcenor&dner aufnehmen...
 
 

@@ -750,9 +750,9 @@ DesignerActionBarContributor.menu.style-rule-apply=½ºÅ¸ÀÏ Àû¿ë(&P)
 DesignerActionBarContributor.menu.style-rule-edit=½ºÅ¸ÀÏ ÆíÁı(&D)
 DesignerActionBarContributor.style.new=»õ ½ºÅ¸ÀÏ(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=»õ º¸°í¼­ ¸Å°³ º¯¼ö(&P)
-DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+DesignerActionBarContributor.menu.data-NewDataSetParent=»õ µ¥ÀÌÅÍ ÁıÇÕ(&S)
 designerActionBarContributor.menu.data-newDataset=»õ µ¥ÀÌÅÍ ÁıÇÕ(&E)
-designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
+designerActionBarContributor.menu.data-newJointDataset=»õ Á¶ÀÎ µ¥ÀÌÅÍ ÁıÇÕ(&J)
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2706,12 +2706,12 @@ ExportToLibraryAction.wizard.page.foldererror=ÁöÁ¤ÇÑ Æú´õ°¡ ¾ø½À´Ï´Ù.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
+PublishLibraryToResourceFolderAction.Action.Text=¸®¼Ò½º Æú´õ¿¡ ¶óÀÌºê·¯¸® ¹èÄ¡(&D)...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
+PublishTemplateViewAction.action.displaytext=»õ º¸°í¼­ ¸¶¹ı»ç¸¦ ÅÛÇÃ¸´¿¡ µî·Ï(&Z)...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -3070,7 +3070,7 @@ UseCssInReportDialog.TitleArea.Message=°øÀ¯ ¶óÀÌºê·¯¸® Æú´õ¿¡¼­ CSS ÆÄÀÏÀ» ¼±ÅÃÇ
 UseCssInReportDialog.Label.No.File=¼±ÅÃµÈ CSS ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.
 UseCssInReportDialog.Dialog.Browse=Ã£¾Æº¸±â
 UseCssInReportDialog.Dialog.Browse.Title=º¸°í¼­¿¡ Æ÷ÇÔÇÒ CSS ÆÄÀÏ ¼±ÅÃ
-UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
+UseCssInReportDialog.Dialog.Browse.Library.Title=¶óÀÌºê·¯¸®¿¡ Æ÷ÇÔÇÒ CSS ÆÄÀÏ ¼±ÅÃ
 UseCssInReportDialog.Error.Already.Include={0}Àº(´Â) ÀÌ¹Ì Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù.
 
 UseCssInThemeDialog.TitleArea.Title=º¸°í¼­ ¶óÀÌºê·¯¸®¿¡ ÀÖ´Â CSS ÆÄÀÏ »ç¿ë

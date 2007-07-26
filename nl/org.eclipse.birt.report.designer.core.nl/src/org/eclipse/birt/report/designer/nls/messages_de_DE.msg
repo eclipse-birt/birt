@@ -750,9 +750,9 @@ DesignerActionBarContributor.menu.style-rule-apply=Stil an&wenden
 DesignerActionBarContributor.menu.style-rule-edit=Stil bea&rbeiten
 DesignerActionBarContributor.style.new=&Neuer Stil...
 DesignerActionBarContributor.menu.data-NewParameter=Neuer Bericht&parameter
-DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+DesignerActionBarContributor.menu.data-NewDataSetParent=Neuer Daten&satz
 designerActionBarContributor.menu.data-newDataset=Neuer D&atensatz
-designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
+designerActionBarContributor.menu.data-newJointDataset=Neuer &Verknüpfungsdatensatz
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2706,12 +2706,12 @@ ExportToLibraryAction.wizard.page.foldererror=Der angegebene Ordner ist nicht vo
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
+PublishLibraryToResourceFolderAction.Action.Text=Bibliothek in Ressourcenor&dner aufnehmen...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
+PublishTemplateViewAction.action.displaytext=Vorlage mit Ass&istent für neuen Bericht registrieren...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -3070,7 +3070,7 @@ UseCssInReportDialog.TitleArea.Message=Wählen Sie eine CSS-Datei aus dem Ordner 
 UseCssInReportDialog.Label.No.File=Keine CSS-Datei ausgewählt
 UseCssInReportDialog.Dialog.Browse=Durchsuchen
 UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
-UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
+UseCssInReportDialog.Dialog.Browse.Library.Title=Wählen Sie eine CSS-Datei, die in die Bibliothek aufgenommen werden soll.
 UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden

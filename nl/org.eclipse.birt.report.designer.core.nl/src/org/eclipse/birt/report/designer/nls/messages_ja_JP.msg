@@ -750,9 +750,9 @@ DesignerActionBarContributor.menu.style-rule-apply=スタイルの適用(&P)
 DesignerActionBarContributor.menu.style-rule-edit=スタイルの編集(&D)
 DesignerActionBarContributor.style.new=スタイルの新規作成(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=レポートパラメタの新規作成(&P)
-DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+DesignerActionBarContributor.menu.data-NewDataSetParent=新規データセット(&S)
 designerActionBarContributor.menu.data-newDataset=新規データセット(&E)
-designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
+designerActionBarContributor.menu.data-newJointDataset=ジョイントのデータセットの新規作成(&J)
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2706,12 +2706,12 @@ ExportToLibraryAction.wizard.page.foldererror=指定されたフォルダが存在しません。
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
+PublishLibraryToResourceFolderAction.Action.Text=ライブラリをリソースフォルダに配置(&D)..
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
+PublishTemplateViewAction.action.displaytext=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -3070,7 +3070,7 @@ UseCssInReportDialog.TitleArea.Message=共有ライブラリフォルダから CSS ファイルを
 UseCssInReportDialog.Label.No.File=CSS ファイルが選択されていません。
 UseCssInReportDialog.Dialog.Browse=参照
 UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
-UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
+UseCssInReportDialog.Dialog.Browse.Library.Title=ライブラリに含める CSS ファイルを選択します。
 UseCssInReportDialog.Error.Already.Include={0} はすでに追加されています。
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用

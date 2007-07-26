@@ -750,9 +750,9 @@ DesignerActionBarContributor.menu.style-rule-apply=A&plicar estilo
 DesignerActionBarContributor.menu.style-rule-edit=E&ditar estilo
 DesignerActionBarContributor.style.new=&Nuevo estilo...
 DesignerActionBarContributor.menu.data-NewParameter=Nuevo &parámetro de informe
-DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+DesignerActionBarContributor.menu.data-NewDataSetParent=Nuevo conjunto de d&atos
 designerActionBarContributor.menu.data-newDataset=Nuevo c&onjunto de datos
-designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
+designerActionBarContributor.menu.data-newJointDataset=Nuevo &conjunto de datos de combinación
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2706,12 +2706,12 @@ ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
+PublishLibraryToResourceFolderAction.Action.Text=Colocar la librería en la c&arpeta de recursos...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
+PublishTemplateViewAction.action.displaytext=Registrar plantilla con el as&istente de nuevos informes...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -3070,7 +3070,7 @@ UseCssInReportDialog.TitleArea.Message=Seleccionar un archivo CSS de la carpeta 
 UseCssInReportDialog.Label.No.File=No se ha seleccionado ningún archivo CSS
 UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
-UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
+UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes

@@ -750,9 +750,9 @@ DesignerActionBarContributor.menu.style-rule-apply=应用样式(&P)
 DesignerActionBarContributor.menu.style-rule-edit=编辑样式(&D)
 DesignerActionBarContributor.style.new=新建样式(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=新建报表参数(&P)
-DesignerActionBarContributor.menu.data-NewDataSetParent=New Data &Set
+DesignerActionBarContributor.menu.data-NewDataSetParent=新建数据集(&S)
 designerActionBarContributor.menu.data-newDataset=新建数据集(&E)
-designerActionBarContributor.menu.data-newJointDataset=New &Joint Data Set
+designerActionBarContributor.menu.data-newJointDataset=新建联接数据集(&J)
 
 ###########################################################
 #DesignerOutlinePage properties
@@ -2706,12 +2706,12 @@ ExportToLibraryAction.wizard.page.foldererror=指定的文件夹不存在
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Library in Resource Fol&der...
+PublishLibraryToResourceFolderAction.Action.Text=将库置于资源文件夹(&D)...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Register Template with New Report Wi&zard...
+PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板(&Z)...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -3070,7 +3070,7 @@ UseCssInReportDialog.TitleArea.Message=从共享库文件夹中选择一个 CSS 文件并在报表
 UseCssInReportDialog.Label.No.File=未选择 CSS 文件
 UseCssInReportDialog.Dialog.Browse=浏览
 UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
-UseCssInReportDialog.Dialog.Browse.Library.Title=Select a CSS file to be included in the library
+UseCssInReportDialog.Dialog.Browse.Library.Title=选择要包括在库中的 CSS 文件
 UseCssInReportDialog.Error.Already.Include=已包括 {0}
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
