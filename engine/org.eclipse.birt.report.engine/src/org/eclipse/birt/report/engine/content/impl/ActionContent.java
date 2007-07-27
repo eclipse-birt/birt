@@ -46,7 +46,7 @@ public class ActionContent implements IHyperlinkAction
 	 * the name of a frame where a document is to be opened.
 	 */
 	protected String target = null;
-	
+
 	/**
 	 * 
 	 */
@@ -107,7 +107,7 @@ public class ActionContent implements IHyperlinkAction
 		setDrillThrough( bookmark, isBookmark, reportName, parameterBindings,
 				searchCriteria, target, format, null );
 	}
-	
+
 	/**
 	 * Constructor for drill-through action type
 	 * 
@@ -173,7 +173,7 @@ public class ActionContent implements IHyperlinkAction
 		}
 		return null;
 	}
-	
+
 	public void setReportName( String reportName )
 	{
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
@@ -182,6 +182,7 @@ public class ActionContent implements IHyperlinkAction
 			drillThrough.setReportName( reportName );
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -342,62 +343,70 @@ public class ActionContent implements IHyperlinkAction
 				}
 				break;
 			case FIELD_BOOKMARK :
+				String bk = IOUtil.readString( in );
 				if ( isDrillThrough( ) )
 				{
-					drillThrough.setBookmark( IOUtil.readString( in ) );
+					drillThrough.setBookmark( bk );
 				}
 				else
-				{	
-					bookmark = IOUtil.readString( in );
+				{
+					bookmark = bk;
 				}
 				break;
 			case FIELD_HYPERLINK :
 				hyperlink = IOUtil.readString( in );
 				break;
 			case FIELD_REPORTNAME :
+				String name = IOUtil.readString( in );
 				if ( isDrillThrough( ) )
 				{
-					drillThrough.setReportName( IOUtil.readString( in ) );
+					drillThrough.setReportName( name );
 				}
 				break;
 			case FIELD_PARAMETERBINDINGS :
+				Map bindings = IOUtil.readMap( in );
 				if ( isDrillThrough( ) )
 				{
-					drillThrough.setParameterBindings( IOUtil.readMap( in ) );
+					drillThrough.setParameterBindings( bindings );
 				}
 				break;
 			case FIELD_SEARCHCRITERIA :
+				Map search = IOUtil.readMap( in );
 				if ( isDrillThrough( ) )
 				{
-					drillThrough.setSearchCriteria( IOUtil.readMap( in ) );
+					drillThrough.setSearchCriteria( search );
 				}
 				break;
 			case FIELD_TARGET :
-				if ( isDrillThrough( ) ) 
+				String tgt = IOUtil.readString( in );
+				if ( isDrillThrough( ) )
 				{
-					drillThrough.setTargetWindow( IOUtil.readString( in ) );
+					drillThrough.setTargetWindow( tgt );
 				}
 				else
-				{	
-					target = IOUtil.readString( in );
+				{
+					target = tgt;
 				}
 				break;
 			case FIELD_FORMAT :
+				String fmt = IOUtil.readString( in );
 				if ( isDrillThrough( ) )
 				{
-					drillThrough.setFormat( IOUtil.readString( in ) );
+					drillThrough.setFormat( fmt );
 				}
 				break;
-			case FIELD_ISBOOKMARK:
+			case FIELD_ISBOOKMARK :
+				boolean isBk = IOUtil.readBool( in );
 				if ( isDrillThrough( ) )
-				{					
-					drillThrough.setBookmarkType( IOUtil.readBool( in ) );
+				{
+					drillThrough.setBookmarkType( isBk );
 				}
 				break;
-			case FIELD_TARGETFILETYPE:
+			case FIELD_TARGETFILETYPE :
+				String tgtType = IOUtil.readString( in );
 				if ( isDrillThrough( ) )
-				{					
-					drillThrough.setTargetFileType( IOUtil.readString( in ) );
+				{
+					drillThrough.setTargetFileType( tgtType );
 				}
 				break;
 		}
@@ -447,7 +456,7 @@ public class ActionContent implements IHyperlinkAction
 		}
 		return false;
 	}
-	
+
 	public IDrillThroughAction getDrillThrough( )
 	{
 		if ( isDrillThrough( ) )
@@ -456,13 +465,13 @@ public class ActionContent implements IHyperlinkAction
 		}
 		return null;
 	}
-	
+
 	public void setDrillThrough( IDrillThroughAction drillThrough )
 	{
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
 		this.drillThrough = drillThrough;
 	}
-	
+
 	private boolean isDrillThrough( )
 	{
 		return type == ACTION_DRILLTHROUGH;
