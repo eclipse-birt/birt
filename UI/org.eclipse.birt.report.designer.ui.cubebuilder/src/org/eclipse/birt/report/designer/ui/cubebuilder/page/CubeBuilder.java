@@ -11,15 +11,26 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
-import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
@@ -36,11 +47,13 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage";
 	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage";
 	public static final String LINKGROUPSPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.linkgroupspage";
+	private TabularCubeHandle input;
 
 	public CubeBuilder( Shell parentShell, TabularCubeHandle input )
 	{
 		super( parentShell, input );
 		addCommonPage( input );
+		this.input = input;
 	}
 
 	private DatasetSelectionPage datasetPage = null;
@@ -79,7 +92,87 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	public boolean performOk( )
 	{
-		return true;
+		if ( checkCubeLinke( ) )
+			return true;
+		else
+			return false;
+	}
+
+	private boolean checkCubeLinke( )
+	{
+		List childList = new ArrayList( );
+		if ( input != null )
+		{
+			TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
+					.toArray( new TabularDimensionHandle[0] );
+			for ( int i = 0; i < dimensions.length; i++ )
+			{
+				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
+				if ( hierarchy != null
+						&& hierarchy.getDataSet( ) != null
+						&& hierarchy.getDataSet( ) != input.getDataSet( ) )
+					childList.add( hierarchy );
+			}
+		}
+		if ( childList.size( ) == 0 )
+			return true;
+		else
+		{
+			boolean flag = true;
+			for ( int i = 0; i < childList.size( ); i++ )
+			{
+				flag = true;
+				HierarchyHandle hierarchy = (HierarchyHandle) childList.get( i );
+				Iterator iter = input.joinConditionsIterator( );
+				while ( iter.hasNext( ) )
+				{
+					DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+					HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
+					if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
+							hierarchy ) )
+					{
+						if ( condition.getJoinConditions( ) != null
+								&& condition.getJoinConditions( )
+										.iterator( )
+										.hasNext( ) )
+						{
+							flag = false;
+							break;
+						}
+					}
+				}
+				if ( flag )
+					break;
+			}
+			if ( flag )
+			{
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				};
+
+				MessageDialog d = new MessageDialog( getShell( ),
+						Messages.getString( "MissLinkDialog.Title" ), //$NON-NLS-1$
+						null,
+						Messages.getString( "MissLinkDialog.Question" ),
+						MessageDialog.INFORMATION,
+						buttons,
+						0 );
+				int result = d.open( );
+				if ( result == 1 )
+					return true;
+				else if ( result == 2 )
+					return false;
+				else
+				{
+					this.showSelectionPage( getLinkGroupNode( ) );
+					return false;
+				}
+			}
+			else
+				return true;
+		}
 	}
 
 	protected Control createContents( Composite parent )
