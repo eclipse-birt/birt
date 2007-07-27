@@ -1859,7 +1859,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				else
 				{
-					buffer.append( value.replaceAll( " ", "" ) );
+					buffer.append( value );
 				}
 				buffer.append( ";" );
 			}
