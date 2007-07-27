@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
 
 import com.lowagie.text.FontFactory;
 
+//FIXME: code review : add comments for all methods.
 public class FontConfigReader
 {
 
@@ -77,6 +78,8 @@ public class FontConfigReader
 	public void initialize( )
 	{
 		// read the embeded font path.
+		// FIXME: code review : prosses embedded font path using the same method
+		// as normal config file paths.
 		String embededFontPath = getEmbededFontPath( );
 		if ( null != embededFontPath )
 		{
@@ -100,6 +103,7 @@ public class FontConfigReader
 		String languageConfig = languageConfigPrefix + CONFIG_FILE_SUFFIX;
 		parseConfigFile( languageConfig );
 
+		//FIXME: code review : consider the case when country is not defined in locale.
 		String countryConfig = languageConfigPrefix + CONFIG_FILE_SEPERATOR
 				+ locale.getCountry( ) + CONFIG_FILE_SUFFIX;
 		parseConfigFile( countryConfig );

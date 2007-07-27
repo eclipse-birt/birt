@@ -37,13 +37,19 @@ public class TableProcessor
 	private static final String ATTRIBUTE_COLSPAN = "colspan";
 	
 	private static final String ATTRIBUTE_ROWSPAN = "rowspan";
-	
+
+	//FIXME code review: extract two method so that the logic will be more clear.
 	public static void processTable( Element ele, Map cssStyles,
 			IContent content, IContent inlineParent, ActionContent action )
 	{
+		// FIXME code review: this block is used to parse table content. extract
+		// a method parseTable().
 		TableState tableState = new TableState( ele, cssStyles,
 				content, inlineParent, action );
 		tableState.processNodes( );
+		
+		// FIXME code review: this block is used to layout the table. extract to
+		// method layoutTable();
 		Table table = new Table( tableState.getRowCount( ), tableState
 				.getColumnCount( ) );
 		TableContent tableContent = (TableContent)tableState.getContent( );
@@ -58,6 +64,8 @@ public class TableProcessor
 				CellContent cell = (CellContent)cells.next( );
 				int rowSpan = cell.getRowSpan( );
 				int colSpan = cell.getColSpan( );
+				// Notice that the cell id is -1, that means the cell id will be
+				// dynamic adjusted by <code>Table</code>.
 				table.createCell( -1, rowSpan, colSpan,
 						new InternalCellContent( cell ) );
 			}

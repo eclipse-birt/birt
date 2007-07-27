@@ -56,7 +56,7 @@ public class FontMappingManager
 	private static final int UNICODE_BLOCK_NUMBER = 154;
 
 	/** default fonts */
-	private static final String DEFAULT_FONT = BaseFont.TIMES_ROMAN;
+	public static final String DEFAULT_FONT = BaseFont.TIMES_ROMAN;
 
 	private static final String BLOCK_DEFAULT = "default";
 
@@ -93,6 +93,7 @@ public class FontMappingManager
 	
 	public FontMappingManager merge(FontMappingManager fontManager)
 	{
+		//FIXME: code review : verify if the priority is correct.
 		FontMappingManager result = new FontMappingManager(this);
 		result.fontAliases.putAll( fontManager.fontAliases );
 		result.fontEncodings.putAll( fontManager.fontEncodings );
@@ -117,6 +118,7 @@ public class FontMappingManager
 		fontEncodings.put( BaseFont.COURIER, BaseFont.WINANSI );
 		fontEncodings.put( BaseFont.SYMBOL, BaseFont.WINANSI );
 		fontEncodings.put( BaseFont.ZAPFDINGBATS, BaseFont.WINANSI );
+		//FIXME: code review : move it to fontsConfig.xml
 		fontEncodings.put( "Times", BaseFont.WINANSI ); //$NON-NLS-1$
 	}
 
@@ -207,6 +209,7 @@ public class FontMappingManager
 
 	public String getLogicalFont( String fontFamilyName )
 	{
+		//FIXME: code review : remove last parameter of getMappedFontName.
 		String fontName = getMappedFontName( fontFamilyName, fontAliases );
 		return fontName == null ? fontFamilyName : fontName;
 	}
@@ -266,7 +269,7 @@ public class FontMappingManager
 		return (String) fontMap.get( fontFamilyName );
 	}
 
-	private String getEncoding( String fontFamilyName )
+	public String getEncoding( String fontFamilyName )
 	{
 		String encoding = (String) fontEncodings.get( fontFamilyName );
 		return ( null == encoding ) ? BaseFont.IDENTITY_H : encoding;
@@ -295,24 +298,26 @@ public class FontMappingManager
 				Font f = null;
 				try
 				{
+					// FIXME: code view verify if BaseFont.NOT_EMBEDDED or
+					// BaseFont.EMBEDDED should be used.
 					f = FontFactory.getFont( ffn, encoding,
 							BaseFont.NOT_EMBEDDED, 14, fontStyle );
+					font = f.getBaseFont( );
+					if ( font != null )
+					{
+						baseFonts.put( key, font );
+					}
 				}
 				catch ( Throwable de )
 				{
 					logger.log( Level.WARNING, de.getLocalizedMessage( ) );
-					return null;
-				}
-				font = f.getBaseFont( );
-				if ( font != null )
-				{
-					baseFonts.put( key, font );
 				}
 			}
 			return font;
 		}
 	}
 
+	//FIXME: code review : remove it.
 	public boolean isCharDefinedInFont( char c, String fontName, int fontStyle )
 	{
 		BaseFont bf = createFont( fontName, fontStyle );

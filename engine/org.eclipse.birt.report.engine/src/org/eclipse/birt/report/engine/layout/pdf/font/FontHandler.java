@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -36,6 +37,7 @@ import com.lowagie.text.pdf.BaseFont;
 public class FontHandler
 {
 
+	//FIXME: code review : create font manager factory to manage the font managers. 
 	/** The font-family mapping manager without format related configuration. */
 	private static FontMappingManager formatUnrelatedManager = null;
 
@@ -206,6 +208,8 @@ public class FontHandler
 		fontConfigReader.initialize( );
 		formatUnrelatedManager = fontConfigReader.getFontMappingManager( );
 		Set fontPaths = formatUnrelatedManager.getFontPaths( );
+		// FIXME: code review : path should be registered when format related
+		// config has no paths defined.
 		if ( !fontPaths.isEmpty( ) )
 		{
 			registerPaths( fontPaths );
@@ -224,6 +228,7 @@ public class FontHandler
 		}
 
 		FontMappingManager result = null;
+		//FIXME: code review : synchonize the whole block.
 		result = (FontMappingManager) formatRelatedManagers.get( format );
 		if ( result != null )
 		{
@@ -257,6 +262,7 @@ public class FontHandler
 	 */
 	public FontInfo getFontInfo( )
 	{
+		//FIXME: code review : do this check only when bf is changed.
 		checkFontAvailability( );
 		return new FontInfo( bf, fontSize, fontStyle, simulation );
 	}
@@ -269,6 +275,7 @@ public class FontHandler
 		}
 		else
 		{
+			//FIXME: code review : should use formatUnrelatedManager instead of null.
 			fontManager = null;
 		}
 	}
@@ -279,9 +286,12 @@ public class FontHandler
 	public boolean selectFont( char character )
 	{
 		assert ( fontManager != null );
+		// FIXME: code review : return null when no mapped font defined the
+		// character so that charExist only need to be invoked once.
 		BaseFont candidateFont = getMappedFont( character );
 		assert ( candidateFont != null );
 		checkFontStatus( candidateFont );
+		
 		return candidateFont.charExists( character );
 	}
 	
@@ -314,6 +324,31 @@ public class FontHandler
 	BaseFont getMappedFont( char c, FontMappingManager fontManager,
 			CSSValueList fontFamilies, int fontStyle )
 	{
+//		Set fonts = FontFactory.getRegisteredFonts( );
+//		Iterator iterator = fonts.iterator( );
+//		while( iterator.hasNext( ) )
+//		{
+//			String fontName = (String)iterator.next( );
+//			String encoding = fontManager.getEncoding( fontName );
+//			BaseFont font = null;
+//			try
+//			{
+//				// FIXME: code view verify if BaseFont.NOT_EMBEDDED or
+//				// BaseFont.EMBEDDED should be used.
+//				Font f = FontFactory.getFont( fontName, encoding,
+//						BaseFont.NOT_EMBEDDED, 14, fontStyle );
+//				font = f.getBaseFont( );
+//				if ( font == null ) continue;
+//			}
+//			catch ( Throwable de )
+//			{
+//			}
+//
+//			if ( isCharDefinedInFont( c, font ))
+//			{
+//				System.out.println( fontName );
+//			}
+//		}
 		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
 		{
 			String fontFamilyName = fontFamilies.item( i ).getCssText( );
@@ -330,7 +365,14 @@ public class FontHandler
 			}
 		}
 		String physicalFont = fontManager.getDefaultPhysicalFont( c );
-		return getPhysicalFont( fontManager, physicalFont, fontStyle );
+		BaseFont defaultFont = getPhysicalFont( fontManager, physicalFont,
+				fontStyle );
+		if ( defaultFont == null )
+		{
+			defaultFont = fontManager.createFont(
+					FontMappingManager.DEFAULT_FONT, fontStyle );
+		}
+		return defaultFont;
 	}
 
 	private BaseFont getPhysicalFont( FontMappingManager fontManager,
@@ -340,7 +382,10 @@ public class FontHandler
 		if ( font == null )
 		{
 			font = fontManager.createFont( physicalFont, fontStyle );
-			fonts.put( physicalFont, font );
+			if ( font != null )
+			{
+				fonts.put( physicalFont, font );
+			}
 		}
 		return font;
 	}
@@ -387,6 +432,7 @@ public class FontHandler
 		}
 	}
 
+	//FIXME: code review : provide a more expressive name.
 	private void checkFontStatus( BaseFont candidateFont )
 	{
 		assert candidateFont != null;
@@ -423,6 +469,7 @@ public class FontHandler
 			{
 				return names[i][3];
 			}
+			//FIXME: code review : check the logic.
 			if ( "1033".equals( names[i][2] ) ) //$NON-NLS-1$
 			{
 				tmp = names[i][3];
@@ -441,6 +488,7 @@ public class FontHandler
 	 * simulate the proper style for the font. The "simulate" flag will be set
 	 * if we need to simulate it.
 	 */
+	//FIXME: code review : merged into checkFontStatus.
 	private void checkFontAvailability( )
 	{
 		if ( fontStyle == Font.NORMAL )
