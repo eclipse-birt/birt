@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
     <property name="units">in</property>
     <parameters>
@@ -8,6 +8,7 @@
             <property name="dataType">dateTime</property>
             <text-property name="promptText">abc</text-property>
             <property name="listLimit">20</property>
+            <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">dataset1</property>
             <expression name="valueExpr">row["ORDERDATE"]</expression>
