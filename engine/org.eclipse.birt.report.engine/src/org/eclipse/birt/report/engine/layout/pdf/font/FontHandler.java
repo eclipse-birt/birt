@@ -324,31 +324,6 @@ public class FontHandler
 	BaseFont getMappedFont( char c, FontMappingManager fontManager,
 			CSSValueList fontFamilies, int fontStyle )
 	{
-//		Set fonts = FontFactory.getRegisteredFonts( );
-//		Iterator iterator = fonts.iterator( );
-//		while( iterator.hasNext( ) )
-//		{
-//			String fontName = (String)iterator.next( );
-//			String encoding = fontManager.getEncoding( fontName );
-//			BaseFont font = null;
-//			try
-//			{
-//				// FIXME: code view verify if BaseFont.NOT_EMBEDDED or
-//				// BaseFont.EMBEDDED should be used.
-//				Font f = FontFactory.getFont( fontName, encoding,
-//						BaseFont.NOT_EMBEDDED, 14, fontStyle );
-//				font = f.getBaseFont( );
-//				if ( font == null ) continue;
-//			}
-//			catch ( Throwable de )
-//			{
-//			}
-//
-//			if ( isCharDefinedInFont( c, font ))
-//			{
-//				System.out.println( fontName );
-//			}
-//		}
 		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
 		{
 			String fontFamilyName = fontFamilies.item( i ).getCssText( );
