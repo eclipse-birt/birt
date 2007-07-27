@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -54,6 +56,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -61,6 +64,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -231,21 +235,20 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
 			displayKeyCombo.setItem( 0,
 					Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
-			if ( input.getDisplayColumnName( ) != null )
-			{
-				for ( int i = 0; i < displayKeyCombo.getItemCount( ); i++ )
+			displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
 				{
-					if ( DEUtil.getResultSetColumnExpression( displayKeyCombo.getItem( i ) )
-							.equals( input.getDisplayColumnName( ) ) )
+					if ( displayKeyCombo.getSelectionIndex( ) > 0 )
 					{
-						displayKeyCombo.select( i );
-						break;
+						displayKeyCombo.setText( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
+
 					}
 				}
-				if ( displayKeyCombo.getSelectionIndex( ) == -1
-						&& displayKeyCombo.getItemCount( ) > 0 )
-					displayKeyCombo.select( 0 );
-
+			} );
+			if ( input.getDisplayColumnName( ) != null )
+			{
+				displayKeyCombo.setText( input.getDisplayColumnName( ) );
 			}
 			else if ( displayKeyCombo.getItemCount( ) > 0 )
 				displayKeyCombo.select( 0 );
@@ -338,9 +341,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					input.setColumnName( fieldCombo.getText( ) );
 				}
-				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
+				if ( displayKeyCombo.getText( ).trim( ).length( )>0 && !displayKeyCombo.getText( )
+						.equals( Messages.getString( "LevelPropertyDialog.None" ) ) )
 				{
-					input.setDisplayColumnName( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
+					input.setDisplayColumnName( displayKeyCombo.getText( ) );
 				}
 				else
 					input.setDisplayColumnName( null );
@@ -763,10 +767,30 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		Label displayKeyLabel = new Label( groupGroup, SWT.NONE );
 		displayKeyLabel.setText( Messages.getString( "LevelPropertyDialog.DisplayField" ) ); //$NON-NLS-1$
-		displayKeyCombo = new Combo( groupGroup, SWT.BORDER | SWT.READ_ONLY );
+		displayKeyCombo = new Combo( groupGroup, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
+		gd.horizontalSpan = 2;
 		displayKeyCombo.setLayoutData( gd );
+		Button expressionButton = new Button( groupGroup, SWT.PUSH );
+		UIUtil.setExpressionButtonImage( expressionButton );
+		expressionButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				openExpression( );
+			}
+
+			private void openExpression( )
+			{
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( displayKeyCombo.getText( ).trim( ).equals( Messages.getString( "LevelPropertyDialog.None" ) )?"":displayKeyCombo.getText( ).trim( ) );
+				ExpressionProvider provider = new CubeExpressionProvider( input );
+				expressionBuilder.setExpressionProvier( provider );
+				if ( expressionBuilder.open( ) == Window.OK )
+				{
+					displayKeyCombo.setText( expressionBuilder.getResult( ) );
+				}
+			}
+		} );
 
 		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
 		dynamicDataTypeCombo = new Combo( groupGroup, SWT.BORDER
@@ -908,7 +932,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 		column1.setWidth( 200 );
 
-		dynamicViewer.setColumnProperties( new String[]{"",prop_Attribute} );
+		dynamicViewer.setColumnProperties( new String[]{
+				"", prop_Attribute
+		} );
 		editor = new ComboBoxCellEditor( dynamicViewer.getTable( ),
 				attributeItems,
 				SWT.READ_ONLY );
@@ -1223,7 +1249,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 
 		staticViewer.setColumnProperties( new String[]{
-				"",LevelPropertyDialog.Prop_Name,LevelPropertyDialog.prop_Expression
+				"",
+				LevelPropertyDialog.Prop_Name,
+				LevelPropertyDialog.prop_Expression
 		} );
 
 		expressionEditor = new ExpressionCellEditor( staticTable );
