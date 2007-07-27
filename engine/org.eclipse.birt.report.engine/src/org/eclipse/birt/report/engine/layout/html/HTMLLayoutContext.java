@@ -38,6 +38,14 @@ public class HTMLLayoutContext
 	
 	protected HashMap layoutHint = new HashMap();
 	
+	/**
+	 * whether emitter need to output the display:none or process it in layout
+	 * engine.
+	 * true: output display:none in emitter and do not process it in layout engine. 
+	 * false: process it in layout engine, not output it in emitter.
+	 */
+	protected boolean outputDisplayNone = false;
+	
 	public void reset()
 	{
 		pageEmpty = true;
@@ -275,6 +283,15 @@ public class HTMLLayoutContext
 				hints.add(  pageHint.getUnresolvedRowHint( i ) );
 			}
 		}
+	}	
+
+	public void setOutputDisplayNone( boolean outputDisplayNone )
+	{
+		this.outputDisplayNone = outputDisplayNone;
 	}
 
+	public boolean getOutputDisplayNone( )
+	{
+		return outputDisplayNone;
+	}
 }

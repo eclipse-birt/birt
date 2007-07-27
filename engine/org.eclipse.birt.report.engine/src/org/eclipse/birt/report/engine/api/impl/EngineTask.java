@@ -1041,6 +1041,12 @@ public abstract class EngineTask implements IEngineTask
 		}
 
 		pagination = extManager.getPagination( format );
+		Boolean outputDisplayNone = extManager.getOutputDisplayNone( format );
+		if ( !renderOptions.hasOption( IRenderOption.OUTPUT_DISPLAY_NONE ) )
+		{
+			renderOptions.setOption( IRenderOption.OUTPUT_DISPLAY_NONE,
+					outputDisplayNone );
+		}
 		IContentEmitter emitter = null;
 		try
 		{
@@ -1085,6 +1091,14 @@ public abstract class EngineTask implements IEngineTask
 				layoutEngine.setOption(
 						IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
 						pagebreakOnly );
+			}
+			Object outputDisplayNone = renderOptions
+					.getOption( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
+			if ( outputDisplayNone != null )
+			{
+				layoutEngine.setOption(
+						IPDFRenderOption.OUTPUT_DISPLAY_NONE,
+						outputDisplayNone );
 			}
 		}
 		return layoutEngine;

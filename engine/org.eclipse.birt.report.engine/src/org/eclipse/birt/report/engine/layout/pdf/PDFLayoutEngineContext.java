@@ -74,6 +74,14 @@ public class PDFLayoutEngineContext
 	
 	protected ArrayList hints = new ArrayList();
 	
+	/**
+	 * whether emitter need to output the display:none or process it in layout
+	 * engine.
+	 * true: output display:none in emitter and do not process it in layout engine. 
+	 * false: process it in layout engine, not output it in emitter.
+	 */
+	protected boolean outputDisplayNone = false;
+
 	public void setLayoutPageHint(IPageHint pageHint)
 	{
 		if(pageHint!=null)
@@ -514,5 +522,13 @@ public class PDFLayoutEngineContext
 		this.locale = locale;
 	}
 
+	public void setOutputDisplayNone( boolean outputDisplayNone )
+	{
+		this.outputDisplayNone = outputDisplayNone;
+	}
 
+	public boolean getOutputDisplayNone( )
+	{
+		return outputDisplayNone;
+	}
 }

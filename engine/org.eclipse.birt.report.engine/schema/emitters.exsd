@@ -109,6 +109,13 @@
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="outputDisplayNone" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

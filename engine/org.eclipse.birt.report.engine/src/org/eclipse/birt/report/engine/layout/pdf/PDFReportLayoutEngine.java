@@ -141,6 +141,15 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setPagebreakPaginationOnly(true);
 			}
 		}
+		Object outputDisplayNone = options
+				.get( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
+		if ( outputDisplayNone instanceof Boolean )
+		{
+			if ( ( (Boolean) outputDisplayNone ).booleanValue( ) )
+			{
+				context.setOutputDisplayNone( true );
+			}
+		}
 	}
 	
 	
@@ -163,5 +172,4 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	{
 		context.setLayoutPageHint( pageHint );
 	}
-
 }

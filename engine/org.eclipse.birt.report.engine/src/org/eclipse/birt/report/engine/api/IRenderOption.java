@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,6 +37,8 @@ public interface IRenderOption
 	public static final String SUPPORTED_IMAGE_FORMATS = "supportedImageFormats";
 
 	public static final String BASE_URL = "baseUrl";
+	
+	public static final String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
 
 	/**
 	 * get all the options defined in this object

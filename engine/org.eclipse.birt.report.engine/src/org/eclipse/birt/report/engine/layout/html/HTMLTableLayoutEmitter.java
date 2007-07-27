@@ -154,7 +154,7 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	public void initLayout( ITableContent table )
 	{
 		this.layout = new TableContentLayout( table,
-				EngineIRConstants.FORMAT_TYPE_VIEWER );
+				EngineIRConstants.FORMAT_TYPE_VIEWER, context );
 		this.layoutEvents = new Stack( );
 	}
 	

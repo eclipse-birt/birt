@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -506,14 +506,15 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			IStyle style = content.getComputedStyle( );
-			if(!IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
-			{
-				return isHiddenByVisibility( );
-			}
-			else
+
+			boolean outputDisplayNone = context.getOutputDisplayNone( );
+			if ( !outputDisplayNone
+					&& IStyle.NONE_VALUE.equals( style
+							.getProperty( IStyle.STYLE_DISPLAY ) ) )
 			{
 				return true;
 			}
+			return isHiddenByVisibility( );
 		}
 		return false;
 	}

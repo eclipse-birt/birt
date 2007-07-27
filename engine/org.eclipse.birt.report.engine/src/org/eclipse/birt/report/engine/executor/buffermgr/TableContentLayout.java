@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter.CellContent;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
@@ -51,9 +52,13 @@ public class TableContentLayout
 
 	protected boolean formalized = false;
 	
-	public TableContentLayout( ITableContent tableContent, String format )
+	protected HTMLLayoutContext context;
+	
+	public TableContentLayout( ITableContent tableContent, String format,
+			HTMLLayoutContext context )
 	{
 		this.format = format;
+		this.context = context;
 		this.colCount = tableContent.getColumnCount( );
 		
 		for ( int i = 0; i < colCount; i++ )
@@ -582,7 +587,8 @@ public class TableContentLayout
 	
 	public boolean isRowHidden( Object rowContent)
 	{
-		return LayoutUtil.isRowHidden( rowContent, format );
+		return LayoutUtil.isRowHidden( rowContent, format, context
+				.getOutputDisplayNone( ) );
 	}
 
 	public boolean isVisible( ICellContent cell )

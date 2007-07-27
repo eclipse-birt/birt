@@ -91,6 +91,13 @@ public class ExtensionManager
 	 */
 	public static final String NO_PAGINATION = "no-pagination";
 	
+	/**
+	 * whether emitter need to output the display:none or process it in layout
+	 * engine.
+	 * true: output display:none in emitter and do not process it in layout engine. 
+	 * false: process it in layout engine, not output it in emitter.
+	 */
+	public static final Boolean DEFAULT_OUTPUT_DISPLAY_NONE = new Boolean( false );
 	
 	/**
 	 * Dummy constructor
@@ -419,8 +426,11 @@ public class ExtensionManager
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
 				String pagination = configs[j].getAttribute("pagination");
 				String icon = configs[j].getAttribute( "icon" );
+				Boolean outDisplayNone = new Boolean( configs[j]
+						.getAttribute( "outputDisplayNone" ) );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
-						pagination, mimeType, icon, namespace, configs[j] );
+						pagination, mimeType, icon, namespace, outDisplayNone,
+						configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put(format.toLowerCase( ), emitterInfo);
@@ -462,5 +472,18 @@ public class ExtensionManager
 			return ( (EmitterInfo) formats.get( format ) ).getPagination( );
 		}
 		return PAGE_BREAK_PAGINATION;
+	}
+	
+	public Boolean getOutputDisplayNone( String format )
+	{
+		if ( format != null )
+		{
+			format = format.toLowerCase( );
+		}
+		if ( formats.containsKey( format ) )
+		{
+			return ( (EmitterInfo) formats.get( format ) ).getOutputDisplayNone( );
+		}
+		return DEFAULT_OUTPUT_DISPLAY_NONE;
 	}
 }

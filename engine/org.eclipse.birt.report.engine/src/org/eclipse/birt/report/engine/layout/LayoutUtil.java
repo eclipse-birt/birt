@@ -22,12 +22,15 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 public class LayoutUtil
 {
 
-	public static boolean isRowHidden( Object rowContent, String format )
+	public static boolean isRowHidden( Object rowContent, String format,
+			boolean outputDisplayNone )
 	{
 		if ( rowContent != null && rowContent instanceof IRowContent )
 		{
 			IStyle style = ( (IRowContent) rowContent ).getStyle( );
-			if(IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
+			if ( !outputDisplayNone
+					&& IStyle.NONE_VALUE.equals( style
+							.getProperty( IStyle.STYLE_DISPLAY ) ) )
 			{
 				return true;
 			}

@@ -10,6 +10,7 @@
 	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
 	  		format="html"
 	  		pagination="page-break-pagination"
+            outputDisplayNone="true"
 	  		icon="resource/preview_html.gif"
 	  		mimeType="text/html" >
 	 	</emitter>

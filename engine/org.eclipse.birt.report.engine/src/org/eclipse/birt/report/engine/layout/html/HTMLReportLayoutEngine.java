@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.html;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -75,7 +76,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		this.executor = executor;
 		
 		context.setAllowPageBreak( pagination );
-		
+		setupLayoutOptions();		
 
 		context.setFinish(  false );
 		if(pageHint!=null)
@@ -128,6 +129,19 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 			IContentEmitter emitter )
 	{
 		return factory.createLayoutManager( parent, content, executor, emitter );
+	}
+	
+	protected void setupLayoutOptions( )
+	{
+		Object outputDisplayNone = options
+				.get( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
+		if ( outputDisplayNone instanceof Boolean )
+		{
+			if ( ( (Boolean) outputDisplayNone ).booleanValue( ) )
+			{
+				context.setOutputDisplayNone( true );
+			}
+		}
 	}
 
 	public void setPageHandler( ILayoutPageHandler handler )

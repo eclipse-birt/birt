@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -372,11 +372,14 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			IStyle style = content.getStyle( );
-			if(!IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
+			boolean outputDisplayNone = context.getOutputDisplayNone( );
+			if ( !outputDisplayNone
+					&& IStyle.NONE_VALUE.equals( style
+							.getProperty( IStyle.STYLE_DISPLAY ) ) )
 			{
-				return isHiddenByVisibility( content );
+				return true;
 			}
-			return true;
+			return isHiddenByVisibility( content );
 		}
 		return false;
 	}

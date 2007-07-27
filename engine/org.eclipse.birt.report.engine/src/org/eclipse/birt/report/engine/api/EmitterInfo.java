@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,10 +27,18 @@ public class EmitterInfo
 	private String icon;
 	private String namespace;
 	private IConfigurationElement emitter;
+	
+	/**
+	 * whether emitter need to output the display:none or process it in layout
+	 * engine.
+	 * true: output display:none in emitter and do not process it in layout engine. 
+	 * false: process it in layout engine, not output it in emitter.
+	 */
+	private Boolean outputDisplayNone;
 
 	public EmitterInfo( String format, String id, String pagination,
 			String mimeType, String icon, String namespace,
-			IConfigurationElement emitter )
+			Boolean outputDisplayNone, IConfigurationElement emitter )
 	{
 		this.format = format;
 		this.id = id;
@@ -39,6 +47,7 @@ public class EmitterInfo
 		this.mimeType = mimeType;
 		this.icon = icon;
 		this.namespace = namespace;
+		this.outputDisplayNone = outputDisplayNone;
 	}
 
 	/**
@@ -102,5 +111,14 @@ public class EmitterInfo
 	public String getPagination( )
 	{
 		return pagination;
+	}
+	
+	/**
+	 * Get the outputDisplayNone of the emitter.
+	 * @return outputDisplayNone of the emitter
+	 */
+	public Boolean getOutputDisplayNone( )
+	{
+		return outputDisplayNone;
 	}
 }
