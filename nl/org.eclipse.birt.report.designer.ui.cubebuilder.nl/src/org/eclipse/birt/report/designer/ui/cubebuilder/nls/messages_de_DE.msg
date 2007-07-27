@@ -111,7 +111,8 @@ LevelPropertyDialog.KeyField=Schlüsselfeld:
 LevelPropertyDialog.DataType=Datentyp:
 LevelPropertyDialog.Label.Expression=Bedingungsausdruck
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<Neues Attribut erstellen>
-
+MissLinkDialog.Title=Missing Link Between Data Sets
+MissLinkDialog.Question=Link the data field of primary data set to other data sets in order to build a cube
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
