@@ -57,7 +57,7 @@ public class EngineIRReader implements IOConstants
 	 */
 	protected long version;
 	
-	protected boolean checkDesignVersion = true;
+	protected boolean checkDesignVersion = false;
 
 	public EngineIRReader( )
 	{
