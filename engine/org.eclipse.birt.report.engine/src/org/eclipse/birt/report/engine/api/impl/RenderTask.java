@@ -568,7 +568,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
 							pageNumber ) );
 					layoutEngine.layout( executor, report, emitter,
-							needPaginate( ) );
+							false );
 				}
 
 				emitter.end( report );
