@@ -1183,6 +1183,9 @@ public class ParameterDialog extends BaseDialog
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
+		}else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ))
+		{
+			return type.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 		}
 		return false;
 	}
