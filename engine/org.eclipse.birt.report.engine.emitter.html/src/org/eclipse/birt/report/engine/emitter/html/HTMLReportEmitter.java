@@ -1931,7 +1931,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		boolean hasAction = handleAction( image.getHyperlinkAction( ) );
 
 		String imgUri = getImageURI( image );
-		boolean useSVG = ( "image/svg+xml".equalsIgnoreCase( image.getExtension( ) ) ) //$NON-NLS-1$
+		boolean useSVG = ( "image/svg+xml".equalsIgnoreCase( image.getMIMEType( ) ) ) //$NON-NLS-1$
 				|| ( ".svg".equalsIgnoreCase( image.getExtension( ) ) ) //$NON-NLS-1$
 				|| ( ( image.getURI( ) != null ) && image.getURI( )
 						.toLowerCase( )
