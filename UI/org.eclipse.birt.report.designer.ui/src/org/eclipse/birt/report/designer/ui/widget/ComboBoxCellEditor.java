@@ -13,10 +13,10 @@ package org.eclipse.birt.report.designer.ui.widget;
 
 import java.util.Arrays;
 
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -61,7 +61,7 @@ public class ComboBoxCellEditor extends CellEditor
 
 	private Object value;
 
-	private int inProcessing=0;
+	private int inProcessing = 0;
 
 	/**
 	 * Creates a new cell editor with no control and no st of choices.
@@ -154,8 +154,8 @@ public class ComboBoxCellEditor extends CellEditor
 		{
 			comboBox.setText( (String) value );
 			this.value = value;
-//			comboBox.select( Arrays.asList( comboBox.getItems( ) ).indexOf(
-//					value ) );
+			// comboBox.select( Arrays.asList( comboBox.getItems( ) ).indexOf(
+			// value ) );
 			selection = Arrays.asList( comboBox.getItems( ) ).indexOf( value );
 		}
 	}
@@ -204,13 +204,12 @@ public class ComboBoxCellEditor extends CellEditor
 
 			public void widgetDefaultSelected( SelectionEvent event )
 			{
-				markDirty();
 				applyEditorValueAndDeactivate( );
 			}
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				applyEditorValueAndDeactivate( );
+				selection = comboBox.getSelectionIndex( );
 			}
 		} );
 
@@ -290,12 +289,11 @@ public class ComboBoxCellEditor extends CellEditor
 	void applyEditorValueAndDeactivate( )
 	{
 
-		inProcessing=1;
-		if ( selection != comboBox.getSelectionIndex( ) )
-		{
-			markDirty( );
-		}
-		//	must set the selection before getting value
+		inProcessing = 1;
+		
+		markDirty( );
+		
+		// must set the selection before getting value
 		selection = comboBox.getSelectionIndex( );
 		Object newValue = null;
 		if ( selection == -1 )
@@ -304,16 +302,17 @@ public class ComboBoxCellEditor extends CellEditor
 		}
 		else
 		{
-			newValue=comboBox.getItem( selection );
+			newValue = comboBox.getItem( selection );
 		}
-		
+
 		doSetValue( newValue );
 
 		boolean isValid = isCorrect( newValue );
 		setValueValid( isValid );
 		fireApplyEditorValue( );
 		deactivate( );
-		inProcessing=0;
+		
+		inProcessing = 0;
 	}
 
 	/*
@@ -323,10 +322,11 @@ public class ComboBoxCellEditor extends CellEditor
 	 */
 	protected void focusLost( )
 	{
-		if(inProcessing == 1) return;
-		if(!comboBox.getText().equals(value))
+		if ( inProcessing == 1 )
+			return;
+		if ( !comboBox.getText( ).equals( value ) )
 		{
-			markDirty();
+			markDirty( );
 		}
 		if ( isActivated( ) )
 		{
@@ -351,7 +351,7 @@ public class ComboBoxCellEditor extends CellEditor
 		}
 		else if ( keyEvent.character == '\r' )
 		{ // tab key
-			markDirty();
+			markDirty( );
 			applyEditorValueAndDeactivate( );
 		}
 

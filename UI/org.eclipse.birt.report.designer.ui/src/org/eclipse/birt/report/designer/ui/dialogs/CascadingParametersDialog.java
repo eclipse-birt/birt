@@ -38,7 +38,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -57,8 +56,6 @@ import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -68,7 +65,6 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -95,7 +91,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
@@ -107,11 +102,11 @@ import com.ibm.icu.util.ULocale;
 public class CascadingParametersDialog extends BaseDialog
 {
 
-	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" );
+	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" ); //$NON-NLS-1$
 
-	private static final String CHOICE_BLANK_VALUE = Messages.getString( "CascadingParametersDialog.Choice.BlankValue" );
+	private static final String CHOICE_BLANK_VALUE = Messages.getString( "CascadingParametersDialog.Choice.BlankValue" ); //$NON-NLS-1$
 
-	private static final String CHOICE_SELECT_VALUE = Messages.getString( "CascadingParametersDialog.Choice.SelectValue" );
+	private static final String CHOICE_SELECT_VALUE = Messages.getString( "CascadingParametersDialog.Choice.SelectValue" ); //$NON-NLS-1$
 
 	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
 
@@ -158,7 +153,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final String LABEL_PREVIEW_WITH_FORMAT = Messages.getString( "CascadingParametersDialog.Label.preview" ); //$NON-NLS-1$
 
-	private static final String LABEL_CREATE_NEW_PARAMETER = Messages.getString( "CascadingParametersDialog.Label.createNewParam" ); //$NON-NLS-1$
+	// private static final String LABEL_CREATE_NEW_PARAMETER =
+	// Messages.getString( "CascadingParametersDialog.Label.createNewParam" );
+	// //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DATA_SET = Messages.getString( "CascadingParametersDialog.Label.selectDataSet" ); //$NON-NLS-1$
 
@@ -233,8 +230,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private Table table;
 	private TableViewer valueTable;
-	private CellEditor[] cellEditors;
-	private boolean givenName;
 	private Button addBtn, editBtn, delBtn;
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -423,15 +418,6 @@ public class CascadingParametersDialog extends BaseDialog
 				COLUMN_NAME, COLUMN_DATA_SET, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
 		};
 
-		cellEditors = new CellEditor[]{
-				new TextCellEditor( table ),
-				new ComboBoxCellEditor( table,
-						ChoiceSetFactory.getDataSets( ),
-						SWT.READ_ONLY ),
-				new ComboBoxCellEditor( table, new String[0], SWT.READ_ONLY ),
-				new ComboBoxCellEditor( table, new String[0], SWT.READ_ONLY ),
-		};
-
 		for ( int i = 0; i < columns.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
@@ -473,11 +459,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 		valueTable = new TableViewer( table );
 
-		valueTable.setCellEditors( cellEditors );
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
-		// valueTable.setCellModifier( cellModifier );
 
 		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
@@ -513,12 +497,12 @@ public class CascadingParametersDialog extends BaseDialog
 
 		addBtn = new Button( composite, SWT.NONE );
 		addBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		addBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Add" ) );
+		addBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Add" ) ); //$NON-NLS-1$
 		addBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) );
+				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
 				if ( dialog.open( ) != Dialog.OK )
 				{
 					return;
@@ -530,12 +514,10 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 				catch ( ContentException e1 )
 				{
-					// TODO Auto-generated catch block
 					ExceptionHandler.handle( e1 );
 				}
 				catch ( NameException e1 )
 				{
-					// TODO Auto-generated catch block
 					ExceptionHandler.handle( e1 );
 				}
 				refreshValueTable( );
@@ -545,7 +527,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		editBtn = new Button( composite, SWT.NONE );
 		editBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		editBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Edit" ) );
+		editBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Edit" ) ); //$NON-NLS-1$
 		editBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -554,7 +536,7 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					return;
 				}
-				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) );
+				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
 				dialog.setParameter( selectedParameter );
 				if ( dialog.open( ) != Dialog.OK )
 				{
@@ -567,7 +549,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		delBtn = new Button( composite, SWT.NONE );
 		delBtn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		delBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Delete" ) );
+		delBtn.setText( Messages.getString( "CascadingParametersDialog.Button.Delete" ) ); //$NON-NLS-1$
 		delBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -689,12 +671,12 @@ public class CascadingParametersDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					defaultValueChooser.setText( "" );
+					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					if ( getColumnValueList( ).isEmpty( ) )
 						return;
 					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
 							.getActiveShell( ),
-							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) );
+							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
 					dialog.setColumnValueList( getColumnValueList( ) );
 					int status = dialog.open( );
 					if ( status == Window.OK )
@@ -705,7 +687,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-						defaultValueChooser.setText( "" );
+						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 
@@ -756,12 +738,12 @@ public class CascadingParametersDialog extends BaseDialog
 					break;
 				}
 			}
-			if ( queryExpr == null || queryExpr.equals( "" ) )
+			if ( queryExpr == null || queryExpr.equals( "" ) ) //$NON-NLS-1$
 			{
 				return Collections.EMPTY_LIST;
 			}
 			ScriptExpression expression = new ScriptExpression( queryExpr );
-			String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+			String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
 			query.addResultSetExpression( columnBindingName, expression );
 			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
 
@@ -972,7 +954,6 @@ public class CascadingParametersDialog extends BaseDialog
 	 */
 	public void setInput( Object input )
 	{
-		Assert.isNotNull( input );
 		Assert.isLegal( input instanceof CascadingParameterGroupHandle );
 		inputParameterGroup = (CascadingParameterGroupHandle) input;
 	}
@@ -1163,14 +1144,6 @@ public class CascadingParametersDialog extends BaseDialog
 		return inputParameterGroup.getModuleHandle( ).findDataSet( name );
 	}
 
-	private void setCellEditorItems( )
-	{
-		( (ComboBoxCellEditor) cellEditors[2] ).setItems( getDataSetColumns( selectedParameter,
-				true ) );
-		( (ComboBoxCellEditor) cellEditors[3] ).setItems( getDataSetColumns( selectedParameter,
-				false ) );
-	}
-
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public Object[] getElements( Object inputElement )
@@ -1353,8 +1326,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	};
 
-
-
 	protected int getTableIndex( Object element )
 	{
 		Object[] input = ( (IStructuredContentProvider) valueTable.getContentProvider( ) ).getElements( valueTable.getInput( ) );
@@ -1409,7 +1380,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( getInputDisplayName( ) == null )
 		{
-			displayTypeChooser.clearSelection( ); //$NON-NLS-1$
+			displayTypeChooser.clearSelection( );
 		}
 		else
 		{
@@ -1424,7 +1395,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				defaultValueChooser.setText( CHOICE_NULL_VALUE );
 			}
-			else if ( defaultValue.equals( "" ) )
+			else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
 			{
 				defaultValueChooser.setText( CHOICE_BLANK_VALUE );
 			}
@@ -1522,7 +1493,7 @@ public class CascadingParametersDialog extends BaseDialog
 		if ( textValue != null
 				&& ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals( CHOICE_BLANK_VALUE ) ) )
 		{
-			defaultValueChooser.setText( "" );
+			defaultValueChooser.setText( "" ); //$NON-NLS-1$
 		}
 	}
 
@@ -1785,7 +1756,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
-			pattern = pattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED
+			pattern = pattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 					: pattern;
 			formatStr = new DateFormatter( pattern ).format( new Date( ) );
 		}
@@ -1946,7 +1917,7 @@ public class CascadingParametersDialog extends BaseDialog
 				else if ( defaultValueChooser.getText( )
 						.equals( CHOICE_BLANK_VALUE ) )
 				{
-					selectedParameter.setDefaultValue( "" );
+					selectedParameter.setDefaultValue( "" ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -2007,7 +1978,7 @@ public class CascadingParametersDialog extends BaseDialog
 	class AddEditCascadingParameterDialog extends BaseDialog
 	{
 
-		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" );
+		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" ); //$NON-NLS-1$
 		Text name;
 		Combo dataset, value, displayText;
 		protected ScalarParameterHandle parameter = null;
@@ -2060,14 +2031,14 @@ public class CascadingParametersDialog extends BaseDialog
 			composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 			Label labelName = new Label( composite, SWT.NONE );
-			labelName.setText( Messages.getString( "AddEditCascadingParameterDialog.label.name" ) );
+			labelName.setText( Messages.getString( "AddEditCascadingParameterDialog.label.name" ) ); //$NON-NLS-1$
 			name = new Text( composite, SWT.BORDER );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 250;
 			name.setLayoutData( gd );
 
 			Label labelDataset = new Label( composite, SWT.NONE );
-			labelDataset.setText( Messages.getString( "AddEditCascadingParameterDialog.label.dataset" ) );
+			labelDataset.setText( Messages.getString( "AddEditCascadingParameterDialog.label.dataset" ) ); //$NON-NLS-1$
 			dataset = new Combo( composite, SWT.READ_ONLY );
 			dataset.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			dataset.addSelectionListener( new SelectionAdapter( ) {
@@ -2107,7 +2078,7 @@ public class CascadingParametersDialog extends BaseDialog
 			} );
 
 			Label labelValue = new Label( composite, SWT.NONE );
-			labelValue.setText( Messages.getString( "AddEditCascadingParameterDialog.label.value" ) );
+			labelValue.setText( Messages.getString( "AddEditCascadingParameterDialog.label.value" ) ); //$NON-NLS-1$
 			value = new Combo( composite, SWT.READ_ONLY );
 			value.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			value.addSelectionListener( new SelectionAdapter( ) {
@@ -2126,7 +2097,7 @@ public class CascadingParametersDialog extends BaseDialog
 			} );
 
 			Label labelDisplayText = new Label( composite, SWT.NONE );
-			labelDisplayText.setText( Messages.getString( "AddEditCascadingParameterDialog.label.displaytext" ) );
+			labelDisplayText.setText( Messages.getString( "AddEditCascadingParameterDialog.label.displaytext" ) ); //$NON-NLS-1$
 			displayText = new Combo( composite, SWT.READ_ONLY );
 			displayText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			displayText.addSelectionListener( new SelectionAdapter( ) {
@@ -2205,7 +2176,7 @@ public class CascadingParametersDialog extends BaseDialog
 			// ( newParameter == null )
 			{
 				parameter = DesignElementFactory.getInstance( )
-						.newScalarParameter( null ); //$NON-NLS-1$
+						.newScalarParameter( null );
 				try
 				{
 					parameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX );
@@ -2231,7 +2202,6 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					catch ( SemanticException e )
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace( );
 					}
 
