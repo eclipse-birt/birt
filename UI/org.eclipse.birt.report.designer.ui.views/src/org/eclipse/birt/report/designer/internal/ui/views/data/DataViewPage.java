@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.Page;
 
@@ -39,10 +40,9 @@ import org.eclipse.ui.part.Page;
  * 
  * 
  */
-public abstract class DataViewPage extends Page
-		implements
-			ISelectionProvider,
-			IColleague
+public abstract class DataViewPage extends Page implements
+		ISelectionProvider,
+		IColleague
 {
 
 	private TreeViewer treeViewer;
@@ -58,15 +58,14 @@ public abstract class DataViewPage extends Page
 	public void createControl( Composite parent )
 	{
 		treeViewer = createTreeViewer( parent );
-		getTreeViewer( ).addSelectionChangedListener(
-				new ISelectionChangedListener( ) {
+		getTreeViewer( ).addSelectionChangedListener( new ISelectionChangedListener( ) {
 
-					public void selectionChanged( SelectionChangedEvent event )
-					{
-						treeSelect( event );
-					}
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				treeSelect( event );
+			}
 
-				} );
+		} );
 		configTreeViewer( );
 		hookTreeViewer( );
 		initPage( );
@@ -163,8 +162,9 @@ public abstract class DataViewPage extends Page
 		// no convert
 		// request.setRequestConvert(new EditorReportRequestConvert());
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest(
-				request );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
 
 		// create an event
 		// fire the event
@@ -258,8 +258,9 @@ public abstract class DataViewPage extends Page
 		treeViewer = null;
 
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( ).getMediator( ).removeColleague(
-				this );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.removeColleague( this );
 
 		super.dispose( );
 	}
@@ -278,10 +279,6 @@ public abstract class DataViewPage extends Page
 		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
 			handleSelectionChange( request );
-			if(canSetSelection(request.getSelectionModelList( )))
-			{
-				fireSelectionChanged(new StructuredSelection( request.getSelectionModelList( ) ));
-			}
 		}
 	}
 
@@ -296,15 +293,22 @@ public abstract class DataViewPage extends Page
 		{
 			return;
 		}
-		List list = request.getSelectionModelList( );
-		
-		if ( canSetSelection(list) )
+		final List list = request.getSelectionModelList( );
+
+		if ( canSetSelection( list ) )
 		{
-			setSelection( new StructuredSelection( list ) );
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					setSelection( new StructuredSelection( list ) );
+				}
+			} );
+
 		}
 	}
-	
-	private boolean canSetSelection(List list)
+
+	private boolean canSetSelection( List list )
 	{
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
