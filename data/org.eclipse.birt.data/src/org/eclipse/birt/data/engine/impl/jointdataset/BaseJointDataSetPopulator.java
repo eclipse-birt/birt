@@ -65,6 +65,9 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	private int rowFetchLimit;
 	
 	private int rowCount;
+	
+	private boolean shouldContinueSeek;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -101,6 +104,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		
 		this.rowFetchLimit = rowFetchLimit;
 		this.rowCount = 0;
+		this.shouldContinueSeek = false;
 
 	}
 
@@ -136,6 +140,10 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		if( this.rowFetchLimit <= 0 || this.rowCount < this.rowFetchLimit )
 		{
 			IResultObject result = doNext();
+			while ( this.shouldContinueSeek )
+			{
+				result = doNext();
+			}
 			if( result != null )
 				this.rowCount ++;
 			return result;
@@ -151,6 +159,8 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	 */
 	private IResultObject doNext( ) throws DataException
 	{
+		this.shouldContinueSeek = false;
+		
 		if ( !beInitialized )
 		{
 			initialize( );
@@ -195,7 +205,8 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		{
 			fetchPrimaryObject( );
 			curComparedResult = getCompartorResult( );
-			return doNext( );
+			this.shouldContinueSeek = true;
+			return null;
 		}
 	}
 
@@ -230,7 +241,8 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		}
 		else
 		{
-			return doNext( );
+			this.shouldContinueSeek = true;
+			return null;
 		}
 
 	}
@@ -260,7 +272,8 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		fetchSecondaryObjects( );
 		curComparedResult = getCompartorResult( );
 		
-		return doNext( );
+		this.shouldContinueSeek = true;
+		return null;
 	}
 
 	/**
@@ -388,5 +401,4 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		}
 		return new ResultObject( meta.getResultClass( ), fields );
 	}
-
 }

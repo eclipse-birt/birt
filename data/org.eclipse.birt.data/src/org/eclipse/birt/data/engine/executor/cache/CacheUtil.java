@@ -148,7 +148,6 @@ public class CacheUtil
 			}
 			sessionFile.deleteOnExit( );
 		}
-		System.out.println("create session directory: "+sessionFile.getAbsolutePath( ));
 		return getCanonicalPath( sessionFile );
 	}
 
