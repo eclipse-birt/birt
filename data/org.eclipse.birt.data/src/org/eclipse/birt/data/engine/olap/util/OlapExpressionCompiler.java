@@ -88,14 +88,21 @@ public class OlapExpressionCompiler
 	 */
 	public static String getReferencedScriptObject( String expr, String objectName )
 	{
-		if( expr == null )
+		if ( expr == null )
 			return null;
-		Context cx = Context.enter();
-		CompilerEnvirons ce = new CompilerEnvirons();
-		Parser p = new Parser( ce, cx.getErrorReporter( ) );
-		ScriptOrFnNode tree = p.parse( expr, null, 0 );
-		
-		return getScriptObjectName( tree, objectName );
+		try
+		{
+			Context cx = Context.enter( );
+			CompilerEnvirons ce = new CompilerEnvirons( );
+			Parser p = new Parser( ce, cx.getErrorReporter( ) );
+			ScriptOrFnNode tree = p.parse( expr, null, 0 );
+
+			return getScriptObjectName( tree, objectName );
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 	/**
@@ -154,14 +161,24 @@ public class OlapExpressionCompiler
 		if( expr == null )
 			return new HashSet();
 		
-		Set result = new HashSet();
-		Context cx = Context.enter();
-		CompilerEnvirons ce = new CompilerEnvirons();
-		Parser p = new Parser( ce, cx.getErrorReporter( ) );
-		ScriptOrFnNode tree = p.parse( expr.getText( ), null, 0 );
-		
-		populateDimLevels( tree, result, bindings, onlyFromDirectReferenceExpr );
-		return result;
+		try
+		{
+			Set result = new HashSet( );
+			Context cx = Context.enter( );
+			CompilerEnvirons ce = new CompilerEnvirons( );
+			Parser p = new Parser( ce, cx.getErrorReporter( ) );
+			ScriptOrFnNode tree = p.parse( expr.getText( ), null, 0 );
+
+			populateDimLevels( tree,
+					result,
+					bindings,
+					onlyFromDirectReferenceExpr );
+			return result;
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 	/**

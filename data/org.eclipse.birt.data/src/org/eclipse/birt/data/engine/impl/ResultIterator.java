@@ -929,13 +929,20 @@ public class ResultIterator implements IResultIterator
 		{
 			Object fieldValue = null;
 			
-			Context cx = Context.enter( );
-			fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnExprs[i] ),
-					cx,
-					ResultIterator.this.scope,
-					"Filter",
-					0 );
-			Context.exit( );
+			try
+			{
+				Context cx = Context.enter( );
+				fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnExprs[i] ),
+						cx,
+						ResultIterator.this.scope,
+						"Filter",
+						0 );
+				Context.exit( );
+			}
+			finally
+			{
+				Context.exit( );
+			}
 
 			boolean retValue = false;
 			if ( fieldValue == groupKeyValues[i] )
