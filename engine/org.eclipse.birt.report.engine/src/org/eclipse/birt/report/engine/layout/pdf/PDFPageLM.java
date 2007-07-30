@@ -383,6 +383,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		 * set positon and dimension for root
 		 */
 		ContainerArea pageRoot = new LogicContainerArea( report );
+		pageRoot.setClip( true );
 		int rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageWidth );
 		int rootTop = getDimensionValue( pageContent.getMarginTop( ), pageWidth );

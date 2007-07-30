@@ -214,7 +214,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			if ( needClip( container ) )
+			if ( container.needClip( ) )
 			{
 				pageGraphic.clipSave( );
 				clip( container );
@@ -260,7 +260,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			if ( needClip( container ) )
+			if ( container.needClip( ) )
 			{
 				pageGraphic.clipRestore( );
 			}
@@ -271,11 +271,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
-	private boolean needClip( IContainerArea container )
-	{
-		//only cell and inline container(image, inline text etc) need clip
-		return ( container instanceof CellArea  ) || (container instanceof InlineContainerArea);
-	}
 
 	/**
 	 * Creates a new PDF page

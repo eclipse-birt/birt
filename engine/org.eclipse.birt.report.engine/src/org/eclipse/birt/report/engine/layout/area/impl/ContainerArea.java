@@ -26,7 +26,8 @@ public abstract class ContainerArea extends AbstractArea
 		implements
 			IContainerArea
 {
-
+	protected boolean needClip;
+	
 	ContainerArea( IContent content )
 	{
 		super( content );
@@ -100,5 +101,15 @@ public abstract class ContainerArea extends AbstractArea
 						.getProperty( IStyle.STYLE_PADDING_BOTTOM ) )
 				+ PropertyUtil.getDimensionValue( style
 						.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ) );
+	}
+
+	public boolean needClip( )
+	{
+		return needClip;
+	}
+	
+	public void setClip(boolean needClip)
+	{
+		this.needClip = needClip;
 	}
 }

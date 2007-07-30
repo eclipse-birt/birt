@@ -18,6 +18,7 @@ public class InlineContainerArea extends ContainerArea
 	InlineContainerArea(IContent content)
 	{
 		super(content);
+		needClip = true;
 		// TODO Auto-generated constructor stub
 	}
 

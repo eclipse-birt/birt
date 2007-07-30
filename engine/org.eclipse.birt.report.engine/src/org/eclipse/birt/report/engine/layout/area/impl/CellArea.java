@@ -36,6 +36,7 @@ public class CellArea extends ContainerArea
 		//remove all border
 		removeBorder();
 		setDefaultPadding();
+		needClip = true;
 	}
 
 	public int getColumnID()
