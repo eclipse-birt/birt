@@ -286,6 +286,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
+	private boolean outputMasterPageMargins;
 	private HTMLEmitter htmlEmitter;
 	
 	/**
@@ -404,6 +405,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
 			layoutPreference = htmlOption.getLayoutPreference( );
 			enableAgentStyleEngine = htmlOption.getEnableAgentStyleEngine( );
+			outputMasterPageMargins = htmlOption.getOutputMasterPageMargins( );
 		}
 	}
 
@@ -794,7 +796,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startPage( IPageContent page )
 	{
 		pageNo++;
-		
+
 		if ( pageNo > 1 && outputMasterPageContent == false )
 		{
 			writer.openTag( "hr" );
@@ -803,37 +805,42 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
-		
-		// out put the background , width and margins
 		if ( page != null )
 		{
-			if ( outputMasterPageContent )
+			StringBuffer styleBuffer = new StringBuffer( );
+			if ( pageNo > 1 )
 			{
-				StringBuffer styleBuffer = new StringBuffer( );
-				if ( pageNo > 1 )
-				{
-					styleBuffer.append( "page-break-before: always;" );
-				}
+				styleBuffer.append( "page-break-before: always;" );
+			}
+
+			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
+			if ( fixedReport || outputMasterPageContent )
+			{
 				htmlEmitter.buildPageStyle( page, styleBuffer );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
-				// Begine to implement the master page's magins .
-				writer.openTag( HTMLTags.TAG_TABLE );
-				styleBuffer.setLength( 0 );
-				styleBuffer.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
-				if ( !pageFooterFloatFlag )
-				{
-					htmlEmitter.buildSize( styleBuffer,
-							HTMLTags.ATTR_MIN_HEIGHT,
-							page.getPageHeight( ) );
-				}
-				styleBuffer.append( " width:100%;" );
-				if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
-				{
-					styleBuffer.append( " table-layout:fixed;" );
-				}
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			writer.openTag( HTMLTags.TAG_TABLE );
+			styleBuffer.setLength( 0 );
+			styleBuffer.append( " border-collapse: collapse; empty-cells: show; width:100%;" ); //$NON-NLS-1$
+			boolean outputPageHeight = fixedReport
+					|| ( outputMasterPageContent && !pageFooterFloatFlag );
+			if ( outputPageHeight )
+			{
+				htmlEmitter.buildSize( styleBuffer,
+						HTMLTags.ATTR_HEIGHT,
+						page.getPageHeight( ) );
+			}
+			if ( fixedReport )
+			{
+				styleBuffer.append( " table-layout:fixed;" );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
+			boolean implementMargins = fixedReport
+					|| ( outputMasterPageContent && outputMasterPageMargins );
+			if ( implementMargins )
+			{
 				// Implement left margin.
 				writer.openTag( HTMLTags.TAG_COL );
 				styleBuffer.setLength( 0 );
@@ -887,9 +894,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					writer.closeTag( HTMLTags.TAG_TD );
 					writer.closeTag( HTMLTags.TAG_TR );
 				}
+			}
 
-				writer.openTag( HTMLTags.TAG_TR );
+			// open tag of the row which contain the page head.
+			writer.openTag( HTMLTags.TAG_TR );
+
+			if ( implementMargins )
+			{
+				// Implement left margin.
 				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( HTMLTags.ATTR_ROWSPAN, 3 );
+				DimensionType leftMargin = page.getMarginLeft( );
 				if ( null != leftMargin )
 				{
 					writer.openTag( HTMLTags.TAG_DIV );
@@ -902,66 +917,100 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					writer.closeTag( HTMLTags.TAG_DIV );
 				}
 				writer.closeTag( HTMLTags.TAG_TD );
-				writer.openTag( HTMLTags.TAG_TD );
-				if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
-				{
-					writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
-				}
-				writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
 			}
-			else
+
+			writer.openTag( HTMLTags.TAG_TD );
+			if ( fixedReport )
 			{
-				StringBuffer styleBuffer = new StringBuffer( );
-				if ( pageNo > 1 )
-				{
-					styleBuffer.append( "page-break-before: always;" );
-				}
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
 			}
-		}
-
-		if ( htmlRtLFlag )
-		{
-			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-		}
-
-		//output page header
-		if ( page != null )
-		{
-			if ( outputMasterPageContent )
+			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+			if ( htmlRtLFlag )
 			{
-				// output DIV for page header
-				boolean showHeader = true;
-				Object genBy = page.getGenerateBy( );
-				if ( genBy instanceof SimpleMasterPageDesign )
+				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+			}
+			// output page header
+			if ( page != null )
+			{
+				if ( outputMasterPageContent )
 				{
-					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
-					if ( !masterPage.isShowHeaderOnFirst( ) )
+					// output DIV for page header
+					boolean showHeader = true;
+					Object genBy = page.getGenerateBy( );
+					if ( genBy instanceof SimpleMasterPageDesign )
 					{
-						if ( page.getPageNumber( ) == 1 )
+						SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+						if ( !masterPage.isShowHeaderOnFirst( ) )
 						{
-							showHeader = false;
+							if ( page.getPageNumber( ) == 1 )
+							{
+								showHeader = false;
+							}
 						}
 					}
-				}
-				if ( showHeader )
-				{
-					writer.openTag( HTMLTags.TAG_DIV );
-					
-					StringBuffer styleBuffer = new StringBuffer( );
-					htmlEmitter.buildPageBandStyle( styleBuffer, page.getStyle() );
-					//output the page header attribute
-					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+					if ( showHeader )
+					{
+						writer.openTag( HTMLTags.TAG_DIV );
 
-					contentVisitor.visitChildren( page.getPageHeader( ), null );
+						styleBuffer.setLength( 0 );
+						htmlEmitter.buildPageBandStyle( styleBuffer,
+								page.getStyle( ) );
+						// output the page header attribute
+						writer.attribute( HTMLTags.ATTR_STYLE,
+								styleBuffer.toString( ) );
 
-					// close the page header
-					writer.closeTag( HTMLTags.TAG_DIV );
+						contentVisitor.visitChildren( page.getPageHeader( ),
+								null );
+
+						// close the page header
+						writer.closeTag( HTMLTags.TAG_DIV );
+					}
 				}
 			}
+			writer.closeTag( HTMLTags.TAG_TD );
+
+			if ( implementMargins )
+			{
+				// implement the right magins .
+				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( HTMLTags.ATTR_ROWSPAN, 3 );
+				DimensionType rightMargin = page.getMarginRight( );
+				if ( null != rightMargin )
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+					styleBuffer.setLength( 0 );
+					styleBuffer.append( "width: " );
+					styleBuffer.append( rightMargin.toString( ) );
+					styleBuffer.append( ";" );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
+					writer.closeTag( HTMLTags.TAG_DIV );
+				}
+				writer.closeTag( HTMLTags.TAG_TD );
+			}
+
+			// close tag of the row which contain the page head.
+			writer.closeTag( HTMLTags.TAG_TR );
+
+			// open tag of the row which contain the page body.
+			writer.openTag( HTMLTags.TAG_TR );
+			if ( outputPageHeight && !pageFooterFloatFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
+			}
+			writer.openTag( HTMLTags.TAG_TD );
+			if ( fixedReport )
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
+			}
+			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+			if ( htmlRtLFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+			}
 		}
-		
-		// start output the page body 
+
+		// start output the page body
 		writer.openTag( HTMLTags.TAG_DIV );
 	}
 
@@ -972,15 +1021,38 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endPage( IPageContent page )
 	{
-		
+
 		logger.log( Level.FINE, "[HTMLReportEmitter] End page." ); //$NON-NLS-1$
 
-		//close the page body (DIV)		
+		// close the page body (DIV)
 		writer.closeTag( HTMLTags.TAG_DIV );
-		
-		//output page footer
+
 		if ( page != null )
 		{
+			writer.closeTag( HTMLTags.TAG_TD );
+			// close tag of the row which contain the page body.
+			writer.closeTag( HTMLTags.TAG_TR );
+
+			// open tag of the row which contain the page footer.
+			writer.openTag( HTMLTags.TAG_TR );
+			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
+			boolean outputPageHeight = fixedReport
+					|| ( outputMasterPageContent && !pageFooterFloatFlag );
+			if ( outputPageHeight && pageFooterFloatFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
+			}
+			writer.openTag( HTMLTags.TAG_TD );
+			if ( fixedReport )
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
+			}
+			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+			if ( htmlRtLFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+			}
+			// output page footer
 			if ( outputMasterPageContent )
 			{
 				boolean showFooter = true;
@@ -996,7 +1068,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						{
 							totalPage = report.getTotalPage( );
 						}
-						if ( page.getPageNumber( ) ==  totalPage)
+						if ( page.getPageNumber( ) == totalPage )
 						{
 							showFooter = false;
 						}
@@ -1007,36 +1079,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 					// start output the page footer
 					writer.openTag( HTMLTags.TAG_DIV );
-					
-					//build page footer style
+
+					// build page footer style
 					StringBuffer styleBuffer = new StringBuffer( );
-					htmlEmitter.buildPageBandStyle( styleBuffer, page.getStyle() );
-					//output the page footer attribute
-					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+					htmlEmitter.buildPageBandStyle( styleBuffer,
+							page.getStyle( ) );
+					// output the page footer attribute
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
 
 					contentVisitor.visitChildren( page.getPageFooter( ), null );
 
 					// close the page footer
 					writer.closeTag( HTMLTags.TAG_DIV );
 				}
+			}
+			writer.closeTag( HTMLTags.TAG_TD );
+			// close tag of the row which contain the page footer.
+			writer.closeTag( HTMLTags.TAG_TR );
 
-				// End to implement the master page's magins .
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.openTag( HTMLTags.TAG_TD );
-				DimensionType rightMargin = page.getMarginRight( );
-				if ( null != rightMargin )
-				{
-					writer.openTag( HTMLTags.TAG_DIV );
-					StringBuffer styleBuffer = new StringBuffer( );
-					styleBuffer.append( "width: " );
-					styleBuffer.append( rightMargin.toString( ) );
-					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE, rightMargin.toString( ) );
-					writer.closeTag( HTMLTags.TAG_DIV );
-				}
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.closeTag( HTMLTags.TAG_TR );
-
+			boolean implementMargins = fixedReport
+					|| ( outputMasterPageContent && outputMasterPageMargins );
+			if ( implementMargins )
+			{
 				DimensionType bottomMargin = page.getMarginBottom( );
 				// If bottom margin isn't null, output a row to implement it.
 				if ( null != bottomMargin )
@@ -1046,20 +1111,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					styleBuffer.append( "height: " );
 					styleBuffer.append( bottomMargin.toString( ) );
 					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
 					writer.openTag( HTMLTags.TAG_TD );
 					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
 					writer.closeTag( HTMLTags.TAG_TD );
 					writer.closeTag( HTMLTags.TAG_TR );
 				}
-
-				writer.closeTag( HTMLTags.TAG_TABLE );
 			}
+			writer.closeTag( HTMLTags.TAG_TABLE );
 		}
-		
+
 		// close the page tag ( DIV )
 		writer.closeTag( HTMLTags.TAG_DIV );
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)

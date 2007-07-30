@@ -355,4 +355,29 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		}
 		return false;
 	}
+	
+	/**
+	 * Sets the flag indicationg that output the master page's margins for the auto layout report or not.
+	 * @param outputMasterPageMargins
+	 * 		True: means the HTML emitter will output the master page's margins for auto report.
+	 * 		False: means the HTML emitter won't output the master page's margins for auto report.
+	 * 
+	 */
+	public void setOutputMasterPageMargins( boolean outputMasterPageMargins )
+	{
+		options.put( HTML_OUTPUT_MASTER_PAGE_MARGINS, new Boolean( outputMasterPageMargins ) );
+	}
+
+	/**
+	 * @return the outputMasterPageMargins flag value.
+	 */
+	public boolean getOutputMasterPageMargins( )
+	{
+		Object value = options.get( HTML_OUTPUT_MASTER_PAGE_MARGINS );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return false;
+	}
 }

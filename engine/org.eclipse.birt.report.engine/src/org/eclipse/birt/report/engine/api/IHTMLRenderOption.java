@@ -271,4 +271,13 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * 		  and output the result to the report.
 	 */
 	public static final String HTML_ENABLE_AGENTSTYLE_ENGINE = "enableAgentStyleEngine"; //$NON-NLS-1$//false
+	
+	/**
+	 * Should the HTML emitter output the master page's margins. This property
+	 * is only works for the auto layout report. The fixed report will always output
+	 * the master page's margins. The default value is <code>Boolean.FALSE</code>
+	 * True: means the HTML emitter will output the master page's margins for auto report.
+	 * False: means the HTML emitter won't output the master page's margins for auto report.
+	 */
+	public static final String HTML_OUTPUT_MASTER_PAGE_MARGINS = "org.eclipse.birt.report.engine.api.IHTMLRenderOption.outputMasterPageMargins"; //$NON-NLS-1$//false
 }
