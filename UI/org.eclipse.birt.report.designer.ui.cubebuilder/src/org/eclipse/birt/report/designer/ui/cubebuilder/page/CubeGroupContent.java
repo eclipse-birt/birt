@@ -792,19 +792,6 @@ public class CubeGroupContent extends Composite implements Listener
 											SessionHandleAdapter.getInstance( )
 													.getCommandStack( )
 													.rollback( );
-											if ( element instanceof VirtualField
-													&& ( (VirtualField) element ).getType( )
-															.equals( VirtualField.TYPE_DIMENSION ) )
-											{
-												boolean hasExecuted = OlapUtil.enableDrop( dimension );
-												if ( hasExecuted )
-												{
-													UIHelper.dropDimensionProperties( dimension );
-													dimension.dropAndClear( );
-													refresh( );
-													return;
-												}
-											}
 										}
 										else
 											SessionHandleAdapter.getInstance( )
