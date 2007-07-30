@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -56,6 +58,8 @@ import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -68,6 +72,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
@@ -92,6 +97,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISharedImages;
 
 import com.ibm.icu.util.ULocale;
 
@@ -101,6 +107,8 @@ import com.ibm.icu.util.ULocale;
 
 public class CascadingParametersDialog extends BaseDialog
 {
+
+	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" ); //$NON-NLS-1$
 
@@ -117,6 +125,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final String LABEL_CASCADING_PARAMETER_NAME = Messages.getString( "CascadingParametersDialog.Label.cascadingParam.name" ); //$NON-NLS-1$
 
 	private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.groupPromptText" ); //$NON-NLS-1$
+
+	private static final String ERROR_MSG_MISMATCH_DATA_TYPE = Messages.getString( "ParameterDialog.ErrorMessage.MismatchDataType" ); //$NON-NLS-1$
 
 	// private static final String LABEL_GROUP_PROMPT_TEXT = Messages.getString(
 	// "CascadingParametersDialog.Label.promptText" ); //$NON-NLS-1$
@@ -266,6 +276,8 @@ public class CascadingParametersDialog extends BaseDialog
 			LABEL_DEFAULT_VALUE
 	};
 
+	CLabel errorMessageLine;
+
 	private String OPTION_LABEL_STRING[] = {
 			LABEL_HELP_TEXT, LABEL_FORMAT_AS, LABEL_LIST_LIMIT
 	};
@@ -323,7 +335,89 @@ public class CascadingParametersDialog extends BaseDialog
 
 		createOptionsPart( composite );
 
+		createLabel( composite, null );
+		errorMessageLine = new CLabel( composite, SWT.NONE );
+		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
+		msgLineGridData.horizontalSpan = 2;
+		errorMessageLine.setLayoutData( msgLineGridData );
+
 		return composite;
+	}
+
+	private String validateDefaultValue( )
+	{
+		if ( selectedParameter == null )
+		{
+			return null;
+		}
+		String tempDefaultValue = defaultValueChooser.getText( );
+		String tempType = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+				.getName( );
+		String tempformat = formatCategroy;
+
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( tempType )
+				|| DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( tempType ) )
+		{
+			return null;
+		}
+
+		if ( tempDefaultValue.length( ) > 0 )
+		{
+			try
+			{
+				ParameterValidationUtil.validate( tempType,
+						tempformat,
+						tempDefaultValue,
+						ULocale.US );
+			}
+			catch ( BirtException e )
+			{
+				return ERROR_MSG_MISMATCH_DATA_TYPE;
+			}
+		}
+
+		return null;
+	}
+
+	private String convertToStandardFormat( Date date )
+	{
+		if ( date == null )
+		{
+			return null;
+		}
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
+	}
+
+	private void updateMessageLine( )
+	{
+		String errorMessage = validateDefaultValue( );
+
+		if ( errorMessage != null )
+		{
+			errorMessageLine.setText( errorMessage );
+			errorMessageLine.setImage( ERROR_ICON );
+		}
+		else
+		{
+			errorMessageLine.setText( "" ); //$NON-NLS-1$
+			errorMessageLine.setImage( null );
+		}
+		updateButtons( );
+	}
+
+	private void createLabel( Composite parent, String content )
+	{
+		Label label = new Label( parent, SWT.NONE );
+		if ( content != null )
+		{
+			label.setText( content );
+		}
+		GridData gd = new GridData( );
+		if ( label.getText( ).equals( LABEL_VALUES ) )
+		{
+			gd.verticalAlignment = GridData.BEGINNING;
+		}
+		label.setLayoutData( gd );
 	}
 
 	private void createGeneralPart( Composite parent )
@@ -490,6 +584,16 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 		} );
 
+		valueTable.addDoubleClickListener( new IDoubleClickListener( ) {
+
+			public void doubleClick( DoubleClickEvent event )
+			{
+				editParameter( selectedParameter );
+
+			}
+
+		} );
+
 		// create Add, edit, and delete buttons.
 		Composite composite = new Composite( comp, SWT.NULL );
 		composite.setLayout( new GridLayout( ) );
@@ -520,7 +624,9 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					ExceptionHandler.handle( e1 );
 				}
+
 				refreshValueTable( );
+				valueTable.setSelection( new StructuredSelection( dialog.getParameter( ) ) );
 				updateButtons( );
 			}
 		} );
@@ -532,18 +638,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( selectedParameter == null )
-				{
-					return;
-				}
-				AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
-				dialog.setParameter( selectedParameter );
-				if ( dialog.open( ) != Dialog.OK )
-				{
-					return;
-				}
-				refreshValueTable( );
-				updateButtons( );
+				editParameter( selectedParameter );
 			}
 		} );
 
@@ -559,6 +654,23 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 		} );
 
+	}
+
+	protected void editParameter( ScalarParameterHandle param )
+	{
+		if ( param == null )
+		{
+			return;
+		}
+		AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
+		dialog.setParameter( param );
+		if ( dialog.open( ) != Dialog.OK )
+		{
+			return;
+		}
+		refreshValueTable( );
+		refreshParameterProperties( );
+		updateButtons( );
 	}
 
 	private void createPropertiesPart( Composite parent )
@@ -692,6 +804,16 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 
 			}
+		} );
+
+		defaultValueChooser.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				// TODO Auto-generated method stub
+				updateMessageLine( );
+			}
+
 		} );
 
 	}
@@ -1004,7 +1126,7 @@ public class CascadingParametersDialog extends BaseDialog
 			ParameterValidationUtil.validate( tempType,
 					tempformat,
 					tempDefaultValue,
-					ULocale.getDefault( ) );
+					ULocale.US );
 		}
 	}
 
@@ -1092,6 +1214,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private String[] getDataSetColumns( ScalarParameterHandle handle,
 			boolean needFilter )
 	{
+
 		DataSetHandle dataSet = getDataSet( handle );
 		if ( dataSet == null )
 		{
@@ -1115,12 +1238,14 @@ public class CascadingParametersDialog extends BaseDialog
 			return new String[0];
 		}
 		ArrayList valueList = new ArrayList( );
+		List dataTypeList = new ArrayList( );
 		for ( Iterator iter = metaHandle.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iter.next( );
 			if ( !needFilter || matchDataType( handle, columnHandle ) )
 			{
 				valueList.add( columnHandle.getColumnName( ) );
+				dataTypeList.add( columnHandle.getDataType( ) );
 			}
 		}
 		return (String[]) valueList.toArray( new String[0] );
@@ -1814,7 +1939,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void updateButtons( )
 	{
-
 		int index = valueTable.getTable( ).getSelectionIndex( );
 		boolean setBtnEnable = true;
 		if ( index == -1 )
@@ -1826,6 +1950,17 @@ public class CascadingParametersDialog extends BaseDialog
 		delBtn.setEnabled( setBtnEnable );
 
 		boolean okEnable = true;
+
+		if ( errorMessageLine != null && !errorMessageLine.isDisposed( ) )
+		{
+			okEnable = ( errorMessageLine.getImage( ) == null );
+			if ( okEnable == false )
+			{
+				getOkButton( ).setEnabled( okEnable );
+				return;
+			}
+		}
+
 		Iterator iter = inputParameterGroup.getParameters( ).iterator( );
 		if ( !iter.hasNext( ) )
 		{
@@ -1981,6 +2116,7 @@ public class CascadingParametersDialog extends BaseDialog
 		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" ); //$NON-NLS-1$
 		Text name;
 		Combo dataset, value, displayText;
+		private String[] dataTypes;
 		protected ScalarParameterHandle parameter = null;
 
 		public ScalarParameterHandle getParameter( )
@@ -2088,6 +2224,11 @@ public class CascadingParametersDialog extends BaseDialog
 					try
 					{
 						parameter.setValueExpr( DEUtil.getColumnExpression( value.getText( ) ) );
+						if ( dataTypes.length == value.getItemCount( )
+								&& value.getSelectionIndex( ) > -1 )
+						{
+							parameter.setDataType( dataTypes[value.getSelectionIndex( )] );
+						}
 					}
 					catch ( SemanticException e1 )
 					{
@@ -2140,6 +2281,46 @@ public class CascadingParametersDialog extends BaseDialog
 			updateComboFromDataSet( );
 			updateButtons( );
 			return super.initDialog( );
+		}
+
+		private String[] getDataSetColumns( ScalarParameterHandle handle,
+				boolean needFilter )
+		{
+
+			DataSetHandle dataSet = getDataSet( handle );
+			if ( dataSet == null )
+			{
+				return new String[0];
+			}
+			CachedMetaDataHandle metaHandle = dataSet.getCachedMetaDataHandle( );
+			if ( metaHandle == null )
+			{
+				try
+				{
+					metaHandle = DataSetUIUtil.getCachedMetaDataHandle( dataSet );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+					return new String[0];
+				}
+			}
+			if ( metaHandle == null || metaHandle.getResultSet( ) == null )
+			{
+				return new String[0];
+			}
+			ArrayList valueList = new ArrayList( );
+			List dataTypeList = new ArrayList( );
+			for ( Iterator iter = metaHandle.getResultSet( ).iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iter.next( );
+				valueList.add( columnHandle.getColumnName( ) );
+				dataTypeList.add( columnHandle.getDataType( ) );
+
+			}
+
+			dataTypes = (String[]) dataTypeList.toArray( new String[0] );
+			return (String[]) valueList.toArray( new String[0] );
 		}
 
 		private void updateComboFromDataSet( )

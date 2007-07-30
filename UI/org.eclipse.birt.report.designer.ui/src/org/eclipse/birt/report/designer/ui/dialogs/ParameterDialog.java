@@ -1183,7 +1183,8 @@ public class ParameterDialog extends BaseDialog
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
-		}else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ))
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 		}
@@ -2366,25 +2367,20 @@ public class ParameterDialog extends BaseDialog
 		{
 			return ERROR_MSG_DUPLICATED_NAME;
 		}
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) )
-				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) )
-				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+		if ( defaultValueChooser != null
+				&& ( !defaultValueChooser.isDisposed( ) )
+				&& defaultValueChooser.getText( ).length( ) != 0 )
 		{
-			if ( defaultValueChooser != null
-					&& ( !defaultValueChooser.isDisposed( ) )
-					&& defaultValueChooser.getText( ).length( ) != 0 )
+			try
 			{
-				try
-				{
-					validateValue( defaultValueChooser.getText( ) );
-				}
-				catch ( BirtException e )
-				{
-					return ERROR_MSG_MISMATCH_DATA_TYPE;
-				}
+				validateValue( defaultValueChooser.getText( ) );
 			}
-
+			catch ( BirtException e )
+			{
+				return ERROR_MSG_MISMATCH_DATA_TYPE;
+			}
 		}
+
 		return null;
 	}
 
