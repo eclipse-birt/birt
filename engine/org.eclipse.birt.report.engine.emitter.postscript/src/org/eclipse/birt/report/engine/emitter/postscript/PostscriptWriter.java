@@ -334,9 +334,13 @@ public class PostscriptWriter
 				for ( int j = 0; j < originalWidth; j++ )
 				{
 					int pixel = imageSource.getRGB( j, i );
-					int red = ( pixel & 0xff0000 ) >> 16;
-					int green = ( pixel & 0xff00 ) >> 8;
+					int alpha = ( pixel >> 24 ) & 0xff;
+					int red = ( pixel >> 16 ) & 0xff;
+					int green = ( pixel >> 8 ) & 0xff;
 					int blue = pixel & 0xff;
+					red = transferColor( alpha, red );
+					green = transferColor( alpha, green );
+					blue = transferColor( alpha, blue );
 					offset = toBytes( offset, sb, red );
 					offset = toBytes( offset, sb, green );
 					offset = toBytes( offset, sb, blue );
@@ -353,6 +357,11 @@ public class PostscriptWriter
 		gRestore( );
 	}
 
+	private int transferColor( int alpha, int color )
+	{
+		return 255 - (255 - color) * alpha / 255;
+	}
+	
 	private int toBytes( int offset, byte[] buffer, int value )
 	{
 		buffer[offset++] = hd[( ( value & 0xF0 ) >> 4 )];
