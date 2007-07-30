@@ -62,6 +62,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	private List charts = new ArrayList( );
 	
+	public String getOutputFormat( )
+	{
+		return "xls";
+	}
+	
 	public void initialize( IEmitterServices service )
 	{
 		this.service = service;
