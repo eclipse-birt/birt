@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultIterator.RDSaveHelper;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
@@ -243,9 +243,9 @@ class BindingColumnsEvalUtil
 	 * @param valueMap
 	 * @throws DataException
 	 */
-	Object evaluateValue( String bindingName ) throws DataException
+	Object evaluateValue( IBaseExpression expr, String bindingName ) throws DataException
 	{
-		return this.evaluateValue( getBindingFromManualBinding( bindingName ),
+		return this.evaluateValue( getBindingFromManualBinding( expr, bindingName ),
 				MANUAL_BINDING );
 	}
 
@@ -257,19 +257,30 @@ class BindingColumnsEvalUtil
 	 * @throws DataException
 	 *             there is no BindingColumn in manualBindingExprs
 	 */
-	private BindingColumn getBindingFromManualBinding( String name )
+	private BindingColumn getBindingFromManualBinding( IBaseExpression expr, String name )
 			throws DataException
 	{
+		BindingColumn bindingColumn = null;
 		for ( int i = 0; i < allManualBindingExprs.size( ); i++ )
 		{
 			List list = (List) allManualBindingExprs.get( i );
 			Iterator it = list.iterator( );
 			while ( it.hasNext( ) )
 			{
-				BindingColumn bindingColumn = (BindingColumn) it.next( );
+				bindingColumn = (BindingColumn) it.next( );
 				if ( bindingColumn.columnName.equals( name ) )
+				{
 					return bindingColumn;
+				}
 			}
+		}
+		if ( expr != null )
+		{
+			bindingColumn = new BindingColumn( name,
+					expr,
+					ExpressionCompilerUtil.hasAggregationInExpr( expr ),
+					expr.getDataType( ) );
+			return bindingColumn;
 		}
 		throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 				name );

@@ -61,11 +61,13 @@ class PreparedSubquery implements IPreparedQueryService
 	 * @param groupLevel
 	 *            Index of group in which this subquery is defined within the
 	 *            parent query. If 0, subquery is defined outside of any groups.
+	 * @param parentExprManager
+	 *            Parent query's expression manager
 	 * @throws DataException
 	 */
 	PreparedSubquery( DataEngineSession session, DataEngineContext context,
 			ISubqueryDefinition subquery,
-			IPreparedQueryService queryService, int groupLevel ) throws DataException
+			IPreparedQueryService queryService, int groupLevel, ExprManager parentExprManager ) throws DataException
 	{
 		Object[] params = {
 				session,
@@ -86,10 +88,12 @@ class PreparedSubquery implements IPreparedQueryService
 				"PreparedSubquery",
 				"PreparedSubquery starts up." );
 		this.session = session;
-		this.preparedQuery = new PreparedQuery( session, context,
+		this.preparedQuery = new PreparedQuery( session,
+				context,
 				subquery,
 				this,
-				null );
+				null,
+				parentExprManager );
 		logger.exiting( PreparedSubquery.class.getName( ), "PreparedSubquery" );
 	}
 	

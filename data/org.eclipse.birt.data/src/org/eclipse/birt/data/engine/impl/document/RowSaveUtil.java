@@ -104,7 +104,7 @@ public class RowSaveUtil
 
 		try
 		{
-			IOUtil.writeInt( tempDos, valueMap.size( ) );
+			IOUtil.writeInt( tempDos, exprNameSet.size( ) );
 			Iterator it = exprNameSet.iterator( );
 			while ( it.hasNext( ) )
 			{
