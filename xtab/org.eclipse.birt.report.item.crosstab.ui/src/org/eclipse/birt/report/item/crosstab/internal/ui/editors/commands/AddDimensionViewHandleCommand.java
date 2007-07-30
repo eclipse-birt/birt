@@ -157,7 +157,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 				return;
 			}
 
-			DataItemHandle dataHandle = CrosstabAdaptUtil.createDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
 					levelHandle );
 						
 			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle, 0 );

@@ -170,7 +170,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
 		// int viewCount = viewHandle.getLevelCount( );
 
-		DataItemHandle dataHandle = CrosstabAdaptUtil.createDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+		DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
 				levelHandle );
 
 		LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,

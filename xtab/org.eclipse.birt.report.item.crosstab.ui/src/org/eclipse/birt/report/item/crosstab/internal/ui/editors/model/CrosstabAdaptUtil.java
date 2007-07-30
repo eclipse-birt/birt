@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -33,11 +35,13 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -93,8 +97,9 @@ public class CrosstabAdaptUtil
 		return bindingColumn;
 	}
 
-	public static DataItemHandle createDataItem( ReportItemHandle owner,
-			LevelHandle levelHandle ) throws SemanticException
+	public static DataItemHandle createColumnBindingAndDataItem(
+			ReportItemHandle owner, LevelHandle levelHandle )
+			throws SemanticException
 	{
 		ComputedColumn bindingColumn = createComputedColumn( owner, levelHandle );
 
@@ -107,10 +112,41 @@ public class CrosstabAdaptUtil
 
 		if ( levelHandle.getDateTimeFormat( ) != null )
 		{
-			dataHandle.getPrivateStyle( )
-					.setDateTimeFormatCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
-			dataHandle.getPrivateStyle( )
-					.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
+			if ( levelHandle.getContainer( ) != null
+					&& levelHandle.getContainer( ).getContainer( ) != null )
+			{
+				Iterator itr = levelHandle.attributesIterator( );
+
+				boolean hasDateAttribute = false;
+
+				while ( itr != null && itr.hasNext( ) )
+				{
+					LevelAttributeHandle att = (LevelAttributeHandle) itr.next( );
+
+					if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( att.getName( ) ) )
+					{
+						hasDateAttribute = true;
+						break;
+					}
+				}
+
+				if ( hasDateAttribute )
+				{
+					String dimensionName = levelHandle.getContainer( )
+							.getContainer( )
+							.getName( );
+
+					bindingHandle.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					bindingHandle.setExpression( ExpressionUtil.createJSDimensionExpression( dimensionName,
+							levelHandle.getName( ),
+							LevelAttribute.DATE_TIME_ATTRIBUTE_NAME ) );
+
+					dataHandle.getPrivateStyle( )
+							.setDateTimeFormatCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
+					dataHandle.getPrivateStyle( )
+							.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
+				}
+			}
 		}
 
 		return dataHandle;
