@@ -50,6 +50,11 @@ public class WebViewer
 	final public static String DOC = "doc"; //$NON-NLS-1$
 
 	/**
+	 * Report extension
+	 */
+	public static final String REPORT_DOCUMENT_FILE = ".rptdocument"; //$NON-NLS-1$
+
+	/**
 	 * Birt web viewer plugin id
 	 */
 	final public static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
@@ -289,11 +294,16 @@ public class WebViewer
 		if ( encodedResourceFolder == null )
 			encodedResourceFolder = ""; //$NON-NLS-1$
 
+		String reportParam = "__report"; //$NON-NLS-1$
+		if ( encodedReportName.endsWith( REPORT_DOCUMENT_FILE ) )
+			reportParam = "__document"; //$NON-NLS-1$
+		reportParam += "=" + encodedReportName; //$NON-NLS-1$
+
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( )
 				+ servletName
 				+ "?" //$NON-NLS-1$
-				+ "__report=" + encodedReportName //$NON-NLS-1$
+				+ reportParam
 				+ "&__format=" + format //$NON-NLS-1$
 				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
 				+ ( LocaleTable.containsKey( locale )
