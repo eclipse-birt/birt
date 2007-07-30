@@ -65,6 +65,12 @@ public class LayoutUtil
 	public static TableInfo createTable(ITableContent table, int width)
 	{
 		int colcount = table.getColumnCount( );
+		
+		if ( colcount == 0 )
+		{
+			return null;
+		}
+		
 		int[] index = new int[colcount];
 		int know = 0;
 		List unmount = new ArrayList();
