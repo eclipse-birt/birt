@@ -854,8 +854,8 @@ ImageDialog.label.SelectImage=Sélectionner une image
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=Saisissez une valeur décimale ou fractionnelle
 
-PlotClientAreaSheet.Label.HeightHint=Astuce de &hauteur :
-PlotClientAreaSheet.Label.WidthHint=Astuce de &largeur :
+PlotClientAreaSheet.Label.HeightHint=Indication de &hauteur :
+PlotClientAreaSheet.Label.WidthHint=Indication de &largeur :
 
 AxisMarkersSheet.MarkerLine.displayName=MarkerLine
 AxisMarkersSheet.MarkerRange.displayName=MarkerRange
