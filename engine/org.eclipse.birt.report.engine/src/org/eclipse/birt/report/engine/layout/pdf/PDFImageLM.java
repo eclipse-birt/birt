@@ -116,7 +116,7 @@ public class PDFImageLM extends PDFLeafItemLM
 
 	protected ContainerArea root;
 
-	private Dimension instrinsic;
+	private Dimension intrinsic;
 
 	private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
 
@@ -196,7 +196,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 		try
 		{
-			instrinsic = getIntrinsicDimension( content );
+			intrinsic = getIntrinsicDimension( content );
 		}
 		catch ( Exception e )
 		{
@@ -205,7 +205,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		boolean scale = false;
 		int specifiedWidth = getDimensionValue( content.getWidth( ) );
 		int specifiedHeight = getDimensionValue( content.getHeight( ) );
-		if ( instrinsic == null )
+		if ( intrinsic == null )
 		{
 			dim.setDimension( specifiedWidth == 0
 					? DEFAULT_WIDHT
@@ -216,7 +216,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		}
 		if ( scale )
 		{
-			double ratio = instrinsic.getRatio( );
+			double ratio = intrinsic.getRatio( );
 
 			if ( specifiedWidth > 0 )
 			{
@@ -239,7 +239,7 @@ public class PDFImageLM extends PDFLeafItemLM
 				}
 				else
 				{
-					dim.setDimension( instrinsic.getWidth( ), instrinsic
+					dim.setDimension( intrinsic.getWidth( ), intrinsic
 							.getHeight( ) );
 				}
 			}
@@ -254,18 +254,18 @@ public class PDFImageLM extends PDFLeafItemLM
 				}
 				else
 				{
-					dim.setDimension( specifiedWidth, instrinsic.getHeight( ) );
+					dim.setDimension( specifiedWidth, intrinsic.getHeight( ) );
 				}
 			}
 			else
 			{
 				if ( specifiedHeight > 0 )
 				{
-					dim.setDimension( instrinsic.getWidth( ), specifiedHeight );
+					dim.setDimension( intrinsic.getWidth( ), specifiedHeight );
 				}
 				else
 				{
-					dim.setDimension( instrinsic.getWidth( ), instrinsic
+					dim.setDimension( intrinsic.getWidth( ), intrinsic
 							.getHeight( ) );
 				}
 			}
@@ -365,6 +365,10 @@ public class PDFImageLM extends PDFLeafItemLM
 	private void processChartLegend( IImageContent imageContent,
 			IImageArea imageArea )
 	{
+		if ( null == intrinsic )
+		{
+			return;
+		}
 		Object imageMapObject = imageContent.getImageMap( );
 		boolean hasImageMap = ( imageMapObject != null )
 				&& ( imageMapObject instanceof String )
@@ -471,6 +475,7 @@ public class PDFImageLM extends PDFLeafItemLM
 	 */
 	private int[] getAbsoluteArea( int[] area, IImageArea imageArea )
 	{
+		assert ( intrinsic != null );
 		for ( int i = 0; i < 4; i++ )
 		{
 			area[i] = getTranslatedLength( area[i] );
@@ -480,8 +485,8 @@ public class PDFImageLM extends PDFLeafItemLM
 		int imageY = imageArea.getY( );
 		int imageHeight = imageArea.getHeight( );
 		int imageWidth = imageArea.getWidth( );
-		int intrinsicWidth = instrinsic.getWidth( );
-		int intrinsicHeight = instrinsic.getHeight( );
+		int intrinsicWidth = intrinsic.getWidth( );
+		int intrinsicHeight = intrinsic.getHeight( );
 		float ratio = (float) imageWidth / (float) intrinsicWidth;
 		result[0] = imageX + (int) ( area[0] * ratio );
 		result[2] = (int) ( area[2] * ratio );
