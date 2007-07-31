@@ -97,8 +97,9 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 		ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean( );
 		assert bean != null;
 
-		if ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
-				.getRequest( ).getServletPath( ) )
+		if ( ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
+				.getRequest( ).getServletPath( ) ) || IBirtConstants.SERVLET_PATH_DOCUMENT
+				.equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) )
 				&& bean.isShowParameterPage( ) )
 		{
 			requester.service( context.getRequest( ), context.getResponse( ) );

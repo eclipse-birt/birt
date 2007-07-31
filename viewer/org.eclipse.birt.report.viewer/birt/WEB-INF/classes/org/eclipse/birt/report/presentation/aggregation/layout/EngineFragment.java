@@ -27,12 +27,14 @@ import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
+import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.BirtUtility;
@@ -69,6 +71,30 @@ public class EngineFragment extends BirtBaseFragment
 			response
 					.setHeader(
 							"Content-Disposition", "attachment; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( IBirtConstants.SERVLET_PATH_DOCUMENT
+				.equalsIgnoreCase( request.getServletPath( ) ) )
+		{
+			// generate document file from report design file.
+			BaseAttributeBean attrBean = (BaseAttributeBean) request
+					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			String docFile = attrBean.getReportDocumentName( );
+			if ( docFile == null || docFile.length( ) <= 0 )
+			{
+				String fileName = ParameterAccessor
+						.generateFileNameWithoutExtension( attrBean
+								.getReportDesignName( ) )
+						+ "." + IBirtConstants.SUFFIX_DESIGN_DOCUMENT; //$NON-NLS-1$
+				// output rptdocument file
+				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
+				response
+						.setHeader(
+								"Content-Disposition", "attachment; filename=" + fileName ); //$NON-NLS-1$ //$NON-NLS-2$				
+			}
+			else
+			{
+				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+			}
 		}
 		else
 		{
@@ -125,6 +151,36 @@ public class EngineFragment extends BirtBaseFragment
 				BirtExtractDataActionHandler extractDataHandler = new BirtExtractDataActionHandler(
 						context, op, upResponse );
 				extractDataHandler.execute( );
+			}
+			else if ( IBirtConstants.SERVLET_PATH_DOCUMENT
+					.equalsIgnoreCase( request.getServletPath( ) ) )
+			{
+				String docFile = attrBean.getReportDocumentName( );
+				if ( docFile == null || docFile.length( ) <= 0 )
+				{
+					// generate the temp document file
+					docFile = ParameterAccessor.getReportDocument( request,
+							"", true ); //$NON-NLS-1$
+					attrBean.setReportDocumentName( docFile );
+					BirtRunReportActionHandler runReport = new BirtRunReportActionHandler(
+							context, op, upResponse );
+					runReport.execute( );
+
+					// output rptdocument file
+					BirtUtility.outputFile( docFile, out, true );
+				}
+				else
+				{
+					BirtRunReportActionHandler runReport = new BirtRunReportActionHandler(
+							context, op, upResponse );
+					runReport.execute( );
+					BirtUtility
+							.writeMessage(
+									out,
+									BirtResources
+											.getMessage( "birt.viewer.message.document.successful" ), //$NON-NLS-1$
+									IBirtConstants.MSG_COMPLETE );
+				}
 			}
 			else if ( ParameterAccessor.isGetImageOperator( request ) )
 			{

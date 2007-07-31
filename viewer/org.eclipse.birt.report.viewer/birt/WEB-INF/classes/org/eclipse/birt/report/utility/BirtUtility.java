@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -934,4 +935,48 @@ public class BirtUtility
 		return tocid;
 	}
 
+	/**
+	 * Output file content
+	 * 
+	 * @param filePath
+	 * @param out
+	 * @param isDelete
+	 * @exception IOException
+	 */
+	public static void outputFile( String filePath, OutputStream out,
+			boolean isDelete ) throws IOException
+	{
+		if ( filePath == null )
+			return;
+		File file = new File( filePath );
+		if ( !file.exists( ) )
+			return;
+
+		FileInputStream in = new FileInputStream( file );
+		try
+		{
+			byte[] buf = new byte[512];
+			int len = 0;
+			while ( ( len = in.read( buf ) ) > 0 )
+			{
+				out.write( buf, 0, len );
+			}
+			out.flush( );
+		}
+		finally
+		{
+			in.close( );
+
+			try
+			{
+				if ( isDelete )
+					file.delete( );
+			}
+			catch ( Exception e )
+			{
+
+			}
+
+		}
+	}
 }

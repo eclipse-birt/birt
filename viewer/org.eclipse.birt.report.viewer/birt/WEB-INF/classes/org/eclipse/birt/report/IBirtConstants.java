@@ -31,24 +31,6 @@ public interface IBirtConstants
 	public static final String POSTSCRIPT_RENDER_FORMAT = "postscript"; //$NON-NLS-1$
 	public static final String DOC_RENDER_FORMAT = "doc"; //$NON-NLS-1$
 	
-	// Servlet path for parameter model.
-	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
-
-	// Servlet path for preview model.
-	public static final String SERVLET_PATH_PREVIEW = "/preview"; //$NON-NLS-1$
-
-	// Servlet path for frameset model.
-	public static final String SERVLET_PATH_FRAMESET = "/frameset"; //$NON-NLS-1$
-
-	// Servlet path for running model.
-	public static final String SERVLET_PATH_RUN = "/run"; //$NON-NLS-1$
-
-	// Servlet path for download model.
-	public static final String SERVLET_PATH_DOWNLOAD = "/download"; //$NON-NLS-1$
-
-	// parameter viewer model.
-	public static final String VIEWER_PARAMETER = "parameter"; //$NON-NLS-1$
-
 	// frameset viewer model.
 	public static final String VIEWER_FRAMESET = "frameset"; //$NON-NLS-1$
 
@@ -57,6 +39,30 @@ public interface IBirtConstants
 	
 	// preview viewer model.
 	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
+
+	// parameter viewer model.
+	public static final String VIEWER_PARAMETER = "parameter"; //$NON-NLS-1$
+
+	// document viewer model.
+	public static final String VIEWER_DOCUMENT = "document"; //$NON-NLS-1$
+
+	// Servlet path for frameset model.
+	public static final String SERVLET_PATH_FRAMESET = "/" + VIEWER_FRAMESET; //$NON-NLS-1$
+
+	// Servlet path for running model.
+	public static final String SERVLET_PATH_RUN = "/" + VIEWER_RUN; //$NON-NLS-1$
+
+	// Servlet path for preview model.
+	public static final String SERVLET_PATH_PREVIEW = "/" + VIEWER_PREVIEW; //$NON-NLS-1$
+
+	// Servlet path for parameter model.
+	public static final String SERVLET_PATH_PARAMETER = "/" + VIEWER_PARAMETER; //$NON-NLS-1$
+
+	// Servlet path for document model.
+	public static final String SERVLET_PATH_DOCUMENT = "/" + VIEWER_DOCUMENT; //$NON-NLS-1$
+
+	// Servlet path for download model.
+	public static final String SERVLET_PATH_DOWNLOAD = "/download"; //$NON-NLS-1$
 
 	// request GET method.
 	public static final String REQUEST_GET = "get"; //$NON-NLS-1$

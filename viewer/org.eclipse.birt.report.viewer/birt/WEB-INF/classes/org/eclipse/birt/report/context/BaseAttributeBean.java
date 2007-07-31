@@ -342,6 +342,15 @@ abstract public class BaseAttributeBean
 	}
 
 	/**
+	 * @param reportDocumentName
+	 *            the reportDocumentName to set
+	 */
+	public void setReportDocumentName( String reportDocumentName )
+	{
+		this.reportDocumentName = reportDocumentName;
+	}
+
+	/**
 	 * @return Returns the bookmark.
 	 */
 	public String getBookmark( )

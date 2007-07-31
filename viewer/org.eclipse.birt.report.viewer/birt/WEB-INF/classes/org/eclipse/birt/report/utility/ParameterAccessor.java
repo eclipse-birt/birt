@@ -902,22 +902,7 @@ public class ParameterAccessor
 			filePath = DataUtil
 					.trimString( getParameter( request, PARAM_REPORT ) );
 
-		// if file path is an absolute file, return it directly
-		if ( !isRelativePath( filePath ) )
-			return filePath;
-
-		// relative to working folder
-		if ( isRelativePath( workingFolder ) )
-		{
-			filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
-					.getSession( ).getServletContext( ) );
-		}
-		else
-		{
-			filePath = workingFolder + File.separator + filePath;
-		}
-
-		return filePath;
+		return getRealPathOnWorkingFolder( filePath, request );
 	}
 
 	/**
@@ -948,24 +933,41 @@ public class ParameterAccessor
 		}
 		else
 		{
-			// if file path is an absolute file, return it directly
-			if ( !isRelativePath( filePath ) )
-				return filePath;
-
-			// relative to working folder
-			if ( isRelativePath( workingFolder ) )
-			{
-				filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
-						.getSession( ).getServletContext( ) );
-			}
-			else
-			{
-				filePath = workingFolder + File.separator + filePath;
-			}
+			filePath = getRealPathOnWorkingFolder( filePath, request );
 		}
 
 		return filePath;
 
+	}
+
+	/**
+	 * Returns the real path based on working folder. If file path is an
+	 * absolute path, return it directly. Else, return the absolute path based
+	 * on working folder.
+	 * 
+	 * @param filePath
+	 * @param request
+	 * @return
+	 */
+	public static String getRealPathOnWorkingFolder( String filePath,
+			HttpServletRequest request )
+	{
+		// if file path is an absolute file, return it directly
+		if ( !isRelativePath( filePath ) )
+			return filePath;
+
+		// relative to working folder
+		if ( isRelativePath( workingFolder ) )
+		{
+			filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
+					.getSession( ).getServletContext( ) );
+		}
+		else
+		{
+			filePath = workingFolder + File.separator + filePath;
+		}
+
+		return filePath;
 	}
 
 	/**
@@ -1938,26 +1940,15 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Generates a file name for output attachment.
+	 * Returns the file name without extension from a base file path
 	 * 
-	 * @param request
-	 * @param format
-	 * @return the file name
+	 * @param baseName
+	 * @return
 	 */
-
-	public static String generateFileName( HttpServletRequest request,
-			String format )
+	public static String generateFileNameWithoutExtension( String baseName )
 	{
 		String defaultName = "BIRTReport"; //$NON-NLS-1$
 		String fileName = defaultName;
-		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( attrBean == null )
-			return fileName;
-
-		String baseName = attrBean.getReportDesignName( );
-		if ( baseName == null || baseName.length( ) == 0 )
-			baseName = attrBean.getReportDocumentName( );
 
 		if ( baseName == null || baseName.trim( ).length( ) <= 0 )
 			return fileName;
@@ -1967,7 +1958,7 @@ public class ParameterAccessor
 			index = baseName.lastIndexOf( '\\' );
 
 		// if base name contains parent package name, substring the
-		// design file name; otherwise let it be
+		// file name; otherwise let it be
 		if ( index != -1 )
 		{
 			baseName = baseName.substring( index + 1 );
@@ -1983,13 +1974,11 @@ public class ParameterAccessor
 		}
 
 		// check whether the file name contains non US-ASCII characters
-
 		for ( int i = 0; i < fileName.length( ); i++ )
 		{
 			char c = fileName.charAt( i );
 
 			// char is from 0-127
-
 			if ( c < 0x00 || c >= 0x80 )
 			{
 				fileName = defaultName;
@@ -1997,6 +1986,30 @@ public class ParameterAccessor
 			}
 		}
 
+		return fileName;
+	}
+
+	/**
+	 * Generates a file name for output attachment.
+	 * 
+	 * @param request
+	 * @param format
+	 * @return the file name
+	 */
+	public static String generateFileName( HttpServletRequest request,
+			String format )
+	{
+		String baseName = null;
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		if ( attrBean != null )
+		{
+			baseName = attrBean.getReportDesignName( );
+			if ( baseName == null || baseName.length( ) == 0 )
+				baseName = attrBean.getReportDocumentName( );
+		}
+
+		String fileName = generateFileNameWithoutExtension( baseName );
 		// append extension name
 		String extensionName = getExtensionName( format );
 		if ( extensionName != null && extensionName.length( ) > 0 )

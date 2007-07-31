@@ -288,6 +288,10 @@
 			<servlet-mapping
 				name="EngineServlet"
 				uri="/parameter"/>				
+
+			<servlet-mapping
+				name="EngineServlet"
+				uri="/document"/>				
 			
 			<taglib
 				uri="/birt.tld"
