@@ -440,7 +440,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
 						
 					// Check if select 'Null Value' option
-					if( tempText == this.__display_null )
+					if( tempText == this.__display_null && tempValue == '' )
 					{
 						this.__parameter[k].name = this.__isnull;
 						this.__parameter[k].value = paramName;
@@ -636,17 +636,18 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 if( paramName == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
                 {
                 	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
-
+					var tempValue = Event.element( event ).options[Event.element( event ).selectedIndex].value;
+					
                 	// Null Value Parameter
-                	if( tempText == this.__display_null )
+                	if( tempText == this.__display_null && tempValue == '' )
                 	{
-                		this.__cascadingParameter[i][j].value = this.__cascadingParameter[i][j].name;
-						this.__cascadingParameter[i][j].name = this.__isnull;
+                		this.__cascadingParameter[i][j].name = this.__isnull;
+                		this.__cascadingParameter[i][j].value = paramName;						
                 	}
                 	else
                 	{
                 		this.__cascadingParameter[i][j].name = paramName;
-                	    this.__cascadingParameter[i][j].value = Event.element( event ).options[Event.element( event ).selectedIndex].value;
+                	    this.__cascadingParameter[i][j].value = tempValue;
                 	}
                 	
                     for( var m = 0; m <= j; m++ )
