@@ -820,11 +820,6 @@ class DimensionInfo
 	int dimensionLength;
 }
 
-class MeasureInfo
-{
-	String measureName;
-	int dataType;
-}
 
 class CombinedPositionContructor
 {

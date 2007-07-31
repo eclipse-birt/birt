@@ -62,7 +62,9 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
@@ -337,7 +339,7 @@ public class CubeAggregationTest extends TestCase
 				true,
 				false );
 		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
-		cubeQueryExcutorHelper.addComputedMeasure( new ComputedMeasureHelper( ) );
+		cubeQueryExcutorHelper.setComputedMeasure( new ComputedMeasureHelper( ) );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
@@ -449,6 +451,43 @@ public class CubeAggregationTest extends TestCase
 		{
 			resultSet[i].close( );
 		}
+	}
+	
+	public void testCube1AggregationWithFunctionFilter( ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( null, "measure1", null, null,
+				IBuildInAggregation.TOTAL_SUM_FUNC, new JSMeasureFilterEvalHelper( ) );
+		
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test2", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test2" );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 3 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(4) );
+		resultSet[0].seek( 1 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(12) );
+		resultSet[0].seek( 2 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(20) );
+		
 	}
 	
 	public void testEmptyAggregation( ) throws IOException, DataException, BirtException
@@ -1436,4 +1475,19 @@ class ComputedMeasureHelper implements IComputedMeasureHelper
 	{
 		return measureNames;
 	}
+}
+
+class JSMeasureFilterEvalHelper implements IJSMeasureFilterEvalHelper
+{
+
+	public boolean evaluateFilter( IFacttableRow facttableRow )
+			throws DataException
+	{
+		Integer measureValue = (Integer) facttableRow.getMeasureValue( "measure1" );
+		if ( measureValue.intValue( ) % 2 == 0 )
+			return false;
+		else
+			return true;
+	}
+	
 }

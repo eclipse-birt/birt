@@ -402,6 +402,15 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			}
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasureInfo()
+	 */
+	public MeasureInfo[] getMeasureInfo( )
+	{
+		return measureInfo;
+	}
 }
 
 class SelectedSubDimension

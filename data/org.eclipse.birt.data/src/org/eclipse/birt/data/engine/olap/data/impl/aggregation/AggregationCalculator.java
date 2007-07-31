@@ -26,8 +26,11 @@ import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
  * The AggregationCalculator class calculates values for its associated
@@ -40,9 +43,11 @@ public class AggregationCalculator
 	private Accumulator[] accumulators;
 	private int levelCount;
 	private int[] measureIndex;
+	private MeasureInfo[] measureInfo;
 	private IDiskArray result = null;
 	private IAggregationResultRow currentResultObj = null;
 	private int[] parameterColIndex;
+	private FacttableRow facttableRow;
 	
 	private static Logger logger = Logger.getLogger( AggregationCalculator.class.getName( ) );
 
@@ -97,6 +102,8 @@ public class AggregationCalculator
 			}
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		measureInfo = facttableRowIterator.getMeasureInfo( );
+		facttableRow = new FacttableRow( measureInfo );
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
 	}
@@ -144,6 +151,10 @@ public class AggregationCalculator
 				{
 					for ( int i = 0; i < accumulators.length; i++ )
 					{
+						if ( !getFilterResult( row, i ) )
+						{
+							continue;
+						}
 						accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 					}
 				}
@@ -163,6 +174,28 @@ public class AggregationCalculator
 				result.add( currentResultObj );
 				newAggregationResultRow( row );
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param row
+	 * @param functionNo
+	 * @return
+	 * @throws DataException 
+	 */
+	private boolean getFilterResult( Row4Aggregation row, int functionNo )
+			throws DataException
+	{
+		facttableRow.setMeasure( row.getMeasures( ) );
+		IJSMeasureFilterEvalHelper filterEvalHelper = ( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
+		if ( filterEvalHelper == null )
+		{
+			return true;
+		}
+		else
+		{
+			return filterEvalHelper.evaluateFilter( facttableRow );
 		}
 	}
 	
@@ -212,6 +245,10 @@ public class AggregationCalculator
 		{
 			for ( int i = 0; i < accumulators.length; i++ )
 			{
+				if ( !getFilterResult( row, i ) )
+				{
+					continue;
+				}
 				accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 			}
 		}
@@ -240,9 +277,9 @@ public class AggregationCalculator
 	 * @param key2
 	 * @return
 	 */
-	private static int compare( Object[] key1, Object[] key2 )
+	private int compare( Object[] key1, Object[] key2 )
 	{
-		for ( int i = 0; i < key1.length; i++ )
+		for ( int i = 0; i < aggregation.getLevels( ).length; i++ )
 		{
 			int result = ( (Comparable) key1[i] ).compareTo( key2[i] );
 			if ( result < 0 )
@@ -255,5 +292,45 @@ public class AggregationCalculator
 			}
 		}
 		return 0;
+	}
+}
+
+class FacttableRow implements IFacttableRow
+{
+	private MeasureInfo[] measureInfo;
+	private Object[] measureValues;
+	
+	/**
+	 * 
+	 * @param measureInfo
+	 */
+	FacttableRow( MeasureInfo[] measureInfo )
+	{
+		this.measureInfo = measureInfo;
+	}
+	
+	/**
+	 * 
+	 * @param measureValues
+	 */
+	void setMeasure( Object[] measureValues )
+	{
+		this.measureValues = measureValues;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow#getMeasureValue(java.lang.String)
+	 */
+	public Object getMeasureValue( String measureName ) throws DataException
+	{
+		for ( int i = 0; i < measureInfo.length; i++ )
+		{
+			if(measureInfo[i].measureName.equals( measureName ))
+			{
+				return measureValues[i];
+			}
+		}
+		return null;
 	}
 }

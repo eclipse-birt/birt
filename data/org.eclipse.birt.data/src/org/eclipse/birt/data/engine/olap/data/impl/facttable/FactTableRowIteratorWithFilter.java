@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
@@ -58,21 +57,6 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 		return dimesionResultIterators;
 	}
 	
-	/**
-	 * 
-	 * @param dimension
-	 * @return
-	 */
-	private String[] getAllLevelName( IDimension dimension )
-	{
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		String[] result = new String[levels.length];
-		for( int j=0;j<levels.length;j++)
-		{
-			result[j] = levels[j].getName( );
-		}
-		return result;
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -170,6 +154,15 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 			dimRows[i] = dimesionResultIterators[i].getDimensionRow( );
 		}
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasureInfo()
+	 */
+	public MeasureInfo[] getMeasureInfo( )
+	{
+		return facttableRowIterator.getMeasureInfo( );
 	}
 
 }

@@ -119,8 +119,9 @@ public class AggregationExecutor
 				Row4Aggregation row = (Row4Aggregation) diskSortedStackWrapper.getCurrentObject( );
 				for ( int j = 0; j < pos; j++ )
 				{
-					aggregationCalculators[calculatorIndexs[j]].onRow( cut( row,
-							levelIndex[calculatorIndexs[j]].length / 2 ) );
+//					aggregationCalculators[calculatorIndexs[j]].onRow( cut( row,
+//							levelIndex[calculatorIndexs[j]].length / 2 ) );
+					aggregationCalculators[calculatorIndexs[j]].onRow( row );
 				}
 			}
 		}
@@ -142,22 +143,22 @@ public class AggregationExecutor
 	 * @param levelCount
 	 * @return
 	 */
-	private static Row4Aggregation cut( Row4Aggregation row, int levelCount )
-	{
-		Row4Aggregation result = new Row4Aggregation( );
-		if ( levelCount > 0 )
-		{
-			result.setLevelMembers( new Member[levelCount] );
-			System.arraycopy( row.getLevelMembers(),
-					0,
-					result.getLevelMembers(),
-					0,
-					levelCount );
-		}
-		result.setMeasures( row.getMeasures() );
-		result.setParameterValues( row.getParameterValues( ) );
-		return result;
-	}
+//	private static Row4Aggregation cut( Row4Aggregation row, int levelCount )
+//	{
+//		Row4Aggregation result = new Row4Aggregation( );
+//		if ( levelCount > 0 )
+//		{
+//			result.setLevelMembers( new Member[levelCount] );
+//			System.arraycopy( row.getLevelMembers(),
+//					0,
+//					result.getLevelMembers(),
+//					0,
+//					levelCount );
+//		}
+//		result.setMeasures( row.getMeasures() );
+//		result.setParameterValues( row.getParameterValues( ) );
+//		return result;
+//	}
 
 	/**
 	 * 

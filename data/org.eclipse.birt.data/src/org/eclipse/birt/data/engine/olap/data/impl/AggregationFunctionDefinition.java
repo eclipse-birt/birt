@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
  * Defines a function which is used in cube aggregation.
@@ -26,6 +27,7 @@ public class AggregationFunctionDefinition
 	private String paraColName;
 	private String functionName;
 	private DimLevel paraLevel;
+	private IJSMeasureFilterEvalHelper filterEvalHelper;
 
 	private static Logger logger = Logger.getLogger( AggregationFunctionDefinition.class.getName( ) );
 	
@@ -38,7 +40,21 @@ public class AggregationFunctionDefinition
 	public AggregationFunctionDefinition( String name, String measureName,
 			String functionName )
 	{
-		this( name , measureName, null, null, functionName );
+		this( name , measureName, null, null, functionName, null );
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param measureName
+	 * @param paraLevel
+	 * @param paraColName
+	 * @param functionName
+	 */
+	public AggregationFunctionDefinition( String name, String measureName,
+			DimLevel paraLevel, String paraColName, String functionName )
+	{
+		this( name, measureName, paraLevel, paraColName, functionName, null );
 	}
 	
 	/**
@@ -49,7 +65,7 @@ public class AggregationFunctionDefinition
 	 * @param functionName
 	 */
 	public AggregationFunctionDefinition( String name, String measureName, DimLevel paraLevel, String paraColName,
-			String functionName )
+			String functionName, IJSMeasureFilterEvalHelper filterEvalHelper )
 	{
 		Object[] params = {
 				name, measureName, functionName
@@ -62,6 +78,7 @@ public class AggregationFunctionDefinition
 		this.paraColName = paraColName;
 		this.measureName = measureName;
 		this.functionName = functionName;
+		this.filterEvalHelper = filterEvalHelper;
 		logger.exiting( AggregationFunctionDefinition.class.getName( ),
 				"AggregationFunctionDefinition" );
 	}
@@ -71,19 +88,10 @@ public class AggregationFunctionDefinition
 	 * @param measurename
 	 * @param functionName
 	 */
-	public AggregationFunctionDefinition( String measurename,
+	public AggregationFunctionDefinition( String measureName,
 			String functionName )
 	{
-		Object[] params = {
-				measurename, functionName
-		};
-		logger.entering( AggregationFunctionDefinition.class.getName( ),
-				"AggregationFunctionDefinition",
-				params );
-		this.measureName = measurename;
-		this.functionName = functionName;
-		logger.exiting( AggregationFunctionDefinition.class.getName( ),
-				"AggregationFunctionDefinition" );
+		this( null , measureName, null, null, functionName, null );
 	}
 
 	/**
@@ -131,5 +139,14 @@ public class AggregationFunctionDefinition
 	public DimLevel getParaLevel( )
 	{
 		return paraLevel;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public IJSMeasureFilterEvalHelper getFilterEvalHelper( )
+	{
+		return filterEvalHelper;
 	}
 }

@@ -54,6 +54,12 @@ public interface IFactTableRowIterator
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public MeasureInfo[] getMeasureInfo( );
+	
+	/**
+	 * 
 	 * @param measureName
 	 * @return
 	 */

@@ -214,7 +214,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param computedMeasureHelper
 	 */
-	public void addComputedMeasure( IComputedMeasureHelper computedMeasureHelper )
+	public void setComputedMeasure( IComputedMeasureHelper computedMeasureHelper )
 	{
 		this.computedMeasureHelper = computedMeasureHelper;
 	}

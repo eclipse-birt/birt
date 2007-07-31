@@ -95,19 +95,53 @@ public class AggregationResultSet implements IAggregationResultSet
 				}
 			}
 		}
-		if ( resultObject.getAggregationValues() != null )
-		{
-			aggregationDataType = new int[resultObject.getAggregationValues().length];
-			for ( int i = 0; i < resultObject.getAggregationValues().length; i++ )
-			{
-				aggregationDataType[i] = DataType.getDataType(
-						resultObject.getAggregationValues()[i].getClass( ) );
-			}
-		}
+		setAggregationDataType( );
 		logger.exiting( AggregationResultSet.class.getName( ),
 				"AggregationResultSet" );
 	}
 
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private void setAggregationDataType( ) throws IOException
+	{
+		IAggregationResultRow resultObject = (IAggregationResultRow) aggregationResultRows.get( 0 );
+		
+		for ( int i = 0; i < this.aggregationResultRows.size( ); i++ )
+		{
+			resultObject = (IAggregationResultRow) aggregationResultRows.get( i );
+			if( resultObject.getAggregationValues( ) == null )
+				continue;
+			else if( aggregationDataType == null )
+			{
+				aggregationDataType = new int[resultObject.getAggregationValues( ).length];
+				for ( int j = 0; j < aggregationDataType.length; j++ )
+				{
+					aggregationDataType[j] = DataType.UNKNOWN_TYPE;
+				}
+			}
+			boolean existUnknown = false;
+			if ( resultObject.getAggregationValues( ) == null )
+			{
+				continue;
+			}
+			for ( int j = 0; j < resultObject.getAggregationValues( ).length; j++ )
+			{
+				if ( aggregationDataType[j] == DataType.UNKNOWN_TYPE )
+				{
+					if ( resultObject.getAggregationValues( )[j] != null )
+						aggregationDataType[j] = DataType.getDataType( resultObject.getAggregationValues( )[j].getClass( ) );
+					else
+						existUnknown = true;
+				}
+			}
+			if ( !existUnknown )
+			{
+				return;
+			}
+		}
+	}
 	/**
 	 * 
 	 */
