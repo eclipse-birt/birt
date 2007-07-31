@@ -41,7 +41,6 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -380,13 +379,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeNewDataSet( )
 	{
-		List dataSources = getReportDesignHandle( ).getVisibleDataSources( );
-		if ( dataSources.isEmpty( ) )
-		{
-			// Pop-up data source wizard if no data source available
-			new NewDataSourceAction( ).run( );
-		}
-
 		IAction action = new NewDataSetAction( );
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( action,
 				ChartHelpContextIds.DIALOG_NEW_DATA_SET );
