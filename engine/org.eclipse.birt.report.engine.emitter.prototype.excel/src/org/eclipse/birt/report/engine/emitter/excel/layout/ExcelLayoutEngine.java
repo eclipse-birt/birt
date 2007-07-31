@@ -199,9 +199,14 @@ public class ExcelLayoutEngine
 	}
 
 	public void endTable( )
-	{
-		tables.pop( );
-		endContainer( );
+	{   
+		if ( !tables.isEmpty( ) )
+		{
+			tables.pop( );
+			endContainer( );
+		}
+		
+		
 	}
 
 	public void addContainer( IStyle style, HyperlinkDef link )
