@@ -36,8 +36,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryA
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
-import org.eclipse.birt.report.designer.ui.editors.IPageViewerBackup;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
@@ -96,7 +96,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 	private NonGEFSynchronizerWithTreeView synchronizer;
 
-	private IPageViewerBackup backup;
+	private ITreeViewerBackup backup;
 
 	// private ListenerElementVisitor visitor;
 
@@ -480,6 +480,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			{
 				getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
 						0 );
+				if(backup!=null)backup.updateStatus( getTreeViewer( ) );
 			}
 		}
 	}
@@ -682,7 +683,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			IDesignElement element = (IDesignElement) obj;
 			getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
 					0 );
-
+			if(backup!=null)backup.updateStatus( getTreeViewer( ) );
 		}
 	}
 
@@ -699,7 +700,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			return getTreeViewer( ).getTree( ).isDisposed( );
 	}
 
-	public void setBackupState( IPageViewerBackup backup )
+	public void setBackupState( ITreeViewerBackup backup )
 	{
 		this.backup = backup;
 	}

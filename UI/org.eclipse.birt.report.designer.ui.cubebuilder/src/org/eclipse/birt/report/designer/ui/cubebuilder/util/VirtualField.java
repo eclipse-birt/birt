@@ -13,8 +13,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 
-
-
 public class VirtualField
 {
 
@@ -39,7 +37,7 @@ public class VirtualField
 	{
 		this.type = type;
 	}
-	
+
 	private Object model;
 
 	public String toString( )
@@ -57,15 +55,33 @@ public class VirtualField
 		return super.toString( );
 	}
 
-	
 	public Object getModel( )
 	{
 		return model;
 	}
 
-	
 	public void setModel( Object model )
 	{
 		this.model = model;
+	}
+
+	public int hashCode( )
+	{
+		return getModel( ).hashCode( ) + getType( ).hashCode( );
+	}
+
+	public boolean equals( Object obj )
+	{
+		if ( obj == null )
+			return false;
+		if ( !( obj instanceof VirtualField ) )
+			return false;
+		VirtualField temp = (VirtualField) obj;
+		if ( temp == this )
+			return true;
+		else if ( temp.getModel( ) == this.getModel( )
+				&& temp.getType( ).equals( this.getType( ) ) )
+			return true;
+		return false;
 	}
 }

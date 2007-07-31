@@ -28,13 +28,13 @@ import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataPageBackup;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.OutlinePageBackup;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
+import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -100,8 +100,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider( this );
 	private boolean isChanging = false;
 	private ReportMultiBookPage attributePage;
-	private IPageViewerBackup outlineBackup;
-	private DataPageBackup dataBackup;
+	private ITreeViewerBackup outlineBackup;
+	private ITreeViewerBackup dataBackup;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
@@ -163,8 +163,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public MultiPageReportEditor( )
 	{
 		super( );
-		outlineBackup = new OutlinePageBackup();
-		dataBackup = new DataPageBackup();
+		outlineBackup = new TreeViewerBackup();
+		dataBackup = new TreeViewerBackup();
 	}
 
 	/*

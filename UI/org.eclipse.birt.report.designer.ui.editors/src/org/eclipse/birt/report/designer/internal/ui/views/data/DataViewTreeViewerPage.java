@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDr
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -399,6 +400,8 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		getTreeViewer( ).refresh( );
 		expandNodeAfterCreation( ev );
 		deleteConfigVariable( focus, ev );
+		if ( backup != null )
+			backup.updateStatus( getTreeViewer( ) );
 		getListenerElementVisitor( ).addListener( focus );
 	}
 
@@ -475,8 +478,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 			if ( element != null )
 			{
 				final DesignElementHandle handle = element.getHandle( getRoot( ).getModule( ) );
-				getTreeViewer( ).expandToLevel( handle,
-						AbstractTreeViewer.ALL_LEVELS );
+				getTreeViewer( ).expandToLevel( handle, 0 );
 				// FIXME
 				// for remove dependency on view plugin, mark the if condition
 				//
@@ -545,9 +547,9 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		getTreeViewer( ).refresh( );
 	}
 
-	private DataPageBackup backup;
+	private ITreeViewerBackup backup;
 
-	public void setBackupState( DataPageBackup dataBackup )
+	public void setBackupState( ITreeViewerBackup dataBackup )
 	{
 		this.backup = dataBackup;
 	}

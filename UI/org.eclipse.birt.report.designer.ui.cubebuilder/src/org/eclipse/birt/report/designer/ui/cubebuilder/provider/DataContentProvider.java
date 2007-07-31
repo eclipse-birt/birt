@@ -72,7 +72,7 @@ public class DataContentProvider implements ITreeContentProvider
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
 	public Object getParent( Object element )
-	{
+	{			
 		return null;
 	}
 

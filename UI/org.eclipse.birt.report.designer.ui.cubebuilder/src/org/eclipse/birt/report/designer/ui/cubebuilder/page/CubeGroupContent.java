@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -79,6 +80,8 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -86,6 +89,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -166,6 +170,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 	public void dispose( )
 	{
+		dataBackup.dispose( );
+		groupBackup.dispose( );
 		if ( visitor != null )
 		{
 			if ( input != null )
@@ -273,6 +279,25 @@ public class CubeGroupContent extends Composite implements Listener
 		button.setLayoutData( gd );
 	}
 
+	TreeListener groupTreeListener = new TreeListener( ) {
+
+		public void treeCollapsed( TreeEvent e )
+		{
+			Item item = (Item) e.item;
+			if ( groupBackup != null )
+				groupBackup.updateCollapsedStatus( groupViewer, item.getData( ) );
+
+		}
+
+		public void treeExpanded( TreeEvent e )
+		{
+			Item item = (Item) e.item;
+			if ( groupBackup != null )
+				groupBackup.updateExpandedStatus( groupViewer, item.getData( ) );
+		}
+
+	};
+
 	private void createGroupField( )
 	{
 		Composite groupField = new Composite( this, SWT.NONE );
@@ -300,7 +325,6 @@ public class CubeGroupContent extends Composite implements Listener
 			}
 
 		} );
-		groupViewer.setAutoExpandLevel( 4 );
 		groupViewer.getTree( ).addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
@@ -331,7 +355,8 @@ public class CubeGroupContent extends Composite implements Listener
 			public void dragOver( DropTargetEvent event )
 			{
 				event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
-				if(OlapUtil.isFromLibrary( input )){
+				if ( OlapUtil.isFromLibrary( input ) )
+				{
 					event.detail = DND.DROP_NONE;
 					return;
 				}
@@ -955,6 +980,27 @@ public class CubeGroupContent extends Composite implements Listener
 
 	}
 
+	TreeListener dataTreeListener = new TreeListener( ) {
+
+		public void treeCollapsed( TreeEvent e )
+		{
+			Item item = (Item) e.item;
+			if ( dataBackup != null )
+				dataBackup.updateCollapsedStatus( dataFieldsViewer,
+						item.getData( ) );
+
+		}
+
+		public void treeExpanded( TreeEvent e )
+		{
+			Item item = (Item) e.item;
+			if ( dataBackup != null )
+				dataBackup.updateExpandedStatus( dataFieldsViewer,
+						item.getData( ) );
+		}
+
+	};
+
 	private void createDataField( )
 	{
 		Composite dataField = new Composite( this, SWT.NONE );
@@ -970,7 +1016,7 @@ public class CubeGroupContent extends Composite implements Listener
 		cubeLabelProvider = new CubeLabelProvider( );
 		dataFieldsViewer.setLabelProvider( cubeLabelProvider );
 		dataFieldsViewer.setContentProvider( dataContentProvider );
-		dataFieldsViewer.setAutoExpandLevel( 3 );
+		// dataFieldsViewer.setAutoExpandLevel( 3 );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		dataFieldsViewer.getTree( ).setLayoutData( gd );
 		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
@@ -1003,14 +1049,44 @@ public class CubeGroupContent extends Composite implements Listener
 	{
 		if ( input != null )
 		{
+			dataFieldsViewer.getTree( ).removeTreeListener( dataTreeListener );
 			if ( datasets[0] != null )
+			{
 				dataFieldsViewer.setInput( datasets );
+			}
 			else if ( input.getDataSet( ) != null )
 			{
 				cubeLabelProvider.setInput( input );
 				dataFieldsViewer.setInput( input );
 			}
+			dataFieldsViewer.refresh( );
+			if ( dataBackup != null )
+			{
+				dataBackup.restoreBackup( dataFieldsViewer );
+			}
+			else
+			{
+				dataBackup = new TreeViewerBackup( );
+				dataFieldsViewer.expandAll( );
+				dataBackup.updateStatus( dataFieldsViewer );
+			}
+			dataFieldsViewer.getTree( ).addTreeListener( dataTreeListener );
+
+			groupViewer.getTree( ).removeTreeListener( groupTreeListener );
 			groupViewer.setInput( input );
+			dataFieldsViewer.refresh( );
+			if ( groupBackup != null )
+			{
+				groupBackup.restoreBackup( groupViewer );
+			}
+			else
+			{
+				groupBackup = new TreeViewerBackup( );
+				groupViewer.expandToLevel( 4 );
+				groupBackup.updateStatus( groupViewer );
+			}
+			groupViewer.getTree( ).addTreeListener( groupTreeListener );
+			
 			getListenerElementVisitor( ).addListener( input );
 			updateButtons( );
 		}
@@ -1199,7 +1275,8 @@ public class CubeGroupContent extends Composite implements Listener
 				else
 					editBtn.setEnabled( false );
 			}
-			if(OlapUtil.isFromLibrary( input )){
+			if ( OlapUtil.isFromLibrary( input ) )
+			{
 				addBtn.setEnabled( false );
 				delBtn.setEnabled( false );
 			}
@@ -1214,10 +1291,13 @@ public class CubeGroupContent extends Composite implements Listener
 	}
 	private DataContentProvider dataContentProvider = new DataContentProvider( );
 	private CubeLabelProvider cubeLabelProvider;
+	private TreeViewerBackup dataBackup;
+	private TreeViewerBackup groupBackup;
 
 	private void handleDelEvent( )
 	{
-		if(OlapUtil.isFromLibrary( input ))return;
+		if ( OlapUtil.isFromLibrary( input ) )
+			return;
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 		Iterator iter = slections.iterator( );
 		while ( iter.hasNext( ) )
@@ -1285,7 +1365,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 	private void handleAddEvent( )
 	{
-		if(OlapUtil.isFromLibrary( input ))return;
+		if ( OlapUtil.isFromLibrary( input ) )
+			return;
 		TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 		Iterator iter = slections.iterator( );
 		while ( iter.hasNext( ) )
@@ -1506,7 +1587,8 @@ public class CubeGroupContent extends Composite implements Listener
 
 	protected void handleDataAddEvent( )
 	{
-		if(OlapUtil.isFromLibrary( input ))return;
+		if ( OlapUtil.isFromLibrary( input ) )
+			return;
 		TreeSelection dataFields = (TreeSelection) dataFieldsViewer.getSelection( );
 		Iterator iterator = dataFields.iterator( );
 		while ( iterator.hasNext( ) )
@@ -1785,6 +1867,7 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 		groupViewer.refresh( );
 		expandNodeAfterCreation( ev );
+		groupBackup.updateStatus( groupViewer );
 		getListenerElementVisitor( ).addListener( focus );
 	}
 
