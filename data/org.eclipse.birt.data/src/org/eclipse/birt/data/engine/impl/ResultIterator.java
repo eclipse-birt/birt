@@ -939,7 +939,6 @@ public class ResultIterator implements IResultIterator
 						ResultIterator.this.scope,
 						"Filter",
 						0 );
-				Context.exit( );
 			}
 			finally
 			{
