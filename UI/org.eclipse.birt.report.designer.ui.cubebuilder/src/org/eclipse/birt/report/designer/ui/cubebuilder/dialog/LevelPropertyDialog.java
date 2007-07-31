@@ -232,8 +232,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				fieldCombo.select( 0 );
 
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
-			displayKeyCombo.setItem( 0,
-					Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
+			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
 			displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -340,8 +339,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					input.setColumnName( fieldCombo.getText( ) );
 				}
-				if ( displayKeyCombo.getText( ).trim( ).length( )>0 && !displayKeyCombo.getText( )
-						.equals( Messages.getString( "LevelPropertyDialog.None" ) ) )
+				if ( displayKeyCombo.getText( ).trim( ).length( ) > 0
+						&& !displayKeyCombo.getText( )
+								.equals( Messages.getString( "LevelPropertyDialog.None" ) ) )
 				{
 					input.setDisplayColumnName( displayKeyCombo.getText( ) );
 				}
@@ -781,7 +781,10 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			private void openExpression( )
 			{
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder( displayKeyCombo.getText( ).trim( ).equals( Messages.getString( "LevelPropertyDialog.None" ) )?"":displayKeyCombo.getText( ).trim( ) );
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( displayKeyCombo.getText( )
+						.trim( )
+						.equals( Messages.getString( "LevelPropertyDialog.None" ) ) ? ""
+						: displayKeyCombo.getText( ).trim( ) );
 				ExpressionProvider provider = new CubeExpressionProvider( input );
 				expressionBuilder.setExpressionProvier( provider );
 				if ( expressionBuilder.open( ) == Window.OK )
