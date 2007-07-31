@@ -201,3 +201,8 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=L'ID de l'attribut doit être unique.
 birt.viewer.taglib.NO_REPORT_SOURCE=Un modèle d'état ou un document doit être spécifié.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=L'état est requis par le reportlet.
 birt.viewer.taglib.NO_REQUESTER_NAME=Le nom du requêteur doit être spécifié.
+
+###############################################################################
+# Birt Viewer Message
+###############################################################################
+birt.viewer.message.document.successful=The report document file has been generated successfully.

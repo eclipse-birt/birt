@@ -201,3 +201,8 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=Attribut-ID muss eindeutig sein.
 birt.viewer.taglib.NO_REPORT_SOURCE=Berichtdesign oder Dokumentdatei muss angegeben werden.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet benötigt Berichtsdokument.
 birt.viewer.taglib.NO_REQUESTER_NAME=Requester-Name muss angegeben werden..
+
+###############################################################################
+# Birt Viewer Message
+###############################################################################
+birt.viewer.message.document.successful=The report document file has been generated successfully.

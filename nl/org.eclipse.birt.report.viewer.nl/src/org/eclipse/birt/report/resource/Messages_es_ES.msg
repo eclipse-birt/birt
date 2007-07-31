@@ -201,3 +201,8 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=El ID de atributo debe ser exclusivo.
 birt.viewer.taglib.NO_REPORT_SOURCE=Se debe especificar el diseño de informe o archivo de documento.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=El informe necesita el archivo de documento de informe.
 birt.viewer.taglib.NO_REQUESTER_NAME=Se debe especificar un nombre de solicitante
+
+###############################################################################
+# Birt Viewer Message
+###############################################################################
+birt.viewer.message.document.successful=The report document file has been generated successfully.

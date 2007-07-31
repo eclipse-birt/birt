@@ -201,3 +201,8 @@ birt.viewer.taglib.ATTR_ID_DUPLICATE=특성 ID는 고유해야 합니다.
 birt.viewer.taglib.NO_REPORT_SOURCE=보고서 디자인 또는 문서 파일을 지정해야 합니다.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=리포틀릿은 보고서 문서 파일이 필요합니다.
 birt.viewer.taglib.NO_REQUESTER_NAME=요청자 이름을 지정해야 합니다.
+
+###############################################################################
+# Birt Viewer Message
+###############################################################################
+birt.viewer.message.document.successful=The report document file has been generated successfully.
