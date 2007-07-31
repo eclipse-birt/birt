@@ -723,6 +723,7 @@ public class CascadingParametersDialog extends BaseDialog
 						ExceptionHandler.handle( e1 );
 					}
 				}
+				updateMessageLine();
 			}
 		} );
 
@@ -2114,10 +2115,14 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 
 		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" ); //$NON-NLS-1$
+
+		private final String ERROR_MSG_DUPLICATED_NAME = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedName" ); //$NON-NLS-1$
+
 		Text name;
 		Combo dataset, value, displayText;
 		private String[] dataTypes;
 		protected ScalarParameterHandle parameter = null;
+		protected CLabel editErrorMessage;
 
 		public ScalarParameterHandle getParameter( )
 		{
@@ -2137,8 +2142,16 @@ public class CascadingParametersDialog extends BaseDialog
 
 		protected void updateButtons( )
 		{
-			if ( name.getText( ).trim( ).length( ) == 0
-					|| ( dataset.getItemCount( ) == 1 && dataset.getItem( 0 )
+			if ( editErrorMessage != null && !editErrorMessage.isDisposed( ) )
+			{
+				if(editErrorMessage.getImage( ) != null)
+				{
+					getOkButton( ).setEnabled( false );
+					return;
+				}
+			}
+
+			if ( ( dataset.getItemCount( ) == 1 && dataset.getItem( 0 )
 							.equals( DATASET_NONE ) )
 					|| value.getText( ).length( ) == 0 )
 			{
@@ -2149,6 +2162,24 @@ public class CascadingParametersDialog extends BaseDialog
 				getOkButton( ).setEnabled( true );
 			}
 
+		}
+
+		protected void okPressed( )
+		{
+			if ( name.getText( ).trim( ).length( ) != 0 )
+			{
+				try
+				{
+					parameter.setName( name.getText( ).trim( ) );
+				}
+				catch ( NameException e )
+				{
+					// TODO Auto-generated catch block
+					ExceptionHandler.handle( e );
+				}
+			}
+
+			super.okPressed( );
 		}
 
 		public void setParameter( ScalarParameterHandle param )
@@ -2172,6 +2203,14 @@ public class CascadingParametersDialog extends BaseDialog
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 250;
 			name.setLayoutData( gd );
+			name.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					updateEditErrorMsg( );
+				}
+
+			} );
 
 			Label labelDataset = new Label( composite, SWT.NONE );
 			labelDataset.setText( Messages.getString( "AddEditCascadingParameterDialog.label.dataset" ) ); //$NON-NLS-1$
@@ -2195,7 +2234,8 @@ public class CascadingParametersDialog extends BaseDialog
 							parameter.setDataSetName( dataset.getText( ) );
 							if ( parameter.getDataSet( ) != null )
 							{
-								if ( getFirstParameter( ) == null )
+								if ( getFirstParameter( ) == null
+										|| parameter == getFirstParameter( ) )
 								{
 									inputParameterGroup.setDataSet( parameter.getDataSet( ) );
 								}
@@ -2256,7 +2296,34 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 			} );
 
+			createLabel( composite, null );
+			editErrorMessage = new CLabel( composite, SWT.NONE );
+			GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
+			msgLineGridData.horizontalSpan = 2;
+			editErrorMessage.setLayoutData( msgLineGridData );
+
 			return topComposite;
+		}
+
+		protected void updateEditErrorMsg( )
+		{
+			String errorMsg = null;
+			String paraName = name.getText( ).trim( );
+			if ( !paraName.equals( parameter.getName( ) )
+					&& parameter.getModuleHandle( ).findParameter( paraName ) != null )
+			{
+				errorMsg = ERROR_MSG_DUPLICATED_NAME;
+			}
+			if ( errorMsg != null )
+			{
+				editErrorMessage.setText( errorMsg );
+				editErrorMessage.setImage( ERROR_ICON );
+			}
+			else
+			{
+				editErrorMessage.setText( "" ); //$NON-NLS-1$
+				editErrorMessage.setImage( null );
+			}
 		}
 
 		protected boolean initDialog( )
