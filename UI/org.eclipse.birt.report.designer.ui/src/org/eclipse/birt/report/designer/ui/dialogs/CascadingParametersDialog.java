@@ -723,7 +723,7 @@ public class CascadingParametersDialog extends BaseDialog
 						ExceptionHandler.handle( e1 );
 					}
 				}
-				updateMessageLine();
+				updateMessageLine( );
 			}
 		} );
 
@@ -2116,6 +2116,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 		public final String DATASET_NONE = Messages.getString( "CascadingParametersDialog.items.None" ); //$NON-NLS-1$
 
+		public final String DISPLAY_TEXT_NONE = Messages.getString( "CascadingParametersDialog.items.None" ); //$NON-NLS-1$
+
 		private final String ERROR_MSG_DUPLICATED_NAME = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedName" ); //$NON-NLS-1$
 
 		Text name;
@@ -2144,7 +2146,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			if ( editErrorMessage != null && !editErrorMessage.isDisposed( ) )
 			{
-				if(editErrorMessage.getImage( ) != null)
+				if ( editErrorMessage.getImage( ) != null )
 				{
 					getOkButton( ).setEnabled( false );
 					return;
@@ -2152,7 +2154,7 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 
 			if ( ( dataset.getItemCount( ) == 1 && dataset.getItem( 0 )
-							.equals( DATASET_NONE ) )
+					.equals( DATASET_NONE ) )
 					|| value.getText( ).length( ) == 0 )
 			{
 				getOkButton( ).setEnabled( false );
@@ -2287,10 +2289,19 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					try
 					{
-						parameter.setLabelExpr( DEUtil.getColumnExpression( displayText.getText( ) ) );
+						if ( displayText.getSelectionIndex( ) == 0 ) // it means DISPLAY_TEXT_NONE
+						{
+							parameter.setLabelExpr( null );
+						}
+						else
+						{
+							parameter.setLabelExpr( DEUtil.getColumnExpression( displayText.getText( ) ) );
+						}
+
 					}
 					catch ( SemanticException e1 )
 					{
+						ExceptionHandler.handle( e1 );
 					}
 					updateButtons( );
 				}
@@ -2402,8 +2413,10 @@ public class CascadingParametersDialog extends BaseDialog
 					name.setText( parameter.getName( ) );
 					dataset.select( dataset.indexOf( dataSet.getName( ) ) );
 					value.setItems( getDataSetColumns( parameter, true ) );
+					displayText.removeAll( );					
 					displayText.setItems( getDataSetColumns( parameter, false ) );
-
+					displayText.add( DISPLAY_TEXT_NONE, 0 );
+					
 					value.setEnabled( true );
 					String temp = getColumnName( parameter, COLUMN_VALUE );
 					if ( temp != null )
@@ -2415,7 +2428,10 @@ public class CascadingParametersDialog extends BaseDialog
 					temp = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
 					if ( temp != null )
 					{
-						displayText.select( value.indexOf( temp ) );
+						displayText.select( displayText.indexOf( temp ) );
+					}else
+					{
+						displayText.select( 0 );
 					}
 
 				}
