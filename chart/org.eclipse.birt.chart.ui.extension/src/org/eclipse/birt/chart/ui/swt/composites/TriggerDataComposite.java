@@ -401,8 +401,9 @@ public class TriggerDataComposite extends Composite
 			btnBaseURL.addSelectionListener( this );
 			btnBaseURL.setEnabled( wizardContext.getUIServiceProvider( )
 					.isInvokingSupported( ) );
-			btnBaseURL.setVisible( wizardContext.getUIServiceProvider( )
-					.isEclipseModeSupported( ) );
+			// Bugzilla#193463 URI has been supported in standalone mode
+			// btnBaseURL.setVisible( wizardContext.getUIServiceProvider( )
+			// .isEclipseModeSupported( ) );
 		}
 
 		Label lblDefine = new Label( cmpURL, SWT.WRAP );

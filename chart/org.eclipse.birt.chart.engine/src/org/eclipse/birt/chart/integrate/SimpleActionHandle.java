@@ -18,8 +18,8 @@ package org.eclipse.birt.chart.integrate;
 public class SimpleActionHandle
 {
 
-	private String uri = null;
-	private String targetWindow = null;
+	private String uri = ""; //$NON-NLS-1$
+	private String targetWindow = ""; //$NON-NLS-1$
 
 	SimpleActionHandle( )
 	{
