@@ -270,7 +270,7 @@ public abstract class DataViewPage extends Page implements
 	 * 
 	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( final ReportRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
@@ -278,7 +278,13 @@ public abstract class DataViewPage extends Page implements
 		}
 		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					handleSelectionChange( request );
+				}
+			} );
 		}
 	}
 
@@ -297,13 +303,8 @@ public abstract class DataViewPage extends Page implements
 
 		if ( canSetSelection( list ) )
 		{
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
 
-				public void run( )
-				{
-					setSelection( new StructuredSelection( list ) );
-				}
-			} );
+			setSelection( new StructuredSelection( list ) );
 
 		}
 	}
