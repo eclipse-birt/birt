@@ -245,9 +245,15 @@ public final class ScriptHandler extends ScriptableObject
 	public ScriptHandler( )
 	{
 		final Context cx = Context.enter( );
-		// scope = cx.initStandardObjects();
-		scope = new ImporterTopLevel( cx );
-		Context.exit( );
+		try
+		{
+			// scope = cx.initStandardObjects();
+			scope = new ImporterTopLevel( cx );
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 
 	/*
@@ -386,39 +392,40 @@ public final class ScriptHandler extends ScriptableObject
 	public final void init( Scriptable scPrototype ) throws ChartException
 	{
 		final Context cx = Context.enter( );
-		if ( scPrototype == null ) // NO PROTOTYPE
+		try
 		{
-			// scope = cx.initStandardObjects();
-			scope = new ImporterTopLevel( cx );
-		}
-		else
-		{
-			try
+			if ( scPrototype == null ) // NO PROTOTYPE
+			{
+				// scope = cx.initStandardObjects();
+				scope = new ImporterTopLevel( cx );
+			}
+			else
 			{
 				scope = cx.newObject( scPrototype );
+				scope.setPrototype( scPrototype );
+				// !don't reset the parent scope here.
+				// scope.setParentScope( null );
 			}
-			catch ( RhinoException jsx )
-			{
-				Context.exit( );
-				throw convertException( jsx );
-			}
-			scope.setPrototype( scPrototype );
-			// !don't reset the parent scope here.
-			// scope.setParentScope( null );
+
+			// final Scriptable scopePrevious = scope;
+			// !deprecated, remove this later. use script context instead.
+			// registerExistingScriptableObject( this, "chart" ); //$NON-NLS-1$
+			// scope = scopePrevious; // RESTORE
+
+			// !deprecated, remove this later, use logger from script context
+			// instead.
+			// ADD LOGGING CAPABILITIES TO JAVASCRIPT ACCESS
+			final Object oConsole = Context.javaToJS( logger, scope );
+			scope.put( "logger", scope, oConsole ); //$NON-NLS-1$
 		}
-
-		// final Scriptable scopePrevious = scope;
-		// !deprecated, remove this later. use script context instead.
-		// registerExistingScriptableObject( this, "chart" ); //$NON-NLS-1$
-		// scope = scopePrevious; // RESTORE
-
-		// !deprecated, remove this later, use logger from script context
-		// instead.
-		// ADD LOGGING CAPABILITIES TO JAVASCRIPT ACCESS
-		final Object oConsole = Context.javaToJS( logger, scope );
-		scope.put( "logger", scope, oConsole ); //$NON-NLS-1$
-
-		Context.exit( );
+		catch ( RhinoException jsx )
+		{
+			throw convertException( jsx );
+		}
+		finally
+		{
+			Context.exit( );
+		}
 	}
 
 	/**

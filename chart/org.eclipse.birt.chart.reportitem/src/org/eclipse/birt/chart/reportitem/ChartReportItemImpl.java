@@ -37,7 +37,6 @@ import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.IChartEventHandler;
-import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -513,8 +512,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 		
 		if ( !isJavaClassName( string ) )
 		{
-			Context cx = Context.enter();
-			cx.compileString(string, "chartScript", 1, null); //$NON-NLS-1$
+			try
+			{
+				Context cx = Context.enter( );
+				cx.compileString( string, "chartScript", 1, null ); //$NON-NLS-1$
+			}
+			finally
+			{
+				Context.exit( );
+			}
 		}
 	}
 
