@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Nom de colonne liée incorrecte : {0}.
 data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dépendre des liaisons de colonne du groupe inférieur. 
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n''existe pas.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison de colonne "{0}" est incorrecte : les liaisons de colonne de requête parent qui incluent des agrégations ne peuvent pas être utilisées dans les liaisons de colonne d'une sous-requête.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
@@ -341,10 +341,10 @@ data.olap.invalidAggrArgument=Seul l'attribut de niveau peut servir d'argument d
 data.olap.axis.level.CantBeNull=Le niveau de membre de colonne ne peut pas être nul.
 data.olap.axis.value.CantBeNull=La valeur de membre de colonne du niveau \"{0}\" ne peut pas être nulle.
 
-data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
-data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
-data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
-data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.
+data.executor.configFileParser.getModeByID=Impossible d'obtenir le mode de cache incrémentiel via le nom du jeu de données.
+data.executor.configFileParser.getTSFormatByID=Impossible d'analyser le format d'horodatage à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
+data.executor.configFileParser.getTimeStampColumnByID=Impossible d'analyser le format d'horodatage à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
+data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de la requête à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
+data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.

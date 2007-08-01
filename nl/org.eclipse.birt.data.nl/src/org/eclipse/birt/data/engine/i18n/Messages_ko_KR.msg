@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=잘못된 바인딩된 열 이름: {0}.
 data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바인딩에 종속시킬 수 없습니다. 
 data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
@@ -341,10 +341,10 @@ data.olap.invalidAggrArgument=수준 특성만 집계 인수로 사용될 수 있습니다.
 data.olap.axis.level.CantBeNull=열 구성원의 수준은 널(null)이 될 수 없습니다!
 data.olap.axis.value.CantBeNull=수준 \"{0}\"의 열 구성원 값은 널(null)이 될 수 없습니다!
 
-data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code
-data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
-data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
-data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.
+data.executor.configFileParser.getModeByID=데이터 집합 이름으로 증가 캐시를 가져오는 데 실패했습니다.
+data.executor.configFileParser.getTSFormatByID=구성 파일의 지정된 데이터 집합 이름으로 타임스탬프 형식을 구문 분석하는 데 실패했습니다.
+data.executor.configFileParser.getTimeStampColumnByID=구성 파일의 지정된 데이터 집합 이름으로 타임스탬프 형식을 구문 분석하는 데 실패했습니다.
+data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 이름으로 쿼리 텍스트를 가져오는 데 실패했습니다.
+data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.

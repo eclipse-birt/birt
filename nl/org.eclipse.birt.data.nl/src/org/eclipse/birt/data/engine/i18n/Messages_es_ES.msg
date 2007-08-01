@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Nombre de columna enlazada no válido: {0}.
 data.engine.InvalidGroupKey=La clave de grupo "{0}" del grupo {1} no puede depender de los enlaces de columna definidos en el grupo inferior al mismo. 
 data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
 data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de dependencia.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a una columna de conjunto de datos "{1}" que no existe.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
@@ -341,10 +341,10 @@ data.olap.invalidAggrArgument=Sólo el atributo de nivel puede servir como argume
 data.olap.axis.level.CantBeNull=El nivel de los elementos de la columna no puede ser nulo.
 data.olap.axis.value.CantBeNull=El valor de los elementos de la columna del nivel \"{0}\" no puede ser nulo.
 
-data.cache.UnsupportedIncrementalCacheMode=The \"{0}\" mode of incremental cache is not supported yet!
+data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code
-data.executor.configFileParser.getModeByID=Fail to get the incremental cache mode by data set name.
-data.executor.configFileParser.getTSFormatByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getTimeStampColumnByID=Fail to parse the timestamp's format by the specified data set name from configuration file.
-data.executor.configFileParser.getQueryTextByID=Fail to get the query text by the specified data set name from configuration file.
-data.executor.configFileParser.getParametersByID=Fail to get the parameters by the specified data set name from configuration file.
+data.executor.configFileParser.getModeByID=Error al obtener el modo de caché de incremento mediante el nombre del conjunto de datos.
+data.executor.configFileParser.getTSFormatByID=Error al analizar el formato de fecha/hora mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
+data.executor.configFileParser.getTimeStampColumnByID=Error al analizar el formato de fecha/hora mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
+data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de consulta mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
+data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
