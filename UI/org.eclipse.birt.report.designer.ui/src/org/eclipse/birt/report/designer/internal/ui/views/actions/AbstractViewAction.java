@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Logger;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -20,6 +22,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public abstract class AbstractViewAction extends Action
 {
+	protected static Logger logger = Logger.getLogger( AbstractViewAction.class.getName( ) );
 
 	private Object selection;
 

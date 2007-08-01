@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.debug.internal.ui.launcher;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy;
@@ -42,6 +45,8 @@ public class DebugStartupClass implements IStartup
 
 	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
 
+	private static Logger logger = Logger.getLogger( DebugStartupClass.class.getName( ) );
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,7 +84,7 @@ public class DebugStartupClass implements IStartup
 			catch ( Exception e1 )
 			{
 				// do nothing, the project has inport to the workspace1
-				// e1.printStackTrace( );
+				logger.log( Level.SEVERE, e1.getMessage( ), e1);
 			}
 		}
 		Display.getDefault( ).asyncExec( new Runnable( ) {
@@ -111,8 +116,7 @@ public class DebugStartupClass implements IStartup
 				}
 				catch ( PartInitException e )
 				{
-
-					// Do nothing
+					logger.log( Level.SEVERE, e.getMessage( ), e);
 				}
 				if (openCount == 1)
 				{

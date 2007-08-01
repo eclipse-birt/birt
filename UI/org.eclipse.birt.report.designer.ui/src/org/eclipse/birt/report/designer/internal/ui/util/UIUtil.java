@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -127,6 +129,7 @@ import org.osgi.framework.Bundle;
 
 public class UIUtil
 {
+	protected static Logger logger = Logger.getLogger( UIUtil.class.getName( ) );
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
@@ -1083,7 +1086,7 @@ public class UIUtil
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return home;
 	}
@@ -1110,7 +1113,7 @@ public class UIUtil
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return directory;
 	}
@@ -1305,8 +1308,11 @@ public class UIUtil
 			}
 			catch ( SemanticException e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				// TODO Auto-generated catch block				
+				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
+						e,
+						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
+				ExceptionHandler.handle( exception );	
 			}
 			return handle;
 		}
@@ -1324,8 +1330,7 @@ public class UIUtil
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
-				ExceptionHandler.handle( exception );
-				e.printStackTrace( );
+				ExceptionHandler.handle( exception );				
 
 			}
 		}

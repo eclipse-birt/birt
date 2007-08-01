@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -78,17 +78,6 @@ public class CutAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-//		if ( Policy.TRACING_ACTIONS )
-//		{
-//			System.out.println( "Cut action >> Cut " + getSelection( ) ); //$NON-NLS-1$
-//		}
-//		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
-//		DeleteAction action = createDeleteAction( getSelection( ) );
-//		action.run( );
-//		if ( action.hasExecuted( ) )
-//		{
-//			Clipboard.getDefault( ).setContents( cloneElements );
-//		}
 		
 		try
 		{
@@ -96,7 +85,7 @@ public class CutAction extends AbstractViewAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 

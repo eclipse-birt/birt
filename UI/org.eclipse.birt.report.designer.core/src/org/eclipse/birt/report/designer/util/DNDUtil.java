@@ -13,10 +13,13 @@ package org.eclipse.birt.report.designer.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
+import org.eclipse.birt.report.designer.core.commands.SetPropertyCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
@@ -73,6 +76,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public class DNDUtil
 {
 
+	private static Logger logger = Logger.getLogger( DNDUtil.class.getName( ) );
+	
 	public static final String TYPE_CUT = "CUT"; //$NON-NLS-1$
 
 	public static final String TYPE_COPY = "COPY"; //$NON-NLS-1$
@@ -649,7 +654,7 @@ public class DNDUtil
 			}
 			catch ( SemanticException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			return null;
 		}
@@ -666,7 +671,7 @@ public class DNDUtil
 			}
 			catch ( CloneNotSupportedException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		if ( source instanceof SlotHandle )
@@ -911,7 +916,7 @@ public class DNDUtil
 		}
 		catch ( SemanticException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -146,7 +147,7 @@ public class NewStyleHandler extends SelectionHandler
 			}
 			catch ( StyleException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 	}

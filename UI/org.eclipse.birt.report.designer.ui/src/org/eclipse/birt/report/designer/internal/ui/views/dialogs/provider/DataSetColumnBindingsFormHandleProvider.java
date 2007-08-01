@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
@@ -51,6 +53,7 @@ import org.eclipse.swt.widgets.Table;
 public class DataSetColumnBindingsFormHandleProvider implements
 		IFormHandleProvider
 {
+	protected static Logger logger = Logger.getLogger( DataSetColumnBindingsFormHandleProvider.class.getName( ) );
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
@@ -532,7 +535,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				}
 				catch ( SemanticException e )
 				{
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 			}
 		}

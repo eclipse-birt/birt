@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -36,6 +38,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class PathResourceEntry extends BaseResourceEntity
 {
+	protected Logger logger = Logger.getLogger( PathResourceEntry.class.getName( ) );
 
 	private String path;
 	private URL url;
@@ -172,7 +175,7 @@ public class PathResourceEntry extends BaseResourceEntity
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 		return (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] );

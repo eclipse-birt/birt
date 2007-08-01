@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -22,6 +24,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage
 {
 
+	protected Logger logger = Logger.getLogger( BaseStylePreferencePage.class.getName( ) );
 	/*
 	 * (non-Javadoc)
 	 * 

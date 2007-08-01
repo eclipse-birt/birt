@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
@@ -57,6 +59,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class UseCssInThemeDialog extends TitleAreaDialog
 {
+	protected Logger logger = Logger.getLogger( UseCssInThemeDialog.class.getName( ) );
 
 	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
 	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInThemeDialog.TitleArea.Title" ); //$NON-NLS-1$
@@ -237,7 +240,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 				catch ( StyleSheetException e1 )
 				{
 					// TODO Auto-generated catch block
-					e1.printStackTrace( );
+					logger.log(Level.SEVERE, e1.getMessage(),e1);
 				}
 				themeCombo.removeAll( );
 				refresh( );

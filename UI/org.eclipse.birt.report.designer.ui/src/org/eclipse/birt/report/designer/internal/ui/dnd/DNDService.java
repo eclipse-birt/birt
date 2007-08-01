@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -47,6 +50,8 @@ public class DNDService implements IRegistryChangeListener
 	private static class DNDServiceInstance {
 		static DNDService instance = new DNDService( );
 	}
+	
+	protected Logger logger = Logger.getLogger( DNDService.class.getName( ) );
 
 	private DNDService( )
 	{
@@ -267,7 +272,7 @@ public class DNDService implements IRegistryChangeListener
 				}
 				catch ( CoreException e )
 				{
-					e.printStackTrace( );
+					logger.log( Level.SEVERE, e.getMessage( ),e);
 				}
 			}
 			else if ( configElements[i].getName( ).equals( "dropAdapter" ) )
@@ -285,7 +290,7 @@ public class DNDService implements IRegistryChangeListener
 				}
 				catch ( CoreException e )
 				{
-					e.printStackTrace( );
+					logger.log( Level.SEVERE, e.getMessage( ),e);
 				}
 			}
 

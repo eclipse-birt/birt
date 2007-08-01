@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -73,6 +74,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class FilterConditionBuilder extends TitleAreaDialog
 {
+	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "FilterConditionBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "FilterConditionBuilder.DialogTitle.Edit" ); //$NON-NLS-1$

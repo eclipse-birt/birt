@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizard;
@@ -54,6 +56,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
  */
 public class FileReportProvider implements IReportProvider
 {
+	protected static Logger logger = Logger.getLogger( FileReportProvider.class.getName( ) );
 
 	private ModuleHandle model;
 	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
@@ -111,11 +114,11 @@ public class FileReportProvider implements IReportProvider
 				}
 				catch ( DesignFileException e )
 				{
-					// ExceptionHandler.handle( e );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 				catch ( FileNotFoundException e )
 				{
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 			}
 		}

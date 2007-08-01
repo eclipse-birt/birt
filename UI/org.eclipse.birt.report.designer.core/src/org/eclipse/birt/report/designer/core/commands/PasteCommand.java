@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -32,7 +35,7 @@ import org.eclipse.gef.commands.Command;
 
 public class PasteCommand extends Command
 {
-
+	protected static Logger logger = Logger.getLogger( PasteCommand.class.getName( ) );
 	/** Null permitted in instance. */
 	private DesignElementHandle sourceHandle;
 
@@ -182,7 +185,7 @@ public class PasteCommand extends Command
 			{
 				System.out.println( "PasteCommand >> Failed." ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 	}
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
@@ -25,7 +27,6 @@ import org.eclipse.gef.Request;
 
 public class CreatePlaceHolderHandler extends SelectionHandler
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,7 +64,7 @@ public class CreatePlaceHolderHandler extends SelectionHandler
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 		return new Boolean( retBool );

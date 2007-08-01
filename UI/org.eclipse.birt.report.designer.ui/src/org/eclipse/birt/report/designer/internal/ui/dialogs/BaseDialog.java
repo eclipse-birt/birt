@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -34,6 +36,9 @@ public abstract class BaseDialog extends TrayDialog
 	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT";
 
 	private static final String DIALOG_WIDTH = "DIALOG_WIDTH";
+	
+	protected Logger logger = Logger.getLogger( BaseDialog.class.getName( ) );
+
 	/**
 	 * The title of the dialog
 	 */

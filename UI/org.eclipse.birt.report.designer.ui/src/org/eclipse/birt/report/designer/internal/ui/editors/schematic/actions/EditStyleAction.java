@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -92,7 +94,7 @@ public class EditStyleAction extends DynamicItemAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		};
 		
 	}

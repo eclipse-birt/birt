@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
@@ -117,32 +118,8 @@ public class ApplyStyleAction extends DynamicItemAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
-
-		// CommandStack stack = SessionHandleAdapter.getInstance( )
-		// .getCommandStack( );
-		// stack.startTrans( "Te" );
-		//
-		// boolean isChecked = true;
-		// SharedStyleHandle handle = null;
-		//
-		// try
-		// {
-		// List handles = getElementHandles( );
-		// for ( int i = 0; i < handles.size( ); i++ )
-		// {
-		// ( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked ?
-		// handle
-		// : null );
-		// }
-		// stack.commit( );
-		// }
-		// catch ( StyleException e )
-		// {
-		// stack.rollbackAll( );
-		// ExceptionHandler.handle( e );
-		// }
 
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -98,7 +99,7 @@ public class DeleteColumnAction extends ContextSelectionAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
 	}
 

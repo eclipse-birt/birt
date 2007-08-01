@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -247,7 +248,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		catch ( IOException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		if ( resource == null || path == null || !new File( path ).exists( ) )
 		{

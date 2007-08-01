@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -50,6 +53,8 @@ public final class PropertyHandleTableViewer
     private MenuItem itmRemove;
     private MenuItem itmRemoveAll;
     private Menu menu;
+	protected Logger logger = Logger.getLogger( PropertyHandleTableViewer.class.getName( ) );
+
     
     /**
      * 
@@ -208,7 +213,7 @@ public final class PropertyHandleTableViewer
                     catch (SemanticException e1)
                     {
                         // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                    	logger.log( Level.SEVERE, e1.getMessage( ), e1 );
                     }
                 }
             });

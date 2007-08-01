@@ -14,6 +14,8 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -56,10 +58,11 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.6 $ $Date: 2007/06/01 08:53:06 $
+ * @version $Revision: 1.7 $ $Date: 2007/06/14 08:35:36 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
+	protected static Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
 
 	private static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
@@ -67,7 +70,6 @@ public class ExpressionValueCellEditor extends CellEditor
 
 	private transient ParamBindingHandle[] bindingParams = null;
 	private MemberValueHandle memberValue;
-	private transient String bindingName;
 	private transient Text expressionText;
 	private transient Button btnPopup;
 	private transient ExtendedItemHandle currentItem = null;
@@ -75,8 +77,6 @@ public class ExpressionValueCellEditor extends CellEditor
 	private transient boolean refreshItems = true;
 	private List referencedLevelList;
 	private static String[] EMPTY_ARRAY = new String[]{};
-
-	private IExpressionProvider provider;
 
 	public void setMemberValue( MemberValueHandle memberValue )
 	{
@@ -349,7 +349,6 @@ public class ExpressionValueCellEditor extends CellEditor
 	 */
 	public void setBindingName( String bindingName )
 	{
-		this.bindingName = bindingName;
 	}
 
 	public void setReportElement( ExtendedItemHandle reportItem )
@@ -389,7 +388,6 @@ public class ExpressionValueCellEditor extends CellEditor
 
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		this.provider = provider;
 
 	}
 
@@ -416,7 +414,7 @@ public class ExpressionValueCellEditor extends CellEditor
 			catch ( Exception e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 
 		}
@@ -528,7 +526,7 @@ public class ExpressionValueCellEditor extends CellEditor
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 
 		// iterator to list

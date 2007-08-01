@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
@@ -133,7 +133,7 @@ public class AddStyleAction extends ContextSelectionAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
 		finally
 		{
@@ -145,30 +145,6 @@ public class AddStyleAction extends ContextSelectionAction
 
 	}
 
-// /**
-// * Applys style to selected elements.
-// *
-// * @param styleHandle
-// */
-// private void applyStyle( SharedStyleHandle styleHandle )
-// {
-// List handles = getElementHandles( );
-// for ( int i = 0; i < handles.size( ); i++ )
-// {
-// try
-// {
-// if ( handles.get( i ) instanceof ReportElementHandle )
-// {
-// // set style
-// ( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
-// }
-// }
-// catch ( StyleException e )
-// {
-// e.printStackTrace( );
-// }
-// }
-// }
 
 	public void setThemeHandle( ThemeHandle themeHandle )
 	{

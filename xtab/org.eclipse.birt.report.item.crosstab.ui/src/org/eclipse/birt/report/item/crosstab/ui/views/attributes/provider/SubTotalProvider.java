@@ -13,6 +13,8 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
@@ -47,6 +49,7 @@ import org.eclipse.swt.widgets.Table;
 
 public class SubTotalProvider extends AbstractFormHandleProvider
 {
+	protected static Logger logger = Logger.getLogger( SubTotalProvider.class.getName( ) );
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
@@ -94,7 +97,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
 				axis );
@@ -135,7 +138,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			catch ( ExtendedElementException e1 )
 			{
 				// TODO Auto-generated catch block
-				e1.printStackTrace( );
+				logger.log(Level.SEVERE, e1.getMessage(),e1);
 			}
 		}
 
@@ -176,7 +179,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
 				axis );
@@ -299,7 +302,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		if ( crossTab == null )
 		{

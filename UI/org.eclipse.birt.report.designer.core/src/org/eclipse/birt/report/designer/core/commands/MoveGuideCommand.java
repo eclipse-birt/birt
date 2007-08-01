@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.MetricUtility;
@@ -28,7 +31,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class MoveGuideCommand extends Command
 {
-
+	protected static Logger logger = Logger.getLogger( MoveGuideCommand.class.getName( ) );
 	private int pDelta;
 	private String propertyName;
 
@@ -93,7 +96,7 @@ public class MoveGuideCommand extends Command
 			{
 				System.out.println( "MoveGuideCommand >> Failed." ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 
 	}

@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -43,7 +45,7 @@ public class EditpartExtensionManager
 
 	private static Map extensionMap = new HashMap( );
 	private static List palettes = new ArrayList( );
-
+	protected static Logger logger = Logger.getLogger( EditpartExtensionManager.class.getName( ) );
 	static
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
@@ -142,7 +144,7 @@ public class EditpartExtensionManager
 			}
 			catch ( CoreException e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 		return null;

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
@@ -54,7 +56,7 @@ public class RevertToTemplateHandler extends SelectionHandler
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace();
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		

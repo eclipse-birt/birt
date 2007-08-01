@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -73,7 +75,7 @@ public class PasteAction extends AbstractViewAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 

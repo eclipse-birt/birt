@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -45,6 +47,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		IReportEditorPage
 {
+
+	protected static Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview.web"; //$NON-NLS-1$
 
@@ -443,7 +447,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 		catch ( DesignFileException e )
 		{
-			e.printStackTrace( );
 			// close handle
 			try
 			{
@@ -454,7 +457,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			}
 			catch ( Exception e1 )
 			{
-				e1.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 

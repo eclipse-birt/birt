@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -37,7 +40,8 @@ import org.eclipse.gef.commands.Command;
 
 public class SetConstraintCommand extends Command
 {
-
+	private static Logger logger = Logger.getLogger( SetConstraintCommand.class.getName( ) );
+	
 	private static final String TRANS_LABEL_SET_CONSTRAINT = Messages.getString( "SetConstraintCommand.transLabel.setConstraint" ); //$NON-NLS-1$
 
 	private ReportItemHandle model;
@@ -134,7 +138,7 @@ public class SetConstraintCommand extends Command
 			{
 				System.out.println( "SetConstraintCommand >> Failed." ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 			stack.rollback( );
 		}
 	}

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.core.commands;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -32,6 +34,7 @@ import org.eclipse.gef.commands.Command;
 public class CreateCommand extends Command
 {
 
+	private static Logger logger = Logger.getLogger( CreateCommand.class.getName( ) );
 	private Object parent;
 
 	private Object after;
@@ -132,7 +135,7 @@ public class CreateCommand extends Command
 			{
 				System.out.println( "CreateCommand >> Failed" ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 	}
 

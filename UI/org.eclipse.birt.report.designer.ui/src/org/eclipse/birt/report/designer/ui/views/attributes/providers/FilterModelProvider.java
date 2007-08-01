@@ -14,12 +14,11 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -37,6 +36,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
  */
 public class FilterModelProvider
 {
+	protected static Logger logger = Logger.getLogger( FilterModelProvider.class.getName( ) );
 
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER

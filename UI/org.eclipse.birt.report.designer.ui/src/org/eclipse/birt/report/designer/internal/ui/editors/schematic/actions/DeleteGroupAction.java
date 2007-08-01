@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
@@ -80,7 +82,7 @@ public class DeleteGroupAction extends DynamicItemAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}	
 
 		

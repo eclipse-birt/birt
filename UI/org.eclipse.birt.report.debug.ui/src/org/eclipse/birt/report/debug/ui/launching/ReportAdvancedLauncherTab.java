@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
@@ -64,7 +66,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		ILaunchConfigurationTab,
 		IReportLauncherSettings
 {
-
+	protected static Logger logger = Logger.getLogger( ReportAdvancedLauncherTab.class.getName( ) );
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$	
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
@@ -114,7 +116,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 			}
 			catch ( CoreException e )
 			{
-
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 			return new Object[0];
@@ -157,7 +159,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		}
 		catch ( CoreException e )
 		{
-			// donothing
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return retValue;
 	}
@@ -205,6 +207,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 			}
 			catch ( CoreException e )
 			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		IProject[] temp = new IProject[retValue.size( )];
@@ -369,7 +372,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 					}
 					catch ( CoreException e )
 					{
-						e.printStackTrace( );
+						logger.log( Level.SEVERE, e.getMessage( ), e );
 					}
 
 				}
@@ -740,7 +743,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 				}
 				catch ( CoreException e )
 				{
-					e.printStackTrace( );
+					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
 
 				fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
@@ -785,7 +788,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 			}
 			catch ( CoreException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 			fNumWorkspaceChecked = fNumWorkspaceBIRTChecked

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -39,11 +41,6 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -104,25 +101,10 @@ public class CopyAction extends AbstractViewAction
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.copyAction" );
 		}
-		catch ( ExecutionException e )
-		{
+		catch ( Exception e )
+		{			
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch ( NotDefinedException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch ( NotEnabledException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch ( NotHandledException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 

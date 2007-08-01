@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
@@ -25,7 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.5 $ $Date: 2005/11/16 10:51:24 $
+ * @version $Revision: 1.6 $ $Date: 2007/03/02 09:53:22 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -94,7 +95,7 @@ public class InsertColumnAction extends ContextSelectionAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
 	}
 

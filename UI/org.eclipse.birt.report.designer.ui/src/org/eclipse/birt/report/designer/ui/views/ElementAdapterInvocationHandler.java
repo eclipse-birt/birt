@@ -95,10 +95,6 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 		}
 		catch ( Exception e )
 		{
-			//should not use ExceptionHandler to handle exception
-			//because this will raise annoying dialog
-//			ExceptionHandler.handle( e );
-//			e.printStackTrace( );
 			throw e.getCause( );
 		}
 		return null;

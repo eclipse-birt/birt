@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -2466,7 +2467,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					catch ( SemanticException e )
 					{
-						e.printStackTrace( );
+						logger.log(Level.SEVERE, e.getMessage(),e);
 					}
 
 				}

@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
@@ -74,6 +75,8 @@ import org.eclipse.ui.PlatformUI;
 
 public class DefaultNodeProvider implements INodeProvider
 {
+
+	protected static Logger logger = Logger.getLogger( DefaultNodeProvider.class.getName( ) );
 
 	public static final String BODY = Messages.getString( "DefaultNodeProvider.Tree.Body" ); //$NON-NLS-1$
 

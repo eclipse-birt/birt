@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -81,7 +83,7 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 }

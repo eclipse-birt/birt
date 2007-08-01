@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
@@ -80,7 +82,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	private DesignElementHandleAdapter peer;
 	private AbstractGuideHandle guideHandle = null;
 	private boolean isEdited = false;
-
+	protected Logger logger = Logger.getLogger( ReportElementEditPart.class.getName( ) );
 	// private static boolean canDeleteGuide = true;
 
 	/**
@@ -140,7 +142,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			catch ( RuntimeException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log( Level.SEVERE, e.getMessage( ),e );
 			}
 			setEdited( false );
 		}

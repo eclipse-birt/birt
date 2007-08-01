@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
@@ -91,7 +92,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		CrosstabGrandTotalDialog grandTotalDialog = new CrosstabGrandTotalDialog( reportHandle,
 				axis );

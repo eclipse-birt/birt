@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
@@ -31,6 +34,8 @@ import org.eclipse.gef.commands.Command;
 public class FlowMoveChildCommand extends Command
 {
 
+	private static Logger logger = Logger.getLogger( FlowMoveChildCommand.class.getName( ) );
+	
 	private static final String TRANS_LABEL_MOVE_ELEMENT = Messages.getString( "FlowMoveChildCommand.transLabel.moveElement" ); //$NON-NLS-1$
 
 	private Object child = null;
@@ -137,7 +142,7 @@ public class FlowMoveChildCommand extends Command
 			{
 				System.out.println( "FlowMoveChildCommand >> Failed" ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 	}
 }

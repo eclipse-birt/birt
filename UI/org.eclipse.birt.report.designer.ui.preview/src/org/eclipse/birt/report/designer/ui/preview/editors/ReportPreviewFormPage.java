@@ -123,34 +123,6 @@ public class ReportPreviewFormPage extends EditorPart implements
 		}
 		reportViewer.setInput( getReportDesignFilePath( ) );
 		reportViewer.render( );
-		// new Thread( ) {
-		//
-		// /*
-		// * (non-Javadoc)
-		// *
-		// * @see java.lang.Thread#run()
-		// */
-		// public void run( )
-		// {
-		// try
-		// {
-		// RenderHandler.viewReportDesign( getReportDesignFile( ),
-		// reportViewer );
-		// }
-		// catch ( final EngineException e )
-		// {
-		// e.printStackTrace( );
-		// }
-		// catch ( final IOException e )
-		// {
-		// e.printStackTrace( );
-		// }
-		// catch ( final ViewerException e )
-		// {
-		// e.printStackTrace( );
-		// }
-		// }
-		// }.start( );
 	}
 
 	/*

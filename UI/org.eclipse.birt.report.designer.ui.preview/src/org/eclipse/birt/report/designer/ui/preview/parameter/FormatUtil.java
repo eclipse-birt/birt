@@ -118,10 +118,6 @@ public class FormatUtil
 		{
 			inputStr = new StringFormatter( pattern ).format( inputStr );
 		}
-		// catch ( BirtException e )
-		// {
-		// // e.printStackTrace( );
-		// }
 		return inputStr;
 	}
 

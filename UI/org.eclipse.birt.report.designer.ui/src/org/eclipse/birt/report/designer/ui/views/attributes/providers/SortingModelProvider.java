@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
@@ -38,6 +39,7 @@ import org.eclipse.jface.dialogs.Dialog;
  */
 public class SortingModelProvider
 {
+	protected static Logger logger = Logger.getLogger( SortingModelProvider.class.getName( ) );
 
 	/**
 	 * The list of allowed SortKey.DIRECTION_MEMBER

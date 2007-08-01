@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -467,7 +468,7 @@ public class ThumbnailBuilder extends BaseDialog
 			catch ( IOException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 			if ( checkExtensions( fileName ) == false )
 			{

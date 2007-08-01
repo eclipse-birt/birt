@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -28,6 +31,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 
 	protected Object input;
 	protected CrosstabReportItemHandle crosstabHandle;
+	protected static Logger logger = Logger.getLogger( LayoutMeasuresProvider.class.getName( ) );
 
 	/*
 	 * (non-Javadoc)
@@ -124,7 +128,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 			return;
 		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 			return;
 		}
 	}

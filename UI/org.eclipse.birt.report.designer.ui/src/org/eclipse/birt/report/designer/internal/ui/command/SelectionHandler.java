@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -40,6 +41,7 @@ import org.eclipse.ui.ISources;
 public class SelectionHandler extends AbstractHandler
 {
 
+	protected Logger logger = Logger.getLogger( SelectionHandler.class.getName( ) );
 	private ExecutionEvent event;
 
 	/*

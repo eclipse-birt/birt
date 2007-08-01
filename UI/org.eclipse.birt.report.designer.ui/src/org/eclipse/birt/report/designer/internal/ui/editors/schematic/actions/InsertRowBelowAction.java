@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
@@ -60,15 +61,6 @@ public class InsertRowBelowAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-//		if ( Policy.TRACING_ACTIONS )
-//		{
-//			System.out.println( "Insert row below action >> Run ..." ); //$NON-NLS-1$
-//		}
-//		if ( getTableEditPart( ) != null && !getRowHandles( ).isEmpty( ) )
-//		{
-//			// has combined two behavior into one.
-//			getTableEditPart( ).insertRows( 1, getRowNumbers( ) );
-//		}
 		
 		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(1));
 
@@ -79,7 +71,7 @@ public class InsertRowBelowAction extends InsertRowAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
 	}
 }

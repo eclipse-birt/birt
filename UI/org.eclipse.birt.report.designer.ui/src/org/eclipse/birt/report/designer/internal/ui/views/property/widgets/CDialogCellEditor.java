@@ -8,6 +8,8 @@
  ******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import java.util.logging.Logger;
+
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -15,6 +17,8 @@ import org.eclipse.swt.widgets.Composite;
 
 abstract public class CDialogCellEditor extends DialogCellEditor
 {
+
+	protected static Logger logger = Logger.getLogger( CDialogCellEditor.class.getName( ) );
 
 	private Button result;
 	/**

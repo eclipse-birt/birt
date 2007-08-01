@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -1568,7 +1569,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			catch ( EngineException e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 		else

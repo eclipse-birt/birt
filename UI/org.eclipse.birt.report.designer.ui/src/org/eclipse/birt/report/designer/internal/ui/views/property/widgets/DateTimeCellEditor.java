@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -75,7 +75,7 @@ public class DateTimeCellEditor extends CDialogCellEditor
 				dialog.setInfo( time );
 			}
 		} catch ( Exception e ) {
-				e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		
 		dialog.open( );

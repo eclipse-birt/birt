@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
@@ -101,6 +103,7 @@ public class JSEditor extends StatusTextEditor implements
 		ISelectionChangedListener,
 		IColleague
 {
+	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
 
@@ -1120,6 +1123,8 @@ class JSSubFunctionListProvider implements
 		ISelectionChangedListener
 {
 
+	protected static Logger logger = Logger.getLogger( JSSubFunctionListProvider.class.getName( ) );
+
 	// private static final String NO_TEXT = Messages.getString(
 	// "JSEditor.Text.NoText" ); //$NON-NLS-1$;
 	private JSEditor editor;
@@ -1245,8 +1250,7 @@ class JSSubFunctionListProvider implements
 						}
 						catch ( BadLocationException e )
 						{
-
-							e.printStackTrace( );
+							logger.log(Level.SEVERE, e.getMessage(),e);
 						}
 
 						editor.cmbSubFunctions.select( 0 );

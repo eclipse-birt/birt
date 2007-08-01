@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -50,6 +53,7 @@ import org.eclipse.jface.action.Action;
 
 public class InsertGroupActionFactory
 {
+	protected Logger logger = Logger.getLogger( InsertGroupActionFactory.class.getName( ) );
 
 	private static InsertPositionGroupAction[] instances = new InsertPositionGroupAction[]{
 			new InsertAboveGroupAction( null, Messages
@@ -115,7 +119,8 @@ public class InsertGroupActionFactory
 
 abstract class InsertPositionGroupAction extends Action
 {
-	
+	protected Logger logger = Logger.getLogger( InsertPositionGroupAction.class.getName( ) );
+
 	private Object currentModel;
 
 	private List selection;
@@ -167,29 +172,6 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	public void run( )
 	{
-//		if ( Policy.TRACING_ACTIONS )
-//		{
-//			System.out.println( "Insert group action >> Run ..." ); //$NON-NLS-1$
-//		}
-//		CommandStack stack = getActiveCommandStack( );
-//		stack.startTrans( STACK_MSG_ADD_GROUP );
-//		boolean retValue = false;
-//		if ( getTableEditPart( ) != null )
-//		{
-//			retValue = getTableEditPart( ).insertGroup( getPosition( ) );
-//		}
-//		else
-//		{
-//			retValue = getListEditPart( ).insertGroup( getPosition( ) );
-//		}
-//		if ( retValue )
-//		{
-//			stack.commit( );
-//		}
-//		else
-//		{
-//			stack.rollbackAll( );
-//		}
 		
 		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME, currentModel);
 		
@@ -201,7 +183,7 @@ abstract class InsertPositionGroupAction extends Action
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log( Level.SEVERE, e.getMessage( ),e );
 		}
 		
 		

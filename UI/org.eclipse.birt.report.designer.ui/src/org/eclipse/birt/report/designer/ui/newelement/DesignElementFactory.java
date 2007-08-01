@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.newelement;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
@@ -56,20 +59,6 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
-import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.elements.olap.OdaCube;
-import org.eclipse.birt.report.model.elements.olap.OdaDimension;
-import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
-import org.eclipse.birt.report.model.elements.olap.OdaLevel;
-import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
-import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
-import org.eclipse.birt.report.model.elements.olap.TabularCube;
-import org.eclipse.birt.report.model.elements.olap.TabularDimension;
-import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
-import org.eclipse.birt.report.model.elements.olap.TabularLevel;
-import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
-import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 
 /**
  * This class is a heritor of ElementFactory,which is used to new elements
@@ -77,6 +66,7 @@ import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 
 public class DesignElementFactory extends ElementFactory
 {
+	protected Logger logger = Logger.getLogger( DesignElementFactory.class.getName( ) );
 
 	ElementFactory factory = null;
 
@@ -859,7 +849,7 @@ public class DesignElementFactory extends ElementFactory
 		}
 		catch ( SemanticException e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return handle;
 	}
@@ -880,7 +870,7 @@ public class DesignElementFactory extends ElementFactory
 		}
 		catch ( SemanticException e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return handle;
 	}

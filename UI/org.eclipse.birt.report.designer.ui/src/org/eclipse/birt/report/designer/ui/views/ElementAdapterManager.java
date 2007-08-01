@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.expressions.EvaluationContext;
 import org.eclipse.core.expressions.EvaluationResult;
@@ -38,6 +40,8 @@ import org.eclipse.core.runtime.Platform;
 
 public class ElementAdapterManager
 {
+	protected static Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
+
 
 	private static Map adaptersMap = new HashMap( ) {
 
@@ -138,7 +142,7 @@ public class ElementAdapterManager
 						catch ( Exception e )
 						{
 							System.out.println( "Register adapter error!" );
-							e.printStackTrace( System.out );
+							logger.log(Level.SEVERE, e.getMessage(),e);
 						}
 					}
 				}
@@ -149,6 +153,7 @@ public class ElementAdapterManager
 							new Object[]{
 								adaptable
 							} ) );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 
 			}

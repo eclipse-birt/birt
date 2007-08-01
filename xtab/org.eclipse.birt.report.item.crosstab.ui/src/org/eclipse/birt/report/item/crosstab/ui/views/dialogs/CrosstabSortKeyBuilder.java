@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -648,7 +649,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 
 			dynamicViewer.refresh( );
@@ -693,7 +694,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		if ( crossTab == null )
 		{
@@ -780,7 +781,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			}
 			catch ( DataException e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 
@@ -882,7 +883,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 
 		return retList;
@@ -915,7 +916,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 
 		return retList;
@@ -959,7 +960,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( SemanticException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 
@@ -984,7 +985,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				catch ( SemanticException e )
 				{
 					// TODO Auto-generated catch block
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 				break;
 			}
@@ -1016,7 +1017,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 
 			lastMemberValue = newValue;
@@ -1041,7 +1042,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );
 		// LevelViewHandle level = getLevel(dimension, levelName );

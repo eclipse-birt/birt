@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.editors;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.ide.adapters.LibraryProvider;
@@ -47,6 +49,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
+	protected static Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
 	 * Report element ID marker attribute. It's used to record the report
@@ -326,7 +329,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			}
 			catch ( CoreException e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 	}

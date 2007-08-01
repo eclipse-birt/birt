@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.views.provider;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -82,7 +84,7 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider
 		}
 		catch ( ExtendedElementException e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return super.getNodeDisplayName( model );
 	}

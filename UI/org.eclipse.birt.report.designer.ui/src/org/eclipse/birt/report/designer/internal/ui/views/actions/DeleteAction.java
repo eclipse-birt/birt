@@ -11,25 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -94,7 +83,7 @@ public class DeleteAction extends AbstractElementAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}		
 		
 		hasExecuted = ((Boolean)exeResult).booleanValue( );

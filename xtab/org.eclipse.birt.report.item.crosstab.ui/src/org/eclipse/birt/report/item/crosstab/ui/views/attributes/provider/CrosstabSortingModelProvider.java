@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
@@ -275,7 +276,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		if(crossTab == null)
 		{
@@ -308,7 +309,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		List list = new ArrayList( );
 		if(crossTabViewHandle == null)

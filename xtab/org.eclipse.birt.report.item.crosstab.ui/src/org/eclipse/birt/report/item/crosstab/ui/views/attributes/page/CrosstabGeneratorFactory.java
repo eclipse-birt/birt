@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -27,6 +30,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 
 public class CrosstabGeneratorFactory implements IAdapterFactory
 {
+	protected static Logger logger = Logger.getLogger( CrosstabGeneratorFactory.class.getName( ) );
 
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
@@ -43,7 +47,7 @@ public class CrosstabGeneratorFactory implements IAdapterFactory
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		if(reportItem == null)
 		{

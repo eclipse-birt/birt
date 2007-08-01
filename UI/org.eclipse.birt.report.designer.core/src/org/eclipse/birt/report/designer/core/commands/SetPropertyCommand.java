@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.core.commands;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -30,7 +32,8 @@ import org.eclipse.gef.commands.Command;
 
 public class SetPropertyCommand extends Command
 {
-
+	private static Logger logger = Logger.getLogger( SetPropertyCommand.class.getName( ) );
+	
 	private Object model;
 
 	private Map extendsData;
@@ -86,7 +89,7 @@ public class SetPropertyCommand extends Command
 			{
 				System.out.println( "SetPropertyCommand >> Failed" ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 	}
 }

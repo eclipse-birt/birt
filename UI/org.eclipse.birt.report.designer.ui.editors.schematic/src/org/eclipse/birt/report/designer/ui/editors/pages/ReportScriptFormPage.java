@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
@@ -48,6 +50,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class ReportScriptFormPage extends ReportFormPage
 {
+
+	protected static Logger logger = Logger.getLogger( ReportScriptFormPage.class.getName( ) );
 
 	private ModelEventManager manager = getModelEventManager( );
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
@@ -205,7 +209,7 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 

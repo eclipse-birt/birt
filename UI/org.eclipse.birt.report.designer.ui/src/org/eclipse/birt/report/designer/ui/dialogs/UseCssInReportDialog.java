@@ -16,10 +16,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -54,6 +57,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class UseCssInReportDialog extends TitleAreaDialog
 {
+	protected Logger logger = Logger.getLogger( UseCssInReportDialog.class.getName( ) );
 
 	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
 	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInReportDialog.TitleArea.Title" ); //$NON-NLS-1$
@@ -197,7 +201,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 				catch ( StyleSheetException e1 )
 				{
 					// TODO Auto-generated catch block
-					e1.printStackTrace( );
+					logger.log(Level.SEVERE, e1.getMessage(),e1);
 				}
 				refresh( );
 			}

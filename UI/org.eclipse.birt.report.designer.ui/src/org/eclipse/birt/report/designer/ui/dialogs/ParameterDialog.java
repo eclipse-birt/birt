@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -755,7 +756,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			// TODO Auto-generated catch block
 			ExceptionHandler.handle( e );
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
@@ -2448,7 +2449,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		catch ( BirtException e )
 		{
-			// e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return string;
 	}

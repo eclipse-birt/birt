@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BackgroundPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BlockPreferencePage;
@@ -49,6 +51,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class StyleBuilder extends PreferenceDialog
 {
+
+	protected Logger logger = Logger.getLogger( StyleBuilder.class.getName( ) );
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "SytleBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "SytleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
@@ -214,7 +218,7 @@ public class StyleBuilder extends PreferenceDialog
 				}
 				else
 				{
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 
 				setSelectedNodePreference( null );

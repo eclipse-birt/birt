@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -27,7 +30,7 @@ import org.eclipse.gef.commands.Command;
 
 public class PasteStructureCommand extends Command
 {
-
+	protected static Logger logger = Logger.getLogger( PasteStructureCommand.class.getName( ) );
 	private IStructure copyData;
 	private Object container;
 
@@ -81,7 +84,7 @@ public class PasteStructureCommand extends Command
 			{
 				System.out.println( "PasteStructureCommand >>  Failed" ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,e.getMessage( ), e);
 		}
 	}
 }

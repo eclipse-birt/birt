@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -207,7 +208,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		catch ( SemanticException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 			stack.rollback( );
 			super.okPressed( );
 			return;

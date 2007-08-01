@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -87,7 +88,7 @@ public class ReloadCssStyleAction extends AbstractViewAction
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 	

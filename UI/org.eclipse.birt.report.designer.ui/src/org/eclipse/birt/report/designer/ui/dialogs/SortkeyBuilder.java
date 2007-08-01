@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -58,6 +59,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SortkeyBuilder extends TitleAreaDialog
 {
+	protected Logger logger = Logger.getLogger( SortkeyBuilder.class.getName( ) );
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "SortkeyBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_MESSAGE_NEW = Messages.getString( "SortkeyBuilder.DialogMessage.New" ); //$NON-NLS-1$

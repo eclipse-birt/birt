@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.dialog.HandlerClassSelectionDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -49,6 +51,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 public class ClassFinder
 {
+	protected static Logger logger = Logger.getLogger( ClassFinder.class.getName( ) );
 
 	private static final String TASK_START = Messages.getString("ClassFinder.TaskStart"); //$NON-NLS-1$
 	private static final String DIALOG_TITLE = Messages.getString("ClassFinder.DialogTitle"); //$NON-NLS-1$
@@ -87,7 +90,7 @@ public class ClassFinder
 				}
 				catch ( CoreException e )
 				{
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 				if ( pm.isCanceled( ) )
 				{
@@ -146,7 +149,7 @@ public class ClassFinder
 			}
 			catch ( JavaModelException e )
 			{
-				e.printStackTrace( );
+				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
 		return found;

@@ -13,7 +13,9 @@ package org.eclipse.birt.report.designer.ui.actions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.Action;
@@ -39,7 +41,7 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 */
 	public static abstract class DynamicItemAction extends Action
 	{
-
+		protected Logger logger = Logger.getLogger( DynamicItemAction.class.getName( ) );
 		protected DynamicItemAction( )
 		{
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -138,7 +140,7 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 		}
 		catch ( SemanticException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return false;
 		}
 	}

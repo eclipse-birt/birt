@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -14,6 +16,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 public abstract class AbstractFormHandleProvider implements IFormProvider
 {
+	protected static Logger logger = Logger.getLogger( AbstractFormHandleProvider.class.getName( ) );
 
 	protected Object input;
 

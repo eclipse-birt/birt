@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -60,6 +62,7 @@ import com.ibm.icu.util.StringTokenizer;
  */
 public class ReportPlugin extends AbstractUIPlugin
 {
+	protected static Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	// Add the static String list, remeber thr ignore view for the selection
 	private List ignore = new ArrayList( );
@@ -400,7 +403,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		catch ( CoreException e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return true;
 	}
@@ -420,7 +423,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		catch ( CoreException e )
 		{
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 

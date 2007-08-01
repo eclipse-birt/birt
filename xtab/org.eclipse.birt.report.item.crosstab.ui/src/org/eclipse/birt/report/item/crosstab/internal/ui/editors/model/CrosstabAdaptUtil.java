@@ -13,6 +13,8 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -54,7 +56,7 @@ import org.eclipse.jface.dialogs.MessageDialogWithToggle;
  */
 public class CrosstabAdaptUtil
 {
-
+	protected static Logger logger = Logger.getLogger( CrosstabAdaptUtil.class.getName( ) );
 	/**
 	 * Gets the row or column count after the handel, now include the current
 	 * handle
@@ -372,7 +374,7 @@ public class CrosstabAdaptUtil
 		catch ( BirtException e )
 		{
 			// donothing
-			e.printStackTrace( );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 }

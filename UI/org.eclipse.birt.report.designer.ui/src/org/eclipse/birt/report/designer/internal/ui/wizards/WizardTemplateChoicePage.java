@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewComposite;
@@ -36,7 +38,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -63,6 +64,7 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
+	protected static Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
 
 	private static final String[] IMAGE_TYPES = new String[]{
 			".bmp",
@@ -198,8 +200,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 			} );
 
-			
-			java.util.List reportDesingHandleList = new ArrayList();
+			java.util.List reportDesingHandleList = new ArrayList( );
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
 				try
@@ -208,24 +209,25 @@ public class WizardTemplateChoicePage extends WizardPage
 							.getSessionHandle( )
 							.openModule( filesArray[i].getAbsolutePath( ) );
 					// templateArray[i] = reportDesignHandle;
-					if(moduleHandle != null && moduleHandle instanceof ReportDesignHandle)
+					if ( moduleHandle != null
+							&& moduleHandle instanceof ReportDesignHandle )
 					{
-						reportDesingHandleList.add( (ReportDesignHandle)moduleHandle );
-					}					
+						reportDesingHandleList.add( (ReportDesignHandle) moduleHandle );
+					}
 				}
 				catch ( Exception e )
 				{
 					// ignore
 				}
 			}
-			
+
 			int count = reportDesingHandleList.size( );
 			templateArray = new ReportDesignHandle[count];
-			for(int i = 0; i < count; i ++)
+			for ( int i = 0; i < count; i++ )
 			{
-				templateArray[i] = (ReportDesignHandle)reportDesingHandleList.get( i );
+				templateArray[i] = (ReportDesignHandle) reportDesingHandleList.get( i );
 			}
-			
+
 		}
 
 		return templateArray;
@@ -439,7 +441,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				key = null;
 			}
 			Object img = null;
-			
+
 			if ( handle.getThumbnail( ) != null
 					&& handle.getThumbnail( ).length != 0 )
 			{
@@ -457,8 +459,8 @@ public class WizardTemplateChoicePage extends WizardPage
 
 				previewCanvas.clear( );
 				previewCanvas.loadImage( ( (Image) thumbnailImage ) );
-			}else			
-			if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
+			}
+			else if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
 			{
 				URL url = getPreviewImageURL( handle.getFileName( ), key );
 
@@ -470,7 +472,7 @@ public class WizardTemplateChoicePage extends WizardPage
 					}
 					catch ( IOException e )
 					{
-						e.printStackTrace( );
+						logger.log( Level.SEVERE, e.getMessage( ), e );
 					}
 					img = imageMap.get( key );
 
@@ -483,6 +485,7 @@ public class WizardTemplateChoicePage extends WizardPage
 						}
 						catch ( IOException e )
 						{
+							logger.log( Level.SEVERE, e.getMessage( ), e );
 						}
 						if ( img != null )
 						{
@@ -506,8 +509,8 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			}
 
-			if ((handle.getThumbnail( ) == null
-					|| handle.getThumbnail( ).length == 0) &&  key == null )
+			if ( ( handle.getThumbnail( ) == null || handle.getThumbnail( ).length == 0 )
+					&& key == null )
 			{
 				previewCanvas.setVisible( false );
 				previewThumbnail.setVisible( true );
@@ -523,17 +526,19 @@ public class WizardTemplateChoicePage extends WizardPage
 
 				previewThumbnail.layout( );
 			}
-			
+
 			if ( handle.getCheatSheet( ) != null
 					&& handle.getCheatSheet( ).trim( ).length( ) != 0 )
 			{
 				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( )
 						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
-//				if ( handle.getCheatSheet( )
-//						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
-//				{
-//					chkBox.setSelection( true );
-//				}
+				// if ( handle.getCheatSheet( )
+				// .equals(
+				// "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport"
+				// ) )
+				// {
+				// chkBox.setSelection( true );
+				// }
 				chkBox.setSelection( true );
 			}
 			else
@@ -617,7 +622,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private boolean isPredifinedTemplate( String sourceFileName )
 	{
 		String predifinedDir = UIUtil.getFragmentDirectory( );
-		if(predifinedDir == null || predifinedDir.length( ) <= 0)
+		if ( predifinedDir == null || predifinedDir.length( ) <= 0 )
 		{
 			return false;
 		}
@@ -684,7 +689,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		URL url = null;
 
 		Bundle bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
-		if(bundle == null)
+		if ( bundle == null )
 		{
 			return null;
 		}
@@ -702,7 +707,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 				catch ( MalformedURLException e )
 				{
-					e.printStackTrace( );
+					logger.log(Level.SEVERE, e.getMessage(),e);
 				}
 			}
 		}
