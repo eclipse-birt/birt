@@ -190,13 +190,13 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	public void deactivate( )
 	{
 		super.deactivate( );
-		( (DatasetNodeEditPart) getParent( ) ).getCube( ).removeListener( this );
+		cube.removeListener( this );
 	}
 
 	public void activate( )
 	{
 		super.activate( );
-		( (DatasetNodeEditPart) getParent( ) ).getCube( ).addListener( this );
+		cube.addListener( this );
 	}
 
 	public String getColumnName( )

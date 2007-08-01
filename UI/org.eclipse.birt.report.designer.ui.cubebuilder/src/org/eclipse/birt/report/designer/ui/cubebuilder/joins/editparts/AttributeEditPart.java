@@ -183,14 +183,13 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 	public void deactivate( )
 	{
 		super.deactivate( );
-		( (HierarchyNodeEditPart) getParent( ) ).getCube( )
-				.removeListener( this );
+		cube.removeListener( this );
 	}
 
 	public void activate( )
 	{
 		super.activate( );
-		( (HierarchyNodeEditPart) getParent( ) ).getCube( ).addListener( this );
+		cube.addListener( this );
 	}
 
 	public String getColumnName( )

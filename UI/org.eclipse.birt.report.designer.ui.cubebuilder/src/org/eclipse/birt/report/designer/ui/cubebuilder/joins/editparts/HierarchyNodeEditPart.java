@@ -346,15 +346,13 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	public void deactivate( )
 	{
 		super.deactivate( );
-		( (DesignElementHandle) getModel( ) ).getRoot( )
-				.removeListener( this );
+		cube.getRoot( ).removeListener( this );
 	}
 
 	public void activate( )
 	{
 		super.activate( );
-		( (DesignElementHandle) getModel( ) ).getRoot( )
-				.addListener( this );
+		cube.getRoot( ).addListener( this );
 	}
 
 	public DragTracker getDragTracker( Request req )
