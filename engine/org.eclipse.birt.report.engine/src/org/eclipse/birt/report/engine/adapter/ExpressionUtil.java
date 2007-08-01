@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -129,6 +129,17 @@ public final class ExpressionUtil
 		try
 		{
 			IConditionalExpression ce = key;
+
+			String expr = getExprText( ce.getExpression( ) );
+			String oprand1 = getExprText( ce.getOperand1( ) );
+			String oprand2 = getExprText( ce.getOperand2( ) );
+			if ( !org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( expr ) &&
+					!org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( oprand1 ) &&
+					!org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( oprand2 ) )
+			{
+				result.addNewExpression( ce );
+				return;
+			}
 
 			if ( groupName != null )
 				ce.setGroupName( groupName );
@@ -431,7 +442,19 @@ public final class ExpressionUtil
 			return false;
 
 		return true;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private static String getExprText( IScriptExpression expr )
+	{
+		if( expr!= null )
+			return expr.getText( );
+		return null;
+	}
 	
 	// Convert model operator value to DtE IColumnFilter enum value
 	private int toDteFilterOperator( String modelOpr )
@@ -533,7 +556,7 @@ class TotalExprBinding implements ITotalExprBindings
 		return result;
 	}
 	
-	public void addNewExpression( String expr )
+	public void addNewExpression( Object expr )
 	{
 		this.newExprs.add( expr );
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -124,7 +124,7 @@ public class ReportQueryBuilderTest extends TestCase
 		IQueryDefinition query = (IQueryDefinition)item.getQuery( );
 		assertTrue( query.getSorts( ).size( ) == 2 );
 		assertTrue( query.getFilters( ).size( ) == 1 );
-		assertTrue( query.getBindings( ).size( ) == 24 );
+		assertTrue( query.getBindings( ).size( ) == 14 );
 		
 		GroupDefinition grp = (GroupDefinition)( (QueryDefinition)item.getQuery( ) ).getGroups( ).get( 0 );
 		assertTrue( grp.getSorts( ).size( ) == 2 );

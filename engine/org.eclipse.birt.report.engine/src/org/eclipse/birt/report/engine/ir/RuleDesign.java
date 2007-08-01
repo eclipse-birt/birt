@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,7 @@ public abstract class RuleDesign
 	protected String value1;
 	protected String value2;
 	protected String operator;
-	String expr;
+	Object expr;
 
 	public void setExpression( String operator, String value1, String value2 )
 	{
@@ -32,12 +32,12 @@ public abstract class RuleDesign
 		this.value2 = value2;
 	}
 	
-	public void setConditionExpr(String expr)
+	public void setConditionExpr( Object expr )
 	{
 		this.expr = expr;
 	}
-	
-	public String getConditionExpr()
+
+	public Object getConditionExpr( )
 	{
 		return expr;
 	}

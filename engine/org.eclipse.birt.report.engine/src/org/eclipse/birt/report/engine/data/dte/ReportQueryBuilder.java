@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1064,12 +1064,6 @@ public class ReportQueryBuilder
 							extHandle.getExtensionName( ) );
 				}
 			}
-			HighlightDesign highlight = item.getHighlight( );
-			if ( query == null && highlight != null
-					&& highlight.getRuleCount( ) > 0 )
-			{
-				return true;
-			}
 			return false;
 		}
 
@@ -1521,7 +1515,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
 				{
 					highlights.getRule( i ).setConditionExpr(
-							(String) newExpressions.get( expressionIndex++ ) );
+							newExpressions.get( expressionIndex++ ) );
 				}
 			}
 
@@ -1546,7 +1540,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
 				{
 					highlights.getRule( i ).setConditionExpr(
-							(String) newExpressions.get( expressionIndex++ ) );
+							newExpressions.get( expressionIndex++ ) );
 				}
 			}
 
@@ -1557,7 +1551,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < maps.getRuleCount( ); i++ )
 				{
 					maps.getRule( i ).setConditionExpr(
-							(String) newExpressions.get( expressionIndex++ ) );
+							newExpressions.get( expressionIndex++ ) );
 				}
 			}
 
