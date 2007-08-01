@@ -785,6 +785,9 @@ public class CubeGroupContent extends Composite implements Listener
 													.getLevelCount( ) > 0 )
 									{
 										event.detail = DND.DROP_NONE;
+										SessionHandleAdapter.getInstance( )
+												.getCommandStack( )
+												.rollback( );
 										return;
 									}
 
@@ -1086,7 +1089,7 @@ public class CubeGroupContent extends Composite implements Listener
 				groupBackup.updateStatus( groupViewer );
 			}
 			groupViewer.getTree( ).addTreeListener( groupTreeListener );
-			
+
 			getListenerElementVisitor( ).addListener( input );
 			updateButtons( );
 		}
@@ -1670,18 +1673,44 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				else if ( obj instanceof DimensionHandle
 						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-								.equals( VirtualField.TYPE_LEVEL ) ) )
+								.equals( VirtualField.TYPE_LEVEL ) )
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_DIMENSION ) ) )
 				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "" );
 					TabularDimensionHandle dimension = null;
-					if ( obj instanceof TabularDimensionHandle )
-						dimension = (TabularDimensionHandle) obj;
+					if ( obj instanceof VirtualField
+							&& ( (VirtualField) obj ).getType( )
+									.equals( VirtualField.TYPE_DIMENSION ) )
+					{
+						dimension = DesignElementFactory.getInstance( )
+								.newTabularDimension( null ); //$NON-NLS-1$
+						try
+						{
+							input.add( CubeHandle.DIMENSIONS_PROP, dimension );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
 					else
-						dimension = (TabularDimensionHandle) ( (VirtualField) obj ).getModel( );
+					{
+						if ( obj instanceof TabularDimensionHandle )
+							dimension = (TabularDimensionHandle) obj;
+						else
+							dimension = (TabularDimensionHandle) ( (VirtualField) obj ).getModel( );
+					}
 					if ( dimension.isTimeType( ) )
 					{
 						if ( dimension.getDefaultHierarchy( ).getLevelCount( ) > 0
 								|| !isDateType( dataField.getDataType( ) ) )
-							continue;
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.rollback( );
+						continue;
 					}
 
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
@@ -1692,11 +1721,12 @@ public class CubeGroupContent extends Composite implements Listener
 							&& dataset != null
 							&& dataset != dasetTemp )
 					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.rollback( );
 						continue;
 					}
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" );
+
 					if ( hierarchy.getDataSet( ) == null )
 					{
 						try
@@ -1769,16 +1799,38 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					if ( obj instanceof MeasureGroupHandle
 							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-									.equals( VirtualField.TYPE_MEASURE ) ) )
+									.equals( VirtualField.TYPE_MEASURE ) )
+							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+									.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
 					{
 						MeasureGroupHandle measureGroup = null;
-						if ( obj instanceof MeasureGroupHandle )
-							measureGroup = (MeasureGroupHandle) obj;
-						else
-							measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
 								.startTrans( "" );
+						if ( ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+						{
+							measureGroup = DesignElementFactory.getInstance( )
+									.newTabularMeasureGroup( null ); //$NON-NLS-1$
+							try
+							{
+								input.add( CubeHandle.MEASURE_GROUPS_PROP,
+										measureGroup );
+								if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+									input.setDefaultMeasureGroup( measureGroup );
+							}
+							catch ( SemanticException e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
+						else
+						{
+							if ( obj instanceof MeasureGroupHandle )
+								measureGroup = (MeasureGroupHandle) obj;
+							else
+								measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
+						}
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
