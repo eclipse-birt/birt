@@ -336,11 +336,6 @@ public class PDFImageLM extends PDFLeafItemLM
 		// set max content width
 		root.setAllocatedWidth( maxWidth );
 		int maxContentWidth = root.getContentWidth( );
-		if ( contentDimension.getWidth( ) > maxContentWidth )
-		{
-			contentDimension.setDimension( maxContentWidth,
-					(int) ( maxContentWidth / contentDimension.getRatio( ) ) );
-		}
 
 		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
 		imageArea.setWidth( contentDimension.getWidth( ) );

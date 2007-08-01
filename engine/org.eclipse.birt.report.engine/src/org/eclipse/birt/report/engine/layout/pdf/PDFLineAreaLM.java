@@ -310,16 +310,19 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+				if ( spacing > 0 )
 				{
-					area.setAllocatedPosition( spacing + area.getAllocatedX( ),
-							area.getAllocatedY( ) );
-				}
-				else if ( CSSConstants.CSS_CENTER_VALUE
-						.equalsIgnoreCase( align ) )
-				{
-					area.setAllocatedPosition( spacing / 2
-							+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) )
+					{
+						area.setAllocatedPosition( spacing
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					}
+					else if ( CSSConstants.CSS_CENTER_VALUE
+							.equalsIgnoreCase( align ) )
+					{
+						area.setAllocatedPosition( spacing / 2
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					}
 				}
 			}
 
