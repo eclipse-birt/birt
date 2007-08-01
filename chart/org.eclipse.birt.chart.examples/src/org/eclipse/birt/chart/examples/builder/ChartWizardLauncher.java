@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
-import org.eclipse.birt.chart.ui.swt.DefaultUIServiceProviderImpl;
+import org.eclipse.birt.chart.ui.integrate.SimpleUIServiceProviderImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -88,7 +88,7 @@ public class ChartWizardLauncher
 		 * @see the implementation for BIRT, <code>org.eclipse.birt.chart.reportitem.ChartReportItemBuilderImpl</code>
 		 * 
 		 */
-		context.setUIServiceProvider( new DefaultUIServiceProviderImpl( ) );
+		context.setUIServiceProvider( new SimpleUIServiceProviderImpl( ) );
 
 		// This array is for storing the latest chart data before pressing
 		// apply button
