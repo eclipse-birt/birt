@@ -208,4 +208,4 @@ CrosstabDataBinding.message.changeCube=Sie sind im Begriff, die Datenbindung der
 
 ###########################################################
 #Crosstab DropAdapter properties
-DataColumnXTabDropAdapter.DataCube=Data Cube
+DataColumnXTabDropAdapter.DataCube=Datenquader

@@ -208,4 +208,4 @@ CrosstabDataBinding.message.changeCube=ƒNƒƒXƒ^ƒu‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ğ•ÏX‚µ‚æ‚¤‚Æ‚
 
 ###########################################################
 #Crosstab DropAdapter properties
-DataColumnXTabDropAdapter.DataCube=Data Cube
+DataColumnXTabDropAdapter.DataCube=ƒf[ƒ^ƒLƒ…[ƒu

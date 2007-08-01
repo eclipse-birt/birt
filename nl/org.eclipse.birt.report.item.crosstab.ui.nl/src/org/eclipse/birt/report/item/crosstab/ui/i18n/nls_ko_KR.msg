@@ -208,4 +208,4 @@ CrosstabDataBinding.message.changeCube=교차 테이블의 데이터 바인딩을 변경하려고 
 
 ###########################################################
 #Crosstab DropAdapter properties
-DataColumnXTabDropAdapter.DataCube=Data Cube
+DataColumnXTabDropAdapter.DataCube=데이터 큐브
