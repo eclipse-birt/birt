@@ -111,8 +111,8 @@ LevelPropertyDialog.KeyField=키 필드:
 LevelPropertyDialog.DataType=데이터 형식:
 LevelPropertyDialog.Label.Expression=조건 식
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<새 특성 생성>
-MissLinkDialog.Title=Missing Link Between Data Sets
-MissLinkDialog.Question=Link the data field of primary data set to other data sets in order to build a cube
+MissLinkDialog.Title=데이터 집합 간 링크 없음
+MissLinkDialog.Question=큐브를 빌드하기 위해 기본 데이터 집합의 데이터 필드를 다른 데이터 집합에 링크
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
@@ -132,4 +132,4 @@ FilterListDialog.Shell.Title=필터
 
 ############################################################
 #Cube Action properties
-NewCubeAction.DataCube=Data Cube
+NewCubeAction.DataCube=데이터 큐브

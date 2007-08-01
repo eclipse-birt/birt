@@ -111,8 +111,8 @@ LevelPropertyDialog.KeyField=键字段:
 LevelPropertyDialog.DataType=数据类型:
 LevelPropertyDialog.Label.Expression=条件表达式
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<创建新的属性>
-MissLinkDialog.Title=Missing Link Between Data Sets
-MissLinkDialog.Question=Link the data field of primary data set to other data sets in order to build a cube
+MissLinkDialog.Title=数据集之间缺少链接
+MissLinkDialog.Question=将主数据集的数据字段链接到其它数据集以生成多维数据集
 SetConstraintCommand.setUserProperty=设置用户属性
 ###########################################################
 #RenameInputDialog properties
@@ -132,4 +132,4 @@ FilterListDialog.Shell.Title=筛选器
 
 ############################################################
 #Cube Action properties
-NewCubeAction.DataCube=Data Cube
+NewCubeAction.DataCube=多维数据集

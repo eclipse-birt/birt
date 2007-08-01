@@ -111,8 +111,8 @@ LevelPropertyDialog.KeyField=Campo de clave:
 LevelPropertyDialog.DataType=Tipo de datos:
 LevelPropertyDialog.Label.Expression=Expresión condicional
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<Crear nuevo atributo>
-MissLinkDialog.Title=Missing Link Between Data Sets
-MissLinkDialog.Question=Link the data field of primary data set to other data sets in order to build a cube
+MissLinkDialog.Title=Falta el link entre los conjuntos de datos
+MissLinkDialog.Question=Vincule el campo de datos del conjunto de datos primario a otros conjuntos de datos para construir un cubo
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
@@ -132,4 +132,4 @@ FilterListDialog.Shell.Title=Filtro
 
 ############################################################
 #Cube Action properties
-NewCubeAction.DataCube=Data Cube
+NewCubeAction.DataCube=Cubo de datos

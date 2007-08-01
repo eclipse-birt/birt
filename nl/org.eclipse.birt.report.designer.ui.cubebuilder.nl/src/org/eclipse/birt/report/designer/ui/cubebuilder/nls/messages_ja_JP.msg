@@ -111,8 +111,8 @@ LevelPropertyDialog.KeyField=キーフィールド :
 LevelPropertyDialog.DataType=データ型 :
 LevelPropertyDialog.Label.Expression=条件式
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<属性の新規作成>
-MissLinkDialog.Title=Missing Link Between Data Sets
-MissLinkDialog.Question=Link the data field of primary data set to other data sets in order to build a cube
+MissLinkDialog.Title=データセット間のリンク作成
+MissLinkDialog.Question=プライマリデータセットのデータフィールドを別のデータセットにリンクすることによって、キューブをビルドします。
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
@@ -132,4 +132,4 @@ FilterListDialog.Shell.Title=フィルタ
 
 ############################################################
 #Cube Action properties
-NewCubeAction.DataCube=Data Cube
+NewCubeAction.DataCube=データキューブ
