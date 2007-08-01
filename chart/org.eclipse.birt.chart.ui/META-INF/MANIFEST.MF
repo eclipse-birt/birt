@@ -7,6 +7,7 @@ Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.ui.i18n,
+ org.eclipse.birt.chart.ui.integrate,
  org.eclipse.birt.chart.ui.plugin,
  org.eclipse.birt.chart.ui.swt,
  org.eclipse.birt.chart.ui.swt.interfaces,
