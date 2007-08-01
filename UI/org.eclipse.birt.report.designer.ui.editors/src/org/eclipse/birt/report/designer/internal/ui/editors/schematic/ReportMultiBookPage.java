@@ -182,7 +182,7 @@ public class ReportMultiBookPage extends Page implements
 		{
 			page = getEmptyPage( );
 		}
-		else if ( currentPage != null
+		if ( currentPage != null
 				&& currentPage != getEmptyPage( )
 				&& !( currentPage instanceof PalettePage )
 				&& page != currentPage )
