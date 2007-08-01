@@ -417,7 +417,6 @@ public class MeasureDialog extends BaseDialog
 				10,
 				SWT.BOLD ) );
 		label.setText( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFIX + "Measure_ID" );
 		return titleArea;
 
 	}
