@@ -372,7 +372,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				{
 					label = choice.getLabel( );
 				}
-				Object value = getStringValue( choice.getValue( ), dataType );
+				Object value = convertToType( choice.getValue( ), dataType );
 				choices.add( new SelectionChoice( label, value ) );
 			}
 			if ( !fixedOrder )
@@ -389,41 +389,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
 		return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
-	}
-
-	/**
-	 * convert the string to value.
-	 * 
-	 * @param value
-	 *            value string
-	 * @param valueType
-	 *            value type
-	 * @return object with the specified value
-	 */
-	private Object getStringValue( String value, String valueType )
-	{
-		try
-		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
-				return DataTypeUtil.toBoolean( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
-				return DataTypeUtil.toDate( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
-				return DataTypeUtil.toSqlDate( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
-				return DataTypeUtil.toSqlTime( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
-				return DataTypeUtil.toBigDecimal( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
-				return DataTypeUtil.toDouble( value );
-			if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
-				return DataTypeUtil.toInteger( value );
-		}
-		catch ( BirtException e )
-		{
-			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-		}
-		return value;
 	}
 
 	/**
@@ -732,6 +697,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private Collection getChoicesFromParameterGroup( ScalarParameterHandle parameter, Object[] groupKeyValues )
 	{
 		assert isCascadingParameter( parameter );
+		String paramDataType = parameter.getDataType( );
 		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
 		String parameterGroupName = parameterGroup.getName( );
 			evaluateQuery( parameterGroupName );
@@ -765,7 +731,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						? iter.getString( labelColumnName )
 						: null );
 				Object value = iter.getValue( valueColumnName );
-				// value = convertToType( value, valueType );
+				value = convertToType( value, paramDataType );
 				choices.add( new SelectionChoice( label, value ) );
 				count++;
 				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
