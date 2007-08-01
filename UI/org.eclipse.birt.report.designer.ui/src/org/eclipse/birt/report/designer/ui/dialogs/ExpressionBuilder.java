@@ -212,7 +212,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 				Table table = functionTable.getTable( );
 				if ( table.getSelectionCount( ) == 1 )
 				{
-					messageLine.setText( table.getSelection( )[0].getText( ) );
+					String message = table.getSelection( )[0].getText( );
+					message = message.replaceAll( "&", "&&" );  //$NON-NLS-1$//$NON-NLS-2$
+					messageLine.setText( message );
 				}
 				else
 				{
