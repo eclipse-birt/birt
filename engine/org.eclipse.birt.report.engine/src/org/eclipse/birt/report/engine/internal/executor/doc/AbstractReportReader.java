@@ -140,10 +140,19 @@ public abstract class AbstractReportReader implements IReportExecutor
 	{
 		try
 		{
-			IPageHint hint = hintReader.getPageHint( pageNumber );
-			if ( hint == null )
+			IPageHint hint;
+			long totalPage = hintReader.getTotalPage( );
+			if ( pageNumber > totalPage )
 			{
 				hint = hintReader.getPageHint( 1 );
+			}
+			else
+			{
+				hint = hintReader.getPageHint( pageNumber );
+				if ( hint == null )
+				{
+					hint = hintReader.getPageHint( 1 );
+				}
 			}
 			if ( hint != null )
 			{
