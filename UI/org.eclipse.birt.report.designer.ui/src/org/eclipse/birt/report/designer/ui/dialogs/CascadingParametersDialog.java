@@ -2358,6 +2358,10 @@ public class CascadingParametersDialog extends BaseDialog
 			}
 
 			updateComboFromDataSet( );
+			if ( parameter.getName( ).trim( ).length( ) != 0 )
+			{
+				name.setText( parameter.getName( ) );
+			}
 			updateButtons( );
 			return super.initDialog( );
 		}
@@ -2411,13 +2415,13 @@ public class CascadingParametersDialog extends BaseDialog
 				DataSetHandle dataSet = getDataSet( parameter );
 				if ( dataSet != null )
 				{
-					name.setText( parameter.getName( ) );
+					// name.setText( parameter.getName( ) );
 					dataset.select( dataset.indexOf( dataSet.getName( ) ) );
 					value.setItems( getDataSetColumns( parameter, true ) );
-					displayText.removeAll( );					
+					displayText.removeAll( );
 					displayText.setItems( getDataSetColumns( parameter, false ) );
 					displayText.add( DISPLAY_TEXT_NONE, 0 );
-					
+
 					value.setEnabled( true );
 					String temp = getColumnName( parameter, COLUMN_VALUE );
 					if ( temp != null )
@@ -2430,7 +2434,8 @@ public class CascadingParametersDialog extends BaseDialog
 					if ( temp != null )
 					{
 						displayText.select( displayText.indexOf( temp ) );
-					}else
+					}
+					else
 					{
 						displayText.select( 0 );
 					}
@@ -2452,7 +2457,7 @@ public class CascadingParametersDialog extends BaseDialog
 					ExceptionHandler.handle( e );
 				}
 
-				name.setText( parameter.getName( ) );
+				// name.setText( parameter.getName( ) );
 				if ( getFirstParameter( ) != null )
 				{
 					try
@@ -2467,7 +2472,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					catch ( SemanticException e )
 					{
-						logger.log(Level.SEVERE, e.getMessage(),e);
+						logger.log( Level.SEVERE, e.getMessage( ), e );
 					}
 
 				}
