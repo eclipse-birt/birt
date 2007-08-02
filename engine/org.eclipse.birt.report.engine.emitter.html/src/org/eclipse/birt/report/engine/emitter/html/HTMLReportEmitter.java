@@ -89,6 +89,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSValue;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -1135,6 +1136,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		assert table != null;
 
+		// If the top level table has the property text-align, the table should
+		// be align to the page box.
+		if ( needImplementAlignTable( table ) )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_ALIGN, table.getStyle( )
+					.getTextAlign( ) );
+		}
+		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		if ( enableMetadata )
 		{
@@ -1269,7 +1279,44 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endWrapTable( table );
 		}
 		
+		if ( needImplementAlignTable( table ) )
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
+
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Judge needing implement the align table or not.
+	 * The align table should be align according to the page box.
+	 * @param table
+	 * @return
+	 */
+	protected boolean needImplementAlignTable( ITableContent table )
+	{
+		// the table should be the top level.
+		if ( report.getRoot( ) == table.getParent( ) )
+		{
+			// The table must has the width, and the width is not 100%.
+			DimensionType width = table.getWidth( );
+			if ( null != width && !"100%".equals( width.toString( ) ) )
+			{
+				// The table must be a block table.
+				IStyle style = table.getStyle( );
+				CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+				if ( null == display || IStyle.BLOCK_VALUE == display )
+				{
+					// The text-algin value must be center or right.
+					CSSValue algin = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+					if( IStyle.CENTER_VALUE == algin || IStyle.RIGHT_VALUE == algin)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/*
