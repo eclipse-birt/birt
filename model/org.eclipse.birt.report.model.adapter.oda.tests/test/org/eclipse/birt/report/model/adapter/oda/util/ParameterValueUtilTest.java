@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
-
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 
 import junit.framework.TestCase;
@@ -51,7 +50,7 @@ public class ParameterValueUtilTest extends TestCase
 
 		// test empty or null literal value
 		assertQuoteConversion( "''", "" ); //$NON-NLS-1$  //$NON-NLS-2$
-		assertNull( ParameterValueUtil.toJsExprValue( null ) );
+		assertNull( ParameterValueUtil.toJsExprValue( null, null ) );
 
 		// test conversion of non-quoted js expression value
 		assertNull( ParameterValueUtil.toLiteralValue( null ) );
@@ -59,13 +58,18 @@ public class ParameterValueUtilTest extends TestCase
 				.toLiteralValue( "'begin literal quote" ) ); //$NON-NLS-1$
 		assertEquals( "end literal quote'", ParameterValueUtil //$NON-NLS-1$
 				.toLiteralValue( "end literal quote'" ) ); //$NON-NLS-1$
+
+		// test empty or null literal value
+
+		assertFalse( ParameterValueUtil.isQuoted( "\"a\"+\"b\"" ) );//$NON-NLS-1$ 
+		assertTrue( ParameterValueUtil.isQuoted( "\"a+b\"" ) );//$NON-NLS-1$ 
 	}
 
 	private void assertQuoteConversion( String expectedQuotedValue,
 			String literalValue )
 	{
-		String actualQuotedValue = ParameterValueUtil
-				.toJsExprValue( literalValue );
+		String actualQuotedValue = ParameterValueUtil.toJsExprValue(
+				literalValue, null );
 		assertEquals( expectedQuotedValue, actualQuotedValue );
 
 		assertEquals( literalValue, ParameterValueUtil

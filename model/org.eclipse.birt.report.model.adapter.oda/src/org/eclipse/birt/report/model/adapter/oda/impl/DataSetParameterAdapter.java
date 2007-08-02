@@ -309,8 +309,8 @@ class DataSetParameterAdapter
 		if ( newDirerction != oldDirection )
 			updateROMParameterMode( setParam, paramMode );
 
-		if ( ( oldDirection == ParameterMode.IN || oldDirection == ParameterMode.IN_OUT )
-				&& newDirerction == ParameterMode.OUT )
+		if ( ( oldDirection == ParameterMode.IN || oldDirection == ParameterMode.IN_OUT ) &&
+				newDirerction == ParameterMode.OUT )
 			setParam.setParamName( null );
 	}
 
@@ -365,8 +365,8 @@ class DataSetParameterAdapter
 		oldValue = cachedDataAttrs == null ? null : new Integer(
 				cachedDataAttrs.getNativeDataTypeCode( ) );
 		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
-		if ( oldValue == null || !oldValue.equals( newValue )
-				|| setParam.getNativeDataType( ) == null )
+		if ( oldValue == null || !oldValue.equals( newValue ) ||
+				setParam.getNativeDataType( ) == null )
 		{
 			setParam.setNativeDataType( (Integer) newValue );
 		}
@@ -375,8 +375,8 @@ class DataSetParameterAdapter
 
 		String dataType = getROMDataType( dataSourceId, dataSetId, setParam,
 				setDefinedParams.iterator( ) );
-		if ( dataType == null
-				|| !DesignChoiceConstants.PARAM_TYPE_BOOLEAN
+		if ( dataType == null ||
+				!DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 						.equalsIgnoreCase( dataType ) )
 			setParam.setParameterDataType( dataType );
 
@@ -475,8 +475,8 @@ class DataSetParameterAdapter
 
 		boolean withLinkedParameter = !StringUtil.isBlank( setParam
 				.getParamName( ) );
-		if ( ( oldValue == null || !oldValue.equals( newValue ) )
-				&& !withLinkedParameter )
+		if ( ( oldValue == null || !oldValue.equals( newValue ) ) &&
+				!withLinkedParameter )
 			setROMDefaultValue( setParam, (String) newValue );
 
 		oldValue = cachedElementAttrs == null ? null : Boolean
@@ -564,9 +564,9 @@ class DataSetParameterAdapter
 			// native name is blank, match native data type and position
 
 			if ( ( StringUtil.isBlank( tmpNativeName ) || ( tmpNativeName != null && tmpNativeName
-					.equals( dataSetParamName ) ) )
-					&& position.equals( param.getPosition( ) )
-					&& ( tmpNativeDataType == null || tmpNativeDataType
+					.equals( dataSetParamName ) ) ) &&
+					position.equals( param.getPosition( ) ) &&
+					( tmpNativeDataType == null || tmpNativeDataType
 							.equals( nativeDataType ) ) )
 				return param;
 		}
@@ -756,8 +756,8 @@ class DataSetParameterAdapter
 		if ( nullability == null )
 			return;
 
-		if ( cachedNullability != null
-				&& cachedNullability.getValue( ) == nullability.getValue( ) )
+		if ( cachedNullability != null &&
+				cachedNullability.getValue( ) == nullability.getValue( ) )
 			return;
 
 		switch ( nullability.getValue( ) )
@@ -1144,9 +1144,16 @@ class DataSetParameterAdapter
 			return;
 		}
 
+		String originalValue = setParam.getDefaultValue( );
+		String quotataionMark = null;
+		if ( ParameterValueUtil.isQuoted( originalValue ) )
+		{
+			quotataionMark =  originalValue.substring( 0, 1 );
+		}
+
 		String romDefaultValue = needsQuoteDelimiters( setParam
-				.getParameterDataType( ) ) ? ParameterValueUtil
-				.toJsExprValue( literalValue ) : literalValue;
+				.getParameterDataType( ) ) ? ParameterValueUtil.toJsExprValue(
+				literalValue, quotataionMark ) : literalValue;
 		setParam.setDefaultValue( romDefaultValue );
 	}
 
@@ -1251,8 +1258,8 @@ class DataSetParameterAdapter
 			}
 			else
 			{
-				if ( userParam.getNativeDataType( ) != null
-						&& !userParam.getNativeDataType( ).equals(
+				if ( userParam.getNativeDataType( ) != null &&
+						!userParam.getNativeDataType( ).equals(
 								param.getNativeDataType( ) ) )
 				{
 					userParam.setParameterDataType( param

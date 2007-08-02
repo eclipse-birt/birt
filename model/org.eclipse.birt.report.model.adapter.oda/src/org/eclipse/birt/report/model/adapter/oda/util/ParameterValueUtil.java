@@ -19,11 +19,15 @@ package org.eclipse.birt.report.model.adapter.oda.util;
 public class ParameterValueUtil
 {
 
+	private static final char ESCAPE_QUOTE_CHAR = '\\';
+
 	private static final String QUOTE_DELIMITER = "'"; //$NON-NLS-1$
 	private static final String DOUBLE_QUOTE_DELIMITER = "\""; //$NON-NLS-1$
-	private static final String ESCAPE_QUOTE_CHAR = "\\"; //$NON-NLS-1$
-	private static final String ESCAPED_LITERAL_QUOTE = ESCAPE_QUOTE_CHAR
-			+ QUOTE_DELIMITER;
+	private static final String ESCAPED_LITERAL_QUOTE = ESCAPE_QUOTE_CHAR +
+			QUOTE_DELIMITER;
+
+	private static final char QUOTE_CHAR = '\'';
+	private static final char DOUBLE_QUOTE_CHAR = '"';
 
 	/**
 	 * Converts the specified string value to a JS expression so its evaluation
@@ -31,9 +35,12 @@ public class ParameterValueUtil
 	 * 
 	 * @param literalValue
 	 *            the string constant
+	 * @param quotationMark
 	 * @return the js expression.
 	 */
-	public static String toJsExprValue( String literalValue )
+
+	public static String toJsExprValue( String literalValue,
+			String quotationMark )
 	{
 		if ( literalValue == null )
 			return literalValue;
@@ -49,9 +56,12 @@ public class ParameterValueUtil
 			// next search
 		}
 
+		if ( quotationMark == null )
+			quotationMark = QUOTE_DELIMITER;
+
 		// wraps value with begin and end quote delimiters
-		value.insert( 0, QUOTE_DELIMITER );
-		value.append( QUOTE_DELIMITER );
+		value.insert( 0, quotationMark );
+		value.append( quotationMark );
 
 		return value.toString( );
 	}
@@ -106,10 +116,56 @@ public class ParameterValueUtil
 		if ( !isDoubleQuoted && !isSingleQuoted )
 			return false;
 
-		if ( isDoubleQuoted )
-			return jsExprValue.endsWith( DOUBLE_QUOTE_DELIMITER );
+		if ( jsExprValue.length( ) == 1 )
+			return false;
 
 		// has start quote, checks if it ends with quote delimiter
-		return jsExprValue.endsWith( QUOTE_DELIMITER );
+
+		String newStr = jsExprValue.substring( 1 );
+		char quotation = QUOTE_CHAR;
+		if ( isDoubleQuoted )
+			quotation = DOUBLE_QUOTE_CHAR;
+
+		int start = searchQuotationMark( newStr, quotation );
+
+		if ( start == newStr.length( ) )
+			return true;
+
+		return false;
+
+	}
+
+	/**
+	 * Returns the first position that matches the input quotation mark. The
+	 * character of the position -1 should not be an escape character.
+	 * <p>
+	 * This method is to find the first quotation mark that is not proceeded by
+	 * an escape character.
+	 * 
+	 * @param str
+	 * @param quotation
+	 * @return
+	 */
+
+	private static int searchQuotationMark( String str, char quotation )
+	{
+		String tmpStr = str;
+		int index = tmpStr.indexOf( quotation );
+		if ( index == 0 )
+			return index + 1;
+
+		while ( index != -1 )
+		{
+			char beforeChar = tmpStr.charAt( index - 1 );
+			if ( beforeChar != ESCAPE_QUOTE_CHAR )
+				break;
+
+			if ( index == tmpStr.length( ) - 1 )
+				break;
+
+			index = tmpStr.indexOf( quotation, index + 1 );
+		}
+
+		return index + 1;
 	}
 }
