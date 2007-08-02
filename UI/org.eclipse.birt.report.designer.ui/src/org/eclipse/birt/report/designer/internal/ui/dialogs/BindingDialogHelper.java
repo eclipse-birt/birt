@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -55,6 +56,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -99,6 +102,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Composite composite;
 	private Text txtDisplayName;
 	private ComputedColumn newBinding;
+	private CLabel messageLine;
 
 	public void createContent( Composite parent )
 	{
@@ -154,7 +158,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			createCommonSection( composite );
 		}
-
+		createMessageSection( composite );
 	}
 
 	public void initDialog( )
@@ -560,6 +564,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
+	private void createMessageSection( Composite composite )
+	{
+		messageLine = new CLabel( composite, SWT.NONE );
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.horizontalSpan = 3;
+		messageLine.setLayoutData( layoutData );
+	}
+
 	private void verifyInput( )
 	{
 		if ( txtName != null
@@ -580,8 +592,31 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
+			if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
+			{
+				for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
+						.iterator( ); iterator.hasNext( ); )
+				{
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+					if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
+					{
+						if ( dialog.getOkButton( ) != null )
+							dialog.getOkButton( ).setEnabled( false );
+						this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+								new Object[]{
+									txtName.getText( )
+								} ) );
+						this.messageLine.setImage( PlatformUI.getWorkbench( )
+								.getSharedImages( )
+								.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+						return;
+					}
+				}
+			}
 			if ( dialog.getOkButton( ) != null )
 				dialog.getOkButton( ).setEnabled( true );
+			this.messageLine.setText( "" ); //$NON-NLS-1$
+			this.messageLine.setImage( null );
 		}
 	}
 

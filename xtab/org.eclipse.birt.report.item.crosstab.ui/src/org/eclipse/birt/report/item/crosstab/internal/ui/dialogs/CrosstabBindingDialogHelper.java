@@ -34,6 +34,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -60,6 +62,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -102,6 +106,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Composite composite;
 	private Text txtDisplayName;
 	private ComputedColumn newBinding;
+	private CLabel messageLine;
 
 	public void createContent( Composite parent )
 	{
@@ -157,7 +162,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			createCommonSection( composite );
 		}
-
+		createMessageSection( composite );
 	}
 
 	public void initDialog( )
@@ -220,8 +225,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				AggregationCellHandle cellHandle = (AggregationCellHandle) getDataItemContainer( );
 				if ( cellHandle.getAggregationOnRow( ) != null )
 				{
-					aggstr += cellHandle.getAggregationOnRow( )
-							.getFullName( );
+					aggstr += cellHandle.getAggregationOnRow( ).getFullName( );
 					if ( cellHandle.getAggregationOnColumn( ) != null )
 					{
 						aggstr += ",";
@@ -229,7 +233,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 				if ( cellHandle.getAggregationOnColumn( ) != null )
 				{
-					aggstr += cellHandle.getAggregationOnColumn( ).getFullName( );
+					aggstr += cellHandle.getAggregationOnColumn( )
+							.getFullName( );
 				}
 			}
 			for ( int j = 0; j < aggOns.length; j++ )
@@ -585,6 +590,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
+	private void createMessageSection( Composite composite )
+	{
+		messageLine = new CLabel( composite, SWT.NONE );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.horizontalSpan = 3;
+		messageLine.setLayoutData( layoutData );
+	}
+
 	protected void handleFunctionSelectEvent( )
 	{
 		Control[] children = argsComposite.getChildren( );
@@ -890,7 +903,29 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
+			if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
+			{
+				for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
+						.iterator( ); iterator.hasNext( ); )
+				{
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+					if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
+					{
+						dialog.setCanFinish( false );
+						this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+								new Object[]{
+									txtName.getText( )
+								} ) );
+						this.messageLine.setImage( PlatformUI.getWorkbench( )
+								.getSharedImages( )
+								.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+						return;
+					}
+				}
+			}
 			dialog.setCanFinish( true );
+			this.messageLine.setText( "" ); //$NON-NLS-1$
+			this.messageLine.setImage( null );
 		}
 	}
 
