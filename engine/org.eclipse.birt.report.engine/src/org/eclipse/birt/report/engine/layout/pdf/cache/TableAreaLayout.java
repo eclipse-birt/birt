@@ -50,20 +50,15 @@ public class TableAreaLayout
 	 */
 	protected BorderConflictResolver bcr = new BorderConflictResolver( );
 
-	/**
-	 * number of table column
-	 */
-	protected int columnNumber;
-
 	protected TableLayoutInfo layoutInfo = null;
 	
 	protected ITableContent tableContent;
 	
 	protected ICellContent lastCellContent;
 		
-	protected int start = 0;
+	protected int startCol;
 	
-	protected int end = 0;
+	protected int endCol;
 	
 	protected boolean hasDropCell = true;
 	
@@ -71,13 +66,12 @@ public class TableAreaLayout
 	
 	protected boolean firstRow = true;
 
-	public TableAreaLayout(ITableContent tableContent, TableLayoutInfo layoutInfo, int start, int columnNumber)
+	public TableAreaLayout(ITableContent tableContent, TableLayoutInfo layoutInfo, int startCol, int endCol)
 	{
 		this.tableContent = tableContent;
 		this.layoutInfo = layoutInfo;
-		this.start = start;
-		this.end = start + columnNumber;
-		this.columnNumber = columnNumber;
+		this.startCol = startCol;
+		this.endCol = endCol;
 	}
 	
 	public void initTableLayout(UnresolvedRowHint hint)
@@ -90,8 +84,8 @@ public class TableAreaLayout
 			rowContent.setInstanceID( rowId );
 			rowContent.setParent( tableContent );
 			RowArea rowArea = AreaFactory.createRowArea( rowContent );
-			unresolvedRow = new Row(rowArea, start, end - start, false);
-			for(int i=start; i<end; i++)
+			unresolvedRow = new Row(rowArea, startCol, endCol, false);
+			for(int i=startCol; i<=endCol; i++)
 			{
 				ICellContent cellContent = report.createCellContent( );
 				hint.initUnresolvedCell( cellContent, rowId, i );
@@ -167,7 +161,6 @@ public class TableAreaLayout
 				iter.remove( );
 			}
 		}
-		
 		rows.resetCursor( );
 	}
 	
@@ -251,7 +244,7 @@ public class TableAreaLayout
 			}
 
 			// resolve left border
-			if ( columnID == 0 )
+			if ( columnID == startCol )
 			{
 				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
 						cellContentStyle, cellAreaStyle );
@@ -264,7 +257,7 @@ public class TableAreaLayout
 
 			// resovle right border
 
-			if ( columnID + colSpan == columnNumber )
+			if ( columnID + colSpan - 1 == endCol )
 			{
 				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
 						cellContentStyle, cellAreaStyle );
@@ -284,7 +277,7 @@ public class TableAreaLayout
 						null, cellAreaStyle );
 			}
 			// resolve left border
-			if ( columnID == 0 )
+			if ( columnID == startCol )
 			{
 				// first column
 				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
@@ -297,7 +290,7 @@ public class TableAreaLayout
 						leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 			// resolve right border
-			if ( columnID + colSpan == columnNumber )
+			if ( columnID + colSpan-1 == endCol )
 			{
 				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
 						cellContentStyle, cellAreaStyle );
@@ -444,9 +437,9 @@ public class TableAreaLayout
 		int height = rowHeight;
 		boolean needResolve = false;
 		//scan for Max height for drop cells
-		for(int i=0; i<columnNumber; i++)
+		for( int i=startCol; i<=endCol; i++ )
 		{
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if(cell!=null && cell.getRowSpan( )==dropValue)
 			{
 				height = Math.max( height, cell.getHeight( ) );
@@ -458,10 +451,10 @@ public class TableAreaLayout
 		{
 			HashSet dropCells = new HashSet();
 			int delta = height - rowHeight;
-			for(int i=0; i<columnNumber; i++)
+			for( int i=startCol; i<=endCol; i++ )
 			{
-				CellArea cell = row.getCell( start + i );
-				if(cell==null)
+				CellArea cell = row.getCell( i );
+				if( cell==null )
 				{
 					continue;
 				}
@@ -562,9 +555,9 @@ public class TableAreaLayout
 		int height = rowHeight;
 		boolean hasDropCell = false;
 		//scan for Max height for drop cells
-		for(int i=0; i<columnNumber; i++)
+		for(int i=startCol; i<=endCol; i++)
 		{
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if(cell!=null)
 			{
 				if(isDropCell( cell ) || cell.getRowSpan( )>1 )
@@ -584,9 +577,9 @@ public class TableAreaLayout
 			{
 				row.getArea( ).setHeight( height );
 			}
-			for(int i=0; i<columnNumber; i++)
+			for(int i=startCol; i<=endCol; i++)
 			{
-				CellArea cell = row.getCell( start + i );
+				CellArea cell = row.getCell( i );
 				if(cell==null)
 				{
 					continue;
@@ -682,9 +675,9 @@ public class TableAreaLayout
 		Row row = (Row)rows.getCurrent( );
 		HashSet cells = new HashSet();
 		int result = 0;
-		for(int i=0; i<columnNumber; i++)
+		for(int i=startCol; i<=endCol; i++)
 		{
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if(cell!=null)
 			{
 				if(cell instanceof DummyCell)
@@ -739,17 +732,17 @@ public class TableAreaLayout
 		 */
 		hasDropCell = !finished;
 		Row lastRow = (Row)rows.getCurrent( );
-		Row row = new Row(rowArea, start, columnNumber, finished, repeated );
+		Row row = new Row(rowArea, startCol, endCol, finished, repeated );
 		int rowHeight = rowArea.getHeight( );
 		HashSet dropCells = new HashSet();
-		for(int i=0; i<columnNumber; i++)
+		for(int i=startCol; i<=endCol; i++)
 		{
 			CellArea lastCell = null;
 			if(lastRow!=null)
 			{
-				lastCell = lastRow.getCell( start + i );
+				lastCell = lastRow.getCell( i );
 			}
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if(cell!=null && (cell.getRowSpan( )>1 || isDropCell( cell )))
 			{
 				hasDropCell = true;
@@ -822,9 +815,9 @@ public class TableAreaLayout
 	{
 		if(unresolvedRow!=null)
 		{
-			for(int i=0; i<columnNumber; i++)
+			for(int i=startCol; i<=endCol; i++)
 			{
-				CellArea cell = unresolvedRow.getCell( start + i );
+				CellArea cell = unresolvedRow.getCell( i );
 				if(cell!=null && (isDropCell( cell ) || cell.getRowSpan()>1))
 				{
 					return true;
@@ -847,25 +840,25 @@ public class TableAreaLayout
 		{
 			lastRow = unresolvedRow;
 		}
-		Row row = new Row(rowArea, start, columnNumber, finished );
+		Row row = new Row(rowArea, startCol, endCol, finished );
 		int height = specifiedHeight;
 		//ArrayList dropCells = new ArrayList();
 		
-		for(int i=0; i<columnNumber; i++)
+		for(int i=startCol; i<=endCol; i++)
 		{
 			CellArea lastCell = null;
 			if(lastRow!=null)
 			{
-				lastCell = lastRow.getCell( start + i );
+				lastCell = lastRow.getCell( i );
 			}
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if(lastCell!=null 
 					&&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
 			{
 				//should remove conflict area. 
 				if(cell!=null)
 				{
-					row.remove( start + i );
+					row.remove( i );
 				}
 				if(lastCell.getRowSpan( )==2)
 				{
@@ -966,9 +959,9 @@ public class TableAreaLayout
 	private int getHeightOfEmptyRow( Row row )
 	{
 		int heightOfEmptyRow = 0;
-		for ( int i = 0; i < columnNumber; i++ )
+		for(int i=startCol; i<=endCol; i++)
 		{
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if ( cell == null )
 				continue;
 			IStyle style = cell.getStyle( );
@@ -984,9 +977,9 @@ public class TableAreaLayout
 
 	private boolean isEmptyRow( Row row )
 	{
-		for ( int i = 0; i < columnNumber; i++ )
+		for(int i=startCol; i<=endCol; i++)
 		{
-			CellArea cell = row.getCell( start + i );
+			CellArea cell = row.getCell( i );
 			if ( cell != null && !isDropCell( cell )
 					&& cell.getChildrenCount( ) > 0 )
 			{
@@ -1007,29 +1000,25 @@ public class TableAreaLayout
 		{
 			return;
 		}
-		CellArea[] cells = new CellArea[columnNumber];
+		CellArea[] cells = new CellArea[endCol-startCol+1];
 		Iterator iter = row.getChildren( );
 		while(iter.hasNext( ))
 		{
 			CellArea cell = (CellArea)iter.next( );
-			int colStart = cell.getColumnID( );
-			int colEnd = colStart + cell.getColSpan( );
-			for(int i=colStart; i<colEnd; i++)
+			int colId = cell.getColumnID( );
+			
+			if(colId>=startCol && colId<=endCol)
 			{
-				int index = colStart - start;
-				if(index>=0 && index<columnNumber)
-				{
-					cells[colStart-start] = cell;
-				}
+				cells[colId-startCol] = cell;
 			}
 		}
 		
-		for(int i=0; i<columnNumber; i++)
+		for(int i=startCol; i<=endCol; i++)
 		{
-			if(cells[i]==null)
+			if(cells[i-startCol]==null)
 			{
 				ICellContent cellContent = null;
-				CellArea ca= unresolvedRow.getCell( start + i );
+				CellArea ca= unresolvedRow.getCell( i );
 				if(ca!=null)
 				{
 					ICellContent cc = (ICellContent)ca.getContent( );
@@ -1155,40 +1144,39 @@ public class TableAreaLayout
 		protected boolean finished = true;
 		protected boolean repeated = false;
 
-		Row(RowArea row, int start, int length, boolean finished)
+		Row(RowArea row, int start, int end, boolean finished)
 		{
-			this(row, start, length);
+			this(row, start, end);
 			this.finished = finished;
 		}
 		
-		Row(RowArea row, int start, int length, boolean finished, boolean repeated)
+		Row(RowArea row, int start, int end, boolean finished, boolean repeated)
 		{
-			this(row, start, length, finished);
+			this(row, start, end, finished);
 			this.repeated = repeated;
 		}
 		
 		
-		Row(RowArea row, int start, int length)
+		Row(RowArea row, int start, int end)
 		{
 			this.row = row;
 			this.start = start;
-			this.end = start + length;
-			this.length = length;
+			this.end = end;
+			this.length = end - start + 1;
 			cells = new CellArea[length];
-			for(int i=0; i<length; i++)
+
+			Iterator iter = row.getChildren( );
+			while(iter.hasNext( ))
 			{
-				Iterator iter = row.getChildren( );
-				while(iter.hasNext( ))
+				CellArea cell = (CellArea)iter.next( );
+				int colId = cell.getColumnID( );
+				int colSpan = cell.getColSpan( );
+				if((colId>=start) && (colId+colSpan-1<=end))
 				{
-					CellArea cell = (CellArea)iter.next( );
-					int colId = cell.getColumnID( );
-					int colSpan = cell.getColSpan( );
-					if((colId>=start) && (colId+colSpan<=end))
+					int loopEnd = Math.min(colSpan, end-colId+1);
+					for(int j=0; j<loopEnd; j++)
 					{
-						for(int j=0; j<colSpan; j++)
-						{
-							cells[colId - start + j] = cell;
-						}
+						cells[colId - start + j] = cell;
 					}
 				}
 			}
@@ -1216,9 +1204,10 @@ public class TableAreaLayout
 				CellArea cell = (CellArea)area;
 				int colId = cell.getColumnID( );
 				int colSpan = cell.getColSpan( );
-				if((colId>=start) && (colId+colSpan<=end))
+				if((colId>=start) && (colId+colSpan-1<=end))
 				{
-					for(int j=0; j<colSpan; j++)
+					int loopEnd = Math.min(colSpan, end-colId+1);
+					for(int j=0; j<loopEnd; j++)
 					{
 						cells[colId - start + j] = null;
 					}
@@ -1228,7 +1217,7 @@ public class TableAreaLayout
 		
 		public CellArea getCell(int colId)
 		{
-			if(colId<start || colId>=end)
+			if(colId<start || colId>end)
 			{
 				assert(false);
 				return null;
@@ -1246,9 +1235,10 @@ public class TableAreaLayout
 			int colId = cell.getColumnID( );
 			int colSpan = cell.getColSpan( );
 			
-			if((colId>=start) && (colId+colSpan<=end))
+			if((colId>=start) && (colId+colSpan-1<=end))
 			{
-				for(int j=0; j<colSpan; j++)
+				int loopEnd = Math.min(colSpan, end-colId+1);
+				for(int j=0; j<loopEnd; j++)
 				{
 					cells[colId - start + j] = cell;
 				}

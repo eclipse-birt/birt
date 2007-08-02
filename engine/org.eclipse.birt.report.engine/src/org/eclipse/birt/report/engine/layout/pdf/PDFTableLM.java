@@ -35,7 +35,6 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -64,6 +63,16 @@ public class PDFTableLM extends PDFBlockStackingLM
 	 * number of table column
 	 */
 	protected int columnNumber;
+	
+	/**
+	 * the first visible column id of the table.
+	 */
+	protected int startCol = -1;
+	
+	/**
+	 * the last visible column id of the table.
+	 */
+	protected int endCol = -1;
 
 	/**
 	 * table width
@@ -223,8 +232,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 		if ( layout == null )
 		{
-			layout = new TableAreaLayout( tableContent, layoutInfo, 0,
-					columnNumber );
+			layout = new TableAreaLayout( tableContent, layoutInfo, startCol,
+					endCol );
 			layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
 		if ( parent != null )
@@ -291,7 +300,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	private class ColumnWidthResolver
 	{
-
+		
 		ITableContent table;
 
 		public ColumnWidthResolver( ITableContent table )
@@ -443,6 +452,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		
 		public int[] resolveFixedLayout(int maxWidth)
 		{
+		
 			int columnNumber = table.getColumnCount( );
 			DimensionType[] columns = new DimensionType[columnNumber];
 			
@@ -457,16 +467,26 @@ public class PDFTableLM extends PDFBlockStackingLM
 				}
 				else
 				{
+					if ( startCol < 0 )
+					{
+						startCol = i;
+					}
+					endCol = i;
 					if(w==null)
 					{
 						columns[i] = null;
 					}
 					else
 					{
-						columns[i] = new DimensionType(w.getMeasure(), w.getUnits()); 
+						columns[i] = new DimensionType(w.getMeasure(), w.getUnits());
+						
 					}
 				}
 			}
+			if ( startCol < 0 )
+				startCol = 0;
+			if ( endCol < 0 )
+				endCol = 0;
 			
 			int specifiedWidth = getDimensionValue( tableContent.getWidth( ), maxWidth );
 			int tableWidth;
@@ -678,7 +698,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				+ getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
 
-		return  new TableLayoutInfo(
+		return new TableLayoutInfo(
 				 columnWidthResolver.resolveFixedLayout(
 						parentMaxWidth - marginWidth )  );
 	}
@@ -817,8 +837,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 		con.setAllowPageBreak( false );
 		if(regionLayout==null)
 		{
-			regionLayout = new TableAreaLayout( tableContent, layoutInfo, 0,
-					columnNumber );
+			regionLayout = new TableAreaLayout( tableContent, layoutInfo, startCol,
+					endCol );
 		}
 		return new PDFTableRegionLM( con, tableContent, layoutInfo, regionLayout );
 		
