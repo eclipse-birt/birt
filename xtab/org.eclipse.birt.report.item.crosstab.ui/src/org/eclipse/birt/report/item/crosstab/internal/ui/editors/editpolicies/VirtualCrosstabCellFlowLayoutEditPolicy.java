@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateDimensionViewCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateMeasureViewCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateMultipleMeasureCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -27,6 +31,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -67,6 +72,22 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 			else if (newObject instanceof MeasureHandle && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
 			{
 				return new CreateMeasureViewCommand(adapter, (MeasureHandle)newObject);
+			}
+			else if (newObject instanceof MeasureGroupHandle && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			{
+				List list = new ArrayList();
+				list.add( newObject );
+				return new CreateMultipleMeasureCommand(adapter, list);
+			}
+			else if (newObject instanceof Object[] && CrosstabAdaptUtil.canCreateMultipleCommand( (Object[])newObject ) && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			{
+				List list = new ArrayList();
+				Object[] objs = (Object[])newObject;
+				for (int i=0; i<objs.length; i++)
+				{
+					list.add(objs[i]);
+				}
+				return new CreateMultipleMeasureCommand(adapter, list);
 			}
 		}
 		// No previous edit part
@@ -132,4 +153,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 //		return child.getParent( );
 		return child;
 	}
+	
+	
+	
 }

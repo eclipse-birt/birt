@@ -81,25 +81,26 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 			{
 				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( measureHandle ) );
 			}
-			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
-					0 );
-			measureViewHandle.addHeader( );
-			
-			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
-			ComputedColumnHandle bindingHandle =((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-			
-			CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
-
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( measureHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-			
-			cellHandle.addContent( dataHandle );
-			
-			LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
-			labelHandle.setText( measureHandle.getName( ) );
-
-			measureViewHandle.getHeader( ).addContent( labelHandle );
+			CrosstabAdaptUtil.addMeasureHandle( reportHandle, measureHandle, 0 );
+//			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
+//					0 );
+//			measureViewHandle.addHeader( );
+//			
+//			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
+//			ComputedColumnHandle bindingHandle =((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+//			
+//			CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
+//
+//			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+//					.newDataItem( measureHandle.getName( ) );
+//			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+//			
+//			cellHandle.addContent( dataHandle );
+//			
+//			LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
+//			labelHandle.setText( measureHandle.getName( ) );
+//
+//			measureViewHandle.getHeader( ).addContent( labelHandle );
 		}
 		catch ( SemanticException e )
 		{

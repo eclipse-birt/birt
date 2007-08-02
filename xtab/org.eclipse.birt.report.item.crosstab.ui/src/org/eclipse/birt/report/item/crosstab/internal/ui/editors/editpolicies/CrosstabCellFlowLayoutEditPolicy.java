@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -19,6 +22,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddDimensionViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMeasureViewHandleCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMultipleMeasureCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeMeasureOrderCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabCellCreateCommand;
@@ -32,6 +36,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstab
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -100,6 +105,38 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				return new AddMeasureViewHandleCommand( (CrosstabCellAdapter) model,
 						(MeasureHandle) newObject, afterObj );
 			}
+			
+			else if (newObject instanceof MeasureGroupHandle && position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
+			{
+				List list = new ArrayList();
+				list.add( newObject );
+				
+				Object afterObj = null;
+				if (after != null )
+				{
+					afterObj = after.getModel( );
+				}
+				
+				return new AddMultipleMeasureCommand((CrosstabCellAdapter) model, list, afterObj);
+			}
+			else if (newObject instanceof Object[] && CrosstabAdaptUtil.canCreateMultipleCommand( (Object[])newObject ) 
+					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
+			{
+				List list = new ArrayList();
+				Object[] objs = (Object[])newObject;
+				for (int i=0; i<objs.length; i++)
+				{
+					list.add(objs[i]);
+				}
+				
+				Object afterObj = null;
+				if (after != null )
+				{
+					afterObj = after.getModel( );
+				}
+				return new AddMultipleMeasureCommand((CrosstabCellAdapter) model, list, afterObj);
+			}
+			
 			else
 			{
 				CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );

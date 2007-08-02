@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
@@ -376,5 +379,59 @@ public class CrosstabAdaptUtil
 			// donothing
 			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
+	}
+	
+	/**Adds the measreview handle to the CrosstabReportItemHandle.
+	 * @param reportHandle
+	 * @param measureHandle
+	 * @param position
+	 * @throws SemanticException
+	 */
+	public static void addMeasureHandle(CrosstabReportItemHandle reportHandle, 
+			MeasureHandle measureHandle, int position)throws SemanticException
+	{
+		MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
+				position );
+		measureViewHandle.addHeader( );
+		
+		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
+		ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+		
+		CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
+		
+		
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( measureHandle.getName( ) );
+
+		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+		
+		cellHandle.addContent( dataHandle );
+
+		LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
+		labelHandle.setText( measureHandle.getName( ) );
+
+		measureViewHandle.getHeader( ).addContent( labelHandle );
+	}
+	
+	/**
+	 * @param objects
+	 * @return
+	 */
+	public static boolean canCreateMultipleCommand(Object[] objects)
+	{
+		if (objects == null || objects.length <= 1)
+		{
+			return false;
+		}
+		//There are have some other logic, but when allow to drag the ,ignore  the logic  here.
+		for (int i=0; i<objects.length; i++)
+		{
+			if (objects[i] instanceof MeasureHandle || objects[i] instanceof MeasureGroupHandle)
+			{
+				continue;
+			}
+			return false;
+		}
+		return true;
 	}
 }
