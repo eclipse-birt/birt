@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -713,7 +714,7 @@ public class DataSetIterator implements IDatasetIterator
 				case DataType.BOOLEAN_TYPE :
 					return new Boolean( false );
 				case DataType.DECIMAL_TYPE :
-					return new Double( 0 );
+					return new BigDecimal( 0 );
 				case DataType.DOUBLE_TYPE :
 					return new Double( 0 );
 				case DataType.INTEGER_TYPE :
