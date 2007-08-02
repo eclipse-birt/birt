@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -42,6 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -943,6 +946,33 @@ public class FilterConditionBuilder extends TitleAreaDialog
 											Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
 													+ "\n"
 													+ ex.getMessage( ) );
+								}
+							}else if(designHandle instanceof TabularCubeHandle)
+							{
+								DataSetHandle dataSet = ((TabularCubeHandle)designHandle).getDataSet( );
+								String expression =  expressionText.getText( );
+								try
+								{
+									List selectValueList = SelectValueFetcher.getSelectValueList(expression,dataSet);
+									SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+											.getDisplay( )
+											.getActiveShell( ),
+											Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+									dialog.setSelectedValueList( selectValueList );
+									if ( dialog.open( ) == IDialogConstants.OK_ID )
+									{
+										newValue = dialog.getSelectedExprValue( );
+									}
+									
+								}
+								catch ( BirtException e1 )
+								{
+									// TODO Auto-generated catch block
+									MessageDialog.openError( null,
+											Messages.getString( "SelectValueDialog.selectValue" ),
+											Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
+													+ "\n"
+													+ e1.getMessage( ) );
 								}
 							}
 							else
