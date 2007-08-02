@@ -47,7 +47,6 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -84,7 +83,6 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  * Outline page to show the tree structure of IR Model
  */
 public class DesignerOutlinePage extends ContentOutlinePage implements
-// Listener,
 		IValidationListener,
 		IModelEventFactory
 {
@@ -451,41 +449,6 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	}
 
 	/**
-	 * Refreshes the focused element and its container. Applies the visitor to
-	 * the focused design element
-	 * 
-	 * @param focus
-	 *            the focus element
-	 * @param ev
-	 *            the event
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( getTreeViewer( ).getTree( ).isDisposed( ) )
-		{
-			return;
-		}
-		getTreeViewer( ).refresh( );
-		expandNodeAfterCreation( ev );
-		// getListenerElementVisitor( ).addListener( focus );
-	}
-
-	protected void expandNodeAfterCreation( NotificationEvent ev )
-	{
-		if ( ev instanceof ContentEvent
-				&& ev.getEventType( ) == NotificationEvent.CONTENT_EVENT )
-		{
-			IDesignElement element = ( (ContentEvent) ev ).getContent( );
-			if ( element != null )
-			{
-				getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
-						0 );
-				if(backup!=null)backup.updateStatus( getTreeViewer( ) );
-			}
-		}
-	}
-
-	/**
 	 * Gets the visitor.
 	 * 
 	 * @return the visitor
@@ -598,15 +561,6 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		getSite( ).getActionBars( ).updateActionBars( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
-	 */
-	public void performRequest( ReportRequest request )
-	{
-
-	}
 
 	/*
 	 * (non-Javadoc)

@@ -11,11 +11,18 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.DataViewEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameListener;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
@@ -44,13 +51,11 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -76,7 +81,7 @@ import org.eclipse.swt.widgets.Widget;
  * 
  */
 public class DataViewTreeViewerPage extends DataViewPage implements
-		Listener,
+		IModelEventFactory,
 		IValidationListener
 {
 
@@ -352,7 +357,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	private void initRoot( )
 	{
 		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
-		getListenerElementVisitor( ).addListener( getRoot( ) );
+		// getListenerElementVisitor( ).addListener( getRoot( ) );
 	}
 
 	/**
@@ -381,43 +386,45 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		super.dispose( );
 	}
 
-	/**
-	 * Refreshes the focus and the focus container of the tree view. And applies
-	 * the visitor to the given focus.
-	 * 
-	 * @param focus
-	 *            the design element
-	 * @param ev
-	 *            the notification event
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( getTreeViewer( ) == null
-				|| getTreeViewer( ).getControl( ).isDisposed( ) )
-		{
-			return;
-		}
-		getTreeViewer( ).refresh( );
-		expandNodeAfterCreation( ev );
-		deleteConfigVariable( focus, ev );
-		if ( backup != null )
-			backup.updateStatus( getTreeViewer( ) );
-		getListenerElementVisitor( ).addListener( focus );
-	}
+	// /**
+	// * Refreshes the focus and the focus container of the tree view. And
+	// applies
+	// * the visitor to the given focus.
+	// *
+	// * @param focus
+	// * the design element
+	// * @param ev
+	// * the notification event
+	// */
+	// public void elementChanged( DesignElementHandle focus, NotificationEvent
+	// ev )
+	// {
+	// if ( getTreeViewer( ) == null
+	// || getTreeViewer( ).getControl( ).isDisposed( ) )
+	// {
+	// return;
+	// }
+	// getTreeViewer( ).refresh( );
+	// expandNodeAfterCreation( ev );
+	// deleteConfigVariable( focus, ev );
+	// if ( backup != null )
+	// backup.updateStatus( getTreeViewer( ) );
+	// getListenerElementVisitor( ).addListener( focus );
+	// }
 
-	/**
-	 * Gets the visitor.
-	 * 
-	 * @return the visitor
-	 */
-	private ListenerElementVisitor getListenerElementVisitor( )
-	{
-		if ( visitor == null )
-		{
-			visitor = new ListenerElementVisitor( this );
-		}
-		return visitor;
-	}
+	// /**
+	// * Gets the visitor.
+	// *
+	// * @return the visitor
+	// */
+	// private ListenerElementVisitor getListenerElementVisitor( )
+	// {
+	// if ( visitor == null )
+	// {
+	// visitor = new ListenerElementVisitor( this );
+	// }
+	// return visitor;
+	// }
 
 	/**
 	 * Deletes config variable when parameter is deleted. Config variable is
@@ -426,30 +433,10 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 * @param ev
 	 *            delete event
 	 */
-	private void deleteConfigVariable( DesignElementHandle handle,
-			NotificationEvent ev )
+	private void deleteConfigVariable( Map args )
 	{
 		String variableName = null;
-		if ( ev instanceof ContentEvent && handle instanceof ModuleHandle )
-		{
-			ContentEvent event = (ContentEvent) ev;
-			DesignElementHandle contentHandle = event.getContent( )
-					.getHandle( getRoot( ).getModule( ) );
-			if ( event.getAction( ) == ContentEvent.REMOVE
-					&& contentHandle instanceof ParameterHandle )
-			{
-				variableName = contentHandle.getName( );
-			}
-		}
-		else if ( ev instanceof NameEvent && handle instanceof ParameterHandle )
-		{
-			variableName = ( (NameEvent) ev ).getOldName( );
-		}
-		else if ( ev instanceof PropertyEvent
-				&& handle instanceof ParameterHandle )
-		{
-			variableName = handle.getName( );
-		}
+		variableName = (String)args.get( DataViewEventProcessor.VARIABLE_NAME );
 		if ( variableName != null )
 		{
 			ConfigVariable cv = getRoot( ).findConfigVariable( variableName );
@@ -468,31 +455,6 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		}
 	}
 
-	private void expandNodeAfterCreation( NotificationEvent ev )
-	{
-		if ( ev instanceof ContentEvent
-				&& ev.getEventType( ) == NotificationEvent.CONTENT_EVENT
-				&& ( (ContentEvent) ev ).getAction( ) == ContentEvent.ADD )
-		{
-			IDesignElement element = ( (ContentEvent) ev ).getContent( );
-			if ( element != null )
-			{
-				final DesignElementHandle handle = element.getHandle( getRoot( ).getModule( ) );
-				getTreeViewer( ).expandToLevel( handle, 0 );
-				// FIXME
-				// for remove dependency on view plugin, mark the if condition
-				//
-				// if ( PlatformUI.getWorkbench( )
-				// .getActiveWorkbenchWindow( )
-				// .getActivePage( )
-				// .getActivePart( ) instanceof DataView )
-				// {
-				getTreeViewer( ).setSelection( new StructuredSelection( handle ),
-						true );
-				// }
-			}
-		}
-	}
 
 	protected boolean isDisposed( )
 	{
@@ -552,5 +514,77 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	public void setBackupState( ITreeViewerBackup dataBackup )
 	{
 		this.backup = dataBackup;
+	}
+
+	public IModelEventProcessor getModelProcessor( )
+	{
+		return new DataViewEventProcessor( this );
+	}
+
+	public Runnable createModelEventRunnable( Object focus, final int type, final Map args )
+	{
+		switch ( type )
+		{
+			case NotificationEvent.PROPERTY_EVENT :
+			case NotificationEvent.NAME_EVENT :
+			case NotificationEvent.CONTENT_EVENT :
+			{
+				return new ReportEventRunnable( focus, type, args ) {
+
+					public void run( )
+					{
+						if ( isDispose( ) )
+						{
+							return;
+						}
+						getTreeViewer( ).refresh( );
+						if ( type == NotificationEvent.CONTENT_EVENT )
+						{
+							Object obj = getArgs( ).get( DataViewEventProcessor.EVENT_CONTENT );
+							expandNodeAfterCreation( obj );
+						}
+						deleteConfigVariable(args);
+					}
+				};
+			}
+
+			default :
+				return new ReportEventRunnable( focus, type, args ) {
+
+					public void run( )
+					{
+						if ( isDispose( ) )
+						{
+							return;
+						}
+						getTreeViewer( ).refresh( );
+					}
+				};
+		}
+	}
+
+	protected void expandNodeAfterCreation( Object obj )
+	{
+		if ( obj instanceof IDesignElement )
+		{
+			IDesignElement element = (IDesignElement) obj;
+			getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
+					0 );
+			if ( backup != null )
+				backup.updateStatus( getTreeViewer( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
+	 */
+	public boolean isDispose( )
+	{
+		if ( getTreeViewer( ) == null || getTreeViewer( ).getTree( ) == null )
+			return true;
+		else
+			return getTreeViewer( ).getTree( ).isDisposed( );
 	}
 }

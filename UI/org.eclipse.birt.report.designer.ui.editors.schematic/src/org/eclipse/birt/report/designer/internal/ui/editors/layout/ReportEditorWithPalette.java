@@ -929,6 +929,7 @@ abstract public class ReportEditorWithPalette extends
 		if ( type == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
+			manager.addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
 		
