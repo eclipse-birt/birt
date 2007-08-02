@@ -46,9 +46,11 @@ public class JDBCDriverManager
 {    
     public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
+    public static final String DRIVER_REGISTERED = "registered";
+    public static final String DRIVER_DEREGISTERED = "deregistered";
 
     // Driver classes that we have registered with JDBC DriverManager
-	private  HashSet registeredDrivers = new HashSet();
+	private  HashMap registeredDrivers = new HashMap();
 	
 	//
 	private HashMap cachedDriversMap = new HashMap();
@@ -177,7 +179,7 @@ public class JDBCDriverManager
         // no JNDI Data Source URL defined, or 
         // not able to get a JNDI data source connection, 
         // use the JDBC DriverManager instead to get a JDBC connection
-		loadAndRegisterDriver(driverClass);
+		loadAndRegisterDriver( driverClass );
 		if ( logger.isLoggable( Level.FINER ))
 			logger.finer( "Calling DriverManager.getConnection. url=" + url ); //$NON-NLS-1$
 		try
@@ -560,23 +562,16 @@ public class JDBCDriverManager
         closeConnection( testConn );
 	}
 	
-	private  void loadAndRegisterDriver( String className ) 
-		throws OdaException
+	/**
+	 * Look for the Driver from drivers directory if it not in plugin class path
+	 * 
+	 * @param className
+	 * @return Driver instance
+	 * @throws JDBCException
+	 */
+	private Driver findDriver( String className ) throws JDBCException
 	{
-		if ( className == null || className.length() == 0)
-			// no driver class; assume class already loaded
-			return;
-		
 		Class driverClass = null;
-		if ( registeredDrivers.contains( className ) )
-			// Driver previously loaded successfully
-			return;
-
-		if ( logger.isLoggable( Level.INFO ))
-		{
-			logger.info( "Loading JDBC driver class: " + className );
-		}
-		
 		boolean driverInClassPath = false;
 		try
 		{
@@ -607,24 +602,112 @@ public class JDBCDriverManager
 							className );
 			}
 		}
+		Driver driver = null;
+		try
+		{
+			driver = (Driver) driverClass.newInstance( );
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e);
+			throw new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_DRIVER, null, className );
+		}
+		return driver;
+	}
 	
+	/**
+	 * Deregister the driver by the given class name from DriverManager
+	 * 
+	 * @param className
+	 * @return true if deregister the driver successfully
+	 * @throws OdaException
+	 */
+	public boolean deregisterDriver( String className ) throws OdaException
+	{
+		if ( className == null || className.length() == 0)
+			// no driver class; assume class already deregistered
+			return false;
+		if ( isDeregistered( className ) )
+		{
+			return true;
+		}
+		Driver driver = findDriver( className );
+		if ( driver != null )
+		{
+			try
+			{
+				if (logger.isLoggable(Level.FINER))
+					logger.finer("Registering with DriverManager: wrapped driver for " + className );
+				if ( registeredDrivers.containsKey( className ) )
+				{
+					DriverManager.deregisterDriver( new WrappedDriver( driver, className ) );
+					registeredDrivers.remove( className );
+				}
+				registeredDrivers.put( className, DRIVER_DEREGISTERED );
+			}
+			catch ( SQLException e)
+			{
+				// This shouldn't happen
+				logger.log( Level.WARNING, 
+						"Failed to deRegister wrapped driver instance.", e);
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Update the driver by the given class name from DriverManager
+	 * 
+	 * @param String className
+	 */
+	public void updateStatus( String className )
+	{
+		if ( isDeregistered( className ) )
+		{
+			registeredDrivers.remove( className );
+		}
+	}
+	
+	/**
+	 * Check whether the driver class name is deregistered
+	 * 
+	 * @param String className
+	 * @return true if the driver class name is deregistered
+	 */
+	private boolean isDeregistered( String className )
+	{
+		return this.registeredDrivers.containsKey( className )
+				&& registeredDrivers.get( className ).equals( DRIVER_DEREGISTERED );
+	}
+	
+	private void loadAndRegisterDriver( String className ) 
+		throws OdaException
+	{
+		if ( className == null || className.length() == 0)
+			// no driver class; assume class already loaded
+			return;
+		if ( isDeregistered( className ) )
+		{
+			throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER,
+					null,
+					className );
+		}
+		else if ( this.registeredDrivers.containsKey( className ) )
+		{
+			return;
+		}
+		if ( logger.isLoggable( Level.INFO ))
+		{
+			logger.info( "Loading JDBC driver class: " + className );
+		}
+		
 		// If driver is found in the drivers directory, its class is not accessible
 		// in this class's ClassLoader. DriverManager will not allow this class to create
 		// connections using such driver. To solve the problem, we create a wrapper Driver in 
 		// our class loader, and register it with DriverManager
-		if ( ! driverInClassPath )
+		Driver driver = findDriver( className );
+		if ( driver != null )
 		{
-			Driver driver = null;
-			try
-			{
-				driver = (Driver) driverClass.newInstance( );
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e);
-				throw new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_DRIVER, null, className );
-			}
-
 			try
 			{
 				if (logger.isLoggable(Level.FINER))
@@ -637,9 +720,8 @@ public class JDBCDriverManager
 				logger.log( Level.WARNING, 
 						"Failed to register wrapped driver instance.", e);
 			}
-		}
-		
-		registeredDrivers.add( className );
+		}		
+		registeredDrivers.put( className, DRIVER_REGISTERED );
 	}
 	
 	/**

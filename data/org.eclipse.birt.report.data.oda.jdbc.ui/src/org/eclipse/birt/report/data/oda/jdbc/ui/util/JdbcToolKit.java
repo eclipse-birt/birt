@@ -90,7 +90,7 @@ public class JdbcToolKit
 				resetPreferences( );
 				JdbcDriverManagerDialog.resetDriverChangedStatus( );
 			}
-			
+
 			return jdbcDriverInfos;
 		}
 		
@@ -242,8 +242,17 @@ public class JdbcToolKit
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
 			String fileName = ( (File) fileList.get( i ) ).getName( );
-			jdbcDriverInfos.removeAll( (List) file2Drivers.get( fileName ) );
-			file2Drivers.remove( fileName );
+
+			List driverNames = (List) file2Drivers.get( fileName );
+			for ( int j = 0; j < jdbcDriverInfos.size( ); j++ )
+			{
+				for ( int k = 0; k < driverNames.size( ); k++ )
+					if ( ( (JDBCDriverInformation) jdbcDriverInfos.get( j ) ).getDriverClassName( )
+							.equals( ( (JDBCDriverInformation) driverNames.get( k ) ).getDriverClassName( ) ) )
+					{
+						jdbcDriverInfos.remove( j );
+					}
+			}
 			if ( failLoadFileList.contains( fileList.get( i ) ) )
 				failLoadFileList.remove( fileList.get( i ) );
 		}
@@ -267,6 +276,25 @@ public class JdbcToolKit
 	{
 		resourceName = ( resourceName.replaceAll( "/", "." ) ).substring( 0,resourceName.length( ) - 6 );
 		return resourceName;
+	}
+	
+	/**
+	 * Get the corresponding drivers list by the given JarFile
+	 * 
+	 * @param JarFile jar
+	 * @return List that contains the corresponding drivers
+	 */
+	public static List getDriverByJar( JarFile jar )
+	{
+		List drivers = null;
+		if ( jar == null )
+			return drivers;
+
+		List jarList = new ArrayList( 1 );
+		jarList.add( new File( jar.getFilePath( ) ) );
+		URLClassLoader urlClassLoader = createClassLoader( jarList );
+		drivers = getJDBCDriverInfoList( jarList, urlClassLoader );
+		return drivers;
 	}
 	
 	/**

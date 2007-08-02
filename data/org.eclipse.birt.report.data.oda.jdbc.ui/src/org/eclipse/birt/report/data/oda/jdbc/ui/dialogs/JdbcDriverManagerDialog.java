@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -1206,14 +1208,24 @@ public class JdbcDriverManagerDialog extends TrayDialog
 				driverMap );
 
 		Iterator jarsCopyIterator = jarsToBeCopied.values( ).iterator( );
+		JDBCDriverManager manager = JDBCDriverManager.getInstance( );
+		JDBCDriverInformation info;
+		List drivers = new ArrayList( );
 		while ( jarsCopyIterator.hasNext( ) )
 		{
 			JarFile jar = (JarFile) jarsCopyIterator.next( );
 			jar.copyJarToODADir( );
 			Utility.removeMapEntryFromPreferenceStoredMap( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
 					jar.getFileName( ) );
+			drivers.addAll( JdbcToolKit.getDriverByJar( jar ) );
 		}
-
+		// update the status of the drivers
+		for( int i = 0; i < drivers.size( ); i++ )
+		{
+			info = ( JDBCDriverInformation )drivers.get( i );
+			manager.updateStatus( info.getDriverClassName( ) );
+		}
+		drivers.clear( );
 		Iterator jarsDeleteIterator = jarsToBeDeleted.values( ).iterator( );
 		while ( jarsDeleteIterator.hasNext( ) )
 		{
@@ -1222,8 +1234,23 @@ public class JdbcDriverManagerDialog extends TrayDialog
 			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
 					jar.getFileName( ),
 					jar );
+			drivers.addAll( JdbcToolKit.getDriverByJar( jar ) );
 		}
-
+		// deregister every one of the jarsToBeDeleted Hashtable
+		for( int i = 0; i < drivers.size( ); i++ )
+		{
+			info = ( JDBCDriverInformation )drivers.get( i );
+			try
+			{
+				manager.deregisterDriver( info.getDriverClassName( ) );
+			}
+			catch ( OdaException e )
+			{
+				MessageDialog.openError( null,
+						"Failed to deregister the driver ",
+						"Failed to deregister the driver : " + info.getDriverClassName( ) );
+			}
+		}
 		refreshDriverPage( );
 		super.okPressed( );
 	}
