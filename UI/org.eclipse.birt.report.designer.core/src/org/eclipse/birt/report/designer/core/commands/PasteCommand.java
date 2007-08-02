@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -35,6 +36,7 @@ import org.eclipse.gef.commands.Command;
 
 public class PasteCommand extends Command
 {
+
 	protected static Logger logger = Logger.getLogger( PasteCommand.class.getName( ) );
 	/** Null permitted in instance. */
 	private DesignElementHandle sourceHandle;
@@ -185,14 +187,15 @@ public class PasteCommand extends Command
 			{
 				System.out.println( "PasteCommand >> Failed." ); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
-	/**	
-	 *  Add this design element to report.
-	 *  @param newHandle
-	 *  	The design element to add
+	/**
+	 * Add this design element to report.
+	 * 
+	 * @param newHandle
+	 *            The design element to add
 	 */
 	private void addHandleToReport( DesignElementHandle newHandle )
 			throws ContentException, NameException, SemanticException
@@ -207,26 +210,27 @@ public class PasteCommand extends Command
 		{
 			slotHandle = (SlotHandle) newContainer;
 		}
-//		else if ( newContainer instanceof ReportElementModel )
-//		{
-//			slotHandle = ( (ReportElementModel) newContainer ).getElementHandle( )
-//					.getSlot( slotID );
-//
-//		}
-		if (slotHandle != null)
+		// else if ( newContainer instanceof ReportElementModel )
+		// {
+		// slotHandle = ( (ReportElementModel) newContainer ).getElementHandle(
+		// )
+		// .getSlot( slotID );
+		//
+		// }
+		if ( slotHandle != null )
 		{
 			slotHandle.paste( newHandle, position );
 		}
-		else if(newContainer instanceof PropertyHandle )
+		else if ( newContainer instanceof PropertyHandle )
 		{
-			((PropertyHandle)newContainer).paste( newHandle, position );
+			( (PropertyHandle) newContainer ).paste( newHandle, position );
 		}
-		else if(newContainer instanceof DesignElementHandle )
+		else if ( newContainer instanceof DesignElementHandle )
 		{
-			((DesignElementHandle) newContainer ).getPropertyHandle( contentString ).paste( newHandle, position );
+			( (DesignElementHandle) newContainer ).getPropertyHandle( contentString )
+					.paste( newHandle, position );
 		}
-		
-		
+
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "PasteCommand >>  Finished. Paste " //$NON-NLS-1$
@@ -241,7 +245,7 @@ public class PasteCommand extends Command
 	}
 
 	/**
-	 * 	Caculate the paste position
+	 * Caculate the paste position
 	 */
 	private void calculatePositionAndSlotId( )
 	{
@@ -249,7 +253,7 @@ public class PasteCommand extends Command
 		if ( newContainer instanceof DesignElementHandle )
 		{
 			slotID = DEUtil.getDefaultSlotID( newContainer );
-			if (slotID == -1)
+			if ( slotID == -1 )
 			{
 				contentString = DEUtil.getDefaultContentName( newContainer );
 			}
@@ -260,11 +264,12 @@ public class PasteCommand extends Command
 			slotID = ( (SlotHandle) newContainer ).getSlotID( );
 			container = ( (SlotHandle) newContainer ).getElementHandle( );
 		}
-//		else if ( newContainer instanceof ReportElementModel )
-//		{
-//			slotID = ( (ReportElementModel) newContainer ).getSlotId( );
-//			container = ( (ReportElementModel) newContainer ).getElementHandle( );
-//		}
+		// else if ( newContainer instanceof ReportElementModel )
+		// {
+		// slotID = ( (ReportElementModel) newContainer ).getSlotId( );
+		// container = ( (ReportElementModel) newContainer ).getElementHandle(
+		// );
+		// }
 		else
 		{
 			return;
@@ -290,12 +295,14 @@ public class PasteCommand extends Command
 		}
 
 	}
- /**
- * 
- *  Drop source handle
- * @param oldHandle
- * 		The source handle
- */
+
+	/**
+	 * 
+	 * Drop source handle
+	 * 
+	 * @param oldHandle
+	 *            The source handle
+	 */
 	private void dropSourceHandle( DesignElementHandle oldHandle )
 			throws SemanticException
 	{
@@ -305,16 +312,16 @@ public class PasteCommand extends Command
 		}
 	}
 
-/**
- * Copy new handle
- * @param element
- *   The elemnent to copy
- * @param currentDesignHandle
- * 	 Current design handle
- * @return
- * 	 The copied handle
- * @throws CloneNotSupportedException
- */
+	/**
+	 * Copy new handle
+	 * 
+	 * @param element
+	 *            The elemnent to copy
+	 * @param currentDesignHandle
+	 *            Current design handle
+	 * @return The copied handle
+	 * @throws CloneNotSupportedException
+	 */
 	private DesignElementHandle copyNewHandle( IDesignElement element,
 			ModuleHandle currentDesignHandle )
 			throws CloneNotSupportedException
@@ -322,7 +329,21 @@ public class PasteCommand extends Command
 		IDesignElement newElement = isCloned ? element
 				: (IDesignElement) element.clone( );
 		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getModule( ) );
-		currentDesignHandle.rename( handle );
+
+		if ( newContainer instanceof ThemeHandle )
+		{
+			currentDesignHandle.rename( (ThemeHandle) newContainer, handle );
+		}
+		else if ( newContainer instanceof SlotHandle
+				&& ( (SlotHandle) newContainer ).getElementHandle( ) instanceof ThemeHandle )
+		{
+			currentDesignHandle.rename( ( (SlotHandle) newContainer ).getElementHandle( ),
+					handle );
+		}
+		else
+		{
+			currentDesignHandle.rename( handle );
+		}
 		return handle;
 	}
 
