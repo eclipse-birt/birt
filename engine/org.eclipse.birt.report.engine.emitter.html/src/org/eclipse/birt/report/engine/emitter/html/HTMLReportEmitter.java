@@ -822,6 +822,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 			writer.openTag( HTMLTags.TAG_TABLE );
+			writer.attribute( "cellpadding", "0" );
 			styleBuffer.setLength( 0 );
 			styleBuffer.append( " border-collapse: collapse; empty-cells: show; width:100%;" ); //$NON-NLS-1$
 			boolean outputPageHeight = fixedReport
@@ -897,14 +898,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 
-			// open tag of the row which contain the page head.
+			// open tag of the row which contain the page head and page body.
 			writer.openTag( HTMLTags.TAG_TR );
+			if ( outputPageHeight && !pageFooterFloatFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
+			}
 
 			if ( implementMargins )
 			{
 				// Implement left margin.
 				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( HTMLTags.ATTR_ROWSPAN, 3 );
+				writer.attribute( HTMLTags.ATTR_ROWSPAN, 2 );
 				DimensionType leftMargin = page.getMarginLeft( );
 				if ( null != leftMargin )
 				{
@@ -920,6 +925,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.closeTag( HTMLTags.TAG_TD );
 			}
 
+			// open tag of the cell which contain the page head and page body.
 			writer.openTag( HTMLTags.TAG_TD );
 			if ( fixedReport )
 			{
@@ -930,84 +936,40 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
 			}
+
 			// output page header
-			if ( page != null )
+			if ( outputMasterPageContent )
 			{
-				if ( outputMasterPageContent )
+				// output DIV for page header
+				boolean showHeader = true;
+				Object genBy = page.getGenerateBy( );
+				if ( genBy instanceof SimpleMasterPageDesign )
 				{
-					// output DIV for page header
-					boolean showHeader = true;
-					Object genBy = page.getGenerateBy( );
-					if ( genBy instanceof SimpleMasterPageDesign )
+					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+					if ( !masterPage.isShowHeaderOnFirst( ) )
 					{
-						SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
-						if ( !masterPage.isShowHeaderOnFirst( ) )
+						if ( page.getPageNumber( ) == 1 )
 						{
-							if ( page.getPageNumber( ) == 1 )
-							{
-								showHeader = false;
-							}
+							showHeader = false;
 						}
 					}
-					if ( showHeader )
-					{
-						writer.openTag( HTMLTags.TAG_DIV );
-
-						styleBuffer.setLength( 0 );
-						htmlEmitter.buildPageBandStyle( styleBuffer,
-								page.getStyle( ) );
-						// output the page header attribute
-						writer.attribute( HTMLTags.ATTR_STYLE,
-								styleBuffer.toString( ) );
-
-						contentVisitor.visitChildren( page.getPageHeader( ),
-								null );
-
-						// close the page header
-						writer.closeTag( HTMLTags.TAG_DIV );
-					}
 				}
-			}
-			writer.closeTag( HTMLTags.TAG_TD );
-
-			if ( implementMargins )
-			{
-				// implement the right magins .
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( HTMLTags.ATTR_ROWSPAN, 3 );
-				DimensionType rightMargin = page.getMarginRight( );
-				if ( null != rightMargin )
+				if ( showHeader )
 				{
 					writer.openTag( HTMLTags.TAG_DIV );
+
 					styleBuffer.setLength( 0 );
-					styleBuffer.append( "width: " );
-					styleBuffer.append( rightMargin.toString( ) );
-					styleBuffer.append( ";" );
+					htmlEmitter.buildPageBandStyle( styleBuffer,
+							page.getStyle( ) );
+					// output the page header attribute
 					writer.attribute( HTMLTags.ATTR_STYLE,
 							styleBuffer.toString( ) );
+
+					contentVisitor.visitChildren( page.getPageHeader( ), null );
+
+					// close the page header
 					writer.closeTag( HTMLTags.TAG_DIV );
 				}
-				writer.closeTag( HTMLTags.TAG_TD );
-			}
-
-			// close tag of the row which contain the page head.
-			writer.closeTag( HTMLTags.TAG_TR );
-
-			// open tag of the row which contain the page body.
-			writer.openTag( HTMLTags.TAG_TR );
-			if ( outputPageHeight && !pageFooterFloatFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
-			}
-			writer.openTag( HTMLTags.TAG_TD );
-			if ( fixedReport )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
-			}
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-			if ( htmlRtLFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
 			}
 		}
 
@@ -1030,13 +992,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( page != null )
 		{
+			// close tag of the cell which contain the page head and page body.
 			writer.closeTag( HTMLTags.TAG_TD );
-			// close tag of the row which contain the page body.
+
+			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
+			boolean implementMargins = fixedReport
+					|| ( outputMasterPageContent && outputMasterPageMargins );
+			if ( implementMargins )
+			{
+				// implement the right magins .
+				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( HTMLTags.ATTR_ROWSPAN, 2 );
+				DimensionType rightMargin = page.getMarginRight( );
+				if ( null != rightMargin )
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+					StringBuffer styleBuffer = new StringBuffer( );
+					styleBuffer.append( "width: " );
+					styleBuffer.append( rightMargin.toString( ) );
+					styleBuffer.append( ";" );
+					writer.attribute( HTMLTags.ATTR_STYLE,
+							styleBuffer.toString( ) );
+					writer.closeTag( HTMLTags.TAG_DIV );
+				}
+				writer.closeTag( HTMLTags.TAG_TD );
+			}
+
+			// close tag of the row which contain the page head and page body.
 			writer.closeTag( HTMLTags.TAG_TR );
 
 			// open tag of the row which contain the page footer.
 			writer.openTag( HTMLTags.TAG_TR );
-			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
 			boolean outputPageHeight = fixedReport
 					|| ( outputMasterPageContent && !pageFooterFloatFlag );
 			if ( outputPageHeight && pageFooterFloatFlag )
@@ -1099,8 +1085,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// close tag of the row which contain the page footer.
 			writer.closeTag( HTMLTags.TAG_TR );
 
-			boolean implementMargins = fixedReport
-					|| ( outputMasterPageContent && outputMasterPageMargins );
 			if ( implementMargins )
 			{
 				DimensionType bottomMargin = page.getMarginBottom( );
