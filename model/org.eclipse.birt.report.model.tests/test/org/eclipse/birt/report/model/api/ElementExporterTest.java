@@ -716,8 +716,7 @@ public class ElementExporterTest extends BaseTestCase
 		assertEquals( id, propBinding.getID( ).longValue( ) );
 		
 		DataSetHandle designDsHandle = (DataSetHandle) designHandle.getDataSets( ).get( 0 );
-		assertNotSame( designDsHandle.getID( ) , id );
-		
+		assertFalse ( designDsHandle.getID( ) == id );
 	}
 
 	/**
