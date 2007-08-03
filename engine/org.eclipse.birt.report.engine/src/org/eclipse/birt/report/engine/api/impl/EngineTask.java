@@ -606,7 +606,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{type, "Float or BigDecimal"} );
+					new String[]{paramName, type, "Float or BigDecimal"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
@@ -614,7 +614,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{type, "DateTime"} );
+					new String[]{paramName, type, "DateTime"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
@@ -622,7 +622,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{type, "Date"} );
+					new String[]{paramName, type, "Date"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
@@ -630,7 +630,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{type, "Time"} );
+					new String[]{paramName, type, "Time"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
@@ -639,7 +639,7 @@ public abstract class EngineTask implements IEngineTask
 			{
 				throw new ParameterValidationException(
 						MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-						new String[]{type, "String"} );
+						new String[]{paramName, type, "String"} );
 			}
 			return true;
 		}
@@ -649,7 +649,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{type, "Boolean"} );
+					new String[]{paramName, type, "Boolean"} );
 		}
 		return true;
 	}
