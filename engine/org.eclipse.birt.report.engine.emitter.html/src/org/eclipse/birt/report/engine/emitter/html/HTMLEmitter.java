@@ -109,16 +109,17 @@ public abstract class HTMLEmitter
 		IStyle style = page.getStyle( );
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
 
-		// build the width
-		DimensionType width = page.getPageWidth( );
-		if ( width != null )
-		{
-			styleBuffer.append( " width:" );
-			styleBuffer.append( width.toString( ) );
-			styleBuffer.append( ";" );
-		}
 		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 		{
+			// build the width
+			DimensionType width = page.getPageWidth( );
+			if ( width != null )
+			{
+				styleBuffer.append( " width:" );
+				styleBuffer.append( width.toString( ) );
+				styleBuffer.append( ";" );
+			}
+			
 			// hide the overflow
 			styleBuffer.append( " overflow: hidden;" );
 		}
