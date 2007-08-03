@@ -320,7 +320,7 @@ public class ExprManagerUtil
 				.get( columnBindingName ) ).getExpression( );
 		if ( expr instanceof IScriptExpression )
 			return ( (IScriptExpression) expr ).getText( );
-		else 
+		else
 			return null;
 	}
 
@@ -437,24 +437,6 @@ public class ExprManagerUtil
 		{
 			l.addAll( ( (GroupBindingColumn) bindingExprs.get( i ) ).getColumnNames( ) );
 		}
-		
-		//fetch all column names from parent expression manager
-		ExprManager exprManager1 = exprManager;
-		while ( exprManager1.getParentExprManager( ) != null )
-		{
-			bindingExprs = exprManager1.getParentExprManager( )
-					.getBindingExprs( );
-			autoBindingExprMap = exprManager1.getParentExprManager( )
-					.getAutoBindingExprMap( );
-
-			l.addAll( autoBindingExprMap.keySet( ) );
-			for ( int i = 0; i < bindingExprs.size( ); i++ )
-			{
-				l.addAll( ( (GroupBindingColumn) bindingExprs.get( i ) ).getColumnNames( ) );
-			}
-			exprManager1 = exprManager1.getParentExprManager( );
-		}
-		
 		return l;
 	}
 	

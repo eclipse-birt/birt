@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -36,8 +37,10 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -88,7 +91,7 @@ final class PreparedQuery
 	 */
 	PreparedQuery( DataEngineSession session, DataEngineContext deContext,
 			IBaseQueryDefinition queryDefn, IPreparedQueryService queryService,
-			Map appContext, ExprManager parentExprManager ) throws DataException
+			Map appContext ) throws DataException
 	{
 		logger.logp( Level.FINE,
 				PreparedQuery.class.getName( ),
@@ -104,7 +107,7 @@ final class PreparedQuery
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
-		this.exprManager = new ExprManager( baseQueryDefn, parentExprManager );
+		this.exprManager = new ExprManager( baseQueryDefn );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.session.getSharedScope( ),
@@ -113,23 +116,6 @@ final class PreparedQuery
 		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare( );
 		logger.fine( "Finished preparing the PreparedQuery." );
-	}
-	
-	/**
-	 * 
-	 * @param session
-	 * @param deContext
-	 * @param queryDefn
-	 * @param queryService
-	 * @param appContext
-	 * @param parentExprManager
-	 * @throws DataException
-	 */
-	PreparedQuery( DataEngineSession session, DataEngineContext deContext,
-			IBaseQueryDefinition queryDefn, IPreparedQueryService queryService,
-			Map appContext ) throws DataException
-	{
-		this( session, deContext, queryDefn, queryService, appContext, null );
 	}
 	
 	/**
@@ -204,6 +190,8 @@ final class PreparedQuery
 					}
 				}
 			}
+
+			mappingParentColumnBinding( );
 			
 			for ( int i = 0; i <= groups.size( ); i++ )
 			{
@@ -214,6 +202,64 @@ final class PreparedQuery
 		{			
 		    Context.exit();
 		}
+	}
+	
+	/**
+	 * @throws DataException 
+	 * 
+	 */
+	private void mappingParentColumnBinding( ) throws DataException
+	{
+		IBaseQueryDefinition queryDef =  baseQueryDefn;
+		while ( queryDef instanceof ISubqueryDefinition )
+		{
+			queryDef = queryDef.getParentQuery();
+			Map parentBindings = queryDef.getBindings( );
+			addParentBindings(parentBindings);
+		}
+	}
+
+	/**
+	 * 
+	 * @param parentBindings
+	 * @throws DataException 
+	 */
+	private void addParentBindings( Map parentBindings ) throws DataException {
+		Iterator it = parentBindings.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			Object o = it.next( );
+			IBaseExpression expr = ((IBinding)parentBindings.get( o )).getExpression( );
+			if ( expr instanceof IScriptExpression )
+			{
+				if (!ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ))
+				{
+					if ( baseQueryDefn.getBindings( )
+							.get( o ) == null )
+					{	
+						IBinding binding = new Binding( o.toString( ) );
+						binding.setExpression( copyScriptExpr( expr ) );
+						baseQueryDefn.addBinding( binding );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Colon a script expression, however do not populate the "AggregateOn" field. All the column binding that inherit
+	 * from parent query by sub query should have no "AggregateOn" field, for they could not be aggregations. However, 
+	 * if an aggregateOn field is set to an expression without aggregation, we should also make it inheritable by sub query
+	 * for the expression actually involves no aggregations.
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private ScriptExpression copyScriptExpr( IBaseExpression expr )
+	{
+		ScriptExpression se = new ScriptExpression( ( (IScriptExpression) expr ).getText( ),
+				( (IScriptExpression) expr ).getDataType( ) );
+		return se;
 	}
 	
 	/**
@@ -282,12 +328,10 @@ final class PreparedQuery
 		while ( subIt.hasNext( ) )
 		{
 			ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
-			PreparedSubquery pq = new PreparedSubquery( this.session,
-					this.dataEngineContext,
+			PreparedSubquery pq = new PreparedSubquery( this.session, this.dataEngineContext,
 					subquery,
 					queryService,
-					groupLevel,
-					this.exprManager );
+					groupLevel );
 			subQueryMap.put( subquery.getName(), pq);
 			
 			subQueryDefnMap.put( subquery.getName( ), new Object[]{

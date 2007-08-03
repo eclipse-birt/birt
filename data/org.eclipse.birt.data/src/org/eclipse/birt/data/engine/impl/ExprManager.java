@@ -43,39 +43,20 @@ public class ExprManager
 	private IBaseQueryDefinition baseQueryDefn;
 	
 	public final static int OVERALL_GROUP = 0;
-	//parent ExprManager
-	private ExprManager parent;
-	
+
 	/**
 	 * An exprManager object is to manipulate all available column bindings for
-	 * specified query definition. This constructor can be assigned with its
-	 * parent exprManager, if its parent exprManager is not null, it should be
-	 * an exprManager for one subQuery.
-	 * 
-	 * @param baseQueryDefn
-	 * @param parent
+	 * specified query definition.
 	 */
-	public ExprManager( IBaseQueryDefinition baseQueryDefn, ExprManager parent )
+	public ExprManager( IBaseQueryDefinition baseQueryDefn)
 	{
 		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
 		entryLevel = OVERALL_GROUP;
 		this.baseQueryDefn = baseQueryDefn;
 		this.autoBindingMap = new HashMap( );
-		this.parent = parent;
 	}
-	
-	/**
-	 * An exprManager object is to manipulate all available column bindings for
-	 * specified query definition.
-	 * 
-	 * @param baseQueryDefn
-	 */
-	public ExprManager( IBaseQueryDefinition baseQueryDefn )
-	{
-		this( baseQueryDefn, null );
-	}
-	
+
 	/**
 	 * @param resultsExprMap
 	 * @param groupLevel
@@ -156,25 +137,11 @@ public class ExprManager
 		if ( this.autoBindingMap.containsKey( name ))
 		{
 			return (IBinding)this.autoBindingMap.get( name );
-		}
+		}	
 		
-		if( this.parent!= null )
-		{
-			return parent.getBinding( name );
-		}
 		return null;
 		
 	}
-	
-	/**
-	 * get parent expression manager
-	 * @return
-	 */
-	public ExprManager getParentExprManager( )
-	{
-		return this.parent;
-	}
-	
 	/**
 	 * @param name
 	 * @return
@@ -193,10 +160,6 @@ public class ExprManager
 			Object o = gcb.getExpression( name );
 			if ( o != null )
 				return (IBaseExpression) o;
-		}
-		if( this.parent!= null )
-		{
-			return this.parent.getBindingExpr( name );
 		}
 		return null;
 	}

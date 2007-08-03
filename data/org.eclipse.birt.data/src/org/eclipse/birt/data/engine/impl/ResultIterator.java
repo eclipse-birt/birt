@@ -544,8 +544,7 @@ public class ResultIterator implements IResultIterator
 			// firstly if resultService contains this binding column
 			if ( this.resultService.getBindingExpr( exprName ) != null )
 			{
-				return prepareBindingColumn( this.resultService.getBindingExpr( exprName ),
-						exprName );
+				return prepareBindingColumn( exprName );				
 			}
 			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );
@@ -565,22 +564,21 @@ public class ResultIterator implements IResultIterator
 	 * @return
 	 * @throws DataException
 	 */
-	private Object prepareBindingColumn( IBaseExpression expr,
-			String bindingName ) throws DataException
+	private Object prepareBindingColumn( String exprName ) throws DataException
 	{
 		assert bindingColumnsEvalUtil != null;
 		if ( this.preparedList == null )
 		{
 			preparedList = new ArrayList( );
 		}
-		else if ( this.preparedList.contains( bindingName ) )
+		else if ( this.preparedList.contains( exprName ) )
 		{
 			return new DataException( ResourceConstants.COLUMN_BINDING_CYCLE,
-					bindingName );
+					exprName );
 		}
-		this.preparedList.add( bindingName );
-		Object value = bindingColumnsEvalUtil.evaluateValue( expr, bindingName );
-		boundColumnValueMap.put( bindingName, value );
+		this.preparedList.add( exprName );
+		Object value = bindingColumnsEvalUtil.evaluateValue( exprName );
+		boundColumnValueMap.put( exprName, value );
 		return value;
 	}
 	
