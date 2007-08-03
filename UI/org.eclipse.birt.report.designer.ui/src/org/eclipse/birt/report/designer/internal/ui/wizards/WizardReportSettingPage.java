@@ -260,9 +260,18 @@ public class WizardReportSettingPage extends WizardPage
 		else
 		// If preview image file is not empty, then need to check whether it
 		// exist or it's an iamge.
-		if ( !isTextEmpty( previewImageText ) )
+		if ( !isTextEmpty( previewImageText ) && (module != null && module.getIconFile( ) == null) )
 		{
-
+			if(imageFileName.equals( Messages.getString( "ThumbnailBuilder.Image.DefaultName" ) ))
+			{
+				status = new Status( IStatus.ERROR,
+						PLUGIN_ID,
+						0,
+						Messages.getString( "PublishTemplateAction.wizard.message.ThumbnailImageNotExist" ),
+						null );
+				previewImageStatus = status;
+			}
+			else
 			if ( ( !new File( imageFileName ).exists( ) )
 					&& ( !new File( ReportPlugin.getDefault( )
 							.getResourceFolder( ), imageFileName ).exists( ) )
