@@ -148,7 +148,9 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( );
+		
+		LibraryRecord record = new LibraryRecord( module, library, false );
+		stack.startTrans( record.getLabel( ) );
 		try
 		{
 			for ( int slotID = 0; slotID < library.getDefn( ).getSlotCount( ); slotID++ )
@@ -174,7 +176,7 @@ public class LibraryCommand extends AbstractElementCommand
 				}
 			}
 
-			LibraryRecord record = new LibraryRecord( module, library, false );
+			
 			getActivityStack( ).execute( record );
 
 			// Remove the include library structure.
@@ -534,17 +536,16 @@ public class LibraryCommand extends AbstractElementCommand
 
 		library.setReadOnly( );
 
-		ActivityStack activityStack = getActivityStack( );
-
-		activityStack.startTrans( );
+		ActivityStack activityStack = getActivityStack( );		
 
 		LibraryRecord record = null;
-
 		if ( action == SIMPLE_ACTION )
 			record = new LibraryRecord( module, library, true );
 		if ( action == RELOAD_ACTION )
 			record = new LibraryRecord( module, library, overriddenValues );
-
+		
+		assert record != null;
+		activityStack.startTrans( record.getLabel( ) );
 		getActivityStack( ).execute( record );
 
 		// Add includedLibraries

@@ -148,7 +148,8 @@ public class ElementStructureUtil
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				Property prop = (Property) values.get( i );
-
+				Object value = prop.getValue( );
+				
 				// TODO if the name is set, add it to name space.
 
 				// the intrinsic style property must use setStyle().
@@ -156,6 +157,11 @@ public class ElementStructureUtil
 				if ( IStyledElementModel.STYLE_PROP.equals( prop.getName( ) ) )
 					( (StyledElement) content ).setStyleName( (String) prop
 							.getValue( ) );
+				else if ( value instanceof ReferenceValue )
+				{
+					Object newValue = ((ReferenceValue) value).copy( );
+					content.setProperty( prop.getName( ), newValue );
+				}
 				else
 					content.setProperty( prop.getName( ), prop.getValue( ) );
 			}

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -420,14 +421,15 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		assertFalse( location1.equalsIgnoreCase( location2 ) );
 	}
-	
+
 	/**
 	 * Tests reload library for cube.
+	 * 
 	 * @throws Exception
 	 */
-	public void testReloadLibrary3() throws Exception
+	public void testReloadLibrary3( ) throws Exception
 	{
-		openDesign("DesignWithCube.xml"); //$NON-NLS-1$
+		openDesign( "DesignWithCube.xml" ); //$NON-NLS-1$
 		designHandle.reloadLibraries( );
 		save( );
 		assertTrue( compareFile( "DesignWithCube_golden.xml" ) ); //$NON-NLS-1$
@@ -585,7 +587,35 @@ public class ReloadLibraryTest extends BaseTestCase
 		designHandle.reloadLibrary( libraryHandle );
 
 		child.loadExtendedElement( );
-		assertEquals( new Integer( 3 ), child.getProperty( "xScale" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( new Integer( 3 ), child.getProperty( "xScale" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests overridden element reference value in ReloadLibrary.
+	 * <ul>
+	 * <li>no modify in library, then reload the design, the default hierarchy
+	 * of dimension is still resolved.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+	public void testReloadWithOverideElementReference( ) throws Exception
+	{
+		openDesign( "LibraryWithCubeTest.xml" ); //$NON-NLS-1$
+
+		// before reload, the default hierarchy is not null
+		DimensionHandle dimension = (DimensionHandle) designHandle
+				.getElementByID( 9 );
+		assertNotNull( dimension.getDefaultHierarchy( ) );
+		assertEquals( dimension, dimension.getDefaultHierarchy( )
+				.getContainer( ) );
+
+		// after reload, the default hierarchy is still not null
+		designHandle.reloadLibraries( );
+		dimension = (DimensionHandle) designHandle.getElementByID( 9 );
+		assertNotNull( dimension.getDefaultHierarchy( ) );
+		assertEquals( dimension, dimension.getDefaultHierarchy( )
+				.getContainer( ) );
 	}
 
 }
