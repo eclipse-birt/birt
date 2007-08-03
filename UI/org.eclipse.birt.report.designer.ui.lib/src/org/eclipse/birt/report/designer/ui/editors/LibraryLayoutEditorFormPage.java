@@ -267,6 +267,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		if ( adapter == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
+			getModelEventManager().addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
 		if ( adapter == AttributeViewPage.class )

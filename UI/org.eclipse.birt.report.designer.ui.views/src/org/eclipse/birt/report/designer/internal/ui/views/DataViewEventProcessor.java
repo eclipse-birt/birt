@@ -46,13 +46,13 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 	 */
 	protected ModelEventInfoFactory createModelEventInfoFactory( )
 	{
-		return new OutlineModelEventInfoFactory( );
+		return new DataViewModelEventInfoFactory( );
 	}
 
 	/**
 	 * OutlineModelEventInfoFactory
 	 */
-	private static class OutlineModelEventInfoFactory implements
+	private static class DataViewModelEventInfoFactory implements
 			ModelEventInfoFactory
 	{
 
