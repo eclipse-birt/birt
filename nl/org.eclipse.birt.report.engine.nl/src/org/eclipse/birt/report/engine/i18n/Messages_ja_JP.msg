@@ -9,7 +9,7 @@ Error.Msg001=ja_JP: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=出力形式 {0} はサポートされていません。
 Error.InvalidParameter=いくつかの必須パラメタの値が設定されていないか、互換性のないデータ型に設定されています。
-Error.InvalidParameterType=パラメタの型には、"{1}" ではなく "{0}" が必要です。
+Error.InvalidParameterType=The type of parameter "{0}" is expected as "{1}", but not "{2}".
 Error.ParameterValueNull=必須パラメタ {0} が設定されていません。
 Error.ParamScriptValidationError=パラメタ "{0}" のスクリプトソースの検証エラーが発生しました。ソースは {1} です。
 Error.InvalidDesignFile=デザインファイル {0} にエラーがあるため、実行できません。
