@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.core;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -100,7 +99,6 @@ public class CorePlugin extends AbstractUIPlugin
 	 */
 	public void start( BundleContext context ) throws Exception
 	{
-		DEUtil.getSystemFontNames( );
 		super.start( context );
 	}
 
