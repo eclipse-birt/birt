@@ -47,16 +47,16 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		if ( transfer instanceof Object[] )
-		{
-			Object[] objects = (Object[]) transfer;
-			for ( int i = 0; i < objects.length; i++ )
-			{
-				if ( !performDrop( objects[i], target, operation, location ) )
-					return false;
-			}
-			return true;
-		}
+//		if ( transfer instanceof Object[] )
+//		{
+//			Object[] objects = (Object[]) transfer;
+//			for ( int i = 0; i < objects.length; i++ )
+//			{
+//				if ( !performDrop( objects[i], target, operation, location ) )
+//					return false;
+//			}
+//			return true;
+//		}
 
 		if ( target instanceof EditPart )
 		{

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -24,14 +25,13 @@ public class MeasureHandleDragAdapter implements IDragAdapter
 
 	public int canDrag( Object object )
 	{
-		if ( object instanceof MeasureHandle )
+		if ( object instanceof MeasureHandle || object instanceof MeasureGroupHandle)
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
 	}
 
 	public Object getDragTransfer( Object tranfer )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -19,8 +19,10 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -96,11 +98,38 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 		{
 			Object[] objects = (Object[])obj;
 			int len = objects.length;
-			if (len != 1)
+			if (len == 0)
 			{
 				return false;
 			}
-			return handleValidate( objects[0] );
+			if (len == 1)
+			{
+				return handleValidate( objects[0] );
+			}
+			else
+			{
+				for (int i=0; i<len; i++)
+				{
+					Object temp = objects[i];
+					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
+					{
+						if (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ) || crosstab.getCube( ) == null)
+						{
+							continue;
+						}
+						else
+						{
+							return false;
+						}
+					}
+					else
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			
 		}
 		//TODO there may be judge the dimension handle parent
 		if (getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
@@ -119,6 +148,11 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 		if (getType( ) == MEASURE_TYPE)
 		{
 			if (obj instanceof MeasureHandle && CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
+			{
+				return true;
+			}
+			if (obj instanceof MeasureGroupHandle && (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)obj )
+					|| crosstab.getCube( ) == null) )
 			{
 				return true;
 			}

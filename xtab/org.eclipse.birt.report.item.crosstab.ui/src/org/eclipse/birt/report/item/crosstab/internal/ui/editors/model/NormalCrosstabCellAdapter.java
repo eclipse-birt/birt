@@ -15,9 +15,12 @@ import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 
 /**
  * The default cell adapter
@@ -69,17 +72,44 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 	 */
 	public boolean handleValidate( Object obj )
 	{
+		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if (obj instanceof Object[])
 		{
 			Object[] objects = (Object[])obj;
 			int len = objects.length;
-			if (len != 1)
+			if (len == 0)
 			{
 				return false;
 			}
-			return handleValidate( objects[0] );
+			if (len == 1)
+			{
+				return handleValidate( objects[0] );
+			}
+			else
+			{
+				for (int i=0; i<len; i++)
+				{
+					Object temp = objects[i];
+					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
+					{
+						if (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ))
+						{
+							continue;
+						}
+						else
+						{
+							return false;
+						}
+					}
+					else
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			
 		}
-		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if (obj instanceof DimensionHandle)
 		{
 			if ((getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE)
@@ -98,6 +128,15 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 		{
 			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
 					&& CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
+			{
+				return true;
+			}
+		}
+		
+		if (obj instanceof MeasureGroupHandle)
+		{
+			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
+					&& crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)obj ))
 			{
 				return true;
 			}
