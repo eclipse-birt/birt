@@ -188,12 +188,12 @@ public class PostscriptWriter
 
 	public void clipSave()
 	{
-		out.println( "clipsave" );
+		out.println( "gsave" );
 	}
 	
 	public void clipRestore()
 	{
-		out.println( "cliprestore" );
+		out.println( "grestore" );
 	}
 	
 	/**
