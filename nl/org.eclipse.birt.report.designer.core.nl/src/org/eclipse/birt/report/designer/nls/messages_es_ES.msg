@@ -452,7 +452,7 @@ dataset.editor.title.value2=Valor &2
 dataset.editor.historybar.backward=Anterior
 dataset.editor.historybar.forward=Siguiente
 dataset.editor.historybar.to=a
-dataset.error.noDataSources=There is no data source available.Would you like to add a data source right now?
+dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
 dataset.error.dataSourceMissing=Falta la fuente de datos de este conjunto de datos.
 dataset.error.title.noDataSources=No hay fuentes de datos disponibles.
 dataset.message.create=Crear un nuevo conjunto de datos.
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=El nombre se está usando.
 ParameterDialog.ErrorMessage.DuplicatedValue=El valor ya existe.
 ParameterDialog.ErrorMessage.EmptyName=El nombre está vacío.
 ParameterDialog.ErrorMessage.InvalidListLimit=El valor de limitación debe estar entre 0 y {0}.
-ParameterDialog.ErrorMessage.MismatchDataType=El valor no coincide con el tipo de fecha.
+ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
 ParameterDialog.ErrorMessage.NoAvailableColumn=No hay ninguna columna disponible.
 ParameterDialog.ErrorMessage.NoDefaultValue=Debe establecer un valor predeterminado.
 ParameterDialog.ErrorTitle.InvalidListLimit=Límite de lista no válido
@@ -2676,6 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=La carpeta de plantillas definida como preferencia no es válida.
 PublishTemplateAction.wizard.page.nameInfo=Es necesario un nombre en pantalla
 PublishTemplateAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=El archivo de vista previa de imagen no existe.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=El archivo de vista previa no es una imagen válida.
 
@@ -3872,6 +3873,7 @@ BindingDialogHelper.text.Expression=Expresión:
 BindingDialogHelper.text.displayName=Nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
 
 ###########################################################
 #Scripts Node

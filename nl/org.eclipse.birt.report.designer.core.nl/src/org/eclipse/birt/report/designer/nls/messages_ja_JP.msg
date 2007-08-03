@@ -452,7 +452,7 @@ dataset.editor.title.value2=値 2(&2)
 dataset.editor.historybar.backward=戻る
 dataset.editor.historybar.forward=進む
 dataset.editor.historybar.to=:
-dataset.error.noDataSources=There is no data source available.Would you like to add a data source right now?
+dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
 dataset.error.dataSourceMissing=このデータセットにはデータソースがありません。
 dataset.error.title.noDataSources=使用できるデータソースがありません。
 dataset.message.create=新規データセットを作成します。
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=この名前はすでに使われています。
 ParameterDialog.ErrorMessage.DuplicatedValue=この値はすでに存在します。
 ParameterDialog.ErrorMessage.EmptyName=名前が指定されていません。
 ParameterDialog.ErrorMessage.InvalidListLimit=制限値は、0 ～ {0} の範囲で指定してください。
-ParameterDialog.ErrorMessage.MismatchDataType=この値はデータ型に一致しません。
+ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
 ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
@@ -2676,6 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=設定に無効なテンプレートフォルダが定義されています。
 PublishTemplateAction.wizard.page.nameInfo=表示名を指定してください。
 PublishTemplateAction.wizard.message.SourceFileNotExist=ソースファイルが存在しません。
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=プレビュー用のイメージファイルは存在しません。
 PublishTemplateAction.wizard.message.PreviewImageNotValid=プレビュー用のイメージファイルは、有効なイメージではありません。
 
@@ -3872,6 +3873,7 @@ BindingDialogHelper.text.Expression=式 :
 BindingDialogHelper.text.displayName=表示名 :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
 
 ###########################################################
 #Scripts Node

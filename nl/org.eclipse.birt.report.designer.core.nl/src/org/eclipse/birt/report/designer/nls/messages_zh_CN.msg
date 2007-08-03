@@ -452,7 +452,7 @@ dataset.editor.title.value2=值 2(&2)
 dataset.editor.historybar.backward=后退
 dataset.editor.historybar.forward=前进
 dataset.editor.historybar.to=到
-dataset.error.noDataSources=There is no data source available.Would you like to add a data source right now?
+dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
 dataset.error.dataSourceMissing=缺少此数据集的数据源。
 dataset.error.title.noDataSources=无可用数据源。
 dataset.message.create=创建新数据集。
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=该名称已经在使用。
 ParameterDialog.ErrorMessage.DuplicatedValue=值已经存在。
 ParameterDialog.ErrorMessage.EmptyName=名称为空。
 ParameterDialog.ErrorMessage.InvalidListLimit=限制值应介于 0 和 {0} 之间
-ParameterDialog.ErrorMessage.MismatchDataType=值与日期类型不匹配。
+ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
 ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
@@ -2676,6 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=首选项中定义的模板文件夹无效。
 PublishTemplateAction.wizard.page.nameInfo=必须提供显示名称
 PublishTemplateAction.wizard.message.SourceFileNotExist=源文件不存在。
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=预览图像文件不存在。
 PublishTemplateAction.wizard.message.PreviewImageNotValid=预览图像文件不是有效的图像。
 
@@ -3872,6 +3873,7 @@ BindingDialogHelper.text.Expression=表达式:
 BindingDialogHelper.text.displayName=显示名称:
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
 
 ###########################################################
 #Scripts Node

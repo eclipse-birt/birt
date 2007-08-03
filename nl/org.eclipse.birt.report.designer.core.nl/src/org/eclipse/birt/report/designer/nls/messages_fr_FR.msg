@@ -452,7 +452,7 @@ dataset.editor.title.value2=Valeur &2
 dataset.editor.historybar.backward=Précédent
 dataset.editor.historybar.forward=Suivant
 dataset.editor.historybar.to=en
-dataset.error.noDataSources=There is no data source available.Would you like to add a data source right now?
+dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
 dataset.error.dataSourceMissing=La source de données du jeu de données est manquante.
 dataset.error.title.noDataSources=Aucune source de données disponible.
 dataset.message.create=Créez un nouveau jeu de données.
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=Ce nom est en cours d'utilisation.
 ParameterDialog.ErrorMessage.DuplicatedValue=Cette valeur existe déjà.
 ParameterDialog.ErrorMessage.EmptyName=Le nom n'est pas renseigné.
 ParameterDialog.ErrorMessage.InvalidListLimit=La valeur de limitation doit être comprise entre 0 et {0}
-ParameterDialog.ErrorMessage.MismatchDataType=La valeur ne correspond pas au type de données.
+ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
 ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
@@ -2676,6 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=Le dossier modèle défini dans la préférence n'est pas valide.
 PublishTemplateAction.wizard.page.nameInfo=Le nom d'affichage est requis
 PublishTemplateAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=Le fichier de prévisualisation de l'image n'existe pas.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=Le fichier de prévisualisation de l'image n'est pas une image valide.
 
@@ -3872,6 +3873,7 @@ BindingDialogHelper.text.Expression=Expression :
 BindingDialogHelper.text.displayName=Nom d'affichage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
 
 ###########################################################
 #Scripts Node
