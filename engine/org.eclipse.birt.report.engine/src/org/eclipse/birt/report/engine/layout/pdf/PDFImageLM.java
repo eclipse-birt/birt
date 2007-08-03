@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -335,7 +334,6 @@ public class PDFImageLM extends PDFLeafItemLM
 
 		// set max content width
 		root.setAllocatedWidth( maxWidth );
-		int maxContentWidth = root.getContentWidth( );
 
 		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
 		imageArea.setWidth( contentDimension.getWidth( ) );
@@ -379,24 +377,25 @@ public class PDFImageLM extends PDFLeafItemLM
 		Pattern pattern = Pattern
 				.compile( "<AREA[^<>]*coords=\"([\\d,]*)\" href=\"([^<>\"]*)\" target=\"([^<>\"]*)\"/>" );
 		Matcher matcher = pattern.matcher( imageMapObject );
-		String url = null;
-		String targetWindow = null;
-		ArrayList areas = new ArrayList( );
 		while ( matcher.find( ) )
 		{
 			try
 			{
-				areas.add( getArea( matcher.group( 1 ) ) );
-				if ( url == null )
-					url = matcher.group( 2 );
-				if ( targetWindow == null )
-					targetWindow = matcher.group( 3 );
+				int[] area = getArea( matcher.group( 1 ) );
+				String url = matcher.group( 2 );
+				String targetWindow = matcher.group( 3 );
+				createImageMap( area, imageArea, url, targetWindow );
 			}
 			catch ( NumberFormatException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
+	}
+
+	private void createImageMap( int[] area, IImageArea imageArea, String url,
+			String targetWindow )
+	{
 		if ( url == null )
 		{
 			return;
@@ -411,18 +410,8 @@ public class PDFImageLM extends PDFLeafItemLM
 		{
 			link.setHyperlink( url, targetWindow );
 		}
-		createImageMaps( areas, imageArea, link );
-	}
-
-	private void createImageMaps( ArrayList areas, IImageArea imageArea,
-			IHyperlinkAction link )
-	{
-		for ( int i = 0; i < areas.size( ); i++ )
-		{
-			int[] area = (int[]) areas.get( i );
-			area = getAbsoluteArea( area, imageArea );
-			createImageMapContainer( area[0], area[1], area[2], area[3], link );
-		}
+		area = getAbsoluteArea( area, imageArea );
+		createImageMapContainer( area[0], area[1], area[2], area[3], link );
 	}
 
 	/**
