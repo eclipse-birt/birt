@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.model.api;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.core.Module;
@@ -685,10 +687,38 @@ public class ElementExporterTest extends BaseTestCase
 		assertEquals( 1, itemHandle
 				.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
 		itemHandle = (DataItemHandle) libraryHandle.findElement( "NewData" );//$NON-NLS-1$
-		
-		assertNotNull( libraryHandle.findCube( "testCube" ) ); //$NON-NLS-1$
-		
 
+		assertNotNull( libraryHandle.findCube( "testCube" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * When export property binding , should change 'id' property. See bugzilla
+	 * 198076
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExportPropertyBinding( ) throws Exception
+	{
+		openDesign( "ElementExporterTest_PropertyBinding.xml" ); //$NON-NLS-1$
+		openLibrary( "ElementExporterTestLibrary.xml" ); //$NON-NLS-1$
+
+		ElementExportUtil.exportDesign( designHandle, libraryHandle, false , false );
+
+		DataSetHandle dsHandle = (DataSetHandle) libraryHandle.getDataSets( )
+				.get( 0 );
+		long id = dsHandle.getID( );
+		List propertyBindings = libraryHandle
+				.getListProperty( ReportDesignHandle.PROPERTY_BINDINGS_PROP );
+		PropertyBinding propBinding = (PropertyBinding) propertyBindings
+				.get( 0 );
+		assertEquals( id, propBinding.getID( ).longValue( ) );
+		
+		DataSetHandle designDsHandle = (DataSetHandle) designHandle.getDataSets( ).get( 0 );
+		System.out.println( " id of design is " + designDsHandle.getID( ) + " lib id is " + id );
+		assertNotSame( designDsHandle.getID( ) , id );
+		
 	}
 
 	/**
@@ -710,7 +740,7 @@ public class ElementExporterTest extends BaseTestCase
 				.exportDesign( designHandle, libraryHandle, true, true );
 
 		save( libraryHandle );
-		
+
 		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" ); //$NON-NLS-1$
 		compareFile( "ElementExporterTestLibrary_golden_15.xml" ); //$NON-NLS-1$
 

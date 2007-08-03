@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.api.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -31,6 +33,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -56,6 +59,13 @@ class ElementExporter
 {
 
 	private LibraryHandle targetLibraryHandle;
+
+	/**
+	 * Records element has property binding. key is element in design handle.
+	 * value is element in library handle.
+	 */
+	
+	private Map propBindingMap = new HashMap( );
 
 	/**
 	 * Constructs the exporter with the handle of target library.
@@ -320,7 +330,7 @@ class ElementExporter
 				&& elementToExport.getContainer( ) != elementToExport
 						.getModuleHandle( ) )
 			slotID = IModuleModel.COMPONENT_SLOT;
-		else if ( slotID == IReportDesignModel.CUBE_SLOT)
+		else if ( slotID == IReportDesignModel.CUBE_SLOT )
 			slotID = ILibraryModel.CUBE_SLOT;
 
 		// if the element only exist in the report design such as template
@@ -334,6 +344,11 @@ class ElementExporter
 
 		SlotHandle slotHandle = targetLibraryHandle.getSlot( slotID );
 		addToSlot( slotHandle, newElementHandle );
+
+		if ( propBindingMap.keySet( ).contains( elementToExport ) )
+		{
+			propBindingMap.put( elementToExport, newElementHandle );
+		}
 	}
 
 	/**
@@ -410,6 +425,59 @@ class ElementExporter
 	}
 
 	/**
+	 * Change property binding's 'id' property. Let its' value related to the
+	 * new data set element.
+	 * 
+	 * @param contentHandle
+	 * @param refMap
+	 */
+
+	private void changePropertyBindingID( ReportDesignHandle designToExport )
+	{
+		List propertyBindings = targetLibraryHandle
+				.getListProperty( ReportDesignHandle.PROPERTY_BINDINGS_PROP );
+		if ( propertyBindings == null )
+			return;
+
+		Iterator iterator = propertyBindings.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			PropertyBinding struct = (PropertyBinding) iterator.next( );
+			long id = struct.getID( ).longValue( );
+			DesignElementHandle tempHandle = designToExport.getElementByID( id );
+
+			DesignElementHandle tempCopyInLibHandle = (DesignElementHandle) propBindingMap
+					.get( tempHandle );
+			if ( tempCopyInLibHandle != null )
+				struct.setID( tempCopyInLibHandle.getID( ) );
+		}
+	}
+
+	/**
+	 * 
+	 * Initialize property binding map. Each key item is design element handle which has
+	 * property binding.
+	 * 
+	 * @param designToExport
+	 */
+
+	private void initPropBindingList( ReportDesignHandle designToExport )
+	{
+		List propertyBindings = designToExport
+				.getListProperty( ReportDesignHandle.PROPERTY_BINDINGS_PROP );
+		for ( int i = 0; propertyBindings != null
+				&& i < propertyBindings.size( ); ++i )
+		{
+			PropertyBinding struct = (PropertyBinding) propertyBindings.get( i );
+			long id = struct.getID( ).longValue( );
+			DesignElementHandle tempHandle = designToExport.getElementByID( id );
+			if ( tempHandle != null
+					&& !propBindingMap.keySet( ).contains( tempHandle ) )
+				propBindingMap.put( tempHandle, null );
+		}
+	}
+
+	/**
 	 * Exports the given design. The following rules are applied on exporting.
 	 * <ul>
 	 * <li>Only properties supported by library are exported.
@@ -435,6 +503,8 @@ class ElementExporter
 	{
 		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle,
 				false );
+
+		initPropBindingList( designToExport );
 
 		// Copy the contents in design file.
 
@@ -486,6 +556,9 @@ class ElementExporter
 				exportElement( contentHandle, canOverride );
 			}
 		}
+
+		// specially change property binding id.
+		changePropertyBindingID( designToExport );
 	}
 
 	private int getTopContainerSlot( DesignElement element )
