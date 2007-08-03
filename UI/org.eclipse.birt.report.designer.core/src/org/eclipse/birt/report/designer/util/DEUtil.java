@@ -2704,6 +2704,9 @@ public class DEUtil
 				value += ",";
 			value += (String) iterator.next( );
 		}
-		return value;
+		if ( value.equals( "" ) )
+			return null;
+		else
+			return value;
 	}
 }

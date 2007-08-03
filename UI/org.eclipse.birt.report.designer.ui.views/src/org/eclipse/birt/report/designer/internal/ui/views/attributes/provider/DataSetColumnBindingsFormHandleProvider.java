@@ -258,8 +258,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				String text;
 				if ( value == null )
 				{
-					if ( ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) element ).getExpression( ) )
+					if ( (ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) element ).getExpression( ) )
 							&& groupType != DEUtil.TYPE_GROUP_NONE )
+						|| ( (ComputedColumnHandle) element ).getAggregateFunction( ) != null )
 					{
 						text = ALL;
 					}
