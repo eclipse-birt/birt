@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -288,7 +287,6 @@ public class ParameterValidationUtil
 			catch ( NoSuchMethodException e )
 			{
 				// do nothing
-				e.printStackTrace( );
 			}
 			catch ( IllegalArgumentException e )
 			{
