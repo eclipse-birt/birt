@@ -290,6 +290,15 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#setInput(org.eclipse.ui.IEditorInput)
+	 */
+	public void setInput( IEditorInput input )
+	{
+		super.setInput( input );
+		reportXMLEditor.setInput( input );
+	}
+
 	private void setHighlightLine( int line )
 	{
 		try
