@@ -3890,3 +3890,16 @@ AddEditCascadingParameterDialog.label.name=名称(&N):
 AddEditCascadingParameterDialog.label.dataset=数据集(&D):
 AddEditCascadingParameterDialog.label.value=值(&V):
 AddEditCascadingParameterDialog.label.displaytext=显示文本(&T):
+
+###########################################################
+#FormatDateTimePattern
+FormatDateTimePattern.datetiem_format_type_year=Year
+FormatDateTimePattern.datetiem_format_type_short_year=Short Year
+FormatDateTimePattern.datetiem_format_type_long_month_year=Long Month Year
+FormatDateTimePattern.datetiem_format_type_shot_month_year=Short Month Year
+FormatDateTimePattern.datetiem_format_type_month=Month
+FormatDateTimePattern.datetiem_format_type_long_day_of_week=Long Day of Week
+FormatDateTimePattern.datetiem_format_type_day_of_month=Day of Month
+FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Medium Day of Year
+FormatDateTimePattern.datetiem_format_type_minutes=Minutes
+FormatDateTimePattern.datetiem_format_type_secontds=Seconds
