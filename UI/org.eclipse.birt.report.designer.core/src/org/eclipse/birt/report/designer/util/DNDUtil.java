@@ -77,7 +77,7 @@ public class DNDUtil
 {
 
 	private static Logger logger = Logger.getLogger( DNDUtil.class.getName( ) );
-	
+
 	public static final String TYPE_CUT = "CUT"; //$NON-NLS-1$
 
 	public static final String TYPE_COPY = "COPY"; //$NON-NLS-1$
@@ -370,7 +370,7 @@ public class DNDUtil
 		else if ( transferData instanceof DesignElementHandle
 				|| transferData instanceof IDesignElement )
 		{
-			//fix bug 193019
+			// fix bug 193019
 			if ( transferData instanceof DesignElementHandle
 					&& targetObj instanceof SlotHandle
 					&& ( (DesignElementHandle) transferData ).getContainerSlotHandle( ) == targetObj )
@@ -1134,7 +1134,9 @@ public class DNDUtil
 			// After discussing with Hongchang, fix bug 191202.
 			// When fixing 145964, Hongchang add this line of code
 			if ( ( childHandle.getModuleHandle( ) instanceof LibraryHandle )
-					&& ( !childHandle.getElement( ).getDefn( ).canExtend( ) ) )
+					&& ( !childHandle.getElement( ).getDefn( ).canExtend( ) )
+					&& childHandle.getModuleHandle( ) != targetHandle.getModule( )
+							.getModuleHandle( ) )
 			{
 				return CONTAIN_NO;
 			}
