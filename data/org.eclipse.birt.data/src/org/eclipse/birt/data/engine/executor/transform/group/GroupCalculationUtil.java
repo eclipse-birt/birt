@@ -313,8 +313,8 @@ public class GroupCalculationUtil
 			{
 				sortKeyIndexes[i] = groupDefs[i].getColumnIndex( );
 				sortKeyColumns[i] = groupDefs[i].getColumnName( );
-				sortAscending[i] = true;/*groupDefs[i].getGroupSpec( )
-						.getSortDirection( ) != IQuery.GroupSpec.SORT_DESC;*/
+				sortAscending[i] = groupDefs[i].getGroupSpec( )
+						.getSortDirection( ) != IQuery.GroupSpec.SORT_DESC;
 			}
 		}
 		for ( int i = 0; i < sortCount; i++ )
