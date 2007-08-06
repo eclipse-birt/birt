@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -135,7 +136,8 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 		{
 			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
 			HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
-			if ( conditionHierarchy == hierarchyEditpart.getModel( ) )
+			if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
+					(HierarchyHandle) hierarchyEditpart.getModel( ) ) )
 			{
 				Iterator conditionIter = condition.getJoinConditions( )
 						.iterator( );
