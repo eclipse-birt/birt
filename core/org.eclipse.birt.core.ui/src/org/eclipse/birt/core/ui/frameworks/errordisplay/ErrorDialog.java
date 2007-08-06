@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import org.eclipse.birt.core.ui.utils.UIHelper;
 
 /**
  * ErrorDialog
@@ -90,10 +92,10 @@ public class ErrorDialog implements SelectionListener
 		shell.setSize( DEFAULT_WIDTH, DEFAULT_HEIGHT );
 		shell.setLayout( new FillLayout( ) );
 		// CENTER THE DIALOG ON SCREEN
-		shell.setLocation( ( display.getClientArea( ).width / 2 )
-				- ( shell.getSize( ).x / 2 ),
-				( display.getClientArea( ).height / 2 )
-						- ( shell.getSize( ).y / 2 ) );
+		// Make the dialog always display on primary monitor when display
+		// adapter supports multiple monitors.
+		UIHelper.centerOnScreen( shell );
+		
 		placeComponents( );
 		shell.setDefaultButton( btnOK );
 		shell.open( );

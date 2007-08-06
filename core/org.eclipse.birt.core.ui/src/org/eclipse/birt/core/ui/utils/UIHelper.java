@@ -25,8 +25,10 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -79,13 +81,29 @@ public final class UIHelper
 	 */
 	public static void centerOnScreen( Shell shell )
 	{
-		shell.setLocation( Display.getCurrent( )
-				.getPrimaryMonitor( )
-				.getClientArea( ).width
-				/ 2 - ( shell.getSize( ).x / 2 ), Display.getCurrent( )
-				.getPrimaryMonitor( )
-				.getClientArea( ).height
-				/ 2 - ( shell.getSize( ).y / 2 ) );
+		if ( Display.getCurrent( ).getActiveShell( ) == null )
+		{
+			centerOnMonitor( Display.getCurrent( ).getPrimaryMonitor( ), shell );
+		}
+		else
+		{
+			centerOnMonitor( Display.getCurrent( )
+					.getActiveShell( )
+					.getMonitor( ), shell );
+		}
+	}
+
+	/**
+	 * Center shell on specified monitor.
+	 * 
+	 * @param monitor specified monitor will display shell.
+	 * @param shell the shell to be centered on monitor.
+	 */
+	public static void centerOnMonitor( Monitor monitor, Shell shell) {
+		
+		Rectangle clientArea = monitor.getClientArea();
+		shell.setLocation( clientArea.x + ( clientArea.width / 2 ) - ( shell.getSize( ).x / 2 ),
+				clientArea.y + ( clientArea.height / 2 ) - ( shell.getSize( ).y / 2 ) );
 	}
 
 	/**

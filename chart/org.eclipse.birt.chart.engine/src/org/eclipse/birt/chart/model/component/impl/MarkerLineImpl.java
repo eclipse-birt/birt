@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -653,8 +654,20 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 */
 	public static final MarkerLine create( Axis ax, DataElement de )
 	{
+		return create( ax, de, ColorDefinitionImpl.RED( ) );
+	}
+
+	/**
+	 * A convenience method provided to add a marker line instance to an axis
+	 * 
+	 * @param ax
+	 * @param de
+	 * @param lineColor
+	 */
+	public static final MarkerLine create( Axis ax, DataElement de, ColorDefinition lineColor )
+	{
 		final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine( );
-		ml.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.RED( ),
+		ml.setLineAttributes( LineAttributesImpl.create( lineColor,
 				LineStyle.DASHED_LITERAL,
 				1 ) );
 		ml.setValue( de );
@@ -674,5 +687,4 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		}
 		return ml;
 	}
-
 } // MarkerLineImpl

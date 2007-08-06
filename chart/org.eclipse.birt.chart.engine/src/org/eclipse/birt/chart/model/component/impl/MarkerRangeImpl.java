@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -823,18 +824,35 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	/**
 	 * A convenience method provided to add a marker range instance to an axis
 	 * 
-	 * @param ax
-	 * @param de
+	 * @param ax the axis which the marker range will be created on. 
+	 * @param deStart start range.
+	 * @param deEnd end range.
+	 * @param fillColor fill color.
 	 */
 	public static final MarkerRange create( Axis ax, DataElement deStart,
-			DataElement deEnd, Fill f )
+			DataElement deEnd, Fill fillColor )
+	{
+		return create( ax, deStart, deEnd, fillColor, null );
+	}
+	
+	/**
+	 * A convenience method provided to add a marker range instance to an axis
+	 * 
+	 * @param ax the axis which the marker range will be created on.
+	 * @param deStart start range.
+	 * @param deEnd end range.
+	 * @param fillColor fill color.
+	 * @param outlineColor outline color.
+	 */
+	public static final MarkerRange create( Axis ax, DataElement deStart,
+			DataElement deEnd, Fill fillColor , ColorDefinition outlineColor )
 	{
 		final MarkerRange mr = ComponentFactory.eINSTANCE.createMarkerRange( );
-		final LineAttributes liaOutline = LineAttributesImpl.create( null,
+		final LineAttributes liaOutline = LineAttributesImpl.create( outlineColor,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		mr.setOutline( liaOutline );
-		mr.setFill( f );
+		mr.setFill( fillColor );
 		mr.setStartValue( deStart );
 		mr.setEndValue( deEnd );
 		mr.setLabel( LabelImpl.create( ) );

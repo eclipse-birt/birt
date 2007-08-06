@@ -653,7 +653,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		if ( e.getSource( ).equals( btnAddLine ) )
 		{
 			MarkerLine line = MarkerLineImpl.create( getAxisForProcessing( ),
-					getTypedDataElement( "" ) ); //$NON-NLS-1$
+					getTypedDataElement( "" ), ColorDefinitionImpl.RED( ) ); //$NON-NLS-1$
 			line.eAdapters( ).addAll( getAxisForProcessing( ).eAdapters( ) );
 			iLineCount++;
 			buildList( );
@@ -671,7 +671,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		{
 			MarkerRange range = MarkerRangeImpl.create( getAxisForProcessing( ),
 					getTypedDataElement( "" ), //$NON-NLS-1$
-					getTypedDataElement( "" ), ColorDefinitionImpl.TRANSPARENT( ) ); //$NON-NLS-1$
+					getTypedDataElement( "" ), //$NON-NLS-1$
+					ColorDefinitionImpl.TRANSPARENT( ),
+					ColorDefinitionImpl.RED( ) );
 			range.eAdapters( ).addAll( getAxisForProcessing( ).eAdapters( ) );
 			iRangeCount++;
 			buildList( );
