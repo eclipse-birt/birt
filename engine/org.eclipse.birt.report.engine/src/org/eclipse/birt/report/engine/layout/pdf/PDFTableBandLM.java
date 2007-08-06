@@ -183,14 +183,15 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		return executor;
 	}
 
-	protected boolean canPageBreak( )
+	//support page-break on header band at the first layout.
+	/*protected boolean canPageBreak( )
 	{
 		if(!allowPageBreak())
 		{
 			return false;
 		}
 		return super.canPageBreak( );
-	}
+	}*/
 	
 	protected boolean allowPageBreak( )
 	{

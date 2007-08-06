@@ -113,6 +113,7 @@ public class PDFRender extends PageDeviceRender
 		int y = curPos.y + getY( totalPage );
 		isTotalPage = true;
 		drawTextAt( totalPage, x, y );
+		isTotalPage = false;
 	}
 	
 	/**
