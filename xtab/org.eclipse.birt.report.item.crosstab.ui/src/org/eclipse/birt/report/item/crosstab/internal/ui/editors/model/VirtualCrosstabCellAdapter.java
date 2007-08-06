@@ -113,7 +113,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 					Object temp = objects[i];
 					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
 					{
-						if (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ) || crosstab.getCube( ) == null)
+						if ( (getType( ) == MEASURE_TYPE) && (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ) || crosstab.getCube( ) == null))
 						{
 							continue;
 						}

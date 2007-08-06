@@ -80,7 +80,7 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 			{
 				return false;
 			}
-			if (len == 1)
+			if (len == 1) 
 			{
 				return handleValidate( objects[0] );
 			}
