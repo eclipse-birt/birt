@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 
 /**
  * The default cell adapter
@@ -92,7 +91,8 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 					Object temp = objects[i];
 					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
 					{
-						if (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ))
+						if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) &&
+								crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ))
 						{
 							continue;
 						}
