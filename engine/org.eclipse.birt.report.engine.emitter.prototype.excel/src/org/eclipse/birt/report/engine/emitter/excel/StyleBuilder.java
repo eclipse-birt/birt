@@ -106,15 +106,15 @@ public class StyleBuilder
 								new String[]{"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.FONT_WEIGHT_PROP, ExcelUtil
-				.expression( style.getFontStyle( ), "bold", new String[]{"0",
+				.expression( style.getFontWeight( ), "bold", new String[]{"0",
 						"1"}, false ) );
 
 		entry.setProperty( StyleConstant.TEXT_LINE_THROUGH_PROP, ExcelUtil
-				.expression( style.getFontStyle( ), "line-through",
+				.expression( style.getTextLineThrough( ), "line-through",
 						new String[]{"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, ExcelUtil
-				.expression( style.getFontStyle( ), "underline", new String[]{
+				.expression( style.getTextUnderline( ), "underline", new String[]{
 						"0", "1"}, false ) );
 
 		entry.setProperty( StyleConstant.H_ALIGN_PROP, convertHAlign( style
