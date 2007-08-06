@@ -90,41 +90,43 @@ public class SetConstraintCommand extends Command
 			{
 				int width = newSize.width;
 				int height = newSize.height;
+				DimensionValue dimensionValue;
 
-				if ( width <= 0 )
+				if ( width >= 0 )
 				{
-					width = 1;
+					dimensionValue = new DimensionValue( width <= 0 ? 1 : width,
+							DesignChoiceConstants.UNITS_PX );
+
+					model.getWidth( ).setValue( dimensionValue );
 				}
-				if ( height <= 0 )
+				if ( height >= 0 )
 				{
-					height = 1;
+					dimensionValue = new DimensionValue( height <= 0 ? 1
+							: height, DesignChoiceConstants.UNITS_PX );
+
+					model.getHeight( ).setValue( dimensionValue );
 				}
-				DimensionValue dimensionValue = new DimensionValue( width,
-						DesignChoiceConstants.UNITS_PX );
-				model.getWidth( ).setValue( dimensionValue );
-				dimensionValue = new DimensionValue( height,
-						DesignChoiceConstants.UNITS_PX );
-				model.getHeight( ).setValue( dimensionValue );
 			}
 			else
 			{
 				double width = MetricUtility.pixelToPixelInch( newSize.width );
 				double height = MetricUtility.pixelToPixelInch( newSize.height );
+				DimensionValue dimensionValue;
 
-				if ( width <= 0 )
+				if ( width >= 0 )
 				{
-					width = 0.1;
+					dimensionValue = new DimensionValue( width <= 0 ? 0.1
+							: width, DesignChoiceConstants.UNITS_IN );
+
+					model.getWidth( ).setValue( dimensionValue );
 				}
 				if ( height <= 0 )
 				{
-					height = 0.1;
+					dimensionValue = new DimensionValue( height <= 0 ? 0.1
+							: height, DesignChoiceConstants.UNITS_IN );
+
+					model.getHeight( ).setValue( dimensionValue );
 				}
-				DimensionValue dimensionValue = new DimensionValue( width,
-						DesignChoiceConstants.UNITS_IN );
-				model.getWidth( ).setValue( dimensionValue );
-				dimensionValue = new DimensionValue( height,
-						DesignChoiceConstants.UNITS_IN );
-				model.getHeight( ).setValue( dimensionValue );
 			}
 			stack.commit( );
 			if ( DesignerConstants.TRACING_COMMANDS )

@@ -602,8 +602,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					getRow( rowCount ) ).setHeight( lastRowHeight );
 		}
 
-		setSize( new Dimension( samColumnWidth + lastColumnWidth, samRowHeight
-				+ lastRowHeight ).expand( tableHelper.getInsets( ).getWidth( ),
+		setSize( new Dimension( size.width < 0 ? -1 : samColumnWidth +
+				lastColumnWidth, size.height < 0 ? -1 : samRowHeight +
+				lastRowHeight ).expand( tableHelper.getInsets( ).getWidth( ),
 				tableHelper.getInsets( ).getHeight( ) ) );
 	}
 

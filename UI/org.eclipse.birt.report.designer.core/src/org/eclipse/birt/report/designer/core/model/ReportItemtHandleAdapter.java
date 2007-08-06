@@ -125,15 +125,27 @@ public abstract class ReportItemtHandleAdapter extends
 	 */
 	public void setSize( Dimension size ) throws SemanticException
 	{
-		double width = MetricUtility.pixelToPixelInch( size.width );
-		DimensionValue dimensionValue = new DimensionValue( width,
-				DesignChoiceConstants.UNITS_IN );
-		getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+		DimensionValue dimensionValue;
 
-		double height = MetricUtility.pixelToPixelInch( size.height );
-		dimensionValue = new DimensionValue( height,
-				DesignChoiceConstants.UNITS_IN );
-		getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
+		if ( size.width >= 0 )
+		{
+			double width = MetricUtility.pixelToPixelInch( size.width );
+
+			dimensionValue = new DimensionValue( width,
+					DesignChoiceConstants.UNITS_IN );
+
+			getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+		}
+
+		if ( size.height >= 0 )
+		{
+			double height = MetricUtility.pixelToPixelInch( size.height );
+
+			dimensionValue = new DimensionValue( height,
+					DesignChoiceConstants.UNITS_IN );
+
+			getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
+		}
 	}
 
 	/**

@@ -135,11 +135,16 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 
 	public void setSize( Dimension size ) throws SemanticException
 	{
-		String w = size.width + DesignChoiceConstants.UNITS_PX;
-		String h = size.height + DesignChoiceConstants.UNITS_PX;
-
-		getImageHandle( ).setWidth( w );
-		getImageHandle( ).setHeight( h );
+		if ( size.width >= 0 )
+		{
+			getImageHandle( ).setWidth( size.width +
+					DesignChoiceConstants.UNITS_PX );
+		}
+		if ( size.height >= 0 )
+		{
+			getImageHandle( ).setHeight( size.height +
+					DesignChoiceConstants.UNITS_PX );
+		}
 	}
 
 }

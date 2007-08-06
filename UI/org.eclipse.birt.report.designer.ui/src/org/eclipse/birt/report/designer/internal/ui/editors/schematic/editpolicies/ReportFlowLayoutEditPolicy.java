@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.Polyline;
+import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transposer;
@@ -268,7 +270,22 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		SetConstraintCommand command = new SetConstraintCommand( );
 
 		command.setModel( handle );
-		command.setSize( ( (Rectangle) constraintFor ).getSize( ) );
+
+		int direction = request.getResizeDirection( );
+		Dimension size = new Dimension( ( (Rectangle) constraintFor ).getSize( ) );
+
+		if ( direction == PositionConstants.EAST ||
+				direction == PositionConstants.WEST )
+		{
+			size.height = -1;
+		}
+		else if ( direction == PositionConstants.SOUTH ||
+				direction == PositionConstants.NORTH )
+		{
+			size.width = -1;
+		}
+
+		command.setSize( size );
 
 		return command;
 	}
