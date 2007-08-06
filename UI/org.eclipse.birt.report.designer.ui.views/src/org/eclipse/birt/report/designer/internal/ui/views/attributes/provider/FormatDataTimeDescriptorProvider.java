@@ -2,8 +2,10 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -22,6 +24,8 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TableItem;
 
 public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 {
@@ -123,6 +127,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 
 	public String[][] getTableItems( )
 	{
+		List itemList = new ArrayList( );
 		String[][] items = new String[][]{
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
@@ -160,7 +165,17 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).getFormatCode( )
 				}
 		};
-		return items;
+		itemList.addAll( Arrays.asList( items ) );
+		String[] customPatterns = FormatDateTimePattern.getCustormPatternCategorys( );
+		for ( int i = 0; i < customPatterns.length; i++ )
+		{
+			itemList.add( new String[]{
+					FormatDateTimePattern.getDisplayName4CustomCategory( customPatterns[i] ),
+					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] ) ).format( defaultDate ),
+					FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] )
+			} );
+		}
+		return (String[][])itemList.toArray( new String[0][3] );
 	}
 
 	public String getCategory4UIDisplayName( String displayName )

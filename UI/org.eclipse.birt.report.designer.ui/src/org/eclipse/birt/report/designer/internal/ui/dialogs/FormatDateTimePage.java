@@ -1057,6 +1057,16 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 					new DateFormatter( FormatDateTimePattern.getPatternForCategory( simpleFormatTypes[i] ) ).getFormatCode( )
 			} );
 		}
+		String[] customPatternCategorys = FormatDateTimePattern.getCustormPatternCategorys( );
+		for ( int i = 0; i < customPatternCategorys.length; i++ )
+		{
+			new TableItem( table, SWT.NONE ).setText( new String[]{
+					FormatDateTimePattern.getDisplayName4CustomCategory( customPatternCategorys[i] ),
+					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatternCategorys[i] ) ).format( defaultDate ),
+					FormatDateTimePattern.getCustormFormatPattern( customPatternCategorys[i] )
+			} );
+		}
+
 	}
 
 	private GridLayout createGridLayout4Page( )

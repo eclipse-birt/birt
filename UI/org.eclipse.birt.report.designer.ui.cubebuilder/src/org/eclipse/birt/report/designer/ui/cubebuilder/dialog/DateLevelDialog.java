@@ -2,8 +2,11 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -11,6 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -36,12 +40,133 @@ import org.eclipse.swt.widgets.Text;
 public class DateLevelDialog extends TitleAreaDialog
 {
 
+	private static final String NONE = Messages.getString( "DateLevelDialog.None" );
 	private Text nameText;
 	private Combo typeCombo;
-	//private Text intervalRange;
-	//private Button intervalBaseButton;
-	//private Text intervalBaseText;
 	private TabularLevelHandle input;
+
+	private static HashMap formatMap = new HashMap( );
+	static
+	{
+		Date defaultDate = new Date( );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR,
+				new String[][]{
+						{
+								new DateFormatter( "yyyy" ).format( defaultDate ),
+								"yyyy"
+						},
+						{
+								new DateFormatter( "yy" ).format( defaultDate ),
+								"yy"
+						}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
+				new String[][]{
+						{
+								new DateFormatter( "MMMM" ).format( defaultDate ),
+								"MMMM"
+						},
+						{
+								new DateFormatter( "MMM yyyy" ).format( defaultDate ),
+								"MMM yyyy"
+						},
+						{
+								new DateFormatter( "MMM yy" ).format( defaultDate ),
+								"MMM yy"
+						}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR,
+				new String[][]{
+						{
+								new DateFormatter( "MMMM dd, yyyy" ).format( defaultDate ),
+								"MMMM dd, yyyy"
+						},
+						{
+								new DateFormatter( "MMMM dd, yy" ).format( defaultDate ),
+								"MMMM dd, yy"
+						}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH,
+				new String[][]{
+					{
+							new DateFormatter( "dd" ).format( defaultDate ),
+							"dd"
+					}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK,
+				new String[][]{
+					{
+							new DateFormatter( "EEEE" ).format( defaultDate ),
+							"EEEE"
+					}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR,
+				new String[][]{
+						{
+								new DateFormatter( "HH:mm:ss aaa" ).format( defaultDate ),
+								"HH:mm:ss aaa"
+						},
+						{
+								new DateFormatter( "HH:mm:ss" ).format( defaultDate ),
+								"HH:mm:ss"
+						},
+						{
+								new DateFormatter( "HH:mm" ).format( defaultDate ),
+								"HH:mm"
+						}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE,
+				new String[][]{
+					{
+							new DateFormatter( "mm" ).format( defaultDate ),
+							"mm"
+					}
+				} );
+		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND,
+				new String[][]{
+					{
+							new DateFormatter( "ss" ).format( defaultDate ),
+							"ss"
+					}
+				} );
+	};
+
+	private String[] getFormatDisplayItems( String type )
+	{
+		String[][] formatPattern = (String[][]) formatMap.get( type );
+		if ( formatPattern == null )
+			return new String[0];
+		String[] items = new String[formatPattern.length];
+		for ( int i = 0; i < items.length; i++ )
+		{
+			items[i] = formatPattern[i][0];
+		}
+		return items;
+	}
+
+	private String[] getFormatPatternItems( String type )
+	{
+		String[][] formatPattern = (String[][]) formatMap.get( type );
+		String[] items = new String[formatPattern.length];
+		for ( int i = 0; i < items.length; i++ )
+		{
+			items[i] = formatPattern[i][1];
+		}
+		return items;
+	}
+
+	private String getDateFormatDisplayName( String dateType, String pattern )
+	{
+		String[][] formatPattern = (String[][]) formatMap.get( dateType );
+		if ( pattern == null )
+			return NONE;
+		for ( int i = 0; i < formatPattern.length; i++ )
+		{
+			if ( pattern.equals( formatPattern[i][1] ) )
+				return formatPattern[i][0];
+		}
+		return NONE;
+	}
 
 	public DateLevelDialog( )
 	{
@@ -58,8 +183,9 @@ public class DateLevelDialog extends TitleAreaDialog
 			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
 			.getAllowedChoices( )
 			.getChoices( );
-	//private Button noneIntervalButton;
-	//private Button intervalButton;
+	// private Button noneIntervalButton;
+	// private Button intervalButton;
+	private Combo formatCombo;
 
 	private List getDateTypeNames( )
 	{
@@ -113,9 +239,9 @@ public class DateLevelDialog extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG ); //$NON-NLS-1$
-		setTitle( Messages.getString("DateLevelDialog.Title") ); //$NON-NLS-1$
-		getShell( ).setText( Messages.getString("DateLevelDialog.Shell.Title") ); //$NON-NLS-1$
-		setMessage( Messages.getString("DateLevelDialog.Message") ); //$NON-NLS-1$
+		setTitle( Messages.getString( "DateLevelDialog.Title" ) ); //$NON-NLS-1$
+		getShell( ).setText( Messages.getString( "DateLevelDialog.Shell.Title" ) ); //$NON-NLS-1$
+		setMessage( Messages.getString( "DateLevelDialog.Message" ) ); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea( parent );
 
@@ -125,7 +251,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		contents.setLayout( layout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.widthHint = convertWidthInCharsToPixels( 80 );
-		//data.heightHint = 200;
+		// data.heightHint = 200;
 		contents.setLayoutData( data );
 
 		createContentArea( contents );
@@ -144,36 +270,11 @@ public class DateLevelDialog extends TitleAreaDialog
 		nameText.setText( input.getName( ) );
 		typeCombo.setItems( getAvailableDateTypeDisplayNames( ) );
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
-		/*
-		PropertyHandle property = input.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
-		String range = property == null ? null : property.getStringValue( );
-		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
-		int width = intervalRange.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		( (GridData) intervalRange.getLayoutData( ) ).widthHint = width < 60 ? 60
-				: width;
-		String interval = input.getInterval( );
-		if ( interval == null
-				|| interval.equals( DesignChoiceConstants.INTERVAL_TYPE_NONE ) )
-		{
-			updateRadioButtonStatus( noneIntervalButton );
-		}
-		else if ( interval.equals( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL ) )
-			updateRadioButtonStatus( intervalButton );
-		
-		
-		if ( !noneIntervalButton.getSelection( ) )
-		{
-			intervalRange.setEnabled( true );
-			intervalBaseButton.setEnabled( true );
-			intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
-			intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-			if ( input.getIntervalBase( ) != null )
-			{
-				intervalBaseText.setText( input.getIntervalBase( ) );
-			}
-		}
-		*/
-
+		formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
+				.toString( ) ) );
+		formatCombo.add( NONE );
+		formatCombo.setText( getDateFormatDisplayName( input.getDateTimeLevelType( ),
+				input.getDateTimeFormat( ) ) );
 	}
 
 	private void createContentArea( Composite parent )
@@ -183,7 +284,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		content.setLayout( layout );
-		new Label( content, SWT.NONE ).setText( Messages.getString("DateLevelDialog.Name") ); //$NON-NLS-1$
+		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( content, SWT.BORDER );
 		nameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		nameText.addModifyListener( new ModifyListener( ) {
@@ -195,7 +296,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 		} );
 
-		new Label( content, SWT.NONE ).setText( Messages.getString("DateLevelDialog.Type") ); //$NON-NLS-1$
+		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Type" ) ); //$NON-NLS-1$
 		typeCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
 		typeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		typeCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -203,128 +304,35 @@ public class DateLevelDialog extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				checkOkButtonStatus( );
+				formatCombo.setItems( new String[0] );
+				formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
+						.toString( ) ) );
+				formatCombo.add( NONE );
+				formatCombo.select( 0 );
 			}
 
 		} );
 
-		/*
-		Group groupGroup = new Group( content, SWT.NONE );
-		layout = new GridLayout( );
-		layout.numColumns = 3;
-		groupGroup.setLayout( layout );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		groupGroup.setLayoutData( gd );
-		
-		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.GroupBy" ) ); //$NON-NLS-1$
-
-		noneIntervalButton = new Button( groupGroup, SWT.RADIO );
-		noneIntervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.None" ) ); //$NON-NLS-1$
-		noneIntervalButton.addSelectionListener( new SelectionAdapter( ) {
+		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.Format" ) ); //$NON-NLS-1$
+		formatCombo = new Combo( content, SWT.BORDER | SWT.READ_ONLY );
+		formatCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				updateRadioButtonStatus( noneIntervalButton );
+				checkOkButtonStatus( );
 			}
+
 		} );
-		intervalButton = new Button( groupGroup, SWT.RADIO );
-		intervalButton.setText( Messages.getString( "LevelPropertyDialog.Button.Interval" ) ); //$NON-NLS-1$
-		intervalButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				updateRadioButtonStatus( intervalButton );
-			}
-		} );
-		
-		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.Label.Range" ) ); //$NON-NLS-1$
-
-		intervalRange = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
-		intervalRange.setLayoutData( new GridData( ) );
-		intervalRange.addVerifyListener( new VerifyListener( ) {
-
-			public void verifyText( VerifyEvent event )
-			{
-				if ( event.text.length( ) <= 0 )
-				{
-					return;
-				}
-
-				int beginIndex = Math.min( event.start, event.end );
-				int endIndex = Math.max( event.start, event.end );
-				String inputtedText = intervalRange.getText( );
-				String newString = inputtedText.substring( 0, beginIndex );
-
-				newString += event.text;
-				newString += inputtedText.substring( endIndex );
-
-				event.doit = false;
-
-				try
-				{
-					double value = Double.parseDouble( newString );
-
-					if ( value >= 0 )
-					{
-						event.doit = true;
-					}
-				}
-				catch ( NumberFormatException e )
-				{
-					return;
-				}
-			}
-		} );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		intervalRange.setLayoutData( gd );
-
-		intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		intervalBaseButton.setText( Messages.getString("DateLevelDialog.Interval.Base") );  //$NON-NLS-1$
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
-		intervalBaseButton.setLayoutData( gd );
-		intervalBaseButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-			}
-		} );
-
-		intervalBaseText = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
-		intervalBaseText.setLayoutData( gd );
-		*/
 	}
-
-	/*
-	protected void updateRadioButtonStatus( Button button )
-	{
-		if ( button == noneIntervalButton )
-		{
-			noneIntervalButton.setSelection( true );
-			intervalButton.setSelection( false );
-		}
-		else if ( button == intervalButton )
-		{
-			noneIntervalButton.setSelection( false );
-			intervalButton.setSelection( true );
-		}
-		intervalRange.setEnabled( !noneIntervalButton.getSelection( ) );
-		intervalBaseButton.setEnabled( !noneIntervalButton.getSelection( ) );
-		intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
-				&& intervalBaseButton.getSelection( ) );
-	}
-	*/
 
 	protected void checkOkButtonStatus( )
 	{
 
 		if ( nameText.getText( ) == null
 				|| nameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
-				|| typeCombo.getSelectionIndex( ) == -1 )
+				|| typeCombo.getSelectionIndex( ) == -1
+				|| formatCombo.getSelectionIndex( ) == -1 )
 		{
 			if ( getButton( IDialogConstants.OK_ID ) != null )
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
@@ -351,32 +359,29 @@ public class DateLevelDialog extends TitleAreaDialog
 				input.setDateTimeLevelType( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
 						.toString( ) );
 			}
-			
+			if ( formatCombo.getText( ) != null )
+			{
+				if ( formatCombo.getText( ).equals( NONE ) )
+					input.setDateTimeFormat( null );
+				else
+					input.setDateTimeFormat( getFormatPatternItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
+							.toString( ) )[formatCombo.getSelectionIndex( )] );
+			}
+
 			/*
-			if ( noneIntervalButton.getSelection( ) )
-				input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_NONE );
-			else if ( intervalButton.getSelection( ) )
-				input.setInterval( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL );
-
-			if ( !noneIntervalButton.getSelection( ) )
-			{
-				input.setIntervalRange( intervalRange.getText( ) );
-			}
-			else
-			{
-				input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
-			}
-
-			if ( intervalBaseText.getEnabled( ) )
-			{
-				input.setIntervalBase( UIUtil.convertToModelString( intervalBaseText.getText( ),
-						false ) );
-			}
-			else
-			{
-				input.setIntervalBase( null );
-			}
-			*/
+			 * if ( noneIntervalButton.getSelection( ) ) input.setInterval(
+			 * DesignChoiceConstants.INTERVAL_TYPE_NONE ); else if (
+			 * intervalButton.getSelection( ) ) input.setInterval(
+			 * DesignChoiceConstants.INTERVAL_TYPE_INTERVAL );
+			 * 
+			 * if ( !noneIntervalButton.getSelection( ) ) {
+			 * input.setIntervalRange( intervalRange.getText( ) ); } else {
+			 * input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null ); }
+			 * 
+			 * if ( intervalBaseText.getEnabled( ) ) { input.setIntervalBase(
+			 * UIUtil.convertToModelString( intervalBaseText.getText( ), false ) ); }
+			 * else { input.setIntervalBase( null ); }
+			 */
 		}
 		catch ( Exception e )
 		{
