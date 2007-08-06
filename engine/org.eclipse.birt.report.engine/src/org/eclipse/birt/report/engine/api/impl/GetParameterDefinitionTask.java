@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004,2007 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -473,7 +473,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						.getSharedScope( ) );
 				IResultIterator iter = result.getResultIterator( );
 				int count = 0;
-				Map checkPool = new HashMap( );
+				Set checkPool = new HashSet( );
 				while ( iter.next( ) )
 				{
 					String label = null;
@@ -488,9 +488,9 @@ public class GetParameterDefinitionTask extends EngineTask
 					// skip duplicated values.
 					if ( isDistinct )
 					{
-						if ( !checkPool.containsKey( value ) )
+						if ( !checkPool.contains( value ) )
 						{
-							checkPool.put( value, value );
+							checkPool.add( value );
 							choices.add( new SelectionChoice( label, value ) );
 							count++;
 						}
@@ -615,10 +615,6 @@ public class GetParameterDefinitionTask extends EngineTask
 							IBinding labelBinding = new Binding( keyLabel, labelExpObject );
 							queryDefn.addBinding( labelBinding );
 						}
-
-						GroupDefinition groupDef = new GroupDefinition( null );
-						groupDef.setKeyExpression( valueExpString );
-						queryDefn.addGroup( groupDef );
 					}
 				}
 
@@ -710,37 +706,56 @@ public class GetParameterDefinitionTask extends EngineTask
 				return Collections.EMPTY_LIST;
 			}
 		}
+		
+		// get the group's value name and data type if the parameter in one or
+		// more groups.
+		SlotHandle parameterSlots = parameterGroup.getParameters( );
+		String[] groupValueNames = new String[groupKeyValues.length];
+		String[] groupTypes = new String[groupKeyValues.length];
+		for ( int i = 0; i < groupKeyValues.length; i++ )
+		{
+			ScalarParameterHandle tempParameter = (ScalarParameterHandle) parameterSlots
+					.get( i );
+			if ( tempParameter == parameter )
+			{
+				break;
+			}
+			groupValueNames[i] = VALUE_PREFIX + parameterGroupName + "_"
+					+ tempParameter.getName( );
+			groupTypes[i] = tempParameter.getDataType( );
+		}
 
 		String labelColumnName = LABEL_PREFIX + parameterGroupName + "_" + parameter.getName( );
 		String valueColumnName = VALUE_PREFIX + parameterGroupName + "_" + parameter.getName( );
 			
 		int listLimit = parameter.getListlimit( );
 		ArrayList choices = new ArrayList( );
-		int skipLevel = groupKeyValues.length + 1;
 		try
 		{
-			if ( skipLevel > 1 )
-				iter.findGroup( groupKeyValues );
-
-			int startGroupLevel = skipLevel - 1;
 			int count = 0;
+			
+			Set checkPool = new HashSet( );
 			while ( iter.next( ) )
 			{
-				// startGroupLevel = iter.getStartingGroupLevel();
 				String label = (  labelColumnBindingNames.contains( labelColumnName )
 						? iter.getString( labelColumnName )
 						: null );
 				Object value = iter.getValue( valueColumnName );
 				value = convertToType( value, paramDataType );
-				choices.add( new SelectionChoice( label, value ) );
-				count++;
+
+				// skip duplicated values.
+				if ( !checkPool.contains( value ) )
+				{
+					boolean isInGroup = checkInGroup( groupKeyValues,
+							groupValueNames, groupTypes, iter );
+					if ( isInGroup )
+					{
+						checkPool.add( value );
+						choices.add( new SelectionChoice( label, value ) );
+						count++;
+					}
+				}
 				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
-					break;
-
-				iter.skipToEnd( skipLevel );
-
-				int endGroupLevel = iter.getEndingGroupLevel( );
-				if ( endGroupLevel <= startGroupLevel )
 				{
 					break;
 				}
@@ -754,6 +769,33 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( !parameter.isFixedOrder( ) )
 			Collections.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
 		return choices;
+	}
+	
+	/**
+	 * Check if the 
+	 * @param groupKeyValues
+	 * @param groupValueNames
+	 * @param groupTypes
+	 * @param iter
+	 * @return
+	 * @throws BirtException
+	 */
+	private boolean checkInGroup( Object[] groupKeyValues,
+			String[] groupValueNames, String[] groupTypes, IResultIterator iter )
+			throws BirtException
+	{
+		for ( int i = 0; i < groupValueNames.length; i++ )
+		{
+			Object valueParent = iter.getValue( groupValueNames[i] );
+			valueParent = convertToType( valueParent, groupTypes[i] );
+			if ( ( valueParent == null && valueParent == groupKeyValues[i] )
+					|| ( valueParent != null && !valueParent
+							.equals( groupKeyValues[i] ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private CascadingParameterGroupHandle getCascadingParameterGroup(
