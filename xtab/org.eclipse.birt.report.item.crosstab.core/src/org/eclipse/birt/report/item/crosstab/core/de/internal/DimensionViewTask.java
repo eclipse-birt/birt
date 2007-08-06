@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
 /**
@@ -596,8 +597,11 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				String levelName = getLevelHandle( levelDefn );
 				tempMember.setStringProperty( MemberValueHandle.LEVEL_PROP,
 						levelName );
+				Object levelValue = levelValueMap.get( levelName );
+				if ( levelValue == null )
+					continue;
 				tempMember.setProperty( MemberValueHandle.VALUE_PROP,
-						levelValueMap.get( levelName ) );
+						levelValue );
 				if ( parentMember != null )
 				{
 					parentMember.add( MemberValueHandle.MEMBER_VALUES_PROP,
@@ -611,7 +615,24 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		// clear the old member value and add the new one
 		item.clearProperty( memberValuePropName );
+		if ( !isEmptyMemberValue( newMemberValue ))
 		item.add( memberValuePropName, newMemberValue );
+	}
+
+	private boolean isEmptyMemberValue( MemberValueHandle memberValue )
+	{
+		assert memberValue != null;
+
+		String levelName = memberValue
+				.getStringProperty( MemberValueHandle.LEVEL_PROP );
+		if ( levelName != null && levelName.length( ) > 0 )
+			return false;
+		MemberValueHandle tempMember = (MemberValueHandle) memberValue
+				.getContent( MemberValueHandle.MEMBER_VALUES_PROP, 0 );
+		if ( tempMember != null && !isEmptyMemberValue( tempMember ) )
+			return false;
+		return true;
+
 	}
 
 	/**
