@@ -128,6 +128,8 @@ DateLevelDialog.Interval.Base=간격에 고정된 기본값 사용:
 DateGroupDialog.Name=이름:
 DateLevelDialog.Name=이름:
 DateLevelDialog.Type=유형:
+DateLevelDialog.Format=Format:
+DateLevelDialog.None=없음
 FilterListDialog.Shell.Title=필터
 
 ############################################################
