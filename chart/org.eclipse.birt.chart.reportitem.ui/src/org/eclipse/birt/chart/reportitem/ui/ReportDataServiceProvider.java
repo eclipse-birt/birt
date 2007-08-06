@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,6 +66,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.Collator;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -617,15 +620,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return null;
 		}
+
+		// Find data types from column bindings first
 		Iterator iterator = itemHandle.columnBindingsIterator( );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
-			if ( ChartUIUtil.getExpressionString( cc.getName( ) )
-					.equals( expression ) )
+			if ( expression.toUpperCase( )
+					.indexOf( cc.getName( ).toUpperCase( ) ) >= 0 )
 			{
 				String dataType = cc.getDataType( );
-				if (  dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
 				{
 					return DataType.TEXT_LITERAL;
 				}
@@ -637,7 +642,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					return DataType.NUMERIC_LITERAL;
 				}
 				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) 
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
 				{
 					return DataType.DATE_TIME_LITERAL;
@@ -648,6 +653,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
-		return null;		
+
+		// Try to parse with number format
+		try
+		{
+			NumberFormat.getInstance( ).parse( expression );
+			return DataType.NUMERIC_LITERAL;
+		}
+		catch ( ParseException e )
+		{
+		}
+
+		// Try to parse with date format
+		try
+		{
+			DateFormat.getInstance( ).parse( expression );
+			return DataType.DATE_TIME_LITERAL;
+		}
+		catch ( ParseException e )
+		{
+		}
+		// Return Text by default
+		return DataType.TEXT_LITERAL;
 	}
 }
