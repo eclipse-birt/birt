@@ -66,7 +66,7 @@ public class DataCache
 
 	public void addData( int col, Object data )
 	{
-System.out.println("add data col = " + col);		
+	
 		( (List) columns.get( col ) ).add( data );
 	}
 
@@ -108,7 +108,7 @@ System.out.println("add data col = " + col);
 	
 	public Object getData(int col, int row)
 	{
-System.out.println("Get Data = [" + col + "," + row + "]");		
+	
 		int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
 		
 		if(row < start)
