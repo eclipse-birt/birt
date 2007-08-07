@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <cubes>
+        <tabular-cube name="Customer Cube" id="88">
+            <property name="defaultMeasureGroup">Summary Field</property>
+            <property name="dimensions">
+                <tabular-dimension name="orderDate" id="11">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="12">
+                            <property name="levels">
+                                <tabular-level name="year" id="13">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">ORDERDATE</property>
+                                </tabular-level>
+                                <tabular-level name="quarter" id="14">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">quarter</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">ORDERDATE</property>
+                                </tabular-level>
+                                <tabular-level name="month" id="15">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">ORDERDATE</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">salesDataCube.dsOrders</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="product" id="16">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy11" id="17">
+                            <property name="levels">
+                                <tabular-level name="PRODUCTLINE" id="18">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">PRODUCTLINE</property>
+                                </tabular-level>
+                                <tabular-level name="PRODUCTNAME" id="22">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">PRODUCTCODE</property>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">PRODUCTNAME</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">salesDataCube.dsProducts</property>
+                        </tabular-hierarchy>
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="114">
+                            <property name="levels">
+                                <tabular-level name="PRODUCTNAME1" id="115">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">PRODUCTCODE</property>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">PRODUCTNAME</property>
+                                </tabular-level>
+                                <tabular-level name="PRODUCTLINE1" id="116">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">PRODUCTLINE</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">salesDataCube.dsProducts</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="customerRegion" id="60">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy21" id="61">
+                            <property name="levels">
+                                <tabular-level name="COUNTRY" id="62">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">COUNTRY</property>
+                                </tabular-level>
+                                <tabular-level name="STATE" id="63">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">STATE</property>
+                                </tabular-level>
+                                <tabular-level name="CITY" id="64">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">CITY</property>
+                                </tabular-level>
+                                <tabular-level name="CUSTOMERNUMBER" id="65">
+                                    <property name="dataType">integer</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">CUSTOMERNUMBER</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">salesDataCube.dsCustomers</property>
+                        </tabular-hierarchy>
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="117">
+                            <property name="levels">
+                                <tabular-level name="COUNTRY1" id="118">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">COUNTRY</property>
+                                </tabular-level>
+                                <tabular-level name="STATE1" id="119">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">STATE</property>
+                                </tabular-level>
+                                <tabular-level name="CITY1" id="120">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">CITY</property>
+                                </tabular-level>
+                                <tabular-level name="CUSTOMERNUMBER1" id="121">
+                                    <property name="dataType">integer</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">CUSTOMERNUMBER</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">salesDataCube.dsCustomers</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="23">
+                    <property name="measures">
+                        <tabular-measure name="ORDERTOTAL" id="24">
+                            <property name="function">sum</property>
+                            <expression name="measureExpression">dataSetRow["ORDERTOTAL"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                        <tabular-measure name="QUANTITYORDERED" id="25">
+                            <property name="function">sum</property>
+                            <expression name="measureExpression">dataSetRow["QUANTITYORDERED"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">salesDataCube.dsOrders</property>
+            <list-property name="dimensionConditions">
+                <structure>
+                    <list-property name="joinConditions">
+                        <structure>
+                            <property name="cubeKey">PRODUCTCODE</property>
+                            <property name="hierarchyKey">PRODUCTCODE</property>
+                            <property name="level">product/PRODUCTNAME1</property>
+                        </structure>
+                    </list-property>
+                    <property name="hierarchy">NewTabularHierarchy1</property>
+                </structure>
+                <structure>
+                    <list-property name="joinConditions">
+                        <structure>
+                            <property name="cubeKey">CUSTOMERNUMBER</property>
+                            <property name="hierarchyKey">CUSTOMERNUMBER</property>
+                        </structure>
+                    </list-property>
+                    <property name="hierarchy">NewTabularHierarchy2</property>
+                </structure>
+            </list-property>
+        </tabular-cube>
+    </cubes>
+    <body>
+        <extended-item extensionName="Crosstab" id="89">
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="100">
+                    <property name="measure">ORDERTOTAL</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="101">
+                            <property name="content">
+                                <data name="ORDERTOTAL" id="103">
+                                    <property name="resultSetColumn">ORDERTOTAL</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="102">
+                            <property name="content">
+                                <label id="104">
+                                    <text-property name="text">ORDERTOTAL</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="90">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="91">
+                            <property name="dimension">orderDate</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="92">
+                                    <property name="level">orderDate/year</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="93">
+                                            <property name="content">
+                                                <data name="year" id="94">
+                                                    <property name="resultSetColumn">year</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="108">
+                                    <property name="level">orderDate/quarter</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="109">
+                                            <property name="content">
+                                                <data name="quarter" id="110">
+                                                    <property name="resultSetColumn">quarter</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View4" id="111">
+                                    <property name="level">orderDate/month</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="112">
+                                            <property name="content">
+                                                <data name="month" id="113">
+                                                    <property name="resultSetColumn">month</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="95">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="96">
+                            <property name="dimension">product</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="97">
+                                    <property name="level">product/PRODUCTLINE</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="98">
+                                            <property name="content">
+                                                <data name="PRODUCTLINE" id="99">
+                                                    <property name="resultSetColumn">PRODUCTLINE</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="105">
+                                    <property name="level">product/PRODUCTNAME</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="106">
+                                            <property name="content">
+                                                <data name="PRODUCTNAME" id="107">
+                                                    <property name="resultSetColumn">PRODUCTNAME</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="cube">Customer Cube</property>
+        </extended-item>
+    </body>
+</report>

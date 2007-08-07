@@ -316,14 +316,38 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( context.contains( targetDesign, tmpElement ) )
 			return;
 
-		// targetDesign.makeUniqueName( tmpElement );
-
-		context.add( targetDesign, tmpElement );
-
-		// work on unique name and name space.
-
+		addElement( targetDesign, context, tmpElement );
 		targetDesign.manageId( tmpElement, true );
-		addElement2NameSpace( tmpElement );
+	}
+
+	/**
+	 * Adds an element to the context. This method will handle container
+	 * relationship, element name and element id for the inserted content and
+	 * all its children.
+	 * 
+	 * @param module
+	 * @param context
+	 * @param content
+	 */
+	private void addElement( Module module, ContainerContext context,
+			DesignElement content )
+	{
+		assert context != null;
+		assert content != null;
+
+		// first construct the container relationship
+		context.add( module, content );
+		
+		// manage element name: the inserted content and all its children
+		if ( context.isManagedByNameSpace( ) )
+			module.rename( context.getElement( ), content );
+		addElement2NameSpace( content );
+		ContentIterator iter = new ContentIterator( module, content );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement child = (DesignElement) iter.next( );
+			addElement2NameSpace( child );
+		}
 	}
 
 	/**
@@ -342,8 +366,16 @@ public class ReportDesignSerializer extends ElementVisitor
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( element.getName( ) != null
 				&& ns != MetaDataConstants.NO_NAME_SPACE )
-			new NameExecutor( element ).getNameSpace( targetDesign ).insert(
-					element );
+		{
+			NameSpace namespace = new NameExecutor( element )
+					.getNameSpace( targetDesign );
+			if ( namespace != null )
+			{
+				if ( namespace.contains( element.getName( ) ) )
+					throw new RuntimeException( "element name is not unique" ); //$NON-NLS-1$
+				namespace.insert( element );
+			}
+		}
 	}
 
 	/*
@@ -743,8 +775,16 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		ContainerContext sourceContainment = element.getContainerInfo( );
 
+		ContainerContext containment = null;
+		DesignElement container = (DesignElement) elements.peek( );
+		String containmentProp = sourceContainment.getPropertyName( );
+		if ( containmentProp != null )
+			containment = new ContainerContext( container, containmentProp );
+		else
+			containment = new ContainerContext( container, sourceContainment
+					.getSlotID( ) );
 		DesignElement newElement = newElement( element.getDefn( ).getName( ),
-				element.getName( ), sourceContainment ).getElement( );
+				element.getName( ), containment ).getElement( );
 
 		// if the element is an external element. do not add to the design now.
 		// should be added in the end by addExternalElements.
@@ -758,36 +798,10 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( element instanceof ReportDesign )
 			return newElement;
 
-		DesignElement container = (DesignElement) elements.peek( );
-
 		newElement.setID( element.getID( ) );
-
-		ContainerContext containment = null;
-		String containmentProp = sourceContainment.getPropertyName( );
-		if ( containmentProp != null )
-			containment = new ContainerContext( container, containmentProp );
-		else
-			containment = new ContainerContext( container, sourceContainment
-					.getSlotID( ) );
-
-		containment.add( targetDesign, newElement );
-
-		if ( sourceContainment.isManagedByNameSpace( )
-				&& newElement.getName( ) != null )
-		{
-			int ns = ( (ElementDefn) newElement.getDefn( ) ).getNameSpaceID( );
-			if ( ns >= 0 )
-			{
-				NameSpace namespace = new NameExecutor( newElement )
-						.getNameSpace( targetDesign );
-				if ( namespace != null )
-					namespace.insert( newElement );
-			}
-		}
-
+		addElement( targetDesign, containment, newElement );
 		if ( !( newElement instanceof ContentElement ) )
 			targetDesign.addElementID( newElement );
-
 		return newElement;
 	}
 
@@ -1002,7 +1016,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			{
 				ContainerContext newContext = context
 						.createContext( tmpContainer );
-				newContext.add( module, cachedExternalElement );
+				addElement( module, newContext, cachedExternalElement );
 			}
 			else
 			{
@@ -1733,14 +1747,15 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the element type name
 	 * @param name
 	 *            the optional element name
-	 * @param context
+	 * @param targetContext
+	 *            the contain context where the created element will be inserted
 	 * 
 	 * @return design element, <code>null</code> returned if the element
 	 *         definition name is not a valid element type name.
 	 */
 
 	public DesignElementHandle newElement( String elementTypeName, String name,
-			ContainerContext context )
+			ContainerContext targetContext )
 	{
 
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
@@ -1757,8 +1772,8 @@ public class ReportDesignSerializer extends ElementVisitor
 				elementTypeName );
 		if ( elemDefn != null )
 		{
-			DesignElement element = newElement( targetDesign, elementTypeName,
-					name, context.isManagedByNameSpace( ) );
+			DesignElement element = newElement( targetDesign, targetContext,
+					elementTypeName, name );
 			if ( element == null )
 				return null;
 			return element.getHandle( targetDesign );
@@ -1773,25 +1788,26 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * 
 	 * @param module
 	 *            the module to create an element
+	 * @param targetContainment
+	 *            the container context where the created element will be
+	 *            inserted
 	 * @param elementTypeName
 	 *            the element type name
 	 * @param name
 	 *            the optional element name
-	 * @param makeUniqueName
-	 *            <code>true</code> to make unique name. Otherwise
-	 *            <code>false</code>.
 	 * 
 	 * @return design element, <code>null</code> returned if the element
 	 *         definition name is not a valid element type name.
 	 */
 
 	public static DesignElement newElement( Module module,
-			String elementTypeName, String name, boolean makeUniqueName )
+			ContainerContext targetContainment, String elementTypeName,
+			String name )
 	{
 
 		DesignElement element = ModelUtil.newElement( elementTypeName, name );
-		if ( makeUniqueName )
-			module.makeUniqueName( element );
+		if ( targetContainment.isManagedByNameSpace( ) )
+			module.rename( targetContainment.getElement( ), element );
 		return element;
 	}
 

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">LibraryWithCubes_1.xml</property>
+            <property name="namespace">salesDataCube</property>
+        </structure>
+    </list-property>
+    <cubes>
+        <tabular-cube name="Customer Cube" id="88" extends="salesDataCube.Customer Cube">
+            <property name="defaultMeasureGroup">Summary Field</property>
+            <overridden-values>
+                <ref-entry baseId="11" name="orderDate" id="11">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                </ref-entry>
+                <ref-entry baseId="12" name="NewTabularHierarchy" id="12"/>
+                <ref-entry baseId="13" name="year" id="13"/>
+                <ref-entry baseId="14" name="quarter" id="14"/>
+                <ref-entry baseId="15" name="month" id="15"/>
+                <ref-entry baseId="16" name="product" id="16">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                </ref-entry>
+                <ref-entry baseId="17" name="NewTabularHierarchy1" id="17"/>
+                <ref-entry baseId="18" name="PRODUCTLINE" id="18"/>
+                <ref-entry baseId="22" name="PRODUCTNAME" id="22"/>
+                <ref-entry baseId="60" name="customerRegion" id="60">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                </ref-entry>
+                <ref-entry baseId="61" name="NewTabularHierarchy2" id="61"/>
+                <ref-entry baseId="62" name="COUNTRY" id="62"/>
+                <ref-entry baseId="63" name="STATE" id="63"/>
+                <ref-entry baseId="64" name="CITY" id="64"/>
+                <ref-entry baseId="65" name="CUSTOMERNUMBER" id="65"/>
+                <ref-entry baseId="23" name="Summary Field" id="23"/>
+                <ref-entry baseId="24" name="ORDERTOTAL" id="24"/>
+                <ref-entry baseId="25" name="QUANTITYORDERED" id="25"/>
+            </overridden-values>
+        </tabular-cube>
+    </cubes>    
+    <body>
+        <extended-item extensionName="Crosstab" id="89">
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="100">
+                    <property name="measure">ORDERTOTAL</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="101">
+                            <property name="content">
+                                <data name="ORDERTOTAL" id="103">
+                                    <property name="resultSetColumn">ORDERTOTAL</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="102">
+                            <property name="content">
+                                <label id="104">
+                                    <text-property name="text">ORDERTOTAL</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="90">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="91">
+                            <property name="dimension">orderDate</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="92">
+                                    <property name="level">orderDate/year</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="93">
+                                            <property name="content">
+                                                <data name="year" id="94">
+                                                    <property name="resultSetColumn">year</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="108">
+                                    <property name="level">orderDate/quarter</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="109">
+                                            <property name="content">
+                                                <data name="quarter" id="110">
+                                                    <property name="resultSetColumn">quarter</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View4" id="111">
+                                    <property name="level">orderDate/month</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="112">
+                                            <property name="content">
+                                                <data name="month" id="113">
+                                                    <property name="resultSetColumn">month</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="95">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="96">
+                            <property name="dimension">product</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="97">
+                                    <property name="level">product/PRODUCTLINE</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="98">
+                                            <property name="content">
+                                                <data name="PRODUCTLINE" id="99">
+                                                    <property name="resultSetColumn">PRODUCTLINE</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="105">
+                                    <property name="level">product/PRODUCTNAME</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="106">
+                                            <property name="content">
+                                                <data name="PRODUCTNAME" id="107">
+                                                    <property name="resultSetColumn">PRODUCTNAME</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="cube">Customer Cube</property>
+        </extended-item>
+    </body>
+</report>

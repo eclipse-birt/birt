@@ -380,6 +380,20 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle.getFileName( ) );
 	}
 
+	/**
+	 * Tests a structure refers an element and this referred element is a
+	 * container element(Hierarchy element). Its children name is not global
+	 * unique.
+	 * 
+	 * @throws Exception
+	 */
+	public void testSerializeWithElementRefer( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_9.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+		assertTrue( compareFile( "DocumentUtilTest_golden_7.xml" ) ); //$NON-NLS-1$
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
