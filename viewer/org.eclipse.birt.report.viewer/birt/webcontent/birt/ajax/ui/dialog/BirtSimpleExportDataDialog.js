@@ -493,6 +493,17 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			hiddenForm.appendChild( hiddenSep );			
 		}
 		
+		// Whether exports column's data type
+		var oType = $( 'exportColumnDataType' );
+		var hiddenType = document.createElement( 'input' );
+		hiddenType.type = 'hidden';
+		hiddenType.name = Constants.PARAM_EXPORT_DATATYPE;
+		if( oType && oType.checked )
+			hiddenType.value = "true";
+		else
+			hiddenType.value = "false";
+		hiddenForm.appendChild( hiddenType );
+		
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';
 		tmpSubmit.value = 'TmpSubmit';

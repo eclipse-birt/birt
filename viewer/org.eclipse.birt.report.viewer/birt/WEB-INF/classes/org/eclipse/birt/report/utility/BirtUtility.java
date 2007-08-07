@@ -190,6 +190,7 @@ public class BirtUtility
 			if ( task != null )
 			{
 				task.cancel( );
+				task.close( );
 			}
 
 			// remove task from task map

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.utility;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.util.Locale;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -357,5 +358,38 @@ public class DataUtil
 		{
 		}
 		return str;
+	}
+
+	/**
+	 * Returns oda type name
+	 * 
+	 * @param odaTypeCode
+	 * @return
+	 */
+	public static String getOdaTypeName( int odaTypeCode )
+	{
+		switch ( odaTypeCode )
+		{
+			case Types.INTEGER :
+				return "INT"; //$NON-NLS-1$
+			case Types.DOUBLE :
+				return "DOUBLE"; //$NON-NLS-1$
+			case Types.VARCHAR :
+				return "STRING"; //$NON-NLS-1$
+			case Types.DATE :
+				return "DATE"; //$NON-NLS-1$
+			case Types.TIME :
+				return "TIME"; //$NON-NLS-1$
+			case Types.TIMESTAMP :
+				return "TIMESTAMP"; //$NON-NLS-1$
+			case Types.NUMERIC :
+				return "BIGDECIMAL"; //$NON-NLS-1$
+			case Types.BLOB :
+				return "BLOB"; //$NON-NLS-1$
+			case Types.CLOB :
+				return "CLOB"; //$NON-NLS-1$
+			default :
+				return "STRING"; //$NON-NLS-1$
+		}
 	}
 }

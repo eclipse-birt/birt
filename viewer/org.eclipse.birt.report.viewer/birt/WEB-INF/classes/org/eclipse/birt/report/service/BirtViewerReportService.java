@@ -383,7 +383,8 @@ public class BirtViewerReportService implements IViewerReportService
 			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
 					columns, locale, out,
 					ParameterAccessor.getExportEncoding( request ),
-					ParameterAccessor.getSep( request ) );
+					ParameterAccessor.getSep( request ),
+					ParameterAccessor.isExportDataType( request ) );
 		}
 		catch ( RemoteException e )
 		{

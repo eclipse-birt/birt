@@ -200,6 +200,11 @@ public class ParameterAccessor
 	public static final String PARAM_SEP = "__sep";//$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate whether exports column's data type.
+	 */
+	public static final String PARAM_EXPORT_DATATYPE = "__exportdatatype";//$NON-NLS-1$
+	
+	/**
 	 * URL parameter name to indicate if fit to page when render report as PDF.
 	 */
 	public static final String PARAM_FIT_TO_PAGE = "__fittopage";//$NON-NLS-1$
@@ -342,7 +347,7 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 
 	/**
-	 * The parameter name that gives the repository lication to put the created
+	 * The parameter name that gives the repository location to put the created
 	 * documents and report design files.
 	 */
 	public static final String INIT_PARAM_DOCUMENT_FOLDER = "BIRT_VIEWER_DOCUMENT_FOLDER"; //$NON-NLS-1$
@@ -1110,7 +1115,7 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get solected column name list.
+	 * Get selected column name list.
 	 * 
 	 * @param request
 	 * @return
@@ -2614,7 +2619,7 @@ public class ParameterAccessor
 	/**
 	 * Returns the separator String
 	 * 
-	 * @param sep
+	 * @param request
 	 * @return
 	 */
 	public static char getSep( HttpServletRequest request )
@@ -2631,6 +2636,21 @@ public class ParameterAccessor
 		return sep.charAt( 0 );
 	}
 
+	/**
+	 * Returns whether exports column's data type
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isExportDataType( HttpServletRequest request )
+	{
+		String flag = getParameter( request, PARAM_EXPORT_DATATYPE );
+		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
+			return true;
+		
+		return false;
+	}
+	
 	/**
 	 * Set isCleanSessionFiles
 	 * 

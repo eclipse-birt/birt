@@ -55,6 +55,7 @@ var Constants = {
 	PARAM_ISTOC : '__istoc',
 	PARAM_EXPORT_ENCODING : '__exportEncoding',
 	PARAM_SEP : '__sep',
+	PARAM_EXPORT_DATATYPE : '__exportdatatype',
 	PARAM_ISNULL : '__isnull',
 	
 	PARAM_PRINTER_NAME : '__printer',

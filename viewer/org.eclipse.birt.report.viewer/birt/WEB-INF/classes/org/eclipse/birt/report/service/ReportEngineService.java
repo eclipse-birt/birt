@@ -1455,7 +1455,7 @@ public class ReportEngineService
 			String encoding ) throws RemoteException
 	{
 		extractData( document, resultSetName, columns, locale, outputStream,
-				encoding, ParameterAccessor.DEFAULT_SEP );
+				encoding, ParameterAccessor.DEFAULT_SEP, false );
 	}
 
 	/**
@@ -1470,11 +1470,13 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @param encoding
 	 * @param sep
+	 * @param isExportDataType
 	 * @throws RemoteException
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
 			Collection columns, Locale locale, OutputStream outputStream,
-			String encoding, char sep ) throws RemoteException
+			String encoding, char sep, boolean isExportDataType )
+			throws RemoteException
 	{
 		assert document != null;
 		assert resultSetName != null && resultSetName.length( ) > 0;
@@ -1526,6 +1528,37 @@ public class ReportEngineService
 						outputStream.write( buf.toString( ).getBytes( ) );
 					}
 					buf.delete( 0, buf.length( ) );
+
+					// Column data type
+					if ( isExportDataType )
+					{
+						Map types = new HashMap( );
+						int count = result.getResultMetaData( )
+								.getColumnCount( );
+						for ( int i = 0; i < count; i++ )
+						{
+							String colName = result.getResultMetaData( )
+									.getColumnName( i );
+							int typeCode = result.getResultMetaData( )
+									.getColumnType( i );
+							Class typeClass = DataType.getClass( typeCode );
+							int odaTypeCode = DataTypeUtil
+									.toOdaDataType( typeClass );
+							String odaTypeName = DataUtil
+									.getOdaTypeName( odaTypeCode );
+							types.put( colName, odaTypeName );
+						}
+
+						buf.append( (String) types.get( columnNames[0] ) );
+						for ( int i = 1; i < columnNames.length; i++ )
+						{
+							buf.append( sep );
+							buf.append( (String) types.get( columnNames[i] ) );
+						}
+						buf.append( '\n' );
+						outputStream.write( buf.toString( ).getBytes( ) );
+						buf.delete( 0, buf.length( ) );
+					}
 
 					// Data
 					while ( iData.next( ) )

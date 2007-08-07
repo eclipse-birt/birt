@@ -208,6 +208,10 @@
 				</SELECT>
 			</DIV>
 			<BR/>
+			<DIV>
+				<INPUT TYPE="checkbox" ID="exportColumnDataType"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%>
+			</DIV>
+			<BR/>
 			<DIV STYLE="font-size:7pt">
 				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.format" )%>
 			</DIV>
