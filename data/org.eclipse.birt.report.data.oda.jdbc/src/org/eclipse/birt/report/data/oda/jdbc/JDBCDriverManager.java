@@ -575,7 +575,7 @@ public class JDBCDriverManager
 		boolean driverInClassPath = false;
 		try
 		{
-			Class.forName( className );
+			driverClass = Class.forName( className );
 			// Driver class in class path
 			logger.info( "Loaded JDBC driver class in class path: " + className );
 			driverInClassPath = true;
