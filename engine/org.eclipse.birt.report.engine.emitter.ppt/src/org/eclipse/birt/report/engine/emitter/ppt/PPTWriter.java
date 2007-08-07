@@ -11,6 +11,8 @@
 package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +29,12 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
+import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.lowagie.text.Font;
@@ -615,8 +623,8 @@ public class PPTWriter
 	 * @param yMode
 	 *            whether the vertical position is a percentage value or not
 	 */
-	public void drawBackgroundImage( String imageURI, double x, double y,
-			double width, double height, double positionX, double positionY,
+	public void drawBackgroundImage( String imageURI, float x, float y,
+			float width, float height, float positionX, float positionY,
 			String repeat )
 	{
 		// TODO insert a back image
@@ -624,16 +632,39 @@ public class PPTWriter
 		{
 			return;
 		}
+		float imageWidth = 0;
+		float imageHeight = 0;
 		byte[] imageData = null;
+		InputStream imageStream = null;
 		try
 		{
-			InputStream imageStream = new URL( imageURI ).openStream( );
+			URL url = new URL( imageURI );
+			imageStream = url.openStream( );
 			imageData = new byte[imageStream.available( )];
 			imageStream.read( imageData );
+			imageStream.close( );
+			imageStream = url.openStream( );
+			Image image = ImageIO.read( imageStream );
+			ImageIcon imageIcon = new ImageIcon( image );
+			imageWidth = imageIcon.getIconWidth( );
+			imageHeight = imageIcon.getIconHeight( );
 		}
 		catch ( IOException ioe )
 		{
 			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
+		}
+		finally
+		{
+			if ( imageStream != null )
+			{
+				try
+				{
+					imageStream.close( );
+				}
+				catch ( IOException e )
+				{
+				}
+			}
 		}
 
 		String imageTitle = "slide"
@@ -656,7 +687,22 @@ public class PPTWriter
 			recordFileLists( imageName );
 			currentImageData.put( imageTitle, imageData );
 		}
-		exportImageDefn( imageName, imageTitle, width, height, x, y );
+		
+		Position areaPosition = new Position( x, y );
+		Position areaSize = new Position( width, height );
+		Position imagePosition = new Position( x + positionX, y + positionY );
+		// TODO: need to confirm the tansformation from unit pixel to
+		// pointer.
+		Position imageSize = new Position( imageWidth, imageHeight );
+		BackgroundImageLayout layout = new BackgroundImageLayout(
+				areaPosition, areaSize, imagePosition, imageSize );
+		Collection positions = layout.getImagePositions( repeat );
+		Iterator iterator = positions.iterator( );
+		while( iterator.hasNext( ) )
+		{
+			Position position = ( Position )iterator.next( );
+			exportImageDefn( imageName, imageTitle, imageWidth, imageHeight,
+					position.getX( ), position.getY( ) );
+		}
 	}
-
 }

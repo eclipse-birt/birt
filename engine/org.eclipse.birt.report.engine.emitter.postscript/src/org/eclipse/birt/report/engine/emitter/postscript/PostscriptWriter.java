@@ -35,9 +35,9 @@ import javax.swing.ImageIcon;
 
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
-import org.eclipse.birt.report.engine.emitter.postscript.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
-import org.eclipse.birt.report.engine.emitter.postscript.util.Position;
+import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
+import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.w3c.dom.css.CSSValue;
