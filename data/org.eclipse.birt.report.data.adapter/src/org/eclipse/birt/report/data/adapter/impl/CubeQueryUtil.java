@@ -87,7 +87,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					List aggrOns = binding.getAggregatOns( );
 					if( aggrOns.size( ) == 0 )
 					{
-						if( this.getReferencedMeasureName( binding.getExpression( ) )!= null )
+						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null
+								&& this.isLeafLevel( cubeDefn, target ) )
 						{
 							result.add( binding );
 							continue;
@@ -130,6 +131,44 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 
+	/**
+	 * 
+	 * @param query
+	 * @param target
+	 * @return
+	 */
+	private boolean isLeafLevel( ICubeQueryDefinition query, DimLevel target )
+	{
+		return isLeafLevel( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
+				target )
+				|| isLeafLevel( query.getEdge( ICubeQueryDefinition.ROW_EDGE ),
+						target );
+
+	}
+
+	/**
+	 * 
+	 * @param edge
+	 * @param target
+	 * @return
+	 */
+	private boolean isLeafLevel( IEdgeDefinition edge, DimLevel target )
+	{
+		IDimensionDefinition dim = (IDimensionDefinition) edge.getDimensions( )
+				.get( edge.getDimensions( ).size( ) - 1 );
+		if ( dim.getName( ).equals( target.getDimensionName( ) ) )
+		{
+			IHierarchyDefinition hier = (IHierarchyDefinition) dim.getHierarchy( )
+					.get( 0 );
+			ILevelDefinition level = (ILevelDefinition) hier.getLevels( )
+					.get( hier.getLevels( ).size( ) - 1 );
+			if ( target.getLevelName( ).equals( level.getName( ) ) )
+				return true;
+		}
+		return false;
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getReferencedLevels(java.lang.String, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
