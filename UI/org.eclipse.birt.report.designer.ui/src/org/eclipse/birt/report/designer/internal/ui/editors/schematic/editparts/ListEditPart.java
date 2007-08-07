@@ -105,6 +105,31 @@ public class ListEditPart extends ReportElementEditPart
 		refreshMargin( );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
+		markDirty( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+	 */
+	public void notifyModelChange( )
+	{
+		super.notifyModelChange( );
+		markDirty( );
+	}
+	
+	/**
+	 * Mark dirty flag to trigger re-layout.
+	 */
+	private void markDirty( )
+	{
+		IFigure figure = getContentPane( );
+
+		if ( figure instanceof ListFigure )
+		{
+			( (ListFigure) figure ).markDirtyTree( true );
+		}
 	}
 
 	/*

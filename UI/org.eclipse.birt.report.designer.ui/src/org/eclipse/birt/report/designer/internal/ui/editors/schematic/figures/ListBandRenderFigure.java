@@ -13,11 +13,16 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.swt.SWT;
 
 /**
@@ -33,7 +38,53 @@ public class ListBandRenderFigure extends Figure
 
 	public ListBandRenderFigure( )
 	{
-		setLayoutManager( new ReportFlowLayout( ) );
+		setLayoutManager( new ReportFlowLayout( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout#getChildSize(org.eclipse.draw2d.IFigure,
+			 *      int, int)
+			 */
+			protected Dimension getChildSize( IFigure child, int wHint,
+					int hHint )
+			{
+				if ( child instanceof TableFigure )
+				{
+					IFigure grandFigure = getParent( ).getParent( );
+
+					if ( grandFigure instanceof ListFigure &&
+							( (ListFigure) grandFigure ).isDirty( ) )
+					{
+						int oldWidth = getBounds( ).width;
+						int oldHeight = getBounds( ).height;
+						int width = wHint + getInsets( ).getWidth( );
+						int height = hHint + getInsets( ).getHeight( );
+
+						if ( width != oldWidth || height != oldHeight )
+						{
+							if ( child instanceof TableFigure )
+							{
+								IFigure tablePane = ( (LayeredPane) ( (LayeredPane) ( (TableFigure) child ).getContents( ) ).getLayer( LayerConstants.PRINTABLE_LAYERS ) ).getLayer( LayerConstants.PRIMARY_LAYER );
+								LayoutManager layoutManager = tablePane.getLayoutManager( );
+
+								if ( layoutManager instanceof TableLayout )
+								{
+									( (ListFigure) grandFigure ).markDirty( false );
+									( (TableLayout) layoutManager ).markDirty( );
+									getBounds( ).width = width;
+									getBounds( ).height = height;
+									tablePane.validate( );
+									getBounds( ).width = oldWidth;
+									getBounds( ).height = oldHeight;
+								}
+							}
+						}
+					}
+				}
+				return super.getChildSize( child, wHint, hHint );
+			}
+		} );
 		setBorder( new MarginBorder( margin ) );
 	}
 
@@ -56,21 +107,15 @@ public class ListBandRenderFigure extends Figure
 	 */
 	public Dimension getPreferredSize( int wHint, int hHint )
 	{
-		if ( wHint > 0 )
-		{
-			getBounds( ).width = wHint;
-		}
-		if ( hHint > 0 )
-		{
-			getBounds( ).height = hHint;
-		}
-		validate( );
+		invalidateTree( );
+
 		Dimension dim = super.getPreferredSize( wHint, hHint );
+
 		if ( dim.height < HEIGHT )
 		{
 			dim.height = HEIGHT;
 		}
-		if ( wHint > 0 )
+		if ( wHint > 0 && dim.width < wHint)
 		{
 			dim.width = wHint;
 		}

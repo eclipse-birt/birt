@@ -50,6 +50,7 @@ public class ListBandLayout extends AbstractHintLayout
 		}
 		List list = container.getChildren( );
 		int size = list.size( );
+		int width = 0;
 		int height = 0;
 
 		ReportShowFigure showFigure = null;
@@ -65,8 +66,10 @@ public class ListBandLayout extends AbstractHintLayout
 					|| showFigure.getContent( ) != figure
 					|| showFigure.isControlShowing( ) )
 			{
-				height = height
-						+ figure.getPreferredSize( wHint, hHint ).height;
+				Dimension prefSize = figure.getPreferredSize( wHint, hHint );
+
+				height = height + prefSize.height;
+				width = Math.max( prefSize.width, width );
 			}
 		}
 		if ( height > 0 )
@@ -75,6 +78,10 @@ public class ListBandLayout extends AbstractHintLayout
 					+ container.getInsets( ).getHeight( )
 					+ ( size - 1 )
 					* verticalSpan;
+		}
+		if ( width > 0 )
+		{
+			dim.width = width + container.getInsets( ).getWidth( );
 		}
 		return dim;
 	}

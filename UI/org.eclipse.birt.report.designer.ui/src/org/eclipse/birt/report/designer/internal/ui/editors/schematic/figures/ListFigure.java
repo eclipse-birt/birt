@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListLayout;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.IFigure;
 
 /**
  * List item figure
@@ -27,6 +30,9 @@ public class ListFigure extends ReportElementFigure
 {
 
 	private static final String BORDER_TEXT = Messages.getString( "ListFigure.BORDER_TEXT" ); //$NON-NLS-1$
+
+	/** the dirty flag */
+	private boolean dirty = true;
 
 	public ListFigure( )
 	{
@@ -48,23 +54,62 @@ public class ListFigure extends ReportElementFigure
 		//graphics.drawRectangle(getBounds().getCopy().shrink(2,2));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Marks dirty flag on all children of this list.
 	 * 
-	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
+	 * @param flag
+	 *            the flag to mark.
 	 */
-	public Dimension getPreferredSize( int wHint, int hHint )
+	public void markDirtyTree( boolean flag )
 	{
-		if ( wHint > 0 )
-		{
-			getBounds( ).width = wHint;
-		}
-		if ( hHint > 0 )
-		{
-			getBounds( ).height = hHint;
-		}
-		validate( );
-		return super.getPreferredSize( wHint, hHint );
+		markDirtyTree( this, flag );
 	}
 
+	/**
+	 * Marks dirty flag on all children with the specified container.
+	 * 
+	 * @param container
+	 *            the container to mark.
+	 * @param flag
+	 *            the flag to mark.
+	 */
+	public void markDirtyTree( IFigure container, boolean flag )
+	{
+		if ( container instanceof ListFigure )
+		{
+			( (ListFigure) container ).markDirty( flag );
+		}
+
+		Collection children = container.getChildren( );
+
+		for ( Iterator iterator = children.iterator( ); iterator.hasNext( ); )
+		{
+			Object child = iterator.next( );
+
+			if ( child instanceof IFigure )
+			{
+				markDirtyTree( (IFigure) child, flag );
+			}
+		}
+	}
+
+	/**
+	 * Marks dirty flag.
+	 * 
+	 * @param flag
+	 *            the flag to mark.
+	 */
+	public void markDirty( boolean flag )
+	{
+		dirty = flag;
+	}
+
+	/**
+	 * Returns <code>true</code> if need layout, <code>false</code>
+	 * otherwise.
+	 */
+	public boolean isDirty( )
+	{
+		return dirty;
+	}
 }

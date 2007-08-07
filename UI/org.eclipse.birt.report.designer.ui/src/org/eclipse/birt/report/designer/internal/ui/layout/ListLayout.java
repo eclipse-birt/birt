@@ -48,14 +48,20 @@ public class ListLayout extends AbstractHintLayout
 		//Dimension dim = container.getSize().getCopy();
 		Dimension dim = container.getClientArea( ).getCopy( ).getSize( );
 
+		dim.width = Math.max( container.getMinimumSize( ).width, wHint ) -
+				container.getBorder( ).getInsets( container ).getWidth( );
+
 		List list = container.getChildren( );
 		int size = list.size( );
+		int width = 0;
 		int height = 0;
 		for ( int i = 0; i < size; i++ )
 		{
 			IFigure figure = (IFigure) list.get( i );
-			height = height
-					+ figure.getPreferredSize( dim.width, hHint ).height;
+			Dimension prefSize = figure.getPreferredSize( dim.width, hHint );
+
+			height = height + prefSize.height;
+			width = Math.max( prefSize.width, width );
 		}
 		if ( height > 0 )
 		{
@@ -64,9 +70,9 @@ public class ListLayout extends AbstractHintLayout
 					+ ( size - 1 )
 					* verticalSpan;
 		}
-		if ( wHint > 0 )
+		if ( width > 0 )
 		{
-			dim.width = wHint;
+			dim.width = width + container.getBorder( ).getInsets( container ).getWidth( );
 		}
 		return dim;
 	}

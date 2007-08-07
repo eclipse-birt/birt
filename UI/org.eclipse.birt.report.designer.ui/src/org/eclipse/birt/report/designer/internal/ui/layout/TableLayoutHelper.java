@@ -43,7 +43,8 @@ public class TableLayoutHelper
 		{
 			TableLayoutData.ColumnData colData = columnWidths[i];
 
-			minWidth[i] = colData.minColumnWidth;
+			minWidth[i] = Math.max( colData.minColumnWidth,
+					colData.trueMinColumnWidth );
 
 			maxWidth[i] = Math.max( containerWidth, minWidth[i] );
 		}
@@ -112,7 +113,8 @@ public class TableLayoutHelper
 		{
 			for ( int i = 0; i < size; i++ )
 			{
-				hintWidth[i] = Math.max( minWidth[i], hintWidth[i] );
+				// sets the width with min value.
+				hintWidth[i] = minWidth[i];
 			}
 
 			return hintWidth;
