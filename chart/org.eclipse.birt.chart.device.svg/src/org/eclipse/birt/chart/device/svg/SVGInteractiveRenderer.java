@@ -415,6 +415,15 @@ public class SVGInteractiveRenderer
 			{
 				if ( triggers[i].getCondition( ).getValue( ) == TriggerCondition.ONLOAD )
 				{
+					if ( isColoredByCategories( )
+							&& ( triggers[i].getAction( ).getType( ) == ActionType.TOGGLE_VISIBILITY_LITERAL || triggers[i].getAction( )
+									.getType( ) == ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL ) )
+					{
+						// #195949
+						// make sure onload event is still invoked for each data
+						// point when color by series and toogle visibility
+						return triggers;
+					}
 					indexOnload = i;
 					break;
 				}
