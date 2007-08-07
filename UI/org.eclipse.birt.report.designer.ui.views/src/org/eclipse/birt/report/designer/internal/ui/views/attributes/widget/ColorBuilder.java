@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.util.Arrays;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.ColorSelector;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -21,7 +22,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -40,7 +40,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -153,7 +152,6 @@ public class ColorBuilder extends Composite
 
 	protected void handleComboFocusGainedEvent( FocusEvent e )
 	{
-		// TODO Auto-generated method stub
 	}
 
 	Label getAssociatedLabel( )
@@ -427,16 +425,7 @@ public class ColorBuilder extends Composite
 		oldRgb = rgb;
 		if ( rgb == null || !rgb.equals( colorSelector.getColorValue( ) ) )
 		{
-			if ( rgb != null )
-			{
-				colorSelector.setColorValue( rgb );
-			}
-			else
-			{
-				Button btn = colorSelector.getButton( );
-				btn.setImage( null );
-				btn.redraw( );
-			}
+			colorSelector.setColorValue( rgb );
 		}
 		notifyListeners( SWT.Modify, null );
 	}
@@ -493,15 +482,9 @@ public class ColorBuilder extends Composite
 		{
 			return;
 		}
-		if ( rgb == null )
-		{
-			colorSelector.getButton( ).setImage( null );
-			colorSelector.getButton( ).redraw( );
-		}
-		else
-		{
-			colorSelector.setColorValue( rgb );
-		}
+
+		colorSelector.setColorValue( rgb );
+
 		String newComboText = predefinedColor;
 		if ( predefinedColor == null )
 		{
