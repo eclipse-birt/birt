@@ -333,6 +333,10 @@ public class HTMLActionHandler implements IHTMLActionHandler
 
 	protected Object getRenderContext( IReportContext context )
 	{
+		if ( context == null )
+		{
+			return null;
+		}
 		Map appContext = context.getAppContext( );
 		if ( appContext != null )
 		{
