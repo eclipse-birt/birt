@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=削除
 birt.viewer.dialog.exportdata.up=上へ
 birt.viewer.dialog.exportdata.down=下へ
 birt.viewer.dialog.exportdata.separator=区切り文字 :
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=コンマ (,)
 birt.viewer.sep.1=セミコロン (;)

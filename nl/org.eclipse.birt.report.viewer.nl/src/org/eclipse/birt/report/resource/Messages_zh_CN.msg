@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=É¾³ý
 birt.viewer.dialog.exportdata.up=ÉÏÒÆ
 birt.viewer.dialog.exportdata.down=ÏÂÒÆ
 birt.viewer.dialog.exportdata.separator=·Ö¸ô·û:
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=¶ººÅ ( , )
 birt.viewer.sep.1=·ÖºÅ ( ; )

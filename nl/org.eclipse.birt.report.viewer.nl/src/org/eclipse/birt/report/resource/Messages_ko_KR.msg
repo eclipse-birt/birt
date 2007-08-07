@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=제거
 birt.viewer.dialog.exportdata.up=위로
 birt.viewer.dialog.exportdata.down=아래로
 birt.viewer.dialog.exportdata.separator=구분 기호:
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=쉼표( , )
 birt.viewer.sep.1=세미콜론( ; )

@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=Entfernen
 birt.viewer.dialog.exportdata.up=Aufwärts
 birt.viewer.dialog.exportdata.down=Abwärts
 birt.viewer.dialog.exportdata.separator=Trennzeichen:
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=Komma (,)
 birt.viewer.sep.1=Semikolon (;)

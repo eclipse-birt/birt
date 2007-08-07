@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=Quitar
 birt.viewer.dialog.exportdata.up=Arriba
 birt.viewer.dialog.exportdata.down=Abajo
 birt.viewer.dialog.exportdata.separator=Separador:
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=Coma ( , )
 birt.viewer.sep.1=Punto y coma ( ; )

@@ -141,6 +141,7 @@ birt.viewer.dialog.exportdata.remove=Supprimer
 birt.viewer.dialog.exportdata.up=Vers le haut
 birt.viewer.dialog.exportdata.down=Vers le bas
 birt.viewer.dialog.exportdata.separator=Séparateur :
+birt.viewer.dialog.exportdata.datatype=Export column's data type
 
 birt.viewer.sep.0=Virgule ( , )
 birt.viewer.sep.1=Point-virgule ( ; )
