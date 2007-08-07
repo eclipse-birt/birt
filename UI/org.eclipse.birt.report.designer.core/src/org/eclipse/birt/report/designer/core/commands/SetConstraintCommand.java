@@ -120,7 +120,7 @@ public class SetConstraintCommand extends Command
 
 					model.getWidth( ).setValue( dimensionValue );
 				}
-				if ( height <= 0 )
+				if ( height >= 0 )
 				{
 					dimensionValue = new DimensionValue( height <= 0 ? 0.1
 							: height, DesignChoiceConstants.UNITS_IN );
