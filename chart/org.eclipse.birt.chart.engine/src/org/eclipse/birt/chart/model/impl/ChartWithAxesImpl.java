@@ -99,7 +99,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
+	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
