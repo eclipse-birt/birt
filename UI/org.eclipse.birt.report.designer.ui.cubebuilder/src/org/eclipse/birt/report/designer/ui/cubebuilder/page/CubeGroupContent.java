@@ -1470,9 +1470,14 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 			}
 
-			if ( obj instanceof PropertyHandle )
+			if ( obj instanceof PropertyHandle
+					|| ( dataField == null && obj instanceof VirtualField && ( (VirtualField) obj ).getModel( ) instanceof PropertyHandle ) )
 			{
-				PropertyHandle model = (PropertyHandle) obj;
+				PropertyHandle model;
+				if ( obj instanceof PropertyHandle )
+					model = (PropertyHandle) obj;
+				else
+					model = (PropertyHandle) ( (VirtualField) obj ).getModel( );
 				if ( model.getPropertyDefn( )
 						.getName( )
 						.equals( ICubeModel.DIMENSIONS_PROP ) )
