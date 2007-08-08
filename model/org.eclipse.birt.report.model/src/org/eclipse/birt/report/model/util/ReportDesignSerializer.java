@@ -1241,6 +1241,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	 */
 	private void handleDimensionConditions( Cube newCube, Cube cube )
 	{
+		if ( newCube.getLocalProperty( targetDesign,
+				ITabularCubeModel.DIMENSION_CONDITIONS_PROP ) != null )
+			return;
 		if ( cubes.get( cube ) == null )
 			cubes.put( newCube, cube );
 	}
