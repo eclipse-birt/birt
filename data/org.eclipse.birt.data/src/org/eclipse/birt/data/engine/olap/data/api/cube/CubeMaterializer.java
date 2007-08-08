@@ -49,6 +49,18 @@ public class CubeMaterializer
 
 	/**
 	 * 
+	 * @param pathName
+	 * @param managerName
+	 * @param cacheSize
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	public CubeMaterializer( String pathName, String managerName, int cacheSize  ) throws DataException, IOException
+	{
+		documentManager = DocumentManagerFactory.createFileDocumentManager( pathName, managerName, cacheSize );
+	}
+	/**
+	 * 
 	 * @throws DataException
 	 * @throws IOException
 	 */
