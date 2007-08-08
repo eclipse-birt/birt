@@ -57,7 +57,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	 * Column widths.
 	 */
 	private static int[] columnWidth = new int[]{
-			220,170, 120, 170, 170
+			180,150, 100, 150, 150
 	};
 
 	/**
