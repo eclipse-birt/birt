@@ -914,7 +914,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 */
 	public final boolean isTransposed( )
 	{
-		return ( isSetOrientation( ) && getOrientation( ).getValue( ) == Orientation.HORIZONTAL );
+		// #199012 Do not consider isSetOrientation to keep consistent.
+		return getOrientation( ).getValue( ) == Orientation.HORIZONTAL;
 	}
 
 	/*
