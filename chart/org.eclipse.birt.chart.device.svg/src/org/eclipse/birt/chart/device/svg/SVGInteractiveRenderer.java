@@ -75,9 +75,9 @@ public class SVGInteractiveRenderer
 	
 	/**
 	 * Indicates if onload method of data points has been added. This map is
-	 * used for saving states of multiple series
+	 * used for saving states of multiple series and data points.
 	 */
-	private Map mapOnloadAdded = new HashMap( 4 );
+	private Map mapOnloadAdded = new HashMap( );
 	
 	private int iFirstDataPointIndex = -1;
 
@@ -408,6 +408,7 @@ public class SVGInteractiveRenderer
 			Trigger[] triggers )
 	{
 		int indexOnload = -1;
+		boolean bDelete = false;
 		if ( ie.getStructureSource( ).getType( ) == StructureType.SERIES_DATA_POINT )
 		{
 			// To get the index of onload event in the array
@@ -422,7 +423,16 @@ public class SVGInteractiveRenderer
 						// #195949
 						// make sure onload event is still invoked for each data
 						// point when color by series and toogle visibility
-						return triggers;
+						Object dph = ie.getStructureSource( ).getSource( );
+						if ( !mapOnloadAdded.containsKey( dph ) )
+						{
+							// If the data point has not been added, onload
+							// event takes effect
+							mapOnloadAdded.put( dph, Boolean.TRUE );
+							return triggers;
+						}
+						// Mark this onload event should be deleted
+						bDelete = true;
 					}
 					indexOnload = i;
 					break;
@@ -434,7 +444,7 @@ public class SVGInteractiveRenderer
 				// data point
 				Object series = ( (WrappedStructureSource) ie.getStructureSource( ) ).getParent( )
 						.getSource( );
-				if ( mapOnloadAdded.containsKey( series ) )
+				if ( bDelete || mapOnloadAdded.containsKey( series ) )
 				{
 					// To remove the duplicate onload event from array
 					if ( triggers.length == 1 )
