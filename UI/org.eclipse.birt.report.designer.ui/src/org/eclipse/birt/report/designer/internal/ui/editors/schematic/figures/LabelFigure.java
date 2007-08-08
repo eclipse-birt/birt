@@ -214,8 +214,7 @@ public class LabelFigure extends ReportElementFigure {
 	{
 		if ( ft != null && ft.getFontData( ).length > 0 )
 		{
-			// return ft.getFontData( )[0].height;
-			return (int) ft.getFontData( )[0].height;
+			return ft.getFontData( )[0].getHeight( );
 		}
 
 		return 0;
