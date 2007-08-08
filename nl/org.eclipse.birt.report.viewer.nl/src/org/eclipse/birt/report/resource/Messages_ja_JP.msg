@@ -206,4 +206,4 @@ birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。
 ###############################################################################
 # Birt Viewer Message
 ###############################################################################
-birt.viewer.message.document.successful=The report document file has been generated successfully.
+birt.viewer.message.document.successful=レポート文書ファイルが生成されました。

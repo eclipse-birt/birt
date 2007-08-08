@@ -206,4 +206,4 @@ birt.viewer.taglib.NO_REQUESTER_NAME=요청자 이름을 지정해야 합니다.
 ###############################################################################
 # Birt Viewer Message
 ###############################################################################
-birt.viewer.message.document.successful=The report document file has been generated successfully.
+birt.viewer.message.document.successful=보고서 문서 파일이 성공적으로 생성되었습니다.

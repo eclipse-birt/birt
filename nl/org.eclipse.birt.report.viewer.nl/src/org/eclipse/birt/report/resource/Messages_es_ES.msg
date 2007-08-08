@@ -206,4 +206,4 @@ birt.viewer.taglib.NO_REQUESTER_NAME=Se debe especificar un nombre de solicitant
 ###############################################################################
 # Birt Viewer Message
 ###############################################################################
-birt.viewer.message.document.successful=The report document file has been generated successfully.
+birt.viewer.message.document.successful=El archivo de documento de informe se ha generado correctamente.

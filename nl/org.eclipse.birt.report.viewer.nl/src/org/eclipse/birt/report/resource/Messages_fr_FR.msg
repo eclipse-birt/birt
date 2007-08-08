@@ -206,4 +206,4 @@ birt.viewer.taglib.NO_REQUESTER_NAME=Le nom du requêteur doit être spécifié.
 ###############################################################################
 # Birt Viewer Message
 ###############################################################################
-birt.viewer.message.document.successful=The report document file has been generated successfully.
+birt.viewer.message.document.successful=Génération de l'état réussie.

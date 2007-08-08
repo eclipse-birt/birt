@@ -206,4 +206,4 @@ birt.viewer.taglib.NO_REQUESTER_NAME=必须指定请求者名称。
 ###############################################################################
 # Birt Viewer Message
 ###############################################################################
-birt.viewer.message.document.successful=The report document file has been generated successfully.
+birt.viewer.message.document.successful=报表文档文件已成功生成。
