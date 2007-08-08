@@ -452,7 +452,7 @@ dataset.editor.title.value2=값 &2
 dataset.editor.historybar.backward=뒤로
 dataset.editor.historybar.forward=정방향
 dataset.editor.historybar.to=끝
-dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
+dataset.error.noDataSources=사용할 수 있는 데이터 원본이 없습니다. 데이터 원본을 지금 바로 추가하시겠습니까?
 dataset.error.dataSourceMissing=이 데이터 집합의 데이터 원본이 누락되었습니다.
 dataset.error.title.noDataSources=데이터 원본을 사용할 수 없습니다.
 dataset.message.create=새 데이터 집합을 생성하십시오.
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=이름이 이미 사용 중입니다.
 ParameterDialog.ErrorMessage.DuplicatedValue=값이 이미 있습니다.
 ParameterDialog.ErrorMessage.EmptyName=이름이 비어 있습니다.
 ParameterDialog.ErrorMessage.InvalidListLimit=제한 값은 0과 {0} 사이여야 합니다.
-ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
+ParameterDialog.ErrorMessage.MismatchDataType=값이 데이터 형식에 맞지 않습니다.
 ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
@@ -2676,7 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=기본 설정에 정의한 템플릿 폴더가 올바르지 않습니다.
 PublishTemplateAction.wizard.page.nameInfo=표시 이름이 필요함
 PublishTemplateAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
-PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=축소판 이미지가 없습니다.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=미리 보기 이미지 파일이 없습니다.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=미리 보기 이미지 파일이 올바른 이미지가 아닙니다.
 
@@ -3873,7 +3873,7 @@ BindingDialogHelper.text.Expression=식:
 BindingDialogHelper.text.displayName=표시 이름:
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
-BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
+BindingDialogHelper.error.nameduplicate=열 바인딩 {0}이(가) 이미 있습니다. 
 
 ###########################################################
 #Scripts Node

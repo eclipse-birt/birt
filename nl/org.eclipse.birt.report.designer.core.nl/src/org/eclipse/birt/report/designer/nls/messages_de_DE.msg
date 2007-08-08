@@ -452,7 +452,7 @@ dataset.editor.title.value2=Wert &2
 dataset.editor.historybar.backward=Zurück
 dataset.editor.historybar.forward=Vor
 dataset.editor.historybar.to=nach
-dataset.error.noDataSources=There is no data source available. Would you like to add a data source right now?
+dataset.error.noDataSources=Es ist keine Datenquelle verfügbar. Möchten Sie jetzt eine Datenquelle hinzufügen?
 dataset.error.dataSourceMissing=Die Datenquelle dieses Datensatzes ist nicht vorhanden.
 dataset.error.title.noDataSources=Keine Datenquellen verfügbar.
 dataset.message.create=Erstellen Sie einen neuen Datensatz.
@@ -2478,7 +2478,7 @@ ParameterDialog.ErrorMessage.DuplicatedName=Der Name wird bereits verwendet.
 ParameterDialog.ErrorMessage.DuplicatedValue=Der Wert existiert bereits.
 ParameterDialog.ErrorMessage.EmptyName=Name ist leer.
 ParameterDialog.ErrorMessage.InvalidListLimit=Der Begrenzungswert sollte zwischen 0 und {0} liegen.
-ParameterDialog.ErrorMessage.MismatchDataType=The value does not match the data type.
+ParameterDialog.ErrorMessage.MismatchDataType=Der Wert stimmt nicht mit dem Datentyp überein.
 ParameterDialog.ErrorMessage.NoAvailableColumn=Es sind keine Spalten verfügbar.
 ParameterDialog.ErrorMessage.NoDefaultValue=Sie müssen einen Standardwert angeben.
 ParameterDialog.ErrorTitle.InvalidListLimit=Listenbegrenzung ungültig
@@ -2676,7 +2676,7 @@ PublishTemplateAction.wizard.message=Unable to publish the template to the direc
 PublishTemplateAction.wizard.notvalidfolder=Der in den Voreinstellungen festgelegte Vorlagenordner ist ungültig.
 PublishTemplateAction.wizard.page.nameInfo=Anzeigename erforderlich
 PublishTemplateAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht vorhanden.
-PublishTemplateAction.wizard.message.ThumbnailImageNotExist=The Thumbnail image does not exist.
+PublishTemplateAction.wizard.message.ThumbnailImageNotExist=Das Miniaturbild ist nicht vorhanden.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=Vorschaubilddatei nicht vorhanden.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=Die Vorschaubilddatei ist kein gültiges Bild.
 
@@ -3873,7 +3873,7 @@ BindingDialogHelper.text.Expression=Ausdruck:
 BindingDialogHelper.text.displayName=Anzeigename:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
-BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists. 
+BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden. 
 
 ###########################################################
 #Scripts Node

@@ -9,7 +9,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=不支持输出格式 {0}。
 Error.InvalidParameter=某些所需的参数值未设置或设为不兼容的数据类型。
-Error.InvalidParameterType=The type of parameter "{0}" is expected as "{1}", but not "{2}".
+Error.InvalidParameterType=参数“{0}”的类型预期为“{1}”，而不是“{2}”。
 Error.ParameterValueNull=未设置必需参数 {0}。
 Error.ParamScriptValidationError=参数“{0}”脚本源验证错误，源为 {1}。
 Error.InvalidDesignFile=设计文件 {0} 有错误且不能运行。
