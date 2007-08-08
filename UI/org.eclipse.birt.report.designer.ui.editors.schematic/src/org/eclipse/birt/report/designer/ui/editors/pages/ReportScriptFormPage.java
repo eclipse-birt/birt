@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEve
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -407,6 +409,12 @@ public class ReportScriptFormPage extends ReportFormPage
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
+		}
+		if ( adapter == DataViewPage.class )
+		{
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
+			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
+			return page;
 		}
 		return jsEditor.getAdapter( adapter );
 	}
