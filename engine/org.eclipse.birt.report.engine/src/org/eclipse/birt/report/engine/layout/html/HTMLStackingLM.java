@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,25 +18,32 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 	{
 		super( factory );
 	}
-	
-	protected void start()
+		
+	protected boolean layoutChildren()
 	{
-		isOutput = false;
+		boolean hasNext = layoutNodes();
+		if(hasNext)
+		{
+			context.addLayoutHint( content, false );
+		}
+		return hasNext;
 	}
 	
-	protected void end()
+	protected void end( boolean finished )
 	{
-		if (isChildrenFinished())
+		if(emitter!=null)
 		{
-			if (!isOutput)
-			{
-				startContent( );
-				isOutput = true;
-			}
-		}
-		if (isOutput)
-		{
-			super.end();
+			context.getPageBufferManager( ).endContainer( content, finished, emitter );
 		}
 	}
+
+	protected void start( boolean isFirst )
+	{
+		if(emitter!=null)
+		{
+			context.getPageBufferManager( ).startContainer( content, isFirst, emitter );
+		}
+	}
+
+	protected abstract boolean layoutNodes();
 }

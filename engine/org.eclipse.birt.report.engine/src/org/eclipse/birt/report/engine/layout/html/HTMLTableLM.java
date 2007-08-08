@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 
 public class HTMLTableLM extends HTMLBlockStackingLM
 {
@@ -56,19 +57,13 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 				if ( header != null )
 				{
 					boolean pageBreak = context.allowPageBreak( );
-					//boolean skipPageHint = context.getSkipPageHint( );
-					boolean isEmpty = context.isPageEmpty( );
-					context.setPageEmpty( true );
 					context.setAllowPageBreak( false );
-					//context.setSkipPageHint( true );
+					IPageBuffer buffer =  context.getPageBufferManager( );
+					boolean isRepeated = buffer.isRepeated();
+					buffer.setRepeated( true );
 					engine.layout(this, header, emitter );
+					buffer.setRepeated( isRepeated );
 					context.setAllowPageBreak( pageBreak );
-					context.setPageEmpty( isEmpty );
-					//context.setSkipPageHint( skipPageHint );
-					/**
-					 * call continue content to restart the page hint section
-					 */
-					context.continueContent( null );
 				}
 			}
 		}
@@ -79,17 +74,17 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 	{
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );
-		if ( !isOutput )
-		{
-			startContent( );
-		}
-		if(hasNext)
-		{
-			context.addLayoutHint( content, !hasNext );
-		}
-		/*tableEmitter.resolveAll( !hasNext );
-		tableEmitter.flush( );*/
 		return hasNext;
+	}
+
+	protected void end( boolean finished )
+	{
+		context.getPageBufferManager( ).endContainer( content, finished, tableEmitter );
+	}
+
+	protected void start( boolean isFirst )
+	{
+		context.getPageBufferManager( ).startContainer( content, isFirst, tableEmitter );
 	}
 
 }

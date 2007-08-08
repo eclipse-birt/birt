@@ -26,27 +26,6 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 		return LAYOUT_MANAGER_ROW;
 	}
 
-	public boolean layout( )
-	{
-		boolean hasNext =  super.layout( );
-		if ( !context.getSkipPageHint( ) && !hasNext )
-		{
-			context.setPageEmpty( false );
-		}
-		return hasNext;
-	}
-	
-	protected  boolean layoutChildren( )
-	{
-		boolean hasNext = super.layoutChildren( );
-		if(hasNext)
-		{
-			context.addLayoutHint( content, !hasNext );
-		}
-		return hasNext;
-		
-	}
-	
 	protected boolean handleVisibility( )
 	{
 		//handle visibility in table layout

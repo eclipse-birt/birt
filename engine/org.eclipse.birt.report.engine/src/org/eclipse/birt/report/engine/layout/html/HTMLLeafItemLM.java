@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,39 +26,28 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 		return LAYOUT_MANAGER_LEAF;
 	}
 
-	public boolean layout( )
-	{
-		boolean hasNext =  super.layout( );
-		if ( status != STATUS_START && !context.getSkipPageHint( ) )
-		{
-			context.setPageEmpty( false );
-		}
-		return hasNext;
-	}
-	
 	protected boolean layoutChildren( )
 	{
 		return false;
 	}
-	
-	protected boolean isChildrenFinished()
+
+	protected boolean isChildrenFinished( )
 	{
 		return true;
 	}
 
-	protected void processEndStatus( )
+	protected void end( boolean finished )
 	{
 
 	}
 
-	protected void cancelChildren( )
+	protected void start( boolean isFirst )
 	{
-		return;
+		if(emitter!=null)
+		{
+			context.getPageBufferManager( ).startContent( content, emitter );
+		}
 	}
-	
-	protected void start()
-	{
-		startContent();
-	}
+
 
 }

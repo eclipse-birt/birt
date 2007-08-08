@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
@@ -28,15 +29,44 @@ public class HTMLLayoutContext
 
 	protected boolean allowPageBreak = true;
 
-	protected boolean pageEmpty = true;
-
 	protected boolean finished;
 
-	protected long pageNumber;
+	//default page number is 1
+	protected long pageNumber = 1;
 
 	protected HTMLReportLayoutEngine engine;
 	
 	protected HashMap layoutHint = new HashMap();
+	
+	protected ArrayList pageHints = new ArrayList();
+	
+	protected IPageBuffer bufferMgr;
+	
+	public HTMLReportLayoutEngine getLayoutEngine()
+	{
+		return engine;
+	}
+	public void setPageBufferManager(IPageBuffer bufferMgr)
+	{
+		this.bufferMgr = bufferMgr;
+	}
+	
+	public IPageBuffer getPageBufferManager()
+	{
+		return this.bufferMgr;
+	}
+	
+	public void setPageHint(List hints)
+	{
+		pageHints.addAll( hints );
+	}
+
+	public ArrayList getPageHint()
+	{
+		ArrayList hints = new ArrayList();
+		hints.addAll( pageHints );
+		return hints;
+	}
 	
 	/**
 	 * whether emitter need to output the display:none or process it in layout
@@ -48,7 +78,6 @@ public class HTMLLayoutContext
 	
 	public void reset()
 	{
-		pageEmpty = true;
 		layoutHint = new HashMap();
 		finished = false;
 		allowPageBreak = true;
@@ -100,16 +129,6 @@ public class HTMLLayoutContext
 		this.allowPageBreak = allowPageBreak;
 	}
 
-	public boolean isPageEmpty( )
-	{
-		return pageEmpty;
-	}
-
-	public void setPageEmpty( boolean pageEmpty )
-	{
-		this.pageEmpty = pageEmpty;
-	}
-
 	public void setFinish( boolean finished )
 	{
 		this.finished = finished;
@@ -130,88 +149,7 @@ public class HTMLLayoutContext
 	{
 		return cancelFlag;
 	}
-
-	boolean skipPageHint = false;
-	ArrayList pageHint = new ArrayList( );
-	IContent startContent = null;
-	IContent currentContent = null;
-
-	void setSkipPageHint( boolean skip )
-	{
-		skipPageHint = skip;
-	}
-
-	boolean getSkipPageHint( )
-	{
-		return skipPageHint;
-	}
-
-	public void startContent( IContent content )
-	{
-		if ( !skipPageHint )
-		{
-			if ( startContent == null )
-			{
-				startContent = content;
-			}
-			currentContent = content;
-		}
-	}
-
-	public void continueContent( IContent content )
-	{
-		if ( !skipPageHint )
-		{
-			if ( startContent != null )
-			{
-				pageHint.add( new IContent[]{startContent, currentContent} );
-				startContent = null;
-				currentContent = null;
-			}
-		}
-	}
-
-	public void endContent( IContent content )
-	{
-	}
-
-	public void endContentWithPageBreak( IContent content )
-	{
-		if ( !skipPageHint )
-		{
-			if ( startContent != null )
-			{
-				pageHint.add( new IContent[]{startContent, currentContent} );
-				startContent = null;
-				currentContent = null;
-			}
-		}
-	}
-
-	public void skipContent(IContent content)
-	{
-		if ( !skipPageHint )
-		{
-			if ( startContent != null )
-			{
-				pageHint.add( new IContent[]{startContent, currentContent} );
-				startContent = null;
-				currentContent = null;
-			}
-		}
-	}
 	
-	public ArrayList getPageHint( )
-	{
-		ArrayList hint = new ArrayList( );
-		hint.addAll( pageHint );
-		if ( startContent != null )
-		{
-			assert currentContent != null;
-			hint.add( new IContent[]{startContent, currentContent} );
-		}
-		return hint;
-	}
 	
 	protected ArrayList hints = new ArrayList();
 	protected ArrayList currentHints = new ArrayList();
@@ -247,12 +185,10 @@ public class HTMLLayoutContext
 
 	public void clearPageHint( )
 	{
-		pageHint.clear( );
+		pageHints.clear();
 		hints.clear( );
 		hints.addAll( currentHints );
 		currentHints.clear();
-		startContent = null;
-		currentContent = null;
 	}
 
 	/**

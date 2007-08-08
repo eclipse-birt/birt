@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -45,6 +46,37 @@ public class LayoutUtil
 		return false;
 	}
 
+	public static boolean isRepeatableBand(IBandContent band)
+	{
+		IContent parent = (IContent)band.getParent( );
+		if(parent instanceof IGroupContent)
+		{
+			IGroupContent group = (IGroupContent)parent;
+			if(band.getBandType( )==IBandContent.BAND_GROUP_HEADER)
+			{
+				return group.isHeaderRepeat( );
+			}
+		}
+		else if(parent instanceof ITableContent)
+		{
+			ITableContent table = (ITableContent)parent;
+			if(band.getBandType( )==IBandContent.BAND_HEADER)
+			{
+				return table.isHeaderRepeat( );
+			}
+		}
+		else if(parent instanceof IListContent)
+		{
+			IListContent list = (IListContent)parent;
+			if(band.getBandType( )==IBandContent.BAND_HEADER)
+			{
+				return list.isHeaderRepeat( );
+			}
+		}
+		return false;
+		
+		
+	}
 	public static boolean isRepeatableRow( IRowContent row )
 	{
 		IContent parent = (IContent) row.getParent( );

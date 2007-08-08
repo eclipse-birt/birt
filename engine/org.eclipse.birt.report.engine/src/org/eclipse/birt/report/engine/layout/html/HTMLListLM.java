@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 
 public class HTMLListLM extends HTMLBlockStackingLM
 {
@@ -50,19 +51,13 @@ public class HTMLListLM extends HTMLBlockStackingLM
 				if ( header != null )
 				{
 					boolean pageBreak = context.allowPageBreak( );
-					//boolean skipPageHint = context.getSkipPageHint( );
-					boolean isEmpty = context.isPageEmpty( );
-					context.setPageEmpty( true );
 					context.setAllowPageBreak( pageBreak );
-					//context.setSkipPageHint( true );
-					engine.layout( this, header, emitter );
+					IPageBuffer buffer =  context.getPageBufferManager( );
+					boolean isRepeated = buffer.isRepeated();
+					buffer.setRepeated( true );
+					engine.layout(this, header, emitter );
+					buffer.setRepeated( isRepeated );
 					context.setAllowPageBreak( pageBreak );
-					//context.setSkipPageHint( skipPageHint );
-					context.setPageEmpty( isEmpty );
-					/**
-					 * call continue content to restart the page hint section
-					 */
-					context.continueContent( null );
 				}
 			}
 		}

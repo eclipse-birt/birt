@@ -65,8 +65,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	protected IContentEmitter emitter;
 
 	protected int status = STATUS_INTIALIZE;
-
-	protected boolean isOutput = false;
 	
 	public HTMLAbstractLM( HTMLLayoutManagerFactory factory )
 	{
@@ -94,37 +92,9 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return parent;
 	}
 
-	/**
-	 * output the content.
-	 */
-	protected abstract void start( );
+	protected abstract void start( boolean isFirst );
 
-	/**
-	 * output the content.
-	 */
-	protected void startContent( )
-	{
-		if ( parent != null && !parent.isOutput )
-		{
-			parent.startContent( );
-		}
-		if ( emitter != null )
-		{
-			ContentEmitterUtil.startContent( content, emitter );
-		}
-		isOutput = true;
-	}
-
-	/**
-	 * end output the content
-	 */
-	protected void end( )
-	{
-		if ( emitter != null )
-		{
-			ContentEmitterUtil.endContent( content, emitter );
-		}
-	}
+	protected abstract void end( boolean finished );
 
 	/**
 	 * layout the content and its children.
@@ -156,20 +126,15 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				if ( isPageBreakBefore( ) )
 				{
 					status = STATUS_START;
-					context.endContentWithPageBreak( null );
 					return true;
 				}				
 			case STATUS_START :
 				//it is the first time we handle the content
-				context.startContent(content);
 			case STATUS_INPROGRESS :
-				if (status == STATUS_INPROGRESS)
-				{
-					context.continueContent(content);
-				}
-				start( );
+
+				start( status==STATUS_START || status==STATUS_INTIALIZE);
 				boolean hasNext = layoutChildren( );
-				end( );
+				end( !hasNext );
 				
 				if (isChildrenFinished())
 				{
@@ -183,10 +148,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				{
 					// there are sill some content to output,
 					// return to caller to creat the new page.
-					context.endContentWithPageBreak(content);
 					return true;
 				}
-				context.endContent(content);
 				// We need create an extra page for the following elements, so
 				// return true for next element.
 				if ( isPageBreakAfter( ) )
@@ -503,4 +466,10 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	{
 		status = STATUS_END;
 	}
+	
+	protected IContent getContent()
+	{
+		return content;
+	}
+	
 }

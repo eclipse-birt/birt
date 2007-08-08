@@ -20,16 +20,11 @@ import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 
 public class HTMLPageLM extends HTMLBlockStackingLM
 {
 
 	protected IReportContent report;
-
-	protected long pageNumber = 0;
-	protected long startOffset;
-	protected long endOffset;
 
 	protected IPageContent pageContent;
 
@@ -42,7 +37,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		this.report = report;
 		this.reportExecutor = executor;
 		this.emitter = emitter;
-		this.pageNumber = Math.max(  context.getPageNumber( ) - 1, 0);
 		this.executor = new ReportItemExecutorBase( ) {
 
 			public void close( )
@@ -72,6 +66,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	}
 
 	boolean isLastPage = false;
+	boolean isFirstPage = true;
 
 	public boolean layout( )
 	{
@@ -81,143 +76,49 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			isLastPage = true;
 			return false;
 		}
-		boolean hasNextPage = layoutChildren( );
+		start(isFirstPage);
+		boolean hasNextPage = layoutNodes( );
 		if ( isChildrenFinished( ) )
 		{
 			isLastPage = true;
 		}
-		if ( isLastPage && !hasStartPage && pageNumber == 0 )
+		if(hasNextPage && !isLastPage)
 		{
-			start( );
+			context.addLayoutHint( pageContent, false );
 		}
-		end( );
+		isFirstPage = false;
+		end(isLastPage );
 		return hasNextPage;
 	}
 
-	boolean hasStartPage = false;
-
-	protected boolean layoutChildren( )
-	{
-		boolean hasNext = false;
-		hasStartPage = false;
-		// first we need layout the remain content
-		if ( childLayout != null )
-		{
-			// we have handle the childLayout, so just ouptut the content
-			start( );
-			hasStartPage = true;
-			hasNext = childLayout.layout( );
-			if ( childLayout.isFinished( ) )
-			{
-				childLayout.close( );
-				childExecutor.close( );
-				childLayout = null;
-				childExecutor = null;
-			}
-			if ( hasNext )
-			{
-				return true;
-			}
-		}
-		// then layout the next content
-		while ( executor.hasNextChild( ) && !context.getCancelFlag( ) )
-		{
-			childExecutor = (IReportItemExecutor) executor.getNextChild( );
-			IContent childContent = childExecutor.execute( );
-			if ( childContent != null )
-			{
-				if ( hasStartPage == false )
-				{
-					hasStartPage = true;
-					String masterPage = childContent.getStyle( )
-							.getMasterPage( );
-					if ( masterPage != null )
-					{
-						context.setMasterPage( masterPage );
-					}
-					start( );
-				}
-				childLayout = engine.createLayoutManager( this, childContent,
-						childExecutor, emitter );
-				hasNext = childLayout.layout( );
-				if ( hasNext )
-				{
-					if ( childLayout.isFinished( ) )
-					{
-						childLayout.close( );
-						childExecutor.close( );
-						childLayout = null;
-						childExecutor = null;
-					}
-					return true;
-				}
-				childLayout.close( );
-				childLayout = null;
-			}
-			childExecutor.close( );
-			childExecutor = null;
-		}
-		return false;
-	}
 
 	public boolean isFinished( )
 	{
 		return isLastPage;
 	}
 
-	protected void pageBreakEvent( )
+
+	protected void start( boolean isFirst )
 	{
-		ILayoutPageHandler pageHandler = engine.getPageHandler( );
-		if ( pageHandler != null )
+		MasterPageDesign pageDesign = getMasterPage( report );
+		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
+				context.getPageNumber( ), pageDesign );
+		if ( emitter != null  )
 		{
-			pageHandler.onPage( this.pageNumber, context );
+			context.getPageBufferManager( ).startContainer( pageContent, isFirst, emitter );
 		}
 	}
-
-	protected void start( )
+	
+	protected IContent getContent()
 	{
-		if ( pageContent == null )
-		{
-			MasterPageDesign pageDesign = getMasterPage( report );
-			pageNumber = pageNumber + 1;
-			context.setPageNumber( pageNumber );
-			pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
-					pageNumber, pageDesign );
-			if ( emitter != null && pageContent!=null )
-			{
-				emitter.startPage( pageContent );
-			}
-		}
-		isOutput = true;
+		return pageContent;
 	}
 
-	protected void end( )
+	protected void end( boolean finished )
 	{
-		if ( isLastPage )
+		if ( emitter != null  )
 		{
-			if ( pageNumber == 1 )
-			{
-				context.setPageEmpty( false );
-			}
-			if ( context.isPageEmpty( ) )
-			{
-				// remove the last page number
-				pageNumber--;
-				context.setPageNumber( pageNumber );
-			}
+			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter );
 		}
-		if ( !context.isPageEmpty( ) )
-		{
-			//assert pageContent != null;
-			if ( emitter != null && pageContent!=null )
-			{
-				emitter.endPage( pageContent );
-			}
-			pageBreakEvent( );
-			pageContent = null;
-			context.setPageEmpty( true );
-			context.clearPageHint( );
-		}
-		context.removeLayoutHint( );
 	}
 }

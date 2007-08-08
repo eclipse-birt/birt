@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 
 public class HTMLGroupLM extends HTMLBlockStackingLM
 {
@@ -48,19 +49,13 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			if ( group.isHeaderRepeat( ) && header != null )
 			{
 				boolean pageBreak = context.allowPageBreak( );
-				//boolean skipPageHint = context.getSkipPageHint( );
-				boolean isEmpty = context.isPageEmpty( );
-				context.setPageEmpty( true );
 				context.setAllowPageBreak( false );
-				//context.setSkipPageHint( true );
-				engine.layout( this, header, emitter );
+				IPageBuffer buffer =  context.getPageBufferManager( );
+				boolean isRepeated = buffer.isRepeated();
+				buffer.setRepeated( true );
+				engine.layout(this, header, emitter );
+				buffer.setRepeated( isRepeated );
 				context.setAllowPageBreak( pageBreak );
-				context.setPageEmpty( isEmpty );
-				//context.setSkipPageHint( skipPageHint );
-				/**
-				 * call continue content to restart the page hint section
-				 */
-				context.continueContent( null );
 			}
 		}
 		isFirstLayout = false;
@@ -70,10 +65,6 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 	{
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );
-		if(hasNext)
-		{
-			context.addLayoutHint( content, !hasNext );
-		}
 		return hasNext;
 	}
 
