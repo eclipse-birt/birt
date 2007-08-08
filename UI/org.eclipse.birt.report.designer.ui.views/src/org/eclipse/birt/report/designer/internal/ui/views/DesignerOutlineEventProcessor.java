@@ -21,9 +21,12 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
  * Processor the model event for the DesignerOutline
  */
 
-public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor implements IFastConsumerProcessor
+public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor implements
+		IFastConsumerProcessor
 {
+
 	public static String EVENT_CONTENT = "Event Content";
+
 	/**
 	 * @param factory
 	 */
@@ -31,70 +34,90 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 	{
 		super( factory );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor#createModelEventInfoFactory()
 	 */
-	protected ModelEventInfoFactory createModelEventInfoFactory()
+	protected ModelEventInfoFactory createModelEventInfoFactory( )
 	{
-		return new OutlineModelEventInfoFactory();
+		return new OutlineModelEventInfoFactory( );
 	}
+
 	/**
 	 * OutlineModelEventInfoFactory
 	 */
-	private static class OutlineModelEventInfoFactory implements ModelEventInfoFactory
+	private static class OutlineModelEventInfoFactory implements
+			ModelEventInfoFactory
 	{
-		/* Creat the report runnable for the DesignerOutline.
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfoFactory#createModelEventInfo(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
+
+		/*
+		 * Creat the report runnable for the DesignerOutline.
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfoFactory#createModelEventInfo(org.eclipse.birt.report.model.api.DesignElementHandle,
+		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public  ModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev)
+		public ModelEventInfo createModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
 		{
 			switch ( ev.getEventType( ) )
 			{
 				case NotificationEvent.CONTENT_EVENT :
 				{
-					return new OutlineContentModelEventInfo(focus, ev);
+					if ( ev instanceof ContentEvent
+							&& ( (ContentEvent) ev ).getAction( ) == ContentEvent.ADD )
+						return new OutlineContentModelEventInfo( focus, ev );
+					else
+						return new RefreshModelEventInfo( focus, ev );
 				}
 				default :
 				{
-					return new RefreshModelEventInfo(focus, ev);
+					return new RefreshModelEventInfo( focus, ev );
 				}
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor#includeEventType(int)
 	 */
 	protected boolean includeEventType( int type )
 	{
 		return true;
 	}
-	
-	/**Process the content model event.
-	 * OutlineContentModelEventInfo
+
+	/**
+	 * Process the content model event. OutlineContentModelEventInfo
 	 */
 	protected static class OutlineContentModelEventInfo extends ModelEventInfo
 	{
-		
+
 		/**
 		 * @param focus
 		 * @param ev
 		 */
-		private OutlineContentModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
-		{	
-			super(focus, ev);
+		private OutlineContentModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
+		{
+			super( focus, ev );
 			assert ev instanceof ContentEvent;
-			setContent( ((ContentEvent)ev).getContent( ) );
+			setContent( ( (ContentEvent) ev ).getContent( ) );
 		}
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
+		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info)
+		public boolean canAcceptModelEvent( ModelEventInfo info )
 		{
 			return false;
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -102,37 +125,42 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		{
 			return getOtherInfo( ).get( EVENT_CONTENT );
 		}
-		
+
 		/**
 		 * @param onj
 		 */
-		public void setContent(Object obj )
+		public void setContent( Object obj )
 		{
-			getOtherInfo( ).put(EVENT_CONTENT ,obj);
+			getOtherInfo( ).put( EVENT_CONTENT, obj );
 		}
 	}
-	
+
 	/**
 	 * RefreshModelEventInfo
 	 */
 	protected static class RefreshModelEventInfo extends ModelEventInfo
 	{
-		
+
 		/**
 		 * @param focus
 		 * @param ev
 		 */
-		private RefreshModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
-		{	
-			super(focus, ev);
-			
-		}
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
-		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info)
+		private RefreshModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
 		{
-			return info.getType( ) != NotificationEvent.CONTENT_EVENT ;
+			super( focus, ev );
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
+		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 */
+		public boolean canAcceptModelEvent( ModelEventInfo info )
+		{
+			return info.getType( ) != NotificationEvent.CONTENT_EVENT;
 		}
 	}
 

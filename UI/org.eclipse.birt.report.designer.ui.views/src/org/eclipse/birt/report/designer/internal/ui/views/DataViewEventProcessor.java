@@ -81,8 +81,10 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 								return new DataViewParameterModelEventInfo( (ParameterHandle) contentHandle,
 										ev );
 						}
+						else if ( event.getAction( ) == ContentEvent.ADD )
+							return new DataViewContentModelEventInfo( focus, ev );
+						else return new RefreshModelEventInfo( focus, ev );
 					}
-					return new DataViewContentModelEventInfo( focus, ev );
 				}
 				case NotificationEvent.NAME_EVENT :
 				{
