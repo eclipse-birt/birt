@@ -286,6 +286,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		{
 			if ( !parent.isPageEmpty( ) )
 			{
+				context.setAutoPageBreak( true );
 				return true;
 			}
 			else
