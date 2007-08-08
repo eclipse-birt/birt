@@ -48,7 +48,7 @@ public class MultipleYAxes
 	public static final Chart createMultipleYAxes( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
+		cwaBar.setType( "Line Chart" ); //$NON-NLS-1$
 		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 		
 		// Plot
