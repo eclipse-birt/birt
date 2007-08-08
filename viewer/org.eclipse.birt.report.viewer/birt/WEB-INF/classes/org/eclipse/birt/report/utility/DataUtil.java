@@ -373,6 +373,7 @@ public class DataUtil
 			case Types.INTEGER :
 				return "INT"; //$NON-NLS-1$
 			case Types.DOUBLE :
+			case Types.FLOAT :
 				return "DOUBLE"; //$NON-NLS-1$
 			case Types.VARCHAR :
 				return "STRING"; //$NON-NLS-1$
@@ -383,11 +384,14 @@ public class DataUtil
 			case Types.TIMESTAMP :
 				return "TIMESTAMP"; //$NON-NLS-1$
 			case Types.NUMERIC :
+			case Types.DECIMAL :
 				return "BIGDECIMAL"; //$NON-NLS-1$
 			case Types.BLOB :
 				return "BLOB"; //$NON-NLS-1$
 			case Types.CLOB :
 				return "CLOB"; //$NON-NLS-1$
+			case Types.BOOLEAN :
+				return "BOOLEAN"; //$NON-NLS-1$
 			default :
 				return "STRING"; //$NON-NLS-1$
 		}
