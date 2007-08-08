@@ -552,60 +552,74 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		ITableAdapterHelper tableHelper = (ITableAdapterHelper) getModelAdaptHelper( );
-		size = size.shrink( tableHelper.getInsets( ).getWidth( ), tableHelper
-				.getInsets( ).getHeight( ) );
+		int width = size.width;
+		int height = size.height;
 
-		int columnCount = getColumnCount( );
-		int samColumnWidth = 0;
-		for ( int i = 0; i < columnCount; i++ )
+		size = size.shrink( width < 0 ? 0 : tableHelper.getInsets( ).getWidth( ),
+				height < 0 ? 0 : tableHelper.getInsets( ).getHeight( ) );
+
+		if ( width >= 0 )
 		{
-			if ( i != columnCount - 1 )
+			int columnCount = getColumnCount( );
+			int samColumnWidth = 0;
+			for ( int i = 0; i < columnCount; i++ )
 			{
-				samColumnWidth = samColumnWidth
-						+ tableHelper.caleVisualWidth( i + 1 );
+				if ( i != columnCount - 1 )
+				{
+					samColumnWidth = samColumnWidth +
+							tableHelper.caleVisualWidth( i + 1 );
+				}
 			}
-		}
-		int lastColumnWidth = size.width - samColumnWidth;
-		if ( lastColumnWidth < tableHelper.getMinWidth( columnCount ) )
-		{
-			lastColumnWidth = tableHelper.getMinWidth( columnCount );
-			HandleAdapterFactory.getInstance( ).getColumnHandleAdapter(
-					getColumn( columnCount ) ).setWidth( lastColumnWidth );
-		}
-		else if ( lastColumnWidth != tableHelper.caleVisualWidth( columnCount ) )
-		{
-			HandleAdapterFactory.getInstance( ).getColumnHandleAdapter(
-					getColumn( columnCount ) ).setWidth( lastColumnWidth );
-		}
-
-		int rowCount = getRowCount( );
-		int samRowHeight = 0;
-		for ( int i = 0; i < rowCount; i++ )
-		{
-			if ( i != rowCount - 1 )
+			int lastColumnWidth = size.width - samColumnWidth;
+			if ( lastColumnWidth < tableHelper.getMinWidth( columnCount ) )
 			{
-				samRowHeight = samRowHeight
-						+ tableHelper.caleVisualHeight( i + 1 );
+				lastColumnWidth = tableHelper.getMinWidth( columnCount );
+				HandleAdapterFactory.getInstance( )
+						.getColumnHandleAdapter( getColumn( columnCount ) )
+						.setWidth( lastColumnWidth );
 			}
-		}
-		int lastRowHeight = size.height - samRowHeight;
-
-		if ( lastRowHeight < tableHelper.getMinHeight( rowCount ) )
-		{
-			lastRowHeight = tableHelper.getMinHeight( rowCount );
-			HandleAdapterFactory.getInstance( ).getRowHandleAdapter(
-					getRow( rowCount ) ).setHeight( lastRowHeight );
-		}
-		else if ( lastRowHeight != tableHelper.caleVisualHeight( rowCount ) )
-		{
-			HandleAdapterFactory.getInstance( ).getRowHandleAdapter(
-					getRow( rowCount ) ).setHeight( lastRowHeight );
+			else if ( lastColumnWidth != tableHelper.caleVisualWidth( columnCount ) )
+			{
+				HandleAdapterFactory.getInstance( )
+						.getColumnHandleAdapter( getColumn( columnCount ) )
+						.setWidth( lastColumnWidth );
+			}
+			width = samColumnWidth + lastColumnWidth;
 		}
 
-		setSize( new Dimension( size.width < 0 ? -1 : samColumnWidth +
-				lastColumnWidth, size.height < 0 ? -1 : samRowHeight +
-				lastRowHeight ).expand( tableHelper.getInsets( ).getWidth( ),
-				tableHelper.getInsets( ).getHeight( ) ) );
+		if ( height >= 0 )
+		{
+			int rowCount = getRowCount( );
+			int samRowHeight = 0;
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				if ( i != rowCount - 1 )
+				{
+					samRowHeight = samRowHeight +
+							tableHelper.caleVisualHeight( i + 1 );
+				}
+			}
+			int lastRowHeight = size.height - samRowHeight;
+
+			if ( lastRowHeight < tableHelper.getMinHeight( rowCount ) )
+			{
+				lastRowHeight = tableHelper.getMinHeight( rowCount );
+				HandleAdapterFactory.getInstance( )
+						.getRowHandleAdapter( getRow( rowCount ) )
+						.setHeight( lastRowHeight );
+			}
+			else if ( lastRowHeight != tableHelper.caleVisualHeight( rowCount ) )
+			{
+				HandleAdapterFactory.getInstance( )
+						.getRowHandleAdapter( getRow( rowCount ) )
+						.setHeight( lastRowHeight );
+			}
+			height = samRowHeight + lastRowHeight;
+		}
+
+		setSize( new Dimension( width, height ).expand( width < 0 ? 0
+				: tableHelper.getInsets( ).getWidth( ), height < 0 ? 0
+				: tableHelper.getInsets( ).getHeight( ) ) );
 	}
 
 	/**
