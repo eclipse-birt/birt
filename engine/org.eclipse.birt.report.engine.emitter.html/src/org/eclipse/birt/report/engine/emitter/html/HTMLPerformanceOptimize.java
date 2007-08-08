@@ -415,6 +415,15 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 		}
+		
+		// build the text-align
+		String textAlign = style.getTextAlign( );
+		if ( textAlign != null )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
 
 		style = getElementStyle( text );
 		if ( style == null )
@@ -428,15 +437,6 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
-
-		// build the text-align
-		String textAlign = style.getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
 	}
 
 	/**
@@ -464,6 +464,15 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 					styleBuffer );
 		}
+		
+		// build the text-align
+		String textAlign = style.getTextAlign( );
+		if ( textAlign != null )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
 
 		style = getElementStyle( foreign );
 		if ( style == null )
@@ -477,15 +486,6 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
-
-		// build the text-align
-		String textAlign = style.getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
 	}
 
 	/**

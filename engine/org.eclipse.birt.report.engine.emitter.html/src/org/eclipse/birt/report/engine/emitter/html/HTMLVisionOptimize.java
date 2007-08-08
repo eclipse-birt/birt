@@ -448,6 +448,15 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			AttributeBuilder.buildTextDecoration( styleBuffer, textComputedStyle );
 		}
 		
+		// build the text-align
+		String textAlign = style.getTextAlign( );
+		if ( textAlign != null )
+		{
+			styleBuffer.append( " text-align:" );
+			styleBuffer.append( textAlign );
+			styleBuffer.append( ";" );
+		}
+		
 		style = getElementStyle( text );
 		if ( style == null )
 		{
@@ -459,15 +468,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
-		
-		// build the text-align
-		String textAlign = style.getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
 	}
 
 	/**
