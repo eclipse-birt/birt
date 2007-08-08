@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.query.view;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
  * A CalculatedMember is an Aggregation Object which need to be calculated in
@@ -26,6 +27,7 @@ public class CalculatedMember
 	private String aggrFunction, onMeasureName, name;
 	private List aggrOnList, arguments;
 	private int rsID;
+	private IJSMeasureFilterEvalHelper filterEvalHelper;
 
 	/**
 	 * 
@@ -98,6 +100,23 @@ public class CalculatedMember
 		}
 		else
 			return (String[]) this.arguments.get( 0 );
+	}
+	
+	/**
+	 * 
+	 * @param filterEvalHelper
+	 */
+	public void setFilterEvalHelper( IJSMeasureFilterEvalHelper filterEvalHelper )
+	{
+		this.filterEvalHelper = filterEvalHelper;
+	}
+	
+	/**
+	 * @return
+	 */
+	public IJSMeasureFilterEvalHelper getFilterEvalHelper( )
+	{
+		return this.filterEvalHelper;
 	}
 	
 	/**

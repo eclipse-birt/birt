@@ -246,7 +246,7 @@ public class ExpressionCompilerUtil
 			String text = ( (IScriptExpression) expression ).getText( );
 			Context context = Context.enter( );
 
-			// fake a registry to register the aggragation.
+			// fake a registry to register the aggregation.
 			AggregateRegistry aggrReg = new AggregateRegistry( ) {
 
 				public int register( AggregateExpression aggregationExpr )
@@ -302,7 +302,7 @@ public class ExpressionCompilerUtil
 	{
 		Context context = Context.enter( );
 
-		// fake a registry to register the aggragation.
+		// fake a registry to register the aggregation.
 		AggregateRegistry aggrReg = new AggregateRegistry( ) {
 
 			public int register( AggregateExpression aggregationExpr )

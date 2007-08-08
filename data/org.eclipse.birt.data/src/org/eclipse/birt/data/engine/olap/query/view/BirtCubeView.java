@@ -57,7 +57,8 @@ public class BirtCubeView
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 		this.executor = queryExecutor;
-		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn );
+		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn,
+				queryExecutor.getSession( ).getSharedScope( ) );
 		if ( members != null && members.length > 0 )
 		{
 			Set rsIDSet = new HashSet( );

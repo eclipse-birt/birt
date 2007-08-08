@@ -1,0 +1,15 @@
+
+		CN   CN   CN   CN   CN   CN   CN   CN   JP   JP   JP   JP   UN   UN   UN   US   US   US   US   US   US   US   US   US   
+		BJ   BJ   BJ   HZ   SH   SH   SH   SZ   IL   IL   IL   TK   LD   LD   LP   CS   CS   CS   CS   CS   LA   LA   LA   NY   
+		A1   A1   A4   A2   A1   A1   A1   A1   A4   A4   A4   A4   A1   A3   A3   A2   A3   A4   A4   A4   A2   A2   A2   A1   
+		2000   2001   2002   1998   1998   2000   2002   1998   1999   2000   2002   1999   2001   2002   1998   1998   1999   2000   2001   2002   1998   2001   2002   2002   
+P1   PP1   null,  null,  null,  null,  1.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  36.0,  null,  null,  null,  null,  null,  null,  null,  41.0,  77.0&
+P1   PP2   null,  null,  null,  null,  null,  2.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  37.0,  null,  null,  null,  null,  null,  null,  null,  37.0&
+P1   PP3   null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  38.0,  null,  null,  null,  null,  null,  null,  38.0&
+P2   PP1   6.0,  null,  null,  null,  null,  null,  null,  11.0,  null,  null,  null,  null,  null,  null,  51.0,  null,  null,  null,  39.0,  null,  null,  null,  null,  null,  101.0&
+P2   PP2   null,  null,  null,  null,  null,  null,  null,  null,  61.0,  null,  null,  null,  46.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  107.0&
+P2   PP3   null,  null,  null,  null,  null,  null,  3.0,  null,  null,  64.0,  null,  null,  null,  47.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  111.0&
+P3   PP1   null,  null,  null,  16.0,  null,  null,  null,  null,  null,  null,  65.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  21.0,  null,  null,  null,  102.0&
+P3   PP2   null,  7.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  56.0,  null,  null,  null,  null,  null,  null,  null,  40.0,  null,  22.0,  null,  null,  118.0&
+P3   PP3   null,  null,  8.0,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  23.0,  null,  23.0&
+columnGrandTotal  null   null   null   16.0   null   null   null   11.0   61.0   64.0   65.0   56.0   46.0   47.0   51.0   36.0   37.0   38.0   39.0   40.0   21.0   22.0   23.0   41.0   741.0

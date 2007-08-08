@@ -378,7 +378,8 @@ public class QueryExecutor
 							( (CalculatedMember) list.get( index ) ).getMeasureName( ),
 							dimLevel,
 							attributeName,
-							( (CalculatedMember) list.get( index ) ).getAggrFunction( ) );
+							( (CalculatedMember) list.get( index ) ).getAggrFunction( ),
+							( (CalculatedMember) list.get( index ) ).getFilterEvalHelper( ) );
 				}
 
 				DimLevel[] levels = new DimLevel[calculatedMember[i].getAggrOnList( )

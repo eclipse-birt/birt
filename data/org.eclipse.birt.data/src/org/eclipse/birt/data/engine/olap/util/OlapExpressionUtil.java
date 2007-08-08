@@ -231,7 +231,9 @@ public class OlapExpressionUtil
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
-							convertToDimLevelAttribute( binding.getArguments( ), bindings ) ) );
+							convertToDimLevelAttribute( binding.getArguments( ),
+									bindings ),
+							binding.getFilter( ) ) );
 			}
 		}
 
@@ -307,12 +309,13 @@ public class OlapExpressionUtil
 		private String measure;
 		private List aggrLevels, arguments;
 		private String aggrName;
+		private IBaseExpression filterExpression;
 
 		/*
 		 * 
 		 */
 		CubeAggrDefn( String name, String measure, List aggrLevels,
-				String aggrName, List arguments )
+				String aggrName, List arguments, IBaseExpression filterExpression )
 		{
 			assert name != null;
 			assert measure != null;
@@ -323,6 +326,7 @@ public class OlapExpressionUtil
 			this.aggrLevels = aggrLevels;
 			this.aggrName = aggrName;
 			this.arguments = arguments;
+			this.filterExpression = filterExpression;
 		}
 
 		/*
@@ -373,6 +377,15 @@ public class OlapExpressionUtil
 		public String getAggrName( )
 		{
 			return this.aggrName;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getFilter()
+		 */
+		public IBaseExpression getFilter( )
+		{
+			return this.filterExpression;
 		}
 
 	}

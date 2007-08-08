@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -30,6 +31,9 @@ import org.eclipse.birt.data.engine.olap.impl.query.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.JSMeasureFilterEvalHelper;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Utility class
@@ -48,7 +52,7 @@ class CubeQueryDefinitionUtil
 	 * @throws DataException 
 	 */
 	static CalculatedMember[] getCalculatedMembers(
-			ICubeQueryDefinition queryDefn ) throws DataException
+			ICubeQueryDefinition queryDefn, Scriptable scope ) throws DataException
 	{
 		List measureList = queryDefn.getMeasures( );
 		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
@@ -108,6 +112,13 @@ class CubeQueryDefinitionUtil
 				{
 					calculatedMember[index] = new CalculatedMember( (ICubeAggrDefn) cubeAggrBindingList.get( i ),
 							id );
+				}
+
+				if ( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getFilter( ) != null )
+				{
+					IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope,
+							new FilterDefinition( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getFilter( ) ) );
+					calculatedMember[index].setFilterEvalHelper( filterEvalHelper );
 				}
 				index++;
 			}
