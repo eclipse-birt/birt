@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 
 /**
  * 
@@ -25,6 +27,9 @@ public class LevelFilter
 	private String dimensionName;
 	private String levelName;
 	private ISelection[] selections;
+	private Member[] dimMembers;
+	private IJSFilterHelper filterHelper;
+	
 	private static Logger logger = Logger.getLogger( LevelFilter.class.getName( ) );
 	
 	
@@ -109,5 +114,40 @@ public class LevelFilter
 	{
 		this.selections = selections;
 	}
+
 	
+	/**
+	 * @return the dimensionMembers
+	 */
+	public Member[] getDimMembers( )
+	{
+		return dimMembers;
+	}
+
+	
+	/**
+	 * @param dimensionMembers the dimensionMembers to set
+	 */
+	public void setDimMembers( Member[] dimensionMembers )
+	{
+		this.dimMembers = dimensionMembers;
+	}
+
+	
+	/**
+	 * @return the filterHelper
+	 */
+	public IJSFilterHelper getFilterHelper( )
+	{
+		return filterHelper;
+	}
+
+	
+	/**
+	 * @param filterHelper the filterHelper to set
+	 */
+	public void setFilterHelper( IJSFilterHelper filterHelper )
+	{
+		this.filterHelper = filterHelper;
+	}
 }

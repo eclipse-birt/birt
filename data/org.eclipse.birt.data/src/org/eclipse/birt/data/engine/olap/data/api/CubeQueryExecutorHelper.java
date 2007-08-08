@@ -47,14 +47,13 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelp
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 import org.eclipse.birt.data.engine.olap.data.util.OrderedDiskArray;
-import org.eclipse.birt.data.engine.olap.data.util.SelectionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSDimensionFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper;
@@ -76,10 +75,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List columnSort = null;
 	private List topbottomFilters;
 	
-	private boolean isEmptyXTab;
+	private boolean isEmptyXTab = false;
 	private boolean isBreakHierarchy = true;
 	
 	private IComputedMeasureHelper computedMeasureHelper = null;
+	
+	private Map dimLevelsMap = null;
 	
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
@@ -101,6 +102,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.rowSort = new ArrayList( );
 		this.columnSort = new ArrayList( );
 		this.topbottomFilters = new ArrayList( );
+		
+		dimLevelsMap = new HashMap( );
+		IDimension[] dimension = this.cube.getDimesions( );
+		for ( int i = 0; i < dimension.length; i++ )
+		{
+			ILevel[] levels = dimension[i].getHierarchy( ).getLevels( );
+			dimLevelsMap.put( dimension[i].getName( ), levels );
+		}
 		logger.exiting( CubeQueryExecutorHelper.class.getName( ),
 				"CubeQueryExecutorHelper" );
 	}
@@ -284,6 +293,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		topbottomFilters.clear( );
 		dimJSFilterMap.clear( );
 		dimRowForFilterMap.clear( );
+		dimLevelsMap.clear( );
 	}
 
 	/*
@@ -297,6 +307,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		topbottomFilters = null;
 		dimJSFilterMap = null;
 		dimRowForFilterMap = null;
+		dimLevelsMap = null;
 	}
 
 	/*
@@ -347,8 +358,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 						IDiskArray selectedLevelKeys = null;
 						if ( levelFilterMap.containsKey( filter.getTargetLevel( ) ) )
 						{
-							selectedLevelKeys = (IDiskArray) levelFilterMap.get( filter.getTargetLevel( ) );
-							selectedLevelKeys = interKeys( selectedLevelKeys,
+							Object[] valueObjs = (Object[]) levelFilterMap.get( filter.getTargetLevel( ) );
+							selectedLevelKeys = (IDiskArray) valueObjs[0];
+							selectedLevelKeys = getIntersection( selectedLevelKeys,
 									levelKeyList );
 						}
 						else
@@ -356,7 +368,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 							selectedLevelKeys = levelKeyList;
 						}
 						levelFilterMap.put( filter.getTargetLevel( ),
-								selectedLevelKeys );
+								new Object[]{
+										selectedLevelKeys,
+										filter.getFilterHelper( )
+								} );
 					}
 				}			
 			}
@@ -364,38 +379,114 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			for ( Iterator j = levelFilterMap.keySet( ).iterator( ); j.hasNext( ); )
 			{
 				DimLevel target = (DimLevel) j.next( );
-				IDiskArray selectedKeyArray = (IDiskArray) levelFilterMap.get( target );
+				Object[] valueObjs =  (Object[]) levelFilterMap.get( target );
+				IDiskArray selectedKeyArray = (IDiskArray) valueObjs[0];
+				IJSFilterHelper filterHelper = (IJSFilterHelper) valueObjs[1];
 				if ( selectedKeyArray.size( ) == 0 )
 					continue;
-				Object[][] keys = new Object[selectedKeyArray.size( )][];
-				for ( int k = 0; k < keys.length; k++ )
+				ILevel[] levels = getLevelsOfDimension( target.getDimensionName( ) );
+				int index = getTargetLevelIndex( levels, target.getLevelName( ) );
+				Map keyMap = new HashMap( );
+				for ( int k = 0; k < selectedKeyArray.size( ); k++ )
 				{
-					keys[k] = ( (MultiKey) selectedKeyArray.get( k ) ).levelKey;
+					MultiKey multiKey = (MultiKey) selectedKeyArray.get( k );
+					String parentKey = getParentKey( multiKey.dimMembers, index );
+					List keyList = (List) keyMap.get( parentKey );
+					if ( keyList == null )
+					{
+						keyList = new ArrayList( );
+						keyMap.put( parentKey, keyList );
+					}
+					keyList.add( multiKey );
 				}
-				ISelection selection = SelectionFactory.createMutiKeySelection( keys );
-				LevelFilter filter = new LevelFilter( target, new ISelection[]{
-					selection
-				} );
-				levelFilterList.add( filter );				
+				for ( Iterator keyItr = keyMap.keySet( ).iterator( ); keyItr.hasNext( ); )
+				{
+					String parentKey = (String) keyItr.next( );
+					List keyList = (List) keyMap.get( parentKey );
+					ISelection selections = toMultiKeySelection( keyList );
+					LevelFilter levelFilter = new LevelFilter( target,
+							new ISelection[]{
+								selections
+							} );
+					// use the first key's dimension members since all them
+					// share same parent levels (with the same parent key)
+					levelFilter.setDimMembers( ( (MultiKey) keyList.get( 0 ) ).dimMembers );
+					levelFilter.setFilterHelper( filterHelper );
+					levelFilterList.add( levelFilter );				
+				}
 			}
 		}
 	}
 
-	/***
-	 * 
-	 * @param levelKeyArray1
-	 * @param levelKeyArray2
-	 * @return 
-	 * @throws IOException 
+	/**
+	 * @param keyList
+	 * @return
 	 */
-	private IDiskArray interKeys( IDiskArray levelKeyArray1, IDiskArray levelKeyArray2 ) throws IOException
+	private ISelection toMultiKeySelection( List keyList )
 	{
-		IDiskArray result = new OrderedDiskArray( );
-		int i = 0, j = 0;
-		while ( i < levelKeyArray1.size( ) && j < levelKeyArray2.size( ) )
+		Object[][] keys = new Object[keyList.size( )][];
+		for ( int i = 0; i < keyList.size( ); i++ )
 		{
-			MultiKey key1 = (MultiKey) levelKeyArray1.get( i );
-			MultiKey key2 = (MultiKey) levelKeyArray2.get( j );
+			MultiKey multiKey = (MultiKey) keyList.get( i );
+			keys[i] = multiKey.values;
+		}
+		return SelectionFactory.createMutiKeySelection( keys );
+	}
+
+	/**
+	 * 
+	 * @param members
+	 * @param index
+	 * @return
+	 */
+	private String getParentKey( Member[] members, int index )
+	{
+		assert index >= 0 && index < members.length;
+		StringBuffer buf = new StringBuffer( );
+		for ( int i = 0; i < index; i++ )
+		{
+			if ( members[i] == null )
+			{
+				buf.append( '?' );
+			}
+			else
+			{
+				Object[] keyValues = members[i].getKeyValues( );
+				if ( keyValues != null && keyValues.length > 0 )
+				{
+					for ( int j = 0; j < keyValues.length; j++ )
+					{
+						buf.append( keyValues[j].toString( ) );
+						buf.append( ',' );
+					}
+					buf.deleteCharAt( buf.length( ) - 1 );
+				}
+			}
+			buf.append( '-' );
+		}
+		if ( buf.length( ) > 0 )
+		{
+			buf.deleteCharAt( buf.length( ) - 1 );
+		}
+		return buf.toString( );
+	}
+
+	/**
+	 * get the intersection from two disk arrays which have been sorted.
+	 * 
+	 * @param array1
+	 * @param array2
+	 * @return
+	 * @throws IOException
+	 */
+	private IDiskArray getIntersection( IDiskArray array1, IDiskArray array2 ) throws IOException
+	{
+		IDiskArray result = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		int i = 0, j = 0;
+		while ( i < array1.size( ) && j < array2.size( ) )
+		{
+			Comparable key1 = (Comparable) array1.get( i );
+			Comparable key2 = (Comparable) array2.get( j );
 			int ret = key1.compareTo( key2 );
 			if ( ret == 0 )
 			{
@@ -410,46 +501,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			else
 				j++;
 		}
-		levelKeyArray1.close( );
-		levelKeyArray2.close( );
+		array1.close( );
+		array2.close( );
 		return result;
 	}
 	
-	/**
-	 * 
-	 * @param result
-	 * @param dimPositionArray
-	 * @return
-	 * @throws IOException 
-	 */
-	private IDiskArray interPosition( IDiskArray posArray1,
-			IDiskArray posArray2 ) throws IOException
-	{
-		IDiskArray result = new OrderedDiskArray( );
-		int i = 0, j = 0;
-		while ( i < posArray1.size( ) && j < posArray2.size( ) )
-		{
-			Integer pos1 = (Integer) posArray1.get( i );
-			Integer pos2 = (Integer) posArray2.get( j );
-			int ret = pos1.compareTo( pos2 );
-			if ( ret == 0 )
-			{
-				result.add( pos1 );
-				i++;
-				j++;
-			}
-			else if ( ret < 0 )
-			{
-				i++;
-			}
-			else
-				j++;
-		}
-		posArray1.close( );
-		posArray2.close( );
-		return result;
-	}
-
 	/**
 	 * @param resultSet
 	 * @throws DataException
@@ -597,6 +653,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] resultSet ) throws IOException,
 			DataException
 	{
+		
 		List levelFilterList = new ArrayList( );
 		for ( Iterator i = aggrFilters.iterator( ); i.hasNext( ); )
 		{
@@ -641,6 +698,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IDiskArray aggrValueArray = new OrderedDiskArray( n, filterHelper.isTop( ) );
 		AggregationFunctionDefinition[] aggrFuncs = aggregation.getAggregationFunctions( );
 		DimLevel[] aggrLevels = filter.getAggrLevels( );
+		String dimensionName = filter.getTargetLevel( ).getDimensionName( );
 		// currently we just support one level key
 		// generate a row against levels and aggrNames
 		String[] fields = getAllFieldNames( aggrLevels, resultSet );
@@ -678,8 +736,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			if ( levelKey!=null && filterHelper.isQualifiedRow( row ) )
 			{
 				Object aggrValue = filterHelper.evaluateFilterExpr( row );
+				Member[] members = getTargetDimMembers( dimensionName, resultSet );
 				aggrValueArray.add( new ValueObject( aggrValue,
-						new MultiKey( levelKey ) ) );
+						new MultiKey( levelKey, members ) ) );
 			}
 		}
 		
@@ -695,7 +754,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private IDiskArray fetchLevelKeys( IDiskArray aggrValueArray,
 			IJSTopBottomFilterHelper filterHelper ) throws IOException
 	{
-		IDiskArray levelKeyArray = new OrderedDiskArray( );
+		IDiskArray levelKeyArray = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
 		int start = 0; // level key start index in aggrValueArray
 		int end   = aggrValueArray.size( ); // level key end index (not including) in aggrValueArray
 		if ( filterHelper.isPercent( ) )
@@ -707,14 +766,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			else
 				end = n;
 		}
-		Object preKey = null;
 		for ( int i = start; i < end; i++ )
 		{
 			ValueObject aggrValue = (ValueObject) aggrValueArray.get( i );
-			if ( preKey == null
-					|| CompareUtil.compare( preKey, aggrValue.index ) != 0 )
-				levelKeyArray.add( aggrValue.index );
-			preKey = aggrValue.index;
+			levelKeyArray.add( aggrValue.index );
 		}
 		return levelKeyArray;
 	}
@@ -727,6 +782,48 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private final int getTargetN( long total, double N )
 	{
 		return (int) Math.round( N / 100 * total );
+	}
+	
+	/**
+	 * get all the levels of the specified <code>dimensionName</code>.
+	 * 
+	 * @param dimensionName
+	 * @return
+	 */
+	private ILevel[] getLevelsOfDimension( String dimensionName )
+	{
+		return (ILevel[]) dimLevelsMap.get( dimensionName );
+	}
+	
+	/**
+	 * get the members of the specified dimension from the aggregation result
+	 * set. Note: only the members of the levels which reside in the result set
+	 * will be fetched, otherwise the corresponding member value is null.
+	 * 
+	 * @param dimensionName
+	 * @param resultSet
+	 * @return
+	 */
+	private Member[] getTargetDimMembers( String dimensionName,
+			IAggregationResultSet resultSet )
+	{
+		ILevel[] levels = getLevelsOfDimension( dimensionName );
+		Member[] members = new Member[levels.length];
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			int levelIndex = resultSet.getLevelIndex( new DimLevel( dimensionName,
+					levels[i].getName( ) ) );
+			if ( levelIndex >= 0 )
+			{
+				Object[] values = resultSet.getLevelKeyValue( levelIndex );
+				Object[] fieldValues = ObjectArrayUtil.convert( new Object[][]{
+						values, null
+				} );
+				members[i] = (Member) Member.getCreator( )
+						.createInstance( fieldValues );
+			}
+		}
+		return members;
 	}
 
 	/**
@@ -743,7 +840,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggrFilter filter, List levelFilters )
 			throws IOException, DataException
 	{
-		List selKeyValueList = new ArrayList( );
 		AggregationFunctionDefinition[] aggrFuncs = aggregations[j].getAggregationFunctions( );
 		DimLevel[] aggrLevels = filter.getAggrLevels( );
 		// currently we just support one level key
@@ -755,6 +851,16 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			aggrNames[k] = aggrFuncs[k].getName( );
 		}
+		
+		DimLevel targetLevel = filter.getTargetLevel( );
+		ILevel[] levelsOfDimension = getLevelsOfDimension( targetLevel.getDimensionName( ) );
+		int targetIndex = getTargetLevelIndex( levelsOfDimension, targetLevel.getLevelName( ) );
+		// template key values' list that have been filtered in the same
+		// qualified level
+		List selKeyValueList = new ArrayList( );
+		// to remember the members of the dimension that consists of the
+		// previous aggregation result's target level
+		Member[] preMembers = null;
 		for ( int k = 0; k < resultSet[j].length( ); k++ )
 		{
 			resultSet[j].seek( k );
@@ -784,36 +890,70 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					.evaluateFilter( row );
 			if ( isSelect )
 			{// generate level filter here
-				int levelIndex = resultSet[j].getLevelIndex( filter.getTargetLevel( ) );
+				Member[] members = getTargetDimMembers( targetLevel.getDimensionName( ),
+						resultSet[j] );
+				if ( preMembers != null
+						&& !shareParentLevels( members, preMembers, targetIndex ) )
+				{
+					LevelFilter levelFilter = toLevelFilter( targetLevel,
+							selKeyValueList,
+							preMembers,
+							filter.getFilterHelper( ) );
+					levelFilters.add( levelFilter );
+					selKeyValueList.clear( );
+				}
+				int levelIndex = resultSet[j].getLevelIndex( targetLevel );
 				// select aggregation row
 				Object[] levelKeyValue = resultSet[j].getLevelKeyValue( levelIndex );
 				if ( levelKeyValue != null && levelKeyValue[0] != null )
 					selKeyValueList.add( levelKeyValue );
+				preMembers = members;
 			}
 		}				
-		//---------------------------------------------------------------------------------
-		if ( selKeyValueList.isEmpty( ) )
+		// ---------------------------------------------------------------------------------
+		if ( preMembers == null )
 		{// filter is empty, so that the final x-Tab will be empty
 			isEmptyXTab = true;
+			return;
 		}
-		else
+		// generate the last level filter
+		if ( !selKeyValueList.isEmpty( ) )
 		{
-			Object[][] keyValues = new Object[selKeyValueList.size( )][];
-			for ( int i = 0; i < selKeyValueList.size( ); i++ )
-			{
-				keyValues[i] = (Object[]) selKeyValueList.get( i );
-			}
-			ISelection selection = SelectionFactory.createMutiKeySelection( keyValues );
-			LevelFilter levelFilter = new LevelFilter( filter.getTargetLevel( ),
-					new ISelection[]{
-						selection
-					} );
+			LevelFilter levelFilter = toLevelFilter( targetLevel,
+					selKeyValueList,
+					preMembers,
+					filter.getFilterHelper( ) );
 			levelFilters.add( levelFilter );
 		}
 	}
 
-	
-	
+	/**
+	 * @param targetLevel
+	 * @param selKeyValueList
+	 * @param dimMembers
+	 * @param filterHelper 
+	 * @return
+	 */
+	private LevelFilter toLevelFilter( DimLevel targetLevel,
+			List selKeyValueList, Member[] dimMembers,
+			IJSFilterHelper filterHelper )
+	{
+		Object[][] keyValues = new Object[selKeyValueList.size( )][];
+		for ( int i = 0; i < selKeyValueList.size( ); i++ )
+		{
+			keyValues[i] = (Object[]) selKeyValueList.get( i );
+		}
+		ISelection selection = SelectionFactory.createMutiKeySelection( keyValues );
+		LevelFilter levelFilter = new LevelFilter( targetLevel,
+				new ISelection[]{
+					selection
+				} );
+		levelFilter.setDimMembers( dimMembers );
+		levelFilter.setFilterHelper( filterHelper );
+		return levelFilter;
+	}
+
+
 	/**
 	 * get all field names of a level, including key column names and attribute column names.
 	 * TODO: we just get all the field names, and will further support key names and attributes as field names.
@@ -1071,7 +1211,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IDiskArray result2 = getTopbottomFilterPositions( dimension,
 					dimPosition,
 					topBottomfilterList );
-			return interPosition( result, result2 );
+			return getIntersection( result, result2 );
 		}
 	}
 
@@ -1256,7 +1396,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					filter );
 			IDiskArray dimPositionArray = fetchDimPositions( dimValueArrayList,
 					filter );
-			result = interPosition( result, dimPositionArray );
+			result = getIntersection( result, dimPositionArray );
 		}
 		return result;
 	}
@@ -1279,7 +1419,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		List dimValueArrayList = new ArrayList( ); // 
 		// get target level index, also equals to the length of parent levels
-		int index = getTargetLevelIndex( levels, filter );
+		int index = getTargetLevelIndex( levels, filter.getTargetLevel( ).getLevelName( ) );
 		
 		Member[] preMembers = null;
 		Object[] preValue = null;
@@ -1305,7 +1445,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			Integer pos = (Integer) dimPosition.get( j );
 			DimensionRow dimRow = dimension.getRowByPosition( pos.intValue( ) );
 
-			boolean shareParentLevels = shareParentLevels( dimRow.getMembers( ),
+			boolean shareParentLevels = preMembers != null
+					&& shareParentLevels( dimRow.getMembers( ),
 							preMembers,
 							index );
 			if ( isBreakHierarchy == false )
@@ -1351,7 +1492,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private IDiskArray fetchDimPositions( List dimValueArrayList,
 			IJSTopBottomFilterHelper filterHelper ) throws IOException
 	{
-		IDiskArray dimPositionArray = new OrderedDiskArray( ); // final selection positions
+		// final selection positions
+		IDiskArray dimPositionArray = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
 		for ( Iterator itr = dimValueArrayList.iterator( ); itr.hasNext( ); )
 		{
 			IDiskArray dimValues = (IDiskArray) itr.next( );
@@ -1380,20 +1522,19 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	}
 
 	/**
+	 * get the target level index in the specified <code>levels</code>, which
+	 * assumes that they are under the same dimension.
+	 * 
 	 * @param levels
-	 * @param filter
+	 * @param targetLevelName
 	 * @return
-	 * @throws DataException
 	 */
-	private int getTargetLevelIndex( ILevel[] levels,
-			IJSTopBottomFilterHelper filter ) throws DataException
+	private int getTargetLevelIndex( ILevel[] levels, String targetLevelName )
 	{
 		int index = 0;
-		DimLevel targetLevel = filter.getTargetLevel( );
 		for ( index = 0; index < levels.length; index++ )
 		{
-			if ( levels[index].getName( )
-					.equals( targetLevel.getLevelName( ) ) )
+			if ( levels[index].getName( ).equals( targetLevelName ) )
 			{
 				return index;
 			}
@@ -1406,20 +1547,23 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * To check whether two dimension rows share the same parent levels
 	 * regarding the specified target level.
 	 * 
-	 * @param members
-	 * @param previous
-	 * @param end -
+	 * @param members1
+	 * @param member2
+	 * @param targetIndex -
 	 *            the member index of the target level.
 	 * @return
 	 */
-	private boolean shareParentLevels( Member[] members, Member[] previous,
-			int end )
+	private boolean shareParentLevels( Member[] members1, Member[] member2,
+			int targetIndex )
 	{
-		if ( previous == null )
-			return false;
-		for ( int i = 0; i < end; i++ )
+		assert members1 != null && member2 != null;
+		for ( int i = 0; i < targetIndex; i++ )
 		{
-			if ( members[i].equals( previous[i] ) == false )
+			if ( members1[i] == null || member2[i] == null )
+			{// ignore the empty member value
+				continue;
+			}
+			if ( members1[i].equals( member2[i] ) == false )
 			{
 				return false;
 			}
@@ -1436,68 +1580,148 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	private IDiskArray getSimpleFilterResult( Dimension dimension ) throws DataException, IOException
 	{
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		ISelection[][] selections = new ISelection[levels.length][];
-		int filterCount = 0;
-		for ( int i = 0; i < filters.size( ); i++ )
+		if ( filters.isEmpty( ) )
 		{
-			LevelFilter filter = (LevelFilter)filters.get( i );
-			if ( filter.getDimensionName( ).equals( dimension.getName( ) ) == false )
-			{
-				continue;
-			}
-			int index = getIndex( levels, filter.getLevelName( ) );
-			if ( index >= 0 )
-			{
-				if ( selections[index] == null )
-				{
-					selections[index] = filter.getSelections( );
-					filterCount++;
-				}
-				else
-				{
-					selections[index] = SelectionUtil.intersect( selections[index],
-							filter.getSelections( ) );
-				}
-			}
+			return dimension.findAll( );
 		}
-		if(filterCount==0)
-		{
-			return null;
+		
+		Map validFilterMap = populateValidFilters( dimension );
+		
+		if ( validFilterMap.isEmpty( ) )
+		{// no filter for this dimension
+			return dimension.findAll( );
 		}
-		Level[] filterLevel = new Level[filterCount];
-		ISelection[][] selects = new ISelection[filterCount][];
-		int pos = 0;
-		for( int i=0;i<selections.length;i++)
-		{
-			if ( selections[i] != null )
-			{
-				filterLevel[pos] = (Level)levels[i];
-				selects[pos] = selections[i];
-				pos++;
-			}
-		}
-		return dimension.find( filterLevel, selects );
-	}	
-	
+		
+		IDiskArray selectedPositions = populateValidPositions( dimension,
+				validFilterMap );
+		
+		return selectedPositions;
+	}
 
 	/**
-	 * 
-	 * @param levels
+	 * @param dimension
+	 * @param validFilterMap
+	 * @return
+	 * @throws IOException
+	 */
+	private IDiskArray populateValidPositions( Dimension dimension,
+			Map validFilterMap ) throws IOException
+	{
+		IDiskArray selectedPositions = new BufferedPrimitiveDiskArray( );
+		ILevel[] levels = getLevelsOfDimension( dimension.getName( ) );
+		for ( int i = 0; i < dimension.length( ); i++ )
+		{
+			DimensionRow row = (DimensionRow) dimension.getRowByPosition( i );
+			Member[] curMembers = row.getMembers( );
+			// the filters in different level will be intersected in our
+			// definition, so that if current position i is selected by all
+			// filters, it will be put into the final disk array.
+			boolean isSelectedByAll = true;
+			for ( Iterator levelItr = validFilterMap.keySet( ).iterator( ); levelItr.hasNext( ); )
+			{
+				String levelName = (String) levelItr.next( );
+				boolean isSelectedByAny = false;
+				// filters with the same level name will be united
+				List filterList = (List) validFilterMap.get( levelName );
+				assert filterList.size( ) > 0;
+				LevelFilter firstFilter = (LevelFilter) filterList.get(0);
+				int targetIndex = getTargetLevelIndex( levels, firstFilter.getLevelName( ) );
+				assert targetIndex >= 0;
+				for ( Iterator filterItr = filterList.iterator( ); filterItr.hasNext( ); )
+				{
+					LevelFilter filter = (LevelFilter) filterItr.next( );
+					Member[] dimMembers = filter.getDimMembers( );
+					if ( dimMembers == null
+							|| shareParentLevels( curMembers,
+									dimMembers,
+									targetIndex ) )
+					{
+						ISelection[] selectins = filter.getSelections( );
+						for ( int k = 0; k < selectins.length; k++ )
+						{
+							if ( selectins[k].isSelected( curMembers[targetIndex].getKeyValues( ) ) )
+							{
+								isSelectedByAny = true;
+								break;
+							}
+						}
+					}
+					if ( isSelectedByAny )
+						break;
+				}
+				if ( isSelectedByAny == false )
+				{
+					isSelectedByAll = false;
+					break;
+				}
+			}
+			if ( isSelectedByAll )
+			{
+				selectedPositions.add( new Integer( i ) );
+			}
+		}
+		return selectedPositions;
+	}
+
+	/**
+	 * @param dimension
+	 * @return
+	 */
+	private Map populateValidFilters( Dimension dimension )
+	{
+		Map validFilterMap = new HashMap( );
+		for ( Iterator i = filters.iterator( ); i.hasNext( ); )
+		{// just collect current dimension's filters
+			LevelFilter filter = (LevelFilter) i.next( );
+			if ( filter.getDimensionName( ).equals( dimension.getName( ) ) )
+			{
+				String keyName = createLevelKey( filter, filter.getLevelName( ) ); 
+				// put level filters with different IJSFilterHelpers into
+				// different group so that they can be intersected later.
+				// For level filters in the same group (one entry in the map),
+				// they will be united.
+				
+				addFilter( validFilterMap, filter, keyName );
+			}
+		}
+		return validFilterMap;
+	}
+
+	/**
+	 * @param validFilterMap
+	 * @param filter
+	 * @param levelName
+	 */
+	private void addFilter( Map validFilterMap, LevelFilter filter,
+			String levelName )
+	{
+		List filterList = null;
+		if ( validFilterMap.containsKey( levelName ) )
+		{
+			filterList = (List) validFilterMap.get( levelName );
+		}
+		else
+		{
+			filterList = new ArrayList( );
+			validFilterMap.put( levelName, filterList );
+		}
+		filterList.add( filter );
+	}
+
+	/**
+	 * @param filter
 	 * @param levelName
 	 * @return
 	 */
-	private int getIndex( ILevel[] levels, String levelName )
+	private String createLevelKey( LevelFilter filter, String levelName )
 	{
-		for( int i=0;i<levels.length;i++)
+		IJSFilterHelper filterHelper = filter.getFilterHelper( );
+		if ( filterHelper != null )
 		{
-			if( levels[i].getName( ).equals( levelName ))
-			{
-				return i;
-			}
+			levelName = levelName + '_' + filterHelper.hashCode( );
 		}
-		return -1;
-	}
+		return levelName;
+	}	
 	
 	/*
 	 * (non-Javadoc)
@@ -1505,30 +1729,21 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public void addJSFilter( IJSFilterHelper filterEvalHelper )
 	{
-		if ( filterEvalHelper instanceof IJSDimensionFilterHelper )
-		{
-			if ( filterEvalHelper.isAggregationFilter( ) == false )
-			{// Dimension filter
-				String dimesionName = filterEvalHelper.getDimensionName( );
-				List filterList = getDimensionJSFilterList( dimesionName );
-				filterList.add( filterEvalHelper );
-			}
-			else
-			{// Aggregation filter
+		if ( filterEvalHelper.isAggregationFilter( ) == false )
+		{// Dimension filter
+			String dimesionName = filterEvalHelper.getDimensionName( );
+			List filterList = getDimensionJSFilterList( dimesionName );
+			filterList.add( filterEvalHelper );
+		}
+		else
+		{// Aggregation filter
+			if ( filterEvalHelper instanceof IJSDimensionFilterHelper )
+			{
 				IJSDimensionFilterHelper helper = (IJSDimensionFilterHelper) filterEvalHelper;
 				aggrFilters.add( new AggrFilter( helper ) );
 			}
-		}
-		else if ( filterEvalHelper instanceof IJSTopBottomFilterHelper )
-		{// top/bottom N/percent filter
-			if ( filterEvalHelper.isAggregationFilter( ) == false )
-			{// Dimension filter
-				String dimesionName = filterEvalHelper.getDimensionName( );
-				List filterList = getDimensionJSFilterList( dimesionName );
-				filterList.add( filterEvalHelper );
-			}
-			else
-			{// Aggregation filter
+			else if ( filterEvalHelper instanceof IJSTopBottomFilterHelper )
+			{// top/bottom N/percent filter
 				IJSTopBottomFilterHelper helper = (IJSTopBottomFilterHelper) filterEvalHelper;
 				topbottomFilters.add( new TopBottomFilter( helper ) );
 			}
@@ -1602,10 +1817,12 @@ class ValueObject implements Comparable
  */
 class MultiKey implements Comparable
 {
-	Object[] levelKey;
-	MultiKey( Object[] key )
+	Object[] values;
+	Member[] dimMembers; //dimension members associate with this level key
+	MultiKey( Object[] values, Member[] dimensionMembers )
 	{
-		this.levelKey = key;
+		this.values = values;
+		this.dimMembers = dimensionMembers;
 	}
 
 	/*
@@ -1619,9 +1836,27 @@ class MultiKey implements Comparable
 		else if ( obj instanceof MultiKey )
 		{
 			MultiKey key = (MultiKey) obj;
-			return CompareUtil.compare( levelKey, key.levelKey );
+			return CompareUtil.compare( values, key.values );
 		}
 		return -1;
+	}
+
+	
+	/**
+	 * @return the dimensionMembers
+	 */
+	public Member[] getDimMembers( )
+	{
+		return dimMembers;
+	}
+
+	
+	/**
+	 * @param dimensionMembers the dimensionMembers to set
+	 */
+	public void setDimMembers( Member[] dimensionMembers )
+	{
+		this.dimMembers = dimensionMembers;
 	}
 }
 /**
