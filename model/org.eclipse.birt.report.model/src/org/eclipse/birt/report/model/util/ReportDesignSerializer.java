@@ -29,11 +29,16 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -71,6 +76,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -126,6 +133,12 @@ public class ReportDesignSerializer extends ElementVisitor
 	private Map externalStructs = new LinkedHashMap( );
 
 	/**
+	 * Cubes that need to build the dimension condition. It stores
+	 * newCube/oldCube pair.
+	 */
+	private Map cubes = new LinkedHashMap( );
+
+	/**
 	 * The element is on process.
 	 */
 
@@ -160,6 +173,9 @@ public class ReportDesignSerializer extends ElementVisitor
 		addExternalElements( );
 		addExternalStructures( );
 
+		// handle dimension conditions
+		localizeDimensionConditions( );
+
 		// do some memory release
 		release( );
 
@@ -179,6 +195,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		externalElements = null;
 		externalStructs = null;
 		currentNewElement = null;
+		cubes = null;
 	}
 
 	/**
@@ -337,7 +354,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		// first construct the container relationship
 		context.add( module, content );
-		
+
 		// manage element name: the inserted content and all its children
 		if ( context.isManagedByNameSpace( ) )
 			module.rename( context.getElement( ), content );
@@ -1188,7 +1205,22 @@ public class ReportDesignSerializer extends ElementVisitor
 								propDefn, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
-					handleStructureValue( newElement, propDefn, value );
+
+					// handle dimension conditions in cube: 1) if the cube
+					// resides directly in the design, then handle it in special
+					// method 2) if the cube is not in the design but referred
+					// by some elements in the design, such as design x-tab
+					// extends a library x-tab, and the library x-tab refers a
+					// library cube; in this case, no need special handle for
+					// dimension condition, so call handleStructureValue is ok.
+					if ( newElement instanceof Cube
+							&& ITabularCubeModel.DIMENSION_CONDITIONS_PROP
+									.equals( propDefn.getName( ) )
+							&& element.getRoot( ) == sourceDesign )
+						handleDimensionConditions( (Cube) newElement,
+								(Cube) element );
+					else
+						handleStructureValue( newElement, propDefn, value );
 					break;
 				case IPropertyType.ELEMENT_TYPE :
 					break;
@@ -1200,6 +1232,138 @@ public class ReportDesignSerializer extends ElementVisitor
 						newElement.setProperty( propDefn, value );
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param newCube
+	 * @param cube
+	 */
+	private void handleDimensionConditions( Cube newCube, Cube cube )
+	{
+		if ( cubes.get( cube ) == null )
+			cubes.put( newCube, cube );
+	}
+
+	/**
+	 * 
+	 */
+	private void localizeDimensionConditions( )
+	{
+		if ( cubes.isEmpty( ) )
+			return;
+		Iterator iter = cubes.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Cube newCube = (Cube) iter.next( );
+			Cube srcCube = (Cube) cubes.get( newCube );
+			List dimensionConditionList = (List) srcCube.getProperty(
+					sourceDesign, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+			List newValueList = new ArrayList( );
+			newCube.setProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP,
+					newValueList );
+
+			// one by one handle the dimension condition
+			if ( dimensionConditionList != null )
+			{
+				for ( int i = 0; i < dimensionConditionList.size( ); i++ )
+				{
+					DimensionCondition dimensionCond = (DimensionCondition) dimensionConditionList
+							.get( i );
+					DimensionCondition newDimensionCond = (DimensionCondition) dimensionCond
+							.copy( );
+					newValueList.add( newDimensionCond );
+
+					// handle hierarchy reference
+					ElementRefValue hierarchyRef = (ElementRefValue) dimensionCond
+							.getLocalProperty( sourceDesign,
+									DimensionCondition.HIERARCHY_MEMBER );
+					// if hierarchy is not resolved, do nothing
+					if ( hierarchyRef == null || !hierarchyRef.isResolved( ) )
+						continue;
+
+					DesignElement hierarchy = hierarchyRef.getElement( );
+					assert hierarchy != null;
+					int hierarchyIndex = hierarchy.getIndex( sourceDesign );
+					DesignElement dimension = hierarchy.getContainer( );
+					assert dimension != null;
+					int dimensionIndex = dimension.getIndex( sourceDesign );
+					// according to the hierarchy index, set the referred
+					// hierarchy in the new dimension condition
+					DesignElement newDimension = getContent( targetDesign,
+							newCube, CubeHandle.DIMENSIONS_PROP, dimensionIndex );
+					assert newDimension != null;
+					DesignElement newHierarchy = getContent( targetDesign,
+							newDimension, DimensionHandle.HIERARCHIES_PROP,
+							hierarchyIndex );
+					assert newHierarchy != null;
+					newDimensionCond.setProperty(
+							DimensionCondition.HIERARCHY_MEMBER,
+							new ElementRefValue( null, newHierarchy ) );
+
+					// handle all the join conditions
+					List joinConditionList = (List) dimensionCond.getProperty(
+							sourceDesign,
+							DimensionCondition.JOIN_CONDITIONS_MEMBER );
+					if ( joinConditionList == null
+							|| joinConditionList.isEmpty( ) )
+						continue;
+					List newJoinConditionList = (List) newDimensionCond
+							.getProperty( targetDesign,
+									DimensionCondition.JOIN_CONDITIONS_MEMBER );
+					for ( int j = 0; j < joinConditionList.size( ); j++ )
+					{
+						DimensionJoinCondition joinCond = (DimensionJoinCondition) joinConditionList
+								.get( j );
+						DimensionJoinCondition newJoinCond = (DimensionJoinCondition) newJoinConditionList
+								.get( j );
+						ElementRefValue levelRef = (ElementRefValue) joinCond
+								.getLocalProperty( sourceDesign,
+										DimensionJoinCondition.LEVEL_MEMBER );
+						if ( levelRef == null || !levelRef.isResolved( ) )
+							continue;
+						DesignElement level = levelRef.getElement( );
+						assert level != null;
+						int levelIndex = level.getIndex( sourceDesign );
+
+						// if level is not in the hierarchy that referred by
+						// dimension condition, then this dimension condition is
+						// invalid, no need to do validation
+						if ( level.getContainer( ) != hierarchy )
+							continue;
+
+						// according to the level index and set the referred
+						// level
+						DesignElement newLevel = getContent( targetDesign,
+								newHierarchy, HierarchyHandle.LEVELS_PROP,
+								levelIndex );
+						assert newLevel != null;
+						newJoinCond.setProperty(
+								DimensionJoinCondition.LEVEL_MEMBER,
+								new ElementRefValue( null, newLevel ) );
+					}
+				}
+			}
+		}
+	}
+
+	private DesignElement getContent( Module module, DesignElement element,
+			String propName, int index )
+	{
+		Object value = element.getProperty( module, propName );
+		if ( value == null )
+			return null;
+		if ( value instanceof List )
+		{
+			List valueList = (List) value;
+			if ( index >= 0 && index < valueList.size( ) )
+				return (DesignElement) valueList.get( index );
+		}
+		else if ( value instanceof DesignElement && index == 0 )
+			return (DesignElement) value;
+
+		return null;
+
 	}
 
 	/**

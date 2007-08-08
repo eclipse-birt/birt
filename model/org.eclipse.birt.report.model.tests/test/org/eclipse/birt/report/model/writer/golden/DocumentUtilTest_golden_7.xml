@@ -51,7 +51,7 @@
                 <tabular-dimension name="product" id="16">
                     <property name="defaultHierarchy">NewTabularHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy11" id="17">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="17">
                             <property name="levels">
                                 <tabular-level name="PRODUCTLINE" id="18">
                                     <property name="dataType">string</property>
@@ -72,33 +72,12 @@
                             </property>
                             <property name="dataSet">salesDataCube.dsProducts</property>
                         </tabular-hierarchy>
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="114">
-                            <property name="levels">
-                                <tabular-level name="PRODUCTNAME1" id="115">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <list-property name="attributes">
-                                        <structure>
-                                            <property name="name">PRODUCTCODE</property>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="columnName">PRODUCTNAME</property>
-                                </tabular-level>
-                                <tabular-level name="PRODUCTLINE1" id="116">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">PRODUCTLINE</property>
-                                </tabular-level>
-                            </property>
-                            <property name="dataSet">salesDataCube.dsProducts</property>
-                        </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
                 <tabular-dimension name="customerRegion" id="60">
                     <property name="defaultHierarchy">NewTabularHierarchy2</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy21" id="61">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="61">
                             <property name="levels">
                                 <tabular-level name="COUNTRY" id="62">
                                     <property name="dataType">string</property>
@@ -116,31 +95,6 @@
                                     <property name="columnName">CITY</property>
                                 </tabular-level>
                                 <tabular-level name="CUSTOMERNUMBER" id="65">
-                                    <property name="dataType">integer</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">CUSTOMERNUMBER</property>
-                                </tabular-level>
-                            </property>
-                            <property name="dataSet">salesDataCube.dsCustomers</property>
-                        </tabular-hierarchy>
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="117">
-                            <property name="levels">
-                                <tabular-level name="COUNTRY1" id="118">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">COUNTRY</property>
-                                </tabular-level>
-                                <tabular-level name="STATE1" id="119">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">STATE</property>
-                                </tabular-level>
-                                <tabular-level name="CITY1" id="120">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">CITY</property>
-                                </tabular-level>
-                                <tabular-level name="CUSTOMERNUMBER1" id="121">
                                     <property name="dataType">integer</property>
                                     <property name="levelType">dynamic</property>
                                     <property name="columnName">CUSTOMERNUMBER</property>
@@ -174,7 +128,7 @@
                         <structure>
                             <property name="cubeKey">PRODUCTCODE</property>
                             <property name="hierarchyKey">PRODUCTCODE</property>
-                            <property name="level">product/PRODUCTNAME1</property>
+                            <property name="level">product/PRODUCTNAME</property>
                         </structure>
                     </list-property>
                     <property name="hierarchy">NewTabularHierarchy1</property>
