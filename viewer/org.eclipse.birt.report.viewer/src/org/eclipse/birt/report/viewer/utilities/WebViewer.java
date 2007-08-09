@@ -36,18 +36,23 @@ public class WebViewer
 	/**
 	 * HTML format name
 	 */
-	final public static String HTML = "html"; //$NON-NLS-1$
-	final public static String HTM = "htm"; //$NON-NLS-1$
+	public final static String HTML = "html"; //$NON-NLS-1$
+	public final static String HTM = "htm"; //$NON-NLS-1$
 
 	/**
 	 * PDF format name
 	 */
-	final public static String PDF = "pdf"; //$NON-NLS-1$
+	public final static String PDF = "pdf"; //$NON-NLS-1$
 
 	/**
 	 * DOC format name
 	 */
-	final public static String DOC = "doc"; //$NON-NLS-1$
+	public final static String DOC = "doc"; //$NON-NLS-1$
+
+	/**
+	 * POSTSCRIPT format name
+	 */
+	public final static String POSTSCRIPT = "postscript"; //$NON-NLS-1$
 
 	/**
 	 * Report extension
@@ -57,25 +62,25 @@ public class WebViewer
 	/**
 	 * Birt web viewer plugin id
 	 */
-	final public static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
+	public final static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
 
 	/**
 	 * locale preference name
 	 */
-	final public static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
+	public final static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
 
 	/**
 	 * Preference key for SVG chart flag.
 	 */
-	final public static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
+	public final static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
 
 	/**
 	 * Preference key for master page content flag.
 	 */
-	final public static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
+	public final static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
 
 	/** Preference key for max rows. */
-	final public static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
+	public final static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
 	// preview model.
 	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
@@ -299,6 +304,12 @@ public class WebViewer
 			reportParam = "__document"; //$NON-NLS-1$
 		reportParam += "=" + encodedReportName; //$NON-NLS-1$
 
+		// workaround for postscript format, force "Content-Disposition" as
+		// "attachment"
+		String asattachment = null;
+		if ( POSTSCRIPT.equalsIgnoreCase( format ) )
+			asattachment = "&__asattachment=true"; //$NON-NLS-1$	
+
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( )
 				+ servletName
@@ -314,7 +325,8 @@ public class WebViewer
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
 				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
 						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__resourceFolder=" + encodedResourceFolder; //$NON-NLS-1$
+				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
+				+ ( asattachment != null ? asattachment : "" ); //$NON-NLS-1$
 	}
 
 	/**
