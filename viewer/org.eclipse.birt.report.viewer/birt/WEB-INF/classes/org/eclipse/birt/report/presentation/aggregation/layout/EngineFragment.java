@@ -13,6 +13,7 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,12 +23,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
@@ -190,6 +193,44 @@ public class EngineFragment extends BirtBaseFragment
 			}
 			else
 			{
+				// if use OUTPUT pattern, it will generate document from report
+				// design file
+				if ( IBirtConstants.SERVLET_PATH_OUTPUT
+						.equalsIgnoreCase( request.getServletPath( ) ) )
+				{
+					File file = new File( attrBean.getReportDocumentName( ) );
+					if ( !file.exists( ) )
+					{
+						BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
+								context, op, upResponse );
+						handler.execute( );
+					}
+
+					file = new File( attrBean.getReportDocumentName( ) );
+					if ( !file.exists( ) )
+					{
+						AxisFault fault = new AxisFault( );
+						fault
+								.setFaultReason( BirtResources
+										.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+						throw fault;
+					}
+					else
+					{
+						// If document isn't completed, throw Exception
+						if ( attrBean.isDocumentProcessing( ) )
+						{
+							AxisFault fault = new AxisFault( );
+							fault
+									.setFaultReason( BirtResources
+											.getMessage( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING ) );
+							throw fault;
+						}
+					}
+					
+					attrBean.setDocumentInUrl( true );
+				}
+
 				// Print report on server
 				boolean isPrint = false;
 				if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( attrBean
@@ -205,7 +246,7 @@ public class EngineFragment extends BirtBaseFragment
 							context, op, upResponse, out );
 					getReportletHandler.execute( );
 				}
-				else if ( context.getBean( ).documentInUrl )
+				else if ( attrBean.isDocumentInUrl( ) )
 				{
 					BirtRenderReportActionHandler runReportHandler = new BirtRenderReportActionHandler(
 							context, op, upResponse, out );

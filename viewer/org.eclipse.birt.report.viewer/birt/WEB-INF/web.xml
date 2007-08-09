@@ -144,6 +144,11 @@
 		<url-pattern>/document</url-pattern>
 	</servlet-mapping>	
 	
+	<servlet-mapping>
+		<servlet-name>EngineServlet</servlet-name>
+		<url-pattern>/output</url-pattern>
+	</servlet-mapping>	
+		
 	<taglib>
 		<taglib-uri>/birt.tld</taglib-uri>
 		<taglib-location>/WEB-INF/tlds/birt.tld</taglib-location>

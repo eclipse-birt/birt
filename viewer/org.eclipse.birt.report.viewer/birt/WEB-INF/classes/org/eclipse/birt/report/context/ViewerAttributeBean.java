@@ -145,9 +145,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportPageRange = ParameterAccessor.getPageRange( request );
 		this.action = ParameterAccessor.getAction( request );
 
-		// If use frameset/download pattern, generate document from design file
+		// If use frameset/output/download servlet pattern, generate document
+		// from design file
 		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
 				.getServletPath( ) )
+				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( request
+						.getServletPath( ) )
 				|| IBirtConstants.SERVLET_PATH_DOWNLOAD
 						.equalsIgnoreCase( request.getServletPath( ) ) )
 		{

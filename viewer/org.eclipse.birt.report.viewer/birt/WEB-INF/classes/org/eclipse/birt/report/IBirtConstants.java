@@ -46,6 +46,9 @@ public interface IBirtConstants
 	// document viewer model.
 	public static final String VIEWER_DOCUMENT = "document"; //$NON-NLS-1$
 
+	// output viewer model.
+	public static final String VIEWER_OUTPUT = "output"; //$NON-NLS-1$
+	
 	// Servlet path for frameset model.
 	public static final String SERVLET_PATH_FRAMESET = "/" + VIEWER_FRAMESET; //$NON-NLS-1$
 
@@ -60,6 +63,9 @@ public interface IBirtConstants
 
 	// Servlet path for document model.
 	public static final String SERVLET_PATH_DOCUMENT = "/" + VIEWER_DOCUMENT; //$NON-NLS-1$
+
+	// Servlet path for output model.
+	public static final String SERVLET_PATH_OUTPUT = "/" + VIEWER_OUTPUT; //$NON-NLS-1$
 
 	// Servlet path for download model.
 	public static final String SERVLET_PATH_DOWNLOAD = "/download"; //$NON-NLS-1$

@@ -155,7 +155,7 @@ abstract public class BaseAttributeBean
 	/**
 	 * indicate whether the document is existed.
 	 */
-	public boolean documentInUrl = false;
+	protected boolean documentInUrl = false;
 
 	/**
 	 * current task id
@@ -566,5 +566,22 @@ abstract public class BaseAttributeBean
 	public String getAction( )
 	{
 		return action;
+	}
+
+	/**
+	 * @return the documentInUrl
+	 */
+	public boolean isDocumentInUrl( )
+	{
+		return documentInUrl;
+	}
+
+	/**
+	 * @param documentInUrl
+	 *            the documentInUrl to set
+	 */
+	public void setDocumentInUrl( boolean documentInUrl )
+	{
+		this.documentInUrl = documentInUrl;
 	}
 }

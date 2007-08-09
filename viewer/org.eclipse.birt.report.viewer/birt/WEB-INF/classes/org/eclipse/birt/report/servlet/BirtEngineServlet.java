@@ -98,7 +98,10 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 		assert bean != null;
 
 		if ( ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
-				.getRequest( ).getServletPath( ) ) || IBirtConstants.SERVLET_PATH_DOCUMENT
+				.getRequest( ).getServletPath( ) )
+				|| IBirtConstants.SERVLET_PATH_DOCUMENT
+						.equalsIgnoreCase( context.getRequest( )
+								.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_OUTPUT
 				.equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) )
 				&& bean.isShowParameterPage( ) )
 		{
