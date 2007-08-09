@@ -1134,13 +1134,20 @@ public class SVGGraphics2D extends Graphics2D
 	/**
 	 * Unload any resources associated with the graphic context
 	 */
-	public void flush(){
-		codeScript.appendChild( dom.createCDATASection( EventHandlers.content.append(scriptBuffer).toString( ) ) );
-		styles.appendChild( dom.createCDATASection( EventHandlers.styles.append(styleBuffer).toString( ) ) );
-		///clear buffer
-		scriptBuffer = new StringBuffer();
-		styleBuffer = new StringBuffer();
+	public void flush( )
+	{
+		// Use a temporary buffer to ensure the original string immutable
+		StringBuffer buffer = new StringBuffer( EventHandlers.content );
+		codeScript.appendChild( dom.createCDATASection( buffer.append( scriptBuffer )
+				.toString( ) ) );
+		buffer = new StringBuffer( EventHandlers.styles );
+		styles.appendChild( dom.createCDATASection( buffer.append( styleBuffer )
+				.toString( ) ) );
+		// clear buffer
+		scriptBuffer = new StringBuffer( );
+		styleBuffer = new StringBuffer( );
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
