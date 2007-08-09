@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
@@ -34,6 +35,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -237,7 +239,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		String[] componentsDisplayName = LiteralHelper.dataPointComponentTypeSet.getDisplayNames( );
 		boolean bException = false;
 		try
-		{			
+		{
 			// Add series-specific datapoint components
 			IDataPointDefinition dpd = PluginSettings.instance( )
 					.getDataPointDefinition( getSeriesForProcessing( ).getClass( ) );
@@ -282,7 +284,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				getContext( ).getModel( ).getDimension( ) );
 		cmbPosition.setItems( ChartUIUtil.getPositionDisplayNames( positionScope,
 				isFlippedAxes( ) ) );
-		
+
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
 		if ( lpCurrent != null )
 		{
@@ -296,7 +298,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				}
 			}
 		}
-		
+
 		// For compatibility with old model, set the first selection by
 		// default.
 		if ( cmbPosition.getSelectionIndex( ) < 0 )
@@ -533,6 +535,37 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		return seriesDefn.getDesignTimeSeries( );
 	}
 
+	private AxisType getAxisType( DataPointComponentType dpct )
+	{
+		if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
+		{
+			if ( context.getModel( ) instanceof ChartWithAxes )
+			{
+				ChartWithAxes chart = (ChartWithAxes) context.getModel( );
+				if ( chart.getPrimaryBaseAxes( ).length > 0 )
+				{
+					return chart.getPrimaryBaseAxes( )[0].getType( );
+				}
+			}
+		}
+		else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
+		{
+			if ( context.getModel( ) instanceof ChartWithAxes )
+			{
+				ChartWithAxes chart = (ChartWithAxes) context.getModel( );
+				if ( chart.getPrimaryBaseAxes( ).length > 0 )
+				{
+					Axis ax = chart.getPrimaryOrthogonalAxis( chart.getPrimaryBaseAxes( )[0] );
+					if ( ax != null )
+					{
+						return ax.getType( );
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -675,15 +708,23 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private void refreshDataPointButtons( )
 	{
-		btnFormatSpecifier.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
 		btnRemoveComponent.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
-		
+
+		boolean formatEnable = ( lstComponents.getSelectionIndex( ) != -1 );
 		// Disable format specifier for Value Series Name due to #179426
-		if ( btnFormatSpecifier.isEnabled( ) )
+		if ( formatEnable )
 		{
 			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) ) );
-			btnFormatSpecifier.setEnabled( dpct != DataPointComponentType.SERIES_VALUE_LITERAL );
+			if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
+			{
+				formatEnable = false;
+			}
+			else if ( getAxisType( dpct ) == AxisType.TEXT_LITERAL )
+			{
+				formatEnable = false;
+			}
 		}
+		btnFormatSpecifier.setEnabled( formatEnable );
 	}
 
 	private void addDataPointComponent( int iComponentIndex )
@@ -729,9 +770,20 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			sContext = Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint" ); //$NON-NLS-1$
 		}
 
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				formatspecifier,
-				sContext );
+		FormatSpecifierDialog editor = null;
+		if ( getAxisType( dpc.getType( ) ) == AxisType.DATE_TIME_LITERAL )
+		{
+			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+					formatspecifier,
+					AxisType.DATE_TIME_LITERAL,
+					sContext );
+		}
+		else
+		{
+			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+					formatspecifier,
+					sContext );
+		}
 		if ( editor.open( ) == Window.OK )
 		{
 			if ( editor.getFormatSpecifier( ) == null )
