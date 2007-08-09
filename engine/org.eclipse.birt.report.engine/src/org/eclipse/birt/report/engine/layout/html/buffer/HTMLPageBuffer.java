@@ -150,7 +150,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		{
 			if(finished && context.getPageNumber( )==1)
 			{
-				currentNode.end(  );
+				currentNode.flush( );
 				pageBreakEvent( );
 			}
 		}
