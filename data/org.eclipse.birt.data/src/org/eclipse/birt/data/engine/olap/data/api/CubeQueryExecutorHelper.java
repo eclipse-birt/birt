@@ -399,10 +399,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					}
 					keyList.add( multiKey );
 				}
-				for ( Iterator keyItr = keyMap.keySet( ).iterator( ); keyItr.hasNext( ); )
+				for ( Iterator keyItr = keyMap.values( ).iterator( ); keyItr.hasNext( ); )
 				{
-					String parentKey = (String) keyItr.next( );
-					List keyList = (List) keyMap.get( parentKey );
+					List keyList = (List) keyItr.next( );
 					ISelection selections = toMultiKeySelection( keyList );
 					LevelFilter levelFilter = new LevelFilter( target,
 							new ISelection[]{
@@ -1493,7 +1492,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IJSTopBottomFilterHelper filterHelper ) throws IOException
 	{
 		// final selection positions
-		IDiskArray dimPositionArray = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		IDiskArray dimPositionArray = new OrderedDiskArray( );
 		for ( Iterator itr = dimValueArrayList.iterator( ); itr.hasNext( ); )
 		{
 			IDiskArray dimValues = (IDiskArray) itr.next( );
