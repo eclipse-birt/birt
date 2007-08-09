@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.render.ActionRendererAdapter;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -45,7 +46,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 	private IHTMLActionHandler handler;
 	private DesignElementHandle eih;
-	private Object context;
+	private IReportContext context;
 	private IDataRowExpressionEvaluator evaluator;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -57,7 +58,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 */
 	public BIRTActionRenderer( DesignElementHandle eih,
 			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
-			Object context )
+			IReportContext context )
 	{
 		this.eih = eih;
 		this.handler = handler;
