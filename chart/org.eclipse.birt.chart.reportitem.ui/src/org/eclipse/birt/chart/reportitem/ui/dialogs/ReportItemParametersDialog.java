@@ -50,9 +50,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 /**
  * Dialog to edit report item parameters.
@@ -165,6 +168,31 @@ public class ReportItemParametersDialog extends BaseDialog
 				column.setWidth( 160 );
 			}
 		}
+		
+		table.addListener( SWT.KeyDown, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				// Use space key to open expression builder to edit
+				if ( event.keyCode == ' ' )
+				{
+					TableItem item = table.getItem( table.getSelectionIndex( ) );
+					Object[] pair = (Object[]) item.getData( );
+					DataSetParameterHandle dataHandle = (DataSetParameterHandle) pair[0];
+					ParamBindingHandle bindingHandle = (ParamBindingHandle) pair[1];
+					String oldValue = bindingHandle == null ? null
+							: bindingHandle.getExpression( );
+					if ( oldValue == null )
+					{
+						oldValue = dataHandle.getDefaultValue( );
+					}
+					Object value = expressionCellEditor.openDialogBox( table,
+							oldValue );
+					setValue( bindingHandle, value, item );
+				}
+
+			}
+		} );
 
 		createTableViewer( );
 
@@ -390,39 +418,8 @@ public class ReportItemParametersDialog extends BaseDialog
 				// DataSetParameterHandle dataHandle =
 				// (DataSetParameterHandle)pair[0];
 				ParamBindingHandle bindingHandle = (ParamBindingHandle) pair[1];
-				// if value is reset, remove the ParamBindingHandle
-				if ( ( value == null || "".equals( value ) ) && bindingHandle != null ) //$NON-NLS-1$
-				{
-
-					try
-					{
-						getPropertyHandle( ).removeItem( bindingHandle.getStructure( ) );
-					}
-					catch ( PropertyValueException e )
-					{
-						e.printStackTrace( );
-						return;
-					}
-				}
-				else
-				{
-					if ( bindingHandle == null )
-					{
-						try
-						{
-							bindingHandle = createBindingHandle( table.getItem( index )
-									.getText( 0 ) );
-						}
-						catch ( SemanticException e )
-						{
-							e.printStackTrace( );
-							return;
-						}
-					}
-					bindingHandle.setExpression( (String) value );
-				}
-
-				reconstructTable( );
+				
+				setValue( bindingHandle, value, (TableItem) element );
 			}
 		}
 	}
@@ -521,5 +518,42 @@ public class ReportItemParametersDialog extends BaseDialog
 			return (DataSetHandle) datasetList.get( 0 );
 		}
 		return null;
+	}
+	
+	private void setValue( ParamBindingHandle bindingHandle, Object value,
+			TableItem item )
+	{
+		// if value is reset, remove the ParamBindingHandle
+		if ( ( value == null || "".equals( value ) ) && bindingHandle != null ) //$NON-NLS-1$
+		{
+
+			try
+			{
+				getPropertyHandle( ).removeItem( bindingHandle.getStructure( ) );
+			}
+			catch ( PropertyValueException e )
+			{
+				e.printStackTrace( );
+				return;
+			}
+		}
+		else
+		{
+			if ( bindingHandle == null )
+			{
+				try
+				{
+					bindingHandle = createBindingHandle( item.getText( 0 ) );
+				}
+				catch ( SemanticException e )
+				{
+					e.printStackTrace( );
+					return;
+				}
+			}
+			bindingHandle.setExpression( (String) value );
+		}
+
+		reconstructTable( );
 	}
 }

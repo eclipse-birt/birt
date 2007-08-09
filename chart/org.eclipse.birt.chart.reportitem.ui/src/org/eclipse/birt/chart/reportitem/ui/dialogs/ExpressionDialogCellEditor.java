@@ -160,7 +160,11 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 	 */
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
-		String oldValue = (String) getValue( );
+		return openDialogBox( cellEditorWindow, (String) getValue( ) );
+	}
+
+	String openDialogBox( Control cellEditorWindow, String oldValue )
+	{
 		ExpressionBuilder dialog = new ExpressionBuilder( cellEditorWindow.getShell( ),
 				oldValue );
 		dialog.setExpressionProvier( new ExpressionProvider( itemHandle ) );
