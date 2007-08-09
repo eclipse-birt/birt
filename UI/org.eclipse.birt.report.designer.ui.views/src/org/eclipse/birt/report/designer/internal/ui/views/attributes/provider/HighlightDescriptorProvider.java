@@ -17,8 +17,10 @@ import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -295,6 +297,15 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			builder.updateHandle( handle, handleCount );
 
 			builder.setDesignHandle( getDesignElementHandle( ) );
+			
+			if ( getDesignElementHandle( ) instanceof ReportItemHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+			}
+			else if ( getDesignElementHandle( ) instanceof GroupHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+			}
 
 			if ( builder.open( ) == Window.OK )
 			{
@@ -350,6 +361,14 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		builder.updateHandle( null, handleCount );
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
+		if ( getDesignElementHandle( ) instanceof ReportItemHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+		}
+		else if ( getDesignElementHandle( ) instanceof GroupHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+		}
 		return builder;
 	}
 

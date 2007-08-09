@@ -18,7 +18,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHa
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -345,6 +347,14 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
 
 		builder.setDesignHandle( (DesignElementHandle) model );
+		if ( model instanceof ReportItemHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) model );
+		}
+		else if ( model instanceof GroupHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) model ).getContainer( ) );
+		}
 
 		if ( builder.open( ) == Window.OK )
 		{
@@ -382,6 +392,15 @@ public class MapPreferencePage extends BaseStylePreferencePage
 					.getItemCount( ) );
 
 			builder.setDesignHandle( (DesignElementHandle) model );
+			
+			if ( model instanceof ReportItemHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) model );
+			}
+			else if ( model instanceof GroupHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) model ).getContainer( ) );
+			}
 
 			if ( builder.open( ) == Window.OK )
 			{
