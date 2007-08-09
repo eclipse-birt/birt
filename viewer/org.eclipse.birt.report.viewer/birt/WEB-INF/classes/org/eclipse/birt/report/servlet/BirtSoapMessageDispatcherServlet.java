@@ -151,7 +151,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			return;
 		}
 
-		// create SOAP URL with post parameters		
+		// create SOAP URL with post parameters
 		StringBuffer builder = new StringBuffer( );
 		Iterator it = request.getParameterMap( ).keySet( ).iterator( );
 		while ( it.hasNext( ) )
@@ -166,6 +166,10 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			}
 		}
 		String soapURL = request.getRequestURL( ).toString( );
+		if ( ParameterAccessor.getBaseURL( ) != null )
+			soapURL = ParameterAccessor.getBaseURL( )
+					+ request.getContextPath( ) + request.getServletPath( );
+
 		if ( request.getQueryString( ) != null )
 		{
 			soapURL += "?" //$NON-NLS-1$
