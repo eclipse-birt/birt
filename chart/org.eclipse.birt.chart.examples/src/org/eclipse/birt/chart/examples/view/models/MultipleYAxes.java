@@ -49,7 +49,7 @@ public class MultipleYAxes
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 		cwaBar.setType( "Line Chart" ); //$NON-NLS-1$
-		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
+		cwaBar.setSubType( "Overlay" ); //$NON-NLS-1$
 		
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
