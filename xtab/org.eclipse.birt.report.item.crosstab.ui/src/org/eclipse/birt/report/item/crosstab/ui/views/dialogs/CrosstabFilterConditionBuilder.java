@@ -1432,7 +1432,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	private String getResultBindingName( String name )
 	{
 		String[] items = expression.getItems( );
-		if ( items.length == 0 )
+		if ( items.length == 0 || name == null || name.length( ) == 0)
 		{
 			return null;
 		}
