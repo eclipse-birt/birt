@@ -129,6 +129,10 @@ public class PDFCellLM extends PDFBlockStackingLM
 		{
 			return false;
 		}
+		if(parent.root!=null && parent.root.getChildrenCount( )>0)
+		{
+			return false;
+		}
 		return super.isRootEmpty( );
 	}
 	
