@@ -84,7 +84,8 @@ public class ExcelWriter
 
 		try
 		{
-			Integer.parseInt( txt );
+			//Integer.parseInt( txt );
+			new java.math.BigDecimal ( txt );
 			writer.attribute( "ss:Type", "Number" );
 		}
 		catch ( Exception e )
