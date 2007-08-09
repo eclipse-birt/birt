@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -30,6 +33,18 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 {
 
 	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy( );
+
+	private final static Set dataBindingProps;
+
+	static
+	{
+		dataBindingProps = new HashSet( );
+		dataBindingProps.add( IReportItemModel.PARAM_BINDINGS_PROP );
+		dataBindingProps.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		dataBindingProps.add( IListingElementModel.FILTER_PROP );
+		dataBindingProps.add( IListingElementModel.SORT_PROP );
+		dataBindingProps.add( IReportItemModel.DATA_SET_PROP );
+	}
 
 	/**
 	 * Protected constructor.
@@ -66,8 +81,8 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop != null;
 
-		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
-				&& element.getContainer( ) instanceof Cell )
+		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) ) &&
+				element.getContainer( ) instanceof Cell )
 			return true;
 
 		return super.isInheritableProperty( element, prop );
@@ -84,12 +99,12 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
-		if ( !isDataBindingProperty( prop.getName( ) ) )
+		if ( !dataBindingProps.contains( prop.getName( ) ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		// the data binding reference property has high priority than local
 		// properties.
-		
+
 		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
 				module, IReportItemModel.DATA_BINDING_REF_PROP );
 		if ( refValue == null || !refValue.isResolved( ) )
@@ -99,29 +114,12 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	}
 
 	/**
-	 * Checks whether the property belongs to referecable data binding
-	 * properties.
-	 * 
 	 * @param propName
-	 *            the property name
-	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
+	 * @return
 	 */
 
-	private boolean isDataBindingProperty( String propName )
+	public static boolean isDataBindingProperty( String propName )
 	{
-		if ( IReportItemModel.PARAM_BINDINGS_PROP.equalsIgnoreCase( propName ) )
-			return true;
-
-		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP
-				.equalsIgnoreCase( propName ) )
-			return true;
-
-		if ( IListingElementModel.FILTER_PROP.equalsIgnoreCase( propName ) )
-			return true;
-
-		if ( IListingElementModel.SORT_PROP.equalsIgnoreCase( propName ) )
-			return true;
-
-		return false;
+		return dataBindingProps.contains( propName );
 	}
 }

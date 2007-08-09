@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -38,13 +37,9 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -52,9 +47,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
@@ -77,7 +70,13 @@ public class ContentCommand extends AbstractContentCommand
 {
 
 	private boolean unresolveReference;
-	private boolean flag;
+	
+	/**
+	 * <code>true</code> is to manipulate group elements that refers to other
+	 * groups or virtual elements.
+	 */
+	
+	protected boolean flag;
 
 	/**
 	 * Constructs the content command with container element.
@@ -179,15 +178,6 @@ public class ContentCommand extends AbstractContentCommand
 			// of them to the namespace
 
 			addElementNames( content );
-
-			// speical cases for the group name. Group name must be unique in
-			// the scope of its container table/list. Do not support undo/redo.
-
-			if ( content instanceof GroupElement )
-			{
-				String name = module.getNameHelper( ).getUniqueName( content );
-				setGroupName( content, stack, name );
-			}
 		}
 		catch ( NameException e )
 		{
@@ -196,28 +186,6 @@ public class ContentCommand extends AbstractContentCommand
 		}
 
 		stack.commit( );
-	}
-
-	/**
-	 * Sets name of group element.
-	 * 
-	 * @param content
-	 *            group element.
-	 * @param stack
-	 *            activity stack.
-	 * @param name
-	 *            new group name.
-	 */
-
-	private void setGroupName( DesignElement content, ActivityStack stack,
-			String name )
-	{
-		if ( name != null && !name.equals( content.getName( ) ) )
-		{
-			PropertyRecord propertyRecord = new PropertyRecord( content,
-					IGroupElementModel.GROUP_NAME_PROP, name );
-			stack.execute( propertyRecord );
-		}
 	}
 
 	/**
@@ -274,7 +242,7 @@ public class ContentCommand extends AbstractContentCommand
 		NameCommand nameCmd = new NameCommand( module, content );
 		nameCmd.addElement( );
 
-		// recusively check the contents and add them
+		// recursively check the contents and add them
 
 		ElementDefn defn = (ElementDefn) content.getDefn( );
 		if ( defn.isContainer( ) )
@@ -469,7 +437,7 @@ public class ContentCommand extends AbstractContentCommand
 			if ( unresolveReference )
 			{
 				BackRefRecord record = new ElementBackRefRecord( module,
-						referred, client, ref.getPropertyName() );
+						referred, client, ref.getPropertyName( ) );
 				getActivityStack( ).execute( record );
 			}
 			else
@@ -481,7 +449,7 @@ public class ContentCommand extends AbstractContentCommand
 				}
 				else
 				{
-					Structure struct = ref.getStructure( );					
+					Structure struct = ref.getStructure( );
 					if ( struct != null )
 					{
 						MemberRef memberRef = struct.getListMemberRef( );
@@ -493,7 +461,7 @@ public class ContentCommand extends AbstractContentCommand
 					{
 						PropertyCommand cmd = new PropertyCommand( module,
 								client );
-						cmd.setProperty( ref.getPropertyName(), null );
+						cmd.setProperty( ref.getPropertyName( ), null );
 					}
 				}
 			}
@@ -523,21 +491,21 @@ public class ContentCommand extends AbstractContentCommand
 			// handled in remove method.
 
 			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( propDefn
-					.getName( ) )
-					|| IStyledElementModel.STYLE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) ) )
+					.getName( ) ) ||
+					IStyledElementModel.STYLE_PROP.equalsIgnoreCase( propDefn
+							.getName( ) ) )
 				continue;
 
-			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
-					|| propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE ||
+					propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
 			{
 				Object value = element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
 
 				if ( value != null )
 				{
-					if ( ( value instanceof StructRefValue )
-							|| ( (ElementRefValue) value ).isResolved( ) )
+					if ( ( value instanceof StructRefValue ) ||
+							( (ElementRefValue) value ).isResolved( ) )
 					{
 						try
 						{
@@ -555,8 +523,8 @@ public class ContentCommand extends AbstractContentCommand
 					}
 				}
 			}
-			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
-					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
+					propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				List valueList = (List) element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
@@ -697,8 +665,8 @@ public class ContentCommand extends AbstractContentCommand
 
 	private boolean canMovePosition( DesignElement content, int newPosn )
 	{
-		if ( element instanceof ReportDesign
-				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
+		if ( element instanceof ReportDesign &&
+				focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
 			List derived = content.getDerived( );
 			// ContainerSlot slot = element.getSlot( slotID );
@@ -738,9 +706,9 @@ public class ContentCommand extends AbstractContentCommand
 
 	private boolean hasDescendents( DesignElement content )
 	{
-		return element instanceof ReportDesign
-				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT
-				&& content.hasDerived( );
+		return element instanceof ReportDesign &&
+				focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT &&
+				content.hasDerived( );
 	}
 
 	/**
@@ -829,9 +797,9 @@ public class ContentCommand extends AbstractContentCommand
 		// do all checks about the transformation state
 		if ( oldElement instanceof TemplateElement )
 		{
-			if ( !oldElement.canDrop( module )
-					|| !oldElement.isTemplateParameterValue( module )
-					|| !newElement.getDefn( ).isKindOf(
+			if ( !oldElement.canDrop( module ) ||
+					!oldElement.isTemplateParameterValue( module ) ||
+					!newElement.getDefn( ).isKindOf(
 							( (TemplateElement) oldElement ).getDefaultElement(
 									module ).getDefn( ) ) )
 				throw new TemplateException(
@@ -840,8 +808,8 @@ public class ContentCommand extends AbstractContentCommand
 		}
 		else
 		{
-			if ( !oldElement.canTransformToTemplate( module )
-					|| !( newElement instanceof TemplateElement ) )
+			if ( !oldElement.canTransformToTemplate( module ) ||
+					!( newElement instanceof TemplateElement ) )
 				throw ContentExceptionFactory
 						.createContentException(
 								focus,
@@ -962,70 +930,6 @@ public class ContentCommand extends AbstractContentCommand
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					propBinding );
 		}
-
-		handleRemovingElement( content );
-	}
-
-	/**
-	 * Special operations when removing the content.
-	 * 
-	 * @param content
-	 *            the design element
-	 */
-
-	private void handleRemovingElement( DesignElement content )
-	{
-		// speical cases for column binding for the Group.
-
-		if ( content instanceof GroupElement )
-		{
-			ListingElement tmpContainer = (ListingElement) element;
-			List boundColumns = tmpContainer.getListProperty( module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-
-			if ( boundColumns == null || boundColumns.isEmpty( ) )
-				return;
-
-			String groupName = (String) content.getProperty( module,
-					IGroupElementModel.GROUP_NAME_PROP );
-			List toCleared = new ArrayList( );
-			for ( int i = 0; i < boundColumns.size( ); i++ )
-			{
-				ComputedColumn column = (ComputedColumn) boundColumns.get( i );
-				String aggregateGroup = column.getAggregateOn( );
-				if ( aggregateGroup != null
-						&& aggregateGroup.equals( groupName ) )
-					toCleared.add( new Integer( i ) );
-			}
-
-			StructPropertyDefn structPropDefn = (StructPropertyDefn) MetaDataDictionary
-					.getInstance( ).getStructure(
-							ComputedColumn.COMPUTED_COLUMN_STRUCT ).getMember(
-							ComputedColumn.AGGREGATEON_MEMBER );
-
-			ElementPropertyDefn propDefn = tmpContainer
-					.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-			try
-			{
-				for ( int i = 0; i < toCleared.size( ); i++ )
-				{
-					int columnIndex = ( (Integer) toCleared.get( i ) )
-							.intValue( );
-
-					CachedMemberRef memberRef = new CachedMemberRef( propDefn,
-							columnIndex, structPropDefn );
-
-					PropertyCommand propCmd = new PropertyCommand( module,
-							tmpContainer );
-					propCmd.setMember( memberRef, null );
-				}
-			}
-			catch ( SemanticException e )
-			{
-				// should have no exception
-			}
-
-		}
 	}
 
 	/**
@@ -1049,6 +953,30 @@ public class ContentCommand extends AbstractContentCommand
 		super.doMove( content, toContainerInfor, newPos );
 
 		stack.commit( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.command.AbstractContentCommand#doMovePosition(org.eclipse.birt.report.model.core.DesignElement,
+	 *      int)
+	 */
+
+	protected void doMovePosition( DesignElement content, int newPosn )
+			throws ContentException
+	{
+
+		// Skip the step if the slotID/propName has only single content.
+		if ( !focus.isContainerMultipleCardinality( ) )
+			return;
+
+		int oldPosn = focus.indexOf( module, content );
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, focus
+				.getContentCount( module ) );
+		if ( oldPosn == adjustedNewPosn )
+			return;
+
+		super.doMovePosition( content, newPosn );
 	}
 
 }

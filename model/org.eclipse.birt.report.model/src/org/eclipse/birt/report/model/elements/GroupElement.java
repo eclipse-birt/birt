@@ -17,7 +17,9 @@ import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -128,5 +130,49 @@ public abstract class GroupElement extends DesignElement
 			return super.getFactoryProperty( module, prop );
 
 		return getStrategy( ).getPropertyFromElement( module, this, prop );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
+	 */
+
+	public PropertySearchStrategy getStrategy( )
+	{
+		return GroupPropSearchStrategy.getInstance( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public boolean canDrop( Module module )
+	{
+		boolean retValue = super.canDrop( module );
+		if ( !retValue )
+			return retValue;
+
+		return !isReferredDataGroup( module );
+	}
+
+	/**
+	 * Checks whether the group refers to groups in the other listing element.
+	 * 
+	 * @param module
+	 *            the root of the group element
+	 * @return <code>true</code> if the group shares data with other groups.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	private boolean isReferredDataGroup( Module module )
+	{
+		ListingElement tmpContainer = (ListingElement) getContainer( );
+		if ( tmpContainer == null )
+			return false;
+
+		return tmpContainer.isDataBindingReferring( module );
 	}
 }

@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ContentElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -119,6 +121,17 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			return;
 		}
 
+		if ( content instanceof GroupElement &&
+				element instanceof ListingElement &&
+				!( this instanceof GroupElementCommand ) )
+		{
+			GroupElementCommand attrCmd = new GroupElementCommand( module,
+					focus );
+
+			attrCmd.add( content, newPos );
+			return;
+		}
+
 		try
 		{
 			checkBeforeAdd( content );
@@ -171,8 +184,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
-		if ( !focus.isContainerMultipleCardinality( )
-				&& focus.getContentCount( module ) > 0 )
+		if ( !focus.isContainerMultipleCardinality( ) &&
+				focus.getContentCount( module ) > 0 )
 		{
 			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
@@ -264,6 +277,18 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		{
 			ContentElementCommand attrCmd = new ContentElementCommand( module,
 					focus );
+
+			attrCmd.remove( content );
+			return;
+		}
+
+		if ( content instanceof GroupElement &&
+				element instanceof ListingElement &&
+				!( this instanceof GroupElementCommand ) )
+		{
+			boolean flag = ( (ContentCommand) this ).flag;
+			GroupElementCommand attrCmd = new GroupElementCommand( module,
+					focus, flag );
 
 			attrCmd.remove( content );
 			return;
@@ -500,8 +525,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			throw ContentExceptionFactory.createContentException(
 					toContainerInfor, content,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
-		if ( !toContainerInfor.isContainerMultipleCardinality( )
-				&& toContainerInfor.getContentCount( module ) > 0 )
+		if ( !toContainerInfor.isContainerMultipleCardinality( ) &&
+				toContainerInfor.getContentCount( module ) > 0 )
 			throw ContentExceptionFactory.createContentException(
 					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
@@ -535,6 +560,17 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		if ( eventTarget != null && !( this instanceof ContentElementCommand ) )
 		{
 			ContentElementCommand attrCmd = new ContentElementCommand( module,
+					focus );
+
+			attrCmd.movePosition( content, newPosn );
+			return;
+		}
+
+		if ( content instanceof GroupElement &&
+				element instanceof ListingElement &&
+				!( this instanceof GroupElementCommand ) )
+		{
+			GroupElementCommand attrCmd = new GroupElementCommand( module,
 					focus );
 
 			attrCmd.movePosition( content, newPosn );
@@ -634,8 +670,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		{
 			retTarget.pushStep( tmpPropDefn, -1 );
 
-			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
-					&& !( tmpElement instanceof ContentElement ) )
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE &&
+					!( tmpElement instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpElement );
 				return retTarget;

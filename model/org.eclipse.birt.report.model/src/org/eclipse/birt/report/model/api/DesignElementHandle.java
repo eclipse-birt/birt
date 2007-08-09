@@ -97,7 +97,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	/**
 	 * Provides overall information about the root element. If the element is on
-	 * the design tree, the root is cooresponding library/design. If the element
+	 * the design tree, the root is corresponding library/design. If the element
 	 * is not on the tree, the root is the module of ElementFactory that creates
 	 * this <code>DesignElementHandle</code>.
 	 */
@@ -995,12 +995,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Gets the name of this element. The returned element name will be the same
 	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
-	 * elment is contained, if the element name resides in the whole design tree
+	 * element is contained, if the element name resides in the whole design tree
 	 * scope; otherwise we will append the name of the holder where the element
 	 * name resides. If the element is existed in the current module,this method
 	 * and <CODE>getName()</CODE> will return identical results.
 	 * 
-	 * @return the qualified name of thie element.
+	 * @return the qualified name of the element.
 	 */
 
 	public String getQualifiedName( )
@@ -1228,7 +1228,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Drops this element from the design. Removes the element from its
 	 * container and name space, if any.
 	 * <p>
-	 * Note: If this element is referenceable, the property referring it will be
+	 * Note: If this element is referencable, the property referring it will be
 	 * set null.
 	 * 
 	 * @throws SemanticException
@@ -1255,7 +1255,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Drops this element from the design. Removes the element from its
 	 * container and name space, if any.
 	 * <p>
-	 * Note: If this element is referenceable, the property referring it will be
+	 * Note: If this element is referencable, the property referring it will be
 	 * unresolved.
 	 * 
 	 * @throws SemanticException

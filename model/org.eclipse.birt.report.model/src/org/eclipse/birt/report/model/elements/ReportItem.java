@@ -121,4 +121,22 @@ public abstract class ReportItem extends ReferencableStyledElement
 		return ReportItemPropSearchStrategy.getInstance( );
 	}
 
+	/**
+	 * Checks whether the listing element refers to another listing element.
+	 * 
+	 * @param module
+	 *            the root of the listing element
+	 * @return <code>true</code> if the listing element shares data with other
+	 *         listing element. Otherwise <code>false</code>.
+	 */
+
+	public boolean isDataBindingReferring( Module module )
+	{
+		ElementRefValue refValue = (ElementRefValue) getLocalProperty( module,
+				IReportItemModel.DATA_BINDING_REF_PROP );
+		if ( refValue == null || !refValue.isResolved( ) )
+			return false;
+
+		return true;
+	}
 }

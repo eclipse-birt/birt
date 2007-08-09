@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -148,8 +150,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		String propName = prop.getName( );
 		if ( ( IReportItemModel.TOC_PROP.equals( propName ) || IGroupElementModel.TOC_PROP
-				.equals( propName ) )
-				&& ( value instanceof String ) )
+				.equals( propName ) ) &&
+				( value instanceof String ) )
 		{
 			Object oldValue = element.getLocalProperty( module, prop );
 			if ( oldValue != null )
@@ -185,10 +187,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( element.isVirtualElement( ) && element instanceof Cell )
 		{
 			propName = prop.getName( );
-			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
-					|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-					|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
-					|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
+			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName ) ||
+					ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName ) ||
+					ICellModel.DROP_PROP.equalsIgnoreCase( propName ) ||
+					ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 			{
 				throw new PropertyValueException(
 						element,
@@ -207,8 +209,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// a pre-defined type.
 
 			propName = prop.getName( );
-			if ( !( (MasterPage) element ).isCustomType( module )
-					&& ( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
+			if ( !( (MasterPage) element ).isCustomType( module ) &&
+					( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
 							.equals( propName ) ) )
 			{
 				throw new SemanticError( element,
@@ -218,14 +220,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		value = validateValue( prop, value );
 
-		if ( value instanceof ElementRefValue
-				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		if ( value instanceof ElementRefValue &&
+				prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
 		}
 
-		if ( element instanceof GroupElement
-				&& IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
+		if ( element instanceof GroupElement &&
+				IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
 		{
 			if ( !isGroupNameValidInContext( (String) value ) )
 				throw new NameException( element, (String) value,
@@ -240,8 +242,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 		}
 		if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
-				.getName( ) )
-				&& value == null )
+				.getName( ) ) &&
+				value == null )
 		{
 			clearRefTemplateParameterProp( prop, value );
 			return;
@@ -259,6 +261,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				return;
 			}
 		}
+
 		doSetProperty( prop, value );
 	}
 
@@ -386,12 +389,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 	 *             if the extension property is invalid
 	 * @throws PropertyValueException
 	 *             if the element is a template element and users try to set the
-	 *             value of template definition to "null" or a non-exsiting
+	 *             value of template definition to "null" or a non-existing
 	 *             element
 	 */
 
 	private void doSetProperty( ElementPropertyDefn prop, Object value )
-			throws ExtendedElementException, PropertyValueException
+			throws SemanticException
 	{
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
@@ -412,8 +415,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// if useOwnModel is true, set property to extended item and return
 			// directly.
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
-					|| prop.isUseOwnModel( ) )
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) ||
+					prop.isUseOwnModel( ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 
@@ -427,9 +430,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 			}
 		}
 
-		if ( element instanceof Level
-				&& prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE )
-				&& value != null )
+		if ( element instanceof Level &&
+				prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE ) &&
+				value != null )
 		{
 			ActivityStack stack = getActivityStack( );
 
@@ -479,10 +482,33 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 		}
 
+		ActivityStack stack = getActivityStack( );
+
 		PropertyRecord record = new PropertyRecord( element, prop, value );
+		stack.startTrans( record.getLabel( ) );
+
 		record.setEventTarget( getEventTarget( prop ) );
 
-		getActivityStack( ).execute( record );
+		stack.execute( record );
+
+		if ( element instanceof ListingElement &&
+				IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( prop
+						.getName( ) ) )
+		{
+			try
+			{
+				GroupElementCommand tmpCmd = new GroupElementCommand( module,
+						new ContainerContext( element,
+								IListingElementModel.GROUP_SLOT ) );
+				tmpCmd.setupSharedDataGroups( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+				throw e;
+			}
+		}
+		stack.commit( );
 	}
 
 	/**
@@ -538,9 +564,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// exception
 
 		ElementRefValue refValue = (ElementRefValue) retValue;
-		if ( refValue.isResolved( )
-				&& value instanceof DesignElementHandle
-				&& refValue.getElement( ) != ( (DesignElementHandle) value )
+		if ( refValue.isResolved( ) &&
+				value instanceof DesignElementHandle &&
+				refValue.getElement( ) != ( (DesignElementHandle) value )
 						.getElement( ) )
 			throw new SemanticError( element, new String[]{prop.getName( ),
 					refValue.getName( )},
@@ -682,12 +708,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// if set the value to the name of a structure, must ensure this
 		// would not create duplicates.
 
-		if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE
-				|| memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
+		if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE ||
+				memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
 			checkItemName( ref, (String) value );
 
-		if ( value instanceof ElementRefValue
-				&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		if ( value instanceof ElementRefValue &&
+				memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			checkRecursiveElementReference( memberDefn, (ElementRefValue) value );
 		}

@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -173,5 +175,41 @@ public abstract class ListingElement extends ReportItem
 		}
 
 		return errors;
+	}
+
+	/**
+	 * Returns listing elements that refers to this listing element directly or
+	 * non-directly.
+	 * 
+	 * @param module
+	 *            the root of the listing element
+	 * 
+	 * @return a list containing listing elements.
+	 */
+
+	public List findReferredListingElements( Module module )
+	{
+		List returnList = new ArrayList( );
+
+		List clients = getClientList( );
+		for ( int i = 0; i < clients.size( ); i++ )
+		{
+			BackRef ref = (BackRef) clients.get( i );
+			DesignElement refElement = ref.getElement( );
+			if ( !IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( ref
+					.getPropertyName( ) ) )
+				continue;
+			if ( refElement.getDefn( ) != getDefn( ) )
+				continue;
+
+			returnList.add( refElement );
+			
+			// recursively adds clients
+			
+			returnList.addAll( ( (ListingElement) refElement )
+					.findReferredListingElements( module ) );
+		}
+
+		return returnList;
 	}
 }

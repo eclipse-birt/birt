@@ -315,6 +315,12 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE = MessageConstants.SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE;
 
+	/**
+	 * The simple list property has no definition in the element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INCONSISTENT_DATA_GROUP = MessageConstants.SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP;
+
 	
 	/**
 	 * The constant for the semantic error.

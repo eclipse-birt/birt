@@ -870,8 +870,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		// TODO: after add the "cube" property on ReportItem in ROM, substitute
 		// below literal string with constants variable.
 
-		if ( getDataSet( ) != null
-				|| element.getProperty( module, "cube" ) != null ) //$NON-NLS-1$
+		if ( getDataSet( ) != null ||
+				element.getProperty( module, "cube" ) != null ) //$NON-NLS-1$
 			return DATABINDING_TYPE_DATA;
 
 		return DATABINDING_TYPE_NONE;
@@ -903,8 +903,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			{
 				ReportItemHandle elementHandle = (ReportItemHandle) e
 						.getHandle( module );
-				if ( elementHandle.getDataBindingType( ) == DATABINDING_TYPE_DATA )
+				if ( elementHandle.getDataBindingType( ) == DATABINDING_TYPE_DATA &&
+						e.getName( ) != null )
 					rtnList.add( elementHandle );
+
 			}
 		}
 

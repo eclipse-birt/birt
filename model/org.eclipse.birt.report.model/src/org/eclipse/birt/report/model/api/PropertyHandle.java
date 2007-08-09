@@ -35,9 +35,13 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
+import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -190,8 +194,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE &&
+				propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -217,7 +221,8 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle
 					.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
-		else if ( ReportDesignConstants.CUBE_ELEMENT.equals( elementDefn.getName( ) ))
+		else if ( ReportDesignConstants.CUBE_ELEMENT.equals( elementDefn
+				.getName( ) ) )
 			return moduleHandle.getVisibleCubes( );
 
 		return list;
@@ -352,10 +357,26 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( !masterPage.isCustomType( getModule( ) ) )
 			{
 				String propName = propDefn.getName( );
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
-						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
+				if ( IMasterPageModel.HEIGHT_PROP.equals( propName ) ||
+						IMasterPageModel.WIDTH_PROP.equals( propName ) )
 					return true;
 			}
+		}
+		else if ( element instanceof GroupHandle )
+		{
+			DesignElementHandle tmpContainer = element.getContainer( );
+			if ( tmpContainer == null )
+				return false;
+
+			return ( GroupPropSearchStrategy.isDataBindingProperty( propDefn
+					.getName( ) ) && ( (ListingElement) tmpContainer
+					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
+		}
+		else if ( element instanceof ReportItemHandle )
+		{
+			return ( ReportItemPropSearchStrategy
+					.isDataBindingProperty( propDefn.getName( ) ) && ( (ReportItem) element
+					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
 		}
 
 		return false;

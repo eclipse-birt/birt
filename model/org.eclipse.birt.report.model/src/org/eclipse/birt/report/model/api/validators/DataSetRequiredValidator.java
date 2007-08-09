@@ -83,6 +83,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		DesignElement container = toValidate;
 		ContainerContext containerInfo = null;
 
+		boolean isDataBindingRef = false;
 		boolean dataSetFound = false;
 		if ( toValidate instanceof Cube )
 		{
@@ -117,6 +118,12 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 				containerInfo = container.getContainerInfo( );
 				container = container.getContainer( );
 			}
+
+			if ( !dataSetFound )
+			{
+				dataSetFound = ( (ListingElement) toValidate )
+						.isDataBindingReferring( module );
+			}
 		}
 		else
 		{
@@ -132,7 +139,8 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		int slot = containerInfo == null
 				? IDesignElementModel.NO_SLOT
 				: containerInfo.getSlotID( );
-		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot )
+		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot &&
+				!isDataBindingRef )
 		{
 			list.add( new SemanticError( toValidate,
 					SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );

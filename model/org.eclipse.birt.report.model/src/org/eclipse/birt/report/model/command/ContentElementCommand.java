@@ -277,7 +277,7 @@ class ContentElementCommand extends AbstractContentCommand
 	 *            the new property value.
 	 * @throws SemanticException
 	 *             if the element is a template element and users try to set the
-	 *             value of template definition to "null" or a non-exsiting
+	 *             value of template definition to "null" or a non-existing
 	 *             element
 	 */
 

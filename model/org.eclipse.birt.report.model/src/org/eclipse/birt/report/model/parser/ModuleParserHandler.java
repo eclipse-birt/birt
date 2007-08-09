@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
@@ -60,7 +61,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	protected Module module = null;
 
 	/**
-	 * Catched name of the module file.
+	 * Cached name of the module file.
 	 */
 
 	protected String fileName = null;
@@ -109,6 +110,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	private List unnamedReportItems = new ArrayList( );
+
+	/**
+	 * Lists of those extended-item whose name is not allocated.
+	 */
+
+	private List unresolvedListingElements = new ArrayList( );
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -213,6 +220,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			getErrorHandler( ).getErrors( ).removeAll( handledExceptions );
 		}
 
+		handleUnresolveListingElements( );
+
 		// add all the exceptions to the module
 
 		module.getAllExceptions( ).addAll( getErrorHandler( ).getErrors( ) );
@@ -246,8 +255,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		// Doing the semantic check would just uncover bogus errors
 		// due to the ones we've already seen.
 
-		if ( !module.getAllErrors( ).isEmpty( )
-				|| module.getFatalException( ) != null )
+		if ( !module.getAllErrors( ).isEmpty( ) ||
+				module.getFatalException( ) != null )
 		{
 			// The most errors which are found during parsing cannot be
 			// recovered.
@@ -272,14 +281,14 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// add un-named extended items to name-space
-		if ( !unnamedReportItems.isEmpty( )
-				&& versionNumber <= VersionUtil.VERSION_3_2_12 )
+		if ( !unnamedReportItems.isEmpty( ) &&
+				versionNumber <= VersionUtil.VERSION_3_2_12 )
 			handleUnnamedReportItems( );
 
 		// if module is a report design or the directly opened library, its
 		// namespace is null, then we will clear all the cached level names
-		if ( versionNumber <= VersionUtil.VERSION_3_2_13
-				&& StringUtil.isBlank( module.getNamespace( ) ) )
+		if ( versionNumber <= VersionUtil.VERSION_3_2_13 &&
+				StringUtil.isBlank( module.getNamespace( ) ) )
 		{
 			( (ModuleNameHelper) module.getNameHelper( ) ).clearCachedLevels( );
 		}
@@ -387,8 +396,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 			// for invalid name case.
 
-			if ( tmpElement.getName( ) != null
-					&& nameException.getErrorCode( ) == NameException.DESIGN_EXCEPTION_INVALID_NAME )
+			if ( tmpElement.getName( ) != null &&
+					nameException.getErrorCode( ) == NameException.DESIGN_EXCEPTION_INVALID_NAME )
 			{
 				String oldName = nameException.getName( );
 				String newName = NamePropertyType.validateName( oldName );
@@ -408,12 +417,27 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			}
 			// if the name has other exceptions, also add to return list for
 			// removing them
-			
+
 			else if ( processElements.contains( tmpElement ) )
 				handledExceptions.add( tmpObj );
 		}
 
 		return handledExceptions;
+	}
+
+	/**
+	 * Adds unnamed extended items to name-space.
+	 * 
+	 */
+
+	private void handleUnresolveListingElements( )
+	{
+		for ( int i = 0; i < unresolvedListingElements.size( ); i++ )
+		{
+			ListingElement tmpElement = (ListingElement) unresolvedListingElements
+					.get( i );
+			RecoverDataGroupUtil.checkListingGroup( tmpElement, this );
+		}
 	}
 
 	/**
@@ -450,6 +474,19 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		if ( !unnamedReportItems.contains( element ) )
 			unnamedReportItems.add( element );
+	}
+
+	/**
+	 * Adds a unNamed extended-item to the list.
+	 * 
+	 * @param element
+	 *            the element to add
+	 */
+
+	final void addUnresolveListingElement( ListingElement element )
+	{
+		if ( !unresolvedListingElements.contains( element ) )
+			unresolvedListingElements.add( element );
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

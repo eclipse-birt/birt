@@ -26,6 +26,8 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
@@ -103,6 +105,10 @@ public abstract class ListingItemState extends ReportItemState
 	{
 		makeTestExpressionCompatible( );
 
+		checkListingGroup( );
+
+		// works on the column binding property on the group element.
+
 		Set elements = handler.tempValue.keySet( );
 		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
@@ -164,8 +170,8 @@ public abstract class ListingItemState extends ReportItemState
 	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
 			String expression, String aggregateOn, boolean mustMatchAggregateOn )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 )
-				|| expression == null )
+		if ( ( columns == null ) || ( columns.size( ) == 0 ) ||
+				expression == null )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
@@ -179,14 +185,14 @@ public abstract class ListingItemState extends ReportItemState
 					if ( aggregateOn == null && tmpAggregateOn == null )
 						return column;
 
-					if ( aggregateOn != null
-							&& aggregateOn.equals( tmpAggregateOn ) )
+					if ( aggregateOn != null &&
+							aggregateOn.equals( tmpAggregateOn ) )
 						return column;
 				}
 				else
 				{
-					if ( tmpAggregateOn == null
-							|| tmpAggregateOn.equals( aggregateOn ) )
+					if ( tmpAggregateOn == null ||
+							tmpAggregateOn.equals( aggregateOn ) )
 						return column;
 				}
 
@@ -301,8 +307,8 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
 					tmpList, column.getExpression( ), column.getAggregateOn( ),
 					true );
-			if ( foundColumn == null
-					|| !foundColumn.getName( ).equals( column.getName( ) ) )
+			if ( foundColumn == null ||
+					!foundColumn.getName( ).equals( column.getName( ) ) )
 			{
 				String newName = getUniqueBoundColumnNameForGroup( tmpList,
 						column );
@@ -344,5 +350,30 @@ public abstract class ListingItemState extends ReportItemState
 				tmpList.add( column );
 			}
 		}
+	}
+
+	/**
+	 * @param listing
+	 * @param tmpHandler
+	 * 
+	 */
+
+	private void checkListingGroup( )
+	{
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_14 )
+		{
+			return;
+		}
+
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
+				handler.module, IReportItemModel.DATA_BINDING_REF_PROP );
+		if ( refValue == null )
+			return;
+
+		// for template table/list, there is no need to do data group recovery.
+
+		if ( element.getContainerInfo( ).isManagedByNameSpace( ) )
+			handler.addUnresolveListingElement( element );
+
 	}
 }

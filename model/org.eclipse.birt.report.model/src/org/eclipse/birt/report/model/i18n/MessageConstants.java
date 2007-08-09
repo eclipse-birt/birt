@@ -195,7 +195,9 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_ROW_INSERTANDPASTE_FORBIDDEN="Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN";//$NON-NLS-1$
 	
 	public static final String SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE="Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE";//$NON-NLS-1$
-		
+
+	public static final String SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP = "Error.SemanticError.INCONSISTENT_DATA_GROUP";
+	
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
