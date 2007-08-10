@@ -21,6 +21,7 @@ BirtEvent.prototype =
 	__E_GETPAGE : '__E_GETPAGE', // Getting pagination page.
 	__E_GETPAGE_INIT : '__E_GETPAGE_INIT', // Getting pagination page with parameters.
 	__E_PRINT : '__E_PRINT', // Print event.
+	__E_PRINT_SERVER : '__E_PRINT_SERVER', // Print event.
 	__E_QUERY_EXPORT : '__E_QUERY_EXPORT',
 	__E_TOC : '__E_TOC',
 	__E_TOC_IMAGE_CLICK : '__E_TOC_IMAGE_CLICK',

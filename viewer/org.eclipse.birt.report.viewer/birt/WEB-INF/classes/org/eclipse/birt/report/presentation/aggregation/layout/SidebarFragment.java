@@ -19,6 +19,7 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFr
 import org.eclipse.birt.report.presentation.aggregation.dialog.ExportReportDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.PrintReportDialogFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.PrintReportServerDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.SimpleExportDataDialogFragment;
 
 /**
@@ -42,6 +43,7 @@ public class SidebarFragment extends BirtBaseFragment
 		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
 		addChild( new DialogContainerFragment( new ExportReportDialogFragment( ) ) );
 		addChild( new DialogContainerFragment( new PrintReportDialogFragment( ) ) );
+		addChild( new DialogContainerFragment( new PrintReportServerDialogFragment( ) ) );
 		addChild( new DialogContainerFragment( new ConfirmationDialogFragment( ) ) );
 	}
 }

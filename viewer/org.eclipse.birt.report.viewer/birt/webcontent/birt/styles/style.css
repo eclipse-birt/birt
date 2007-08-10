@@ -149,12 +149,31 @@
  *****************************************************************************/
 .birtviewer_printreport_dialog_select
 {
+	width:150px;
+	font:Verdana;
+	font-size:8pt;
+} 
+
+.birtviewer_printreport_dialog_input
+{
+	width:120px;
+	font:Verdana;
+	font-size:8pt;
+	border-style:inset;
+	border-width:1px;	
+}
+
+/******************************************************************************
+ * Birt print report on the server dialog.
+ *****************************************************************************/
+.birtviewer_printreportserver_dialog_select
+{
 	width:200px;
 	font:Verdana;
 	font-size:8pt;
 } 
  
-.birtviewer_printreport_dialog_input
+.birtviewer_printreportserver_dialog_input
 {
 	width:120px;
 	font:Verdana;
@@ -163,7 +182,7 @@
 	border-width:1px;	
 } 
 
-.birtviewer_printreport_dialog_input_short
+.birtviewer_printreportserver_dialog_input_short
 {
 	width:60px;
 	font:Verdana;

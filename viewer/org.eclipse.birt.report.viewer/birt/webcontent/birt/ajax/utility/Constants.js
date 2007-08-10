@@ -68,6 +68,9 @@ var Constants = {
 	PARAM_FITTOPAGE : '__fittopage',
 	PARAM_PAGEBREAKONLY : '__pagebreakonly',		
 	
+	// Servlet patterns
+	SERVLET_OUTPUT : 'output',
+	
 	// Output formats
 	FORMAT_POSTSCRIPT : 'postscript',
 	FORMAT_PDF : 'pdf',

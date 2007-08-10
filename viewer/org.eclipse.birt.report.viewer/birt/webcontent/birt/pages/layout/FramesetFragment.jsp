@@ -115,6 +115,7 @@
 		<script src="birt/ajax/ui/dialog/BirtSimpleExportDataDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtExportReportDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtPrintReportDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtPrintReportServerDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/AbstractExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtConfirmationDialog.js" type="text/javascript"></script>
@@ -224,6 +225,7 @@
 		var birtSimpleExportDataDialog = new BirtSimpleExportDataDialog( 'simpleExportDataDialog' );
 		var birtExportReportDialog = new BirtExportReportDialog( 'exportReportDialog' );
 		var birtPrintReportDialog = new BirtPrintReportDialog( 'printReportDialog' );
+		var birtPrintReportServerDialog = new BirtPrintReportServerDialog( 'printReportServerDialog' );
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
 		

@@ -586,7 +586,7 @@ public class BirtUtility
 				+ ".style.display = 'block'; }" + "else { " + errorIcon //$NON-NLS-1$//$NON-NLS-2$
 				+ ".innerHTML = '+ '; " + errorId //$NON-NLS-1$
 				+ ".style.display = 'none'; }"; //$NON-NLS-1$
-		message += "<div style=\"color:red\">\n"; //$NON-NLS-1$
+		message += "<div id=\"birt_errorPage\" style=\"color:red\">\n"; //$NON-NLS-1$
 		message += "<span id=\"error_icon\"  style=\"cursor:pointer\" onclick=\"" //$NON-NLS-1$
 				+ onClick + "\" > + </span>\n"; //$NON-NLS-1$
 
