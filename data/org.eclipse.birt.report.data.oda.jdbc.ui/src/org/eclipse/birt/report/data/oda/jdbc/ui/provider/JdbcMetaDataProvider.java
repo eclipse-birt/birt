@@ -93,15 +93,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 						url,
 						userName,
 						password );
-				if ( jdbcConnection == null )
-				{
-					MessageDialog.openError( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							JdbcPlugin.getResourceString("connection.test"),//$NON-NLS-1$
-							JdbcPlugin.getResourceString("connection.failed"));//$NON-NLS-1$
-				}
-				else
+				if ( jdbcConnection != null )
 				{
 				    this.driverClass = driverClass;
 				    this.url = url;

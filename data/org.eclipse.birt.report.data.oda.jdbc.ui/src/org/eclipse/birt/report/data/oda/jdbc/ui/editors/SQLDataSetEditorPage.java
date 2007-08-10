@@ -272,7 +272,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
 		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-		refreshPage( );
+		setPageLayout( );
+		prevDataSourceDesign = this.getDataSetDesign( ).getDataSourceDesign( );
 		prepareUI( );
 	}
 
@@ -611,7 +612,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		// Clear of the Old values in the Available Db objects 
 		// in the tree
-		RemoveAllAvailableDbObjects( );
+		removeAllAvailableDbObjects( );
 
 		setRootElement( );
 		setRefreshInfo( );
@@ -856,7 +857,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * Remove all available db objects
 	 * 
 	 */
-	private void RemoveAllAvailableDbObjects( )
+	private void removeAllAvailableDbObjects( )
 	{
 		if ( availableDbObjectsTree != null )
 			availableDbObjectsTree.removeAll( );
@@ -1212,22 +1213,27 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	protected void resetJdbcInfo( DataSourceDesign curDataSourceDesign )
 	{
-		if ( metaDataProvider != null )
-		{
-			metaDataProvider.closeConnection( );
-			metaDataProvider = null;
-			createMetaDataProvider( );
-			jdbcConnection = connectMetadataProvider( metaDataProvider,
-					curDataSourceDesign );
-
-			// Clear the Table list and the schema List
-			tableList = null;
-			schemaList = null;
-			schemaCombo.removeAll( );
-		}
-
 		try
 		{
+			if ( metaDataProvider != null )
+			{
+				metaDataProvider.closeConnection( );
+				metaDataProvider = null;
+				createMetaDataProvider( );
+				if ( jdbcConnection != null )
+				{
+					jdbcConnection.close( );
+					jdbcConnection = null;
+				}
+				jdbcConnection = connectMetadataProvider( metaDataProvider,
+						curDataSourceDesign );
+
+				// Clear the Table list and the schema List
+				tableList = null;
+				schemaList = null;
+				schemaCombo.removeAll( );
+			}
+
 			if ( jdbcConnection != null )
 			{
 				isSchemaSupported = metaDataProvider.isSchemaSupported( );
@@ -1361,84 +1367,92 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		if ( curDataSourceDesign != prevDataSourceDesign  )
 		{
-			RemoveAllAvailableDbObjects( );
 			resetJdbcInfo( curDataSourceDesign );
-			enableSchemaComponent( isSchemaSupported );
-			setRootElement( );
-			sourceViewerConfiguration.getContentAssistProcessor( )
-					.setDataSourceHandle( curDataSourceDesign );
+			setPageLayout( );
+			prevDataSourceDesign = curDataSourceDesign;			
+		}
+	}
+
+	/**
+	 * set the page's layout
+	 * 
+	 */
+	private void setPageLayout( )
+	{
+		removeAllAvailableDbObjects( );
+		enableSchemaComponent( isSchemaSupported );
+		setRootElement( );
+		sourceViewerConfiguration.getContentAssistProcessor( )
+				.setDataSourceHandle( this.getDataSetDesign( ).getDataSourceDesign( ) );
  
-			populateAvailableDbObjects( );
-			prevDataSourceDesign = curDataSourceDesign;
-			try 
+		populateAvailableDbObjects( );
+		try 
+		{
+			if ( metaDataProvider.getConnection( ) == null
+					|| this.getDataSetDesign( ).getQueryText( ) == null
+					|| this.getDataSetDesign( )
+							.getQueryText( )
+							.trim( )
+							.length( ) == 0 )
+				return;
+			
+			ResultSetMetaData meta = null;
+			try
 			{
-				if ( metaDataProvider.getConnection( ) == null
-						|| this.getDataSetDesign( ).getQueryText( ) == null
-						|| this.getDataSetDesign( )
-								.getQueryText( )
-								.trim( )
-								.length( ) == 0 )
-					return;
-				
-				ResultSetMetaData meta = null;
+				meta = this.metaDataProvider.getConnection( )
+						.prepareStatement( this.getDataSetDesign( )
+								.getQueryText( ) )
+						.getMetaData( );
+			}
+			catch ( SQLException e )
+			{
 				try
 				{
 					meta = this.metaDataProvider.getConnection( )
 							.prepareStatement( this.getDataSetDesign( )
 									.getQueryText( ) )
+							.executeQuery( )
 							.getMetaData( );
 				}
-				catch ( SQLException e )
+				catch ( Exception ex )
 				{
-					try
-					{
-						meta = this.metaDataProvider.getConnection( )
-								.prepareStatement( this.getDataSetDesign( )
-										.getQueryText( ) )
-								.executeQuery( )
-								.getMetaData( );
-					}
-					catch ( Exception ex )
-					{
-						meta = null;
-					}
-				}
-				if ( meta == null )
-					return;
-				
-				if ( this.getDataSetDesign( ).getPrimaryResultSet( ) == null )
-				{
-					this.shouldUpdateDataSetDesign = true;
-					return;
-				}
-				
-				ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
-
-				if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
-				{
-					this.shouldUpdateDataSetDesign = true;
-					return;
-				}
-				
-				for ( int i = 0; i < rsc.getResultColumnDefinitions( ).size( ); i++ )
-				{
-					ColumnDefinition cd = (ColumnDefinition) rsc.getResultColumnDefinitions( ).get( i );
-					if ( !( cd.getAttributes( )
-							.getName( )
-							.equals( meta.getColumnName( i + 1 ) ) && cd.getAttributes( )
-							.getNativeDataTypeCode( ) == meta.getColumnType( i + 1 ) ) )
-					{
-						this.shouldUpdateDataSetDesign = true;
-						return;
-					}
+					meta = null;
 				}
 			}
-			catch ( SQLException e )
+			if ( meta == null )
+				return;
+			
+			if ( this.getDataSetDesign( ).getPrimaryResultSet( ) == null )
 			{
-				// TODO Auto-generated catch block
-				logger.log( Level.FINE, e.getMessage( ), e );
+				this.shouldUpdateDataSetDesign = true;
+				return;
 			}
 			
+			ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
+
+			if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
+			{
+				this.shouldUpdateDataSetDesign = true;
+				return;
+			}
+			
+			for ( int i = 0; i < rsc.getResultColumnDefinitions( ).size( ); i++ )
+			{
+				ColumnDefinition cd = (ColumnDefinition) rsc.getResultColumnDefinitions( ).get( i );
+				if ( !( cd.getAttributes( )
+						.getName( )
+						.equals( meta.getColumnName( i + 1 ) ) && cd.getAttributes( )
+						.getNativeDataTypeCode( ) == meta.getColumnType( i + 1 ) ) )
+				{
+					this.shouldUpdateDataSetDesign = true;
+					return;
+				}
+			}
+		}
+		catch ( SQLException e )
+		{
+			// TODO Auto-generated catch block
+			logger.log( Level.FINE, e.getMessage( ), e );
 		}
 	}
 
