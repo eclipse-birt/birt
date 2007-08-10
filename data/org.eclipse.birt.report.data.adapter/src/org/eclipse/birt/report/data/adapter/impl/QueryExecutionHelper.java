@@ -52,7 +52,9 @@ class QueryExecutionHelper
 	private DataSessionContext sessionContext;
 	
 	private boolean useResultHints;
-
+	
+	//The major data set handle this QueryExecutionHelper deal with.
+	private DataSetHandle major;
 	/**
 	 * @param dataEngine
 	 * @param modelAdaptor
@@ -135,7 +137,7 @@ class QueryExecutionHelper
 					handle = (DataSetHandle) l.get( i );
 				}
 			}
-	
+			major = handle;
 			defineDataSet( handle );
 		}
 	}
@@ -249,8 +251,10 @@ class QueryExecutionHelper
 		}
 
 		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
-		if ( useResultHints == false )
+		if ( useResultHints == false && handle.equals( major ))
+		{
 			baseDS.getResultSetHints( ).clear( );
+		}
 		dataEngine.defineDataSet( baseDS );
 	}
 
