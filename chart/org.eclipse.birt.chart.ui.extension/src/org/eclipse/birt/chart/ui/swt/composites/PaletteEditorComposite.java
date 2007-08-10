@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -658,8 +658,13 @@ public final class PaletteEditorComposite extends Composite implements
 					{
 						index += size;
 					}
-					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( index,
-							EcoreUtil.copy( f ) );
+					// Fixed bugzilla bug #198612.
+					// The index may be out of size of series palette, so ignore it.
+					if ( index <  vSeriesDefns[i].getSeriesPalette( ).getEntries( ).size() )
+					{
+						vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( index,
+								EcoreUtil.copy( f ) );
+					}
 				}
 			}
 		}

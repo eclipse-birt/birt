@@ -70,6 +70,9 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		if ( axisAngleType != AngleType.Y )
 		{
 			btnShowOutside.setEnabled( false );
+			// Unselect 'ShowOutSide'.
+			btnShowOutside.setSelection( false );
+			getScale().setShowOutside( false );
 		}
 	}
 

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -3193,7 +3193,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// 0 inside, 1 left outside, 2 right outside
-			int iOutside = 0;
+			int iYOutside = 0;
 			
 			// Check orthogonal value
 			if ( dpha[i].getStackOrthogonalValue( ) != null )
@@ -3206,33 +3206,66 @@ public abstract class AxesRenderer extends BaseRenderer
 						.doubleValue( );
 				if ( value < min )
 				{
-					iOutside = 1;
+					iYOutside = 1;
 				}
 				else if ( value > max )
 				{
-					iOutside = 2;
+					iYOutside = 2;
 				}
 			}
 			else
 			{
 				// Check non-stack orthogonal value
-				iOutside = checkEntryByType( scaleOrth,
+				iYOutside = checkEntryByType( scaleOrth,
 						dpha[i].getOrthogonalValue( ) );
 			}
 
 			// Check base value(only for non-category)
 			final OneAxis axisBase = getInternalBaseAxis( );
-			if ( iOutside == 0 && !srh.isCategoryScale( ) )
+			int iXOutside = 0; 
+			if ( !srh.isCategoryScale( ) )
 			{
-				iOutside = checkEntryByType( axisBase.getScale( ),
+				iXOutside = checkEntryByType( axisBase.getScale( ),
 						dpha[i].getBaseValue( ) );
 			}
 
-			if ( iOutside > 0 )
+			if ( iXOutside > 0 )
+			{
+				if ( !baseIsShowOutside( ) )
+				{
+					dpha[i].markOutside( );
+					continue;
+				}
+				else
+				{
+					// Only set the location for non-null data
+					if ( bTransposed )
+					{
+						if ( !Double.isNaN( faY[i] ) )
+						{
+							faY[i] = iXOutside == 1 ? boClientArea.getTop( )
+									+ boClientArea.getHeight( )
+									: boClientArea.getTop( );
+						}
+					}
+					else
+					{
+						if ( !Double.isNaN( faX[i] ) )
+						{
+							faX[i] = iXOutside == 1 ? boClientArea.getLeft( )
+									:  boClientArea.getLeft( )
+											+ boClientArea.getWidth( );
+						}
+					}
+				}
+			}
+			
+			if ( iYOutside > 0 )
 			{				
 				if ( bHideOutside )
 				{
 					dpha[i].markOutside( );
+					continue;
 				}
 				else
 				{
@@ -3241,7 +3274,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						if ( !Double.isNaN( faX[i] ) )
 						{
-							faX[i] = iOutside == 1 ? boClientArea.getLeft( )
+							faX[i] = iYOutside == 1 ? boClientArea.getLeft( )
 									: boClientArea.getLeft( )
 											+ boClientArea.getWidth( );
 						}
@@ -3250,7 +3283,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						if ( !Double.isNaN( faY[i] ) )
 						{
-							faY[i] = iOutside == 1 ? boClientArea.getTop( )
+							faY[i] = iYOutside == 1 ? boClientArea.getTop( )
 									+ boClientArea.getHeight( )
 									: boClientArea.getTop( );
 						}
@@ -3271,7 +3304,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		// Only start clipping in the first series
 		final boolean bFirstInSequence = ( iSeriesIndex == 1 );
-		if ( bFirstInSequence && !isDimension3D( ) && !isShowOutside( ) )
+		// Need to check Y scale and X scale.
+		if ( bFirstInSequence && !isDimension3D( )
+				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
@@ -3288,6 +3323,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			ipr.setClip( clip );
 		}
 	}
+	
+	/**
+	 * Check if base axis's scale is set to 'Showoutside value'.
+	 * 
+	 * @return <code>true</code> if base axis's scale is set to 'Showoutside value'.
+	 */
+	protected boolean baseIsShowOutside( )
+	{
+		return getInternalBaseAxis( ).getModelAxis( ).getScale( ).isShowOutside( );
+	}
 
 	/**
 	 * Restores the clipping
@@ -3300,7 +3345,8 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		// Only restore clipping in the last renderer
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
-		if ( bLastInSequence && !isDimension3D( ) && !isShowOutside( ) )
+		if ( bLastInSequence && !isDimension3D( )
+				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
 			flushClipping( );
 			ClipRenderEvent clip = new ClipRenderEvent( this );
@@ -3316,7 +3362,8 @@ public abstract class AxesRenderer extends BaseRenderer
 	 */
 	protected void flushClipping( ) throws ChartException
 	{
-		getDeferredCache( ).flushOptions( DeferredCache.FLUSH_LINE
+		// Flush all deferred caches to avoid clipping error.
+		getDeferredCacheManager( ).flushOptions( DeferredCache.FLUSH_LINE
 				| DeferredCache.FLUSH_PLANE );
 	}
 	

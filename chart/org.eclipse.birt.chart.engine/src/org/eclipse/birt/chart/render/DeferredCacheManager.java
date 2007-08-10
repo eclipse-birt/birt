@@ -127,11 +127,30 @@ public final class DeferredCacheManager
 	 */
 	public void flushAll( ) throws ChartException
 	{
+		int options = DeferredCache.FLUSH_PLANE_SHADOW |
+		DeferredCache.FLUSH_PLANE |
+		DeferredCache.FLUSH_LINE |
+		DeferredCache.FLUSH_3D;
+		
+		// Flush specified blocks.
+		flushOptions( options );
+
+		// Flush markers and labels.
+		flushMarkersNLabels( );
+		
+		clearDC( );
+	}
+
+	/**
+     * Flush specified blocks.
+     *
+	 * @param options
+	 * @throws ChartException
+	 */
+	public void flushOptions(int options) throws ChartException
+	{
 		// 1. Flush first common blocks.
-		fFirstDC.flushOptions( DeferredCache.FLUSH_PLANE_SHADOW |
-				DeferredCache.FLUSH_PLANE |
-				DeferredCache.FLUSH_LINE |
-				DeferredCache.FLUSH_3D );
+		fFirstDC.flushOptions( options  );
 
 		// 2. Flush data points one by one.
 		for ( java.util.Iterator iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
@@ -139,26 +158,14 @@ public final class DeferredCacheManager
 			Object obj = iter.next( );
 			if ( obj instanceof DeferredCache )
 			{
-				( (DeferredCache) obj ).flushOptions( DeferredCache.FLUSH_PLANE_SHADOW |
-						DeferredCache.FLUSH_PLANE |
-						DeferredCache.FLUSH_LINE |
-						DeferredCache.FLUSH_3D );
+				( (DeferredCache) obj ).flushOptions( options );
 			}
 		}
 
-		// 4. flush last blocks.
-		fLastDC.flushOptions( DeferredCache.FLUSH_PLANE_SHADOW |
-				DeferredCache.FLUSH_PLANE |
-				DeferredCache.FLUSH_LINE |
-				DeferredCache.FLUSH_3D );
-
-		// 5. Flush markers and labels.
-		flushMarkersNLabels( );
-		
-		// 6. Clear
-		clearDC( );
+		// 3. flush last blocks.
+		fLastDC.flushOptions( options );
 	}
-
+	
 	/**
 	 * Flush markers and lables in all caches.
 	 * 
