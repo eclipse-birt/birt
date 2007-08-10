@@ -500,7 +500,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				GroupElementCommand tmpCmd = new GroupElementCommand( module,
 						new ContainerContext( element,
 								IListingElementModel.GROUP_SLOT ) );
-				tmpCmd.setupSharedDataGroups( );
+				tmpCmd.setupSharedDataGroups( oldValue, value );
 			}
 			catch ( SemanticException e )
 			{

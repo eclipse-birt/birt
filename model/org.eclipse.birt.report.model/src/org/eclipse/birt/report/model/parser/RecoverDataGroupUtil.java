@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -107,27 +108,29 @@ public class RecoverDataGroupUtil
 	private static void recoverReferredReportItem( DesignElement source,
 			DesignElement targetElement, ModuleParserHandler tmpHandler )
 	{
-		List propDefns = targetElement.getDefn( ).getProperties( );
-		for ( int i = 0; i < propDefns.size( ); i++ )
+		Iterator propNames = null;
+
+		if ( targetElement instanceof ListingElement )
 		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
-					.get( i );
-			if ( propDefn.isStyleProperty( ) )
-				continue;
+			propNames = ReportItemPropSearchStrategy.getDataBindingPropties( )
+					.iterator( );
+		}
+		else if ( targetElement instanceof GroupElement )
+		{
+			propNames = GroupPropSearchStrategy.getDataBindingPropties( )
+					.iterator( );
+		}
+		else
+		{
+			assert false;
+			return;
+		}
 
-			String propName = propDefn.getName( );
-			if ( targetElement instanceof ListingElement )
-			{
-				if ( !ReportItemPropSearchStrategy
-						.isDataBindingProperty( propName ) )
-					continue;
-
-			}
-			else if ( targetElement instanceof GroupElement )
-			{
-				if ( !GroupPropSearchStrategy.isDataBindingProperty( propName ) )
-					continue;
-			}
+		while ( propNames.hasNext( ) )
+		{
+			String propName = (String) propNames.next( );
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement
+					.getDefn( ).getProperty( propName );
 
 			source.setProperty( propName, targetElement.getStrategy( )
 					.getPropertyExceptRomDefault( tmpHandler.module,

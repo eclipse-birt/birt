@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="5">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="6">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table name="myTable1" id="7">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="20"/>
+            <column id="21"/>
+            <column id="22"/>
+            <header>
+                <row id="8">
+                    <cell id="9"/>
+                    <cell id="10"/>
+                    <cell id="11"/>
+                </row>
+            </header>
+            <group id="25">
+                <property name="groupName">group1</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key">table 1 name</expression>
+                        <property name="direction">asc</property>
+                    </structure>
+                </list-property>
+                <list-property name="filter">
+                    <structure>
+                        <property name="operator">lt</property>
+                        <expression name="expr">table 1 filter expression</expression>
+                    </structure>
+                </list-property>
+            </group>
+            <group id="26">
+                <property name="groupName">group2</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+            <group id="27">
+                <property name="groupName">group3</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+            <detail>
+                <row id="12">
+                    <cell id="13"/>
+                    <cell id="14">
+                        <data id="23">
+                            <property name="resultSetColumn">nobindingitem</property>
+                        </data>
+                    </cell>
+                    <cell id="15">
+                        <data id="24">
+                            <property name="dataSet">Data Set</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table name="myTable2" id="28">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <group id="30">
+                <property name="groupName">group1</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key">table 1 name</expression>
+                        <property name="direction">asc</property>
+                    </structure>
+                </list-property>
+                <list-property name="filter">
+                    <structure>
+                        <property name="operator">lt</property>
+                        <expression name="expr">table 1 filter expression</expression>
+                    </structure>
+                </list-property>
+            </group>
+            <group id="31">
+                <property name="groupName">group2</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+            <group id="32">
+                <property name="groupName">group3</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+        </table>
+    </body>
+</report>

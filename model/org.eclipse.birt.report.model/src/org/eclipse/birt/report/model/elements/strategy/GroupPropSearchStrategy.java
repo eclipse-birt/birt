@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -144,12 +145,11 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 	}
 
 	/**
-	 * @param propName
 	 * @return
 	 */
 
-	public static boolean isDataBindingProperty( String propName )
+	public static Set getDataBindingPropties( )
 	{
-		return dataBindingProps.contains( propName );
+		return Collections.unmodifiableSet( dataBindingProps );
 	}
 }

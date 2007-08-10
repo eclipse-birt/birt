@@ -368,14 +368,14 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( tmpContainer == null )
 				return false;
 
-			return ( GroupPropSearchStrategy.isDataBindingProperty( propDefn
-					.getName( ) ) && ( (ListingElement) tmpContainer
+			return ( GroupPropSearchStrategy.getDataBindingPropties( )
+					.contains( propDefn.getName( ) ) && ( (ListingElement) tmpContainer
 					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
 		}
 		else if ( element instanceof ReportItemHandle )
 		{
-			return ( ReportItemPropSearchStrategy
-					.isDataBindingProperty( propDefn.getName( ) ) && ( (ReportItem) element
+			return ( ReportItemPropSearchStrategy.getDataBindingPropties( )
+					.contains( propDefn.getName( ) ) && ( (ReportItem) element
 					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
 		}
 

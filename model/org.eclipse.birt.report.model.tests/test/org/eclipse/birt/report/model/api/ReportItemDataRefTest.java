@@ -319,6 +319,20 @@ public class ReportItemDataRefTest extends BaseTestCase
 		designHandle.getCommandStack( ).redo( );
 		save( );
 		compareFile( "SetDataGroupRefRedo_golden.xml" ); //$NON-NLS-1$
+
+		table2.setDataBindingReference( null );
+		save( );
+		compareFile( "SetDataGroupRefNull_golden.xml" ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+		save( );
+		compareFile( "SetDataGroupRefNullUndo_golden.xml" ); //$NON-NLS-1$
+
+		table2.setDataBindingReference( designHandle.getElementFactory( )
+				.newTableItem( "myTable3" ) ); //$NON-NLS-1$
+		save( );
+		compareFile( "SetDataGroupRefInvalid_golden.xml" ); //$NON-NLS-1$
+
 	}
 
 	/**
