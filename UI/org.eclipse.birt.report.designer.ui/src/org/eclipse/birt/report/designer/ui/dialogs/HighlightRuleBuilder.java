@@ -441,7 +441,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		value2 = new ExpressionValue( condition, expression );
 		value2.addTextControlListener( SWT.Modify, textModifyListener );
 		value2.addButtonControlListener( SWT.Selection, popBtnSelectionListener2 );
-
+		value2.setVisible( false );
 		if ( operator.getItemCount( ) > 0 )
 		{
 			operator.select( 0 );
