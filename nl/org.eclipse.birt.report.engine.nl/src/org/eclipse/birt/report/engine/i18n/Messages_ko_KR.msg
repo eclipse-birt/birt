@@ -9,8 +9,9 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=출력 형식 {0}이(가) 지원되지 않습니다.
 Error.InvalidParameter=일부 필수 매개 변수 값이 설정되어 있지 않거나 비호환 데이터 형식으로 설정되어 있습니다.
-Error.InvalidParameterType=매개 변수 "{0}"의 유형이 "{1}"이어야 하는데 "{2}"입니다.
+Error.InvalidParameterType=The type of parameter "{0}" is expected as "{1}", not "{2}".
 Error.ParameterValueNull=필요 매개 변수 {0}이(가) 설정되지 않았습니다.
+Error.ParameterValueBlank=Required parameter {0} is blank.
 Error.ParamScriptValidationError=매개 변수 "{0}" 스크립트 원본 평가 오류이며, 원본은 {1}입니다.
 Error.InvalidDesignFile=디자인 파일 {0}에 오류가 있으며 실행할 수 없습니다.
 Error.DesignFileNotFound=디자인 파일 {0}을(를) 찾을 수 없습니다.

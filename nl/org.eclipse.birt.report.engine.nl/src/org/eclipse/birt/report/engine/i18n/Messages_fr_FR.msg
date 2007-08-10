@@ -9,8 +9,9 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
-Error.InvalidParameterType=Le type de paramètre "{0}" est attendu sous la forme "{1}" et non "{2}".
+Error.InvalidParameterType=The type of parameter "{0}" is expected as "{1}", not "{2}".
 Error.ParameterValueNull=Le paramètre requis {0} n'est pas défini.
+Error.ParameterValueBlank=Required parameter {0} is blank.
 Error.ParamScriptValidationError=Erreur de validation de la source du script du paramètre "{0}", la source est {1}.
 Error.InvalidDesignFile=Le fichier modèle {0} comporte une erreur et ne peut pas être exécuté.
 Error.DesignFileNotFound=Le fichier modèle {0} est introuvable.
