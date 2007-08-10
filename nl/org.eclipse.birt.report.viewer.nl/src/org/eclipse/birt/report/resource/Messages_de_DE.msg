@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=Es kann kein verfügbarer Drucker gefunden werden, de
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Bericht als PDF drucken
+birt.viewer.toolbar.print=Print report
 birt.viewer.toolbar.printserver=Bericht auf dem Server drucken
 birt.viewer.toolbar.toc=Inhaltsverzeichnis anzeigen
 birt.viewer.toolbar.parameter=Bericht ausführen
@@ -76,7 +76,8 @@ birt.viewer.dialog.exception.title=Ausnahme
 birt.viewer.dialog.exportReport.title=Bericht exportieren
 birt.viewer.dialog.parameter.title=Parameter
 birt.viewer.dialog.simpleExportData.title=Daten exportieren
-birt.viewer.dialog.printReport.title=Bericht auf dem Server drucken
+birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReportServer.title=Bericht auf dem Server drucken
 
 ###############################################################################
 # Export report dialog 
@@ -94,29 +95,36 @@ birt.viewer.dialog.export.pdf.fittowidth=An Seitenbreite anpassen
 birt.viewer.dialog.export.pdf.fittowhole=An ganze Seite anpassen
 
 ###############################################################################
-# Print report dialog 
+# Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=Ausgabedokument auf dem Server drucken
-birt.viewer.dialog.print.printer=Drucker:
-birt.viewer.dialog.print.status=Status:
-birt.viewer.dialog.print.model=Modell:
-birt.viewer.dialog.print.description=Beschreibung:
+birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format.html=HTML
+birt.viewer.dialog.print.format.pdf=PDF
+
+###############################################################################
+# Print report on the server dialog 
+###############################################################################
+birt.viewer.dialog.printserver.onserver=Ausgabedokument auf dem Server drucken
+birt.viewer.dialog.printserver.printer=Drucker:
+birt.viewer.dialog.printserver.status=Status:
+birt.viewer.dialog.printserver.model=Modell:
+birt.viewer.dialog.printserver.description=Beschreibung:
 accepting-jobs=Aufträge werden angenommen
 
-birt.viewer.dialog.print.settings=Druckeinstellungen festlegen
-birt.viewer.dialog.print.settings.copies=Anzahl der Exemplare:
-birt.viewer.dialog.print.settings.collate=Sortieren:
-birt.viewer.dialog.print.settings.mode=Modus:
-birt.viewer.dialog.print.settings.mode.bw=Schwarzweiß
-birt.viewer.dialog.print.settings.mode.color=Farbe
-birt.viewer.dialog.print.settings.duplex=Duplex:
-birt.viewer.dialog.print.settings.duplex.simplex=Simplex
-birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
-birt.viewer.dialog.print.settings.duplex.vertical=Vertikal
-birt.viewer.dialog.print.settings.pagesize=Seitengröße:
-birt.viewer.dialog.print.settings.print=Drucken:
+birt.viewer.dialog.printserver.settings=Druckeinstellungen festlegen
+birt.viewer.dialog.printserver.settings.copies=Anzahl der Exemplare:
+birt.viewer.dialog.printserver.settings.collate=Sortieren:
+birt.viewer.dialog.printserver.settings.mode=Modus:
+birt.viewer.dialog.printserver.settings.mode.bw=Schwarzweiß
+birt.viewer.dialog.printserver.settings.mode.color=Farbe
+birt.viewer.dialog.printserver.settings.duplex=Duplex:
+birt.viewer.dialog.printserver.settings.duplex.simplex=Simplex
+birt.viewer.dialog.printserver.settings.duplex.horizontal=Horizontal
+birt.viewer.dialog.printserver.settings.duplex.vertical=Vertikal
+birt.viewer.dialog.printserver.settings.pagesize=Seitengröße:
+birt.viewer.dialog.printserver.settings.print=Drucken:
 
-birt.viewer.dialog.print.complete=Dokument an ausgewählten Drucker auf dem Server gesendet.
+birt.viewer.dialog.printserver.complete=Dokument an ausgewählten Drucker auf dem Server gesendet.
 
 ###############################################################################
 # Confirmation dialog 

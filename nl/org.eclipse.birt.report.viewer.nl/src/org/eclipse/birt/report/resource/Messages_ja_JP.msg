@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=PostScript Œ`®‚ğƒTƒ|[ƒg‚·‚ég—p‰Â”\‚ÈƒvƒŠƒ“ƒ^‚ªŒ©‚
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=PDF Œ`®‚ÅƒŒƒ|[ƒg‚ğˆóü‚·‚é
+birt.viewer.toolbar.print=Print report
 birt.viewer.toolbar.printserver=ƒŒƒ|[ƒg‚ğƒT[ƒoã‚Åˆóü
 birt.viewer.toolbar.toc=–ÚŸ‚Ì•\¦
 birt.viewer.toolbar.parameter=ƒŒƒ|[ƒg‚ÌÀs
@@ -76,7 +76,8 @@ birt.viewer.dialog.exception.title=—áŠO
 birt.viewer.dialog.exportReport.title=ƒŒƒ|[ƒg‚ÌƒGƒNƒXƒ|[ƒg
 birt.viewer.dialog.parameter.title=ƒpƒ‰ƒƒ^
 birt.viewer.dialog.simpleExportData.title=ƒf[ƒ^‚ÌƒGƒNƒXƒ|[ƒg
-birt.viewer.dialog.printReport.title=ƒŒƒ|[ƒg‚ğƒT[ƒoã‚Åˆóü
+birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReportServer.title=ƒŒƒ|[ƒg‚ğƒT[ƒoã‚Åˆóü
 
 ###############################################################################
 # Export report dialog 
@@ -94,29 +95,36 @@ birt.viewer.dialog.export.pdf.fittowidth=ƒy[ƒW‚Ì•‚É‡‚í‚¹‚é
 birt.viewer.dialog.export.pdf.fittowhole=‘S‘Ì•\¦
 
 ###############################################################################
-# Print report dialog 
+# Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=o—Í•¶‘ƒtƒ@ƒCƒ‹‚ğƒT[ƒoã‚Åˆóü‚·‚é
-birt.viewer.dialog.print.printer=ƒvƒŠƒ“ƒ^ :
-birt.viewer.dialog.print.status=ó‘Ô :
-birt.viewer.dialog.print.model=ƒ‚ƒfƒ‹ :
-birt.viewer.dialog.print.description=à–¾ :
+birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format.html=HTML
+birt.viewer.dialog.print.format.pdf=PDF
+
+###############################################################################
+# Print report on the server dialog 
+###############################################################################
+birt.viewer.dialog.printserver.onserver=o—Í•¶‘ƒtƒ@ƒCƒ‹‚ğƒT[ƒoã‚Åˆóü‚·‚é
+birt.viewer.dialog.printserver.printer=ƒvƒŠƒ“ƒ^ :
+birt.viewer.dialog.printserver.status=ó‘Ô :
+birt.viewer.dialog.printserver.model=ƒ‚ƒfƒ‹ :
+birt.viewer.dialog.printserver.description=à–¾ :
 accepting-jobs=ƒWƒ‡ƒu‚ÌóM’†
 
-birt.viewer.dialog.print.settings=ˆóüİ’è‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
-birt.viewer.dialog.print.settings.copies=•”” :
-birt.viewer.dialog.print.settings.collate=•”’PˆÊ‚Åˆóü :
-birt.viewer.dialog.print.settings.mode=ƒ‚[ƒh :
-birt.viewer.dialog.print.settings.mode.bw=ƒ‚ƒmƒNƒ
-birt.viewer.dialog.print.settings.mode.color=ƒJƒ‰[
-birt.viewer.dialog.print.settings.duplex=—¼–Êˆóü :
-birt.viewer.dialog.print.settings.duplex.simplex=•Ğ–Êˆóü
-birt.viewer.dialog.print.settings.duplex.horizontal=‰¡
-birt.viewer.dialog.print.settings.duplex.vertical=c
-birt.viewer.dialog.print.settings.pagesize=—p†ƒTƒCƒY :
-birt.viewer.dialog.print.settings.print=ˆóü :
+birt.viewer.dialog.printserver.settings=ˆóüİ’è‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+birt.viewer.dialog.printserver.settings.copies=•”” :
+birt.viewer.dialog.printserver.settings.collate=•”’PˆÊ‚Åˆóü :
+birt.viewer.dialog.printserver.settings.mode=ƒ‚[ƒh :
+birt.viewer.dialog.printserver.settings.mode.bw=ƒ‚ƒmƒNƒ
+birt.viewer.dialog.printserver.settings.mode.color=ƒJƒ‰[
+birt.viewer.dialog.printserver.settings.duplex=—¼–Êˆóü :
+birt.viewer.dialog.printserver.settings.duplex.simplex=•Ğ–Êˆóü
+birt.viewer.dialog.printserver.settings.duplex.horizontal=‰¡
+birt.viewer.dialog.printserver.settings.duplex.vertical=c
+birt.viewer.dialog.printserver.settings.pagesize=—p†ƒTƒCƒY :
+birt.viewer.dialog.printserver.settings.print=ˆóü :
 
-birt.viewer.dialog.print.complete=•¶‘ƒtƒ@ƒCƒ‹‚ğƒT[ƒoã‚Ì‘I‘ğ‚µ‚½ƒvƒŠƒ“ƒ^‚É‘—M‚µ‚Ü‚µ‚½B
+birt.viewer.dialog.printserver.complete=•¶‘ƒtƒ@ƒCƒ‹‚ğƒT[ƒoã‚Ì‘I‘ğ‚µ‚½ƒvƒŠƒ“ƒ^‚É‘—M‚µ‚Ü‚µ‚½B
 
 ###############################################################################
 # Confirmation dialog 

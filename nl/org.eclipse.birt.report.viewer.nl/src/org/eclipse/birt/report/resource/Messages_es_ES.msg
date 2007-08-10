@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible c
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Imprimir informe como PDF
+birt.viewer.toolbar.print=Print report
 birt.viewer.toolbar.printserver=Imprimir informe en el servidor
 birt.viewer.toolbar.toc=Mostrar tabla de contenido
 birt.viewer.toolbar.parameter=Ejecutar informe
@@ -76,7 +76,8 @@ birt.viewer.dialog.exception.title=Excepción
 birt.viewer.dialog.exportReport.title=Exportar informe
 birt.viewer.dialog.parameter.title=Parámetro
 birt.viewer.dialog.simpleExportData.title=Exportar datos
-birt.viewer.dialog.printReport.title=Imprimir informe en el servidor
+birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReportServer.title=Imprimir informe en el servidor
 
 ###############################################################################
 # Export report dialog 
@@ -94,29 +95,36 @@ birt.viewer.dialog.export.pdf.fittowidth=Ajustar a ancho de página
 birt.viewer.dialog.export.pdf.fittowhole=Ajustar a toda la página
 
 ###############################################################################
-# Print report dialog 
+# Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=Imprimir el archivo de documento de salida en el servidor:
-birt.viewer.dialog.print.printer=Impresora:
-birt.viewer.dialog.print.status=Estado:
-birt.viewer.dialog.print.model=Modelo:
-birt.viewer.dialog.print.description=Descripción:
+birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format.html=HTML
+birt.viewer.dialog.print.format.pdf=PDF
+
+###############################################################################
+# Print report on the server dialog 
+###############################################################################
+birt.viewer.dialog.printserver.onserver=Imprimir el archivo de documento de salida en el servidor:
+birt.viewer.dialog.printserver.printer=Impresora:
+birt.viewer.dialog.printserver.status=Estado:
+birt.viewer.dialog.printserver.model=Modelo:
+birt.viewer.dialog.printserver.description=Descripción:
 accepting-jobs=Aceptando trabajos
 
-birt.viewer.dialog.print.settings=Especifique los ajustes de impresora
-birt.viewer.dialog.print.settings.copies=Número de copias:
-birt.viewer.dialog.print.settings.collate=Intercalar:
-birt.viewer.dialog.print.settings.mode=Modo:
-birt.viewer.dialog.print.settings.mode.bw=B&N
-birt.viewer.dialog.print.settings.mode.color=Color
-birt.viewer.dialog.print.settings.duplex=Doble cara:
-birt.viewer.dialog.print.settings.duplex.simplex=Una cara
-birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
-birt.viewer.dialog.print.settings.duplex.vertical=Vertical
-birt.viewer.dialog.print.settings.pagesize=Tamaño de papel:
-birt.viewer.dialog.print.settings.print=Imprimir:
+birt.viewer.dialog.printserver.settings=Especifique los ajustes de impresora
+birt.viewer.dialog.printserver.settings.copies=Número de copias:
+birt.viewer.dialog.printserver.settings.collate=Intercalar:
+birt.viewer.dialog.printserver.settings.mode=Modo:
+birt.viewer.dialog.printserver.settings.mode.bw=B&N
+birt.viewer.dialog.printserver.settings.mode.color=Color
+birt.viewer.dialog.printserver.settings.duplex=Doble cara:
+birt.viewer.dialog.printserver.settings.duplex.simplex=Una cara
+birt.viewer.dialog.printserver.settings.duplex.horizontal=Horizontal
+birt.viewer.dialog.printserver.settings.duplex.vertical=Vertical
+birt.viewer.dialog.printserver.settings.pagesize=Tamaño de papel:
+birt.viewer.dialog.printserver.settings.print=Imprimir:
 
-birt.viewer.dialog.print.complete=Archivo de documento enviado a la impresora seleccionada en el servidor.
+birt.viewer.dialog.printserver.complete=Archivo de documento enviado a la impresora seleccionada en el servidor.
 
 ###############################################################################
 # Confirmation dialog 

@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=以 PDF 格式打印报表
+birt.viewer.toolbar.print=Print report
 birt.viewer.toolbar.printserver=在服务器上打印报表
 birt.viewer.toolbar.toc=显示目录
 birt.viewer.toolbar.parameter=运行报表
@@ -76,7 +76,8 @@ birt.viewer.dialog.exception.title=例外
 birt.viewer.dialog.exportReport.title=导出报表
 birt.viewer.dialog.parameter.title=参数
 birt.viewer.dialog.simpleExportData.title=导出数据
-birt.viewer.dialog.printReport.title=在服务器上打印报表
+birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReportServer.title=在服务器上打印报表
 
 ###############################################################################
 # Export report dialog 
@@ -94,29 +95,36 @@ birt.viewer.dialog.export.pdf.fittowidth=适合页面宽度
 birt.viewer.dialog.export.pdf.fittowhole=适合整页
 
 ###############################################################################
-# Print report dialog 
+# Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=在服务器上打印输出文档文件
-birt.viewer.dialog.print.printer=打印机:
-birt.viewer.dialog.print.status=状态:
-birt.viewer.dialog.print.model=型号:
-birt.viewer.dialog.print.description=描述:
+birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format.html=HTML
+birt.viewer.dialog.print.format.pdf=PDF
+
+###############################################################################
+# Print report on the server dialog 
+###############################################################################
+birt.viewer.dialog.printserver.onserver=在服务器上打印输出文档文件
+birt.viewer.dialog.printserver.printer=打印机:
+birt.viewer.dialog.printserver.status=状态:
+birt.viewer.dialog.printserver.model=型号:
+birt.viewer.dialog.printserver.description=描述:
 accepting-jobs=正在接受作业
 
-birt.viewer.dialog.print.settings=请指定打印设置
-birt.viewer.dialog.print.settings.copies=份数:
-birt.viewer.dialog.print.settings.collate=逐份打印:
-birt.viewer.dialog.print.settings.mode=模式:
-birt.viewer.dialog.print.settings.mode.bw=黑白
-birt.viewer.dialog.print.settings.mode.color=彩色
-birt.viewer.dialog.print.settings.duplex=双工:
-birt.viewer.dialog.print.settings.duplex.simplex=单工
-birt.viewer.dialog.print.settings.duplex.horizontal=水平
-birt.viewer.dialog.print.settings.duplex.vertical=垂直
-birt.viewer.dialog.print.settings.pagesize=页面大小:
-birt.viewer.dialog.print.settings.print=打印:
+birt.viewer.dialog.printserver.settings=请指定打印设置
+birt.viewer.dialog.printserver.settings.copies=份数:
+birt.viewer.dialog.printserver.settings.collate=逐份打印:
+birt.viewer.dialog.printserver.settings.mode=模式:
+birt.viewer.dialog.printserver.settings.mode.bw=黑白
+birt.viewer.dialog.printserver.settings.mode.color=彩色
+birt.viewer.dialog.printserver.settings.duplex=双工:
+birt.viewer.dialog.printserver.settings.duplex.simplex=单工
+birt.viewer.dialog.printserver.settings.duplex.horizontal=水平
+birt.viewer.dialog.printserver.settings.duplex.vertical=垂直
+birt.viewer.dialog.printserver.settings.pagesize=页面大小:
+birt.viewer.dialog.printserver.settings.print=打印:
 
-birt.viewer.dialog.print.complete=已将文档文件发送到服务器上选择的打印机。
+birt.viewer.dialog.printserver.complete=已将文档文件发送到服务器上选择的打印机。
 
 ###############################################################################
 # Confirmation dialog 

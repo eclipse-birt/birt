@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=보고서를 PDF로 인쇄
+birt.viewer.toolbar.print=Print report
 birt.viewer.toolbar.printserver=서버에서 보고서 인쇄
 birt.viewer.toolbar.toc=목차 표시
 birt.viewer.toolbar.parameter=보고서 실행
@@ -76,7 +76,8 @@ birt.viewer.dialog.exception.title=예외
 birt.viewer.dialog.exportReport.title=보고서 내보내기
 birt.viewer.dialog.parameter.title=매개 변수
 birt.viewer.dialog.simpleExportData.title=데이터 내보내기
-birt.viewer.dialog.printReport.title=서버에서 보고서 인쇄
+birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReportServer.title=서버에서 보고서 인쇄
 
 ###############################################################################
 # Export report dialog 
@@ -94,29 +95,36 @@ birt.viewer.dialog.export.pdf.fittowidth=페이지 너비에 맞추기
 birt.viewer.dialog.export.pdf.fittowhole=페이지 전체에 맞추기
 
 ###############################################################################
-# Print report dialog 
+# Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=서버에서 출력 문서 파일 인쇄
-birt.viewer.dialog.print.printer=프린터:
-birt.viewer.dialog.print.status=상태:
-birt.viewer.dialog.print.model=모델:
-birt.viewer.dialog.print.description=설명:
+birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format.html=HTML
+birt.viewer.dialog.print.format.pdf=PDF
+
+###############################################################################
+# Print report on the server dialog 
+###############################################################################
+birt.viewer.dialog.printserver.onserver=서버에서 출력 문서 파일 인쇄
+birt.viewer.dialog.printserver.printer=프린터:
+birt.viewer.dialog.printserver.status=상태:
+birt.viewer.dialog.printserver.model=모델:
+birt.viewer.dialog.printserver.description=설명:
 accepting-jobs=작업을 받아들이는 중
 
-birt.viewer.dialog.print.settings=인쇄 설정을 지정하십시오.
-birt.viewer.dialog.print.settings.copies=복사본 수:
-birt.viewer.dialog.print.settings.collate=한 부씩 인쇄:
-birt.viewer.dialog.print.settings.mode=모드:
-birt.viewer.dialog.print.settings.mode.bw=흑백
-birt.viewer.dialog.print.settings.mode.color=색상
-birt.viewer.dialog.print.settings.duplex=양면:
-birt.viewer.dialog.print.settings.duplex.simplex=단면
-birt.viewer.dialog.print.settings.duplex.horizontal=가로
-birt.viewer.dialog.print.settings.duplex.vertical=세로
-birt.viewer.dialog.print.settings.pagesize=페이지 크기:
-birt.viewer.dialog.print.settings.print=인쇄:
+birt.viewer.dialog.printserver.settings=인쇄 설정을 지정하십시오.
+birt.viewer.dialog.printserver.settings.copies=복사본 수:
+birt.viewer.dialog.printserver.settings.collate=한 부씩 인쇄:
+birt.viewer.dialog.printserver.settings.mode=모드:
+birt.viewer.dialog.printserver.settings.mode.bw=흑백
+birt.viewer.dialog.printserver.settings.mode.color=색상
+birt.viewer.dialog.printserver.settings.duplex=양면:
+birt.viewer.dialog.printserver.settings.duplex.simplex=단면
+birt.viewer.dialog.printserver.settings.duplex.horizontal=가로
+birt.viewer.dialog.printserver.settings.duplex.vertical=세로
+birt.viewer.dialog.printserver.settings.pagesize=페이지 크기:
+birt.viewer.dialog.printserver.settings.print=인쇄:
 
-birt.viewer.dialog.print.complete=문서 파일을 서버의 선택된 프린터에 보냈습니다.
+birt.viewer.dialog.printserver.complete=문서 파일을 서버의 선택된 프린터에 보냈습니다.
 
 ###############################################################################
 # Confirmation dialog 
