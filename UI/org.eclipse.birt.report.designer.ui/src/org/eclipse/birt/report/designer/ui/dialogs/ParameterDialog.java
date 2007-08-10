@@ -1465,6 +1465,7 @@ public class ParameterDialog extends BaseDialog
 						defaultValue = Boolean.toString( false );
 						break;
 				}
+				updateMessageLine();
 			}
 		} );
 	}
@@ -1918,7 +1919,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
 		{
-			return DataTypeUtil.toBoolean( tempdefaultValue );
+			// here should be defaultValue, not tempdefaultValue.
+			return DataTypeUtil.toBoolean( defaultValue );
 		}
 		else
 			return tempdefaultValue;
@@ -2307,7 +2309,7 @@ public class ParameterDialog extends BaseDialog
 
 			// 2. No default value error
 			if ( defaultValue == null
-					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
+					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.endsWith( getSelectedControlType( ) )) )
 			{
 				// if ( isStatic( ) )
 				// {
