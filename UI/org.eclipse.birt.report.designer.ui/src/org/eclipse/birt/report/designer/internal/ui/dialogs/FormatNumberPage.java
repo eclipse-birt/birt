@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -106,11 +107,15 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
 	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+	.format( "+DEFAULT_LOCALE_TEXT+" );
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
 	private static String[] symbols = {
 			// "none", "��","$", "?", "��"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		Messages.getString( "FormatNumberPage.currency.symbol.none" ),
+		Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
+		"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9"
 	};
 
 	private Combo typeChoicer;
@@ -1400,8 +1405,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		cNegNumChoice = new List( setting, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.V_SCROLL );
-		cNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		cNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		cNegNumChoice.add( "-"+DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
+		cNegNumChoice.add( "("+DEFAULT_LOCALE_TEXT+")" ); //$NON-NLS-1$
 		data = new GridData( GridData.FILL_BOTH );
 		cNegNumChoice.setLayoutData( data );
 		cNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1454,8 +1459,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		fNegNumChoice = new List( setting, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.V_SCROLL );
-		fNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		fNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		fNegNumChoice.add( "-"+DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
+		fNegNumChoice.add( "("+DEFAULT_LOCALE_TEXT+")" ); //$NON-NLS-1$
 		gData = new GridData( GridData.FILL_BOTH );
 		fNegNumChoice.setLayoutData( gData );
 		fNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1516,8 +1521,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		pNegNumChoice = new List( setting, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.V_SCROLL );
-		pNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-		pNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		pNegNumChoice.add( "-"+DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
+		pNegNumChoice.add( "("+DEFAULT_LOCALE_TEXT+")" ); //$NON-NLS-1$
 		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		pNegNumChoice.addSelectionListener( mySelectionListener );
 		pNegNumChoice.select( 0 );
