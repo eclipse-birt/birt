@@ -1137,10 +1137,10 @@ public class SVGGraphics2D extends Graphics2D
 	public void flush( )
 	{
 		// Use a temporary buffer to ensure the original string immutable
-		StringBuffer buffer = new StringBuffer( EventHandlers.content );
+		StringBuffer buffer = new StringBuffer( EventHandlers.content.toString( ) );
 		codeScript.appendChild( dom.createCDATASection( buffer.append( scriptBuffer )
 				.toString( ) ) );
-		buffer = new StringBuffer( EventHandlers.styles );
+		buffer = new StringBuffer( EventHandlers.styles.toString( ) );
 		styles.appendChild( dom.createCDATASection( buffer.append( styleBuffer )
 				.toString( ) ) );
 		// clear buffer
