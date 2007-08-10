@@ -375,6 +375,9 @@
 			<include name="org.eclipse.core.runtime.compatibility.auth_*.jar"/>
 			<include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/>
 			<include name="org.eclipse.core.runtime_*.jar" />
+			<include name="org.eclipse.core.resources_*.jar"/>
+			<include name="org.eclipse.core.expressions_*.jar"/>
+			<include name="org.eclipse.core.filesystem_*.jar"/>
 			<include name="org.eclipse.equinox.app_*.jar"/>
 			<include name="org.eclipse.equinox.common_*.jar" />
 			<include name="org.eclipse.equinox.preferences_*.jar" />
