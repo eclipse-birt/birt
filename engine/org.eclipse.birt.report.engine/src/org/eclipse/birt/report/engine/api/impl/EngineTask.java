@@ -573,9 +573,6 @@ public abstract class EngineTask implements IEngineTask
 			if ( !paramHandle.isRequired( ) )
 				return true;
 
-			log.log( Level.SEVERE, "Parameter {0} doesn't allow a null value.", //$NON-NLS-1$ 
-					paramName );
-			
 			throw new ParameterValidationException(
 					MessageConstants.NULL_PARAMETER_EXCEPTION,
 					new String[]{paramName} );
@@ -588,8 +585,6 @@ public abstract class EngineTask implements IEngineTask
 			if ( !( result instanceof Boolean )
 					|| !( (Boolean) result ).booleanValue( ) )
 			{
-				log.log( Level.SEVERE, "Parameter validate failed: ", //$NON-NLS-1$ 
-						source );
 				throw new ParameterValidationException(
 						MessageConstants.NULL_PARAMETER_EXCEPTION,
 						new String[]{paramName, source} );
@@ -606,7 +601,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, "Float or BigDecimal"} );
+					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
@@ -614,7 +609,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, "DateTime"} );
+					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
@@ -622,7 +617,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, "Date"} );
+					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
@@ -630,16 +625,19 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, "Time"} );
+					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			String value = paramValue.toString( ).trim( );
-			if ( paramHandle.isRequired( ) && value.equals( "" ) ) //$NON-NLS-1$
+			if ( paramHandle.isRequired( ) ) //$NON-NLS-1$
 			{
-				throw new ParameterValidationException(
-						MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-						new String[]{paramName, type, "String"} );
+				String value = paramValue.toString( ).trim( );
+				if ( value.length( ) == 0 )
+				{
+					throw new ParameterValidationException(
+							MessageConstants.BLANK_PARAMETER_EXCEPTION,
+							new String[]{paramName} );
+				}
 			}
 			return true;
 		}
@@ -649,7 +647,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, "Boolean"} );
+					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
 		}
 		return true;
 	}
