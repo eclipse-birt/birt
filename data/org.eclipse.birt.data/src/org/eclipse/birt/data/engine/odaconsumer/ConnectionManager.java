@@ -25,6 +25,7 @@ import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider;
+import org.eclipse.datatools.connectivity.oda.profile.Constants;
 
 /**
  * ConnectionManager manages a set of data source connections.  Calling 
@@ -38,12 +39,7 @@ public class ConnectionManager
 {
 	private static ConnectionManager sm_instance = null;
     
-    /* TODO - replace below value w/ oda.profile.Constants.CONN_PROFILE_APPL_ID
-     * and add plugin dependency on oda.profile; 
-     * hold off for now to minimize its direct plugin loading dependency
-     */
-    private static final String DTP_CONN_PROFILE_APPL_ID = 
-        "org.eclipse.datatools.connectivity.oda.profile.connectionPropertyService"; //$NON-NLS-1$
+    private static final String DTP_CONN_PROFILE_APPL_ID = Constants.CONN_PROFILE_APPL_ID;
 	
     // trace logging variables
 	private static final String sm_className = ConnectionManager.class.getName();
