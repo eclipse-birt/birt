@@ -1300,7 +1300,7 @@ public class ReportEngineService
 			boolean isEmbeddable = false;
 			if ( IBirtConstants.SERVLET_PATH_FRAMESET
 					.equalsIgnoreCase( servletPath )
-					|| IBirtConstants.SERVLET_PATH_FRAMESET
+					|| IBirtConstants.SERVLET_PATH_OUTPUT
 							.equalsIgnoreCase( servletPath ) )
 				isEmbeddable = true;
 			if ( renderOption instanceof IHTMLRenderOption )
