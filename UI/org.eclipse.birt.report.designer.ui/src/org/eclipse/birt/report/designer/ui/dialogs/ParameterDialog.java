@@ -1033,16 +1033,16 @@ public class ParameterDialog extends BaseDialog
 					while ( iter.next( ) )
 					{
 						String result = null;
-						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-						{
-							DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-									ULocale.US );
-							result = formatter.format( iter.getDate( columnBindingName ) );
-						}
-						else
-						{
+//						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+//						{
+//							DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+//									ULocale.US );
+//							result = formatter.format( iter.getDate( columnBindingName ) );
+//						}
+//						else
+//						{
 							result = iter.getString( columnBindingName );
-						}
+//						}
 						if ( !StringUtil.isBlank( result )
 								&& !valueList.contains( result ) )
 						{
@@ -1900,15 +1900,15 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
+				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
 			}
 
 			return ParameterValidationUtil.validate( getSelectedDataType( ),
@@ -1919,8 +1919,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
 		{
-			// here should be defaultValue, not tempdefaultValue.
-			return DataTypeUtil.toBoolean( defaultValue );
+			return DataTypeUtil.toBoolean( tempdefaultValue );
 		}
 		else
 			return tempdefaultValue;
@@ -2309,7 +2308,8 @@ public class ParameterDialog extends BaseDialog
 
 			// 2. No default value error
 			if ( defaultValue == null
-					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.endsWith( getSelectedControlType( ) )) )
+//					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.endsWith( getSelectedControlType( ) ))
+					)
 			{
 				// if ( isStatic( ) )
 				// {

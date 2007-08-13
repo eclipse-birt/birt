@@ -878,20 +878,20 @@ public class CascadingParametersDialog extends BaseDialog
 				IResultIterator iter = results.getResultIterator( );
 				if ( iter != null )
 				{
-					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-							ULocale.US );
+//					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+//							ULocale.US );
 					while ( iter.next( ) )
 					{
 						String result = null;
-						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedParameter.getDataType( ) ) )
-						{
-
-							result = formatter.format( iter.getDate( columnBindingName ) );
-						}
-						else
-						{
+//						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedParameter.getDataType( ) ) )
+//						{
+//
+//							result = formatter.format( iter.getDate( columnBindingName ) );
+//						}
+//						else
+//						{
 							result = iter.getString( columnBindingName );
-						}
+//						}
 						if ( !StringUtil.isBlank( result )
 								&& !valueList.contains( result ) )
 						{

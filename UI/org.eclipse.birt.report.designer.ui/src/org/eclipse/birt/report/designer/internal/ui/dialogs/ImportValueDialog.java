@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -57,8 +56,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * The dialog used to import values from data sets
@@ -485,7 +482,6 @@ public class ImportValueDialog extends BaseDialog
 		}
 		return false;
 	}
-
 	private void refreshValues( )
 	{
 		resultList.clear( );
@@ -525,20 +521,20 @@ public class ImportValueDialog extends BaseDialog
 					IResultIterator iter = results.getResultIterator( );
 					if ( iter != null )
 					{
-						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN,
-								ULocale.US );
+//						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN,
+//								ULocale.getDefault( ) );
 						while ( iter.next( ) )
 						{
 							String result = null;
-							if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
-							{
-
-								result = formatter.format( iter.getDate( columnBindingName ) );
-							}
-							else
-							{
+//							if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
+//							{
+//
+//								result = formatter.format( iter.getDate( columnBindingName ) );
+//							}
+//							else
+//							{
 								result = iter.getString( columnBindingName );
-							}
+//							}
 							if ( !StringUtil.isBlank( result )
 									&& !resultList.contains( result ) )
 							{
