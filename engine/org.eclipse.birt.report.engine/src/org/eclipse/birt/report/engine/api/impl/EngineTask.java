@@ -601,7 +601,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
@@ -609,7 +609,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
@@ -617,7 +617,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
@@ -625,7 +625,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
@@ -647,7 +647,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getCanonicalName( )} );
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		return true;
 	}
