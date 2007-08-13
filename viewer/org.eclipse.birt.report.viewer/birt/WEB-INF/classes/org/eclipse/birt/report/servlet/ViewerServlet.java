@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.servlet.BirtSoapMessageDispatcherServlet;
 import org.eclipse.birt.report.utility.BirtUtility;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
@@ -143,6 +145,14 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response ) throws BirtException
 	{
+		try
+		{
+			request.setCharacterEncoding( ParameterAccessor.UTF_8_ENCODE );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			e.printStackTrace( );
+		}
 		BirtReportServiceFactory.getReportService( ).setContext(
 				getServletContext( ), null );
 		return new BirtContext( request, response );
