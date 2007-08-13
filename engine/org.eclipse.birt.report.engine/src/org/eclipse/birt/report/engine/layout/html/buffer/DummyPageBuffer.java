@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 
-
 public class DummyPageBuffer implements IPageBuffer
 {
 
@@ -41,9 +40,14 @@ public class DummyPageBuffer implements IPageBuffer
 	public void endContainer( IContent content, boolean finished,
 			IContentEmitter emitter )
 	{
+		if ( isFirstContent )
+		{
+			startPageContent( content );
+			isFirstContent = false;
+		}
 		if ( emitter != null )
 		{
-			if(content.getContentType( ) == IContent.PAGE_CONTENT )
+			if ( content.getContentType( ) == IContent.PAGE_CONTENT )
 			{
 				ContentEmitterUtil.endContent( pageContent, emitter );
 			}
@@ -66,9 +70,9 @@ public class DummyPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			if(	isFirstContent)
+			if ( isFirstContent )
 			{
-				startPageContent(content);
+				startPageContent( content );
 				isFirstContent = false;
 			}
 			if ( emitter != null )
@@ -80,9 +84,9 @@ public class DummyPageBuffer implements IPageBuffer
 
 	public void startContent( IContent content, IContentEmitter emitter )
 	{
-		if(isFirstContent)
+		if ( isFirstContent )
 		{
-			startPageContent(content);
+			startPageContent( content );
 			isFirstContent = false;
 		}
 		if ( emitter != null )
@@ -107,7 +111,7 @@ public class DummyPageBuffer implements IPageBuffer
 	{
 		String masterPage = null;
 		IStyle style = firstContent.getStyle( );
-		if(style!=null)
+		if ( style != null )
 		{
 			masterPage = style.getMasterPage( );
 		}
@@ -131,9 +135,9 @@ public class DummyPageBuffer implements IPageBuffer
 			else
 			{
 				pageContent = ReportExecutorUtil.executeMasterPage( executor,
-						context.getPageNumber( ), LayoutUtil.getMasterPage( report,
-								masterPage ) );
-				if(pageContent!=null)
+						context.getPageNumber( ), LayoutUtil.getMasterPage(
+								report, masterPage ) );
+				if ( pageContent != null )
 				{
 					ContentEmitterUtil.startContent( pageContent, pageEmitter );
 				}
