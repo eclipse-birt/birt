@@ -87,14 +87,6 @@ public class OlapQueryUtil
 						binding.getBindingName( ) );
 			}
 			
-			if ( binding.getFilter()!= null )
-			{
-				isValid = false;
-				if( !suppressException )
-				throw new DataException( ResourceConstants.INVALID_BINDING_AGGR_FILTER_NOT_SUPPORTED,
-						binding.getBindingName( ) );
-			}
-			
 			if( !isValid )
 				result.add( binding );
 		}
