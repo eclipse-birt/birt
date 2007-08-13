@@ -12,18 +12,45 @@
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.layout.LayoutUtil;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+
 
 public class DummyPageBuffer implements IPageBuffer
 {
+
+	protected HTMLLayoutContext context;
+	protected IReportExecutor executor;
+	protected boolean isFirstContent = false;
+	protected IContent pageContent = null;
+	protected IContentEmitter pageEmitter = null;
+
+	public DummyPageBuffer( HTMLLayoutContext context, IReportExecutor executor )
+	{
+		this.context = context;
+		this.executor = executor;
+	}
 
 	public void endContainer( IContent content, boolean finished,
 			IContentEmitter emitter )
 	{
 		if ( emitter != null )
 		{
-			ContentEmitterUtil.endContent( content, emitter );
+			if(content.getContentType( ) == IContent.PAGE_CONTENT )
+			{
+				ContentEmitterUtil.endContent( pageContent, emitter );
+			}
+			else
+			{
+				ContentEmitterUtil.endContent( content, emitter );
+			}
 		}
 
 	}
@@ -31,15 +58,33 @@ public class DummyPageBuffer implements IPageBuffer
 	public void startContainer( IContent content, boolean isFirst,
 			IContentEmitter emitter )
 	{
-		if ( emitter != null )
+		if ( content.getContentType( ) == IContent.PAGE_CONTENT )
 		{
-			ContentEmitterUtil.startContent( content, emitter );
+			isFirstContent = true;
+			pageContent = content;
+			pageEmitter = emitter;
 		}
-
+		else
+		{
+			if(	isFirstContent)
+			{
+				startPageContent(content);
+				isFirstContent = false;
+			}
+			if ( emitter != null )
+			{
+				ContentEmitterUtil.startContent( content, emitter );
+			}
+		}
 	}
 
 	public void startContent( IContent content, IContentEmitter emitter )
 	{
+		if(isFirstContent)
+		{
+			startPageContent(content);
+			isFirstContent = false;
+		}
 		if ( emitter != null )
 		{
 			ContentEmitterUtil.startContent( content, emitter );
@@ -50,14 +95,50 @@ public class DummyPageBuffer implements IPageBuffer
 
 	public boolean isRepeated( )
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setRepeated( boolean isRepeated )
 	{
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	protected void startPageContent( IContent firstContent )
+	{
+		String masterPage = null;
+		IStyle style = firstContent.getStyle( );
+		if(style!=null)
+		{
+			masterPage = style.getMasterPage( );
+		}
+		if ( pageContent == null || pageEmitter == null )
+		{
+			return;
+		}
+		if ( masterPage == null || "".equals( masterPage ) )
+		{
+			ContentEmitterUtil.startContent( pageContent, pageEmitter );
+		}
+		else
+		{
+			IReportContent report = pageContent.getReportContent( );
+			MasterPageDesign defaultMasterPage = LayoutUtil
+					.getDefaultMasterPage( report );
+			if ( defaultMasterPage.getName( ).equals( masterPage ) )
+			{
+				ContentEmitterUtil.startContent( pageContent, pageEmitter );
+			}
+			else
+			{
+				pageContent = ReportExecutorUtil.executeMasterPage( executor,
+						context.getPageNumber( ), LayoutUtil.getMasterPage( report,
+								masterPage ) );
+				if(pageContent!=null)
+				{
+					ContentEmitterUtil.startContent( pageContent, pageEmitter );
+				}
+			}
+		}
 	}
 
 }

@@ -93,7 +93,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		}
 		else
 		{
-			bufferMgr = new DummyPageBuffer();
+			bufferMgr = new DummyPageBuffer(context, executor);
 		}
 		context.setPageBufferManager( bufferMgr );
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );

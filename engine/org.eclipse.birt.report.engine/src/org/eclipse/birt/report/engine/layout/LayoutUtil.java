@@ -15,13 +15,42 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 
 public class LayoutUtil
 {
+	
+	public static MasterPageDesign getMasterPage( IReportContent report, String masterPage )
+	{
+		MasterPageDesign pageDesign = null;
+		if ( masterPage != null && !"".equals( masterPage ) ) //$NON-NLS-1$
+		{
+			pageDesign = report.getDesign( ).findMasterPage( masterPage );
+			if ( pageDesign != null )
+			{
+				return pageDesign;
+			}
+		}
+		return getDefaultMasterPage( report );
+	}
+	
+	public static  MasterPageDesign getDefaultMasterPage( IReportContent report )
+	{
+		PageSetupDesign pageSetup = report.getDesign( ).getPageSetup( );
+		int pageCount = pageSetup.getMasterPageCount( );
+		if ( pageCount > 0 )
+		{
+			MasterPageDesign pageDesign =  pageSetup.getMasterPage( 0 );
+			return pageDesign;
+		}
+		return null;
+	}
 
 	public static boolean isRowHidden( Object rowContent, String format,
 			boolean outputDisplayNone )
