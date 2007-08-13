@@ -23,7 +23,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -36,7 +35,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -44,20 +46,20 @@ import org.eclipse.swt.widgets.Widget;
 import com.ibm.icu.util.StringTokenizer;
 
 /**
- * This is the base claas for a dialog box with a tree on the left hand side and
+ * This is the base class for a dialog box with a tree on the left hand side and
  * pages for each node on the right. It takes a model object in the constructor
  * and maintains a reference to this object. The pages can retrieve this model
  * object by calling the {@link #getModel() getModel}method. It defines two
  * abstract methods {@link #performCancel() performCancel}and
  * {@link #performOk() performOk}. These methods are called when the user
- * presses the Ok or cancel button. <br/><br/>
+ * presses the ok or cancel button. <br/><br/>
  * 
  * Pages can be added to this by either calling the
  * {@link #addNodeTo(String, PropertyNode) addNodeTo}method or by calling the
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.6 $ $Date: 2007/05/24 09:01:58 $
+ * @version $Revision: 1.7 $ $Date: 2007/07/06 06:58:17 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -90,8 +92,15 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	private String nodeId;
 	
 	protected boolean showPage = false;
+	
+	private int[] widthHints = new int[2];
 
-	private SashForm sashForm;
+	private Control treeViewer;
+
+	private Control pageContainer;
+
+	private Composite container;
+
 	/**
 	 * The only constructor for this dialog. It takes the parentShell and the
 	 * model object as parameters.
@@ -251,13 +260,22 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
 		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
 		composite.setLayout( layout );
+		
+		container = new Composite( composite, SWT.NONE );
+		layout = new GridLayout( );
+		layout.numColumns = 3;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.horizontalSpacing = 2;
+		container.setLayout( layout );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		sashForm = new SashForm( composite, SWT.NONE );
-		sashForm.setOrientation( SWT.HORIZONTAL );
-		sashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		createTreeViewer( sashForm );
-
-		createPropertyPane( sashForm );
+		treeViewer = createTreeViewer( container );
+		treeViewer.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		Sash sash = createSash( container );
+		pageContainer = createPropertyPane( container );
+		pageContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		addDragListerner( sash, container, treeViewer, pageContainer );
 		
 		Label label = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -265,6 +283,104 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		initTreeSelection( );
 
 		return composite;
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.TrayDialog#close()
+	 */
+	public boolean close( )
+	{
+
+		IDialogSettings setting = getDialogBoundsSettings( );
+		setting.put( SASHFORM_LEFT, widthHints[0] );
+		setting.put( SASHFORM_RIGHT, widthHints[1] );
+		return super.close( );
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
+	 */
+	protected void initializeBounds( )
+	{
+		try
+		{
+			IDialogSettings setting = getDialogBoundsSettings( );
+			widthHints[0] = setting.getInt( SASHFORM_LEFT );
+			widthHints[1] = setting.getInt( SASHFORM_RIGHT );
+		}
+		catch ( NumberFormatException e )
+		{
+			final int total = getDefaultSize( ).x;
+			widthHints[0] = (int) ( total * 0.2 );
+			widthHints[1] = (int) ( total * 0.8 );
+		}
+		GridData data = (GridData) treeViewer.getLayoutData( );
+		data.widthHint = widthHints[0];
+		data = (GridData) pageContainer.getLayoutData( );
+		data.widthHint = widthHints[1];
+		container.layout( true );
+		super.initializeBounds( );
+	}
+	
+	
+	/**
+	 * 
+	 * @param sash
+	 * @param parent
+	 * @param left
+	 * @param right
+	 */
+	private void addDragListerner( final Sash sash, final Composite parent,
+			final Control left, final Control right )
+	{
+		sash.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( event.detail == SWT.DRAG )
+				{
+					return;
+				}
+				Sash sash = (Sash) event.widget;
+				int shift = event.x - sash.getBounds( ).x;
+
+				GridData data = (GridData) left.getLayoutData( );
+				int newWidthHint = data.widthHint + shift;
+				if ( newWidthHint < 20 )
+				{
+					return;
+				}
+				Point computedSize = parent.computeSize( SWT.DEFAULT,
+						SWT.DEFAULT );
+				Point currentSize = parent.getSize( );
+				// if the dialog wasn't of a custom size we know we can shrink
+				// it if necessary based on sash movement.
+				boolean customSize = !computedSize.equals( currentSize );
+				widthHints[0] = data.widthHint = newWidthHint;
+				data = (GridData) right.getLayoutData( );
+				newWidthHint = data.widthHint - shift;
+				widthHints[1] = data.widthHint = newWidthHint;
+				parent.layout( true );
+				// recompute based on new widget size
+				computedSize = parent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+				// if the dialog was of a custom size then increase it only if
+				// necessary.
+				if ( customSize )
+				{
+					computedSize.x = Math.max( computedSize.x, currentSize.x );
+				}
+				computedSize.y = Math.max( computedSize.y, currentSize.y );
+				if ( computedSize.equals( currentSize ) )
+				{
+					return;
+				}
+				parent.setSize( computedSize.x, computedSize.y );
+			}
+		} );
 	}
 
 	/**
@@ -723,43 +839,11 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		return currentNode;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.TrayDialog#close()
-	 */
-	public boolean close( )
+	private Sash createSash( final Composite composite )
 	{
-		IDialogSettings setting = getDialogBoundsSettings( );
-		int[] weights = sashForm.getWeights( );
-		assert weights != null && weights.length == 2;
-		setting.put( SASHFORM_LEFT, weights[0] );
-		setting.put( SASHFORM_RIGHT, weights[1] );
-		return super.close( );
-	}
-	
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
-	 */
-	protected void initializeBounds( )
-	{
-		try
-		{
-			IDialogSettings setting = getDialogBoundsSettings( );
-			int leftWeight = setting.getInt( SASHFORM_LEFT );
-			int rightWeight = setting.getInt( SASHFORM_RIGHT );
-			sashForm.setWeights( new int[]{
-					leftWeight, rightWeight
-			} );
-		}
-		catch ( NumberFormatException e )
-		{
-			sashForm.setWeights( new int[]{
-					20, 80
-			} );
-		}
-		super.initializeBounds( );
+		final Sash sash = new Sash( composite, SWT.VERTICAL );
+		sash.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		return sash;
 	}
 
 }

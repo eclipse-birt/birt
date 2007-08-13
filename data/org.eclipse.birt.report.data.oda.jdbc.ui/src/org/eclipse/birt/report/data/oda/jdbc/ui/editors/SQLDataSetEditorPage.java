@@ -56,7 +56,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BidiSegmentEvent;
 import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -75,6 +74,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -85,6 +85,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -133,6 +134,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	protected ArrayList tableList;
 
 	private Connection jdbcConnection = null;
+
 	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
 	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
 	private static String PAGE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.PageIcon";
@@ -205,18 +207,116 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	private Control createPageControl( Composite parent )
 	{
-		SashForm SashForm = new SashForm( parent, SWT.HORIZONTAL );
-		SashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Composite pageContainer = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 3;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.horizontalSpacing = 2;
+		pageContainer.setLayout( layout );
+		pageContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		initialImage( );
 		initialJdbcInfo( );
 
-		createTableSelectionComposite( SashForm );
-		createTextualQueryComposite( SashForm );
+		Control left = createTableSelectionComposite( pageContainer );
+		Sash sash = createSash( pageContainer );
+		Control right = createTextualQueryComposite( pageContainer );
+		setWidthHints( pageContainer, left, right );
+		addDragListerner( sash, pageContainer, left, right );
+		return pageContainer;
+	}
 
-		setSashFormWeights( SashForm );
+	/**
+	 * @param pageContainer
+	 * @param left
+	 * @param right
+	 */
+	private void setWidthHints( Composite pageContainer, Control left,
+			Control right )
+	{
+		int leftWidth = left.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		int totalWidth = pageContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 
-		return SashForm;
+		if ( (double) leftWidth / (double) totalWidth > 0.4 )
+		{
+			// if left side is too wide, set it to default value 40:60
+			GridData data = (GridData) left.getLayoutData( );
+			data.widthHint = (int) ( totalWidth * 0.4 );
+			data = (GridData) right.getLayoutData( );
+			data.widthHint = (int) ( totalWidth * 0.6 );
+		}
+		else
+		{
+			GridData data = (GridData) left.getLayoutData( );
+			data.widthHint = leftWidth;
+			data = (GridData) right.getLayoutData( );
+			data.widthHint = totalWidth - leftWidth;
+		}
+	}
+	
+	private Sash createSash( final Composite composite )
+	{
+		final Sash sash = new Sash( composite, SWT.VERTICAL );
+		sash.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		return sash;
+	}
+	
+	/**
+	 * 
+	 * @param sash
+	 * @param parent
+	 * @param left
+	 * @param right
+	 */
+	private void addDragListerner( final Sash sash, final Composite parent,
+			final Control left, final Control right )
+	{
+		sash.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( event.detail == SWT.DRAG )
+				{
+					return;
+				}
+				Sash sash = (Sash) event.widget;
+				int shift = event.x - sash.getBounds( ).x;
+
+				GridData data = (GridData) left.getLayoutData( );
+				int newWidthHint = data.widthHint + shift;
+				if ( newWidthHint < 0 )
+				{
+					return;
+				}
+				Point computedSize = parent.computeSize( SWT.DEFAULT,
+						SWT.DEFAULT );
+				Point currentSize = parent.getSize( );
+				// if the dialog wasn't of a custom size we know we can shrink
+				// it if necessary based on sash movement.
+				boolean customSize = !computedSize.equals( currentSize );
+				data.widthHint = newWidthHint;
+
+				data = (GridData) right.getLayoutData( );
+				newWidthHint = data.widthHint - shift;
+				data.widthHint = newWidthHint;
+				parent.layout( true );
+				// recompute based on new widget size
+				computedSize = parent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+				// if the dialog was of a custom size then increase it only if
+				// necessary.
+				if ( customSize )
+				{
+					computedSize.x = Math.max( computedSize.x, currentSize.x );
+				}
+				computedSize.y = Math.max( computedSize.y, currentSize.y );
+				if ( computedSize.equals( currentSize ) )
+				{
+					return;
+				}
+				parent.setSize( computedSize.x, computedSize.y );
+			}
+		} );
 	}
 
 	/**
@@ -300,14 +400,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * 
 	 * @param parent
 	 */
-	private void createTableSelectionComposite( Composite parent )
+	private Control createTableSelectionComposite( Composite parent )
 	{
 		Composite tablescomposite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 
 		tablescomposite.setLayout( layout );
 		{
-			GridData data = new GridData( GridData.FILL_BOTH );
+			GridData data = new GridData( GridData.FILL_VERTICAL );
 			data.grabExcessVerticalSpace = true;
 			tablescomposite.setLayoutData( data );
 		}
@@ -438,6 +538,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		setRootElement( );
 		// Create the drag source on the tree
 		addDragSupportToTree( );
+		return tablescomposite;
 	}
 
 	/*
@@ -458,31 +559,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			this.shouldUpdateDataSetDesign = false;
 		}
 		return design;
-	}
-
-	/**
-	 * Sets Splitter Weights.
-	 * if left side is too wide,set weights with default value 40,60.  
-	 * @param splitter
-	 */
-	private void setSashFormWeights( SashForm sashForm )
-	{
-		int leftWidth = sashForm.getChildren( )[0].computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x;
-		int totalWidth = sashForm.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		if ( (double) leftWidth / (double) totalWidth > 0.4 )
-		{
-			// if left side is too wide, set it to default value 40:60
-			sashForm.setWeights( new int[]{
-					40, 60
-			} );
-		}
-		else
-		{
-			sashForm.setWeights( new int[]{
-					leftWidth, totalWidth - leftWidth
-			} );
-		}
 	}
 
 	/**
@@ -1883,7 +1959,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * Creates the textual query editor 
 	 * @param parent
 	 */
-	private void createTextualQueryComposite( Composite parent )
+	private Control createTextualQueryComposite( Composite parent )
 	{
 
 		Composite composite = new Composite( parent, SWT.FILL
@@ -1891,6 +1967,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 1;
 		composite.setLayout( layout );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		CompositeRuler ruler = new CompositeRuler( );
 		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn( );
@@ -1965,6 +2042,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				// do nothing
 			}
 		} );
+		return composite;
 	}
 
 	/**
