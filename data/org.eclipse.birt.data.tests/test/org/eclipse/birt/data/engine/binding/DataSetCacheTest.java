@@ -61,6 +61,7 @@ public class DataSetCacheTest extends APITestCase
 
 	Map appContextMap = new HashMap( );
 	ScriptableObject scope;
+	private DataEngineImpl myDataEngine;
 
 	/*
 	 * @see junit.framework.TestCase#setUp()
@@ -75,8 +76,7 @@ public class DataSetCacheTest extends APITestCase
 		expectedValue = new ArrayList( );
 		appContextMap.put( DataEngine.DATASET_CACHE_OPTION, "true" );
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, null);
-		DataEngine myDataEngine = newDataEngine( );
-		myDataEngine.clearCache( this.dataSource, this.dataSet );
+		myDataEngine = newDataEngine( );
 	}
 
 	/*
@@ -85,6 +85,7 @@ public class DataSetCacheTest extends APITestCase
 	public void tearDown( ) throws Exception
 	{
 		super.tearDown( );
+		myDataEngine.clearCache( this.dataSource, this.dataSet );
 	}
 
 	/*
@@ -104,7 +105,7 @@ public class DataSetCacheTest extends APITestCase
 	public void testUseCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );
-		DataEngineImpl myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
@@ -138,7 +139,7 @@ public class DataSetCacheTest extends APITestCase
 	public void testUseCache1( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 100 );
-		DataEngineImpl myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
@@ -205,7 +206,7 @@ public class DataSetCacheTest extends APITestCase
 				null );
 		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 100 );
 		
-	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+	    myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
 
 		myDataEngine.defineDataSource( this.dataSource );
 		myDataEngine.defineDataSet( this.dataSet );
@@ -250,7 +251,7 @@ public class DataSetCacheTest extends APITestCase
 				null,
 				null );
 				
-	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+	    myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
 
 		myDataEngine.defineDataSource( this.dataSource );
 		myDataEngine.defineDataSet( this.dataSet );
@@ -262,14 +263,14 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
-	 * Test acqurire save cache result meta 
+	 * Test acquire saved cache result meta 
 	 *
 	 */
 	public void testUseCachedMeta1() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 1 ) );
 		this.genCache();
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
 		assertTrue( meta!= null );
 		assertTrue( meta.getColumnCount() == 6 );
@@ -283,7 +284,7 @@ public class DataSetCacheTest extends APITestCase
 	{
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 0 ) );
 		this.genCache();
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
 		assertTrue( meta == null );
 	}
@@ -300,7 +301,7 @@ public class DataSetCacheTest extends APITestCase
 				null );
 		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 100 );
 		
-	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+	    myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
 
 		myDataEngine.defineDataSource( this.dataSource );
 		myDataEngine.defineDataSet( this.dataSet );
@@ -323,7 +324,7 @@ public class DataSetCacheTest extends APITestCase
 				null );
 		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 3 );
 		
-	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+	    myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
 
 		myDataEngine.defineDataSource( this.dataSource );
 		myDataEngine.defineDataSet( this.dataSet );
@@ -342,7 +343,7 @@ public class DataSetCacheTest extends APITestCase
 	{
 		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 1 ) );
 		this.genCache();
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
 		assertTrue( meta!= null );
 		assertTrue( meta.getColumnCount() == 6 );
@@ -355,7 +356,7 @@ public class DataSetCacheTest extends APITestCase
 	public void testUseMemoryCachedMeta2() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 0 ) );
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultIterator ri = getResultIterator1( myDataEngine );
 
 		while ( ri.next( ) )
@@ -681,7 +682,7 @@ public class DataSetCacheTest extends APITestCase
 	{
 		this.dataSet.setCacheRowCount( 4 );
 
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultIterator ri = getResultIterator1( myDataEngine );
 
 		while ( ri.next( ) )
@@ -704,7 +705,7 @@ public class DataSetCacheTest extends APITestCase
 	{
 		this.dataSet.setCacheRowCount( 4 );
 
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultIterator parentRi = getResultIterator1( myDataEngine );
 		parentRi.next( );
 		IResultIterator ri = parentRi.getSecondaryIterator( "IAMTEST", scope );;
@@ -724,7 +725,7 @@ public class DataSetCacheTest extends APITestCase
 	 */
 	private void useCache( ) throws BirtException
 	{
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultIterator ri = getResultIterator1( myDataEngine );
 		checkResult( ri );
 
@@ -737,7 +738,7 @@ public class DataSetCacheTest extends APITestCase
 	 */
 	private void useCache3( ) throws BirtException
 	{
-		DataEngine myDataEngine = newDataEngine( );
+		myDataEngine = newDataEngine( );
 		IResultIterator parentRi = getResultIterator1( myDataEngine );
 		parentRi.next( );
 		IResultIterator ri = parentRi.getSecondaryIterator( "IAMTEST", scope );
