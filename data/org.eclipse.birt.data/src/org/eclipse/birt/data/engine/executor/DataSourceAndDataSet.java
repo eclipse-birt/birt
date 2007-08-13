@@ -434,6 +434,9 @@ public class DataSourceAndDataSet
 						dataSetDesign2.getResultSetHints( ) ) == false )
 			return false;
 
+		if ( dataSetDesign.getCacheRowCount( ) != dataSetDesign2.getCacheRowCount( ))
+			return false;
+		
 		if ( dataSetDesign instanceof IOdaDataSetDesign
 				&& dataSetDesign2 instanceof IOdaDataSetDesign )
 		{
