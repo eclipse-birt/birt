@@ -36,6 +36,10 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 
 	public IContent execute( )
 	{
+		if ( null == content )
+		{
+			return null;
+		}
 		childIterator = content.getChildren( ).iterator( );
 		return content;
 	}
@@ -44,7 +48,7 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( childIterator.hasNext( ) )
+		if ( null != childIterator && childIterator.hasNext( ) )
 		{
 			IContent child = (IContent) childIterator.next( );
 			return manager.createExecutor( child );
@@ -54,6 +58,10 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 
 	public boolean hasNextChild( )
 	{
+		if ( null == childIterator )
+		{
+			return false;
+		}
 		return childIterator.hasNext( );
 	}
 
