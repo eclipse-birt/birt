@@ -96,6 +96,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		
 		//Grouping will also be done in this method, for currently we only support simple group keys
 		//that is, group keys cannot contain aggregation.
+				
 		doRowFiltering( );
 		
 		//TODO remove me
@@ -111,7 +112,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 
 		//Do row sorting
 		doRowSorting( );
-
+		
 		//Do group sorting
 		doGroupSorting( );
 		
@@ -153,8 +154,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private boolean hasGroupingBeDone( )
 	{
-		return psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) 
-			|| psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ) ;
+		return psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING );
 	}
 	
 	/**
@@ -209,13 +209,10 @@ class ResultSetProcessUtil extends RowProcessUtil
 		if ( psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
 		{
 			// if no group pass has been made, made one.
-			if ( !psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ) )
-			{
-				PassUtil.pass( this.populator,
+			PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						true, session );
-			}
-
+			
 			if ( aggCCList.size( ) != 0 )
 			{
 				computedColumnHelper.getComputedColumnList( ).clear( );
@@ -260,9 +257,20 @@ class ResultSetProcessUtil extends RowProcessUtil
 	private void doRowSorting( ) throws DataException
 	{
 		this.populator.getQuery( ).setOrdering( this.cachedSort );
-		PassUtil.pass( this.populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				true, session );
+		
+		if ( this.populator.getGroupProcessorManager( )
+				.getGroupCalculationUtil( )
+				.getSortSpec( ) != null
+				&& this.populator.getGroupProcessorManager( )
+						.getGroupCalculationUtil( )
+						.getSortSpec( )
+						.length( ) > 0 )
+		{
+			PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true,
+					session );
+		}
 	}
 
 	/**
@@ -359,8 +367,10 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private void cleanTempColumns( ) throws DataException
 	{
-		populator.setResultSetMetadata( rebuildResultClass( populator.getResultSetMetadata( ) ) );
-		PassUtil.pass( populator,
+		IResultClass newMeta = rebuildResultClass( populator.getResultSetMetadata( ) );
+		populator.setResultSetMetadata( newMeta );
+		populator.getCache( ).setResultClass( newMeta );
+		/*PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
 				false, session );
 
@@ -369,7 +379,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )
-				.setLeaveGroupIndex( 0 );
+				.setLeaveGroupIndex( 0 );*/
 	}
 
 	/**

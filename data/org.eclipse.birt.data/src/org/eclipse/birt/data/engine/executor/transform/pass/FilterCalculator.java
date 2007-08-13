@@ -113,7 +113,7 @@ class FilterCalculator
 			//Grouping is done here
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, this.session  );
+					false, this.session  );
 		}
 
 		/*
@@ -217,7 +217,7 @@ class FilterCalculator
 		// Grouping is done here.
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				true, this.session );
+				false, this.session );
 
 		filterPass.setPassLevel( FilterPassController.DEFAULT_PASS );
 		filterPass.setRowCount( FilterPassController.DEFAULT_ROW_COUNT );

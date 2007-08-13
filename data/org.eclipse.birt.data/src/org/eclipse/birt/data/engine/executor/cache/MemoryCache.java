@@ -188,5 +188,13 @@ public class MemoryCache implements ResultSetCache
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @param rsMeta
+	 * @throws DataException
+	 */
+	public void setResultClass( IResultClass rsMeta ) throws DataException
+	{
+		this.rsMeta = rsMeta;
+	}
 }

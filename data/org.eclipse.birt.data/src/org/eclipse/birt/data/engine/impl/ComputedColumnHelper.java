@@ -43,7 +43,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private ComputedColumnHelperInstance dataSetInstance;
 	private ComputedColumnHelperInstance resultSetInstance;
 	private ComputedColumnHelperInstance availableModeInstance;
-	private int currentModel;
+	private ComputedColumnHelperInstance currentModel;
 	private List allCC;
 
 	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
@@ -74,7 +74,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				availableCCList );
 		this.availableModeInstance = new ComputedColumnHelperInstance( dataSet,
 				availableCCList );
-		this.currentModel = TransformationConstants.DATA_SET_MODEL;
+		this.currentModel = this.dataSetInstance;
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
 		this.allCC.addAll( resultSetCCList );
@@ -87,13 +87,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 */
 	private ComputedColumnHelperInstance getCurrentInstance( )
 	{
-		if ( this.currentModel == TransformationConstants.DATA_SET_MODEL )
-			return this.dataSetInstance;
-		else if ( this.currentModel == TransformationConstants.RESULT_SET_MODEL )
-			return this.resultSetInstance;
-		else if ( this.currentModel == TransformationConstants.PRE_CALCULATE_MODEL )
-			return this.availableModeInstance;
-		return null;
+		return this.currentModel;
 	}
 
 	/*
@@ -157,7 +151,14 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 */
 	public void setModel( int model )
 	{
-		this.currentModel = model;
+		if ( model == TransformationConstants.DATA_SET_MODEL )
+			this.currentModel = this.dataSetInstance;
+		else if ( model == TransformationConstants.RESULT_SET_MODEL )
+			this.currentModel = this.resultSetInstance;
+		else if ( model == TransformationConstants.PRE_CALCULATE_MODEL )
+			this.currentModel = this.availableModeInstance;
+		else
+			this.currentModel = null;
 	}
 		
 	/**

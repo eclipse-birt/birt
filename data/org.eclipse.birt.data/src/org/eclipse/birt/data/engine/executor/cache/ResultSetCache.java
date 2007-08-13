@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -91,4 +92,9 @@ public interface ResultSetCache
 	public void doSave( OutputStream outputStream, Map cacheRequestMapping )
 			throws DataException;
 	
+	/**
+	 * Set the result class of the current result set cache.
+	 * @throws DataException
+	 */
+	public void setResultClass( IResultClass rsMeta ) throws DataException;
 }

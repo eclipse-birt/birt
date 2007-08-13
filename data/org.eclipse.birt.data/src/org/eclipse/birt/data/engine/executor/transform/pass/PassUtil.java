@@ -58,11 +58,6 @@ class PassUtil
 			OdiResultSetWrapper resultSource, boolean doGroup, DataEngineSession session )
 			throws DataException
 	{
-		if ( doGroup )
-			populator.getGroupProcessorManager( )
-					.getGroupCalculationUtil( )
-					.initGroupSpec( );
-
 		populateOdiResultSet( populator, resultSource, doGroup
 				? populator.getGroupProcessorManager( )
 						.getGroupCalculationUtil( )

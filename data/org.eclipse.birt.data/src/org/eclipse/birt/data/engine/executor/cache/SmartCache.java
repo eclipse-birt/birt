@@ -207,4 +207,13 @@ public class SmartCache implements ResultSetCache
 		close();
 	}
 	
+	/**
+	 * 
+	 * @param rsMeta
+	 * @throws DataException
+	 */
+	public void setResultClass( IResultClass rsMeta ) throws DataException
+	{
+		this.resultSetCache.setResultClass( rsMeta );
+	}
 }

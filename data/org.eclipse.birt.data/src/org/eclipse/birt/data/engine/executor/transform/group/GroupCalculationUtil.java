@@ -76,14 +76,16 @@ public class GroupCalculationUtil
 	 * 
 	 * @param query
 	 * @param rsMeta
+	 * @throws DataException 
 	 */
 	GroupCalculationUtil(BaseQuery query, IResultClass rsMeta,
-			ResultSetPopulator resultPopoulator)
+			ResultSetPopulator resultPopoulator) throws DataException
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
 		groupInformationUtil = new GroupInformationUtil( this );
 		this.resultPopoulator = resultPopoulator;
+		this.initGroupSpec( );
 	}
 
 	/**
@@ -108,6 +110,7 @@ public class GroupCalculationUtil
 
 		this.rsMeta = rsMeta;
 		this.smartCache = rsCache;
+		this.initGroupSpec( );
 	}
 
 	/**
@@ -231,7 +234,7 @@ public class GroupCalculationUtil
 	/**
 	 * Performs data transforms and starts the iterator
 	 */
-	public void initGroupSpec( ) throws DataException
+	private void initGroupSpec( ) throws DataException
 	{
 		// Set up the GroupDefs structure
 		IQuery.GroupSpec[] groupSpecs = query.getGrouping( );
