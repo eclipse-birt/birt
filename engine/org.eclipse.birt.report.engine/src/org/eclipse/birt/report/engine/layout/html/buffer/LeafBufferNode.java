@@ -12,31 +12,30 @@
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
-public class PageNode extends ContainerBufferNode implements IContainerNode
+
+public class LeafBufferNode extends AbstractNode implements INode
 {
 
-	public PageNode( IContent content, IContentEmitter emitter,
+	LeafBufferNode( IContent content, IContentEmitter emitter,
 			PageHintGenerator generator )
 	{
 		super( content, emitter, generator );
 	}
 
-	public void end( )
+	protected void flushChildren( )
 	{
-		ContentEmitterUtil.endContent( content, emitter );
+		
 	}
 
-	public void start( )
+	public void flush( )
 	{
-		if ( parent != null && !parent.isStarted( ) )
+		if ( !isStarted )
 		{
-			parent.start( );
+			start( );
 		}
-		ContentEmitterUtil.startContent( content, emitter );
-		isStarted = true;
+		end( );
 	}
 
 }

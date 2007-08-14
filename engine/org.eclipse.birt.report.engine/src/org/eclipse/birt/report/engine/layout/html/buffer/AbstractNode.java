@@ -22,7 +22,7 @@ public abstract class AbstractNode implements INode
 	protected IContentEmitter emitter;
 	boolean isFirst = true;
 	protected boolean finished = true;
-	protected INode parent;
+	protected IContainerNode parent;
 	protected boolean isStarted = false;
 	protected PageHintGenerator generator;
 
@@ -60,25 +60,13 @@ public abstract class AbstractNode implements INode
 		generator.end( content, finished );
 	}
 
-	public void flush( )
-	{
-		if ( !isStarted )
-		{
-			start( );
-		}
-		flushChildren( );
-		end( );
-
-	}
-
-	protected abstract void flushChildren( );
-
-	public void setParent( INode parent )
+	
+	public void setParent( IContainerNode parent )
 	{
 		this.parent = parent;
 	}
 
-	public INode getParent( )
+	public IContainerNode getParent( )
 	{
 		return parent;
 	}

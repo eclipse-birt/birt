@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
-public interface INode
+
+public interface IContainerNode extends INode
 {
+	public void addChild( INode node );
 
-	IContainerNode getParent( );
-
-	void flush( );
-
-	void start( );
-
-	void end( );
-
-	boolean isStarted( );
-
+	public void removeChildren( );
 }
