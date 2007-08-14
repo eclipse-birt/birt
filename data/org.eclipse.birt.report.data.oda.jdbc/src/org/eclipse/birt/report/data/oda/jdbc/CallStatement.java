@@ -364,9 +364,9 @@ public class CallStatement implements IAdvancedQuery
 			registerOutputParameter( );
 		
 			/* redirect the call to JDBC callableStatement.executeQuery() */
-			this.callStat.execute( );
-			if ( this.callStat.getResultSet( ) != null )
-				return new ResultSet( this.callStat.getResultSet( ) );
+			java.sql.ResultSet rs = this.callStat.executeQuery( );
+			if ( rs != null )
+				return new ResultSet( rs );
 			
 			java.sql.ResultSet resultSet = getOutputParamResultSet( );
 			
