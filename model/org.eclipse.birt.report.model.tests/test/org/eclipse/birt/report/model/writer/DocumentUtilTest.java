@@ -12,11 +12,15 @@
 package org.eclipse.birt.report.model.writer;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -203,6 +207,25 @@ public class DocumentUtilTest extends BaseTestCase
 
 		assertTrue( compareFile( "DocumentUtilTest_golden_6.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Test the group name is changed or not based on bugzilla 199537.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGroup( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_Group.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		TableHandle tableHandle = (TableHandle) designHandle.getBody( ).get( 0 );
+		GroupHandle groupHandle = (GroupHandle) tableHandle.getGroups( )
+				.get( 0 );
+		assertEquals( "Year", groupHandle.getName( ) ); //$NON-NLS-1$
+		groupHandle = (GroupHandle) tableHandle.getGroups( ).get( 1 );
+		assertEquals( "Month", groupHandle.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**

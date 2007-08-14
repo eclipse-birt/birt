@@ -815,6 +815,14 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( element instanceof ReportDesign )
 			return newElement;
 
+		if ( newElement instanceof GroupElement )
+		{
+			newElement.setProperty( GroupElement.GROUP_NAME_PROP, element
+					.getLocalProperty( sourceDesign,
+							GroupElement.GROUP_NAME_PROP ) );
+
+		}
+
 		newElement.setID( element.getID( ) );
 		addElement( targetDesign, containment, newElement );
 		if ( !( newElement instanceof ContentElement ) )
