@@ -781,6 +781,7 @@ public class PostscriptWriter
 		{
 			text = text + "\\";
 		}
+		text = text.replaceAll( "\\)", "\\\\)" );
 		return ( "(" + text + ")" );
 	}
 
