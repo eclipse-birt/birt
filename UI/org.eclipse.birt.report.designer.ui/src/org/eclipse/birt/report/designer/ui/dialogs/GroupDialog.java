@@ -47,6 +47,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
@@ -78,6 +80,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -195,6 +198,10 @@ public class GroupDialog extends BaseDialog
 	private Combo pagebreakBeforeCombo;
 
 	private Combo pagebreakInsideCombo;
+
+	private Button exprButton;
+
+	private Button tocExprButton;
 
 	/**
 	 * Constructor.
@@ -324,11 +331,11 @@ public class GroupDialog extends BaseDialog
 
 		} );
 
-		Button exprButton = new Button( tocArea, SWT.PUSH );
+		tocExprButton = new Button( tocArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
-		UIUtil.setExpressionButtonImage( exprButton );
-		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
-		exprButton.addSelectionListener( new SelectionAdapter( ) {
+		UIUtil.setExpressionButtonImage( tocExprButton );
+		tocExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
+		tocExprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
 			{
@@ -493,7 +500,7 @@ public class GroupDialog extends BaseDialog
 			}
 		} );
 
-		Button exprButton = new Button( keyArea, SWT.PUSH );
+		exprButton = new Button( keyArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( exprButton );
 		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
@@ -738,6 +745,7 @@ public class GroupDialog extends BaseDialog
 		filterPage.setInput( list );
 		filterItem.setText( TAB_FILTER );
 		filterItem.setControl( filterPage );
+		checkReadOnlyControl( IGroupElementModel.FILTER_PROP, filterPage );
 
 		TabItem sortItem = new TabItem( tab, SWT.NONE );
 		FormPage sortPage = new FormPage( tab,
@@ -755,6 +763,40 @@ public class GroupDialog extends BaseDialog
 		sortPage.setInput( list );
 		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
+		checkReadOnlyControl( IGroupElementModel.SORT_PROP, sortPage );
+	}
+
+	public boolean checkReadOnlyControl( String property, Control control )
+	{
+		PropertyHandle handle = inputGroup.getPropertyHandle( property );
+		if ( handle != null && handle.isReadOnly( ) )
+		{
+			if ( control instanceof Text )
+				( (Text) control ).setEditable( false );
+			else if ( control instanceof Combo )
+				( (Combo) control ).setEnabled( false );
+			else if ( control instanceof Button )
+				( (Button) control ).setEnabled( false );
+			else if ( control instanceof Composite )
+			{
+				disableControl( (Composite) control );
+			}
+			return handle.isReadOnly( );
+		}
+		return false;
+	}
+
+	private void disableControl( Composite container )
+	{
+		Control[] children = container.getChildren( );
+		for ( int i = 0; i < children.length; i++ )
+		{
+			if ( children[i] instanceof Composite )
+				disableControl( (Composite) children[i] );
+			else if ( !( children[i] instanceof Label ) )
+				children[i].setEnabled( false );
+		}
+		container.setEnabled( false );
 	}
 
 	/*
@@ -767,22 +809,32 @@ public class GroupDialog extends BaseDialog
 		if ( inputGroup.getName( ) != null )
 		{
 			nameEditor.setText( inputGroup.getName( ) );
+			checkReadOnlyControl( IGroupElementModel.GROUP_NAME_PROP,
+					nameEditor );
 		}
 
 		if ( inputGroup.getBookmark( ) != null )
 		{
 			bookmarkEditor.setText( inputGroup.getBookmark( ) );
+			checkReadOnlyControl( IGroupElementModel.BOOKMARK_PROP,
+					bookmarkEditor );
 		}
 		refreshColumnList( );
+
 		setKeyExpression( inputGroup.getKeyExpr( ) );
+		if ( checkReadOnlyControl( IGroupElementModel.KEY_EXPR_PROP, keyChooser ) )
+			exprButton.setEnabled( false );
+		else
+			exprButton.setEnabled( true );
 
 		PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
 		String range = property == null ? null : property.getStringValue( );
 
 		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
-
+		checkReadOnlyControl( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
 		int index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );
+		checkReadOnlyControl( IGroupElementModel.INTERVAL_PROP, intervalType );
 		if ( index == 0 )
 		{
 			intervalRange.setEnabled( false );
@@ -808,6 +860,10 @@ public class GroupDialog extends BaseDialog
 				}
 			}
 		}
+		checkReadOnlyControl( IGroupElementModel.INTERVAL_BASE_PROP,
+				intervalBaseButton );
+		checkReadOnlyControl( IGroupElementModel.INTERVAL_BASE_PROP,
+				intervalBaseText );
 
 		if ( DesignChoiceConstants.SORT_DIRECTION_ASC.equals( inputGroup.getSortDirection( ) ) )
 		{
@@ -817,12 +873,15 @@ public class GroupDialog extends BaseDialog
 		{
 			descending.setSelection( true );
 		}
+		checkReadOnlyControl( IGroupElementModel.SORT_DIRECTION_PROP, ascending );
+		checkReadOnlyControl( IGroupElementModel.SORT_DIRECTION_PROP,
+				descending );
+
 		List list = new ArrayList( 1 );
 		list.add( inputGroup );
 		// filterPage.setInput( list );
 
 		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
-
 		if ( inputGroup.getTOC( ) != null )
 		{
 			index = getTocStyleIndex( inputGroup.getTOC( ).getStyleName( ) );
@@ -836,7 +895,16 @@ public class GroupDialog extends BaseDialog
 					tocStyleType.setText( inputGroup.getTOC( ).getStyleName( ) );
 			}
 		}
-
+		if ( checkReadOnlyControl( IGroupElementModel.TOC_PROP, tocEditor ) )
+		{
+			tocExprButton.setEnabled( false );
+			tocStyleType.setEnabled( false );
+		}
+		else
+		{
+			tocExprButton.setEnabled( true );
+			tocStyleType.setEnabled( true );
+		}
 		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
 		if ( index < 0 || index >= pagebreakBeforeCombo.getItemCount( ) )
 		{
@@ -846,6 +914,8 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakBeforeCombo.select( index );
 		}
+		checkReadOnlyControl( IStyleModel.PAGE_BREAK_BEFORE_PROP,
+				pagebreakBeforeCombo );
 
 		index = getPagebreakAfterIndex( inputGroup.getPageBreakAfter( ) );
 
@@ -857,6 +927,8 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakAfterCombo.select( index );
 		}
+		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
+				pagebreakAfterCombo );
 
 		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
@@ -868,14 +940,18 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakInsideCombo.select( index );
 		}
+		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
+				pagebreakInsideCombo );
 
 		if ( inputGroup.repeatHeader( ) )
 		{
 			repeatHeaderButton.setSelection( true );
 		}
+		checkReadOnlyControl( IGroupElementModel.REPEAT_HEADER_PROP,
+				repeatHeaderButton );
 
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
-
+		checkReadOnlyControl( IGroupElementModel.HIDE_DETAIL_PROP, hideDetail );
 		return true;
 	}
 
@@ -1369,6 +1445,5 @@ public class GroupDialog extends BaseDialog
 		}
 		return exp;
 	}
-
 
 }

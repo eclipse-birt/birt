@@ -194,5 +194,24 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 	{
 		return true;
 	}
-
+	
+	public boolean isEditEnable( )
+	{
+		return true;
+	}
+	
+	public boolean isDeleteEnable( )
+	{
+		return true;
+	}
+	
+	public boolean isUpEnable( )
+	{
+		return true;
+	}
+	
+	public boolean isDownEnable( )
+	{
+		return true;
+	}
 }

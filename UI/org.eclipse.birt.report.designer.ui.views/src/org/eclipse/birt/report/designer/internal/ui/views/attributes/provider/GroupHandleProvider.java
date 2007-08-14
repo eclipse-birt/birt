@@ -299,7 +299,37 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 		return false;
 	}
 
-	public boolean isEditable( )
+	
+	public boolean isAddEnable( )
+	{
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean isEditEnable( )
+	{
+		return true;
+	}
+	
+	public boolean isDeleteEnable( )
+	{
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean isUpEnable( )
+	{
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean isDownEnable( )
 	{
 		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;

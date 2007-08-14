@@ -172,4 +172,12 @@ public interface IFormProvider extends IDescriptorProvider
 	
 	boolean isAddEnable();
 
+	boolean isEditEnable( );
+
+	boolean isDeleteEnable( );
+
+	boolean isUpEnable( );
+
+	boolean isDownEnable( );
+
 }

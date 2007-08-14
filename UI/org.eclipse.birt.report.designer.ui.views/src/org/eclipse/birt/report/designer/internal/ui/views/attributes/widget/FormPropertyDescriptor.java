@@ -485,6 +485,10 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			if ( provider.isEnable( ) )
 			{
 				btnAdd.setEnabled( provider.isAddEnable( ) );
+				btnEdit.setEnabled( provider.isEditEnable( ) );
+				btnDel.setEnabled( provider.isDeleteEnable( ) );
+				btnUp.setEnabled( provider.isUpEnable( ) );
+				btnDown.setEnabled( provider.isDownEnable( ) );
 			}
 		}
 
