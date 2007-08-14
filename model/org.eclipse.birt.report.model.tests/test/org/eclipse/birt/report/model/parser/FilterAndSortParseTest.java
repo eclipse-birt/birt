@@ -46,6 +46,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 				.get( 0 );
 		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filter
 				.getOperator( ) );
+		assertTrue( filter.isOptional( ) );
 		assertEquals( "filter expression", filter.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filter.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "value2 expression", filter.getValue2( ) ); //$NON-NLS-1$
@@ -101,6 +102,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
 				.get( 0 );
 		filter.setOperator( DesignChoiceConstants.FILTER_OPERATOR_GE );
+		filter.setOptional( false );
 		filter.setExpr( valuePrix + filter.getExpr( ) );
 		filter.setValue1( valuePrix + filter.getValue1( ) );
 		filter.setValue2( valuePrix + filter.getValue2( ) );

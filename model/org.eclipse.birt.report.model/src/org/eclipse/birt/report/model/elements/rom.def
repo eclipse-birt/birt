@@ -276,6 +276,7 @@
     <Choice displayNameID="Choices.filterOperator.match" name="match" />
     <Choice displayNameID="Choices.filterOperator.not-like" name="not-like" />    
     <Choice displayNameID="Choices.filterOperator.not-match" name="not-match" />
+    <Choice displayNameID="Choices.filterOperator.in" name="in" />
   </ChoiceType>
   <ChoiceType name="imageSize">
     <Choice displayNameID="Choices.imageSize.size-to-image" name="size-to-image"/>
@@ -1575,10 +1576,13 @@
       <Default>eq</Default>
     </Member>
     <Member displayNameID="Structure.FilterCondition.expr" isIntrinsic="true" name="expr" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
-    <Member displayNameID="Structure.FilterCondition.value1" isIntrinsic="true" name="value1" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.FilterCondition.value1" isIntrinsic="true" name="value1" returnType="any" runtimeSettable="false" since="1.0" subType="expression" type="list"/>
     <Member displayNameID="Structure.FilterCondition.value2" isIntrinsic="true" name="value2" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
     <Member detailType="filterTarget" displayNameID="Structure.FilterCondition.filterTarget" isIntrinsic="true" name="filterTarget" returnType="any" runtimeSettable="false" since="2.1" type="choice">
     	<Default>DataSet</Default>
+    </Member>
+    <Member displayNameID="Structure.FilterCondition.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="2.2" type="boolean">
+      <Default>false</Default>
     </Member>
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
@@ -3626,8 +3630,11 @@
     <Property detailType="filterOperator" displayNameID="Element.FilterConditionElement.operator" name="operator" runtimeSettable="false" since="2.2" type="choice">
       <Default>eq</Default>
     </Property>
+    <Property displayNameID="Element.FilterConditionElement.isOptional" name="isOptional" runtimeSettable="false" since="2.2" type="boolean">
+      <Default>false</Default>
+    </Property>
     <Property displayNameID="Element.FilterConditionElement.expr" name="expr" runtimeSettable="false" since="2.2" type="expression" valueRequired="true"/>
-    <Property displayNameID="Element.FilterConditionElement.value1" name="value1" runtimeSettable="false" since="2.2" type="expression"/>
+    <Property displayNameID="Element.FilterConditionElement.value1" name="value1" runtimeSettable="false" since="2.2" subType="expression" type="list"/>
     <Property displayNameID="Element.FilterConditionElement.value2" name="value2" runtimeSettable="false" since="2.2" type="expression"/>
     <Property detailType="filterTarget" displayNameID="Element.FilterConditionElement.filterTarget" name="filterTarget" returnType="any" runtimeSettable="false" since="2.2" type="choice">
     	<Default>DataSet</Default>

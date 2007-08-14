@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -178,7 +179,25 @@ public class FilterConditionElementHandle extends ContentElementHandle
 
 	public String getValue1( )
 	{
-		return getStringProperty( VALUE1_PROP );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return (String) valueList.get( 0 );
+	}
+
+	/**
+	 * Gets the value1 expression list of this filter condition. For most filter
+	 * operator, there is only one expression in the returned list. However,
+	 * filter operator 'in' may contain more than one expression.
+	 * 
+	 * @return the value1 expression list of this filter condition.
+	 */
+	public List getValue1List( )
+	{
+		List valueList = (List) getProperty( VALUE1_PROP );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( valueList );
 	}
 
 	/**
@@ -191,7 +210,7 @@ public class FilterConditionElementHandle extends ContentElementHandle
 
 	public void setValue1( String value1Expr ) throws SemanticException
 	{
-		setStringProperty( VALUE1_PROP, value1Expr );
+		setProperty( VALUE1_PROP, value1Expr );
 	}
 
 	/**
@@ -268,5 +287,27 @@ public class FilterConditionElementHandle extends ContentElementHandle
 		if ( contents != null && contents.size( ) > 0 )
 			return (MemberValueHandle) contents.get( 0 );
 		return null;
+	}
+
+	/**
+	 * Determines whether this filte rcondition is optional or not.
+	 * 
+	 * @return true if this filter is optional, otherwise false
+	 */
+	public boolean isOptional( )
+	{
+		return getBooleanProperty( IS_OPTIONAL_PROP );
+	}
+
+	/**
+	 * Sets the optional status for this filter condition.
+	 * 
+	 * @param isOptional
+	 *            true if this filter is optional, otherwise false
+	 * @throws SemanticException
+	 */
+	public void setOptional( boolean isOptional ) throws SemanticException
+	{
+		setProperty( IS_OPTIONAL_PROP, Boolean.valueOf( isOptional ) );
 	}
 }

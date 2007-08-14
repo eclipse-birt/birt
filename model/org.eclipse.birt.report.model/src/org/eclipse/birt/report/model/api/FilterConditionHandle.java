@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -195,7 +198,25 @@ public class FilterConditionHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		return getStringProperty( FilterCondition.VALUE1_MEMBER );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return (String) valueList.get( 0 );
+	}
+
+	/**
+	 * Gets the value1 expression list of this filter condition. For most filter
+	 * operator, there is only one expression in the returned list. However,
+	 * filter operator 'in' may contain more than one expression.
+	 * 
+	 * @return the value1 expression list of this filter condition.
+	 */
+	public List getValue1List( )
+	{
+		List valueList = (List) getProperty( FilterCondition.VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( valueList );
 	}
 
 	/**
@@ -377,5 +398,30 @@ public class FilterConditionHandle extends StructureHandle
 	public void setFilterTarget( String filterTarget ) throws SemanticException
 	{
 		setProperty( FilterCondition.FILTER_TARGET_MEMBER, filterTarget );
+	}
+
+	/**
+	 * Determines whether this filte rcondition is optional or not.
+	 * 
+	 * @return true if this filter is optional, otherwise false
+	 */
+	public boolean isOptional( )
+	{
+		Boolean isOptional = (Boolean) getProperty( FilterCondition.IS_OPTIONAL_MEMBER );
+		if ( isOptional == null )
+			return false;
+		return isOptional.booleanValue( );
+	}
+
+	/**
+	 * Sets the optional status for this filter condition.
+	 * 
+	 * @param isOptional
+	 *            true if this filter is optional, otherwise false
+	 */
+	public void setOptional( boolean isOptional )
+	{
+		setPropertySilently( FilterCondition.IS_OPTIONAL_MEMBER, Boolean
+				.valueOf( isOptional ) );
 	}
 }

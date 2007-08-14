@@ -43,12 +43,16 @@
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>
-                    <expression name="value1">value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    </simple-property-list>
                 </structure>
                 <structure>
                     <property name="operator">ge</property>
                     <expression name="expr">new expr</expression>
-                    <expression name="value1">value1 expr</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expr</value>
+                    </simple-property-list>
                     <expression name="value2">new value 2</expression>
                 </structure>
             </list-property>

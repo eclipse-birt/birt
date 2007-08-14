@@ -26,9 +26,12 @@
         <extended-item extensionName="TestingTable" name="testTable" id="8">
             <property name="filter">
                 <filter-condition-element>
+                    <property name="isOptional">false</property>
                     <expression name="expr">new filter expression</expression>
                     <property name="operator">ge</property>
-                    <expression name="value1">new value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>new value1 expression</value>
+                    </simple-property-list>
                     <expression name="value2">new null</expression>
                     <property name="filterTarget">DataSet</property>
                     <property name="member">

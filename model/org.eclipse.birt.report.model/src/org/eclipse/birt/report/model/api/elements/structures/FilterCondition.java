@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -93,6 +95,12 @@ public class FilterCondition extends Structure
 	public static final String FILTER_TARGET_MEMBER = "filterTarget"; //$NON-NLS-1$
 
 	/**
+	 * Name of the member that indicates whether this filter is optional or not.
+	 */
+
+	public static final String IS_OPTIONAL_MEMBER = "isOptional"; //$NON-NLS-1$
+
+	/**
 	 * The filter operator.
 	 */
 
@@ -108,7 +116,7 @@ public class FilterCondition extends Structure
 	 * The filter value 1 expression.
 	 */
 
-	private String value1;
+	private List value1;
 
 	/**
 	 * The filter value 2 expression.
@@ -122,6 +130,12 @@ public class FilterCondition extends Structure
 	 */
 
 	private String filterTarget;
+
+	/**
+	 * Member value that stores whether this filter is optional or not.
+	 */
+
+	private Boolean isOptional;
 
 	/*
 	 * (non-Javadoc)
@@ -152,6 +166,8 @@ public class FilterCondition extends Structure
 			return value2;
 		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
 			return filterTarget;
+		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
+			return isOptional;
 
 		assert false;
 		return null;
@@ -171,11 +187,13 @@ public class FilterCondition extends Structure
 		else if ( EXPR_MEMBER.equals( propName ) )
 			expr = (String) value;
 		else if ( VALUE1_MEMBER.equals( propName ) )
-			value1 = (String) value;
+			value1 = (List) value;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
 		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
 			filterTarget = (String) value;
+		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
+			isOptional = (Boolean) value;
 		else
 			assert false;
 	}
@@ -278,7 +296,25 @@ public class FilterCondition extends Structure
 
 	public String getValue1( )
 	{
-		return (String) getProperty( null, VALUE1_MEMBER );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return (String) valueList.get( 0 );
+	}
+
+	/**
+	 * Gets the value1 expression list of this filter condition. For most filter
+	 * operator, there is only one expression in the returned list. However,
+	 * filter operator 'in' may contain more than one expression.
+	 * 
+	 * @return the value1 expression list of this filter condition.
+	 */
+	public List getValue1List( )
+	{
+		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( valueList );
 	}
 
 	/**
@@ -290,7 +326,14 @@ public class FilterCondition extends Structure
 
 	public void setValue1( String value1 )
 	{
-		setProperty( VALUE1_MEMBER, value1 );
+		if ( value1 == null )
+		{
+			setProperty( VALUE1_MEMBER, null );
+			return;
+		}
+		List valueList = new ArrayList( );
+		valueList.add( value1 );
+		setProperty( VALUE1_MEMBER, valueList );
 	}
 
 	/**
@@ -493,4 +536,27 @@ public class FilterCondition extends Structure
 		setProperty( FILTER_TARGET_MEMBER, filterTarget );
 	}
 
+	/**
+	 * Determines whether this filte rcondition is optional or not.
+	 * 
+	 * @return true if this filter is optional, otherwise false
+	 */
+	public boolean isOptional( )
+	{
+		Boolean isOptional = (Boolean) getProperty( null, IS_OPTIONAL_MEMBER );
+		if ( isOptional == null )
+			return false;
+		return isOptional.booleanValue( );
+	}
+
+	/**
+	 * Sets the optional status for this filter condition.
+	 * 
+	 * @param isOptional
+	 *            true if this filter is optional, otherwise false
+	 */
+	public void setOptional( boolean isOptional )
+	{
+		setProperty( IS_OPTIONAL_MEMBER, Boolean.valueOf( isOptional ) );
+	}
 }

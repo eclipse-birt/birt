@@ -70,7 +70,9 @@
                 <filter-condition-element>
                     <expression name="expr">data["COUNTRY"]</expression>
                     <property name="operator">eq</property>
-                    <expression name="value1">params["NewParameter"]</expression>
+                    <simple-property-list name="value1">
+                    	<value>params["NewParameter"]</value>
+                    </simple-property-list>
                 </filter-condition-element>
             </property>
             <property name="cube">Customer Cube</property>

@@ -50,5 +50,13 @@ public interface IFilterConditionElementModel
 	/**
 	 * Name of the property that gives the member value.
 	 */
+
 	String MEMBER_PROP = "member"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that indicates whether this filter is otpional or
+	 * not.
+	 */
+
+	String IS_OPTIONAL_PROP = "isOptional"; //$NON-NLS-1$
 }

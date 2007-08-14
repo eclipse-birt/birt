@@ -56,13 +56,17 @@
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">filter expression</expression>
-                    <expression name="value1">value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
                 <structure>
                     <property name="operator">is-true</property>
                     <expression name="expr">filter expression</expression>
-                    <expression name="value1">value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>

@@ -31,7 +31,9 @@
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">row["ORDERNUMBER"]</expression>
-                    <expression name="value1">10110</expression>
+                    <simple-property-list name="value1">
+                    	<value>10110</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <property name="dataSource">Sample</property>

@@ -19,7 +19,9 @@
                 <filter-condition-element>
                     <expression name="expr">filter expression</expression>
                     <property name="operator">lt</property>
-                    <expression name="value1">value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                     <property name="filterTarget">ResultSet</property>
                     <property name="member">

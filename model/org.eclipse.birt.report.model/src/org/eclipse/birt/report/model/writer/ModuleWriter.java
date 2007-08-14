@@ -3210,7 +3210,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
 				else if ( propDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
-					writeContents( virtualElement, propDefn.getName() );
+					writeContents( virtualElement, propDefn.getName( ) );
 				else
 					writeProperty( virtualElement, ModelUtil
 							.getTagByPropertyType( propDefn ), propDefn
@@ -3676,9 +3676,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		markLineNumber( obj );
 
 		super.visitFilterConditionElement( obj );
+		property( obj, IFilterConditionElementModel.IS_OPTIONAL_PROP );
 		property( obj, IFilterConditionElementModel.EXPR_PROP );
 		property( obj, IFilterConditionElementModel.OPERATOR_PROP );
-		property( obj, IFilterConditionElementModel.VALUE1_PROP );
+		writeSimplePropertyList( obj, IFilterConditionElementModel.VALUE1_PROP );
 		property( obj, IFilterConditionElementModel.VALUE2_PROP );
 		property( obj, IFilterConditionElementModel.FILTER_TARGET_PROP );
 		writeContents( obj, IFilterConditionElementModel.MEMBER_PROP );

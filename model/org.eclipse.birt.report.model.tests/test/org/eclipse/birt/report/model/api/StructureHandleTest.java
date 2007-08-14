@@ -226,12 +226,14 @@ public class StructureHandleTest extends BaseTestCase
 		filterHandle.setOperator( DesignChoiceConstants.FILTER_OPERATOR_FALSE );
 		filterHandle.setValue1( "new value 1" ); //$NON-NLS-1$
 		filterHandle.setValue2( "new value 2" ); //$NON-NLS-1$
+		filterHandle.setOptional( true );
 
 		assertEquals( "new expression", filterHandle.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_FALSE, filterHandle
 				.getOperator( ) );
 		assertEquals( "new value 1", filterHandle.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "new value 2", filterHandle.getValue2( ) ); //$NON-NLS-1$
+		assertTrue( filterHandle.isOptional( ) );
 
 		filterHandle
 				.setOperator( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );

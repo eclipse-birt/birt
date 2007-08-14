@@ -567,6 +567,7 @@ public interface DesignChoiceConstants
 	public static final String FILTER_OPERATOR_MATCH = "match"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_NOT_MATCH = "not-match"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_IN = "in"; //$NON-NLS-1$
 
 	/**
 	 * columnAlign -- The column alignment The first constant is the name of

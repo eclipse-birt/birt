@@ -82,7 +82,9 @@
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">row["filter"]</expression>
-                    <expression name="value1">row["value1"]</expression>
+                    <simple-property-list name="value1">
+                    	<value>row["value1"]</value>
+                    </simple-property-list>
                     <expression name="value2">row["value2"]</expression>
                 </structure>
             </list-property>
@@ -130,7 +132,9 @@
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>
-                    <expression name="value1">value1 expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>

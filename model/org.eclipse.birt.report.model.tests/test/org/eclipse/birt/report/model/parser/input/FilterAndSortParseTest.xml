@@ -32,6 +32,7 @@
                     <expression name="value1">value1 expression</expression>
                     <expression name="value2">value2 expression</expression>
                     <property name="filterTarget">ResultSet</property>
+                    <property name="isOptional">true</property>
                     <property name="member">
                     	<member-value>
                     		<property name="value">value_1</property>

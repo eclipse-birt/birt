@@ -5,7 +5,9 @@
             <list-property name="filter">
                 <structure>
                     <expression name="expr">row["filter1ValueExpr"]</expression>
-                    <expression name="value1">row["filter1Value1"]</expression>
+                    <simple-property-list name="value1">
+                    	<value>row["filter1Value1"]</value>
+                    </simple-property-list>
                     <expression name="value2">row["filter1Value2"]</expression>
                 </structure>
             </list-property>
