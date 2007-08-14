@@ -756,7 +756,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			// TODO Auto-generated catch block
 			ExceptionHandler.handle( e );
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
@@ -1033,16 +1033,20 @@ public class ParameterDialog extends BaseDialog
 					while ( iter.next( ) )
 					{
 						String result = null;
-//						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-//						{
-//							DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-//									ULocale.US );
-//							result = formatter.format( iter.getDate( columnBindingName ) );
-//						}
-//						else
-//						{
-							result = iter.getString( columnBindingName );
-//						}
+						// if (
+						// DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(
+						// getSelectedDataType( ) ) )
+						// {
+						// DateFormatter formatter = new DateFormatter(
+						// STANDARD_DATE_TIME_PATTERN,
+						// ULocale.US );
+						// result = formatter.format( iter.getDate(
+						// columnBindingName ) );
+						// }
+						// else
+						// {
+						result = iter.getString( columnBindingName );
+						// }
 						if ( !StringUtil.isBlank( result )
 								&& !valueList.contains( result ) )
 						{
@@ -1465,7 +1469,7 @@ public class ParameterDialog extends BaseDialog
 						defaultValue = Boolean.toString( false );
 						break;
 				}
-				updateMessageLine();
+				updateMessageLine( );
 			}
 		} );
 	}
@@ -1919,6 +1923,10 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
 		{
+			if ( tempdefaultValue.equals( CHOICE_NO_DEFAULT ) )
+			{
+				return DataTypeUtil.toBoolean( null );
+			}
 			return DataTypeUtil.toBoolean( tempdefaultValue );
 		}
 		else
@@ -2308,8 +2316,7 @@ public class ParameterDialog extends BaseDialog
 
 			// 2. No default value error
 			if ( defaultValue == null
-//					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.endsWith( getSelectedControlType( ) ))
-					)
+					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) )))
 			{
 				// if ( isStatic( ) )
 				// {
@@ -2451,7 +2458,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		catch ( BirtException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return string;
 	}
