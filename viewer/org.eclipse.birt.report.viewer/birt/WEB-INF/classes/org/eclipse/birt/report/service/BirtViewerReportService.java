@@ -105,6 +105,11 @@ public class BirtViewerReportService implements IViewerReportService
 			String outputDocName, InputOptions runOptions, Map parameters,
 			Map displayTexts ) throws ReportServiceException
 	{
+		if ( design == null || design.getDesignObject( ) == null )
+			throw new ReportServiceException(
+					BirtResources
+							.getMessage( ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN ) );
+
 		IReportRunnable runnable;
 		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
@@ -800,7 +805,11 @@ public class BirtViewerReportService implements IViewerReportService
 			OutputStream out, List activeIds, Map displayTexts )
 			throws ReportServiceException
 	{
-		// TODO: outputDocName is not used...
+		if ( design == null || design.getDesignObject( ) == null )
+			throw new ReportServiceException(
+					BirtResources
+							.getMessage( ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN ) );
+
 		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );

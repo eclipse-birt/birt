@@ -130,7 +130,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void __init( HttpServletRequest request ) throws Exception
 	{
 		// If GetImage operate, return directly.
-		if ( ParameterAccessor.isGetImageOperator( request ) )
+		if ( ParameterAccessor.isGetImageOperator( request )
+				&& ( IBirtConstants.SERVLET_PATH_FRAMESET
+						.equalsIgnoreCase( request.getServletPath( ) )
+						|| IBirtConstants.SERVLET_PATH_OUTPUT
+								.equalsIgnoreCase( request.getServletPath( ) )
+						|| IBirtConstants.SERVLET_PATH_RUN
+								.equalsIgnoreCase( request.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PREVIEW
+						.equalsIgnoreCase( request.getServletPath( ) ) ) )
 		{
 			return;
 		}
@@ -209,7 +216,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		this.reportDesignHandle = getDesignHandle( request );
 		if ( this.reportDesignHandle == null )
-			return;
+			throw new ViewerException(
+					ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN );
 
 		// set clean flag
 		ParameterAccessor.setClean( request );
