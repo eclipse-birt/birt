@@ -21,6 +21,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 {
@@ -64,6 +65,8 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
 		options.setOption( InputOptions.OPT_RTL,
 				new Boolean( attrBean.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+				ParameterAccessor.getSVGFlag( context.getRequest( ) ) ) );
 		options.setOption( InputOptions.OPT_FORMAT, attrBean.getFormat( ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( master ) );
