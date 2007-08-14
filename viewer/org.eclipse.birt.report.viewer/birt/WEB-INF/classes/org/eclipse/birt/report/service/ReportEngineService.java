@@ -1093,6 +1093,10 @@ public class ReportEngineService
 		// initialize emitter configs
 		initializeEmitterConfigs( request, renderOption.getOptions( ) );
 
+		String reportTitle = ParameterAccessor.getTitle( request );
+		if ( reportTitle != null )
+			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
+
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
 
@@ -1327,6 +1331,10 @@ public class ReportEngineService
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
+
+		String reportTitle = ParameterAccessor.getTitle( request );
+		if ( reportTitle != null )
+			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
