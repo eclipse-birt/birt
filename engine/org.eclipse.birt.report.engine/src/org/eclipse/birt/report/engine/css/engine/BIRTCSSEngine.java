@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.engine.css.engine;
 
+import org.apache.batik.css.parser.Parser;
 import org.eclipse.birt.report.engine.css.engine.value.css.FontFamilyManager;
 import org.w3c.dom.css.CSSValue;
-import org.w3c.flute.parser.Parser;
 
 public class BIRTCSSEngine extends CSSEngine
 {
