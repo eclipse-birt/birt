@@ -141,7 +141,8 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 			Object element = DEUtil.getInputFirstElement( object );
 			setBindingObject( (ReportElementHandle) element );
 		}
-
+		if(provider.isEnable( ) && provider.isEditable( ))btnAddAggregateOn.setEnabled( true );
+		else btnAddAggregateOn.setEnabled( false );
 	}
 
 	private void setBindingObject( ReportElementHandle bindingObject )

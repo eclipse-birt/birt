@@ -33,6 +33,11 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		else
 			return true;
 	}
+	
+	public boolean isEditable( )
+	{
+			return true;
+	}
 
 	public boolean edit( int pos )
 	{

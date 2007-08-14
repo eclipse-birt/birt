@@ -168,6 +168,8 @@ public interface IFormProvider extends IDescriptorProvider
 
 	boolean isEnable( );
 	
+	boolean isEditable( );
+	
 	boolean isAddEnable();
 
 }

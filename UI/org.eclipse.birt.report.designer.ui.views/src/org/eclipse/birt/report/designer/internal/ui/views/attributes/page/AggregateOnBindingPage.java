@@ -2,9 +2,9 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AggregateOnBindingsFormHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboAndButtonSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
 
@@ -16,11 +16,11 @@ public class AggregateOnBindingPage extends BindingPage
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = new AggregateOnBindingsFormHandleProvider( );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
-		if ( ( (ComboAndButtonSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( ) != null )
+		if ( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{
-			IDescriptorProvider dataSetProvider = ( (ComboAndButtonSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( );
-			if ( dataSetProvider instanceof DataSetDescriptorProvider )
-				( (DataSetDescriptorProvider) dataSetProvider ).setDependedProvider( dataSetFormProvider );
+			IDescriptorProvider dataSetProvider = ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );
+			if ( dataSetProvider instanceof BindingGroupDescriptorProvider )
+				( (BindingGroupDescriptorProvider) dataSetProvider ).setDependedProvider( dataSetFormProvider );
 		}
 	}
 }

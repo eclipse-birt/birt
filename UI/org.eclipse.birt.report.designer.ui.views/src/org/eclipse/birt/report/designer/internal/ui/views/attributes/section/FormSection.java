@@ -59,6 +59,7 @@ public class FormSection extends Section
 		return title;
 	}
 
+
 	protected TabbedPropertyTitle getTitleControl( Composite parent )
 	{
 		if ( title == null )
@@ -194,7 +195,10 @@ public class FormSection extends Section
 
 	public void load( )
 	{
-		if(form!=null && !form.getControl( ).isDisposed( ))form.load( );
+		if(form!=null && !form.getControl( ).isDisposed( )){
+			form.load( );
+			setLabelText( getProvider( ).getDisplayName( ) );
+		}
 
 	}
 

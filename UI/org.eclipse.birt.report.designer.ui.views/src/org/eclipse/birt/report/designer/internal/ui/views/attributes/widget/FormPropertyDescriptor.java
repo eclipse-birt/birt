@@ -179,6 +179,30 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			}
 		}
 	}
+	
+	private void editableUI( boolean editable )
+	{
+		if ( tableViewer != null )
+		{
+			if ( style != SIMPLE_FUNCTION && style != NO_UP_DOWN )
+			{
+				btnUp.setEnabled( editable );
+				btnDown.setEnabled( editable );
+			}
+			btnAdd.setEnabled( editable );
+			btnDel.setEnabled( editable );
+
+			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
+			{
+				btnEdit.setEnabled( editable );
+			}
+
+			if ( editable )
+			{
+				updateArraw( );
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -196,6 +220,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		if ( getDescriptorProvider( ) instanceof IFormProvider )
 		{
 			boolean enable = ( (AbstractFormHandleProvider) getDescriptorProvider( ) ).isEnable( );
+			boolean editable = ( (IFormProvider) getDescriptorProvider( ) ).isEditable( );
 			if ( !enable )
 			{
 				enableUI( false );
@@ -204,6 +229,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 			tableViewer.setInput( input );
 			enableUI( true );
+			editableUI( editable );
 			updateBindingParameters( );
 		}
 
@@ -409,6 +435,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void updateArraw( )
 	{
+		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+			return;
 		if ( style == SIMPLE_FUNCTION )
 		{
 			return;
@@ -923,6 +951,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableMouseDoubleClickEvent( )
 	{
+		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+			return;
 		if ( style == FULL_FUNCTION
 				|| style == FULL_FUNCTION_HORIZONTAL
 				|| style == NO_UP_DOWN )
@@ -939,6 +969,8 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableKeyPressEvent( KeyEvent e )
 	{
+		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+			return;
 		if ( e.keyCode == SWT.DEL )
 		{
 			int itemCount = table.getItemCount( );

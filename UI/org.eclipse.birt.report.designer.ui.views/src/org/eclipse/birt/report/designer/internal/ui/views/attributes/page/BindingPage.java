@@ -12,13 +12,12 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboAndButtonSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DataSetColumnBindingsFormDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.SWT;
@@ -27,8 +26,6 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -39,20 +36,17 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class BindingPage extends AttributePage
 {
-
-	private static final String BUTTON_BINDING = Messages.getString( "parameterBinding.title" ); //$NON-NLS-1$
-
-	private ComboAndButtonSection dataSetSection;
+	// private ComboAndButtonSection dataSetSection;
 
 	private DataSetColumnBindingsFormHandleProvider dataSetFormProvider;
-
-	private DataSetDescriptorProvider dataSetProvider;
 
 	private FormSection dataSetFormSection;
 
 	private Composite composite;
 
 	private boolean dataSetSectionVisible = true;
+
+	private BindingGroupDescriptorProvider bindingProvider;
 
 	public void setDataSetSectionVisible( boolean bool )
 	{
@@ -96,24 +90,14 @@ public class BindingPage extends AttributePage
 
 		if ( dataSetSectionVisible )
 		{
-
-			dataSetProvider = new DataSetDescriptorProvider( );
-			dataSetSection = new ComboAndButtonSection( dataSetProvider.getDisplayName( ),
-					composite,
+			BindingGroupSection bindingGroupSection = new BindingGroupSection( composite,
 					true );
-			dataSetSection.setProvider( dataSetProvider );
-			dataSetSection.addButtonSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					dataSetProvider.bindingDialog( );
-				}
-			} );
-			dataSetSection.setWidth( 300 );
-			dataSetSection.setButtonText( BUTTON_BINDING );
-			dataSetSection.setGridPlaceholder( 2, true );
-			dataSetProvider.setComboAndButtonSection( dataSetSection );
-			addSection( PageSectionId.BINDING_DATASET, dataSetSection );
+			bindingProvider = new BindingGroupDescriptorProvider( );
+			bindingProvider.setRefrenceSection( bindingGroupSection );
+			bindingGroupSection.setProvider( bindingProvider );
+			bindingGroupSection.setGridPlaceholder( 2, true );
+			bindingGroupSection.setWidth( 550 );
+			addSection( PageSectionId.BINDING_GROUP, bindingGroupSection );
 		}
 
 		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
@@ -129,9 +113,9 @@ public class BindingPage extends AttributePage
 		dataSetFormSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.BINDING_DATASET_FORM, dataSetFormSection );
 
-		if ( dataSetProvider != null )
+		if ( bindingProvider != null )
 		{
-			dataSetProvider.setDependedProvider( dataSetFormProvider );
+			bindingProvider.setDependedProvider( dataSetFormProvider );
 		}
 
 		createSections( );

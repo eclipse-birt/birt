@@ -55,8 +55,6 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
-	private boolean showAggregation = false;
-
 	private String[] columnNames = new String[]{
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
@@ -77,6 +75,24 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( )
 			.getChoices( );
+
+	public boolean isEnable( )
+	{
+		if ( DEUtil.getInputSize( input ) != 1 )
+			return false;
+		else
+			return true;
+	}
+
+	public boolean isEditable( )
+	{
+		if ( input == null )
+			return false;
+		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
+	}
 
 	public DataSetColumnBindingsFormHandleProvider( )
 	{
@@ -112,7 +128,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "DataSetColumnBindingsFormHandleProvider.TableTitle" ); //$NON-NLS-1$
+		if(isEditable( ))
+			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
+		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
 	}
 
 	public CellEditor[] getEditors( Table table )
@@ -258,9 +276,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				String text;
 				if ( value == null )
 				{
-					if ( (ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) element ).getExpression( ) )
-							&& groupType != DEUtil.TYPE_GROUP_NONE )
-						|| ( (ComputedColumnHandle) element ).getAggregateFunction( ) != null )
+					if ( ( ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) element ).getExpression( ) ) && groupType != DEUtil.TYPE_GROUP_NONE )
+							|| ( (ComputedColumnHandle) element ).getAggregateFunction( ) != null )
 					{
 						text = ALL;
 					}
@@ -541,7 +558,6 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public void setShowAggregation( boolean showAggregation )
 	{
-		this.showAggregation = showAggregation;
 		if ( showAggregation )
 		{
 			columnNames = new String[]{
@@ -552,7 +568,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
 			columnWidth = new int[]{
-					150, 150, 150, 150, 150
+					140, 110, 150, 150, 150
 			};
 		}
 	}

@@ -41,7 +41,7 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		cubeSection.setProvider( cubeProvider );
 		cubeSection.setWidth( 280 );
 		cubeSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.BINDING_DATASET, cubeSection );
+		addSection( PageSectionId.BINDING_GROUP, cubeSection );
 
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = new AggregateOnBindingsFormHandleProvider( );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
@@ -55,9 +55,9 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		} );
 		( (FormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
 
-		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( ) != null )
+		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{
-			IDescriptorProvider crosstabProvider = ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_DATASET ) ).getProvider( );
+			IDescriptorProvider crosstabProvider = ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );
 			if ( cubeProvider instanceof CrosstabSimpleComboPropertyDescriptorProvider )
 				( (CrosstabSimpleComboPropertyDescriptorProvider) crosstabProvider ).setCrosstabSimpleComboSection( cubeSection );
 		}

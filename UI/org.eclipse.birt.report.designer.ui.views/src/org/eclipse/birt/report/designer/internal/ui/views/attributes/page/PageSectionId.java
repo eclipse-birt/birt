@@ -6,7 +6,7 @@ public class PageSectionId
 
 	public final static String ALTER_ALT_TEXT = "ALTER_ALT_TEXT";
 
-	public final static String BINDING_DATASET = "BINDING_DATASET";
+	public final static String BINDING_GROUP = "BINDING_GROUP";
 	public final static String BINDING_DATASET_FORM = "BINDING_DATASET_FORM";
 
 	public final static String BOOKMARKEXPRESSION_BOOKMARK = "BOOKMARKEXPRESSION_BOOKMARK";

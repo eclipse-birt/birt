@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -33,10 +32,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -434,19 +430,6 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 		return false;
 	}
 
-	private Object getDisplayName( final String key, final String value )
-	{
-		IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
-				key );
-		IChoice choice = choiceSet.findChoice( value );
-		if ( choice != null )
-		{
-			return choice.getDisplayName( );
-		}
-
-		return null;
-	}
-
 	public void updateBindingParameters( )
 	{
 		ParamBindingHandle[] bindingParams = null;
@@ -464,5 +447,13 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 			list.toArray( bindingParams );
 		}
 		setBindingParams( bindingParams );
+	}
+	
+	public boolean isEditable( )
+	{
+		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
 	}
 }

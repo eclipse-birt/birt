@@ -123,8 +123,9 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 		{
 			Object element = DEUtil.getInputFirstElement( object );
 			setBindingObject( (ReportElementHandle) element );
-
 		}
+		if(provider.isEnable( ) && provider.isEditable( ))btnRefresh.setEnabled( true );
+		else btnRefresh.setEnabled( false );
 
 	}
 
