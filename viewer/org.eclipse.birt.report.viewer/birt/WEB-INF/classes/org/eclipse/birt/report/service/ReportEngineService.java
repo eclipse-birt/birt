@@ -1093,7 +1093,8 @@ public class ReportEngineService
 		// initialize emitter configs
 		initializeEmitterConfigs( request, renderOption.getOptions( ) );
 
-		String reportTitle = ParameterAccessor.getTitle( request );
+		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
+				.getTitle( request ) );
 		if ( reportTitle != null )
 			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
@@ -1332,7 +1333,8 @@ public class ReportEngineService
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
-		String reportTitle = ParameterAccessor.getTitle( request );
+		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
+				.getTitle( request ) );
 		if ( reportTitle != null )
 			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
