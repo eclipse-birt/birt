@@ -741,16 +741,17 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toDate( defaultValue ));
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ));
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ));
 			}
+			
 		}
 		catch ( BirtException e )
 		{
@@ -2636,12 +2637,12 @@ public class ParameterDialog extends BaseDialog
 			{
 				displayFormat += ": " + formatPattern; //$NON-NLS-1$
 			}
-			if ( defaultValue != null )
-			{
-				previewString = format( defaultValue );
-			}
-			else
-			{
+//			if ( defaultValue != null )
+//			{
+//				previewString = format( defaultValue );
+//			}
+//			else
+//			{
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
 					previewString = new DateFormatter( isCustom( ) ? formatPattern
@@ -2682,7 +2683,7 @@ public class ParameterDialog extends BaseDialog
 							ULocale.getDefault( ) ).format( 123456789.01234 );
 				}
 			}
-		}
+//		}
 		formatField.setText( displayFormat );
 		previewLabel.setText( convertNullString( previewString ) );
 		changeFormat.setEnabled( choiceSet != null );

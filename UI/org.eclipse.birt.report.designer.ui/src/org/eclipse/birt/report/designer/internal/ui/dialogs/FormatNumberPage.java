@@ -108,7 +108,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
 	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
-	.format( "+DEFAULT_LOCALE_TEXT+" );
+	.format( 1234.56 );
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
 	private static String[] symbols = {
