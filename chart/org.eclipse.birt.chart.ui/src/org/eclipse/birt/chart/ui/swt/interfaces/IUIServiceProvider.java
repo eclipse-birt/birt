@@ -83,9 +83,14 @@ public interface IUIServiceProvider
 	public static final int COMMAND_CHART_EXPRESSION = COMMAND_EXPRESSION_CHART_DATAPOINTS;
 
 	/**
-	 * Constant indicating a hyper-link builder.
+	 * Constant indicating a builder to input hyper-link except for data points.
 	 */
-	public static final int COMMAND_HYPERLINK = 0;
+	public static final int COMMAND_HYPERLINK = 5;
+	
+	/**
+	 * Constant indicating a builder to input hyper-link for data points.
+	 */
+	public static final int COMMAND_HYPERLINK_DATAPOINTS = 6;
 
 	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression

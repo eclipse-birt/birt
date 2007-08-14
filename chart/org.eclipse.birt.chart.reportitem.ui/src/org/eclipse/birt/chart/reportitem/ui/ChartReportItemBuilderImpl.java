@@ -423,12 +423,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	public String invoke( int command, String value, final Object context,
 			String sTitle ) throws ChartException
 	{
-		ExpressionBuilder eb = null;
+		final ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
+				getExpressionBuilderStyle( command ) );
 		Shell shell = null;
 
 		switch ( command )
 		{
 			case COMMAND_HYPERLINK :
+			case COMMAND_HYPERLINK_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
@@ -438,7 +440,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					protected void configureExpressionBuilder(
 							ExpressionBuilder builder )
 					{
-						builder.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) context ) );
+						builder.setExpressionProvier( ep );
 					}
 
 				};
@@ -470,9 +472,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
-				eb = new ExpressionBuilder( shell, value );
-				ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
-						getExpressionBuilderStyle( command ) );
+				ExpressionBuilder eb = new ExpressionBuilder( shell, value );
 				eb.setExpressionProvier( ep );
 				if ( sTitle != null )
 				{
@@ -526,6 +526,17 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		else if ( builderCommand == COMMAND_HYPERLINK )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
+			| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		else if ( builderCommand == COMMAND_HYPERLINK_DATAPOINTS )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
+			| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
+			| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
 		}
 		return ChartExpressionProvider.CATEGORY_BASE;
 	}

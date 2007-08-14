@@ -900,7 +900,7 @@ public class TriggerDataComposite extends Composite
 				if ( wizardContext != null )
 				{
 					sBaseURL = wizardContext.getUIServiceProvider( )
-							.invoke( IUIServiceProvider.COMMAND_HYPERLINK,
+							.invoke( getHyperlinkBuilderCommand( ),
 									sBaseURL,
 									wizardContext.getExtendedItem( ),
 									null );
@@ -1018,5 +1018,15 @@ public class TriggerDataComposite extends Composite
 			return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS;
 		}
 		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
+	}
+	
+	private int getHyperlinkBuilderCommand( )
+	{
+		int type = this.triggerMatrix.getType( );
+		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
+		{
+			return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS;
+		}
+		return IUIServiceProvider.COMMAND_HYPERLINK;
 	}
 }
