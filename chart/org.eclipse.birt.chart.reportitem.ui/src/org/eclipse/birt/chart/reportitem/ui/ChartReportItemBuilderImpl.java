@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -428,40 +428,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 		switch ( command )
 		{
-			case IUIServiceProvider.COMMAND_EXPRESSION :
+			case COMMAND_HYPERLINK :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE
-						| SWT.APPLICATION_MODAL );
-				ChartUIUtil.bindHelp( shell,
-						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
-				eb = new ExpressionBuilder( shell, value );
-				ExpressionProvider ep = new ExpressionProvider( (ExtendedItemHandle) context );
-				eb.setExpressionProvier( ep );
-				if ( sTitle != null )
-				{
-					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
-				}
-				if ( eb.open( ) == Window.OK )
-				{
-					value = eb.getResult( );
-				}
-				break;
-			case IUIServiceProvider.COMMAND_CHART_EXPRESSION :
-				eb = new ExpressionBuilder( value );
-				eb.setExpressionProvier( new ChartExpressionProvider( ) );
-				if ( sTitle != null )
-				{
-					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
-				}
-				if ( eb.open( ) == Window.OK )
-				{
-					value = eb.getResult( );
-				}
-				break;
-			case IUIServiceProvider.COMMAND_HYPERLINK :
-				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE
-						| SWT.APPLICATION_MODAL );
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell ) {
@@ -492,7 +461,29 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 							e );
 				}
 				break;
+
+			case COMMAND_EXPRESSION_CHART_DATAPOINTS :
+			case COMMAND_EXPRESSION_DATA_BINDINGS :
+			case COMMAND_EXPRESSION_TRIGGERS_SIMPLE :
+			case COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS :
+				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				ChartUIUtil.bindHelp( shell,
+						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
+				eb = new ExpressionBuilder( shell, value );
+				ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
+						getExpressionBuilderStyle( command ) );
+				eb.setExpressionProvier( ep );
+				if ( sTitle != null )
+				{
+					eb.setDialogTitle( eb.getDialogTitle( ) + " - " + sTitle ); //$NON-NLS-1$
+				}
+				if ( eb.open( ) == Window.OK )
+				{
+					value = eb.getResult( );
+				}
 		}
+
 
 		return value;
 	}
@@ -505,5 +496,37 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	public boolean isEclipseModeSupported( )
 	{
 		return true;
+	}
+	
+	/**
+	 * Returns the categories list in BIRT chart expression builder
+	 * 
+	 * @param builderCommand
+	 * @return category style
+	 */
+	private int getExpressionBuilderStyle( int builderCommand )
+	{
+		if ( builderCommand == COMMAND_EXPRESSION_DATA_BINDINGS )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		else if ( builderCommand == COMMAND_EXPRESSION_CHART_DATAPOINTS )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES;
+		}
+		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
+					| ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
+		{
+			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+		}
+		return ChartExpressionProvider.CATEGORY_BASE;
 	}
 }

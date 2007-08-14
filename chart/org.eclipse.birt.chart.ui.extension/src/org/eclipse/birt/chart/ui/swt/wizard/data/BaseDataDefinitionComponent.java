@@ -278,7 +278,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			try
 			{
 				String sExpr = context.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION,
+						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
 								txtDefinition.getText( ),
 								context.getExtendedItem( ),
 								sTitle );

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * @author Actuate Corporation
+ * UI composite for Pie series attributes
  * 
  */
 public class PieSeriesAttributeComposite extends Composite implements
@@ -56,31 +56,31 @@ public class PieSeriesAttributeComposite extends Composite implements
 		SelectionListener
 {
 
-	private transient Group grpLeaderLine = null;
+	private Group grpLeaderLine = null;
 
-	private transient FillChooserComposite fccSliceOutline = null;
+	private FillChooserComposite fccSliceOutline = null;
 
-	private transient Combo cmbLeaderLine = null;
+	private Combo cmbLeaderLine = null;
 
-	private transient Spinner iscLeaderLength = null;
+	private Spinner iscLeaderLength = null;
 
-	private transient LineAttributesComposite liacLeaderLine = null;
+	private LineAttributesComposite liacLeaderLine = null;
 
-	private transient PieSeries series = null;
+	private PieSeries series = null;
 
 	private static final int MAX_LEADER_LENGTH = 200;
 
-	private transient ChartWizardContext context;
+	private ChartWizardContext context;
 
-	private transient TextEditorComposite txtExplode;
-	private transient Button btnBuilder;
+	private TextEditorComposite txtExplode;
+	private Button btnBuilder;
 
-	private transient Label lblExpSliWhen;
-	private transient Label lblExpDistance;
-	private transient Label lblRatio;
-	private transient Spinner iscExplosion;
+	private Label lblExpSliWhen;
+	private Label lblExpDistance;
+	private Label lblRatio;
+	private Spinner iscExplosion;
 
-	private transient Slider sRatio;
+	private Slider sRatio;
 	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
@@ -391,7 +391,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			try
 			{
 				String sExpr = context.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_CHART_EXPRESSION,
+						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_CHART_DATAPOINTS,
 								txtExplode.getText( ),
 								context.getExtendedItem( ),
 								Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ) //$NON-NLS-1$

@@ -66,65 +66,67 @@ public class TriggerDataComposite extends Composite
 			SelectionListener
 {
 
-	private transient Group grpValue = null;
+	private Group grpValue = null;
 
-	private transient Composite cmpURL = null;
+	private Composite cmpURL = null;
 
-	// private transient Text txtBaseURL = null;
+	// private Text txtBaseURL = null;
 
-	// private transient Text txtTarget = null;
+	// private Text txtTarget = null;
 
-	private transient Group grpParameters = null;
+	private Group grpParameters = null;
 
-	private transient Text txtBaseParm = null;
+	private Text txtBaseParm = null;
 
-	private transient Text txtValueParm = null;
+	private Text txtValueParm = null;
 
-	private transient Text txtSeriesParm = null;
+	private Text txtSeriesParm = null;
 
-	private transient Composite cmpCallback = null;
+	private Composite cmpCallback = null;
 
-	private transient Composite cmpDefault = null;
+	private Composite cmpDefault = null;
 
-	private transient Composite cmpScript = null;
+	private Composite cmpScript = null;
 
-	private transient Text txtScript = null;
+	private Text txtScript = null;
+	
+	private Button btnScriptExpBuilder = null;
 
-	private transient Composite cmpTooltip = null;
+	private Composite cmpTooltip = null;
 
-	// private transient Spinner iscDelay = null;
+	// private Spinner iscDelay = null;
 
-	private transient Text txtTooltipText = null;
+	private Text txtTooltipText = null;
 
-	private transient Button btnBuilder = null;
+	private Button btnTooltipExpBuilder = null;
 
-	private transient Composite cmpVisiblity = null;
+	private Composite cmpVisiblity = null;
 
-	private transient Composite cmpHighlight = null;
+	private Composite cmpHighlight = null;
 
-	private transient Composite cmpDPVisibility = null;
+	private Composite cmpDPVisibility = null;
 
-	// private transient Text txtSeriesDefinition = null;
+	// private Text txtSeriesDefinition = null;
 
-	private transient StackLayout slValues = null;
+	private StackLayout slValues = null;
 
-	private transient CTextCombo cmbTriggerType = null;
+	private CTextCombo cmbTriggerType = null;
 
-	private transient Combo cmbActionType = null;
+	private Combo cmbActionType = null;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
-	private transient Button btnBaseURL;
+	private Button btnBaseURL;
 
-	private transient Button btnAdvanced;
+	private Button btnAdvanced;
 
-	private transient String sBaseURL = ""; //$NON-NLS-1$
+	private String sBaseURL = ""; //$NON-NLS-1$
 
-	private transient boolean bEnableURLParameters;
+	private boolean bEnableURLParameters;
 
-	private transient boolean bEnableShowTooltipValue;
+	private boolean bEnableShowTooltipValue;
 
-	private transient boolean bAdvanced = false;
+	private boolean bAdvanced = false;
 
 	private EList triggersList;
 
@@ -306,14 +308,34 @@ public class TriggerDataComposite extends Composite
 		cmpScript.setLayout( new GridLayout( 2, false ) );
 
 		Label lblScript = new Label( cmpScript, SWT.NONE );
-		GridData gdLBLScript = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		lblScript.setLayoutData( gdLBLScript );
-		lblScript.setText( Messages.getString( "TriggerDataComposite.Lbl.Script" ) ); //$NON-NLS-1$
-
+		{
+			GridData gdLBLScript = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+			lblScript.setLayoutData( gdLBLScript );
+			lblScript.setText( Messages.getString( "TriggerDataComposite.Lbl.Script" ) ); //$NON-NLS-1$
+		}
 		txtScript = new Text( cmpScript, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL );
-		txtScript.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		txtScript.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.InputScript" ) ); //$NON-NLS-1$
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.verticalSpan = 2;
+			txtScript.setLayoutData( gd );
+			txtScript.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.InputScript" ) ); //$NON-NLS-1$
+		}
+		btnScriptExpBuilder = new Button( cmpScript, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.heightHint = 20;
+			gd.widthHint = 20;
+			gd.verticalAlignment = GridData.BEGINNING;
+			gd.horizontalAlignment = GridData.END;
+			btnScriptExpBuilder.setLayoutData( gd );
+			btnScriptExpBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+			btnScriptExpBuilder.addSelectionListener( this );
+			btnScriptExpBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+			btnScriptExpBuilder.getImage( )
+					.setBackground( btnScriptExpBuilder.getBackground( ) );
+		}
 
+		
 		// Label lblSeries = new Label( cmpSeries, SWT.NONE );
 		// GridData gdLBLSeries = new GridData( );
 		// gdLBLSeries.horizontalIndent = 2;
@@ -367,15 +389,15 @@ public class TriggerDataComposite extends Composite
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER | SWT.SINGLE );
 			txtTooltipText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-			btnBuilder = new Button( cmpTooltip, SWT.PUSH );
+			btnTooltipExpBuilder = new Button( cmpTooltip, SWT.PUSH );
 			GridData gdBTNBuilder = new GridData( );
 			gdBTNBuilder.heightHint = 20;
 			gdBTNBuilder.widthHint = 20;
-			btnBuilder.setLayoutData( gdBTNBuilder );
-			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-			btnBuilder.addSelectionListener( this );
-			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
-			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
+			btnTooltipExpBuilder.setLayoutData( gdBTNBuilder );
+			btnTooltipExpBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+			btnTooltipExpBuilder.addSelectionListener( this );
+			btnTooltipExpBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+			btnTooltipExpBuilder.getImage( ).setBackground( btnTooltipExpBuilder.getBackground( ) );
 
 			addDescriptionLabel( cmpTooltip,
 					3,
@@ -897,16 +919,32 @@ public class TriggerDataComposite extends Composite
 			this.slValues.topControl = cmpURL;
 			grpValue.layout( true, true );
 		}
-		else if ( e.getSource( ).equals( btnBuilder ) )
+		else if ( e.getSource( ).equals( btnTooltipExpBuilder ) )
 		{
 			try
 			{
 				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION,
+						.invoke( getExpressionBuilderCommand( ),
 								txtTooltipText.getText( ),
 								wizardContext.getExtendedItem( ),
 								null );
 				txtTooltipText.setText( sExpr );
+			}
+			catch ( ChartException e1 )
+			{
+				WizardBase.displayException( e1 );
+			}
+		}
+		else if ( e.getSource( ).equals( btnScriptExpBuilder ) )
+		{
+			try
+			{
+				String sExpr = wizardContext.getUIServiceProvider( )
+						.invoke( getExpressionBuilderCommand( ),
+								txtScript.getText( ),
+								wizardContext.getExtendedItem( ),
+								null );
+				txtScript.setText( sExpr );
 			}
 			catch ( ChartException e1 )
 			{
@@ -970,5 +1008,15 @@ public class TriggerDataComposite extends Composite
 		}
 		return Messages.getString( "TriggerDataComposite.Text.Advanced" ); //$NON-NLS-1$
 
+	}
+	
+	private int getExpressionBuilderCommand( )
+	{
+		int type = this.triggerMatrix.getType( );
+		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
+		{
+			return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS;
+		}
+		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
 	}
 }

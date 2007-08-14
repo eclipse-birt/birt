@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,17 +12,12 @@
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.Operator;
-import org.eclipse.birt.report.model.api.metadata.IClassInfo;
-import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
-import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
-import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
  * Provide a specific expression builder to explode pie slices.
@@ -35,91 +30,89 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 	private static final String DATA_POINTS = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
 
+	public static final int CATEGORY_BASE = 0;
+
+	public static final int CATEGORY_WITH_CHART_VARIABLES = 1;
+
+	public static final int CATEGORY_WITH_BIRT_VARIABLES = 2;
+
+	public static final int CATEGORY_WITH_COLUMN_BINDINGS = 4;
+
+	public static final int CATEGORY_WITH_REPORT_PARAMS = 8;
+
+	private final int _categoryStyle;
+
 	public ChartExpressionProvider( )
 	{
+		this( null, CATEGORY_BASE );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory()
-	 */
-	public Object[] getCategory( )
+	public ChartExpressionProvider( DesignElementHandle handle,
+			int categoryStyle )
 	{
-		ArrayList categoryList = new ArrayList( 3 );
-		categoryList.add( NATIVE_OBJECTS );
-		categoryList.add( CHART_VARIABLES );
-		categoryList.add( OPERATORS );
-
-		return categoryList.toArray( );
+		super( handle, true );
+		this._categoryStyle = categoryStyle;
+		init( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren(java.lang.Object)
-	 */
-	public Object[] getChildren( Object parent )
+	private void init( )
 	{
-		ArrayList childrenList = new ArrayList( );
-		if ( parent instanceof Object[] )
+		// Filter categories according to the style
+		final List filteredList = new ArrayList( 3 );
+		if ( ( this._categoryStyle & CATEGORY_WITH_BIRT_VARIABLES ) != CATEGORY_WITH_BIRT_VARIABLES )
 		{
-			Object[] array = (Object[]) parent;
-			if ( array instanceof Operator[] )
+			filteredList.add( BIRT_OBJECTS );
+		}
+		if ( ( this._categoryStyle & CATEGORY_WITH_COLUMN_BINDINGS ) != CATEGORY_WITH_COLUMN_BINDINGS )
+		{
+			filteredList.add( COLUMN_BINDINGS );
+		}
+		if ( ( this._categoryStyle & CATEGORY_WITH_REPORT_PARAMS ) != CATEGORY_WITH_REPORT_PARAMS )
+		{
+			filteredList.add( PARAMETERS );
+		}
+
+		if ( !filteredList.isEmpty( ) )
+		{
+			addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					return !filteredList.contains( element );
+				}
+			} );
+		}
+	}
+
+	protected List getCategoryList( )
+	{
+		List list = super.getCategoryList( );
+		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES )
+		{
+			list.add( CHART_VARIABLES );
+		}
+		return list;
+	}
+
+	protected List getChildrenList( Object parent )
+	{
+		List list = super.getChildrenList( parent );
+
+		if ( DATA_POINTS.equals( parent ) )
+		{
+			list.add( ScriptHandler.BASE_VALUE );
+			list.add( ScriptHandler.ORTHOGONAL_VALUE );
+			list.add( ScriptHandler.SERIES_VALUE );
+		}
+		else
+		{
+			if ( CHART_VARIABLES.equals( parent ) )
 			{
-				return array;
-			}
-			for ( int i = 0; i < array.length; i++ )
-			{
-				Object[] children = getChildren( array[i] );
-				childrenList.addAll( Arrays.asList( children ) );
+				list.add( DATA_POINTS );
 			}
 		}
-		else if ( parent instanceof String )
-		{
-			if ( DATA_POINTS.equals( parent ) )
-			{
-				childrenList.add( ScriptHandler.BASE_VALUE );
-				childrenList.add( ScriptHandler.ORTHOGONAL_VALUE );
-				childrenList.add( ScriptHandler.SERIES_VALUE );
-			}
-			else
-			{
-				if ( CHART_VARIABLES.equals( parent ) )
-				{
-					childrenList.add( DATA_POINTS );
-				}
-				else if ( NATIVE_OBJECTS.equals( parent ) )
-				{
-					childrenList.addAll( getClassList( true ) );
-				}
-				else if ( OPERATORS.equals( parent ) )
-				{
-					childrenList.add( OPERATORS_ASSIGNMENT );
-					childrenList.add( OPERATORS_COMPARISON );
-					childrenList.add( OPERATORS_COMPUTATIONAL );
-					childrenList.add( OPERATORS_LOGICAL );
-					childrenList.add( 0, childrenList.toArray( ) );
-				}
-			}
-		}
-		else if ( parent instanceof IClassInfo )
-		{
-			IClassInfo classInfo = (IClassInfo) parent;
-			for ( Iterator iter = classInfo.getMembers( ).iterator( ); iter.hasNext( ); )
-			{
-				childrenList.add( new ILocalizableInfo[]{
-						classInfo, (IMemberInfo) iter.next( )
-				} );
-			}
-			for ( Iterator iter = classInfo.getMethods( ).iterator( ); iter.hasNext( ); )
-			{
-				childrenList.add( new ILocalizableInfo[]{
-						classInfo, (IMethodInfo) iter.next( )
-				} );
-			}
-		}
-		return childrenList.toArray( );
+
+		return list;
 	}
 
 	/*
@@ -129,160 +122,19 @@ public class ChartExpressionProvider extends ExpressionProvider
 	 */
 	public String getDisplayText( Object element )
 	{
-		if ( element instanceof Object[] )
+		if ( element.equals( ScriptHandler.BASE_VALUE ) )
 		{
-			if ( element instanceof Operator[] )
-			{
-				if ( element == OPERATORS_ASSIGNMENT )
-				{
-					return DISPLAY_TEXT_ASSIGNMENT;
-				}
-				else if ( element == OPERATORS_COMPARISON )
-				{
-					return DISPLAY_TEXT_COMPARISON;
-				}
-				else if ( element == OPERATORS_COMPUTATIONAL )
-				{
-					return DISPLAY_TEXT_COMPUTATIONAL;
-				}
-				else if ( element == OPERATORS_LOGICAL )
-				{
-					return DISPLAY_TEXT_LOGICAL;
-				}
-			}
-			else if ( element instanceof ILocalizableInfo[] )
-			{
-				// including class info,method info and member info
-				ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
-				StringBuffer displayText = new StringBuffer( info.getName( ) );
-				if ( info instanceof IMethodInfo )
-				{
-					IMethodInfo method = (IMethodInfo) info;
-					displayText.append( "(" ); //$NON-NLS-1$
-					displayText.append( ") " ); //$NON-NLS-1$
-					displayText.append( method.getReturnType( ) );
-				}
-				return displayText.toString( );
-			}
-			return ALL;
+			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.BaseValue" );//$NON-NLS-1$;
 		}
-		else if ( element instanceof String )
+		else if ( element.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
 		{
-			if ( element.equals( ScriptHandler.BASE_VALUE ) )
-			{
-				return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.BaseValue" );//$NON-NLS-1$;
-			}
-			else if ( element.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
-			{
-				return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.OrthogonalValue" );//$NON-NLS-1$
-			}
-			else if ( element.equals( ScriptHandler.SERIES_VALUE ) )
-			{
-				return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.SeriesValue" );//$NON-NLS-1$
-			}
-			return (String) element;
+			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.OrthogonalValue" );//$NON-NLS-1$
 		}
-		else if ( element instanceof Operator )
+		else if ( element.equals( ScriptHandler.SERIES_VALUE ) )
 		{
-			return ( (Operator) element ).symbol;
+			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.SeriesValue" );//$NON-NLS-1$
 		}
-		return element.toString( );
+		return super.getDisplayText( element );
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage(java.lang.Object)
-	 */
-	public Image getImage( Object element )
-	{
-		if ( element instanceof Operator )
-		{
-			return IMAGE_OPERATOR;
-		}
-		else if ( element instanceof ILocalizableInfo[] )
-		{
-			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
-			if ( info instanceof IMethodInfo )
-			{
-				if ( ( (IMethodInfo) info ).isStatic( ) )
-				{
-					return IMAGE_STATIC_METHOD;
-				}
-				return IMAGE_METHOD;
-			}
-			if ( info instanceof IMemberInfo )
-			{
-				if ( ( (IMemberInfo) info ).isStatic( ) )
-				{
-					return IMAGE_STATIC_MEMBER;
-				}
-				return IMAGE_MEMBER;
-			}
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText(java.lang.Object)
-	 */
-	public String getInsertText( Object element )
-	{
-		if ( element instanceof Operator )
-		{
-			return ( (Operator) element ).insertString;
-		}
-		else if ( element instanceof ILocalizableInfo[] )
-		{
-			IClassInfo classInfo = (IClassInfo) ( (ILocalizableInfo[]) element )[0];
-			ILocalizableInfo info = ( (ILocalizableInfo[]) element )[1];
-			StringBuffer insertText = new StringBuffer( );
-			if ( info instanceof IMemberInfo )
-			{
-				IMemberInfo memberInfo = (IMemberInfo) info;
-				if ( memberInfo.isStatic( ) )
-				{
-					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
-				}
-				insertText.append( memberInfo.getName( ) );
-			}
-			else if ( info instanceof IMethodInfo )
-			{
-				IMethodInfo methodInfo = (IMethodInfo) info;
-				if ( methodInfo.isStatic( ) )
-				{
-					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
-				}
-				insertText.append( methodInfo.getName( ) );
-				insertText.append( "()" ); //$NON-NLS-1$
-			}
-			return insertText.toString( );
-		}
-		else if ( element instanceof String )
-		{
-			return (String) element;
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getTooltipText(java.lang.Object)
-	 */
-	public String getTooltipText( Object element )
-	{
-		if ( element instanceof Operator )
-		{
-			return ( (Operator) element ).tooltip;
-		}
-		else if ( element instanceof ILocalizableInfo[] )
-		{
-			return ( (ILocalizableInfo[]) element )[1].getToolTip( );
-		}
-		return getDisplayText( element );
-	}
 }

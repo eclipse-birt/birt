@@ -47,7 +47,6 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -83,7 +82,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 		Expression( String symbol, String insertString, String tooltip )
 		{
-			Assert.isNotNull( symbol );
+			assert ( symbol != null );
 			this.symbol = symbol;
 			if ( insertString == null )
 			{
@@ -171,7 +170,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
-	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" );
+	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" ); //$NON-NLS-1$
 
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
@@ -717,6 +716,10 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return DEUtil.getExpression( element );
 		}
+		else if ( element instanceof String )
+		{
+			return (String) element;
+		}
 		return null;
 	}
 
@@ -733,7 +736,7 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			IClassInfo classInfo = (IClassInfo) iter.next( );
 			if ( classInfo.isNative( ) == isNative 
-					&& !classInfo.getName( ).equals( "Total" ))
+					&& !classInfo.getName( ).equals( "Total" )) //$NON-NLS-1$
 			{
 				resultList.add( classInfo );
 			}

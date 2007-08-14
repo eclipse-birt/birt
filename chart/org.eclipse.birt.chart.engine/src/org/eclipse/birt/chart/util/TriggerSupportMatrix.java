@@ -214,6 +214,16 @@ public class TriggerSupportMatrix
 	}
 
 	/**
+	 * Returns the interactivity type
+	 * 
+	 * @return interactivity type
+	 */
+	public int getType( )
+	{
+		return this.iType;
+	}
+
+	/**
 	 * Gets supported Action types according to current trigger condition.
 	 * 
 	 * @param condition

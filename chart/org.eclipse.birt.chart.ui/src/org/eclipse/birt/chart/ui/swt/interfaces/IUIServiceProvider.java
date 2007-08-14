@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,21 +46,46 @@ public interface IUIServiceProvider
 	 * Constant indicating possible problems detected in the model
 	 */
 	public static final int POSSIBLE_ERRORS = 1;
+	
+	/**
+	 * Constant indicating an expression builder to input data bindings.
+	 */
+	public static final int COMMAND_EXPRESSION_DATA_BINDINGS = 1;
+
+	/**
+	 * Constant indicating an expression builder to input chart data point
+	 * variables.
+	 */
+	public static final int COMMAND_EXPRESSION_CHART_DATAPOINTS = 2;
+
+	/**
+	 * Constant indicating an expression builder to input triggers except for
+	 * value series.
+	 */
+	public static final int COMMAND_EXPRESSION_TRIGGERS_SIMPLE = 3;
+
+	/**
+	 * Constant indicating an expression builder to input triggers for value
+	 * series.
+	 */
+	public static final int COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS = 4;
 
 	/**
 	 * Constant indicating a common expression builder.
+	 * @deprecated
 	 */
 	public static final int COMMAND_EXPRESSION = 1;
-
+	
 	/**
 	 * Constant indicating an expression builder specifically for chart.
+	 * @deprecated
 	 */
-	public static final int COMMAND_CHART_EXPRESSION = 2;
+	public static final int COMMAND_CHART_EXPRESSION = COMMAND_EXPRESSION_CHART_DATAPOINTS;
 
 	/**
 	 * Constant indicating a hyper-link builder.
 	 */
-	public static final int COMMAND_HYPERLINK = 3;
+	public static final int COMMAND_HYPERLINK = 0;
 
 	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression

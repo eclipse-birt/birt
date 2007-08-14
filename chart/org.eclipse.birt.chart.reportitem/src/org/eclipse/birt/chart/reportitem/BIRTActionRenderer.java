@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,11 +22,13 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -48,6 +50,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	private DesignElementHandle eih;
 	private IReportContext context;
 	private IDataRowExpressionEvaluator evaluator;
+	
+	/**
+	 * This map is used to cache evaluated script for reducing evaluation
+	 * overhead
+	 */
+	private Map cacheScriptEvaluator;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -316,6 +324,53 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
 			}
 		}
+		else if ( ActionType.INVOKE_SCRIPT_LITERAL.equals( action.getType( ) ) )
+		{
+			ScriptValue sv = (ScriptValue) action.getValue( );
+			if ( cacheScriptEvaluator == null )
+			{
+				cacheScriptEvaluator = new HashMap( );
+			}
+			String evaluatResult = (String) cacheScriptEvaluator.get( sv.getScript( ) );
+			if ( evaluatResult == null )
+			{
+				evaluatResult = evaluateExpression( sv.getScript( ) );
+				cacheScriptEvaluator.put( sv.getScript( ), evaluatResult );
+			}
+			sv.setScript( evaluatResult );
+		}
+	}
+
+	private String evaluateExpression( String script )
+	{
+		if ( script == null || script.trim( ).length( ) == 0 )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		String expression = findParameterExp( script, 0 );
+		while ( expression != null )
+		{
+			script = script.replace( expression,
+					(String) evaluator.evaluate( expression ) );
+			expression = findParameterExp( script, 0 );
+		}
+		return script;
+	}
+
+	private static String findParameterExp( String script, int fromIndex )
+	{
+		int iStart = script.indexOf( ExpressionUtil.PARAMETER_INDICATOR + '[',
+				fromIndex );
+		if ( iStart < fromIndex )
+		{
+			return null;
+		}
+		int iEnd = script.indexOf( ']', iStart );
+		if ( iEnd < iStart + ExpressionUtil.PARAMETER_INDICATOR.length( ) )
+		{
+			return null;
+		}
+		return script.substring( iStart, iEnd + 1 );
 	}
 
 }
