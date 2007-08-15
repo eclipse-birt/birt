@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -350,8 +351,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		String expression = findParameterExp( script, 0 );
 		while ( expression != null )
 		{
-			script = script.replace( expression,
-					(String) evaluator.evaluate( expression ) );
+			// Do not use JAVA 5.0 API
+			// script = script.replace( expression,
+			// (String) evaluator.evaluate( expression ) );
+			script = Pattern.compile( expression, Pattern.LITERAL )
+					.matcher( script )
+					.replaceAll( evaluator.evaluate( expression ).toString( ) );			
 			expression = findParameterExp( script, 0 );
 		}
 		return script;
