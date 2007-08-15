@@ -57,6 +57,13 @@ public class DesignEngineImpl implements IDesignEngine
 	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
 
 	/**
+	 * The flag to determine whether the meta data and extensions have been
+	 * loaded. 
+	 */
+
+	private static Boolean isInitialized = Boolean.FALSE;
+
+	/**
 	 * The configuration for the design engine.
 	 */
 
@@ -124,15 +131,15 @@ public class DesignEngineImpl implements IDesignEngine
 	{
 		// meta-data ready.
 
-		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+		if ( isInitialized.booleanValue( ) )
 			return new SessionHandle( locale );
 
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( DesignEngineImpl.class )
+		synchronized ( isInitialized )
 		{
-			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+			if ( isInitialized.booleanValue( ) )
 				return new SessionHandle( locale );
 
 			MetaDataDictionary.reset( );
@@ -150,6 +157,8 @@ public class DesignEngineImpl implements IDesignEngine
 			{
 				MetaLogManager.shutDown( );
 			}
+
+			isInitialized = Boolean.TRUE;
 		}
 
 		SessionHandle session = new SessionHandle( locale );
@@ -174,15 +183,15 @@ public class DesignEngineImpl implements IDesignEngine
 	{
 		// meta-data ready.
 
-		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+		if ( isInitialized.booleanValue( ) )
 			return MetaDataDictionary.getInstance( );
 
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( DesignEngineImpl.class )
+		synchronized ( isInitialized )
 		{
-			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+			if ( isInitialized.booleanValue( ) )
 				return MetaDataDictionary.getInstance( );
 
 			MetaDataDictionary.reset( );
@@ -200,6 +209,8 @@ public class DesignEngineImpl implements IDesignEngine
 			{
 				MetaLogManager.shutDown( );
 			}
+
+			isInitialized = Boolean.TRUE;
 		}
 
 		return MetaDataDictionary.getInstance( );

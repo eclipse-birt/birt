@@ -115,16 +115,6 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	}
 
 	/**
-	 * @param propName
-	 * @return
-	 */
-
-	public static boolean isDataBindingProperty( String propName )
-	{
-		return dataBindingProps.contains( propName );
-	}
-
-	/**
 	 * @return
 	 */
 
