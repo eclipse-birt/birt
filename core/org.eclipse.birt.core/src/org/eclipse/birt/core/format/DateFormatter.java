@@ -44,11 +44,14 @@ public class DateFormatter
 	private String formatPattern;
 
 	/**
-	 * Comment for <code>dateFormat</code> used for two methods,
+	 * Comment for <code>dateTimeFormat</code> used for two methods,
 	 * createDateFormat() and format()
 	 */
-	private com.ibm.icu.text.DateFormat dateFormat;
+	private com.ibm.icu.text.DateFormat dateTimeFormat;
 
+	private com.ibm.icu.text.DateFormat timeFormat;
+
+	private com.ibm.icu.text.DateFormat dateFormat;
 	/**
 	 * Comment for <code>locale</code> used for record Locale information
 	 */
@@ -148,11 +151,22 @@ public class DateFormatter
 			 * we can seperate these single name-based patterns form those
 			 * patterns with multinumber letters
 			 */
-			if ( formatString == null
-					|| formatString.equals( DATETIME_UNFORMATTED ) ) //$NON-NLS-1$
+			if ( formatString == null || UNFORMATTED.equals( formatString ) )
 			{
-				formatPattern = "";
-				dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+				formatPattern = UNFORMATTED;
+				dateTimeFormat = com.ibm.icu.text.DateFormat
+						.getDateTimeInstance(
+								com.ibm.icu.text.DateFormat.MEDIUM,
+								com.ibm.icu.text.DateFormat.SHORT, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+						com.ibm.icu.text.DateFormat.MEDIUM, locale );
+				timeFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
+						com.ibm.icu.text.DateFormat.MEDIUM, locale );
+				return;
+			}
+			else if ( formatString.equals( DATETIME_UNFORMATTED ) ) //$NON-NLS-1$
+			{
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						com.ibm.icu.text.DateFormat.SHORT,
 						locale );
 				return;
@@ -160,15 +174,13 @@ public class DateFormatter
 			}
 			else if ( formatString.equals( DATE_UNFORMATTED ) )
 			{
-				formatPattern = "";
-				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						locale );
 				return;
 			}
 			else if ( formatString.equals( TIME_UNFORMATTED ) )
 			{
-				formatPattern = "";
-				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						locale );
 				return;
 			}
@@ -179,35 +191,35 @@ public class DateFormatter
 				switch ( patternTemp )
 				{
 					case 'G' :
-						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.LONG,
 								locale );
 						return;
 					case 'D' :
 
-						dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
 								locale );
 						return;
 					case 'd' :
 
-						dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
 								locale );
 						return;
 					case 'T' :
 
-						dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 								locale );
 						return;
 					case 't' :
-						dateFormat = new SimpleDateFormat( "HH:mm", locale );
+						dateTimeFormat = new SimpleDateFormat( "HH:mm", locale );
 						return;
 					case 'f' :
-						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.SHORT,
 								locale );
 						return;
 					case 'F' :
-						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.LONG,
 								locale );
 						return;
@@ -239,7 +251,7 @@ public class DateFormatter
 						catch ( ClassCastException e )
 						{
 							// no help; stuck with what the factory gives us
-							dateFormat = factoryFormat;
+							dateTimeFormat = factoryFormat;
 							return;
 						}
 
@@ -257,31 +269,31 @@ public class DateFormatter
 							}
 						}
 
-						dateFormat = new SimpleDateFormat( pattern, locale );
+						dateTimeFormat = new SimpleDateFormat( pattern, locale );
 						return;
 
 					case 'g' :
 
-						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.SHORT,
+						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.SHORT,
 								com.ibm.icu.text.DateFormat.SHORT,
 								locale );
 						return;
 					case 'M' :
 					case 'm' :
-						dateFormat = new SimpleDateFormat( "MM/dd", locale );
+						dateTimeFormat = new SimpleDateFormat( "MM/dd", locale );
 						return;
 					case 'R' :
 					case 'r' :
-						dateFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss a",
+						dateTimeFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss a",
 								locale );
-						dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+						dateTimeFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 						return;
 					case 's' :
-						dateFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss",
+						dateTimeFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss",
 								locale );
 						return;
 					case 'u' :
-						dateFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss  Z",
+						dateTimeFormat = new SimpleDateFormat( "yyyy.MM.dd HH:mm:ss  Z",
 								locale );
 						return;
 						// TODO:the defination is not clear enough
@@ -290,10 +302,10 @@ public class DateFormatter
 						 */
 					case 'Y' :
 					case 'y' :
-						dateFormat = new SimpleDateFormat( "yyyy/mm", locale );
+						dateTimeFormat = new SimpleDateFormat( "yyyy/mm", locale );
 						return;
 					default :
-						dateFormat = new SimpleDateFormat( formatString, locale );
+						dateTimeFormat = new SimpleDateFormat( formatString, locale );
 						return;
 				}
 			}
@@ -304,56 +316,55 @@ public class DateFormatter
 			 */
 			if ( formatString.equals( "General Date" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 						com.ibm.icu.text.DateFormat.LONG,
 						locale );
 				return;
 			}
 			if ( formatString.equals( "Long Date" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
 						locale );
 				return;
 
 			}
 			if ( formatString.equals( "Medium Date" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						locale );
 				return;
 
 			}
 			if ( formatString.equals( "Short Date" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
 						locale );
 				return;
 
 			}
 			if ( formatString.equals( "Long Time" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
 						locale );
 				return;
 
 			}
 			if ( formatString.equals( "Medium Time" ) )
 			{
-				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+				dateTimeFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						locale );
 				return;
 
 			}
 			if ( formatString.equals( "Short Time" ) )
 			{
-				dateFormat = new SimpleDateFormat( "kk:mm", locale );
+				dateTimeFormat = new SimpleDateFormat( "kk:mm", locale );
 				return;
 
 			}
-			dateFormat = new SimpleDateFormat( formatString, locale );
+			dateTimeFormat = new SimpleDateFormat( formatString, locale );
 
 		}
-
 		catch ( Exception e )
 		{
 			logger.log( Level.WARNING, e.getMessage( ), e );
@@ -368,22 +379,19 @@ public class DateFormatter
 	{
 		try
 		{
-			if ( formatPattern == null || formatPattern.length( ) == 0)
+			//we can use UNFORMATTED here as we have assign this to formatPattern in applyPattern.
+			if ( formatPattern == UNFORMATTED)
 			{
 				if ( date instanceof java.sql.Date )
 				{
-					dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
-							com.ibm.icu.text.DateFormat.MEDIUM, locale );
 					return dateFormat.format( date );
 				}
 				else if ( date instanceof java.sql.Time )
 				{
-					dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
-							com.ibm.icu.text.DateFormat.MEDIUM, locale );
-					return dateFormat.format( date );
+					return timeFormat.format( date );
 				}
 			}
-			return dateFormat.format( date );
+			return dateTimeFormat.format( date );
 		}
 		catch ( Exception e )
 		{
@@ -444,6 +452,14 @@ public class DateFormatter
 			SimpleDateFormat dateFormat = new SimpleDateFormat( "kk:mm", locale );
 			formatCode = dateFormat.toPattern( );
 		}
+		if ( UNFORMATTED.equals( formatPattern ) ||
+				DATETIME_UNFORMATTED.equals( formatPattern ) ||
+				DATE_UNFORMATTED.equals( formatPattern ) ||
+				TIME_UNFORMATTED.equals( formatPattern ) )
+		{
+			formatCode = "";
+		}
+			
 		return formatCode;
 	}
 
@@ -459,6 +475,6 @@ public class DateFormatter
 
 	public Date parse( String date ) throws ParseException
 	{
-		return dateFormat.parse( date );
+		return dateTimeFormat.parse( date );
 	}
 }
