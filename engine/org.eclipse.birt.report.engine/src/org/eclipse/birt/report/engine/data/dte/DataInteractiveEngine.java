@@ -100,6 +100,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		dteSession = DataRequestSession.newSession( dteSessionContext );
 		this.reader = reader;
 
+		loadDteMetaInfo( );
+
 		if ( writer != null && dos == null )
 		{
 			dos = new DataOutputStream(
@@ -109,9 +111,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// ReportDocumentConstants.DATA_META_STREAM ) );
 			DteMetaInfoIOUtil.startMetaInfo( dos );
 		}
-		
-		loadDteMetaInfo( );
-
 	}
 	
 	
