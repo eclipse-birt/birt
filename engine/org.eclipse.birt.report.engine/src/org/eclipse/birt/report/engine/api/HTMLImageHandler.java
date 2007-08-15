@@ -90,7 +90,37 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return null;
 	}
 	
+	/**
+	 * get the cached image.
+	 * 
+	 * @param id
+	 *            cache key
+	 * @param type
+	 *            image type.
+	 * @param context
+	 *            report context
+	 * @return the cached image
+	 */
 	public CachedImage getCachedImage( String id, int type,
+			IReportContext context )
+	{
+		return null;
+	}
+
+	/**
+	 * add the image into cache.
+	 * 
+	 * @param id
+	 *            cached key
+	 * @param type
+	 *            image type
+	 * @param image
+	 *            image object.
+	 * @param context
+	 *            report context
+	 * @return the cached image.
+	 */
+	public CachedImage addCachedImage( String id, int type, IImage image,
 			IReportContext context )
 	{
 		return null;

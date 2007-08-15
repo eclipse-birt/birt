@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -590,6 +591,75 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			return true;
 		return false;
 	}
+	
+	private int getChartResolution( )
+	{
+		Map appContext = context.getAppContext( );
+		int resolution = 0;
+		if ( appContext != null )
+		{
+			Object tmp = appContext
+					.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
+			if ( tmp != null && tmp instanceof Number )
+			{
+				resolution = ( (Number) tmp ).intValue( );
+				if ( resolution < 96 )
+				{
+					resolution = 96;
+				}
+			}
+		}
+		if ( 0 == resolution )
+		{
+			if ( isForPrinting( ) )
+			{
+				resolution = 192;
+			}
+			else
+			{
+				resolution = 96;
+			}
+		}
+		return resolution;
+	}
+	
+	private String getChartFormats()
+	{
+		IRenderOption renderOption = context.getRenderOption( );
+		String formats = renderOption.getSupportedImageFormats( );
+		if ( formats != null )
+		{
+			return formats;
+		}
+		return "PNG;GIF;JPG;BMP;"; //$NON-NLS-1$
+	}
+
+	private String getImageCacheID( IContent content )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		buffer.append( content.getInstanceID( ).toUniqueString( ) );
+		buffer.append( getChartResolution( ) );
+		buffer.append( getChartFormats( ) );
+		buffer.append( locale );
+		return buffer.toString( );
+	}
+	
+	private IContent processCachedImage( IForeignContent content,
+			CachedImage cachedImage )
+	{
+		IImageContent imageObj = getReportContent( ).createImageContent(
+				content );
+		imageObj.setParent( content.getParent( ) );
+		// Set image map
+		imageObj.setImageSource( IImageContent.IMAGE_FILE );
+		imageObj.setURI( cachedImage.getURL( ) );
+		imageObj.setMIMEType( cachedImage.getMIMEType( ) );
+		imageObj.setImageMap( cachedImage.getImageMap( ) );
+		imageObj.setAltText( content.getAltText( ) );
+		imageObj.setAltTextKey( content.getAltTextKey( ) );
+		processImage( imageObj );
+		return imageObj;
+	}
 
 	/**
 	 * handle an extended item.
@@ -614,23 +684,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			IHTMLImageHandler imageHandler = context.getImageHandler( );
 			if ( imageHandler != null )
 			{
-				String imageId = content.getInstanceID( ).toUniqueString( );
+				String imageId = getImageCacheID( content );
 				CachedImage cachedImage = imageHandler.getCachedImage( imageId,
 						IImage.CUSTOM_IMAGE, context.getReportContext( ) );
 				if ( cachedImage != null )
 				{
-					IImageContent imageObj = getReportContent( )
-							.createImageContent( content );
-					imageObj.setParent( content.getParent( ) );
-					// Set image map
-					imageObj.setImageSource( IImageContent.IMAGE_FILE );
-					imageObj.setURI( cachedImage.getURL( ) );
-					imageObj.setMIMEType( cachedImage.getMIMEType( ) );
-					imageObj.setImageMap( cachedImage.getImageMap( ) );
-					imageObj.setAltText( content.getAltText( ) );
-					imageObj.setAltTextKey( content.getAltTextKey( ) );
-					processImage( imageObj );
-					return imageObj;
+					return processCachedImage(content, cachedImage);
 				}
 			}
 		}
@@ -647,43 +706,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[])design.getQueries( );
 			itemPresentation.setReportQueries( queries );
 			itemPresentation.setDynamicStyle( content.getComputedStyle( ) );
-			Map appContext = context.getAppContext( );
-			int resolution = 0;
-			if ( appContext != null )
-			{
-				Object tmp = appContext.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
-				if ( tmp != null && tmp instanceof Number )
-				{
-					resolution = ( (Number) tmp ).intValue( );
-					if ( resolution < 96 )
-					{
-						resolution = 96;
-					}
-				}
-			}
-			if ( 0 == resolution )
-			{
-				if ( isForPrinting( ) )
-				{
-					resolution = 192;
-				}
-				else
-				{
-					resolution = 96;
-				}
-			}
-
-			itemPresentation.setResolution( resolution );
+			itemPresentation.setResolution( getChartResolution() );
 			itemPresentation.setLocale( locale );
 
-			String supportedImageFormats = "PNG;GIF;JPG;BMP;"; //$NON-NLS-1$
-			IRenderOption renderOption = context.getRenderOption( );
-			String formats = renderOption.getSupportedImageFormats( );
-			if ( formats != null )
-			{
-				supportedImageFormats = formats;
-			}
-			itemPresentation.setSupportedImageFormats( supportedImageFormats ); // Default
+			itemPresentation.setSupportedImageFormats( getChartFormats() ); // Default
 
 			itemPresentation.setActionHandler( context.getActionHandler( ) );
 			// value
@@ -838,6 +864,25 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				imageObj.setMIMEType( imageMIMEType );
 				imageObj.setAltText( content.getAltText( ) );
 				imageObj.setAltTextKey( content.getAltTextKey( ) );
+				
+				// put the cached image into cache
+				IHTMLImageHandler imageHandler = context.getImageHandler( );
+				if ( imageHandler != null )
+				{
+					Image img = new Image( imageObj );
+					img.setRenderOption( context.getRenderOption( ) );
+					img.setReportRunnable( context.getRunnable( ) );
+					String imageId = getImageCacheID( content );
+					CachedImage cachedImage = imageHandler.addCachedImage(
+							imageId, IImage.CUSTOM_IMAGE, img, context
+									.getReportContext( ) );
+					if ( cachedImage != null )
+					{
+						return processCachedImage( content, cachedImage );
+					}
+				}
+
+				// don' have image cache, so handle it as a normal image
 				processImage( imageObj );
 				return imageObj;
 

@@ -92,4 +92,20 @@ public interface IHTMLImageHandler {
 	public abstract CachedImage getCachedImage( String id, int type,
 			IReportContext context );
 
+	/**
+	 * add the image into image cache, so it can be accessed through
+	 * <code>getCachedImage</code>.
+	 * 
+	 * @param id
+	 *            cache key
+	 * @param type
+	 *            image type
+	 * @param image
+	 *            image object
+	 * @param context
+	 *            report context
+	 * @return the cached image.
+	 */
+	public abstract CachedImage addCachedImage( String id, int type,
+			IImage image, IReportContext context );
 }
