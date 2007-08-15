@@ -31,8 +31,8 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 {
 
 	protected Composite container;
-	private Button datasetRadion;
-	private Button reportItemRadion;
+	private Button datasetRadio;
+	private Button reportItemRadio;
 	private CCombo datasetCombo;
 	private CCombo reportItemCombo;
 	private Button bindingButton;
@@ -51,10 +51,10 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		container.setLayout( layout );
 		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		datasetRadion = FormWidgetFactory.getInstance( )
+		datasetRadio = FormWidgetFactory.getInstance( )
 				.createButton( container, SWT.RADIO, isFormStyle( ) );
-		datasetRadion.setText( getProvider( ).getText( 0 ) );
-		datasetRadion.addSelectionListener( new SelectionAdapter( ) {
+		datasetRadio.setText( getProvider( ).getText( 0 ) );
+		datasetRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -88,10 +88,10 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 				getProvider( ).bindingDialog( );
 			}
 		} );
-		reportItemRadion = FormWidgetFactory.getInstance( )
+		reportItemRadio = FormWidgetFactory.getInstance( )
 				.createButton( container, SWT.RADIO, isFormStyle( ) );
-		reportItemRadion.setText( getProvider( ).getText( 2 ) );
-		reportItemRadion.addSelectionListener( new SelectionAdapter( ) {
+		reportItemRadio.setText( getProvider( ).getText( 2 ) );
+		reportItemRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -125,7 +125,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	private void saveBinding( )
 	{
 		BindingInfo info = new BindingInfo( );
-		if ( datasetRadion.getSelection( ) )
+		if ( datasetRadio.getSelection( ) )
 		{
 			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
 			info.setBindingValue( datasetCombo.getText( ) );
@@ -149,19 +149,19 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	{
 		if ( !provider.isEnable( ) )
 		{
-			datasetRadion.setEnabled( false );
-			datasetRadion.setSelection( false );
+			datasetRadio.setEnabled( false );
+			datasetRadio.setSelection( false );
 			datasetCombo.setEnabled( false );
 			bindingButton.setEnabled( false );
-			reportItemRadion.setSelection( false );
-			reportItemRadion.setEnabled( false );
+			reportItemRadio.setSelection( false );
+			reportItemRadio.setEnabled( false );
 			reportItemCombo.setEnabled( false );
 			datasetCombo.deselectAll( );
 			reportItemCombo.deselectAll( );
 			return;
 		}
-		datasetRadion.setEnabled( true );
-		reportItemRadion.setEnabled( true );
+		datasetRadio.setEnabled( true );
+		reportItemRadio.setEnabled( true );
 		BindingInfo info = (BindingInfo) getDescriptorProvider( ).load( );
 		if ( info != null )
 		{
@@ -171,13 +171,13 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 
 	private void refreshBinding( )
 	{
-		if ( datasetRadion.getSelection( ) )
+		if ( datasetRadio.getSelection( ) )
 		{
-			datasetRadion.setSelection( true );
+			datasetRadio.setSelection( true );
 			datasetCombo.setEnabled( true );
 			bindingButton.setEnabled( !datasetCombo.getText( )
 					.equals( BindingGroupDescriptorProvider.NONE ) );
-			reportItemRadion.setSelection( false );
+			reportItemRadio.setSelection( false );
 			reportItemCombo.setEnabled( false );
 			if ( datasetCombo.getSelectionIndex( ) == -1 )
 			{
@@ -187,10 +187,10 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		}
 		else
 		{
-			datasetRadion.setSelection( false );
+			datasetRadio.setSelection( false );
 			datasetCombo.setEnabled( false );
 			bindingButton.setEnabled( false );
-			reportItemRadion.setSelection( true );
+			reportItemRadio.setSelection( true );
 			reportItemCombo.setEnabled( true );
 			if ( reportItemCombo.getSelectionIndex( ) == -1 )
 			{
@@ -210,19 +210,19 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				datasetRadion.setSelection( true );
+				datasetRadio.setSelection( true );
 				datasetCombo.setEnabled( true );
 				datasetCombo.setText( value.toString( ) );
 				bindingButton.setEnabled( !value.toString( )
 						.equals( BindingGroupDescriptorProvider.NONE ) );
-				reportItemRadion.setSelection( false );
+				reportItemRadio.setSelection( false );
 				reportItemCombo.setEnabled( false );
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-				datasetRadion.setSelection( false );
+				datasetRadio.setSelection( false );
 				datasetCombo.setEnabled( false );
 				bindingButton.setEnabled( false );
-				reportItemRadion.setSelection( true );
+				reportItemRadio.setSelection( true );
 				reportItemCombo.setEnabled( true );
 				reportItemCombo.setText( value.toString( ) );
 		}

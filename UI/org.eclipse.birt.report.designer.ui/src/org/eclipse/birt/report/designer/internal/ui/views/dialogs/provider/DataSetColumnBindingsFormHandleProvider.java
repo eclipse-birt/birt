@@ -97,13 +97,9 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	 * @param bindingObject
 	 *            the bindingObject to set
 	 */
-
-	private List groupList = null;
-
 	public void setBindingObject( ReportElementHandle bindingObject )
 	{
 		this.bindingObject = bindingObject;
-		groupList = DEUtil.getGroups( bindingObject );
 	}
 
 	public String[] getColumnNames( )
@@ -118,7 +114,19 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	public String getTitle( )
 	{
-		return Messages.getString( "DataSetColumnBindingsFormHandleProvider.TableTitle" ); //$NON-NLS-1$
+		if(isEditable( ))
+			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
+		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
+	}
+	
+	public boolean isEditable( )
+	{
+		if ( bindingObject == null )
+			return false;
+		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( bindingObject ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			return false;
+		else
+			return true;
 	}
 
 	public CellEditor[] getEditors( Table table )
@@ -456,7 +464,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			PropertyEvent ev = (PropertyEvent) event;
 			String propertyName = ev.getPropertyName( );
 			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName )
-					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) )
+					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) 
+					|| ReportItemHandle.DATA_BINDING_REF_PROP.equals( propertyName ))
 			{
 				return true;
 			}

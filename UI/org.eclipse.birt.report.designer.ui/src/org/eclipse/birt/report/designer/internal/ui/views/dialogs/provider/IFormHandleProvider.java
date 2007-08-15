@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Table;
  * FormPage assistant class, provides form type(Filter, Sorting, Groups and
  * Hight-lights) sensitive data and processes.
  * 
- *  
+ * 
  */
 public interface IFormHandleProvider
 {
@@ -82,7 +82,7 @@ public interface IFormHandleProvider
 	 * 
 	 * @return True if success, otherwise false.
 	 */
-	boolean doAddItem( int pos )throws Exception;
+	boolean doAddItem( int pos ) throws Exception;
 
 	/**
 	 * Edits a given item.
@@ -172,5 +172,7 @@ public interface IFormHandleProvider
 	 * @return True needs refresh, false not need.
 	 */
 	boolean needRefreshed( NotificationEvent event );
+
+	public boolean isEditable( );
 
 }

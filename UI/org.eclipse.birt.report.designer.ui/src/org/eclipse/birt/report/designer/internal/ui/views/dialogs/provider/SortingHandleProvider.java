@@ -277,4 +277,9 @@ public class SortingHandleProvider implements IFormHandleProvider
 		}
 		return false;
 	}
+	
+	public boolean isEditable( )
+	{
+		return true;
+	}
 }

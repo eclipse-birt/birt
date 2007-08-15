@@ -297,4 +297,9 @@ public class GroupHandleProvider implements IFormHandleProvider
 		}
 		return false;
 	}
+	
+	public boolean isEditable( )
+	{
+		return true;
+	}
 }

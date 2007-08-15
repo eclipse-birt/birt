@@ -12,10 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
@@ -25,24 +22,16 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
-import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -54,7 +43,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -72,38 +60,26 @@ public class BindingPage extends Composite implements Listener
 	/**
 	 * The DataSet choose control.
 	 */
-	private CCombo combo;
+	private CCombo datasetCombo;
 
 	private Button bindingButton;
 	/**
 	 * The TableViewer of the table widget.
 	 */
-	// private TableViewer tableViewer;
-	/**
-	 * The column list.
-	 */
-	private static final String[] columnNames = {
-			Messages.getString( "BindingPage.TableColumn.Parameter" ), //$NON-NLS-1$
-			Messages.getString( "BindingPage.TableColumn.DataType" ), //$NON-NLS-1$
-			Messages.getString( "BindingPage.TableColumn.Value" ),}; //$NON-NLS-1$
 
 	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
 
 	private transient boolean enableAutoCommit = true;
-
-	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
-			.getAllowedChoices( );
-
-	private static final String DEFAULT_VALUE_LABEL = Messages.getString( "label.defaultValue" ); //$NON-NLS-1$
-
+	
 	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
-
+	private static final String REPORT_ITEM__LABEL = Messages.getString( "BindingPage.ReportItem.Label" ); //$NON-NLS-1$
 	private static final String BUTTON_BINDING = Messages.getString( "parameterBinding.title" ); //$NON-NLS-1$
 	private DataSetColumnBindingsFormPage columnBindingsFormPage;
 
 	private ModuleHandle model;
+	private Button datasetButton;
+	private Button reportItemButton;
+	private CCombo reportItemCombo;
 
 	/**
 	 * @param parent
@@ -134,99 +110,28 @@ public class BindingPage extends Composite implements Listener
 
 		FormData data;
 
-		Label title = new Label( this, SWT.NONE );
-		title.setText( DATA_SET_LABEL );
+		datasetButton = new Button( this, SWT.RADIO );
+		datasetButton.setText( DATA_SET_LABEL );
+		datasetButton.addSelectionListener( new SelectionAdapter( ) {
 
-		combo = new CCombo( this, SWT.READ_ONLY | SWT.BORDER );
-		combo.setBackground( PlatformUI.getWorkbench( )
+			public void widgetSelected( SelectionEvent e )
+			{
+				refreshBinding( );
+			}
+
+		} );
+
+		datasetCombo = new CCombo( this, SWT.READ_ONLY | SWT.BORDER );
+		datasetCombo.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		combo.addSelectionListener( new SelectionAdapter( ) {
+		datasetCombo.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				String value = combo.getText( );
-
-				if ( value.equals( NONE ) )
-				{
-					value = null;
-				}
-
-				int ret = 0;
-
-				// If current data set name is None and no column binding
-				// existing, pop up dilog doesn't need.
-				if ( !NONE.equals( getDataSetName( ) )
-						|| getReportItemHandle( ).getColumnBindings( )
-								.iterator( )
-								.hasNext( ) )
-				{
-					MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
-							Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
-							null,
-							Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
-							MessageDialog.INFORMATION,
-							new String[]{
-									Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
-									Messages.getString( "AttributeView.dialg.Message.No" ),//$NON-NLS-1$
-									Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
-
-					ret = prefDialog.open( );
-				}
-
-				switch ( ret )
-				{
-					// Clear binding info
-					case 0 :
-						resetDataSetReference( value, true );
-						break;
-					// Doesn't clear binding info
-					case 1 :
-						resetDataSetReference( value, false );
-						break;
-					// Cancel.
-					case 2 :
-						combo.setText( getDataSetName( ) );
-				}
-			}
-
-			private void resetDataSetReference( String value,
-					boolean clearHistory )
-			{
-				try
-				{
-					startTrans( "" ); //$NON-NLS-1$
-					DataSetHandle dataSet = null;
-					if ( value != null )
-					{
-						dataSet = SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.findDataSet( value );
-					}
-					getReportItemHandle( ).setDataSet( dataSet );
-					if ( clearHistory )
-					{
-						getReportItemHandle( ).getColumnBindings( )
-								.clearValue( );
-						getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-								.clearValue( );
-					}
-					columnBindingsFormPage.generateAllBindingColumns( );
-					commit( );
-				}
-				catch ( SemanticException e )
-				{
-					rollback( );
-					ExceptionHandler.handle( e );
-				}
-
+				saveBinding( );
 			}
 		} );
-		data = new FormData( );
-		data.left = new FormAttachment( title, 0, SWT.RIGHT );
-		data.top = new FormAttachment( title, 0, SWT.CENTER );
-		data.right = new FormAttachment( 50 );
-		combo.setLayoutData( data );
 
 		bindingButton = new Button( this, SWT.PUSH );
 		bindingButton.setText( BUTTON_BINDING );
@@ -248,35 +153,53 @@ public class BindingPage extends Composite implements Listener
 			}
 		} );
 		data = new FormData( );
-		data.left = new FormAttachment( combo, 0, SWT.RIGHT );
-		data.top = new FormAttachment( title, 0, SWT.CENTER );
+		data.left = new FormAttachment( datasetCombo, 0, SWT.RIGHT );
+		data.top = new FormAttachment( datasetButton, 0, SWT.CENTER );
 		// data.right = new FormAttachment( 50 );
 		bindingButton.setLayoutData( data );
 
-		// create table and tableViewer
-		// table = new Table( this, SWT.SINGLE
-		// | SWT.BORDER
-		// | SWT.H_SCROLL
-		// | SWT.V_SCROLL
-		// | SWT.FULL_SELECTION );
-		// table.setLinesVisible( true );
-		// table.setHeaderVisible( true );
-		// for ( int i = 0; i < columnNames.length; i++ )
-		// {
-		// TableColumn column = new TableColumn( table, SWT.LEFT );
-		// column.setText( columnNames[i] );
-		// column.setWidth( 200 );
-		// }
-		//
-		// // layout table
-		// data = new FormData( );
-		// data.top = new FormAttachment( combo, 0, SWT.BOTTOM );
-		// data.left = new FormAttachment( title, 0, SWT.LEFT );
-		// data.right = new FormAttachment( 100 );
-		// data.bottom = new FormAttachment( 30 );
-		// table.setLayoutData( data );
-		//
-		// createTableViewer( );
+		reportItemButton = new Button( this, SWT.RADIO );
+		reportItemButton.setText( REPORT_ITEM__LABEL );
+		data = new FormData( );
+		data.top = new FormAttachment( datasetButton, 0, SWT.BOTTOM );
+		data.left = new FormAttachment( datasetButton, 0, SWT.LEFT );
+		reportItemButton.setLayoutData( data );
+		reportItemButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				refreshBinding( );
+			}
+
+		} );
+
+		data = new FormData( );
+		if ( UIUtil.getStringWidth( datasetButton.getText( ), datasetButton ) > UIUtil.getStringWidth( reportItemButton.getText( ),
+				reportItemButton ) )
+			data.left = new FormAttachment( datasetButton, 0, SWT.RIGHT );
+		else
+			data.left = new FormAttachment( reportItemButton, 0, SWT.RIGHT );
+		data.top = new FormAttachment( datasetButton, 0, SWT.CENTER );
+		data.right = new FormAttachment( 50 );
+		datasetCombo.setLayoutData( data );
+
+		reportItemCombo = new CCombo( this, SWT.READ_ONLY | SWT.BORDER );
+		reportItemCombo.setBackground( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+		data = new FormData( );
+		data.top = new FormAttachment( reportItemButton, 0, SWT.CENTER );
+		data.left = new FormAttachment( datasetCombo, 0, SWT.LEFT );
+		data.right = new FormAttachment( datasetCombo, 0, SWT.RIGHT );
+		reportItemCombo.setLayoutData( data );
+		reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				saveBinding( );
+			}
+		} );
+
 		try
 		{
 			columnBindingsFormPage = new DataSetColumnBindingsFormPage( this,
@@ -287,11 +210,86 @@ public class BindingPage extends Composite implements Listener
 			ExceptionHandler.handle( e );
 		}
 		data = new FormData( );
-		data.top = new FormAttachment( combo, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( title, 0, SWT.LEFT );
+		data.top = new FormAttachment( reportItemCombo, 0, SWT.BOTTOM );
+		data.left = new FormAttachment( reportItemButton, 0, SWT.LEFT );
 		data.right = new FormAttachment( 100 );
 		data.bottom = new FormAttachment( 100 );
 		columnBindingsFormPage.setLayoutData( data );
+	}
+
+	private void saveBinding( )
+	{
+		BindingInfo info = new BindingInfo( );
+		if ( datasetButton.getSelection( ) )
+		{
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
+			info.setBindingValue( datasetCombo.getText( ) );
+		}
+		else
+		{
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
+			info.setBindingValue( reportItemCombo.getText( ) );
+		}
+		try
+		{
+			save( info );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	private void refreshBinding( )
+	{
+		if ( datasetButton.getSelection( ) )
+		{
+			datasetButton.setSelection( true );
+			datasetCombo.setEnabled( true );
+			bindingButton.setEnabled( !datasetCombo.getText( ).equals( NONE ) );
+			reportItemButton.setSelection( false );
+			reportItemCombo.setEnabled( false );
+			if ( datasetCombo.getSelectionIndex( ) == -1 )
+			{
+				datasetCombo.setItems( getAvailableDatasetItems( ) );
+				datasetCombo.select( 0 );
+			}
+		}
+		else
+		{
+			datasetButton.setSelection( false );
+			datasetCombo.setEnabled( false );
+			bindingButton.setEnabled( false );
+			reportItemButton.setSelection( true );
+			reportItemCombo.setEnabled( true );
+			if ( reportItemCombo.getSelectionIndex( ) == -1 )
+			{
+				reportItemCombo.setItems( getReferences( ) );
+				reportItemCombo.select( 0 );
+			}
+		}
+	}
+
+	public String[] getAvailableDatasetItems( )
+	{
+		String[] dataSets = ChoiceSetFactory.getDataSets( );
+		String[] newList = new String[dataSets.length + 1];
+		newList[0] = NONE;
+		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+		return newList;
+	}
+
+	public String[] getReferences( )
+	{
+		ReportItemHandle element = getReportItemHandle( );
+		List referenceList = element.getAvailableDataBindingReferenceList( );
+		String[] references = new String[referenceList.size( ) + 1];
+		references[0] = NONE;
+		for ( int i = 0; i < referenceList.size( ); i++ )
+		{
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getName( );
+		}
+		return references;
 	}
 
 	/**
@@ -315,60 +313,29 @@ public class BindingPage extends Composite implements Listener
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
 	 */
-	protected void refreshValues( )
-	{
-		// Binding Not support multi-selection.
-		if ( input.size( ) != 1 )
-		{
-			combo.setEnabled( false );
-			combo.deselectAll( );
-			// table.removeAll( );
-			// table.setEnabled( false );
-			return;
-		}
-		combo.setEnabled( true );
-		// table.setEnabled( true );
-
-		String selectedDataSetName = combo.getText( );
-		String[] oldList = combo.getItems( );
-		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] newList = new String[dataSets.length + 1];
-		newList[0] = NONE;
-		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-		if ( !Arrays.asList( oldList ).equals( Arrays.asList( newList ) ) )
-		{
-			combo.setItems( newList );
-			combo.setText( selectedDataSetName );
-		}
-		String dataSetName = getDataSetName( );
-		if ( !dataSetName.equals( selectedDataSetName ) )
-		{
-			combo.deselectAll( );
-			combo.setText( dataSetName );
-		}
-		bindingButton.setEnabled( !dataSetName.equals( NONE ) );
-		// reconstructTable( );
-		columnBindingsFormPage.setInput( input );
-	}
+	/*
+	 * protected void refreshValues( ) { // Binding Not support multi-selection.
+	 * if ( input.size( ) != 1 ) { datasetCombo.setEnabled( false );
+	 * datasetCombo.deselectAll( ); // table.removeAll( ); // table.setEnabled(
+	 * false ); return; } datasetCombo.setEnabled( true ); // table.setEnabled(
+	 * true );
+	 * 
+	 * String selectedDataSetName = datasetCombo.getText( ); String[] oldList =
+	 * datasetCombo.getItems( ); String[] dataSets =
+	 * ChoiceSetFactory.getDataSets( ); String[] newList = new
+	 * String[dataSets.length + 1]; newList[0] = NONE; System.arraycopy(
+	 * dataSets, 0, newList, 1, dataSets.length ); if ( !Arrays.asList( oldList
+	 * ).equals( Arrays.asList( newList ) ) ) { datasetCombo.setItems( newList );
+	 * datasetCombo.setText( selectedDataSetName ); } String dataSetName =
+	 * getDataSetName( ); if ( !dataSetName.equals( selectedDataSetName ) ) {
+	 * datasetCombo.deselectAll( ); datasetCombo.setText( dataSetName ); }
+	 * bindingButton.setEnabled( !dataSetName.equals( NONE ) ); //
+	 * reconstructTable( ); columnBindingsFormPage.setInput( input ); }
+	 */
 
 	private ReportItemHandle getReportItemHandle( )
 	{
 		return (ReportItemHandle) input.get( 0 );
-	}
-
-	private String getDataSetName( )
-	{
-		if ( getReportItemHandle( ).getDataSet( ) == null )
-		{
-			return NONE;
-		}
-		String dataSetName = getReportItemHandle( ).getDataSet( )
-				.getQualifiedName( );
-		if ( StringUtil.isBlank( dataSetName ) )
-		{
-			dataSetName = NONE;
-		}
-		return dataSetName;
 	}
 
 	/**
@@ -382,32 +349,7 @@ public class BindingPage extends Composite implements Listener
 	// expressionCellEditor.setDataSetList( DEUtil.getDataSetList(
 	// reportItemHandle ) );
 	// }
-	/**
-	 * Creates a new ParamBinding Handle.
-	 * 
-	 * @return ParamBinding Handle.
-	 * @throws SemanticException
-	 */
-	private ParamBindingHandle createBindingHandle( String name )
-			throws SemanticException
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( );
-		ParamBinding binding = StructureFactory.createParamBinding( );
-		binding.setParamName( name );
-		propertyHandle.addItem( binding );
-		return (ParamBindingHandle) binding.getHandle( propertyHandle );
-	}
 
-	/**
-	 * Gets the PropertyHandle of PARAM_BINDINGS_PROP property.
-	 * 
-	 * @return PropertyHandle
-	 */
-	private PropertyHandle getPropertyHandle( )
-	{
-		ReportItemHandle handle = (ReportItemHandle) input.get( 0 );
-		return handle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -417,15 +359,17 @@ public class BindingPage extends Composite implements Listener
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if(this.isDisposed( ))return;
+		if ( this.isDisposed( ) )
+			return;
 		if ( ev.getEventType( ) == NotificationEvent.PROPERTY_EVENT )
 		{
 			PropertyEvent event = (PropertyEvent) ev;
 			String propertyName = event.getPropertyName( );
 			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName )
-					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) )
+					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) 
+					|| ReportItemHandle.DATA_BINDING_REF_PROP.equals( propertyName ) )
 			{
-				refreshValues( );
+				load( );
 			}
 		}
 
@@ -437,7 +381,7 @@ public class BindingPage extends Composite implements Listener
 				ContentEvent ce = (ContentEvent) ev;
 				if ( ce.getContent( ) instanceof DataSet )
 				{
-					refreshValues( );
+					load( );
 				}
 			}
 		}
@@ -494,47 +438,17 @@ public class BindingPage extends Composite implements Listener
 		this.enableAutoCommit = enableAutoCommit;
 	}
 
-	private boolean canChangeDataSet( String newName )
-	{
-		String currentDataSetName = getDataSetName( );
-		if ( NONE.equals( currentDataSetName ) )
-		{
-			return true;
-		}
-		else if ( !currentDataSetName.equals( newName ) )
-		{
-			return MessageDialog.openQuestion( null,
-					Messages.getString( "dataBinding.title.changeDataSet" ), Messages.getString( "dataBinding.message.changeDataSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return false;
-	}
 
-	private void enableUI( boolean enabled )
-	{
-		// if ( tableViewer != null )
-		// {
-		// combo.setEnabled( enabled );
-		// table.setEnabled( enabled );
-		// }
-	}
 
 	public void setInput( List elements )
 	{
-		
-		if ( elements.size( ) != 1 )
-		{
-			enableUI( false );
-			return;
-		}
-		enableUI( true );
 		deRegisterListeners( );
 		input = elements;
-		refreshValues( );
+		load( );
 		registerListeners( );
 		columnBindingsFormPage.setInput( elements );
 		this.model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-
 	}
 
 	protected void registerListeners( )
@@ -579,4 +493,256 @@ public class BindingPage extends Composite implements Listener
 		deRegisterListeners( );
 		super.dispose( );
 	}
+
+	public static class BindingInfo
+	{
+
+		private int bindingType;
+		private Object bindingValue;
+
+		public BindingInfo( int type, Object value )
+		{
+			this.bindingType = type;
+			this.bindingValue = value;
+		}
+
+		public BindingInfo( )
+		{
+		}
+
+		public int getBindingType( )
+		{
+			return bindingType;
+		}
+
+		public Object getBindingValue( )
+		{
+			return bindingValue;
+		}
+
+		public void setBindingType( int bindingType )
+		{
+			this.bindingType = bindingType;
+		}
+
+		public void setBindingValue( Object bindingValue )
+		{
+			this.bindingValue = bindingValue;
+		}
+	}
+
+	public void load( )
+	{
+		datasetButton.setEnabled( true );
+		reportItemButton.setEnabled( true );
+		BindingInfo info = (BindingInfo) loadValue();
+		if ( info != null )
+		{
+			refreshBindingInfo( info );
+		}
+	}
+	
+	private void refreshBindingInfo( BindingInfo info )
+	{
+		int type = info.getBindingType( );
+		Object value = info.getBindingValue( );
+		datasetCombo.setItems( getAvailableDatasetItems( ) );
+		reportItemCombo.setItems( getReferences( ) );
+		switch ( type )
+		{
+			case ReportItemHandle.DATABINDING_TYPE_NONE :
+			case ReportItemHandle.DATABINDING_TYPE_DATA :
+				datasetButton.setSelection( true );
+				datasetCombo.setEnabled( true );
+				datasetCombo.setText( value.toString( ) );
+				System.out.println(getReportItemHandle( ).getDataSet( ));
+				bindingButton.setEnabled( !value.toString( )
+						.equals( NONE ) );
+				reportItemButton.setSelection( false );
+				reportItemCombo.setEnabled( false );
+				break;
+			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+				datasetButton.setSelection( false );
+				datasetCombo.setEnabled( false );
+				bindingButton.setEnabled( false );
+				reportItemButton.setSelection( true );
+				reportItemCombo.setEnabled( true );
+				reportItemCombo.setText( value.toString( ) );
+		}
+	}
+	
+	public Object loadValue( )
+	{
+		ReportItemHandle element = getReportItemHandle( );
+		int type = element.getDataBindingType( );
+		Object value;
+		switch ( type )
+		{
+			case ReportItemHandle.DATABINDING_TYPE_DATA :
+				DataSetHandle dataset = element.getDataSet( );
+				if ( dataset == null )
+					value = NONE;
+				else
+					value = dataset.getQualifiedName( );
+				break;
+			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+				ReportItemHandle reference = element.getDataBindingReference( );
+				if ( reference == null )
+					value = NONE;
+				else
+					value = reference.getQualifiedName( );
+				break;
+			default :
+				value = NONE;
+		}
+		BindingInfo info = new BindingInfo( type, value );
+		return info;
+	}
+
+	public void save( Object saveValue ) throws SemanticException
+	{
+		if ( saveValue instanceof BindingInfo )
+		{
+			BindingInfo info = (BindingInfo) saveValue;
+			int type = info.getBindingType( );
+			String value = info.getBindingValue( ).toString( );
+			switch ( type )
+			{
+				case ReportItemHandle.DATABINDING_TYPE_DATA :
+					if ( value.equals( NONE ) )
+					{
+						value = null;
+					}
+					int ret = 0;
+					if ( !NONE.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+							.toString( ) )
+							|| getReportItemHandle( ).getColumnBindings( )
+									.iterator( )
+									.hasNext( ) )
+					{
+						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								MessageDialog.INFORMATION,
+								new String[]{
+										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.No" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
+
+						ret = prefDialog.open( );
+					}
+
+					switch ( ret )
+					{
+						// Clear binding info
+						case 0 :
+							resetDataSetReference( value, true );
+							break;
+						// Doesn't clear binding info
+						case 1 :
+							resetDataSetReference( value, false );
+							break;
+						// Cancel.
+						case 2 :
+							load( );
+					}
+					break;
+				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+					if ( value.equals( NONE ) )
+					{
+						value = null;
+					}
+					int ret1 = 0;
+					if ( !NONE.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+							.toString( ) )
+							|| getReportItemHandle( ).getColumnBindings( )
+									.iterator( )
+									.hasNext( ) )
+					{
+						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								MessageDialog.INFORMATION,
+								new String[]{
+										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
+
+						ret1 = prefDialog.open( );
+					}
+
+					switch ( ret1 )
+					{
+						// Clear binding info
+						case 0 :
+							resetReference( value, true );
+							break;
+						// Cancel.
+						case 1 :
+							load( );
+					}
+			}
+		}
+	}
+
+	private void resetDataSetReference( Object value, boolean clearHistory )
+	{
+		try
+		{
+			startTrans( "" ); //$NON-NLS-1$
+			getReportItemHandle( ).setDataBindingReference( null );
+			DataSetHandle dataSet = null;
+			if ( value != null )
+			{
+				dataSet = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findDataSet( value.toString( ) );
+			}
+			getReportItemHandle( ).setDataSet( dataSet );
+			if ( clearHistory )
+			{
+				getReportItemHandle( ).getColumnBindings( ).clearValue( );
+				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+			}
+			columnBindingsFormPage.generateAllBindingColumns( );
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
+	private void resetReference( Object value, boolean clearHistory )
+	{
+		try
+		{
+			startTrans( "" ); //$NON-NLS-1$
+			getReportItemHandle( ).setDataSet( null );
+			ReportItemHandle element = null;
+			if ( value != null )
+			{
+				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findElement( value.toString( ) );
+			}
+			getReportItemHandle( ).setDataBindingReference( element );
+			getReportItemHandle( ).getColumnBindings( ).clearValue( );
+			getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+					.clearValue( );
+			columnBindingsFormPage.generateAllBindingColumns( );
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
 }

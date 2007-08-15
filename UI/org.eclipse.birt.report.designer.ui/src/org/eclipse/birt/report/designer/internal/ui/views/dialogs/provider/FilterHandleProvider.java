@@ -443,4 +443,9 @@ public class FilterHandleProvider implements IFormHandleProvider
 		return null;
 	}
 
+	public boolean isEditable( )
+	{
+		return true;
+	}
+
 }
