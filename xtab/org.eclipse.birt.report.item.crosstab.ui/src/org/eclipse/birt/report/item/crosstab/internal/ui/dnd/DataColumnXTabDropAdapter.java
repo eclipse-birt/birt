@@ -23,16 +23,12 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -63,20 +59,6 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 					&& ( target instanceof CrosstabTableEditPart || target instanceof CrosstabCellEditPart ) )
 			{
 				return DNDService.LOGIC_TRUE;
-			}
-			else if ( handle.getProperty( IReportItemModel.CUBE_PROP ) != null )
-			{
-				Object model = ( (EditPart) target ).getModel( );
-
-				if ( model instanceof CrosstabCellAdapter )
-				{
-					PropertyHandle propertyHandle = ( (CrosstabCellAdapter) model ).getPropertyHandle( );
-					if ( propertyHandle != null
-							&& propertyHandle.canContain( "Data" ) )
-					{
-						return DNDService.LOGIC_TRUE;
-					}
-				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
@@ -140,7 +122,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						DataSetHandle dataSetHandle = (DataSetHandle) columnHandle.getElementHandle( );
 
 						TabularCubeHandle newCube = DesignElementFactory.getInstance( )
-								.newTabularCube( Messages.getString("DataColumnXTabDropAdapter.DataCube") + " - " +dataSetHandle.getName( ));
+								.newTabularCube( Messages.getString( "DataColumnXTabDropAdapter.DataCube" )
+										+ " - "
+										+ dataSetHandle.getName( ) );
 
 						SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
