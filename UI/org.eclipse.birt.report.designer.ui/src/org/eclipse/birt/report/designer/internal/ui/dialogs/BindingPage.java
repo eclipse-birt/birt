@@ -555,7 +555,6 @@ public class BindingPage extends Composite implements Listener
 				datasetButton.setSelection( true );
 				datasetCombo.setEnabled( true );
 				datasetCombo.setText( value.toString( ) );
-				System.out.println(getReportItemHandle( ).getDataSet( ));
 				bindingButton.setEnabled( !value.toString( )
 						.equals( NONE ) );
 				reportItemButton.setSelection( false );

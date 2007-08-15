@@ -120,9 +120,6 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#setInput(java.util.List)
 	 */
-
-	List groupList;
-
 	public void setInput( List elements )
 	{
 		super.setInput( elements );

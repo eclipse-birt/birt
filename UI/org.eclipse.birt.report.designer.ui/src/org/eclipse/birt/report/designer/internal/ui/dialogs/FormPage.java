@@ -77,12 +77,12 @@ public class FormPage extends Composite implements Listener
 	 * The full function UI type with editing operations
 	 */
 	public final static int FULL_FUNCTION = 3;
-	
+
 	/**
-	 * The full function UI type with editing operations, and the buttons are horizontal
+	 * The full function UI type with editing operations, and the buttons are
+	 * horizontal
 	 */
 	public final static int FULL_FUNCTION_HORIZONTAL = 4;
-	
 
 	/**
 	 * The UI type.
@@ -130,12 +130,11 @@ public class FormPage extends Composite implements Listener
 	 * The current selection index.
 	 */
 	private int selectIndex;
-	
-	
+
 	protected List input = new ArrayList( );
-	
+
 	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
-	.equals( Platform.OS_WIN32 ) ? 20 : 22;
+			.equals( Platform.OS_WIN32 ) ? 20 : 22;
 
 	/**
 	 * Constructor
@@ -193,12 +192,36 @@ public class FormPage extends Composite implements Listener
 			btnAdd.setEnabled( enabled );
 			btnDel.setEnabled( enabled );
 
-			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL)
+			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
 			{
 				btnEdit.setEnabled( enabled );
 			}
 
 			if ( enabled )
+			{
+				updateArraw( );
+			}
+		}
+	}
+	
+	private void editableUI( boolean editable )
+	{
+		if ( tableViewer != null )
+		{
+			if ( style != SIMPLE_FUNCTION )
+			{
+				btnUp.setEnabled( editable );
+				btnDown.setEnabled( editable );
+			}
+			btnAdd.setEnabled( editable );
+			btnDel.setEnabled( editable );
+
+			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
+			{
+				btnEdit.setEnabled( editable );
+			}
+
+			if ( editable )
 			{
 				updateArraw( );
 			}
@@ -219,6 +242,7 @@ public class FormPage extends Composite implements Listener
 		}
 
 		enableUI( true );
+		editableUI( provider.isEditable( ) );
 		deRegisterListeners( );
 		input = elements;
 		tableViewer.setInput( elements );
@@ -228,7 +252,6 @@ public class FormPage extends Composite implements Listener
 		updateBindingParameters( );
 	}
 
-	
 	protected void createControl( )
 	{
 		title = new Label( this, SWT.NONE );
@@ -252,6 +275,8 @@ public class FormPage extends Composite implements Listener
 
 			public void keyPressed( KeyEvent e )
 			{
+				if(!provider.isEditable( ))
+					return;
 				if ( e.keyCode == SWT.DEL )
 				{
 					int itemCount = table.getItemCount( );
@@ -268,10 +293,11 @@ public class FormPage extends Composite implements Listener
 					{
 						WidgetUtil.processError( FormPage.this.getShell( ), e1 );
 					}
-				}else
-				if(e.character == '\r') // return is pressed
+				}
+				else if ( e.character == '\r' ) // return is pressed
 				{
-					if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL)
+					if ( style == FULL_FUNCTION
+							|| style == FULL_FUNCTION_HORIZONTAL )
 					{
 						edit( );
 					}
@@ -291,7 +317,10 @@ public class FormPage extends Composite implements Listener
 
 			public void mouseDoubleClick( MouseEvent e )
 			{
-				if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL)
+				if(!provider.isEditable( ))
+					return;
+				if ( style == FULL_FUNCTION
+						|| style == FULL_FUNCTION_HORIZONTAL )
 				{
 					edit( );
 				}
@@ -375,7 +404,7 @@ public class FormPage extends Composite implements Listener
 			}
 		} );
 
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL)
+		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
 		{
 			btnEdit = new Button( this, SWT.PUSH );
 			if ( bAddWithDialog == true )
@@ -448,8 +477,8 @@ public class FormPage extends Composite implements Listener
 			case FULL_FUNCTION :
 				fullLayout( );
 				break;
-			case FULL_FUNCTION_HORIZONTAL:
-				fullLayoutHorizontal();
+			case FULL_FUNCTION_HORIZONTAL :
+				fullLayoutHorizontal( );
 				break;
 		}
 	}
@@ -476,6 +505,8 @@ public class FormPage extends Composite implements Listener
 
 	private void updateArraw( )
 	{
+		if(!provider.isEditable( ))
+			return;
 		if ( style == SIMPLE_FUNCTION )
 		{
 			return;
@@ -511,8 +542,9 @@ public class FormPage extends Composite implements Listener
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
 		}
-		if(this.provider instanceof FilterHandleProvider){
-			btnDown.setEnabled ( false );
+		if ( this.provider instanceof FilterHandleProvider )
+		{
+			btnDown.setEnabled( false );
 			btnUp.setEnabled( false );
 		}
 	}
@@ -649,8 +681,8 @@ public class FormPage extends Composite implements Listener
 		table.setLayoutData( data );
 
 	}
-	
-	protected void fullLayoutHorizontal()
+
+	protected void fullLayoutHorizontal( )
 	{
 		FormLayout layout = new FormLayout( );
 		layout.marginHeight = WidgetUtil.SPACING;
@@ -667,7 +699,7 @@ public class FormPage extends Composite implements Listener
 		data.right = new FormAttachment( btnDown, 0, SWT.LEFT );
 		// data.height = height;
 		btnUp.setLayoutData( data );
-		
+
 		data = new FormData( );
 		data.right = new FormAttachment( btnUp, 0, SWT.LEFT );
 		// data.height = height;
@@ -690,7 +722,7 @@ public class FormPage extends Composite implements Listener
 		data.bottom = new FormAttachment( 100 );
 		table.setLayoutData( data );
 	}
-	
+
 	/**
 	 * Layouts widgets for Full UI type.
 	 * 
@@ -764,7 +796,8 @@ public class FormPage extends Composite implements Listener
 	{
 		if ( provider.needRefreshed( event ) )
 		{
-			if(!this.isDisposed( ))refresh( );
+			if ( !this.isDisposed( ) )
+				refresh( );
 		}
 	}
 
@@ -775,6 +808,8 @@ public class FormPage extends Composite implements Listener
 		table.setFocus( );
 		updateArraw( );
 		updateBindingParameters( );
+		editableUI(provider.isEditable( ));
+		title.setText( provider.getTitle( ) );
 	}
 
 	private class FormLabelProvider extends LabelProvider implements
@@ -934,7 +969,7 @@ public class FormPage extends Composite implements Listener
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
-	
+
 	protected void registerListeners( )
 	{
 		if ( input == null )
