@@ -172,7 +172,7 @@ public class JSResultSetRow extends ScriptableObject
 				this.currRowIndex = rowIndex;
 			}
 
-			value = JavascriptEvalUtil.convertToJavascriptValue( value );
+			value = JavascriptEvalUtil.convertToJavascriptValue( value, this.scope );
 			valueCacheMap.put( name, value );
 			return value;
 		}

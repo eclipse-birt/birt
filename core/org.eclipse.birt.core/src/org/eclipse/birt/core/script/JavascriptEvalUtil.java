@@ -40,9 +40,6 @@ import org.mozilla.javascript.Wrapper;
  */
 public class JavascriptEvalUtil
 {
-    // shared scope for conversion to Java Script value
-	private static Scriptable sharedScope;
-	
 	private static Logger logger = Logger.getLogger( JavascriptEvalUtil.class.getName( ) );
 
 	/*
@@ -174,6 +171,8 @@ public class JavascriptEvalUtil
     		Context cx = Context.enter();
     		try
     		{
+    			if ( scope == null )
+    				scope = new ImporterTopLevel( cx );
     			// Javascript and Java Date has the same conversion to/from a Long value
     			Long timeVal = new Long(((Date) value).getTime());
     			return ScriptRuntime.newObject( cx, scope, 
@@ -200,14 +199,7 @@ public class JavascriptEvalUtil
 	 */
 	public static Object convertToJavascriptValue( Object value )
 	{
-		if ( sharedScope == null )
-		{
-			Context cx = Context.enter( );
-			sharedScope = new ImporterTopLevel( cx );
-			Context.exit( );
-		}
-
-		return convertToJavascriptValue( value, sharedScope );
+		return convertToJavascriptValue( value, null );
 	}
     
 	/**
