@@ -98,6 +98,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__okPress : function( )
 	{
 		this.__printAction( );
+		this.__l_hide( );
 	},
 		
 	/**
@@ -211,15 +212,15 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			formObj.target = "birtPrint";			
 			formObj.submit( );
 			
-			// Launch print dialog.
-			this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 1000 );						
+			// Launch the browser's print dialog.
+			this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 1000 );
 		}
 		
 		return true;		
 	},
 
 	/**
-	 * Timer call back function. Control the popup print dialog.
+	 * Timer call back function. Control the browser's popup print dialog.
 	 */
 	__cb_print : function( )
 	{
@@ -239,7 +240,12 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			else
 		  	{
 				window.clearTimeout( this.__timer );
+				
+				// Call the browser's print dialog 
 				this.__printWindow.print( );
+				
+				// Close the print window
+				this.__printWindow.close( );
 		  	}
 		}
 		catch( e )
