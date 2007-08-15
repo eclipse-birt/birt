@@ -1201,4 +1201,49 @@ public class ScalarParameterHandle extends ParameterHandle
 
 		return super.getProperty( propName );
 	}
+
+	/**
+	 * Returns the parameter type for this scalar parameter. Types are defined
+	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * 
+	 * <ul>
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
+	 * <li><code>SCALAR_PARAM_TYPE_MULTI_VALUE</code>
+	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC</code>
+	 * </ul>
+	 * 
+	 * @return the type for the parameter
+	 * 
+	 * @see #setParamType(String)
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 */
+
+	public String getParamType( )
+	{
+		return getStringProperty( PARAM_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the parameter type for this scalar parameter. Types are defined in
+	 * <code>DesignChoiceConstants</code> can be one of the followings:
+	 * 
+	 * <ul>
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
+	 * <li><code>SCALAR_PARAM_TYPE_MULTI_VALUE</code>
+	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type for the parameter
+	 * 
+	 * @throws SemanticException
+	 *             if the input type is not one of above choices.
+	 * @see #getParamType()
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 */
+
+	public void setParamType( String type ) throws SemanticException
+	{
+		setStringProperty( PARAM_TYPE_PROP, type );
+	}
 }

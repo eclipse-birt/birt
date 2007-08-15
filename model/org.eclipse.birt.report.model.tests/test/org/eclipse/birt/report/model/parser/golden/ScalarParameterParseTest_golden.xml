@@ -7,6 +7,7 @@
             <method name="validate"><![CDATA[new validation test]]></method>
             <property name="valueType">static</property>
             <property name="dataType">dateTime</property>
+            <property name="paramType">ad-hoc</property>
             <property name="concealValue">true</property>
             <property name="isRequired">false</property>            
             <property name="controlType">radio-button</property>

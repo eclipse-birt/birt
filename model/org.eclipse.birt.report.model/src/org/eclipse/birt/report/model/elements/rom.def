@@ -567,6 +567,11 @@
 	<Choice displayNameID="Choices.dateTimeLevelType.minute" name="minute"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.second" name="second"/>
   </ChoiceType>
+  <ChoiceType name="scalarParamType">
+  	<Choice displayNameID="Choices.scalarParamType.simple" name="simple"/>
+  	<Choice displayNameID="Choices.scalarParamType.multi-value" name="multi-value"/>
+  	<Choice displayNameID="Choices.scalarParamType.ad-hoc" name="ad-hoc"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -2150,9 +2155,12 @@
       <Default>string</Default>
       <Allowed>string,float,decimal,dateTime,integer,boolean,date,time</Allowed>			
     </Property>
-    <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.type" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
+    <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.valueType" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
       	<Default>static</Default>
 		<Trigger validator="CascadingParameterTypeValidator"/>
+    </Property>
+    <Property detailType="scalarParamType" displayNameID="Element.ScalarParameter.paramType" name="paramType" runtimeSettable="false" since="2.2" type="choice" >
+      	<Default>simple</Default>
     </Property>
     <Property displayNameID="Element.ScalarParameter.concealValue" name="concealValue" runtimeSettable="false" since="1.0" type="boolean">
       <Default>false</Default>
@@ -2303,7 +2311,7 @@
       <Property canInherit="false" detailType="display" displayNameID="Element.Style.display" isStyleProperty="true" name="display" since="1.0" type="choice">
         <Default>block</Default>
       </Property>
-      <Property displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
+      <Property canInherit="false" displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
       <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
         <Allowed>auto,always,avoid</Allowed>
         <Default>auto</Default>

@@ -83,6 +83,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATETIME, handle1
 				.getDataType( ) );
 
+		handle1.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_AD_HOC );
+		assertEquals( DesignChoiceConstants.SCALAR_PARAM_TYPE_AD_HOC, handle1
+				.getParamType( ) );
+
 		handle1.setConcealValue( true );
 		assertTrue( handle1.isConcealValue( ) );
 
@@ -169,6 +173,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertTrue( handle.isHidden( ) );
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_DECIMAL, handle
 				.getDataType( ) );
+		assertEquals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE,
+				handle.getParamType( ) );
 		assertEquals( "the validation test", handle.getValidate( ) ); //$NON-NLS-1$
 		assertFalse( handle.isConcealValue( ) );
 		assertEquals( "State", handle.getDefaultValue( ) ); //$NON-NLS-1$
@@ -244,7 +250,7 @@ public class ScalarParameterParseTest extends BaseTestCase
 	public void testBackwardCompatibility( ) throws Exception
 	{
 		openDesign( "ScalarParameterParseTest_1.xml" ); //$NON-NLS-1$ 	
-		
+
 		SlotHandle params = designHandle.getParameters( );
 		ScalarParameterHandle param = (ScalarParameterHandle) params.get( 0 );
 		assertEquals( "default value", param.getDefaultValue( ) ); //$NON-NLS-1$

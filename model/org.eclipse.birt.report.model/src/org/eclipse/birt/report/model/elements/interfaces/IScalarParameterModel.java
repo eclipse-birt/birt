@@ -166,4 +166,11 @@ public interface IScalarParameterModel
 
 	public static final String SORT_BY_PROP = "sortBy"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that indicates the type of this parameter: simple,
+	 * multi-value, or ad-hoc.
+	 */
+	
+	String PARAM_TYPE_PROP = "paramType"; //$NON-NLS-1$
+
 }

@@ -16,6 +16,7 @@
             <method name="validate">the validation test</method>
             <property name="dataType">decimal</property>
 	        <property name="valueType">static</property>
+	        <property name="paramType">multi-value</property>
             <property name="isRequired">true</property>
             <property name="controlType">check-box</property>
             <property name="dataSetName">dataset 2</property>

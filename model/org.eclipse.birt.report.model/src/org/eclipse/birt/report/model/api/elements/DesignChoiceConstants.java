@@ -827,7 +827,7 @@ public interface DesignChoiceConstants
 	public static final String MEASURE_FUNCTION_RUNNINGNPV = AGGREGATION_FUNCTION_RUNNINGNPV;
 	public static final String MEASURE_FUNCTION_COUNTDISTINCT = AGGREGATION_FUNCTION_COUNTDISTINCT;
 	public static final String MEASURE_FUNCTION_RUNNINGCOUNT = AGGREGATION_FUNCTION_RUNNINGCOUNT;
-	
+
 	/**
 	 * Level type constants.
 	 */
@@ -884,5 +884,13 @@ public interface DesignChoiceConstants
 	 *             DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK, and not used anymore.
 	 */
 	public static final String DATE_TIME_LEVEL_TYPE_DAY = "day"; //$NON-NLS-1$
+
+	/**
+	 * Scalar parameter type.
+	 */
+	public static final String CHOICE_SCALAR_PARAM_TYPE = "scalarParamType"; //$NON-NLS-1$
+	public static final String SCALAR_PARAM_TYPE_SIMPLE = "simple"; //$NON-NLS-1$
+	public static final String SCALAR_PARAM_TYPE_MULTI_VALUE = "multi-value"; //$NON-NLS-1$
+	public static final String SCALAR_PARAM_TYPE_AD_HOC = "ad-hoc"; //$NON-NLS-1$
 
 };
