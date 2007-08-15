@@ -95,7 +95,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	private FileDocumentManager( int fileCacheSize )
 	{
-		this.dataFileCacheSize = fileCacheSize;
+		this.dataFileCacheSize = fileCacheSize * 1024*1024;
 	}
 	
 	/**
