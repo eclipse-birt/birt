@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -333,38 +333,22 @@ public class Methods implements IConstants
 	static final double getDateLocation( AutoScale sc, CDateTime cdtValue )
 	{
 		AxisTickCoordinates da = sc.getTickCordinates( );
-		CDateTime cdt = asDateTime( sc.getMinimum( ) ), cdtPrev = null;
-		int iUnit = asInteger( sc.getUnit( ) );
-		int iStep = asInteger( sc.getStep( ) );
+		CDateTime cdtMin = asDateTime( sc.getMinimum( ) );
+		CDateTime cdtMax = asDateTime( sc.getMaximum( ) );
 
-		for ( int i = 0; i < da.size( ); i++ )
+		long max = cdtMax.getTimeInMillis( );
+		long min = cdtMin.getTimeInMillis( );
+		long curr = cdtValue.getTimeInMillis( );
+		if ( max == min )
 		{
-			if ( cdt.after( cdtValue ) )
-			{
-				if ( cdtPrev == null )
-				{
-					return da.getCoordinate( i );
-				}
-				/*
-				 * SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy
-				 * HH:mm:ss"); String sMin = sdf.format(cdtPrev.getTime());
-				 * String sMax = sdf.format(cdt.getTime()); String sVal =
-				 * sdf.format(cdtValue.getTime());
-				 */
-
-				long l1 = cdtPrev.getTimeInMillis( );
-				long l2 = cdt.getTimeInMillis( );
-				long l = cdtValue.getTimeInMillis( );
-				double dUnitSize = da.getStep( );
-
-				double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
-				return da.getCoordinate( i - 1 ) + dOffset;
-
-			}
-			cdtPrev = cdt;
-			cdt = cdt.forward( iUnit, iStep );
+			return da.getStart( );
 		}
-		return da.getEnd( );
+		else
+		{
+			return da.getStart( ) +
+					( curr - min ) *
+					( ( da.getEnd( ) - da.getStart( ) ) / ( max - min ) );
+		}
 	}
 
 	/**

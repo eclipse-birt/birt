@@ -3228,7 +3228,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				iXOutside = checkEntryByType( axisBase.getScale( ),
 						dpha[i].getBaseValue( ) );
 			}
-
+			
+			// The deltaValue is used to adjust X or Y coordinate to make the connection line visible of outside data
+			// in 'showoutside' mode.
+			final double deltaValue = 1.0d;
+			
 			if ( iXOutside > 0 )
 			{
 				if ( !baseIsShowOutside( ) )
@@ -3244,17 +3248,17 @@ public abstract class AxesRenderer extends BaseRenderer
 						if ( !Double.isNaN( faY[i] ) )
 						{
 							faY[i] = iXOutside == 1 ? boClientArea.getTop( )
-									+ boClientArea.getHeight( )
-									: boClientArea.getTop( );
+									+ boClientArea.getHeight( ) - deltaValue
+									: boClientArea.getTop( ) + deltaValue;
 						}
 					}
 					else
 					{
 						if ( !Double.isNaN( faX[i] ) )
 						{
-							faX[i] = iXOutside == 1 ? boClientArea.getLeft( )
+							faX[i] = iXOutside == 1 ? boClientArea.getLeft( ) + deltaValue
 									:  boClientArea.getLeft( )
-											+ boClientArea.getWidth( );
+											+ boClientArea.getWidth( ) - deltaValue;
 						}
 					}
 				}
@@ -3274,18 +3278,18 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						if ( !Double.isNaN( faX[i] ) )
 						{
-							faX[i] = iYOutside == 1 ? boClientArea.getLeft( )
+							faX[i] = iYOutside == 1 ? boClientArea.getLeft( ) + deltaValue
 									: boClientArea.getLeft( )
-											+ boClientArea.getWidth( );
+											+ boClientArea.getWidth( ) - deltaValue;
 						}
 					}
 					else
 					{
 						if ( !Double.isNaN( faY[i] ) )
 						{
-							faY[i] = iYOutside == 1 ? boClientArea.getTop( )
-									+ boClientArea.getHeight( )
-									: boClientArea.getTop( );
+							faY[i] = iYOutside == 1 ? boClientArea.getTop( ) 
+									+ boClientArea.getHeight( ) - deltaValue
+									: boClientArea.getTop( ) + deltaValue;
 						}
 					}
 				}

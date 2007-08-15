@@ -621,36 +621,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return null;
 		}
 
-		// Find data types from column bindings first
-		Iterator iterator = itemHandle.columnBindingsIterator( );
-		while ( iterator.hasNext( ) )
+		// Find data types from self column bindings first
+		Object[] returnObj = findDataType( expression, itemHandle );
+		if ( ( (Boolean) returnObj[0] ).booleanValue( ) )
 		{
-			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
-			if ( expression.toUpperCase( )
-					.indexOf( cc.getName( ).toUpperCase( ) ) >= 0 )
+			return (DataType) returnObj[1];
+		}
+
+		// Find data types from its container column bindings.
+		ReportItemHandle parentHandle = DEUtil.getBindingHolder( itemHandle );
+		if ( parentHandle != null )
+		{
+			returnObj = findDataType( expression, parentHandle );
+			if ( ( (Boolean) returnObj[0] ).booleanValue( ) )
 			{
-				String dataType = cc.getDataType( );
-				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-				{
-					return DataType.TEXT_LITERAL;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
-				{
-					return DataType.NUMERIC_LITERAL;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-				{
-					return DataType.DATE_TIME_LITERAL;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-				{
-					return null;
-				}
+				return (DataType) returnObj[1];
 			}
 		}
 
@@ -673,7 +658,69 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		catch ( ParseException e )
 		{
 		}
-		// Return Text by default
-		return DataType.TEXT_LITERAL;
+
+		// Return null for unknown data type.
+		return null;
+	}
+
+	/**
+	 * Find data type of expression from specified item handle.
+	 * 
+	 * @param expression
+	 *            expression.
+	 * @param itemHandle
+	 *            specified item handle.
+	 * @return an object array, size is two, the first element is a boolean
+	 *         object, if its value is <code>true</code> then means the data
+	 *         type is found and the second element of array stores the data
+	 *         type; if its value is <code>false</code> then means that data
+	 *         type is not found.
+	 */
+	private Object[] findDataType( String expression,
+			ReportItemHandle itemHandle )
+	{
+		Object[] returnObj = new Object[2];
+		returnObj[0] = new Boolean( false );
+
+		Iterator iterator = itemHandle.columnBindingsIterator( );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
+			if ( expression.toUpperCase( )
+					.indexOf( cc.getName( ).toUpperCase( ) ) >= 0 )
+			{
+				String dataType = cc.getDataType( );
+				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+				{
+					returnObj[0] = new Boolean( true );
+					returnObj[1] = DataType.TEXT_LITERAL;
+					break;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) ||
+						dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) ||
+						dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) ||
+						dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
+				{
+					returnObj[0] = new Boolean( true );
+					returnObj[1] = DataType.NUMERIC_LITERAL;
+					break;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) ||
+						dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) ||
+						dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+				{
+					returnObj[0] = new Boolean( true );
+					returnObj[1] = DataType.DATE_TIME_LITERAL;
+					break;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+				{
+					returnObj[0] = new Boolean( true );
+					returnObj[1] = null;
+					break;
+				}
+			}
+		}
+		return returnObj;
 	}
 }
