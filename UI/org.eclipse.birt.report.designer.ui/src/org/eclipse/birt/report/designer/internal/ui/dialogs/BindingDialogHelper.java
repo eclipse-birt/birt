@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
@@ -103,9 +104,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Text txtDisplayName;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
+	private Combo cmbName;
+
+	private boolean isCreate;
+	private boolean isRef;
 
 	public void createContent( Composite parent )
 	{
+
+		isCreate = getBinding( ) == null;
+		isRef = getBindingHolder( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
 		composite = parent;
 
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
@@ -123,20 +131,48 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		composite.setLayoutData( gd );
 
 		new Label( composite, SWT.NONE ).setText( NAME );
-		txtName = new Text( composite, SWT.BORDER );
 
-		txtName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		if ( isRef )
+		{
+			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+			cmbName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL ) );
+			cmbName.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					String bindingName = cmbName.getItem( cmbName.getSelectionIndex( ) );
+
+					for ( Iterator iterator = getBindingHolder( ).getDataBindingReference( )
+							.getColumnBindings( )
+							.iterator( ); iterator.hasNext( ); )
+					{
+						ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+						if ( computedColumn.getName( ).equals( bindingName ) )
+						{
+							setBinding( computedColumn );
+							initDialog( );
+							return;
+						}
+					}
+				}
+			} );
+		}
+		else
+		{
+			txtName = new Text( composite, SWT.BORDER );
+			txtName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL ) );
+			txtName.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					validate( );
+				}
+
+			} );
+		}
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
-
-		txtName.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				verifyInput( );
-			}
-
-		} );
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
@@ -159,30 +195,125 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			createCommonSection( composite );
 		}
 		createMessageSection( composite );
+
 	}
 
 	public void initDialog( )
 	{
-		if ( getBinding( ) == null )//create
+		if ( isCreate )//create
 		{
-			setTypeSelect( dataTypes[0] );
-			this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
-					isAggregate( ) ? DEFAULT_AGGREGATION_NAME
-							: DEFAULT_ITEM_NAME );
-			setName( this.newBinding.getName( ) );
+			if ( isRef )
+			{
+				if ( getBinding( ) == null )
+				{
+					for ( Iterator iterator = getBindingHolder( ).getDataBindingReference( )
+							.getColumnBindings( )
+							.iterator( ); iterator.hasNext( ); )
+					{
+						ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+						if ( isAggregate( ) )
+						{
+							if ( computedColumn.getAggregateFunction( ) == null
+									|| computedColumn.getAggregateFunction( )
+											.equals( "" ) )
+								continue;
+						}
+						else
+						{
+							if ( computedColumn.getAggregateFunction( ) != null
+									&& !computedColumn.getAggregateFunction( )
+											.equals( "" ) )
+								continue;
+						}
+						cmbName.add( computedColumn.getName( ) );
+					}
+				}
+				else
+				{
+					setDisplayName( getBinding( ).getDisplayName( ) );
+					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+					{
+						if ( DATA_TYPE_CHOICES[i].getName( )
+								.equals( getBinding( ).getDataType( ) ) )
+						{
+							setTypeSelect( DATA_TYPE_CHOICES[i].getDisplayName( ) );
+							break;
+						}
+					}
+					setDataFieldExpression( getBinding( ).getExpression( ) );
+				}
+			}
+			else
+			{
+				setTypeSelect( dataTypes[0] );
+				this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
+						isAggregate( ) ? DEFAULT_AGGREGATION_NAME
+								: DEFAULT_ITEM_NAME );
+				setName( this.newBinding.getName( ) );
+			}
 		}
 		else
 		{
-			setName( getBinding( ).getName( ) );
-			setDisplayName( getBinding( ).getDisplayName( ) );
-			setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
-					.getDisplayName( ) );
-			setDataFieldExpression( getBinding( ).getExpression( ) );
+			if ( isRef )
+			{
+				int i = 0;
+				for ( Iterator iterator = getBindingHolder( ).getDataBindingReference( )
+						.getColumnBindings( )
+						.iterator( ); iterator.hasNext( ); )
+				{
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+					if ( isAggregate( ) )
+					{
+						if ( computedColumn.getAggregateFunction( ) == null
+								|| computedColumn.getAggregateFunction( )
+										.equals( "" ) )
+							continue;
+					}
+					else
+					{
+						if ( computedColumn.getAggregateFunction( ) != null
+								&& !computedColumn.getAggregateFunction( )
+										.equals( "" ) )
+							continue;
+					}
+					cmbName.add( computedColumn.getName( ) );
+					if ( getBinding( ).getName( )
+							.equals( computedColumn.getName( ) ) )
+						cmbName.select( i );
+					i++;
+				}
+				setDisplayName( getBinding( ).getDisplayName( ) );
+				for ( i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+				{
+					if ( DATA_TYPE_CHOICES[i].getName( )
+							.equals( getBinding( ).getDataType( ) ) )
+					{
+						setTypeSelect( DATA_TYPE_CHOICES[i].getDisplayName( ) );
+						break;
+					}
+				}
+				setDataFieldExpression( getBinding( ).getExpression( ) );
+			}
+			else
+			{
+				setName( getBinding( ).getName( ) );
+				setDisplayName( getBinding( ).getDisplayName( ) );
+				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
+						.getDisplayName( ) );
+				setDataFieldExpression( getBinding( ).getExpression( ) );
+			}
 		}
 
-		if ( this.getBinding( ) != null )
+		if ( !isCreate )
 		{
-			this.txtName.setEnabled( false );
+			if ( isRef )
+			{
+				this.cmbName.setEnabled( false );
+			}
+			else
+			{
+				this.txtName.setEnabled( false );
+			}
 		}
 
 		if ( isAggregate( ) )
@@ -450,7 +581,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
-				verifyInput( );
+				validate( );
 			}
 		} );
 
@@ -545,6 +676,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
+		if ( isRef )
+		{
+			txtDisplayName.setEnabled( false );
+			cmbType.setEnabled( false );
+			cmbFunction.setEnabled( false );
+			cmbDataField.setEnabled( false );
+			txtFilter.setEnabled( false );
+			aggOnComposite.setEnabled( false );
+			argsComposite.setEnabled( false );
+		}
 	}
 
 	private void createCommonSection( Composite composite )
@@ -558,22 +699,36 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
-				verifyInput( );
+				validate( );
 			}
 
 		} );
+		if ( isRef )
+		{
+			txtDisplayName.setEnabled( false );
+			cmbType.setEnabled( false );
+			txtExpression.setEnabled( false );
+		}
 	}
 
 	private void createMessageSection( Composite composite )
 	{
 		messageLine = new CLabel( composite, SWT.NONE );
-		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		layoutData.horizontalSpan = 3;
 		messageLine.setLayoutData( layoutData );
 	}
 
 	private void verifyInput( )
 	{
+		if ( isRef
+				&& ( cmbName.getText( ) == null || cmbName.getText( )
+						.equals( "" ) ) )
+		{
+			dialog.getOkButton( ).setEnabled( false );
+			return;
+		}
+
 		if ( txtName != null
 				&& ( txtName.getText( ) == null || txtName.getText( )
 						.trim( )
@@ -782,6 +937,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void save( ) throws Exception
 	{
+		if ( isRef )
+			return;
 		if ( txtName.getText( ) != null
 				&& txtName.getText( ).trim( ).length( ) > 0 )
 		{
@@ -792,7 +949,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
-				if ( getBinding( ) == null )
+				if ( isCreate )
 				{
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
@@ -830,7 +987,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void saveAggregate( ) throws Exception
 	{
-		if ( getBinding( ) == null )
+		if ( isCreate )
 		{
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
