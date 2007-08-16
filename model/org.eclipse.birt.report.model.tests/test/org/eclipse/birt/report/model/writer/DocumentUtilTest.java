@@ -12,13 +12,12 @@
 package org.eclipse.birt.report.model.writer;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -226,6 +225,29 @@ public class DocumentUtilTest extends BaseTestCase
 		assertEquals( "Year", groupHandle.getName( ) ); //$NON-NLS-1$
 		groupHandle = (GroupHandle) tableHandle.getGroups( ).get( 1 );
 		assertEquals( "Month", groupHandle.getName( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests serialize user property or not based on bugzilla 199751.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUserProperty( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_UserProperty.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		// user property is in report design directly.
+		assertEquals( "1.0", designHandle.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
+
+		//user property is set in label.
+		LabelHandle labelHandle = (LabelHandle) designHandle.getBody( ).get( 0 );
+		assertEquals( "label 1.0", labelHandle.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
+		
+		// user property is set in label in library.
+		LabelHandle labelHandle1 = (LabelHandle) designHandle.getBody( ).get( 1 );
+		assertEquals( "2.0", labelHandle1.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**

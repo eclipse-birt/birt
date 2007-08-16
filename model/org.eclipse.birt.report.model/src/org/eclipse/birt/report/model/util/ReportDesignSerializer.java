@@ -1111,30 +1111,27 @@ public class ReportDesignSerializer extends ElementVisitor
 			DesignElement newElement )
 	{
 		Iterator iter = null;
-		DesignElement current = null;
-		if ( !element.isVirtualElement( ) )
-		{
-			current = element.getExtendsElement( );
-			while ( current != null )
-			{
-				if ( current.hasUserProperties( ) )
-				{
-					iter = current.getLocalUserProperties( ).iterator( );
-					while ( iter.hasNext( ) )
-					{
-						UserPropertyDefn uDefn = (UserPropertyDefn) iter.next( );
-						if ( element
-								.getLocalUserPropertyDefn( uDefn.getName( ) ) != null )
-							continue;
-						newElement
-								.addUserPropertyDefn( (UserPropertyDefn) uDefn
-										.copy( ) );
-					}
-				}
+		DesignElement current = element;
+		if ( current.isVirtualElement( ) )
+			return;
 
-				current = current.getExtendsElement( );
+		do
+		{
+			if ( current.hasUserProperties( ) )
+			{
+				iter = current.getLocalUserProperties( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					UserPropertyDefn uDefn = (UserPropertyDefn) iter.next( );
+					if ( newElement.getLocalUserPropertyDefn( uDefn.getName( ) ) != null )
+						continue;
+					newElement.addUserPropertyDefn( (UserPropertyDefn) uDefn
+							.copy( ) );
+				}
 			}
-		}
+
+			current = current.getExtendsElement( );
+		} while ( current != null );
 
 	}
 
