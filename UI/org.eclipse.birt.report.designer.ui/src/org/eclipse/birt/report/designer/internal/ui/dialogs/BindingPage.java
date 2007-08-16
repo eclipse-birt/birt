@@ -117,6 +117,7 @@ public class BindingPage extends Composite implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
+				if(datasetButton.getSelection( ))saveBinding( );
 			}
 
 		} );

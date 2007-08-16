@@ -59,6 +59,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
+				if(datasetRadio.getSelection( ))saveBinding( );
 			}
 
 		} );
