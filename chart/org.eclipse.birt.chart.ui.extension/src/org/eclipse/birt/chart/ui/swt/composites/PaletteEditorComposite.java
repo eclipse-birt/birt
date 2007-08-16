@@ -762,11 +762,11 @@ public final class PaletteEditorComposite extends Composite implements
 
 		if ( vSeriesDefns != null )
 		{
-			int size = elPaletteEntries1.size( );
 			int index1 = iIndex1;
 			int index2 = iIndex2;
 			for ( int i = 0; i < vSeriesDefns.length; i++ )
 			{
+				int size = vSeriesDefns[i].getSeriesPalette( ).getEntries( ).size( );
 				if ( ( iIndex1 - i ) >= 0 )
 				{
 					index1 = iIndex1 - i;
@@ -792,15 +792,15 @@ public final class PaletteEditorComposite extends Composite implements
 				if ( index1 < index2 )
 				{
 					el.remove( index2 );
+					el.remove( index1 );
 					el.add( index1, o4 );
-					el.remove( index2 );					
 					el.add( index2, o3 );
 				}
 				else
 				{
 					el.remove( index1 );
+					el.remove( index2 );
 					el.add( index2, o3 );
-					el.remove( index1 );
 					el.add( index1, o4 );
 				}
 			}
