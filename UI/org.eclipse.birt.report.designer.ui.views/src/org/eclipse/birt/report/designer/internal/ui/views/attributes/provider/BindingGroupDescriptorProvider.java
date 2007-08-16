@@ -86,7 +86,8 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						value = null;
 					}
 					int ret = 0;
-					if ( !NONE.equals( ((BindingInfo)load( )).getBindingValue( ).toString( ) )
+					if ( !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( )
+							.toString( ) )
 							|| getReportItemHandle( ).getColumnBindings( )
 									.iterator( )
 									.hasNext( ) )
@@ -125,7 +126,8 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						value = null;
 					}
 					int ret1 = 0;
-					if ( !NONE.equals( ((BindingInfo)load( )).getBindingValue( ).toString( ) )
+					if ( !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( )
+							.toString( ) )
 							|| getReportItemHandle( ).getColumnBindings( )
 									.iterator( )
 									.hasNext( ) )
@@ -245,14 +247,21 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						.getReportDesignHandle( )
 						.findDataSet( value.toString( ) );
 			}
-			getReportItemHandle( ).setDataSet( dataSet );
-			if ( clearHistory )
+			if ( getReportItemHandle( ).getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
-				getReportItemHandle( ).getColumnBindings( ).clearValue( );
-				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-						.clearValue( );
+				getReportItemHandle( ).setDataSet( dataSet );
+				if ( clearHistory )
+				{
+					getReportItemHandle( ).getColumnBindings( ).clearValue( );
+					getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+							.clearValue( );
+				}
+				dataSetProvider.generateAllBindingColumns( );
 			}
-			dataSetProvider.generateAllBindingColumns( );
+			else{
+				getReportItemHandle( ).setDataBindingReference( null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			commit( );
 		}
 		catch ( SemanticException e )
@@ -268,7 +277,6 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		try
 		{
 			startTrans( "" ); //$NON-NLS-1$
-			getReportItemHandle( ).setDataSet( null );
 			ReportItemHandle element = null;
 			if ( value != null )
 			{
@@ -277,10 +285,6 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						.findElement( value.toString( ) );
 			}
 			getReportItemHandle( ).setDataBindingReference( element );
-			getReportItemHandle( ).getColumnBindings( ).clearValue( );
-			getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-					.clearValue( );
-			dataSetProvider.generateAllBindingColumns( );
 			commit( );
 		}
 		catch ( SemanticException e )
@@ -378,7 +382,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 			rollback( );
 		}
 	}
-	
+
 	public String getText( int key )
 	{
 		switch ( key )

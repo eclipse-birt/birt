@@ -70,7 +70,7 @@ public class BindingPage extends Composite implements Listener
 	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
 
 	private transient boolean enableAutoCommit = true;
-	
+
 	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
 	private static final String REPORT_ITEM__LABEL = Messages.getString( "BindingPage.ReportItem.Label" ); //$NON-NLS-1$
 	private static final String BUTTON_BINDING = Messages.getString( "parameterBinding.title" ); //$NON-NLS-1$
@@ -117,7 +117,8 @@ public class BindingPage extends Composite implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
-				if(datasetButton.getSelection( ))saveBinding( );
+				if ( datasetButton.getSelection( ) )
+					saveBinding( );
 			}
 
 		} );
@@ -350,8 +351,6 @@ public class BindingPage extends Composite implements Listener
 	// expressionCellEditor.setDataSetList( DEUtil.getDataSetList(
 	// reportItemHandle ) );
 	// }
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -367,7 +366,7 @@ public class BindingPage extends Composite implements Listener
 			PropertyEvent event = (PropertyEvent) ev;
 			String propertyName = event.getPropertyName( );
 			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName )
-					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) 
+					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName )
 					|| ReportItemHandle.DATA_BINDING_REF_PROP.equals( propertyName ) )
 			{
 				load( );
@@ -438,8 +437,6 @@ public class BindingPage extends Composite implements Listener
 	{
 		this.enableAutoCommit = enableAutoCommit;
 	}
-
-
 
 	public void setInput( List elements )
 	{
@@ -536,13 +533,13 @@ public class BindingPage extends Composite implements Listener
 	{
 		datasetButton.setEnabled( true );
 		reportItemButton.setEnabled( true );
-		BindingInfo info = (BindingInfo) loadValue();
+		BindingInfo info = (BindingInfo) loadValue( );
 		if ( info != null )
 		{
 			refreshBindingInfo( info );
 		}
 	}
-	
+
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		int type = info.getBindingType( );
@@ -556,8 +553,7 @@ public class BindingPage extends Composite implements Listener
 				datasetButton.setSelection( true );
 				datasetCombo.setEnabled( true );
 				datasetCombo.setText( value.toString( ) );
-				bindingButton.setEnabled( !value.toString( )
-						.equals( NONE ) );
+				bindingButton.setEnabled( !value.toString( ).equals( NONE ) );
 				reportItemButton.setSelection( false );
 				reportItemCombo.setEnabled( false );
 				break;
@@ -570,7 +566,7 @@ public class BindingPage extends Composite implements Listener
 				reportItemCombo.setText( value.toString( ) );
 		}
 	}
-	
+
 	public Object loadValue( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
@@ -691,7 +687,6 @@ public class BindingPage extends Composite implements Listener
 		try
 		{
 			startTrans( "" ); //$NON-NLS-1$
-			getReportItemHandle( ).setDataBindingReference( null );
 			DataSetHandle dataSet = null;
 			if ( value != null )
 			{
@@ -699,14 +694,23 @@ public class BindingPage extends Composite implements Listener
 						.getReportDesignHandle( )
 						.findDataSet( value.toString( ) );
 			}
-			getReportItemHandle( ).setDataSet( dataSet );
-			if ( clearHistory )
+			if ( getReportItemHandle( ).getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
-				getReportItemHandle( ).getColumnBindings( ).clearValue( );
-				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-						.clearValue( );
+
+				getReportItemHandle( ).setDataSet( dataSet );
+				if ( clearHistory )
+				{
+					getReportItemHandle( ).getColumnBindings( ).clearValue( );
+					getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+							.clearValue( );
+				}
+				columnBindingsFormPage.generateAllBindingColumns( );
 			}
-			columnBindingsFormPage.generateAllBindingColumns( );
+			else
+			{
+				getReportItemHandle( ).setDataBindingReference( null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			commit( );
 		}
 		catch ( SemanticException e )
@@ -722,7 +726,6 @@ public class BindingPage extends Composite implements Listener
 		try
 		{
 			startTrans( "" ); //$NON-NLS-1$
-			getReportItemHandle( ).setDataSet( null );
 			ReportItemHandle element = null;
 			if ( value != null )
 			{
@@ -731,10 +734,6 @@ public class BindingPage extends Composite implements Listener
 						.findElement( value.toString( ) );
 			}
 			getReportItemHandle( ).setDataBindingReference( element );
-			getReportItemHandle( ).getColumnBindings( ).clearValue( );
-			getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-					.clearValue( );
-			columnBindingsFormPage.generateAllBindingColumns( );
 			commit( );
 		}
 		catch ( SemanticException e )
