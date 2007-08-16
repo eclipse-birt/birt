@@ -53,7 +53,19 @@ AbstractReportComponent.prototype =
 		container.style.padding = "0px";
 		container.style.width = "100%";
 		container.innerHTML = content;
-		oDiv.appendChild( container );		
+		
+		
+		// FIXME: Mozilla 1.7.12 produces an exception on the following line
+		// because the "content" variable contains some unrecognized parts
+		// see Bugzilla Bug 199998
+		try
+		{
+			oDiv.appendChild( container );
+		}
+		catch ( error )
+		{
+			// ignore exception
+		}		
 		
 		var scripts = container.getElementsByTagName( "script" );
 		for( var i = 0; i < scripts.length; i++ )
