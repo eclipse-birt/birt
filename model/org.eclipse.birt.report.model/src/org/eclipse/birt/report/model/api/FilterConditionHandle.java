@@ -175,7 +175,7 @@ public class FilterConditionHandle extends StructureHandle
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_ZERO :
 					setValue2( null );
-					setValue1( null );
+					setValue1( (List)null );
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
 					break;
@@ -229,6 +229,20 @@ public class FilterConditionHandle extends StructureHandle
 	public void setValue1( String value1Expr )
 	{
 		setPropertySilently( FilterCondition.VALUE1_MEMBER, value1Expr );
+	}
+
+	/**
+	 * Sets the value 1 expression list of this filter condition.
+	 * 
+	 * @param value1List
+	 *            the value 1 expression list to set
+	 * @throws SemanticException
+	 *             if the instance in the list is not valid
+	 */
+
+	public void setValue1( List value1List ) throws SemanticException
+	{
+		setProperty( FilterCondition.VALUE1_MEMBER, value1List );
 	}
 
 	/**

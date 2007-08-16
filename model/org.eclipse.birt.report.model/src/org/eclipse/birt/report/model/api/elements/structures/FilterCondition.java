@@ -337,6 +337,18 @@ public class FilterCondition extends Structure
 	}
 
 	/**
+	 * Sets the value 1 expression.
+	 * 
+	 * @param value1List
+	 *            the value 1 expression list to set
+	 */
+
+	public void setValue1( List value1List )
+	{
+		setProperty( VALUE1_MEMBER, value1List );
+	}
+
+	/**
 	 * Returns the value 2 expression.
 	 * 
 	 * @return the value 2 expression
