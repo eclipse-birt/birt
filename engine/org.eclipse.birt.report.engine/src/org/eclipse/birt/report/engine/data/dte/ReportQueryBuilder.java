@@ -745,12 +745,45 @@ public class ReportQueryBuilder
 		{
 			assert value instanceof IBaseQueryDefinition;
 			IBaseQueryDefinition query = (IBaseQueryDefinition) value;
-
-			IGroupDefinition groupDefn = handleGroup( group, handle, query );
-
-			transformExpressions( group, query, groupDefn.getName( ) );
-			handleListingBand( group.getHeader( ), query, true, groupDefn );
-			handleListingBand( group.getFooter( ), query, true, groupDefn );
+			
+			IGroupDefinition groupDefn;
+			if ( !query.cacheQueryResults( ) )
+			{
+				groupDefn = handleGroup( group, handle, query );
+			}
+			else
+			{
+				groupDefn = getGroupDefinition( group, query );
+			}
+			
+			if ( groupDefn != null )
+			{
+				transformExpressions( group, query, groupDefn.getName( ) );
+				handleListingBand( group.getHeader( ), query, true, groupDefn );
+				handleListingBand( group.getFooter( ), query, true, groupDefn );
+			}
+		}
+		
+		protected IGroupDefinition getGroupDefinition( GroupDesign design,
+				IBaseQueryDefinition query )
+		{
+			String name = design.getName( );
+			List groups = query.getGroups( );
+			if ( groups != null && groups.size( ) > 0 )
+			{
+				for ( int i = 0; i < groups.size( ); i++ )
+				{
+					IGroupDefinition group = (IGroupDefinition) groups.get( i );
+					if ( group.getName( ).equals( name ) )
+					{
+						return group;
+					}
+				}
+			}
+			EngineException ex = new EngineException( "Invalid group {0}", name );
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
+			context.addException( ex );
+			return null;
 		}
 
 		/**
