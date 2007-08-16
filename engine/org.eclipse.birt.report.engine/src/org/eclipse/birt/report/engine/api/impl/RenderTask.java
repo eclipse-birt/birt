@@ -46,6 +46,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	IReportDocument reportDoc;
 	private InnerRender innerRender;
+	
+	private boolean designLoaded = false;
 
 	/**
 	 * @param engine
@@ -66,9 +68,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// open the report document
 		openReportDocument( reportDoc );
 
-		// load report design
-		loadDesign( );
-
 		innerRender = new AllPageRender( new long[]{1,
 				this.reportDoc.getPageCount( )} );
 	}
@@ -78,7 +77,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		this.reportDoc = reportDoc;
 		executionContext.setReportDocument( reportDoc );
 
-		// load the informationf rom the report document
+		// load the information from the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
 		setParameterDisplayTexts( reportDoc.getParameterDisplayTexts( ) );
 		usingParameterValues( );
@@ -106,6 +105,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void close( )
 	{
+		designLoaded = false;
 		closeReportDocument( );
 		super.close( );
 	}
@@ -236,6 +236,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void render( ) throws EngineException
 	{
+		if ( !designLoaded )
+		{
+			// load report design			
+			loadDesign( );
+			designLoaded = true;
+		}
 		try
 		{
 			changeStatusToRunning( );
