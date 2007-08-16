@@ -325,7 +325,7 @@ public class PostscriptWriter
 		out.println( "false 3 colorimage" );
 		out.println( "" );
 
-		byte[] sb = new byte[originalHeight * originalWidth * 6];
+		byte[] sb = new byte[originalWidth * 6];
 		int offset = 0;
 		for ( int i = 0; i < originalHeight; i++ )
 		{
@@ -345,13 +345,14 @@ public class PostscriptWriter
 					offset = toBytes( offset, sb, green );
 					offset = toBytes( offset, sb, blue );
 				}
+				offset = 0;
+				out.println( new String( sb ) );
 			}
 			else
 			{
 				// TODO:implement or remove it.
 			}
 		}
-		out.println( new String( sb ) );
 		out.println( "" );
 		out.println( "end" );
 		gRestore( );
