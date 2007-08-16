@@ -28,7 +28,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -47,12 +45,9 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -60,7 +55,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -352,7 +346,8 @@ public class ColumnBindingDialog extends BaseDialog
 				public void widgetSelected( SelectionEvent e )
 				{
 					refreshBinding( );
-					if ( datasetRadio.getSelection( ) )
+					if ( datasetRadio.getSelection( )
+							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 						saveBinding( );
 				}
 
@@ -492,7 +487,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 		String[] columns = null;
 		int[] columnWidth = null;
-		CellEditor[] cellEditors;
 
 		groups = new String[groupList.size( ) + 1];
 		groups[0] = ALL;
@@ -959,33 +953,6 @@ public class ColumnBindingDialog extends BaseDialog
 		return DEUtil.getVisiableColumnBindingsList( inputElement );
 	}
 
-	private int canChangeDataSet( String newName )
-	{
-		String currentDataSetName = getDataSetName( );
-		if ( currentDataSetName == null
-				&& !inputElement.columnBindingsIterator( ).hasNext( ) )
-		{
-			return 0;
-		}
-		else if ( currentDataSetName == newName
-				|| ( currentDataSetName != null && currentDataSetName.equals( newName ) ) )
-		{
-			return 2;
-		}
-		MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
-				Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
-				null,
-				Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
-				MessageDialog.INFORMATION,
-				new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL,
-				},
-				0 );
-		return prefDialog.open( );
-	}
-
 	private String getDataSetName( )
 	{
 		if ( inputElement.getDataSet( ) == null )
@@ -1009,11 +976,6 @@ public class ColumnBindingDialog extends BaseDialog
 	protected Button btnEdit;
 
 	protected Button btnAdd;
-
-	private PropertyHandle getParameterBindingPropertyHandle( )
-	{
-		return inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
-	}
 
 	/*
 	 * Set data for Group List
@@ -1324,7 +1286,8 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 				generateBindingColumns( );
 			}
-			else{
+			else
+			{
 				inputElement.setDataBindingReference( null );
 				inputElement.setDataSet( dataSet );
 			}

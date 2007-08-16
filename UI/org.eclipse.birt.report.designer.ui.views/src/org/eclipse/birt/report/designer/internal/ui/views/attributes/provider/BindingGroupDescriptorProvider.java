@@ -258,7 +258,8 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 				}
 				dataSetProvider.generateAllBindingColumns( );
 			}
-			else{
+			else
+			{
 				getReportItemHandle( ).setDataBindingReference( null );
 				getReportItemHandle( ).setDataSet( dataSet );
 			}
@@ -298,6 +299,11 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	private ReportItemHandle getReportItemHandle( )
 	{
 		return (ReportItemHandle) DEUtil.getInputFirstElement( input );
+	}
+
+	public boolean isBindingReference( )
+	{
+		return getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
 	}
 
 	/**

@@ -179,7 +179,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			}
 		}
 	}
-	
+
 	private void editableUI( boolean editable )
 	{
 		if ( tableViewer != null )
@@ -435,7 +435,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void updateArraw( )
 	{
-		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+		if ( !( (IFormProvider) getDescriptorProvider( ) ).isEditable( ) )
 			return;
 		if ( style == SIMPLE_FUNCTION )
 		{
@@ -487,8 +487,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 				btnAdd.setEnabled( provider.isAddEnable( ) );
 				btnEdit.setEnabled( provider.isEditEnable( ) );
 				btnDel.setEnabled( provider.isDeleteEnable( ) );
-				btnUp.setEnabled( provider.isUpEnable( ) );
-				btnDown.setEnabled( provider.isDownEnable( ) );
+				if ( style != NO_UP_DOWN )
+				{
+					btnUp.setEnabled( provider.isUpEnable( ) );
+					btnDown.setEnabled( provider.isDownEnable( ) );
+				}
 			}
 		}
 
@@ -818,7 +821,6 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		table.setLayoutData( data );
 	}
 
-
 	private class FormLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{
@@ -955,7 +957,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableMouseDoubleClickEvent( )
 	{
-		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+		if ( !( (IFormProvider) getDescriptorProvider( ) ).isEditable( ) )
 			return;
 		if ( style == FULL_FUNCTION
 				|| style == FULL_FUNCTION_HORIZONTAL
@@ -973,7 +975,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableKeyPressEvent( KeyEvent e )
 	{
-		if(!((IFormProvider)getDescriptorProvider( )).isEditable( ))
+		if ( !( (IFormProvider) getDescriptorProvider( ) ).isEditable( ) )
 			return;
 		if ( e.keyCode == SWT.DEL )
 		{

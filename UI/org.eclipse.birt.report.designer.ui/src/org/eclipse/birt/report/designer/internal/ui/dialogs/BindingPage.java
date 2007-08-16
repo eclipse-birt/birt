@@ -117,7 +117,7 @@ public class BindingPage extends Composite implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
-				if ( datasetButton.getSelection( ) )
+				if ( datasetButton.getSelection( ) && getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 					saveBinding( );
 			}
 
