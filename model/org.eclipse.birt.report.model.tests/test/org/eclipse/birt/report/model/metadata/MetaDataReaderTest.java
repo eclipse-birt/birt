@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import com.ibm.icu.util.ULocale;
-
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for MetaDataReader.

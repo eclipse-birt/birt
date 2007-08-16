@@ -327,7 +327,9 @@
                             <list-property name="filter">
                                 <structure>
                                     <expression name="expr">row["price_Position_uid"]</expression>
-                                    <expression name="value1">row._outer["position_uid"]</expression>
+                                    <simple-property-list name="value1">
+                                        <value>row._outer["position_uid"]</value>
+                                    </simple-property-list>
                                 </structure>
                             </list-property>
                             <column id="794">

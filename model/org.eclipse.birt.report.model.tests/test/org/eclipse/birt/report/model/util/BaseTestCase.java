@@ -40,7 +40,10 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.MetaDataParserException;
+import org.eclipse.birt.report.model.metadata.MetaDataReader;
 
 import com.ibm.icu.util.ULocale;
 
@@ -139,11 +142,31 @@ public abstract class BaseTestCase extends TestCase
 		if ( engine == null )
 		{
 			engine = new DesignEngine( new DesignConfig( ) );
-			MetaDataDictionary.reset( );
-			// initialize the metadata.
 
-			engine.getMetaData( );
+			resetMetadata( );
 		}
+	}
+
+	/**
+	 * 
+	 */
+
+	protected void resetMetadata( )
+	{
+		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+			return;
+
+		try
+		{
+			MetaDataReader.read( ReportDesign.class
+					.getResourceAsStream( ROM_DEF_NAME ) );
+		}
+		catch ( MetaDataParserException e )
+		{
+			assert false;
+		}
+
+		ExtensionManager.initialize( );
 	}
 
 	/*
@@ -188,7 +211,10 @@ public abstract class BaseTestCase extends TestCase
 	protected ReportDesignHandle createDesign( ULocale locale )
 	{
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
@@ -202,13 +228,13 @@ public abstract class BaseTestCase extends TestCase
 
 		ContainerSlot styles = design.getSlot( ReportDesign.STYLE_SLOT );
 		styles.clear( );
-//		if ( styles != null )
-//		{
-//			for ( int i = 0; i < styles.getCount( ); i++ )
-//			{
-//				styles.remove( i );
-//			}
-//		}
+// if ( styles != null )
+// {
+// for ( int i = 0; i < styles.getCount( ); i++ )
+// {
+// styles.remove( i );
+// }
+// }
 	}
 
 	/**
@@ -233,7 +259,10 @@ public abstract class BaseTestCase extends TestCase
 	protected LibraryHandle createLibrary( ULocale locale )
 	{
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		sessionHandle = engine.newSessionHandle( locale );
 		libraryHandle = sessionHandle.createLibrary( );
 
@@ -293,12 +322,16 @@ public abstract class BaseTestCase extends TestCase
 			fileName = INPUT_FOLDER + fileName;
 
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		if ( inSingleJarMode )
-			designHandle = sessionHandle.openDesign( getResource( fileName ).toString( ) );
+			designHandle = sessionHandle.openDesign( getResource( fileName )
+					.toString( ) );
 		else
 			designHandle = sessionHandle.openDesign( fileName );
 
@@ -395,7 +428,10 @@ public abstract class BaseTestCase extends TestCase
 			fileName = INPUT_FOLDER + fileName;
 
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
@@ -434,13 +470,16 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		fileName = INPUT_FOLDER + fileName;
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		moduleHandle = sessionHandle.openModule( getResource( fileName ).toString( ),
-				getResourceAStream( fileName ) );
+		moduleHandle = sessionHandle.openModule( getResource( fileName )
+				.toString( ), getResourceAStream( fileName ) );
 	}
 
 	/**
@@ -476,7 +515,10 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		if ( engine == null )
+		{
 			engine = new DesignEngine( new DesignConfig( ) );
+			resetMetadata( );
+		}
 		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );
@@ -507,7 +549,8 @@ public abstract class BaseTestCase extends TestCase
 			goldenFileName = GOLDEN_FOLDER + goldenFileName;
 			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
 
-			readerA = new InputStreamReader( getResourceAStream( goldenFileName ) );
+			readerA = new InputStreamReader(
+					getResourceAStream( goldenFileName ) );
 			readerB = new FileReader( outputFileName );
 
 			same = compareFile( readerA, readerB );
@@ -560,9 +603,9 @@ public abstract class BaseTestCase extends TestCase
 		InputStream streamA = getResourceAStream( tmpGoldenFileName );
 		if ( os == null )
 			return false;
-		
+
 		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
-		
+
 		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
 		InputStreamReader readerA = new InputStreamReader( streamA );
 		InputStreamReader readerB = new InputStreamReader( streamB );
@@ -863,7 +906,7 @@ public abstract class BaseTestCase extends TestCase
 	protected boolean isWindowsPlatform( )
 	{
 		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
-		"windows" ) >= 0; //$NON-NLS-1$
+				"windows" ) >= 0; //$NON-NLS-1$
 	}
 
 	/**

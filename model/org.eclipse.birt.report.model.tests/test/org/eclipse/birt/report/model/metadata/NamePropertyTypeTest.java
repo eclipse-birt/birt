@@ -29,6 +29,19 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.metadata.TextualPropertyTypeTestCase#setUp()
+	 */
+
+	protected void setUp( ) throws Exception
+	{
+		MetaDataDictionary.getInstance( ).reset( );
+		engine = null;
+		super.setUp( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
 	 */
 	public void testGetTypeCode( )
@@ -63,9 +76,9 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 
 		try
 		{
-			propDefn = (PropertyDefn) MetaDataDictionary.getInstance( ).getElement(
-					ReportDesignConstants.DATA_SET_ELEMENT ).getProperty(
-					DesignElement.NAME_PROP );
+			propDefn = (PropertyDefn) MetaDataDictionary.getInstance( )
+					.getElement( ReportDesignConstants.DATA_SET_ELEMENT )
+					.getProperty( DesignElement.NAME_PROP );
 			assertEquals(
 					"ab.9c", type.validateValue( design, propDefn, "ab.9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			fail( );

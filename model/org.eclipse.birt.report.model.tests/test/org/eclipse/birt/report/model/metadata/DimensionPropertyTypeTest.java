@@ -179,7 +179,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( "cm", value.getUnits( ) ); //$NON-NLS-1$
 		assertEquals( 1.0, value.getMeasure( ), 1 );
 
-		MetaDataDictionary.reset( );
+		resetMetadata( );
 
 		createDesign( ULocale.GERMAN );
 		ElementFactory factory = new ElementFactory( designHandle.getModule( ) );
