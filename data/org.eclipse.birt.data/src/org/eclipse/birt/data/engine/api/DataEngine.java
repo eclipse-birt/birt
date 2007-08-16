@@ -89,6 +89,20 @@ abstract public class DataEngine
 	 */
 	public static String INCREMENTAL_CACHE_CONFIG = "org.eclipse.birt.data.cache.incremental.config";
 
+	/**
+	 * The fetch size on column and row edge in cube cursor.Negative number
+	 * indicates fetch all result set.
+	 */
+	private static String CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onColumn";
+	private static String CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onRow";
+	
+	/**
+	 * The fetch size of the member numbers for all levels.
+	 * 
+	 * Zero or Positive integer: the member numbers will be fetched from levels.
+	 * Negative integer:Diable this number setting on levels.
+	 */
+	public static String CUBECURSOR_FETCH_LIMIT_ON_LEVEL = "org.eclipse.birt.data.engine.olap.cursor.onLevel";
 	
 	/**
 	 * Creates a new instance of DataEngine, using the specified

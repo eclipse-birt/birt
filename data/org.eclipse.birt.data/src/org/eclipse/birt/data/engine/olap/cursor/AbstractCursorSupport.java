@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
@@ -43,7 +44,8 @@ public class AbstractCursorSupport implements
 	INavigator navigator;
 	private Accessor accessor;
 	private int fetchDirection = 0;
-	private int fetchSize = 0;
+	//-1 indicate fetch all
+	private int fetchSize = -1;
 	
 	/**
 	 * 
@@ -548,7 +550,8 @@ public class AbstractCursorSupport implements
 	 */
 	public void clearWarnings( ) throws OLAPException
 	{
-
+		if( this.navigator!= null )
+			this.navigator.clearWarnings( );
 	}
 
 	/*
@@ -610,7 +613,10 @@ public class AbstractCursorSupport implements
 	 */
 	public Collection getWarnings( ) throws OLAPException
 	{
-		return null;
+		if ( this.navigator != null )
+			return this.navigator.getWarnings( );
+		else
+			return new ArrayList( );
 	}
 
 	/*
@@ -707,6 +713,7 @@ public class AbstractCursorSupport implements
 	public void setFetchSize( int arg0 ) throws OLAPException
 	{
 		this.fetchSize = arg0;
+		this.navigator.setFetchSize( this.fetchSize );
 	}
 
 	/*

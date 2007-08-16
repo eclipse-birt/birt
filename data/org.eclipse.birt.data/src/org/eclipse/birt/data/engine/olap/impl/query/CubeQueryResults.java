@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import java.util.Map;
+
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
@@ -36,18 +38,20 @@ public class CubeQueryResults implements ICubeQueryResults
 	private DataEngineContext context;
 	private DataEngineSession session;
 	private String queryResultsId;
+	private Map appContext;
 	
 	/**
 	 * 
 	 * @param preparedQuery
 	 * @param scope
 	 */
-	public CubeQueryResults( PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context )
+	public CubeQueryResults( PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context, Map appContext )
 	{
 		this.preparedQuery = preparedQuery;
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
+		this.appContext = appContext;
 		this.queryResultsId = preparedQuery.getCubeQueryDefinition( ).getQueryResultsID( );
 	}
 
@@ -60,8 +64,9 @@ public class CubeQueryResults implements ICubeQueryResults
 		try
 		{
 			CubeQueryExecutor executor = new CubeQueryExecutor( preparedQuery.getCubeQueryDefinition( ), this.session,
-					this.scope, this.context );
-			BirtCubeView bcv = new BirtCubeView( executor );
+					this.scope,
+					this.context );
+			BirtCubeView bcv = new BirtCubeView( executor, appContext );
 			CubeCursor cubeCursor = bcv.getCubeCursor( );
 			String newResultSetId = executor.getQueryResultsId( );
 			if ( newResultSetId != null )

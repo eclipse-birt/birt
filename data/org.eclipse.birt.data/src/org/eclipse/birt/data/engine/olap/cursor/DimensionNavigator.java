@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
@@ -158,5 +161,27 @@ class DimensionNavigator implements INavigator
 	public int getType( )
 	{
 		return dimensionAxis.getType( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#clearWarnings()
+	 */
+	public void clearWarnings( ) throws OLAPException
+	{	
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#getWarnings()
+	 */
+	public Collection getWarnings( ) throws OLAPException
+	{
+		return new ArrayList( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#setFetchSize(int)
+	 */
+	public void setFetchSize( int arg0 ) throws OLAPException
+	{
 	}
 }

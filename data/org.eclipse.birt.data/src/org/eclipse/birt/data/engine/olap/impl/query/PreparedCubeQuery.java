@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -29,16 +31,19 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	private ICubeQueryDefinition cubeQueryDefn;
 	private DataEngineSession session;
 	private DataEngineContext context;
+	private Map appContext;
+	
 	/**
 	 * 
 	 * @param defn
 	 * @param scope
 	 */
-	public PreparedCubeQuery( ICubeQueryDefinition defn, DataEngineSession session, DataEngineContext context )
+	public PreparedCubeQuery( ICubeQueryDefinition defn, DataEngineSession session, DataEngineContext context, Map appContext )
 	{
 		this.cubeQueryDefn = defn;
 		this.session = session;
 		this.context = context;
+		this.appContext = appContext;
 	}
 	
 	/*
@@ -66,7 +71,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		return new CubeQueryResults( this,
 				this.session,
 				cubeScope,
-				this.context );
+				this.context, appContext );
 	}
 
 	/*

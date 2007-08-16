@@ -80,6 +80,8 @@ public class QueryExecutor
 		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, false );
 		IAggregationResultSet[] rs = null;
+		cubeQueryExcutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
+				.getFilterOption( ) == 0 );
 		
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{

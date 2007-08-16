@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.util.Collection;
+
 import javax.olap.OLAPException;
 
 /**
@@ -145,5 +147,27 @@ public interface INavigator
 	 * @return
 	 */
 	public int getType( );
+	
+	/**
+	 * Set fetch limit size
+	 * 
+	 * @param arg0
+	 */
+	public void setFetchSize( int arg0 ) throws OLAPException;
+
+	/**
+	 * Get the OLAP Warnings
+	 * 
+	 * @return
+	 * @throws OLAPException
+	 */
+	public Collection getWarnings( ) throws OLAPException;
+	
+	/**
+	 * Clear the warnings collection
+	 * 
+	 * @throws OLAPException
+	 */
+	public void clearWarnings( ) throws OLAPException;
 
 }

@@ -335,6 +335,7 @@ public class ResourceConstants
 	public final static String INVALID_AGGREGATION_ARGUMENT = "data.olap.invalidAggrArgument";
 	public final static String AXIS_LEVEL_CANNOT_BE_NULL = "data.olap.axis.level.CantBeNull";
 	public final static String AXIS_VALUE_CANNOT_BE_NULL = "data.olap.axis.value.CantBeNull";
+	public final static String CONFIG_EDGE_FETCH_LIMIT_WARNING = "data.olap.fetchlimitWarning";
 	
 	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";

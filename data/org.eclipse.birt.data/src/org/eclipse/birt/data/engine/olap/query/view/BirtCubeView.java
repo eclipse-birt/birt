@@ -20,6 +20,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -44,6 +45,7 @@ public class BirtCubeView
 	private BirtEdgeView calculatedMemberView[];
 	private MeasureNameManager manager;
 	private CubeQueryExecutor executor;
+	private Map appContext;
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
@@ -51,12 +53,13 @@ public class BirtCubeView
 	 * @param queryExecutor
 	 * @throws DataException 
 	 */
-	public BirtCubeView( CubeQueryExecutor queryExecutor ) throws DataException
+	public BirtCubeView( CubeQueryExecutor queryExecutor, Map appContext ) throws DataException
 	{
 		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 		this.executor = queryExecutor;
+		this.appContext = appContext;
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn,
 				queryExecutor.getSession( ).getSharedScope( ) );
 		if ( members != null && members.length > 0 )
@@ -74,6 +77,17 @@ public class BirtCubeView
 			}
 		}
 		manager = new MeasureNameManager( members );
+	}
+	
+	/**
+	 * Constructor: construct the row/column/measure EdgeView.
+	 * 
+	 * @param queryExecutor
+	 * @throws DataException 
+	 */
+	public BirtCubeView( CubeQueryExecutor queryExecutor ) throws DataException
+	{
+		this( queryExecutor, null );
 	}
 
 	/**
@@ -98,11 +112,20 @@ public class BirtCubeView
 		{
 			throw new OLAPException( e.getLocalizedMessage( ) );
 		}
-
-		CubeCursor cubeCursor = new CubeCursorImpl( this,
-				result,
-				relationMap,
-				manager );
+		CubeCursor cubeCursor;
+		if ( this.appContext != null &&
+				this.executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		{
+			cubeCursor = new CubeCursorImpl( this,
+					result,
+					relationMap,
+					manager,
+					appContext );
+		}
+		else
+		{
+			cubeCursor = new CubeCursorImpl( this, result, relationMap, manager );
+		}
 		return cubeCursor;
 	}
 

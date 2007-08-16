@@ -17,7 +17,9 @@ import java.util.Map;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
+import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -47,6 +49,22 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
 			Map relationMap, MeasureNameManager manager ) throws OLAPException
 	{
+		this( cubeView, result, relationMap, manager, null );
+	}
+	
+	/**
+	 * 
+	 * @param cubeView
+	 * @param result
+	 * @param relationMap
+	 * @param manager
+	 * @param appContext
+	 * @throws OLAPException
+	 */
+	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
+			Map relationMap, MeasureNameManager manager, Map appContext )
+			throws OLAPException
+	{
 		super( null, new AggregationAccessor( cubeView,
 				result,
 				relationMap,
@@ -69,18 +87,31 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 			}
 		}
 		if ( cubeView.getColumnEdgeView( ) != null )
-			ordinateEdge.add( new EdgeCursorImpl( cubeView.getColumnEdgeView( ),
+		{
+			EdgeCursor columnEdgeCursor = new EdgeCursorImpl( cubeView.getColumnEdgeView( ),
 					false,
 					result.getColumnEdgeResult( ),
-					this ) );
+					this );
+			//the fetch size limit on column edge cursor
+			//temporary key, should be instead of DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE
+			if ( appContext != null )
+				columnEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( "org.eclipse.birt.data.engine.olap.cursor.onColumn" ) ) );
+			
+			result.getColumnEdgeResult( ).populateEdgeInfo( );
+			ordinateEdge.add( columnEdgeCursor );
+		}
 		// create row edge cursor
 		if ( cubeView.getRowEdgeView( ) != null )
 		{
-			ordinateEdge.add( new EdgeCursorImpl( cubeView.getRowEdgeView( ),
+			EdgeCursor rowEdgeCursor = new EdgeCursorImpl( cubeView.getRowEdgeView( ),
 					false,
 					result.getRowEdgeResult( ),
-					this ) );
-
+					this );
+			//temporary key, should be instead of DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE
+			if ( appContext != null )
+				rowEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( "org.eclipse.birt.data.engine.olap.cursor.onRow" ) ) );
+			result.getRowEdgeResult( ).populateEdgeInfo( );
+			ordinateEdge.add( rowEdgeCursor );
 		}
 	}
 
@@ -108,4 +139,19 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 		//no-op
 	}
 	
+	/**
+	 * 
+	 * @param propValue
+	 * @return
+	 */
+	private int populateFetchLimitSize( Object propValue )
+	{
+		int fetchLimit = -1;
+		String fetchLimitSize = propValue == null ? "-1" : propValue.toString( );
+
+		if ( fetchLimitSize != null )
+			fetchLimit = Integer.parseInt( fetchLimitSize );
+
+		return fetchLimit;
+	}
 }

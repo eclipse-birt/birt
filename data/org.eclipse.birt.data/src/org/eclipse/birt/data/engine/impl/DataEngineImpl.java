@@ -565,7 +565,10 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
-		return new PreparedCubeQuery( query, this.session, this.context);
+		return new PreparedCubeQuery( query,
+				this.session,
+				this.context,
+				appContext );
 	}
 	
 	/*

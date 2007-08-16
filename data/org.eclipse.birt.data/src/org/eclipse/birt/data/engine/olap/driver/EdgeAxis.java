@@ -35,6 +35,7 @@ public class EdgeAxis
 	private IAggregationResultSet rs;
 	private EdgeInfoGenerator edgeInfoUtil;
 	private List sortList = null;
+	private boolean isPage = false;
 
 	/**
 	 * 
@@ -63,7 +64,8 @@ public class EdgeAxis
 		this.dimensionAxis = null;
 		this.rs = resultSet;
 		this.sortList = sortList;
-		populateDimensionAxis( resultSet, view, isPage );
+		this.isPage = isPage;
+		populateDimensionAxis( resultSet, view );
 	}
 
 	/**
@@ -75,8 +77,7 @@ public class EdgeAxis
 	 * @throws IOException
 	 */
 	private void populateDimensionAxis( IAggregationResultSet rs,
-			BirtEdgeView view, boolean isPage )
-			throws IOException
+			BirtEdgeView view ) throws IOException
 	{
 		
 		List dimensionAxisList = new ArrayList( );
@@ -133,19 +134,31 @@ public class EdgeAxis
 		}
 
 		edgeInfoUtil = new EdgeInfoGenerator( rs, this.dimensionAxis, view.getMirrorStartingLevel( ) );
-		try
-		{
-			edgeInfoUtil.populateEdgeInfo( isPage );
-		}
-		catch ( IOException e )
-		{
-			throw e;
-		}
 
 		for ( int i = 0; i < this.dimensionAxis.length; i++ )
 		{
 			this.dimensionAxis[i].setEdgeInfo( edgeInfoUtil );
 		}
+	}
+	
+	/**
+	 * PopulateEdgeInfo operation should be done before move up/down along the
+	 * edge cursor.
+	 * 
+	 * @throws OLAPException
+	 * @throws IOException
+	 */
+	public void populateEdgeInfo( ) throws OLAPException
+	{
+		if ( this.edgeInfoUtil != null )
+			try
+			{
+				this.edgeInfoUtil.populateEdgeInfo( isPage );
+			}
+			catch ( IOException e )
+			{
+				throw new OLAPException( e.getLocalizedMessage( ) );
+			}
 	}
 	
 	/**

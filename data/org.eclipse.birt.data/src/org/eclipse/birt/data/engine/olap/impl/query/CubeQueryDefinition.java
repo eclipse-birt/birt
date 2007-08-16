@@ -34,6 +34,7 @@ public class CubeQueryDefinition extends NamedObject
 	private List measureList, bindingList, filterList, sortList;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
+	private int breakHierarchyOption = 0;
 	
 	/**
 	 * Constructor. The name of CubeQueryDefinition must equal to the name
@@ -188,12 +189,27 @@ public class CubeQueryDefinition extends NamedObject
 		return this.cacheQueryResults;
 	}
 	
-	/**
-	 * 
-	 * @param cacheQueryResults
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#setCacheQueryResults(boolean)
 	 */
 	public void setCacheQueryResults( boolean cacheQueryResults )
 	{
 		this.cacheQueryResults = cacheQueryResults;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getFilterOption()
+	 */
+	public int getFilterOption( )
+	{
+		return breakHierarchyOption;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#setFilterOption(int)
+	 */
+	public void setFilterOption( int breakHierarchyOption )
+	{
+		this.breakHierarchyOption = breakHierarchyOption;
 	}
 }

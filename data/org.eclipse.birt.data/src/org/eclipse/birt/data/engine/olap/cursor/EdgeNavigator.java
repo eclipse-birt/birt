@@ -11,9 +11,15 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.olap.OLAPException;
+import javax.olap.OLAPWarning;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 
@@ -28,6 +34,8 @@ class EdgeNavigator implements INavigator
 
 	private EdgeInfoGenerator edgeInfoGenerator;
 	private IAggregationResultSet rs;
+	private int fetchSize = -1;
+	private List warnings;
 
 	EdgeNavigator( EdgeAxis axis )
 	{
@@ -168,5 +176,42 @@ class EdgeNavigator implements INavigator
 	public void setPosition( long position ) throws OLAPException
 	{
 		this.edgeInfoGenerator.edge_setPostion( position );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#clearWarnings()
+	 */
+	public void clearWarnings( ) throws OLAPException
+	{
+		if ( warnings != null )
+			this.warnings.clear( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#getWarnings()
+	 */
+	public Collection getWarnings( ) throws OLAPException
+	{
+		return warnings == null ? new ArrayList( ) : warnings;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#setFetchSize(int)
+	 */
+	public void setFetchSize( int arg0 ) throws OLAPException
+	{
+		this.fetchSize = arg0;
+		this.edgeInfoGenerator.setFetchSize( arg0 );
+		if ( this.fetchSize >= 0 && this.fetchSize != this.rs.length( ) )
+		{
+			if ( warnings == null )
+				warnings = new ArrayList( );
+			DataException ex = new DataException( ResourceConstants.CONFIG_EDGE_FETCH_LIMIT_WARNING,
+					new Object[]{
+							new Integer( arg0 ),
+							new Integer( this.rs.length( ) )
+					} );
+			warnings.add( new OLAPWarning( ex.getLocalizedMessage( ) ) );
+		}
 	}
 }

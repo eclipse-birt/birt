@@ -121,7 +121,7 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 
 	/**
 	 * Add the filter. Currently we only support filters which are based on one
-	 * single level. The multiple filters defined in cube will have an “AND”
+	 * single level. The multiple filters defined in cube will have an ï¿½ANDï¿½
 	 * relationship.
 	 * 
 	 * @param filter
@@ -141,5 +141,23 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	 * @return
 	 */
 	public List getFilters( );
+	
+	/**
+	 * The filters are applied under breakHierarychy or non-breakHierarchy.
+	 * 
+	 * @return   zero indicate breakHierarchy
+	 *           none zero indicate non-breakHierarchy.
+	 */
+	public int getFilterOption( );
+
+	/**
+	 * Set the filter option to indicate whether is breakHierarchy or
+	 * non-breakHierarchy situation.
+	 * 
+	 * @param breakHierarchyOption
+	 *           zero indicate breakHierarchy
+	 *           none zero indicate non-breakHierarchy.
+	 */
+	public void setFilterOption( int breakHierarchyOption );
 
 }
