@@ -74,7 +74,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -283,38 +282,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				Sash sash = (Sash) event.widget;
 				int shift = event.x - sash.getBounds( ).x;
 
-				GridData data = (GridData) left.getLayoutData( );
-				int newWidthHint = data.widthHint + shift;
-				if ( newWidthHint < 0 )
-				{
-					return;
-				}
-				Point computedSize = parent.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT );
-				Point currentSize = parent.getSize( );
-				// if the dialog wasn't of a custom size we know we can shrink
-				// it if necessary based on sash movement.
-				boolean customSize = !computedSize.equals( currentSize );
-				data.widthHint = newWidthHint;
-
-				data = (GridData) right.getLayoutData( );
-				newWidthHint = data.widthHint - shift;
-				data.widthHint = newWidthHint;
-				parent.layout( true );
-				// recompute based on new widget size
-				computedSize = parent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-				// if the dialog was of a custom size then increase it only if
-				// necessary.
-				if ( customSize )
-				{
-					computedSize.x = Math.max( computedSize.x, currentSize.x );
-				}
-				computedSize.y = Math.max( computedSize.y, currentSize.y );
-				if ( computedSize.equals( currentSize ) )
-				{
-					return;
-				}
-				parent.setSize( computedSize.x, computedSize.y );
+				left.setSize( left.getSize( ).x+shift, left.getSize( ).y );
+				right.setSize( right.getSize( ).x-shift, right.getSize( ).y );
+				right.setLocation( right.getLocation( ).x+shift, right.getLocation( ).y );
+				sash.setLocation( sash.getLocation( ).x+shift, sash.getLocation( ).y );
 			}
 		} );
 	}
