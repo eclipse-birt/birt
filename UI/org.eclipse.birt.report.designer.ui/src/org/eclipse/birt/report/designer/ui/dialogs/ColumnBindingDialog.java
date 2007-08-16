@@ -897,7 +897,7 @@ public class ColumnBindingDialog extends BaseDialog
 				btnEdit.setEnabled( false );
 		}
 		bindingTable.getTable( ).select( selectIndex );
-		if ( inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		if ( reportItemRadio.getSelection( ) )
 		{
 			btnAdd.setEnabled( false );
 			btnEdit.setEnabled( false );
