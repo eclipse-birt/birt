@@ -848,6 +848,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 		} );
+		if ( isRef )
+		{
+			expressionButton.setEnabled( false );
+		}
 	}
 
 	private void createExpressionButton( final Composite parent,
