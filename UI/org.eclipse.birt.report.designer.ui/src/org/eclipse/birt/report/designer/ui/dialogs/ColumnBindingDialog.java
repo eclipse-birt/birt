@@ -17,8 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -39,10 +40,8 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -54,12 +53,10 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
@@ -76,13 +73,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -99,8 +92,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" ); //$NON-NLS-1$
 
-	private static final String DEFAULT_COLUMN_NAME = "[result_set_col_name]"; //$NON-NLS-1$
-
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 
 	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
@@ -109,7 +100,9 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
 
-	private static final String CHOICE_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.FromContainer" );//$NON-NLS-1$
+	private static final String CHOICE_DATASET_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.DatasetFromContainer" );//$NON-NLS-1$
+
+	private static final String CHOICE_REPORTITEM_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.ReportItemFromContainer" );//$NON-NLS-1$
 
 	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
 
@@ -136,12 +129,8 @@ public class ColumnBindingDialog extends BaseDialog
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 
-	private static final IChoice[] dataTypes = DATA_TYPE_CHOICE_SET.getChoices( null );
-
-	private static final String[] dataTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
-
 	private boolean canSelect = false;
-	
+
 	private boolean canAggregate = true;
 
 	protected ReportItemHandle inputElement;
@@ -151,11 +140,11 @@ public class ColumnBindingDialog extends BaseDialog
 	// private Button generateButton;
 	protected TableViewer bindingTable;
 
-	private ExpressionCellEditor expressionCellEditor;
-
 	private String selectedColumnName = null;
 
-	private String NullChoice = null;
+	private String NullDatasetChoice = null;
+
+	private String NullReportItemChoice = null;
 
 	private int selectIndex;
 
@@ -266,208 +255,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 	};
 
-	private String highLightName = null;
-
-	private ICellModifier cellModifier = new ICellModifier( ) {
-
-		public boolean canModify( Object element, String property )
-		{
-			if ( property == null
-					|| ( element == dummyChoice && !COLUMN_NAME.equals( property ) ) )
-			{
-				return false;
-			}
-			if ( COLUMN_AGGREGATEON.equals( property ) )
-			{
-				ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
-				if ( !ExpressionUtil.hasAggregation( handle.getExpression( ) )
-						|| DEUtil.getGroupControlType( inputElement )
-								.equals( DEUtil.TYPE_GROUP_NONE ) )
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		public Object getValue( Object element, String property )
-		{
-			if ( element == dummyChoice )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-						DEFAULT_COLUMN_NAME );
-				column.setExpression( "" ); //$NON-NLS-1$
-				String groupType = DEUtil.getGroupControlType( inputElement );
-				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
-				{
-					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						column.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
-								.get( 0 ) ).getName( ) );
-					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						column.setAggregateOn( null );
-				}
-				if ( !ExpressionUtil.hasAggregation( column.getExpression( ) )
-						|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-				{
-					column.setAggregateOn( null );
-				}
-				addBinding( column );
-				highLightName = column.getName( );
-				return ""; //$NON-NLS-1$
-			}
-			ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
-			String value = null;
-			if ( COLUMN_NAME.equals( property ) )
-			{
-				value = handle.getName( );
-			}
-			else if ( COLUMN_DISPLAYNAME.equals( property ) )
-			{
-				value = handle.getDisplayName( );
-			}
-			else if ( COLUMN_DATATYPE.equals( property ) )
-			{
-				IChoice type = DATA_TYPE_CHOICE_SET.findChoice( handle.getDataType( ) );
-				if ( type != null )
-				{
-					for ( int i = 0; i < dataTypeDisplayNames.length; i++ )
-					{
-						if ( dataTypeDisplayNames[i].equals( type.getDisplayName( ) ) )
-						{
-							return new Integer( i );
-						}
-					}
-				}
-				return new Integer( 0 );
-			}
-			else if ( COLUMN_EXPRESSION.equals( property ) )
-			{
-				value = handle.getExpression( );
-			}
-			else if ( COLUMN_AGGREGATEON.equals( property ) )
-			{
-				value = handle.getAggregateOn( );;
-				if ( value != null )
-				{
-					for ( int i = 1; i < groups.length; i++ )
-					{
-						if ( value.equals( groups[i] ) )
-						{
-							return new Integer( i );
-						}
-					}
-				}
-				return new Integer( 0 );
-			}
-			if ( value == null )
-			{
-				value = ""; //$NON-NLS-1$
-			}
-			return value;
-		}
-
-		public void modify( Object element, String property, Object value )
-		{
-			if ( element instanceof Item )
-			{
-				element = ( (Item) element ).getData( );
-			}
-			try
-			{
-				if ( COLUMN_NAME.equals( property ) )
-				{
-					String newName = UIUtil.convertToModelString( (String) value,
-							true );
-					if ( element == dummyChoice )
-					{
-						if ( newName == null )
-						{
-							return;
-						}
-
-						// ComputedColumn column =
-						// StructureFactory.createComputedColumn( );
-						// column.setName( newName );
-						// column.setExpression( "" ); //$NON-NLS-1$
-						// addBinding( column );
-					}
-					else
-					{
-						ComputedColumnHandle columnHandle = (ComputedColumnHandle) element;
-						boolean selectedNameChanged = false;
-						if ( columnHandle.getName( ) != null
-								&& columnHandle.getName( )
-										.equals( selectedColumnName ) )
-						{
-							selectedNameChanged = true;
-						}
-						if ( highLightName != null
-								&& highLightName.equals( ( (ComputedColumnHandle) element ).getName( ) )
-								&& !highLightName.equals( newName ) )
-						{
-							bindingTable.getTable( )
-									.getItem( bindingTable.getTable( )
-											.getSelectionIndex( ) )
-									.setForeground( 1,
-											Display.getDefault( )
-													.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-						}
-						if ( !( columnHandle.getName( ) != null && columnHandle.getName( )
-								.equals( newName ) ) )
-							( (ComputedColumnHandle) element ).setName( newName );
-						if ( selectedNameChanged )
-						{
-							selectedColumnName = newName;
-						}
-					}
-				}
-				else
-				{
-					ComputedColumnHandle bindingHandle = ( (ComputedColumnHandle) element );
-					if ( COLUMN_DATATYPE.equals( property ) )
-					{
-						bindingHandle.setDataType( dataTypes[( (Integer) value ).intValue( )].getName( ) );
-					}
-					else if ( COLUMN_EXPRESSION.equals( property ) )
-					{
-						if ( !( bindingHandle.getExpression( ) != null && bindingHandle.getExpression( )
-								.equals( value ) ) )
-						{
-							bindingHandle.setExpression( (String) value );
-							String groupType = DEUtil.getGroupControlType( inputElement );
-							if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
-							{
-								if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-									bindingHandle.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
-											.get( 0 ) ).getName( ) );
-								else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-									bindingHandle.setAggregateOn( null );
-							}
-							if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
-									|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-							{
-								bindingHandle.setAggregateOn( null );
-							}
-						}
-					}
-					else if ( COLUMN_AGGREGATEON.equals( property ) )
-					{
-						if ( ( (Integer) value ).intValue( ) == 0 )
-							bindingHandle.setAggregateOn( null );
-						else
-							bindingHandle.setAggregateOn( groups[( (Integer) value ).intValue( )] );
-					}
-				}
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			refreshBindingTable( );
-		}
-	};
-
 	public ColumnBindingDialog( )
 	{
 		super( DEFAULT_DLG_TITLE );
@@ -514,18 +301,26 @@ public class ColumnBindingDialog extends BaseDialog
 				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
 						.hasNext( ) ) )
 		{
-			NullChoice = CHOICE_FROM_CONTAINER;
+			NullDatasetChoice = CHOICE_DATASET_FROM_CONTAINER;
 		}
 		else
 		{
-			NullChoice = CHOICE_NONE;
+			NullDatasetChoice = CHOICE_NONE;
+		}
+
+		if ( container != null && container.getDataBindingReference( ) != null )
+		{
+			NullReportItemChoice = CHOICE_REPORTITEM_FROM_CONTAINER;
+		}
+		else
+		{
+			NullReportItemChoice = CHOICE_NONE;
 		}
 
 		isDataSetVisible = DEUtil.getBindingHolder( inputElement )
 				.getElement( )
 				.getDefn( )
 				.isPropertyVisible( IReportItemModel.DATA_SET_PROP );
-
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -549,86 +344,77 @@ public class ColumnBindingDialog extends BaseDialog
 			gd.horizontalSpan = 2;
 			warnLabel.setLayoutData( gd );
 
-			label = new Label( composite, SWT.NONE );
-			label.setText( LABEL_COLUMN_BINDINGS );
-			label.setLayoutData( new GridData( GridData.BEGINNING ) );
+			datasetRadio = new Button( composite, SWT.RADIO );
+			datasetRadio.setText( LABEL_COLUMN_BINDINGS );
+			datasetRadio.setLayoutData( new GridData( GridData.BEGINNING ) );
+			datasetRadio.addSelectionListener( new SelectionAdapter( ) {
 
-			combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
-			combo.setBackground( PlatformUI.getWorkbench( )
+				public void widgetSelected( SelectionEvent e )
+				{
+					refreshBinding( );
+					if ( datasetRadio.getSelection( ) )
+						saveBinding( );
+				}
+
+			} );
+
+			datasetCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			datasetCombo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			newList[0] = NullChoice;
+			newList[0] = NullDatasetChoice;
 			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-			combo.setItems( newList );
+			datasetCombo.setItems( newList );
 			String dataSetName = getDataSetName( );
-			combo.deselectAll( );
+			datasetCombo.deselectAll( );
 
 			if ( dataSetName != null )
 			{
-				combo.setText( dataSetName );
+				datasetCombo.setText( dataSetName );
 			}
 			else
 			{
-				combo.select( 0 );
+				datasetCombo.select( 0 );
 			}
-			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			datasetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			gd = new GridData( );
 			gd.widthHint = 250;
-			combo.setLayoutData( gd );
-			combo.addSelectionListener( new SelectionAdapter( ) {
+			datasetCombo.setLayoutData( gd );
+			datasetCombo.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent event )
 				{
-					String value = null;
-					if ( combo.getSelectionIndex( ) != 0 )
-					{
-						value = combo.getText( );
-					}
-					int rCode = canChangeDataSet( value );
-					if ( rCode == 2 )
-					{
-						String newName = getDataSetName( );
-						if ( newName != null )
-						{
-							combo.setText( newName );
-						}
-						else
-						{
-							combo.select( 0 );
-						}
-					}
-					else
-					{
-						try
-						{
-							DataSetHandle dataSet = null;
-							if ( value != null )
-							{
-								dataSet = inputElement.getModuleHandle( )
-										.findDataSet( value );
-							}
-							inputElement.setDataSet( dataSet );
-							getParameterBindingPropertyHandle( ).clearValue( );
-							if ( rCode == 0 )
-							{
-								inputElement.getColumnBindings( ).clearValue( );
-							}
-							generateBindingColumns( );
-							setHihtLightColumn( );
-							selectedColumnName = null;
-							updateSelection( );
-							updateButtons( );
-						}
-						catch ( SemanticException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-					}
+					saveBinding( );
 				}
 			} );
 		}
+
+		reportItemRadio = new Button( composite, SWT.RADIO );
+		reportItemRadio.setText( "Report Item:" );
+		reportItemRadio.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				refreshBinding( );
+			}
+		} );
+		reportItemCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+		reportItemCombo.setBackground( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+		GridData gd = new GridData( );
+		gd.widthHint = 250;
+		reportItemCombo.setLayoutData( gd );
+		reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				saveBinding( );
+			}
+		} );
+
 		Composite contentComposite = new Composite( parentComposite, SWT.NONE );
 		contentComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		contentComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2,
@@ -640,7 +426,7 @@ public class ColumnBindingDialog extends BaseDialog
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 				| ( canSelect ? SWT.CHECK : 0 ) );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 200;
 		gd.verticalSpan = 3;
 		table.setLayoutData( gd );
@@ -714,8 +500,7 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			groups[i + 1] = ( (GroupHandle) groupList.get( i ) ).getName( );
 		}
-		
-		expressionCellEditor = new ExpressionCellEditor( table );
+
 		if ( canAggregate )
 		{
 			columns = new String[]{
@@ -729,13 +514,6 @@ public class ColumnBindingDialog extends BaseDialog
 			columnWidth = new int[]{
 					canSelect ? 25 : 20, 150, 150, 70, 150, 150,
 			};
-			cellEditors = new CellEditor[]{
-					null,
-					new TextCellEditor( table ),
-					new ComboBoxCellEditor( table, dataTypeDisplayNames ),
-					expressionCellEditor,
-					new ComboBoxCellEditor( table, groups, SWT.READ_ONLY ),
-			};
 		}
 		else
 		{
@@ -748,12 +526,6 @@ public class ColumnBindingDialog extends BaseDialog
 			};
 			columnWidth = new int[]{
 					canSelect ? 25 : 20, 150, 150, 70, 150
-			};
-			cellEditors = new CellEditor[]{
-					null,
-					new TextCellEditor( table ),
-					new ComboBoxCellEditor( table, dataTypeDisplayNames ),
-					expressionCellEditor
 			};
 		}
 
@@ -802,7 +574,6 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			bindingTable = new TableViewer( table );
 		}
-		bindingTable.setCellEditors( cellEditors );
 		bindingTable.setColumnProperties( columns );
 		bindingTable.setContentProvider( contentProvider );
 		bindingTable.setLabelProvider( labelProvider );
@@ -813,27 +584,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				if ( !bindingTable.getSelection( ).isEmpty( ) )
-				{
-					Object obj = ( (IStructuredSelection) bindingTable.getSelection( ) ).getFirstElement( );
-					if ( obj == dummyChoice && !existHighLightColumn( ) )
-					{
-						bindingTable.refresh( );
-						setHihtLightColumn( );
-					}
-					else if ( obj instanceof ComputedColumnHandle )
-					{
-						if ( expressionProvider != null )
-							expressionCellEditor.setExpressionProvider( expressionProvider );
-						else
-						{
-							ComputedColumnHandle column = (ComputedColumnHandle) obj;
-							BindingExpressionProvider provider = new BindingExpressionProvider( column.getElementHandle( ) );
-							provider.addFilter( new ComputedColumnExpressionFilter( bindingTable ) );
-							expressionCellEditor.setExpressionProvider( provider );
-						}
-					}
-				}
 				updateButtons( );
 			}
 
@@ -913,8 +663,8 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		} );
 		// initTableCellColor( );
-		
-		//Add custom buttons
+
+		// Add custom buttons
 		int buttonsNumber = addButtons( contentComposite, table );
 		if ( buttonsNumber > 0 )
 		{
@@ -927,15 +677,13 @@ public class ColumnBindingDialog extends BaseDialog
 
 		if ( !isDataSetVisible )
 		{
-			if(warnLabel!=null)( (GridData) warnLabel.getLayoutData( ) ).exclude = true;
-			if(label!=null)( (GridData) label.getLayoutData( ) ).exclude = true;
-			if(combo!=null)( (GridData) combo.getLayoutData( ) ).exclude = true;
-			if(composite!=null)( (GridData) composite.getLayoutData( ) ).exclude = true;
+			if ( composite != null )
+				( (GridData) composite.getLayoutData( ) ).exclude = true;
 		}
 
 		return parentComposite;
 	}
-	
+
 	/**
 	 * Adds buttons in Button area.
 	 * 
@@ -950,7 +698,7 @@ public class ColumnBindingDialog extends BaseDialog
 		// To add buttons in subclass
 		return 0;
 	}
-	
+
 	protected void setSelectionInTable( int selectedIndex )
 	{
 		this.selectIndex = selectedIndex;
@@ -1013,42 +761,6 @@ public class ColumnBindingDialog extends BaseDialog
 			catch ( Exception e1 )
 			{
 				ExceptionHandler.handle( e1 );
-			}
-		}
-	}
-
-	private boolean existHighLightColumn( )
-	{
-		if ( highLightName == null )
-			return false;
-		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem item = bindingTable.getTable( ).getItem( i );
-			if ( item.getText( 1 ).equals( highLightName ) )
-				return true;
-		}
-		return false;
-	}
-
-	private void setHihtLightColumn( )
-	{
-		if ( highLightName == null )
-			return;
-		for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem item = bindingTable.getTable( ).getItem( i );
-			if ( item.getText( 1 ).equals( highLightName ) )
-			{
-				item.setForeground( 1, Display.getDefault( )
-						.getSystemColor( SWT.COLOR_BLUE ) );
-				bindingTable.getTable( ).setSelection( i );
-			}
-			else
-			{
-				item.getForeground( 1 ).equals( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_BLUE ) );
-				item.setForeground( 1, Display.getDefault( )
-						.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
 			}
 		}
 	}
@@ -1164,12 +876,12 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		boolean okEnable = false;
 
-		if ( !canSelect
-				|| ( !isDataSetVisible && selectedColumnName != null )
-//				|| ( selectedColumnName != null && getDataSetName( ) != null )
-//				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement )
-//						.getDataSet( ) != null )
-				||  getSelectColumnHandle( ) != null  )
+		if ( !canSelect || ( !isDataSetVisible && selectedColumnName != null )
+		// || ( selectedColumnName != null && getDataSetName( ) != null )
+				// || ( selectedColumnName != null && DEUtil.getBindingHolder(
+				// inputElement )
+				// .getDataSet( ) != null )
+				|| getSelectColumnHandle( ) != null )
 		{
 			okEnable = true;
 		}
@@ -1190,6 +902,12 @@ public class ColumnBindingDialog extends BaseDialog
 				btnEdit.setEnabled( false );
 		}
 		bindingTable.getTable( ).select( selectIndex );
+		if ( inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		{
+			btnAdd.setEnabled( false );
+			btnEdit.setEnabled( false );
+			btnDel.setEnabled( false );
+		}
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
@@ -1309,17 +1027,397 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private boolean isDataSetVisible;
 
-	private CCombo combo;
-
-	private Label label;
+	private CCombo datasetCombo;
 
 	private CLabel warnLabel;
 
 	private Composite composite;
 
+	private Button datasetRadio;
+
 	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		expressionProvider = provider;
+	}
+
+	public static class BindingInfo
+	{
+
+		private int bindingType;
+		private Object bindingValue;
+
+		public BindingInfo( int type, Object value )
+		{
+			this.bindingType = type;
+			this.bindingValue = value;
+		}
+
+		public BindingInfo( )
+		{
+		}
+
+		public int getBindingType( )
+		{
+			return bindingType;
+		}
+
+		public Object getBindingValue( )
+		{
+			return bindingValue;
+		}
+
+		public void setBindingType( int bindingType )
+		{
+			this.bindingType = bindingType;
+		}
+
+		public void setBindingValue( Object bindingValue )
+		{
+			this.bindingValue = bindingValue;
+		}
+	}
+
+	private void saveBinding( )
+	{
+		BindingInfo info = new BindingInfo( );
+		if ( datasetRadio.getSelection( ) )
+		{
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
+			info.setBindingValue( datasetCombo.getText( ) );
+		}
+		else
+		{
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
+			info.setBindingValue( reportItemCombo.getText( ) );
+		}
+		try
+		{
+			save( info );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	private void refreshBinding( )
+	{
+		if ( datasetRadio.getSelection( ) )
+		{
+			datasetRadio.setSelection( true );
+			datasetCombo.setEnabled( true );
+			reportItemRadio.setSelection( false );
+			reportItemCombo.setEnabled( false );
+			if ( datasetCombo.getSelectionIndex( ) == -1 )
+			{
+				datasetCombo.setItems( getAvailableDatasetItems( ) );
+				datasetCombo.select( 0 );
+			}
+		}
+		else
+		{
+			datasetRadio.setSelection( false );
+			datasetCombo.setEnabled( false );
+			reportItemRadio.setSelection( true );
+			reportItemCombo.setEnabled( true );
+			if ( reportItemCombo.getSelectionIndex( ) == -1 )
+			{
+				reportItemCombo.setItems( getReferences( ) );
+				reportItemCombo.select( 0 );
+			}
+		}
+	}
+
+	public String[] getAvailableDatasetItems( )
+	{
+		String[] dataSets = ChoiceSetFactory.getDataSets( );
+		String[] newList = new String[dataSets.length + 1];
+		newList[0] = NullDatasetChoice;
+		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+		return newList;
+	}
+
+	public String[] getReferences( )
+	{
+		List referenceList = inputElement.getAvailableDataBindingReferenceList( );
+		String[] references = new String[referenceList.size( ) + 1];
+		references[0] = NullReportItemChoice;
+		for ( int i = 0; i < referenceList.size( ); i++ )
+		{
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getName( );
+		}
+		return references;
+	}
+
+	public void load( )
+	{
+		datasetRadio.setEnabled( true );
+		reportItemRadio.setEnabled( true );
+		BindingInfo info = (BindingInfo) loadValue( );
+		if ( info != null )
+		{
+			refreshBindingInfo( info );
+		}
+		refreshBindingTable( );
+	}
+
+	private void refreshBindingInfo( BindingInfo info )
+	{
+		int type = info.getBindingType( );
+		Object value = info.getBindingValue( );
+		datasetCombo.setItems( getAvailableDatasetItems( ) );
+		reportItemCombo.setItems( getReferences( ) );
+		switch ( type )
+		{
+			case ReportItemHandle.DATABINDING_TYPE_NONE :
+			case ReportItemHandle.DATABINDING_TYPE_DATA :
+				datasetRadio.setSelection( true );
+				datasetCombo.setEnabled( true );
+				datasetCombo.setText( value.toString( ) );
+				reportItemRadio.setSelection( false );
+				reportItemCombo.setEnabled( false );
+				break;
+			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+				datasetRadio.setSelection( false );
+				datasetCombo.setEnabled( false );
+				reportItemRadio.setSelection( true );
+				reportItemCombo.setEnabled( true );
+				reportItemCombo.setText( value.toString( ) );
+		}
+	}
+
+	public Object loadValue( )
+	{
+		int type = inputElement.getDataBindingType( );
+		Object value;
+		switch ( type )
+		{
+			case ReportItemHandle.DATABINDING_TYPE_DATA :
+				DataSetHandle dataset = inputElement.getDataSet( );
+				if ( dataset == null )
+					value = NullDatasetChoice;
+				else
+					value = dataset.getQualifiedName( );
+				break;
+			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+				ReportItemHandle reference = inputElement.getDataBindingReference( );
+				if ( reference == null )
+					value = NullReportItemChoice;
+				else
+					value = reference.getQualifiedName( );
+				break;
+			default :
+				value = NullDatasetChoice;
+		}
+		BindingInfo info = new BindingInfo( type, value );
+		return info;
+	}
+
+	public void save( Object saveValue ) throws SemanticException
+	{
+		if ( saveValue instanceof BindingInfo )
+		{
+			BindingInfo info = (BindingInfo) saveValue;
+			int type = info.getBindingType( );
+			String value = info.getBindingValue( ).toString( );
+			switch ( type )
+			{
+				case ReportItemHandle.DATABINDING_TYPE_DATA :
+					if ( value.equals( NullDatasetChoice ) )
+					{
+						value = null;
+					}
+					int ret = 0;
+					if ( !NullDatasetChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+							.toString( ) )
+							|| inputElement.getColumnBindings( )
+									.iterator( )
+									.hasNext( ) )
+					{
+						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								MessageDialog.INFORMATION,
+								new String[]{
+										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.No" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
+
+						ret = prefDialog.open( );
+					}
+
+					switch ( ret )
+					{
+						// Clear binding info
+						case 0 :
+							resetDataSetReference( value, true );
+							break;
+						// Doesn't clear binding info
+						case 1 :
+							resetDataSetReference( value, false );
+							break;
+						// Cancel.
+						case 2 :
+							load( );
+					}
+					break;
+				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+					if ( value.equals( NullReportItemChoice ) )
+					{
+						value = null;
+					}
+					int ret1 = 0;
+					if ( !NullReportItemChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+							.toString( ) )
+							|| inputElement.getColumnBindings( )
+									.iterator( )
+									.hasNext( ) )
+					{
+						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.changeDataSet" ),//$NON-NLS-1$
+								MessageDialog.INFORMATION,
+								new String[]{
+										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+										Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
+
+						ret1 = prefDialog.open( );
+					}
+
+					switch ( ret1 )
+					{
+						// Clear binding info
+						case 0 :
+							resetReference( value, true );
+							break;
+						// Cancel.
+						case 1 :
+							load( );
+					}
+			}
+		}
+	}
+
+	private void resetDataSetReference( Object value, boolean clearHistory )
+	{
+		try
+		{
+			startTrans( "" ); //$NON-NLS-1$
+			inputElement.setDataBindingReference( null );
+			DataSetHandle dataSet = null;
+			if ( value != null )
+			{
+				dataSet = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findDataSet( value.toString( ) );
+			}
+			if ( inputElement.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				inputElement.setDataSet( dataSet );
+				if ( clearHistory )
+				{
+					inputElement.getColumnBindings( ).clearValue( );
+					inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+							.clearValue( );
+				}
+				generateBindingColumns( );
+			}
+			else{
+				inputElement.setDataBindingReference( null );
+				inputElement.setDataSet( dataSet );
+			}
+			selectedColumnName = null;
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
+	private void resetReference( Object value, boolean clearHistory )
+	{
+		try
+		{
+			startTrans( "" ); //$NON-NLS-1$
+			ReportItemHandle element = null;
+			if ( value != null )
+			{
+				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findElement( value.toString( ) );
+			}
+			inputElement.setDataBindingReference( element );
+			selectedColumnName = null;
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
+	/**
+	 * Gets the DE CommandStack instance
+	 * 
+	 * @return CommandStack instance
+	 */
+	private CommandStack getActionStack( )
+	{
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	}
+
+	private void startTrans( String name )
+	{
+		if ( isEnableAutoCommit( ) )
+		{
+			getActionStack( ).startTrans( name );
+		}
+	}
+
+	private void commit( )
+	{
+		if ( isEnableAutoCommit( ) )
+		{
+			getActionStack( ).commit( );
+		}
+	}
+
+	private void rollback( )
+	{
+		if ( isEnableAutoCommit( ) )
+		{
+			getActionStack( ).rollback( );
+		}
+	}
+
+	private transient boolean enableAutoCommit = false;
+
+	private Button reportItemRadio;
+
+	private CCombo reportItemCombo;
+
+	/**
+	 * @return Returns the enableAutoCommit.
+	 */
+	public boolean isEnableAutoCommit( )
+	{
+		return enableAutoCommit;
+	}
+
+	/**
+	 * @param enableAutoCommit
+	 *            The enableAutoCommit to set.
+	 */
+	public void setEnableAutoCommit( boolean enableAutoCommit )
+	{
+		this.enableAutoCommit = enableAutoCommit;
 	}
 
 }
