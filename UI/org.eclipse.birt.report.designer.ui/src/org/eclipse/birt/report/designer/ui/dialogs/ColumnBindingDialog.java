@@ -761,6 +761,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected boolean initDialog( )
 	{
+		load();
 		if ( canSelect )
 		{
 			if ( inputElement instanceof DataItemHandle )
@@ -778,7 +779,7 @@ public class ColumnBindingDialog extends BaseDialog
 		 * generateButton.setEnabled( inputElement.getDataSet( ) != null ||
 		 * DEUtil.getBindingHolder( inputElement ).getDataSet( ) != null );
 		 */
-		updateButtons( );
+		//updateButtons( );
 		return super.initDialog( );
 	}
 
@@ -1129,8 +1130,10 @@ public class ColumnBindingDialog extends BaseDialog
 		Object value = info.getBindingValue( );
 		datasetCombo.setItems( getAvailableDatasetItems( ) );
 		reportItemCombo.setItems( getReferences( ) );
+		if(type == ReportItemHandle.DATABINDING_TYPE_NONE )
+			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
 		switch ( type )
-		{
+		{	
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
 				datasetRadio.setSelection( true );
@@ -1152,6 +1155,8 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		int type = inputElement.getDataBindingType( );
 		Object value;
+		if(type == ReportItemHandle.DATABINDING_TYPE_NONE )
+			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
