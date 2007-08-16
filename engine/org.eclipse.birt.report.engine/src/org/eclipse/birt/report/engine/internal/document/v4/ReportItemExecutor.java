@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
@@ -383,7 +384,23 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	{
 		if ( design != null )
 		{
-			IDataQueryDefinition[] queries = design.getQueries( );
+			IDataQueryDefinition[] queries = design.getQueries( );			
+			
+			boolean useCache = false;
+			if ( queries == null )
+			{
+				DesignElementHandle elementHandle = design.getHandle( );
+				if ( elementHandle instanceof ReportElementHandle )
+				{
+					queries = report.getDesign( ).getQueryByReportHandle(
+							(ReportElementHandle) elementHandle );
+					if ( queries != null && queries.length > 0 )
+					{
+						useCache = true;
+					}
+				}
+			}
+			
 			if ( queries != null )
 			{
 				rsets = new IBaseResultSet[queries.length];
@@ -393,7 +410,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						rsets[i] = context.executeQuery( prset, queries[i],
-								false );
+								useCache );
 					}
 					context.setResultSets( rsets );
 					rsetEmpty = true;

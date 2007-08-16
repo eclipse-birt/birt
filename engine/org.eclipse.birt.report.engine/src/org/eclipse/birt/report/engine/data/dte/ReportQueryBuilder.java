@@ -536,7 +536,6 @@ public class ReportQueryBuilder
 			}
 			else
 			{
-				// transformExpressions( list, query, null );
 				handleListingBand( list.getHeader( ), query, true, null );
 
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
@@ -549,9 +548,12 @@ public class ReportQueryBuilder
 				}
 
 				BandDesign detail = list.getDetail( );
-				if ( detail == null || detail.getContentCount( ) == 0 )
+				if ( !query.cacheQueryResults( ) )
 				{
-					query.setUsesDetails( false );
+					if ( detail == null || detail.getContentCount( ) == 0 )
+					{
+						query.setUsesDetails( false );
+					}
 				}
 				handleListingBand( detail, query, false, null );
 
@@ -634,9 +636,12 @@ public class ReportQueryBuilder
 				}
 
 				BandDesign detail = table.getDetail( );
-				if ( detail == null || detail.getContentCount( ) == 0 )
+				if ( !query.cacheQueryResults( ) )
 				{
-					query.setUsesDetails( false );
+					if ( detail == null || detail.getContentCount( ) == 0 )
+					{
+						query.setUsesDetails( false );
+					}
 				}
 				handleListingBand( detail, query, false, null );
 
