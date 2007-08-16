@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.emitter.ppt.device;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -85,13 +86,15 @@ public class PPTPage extends AbstractPage
 		{
 			return;
 		}
-		byte[] imageData = null;
 		InputStream imageStream = new URL( uri ).openStream( );
-		imageData = new byte[imageStream.available( )];
-		imageStream.read( imageData );
-
-		drawImage( imageData, extension, imageX, imageY, height, width,
-				helpText );
+		int data;
+		ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream( );
+		while ( ( data = imageStream.read( ) ) != -1 )
+		{
+			byteArrayOut.write( data );
+		}
+		drawImage( byteArrayOut.toByteArray( ), extension, imageX, imageY,
+				height, width, helpText );
 	}
 
 	protected void drawLine( float startX, float startY, float endX,
