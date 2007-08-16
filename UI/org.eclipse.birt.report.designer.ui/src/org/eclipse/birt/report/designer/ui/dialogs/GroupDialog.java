@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -766,7 +767,7 @@ public class GroupDialog extends BaseDialog
 		checkReadOnlyControl( IGroupElementModel.SORT_PROP, sortPage );
 	}
 
-	public boolean checkReadOnlyControl( String property, Control control )
+	private boolean checkReadOnlyControl( String property, Control control )
 	{
 		PropertyHandle handle = inputGroup.getPropertyHandle( property );
 		if ( handle != null && handle.isReadOnly( ) )
@@ -894,6 +895,8 @@ public class GroupDialog extends BaseDialog
 				if ( inputGroup.getTOC( ).getStyleName( ) != null )
 					tocStyleType.setText( inputGroup.getTOC( ).getStyleName( ) );
 			}
+			if(tocStyleType.getText( )== null ||tocStyleType.getText( ).trim( ).length( )==0)
+				tocStyleType.setEnabled( false );
 		}
 		if ( checkReadOnlyControl( IGroupElementModel.TOC_PROP, tocEditor ) )
 		{
@@ -903,7 +906,6 @@ public class GroupDialog extends BaseDialog
 		else
 		{
 			tocExprButton.setEnabled( true );
-			tocStyleType.setEnabled( true );
 		}
 		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
 		if ( index < 0 || index >= pagebreakBeforeCombo.getItemCount( ) )
@@ -960,6 +962,7 @@ public class GroupDialog extends BaseDialog
 		String selected = keyChooser.getText( );
 		keyChooser.removeAll( );
 		columnList = DEUtil.getVisiableColumnBindingsList( inputGroup );
+		columnList = DataUtil.getValidGroupKeyBindings( columnList );
 		Iterator itor = columnList.iterator( );
 		while ( itor.hasNext( ) )
 		{
