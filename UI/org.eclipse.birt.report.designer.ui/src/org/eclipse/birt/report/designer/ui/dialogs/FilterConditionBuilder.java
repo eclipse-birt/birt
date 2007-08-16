@@ -702,10 +702,12 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				FilterCondition filter = StructureFactory.createFilterCond( );
 				filter.setProperty( FilterCondition.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				filter.setProperty( FilterCondition.VALUE1_MEMBER,
-						DEUtil.resolveNull( value1.getText( ) ) );
-				filter.setProperty( FilterCondition.VALUE2_MEMBER,
-						DEUtil.resolveNull( value2.getText( ) ) );
+//				filter.setProperty( FilterCondition.VALUE1_MEMBER,
+//						DEUtil.resolveNull( value1.getText( ) ) );
+//				filter.setProperty( FilterCondition.VALUE2_MEMBER,
+//						DEUtil.resolveNull( value2.getText( ) ) );
+				filter.setValue1( DEUtil.resolveNull( value1.getText( ) )  );
+				filter.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 
 				// set test expression for new map rule
 				filter.setExpr( DEUtil.resolveNull( expression.getText( ) ) );

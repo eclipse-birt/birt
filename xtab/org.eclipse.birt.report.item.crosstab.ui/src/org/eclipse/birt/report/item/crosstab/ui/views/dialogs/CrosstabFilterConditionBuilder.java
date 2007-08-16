@@ -969,11 +969,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						.newFilterConditionElement( );
 				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				filter.setProperty( IFilterConditionElementModel.VALUE1_PROP,
-						DEUtil.resolveNull( value1.getText( ) ) );
-				filter.setProperty( IFilterConditionElementModel.VALUE2_PROP,
-						DEUtil.resolveNull( value2.getText( ) ) );
-
+//				filter.setProperty( IFilterConditionElementModel.VALUE1_PROP,
+//						DEUtil.resolveNull( value1.getText( ) ) );
+//				filter.setProperty( IFilterConditionElementModel.VALUE2_PROP,
+//						DEUtil.resolveNull( value2.getText( ) ) );
+				
+				filter.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+				filter.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 				// set test expression for new map rule
 				filter.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
 
@@ -1068,10 +1070,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							.newFilterConditionElement( );
 					filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 							DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-					filter.setProperty( IFilterConditionElementModel.VALUE1_PROP,
-							DEUtil.resolveNull( value1.getText( ) ) );
-					filter.setProperty( IFilterConditionElementModel.VALUE2_PROP,
-							DEUtil.resolveNull( value2.getText( ) ) );
+//					filter.setProperty( IFilterConditionElementModel.VALUE1_PROP,
+//							DEUtil.resolveNull( value1.getText( ) ) );
+//					filter.setProperty( IFilterConditionElementModel.VALUE2_PROP,
+//							DEUtil.resolveNull( value2.getText( ) ) );
+					filter.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+					filter.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 					filter.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
 
 					// test code -- begin --
