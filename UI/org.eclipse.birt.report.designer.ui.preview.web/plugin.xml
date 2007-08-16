@@ -42,6 +42,12 @@
             category="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
             name="%preference.preview.server"
             id="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"/>
+      <page
+            category="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            class="org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage"
+            name="%preference.preview.data">
+      </page>
    </extension>
 <extension
          point="org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor">

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import com.ibm.icu.util.ULocale;
-
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -25,11 +23,6 @@ import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.preference.FieldEditor;
-import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
@@ -47,6 +40,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * This class represents a preference page that is contributed to the
@@ -71,14 +66,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Text customBrowserPath;
 	private Button customBrowserBrowse;
 	private Combo localeCombo;
-
-	private IntegerFieldEditor maxRowEditor;
-	/** default value of max number */
-	public static final int DEFAULT_MAX_ROW = 500;
-	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
-
-	/** max Row preference name */
-	public static final String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
 	/**
 	 * Creates preference page controls on demand.
@@ -234,8 +221,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		createSpacer( mainComposite );
 
-		createIntFieldEditor( mainComposite );
-
 		return mainComposite;
 	}
 
@@ -311,58 +296,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 	}
 
 	/**
-	 * Create the maximum number of rows to be previewed in
-	 * ResultSetPreviewPage.
-	 * 
-	 * @param mainComposite
-	 */
-	private void createIntFieldEditor( Composite mainComposite )
-	{
-		Composite intFieldEditorComposite = new Composite( mainComposite,
-				SWT.NULL );
-		maxRowEditor = new IntegerFieldEditor( PREVIEW_MAXROW,
-				"",
-				intFieldEditorComposite );
-		GridLayout layout3 = new GridLayout( );
-		layout3.marginHeight = 0;
-		layout3.marginWidth = 0;
-		layout3.numColumns = 2;
-		intFieldEditorComposite.setLayout( layout3 );
-		intFieldEditorComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		Label lab2 = maxRowEditor.getLabelControl( intFieldEditorComposite );
-		lab2.setText( Messages.getString( "designer.preview.preference.resultset.maxrow.description" ) );
-
-		// maxRowEditor.setPage(this);
-		maxRowEditor.setPage( this );
-		maxRowEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
-		maxRowEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage",
-				new Object[]{
-					new Integer( MAX_MAX_ROW )
-				} ) );
-		maxRowEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		maxRowEditor.setValidRange( 1, MAX_MAX_ROW );
-		maxRowEditor.setPropertyChangeListener( new IPropertyChangeListener( ) {
-
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( maxRowEditor.isValid( ) );
-			}
-		} );
-
-		String defaultMaxRow = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( PREVIEW_MAXROW );
-
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( DEFAULT_MAX_ROW );
-		}
-		maxRowEditor.setStringValue( defaultMaxRow );
-	}
-
-	/**
 	 * Performs special processing when this page's Defaults button has been
 	 * pressed.
 	 * <p>
@@ -414,9 +347,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 			assert defaultLocale != null;
 			localeCombo.setText( defaultLocale.getDisplayName( ) );
 		}
-
-		// performDefaults of max row preference
-		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
 
 		super.performDefaults( );
 	}
@@ -470,11 +400,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 		}
 
 		ViewerPlugin.getDefault( ).savePluginPreferences( );
-
-		// performOK of max row preference
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( PREVIEW_MAXROW, maxRowEditor.getStringValue( ) );
 
 		return true;
 	}
