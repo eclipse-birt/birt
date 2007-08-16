@@ -750,12 +750,21 @@ public class ScriptEvalUtil
 				}
 			}
 
+			if( obj instanceof Boolean )
+				populateObArray( obArray[1], obArray );
+			else
+				populateObArray( obj, obArray );
+			return obArray;
+		}
+
+		private static Object[] populateObArray( Object obj, Object[] obArray )
+		{
 			try
 			{
 				if ( obj instanceof Number )
 				{
 
-					obArray[0] = DataTypeUtil.toDouble( obj );
+					obArray[0] = DataTypeUtil.toDouble( obArray[0] );
 
 					obArray[1] = DataTypeUtil.toDouble( obArray[1] );
 					if ( obArray[2] != null )
@@ -768,7 +777,7 @@ public class ScriptEvalUtil
 				else if ( obj instanceof java.sql.Date )
 				{
 
-					obArray[0] = DataTypeUtil.toSqlDate( obj );
+					obArray[0] = DataTypeUtil.toSqlDate( obArray[0] );
 
 					obArray[1] = DataTypeUtil.toSqlDate( obArray[1] );
 					if ( obArray[2] != null )
@@ -781,7 +790,7 @@ public class ScriptEvalUtil
 				else if ( obj instanceof java.sql.Time )
 				{
 
-					obArray[0] = DataTypeUtil.toSqlTime( obj );
+					obArray[0] = DataTypeUtil.toSqlTime( obArray[0] );
 
 					obArray[1] = DataTypeUtil.toSqlTime( obArray[1] );
 					if ( obArray[2] != null )
@@ -794,7 +803,7 @@ public class ScriptEvalUtil
 				else if ( obj instanceof Date )
 				{
 
-					obArray[0] = DataTypeUtil.toDate( obj );
+					obArray[0] = DataTypeUtil.toDate( obArray[0] );
 
 					obArray[1] = DataTypeUtil.toDate( obArray[1] );
 					if ( obArray[2] != null )
@@ -802,13 +811,6 @@ public class ScriptEvalUtil
 
 						obArray[2] = DataTypeUtil.toDate( obArray[2] );
 					}
-
-				}
-				else if ( obj instanceof Boolean )
-				{
-					obArray[0] = DataTypeUtil.toBoolean( obj );
-
-					obArray[1] = DataTypeUtil.toBoolean( obArray[1] );
 
 				}
 			}

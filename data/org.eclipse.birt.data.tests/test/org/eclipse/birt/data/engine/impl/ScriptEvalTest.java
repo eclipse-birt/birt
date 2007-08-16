@@ -615,6 +615,17 @@ public class ScriptEvalTest extends TestCase
 				ExprTextAndValue.newInstance( "01/01/04", new Double( 0.25 ) ) );
 		assertResult( result, false );
 		
+		result = ScriptEvalUtil.evalConditionalExpr( new Boolean( true ),
+				IConditionalExpression.OP_BETWEEN,
+				new Double( 0.5 ),
+				new Double( 2 ) );
+		assertResult( result, true );
+		
+		result = ScriptEvalUtil.evalConditionalExpr( new Boolean( true ),
+				IConditionalExpression.OP_BETWEEN,
+				new Double( -1 ),
+				new Double( 0.5 ) );
+		assertResult( result, false );
 	}
 
 	/**
