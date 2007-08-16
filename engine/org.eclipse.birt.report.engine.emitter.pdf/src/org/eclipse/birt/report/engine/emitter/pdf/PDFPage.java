@@ -422,6 +422,7 @@ public class PDFPage extends AbstractPage
 		contentByte.saveState( );
 		if ( "solid".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
+			contentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
 		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
@@ -443,6 +444,7 @@ public class PDFPage extends AbstractPage
 		// We look it as the default line style -- 'solid'
 		else
 		{
+			contentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
 		contentByte.restoreState( );

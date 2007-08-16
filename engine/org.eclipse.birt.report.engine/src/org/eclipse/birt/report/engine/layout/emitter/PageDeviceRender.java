@@ -472,9 +472,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				// Caches the border info
 				BorderInfo[] borders = new BorderInfo[4];
 				borders[BorderInfo.TOP_BORDER] = new BorderInfo(
-						layoutX,
+						layoutX + borderLeftWidth / 2,
 						layoutY + borderTopWidth / 2,
-						layoutX + getWidth( container ),
+						layoutX + getWidth( container ) - borderRightWidth / 2,
 						layoutY + borderTopWidth / 2,
 						borderTopWidth,
 						borderTopColor,
@@ -483,19 +483,19 @@ public abstract class PageDeviceRender implements IAreaVisitor
 						BorderInfo.TOP_BORDER );
 				borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
 						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY,
+						layoutY + borderTopWidth / 2,
 						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY + getHeight( container ),
+						layoutY + getHeight( container )- borderBottomWidth / 2,
 						borderRightWidth,
 						borderRightColor,
 						style
 								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
 						BorderInfo.RIGHT_BORDER );
 				borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
-						layoutX,
+						layoutX + borderLeftWidth / 2,
 						layoutY + getHeight( container ) - borderBottomWidth
 								/ 2,
-						layoutX + getWidth( container ),
+						layoutX + getWidth( container ) - borderRightWidth / 2,
 						layoutY + getHeight( container ) - borderBottomWidth
 								/ 2,
 						borderBottomWidth,
@@ -505,9 +505,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 						BorderInfo.BOTTOM_BORDER );
 				borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
 						layoutX + borderLeftWidth / 2,
-						layoutY,
+						layoutY + borderTopWidth / 2,
 						layoutX + borderLeftWidth / 2,
-						layoutY + getHeight( container ),
+						layoutY + getHeight( container ) - borderBottomWidth / 2,
 						borderLeftWidth,
 						borderLeftColor,
 						style
@@ -806,56 +806,58 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				{
 					case BorderInfo.TOP_BORDER :
 						pageGraphic.drawLine( 
-								startX, 
+								startX - borderWidth / 2 + outerBorderWidth / 2, 
 								startY - borderWidth / 2 + outerBorderWidth / 2, 
-								endX, endY - borderWidth / 2 + outerBorderWidth / 2,
+								endX + borderWidth / 2 - outerBorderWidth / 2, 
+								endY - borderWidth / 2 + outerBorderWidth / 2,
 								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( 
-								startX, 
+								startX - borderWidth / 2 + outerBorderWidth / 2,
 								startY + borderWidth / 2 - innerBorderWidth / 2, 
-								endX, endY + borderWidth / 2 - innerBorderWidth / 2,
-								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+								endX + borderWidth / 2 - outerBorderWidth / 2, 
+								endY + borderWidth / 2 - innerBorderWidth / 2,
+								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$	
 						break;
 					case BorderInfo.RIGHT_BORDER :
 						pageGraphic.drawLine( 
 								startX + borderWidth / 2 - outerBorderWidth / 2, 
-								startY, 
+								startY - borderWidth / 2 + outerBorderWidth / 2, 
 								endX + borderWidth / 2 - outerBorderWidth / 2, 
-								endY,
+								endY + borderWidth / 2 - outerBorderWidth / 2,
 								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( 
 								startX - borderWidth / 2 + innerBorderWidth / 2, 
-								startY,
+								startY - borderWidth / 2 + outerBorderWidth / 2,
 								endX - borderWidth / 2 + innerBorderWidth / 2, 
-								endY,
+								endY + borderWidth / 2 - outerBorderWidth / 2,
 								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.BOTTOM_BORDER :
 						pageGraphic.drawLine( 
-								startX, 
-								startY + borderWidth / 2 - outerBorderWidth / 2, 
-								endX,
-								endY + borderWidth / 2 - outerBorderWidth / 2,
+								startX - borderWidth / 2 + outerBorderWidth / 2, 
+								startY + borderWidth / 2 - outerBorderWidth / 2,
+								endX + borderWidth / 2 - outerBorderWidth / 2,  
+								endY + borderWidth / 2 - outerBorderWidth / 2, 
 								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( 
-								startX,
+								startX - borderWidth / 2 + outerBorderWidth / 2,  
 								startY - borderWidth / 2 + innerBorderWidth / 2, 
-								endX, 
+								endX + borderWidth / 2 - outerBorderWidth / 2, 
 								endY - borderWidth / 2 + innerBorderWidth / 2, 
 								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.LEFT_BORDER :
 						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2,
-								startY, 
-								endX - borderWidth / 2 + outerBorderWidth / 2, 
-								endY,
+								startX - borderWidth / 2 + outerBorderWidth / 2, 
+								startY - borderWidth / 2 + outerBorderWidth / 2,
+								endX - borderWidth / 2 + outerBorderWidth / 2,
+								endY + borderWidth / 2 - outerBorderWidth / 2, 
 								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( 
 								startX + borderWidth / 2 - innerBorderWidth / 2, 
-								startY,
+								startY - borderWidth / 2 + outerBorderWidth / 2,
 								endX + borderWidth / 2 - innerBorderWidth / 2, 
-								endY,
+								endY + borderWidth / 2 - outerBorderWidth / 2,
 								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
 						break;
 				}
