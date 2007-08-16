@@ -903,6 +903,7 @@ public class ColumnBindingDialog extends BaseDialog
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
 		}
+		else btnAdd.setEnabled( true );
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
