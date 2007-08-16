@@ -95,8 +95,21 @@ AbstractReportComponent.prototype =
 			container.style.overflowX = "visible";
 			container.style.overflowY = "visible";
 		}
+		
+		this.__postRender(id);
 	},
 	
+	/**
+	 *	Called after the component content is rendered.	 
+	 *
+	 *	@id, ui object id
+	 *	@return, void
+	 */	
+	__postRender : function( id )
+	{
+		//implementation is left to extending class
+	},
+		
 	/**
 	 *	Install native/birt event handlers.
 	 *

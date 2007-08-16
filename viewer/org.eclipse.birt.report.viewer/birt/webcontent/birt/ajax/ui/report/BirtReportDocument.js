@@ -275,5 +275,27 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	__beh_exportReport : function( id )
 	{
 		birtExportReportDialog.__cb_bind( );
+	},
+	
+	/**
+	 *	Called after the component content is rendered.	 
+	 *
+	 *	@id, ui object id
+	 *	@return, void
+	 */	
+	__postRender : function( id )
+	{
+		// ensures that the rendered component is the report document
+		if ( id == "Document" )
+		{
+			var docObj = document.getElementById( id );
+			if ( docObj )
+			{
+				// set document scrollbar position to the top
+				docObj.scrollLeft = "0px";
+				docObj.scrollTop = "0px";
+			}
+		}
 	}
+	
 });
