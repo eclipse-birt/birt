@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -101,7 +102,7 @@ public class RenameAction extends AbstractViewerAction
 		{
 			if ( obj instanceof GroupHandle )
 			{
-				return true;
+				return !((GroupHandle)obj).getPropertyHandle( IGroupElementModel.GROUP_NAME_PROP ).isReadOnly( );
 			}
 			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME
 					&& ( (ReportElementHandle) obj ).canEdit( );
