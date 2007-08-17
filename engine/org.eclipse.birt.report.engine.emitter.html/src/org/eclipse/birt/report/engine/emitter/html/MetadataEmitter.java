@@ -480,14 +480,12 @@ public class MetadataEmitter
 			if ( parent instanceof IBandContent )
 			{
 				IBandContent bandContent = (IBandContent )parent;
-				BandDesign bandDesing = (BandDesign) bandContent
-						.getGenerateBy( );
-				if ( bandDesing.getBandType( ) == BandDesign.BAND_HEADER
-					 || bandDesing.getBandType( ) == BandDesign.BAND_FOOTER
-					 || bandDesing.getBandType( ) == BandDesign.GROUP_HEADER
-					 || bandDesing.getBandType( ) == BandDesign.GROUP_FOOTER)
+				int bandType = bandContent.getBandType( );
+				if ( bandType == IBandContent.BAND_HEADER
+						|| bandType == IBandContent.BAND_FOOTER
+						|| bandType == IBandContent.BAND_GROUP_HEADER
+						|| bandType == IBandContent.BAND_GROUP_FOOTER )
 				{
-					
 					IElement bandParent = bandContent.getParent( );
 					while ( bandParent instanceof IGroupContent )
 					{
@@ -495,10 +493,10 @@ public class MetadataEmitter
 					}
 					if ( bandParent instanceof ITableContent )
 					{
-						aggregatables.put(generateBy, Boolean.TRUE);
+						aggregatables.put( generateBy, Boolean.TRUE );
 						return true;
 					}
-					//FIXME: code review: needs return a false value?
+					// FIXME: code review: needs return a false value?
 				}
 			}
 			parent = parent.getParent( );
