@@ -17,9 +17,8 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 /**
  * This class provides various Data Engine Query utility methods for UI.
@@ -32,24 +31,24 @@ public class DataUtil
 	 * Return a list of valid group key bindings. Only those bindings that do not involve aggregations will be
 	 * allowed.
 	 * 
-	 * @param bindings
+	 * @param availableHandles
 	 * @return
 	 */
-	public static List getValidGroupKeyBindings( List bindings )
+	public static List getValidGroupKeyBindings( List availableHandles )
 	{
 
 		List result = new ArrayList( );
-		if ( bindings == null )
+		if ( availableHandles == null )
 			return result;
 		try
 		{
-			for ( int i = 0; i < bindings.size( ); i++ )
+			for ( int i = 0; i < availableHandles.size( ); i++ )
 			{
-				IBinding binding = (IBinding) bindings.get( i );
+				ComputedColumnHandle handle = (ComputedColumnHandle) availableHandles.get( i );
 				List originalNames = new ArrayList( );
-				originalNames.add( binding.getBindingName( ) );
-				if ( acceptBinding( binding, bindings, originalNames ) )
-					result.add( binding );
+				originalNames.add( handle.getName( ) );
+				if ( acceptBinding( handle, availableHandles, originalNames ) )
+					result.add( handle );
 			}
 		}
 		catch ( Exception e )
@@ -68,30 +67,29 @@ public class DataUtil
 	 * @param originalNames
 	 * @return
 	 */
-	private static boolean acceptBinding( IBinding binding, List bindings,
-			List originalNames )
+	private static boolean acceptBinding( ComputedColumnHandle binding,
+			List bindings, List originalNames )
 	{
 		try
 		{
-			if ( binding.getAggrFunction( ) == null )
+			if ( binding.getAggregateFunction( ) == null )
 			{
-				IBaseExpression expr = binding.getExpression( );
-				if ( expr instanceof IScriptExpression )
+				String expr = binding.getExpression( );
+
+				if ( !ExpressionUtil.hasAggregation( expr ) )
 				{
-					if ( !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ) )
+					List referredBindings = ExpressionUtil.extractColumnExpressions( expr );
+					List names = new ArrayList( );
+					names.add( binding.getName( ) );
+					names.addAll( originalNames );
+					if ( acceptindirectReferredBindings( originalNames,
+							bindings,
+							referredBindings ) )
 					{
-						List referredBindings = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expr ).getText( ) );
-						List names = new ArrayList( );
-						names.add( binding.getBindingName( ) );
-						names.addAll( originalNames );
-						if ( acceptindirectReferredBindings( originalNames,
-								bindings,
-								referredBindings ) )
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+
 			}
 		}
 		catch ( BirtException e )
@@ -103,12 +101,13 @@ public class DataUtil
 	/**
 	 * 
 	 * @param originalBindingName
-	 * @param bindings
+	 * @param availableHandles
 	 * @param referredBindings
 	 * @return
 	 */
 	private static boolean acceptindirectReferredBindings(
-			List originalBindingName, List bindings, List referredBindings )
+			List originalBindingName, List availableHandles,
+			List referredBindings )
 	{
 		try
 		{
@@ -116,9 +115,9 @@ public class DataUtil
 			for ( int i = 0; i < referredBindings.size( ); i++ )
 			{
 				IColumnBinding cb = (IColumnBinding) referredBindings.get( i );
-				for ( int j = 0; j < bindings.size( ); j++ )
+				for ( int j = 0; j < availableHandles.size( ); j++ )
 				{
-					IBinding binding = (IBinding) bindings.get( j );
+					IBinding binding = (IBinding) availableHandles.get( j );
 					if ( originalBindingName.contains( binding.getBindingName( ) ) )
 						continue;
 					if ( binding.getBindingName( )
@@ -129,8 +128,10 @@ public class DataUtil
 
 			for ( int i = 0; i < candidateBindings.size( ); i++ )
 			{
-				IBinding binding = (IBinding) candidateBindings.get( i );
-				if ( !acceptBinding( binding, bindings, originalBindingName ) )
+				ComputedColumnHandle handle = (ComputedColumnHandle) candidateBindings.get( i );
+				if ( !acceptBinding( handle,
+						availableHandles,
+						originalBindingName ) )
 					return false;
 			}
 			return true;
