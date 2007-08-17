@@ -778,10 +778,7 @@ public class PostscriptWriter
 	private String applyIntrinsicFont( String fontName, int fontStyle, float fontSize, String text )
 	{
 		setFont( fontName, fontSize );
-		if ( text.endsWith( "\\" ) )
-		{
-			text = text + "\\";
-		}
+		text = text.replaceAll( "\\\\", "\\\\\\\\" );
 		text = text.replaceAll( "\\)", "\\\\)" );
 		return ( "(" + text + ")" );
 	}
