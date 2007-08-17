@@ -1,0 +1,128 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2006 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+
+package org.eclipse.birt.report.data.adapter.api.script;
+
+import java.util.Map;
+
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Wrapper;
+
+/**
+ * Implements the "params" scriptable object to access report parameter object
+ */
+public class ReportParameters extends ScriptableObject
+{
+
+    private Map parameters;
+	
+	private static final long serialVersionUID = 423299092113453L;
+	private final static String JS_CLASS_NAME = "ReportParameters";
+	private final static String LENGTH_VALUE = "length";
+
+	/**
+	 * Constructor
+	 * @param module
+	 */
+	public ReportParameters( Map parameters, Scriptable scope )
+	{
+		assert parameters != null;
+		this.setParentScope( scope );
+		this.parameters = parameters;
+	}
+
+	/*
+	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+	 */
+	public String getClassName( )
+	{
+		return JS_CLASS_NAME;
+	}
+
+	/*
+	 * @see org.mozilla.javascript.ScriptableObject#has(java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
+	public boolean has( String name, Scriptable start )
+	{
+		if ( parameters.containsKey( name ) )
+			return true;
+		return false;
+	}
+
+	/*
+	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
+	public Object get( String name, Scriptable start )
+	{
+    	if ( name.equals( LENGTH_VALUE ) )
+			return new Integer( parameters.size( ) );
+    	
+		Object result = getScriptableParameter( name );
+		if ( result == null )
+		{
+			result = NOT_FOUND;
+		}
+		return result;
+	}
+	
+	/**
+	 * Support setting parameter value by following methods:
+	 * <li> params["a"] = params["b"]
+	 * <li> params["a"] = "value"
+	 */
+	public void put( String name, Scriptable start, Object value )
+	{
+		DummyParameterAttribute attr = (DummyParameterAttribute) parameters.get( name );
+		if ( attr == null )
+		{
+			attr = new DummyParameterAttribute( );
+			parameters.put( name, attr );
+		}
+		if ( value instanceof ReportParameter )
+		{
+			ReportParameter scriptableParameter = (ReportParameter) value;
+			Object paramValue = scriptableParameter.get( "value", this );
+			String displayText = (String) scriptableParameter.get( "displayText",
+					this );
+			attr.setValue( paramValue );
+			attr.setDisplayText( displayText );
+			return;
+		}
+
+		if ( value instanceof Wrapper )
+		{
+			value = ( (Wrapper) value ).unwrap( );
+		}
+
+		attr.setValue( JavascriptEvalUtil.convertJavascriptValue( value ) );
+		
+	}
+
+	/**
+	 * Get <code>ReportParameter</code> object
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private Object getScriptableParameter( String name )
+	{
+		if ( parameters.containsKey( name )  )
+		{
+			return new ReportParameter( parameters, name, getParentScope( ) );
+		}
+		return null;
+	}
+}

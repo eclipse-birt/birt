@@ -21,8 +21,8 @@ import org.eclipse.birt.core.exception.BirtException;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 
+import org.eclipse.birt.report.data.adapter.api.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
-import org.eclipse.birt.report.data.adapter.internal.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
 import org.mozilla.javascript.Context;

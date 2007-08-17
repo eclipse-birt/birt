@@ -18,7 +18,7 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.report.data.adapter.internal.script.DataAdapterTopLevelScope;
+import org.eclipse.birt.report.data.adapter.api.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
