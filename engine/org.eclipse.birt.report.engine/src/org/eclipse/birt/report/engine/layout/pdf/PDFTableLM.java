@@ -268,7 +268,14 @@ public class PDFTableLM extends PDFBlockStackingLM
 			layout.remove( (TableArea) root );
 		}
 		// update dimension of table area
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
+		if(isLast)
+		{
+			root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
+		}
+		else
+		{
+			root.setHeight( getCurrentBP( ) + getOffsetY( ) );
+		}
 
 	}
 
