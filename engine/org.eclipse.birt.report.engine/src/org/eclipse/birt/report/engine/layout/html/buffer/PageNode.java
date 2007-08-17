@@ -31,6 +31,10 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 
 	public void start( )
 	{
+		if(isStarted)
+		{
+			return;
+		}
 		if ( parent != null && !parent.isStarted( ) )
 		{
 			parent.start( );

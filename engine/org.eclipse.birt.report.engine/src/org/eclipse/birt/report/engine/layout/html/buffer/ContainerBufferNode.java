@@ -67,6 +67,10 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 
 	public void start( )
 	{
+		if(isStarted)
+		{
+			return;
+		}
 		if ( parent != null && !parent.isStarted( ) )
 		{
 			parent.start( );

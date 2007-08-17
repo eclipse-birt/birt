@@ -73,6 +73,10 @@ public abstract class AbstractNode implements INode
 
 	public void start( )
 	{
+		if(isStarted)
+		{
+			return;
+		}
 		if ( parent != null && !parent.isStarted( ) )
 		{
 			parent.start( );
