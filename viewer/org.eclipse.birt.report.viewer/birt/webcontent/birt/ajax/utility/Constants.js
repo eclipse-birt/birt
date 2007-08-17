@@ -79,6 +79,9 @@ var Constants = {
 	// Action names
 	ACTION_PRINT : 'print',
 	
+	// Window names
+	WINDOW_PRINT_PREVIEW : 'birtPrint',
+	
 	/** 
 	event.returnvalue indicating that event has already been handled
 	as a selection

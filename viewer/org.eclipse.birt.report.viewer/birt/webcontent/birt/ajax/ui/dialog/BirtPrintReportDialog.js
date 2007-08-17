@@ -107,11 +107,11 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 * @return, true or false
 	 */
 	__printAction : function( )
-	{					
+	{
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( "Report document should be generated first." );	
+			alert ( "Report document should be generated first." );
 			return false;
 		}	
 		else
@@ -204,12 +204,19 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			// Replace servlet pattern as output
 			action = action.replace( /[\/][a-zA-Z]+[?]/, "/"+Constants.SERVLET_OUTPUT+"?" );
 			
+			// Generate unique window name
+			var today = new Date();			
+			var printWindowName = 
+				Constants.WINDOW_PRINT_PREVIEW 
+				+ today.getTime() 
+				+ Math.floor( Math.random() * 1000 );
+			
 			// Open a new window to print
-			this.__printWindow = window.open('','birtPrint');
+			this.__printWindow = window.open('',printWindowName);
 									
 			formObj.action = action;
 			formObj.method = "post";
-			formObj.target = "birtPrint";			
+			formObj.target = printWindowName;
 			formObj.submit( );
 			
 			// Launch the browser's print dialog.
@@ -224,28 +231,37 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__cb_print : function( )
 	{
+		window.clearTimeout( this.__timer );
 		try
 		{
+			// FIXME: the following line produces an exception "Permission denied" 			
+			// in IE 6 when the content type is PDF and prevents the call
+			// to this.__printWindow.print()
 			var url = this.__printWindow.location.toString( );
 			var err = this.__printWindow.document.getElementById( "birt_errorPage" );
 			if( err && err.innerHTML != '' )
 			{
-				window.clearTimeout( this.__timer );
 				return;
 			}
+		
+			// FIXME: this technique is not effective enough to detect if the page is loaded	
 			if ( url.indexOf( Constants.SERVLET_OUTPUT ) < 0 )
 			{
-				this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 1000 );
+				this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 100 );
 			}
 			else
 		  	{
-				window.clearTimeout( this.__timer );
-				
-				// Call the browser's print dialog 
-				this.__printWindow.print( );
-				
-				// Close the print window
-				this.__printWindow.close( );
+				// Call the browser's print dialog (async)
+				this.__printWindow.print();
+					
+				/**
+				 * FIXME: Commented out: if the page is not loaded yet (see above FIXME) 
+				 * the print() method doesn't do anything and the window will be closed
+				 * directly
+				 */				
+				// Close the print window: the browser will in fact close it
+				// after the print dialog is closed.
+				// this.__printWindow.close( );
 		  	}
 		}
 		catch( e )
