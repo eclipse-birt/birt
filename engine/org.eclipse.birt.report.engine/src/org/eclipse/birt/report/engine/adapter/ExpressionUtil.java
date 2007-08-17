@@ -501,7 +501,8 @@ public final class ExpressionUtil
 			return IConditionalExpression.OP_NOT_LIKE;
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ) )
 			return IConditionalExpression.OP_NOT_MATCH;
-
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ))
+			return IConditionalExpression.OP_MATCH;
 		return IConditionalExpression.OP_NONE;
 	}
 
