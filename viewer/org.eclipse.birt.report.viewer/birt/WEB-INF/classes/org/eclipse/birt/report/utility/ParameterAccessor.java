@@ -1258,6 +1258,12 @@ public class ParameterAccessor
 				case '&' :
 					sbHtmlEncoded.append( "&#38;" ); //$NON-NLS-1$
 					break;
+				case '\\' :
+					sbHtmlEncoded.append( "&#92;" ); //$NON-NLS-1$
+					break;
+				case '/' :
+					sbHtmlEncoded.append( "&#47;" ); //$NON-NLS-1$
+					break;
 				default :
 					sbHtmlEncoded.append( c );
 			}
@@ -1289,6 +1295,8 @@ public class ParameterAccessor
 		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#62;", ">" );//$NON-NLS-1$ //$NON-NLS-2$
 		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#96;", "`" );//$NON-NLS-1$ //$NON-NLS-2$
 		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#38;", "&" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#92;", "\\\\" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#47;", "/" );//$NON-NLS-1$ //$NON-NLS-2$
 
 		return sHtmlDecoded;
 	}
