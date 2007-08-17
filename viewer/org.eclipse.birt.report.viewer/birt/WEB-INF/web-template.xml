@@ -68,6 +68,12 @@
 		<param-value></param-value>
 	</context-param>
 
+	<!-- Preview report max cube fetch levels limited. -->
+	<context-param>
+		<param-name>BIRT_VIEWER_MAX_CUBE_LEVELS</param-name>
+		<param-value></param-value>
+	</context-param>
+	
 	<!-- If always overwrite generated document file.For designer,defalult to false -->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>

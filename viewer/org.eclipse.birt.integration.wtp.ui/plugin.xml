@@ -238,6 +238,11 @@
 				description="Dataset rows limited when preview report. Default to return all rows"/>
 
 			<context-param 
+				name="BIRT_VIEWER_MAX_CUBE_LEVELS"
+				value=""
+				description="Cube fetch levels limited when preview report. Default to return all levels"/>
+
+			<context-param 
 				name="BIRT_VIEWER_LOG_LEVEL"
 				value="WARNING"
 				description="Report engine log level.( ALL|SEVERE|WARNING|INFO|CONFIG|FINE|FINER|FINEST|OFF )"/>

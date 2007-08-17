@@ -82,6 +82,9 @@ public class WebViewer
 	/** Preference key for max rows. */
 	public final static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
+	/** Preference key for max cube fetch levels. */
+	public final static String PREVIEW_MAXCUBELEVEL = "preview_maxlevelmember"; //$NON-NLS-1$
+
 	// preview model.
 	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
 
@@ -96,32 +99,32 @@ public class WebViewer
 	/**
 	 * Key to indicate the format of the preview.
 	 */
-
 	public final static String FORMAT_KEY = "FORMAT_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'allowPage' control of the preview.
 	 */
-
 	public final static String ALLOW_PAGE_KEY = "ALLOW_PAGE_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'servletName' of the preview.
 	 */
-
 	public final static String SERVLET_NAME_KEY = "SERVLET_NAME_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'resourceFolder'.
 	 */
-
 	public final static String RESOURCE_FOLDER_KEY = "RESOURCE_FOLDER_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the 'maxRows'
 	 */
-
 	public final static String MAX_ROWS_KEY = "MAX_ROWS_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the 'maxLevelMember'
+	 */
+	public final static String MAX_CUBELEVELS_KEY = "MAX_CUBELEVELS_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Property to indicate whether it is a report debug mode
@@ -177,7 +180,7 @@ public class WebViewer
 	private static String createURL( String report, Map params )
 	{
 		if ( params == null || params.isEmpty( ) )
-			return createURL( null, report, null, true, null, null );
+			return createURL( null, report, null, true, null, null, null );
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
@@ -209,8 +212,11 @@ public class WebViewer
 		// max rows setting
 		String maxrows = (String) params.get( MAX_ROWS_KEY );
 
+		// max level member setting
+		String maxlevels = (String) params.get( MAX_CUBELEVELS_KEY );
+
 		return createURL( servletName, report, format, true, resourceFolder,
-				maxrows );
+				maxrows, maxlevels );
 	}
 
 	/**
@@ -226,11 +232,13 @@ public class WebViewer
 	 *            the resource folder
 	 * @param maxrows
 	 *            max rows limited
+	 * @param maxlevels
+	 *            max level member limited
 	 * @return valid web viewer url
 	 */
 	private static String createURL( String servletName, String report,
 			String format, boolean inDesigner, String resourceFolder,
-			String maxrows )
+			String maxrows, String maxlevels )
 	{
 		String encodedReportName = null;
 
@@ -283,7 +291,6 @@ public class WebViewer
 		}
 
 		// handle resource folder encoding
-
 		String encodedResourceFolder = null;
 
 		try
@@ -325,6 +332,8 @@ public class WebViewer
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
 				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
 						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( maxlevels != null && maxlevels.trim( ).length( ) > 0
+						? "&__maxlevels=" + maxlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
 				+ ( asattachment != null ? asattachment : "" ); //$NON-NLS-1$
 	}
@@ -426,12 +435,13 @@ public class WebViewer
 		String root = null;
 		if ( !HTML.equalsIgnoreCase( format ) )
 		{
-			root = createURL( VIEWER_PREVIEW, report, format, true, null, null );
+			root = createURL( VIEWER_PREVIEW, report, format, true, null, null,
+					null );
 		}
 		else
 		{
 			root = createURL( allowPage ? VIEWER_FRAMESET : VIEWER_PREVIEW,
-					report, format, true, null, null )
+					report, format, true, null, null, null )
 					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
 		}
 
@@ -461,7 +471,8 @@ public class WebViewer
 	{
 		startWebApp( );
 		browser
-				.setUrl( createURL( "run", report, format, true, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				.setUrl( createURL(
+						"run", report, format, true, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -482,7 +493,7 @@ public class WebViewer
 	{
 		startWebApp( );
 		browser.setUrl( createURL( servletName, report, format, true, null,
-				null )
+				null, null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
 

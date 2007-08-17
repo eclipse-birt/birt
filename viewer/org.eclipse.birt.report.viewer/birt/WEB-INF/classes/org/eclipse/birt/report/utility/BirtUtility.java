@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BaseTaskBean;
@@ -891,6 +892,12 @@ public class BirtUtility
 		// Client DPI setting
 		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
 				ParameterAccessor.getDpi( request ) );
+
+		// Max cube fetch levels
+		int maxCubeLevels = ParameterAccessor.getMaxCubeLevels( request );
+		if ( maxCubeLevels >= 0 )
+			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_LEVEL,
+					new Integer( maxCubeLevels ) );
 
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );

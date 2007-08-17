@@ -338,6 +338,9 @@ public class ReportPreviewEditor extends EditorPart
 				this.options.put( WebViewer.MAX_ROWS_KEY, ViewerPlugin
 						.getDefault( ).getPluginPreferences( ).getString(
 								WebViewer.PREVIEW_MAXROW ) );
+				this.options.put( WebViewer.MAX_CUBELEVELS_KEY, ViewerPlugin
+						.getDefault( ).getPluginPreferences( ).getString(
+								WebViewer.PREVIEW_MAXCUBELEVEL ) );
 				WebViewer.display( uri, browser, this.options );
 			}
 		}

@@ -48,6 +48,11 @@ public class ViewerPlugin extends Plugin
 	public final static int DEFAULT_MAX_ROWS = 500;
 
 	/**
+	 * Default value of max cube fetch levels setting displaying in preference page
+	 */
+	public final static int DEFAULT_MAX_CUBELEVELS = 10;
+
+	/**
 	 * BIRT Viewer plugin working path
 	 */
 	public final static String BIRT_VIEWER_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
@@ -98,6 +103,8 @@ public class ViewerPlugin extends Plugin
 				WebViewer.MASTER_PAGE_CONTENT, true );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.PREVIEW_MAXROW,
 				DEFAULT_MAX_ROWS );
+		plugin.getPluginPreferences( ).setDefault(
+				WebViewer.PREVIEW_MAXCUBELEVEL, DEFAULT_MAX_CUBELEVELS );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
 				ULocale.getDefault( ).getDisplayName( ) );
 

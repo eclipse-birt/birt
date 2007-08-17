@@ -48,7 +48,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 	/** max Row preference name */
 	public static final String PREVIEW_MAXROW = WebViewer.PREVIEW_MAXROW;
 
-	public static final String PREVIEW_MAX_LEVEL_MEMBER = "preview_maxlevelmember"; //$NON-NLS-1$
+	public static final String PREVIEW_MAX_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBELEVEL;
 
 	private transient IntegerFieldEditor txtMaxDataSetRow;
 

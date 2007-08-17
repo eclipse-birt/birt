@@ -180,6 +180,11 @@ public class ParameterAccessor
 	public static final String PARAM_MAXROWS = "__maxrows"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that gives the preview max cube fetch levels option.
+	 */
+	public static final String PARAM_MAXCUBELEVELS = "__maxlevels"; //$NON-NLS-1$
+
+	/**
 	 * URL parameter name that gives the reportlet id.
 	 */
 	public static final String PARAM_INSTANCEID = "__instanceid"; //$NON-NLS-1$
@@ -203,7 +208,7 @@ public class ParameterAccessor
 	 * URL parameter name to indicate whether exports column's data type.
 	 */
 	public static final String PARAM_EXPORT_DATATYPE = "__exportdatatype";//$NON-NLS-1$
-	
+
 	/**
 	 * URL parameter name to indicate if fit to page when render report as PDF.
 	 */
@@ -364,6 +369,12 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_VIEWER_MAXROWS = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that gives preview report cube fetch levels
+	 * limited.
+	 */
+	public static final String INIT_PARAM_VIEWER_MAXCUBELEVELS = "BIRT_VIEWER_MAX_CUBE_LEVELS"; //$NON-NLS-1$
+
+	/**
 	 * Context parameter name that if always overwrite generated document file.
 	 */
 	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
@@ -452,6 +463,11 @@ public class ParameterAccessor
 	 * Preview report max rows
 	 */
 	public static int maxRows;
+
+	/**
+	 * Preview report max cube fetch levels
+	 */
+	public static int maxCubeLevels;
 
 	/**
 	 * Current web application locale.
@@ -713,6 +729,24 @@ public class ParameterAccessor
 			curMaxRows = maxRows;
 
 		return curMaxRows;
+	}
+
+	/**
+	 * Get preview max cube fetch levels.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return max levels
+	 */
+
+	public static int getMaxCubeLevels( HttpServletRequest request )
+	{
+		int curMaxLevels = ParameterAccessor.getParameterAsInt( request,
+				PARAM_MAXCUBELEVELS );
+		if ( curMaxLevels <= 0 )
+			curMaxLevels = maxCubeLevels;
+
+		return curMaxLevels;
 	}
 
 	/**
@@ -1339,6 +1373,19 @@ public class ParameterAccessor
 		catch ( NumberFormatException e )
 		{
 			maxRows = -1;
+		}
+
+		// Get preview report max cube fetch levels parameter from Servlet
+		// Context
+		String s_maxLevels = context
+				.getInitParameter( INIT_PARAM_VIEWER_MAXCUBELEVELS );
+		try
+		{
+			maxCubeLevels = Integer.valueOf( s_maxLevels ).intValue( );
+		}
+		catch ( NumberFormatException e )
+		{
+			maxCubeLevels = -1;
 		}
 
 		// default resource path
@@ -2647,10 +2694,10 @@ public class ParameterAccessor
 		String flag = getParameter( request, PARAM_EXPORT_DATATYPE );
 		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
 			return true;
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Set isCleanSessionFiles
 	 * 
