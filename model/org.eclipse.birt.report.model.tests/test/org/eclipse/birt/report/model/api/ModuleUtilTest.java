@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.i18n.ThreadResources;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -244,5 +246,60 @@ public class ModuleUtilTest extends BaseTestCase
 
 		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
 				cubeHierarchy ) );
+	}
+
+	public void testIsValidElementName( ) throws DesignFileException,
+			ContentException, NameException
+	{
+
+		openDesign( "emptyDesign.xml" );
+
+		DataSetHandle dataset = designHandle.getElementFactory( )
+				.newOdaDataSet( "validName" );
+
+		assertTrue( ModuleUtil.isValidElementName( dataset ) );
+
+		designHandle.getDataSets( ).add( dataset );
+
+		DataSetHandle datasetA = designHandle.getElementFactory( )
+				.newOdaDataSet( null );
+
+		datasetA.getElement( ).setName( dataset.getName( ) );
+
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name/" );
+
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name\\" );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name." );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name!" );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name;" );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "name," );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( "" );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		datasetA.getElement( ).setName( null );
+		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
+
+		LabelHandle label = designHandle.getElementFactory( )
+				.newLabel( "style" );
+		label.getElement( ).setName( "" );
+		assertTrue( ModuleUtil.isValidElementName( label ) );
+
+		label.getElement( ).setName( null );
+		assertTrue( ModuleUtil.isValidElementName( label ) );
+
 	}
 }

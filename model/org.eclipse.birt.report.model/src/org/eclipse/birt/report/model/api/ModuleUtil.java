@@ -31,15 +31,21 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -722,5 +728,80 @@ public class ModuleUtil
 			return false;
 		}
 		return false;
+	}
+
+	/**
+	 * checks if the name of the element is valid. The following case the name
+	 * will be considered as invalid.
+	 * <li>contains the following charactors: "/","\\", ".", "!", ";",","</li>
+	 * 
+	 * @param elementHandle
+	 *            the design element need to be checked the name property value.
+	 * @param propName
+	 *            the property name which is name property type of this design
+	 *            element.
+	 * @param nameValue
+	 *            the value of the name property.
+	 * 
+	 * @return true if the value of the name property is valid, false if it is
+	 *         not valid.
+	 */
+	public static boolean isValidElementName(
+			DesignElementHandle elementHandle, String propName, String nameValue )
+	{
+		ModuleHandle module = elementHandle.getModuleHandle( );
+		PropertyDefn propDefn = (PropertyDefn) elementHandle.getPropertyDefn( propName );
+
+		if ( propDefn == null )
+			return false;
+
+		PropertyType propType = propDefn.getType( );
+
+		if ( propType.getTypeCode( ) != PropertyType.NAME_TYPE )
+			return false;
+
+		ElementDefn metaData = (ElementDefn) elementHandle.getDefn( );
+
+		if ( ( nameValue == null ) || StringUtil.isEmpty( nameValue ) )
+		{
+			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+				return false;
+		}
+		try
+		{
+			propType.validateValue( module.getModule( ), propDefn, nameValue );
+
+			DesignElement existedElement = new NameExecutor( elementHandle.getElement( ) ).getNameSpace( elementHandle.module )
+					.getElement( nameValue );
+
+			if ( existedElement == null )
+				return true;
+
+			return false;
+
+		}
+		catch ( PropertyValueException e )
+		{
+			return false;
+		}
+
+	}
+
+	/**
+	 * checks is the name value is valid for the design element.
+	 * 
+	 * @param elementHandle
+	 *            element need to be checked for the name.
+	 * @param nameValue
+	 *            name of the element.
+	 * @return true if the name is valid, false if the name is not valid.
+	 */
+	public static boolean isValidElementName( DesignElementHandle elementHandle )
+	{
+
+		return isValidElementName( elementHandle,
+				"name",
+				elementHandle.getName( ) );
+
 	}
 }
