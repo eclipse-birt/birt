@@ -1391,6 +1391,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.buildRowStyle( row, styleBuffer );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		htmlEmitter.handleRowAlign( row );
+		
+		if ( !startedGroups.isEmpty( ) )
+		{
+			IGroupContent group = (IGroupContent) startedGroups.firstElement( );
+			String bookmark = group.getBookmark( );
+			if ( bookmark == null )
+			{
+				bookmark = idGenerator.generateUniqueID( );
+				group.setBookmark( bookmark );
+			}
+			writer.attribute( HTMLTags.ATTR_ID, group.getBookmark( ) );
+			startedGroups.remove( group );
+		}
 	}
 	
 	protected void outputRowMetaData( IRowContent rowContent )
@@ -1521,10 +1534,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( !startedGroups.isEmpty( ) )
 		{
+			IGroupContent group = (IGroupContent) startedGroups.firstElement( );
+			String bookmark = group.getBookmark( );
+			if ( bookmark == null )
+			{
+				bookmark = idGenerator.generateUniqueID( );
+				group.setBookmark( bookmark );
+			}
+			writer.attribute( HTMLTags.ATTR_ID, group.getBookmark( ) );
+			startedGroups.remove( group );
+			
 			Iterator iter = startedGroups.iterator( );
 			while (iter.hasNext( ))
 			{
-				IGroupContent group = (IGroupContent) iter.next( );
+				group = (IGroupContent) iter.next( );
 				outputBookmark( group );
 			}
 			startedGroups.clear( );
