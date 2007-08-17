@@ -1739,7 +1739,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// all the template element should be horizontal center of it's
 			// parent.
 			writer.openTag( HTMLTags.TAG_DIV );
-			writer.attribute( HTMLTags.ATTR_ALIGN, "middle" );
+			writer.attribute( HTMLTags.ATTR_ALIGN, "center" );
 		}
 		
 		DimensionType x = foreign.getX( );
