@@ -357,5 +357,15 @@
                type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.GridHandle">
+         <adapter
+               factory="org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogFactory"
+               id="org.eclipse.birt.report.designer.ui.bindingdialog.image"
+               priority="3"
+               singleton="false"
+               type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
+         </adapter>
+      </adaptable>
    </extension>
 </plugin>
