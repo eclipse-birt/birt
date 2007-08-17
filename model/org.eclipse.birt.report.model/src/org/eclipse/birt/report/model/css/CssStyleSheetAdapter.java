@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 
@@ -47,7 +49,13 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	{
 		if ( location == null || csses == null )
 			return null;
-		URL url = module.findResource( location,
+
+		// do not use Module.findResource to avoid call third-part resource
+		// locater
+		
+		IResourceLocator locator = new DefaultResourceLocator( );
+		URL url = locator.findResource( (ModuleHandle) module
+				.getHandle( module ), location,
 				IResourceLocator.CASCADING_STYLE_SHEET );
 		if ( url == null )
 			return null;
@@ -56,7 +64,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		{
 			CssStyleSheet css = (CssStyleSheet) csses.get( i );
 			String tmpFileName = css.getFileName( );
-			url = module.findResource( tmpFileName,
+			url = locator.findResource( (ModuleHandle) module
+					.getHandle( module ), tmpFileName,
 					IResourceLocator.CASCADING_STYLE_SHEET );
 			if ( url == null )
 				continue;

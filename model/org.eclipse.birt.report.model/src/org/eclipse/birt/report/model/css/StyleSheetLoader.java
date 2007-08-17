@@ -133,6 +133,59 @@ public final class StyleSheetLoader
 	 * 
 	 * @param module
 	 *            the module to load the style sheet
+	 * @param url
+	 *            the url to the spec
+	 * @param spec
+	 *            spec the <code>String</code> to parse as a URL, it can be a
+	 *            file or directory, or other types or formats of URLs to locate
+	 *            an external style sheet
+	 * @return the <code>CssStyleSheet</code> containing all the styles loaded
+	 *         from an external style sheet, otherwise null
+	 * @throws StyleSheetException
+	 *             if the resource is not found, or the given
+	 *             <code>String</code> is malformed to URL specification, or
+	 *             the style sheet resource has some syntax errors colliding
+	 *             with CSS2 grammar
+	 */
+
+	public CssStyleSheet load( Module module, URL url, String spec )
+			throws StyleSheetException
+
+	{
+		if ( url == null )
+		{
+			throw new StyleSheetException(
+					StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND );
+		}
+
+		InputStream is = null;
+		try
+		{
+			is = url.openStream( );
+		}
+		catch ( IOException e )
+		{
+			throw new StyleSheetException(
+					StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND,
+					e );
+		}
+		CssStyleSheet sheet = load( module, is );
+
+		// set the path to css style sheet.
+
+		sheet.setFileName( spec );
+		return sheet;
+	}
+
+	/**
+	 * Loads styles from an external style sheet resource. A resource can be
+	 * something as simple as a file or a directory, or it can be a reference to
+	 * a more complicated object, such as a query to a database or to a search
+	 * engine. This method will try to create a URL object from the
+	 * <code>String</code> representation.
+	 * 
+	 * @param module
+	 *            the module to load the style sheet
 	 * @param spec
 	 *            spec the <code>String</code> to parse as a URL, it can be a
 	 *            file or directory, or other types or formats of URLs to locate
@@ -154,29 +207,9 @@ public final class StyleSheetLoader
 
 		URL url = module.findResource( spec,
 				IResourceLocator.CASCADING_STYLE_SHEET );
-		if ( url == null )
-		{
-			throw new StyleSheetException(
-					StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND );
-		}
+		CssStyleSheet retSheet = load( module, url, spec );
 
-		InputStream is = null;
-		try
-		{
-			is = url.openStream( );
-		}
-		catch ( IOException e )
-		{
-			throw new StyleSheetException(
-					StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND,
-					e );
-		}
-		CssStyleSheet sheet = load( module, is );
-		
-		//set the path to css style sheet.
-		
-		sheet.setFileName( spec );
-		return sheet;
+		return retSheet;
 	}
 
 	/**
@@ -389,7 +422,7 @@ public final class StyleSheetLoader
 						style = new CssStyle( name );
 					else
 						styleSheet.removeStyle( name );
-					//set css style sheet
+					// set css style sheet
 					if ( !buildProperties )
 					{
 						properties = buildProperties( declaration, errors );

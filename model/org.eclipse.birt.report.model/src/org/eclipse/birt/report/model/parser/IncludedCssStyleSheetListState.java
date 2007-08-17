@@ -92,7 +92,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 				handler.getErrorHandler( ).semanticWarning( ex );
 				return;
 			}
-			
+
 			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
 
 			CssStyleSheet sheet = CssStyleSheetAdapter
@@ -110,13 +110,14 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 
 			try
 			{
-				sheet = handler.module.loadCss( element , fileName );
+				sheet = handler.module.loadCss( element, url, fileName );
 				sheetOperation.addCss( sheet );
 			}
 			catch ( StyleSheetException e )
 			{
 				CssException ex = new CssException( handler.module,
-						new String[]{fileName}, CssException.DESIGN_EXCEPTION_BADCSSFILE );
+						new String[]{fileName},
+						CssException.DESIGN_EXCEPTION_BADCSSFILE );
 				handler.getErrorHandler( ).semanticWarning( ex );
 			}
 		}

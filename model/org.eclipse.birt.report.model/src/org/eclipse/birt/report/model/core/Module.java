@@ -2581,7 +2581,7 @@ public abstract class Module extends DesignElement
 	 * </ul>
 	 * 
 	 * @param container
-	 *            the container of the element 
+	 *            the container of the element
 	 * @param element
 	 *            the element handle whose name is need to check.
 	 */
@@ -2738,13 +2738,13 @@ public abstract class Module extends DesignElement
 	 * @throws StyleSheetException
 	 */
 
-	public CssStyleSheet loadCss( DesignElement container, String fileName )
-			throws StyleSheetException
+	public CssStyleSheet loadCss( DesignElement container, URL url,
+			String fileName ) throws StyleSheetException
 	{
 		try
 		{
 			StyleSheetLoader loader = new StyleSheetLoader( );
-			CssStyleSheet sheet = loader.load( this, fileName );
+			CssStyleSheet sheet = loader.load( this, url, fileName );
 			sheet.setContainer( container );
 			List styles = sheet.getStyles( );
 			for ( int i = 0; styles != null && i < styles.size( ); ++i )
