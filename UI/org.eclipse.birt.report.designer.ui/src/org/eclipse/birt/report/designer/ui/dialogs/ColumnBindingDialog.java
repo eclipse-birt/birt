@@ -348,7 +348,7 @@ public class ColumnBindingDialog extends BaseDialog
 					refreshBinding( );
 					if ( datasetRadio.getSelection( )
 							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
-							&& DEUtil.getBindingHolder( inputElement )
+							&& DEUtil.getBindingHolder( inputElement, true )
 									.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 						saveBinding( );
 				}
