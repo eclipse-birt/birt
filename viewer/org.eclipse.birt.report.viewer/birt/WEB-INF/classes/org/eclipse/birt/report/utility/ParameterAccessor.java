@@ -41,7 +41,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
- * Utilites class for all types of URl related operatnios.
+ * Utilities class for all types of URl related operations.
  * <p>
  */
 
@@ -509,6 +509,13 @@ public class ParameterAccessor
 	 */
 	public static Map initProps;
 
+	/**
+	 * The logger names to register.
+	 * The key part contains the name of the logger and the value
+	 * contains the name of the level.
+	 */
+	public static Map loggers;
+	
 	/**
 	 * viewer properties
 	 */
@@ -1414,6 +1421,29 @@ public class ParameterAccessor
 
 		// initialize the application properties
 		initProps = initViewerProps( context, initProps );
+		
+		if ( loggers == null )
+		{
+			loggers = new HashMap();
+		}
+		
+		// retrieve the logger names from the application properties
+		for ( Iterator i = initProps.keySet( ).iterator( ); i.hasNext( ); )
+		{
+			String name = (String)i.next();
+			if ( name.startsWith( "logger." )) //$NON-NLS-1$
+			{
+				String loggerName = name.replaceFirst(
+						"logger.", //$NON-NLS-1$
+						"" //$NON-NLS-1$
+						);
+				String levelName = (String)initProps.get( name );
+				
+				loggers.put( loggerName, levelName );
+			
+				i.remove( );
+			}
+		}
 
 		// print on the server side
 		String flag = DataUtil.trimString( context

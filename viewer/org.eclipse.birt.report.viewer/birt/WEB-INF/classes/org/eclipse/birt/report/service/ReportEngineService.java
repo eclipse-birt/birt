@@ -90,6 +90,7 @@ import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.LoggingUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -180,6 +181,13 @@ public class ReportEngineService
 				scriptlibClassPath );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
+		
+		// configure the loggers
+		LoggingUtil.configureLoggers(
+			ParameterAccessor.loggers,
+			level,
+			ParameterAccessor.logFolder
+			);
 	}
 
 	/**
