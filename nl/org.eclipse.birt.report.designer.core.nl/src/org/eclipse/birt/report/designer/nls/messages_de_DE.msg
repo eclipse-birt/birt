@@ -153,6 +153,8 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 ###########################################################
 #BindingPage properties
 
+BindingPage.Dataset.Label=Datensatz:
+BindingPage.ReportItem.Label=Report Item:
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
 BindingPage.None=Keine
@@ -160,7 +162,7 @@ BindingPage.TableColumn.DataType=Datentyp
 BindingPage.TableColumn.Parameter=Parameter
 BindingPage.TableColumn.Value=Wert
 
-ColumnBingingDialog.Label.Warn=Das Ändern des Datensatzes könnte zur Folge haben, dass alle Ausdrücke in den Ergebnisspalten ungültig werden.
+ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
 ColumnBindingDialog.Label.DataSet=Datensatz:
 ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
@@ -172,7 +174,8 @@ ColumnBindingDialog.Column.DataType=Datentyp
 ColumnBindingDialog.Column.AggregateOn=Aggregat in
 ColumnBindingDialog.All=Alles
 ColumnBindingDialog.NONE=Ohne
-ColumnBindingDialog.Choice.FromContainer=Datensatz des Containers
+ColumnBindingDialog.Choice.DatasetFromContainer=Datensatz des Containers
+ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
 ColumnBindingDialog.AGGREGATEON.NONE=n.a.
 ColumnBindingDialog.Text.Add=Hinzufügen...
 ColumnBindingDialog.Text.Edit=Bearbeiten...
@@ -416,6 +419,7 @@ dataset.editor.error.emptyName=Der Name darf nicht leer sein.
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
 dataset.editor.error.noDataSource=Keine Datenquelle verfügbar für den Datensatz {0}; wählen Sie einen Datenquellen-Eintrag in der Eigenschaftenansicht aus.
+dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
 dataset.editor.error.noEditorsFound=Keinen Editor für Datensatz gefunden {0}.
 dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss einen Standardwert aufweisen, der ungleich Null ist.
 dataset.editor.error.title=Warnung
@@ -464,6 +468,7 @@ dataset.outputparameters.preview.tooltip=Vorschau der Ausgabeparameter anzeigen
 dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
 dataset.wizard.label.dataSource=&Datenquelle:
+dataSourceSelectionPage.title=Link with data source
 
 ###########################################################
 #DataSetBasePage properties
@@ -715,6 +720,8 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine 
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl von Tabellen in den Schemata zu definieren.
 designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuzeigender Zeilen:
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
+designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
 designer.preview.preference.server.note=Hinweis:
@@ -1214,7 +1221,7 @@ EmptyEditPart.Msg.NonVisual=Es wurde ein nicht-visuelles Element gewählt.
 
 error.duplicateName=Der neue Name ist im gleichen Namensraum bereits vorhanden.
 error.emptyName=Der Datenquellenname darf nicht leer sein.
-error.invalidName=Der Name "{0}" ist unzulässig, da er das Zeichen "." enthält.
+error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2742,6 +2749,8 @@ RefreshLibExplorerAction.Text=Aktualisieren
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Bibliothek entfernen
+RemoveLibraryAction.config.Title=Confirm library remove
+RemoveLibraryAction.config.Message=Do you really want to remove this library?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3421,7 +3430,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Bibliothek verwenden
+UseLibraryAction.Text=&Use Library
 UseLibraryAction.Error.Title=Vorhandene Datei ersetzen
 UseLibraryAction.Error.Message=Die Datei ''{0}'' ist bereits im BIRT-Ressourcenordner vorhanden. Ersetzen?
 
@@ -3621,7 +3630,8 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschüt
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
 DataSetColumnBindingsFormHandleProvider.Column.displayName=Angezeigter Name
-DataSetColumnBindingsFormHandleProvider.TableTitle=Datenspaltenbindung:
+DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck

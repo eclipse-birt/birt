@@ -153,6 +153,8 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 ###########################################################
 #BindingPage properties
 
+BindingPage.Dataset.Label=데이터 집합:
+BindingPage.ReportItem.Label=Report Item:
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
 BindingPage.None=없음
@@ -160,7 +162,7 @@ BindingPage.TableColumn.DataType=데이터 형식
 BindingPage.TableColumn.Parameter=매개 변수
 BindingPage.TableColumn.Value=값
 
-ColumnBingingDialog.Label.Warn=데이터 집합을 변경하면 모든 결과 집합 열 식이 무효가 될 수 있습니다.  
+ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
 ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
@@ -172,7 +174,8 @@ ColumnBindingDialog.Column.DataType=데이터 형식
 ColumnBindingDialog.Column.AggregateOn=집계 대상
 ColumnBindingDialog.All=모두
 ColumnBindingDialog.NONE=없음
-ColumnBindingDialog.Choice.FromContainer=컨테이너의 데이터 집합
+ColumnBindingDialog.Choice.DatasetFromContainer=컨테이너의 데이터 집합
+ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
 ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
 ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
@@ -416,6 +419,7 @@ dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다.
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.noDataSource=데이터 집합 {0}에 사용할 수 있는 데이터 원본이 없습니다. 속성 뷰의 "데이터 집합" 항목에서 데이터 원본을 선택하십시오.
+dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
 dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 비어 있지 않은 기본값이 있어야 합니다.
 dataset.editor.error.title=경고
@@ -464,6 +468,7 @@ dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
+dataSourceSelectionPage.title=Link with data source
 
 ###########################################################
 #DataSetBasePage properties
@@ -715,6 +720,8 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 �
 designer.preview.preference.resultset.maxNoOfTable.errormessage=각 스키마의 최대 테이블 수를 0에서 {0} 사이의 숫자로 입력하십시오.
 designer.preview.preference.resultset.maxrow.description=표시할 최대 행 수(&R):
 designer.preview.preference.resultset.maxrow.errormessage=최대 행에 대해 1과 {0} 사이의 숫자를 입력하십시오.
+designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
 designer.preview.preference.server.description=내부 응용 프로그램 서버 구성. BIRT Report Designer 미리 보기 프레임워크에서\n내부적으로 해당 서버를 사용하고 있습니다.
 designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또는 IP 주소(&H)입니다. 자동으로 결정되게 하려면 공백으로\n두십시오.
 designer.preview.preference.server.note=참고:
@@ -1214,7 +1221,7 @@ EmptyEditPart.Msg.NonVisual=보이지 않는 요소가 선택되었습니다.
 
 error.duplicateName=새 이름이 동일한 네임스페이스의 기존 이름과 중복됩니다.
 error.emptyName=데이터 원본 이름은 비워둘 수 없습니다.
-error.invalidName="." 문자를 포함하므로 이름 "{0}"이(가) 잘못되었습니다.
+error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2742,6 +2749,8 @@ RefreshLibExplorerAction.Text=새로 고침
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=라이브러리 제거
+RemoveLibraryAction.config.Title=Confirm library remove
+RemoveLibraryAction.config.Message=Do you really want to remove this library?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3421,7 +3430,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=라이브러리 사용(&U)
+UseLibraryAction.Text=&Use Library
 UseLibraryAction.Error.Title=기존 파일 대체
 UseLibraryAction.Error.Message=''{0}'' 파일이 BIRT 리소스 폴더에 이미 있습니다. 기존 파일을 바꾸시겠습니까?
 
@@ -3621,7 +3630,8 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
 DataSetColumnBindingsFormHandleProvider.Column.displayName=표시 이름
-DataSetColumnBindingsFormHandleProvider.TableTitle=데이터 열 바인딩:
+DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
 DataSetColumnBindingsFormHandleProvider.Column.Expression=식

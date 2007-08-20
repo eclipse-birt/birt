@@ -153,6 +153,8 @@ BgImageFieldEditor.displayname.Browse=Par&courir...
 ###########################################################
 #BindingPage properties
 
+BindingPage.Dataset.Label=Jeu de données :
+BindingPage.ReportItem.Label=Report Item:
 BindingPage.Label.Binding=Liaison
 BindingPage.MessageDlg.SaveParamBinding=Enregistrer ParamBinding
 BindingPage.None=Aucun
@@ -160,7 +162,7 @@ BindingPage.TableColumn.DataType=Type de données
 BindingPage.TableColumn.Parameter=Paramètre
 BindingPage.TableColumn.Value=Valeur
 
-ColumnBingingDialog.Label.Warn=La modification du jeu de données peut rendre toutes les expressions de colonne du jeu de résultats non valides.
+ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
 ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
@@ -172,7 +174,8 @@ ColumnBindingDialog.Column.DataType=Type de données
 ColumnBindingDialog.Column.AggregateOn=Regrouper par
 ColumnBindingDialog.All=Tous
 ColumnBindingDialog.NONE=Aucun
-ColumnBindingDialog.Choice.FromContainer=Jeu de données du conteneur
+ColumnBindingDialog.Choice.DatasetFromContainer=Jeu de données du conteneur
+ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=Ajouter...
 ColumnBindingDialog.Text.Edit=Modifier...
@@ -416,6 +419,7 @@ dataset.editor.error.emptyName=Le nom ne doit pas rester vierge.
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
 dataset.editor.error.noDataSource=Aucune source de données disponible pour le jeu de données {0}, sélectionnez une source de données dans l''entrée Source de données de la vue des propriétés.
+dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
 dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur renseignée par défaut.
 dataset.editor.error.title=Avertissement
@@ -464,6 +468,7 @@ dataset.outputparameters.preview.tooltip=Prévisualiser les paramètres de sortie
 dataset.wizard.label.datasetName=No&m du jeu de données :
 dataset.wizard.label.datasetType=&Type de jeu de données :
 dataset.wizard.label.dataSource=&Source de données :
+dataSourceSelectionPage.title=Link with data source
 
 ###########################################################
 #DataSetBasePage properties
@@ -715,6 +720,8 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Entrez un chiff
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Entrez un chiffre compris entre 0 et {0} pour le nombre maximum de tables de chaque schéma.
 designer.preview.preference.resultset.maxrow.description=Nombre maximum de lignes à affiche&r :
 designer.preview.preference.resultset.maxrow.errormessage=Entrez un nombre compris entre 1 et {0} pour le nombre maximal de lignes.
+designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
 designer.preview.preference.server.description=Configuration du serveur d'application interne. Le serveur est utilisé en interne par\nla structure de prévisualisation de BIRT Report Designer.
 designer.preview.preference.server.hostDescription=Nom d'&hôte ou adresse IP de la machine locale. Ne pas renseigner, détermination\nautomatique.
 designer.preview.preference.server.note=Remarque :
@@ -1214,7 +1221,7 @@ EmptyEditPart.Msg.NonVisual=Elément non visuel sélectionné.
 
 error.duplicateName=Le nouveau nom est le doublon d'un nom existant dans le même espace de noms.
 error.emptyName=Le nom de la source de données doit être renseigné.
-error.invalidName=Le nom "{0}" n'est pas valide car il contient le caractère ".".
+error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2742,6 +2749,8 @@ RefreshLibExplorerAction.Text=Actualiser
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Supprimer la bibliothèque
+RemoveLibraryAction.config.Title=Confirm library remove
+RemoveLibraryAction.config.Message=Do you really want to remove this library?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3421,7 +3430,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Utiliser la bibliothèque
+UseLibraryAction.Text=&Use Library
 UseLibraryAction.Error.Title=Remplacer le fichier existant
 UseLibraryAction.Error.Message=Le fichier ''{0}'' existe déjà dans le dossier de ressources BIRT. Souhaitez-vous remplacer le fichier existant ?
 
@@ -3621,7 +3630,8 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
 DataSetColumnBindingsFormHandleProvider.Column.displayName=Nom d'affichage
-DataSetColumnBindingsFormHandleProvider.TableTitle=Liaison de colonne de données :
+DataSetColumnBindingsFormHandleProvider.DatasetTitle=Liaison de colonne de données :
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expression

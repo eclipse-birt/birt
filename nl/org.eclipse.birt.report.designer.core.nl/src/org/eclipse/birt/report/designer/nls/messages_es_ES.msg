@@ -153,6 +153,8 @@ BgImageFieldEditor.displayname.Browse=E&xaminar...
 ###########################################################
 #BindingPage properties
 
+BindingPage.Dataset.Label=Conjunto de datos:
+BindingPage.ReportItem.Label=Report Item:
 BindingPage.Label.Binding=Enlace
 BindingPage.MessageDlg.SaveParamBinding=Guardar ParamBinding
 BindingPage.None=Ninguno
@@ -160,7 +162,7 @@ BindingPage.TableColumn.DataType=Tipo de datos
 BindingPage.TableColumn.Parameter=Parámetro
 BindingPage.TableColumn.Value=Valor
 
-ColumnBingingDialog.Label.Warn=Cambiar el conjunto de datos podría invalidar todas las expresiones de la columna de conjunto de resultados.
+ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
 ColumnBindingDialog.Label.DataSet=Conjunto de datos:
 ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
@@ -172,7 +174,8 @@ ColumnBindingDialog.Column.DataType=Tipo de datos
 ColumnBindingDialog.Column.AggregateOn=Agregar en
 ColumnBindingDialog.All=Todos
 ColumnBindingDialog.NONE=Ninguno
-ColumnBindingDialog.Choice.FromContainer=Conjunto de datos del contenedor
+ColumnBindingDialog.Choice.DatasetFromContainer=Conjunto de datos del contenedor
+ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=Añadir...
 ColumnBindingDialog.Text.Edit=Editar...
@@ -416,6 +419,7 @@ dataset.editor.error.emptyName=El nombre no puede estar en blanco.
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
 dataset.editor.error.missingComputedColumnName=El nombre de columna procesada no puede ser nulo ni estar en blanco.
 dataset.editor.error.noDataSource=No hay ninguna fuente de datos disponible para el conjunto de datos {0}; seleccione una fuente de datos en la entrada "fuente de datos" de la vista de propiedades.
+dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
 dataset.editor.error.noEditorsFound=No se han encontrado editores para el conjunto de datos {0}.
 dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} debe tener un valor predeterminado que no esté vacío.
 dataset.editor.error.title=Advertencia
@@ -464,6 +468,7 @@ dataset.outputparameters.preview.tooltip=Vista previa de parámetros de salida
 dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
 dataset.wizard.label.dataSource=Fuente de dat&os:
+dataSourceSelectionPage.title=Link with data source
 
 ###########################################################
 #DataSetBasePage properties
@@ -715,6 +720,8 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un n
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Introduzca un número entre 0 y {0} para el número máximo de tablas de cada esquema.
 designer.preview.preference.resultset.maxrow.description=Número máximo de &filas que mostrar:
 designer.preview.preference.resultset.maxrow.errormessage=Introduzca un número entre 1 y {0} para el número máximo de filas.
+designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
 designer.preview.preference.server.description=Configuración del servidor de aplicaciones interno. El frame de vista previa de BIRT Report Designer\nutiliza el servidor internamente.
 designer.preview.preference.server.hostDescription=&Nombre del anfitrión o dirección IP de equipo local. Deje en blanco, se\ndetermina automáticamente.
 designer.preview.preference.server.note=Nota:
@@ -1214,7 +1221,7 @@ EmptyEditPart.Msg.NonVisual=Se ha seleccionado un elemento no visual.
 
 error.duplicateName=El nuevo nombre duplica un nombre existente en el mismo espacio de nombre.
 error.emptyName=El nombre de la fuente de datos no puede estar vacío.
-error.invalidName=El nombre "{0}" no es válido, ya que contiene el carácter ".".
+error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2742,6 +2749,8 @@ RefreshLibExplorerAction.Text=Actualizar
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Quitar librería
+RemoveLibraryAction.config.Title=Confirm library remove
+RemoveLibraryAction.config.Message=Do you really want to remove this library?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3421,7 +3430,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Usar librería
+UseLibraryAction.Text=&Use Library
 UseLibraryAction.Error.Title=Sustituir archivo existente
 UseLibraryAction.Error.Message=El archivo ''{0}'' ya existe la carpeta de recursos de BIRT. ¿Desea reemplazar el archivo existente?
 
@@ -3621,7 +3630,8 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo le
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nombre
 DataSetColumnBindingsFormHandleProvider.Column.displayName=Nombre en pantalla
-DataSetColumnBindingsFormHandleProvider.TableTitle=Enlace de columna de datos:
+DataSetColumnBindingsFormHandleProvider.DatasetTitle=Enlace de columna de datos:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nuevo enlace  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expresión

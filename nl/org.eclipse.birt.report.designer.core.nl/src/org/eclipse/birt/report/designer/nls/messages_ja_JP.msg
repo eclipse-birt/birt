@@ -153,6 +153,8 @@ BgImageFieldEditor.displayname.Browse=QÆ(&W)...
 ###########################################################
 #BindingPage properties
 
+BindingPage.Dataset.Label=ƒf[ƒ^ƒZƒbƒg :
+BindingPage.ReportItem.Label=Report Item:
 BindingPage.Label.Binding=ƒoƒCƒ“ƒh
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding ‚Ì•Û‘¶
 BindingPage.None=‚È‚µ
@@ -160,7 +162,7 @@ BindingPage.TableColumn.DataType=ƒf[ƒ^Œ^
 BindingPage.TableColumn.Parameter=ƒpƒ‰ƒƒ^
 BindingPage.TableColumn.Value=’l
 
-ColumnBingingDialog.Label.Warn=ƒf[ƒ^ƒZƒbƒg‚Ì•ÏX‚ÍA‚·‚×‚Ä‚ÌŒ‹‰ÊƒZƒbƒgƒJƒ‰ƒ€®‚ğ–³Œø‚É‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
+ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
 ColumnBindingDialog.Label.DataSet=ƒf[ƒ^ƒZƒbƒg :
 ColumnBindingDialog.Column.Expression=®
 ColumnBindingDialog.DialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
@@ -172,7 +174,8 @@ ColumnBindingDialog.Column.DataType=ƒf[ƒ^Œ^
 ColumnBindingDialog.Column.AggregateOn=WŒvğŒ
 ColumnBindingDialog.All=‚·‚×‚Ä
 ColumnBindingDialog.NONE=‚È‚µ
-ColumnBindingDialog.Choice.FromContainer=ƒRƒ“ƒeƒi‚Ìƒf[ƒ^ƒZƒbƒg
+ColumnBindingDialog.Choice.DatasetFromContainer=ƒRƒ“ƒeƒi‚Ìƒf[ƒ^ƒZƒbƒg
+ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=’Ç‰Á...
 ColumnBindingDialog.Text.Edit=•ÒW...
@@ -416,6 +419,7 @@ dataset.editor.error.emptyName=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.missingComputedColumnExpression=ŒvZ—ñ {0} ‚Ì®‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.missingComputedColumnName=ŒvZ—ñ–¼‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.noDataSource=ƒf[ƒ^ƒZƒbƒg {0} ‚Éƒf[ƒ^ƒ\[ƒX‚ª‚ ‚è‚Ü‚¹‚ñBƒvƒƒpƒeƒBƒrƒ…[‚Ì [ƒf[ƒ^ƒ\[ƒX] ƒGƒ“ƒgƒŠ‚Åƒf[ƒ^ƒ\[ƒX‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
 dataset.editor.error.noEditorsFound=ƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ {0}B
 dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É‹ó”’ˆÈŠO‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.error.title=Œx
@@ -464,6 +468,7 @@ dataset.outputparameters.preview.tooltip=o—Íƒpƒ‰ƒƒ^‚ÌƒvƒŒƒrƒ…[
 dataset.wizard.label.datasetName=ƒf[ƒ^ƒZƒbƒg–¼(&M) :
 dataset.wizard.label.datasetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^(&T) :
 dataset.wizard.label.dataSource=ƒf[ƒ^ƒ\[ƒX(&S) :
+dataSourceSelectionPage.title=Link with data source
 
 ###########################################################
 #DataSetBasePage properties
@@ -715,6 +720,8 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Å‘åƒXƒL[ƒ}”‚
 designer.preview.preference.resultset.maxNoOfTable.errormessage=ŠeƒXƒL[ƒ}‚ÌÅ‘åƒe[ƒuƒ‹”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.resultset.maxrow.description=•\¦‚·‚és‚ÌÅ‘å”(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=Å‘ås”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
 designer.preview.preference.server.description=“à•”ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo‚Ìİ’èBƒT[ƒo‚ÍABIRT Report Designer\nPreview Framework “à•”‚Åg—p‚³‚ê‚Ü‚·B
 designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX(&H)\n©“®“I‚ÉŒˆ’è‚·‚é‚É‚ÍA‹ó”’‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.server.note=’ :
@@ -1214,7 +1221,7 @@ EmptyEditPart.Msg.NonVisual=‘I‘ğ‚µ‚½—v‘f‚ÍAƒrƒWƒ…ƒAƒ‹—v‘f‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 
 error.duplicateName=‚±‚Ì–¼‘O‚ÍA“¯‚¶–¼‘O‹óŠÔ‚Å‚·‚Å‚Ég—p‚³‚ê‚Ä‚¢‚Ü‚·B
 error.emptyName=ƒf[ƒ^ƒ\[ƒX–¼‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
-error.invalidName="{0}" ‚Í–³Œø‚È–¼‘O‚Å‚·B–¼‘O‚É‚Í "." (ƒsƒŠƒIƒh) ‚ğg—p‚Å‚«‚Ü‚¹‚ñB
+error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2742,6 +2749,8 @@ RefreshLibExplorerAction.Text=XV
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚Ìíœ
+RemoveLibraryAction.config.Title=Confirm library remove
+RemoveLibraryAction.config.Message=Do you really want to remove this library?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3421,7 +3430,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚Ìg—p(&U)
+UseLibraryAction.Text=&Use Library
 UseLibraryAction.Error.Title=Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚Ìã‘‚«
 UseLibraryAction.Error.Message=BIRT ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚É‚ÍAƒtƒ@ƒCƒ‹ ''{0}'' ‚ª‚·‚Å‚É‘¶İ‚µ‚Ü‚·BŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğã‘‚«‚µ‚Ü‚·‚© ?
 
@@ -3621,7 +3630,8 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=–¼‘O
 DataSetColumnBindingsFormHandleProvider.Column.displayName=•\¦–¼
-DataSetColumnBindingsFormHandleProvider.TableTitle=ƒf[ƒ^ƒJƒ‰ƒ€‚ÌƒoƒCƒ“ƒh :
+DataSetColumnBindingsFormHandleProvider.DatasetTitle=ƒf[ƒ^ƒJƒ‰ƒ€‚ÌƒoƒCƒ“ƒh :
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
 DataSetColumnBindingsFormHandleProvider.NewBinding=V‹KƒoƒCƒ“ƒh  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=ƒf[ƒ^Œ^
 DataSetColumnBindingsFormHandleProvider.Column.Expression=®
