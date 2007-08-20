@@ -1924,7 +1924,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
 		{
-			if ( tempdefaultValue.equals( CHOICE_NO_DEFAULT ) )
+			if (tempdefaultValue != null && tempdefaultValue.equals( CHOICE_NO_DEFAULT ) )
 			{
 				return DataTypeUtil.toBoolean( null );
 			}
