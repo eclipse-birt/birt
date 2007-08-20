@@ -27,14 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
@@ -741,17 +734,17 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toDate( defaultValue ));
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toDate( defaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ));
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ));
+				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ) );
 			}
-			
+
 		}
 		catch ( BirtException e )
 		{
@@ -1001,8 +994,6 @@ public class ParameterDialog extends BaseDialog
 
 	private List getColumnValueList( )
 	{
-		ArrayList valueList = new ArrayList( );
-		DataEngine engine;
 		try
 		{
 			String queryExpr = getExpression( columnChooser.getText( ) );
@@ -1010,61 +1001,19 @@ public class ParameterDialog extends BaseDialog
 			{
 				return Collections.EMPTY_LIST;
 			}
-			engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-					null,
-					null,
-					null ) );
-			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
-					getDataSetHandle( ) )
-					.getReportQueryDefn( );
 
-			ScriptExpression expression = new ScriptExpression( queryExpr );
-			String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
-			query.addResultSetExpression( columnBindingName, expression );
-			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+			ArrayList valueList = new ArrayList( );
 
-			IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
-			IQueryResults results = preparedQuery.execute( null );
-			if ( results != null )
-			{
-				IResultIterator iter = results.getResultIterator( );
-				if ( iter != null )
-				{
+			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
+					getDataSetHandle( ) ) );
 
-					while ( iter.next( ) )
-					{
-						String result = null;
-						// if (
-						// DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(
-						// getSelectedDataType( ) ) )
-						// {
-						// DateFormatter formatter = new DateFormatter(
-						// STANDARD_DATE_TIME_PATTERN,
-						// ULocale.US );
-						// result = formatter.format( iter.getDate(
-						// columnBindingName ) );
-						// }
-						// else
-						// {
-						result = iter.getString( columnBindingName );
-						// }
-						if ( !StringUtil.isBlank( result )
-								&& !valueList.contains( result ) )
-						{
-							valueList.add( result );
-						}
-					}
-				}
-
-				results.close( );
-			}
+			return valueList;
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 			return Collections.EMPTY_LIST;
 		}
-		return valueList;
 	}
 
 	private void refreshDataSets( )
@@ -1835,12 +1784,14 @@ public class ParameterDialog extends BaseDialog
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
 					defaultValueChooser.setText( "" ); //$NON-NLS-1$
-					if ( getColumnValueList( ).isEmpty( ) )
+
+					List columnValueList = getColumnValueList( );
+					if ( columnValueList.isEmpty( ) )
 						return;
 					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
 							.getActiveShell( ),
 							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
-					dialog.setColumnValueList( getColumnValueList( ) );
+					dialog.setColumnValueList( columnValueList );
 					int status = dialog.open( );
 					if ( status == Window.OK )
 					{
@@ -1924,7 +1875,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
 		{
-			if (tempdefaultValue != null && tempdefaultValue.equals( CHOICE_NO_DEFAULT ) )
+			if ( tempdefaultValue != null
+					&& tempdefaultValue.equals( CHOICE_NO_DEFAULT ) )
 			{
 				return DataTypeUtil.toBoolean( null );
 			}
@@ -2317,7 +2269,7 @@ public class ParameterDialog extends BaseDialog
 
 			// 2. No default value error
 			if ( defaultValue == null
-					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) )))
+					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
 			{
 				// if ( isStatic( ) )
 				// {
@@ -2637,53 +2589,53 @@ public class ParameterDialog extends BaseDialog
 			{
 				displayFormat += ": " + formatPattern; //$NON-NLS-1$
 			}
-//			if ( defaultValue != null )
-//			{
-//				previewString = format( defaultValue );
-//			}
-//			else
-//			{
-				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
-				{
-					previewString = new DateFormatter( isCustom( ) ? formatPattern
-							: ( formatCategroy.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
-									: formatCategroy ),
-							ULocale.getDefault( ) ).format( new Date( ) );
-				}
-				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATE ) )
-				{
-					previewString = new DateFormatter( isCustom( ) ? formatPattern
-							: ( formatCategroy.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
-									: formatCategroy ),
-							ULocale.getDefault( ) ).format( new Date( ) );
-				}
-				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
-				{
-					previewString = new DateFormatter( isCustom( ) ? formatPattern
-							: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
-									: formatCategroy ),
-							ULocale.getDefault( ) ).format( new Date( ) );
-				}
-				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
-				{
-					previewString = new StringFormatter( isCustom( ) ? formatPattern
-							: formatCategroy,
-							ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
-				}
-				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
-				{
-					previewString = new NumberFormatter( isCustom( ) ? formatPattern
-							: formatCategroy,
-							ULocale.getDefault( ) ).format( 1234567890 );
-				}
-				else
-				{
-					previewString = new NumberFormatter( isCustom( ) ? formatPattern
-							: formatCategroy,
-							ULocale.getDefault( ) ).format( 123456789.01234 );
-				}
+			// if ( defaultValue != null )
+			// {
+			// previewString = format( defaultValue );
+			// }
+			// else
+			// {
+			if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
+			{
+				previewString = new DateFormatter( isCustom( ) ? formatPattern
+						: ( formatCategroy.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
+								: formatCategroy ),
+						ULocale.getDefault( ) ).format( new Date( ) );
 			}
-//		}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATE ) )
+			{
+				previewString = new DateFormatter( isCustom( ) ? formatPattern
+						: ( formatCategroy.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
+								: formatCategroy ),
+						ULocale.getDefault( ) ).format( new Date( ) );
+			}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
+			{
+				previewString = new DateFormatter( isCustom( ) ? formatPattern
+						: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
+								: formatCategroy ),
+						ULocale.getDefault( ) ).format( new Date( ) );
+			}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			{
+				previewString = new StringFormatter( isCustom( ) ? formatPattern
+						: formatCategroy,
+						ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
+			}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+			{
+				previewString = new NumberFormatter( isCustom( ) ? formatPattern
+						: formatCategroy,
+						ULocale.getDefault( ) ).format( 1234567890 );
+			}
+			else
+			{
+				previewString = new NumberFormatter( isCustom( ) ? formatPattern
+						: formatCategroy,
+						ULocale.getDefault( ) ).format( 123456789.01234 );
+			}
+		}
+		// }
 		formatField.setText( displayFormat );
 		previewLabel.setText( convertNullString( previewString ) );
 		changeFormat.setEnabled( choiceSet != null );

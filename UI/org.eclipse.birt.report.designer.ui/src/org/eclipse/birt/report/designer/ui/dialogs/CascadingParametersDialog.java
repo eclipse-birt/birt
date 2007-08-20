@@ -23,15 +23,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -786,12 +779,14 @@ public class CascadingParametersDialog extends BaseDialog
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
 					defaultValueChooser.setText( "" ); //$NON-NLS-1$
-					if ( getColumnValueList( ).isEmpty( ) )
+
+					List columnValueList = getColumnValueList( );
+					if ( columnValueList.isEmpty( ) )
 						return;
 					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
 							.getActiveShell( ),
 							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
-					dialog.setColumnValueList( getColumnValueList( ) );
+					dialog.setColumnValueList( columnValueList );
 					int status = dialog.open( );
 					if ( status == Window.OK )
 					{
@@ -838,69 +833,16 @@ public class CascadingParametersDialog extends BaseDialog
 	private List getColumnValueList( )
 	{
 		ArrayList valueList = new ArrayList( );
-		DataEngine engine;
+
 		DataSetHandle dataSet = getDataSet( selectedParameter );
+
 		try
 		{
-			String queryExpr = null;
-			engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-					null,
-					null,
-					null ) );
-			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
-					dataSet )
-					.getReportQueryDefn( );
+			String queryExpr = selectedParameter.getValueExpr( );
 
-			for ( Iterator iter = getColumnList( ).iterator( ); iter.hasNext( ); )
-			{
-				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
-				String columnName = column.getColumnName( );
-				if ( DEUtil.getColumnExpression( columnName )
-						.equalsIgnoreCase( selectedParameter.getValueExpr( ) ) )
-				{
-					queryExpr = DEUtil.getResultSetColumnExpression( columnName );
-					break;
-				}
-			}
-			if ( queryExpr == null || queryExpr.equals( "" ) ) //$NON-NLS-1$
-			{
-				return Collections.EMPTY_LIST;
-			}
-			ScriptExpression expression = new ScriptExpression( queryExpr );
-			String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
-			query.addResultSetExpression( columnBindingName, expression );
-			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
+					dataSet ) );
 
-			IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
-			IQueryResults results = preparedQuery.execute( null );
-			if ( results != null )
-			{
-				IResultIterator iter = results.getResultIterator( );
-				if ( iter != null )
-				{
-//					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-//							ULocale.US );
-					while ( iter.next( ) )
-					{
-						String result = null;
-//						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedParameter.getDataType( ) ) )
-//						{
-//
-//							result = formatter.format( iter.getDate( columnBindingName ) );
-//						}
-//						else
-//						{
-							result = iter.getString( columnBindingName );
-//						}
-						if ( !StringUtil.isBlank( result )
-								&& !valueList.contains( result ) )
-						{
-							valueList.add( result );
-						}
-					}
-				}
-				results.close( );
-			}
 		}
 		catch ( Exception e )
 		{
@@ -2290,7 +2232,9 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					try
 					{
-						if ( displayText.getSelectionIndex( ) == 0 ) // it means DISPLAY_TEXT_NONE
+						if ( displayText.getSelectionIndex( ) == 0 ) // it
+																		// means
+																		// DISPLAY_TEXT_NONE
 						{
 							parameter.setLabelExpr( null );
 						}

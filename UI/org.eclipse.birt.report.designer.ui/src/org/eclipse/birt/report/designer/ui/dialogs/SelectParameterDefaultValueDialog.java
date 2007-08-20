@@ -129,7 +129,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				Iterator iter = columnValueList.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					String candiateValue = (String) iter.next( );
+					String candiateValue = String.valueOf( iter.next( ) );
 					selectValueList.add( candiateValue );
 				}
 			}
