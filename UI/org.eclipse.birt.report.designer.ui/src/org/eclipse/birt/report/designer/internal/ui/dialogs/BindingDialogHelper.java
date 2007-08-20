@@ -324,18 +324,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			initGroups( );
 		}
 
-		if ( isRef )
-		{
-			txtDisplayName.setEnabled( false );
-			cmbType.setEnabled( false );
-			cmbFunction.setEnabled( false );
-			cmbDataField.setEnabled( false );
-			txtFilter.setEnabled( false );
-			argsComposite.setEnabled( false );
-			cmbGroup.setEnabled( false );
-			btnTable.setEnabled( false );
-			btnGroup.setEnabled( false );
-		}
 	}
 
 	private void initFilter( )
@@ -474,7 +462,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				btnGroup.setSelection( true );
 				btnTable.setSelection( false );
-				cmbGroup.setEnabled( true );
+				if ( !isRef )
+					cmbGroup.setEnabled( true );
 				for ( int i = 0; i < groups.length; i++ )
 				{
 					if ( groups[i].equals( binding.getAggregateOn( ) ) )
@@ -691,6 +680,18 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
+		if ( isRef )
+		{
+			txtDisplayName.setEnabled( false );
+			cmbType.setEnabled( false );
+			cmbFunction.setEnabled( false );
+			cmbDataField.setEnabled( false );
+			txtFilter.setEnabled( false );
+			argsComposite.setEnabled( false );
+			cmbGroup.setEnabled( false );
+			btnTable.setEnabled( false );
+			btnGroup.setEnabled( false );
+		}
 	}
 
 	private void createCommonSection( Composite composite )
@@ -742,14 +743,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( dialog.getOkButton( ) != null )
 				dialog.getOkButton( ).setEnabled( false );
 		}
-		else if ( txtExpression != null
-				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
-						.trim( )
-						.equals( "" ) ) ) //$NON-NLS-1$
-		{
-			if ( dialog.getOkButton( ) != null )
-				dialog.getOkButton( ).setEnabled( false );
-		}
 		if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
 		{
 			for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
@@ -771,10 +764,21 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 		}
-		if ( dialog.getOkButton( ) != null )
-			dialog.getOkButton( ).setEnabled( true );
 		this.messageLine.setText( "" ); //$NON-NLS-1$
 		this.messageLine.setImage( null );
+		if ( txtExpression != null
+				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
+						.trim( )
+						.equals( "" ) ) ) //$NON-NLS-1$
+		{
+			if ( dialog.getOkButton( ) != null )
+			{
+				dialog.getOkButton( ).setEnabled( false );
+				return;
+			}
+		}
+		if ( dialog.getOkButton( ) != null )
+			dialog.getOkButton( ).setEnabled( true );
 	}
 
 	protected void handleFunctionSelectEvent( )
