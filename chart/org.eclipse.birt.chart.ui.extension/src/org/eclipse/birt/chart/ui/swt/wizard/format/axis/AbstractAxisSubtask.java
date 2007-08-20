@@ -73,7 +73,7 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 
 /**
- * @author Actuate Corporation
+ * Axis subtask
  * 
  */
 abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
@@ -398,7 +398,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ).getTriggers( ),
 				TriggerSupportMatrix.TYPE_AXIS,

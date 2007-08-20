@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -80,7 +80,7 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 
 /**
- * 
+ * Axis Markers popup sheet
  */
 
 public class AxisMarkersSheet extends AbstractPopupSheet
@@ -89,85 +89,85 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			Listener
 {
 
-	private transient Composite cmpContent;
+	private Composite cmpContent;
 
-	private transient Composite cmpList = null;
+	private Composite cmpList = null;
 
-	private transient Button btnAddLine = null;
+	private Button btnAddLine = null;
 
-	private transient Button btnAddRange = null;
+	private Button btnAddRange = null;
 
-	private transient Button btnRemove = null;
+	private Button btnRemove = null;
 
-	private transient List lstMarkers = null;
+	private List lstMarkers = null;
 
-	private transient Group grpGeneral = null;
+	private Group grpGeneral = null;
 
-	private transient StackLayout slMarkers = null;
+	private StackLayout slMarkers = null;
 
 	// Composite for Marker Line
 
-	private transient Composite cmpLine = null;
+	private Composite cmpLine = null;
 
-	private transient Group grpMarkerLine = null;
+	private Group grpMarkerLine = null;
 
-	private transient Label lblValue = null;
+	private Label lblValue = null;
 
-	private transient TextEditorComposite txtValue = null;
+	private TextEditorComposite txtValue = null;
 
-	private transient Button btnLineFormatSpecifier = null;
+	private Button btnLineFormatSpecifier = null;
 
-	private transient Label lblAnchor = null;
+	private Label lblAnchor = null;
 
-	private transient Combo cmbLineAnchor = null;
+	private Combo cmbLineAnchor = null;
 
-	private transient LineAttributesComposite liacMarkerLine = null;
+	private LineAttributesComposite liacMarkerLine = null;
 
 	// Composite for Marker Range
 
-	private transient Composite cmpRange = null;
+	private Composite cmpRange = null;
 
-	private transient Group grpMarkerRange = null;
+	private Group grpMarkerRange = null;
 
-	private transient Label lblStartValue = null;
+	private Label lblStartValue = null;
 
-	private transient TextEditorComposite txtStartValue = null;
+	private TextEditorComposite txtStartValue = null;
 
-	private transient Button btnStartFormatSpecifier = null;
+	private Button btnStartFormatSpecifier = null;
 
-	private transient Label lblEndValue = null;
+	private Label lblEndValue = null;
 
-	private transient TextEditorComposite txtEndValue = null;
+	private TextEditorComposite txtEndValue = null;
 
-	private transient Button btnEndFormatSpecifier = null;
+	private Button btnEndFormatSpecifier = null;
 
-	private transient Label lblRangeAnchor = null;
+	private Label lblRangeAnchor = null;
 
-	private transient Combo cmbRangeAnchor = null;
+	private Combo cmbRangeAnchor = null;
 
-	private transient Label lblRangeFill = null;
+	private Label lblRangeFill = null;
 
-	private transient FillChooserComposite fccRange = null;
+	private FillChooserComposite fccRange = null;
 
-	private transient LineAttributesComposite liacMarkerRange = null;
+	private LineAttributesComposite liacMarkerRange = null;
 
-	private transient LabelAttributesComposite lacLabel = null;
+	private LabelAttributesComposite lacLabel = null;
 
-	private transient Button btnLineTriggers;
+	private Button btnLineTriggers;
 
-	private transient Button btnRangeTriggers;
+	private Button btnRangeTriggers;
 
-	private transient int iLineCount = 0;
+	private int iLineCount = 0;
 
-	private transient int iRangeCount = 0;
+	private int iRangeCount = 0;
 
-	private transient Axis axis;
+	private Axis axis;
 	
-	private transient ChartWizardContext context;
+	private ChartWizardContext context;
 
-	private transient String MARKER_LINE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerLine.displayName" ); //$NON-NLS-1$
+	private String MARKER_LINE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerLine.displayName" ); //$NON-NLS-1$
 
-	private transient String MARKER_RANGE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerRange.displayName" ); //$NON-NLS-1$
+	private String MARKER_RANGE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerRange.displayName" ); //$NON-NLS-1$
 
 	public AxisMarkersSheet( String title, ChartWizardContext context, Axis axis )
 	{
@@ -326,7 +326,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnLineTriggers.setLayoutData( gd );
-			btnLineTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+			btnLineTriggers.setText( Messages.getString( "AxisMarkersSheet.Label.Interactivity" ) ); //$NON-NLS-1$
 			btnLineTriggers.addSelectionListener( this );
 			btnLineTriggers.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 		}
@@ -440,7 +440,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnRangeTriggers.setLayoutData( gd );
-			btnRangeTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+			btnRangeTriggers.setText( Messages.getString( "AxisMarkersSheet.Label.Interactivity" ) ); //$NON-NLS-1$
 			btnRangeTriggers.addSelectionListener( this );
 			btnRangeTriggers.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 		}

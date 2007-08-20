@@ -49,8 +49,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
 /**
- * @author Actuate Corporation
+ * Chart Area subtask
  * 
  */
 public class ChartSheetImpl extends SubtaskSheetImpl implements
@@ -320,7 +321,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		btnCustomProp.addSelectionListener( this );
 		
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "ChartSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getBlock( ).getTriggers( ),
 				TriggerSupportMatrix.TYPE_CHARTAREA,

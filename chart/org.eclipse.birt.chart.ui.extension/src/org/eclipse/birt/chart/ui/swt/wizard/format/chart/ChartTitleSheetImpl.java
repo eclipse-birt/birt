@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * @author Actuate Corporation
+ * Title subtask
  * 
  */
 public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
@@ -170,23 +170,21 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ) );
 		btnTitleProp = createToggleButton( cmp,
 				Messages.getString( "ChartTitleSheetImpl.Text.TitleText&" ), //$NON-NLS-1$
-				//$NON-NLS-1$
 				popup );
 		btnTitleProp.addSelectionListener( this );
 		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 		
-		// Title Block
-		popup = new TitleBlockSheet( Messages.getString( "ChartTitleSheetImpl.Text.TitleBlock" ), //$NON-NLS-1$
+		// Title Layout
+		popup = new TitleBlockSheet( Messages.getString( "ChartTitleSheetImpl.Text.TitleLayout" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnBlockProp = createToggleButton( cmp,
-				Messages.getString( "ChartTitleSheetImpl.Text.TitleBlock&" ), //$NON-NLS-1$
-				//$NON-NLS-1$
+				Messages.getString( "ChartTitleSheetImpl.Text.Layout&" ), //$NON-NLS-1$
 				popup );
 		btnBlockProp.addSelectionListener( this );
 		btnBlockProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "ChartTitleSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getTitle( ).getTriggers( ),
 				TriggerSupportMatrix.TYPE_CHARTTITLE,

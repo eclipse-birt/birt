@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.birt.chart.util.LiteralHelper;
 
 /**
- * @author Actuate Corporation
+ * Legend subtask
  * 
  */
 public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
@@ -254,26 +254,26 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// Title
-		ITaskPopupSheet popup = new LegendTitleSheet( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendTitle" ), getContext( ) ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new LegendTitleSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendTitle" ), getContext( ) ); //$NON-NLS-1$
 		btnLegendTitle = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.LegendTitle" ), popup ); //$NON-NLS-1$
+				Messages.getString( "ChartLegendSheetImpl.Label.LegendTitle&" ), popup ); //$NON-NLS-1$
 		btnLegendTitle.addSelectionListener( this );
 		btnLegendTitle.setEnabled( btnTitleVisible.getSelection( ) );
 
-		// Text Area
-		popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), getContext( ) ); //$NON-NLS-1$
-		Button btnLegendText = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ), popup ); //$NON-NLS-1$
-		btnLegendText.addSelectionListener( this );
-
 		// Layout
-		popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), getContext( ) ); //$NON-NLS-1$
+		popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendLayout" ), getContext( ) ); //$NON-NLS-1$
 		Button btnAreaProp = createToggleButton( cmp,
 				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ), popup ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
+		
+		// Entries
+		popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendEntries" ), getContext( ) ); //$NON-NLS-1$
+		Button btnLegendText = createToggleButton( cmp,
+				Messages.getString( "ChartLegendSheetImpl.Label.Entries" ), popup ); //$NON-NLS-1$
+		btnLegendText.addSelectionListener( this );
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+		popup = new InteractivitySheet( Messages.getString( "ChartLegendSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
 				getChart( ).getLegend( ).getTriggers( ),
 				TriggerSupportMatrix.TYPE_LEGEND,

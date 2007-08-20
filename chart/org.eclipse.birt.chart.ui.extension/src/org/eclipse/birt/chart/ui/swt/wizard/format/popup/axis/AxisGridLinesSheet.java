@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import org.eclipse.birt.chart.model.attribute.AngleType;
-import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -41,7 +40,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * 
+ * Gridlines popup sheet
  */
 
 public class AxisGridLinesSheet extends AbstractPopupSheet implements
@@ -49,37 +48,37 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		Listener
 {
 
-	private transient Composite cmpContent;
+	private Composite cmpContent;
 
-	private transient Composite cmpGeneral = null;
+	private Composite cmpGeneral = null;
 
-	// private transient Composite cmpGapWidth = null;
+	// private Composite cmpGapWidth = null;
 
-	private transient FillChooserComposite fccLine = null;
+	private FillChooserComposite fccLine = null;
 
-	private transient Label cmbOrientation = null;
+	private Label cmbOrientation = null;
 
-	// private transient IntegerSpinControl iscGapWidth = null;
+	// private IntegerSpinControl iscGapWidth = null;
 
-	private transient Button cbHidden = null;
+	private Button cbHidden = null;
 
-	private transient Button cbTickBetweenCategory = null;
+	private Button cbTickBetweenCategory = null;
 
-	private transient Group grpMajor = null;
+	private Group grpMajor = null;
 
-	private transient Group grpMinor = null;
+	private Group grpMinor = null;
 
-	private transient GridAttributesComposite gacMajor = null;
+	private GridAttributesComposite gacMajor = null;
 
-	private transient GridAttributesComposite gacMinor = null;
+	private GridAttributesComposite gacMinor = null;
 
-	private transient Label lblGridCount = null;
+	private Label lblGridCount = null;
 
-	private transient Spinner iscGridCount = null;
+	private Spinner iscGridCount = null;
 
-	private transient Axis axis;
+	private Axis axis;
 
-	private transient int angleType;
+	private int angleType;
 
 	/**
 	 * @param title
