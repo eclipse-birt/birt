@@ -65,6 +65,7 @@
             <method name="onCreate"><![CDATA[create on the table]]></method>
             <method name="onRender"><![CDATA[render on the table]]></method>
             <property name="dataSet">firstDataSet</property>
+            <property name="sortByGroups">false</property>
             <method name="onStart"><![CDATA[start on the table]]></method>
             <method name="onRow"><![CDATA[fetch row on the table]]></method>
             <method name="onFinish"><![CDATA[finish on the table]]></method>

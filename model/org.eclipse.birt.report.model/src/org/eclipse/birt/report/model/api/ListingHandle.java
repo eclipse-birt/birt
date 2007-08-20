@@ -191,4 +191,30 @@ public abstract class ListingHandle extends ReportItemHandle
 	{
 		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
 	}
+
+	/**
+	 * Determines whether the result set of this element will be sorted by the
+	 * group keys.
+	 * 
+	 * @return true if sorted by the groups, otherwise false
+	 */
+	public boolean isSortByGroups( )
+	{
+		return getBooleanProperty( SORT_BY_GROUPS_PROP );
+	}
+
+	/**
+	 * Sets whether the result set of this element will be sorted by the group
+	 * keys.
+	 * 
+	 * @param isSortByGroups
+	 *            true if sorted by the groups, otherwise false
+	 * @throws SemanticException
+	 *             if the property is locked
+	 */
+	public void setSortByGroups( boolean isSortByGroups )
+			throws SemanticException
+	{
+		setProperty( SORT_BY_GROUPS_PROP, Boolean.valueOf( isSortByGroups ) );
+	}
 }

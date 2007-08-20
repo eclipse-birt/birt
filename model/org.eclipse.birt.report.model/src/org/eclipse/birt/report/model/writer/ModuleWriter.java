@@ -2974,6 +2974,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IListingElementModel.REPEAT_HEADER_PROP );
 		property( obj, IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
+		property( obj, IListingElementModel.SORT_BY_GROUPS_PROP );
 
 		writeStructureList( obj, IListingElementModel.SORT_PROP );
 		writeStructureList( obj, IListingElementModel.FILTER_PROP );

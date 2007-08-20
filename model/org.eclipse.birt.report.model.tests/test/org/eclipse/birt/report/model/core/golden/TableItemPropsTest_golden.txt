@@ -68,6 +68,7 @@ sort
 filter
 repeatHeader
 pageBreakInterval
+sortByGroups
 bookmark
 toc
 dataSet

@@ -2935,6 +2935,9 @@
     <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="integer">
       <Default>200</Default>
     </Property>
+    <Property displayNameID="Element.Listing.sortByGroups" name="sortByGroups" runtimeSettable="false" since="2.2" type="boolean">
+    	<Default>true</Default>
+    </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">

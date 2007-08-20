@@ -56,9 +56,9 @@ public interface IListingElementModel
 	 */
 
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the pageBreakInterval property. 
+	 * Name of the pageBreakInterval property.
 	 */
 
 	public static final String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$
@@ -92,10 +92,16 @@ public interface IListingElementModel
 	 */
 
 	public static final String ON_FINISH_METHOD = "onFinish"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the repeat header property.
 	 */
 
 	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that determines whether the result set will be
+	 * sorted by the group keys.
+	 */
+	String SORT_BY_GROUPS_PROP = "sortByGroups"; //$NON-NLS-1$
 }

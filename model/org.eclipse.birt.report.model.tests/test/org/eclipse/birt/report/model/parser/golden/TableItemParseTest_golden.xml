@@ -65,6 +65,7 @@
             <method name="onCreate"><![CDATA[new create on table]]></method>
             <method name="onRender"><![CDATA[new render on table]]></method>
             <property name="repeatHeader">false</property>
+            <property name="sortByGroups">true</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>

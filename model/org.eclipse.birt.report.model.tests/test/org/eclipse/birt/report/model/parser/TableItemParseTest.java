@@ -185,7 +185,7 @@ public class TableItemParseTest extends ParserTestCase
 	{
 		openDesign( fileName );
 
-		save();
+		save( );
 
 		TableHandle table = (TableHandle) designHandle.findElement( "My table" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -237,6 +237,9 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "filter expression", filterHandle.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filterHandle.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "value2 expression", filterHandle.getValue2( ) ); //$NON-NLS-1$
+
+		// test sort-by-group
+		assertFalse( table.isSortByGroups( ) );
 
 		// Test header properties
 
@@ -316,7 +319,7 @@ public class TableItemParseTest extends ParserTestCase
 		assertTrue( 3.0 == group.getIntervalRange( ) );
 		assertEquals( "desc", group.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertEquals( "[toc Country]", group.getTocExpression( ) );  //$NON-NLS-1$
+		assertEquals( "[toc Country]", group.getTocExpression( ) ); //$NON-NLS-1$
 
 		// checks event handler
 
@@ -364,11 +367,12 @@ public class TableItemParseTest extends ParserTestCase
 
 		// test data binding on group
 
-		//Iterator iter1 = group.columnBindingsIterator( );
-		//ComputedColumnHandle computedColumn = (ComputedColumnHandle) iter1
-		//		.next( );
-		//assertEquals( "column1", computedColumn.getName( ) ); //$NON-NLS-1$
-		//assertEquals( "column1 expr", computedColumn.getExpression( ) ); //$NON-NLS-1$
+		// Iterator iter1 = group.columnBindingsIterator( );
+		// ComputedColumnHandle computedColumn = (ComputedColumnHandle) iter1
+		// .next( );
+		// assertEquals( "column1", computedColumn.getName( ) ); //$NON-NLS-1$
+		// assertEquals( "column1 expr", computedColumn.getExpression( ) );
+		// //$NON-NLS-1$
 
 		// Test footer properties
 
@@ -474,6 +478,7 @@ public class TableItemParseTest extends ParserTestCase
 		tableHandle.setRepeatHeader( false );
 		tableHandle.setCaption( "new caption" ); //$NON-NLS-1$
 		tableHandle.setCaptionKey( "new caption key" ); //$NON-NLS-1$
+		tableHandle.setSortByGroups( true );
 
 		// visibility rules on column
 
@@ -536,7 +541,7 @@ public class TableItemParseTest extends ParserTestCase
 		cell.setOnCreate( null );
 		cell.setOnPrepare( "new prepare on cell" ); //$NON-NLS-1$
 		cell.setOnRender( "new render on cell" ); //$NON-NLS-1$
-		
+
 		UserPropertyDefn prop = new UserPropertyDefn( );
 		prop.setName( "hello" ); //$NON-NLS-1$
 		PropertyType typeDefn = MetaDataDictionary.getInstance( )
@@ -544,8 +549,8 @@ public class TableItemParseTest extends ParserTestCase
 		prop.setType( typeDefn );
 		cell.addUserPropertyDefn( prop );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 
 	}
 
