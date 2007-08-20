@@ -2197,6 +2197,14 @@ public class DEUtil
 	 */
 	public static ReportItemHandle getBindingHolder( DesignElementHandle handle )
 	{
+		return getBindingHolder( handle, false );
+	}
+
+	public static ReportItemHandle getBindingHolder(
+			DesignElementHandle handle, boolean skipSelf )
+	{
+		if ( skipSelf )
+			return getBindingHolder( handle.getContainer( ) );
 		if ( handle instanceof ReportElementHandle )
 		{
 			if ( handle instanceof ListingHandle )

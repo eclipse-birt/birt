@@ -347,7 +347,9 @@ public class ColumnBindingDialog extends BaseDialog
 				{
 					refreshBinding( );
 					if ( datasetRadio.getSelection( )
-							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
+							&& DEUtil.getBindingHolder( inputElement )
+									.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 						saveBinding( );
 				}
 
@@ -393,6 +395,11 @@ public class ColumnBindingDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
+				if ( reportItemRadio.getSelection( )
+						&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
+						&& DEUtil.getBindingHolder( inputElement, true )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+					saveBinding( );
 			}
 		} );
 		reportItemCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
@@ -761,7 +768,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected boolean initDialog( )
 	{
-		load();
 		if ( canSelect )
 		{
 			if ( inputElement instanceof DataItemHandle )
@@ -775,11 +781,7 @@ public class ColumnBindingDialog extends BaseDialog
 				updateSelection( );
 			}
 		}
-		/*
-		 * generateButton.setEnabled( inputElement.getDataSet( ) != null ||
-		 * DEUtil.getBindingHolder( inputElement ).getDataSet( ) != null );
-		 */
-		//updateButtons( );
+		load( );
 		return super.initDialog( );
 	}
 
@@ -903,7 +905,8 @@ public class ColumnBindingDialog extends BaseDialog
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
 		}
-		else btnAdd.setEnabled( true );
+		else
+			btnAdd.setEnabled( true );
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
@@ -1131,10 +1134,10 @@ public class ColumnBindingDialog extends BaseDialog
 		Object value = info.getBindingValue( );
 		datasetCombo.setItems( getAvailableDatasetItems( ) );
 		reportItemCombo.setItems( getReferences( ) );
-		if(type == ReportItemHandle.DATABINDING_TYPE_NONE )
+		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
 			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
 		switch ( type )
-		{	
+		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
 				datasetRadio.setSelection( true );
@@ -1156,7 +1159,7 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		int type = inputElement.getDataBindingType( );
 		Object value;
-		if(type == ReportItemHandle.DATABINDING_TYPE_NONE )
+		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
 			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
 		switch ( type )
 		{
@@ -1258,7 +1261,7 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						// Clear binding info
 						case 0 :
-							resetReference( value, true );
+							resetReference( value );
 							break;
 						// Cancel.
 						case 1 :
@@ -1308,28 +1311,36 @@ public class ColumnBindingDialog extends BaseDialog
 		load( );
 	}
 
-	private void resetReference( Object value, boolean clearHistory )
+	private void resetReference( Object value )
 	{
-		try
+		if ( value == null
+				&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
-			startTrans( "" ); //$NON-NLS-1$
-			ReportItemHandle element = null;
-			if ( value != null )
+			resetDataSetReference( null, true );
+		}
+		else
+		{
+			try
 			{
-				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findElement( value.toString( ) );
+				startTrans( "" ); //$NON-NLS-1$
+				ReportItemHandle element = null;
+				if ( value != null )
+				{
+					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findElement( value.toString( ) );
+				}
+				inputElement.setDataBindingReference( element );
+				selectedColumnName = null;
+				commit( );
 			}
-			inputElement.setDataBindingReference( element );
-			selectedColumnName = null;
-			commit( );
+			catch ( SemanticException e )
+			{
+				rollback( );
+				ExceptionHandler.handle( e );
+			}
+			load( );
 		}
-		catch ( SemanticException e )
-		{
-			rollback( );
-			ExceptionHandler.handle( e );
-		}
-		load( );
 	}
 
 	/**
