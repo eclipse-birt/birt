@@ -459,7 +459,12 @@ public class ColumnBindingDialog extends BaseDialog
 
 			public void keyPressed( KeyEvent e )
 			{
-				if ( e.keyCode == SWT.DEL )
+				if ( e.keyCode == SWT.DEL
+						&& ( DEUtil.getBindingHolder( inputElement )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA || ( DEUtil.getBindingHolder( inputElement )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE && DEUtil.getBindingHolder( inputElement,
+								true )
+								.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) ) )
 				{
 					int itemCount = table.getItemCount( );
 					if ( selectIndex == itemCount )
@@ -899,14 +904,22 @@ public class ColumnBindingDialog extends BaseDialog
 				btnEdit.setEnabled( false );
 		}
 		bindingTable.getTable( ).select( selectIndex );
-		if ( reportItemRadio.getSelection( ) )
+		if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+		{
+			btnAdd.setEnabled( true );
+		}
+		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
+				&& DEUtil.getBindingHolder( inputElement, true )
+						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		{
+			btnAdd.setEnabled( true );
+		}
+		else
 		{
 			btnAdd.setEnabled( false );
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
 		}
-		else
-			btnAdd.setEnabled( true );
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
@@ -1284,22 +1297,19 @@ public class ColumnBindingDialog extends BaseDialog
 						.getReportDesignHandle( )
 						.findDataSet( value.toString( ) );
 			}
-			if ( inputElement.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-			{
-				inputElement.setDataSet( dataSet );
-				if ( clearHistory )
-				{
-					inputElement.getColumnBindings( ).clearValue( );
-					inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-							.clearValue( );
-				}
-				generateBindingColumns( );
-			}
-			else
+			if ( inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				inputElement.setDataBindingReference( null );
-				inputElement.setDataSet( dataSet );
 			}
+			inputElement.setDataSet( dataSet );
+			if ( clearHistory )
+			{
+				inputElement.getColumnBindings( ).clearValue( );
+				inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+			}
+			generateBindingColumns( );
+
 			selectedColumnName = null;
 			commit( );
 		}

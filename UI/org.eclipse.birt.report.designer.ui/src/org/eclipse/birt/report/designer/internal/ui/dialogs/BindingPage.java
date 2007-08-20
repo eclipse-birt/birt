@@ -117,7 +117,8 @@ public class BindingPage extends Composite implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshBinding( );
-				if ( datasetButton.getSelection( ) && getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+				if ( datasetButton.getSelection( )
+						&& getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 					saveBinding( );
 			}
 
@@ -694,23 +695,20 @@ public class BindingPage extends Composite implements Listener
 						.getReportDesignHandle( )
 						.findDataSet( value.toString( ) );
 			}
-			if ( getReportItemHandle( ).getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-			{
-
-				getReportItemHandle( ).setDataSet( dataSet );
-				if ( clearHistory )
-				{
-					getReportItemHandle( ).getColumnBindings( ).clearValue( );
-					getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-							.clearValue( );
-				}
-				columnBindingsFormPage.generateAllBindingColumns( );
-			}
-			else
+			if ( getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
-				getReportItemHandle( ).setDataSet( dataSet );
 			}
+
+			getReportItemHandle( ).setDataSet( dataSet );
+			if ( clearHistory )
+			{
+				getReportItemHandle( ).getColumnBindings( ).clearValue( );
+				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+			}
+			columnBindingsFormPage.generateAllBindingColumns( );
+
 			commit( );
 		}
 		catch ( SemanticException e )

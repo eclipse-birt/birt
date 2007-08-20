@@ -247,22 +247,19 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 						.getReportDesignHandle( )
 						.findDataSet( value.toString( ) );
 			}
-			if ( getReportItemHandle( ).getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-			{
-				getReportItemHandle( ).setDataSet( dataSet );
-				if ( clearHistory )
-				{
-					getReportItemHandle( ).getColumnBindings( ).clearValue( );
-					getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-							.clearValue( );
-				}
-				dataSetProvider.generateAllBindingColumns( );
-			}
-			else
+			if ( getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
-				getReportItemHandle( ).setDataSet( dataSet );
 			}
+			getReportItemHandle( ).setDataSet( dataSet );
+			if ( clearHistory )
+			{
+				getReportItemHandle( ).getColumnBindings( ).clearValue( );
+				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+			}
+			dataSetProvider.generateAllBindingColumns( );
+
 			commit( );
 		}
 		catch ( SemanticException e )
