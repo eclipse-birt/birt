@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -34,17 +35,17 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * Pie Title popup sheet
  */
 
 public class PieTitleSheet extends AbstractPopupSheet implements Listener
 {
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient LabelAttributesComposite lacTitle = null;
+	private LabelAttributesComposite lacTitle = null;
 
-	private transient SeriesDefinition seriesDefn = null;
+	private SeriesDefinition seriesDefn = null;
 
 	public PieTitleSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
@@ -65,18 +66,18 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isFontAlignmentEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
+				getContext( ),
+				attributesContext,
 				Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title" ), getSeriesForProcessing( ) //$NON-NLS-1$
 				.getTitlePosition( ),
 				getLabel( ),
 				getChart( ).getUnits( ),
-				true,
-				true,
-				getContext( ),
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
-				false );
+						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.widthHint = 200;
 		lacTitle.setLayoutData( gdLACTitle );
