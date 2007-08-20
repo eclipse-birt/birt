@@ -2,19 +2,28 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
+import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
+import org.w3c.dom.css.CSSValue;
+import org.eclipse.birt.report.engine.content.IDataContent;
 
 public class ExcelLayoutEngine
 {
@@ -40,24 +49,24 @@ public class ExcelLayoutEngine
 	private Stack containers = new Stack( );
 
 	private Stack tables = new Stack( );
-	
-	private Hashtable links = new Hashtable();
 
-	public ExcelLayoutEngine(PageDef page )
-	{		
-		axis = new AxisProcessor(  );	
+	private Hashtable links = new Hashtable( );
+
+	public ExcelLayoutEngine( PageDef page )
+	{
+		axis = new AxisProcessor( );
 		int[] init = new int[3];
 		init[0] = page.leftmargin;
 		init[1] = page.contentwidth + init[0];
 		init[2] = page.rightmargin + init[1];
-		axis.addCoordinates( init);
+		axis.addCoordinates( init );
 		Rule rule = new Rule( init[0], init[1] - init[0] );
 		cache = new DataCache( 1 );
 		engine = new StyleEngine( this );
 		detal = init[0] == 0 ? 0 : 1;
 		left = init[0];
 		containers.push( createContainer( rule, page.style ) );
-	}	
+	}
 
 	public XlsContainer getCurrentContainer( )
 	{
@@ -199,14 +208,13 @@ public class ExcelLayoutEngine
 	}
 
 	public void endTable( )
-	{   
+	{
 		if ( !tables.isEmpty( ) )
 		{
 			tables.pop( );
 			endContainer( );
 		}
-		
-		
+
 	}
 
 	public void addContainer( IStyle style, HyperlinkDef link )
@@ -240,15 +248,57 @@ public class ExcelLayoutEngine
 		containers.pop( );
 	}
 
-	public void addData( String txt, IStyle style, HyperlinkDef link )
+	public void addData( Object txt, IStyle style, HyperlinkDef link )
 	{
+
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = engine.getStyle( style, rule );
-		Data data = new Data( txt, entry );
+		Data data = createData(txt, entry);
 		data.setHyperlinkDef( link );
 		data.setRule( rule );
 
 		addData( data );
+	}
+
+	public Data createData( Object txt, StyleEntry entry )
+	{
+
+		if ( txt instanceof IDataContent )
+		{
+			IDataContent dataContent = (IDataContent) txt;
+			Object value = dataContent.getValue( );
+
+			if ( value instanceof Number )
+			{
+
+				String format = ExcelUtil.getPattern( value, entry
+						.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
+				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
+				entry.setDatatype( Data.NUMBER );
+				Data data = new Data( value, entry );
+				data.setDatatype( Data.NUMBER );
+				return data;
+			}
+			else if ( value instanceof Date )
+			{
+				String format = ExcelUtil.getPattern( value, entry
+						.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
+				entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
+				entry.setDatatype( Data.DATE );
+				Data data = new Data( value, entry );
+				data.setDatatype( Data.DATE );
+				return data;
+			}
+			  
+			Data data1 = new Data( dataContent.getText( ).trim( ), entry );
+			data1.setDatatype( Data.STRING );
+			return data1;
+		}
+		
+		Data data1 = new Data( txt, entry );
+		data1.setDatatype( Data.STRING );
+		return data1;
+		
 	}
 
 	private void addData( Data data )
@@ -305,7 +355,7 @@ public class ExcelLayoutEngine
 	{
 		Object[] row = cache.getRowData( rownum );
 		List data = new ArrayList( );
-		int width = Math.min( row.length, MAX_CLOUMN - 1);
+		int width = Math.min( row.length, MAX_CLOUMN - 1 );
 		// margin, we can ignore them now
 		// if(detal == 1)
 		// {
@@ -319,15 +369,16 @@ public class ExcelLayoutEngine
 			{
 				continue;
 			}
-			
+
 			Data d = (Data) row[i];
 			HyperlinkDef def = d.getHyperlinkDef( );
-			
-			if(def != null && def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK)
+
+			if ( def != null
+					&& def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
 				def.setUrl( (String) links.get( def.getUrl( ) ) );
-			}	
-			
+			}
+
 			data.add( row[i] );
 		}
 
@@ -339,12 +390,12 @@ public class ExcelLayoutEngine
 		cache.addData( col - detal, value );
 	}
 
-	//	private Data createMarginData( )
-	//	{
-	//		Data data = new Data( EMPTY, null );
-	//		data.setRule( new Rule( 0, left ) );
-	//		return data;
-	//	}
+	// private Data createMarginData( )
+	// {
+	// Data data = new Data( EMPTY, null );
+	// data.setRule( new Rule( 0, left ) );
+	// return data;
+	// }
 
 	public void complete( )
 	{
@@ -368,25 +419,26 @@ public class ExcelLayoutEngine
 				int start = axis.getCoordinate( rule.getStart( ) );
 				int end = axis.getCoordinate( rule.getEnd( ) );
 				Span span = new Span( start + 1, end - start - 1 );
-				
+
 				HyperlinkDef link = d.getHyperlinkDef( );
-				
-				if(link != null && link.getBookmark( ) != null )
+
+				if ( link != null && link.getBookmark( ) != null )
 				{
-					//Since Excel cell start is 1, 1 
-					links.put(link.getBookmark( ), getCellName(i + 1, start + 1));
-				}	
-				
+					// Since Excel cell start is 1, 1
+					links.put( link.getBookmark( ), getCellName( i + 1,
+							start + 1 ) );
+				}
+
 				d.setSpan( span );
 			}
 		}
 	}
-	
-	private String getCellName(int row, int col)
+
+	private String getCellName( int row, int col )
 	{
 		char base = (char) ( col + 64 );
 		Character chr = new Character( base );
-		
+
 		return chr.toString( ) + row;
 	}
 }

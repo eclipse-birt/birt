@@ -215,7 +215,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{		
 		super.startData( data );
 		HyperlinkDef url = parseHyperLink( data );
-		engine.addData( data.getText(), data.getComputedStyle( ), url );
+		engine.addData( data, data.getComputedStyle( ), url );
 	}
 	
 	public void startImage( IImageContent image )

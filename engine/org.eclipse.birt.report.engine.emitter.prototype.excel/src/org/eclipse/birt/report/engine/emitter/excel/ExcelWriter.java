@@ -14,6 +14,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
 
 public class ExcelWriter
 {
@@ -78,22 +81,30 @@ public class ExcelWriter
 	
 	
 	//If possible, we can pass a format according the data type
-	public void writeText( String txt )
+	public void writeText( Object d)
 	{
 		writer.openTag( "Data" );
-
-		try
+		
+		if ( d instanceof Data )
 		{
-			//Integer.parseInt( txt );
-			new java.math.BigDecimal ( txt );
-			writer.attribute( "ss:Type", "Number" );
+			if ( ( (Data) d ).getDatatype( ).equals( Data.NUMBER ) )
+			{
+				writer.attribute( "ss:Type", "Number" );
+			}
+			else if ( ( (Data) d ).getDatatype( ).equals( Data.DATE ) )
+			{
+				writer.attribute( "ss:Type", "DateTime" );
+			}
+			else
+			{
+				writer.attribute( "ss:Type", "String" );
+			}
+			writer.text( ( (Data) d ).txt.toString( ) );
 		}
-		catch ( Exception e )
+		else
 		{
-			writer.attribute( "ss:Type", "String" );
+			writer.text( d.toString( ) );
 		}
-
-		writer.text( txt );
 		writer.closeTag( "Data" );
 	}
 
@@ -138,7 +149,7 @@ public class ExcelWriter
 	protected void writeTxtData( Data d )
 	{
 		startCell( d.span.getCol( ), d.span.getColSpan( ), 0, d.styleId, d.url );
-		writeText( d.txt );
+		writeText( d );
 		endCell( );
 	}
 
@@ -146,7 +157,7 @@ public class ExcelWriter
 	{
 		writer.openTag( "Cell" );
 		writer.attribute( "ss:Index", d.span.getCol( ) );
-		writer.attribute( "ss:Formula", d.txt );
+		writer.attribute( "ss:Formula", d.txt.toString( ) );
 		writer.attribute( "ss:MergeAcross", d.span.getColSpan( ) );
 		writer.attribute( "ss:StyleID", d.styleId );
 		writer.closeTag( "Cell" );
@@ -286,13 +297,48 @@ public class ExcelWriter
 		writeFont( fontName, size, fontWeight, fontStyle, strikeThrough,
 				underline, color );
 
+		writeDataFormat(style);
 		String bgColor = style
 				.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
 		writeBackGroudColor( bgColor );
-
+       
+		
+		
 		writer.closeTag( "Style" );
 	}
+    
+	public void writeDataFormat( StyleEntry style )
+	{
+		if ( style.getDatatype( ) == Data.DATE
+				&& style.getProperty( StyleConstant.DATE_FORMAT_PROP ) != null )
+		{
+			writer.openTag( "NumberFormat" );
+			writer.attribute( "ss:Format", style
+					.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
+			writer.closeTag( "NumberFormat" );
 
+		}
+		if ( style.getDatatype( ) == Data.STRING
+				&& style.getProperty( StyleConstant.STRING_FORMAT_PROP ) != null )
+		{
+			writer.openTag( "NumberFormat" );
+			writer.attribute( "ss:Format", style
+					.getProperty( StyleConstant.STRING_FORMAT_PROP ) );
+			writer.closeTag( "NumberFormat" );
+
+		}
+		if ( style.getDatatype( ) == Data.NUMBER
+				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
+		{
+			writer.openTag( "NumberFormat" );
+			writer.attribute( "ss:Format", style
+					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
+			writer.closeTag( "NumberFormat" );
+
+		}
+
+	}
+	
 	public void writeDeclarations( )
 	{
 		writer.startWriter( );

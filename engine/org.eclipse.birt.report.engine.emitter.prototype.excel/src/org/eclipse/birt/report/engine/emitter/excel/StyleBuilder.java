@@ -122,7 +122,14 @@ public class StyleBuilder
 
 		entry.setProperty( StyleConstant.V_ALIGN_PROP, convertVAlign( style
 				.getVerticalAlign( ) ) );
-
+       
+		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, style
+				.getDateFormat( ) );
+		entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, style
+				.getNumberFormat( ));
+		entry.setProperty( StyleConstant.STRING_FORMAT_PROP, style
+				.getStringFormat( ) );
+       
 		return entry;
 	}
 

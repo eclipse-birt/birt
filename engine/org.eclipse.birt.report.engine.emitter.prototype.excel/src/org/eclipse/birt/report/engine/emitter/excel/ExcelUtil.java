@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
 public class ExcelUtil
 {
 
@@ -20,7 +22,44 @@ public class ExcelUtil
 
 		return val;
 	}
-
+    
+	public static String getPattern(Object data, String val)
+    {
+    	if(val != null && data instanceof java.util.Date) {
+    	   if (val.indexOf( "kk:mm" ) >= 0){
+    		   return "Short Time";	   
+    	   }
+    	   else if(val.startsWith( "ahh" ))
+    	   {
+    		   return "Long Time";   
+    	   }
+    	   else if(!val.startsWith( "ahh" ) && val.indexOf( "ahh" ) >= 0)
+    	   {
+    	      return "General Date";	   
+    	   }
+    	   return new DateFormatter(val).getPattern( );
+    	}
+    	else if(val == null && data instanceof java.util.Date) {
+    	   return "yyyy/mm/dd";	
+    	}
+    	else if(val != null && data instanceof java.lang.Number)
+    	{
+    	   return new NumberFormatter(val).getPattern( );	
+    	}
+    	else if(val == null && data instanceof java.lang.Number)
+    	{
+    	   return null;	
+    	}
+    	else if(val != null && data instanceof java.lang.String)
+    	{
+    		return new StringFormatter(val).getPattern( );
+    	}
+    	else if(val == null && data instanceof java.lang.String)
+    	{
+    	   return null;	
+    	}
+    	return null;
+    }
 	// TODO
 	public static String getValue( String val )
 	{

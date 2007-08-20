@@ -10,11 +10,16 @@ public class Data implements Serializable, Cloneable
 	private static final long serialVersionUID = -316995334044186083L;
 
 	private static int ID = 0;
+	public static final String DATE = "DATE";
+	public static final String NUMBER = "NUMBER";
+	public static final String STRING = "STRING";
+	//String txt;
+    Object txt;
 
-	String txt;
-
-	int styleId, id;
-
+    int styleId, id;
+    
+    String datatype;
+    
 	StyleEntry style;
 
 	Span span;
@@ -25,7 +30,7 @@ public class Data implements Serializable, Cloneable
 
 	boolean isTxtData = true;
 
-	public Data( final String txt, final StyleEntry s )
+	public Data( final Object txt, final StyleEntry s )
 	{
 		this.txt = txt;		
 		this.style = s;
@@ -41,7 +46,14 @@ public class Data implements Serializable, Cloneable
 	{
 		return id;
 	}
-
+    public void setDatatype(String type) 
+    {
+       this.datatype = type;	
+    }
+    public String getDatatype()
+    {
+       return this.datatype;	
+    }
 	// shallow copy is necessary and sufficient
 	protected Object clone( )
 	{
