@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -778,9 +780,27 @@ public class PostscriptWriter
 	private String applyIntrinsicFont( String fontName, int fontStyle, float fontSize, String text )
 	{
 		setFont( fontName, fontSize );
-		text = text.replaceAll( "\\\\", "\\\\\\\\" );
-		text = text.replaceAll( "\\)", "\\\\)" );
+		text = escapeSpecialCharacter( text );
 		return ( "(" + text + ")" );
+	}
+
+	/**
+	 * Escape the characters "(", ")", and "\" in a postscript string by "\".
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private static String escapeSpecialCharacter( String source )
+	{
+		Pattern pattern = Pattern.compile( "(\\\\|\\)|\\()" );
+		Matcher matcher = pattern.matcher( source );
+		StringBuffer buffer = new StringBuffer( );
+		while ( matcher.find( ) )
+		{
+			matcher.appendReplacement( buffer, "\\\\\\" + matcher.group( 1 ) );
+		}
+		matcher.appendTail( buffer );
+		return buffer.toString( );
 	}
 
 	private String toHexString( String text )
