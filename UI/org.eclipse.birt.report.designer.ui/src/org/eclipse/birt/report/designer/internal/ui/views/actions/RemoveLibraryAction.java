@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
@@ -23,13 +24,13 @@ import org.eclipse.ui.PlatformUI;
 public class RemoveLibraryAction extends AbstractElementAction
 {
 
-	private static final String TEXT = "Remove library";
-	private static final String CONFIRM_LIBRARY_REMOVE_TITLE = "Confirm library remove";
-	private static final String CONFIRM_LIBRARY_REMOVE_MESSAGE = "Do you really want to remove this library?";
+	private static final String ACTION_TEXT = Messages.getString( "RemoveLibraryAction.Text" );
+	private static final String CONFIRM_LIBRARY_REMOVE_TITLE = Messages.getString( "RemoveLibraryAction.config.Title" );
+	private static final String CONFIRM_LIBRARY_REMOVE_MESSAGE = Messages.getString( "RemoveLibraryAction.config.Message" );
 
 	public RemoveLibraryAction( Object selectedObject )
 	{
-		super( selectedObject, TEXT );
+		super( selectedObject, ACTION_TEXT );
 	}
 
 	/* (non-Javadoc)
