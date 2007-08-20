@@ -78,8 +78,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private final static String NO_OP_JAVASCRIPT = "javascript:void(0);"; //$NON-NLS-1$
 
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
-	
-	private final long TIMESTAMP = System.currentTimeMillis( );
 
 	// Use this registry to make sure one callback method only be added once
 	private Map callbackMethodsRegistry = new HashMap( 5 );
@@ -225,7 +223,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						final DataPointHints dph = (DataPointHints) sa.getSource( )
 								.getSource( );
-						String callbackFunction = getJSMethodName( condition )
+						String callbackFunction = getJSMethodName( condition, sa )
 								+ "("; //$NON-NLS-1$
 						callbackFunction = ScriptUtil.script( callbackFunction,
 								dph );
@@ -307,7 +305,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						final DataPointHints dph = (DataPointHints) sa.getSource( )
 								.getSource( );
-						String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL )
+						String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL, sa )
 								+ "("; //$NON-NLS-1$
 						callbackFunction = ScriptUtil.script( callbackFunction,
 								dph );
@@ -784,13 +782,17 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private void addCallbackMethod( ShapedAction sa, StringBuffer sb,
 			TriggerCondition condition )
 	{
-		if ( !callbackMethodsRegistry.containsKey( condition ) )
+		// Use the event type and action type as the key and function name to
+		// handle multiple invoke script events in a chart
+		String key = condition.getLiteral( )
+				+ sa.getSource( ).getClass( ).getName( );
+		if ( !callbackMethodsRegistry.containsKey( key ) )
 		{
 			addScriptCallBack( sa,
 					sb,
 					sa.getActionForCondition( condition ),
-					getJSMethodName( condition ) );
-			callbackMethodsRegistry.put( condition, Boolean.TRUE );
+					getJSMethodName( condition, sa ) );
+			callbackMethodsRegistry.put( key, Boolean.TRUE );
 		}
 	}
 	
@@ -832,10 +834,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				+ eval2JS( functionContent, true ) + "}</Script>"; //$NON-NLS-1$
 	}
 	
-	private String getJSMethodName( TriggerCondition tc )
+	private String getJSMethodName( TriggerCondition tc, ShapedAction sa )
 	{
 		// Append timestamp to distinguish multiple callback methods
-		return "userCallBack_" + tc.getLiteral( ) + TIMESTAMP; //$NON-NLS-1$
+		return "userCallBack_" + tc.getLiteral( ) + sa.getSource( ).getClass( ).hashCode( ); //$NON-NLS-1$
 	}
 
 }
