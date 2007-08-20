@@ -14,7 +14,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -272,7 +271,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		typeCombo.setText( getDateTypeDisplayName( input.getDateTimeLevelType( ) ) );
 		formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
 				.toString( ) ) );
-		formatCombo.add( NONE );
+		formatCombo.add( NONE, 0 );
 		formatCombo.setText( getDateFormatDisplayName( input.getDateTimeLevelType( ),
 				input.getDateTimeFormat( ) ) );
 	}
@@ -307,7 +306,7 @@ public class DateLevelDialog extends TitleAreaDialog
 				formatCombo.setItems( new String[0] );
 				formatCombo.setItems( getFormatDisplayItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
 						.toString( ) ) );
-				formatCombo.add( NONE );
+				formatCombo.add( NONE, 0 );
 				formatCombo.select( 0 );
 			}
 
@@ -365,23 +364,8 @@ public class DateLevelDialog extends TitleAreaDialog
 					input.setDateTimeFormat( null );
 				else
 					input.setDateTimeFormat( getFormatPatternItems( getAvailableDateTypeNames( ).get( typeCombo.getSelectionIndex( ) )
-							.toString( ) )[formatCombo.getSelectionIndex( )] );
+							.toString( ) )[formatCombo.getSelectionIndex( ) - 1] );
 			}
-
-			/*
-			 * if ( noneIntervalButton.getSelection( ) ) input.setInterval(
-			 * DesignChoiceConstants.INTERVAL_TYPE_NONE ); else if (
-			 * intervalButton.getSelection( ) ) input.setInterval(
-			 * DesignChoiceConstants.INTERVAL_TYPE_INTERVAL );
-			 * 
-			 * if ( !noneIntervalButton.getSelection( ) ) {
-			 * input.setIntervalRange( intervalRange.getText( ) ); } else {
-			 * input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null ); }
-			 * 
-			 * if ( intervalBaseText.getEnabled( ) ) { input.setIntervalBase(
-			 * UIUtil.convertToModelString( intervalBaseText.getText( ), false ) ); }
-			 * else { input.setIntervalBase( null ); }
-			 */
 		}
 		catch ( Exception e )
 		{
