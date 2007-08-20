@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -30,16 +29,12 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
-import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class adds, deletes and moves group elements. Group elements are treated
@@ -403,36 +398,6 @@ public class GroupElementCommand extends ContentCommand
 	}
 
 	/**
-	 * Localizes element properties or removes current group elements and adds
-	 * new group elements when the data binding reference is set between two
-	 * listing elements.
-	 * <p>
-	 * When calls this method, the data binding reference has been set.
-	 * 
-	 * @param oldValue
-	 * @param newValue
-	 * 
-	 * @throws SemanticException
-	 */
-
-	protected void setupSharedDataGroups( Object oldValue, Object newValue )
-			throws SemanticException
-	{
-		if ( newValue == null || !( (ElementRefValue) newValue ).isResolved( ) )
-		{
-			if ( oldValue != null &&
-					( (ElementRefValue) oldValue ).isResolved( ) )
-				localizeProperties( ( (ElementRefValue) oldValue ).getElement( ) );
-		}
-
-		if ( newValue != null && ( (ElementRefValue) newValue ).isResolved( ) )
-		{
-			setupSharedDataGroups( ( (ElementRefValue) newValue ).getElement( ) );
-		}
-
-	}
-
-	/**
 	 * Removes current group elements and adds new group elements when the data
 	 * binding reference is set between two listing elements.
 	 * <p>
@@ -441,7 +406,7 @@ public class GroupElementCommand extends ContentCommand
 	 * @throws SemanticException
 	 */
 
-	private void setupSharedDataGroups( DesignElement targetElement )
+	protected void setupSharedDataGroups( DesignElement targetElement )
 			throws SemanticException
 	{
 		if ( targetElement.getDefn( ) != element.getDefn( ) )
@@ -470,78 +435,6 @@ public class GroupElementCommand extends ContentCommand
 					new ContainerContext( element, ListingElement.GROUP_SLOT ),
 					true );
 			tmpCmd.add( (GroupElement) groupsToAdd.get( i ) );
-		}
-	}
-
-	/**
-	 * Localizes element properties including listing elements and its group
-	 * properties.
-	 * 
-	 * @param targetElement
-	 * @throws SemanticException
-	 */
-
-	private void localizeProperties( DesignElement targetElement )
-			throws SemanticException
-	{
-		ListingElement listing = (ListingElement) element;
-
-		recoverReferredReportItem( listing, targetElement );
-		List listingGroups = listing.getGroups( );
-
-		ListingElement targetListing = (ListingElement) targetElement;
-		List targetGroups = targetListing.getGroups( );
-
-		int size = Math.min( listingGroups.size( ), targetGroups.size( ) );
-		for ( int i = 0; i < size; i++ )
-		{
-			recoverReferredReportItem( (GroupElement) listingGroups.get( i ),
-					(GroupElement) targetGroups.get( i ) );
-		}
-	}
-
-	/**
-	 * Localizes element properties from <code>targetElement</code> to
-	 * <code>source</code>.
-	 * 
-	 */
-
-	private void recoverReferredReportItem( DesignElement source,
-			DesignElement targetElement ) throws SemanticException
-	{
-		Iterator propNames = null;
-
-		if ( targetElement instanceof ListingElement )
-		{
-			propNames = ReportItemPropSearchStrategy.getDataBindingPropties( )
-					.iterator( );
-		}
-		else if ( targetElement instanceof GroupElement )
-		{
-			propNames = GroupPropSearchStrategy.getDataBindingPropties( )
-					.iterator( );
-		}
-		else 
-		{
-			assert false; 
-			return;
-		}
-
-		while ( propNames.hasNext( ) )
-		{
-			String propName = (String) propNames.next( );
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement
-					.getDefn( ).getProperty( propName );
-			Object value = targetElement.getStrategy( )
-					.getPropertyExceptRomDefault( module, targetElement,
-							propDefn );
-			value = ModelUtil.copyValue( propDefn, value );
-
-			// Set the list value on the element itself.
-
-			PropertyRecord propRecord = new PropertyRecord( source, propDefn,
-					value );
-			getActivityStack( ).execute( propRecord );
 		}
 	}
 }

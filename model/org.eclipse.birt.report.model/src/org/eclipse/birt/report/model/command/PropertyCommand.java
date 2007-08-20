@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -62,11 +64,14 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
+import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -491,16 +496,34 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		stack.execute( record );
 
-		if ( element instanceof ListingElement &&
-				IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( prop
-						.getName( ) ) )
+		if ( IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( prop
+				.getName( ) ) )
 		{
 			try
 			{
-				GroupElementCommand tmpCmd = new GroupElementCommand( module,
-						new ContainerContext( element,
-								IListingElementModel.GROUP_SLOT ) );
-				tmpCmd.setupSharedDataGroups( oldValue, value );
+				// Localizes element properties or removes current group
+				// elements and adds new group elements when the data binding
+				// reference is set between two listing elements.
+
+				if ( value == null || !( (ElementRefValue) value ).isResolved( ) )
+				{
+					if ( oldValue != null &&
+							( (ElementRefValue) oldValue ).isResolved( ) )
+						localizeProperties( ( (ElementRefValue) oldValue )
+								.getElement( ) );
+				}
+
+				if ( value != null &&
+						( (ElementRefValue) value ).isResolved( ) &&
+						element instanceof ListingElement )
+				{
+					GroupElementCommand tmpCmd = new GroupElementCommand(
+							module, new ContainerContext( element,
+									IListingElementModel.GROUP_SLOT ) );
+
+					tmpCmd.setupSharedDataGroups( ( (ElementRefValue) value )
+							.getElement( ) );
+				}
 			}
 			catch ( SemanticException e )
 			{
@@ -509,6 +532,87 @@ public class PropertyCommand extends AbstractPropertyCommand
 			}
 		}
 		stack.commit( );
+	}
+
+	/**
+	 * Localizes element properties including listing elements and its group
+	 * properties.
+	 * 
+	 * @param targetElement
+	 * @throws SemanticException
+	 */
+
+	protected void localizeProperties( DesignElement targetElement )
+			throws SemanticException
+	{
+		ReportItem reportItem = (ReportItem) element;
+
+		recoverReferredReportItem( reportItem, targetElement );
+
+		if ( !( reportItem instanceof ListingElement ) ||
+				!( targetElement instanceof ListingElement ) )
+			return;
+
+		if ( reportItem.getDefn( ) != targetElement.getDefn( ) )
+			return;
+
+		ListingElement listing = (ListingElement) reportItem;
+		List listingGroups = listing.getGroups( );
+
+		ListingElement targetListing = (ListingElement) targetElement;
+		List targetGroups = targetListing.getGroups( );
+
+		int size = Math.min( listingGroups.size( ), targetGroups.size( ) );
+		for ( int i = 0; i < size; i++ )
+		{
+			recoverReferredReportItem( (GroupElement) listingGroups.get( i ),
+					(GroupElement) targetGroups.get( i ) );
+		}
+	}
+
+	/**
+	 * Localizes element properties from <code>targetElement</code> to
+	 * <code>source</code>.
+	 * 
+	 */
+
+	private void recoverReferredReportItem( DesignElement source,
+			DesignElement targetElement ) throws SemanticException
+	{
+		Iterator propNames = null;
+
+		if ( targetElement instanceof ReportItem )
+		{
+			propNames = ReportItemPropSearchStrategy.getDataBindingPropties( )
+					.iterator( );
+		}
+		else if ( targetElement instanceof GroupElement )
+		{
+			propNames = GroupPropSearchStrategy.getDataBindingPropties( )
+					.iterator( );
+		}
+		else
+		{
+			assert false;
+			return;
+		}
+
+		while ( propNames.hasNext( ) )
+		{
+			String propName = (String) propNames.next( );
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement
+					.getDefn( ).getProperty( propName );
+			Object value = targetElement.getStrategy( )
+					.getPropertyExceptRomDefault( module, targetElement,
+							propDefn );
+			value = ModelUtil.copyValue( propDefn, value );
+
+			// Set the list value on the element itself.
+
+			PropertyRecord propRecord = new PropertyRecord( source, propDefn,
+					value );
+			getActivityStack( ).execute( propRecord );
+		}
 	}
 
 	/**
