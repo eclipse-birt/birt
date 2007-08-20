@@ -323,6 +323,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			initFilter( );
 			initGroups( );
 		}
+
+		if ( isRef )
+		{
+			txtDisplayName.setEnabled( false );
+			cmbType.setEnabled( false );
+			cmbFunction.setEnabled( false );
+			cmbDataField.setEnabled( false );
+			txtFilter.setEnabled( false );
+			argsComposite.setEnabled( false );
+			cmbGroup.setEnabled( false );
+			btnTable.setEnabled( false );
+			btnGroup.setEnabled( false );
+		}
 	}
 
 	private void initFilter( )
@@ -460,6 +473,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( binding != null && binding.getAggregateOn( ) != null )
 			{
 				btnGroup.setSelection( true );
+				btnTable.setSelection( false );
+				cmbGroup.setEnabled( true );
 				for ( int i = 0; i < groups.length; i++ )
 				{
 					if ( groups[i].equals( binding.getAggregateOn( ) ) )
@@ -468,11 +483,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						return;
 					}
 				}
-				cmbGroup.setEnabled( true );
 			}
 			else
 			{
 				btnTable.setSelection( true );
+				btnGroup.setSelection( false );
 				cmbGroup.select( 0 );
 				cmbGroup.setEnabled( false );
 			}
@@ -676,16 +691,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 
-		if ( isRef )
-		{
-			txtDisplayName.setEnabled( false );
-			cmbType.setEnabled( false );
-			cmbFunction.setEnabled( false );
-			cmbDataField.setEnabled( false );
-			txtFilter.setEnabled( false );
-			aggOnComposite.setEnabled( false );
-			argsComposite.setEnabled( false );
-		}
 	}
 
 	private void createCommonSection( Composite composite )
