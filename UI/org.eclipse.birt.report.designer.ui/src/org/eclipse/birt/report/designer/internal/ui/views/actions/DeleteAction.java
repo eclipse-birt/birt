@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
@@ -77,14 +75,7 @@ public class DeleteAction extends AbstractElementAction
 		}
 		
 		Object exeResult = null;
-		try
-		{
 			exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand", null );
-		}
-		catch ( Exception e )
-		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
-		}		
 		
 		hasExecuted = ((Boolean)exeResult).booleanValue( );
 		
