@@ -29,7 +29,14 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 public class DataUtil
 {
-
+	/**
+	 * Get all referenced bindings by the given binding in a set of binding
+	 * list.
+	 * 
+	 * @param target
+	 * @param allHandleList
+	 * @return
+	 */
 	public static Set getReferencedBindings( ComputedColumnHandle target,
 			List allHandleList )
 	{
@@ -37,11 +44,10 @@ public class DataUtil
 	}
 
 	/**
-	 * Get all referenced bindings by the given binding in a set of binding
-	 * list.
 	 * 
 	 * @param target
 	 * @param allHandleList
+	 * @param prohibitedSet
 	 * @return
 	 */
 	private static Set getReferencedBindings( ComputedColumnHandle target,
