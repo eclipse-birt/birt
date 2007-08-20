@@ -30,6 +30,12 @@ cascade=この例では、カスケードパラメタグループを使用する BIRT レポートの構築方法
 OrderMasterAfter=この例では、マスターレポートと詳細レポートの構築方法を示します。マスターレポートには注文が一覧に示され、そこで注文をクリックすると詳細レポートが表示されます。ここでは、詳細レポートに返されるデータやマスターレポート内のハイパーリンクのプロパティを、簡単なパラメタによって選抜し、そのパラメタを詳細レポートに渡します。ハイパーリンクのプロパティは、クエリ結果に基づいて動的に生成されます。
 OrderDetailAfter=マスタレポートの項目をクリックしていくと詳細レポートが表示されます。
 
+#Dynamic Report Parameter
+ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+
+#Expressions
+Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+
 #Grouping
 CustomerListAfter_Grouping=この例では、BIRT でグループ化したレポートの構築方法を示すために、顧客を国別にグループ化しています。BIRT の主要機能であるグループ化、ページ区切り、目次、およびグループごとのデータの集計と合計の集計も使用しています。 
 

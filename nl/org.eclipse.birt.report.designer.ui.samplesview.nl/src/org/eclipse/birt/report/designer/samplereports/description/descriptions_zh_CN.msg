@@ -30,6 +30,12 @@ cascade=本示例示范如何生成 BIRT 报表使用层叠参数组。层叠参数组允许一组参数交互链
 OrderMasterAfter=本示例示范如何生成主报表和详细报表。主报表列出所有订单并允许订单用户单击特定订单号追溯选定订单的详细报表。本示例说明如何使用简单参数对详细报表中的结果进行筛选，以及如何使用主报表内的超级链接属性将此参数传输到详细报表。主报表内的超级链接基于查询检索的结果而动态生成。
 OrderDetailAfter=详细报表通过单击主报表进行追溯。
 
+#Dynamic Report Parameter
+ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+
+#Expressions
+Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+
 #Grouping
 CustomerListAfter_Grouping=本示例示范如何在 BIRT 中生成分组报表。示例报表显示客户列表并按国家对这些客户进行分组。本示范包含的主要 BIRT 功能是分组功能、分页符功能、目录功能和每组聚合数据或总体聚合数据功能。 
 

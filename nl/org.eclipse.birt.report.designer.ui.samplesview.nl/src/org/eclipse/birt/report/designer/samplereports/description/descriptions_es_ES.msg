@@ -30,6 +30,12 @@ cascade=En este ejemplo se muestra cómo compilar un informe BIRT que utiliza un 
 OrderMasterAfter=En este ejemplo se muestra la compilación de un informe principal y un informe detallado. La lista de informes principales solicita y permite al usuario del informe hacer clic en un número de pedido particular para acceder al informe detallado del pedido seleccionado. En este ejemplo se ilustra el uso de un parámetro sencillo para descartar resultados del informe detallado y la propiedad de hyperlink dentro del informe principal para pasar este parámetro al informe detallado. La propiedad de hyperlink dentro del informe principal se genera dinámicamente basándose en resultados obtenidos de una consulta.
 OrderDetailAfter=El informe detallado al que se accede al hacer clic en el informe principal.
 
+#Dynamic Report Parameter
+ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+
+#Expressions
+Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+
 #Grouping
 CustomerListAfter_Grouping=En este ejemplo se muestra la compilación de un informe agrupado en BIRT. El informe de ejemplo muestra una lista de clientes y grupos por país. Las funciones clave de BIRT que se incluyen en esta demostración son agrupación, saltos de página, tabla de contenido y agregación de datos por grupo o como total. 
 

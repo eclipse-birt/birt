@@ -30,6 +30,12 @@ cascade=Dieses Beispiel veranschaulicht die Erstellung eines BIRT-Berichts, der 
 OrderMasterAfter=Dieses Beispiel veranschaulicht die Erstellung eines Master- und eines detaillierten Berichts. Der Master-Bericht listet Aufträge auf und ermöglicht es dem Benutzer des Berichts, auf eine bestimmte Auftragsnummer zu klicken, um einen detaillierten Bericht für den ausgewählten Auftrag abzufragen. Dieses Beispiel veranschaulicht die Verwendung eines einfachen Parameters zum Filtern von Ergebnissen im detaillierten Bericht und die Verwendung der Hyperlink-Eigenschaft im Master-Bericht zum Übergeben dieses Parameters an den detaillierten Bericht. Die Hyperlink-Eigenschaft im Master-Bericht wird basierend auf den bei einer Abfrage abgerufenen Ergebnissen dynamisch generiert.
 OrderDetailAfter=Der detaillierte Bericht, der durch Klicken auf Master-Bericht abgefragt wurde.
 
+#Dynamic Report Parameter
+ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+
+#Expressions
+Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+
 #Grouping
 CustomerListAfter_Grouping=Dieses Beispiel veranschaulicht die Erstellung eines gruppierten Berichts in BIRT. Der Beispielbericht zeigt eine Liste von Kunden und gruppiert diese nach Land. Schlüsselfunktionen von BIRT, die in dieser Präsentation abgedeckt werden, sind Gruppierung, Seitenumbrüche, Inhaltsverzeichnis und das gruppenweise bzw. gesamte Aggregieren von Daten. 
 
