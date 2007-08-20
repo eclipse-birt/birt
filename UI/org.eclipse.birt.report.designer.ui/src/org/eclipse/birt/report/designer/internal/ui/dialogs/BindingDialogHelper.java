@@ -745,34 +745,31 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( dialog.getOkButton( ) != null )
 				dialog.getOkButton( ).setEnabled( false );
 		}
-		else
+		if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
 		{
-			if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
+			for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
+					.iterator( ); iterator.hasNext( ); )
 			{
-				for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
-						.iterator( ); iterator.hasNext( ); )
+				ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
+				if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
 				{
-					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
-					if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
-					{
-						if ( dialog.getOkButton( ) != null )
-							dialog.getOkButton( ).setEnabled( false );
-						this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
-								new Object[]{
-									txtName.getText( )
-								} ) );
-						this.messageLine.setImage( PlatformUI.getWorkbench( )
-								.getSharedImages( )
-								.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
-						return;
-					}
+					if ( dialog.getOkButton( ) != null )
+						dialog.getOkButton( ).setEnabled( false );
+					this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+							new Object[]{
+								txtName.getText( )
+							} ) );
+					this.messageLine.setImage( PlatformUI.getWorkbench( )
+							.getSharedImages( )
+							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+					return;
 				}
 			}
-			if ( dialog.getOkButton( ) != null )
-				dialog.getOkButton( ).setEnabled( true );
-			this.messageLine.setText( "" ); //$NON-NLS-1$
-			this.messageLine.setImage( null );
 		}
+		if ( dialog.getOkButton( ) != null )
+			dialog.getOkButton( ).setEnabled( true );
+		this.messageLine.setText( "" ); //$NON-NLS-1$
+		this.messageLine.setImage( null );
 	}
 
 	protected void handleFunctionSelectEvent( )
