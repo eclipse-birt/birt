@@ -16,6 +16,8 @@ AbstractExceptionDialog = function( ) { };
 
 AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 {
+	__faultCode : "",
+
 	/**
 	 *	Binding data to the dialog UI. Data includes zoom scaling factor.
 	 *
@@ -52,5 +54,24 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			oSpans[1].innerHTML = "";
 		}
+
+		var faultCodeElement = data.getElementsByTagName( 'faultcode' );
+	 	if ( faultCodeElement[0] && faultCodeElement[0].firstChild )
+	 	{
+			this.__faultCode = faultCodeElement[0].firstChild.data;
+		}
+		else
+		{
+			this.__faultCode = "";
+		}
+	
+		if ( this.__faultCode == "DocumentProcessor.getPageNumber( )" )
+		{
+			birtEventDispatcher.broadcastEvent( 
+				birtEvent.__E_GETPAGE_INIT, 
+				{ name : Constants.PARAM_PAGE, value : 1 } 
+				);
+		}				
+	
 	}
 } );

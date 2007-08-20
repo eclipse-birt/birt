@@ -160,17 +160,26 @@ public abstract class AbstractChangeParameterActionHandler
 					}
 					InputOptions options = new InputOptions( );
 					options.setOption( InputOptions.OPT_REQUEST, request );
+					long totalPageNumber = 
+							getReportService( )
+							.getPageCount( documentName, options,
+							new OutputOptions( ) );
 					if ( pageNumber <= 0
-							|| pageNumber > getReportService( )
-									.getPageCount( documentName, options,
-											new OutputOptions( ) ) )
+							|| pageNumber > totalPageNumber )
 					{
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
 						fault
-								.setFaultString( BirtResources
-										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+							.setFaultString( BirtResources
+								.getMessage(
+									ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
+										new Object[]{
+											new Long( pageNumber ),
+											new Long( totalPageNumber )
+											} 
+									)									
+								);
 						throw fault;
 					}
 

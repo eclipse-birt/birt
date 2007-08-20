@@ -147,15 +147,26 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					}
 					InputOptions options = new InputOptions( );
 					options.setOption( InputOptions.OPT_REQUEST, request );
-					if ( pageNumber <= 0
-							|| pageNumber > getReportService( )
+					long totalPageNumber = 
+									getReportService( )
 									.getPageCount( documentName, options,
-											new OutputOptions( ) ) )
+									new OutputOptions( ) );
+					if ( pageNumber <= 0
+							|| pageNumber > totalPageNumber )
 					{
 						AxisFault fault = new AxisFault( );
 						fault.setFaultCode( new QName(
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
-						fault.setFaultString( "Invalid page number." ); //$NON-NLS-1$
+						fault
+							.setFaultString( BirtResources
+								.getMessage(
+									ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
+										new Object[]{
+											new Long( pageNumber ),
+											new Long( totalPageNumber )
+										}
+									)
+								);
 						throw fault;
 					}
 

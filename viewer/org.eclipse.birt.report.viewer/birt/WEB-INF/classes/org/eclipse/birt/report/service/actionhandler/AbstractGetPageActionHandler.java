@@ -184,7 +184,13 @@ public abstract class AbstractGetPageActionHandler
 			AxisFault fault = new AxisFault( );
 			fault
 					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
+									new Object[] {
+										new Long( __pageNumber ),
+										new Long( __totalPageNumber )
+									}
+							)
+							);							
 			throw fault;
 		}
 
@@ -324,7 +330,13 @@ public abstract class AbstractGetPageActionHandler
 								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
 						fault
 								.setFaultString( BirtResources
-										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER ) );
+										.getMessage( ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
+												new Object[] { 
+													new Long(pageNumber),
+													new Long(__totalPageNumber )
+												}
+										)
+									);
 						throw fault;
 					}
 
