@@ -176,7 +176,12 @@ public class ReportItemParametersDialog extends BaseDialog
 				// Use space key to open expression builder to edit
 				if ( event.keyCode == ' ' )
 				{
-					TableItem item = table.getItem( table.getSelectionIndex( ) );
+					int selectionIndex = table.getSelectionIndex( );
+					if ( selectionIndex < 0 )
+					{
+						return;
+					}
+					TableItem item = table.getItem( selectionIndex );
 					Object[] pair = (Object[]) item.getData( );
 					DataSetParameterHandle dataHandle = (DataSetParameterHandle) pair[0];
 					ParamBindingHandle bindingHandle = (ParamBindingHandle) pair[1];
