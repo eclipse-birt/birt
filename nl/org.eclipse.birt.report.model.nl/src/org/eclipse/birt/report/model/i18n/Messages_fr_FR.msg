@@ -401,6 +401,7 @@ Choices.filterOperator.bottom-percent=Pourcentage du bas
 Choices.filterOperator.any=Indifférent
 Choices.filterOperator.match=Correspondance
 Choices.filterOperator.not-match=Ne correspondant pas à
+Choices.filterOperator.in=In
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=Modifier
@@ -622,6 +623,11 @@ Choices.dateTimeLevelType.dayOfYear=Jour de l'année
 Choices.dateTimeLevelType.hour=Heure
 Choices.dateTimeLevelType.minute=Minute
 Choices.dateTimeLevelType.second=Deuxième
+
+#76. scalarParamType
+Choices.scalarParamType.simple=Simple
+Choices.scalarParamType.multi-value=Multi Value
+Choices.scalarParamType.ad-hoc=Ad-hoc
     
 ###########################################################
 # Classes
@@ -1890,6 +1896,7 @@ Structure.FilterCondition.expr=Expression
 Structure.FilterCondition.value1=Valeur 1
 Structure.FilterCondition.value2=Valeur 2
 Structure.FilterCondition.filterTarget=Filtrer la cible
+Structure.FilterCondition.isOptional=Facultatif
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nom
@@ -2340,8 +2347,9 @@ Element.Parameter.validate=Validation
 Element.Parameter.validate.toolTip=Renvoie la valeur Vrai (True) ou Faux (False) pour la validation personnalisée du paramètre.
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.type=Type
+Element.ScalarParameter.valueType=Value type
 Element.ScalarParameter.dataType=Type de données
+Element.ScalarParameter.paramType=Scalar parameter type
 Element.ScalarParameter.displayPrompt=Afficher une invite
 Element.ScalarParameter.concealValue=Masquer la valeur
 Element.ScalarParameter.isRequired=Est requis
@@ -2862,6 +2870,7 @@ Element.Listing.sorting=Tri en cours
 Element.Listing.filter=Filtre
 Element.Listing.repeatHeader=Répéter l'en-tête
 Element.Listing.pageBreakInterval=Intervalle de saut de page
+Element.Listing.sortByGroups=Sort By Groups
 Element.Listing.onStart=Au début
 Element.Listing.onStart.toolTip=Commande appelée après l'ouverture du jeu de données, mais avant la création de la bande d'en-tête et avant l'extraction de la première ligne du jeu de données pour cet élément
 Element.Listing.onRow=A la ligne
@@ -3048,6 +3057,7 @@ Element.FilterConditionElement.value1=Valeur1
 Element.FilterConditionElement.value2=Valeur2
 Element.FilterConditionElement.filterTarget=Filtrer la cible
 Element.FilterConditionElement.member=Membre 
+Element.FilterConditionElement.isOptional=Facultatif
 
 ###########################################################
 # Predefined style
@@ -3312,6 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=L''élément "{0}" est un élémen
 Error.ContentException.CONTENT_NAME_REQUIRED={0} ne peut pas être ajouté à l''emplacement {2} de {1} car il n''est pas nommé.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de définition de paramètre de modèle explicite et ne peut donc pas être inséré dans l''emplacement ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.
@@ -3428,6 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=L'opération de déplacement sur l'élément
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage sur l'élément "{0}" n'est pas autorisée.
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
 
 #StyleException
 Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un style.

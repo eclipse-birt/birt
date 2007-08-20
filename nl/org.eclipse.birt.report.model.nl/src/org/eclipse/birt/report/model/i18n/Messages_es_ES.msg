@@ -401,6 +401,7 @@ Choices.filterOperator.bottom-percent=Porcentaje inferior
 Choices.filterOperator.any=Cualquiera
 Choices.filterOperator.match=Coincidencia
 Choices.filterOperator.not-match=No coincide
+Choices.filterOperator.in=In
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=Cambiar
@@ -622,6 +623,11 @@ Choices.dateTimeLevelType.dayOfYear=Día del año
 Choices.dateTimeLevelType.hour=Hora
 Choices.dateTimeLevelType.minute=Minuto
 Choices.dateTimeLevelType.second=Segundo
+
+#76. scalarParamType
+Choices.scalarParamType.simple=Simple
+Choices.scalarParamType.multi-value=Multi Value
+Choices.scalarParamType.ad-hoc=Ad-hoc
     
 ###########################################################
 # Classes
@@ -1890,6 +1896,7 @@ Structure.FilterCondition.expr=Expresión
 Structure.FilterCondition.value1=Valor 1
 Structure.FilterCondition.value2=Valor 2
 Structure.FilterCondition.filterTarget=Destino del filtro
+Structure.FilterCondition.isOptional=Es opcional
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nombre
@@ -2340,8 +2347,9 @@ Element.Parameter.validate=Validación
 Element.Parameter.validate.toolTip=Devuelve "True" o "False" para la validación personalizada del parámetro
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.type=Tipo
+Element.ScalarParameter.valueType=Value type
 Element.ScalarParameter.dataType=Tipo de datos
+Element.ScalarParameter.paramType=Scalar parameter type
 Element.ScalarParameter.displayPrompt=Mostrar solicitud
 Element.ScalarParameter.concealValue=Ocultar valor
 Element.ScalarParameter.isRequired=Es necesario
@@ -2862,6 +2870,7 @@ Element.Listing.sorting=Ordenar
 Element.Listing.filter=Filtrar
 Element.Listing.repeatHeader=Repetir encabezado
 Element.Listing.pageBreakInterval=Intervalo de salto de página
+Element.Listing.sortByGroups=Sort By Groups
 Element.Listing.onStart=En inicio
 Element.Listing.onStart.toolTip=Llamado después de abrir el conjunto de datos pero antes de crear la banda de encabezado y antes de recuperar la primera fila del conjunto de datos para este elemento
 Element.Listing.onRow=En fila
@@ -3048,6 +3057,7 @@ Element.FilterConditionElement.value1=Valor1
 Element.FilterConditionElement.value2=Valor2
 Element.FilterConditionElement.filterTarget=Destino de filtro
 Element.FilterConditionElement.member=Miembro 
+Element.FilterConditionElement.isOptional=Es opcional
 
 ###########################################################
 # Predefined style
@@ -3312,6 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN="{0}" es un elemento secundari
 Error.ContentException.CONTENT_NAME_REQUIRED=No se permite añadir {0} en el slot {2} de {1} porque no tiene nombre.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=El valor {0} no tiene una definición de parámetro de plantilla explícita, de forma que no puede insertarse en el slot ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=No se permite transformar el elemento a una plantilla.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.
@@ -3428,6 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=Está prohibida la operación cambiar en e
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación insertar y pegar en el elemento "{0}".
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
 
 #StyleException
 Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.
