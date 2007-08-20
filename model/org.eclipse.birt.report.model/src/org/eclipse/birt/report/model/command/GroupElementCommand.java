@@ -77,8 +77,7 @@ public class GroupElementCommand extends ContentCommand
 	GroupElementCommand( Module module, ContainerContext containerInfo,
 			boolean flag )
 	{
-		super( module, containerInfo );
-		this.flag = flag;
+		super( module, containerInfo, flag );
 	}
 
 	/**
@@ -228,7 +227,7 @@ public class GroupElementCommand extends ContentCommand
 						.createContentException(
 								focus,
 								content,
-								ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN );
 		}
 
 	}
@@ -253,7 +252,7 @@ public class GroupElementCommand extends ContentCommand
 						.createContentException(
 								focus,
 								content,
-								ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN );
 		}
 	}
 
@@ -277,7 +276,7 @@ public class GroupElementCommand extends ContentCommand
 						.createContentException(
 								focus,
 								content,
-								ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN );
 		}
 	}
 

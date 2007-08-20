@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 
 /**
  * This class represents the properties and slots common to the List and Table
@@ -150,6 +153,42 @@ public abstract class ListingElement extends ReportItem
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
 	 *      org.eclipse.birt.report.model.core.ContainerInfo,
+	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 */
+
+	public List checkContent( Module module, ContainerContext containerInfo,
+			IElementDefn defn )
+	{
+		List errors = super.checkContent( module, containerInfo, defn );
+		if ( !errors.isEmpty( ) )
+			return errors;
+
+		// do the check of the group name
+
+		if ( containerInfo.getSlotID( ) == ListingElement.GROUP_SLOT )
+		{
+			// check the data binding reference
+
+			if ( isDataBindingReferring( module ) )
+			{
+				errors
+						.add( ContentExceptionFactory
+								.createContentException(
+										containerInfo,
+										null,
+										ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+				return errors;
+			}
+		}
+
+		return errors;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.ContainerInfo,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
@@ -164,6 +203,19 @@ public abstract class ListingElement extends ReportItem
 
 		if ( content instanceof GroupElement )
 		{
+			// check the data binding reference
+
+			if ( isDataBindingReferring( module ) )
+			{
+				errors
+						.add( ContentExceptionFactory
+								.createContentException(
+										containerInfo,
+										content,
+										ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+				return errors;
+			}
+
 			String checkedName = (String) content.getLocalProperty( module,
 					IGroupElementModel.GROUP_NAME_PROP );
 			if ( StringUtil.isBlank( checkedName ) )
@@ -203,9 +255,9 @@ public abstract class ListingElement extends ReportItem
 				continue;
 
 			returnList.add( refElement );
-			
+
 			// recursively adds clients
-			
+
 			returnList.addAll( ( (ListingElement) refElement )
 					.findReferredListingElements( module ) );
 		}

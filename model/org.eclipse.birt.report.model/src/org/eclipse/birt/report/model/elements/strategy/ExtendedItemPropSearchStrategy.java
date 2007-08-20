@@ -28,7 +28,9 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * Provides the specific property searching route for <code>ExtendedItem</code>.
  */
 
-public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
+public class ExtendedItemPropSearchStrategy
+		extends
+			ReportItemPropSearchStrategy
 {
 
 	private final static ExtendedItemPropSearchStrategy instance = new ExtendedItemPropSearchStrategy( );
@@ -144,7 +146,7 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 					}
 				}
 			}
-			else 
+			else
 				assert false;
 		}
 
@@ -174,8 +176,8 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 
 		// find useOwnModel property.
 
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) extendedItem
-				.getPropertyDefn( prop.getName( ) );;
+		ElementPropertyDefn propDefn = extendedItem.getPropertyDefn( prop
+				.getName( ) );;
 		if ( propDefn != null )
 		{
 			boolean useOwnModel = propDefn.isUseOwnModel( );

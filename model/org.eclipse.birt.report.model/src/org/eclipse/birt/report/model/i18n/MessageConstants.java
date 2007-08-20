@@ -77,7 +77,8 @@ public interface MessageConstants
 
 	public static final String CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT = "Error.ContentException.INVALID_TEMPLATE_ELEMENT"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = "Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN"; //$NON-NLS-1$
-
+	public static final String CONTENT_EXCEPTION_GROUPS_CHANGE_FORBIDDEN = "Error.ContentException.GROUPS_CHANGE_FORBIDDEN"; //$NON-NLS-1$
+		
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
 

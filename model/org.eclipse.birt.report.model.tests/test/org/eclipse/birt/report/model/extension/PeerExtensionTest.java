@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -84,6 +87,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_6 = "PeerExtensionTest_6.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_9 = "PeerExtensionTest_9.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_10 = "PeerExtensionTest_10.xml"; //$NON-NLS-1$
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
 	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
@@ -809,6 +813,47 @@ public class PeerExtensionTest extends BaseTestCase
 
 		designHandle.getCommandStack( ).redo( );
 		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	public void testDataBindingRef( ) throws Exception
+	{
+		openDesign( FILE_NAME_10 );
+
+		ExtendedItemHandle matrix1 = (ExtendedItemHandle) designHandle
+				.findElement( "myMatrix1" ); //$NON-NLS-1$
+		assertNotNull( matrix1 );
+
+		TableHandle table1 = (TableHandle) designHandle
+				.findElement( "myTable1" ); //$NON-NLS-1$
+		assertNotNull( table1 );
+
+		matrix1.setDataBindingReference( table1 );
+		assertEquals( "Data Set", matrix1 //$NON-NLS-1$
+				.getProperty( ReportItemHandle.DATA_SET_PROP ) );
+
+		Iterator columns = matrix1.columnBindingsIterator( );
+		ComputedColumnHandle column = (ComputedColumnHandle) columns.next( );
+		verifyColumnValues( column );
+
+		DataItemHandle data1 = (DataItemHandle) designHandle
+				.findElement( "myData1" ); //$NON-NLS-1$
+		assertNotNull( data1 );
+
+		data1.setDataBindingReference( matrix1 );
+		assertEquals( "Data Set", matrix1 //$NON-NLS-1$
+				.getProperty( ReportItemHandle.DATA_SET_PROP ) );
+
+		columns = data1.columnBindingsIterator( );
+		column = (ComputedColumnHandle) columns.next( );
+		verifyColumnValues( column );
+	}
+
+	private void verifyColumnValues( ComputedColumnHandle column )
+	{
+		assertEquals( "CUSTOMERNUMBER", column.getName( ) ); //$NON-NLS-1$
+		assertEquals( "dataSetRow[\"CUSTOMERNUMBER\"]", column.getExpression( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
+				.getDataType( ) );
 	}
 
 	private static class MyListener implements Listener

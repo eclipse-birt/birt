@@ -292,6 +292,12 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		assertTrue( group2.canContain( GroupHandle.HEADER_SLOT,
 				ReportDesignConstants.ROW_ELEMENT ) );
+
+		assertFalse( table2.canContain( TableHandle.GROUP_SLOT, designHandle
+				.getElementFactory( ).newTableGroup( ) ) );
+		
+		assertFalse( table2.canContain( TableHandle.GROUP_SLOT, group2
+				.getDefn( ).getName( ) ) );
 	}
 
 	/**

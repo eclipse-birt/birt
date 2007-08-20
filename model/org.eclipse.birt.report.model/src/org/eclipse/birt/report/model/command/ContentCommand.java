@@ -70,12 +70,12 @@ public class ContentCommand extends AbstractContentCommand
 {
 
 	private boolean unresolveReference;
-	
+
 	/**
 	 * <code>true</code> is to manipulate group elements that refers to other
 	 * groups or virtual elements.
 	 */
-	
+
 	protected boolean flag;
 
 	/**
@@ -90,6 +90,22 @@ public class ContentCommand extends AbstractContentCommand
 	public ContentCommand( Module module, ContainerContext containerInfo )
 	{
 		super( module, containerInfo );
+	}
+
+	/**
+	 * Constructs the content command with container element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param containerInfo
+	 *            the container information
+	 * @param flag
+	 */
+
+	ContentCommand( Module module, ContainerContext containerInfo, boolean flag )
+	{
+		super( module, containerInfo );
+		this.flag = flag;
 	}
 
 	/**
@@ -140,8 +156,8 @@ public class ContentCommand extends AbstractContentCommand
 								ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
 
-		checkContainmentContext( content );
-
+		if ( !flag )
+			checkContainmentContext( content );
 	}
 
 	protected void doAdd( int newPos, DesignElement content )
@@ -353,7 +369,7 @@ public class ContentCommand extends AbstractContentCommand
 		// Can not drop a virtual element. However, if it is called when
 		// dropping the child element, the check should be ignored.
 
-		if ( !content.canDrop( module ) && !flag )
+		if ( !flag && !content.canDrop( module ) )
 			throw ContentExceptionFactory
 					.createContentException(
 							focus,
