@@ -10,6 +10,7 @@ design.preview=Ô¤ÀÀ(&V)
 
 preference.preview=Ô¤ÀÀ
 preference.preview.server=Ô¤ÀÀ·şÎñÆ÷
+preference.preview.data=Data
 
 ###############################################################################
 # Actions

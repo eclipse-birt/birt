@@ -10,6 +10,7 @@ design.preview=&Vista previa
 
 preference.preview=Vista previa
 preference.preview.server=Servidor de vista previa
+preference.preview.data=Data
 
 ###############################################################################
 # Actions

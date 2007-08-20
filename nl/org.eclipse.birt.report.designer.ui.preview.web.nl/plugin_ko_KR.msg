@@ -10,6 +10,7 @@ design.preview=미리 보기(&V)
 
 preference.preview=미리 보기
 preference.preview.server=서버 미리 보기
+preference.preview.data=Data
 
 ###############################################################################
 # Actions

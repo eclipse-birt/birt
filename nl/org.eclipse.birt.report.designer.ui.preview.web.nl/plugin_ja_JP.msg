@@ -10,6 +10,7 @@ design.preview=プレビュー(&V)
 
 preference.preview=プレビュー
 preference.preview.server=プレビュー用のサーバ
+preference.preview.data=Data
 
 ###############################################################################
 # Actions

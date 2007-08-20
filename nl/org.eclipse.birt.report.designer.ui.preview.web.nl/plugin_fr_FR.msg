@@ -10,6 +10,7 @@ design.preview=&Aperçu
 
 preference.preview=Aperçu
 preference.preview.server=Serveur de prévisualisation
+preference.preview.data=Data
 
 ###############################################################################
 # Actions
