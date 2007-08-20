@@ -289,6 +289,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
 	private HTMLEmitter htmlEmitter;
+	protected Stack tableDIVWrapedFlagStack = new Stack( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -1120,14 +1121,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		assert table != null;
 
+		boolean DIVWrap = false;
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = table.getStyle( );
+		
 		// If the top level table has the property text-align, the table should
 		// be align to the page box.
 		if ( needImplementAlignTable( table ) )
 		{
 			writer.openTag( HTMLTags.TAG_DIV );
-			writer.attribute( HTMLTags.ATTR_ALIGN, table.getStyle( )
-					.getTextAlign( ) );
+			DIVWrap = true;
+			writer.attribute( HTMLTags.ATTR_ALIGN, style.getTextAlign( ) );
 		}
+		
+		// implement the inline table
+		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+		if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
+		{
+			if( !DIVWrap )
+			{
+				writer.openTag( HTMLTags.TAG_DIV );
+				DIVWrap = true;
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, " display:-moz-inline-box !important; display:inline;" );
+		}
+		
+		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		if ( enableMetadata )
@@ -1263,7 +1282,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endWrapTable( table );
 		}
 		
-		if ( needImplementAlignTable( table ) )
+		boolean DIVWrap = ( (Boolean) tableDIVWrapedFlagStack.pop( ) ).booleanValue( );
+		if ( DIVWrap )
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}

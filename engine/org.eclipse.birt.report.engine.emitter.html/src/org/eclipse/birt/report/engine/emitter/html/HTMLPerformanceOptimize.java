@@ -125,15 +125,14 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		IStyle style = table.getStyle( );
 		
 		// output the display
-		CSSValue display = null;
-		display = style.getProperty( IStyle.STYLE_DISPLAY );
+		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
 		if ( IStyle.NONE_VALUE == display )
 		{
 			styleBuffer.append( " display: none;" );
 		}
 		else if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
 		{
-			styleBuffer.append( " display:-moz-inline-box !important; display:inline;" );
+			styleBuffer.append( " display:table !important; display:inline;" );
 		}
 
 		// Table doesn¡¯t support shrink. The shrink of table is only used to
@@ -199,6 +198,14 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = column.getStyle( );
+		
+		// output the none value of the display
+		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+		if ( IStyle.NONE_VALUE == display )
+		{
+			styleBuffer.append( " display: none;" );
+		}
+		
 		// Build the vertical-align
 		// In performance optimize model the vertical-align can't be setted to
 		// the column. Because we output the vertical-align directly here, and
@@ -248,7 +255,17 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	{
 		buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row.getHeight( ) ); //$NON-NLS-1$
 		
-		IStyle style = getElementStyle( row );
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = row.getStyle( );
+		
+		// output the none value of the display
+		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+		if ( IStyle.NONE_VALUE == display )
+		{
+			styleBuffer.append( " display: none;" );
+		}
+		
+		style = getElementStyle( row );
 		if ( style == null )
 		{
 			return;
@@ -300,7 +317,17 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			styleBuffer.append( "overflow:hidden;" );
 		}
 		
-		IStyle style = getElementStyle( cell );
+		// The method getStyle( ) will nevel return a null value;
+		IStyle style = cell.getStyle( );
+		
+		// output the none value of the display
+		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+		if ( IStyle.NONE_VALUE == display )
+		{
+			styleBuffer.append( " display: none;" );
+		}
+		
+		style = getElementStyle( cell );
 		if ( style == null )
 		{
 			return;
