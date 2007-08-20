@@ -315,7 +315,7 @@ public class DataProcessor
 		if ( idre.first( ) )
 		{
 			int count = 0;
-			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( );
+			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
 			do
 			{
 				if ( count++ > MAX_ROW_COUNT )

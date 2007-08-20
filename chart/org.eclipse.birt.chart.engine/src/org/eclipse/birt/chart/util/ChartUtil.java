@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -50,12 +51,13 @@ public class ChartUtil
 	 */
 	private static final int DEFAULT_MAX_ROW_COUNT = 10000;
 
-	private static int iMaxRountCount = 0;
-
+	private static int iMaxRowCount = 0;
+	
 	/**
-	 * JVM argument for specifying supported max row count
+	 * The constant defined as the key in RuntimeContext or JVM arguments, to
+	 * represent the value of chart max row number.
 	 */
-	public static final String PROPERTY_MAX_ROW_COUNT = System.getProperty( "CHART_MAX_ROW" ); //$NON-NLS-1$	
+	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
 	
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
@@ -451,35 +453,47 @@ public class ChartUtil
 	
 	/**
 	 * Returns max row count that will be supported in charts. Users can set it
-	 * in JVM argument "CHART_MAX_ROW". Default value is 10000.
+	 * in JVM argument "CHART_MAX_ROW" or RuntimeContext. Default value is 10000.
 	 * 
 	 * @return max row count that will be supported in charts.
 	 * @since 2.2.0
 	 */
-	public static int getSupportedMaxRowCount( )
+	public static int getSupportedMaxRowCount( RunTimeContext rtc )
 	{
-		if ( iMaxRountCount <= 0 )
+		// Only get property value in the first time
+		if ( iMaxRowCount <= 0 )
 		{
-			// Only get property value in the first time
-			iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
-			if ( PROPERTY_MAX_ROW_COUNT != null )
+			iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
+			
+			// To get value from runtime context first
+			Object contextMaxRow = rtc.getState( CHART_MAX_ROW );
+			if ( contextMaxRow != null )
 			{
-				try
+				iMaxRowCount = ( (Integer) contextMaxRow ).intValue( );
+			}
+			else
+			{
+				// Then to get value from JVM
+				String jvmMaxRow = System.getProperty( CHART_MAX_ROW );
+				if ( jvmMaxRow != null )
 				{
-					iMaxRountCount = Integer.parseInt( PROPERTY_MAX_ROW_COUNT );
-				}
-				catch ( NumberFormatException e )
-				{
-					iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
+					try
+					{
+						iMaxRowCount = Integer.parseInt( jvmMaxRow );
+					}
+					catch ( NumberFormatException e )
+					{
+						iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
+					}
 				}
 			}
 			// In case of negative value
-			if ( iMaxRountCount <= 0 )
+			if ( iMaxRowCount <= 0 )
 			{
-				iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
+				iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
 			}
 		}
-		return iMaxRountCount;
+		return iMaxRowCount;
 	}
 	
 	/**

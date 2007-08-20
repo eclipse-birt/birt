@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -309,6 +310,11 @@ public final class ChartReportItemPresentationImpl extends
 					IReportItem item = handle.getReportItem( );
 					( (ChartReportItemImpl) item ).setModel( cm );
 				}
+				
+				// Get chart max row number from application context
+				Object oMaxRow = context.getAppContext( )
+						.get( ChartUtil.CHART_MAX_ROW );
+				rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
 			}
 			ois.close( );
 		}
