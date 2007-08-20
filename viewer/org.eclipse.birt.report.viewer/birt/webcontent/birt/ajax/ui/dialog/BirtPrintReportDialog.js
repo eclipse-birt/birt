@@ -97,8 +97,10 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__okPress : function( )
 	{
-		this.__printAction( );
-		this.__l_hide( );
+		if ( this.__printAction( ) )
+		{
+			this.__l_hide( );
+		}
 	},
 		
 	/**
@@ -116,6 +118,39 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}	
 		else
 		{	
+			var previewExists = false;
+			// retrieve previous window instance
+			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW );
+			try
+			{
+				// if the window didn't exist, then window.open() has opened an empty window
+				var previousBodyElement = previousPrintWindow.document.getElementsByTagName("body")[0];				
+				if ( previousBodyElement && birtUtility.trim( previousBodyElement.innerHTML ).length > 0 )
+				{
+					previewExists = true;
+				}
+			}
+			catch ( e )
+			{
+				// access denied is thrown if the previous preview window contains a PDF content
+				previewExists = true;
+			}
+
+			if ( previewExists )
+			{
+				alert( "A print preview window is already open." );
+				if ( previousPrintWindow )
+				{
+					previousPrintWindow.focus();
+				}
+				return false;
+			}
+			else
+			{
+				// use the created window as current window
+				this.__printWindow = previousPrintWindow;
+			}
+	
 			var divObj = document.createElement( "DIV" );
 			document.body.appendChild( divObj );
 			divObj.style.display = "none";
@@ -200,72 +235,83 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			{
 				action = action.replace( reg, "$1=false" );
 			}
-			
+
 			// Replace servlet pattern as output
 			action = action.replace( /[\/][a-zA-Z]+[?]/, "/"+Constants.SERVLET_OUTPUT+"?" );
+
+			if ( !BrowserUtility.__isIE() )
+			{
+				// use onload event for the callback when page is loaded
+				Event.observe( this.__printWindow, 'load', this.__cb_print.bindAsEventListener( this ), false );
+			}
 			
-			// Generate unique window name
-			var today = new Date();			
-			var printWindowName = 
-				Constants.WINDOW_PRINT_PREVIEW 
-				+ today.getTime() 
-				+ Math.floor( Math.random() * 1000 );
-			
-			// Open a new window to print
-			this.__printWindow = window.open('',printWindowName);
-									
 			formObj.action = action;
 			formObj.method = "post";
-			formObj.target = printWindowName;
+			formObj.target = Constants.WINDOW_PRINT_PREVIEW;			
 			formObj.submit( );
 			
-			// Launch the browser's print dialog.
-			this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 1000 );
+			// Launch the browser's print dialog (IE only)
+			// Note: calling the print dialog for PDF in IE doesn't work (permission denied)
+			if ( BrowserUtility.__isIE() && this.__printFormat != 'pdf' )
+			{
+				this.__timer = window.setTimeout( this.__cb_waitPreviewLoaded.bindAsEventListener( this ), 1000 );
+			}			
 		}
 		
 		return true;		
 	},
 
 	/**
-	 * Timer call back function. Control the browser's popup print dialog.
+	 * Waits until the print preview is loaded (IE only)
+	 */
+	__cb_waitPreviewLoaded : function( )
+	{
+		window.clearTimeout( this.__timer );
+	
+		if ( !this.__printWindow.document || this.__printWindow.document.readyState != "complete" )
+		{
+			// wait a little longer
+			this.__timer = window.setTimeout( this.__cb_waitPreviewLoaded.bindAsEventListener( this ), 1000 );
+		}
+		else
+	  	{
+			this.__cb_print();
+	  	}
+	},
+
+	/**
+	 * Control the browser's popup print dialog.
+	 *
+	 * Below are the implemented functions for the given browsers and output formats.
+	 * Function              IE       Mozilla
+	 * window.print()       HTML       HTML,PDF(delay)
+	 * Window closing       HTML       HTML
+	 *
 	 */
 	__cb_print : function( )
 	{
-		window.clearTimeout( this.__timer );
-		try
+		var err = this.__printWindow.document.getElementById( "birt_errorPage" );
+		if( err && err.innerHTML != '' )
 		{
-			// FIXME: the following line produces an exception "Permission denied" 			
-			// in IE 6 when the content type is PDF and prevents the call
-			// to this.__printWindow.print()
-			var url = this.__printWindow.location.toString( );
-			var err = this.__printWindow.document.getElementById( "birt_errorPage" );
-			if( err && err.innerHTML != '' )
-			{
-				return;
-			}
-		
-			// FIXME: this technique is not effective enough to detect if the page is loaded	
-			if ( url.indexOf( Constants.SERVLET_OUTPUT ) < 0 )
-			{
-				this.__timer = window.setTimeout( this.__cb_print.bindAsEventListener( this ), 100 );
-			}
-			else
-		  	{
-				// Call the browser's print dialog (async)
-				this.__printWindow.print();
-					
-				/**
-				 * FIXME: Commented out: if the page is not loaded yet (see above FIXME) 
-				 * the print() method doesn't do anything and the window will be closed
-				 * directly
-				 */				
-				// Close the print window: the browser will in fact close it
-				// after the print dialog is closed.
-				// this.__printWindow.close( );
-		  	}
+			return;
 		}
-		catch( e )
+		
+		// Call the browser's print dialog (async)
+		if ( this.__printFormat == 'pdf' ) // Mozilla only
 		{
+			// Mozilla needs some delay after loading PDF
+			this.__printWindow.setTimeout( "window.print();", 1000 );
+			// note: window closing during print doesn't work properly with Mozilla									
+		}
+		else
+		{				
+			this.__printWindow.print();
+			/* Close the print window: the browser will in fact close it
+			 * after the print dialog is closed.
+			 * Use timer to let the browser some time to open the 
+			 * print dialog first
+			 */
+			this.__printWindow.setTimeout( "window.close();" , 1000 );
 		}
 	},
 	
