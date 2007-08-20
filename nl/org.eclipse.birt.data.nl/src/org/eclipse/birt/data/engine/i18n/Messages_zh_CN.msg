@@ -336,10 +336,10 @@ data.olap.invalidLevelAttr=属性无效:
 data.olap.invalidBindingReferToInexitDim=绑定“{0}”引用的级别无效。
 data.olap.invalidBindingReferToInexitMeasure=绑定“{0}”引用的度量无效。  
 data.olap.invalidBindingMissingAggrFunc=绑定“{0}”的聚合函数丢失。
-data.olap.invalidBindingAggrFilterNotSupported=绑定“{0}”包含交叉表当前不支持的聚合筛选器。
 data.olap.invalidAggrArgument=仅级别属性可以用作聚合参数。
 data.olap.axis.level.CantBeNull=列成员级别不能为空!
 data.olap.axis.value.CantBeNull=级别\“{0}\”的列成员值不能为空!
+data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code

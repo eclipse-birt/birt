@@ -336,10 +336,10 @@ data.olap.invalidLevelAttr=El atributo no es válido:
 data.olap.invalidBindingReferToInexitDim=El enlace "{0}" hace referencia a niveles no válidos.
 data.olap.invalidBindingReferToInexitMeasure=El enlace "{0}" hace referencia a medidas no válidas.  
 data.olap.invalidBindingMissingAggrFunc=Falta la función de agregación de enlace "{0}".
-data.olap.invalidBindingAggrFilterNotSupported=El enlace "{0}" contiene un filtro de agregación que actualmente no es compatible con la tabla de referencias cruzadas.
 data.olap.invalidAggrArgument=Sólo el atributo de nivel puede servir como argumento de agregación.
 data.olap.axis.level.CantBeNull=El nivel de los elementos de la columna no puede ser nulo.
 data.olap.axis.value.CantBeNull=El valor de los elementos de la columna del nivel \"{0}\" no puede ser nulo.
+data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

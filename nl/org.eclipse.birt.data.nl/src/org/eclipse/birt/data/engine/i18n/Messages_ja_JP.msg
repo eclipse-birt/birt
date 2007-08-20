@@ -336,10 +336,10 @@ data.olap.invalidLevelAttr=属性が無効です。
 data.olap.invalidBindingReferToInexitDim=バインド "{0}" で参照しているレベルが無効です。
 data.olap.invalidBindingReferToInexitMeasure=バインド "{0}" で参照している計測が無効です。  
 data.olap.invalidBindingMissingAggrFunc=バインド "{0}" に集計関数がありません。
-data.olap.invalidBindingAggrFilterNotSupported=バインド "{0}" には集計フィルタが含まれていますが、現在はクロスタブにこのフィルタを適用できません。
 data.olap.invalidAggrArgument=集計引数に指定できるのはレベルの属性だけです。
 data.olap.axis.level.CantBeNull=列メンバのレベルは null にできません。
 data.olap.axis.value.CantBeNull=列メンバのレベル \"{0}\" の値は null にできません。
+data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code

@@ -336,10 +336,10 @@ data.olap.invalidLevelAttr=Das Attribut ist ungültig:
 data.olap.invalidBindingReferToInexitDim=Die Bindung "{0}" verweist auf ungültige Ebenen.
 data.olap.invalidBindingReferToInexitMeasure=Die Bindung "{0}" verweist auf ungültige Einheiten.  
 data.olap.invalidBindingMissingAggrFunc=Die Aggregatfunktion der Bindung "{0}" fehlt.
-data.olap.invalidBindingAggrFilterNotSupported=Die Bindung "{0}" enthält einen Aggregatfilter, der derzeit nicht für Kreuztabellen unterstützt wird.
 data.olap.invalidAggrArgument=Nur ein Ebenenattribut kann als Aggregat-Argument fungieren.
 data.olap.axis.level.CantBeNull=Mitgliedsebene der Spalte darf nicht Null sein.
 data.olap.axis.value.CantBeNull=Wert von Mitgliedsebene \"{0}\" der Spalte darf nicht Null sein.
+data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
