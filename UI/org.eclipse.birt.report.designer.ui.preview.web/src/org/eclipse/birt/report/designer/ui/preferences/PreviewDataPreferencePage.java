@@ -37,11 +37,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage
 {
 
-	public static final int MAX_DATASET_ROW_DEFAULT = 100;
+	public static final int MAX_DATASET_ROW_DEFAULT = ViewerPlugin.DEFAULT_MAX_ROWS;
 
 	public static final int MAX_DATASET_ROW = 10000;
 
-	public static final int MAX_CUBE_LEVEL_MEMBER_DEFAULT = 10;
+	public static final int MAX_CUBE_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBELEVELS;
 
 	public static final int MAX_CUBE_LEVEL_MEMBER = 10000;
 

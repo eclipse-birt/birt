@@ -50,7 +50,7 @@ public class ViewerPlugin extends Plugin
 	/**
 	 * Default value of max cube fetch levels setting displaying in preference page
 	 */
-	public final static int DEFAULT_MAX_CUBELEVELS = 10;
+	public final static int DEFAULT_MAX_CUBELEVELS = 50;
 
 	/**
 	 * BIRT Viewer plugin working path
