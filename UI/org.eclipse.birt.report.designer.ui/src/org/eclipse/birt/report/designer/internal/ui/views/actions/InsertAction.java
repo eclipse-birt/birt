@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -134,7 +135,8 @@ public class InsertAction extends AbstractElementAction
 		 * Check the case that a table refer other element and whether can insert a group.
 		 */
 		if ( getSelection( ) instanceof SlotHandle
-				&& ( (SlotHandle) getSelection( ) ).getSlotID( ) == IListingElementModel.GROUP_SLOT )
+				&& ( (SlotHandle) getSelection( ) ).getSlotID( ) == IListingElementModel.GROUP_SLOT
+				&& ( (SlotHandle) getSelection( ) ).getElementHandle( ) instanceof ListingHandle)
 		{
 			return ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		}
