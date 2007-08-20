@@ -518,9 +518,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS )
 		{
-			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
+			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
