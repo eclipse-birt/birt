@@ -582,8 +582,8 @@ public class ModelDteApiAdapter
 			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-			//cache row count
-			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
+			//The cache row count setting is no longer valid.
+			//dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
 
 		}
 		populateParameter( modelDataSet, dteDataSet );
