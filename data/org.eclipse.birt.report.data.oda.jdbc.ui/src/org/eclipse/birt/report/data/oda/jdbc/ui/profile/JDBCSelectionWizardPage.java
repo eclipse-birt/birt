@@ -89,11 +89,15 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
      * (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage#refresh()
      */
-    public void refresh()
-    {
-        // enable/disable all controls on page in respect of the editable session state
-        enableAllControls( getControl(), isSessionEditable() );
-    }
+    public void refresh( )
+	{
+		// enable/disable all controls on page in respect of the editable session state
+		enableAllControls( getControl( ), isSessionEditable( ) );
+		if ( m_pageHelper != null )
+		{
+			m_pageHelper.resetTestAndMngButton( );
+		}
+	}
 
 }
 

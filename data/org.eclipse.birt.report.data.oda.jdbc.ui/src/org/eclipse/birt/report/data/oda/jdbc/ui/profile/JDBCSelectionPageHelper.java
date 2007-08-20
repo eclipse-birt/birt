@@ -20,8 +20,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
-import org.eclipse.birt.report.data.oda.jdbc.JDBCException;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
@@ -702,6 +700,44 @@ public class JDBCSelectionPageHelper
 			if ( !testButton.isEnabled( ) )
 				testButton.setEnabled( true );
 		}
+	}
+	
+	/**
+	 * Reset the testButton and manageButton to "enabled" status
+	 */
+	protected void resetTestAndMngButton( )
+	{
+		if ( !isURLBlank( ) )
+		{
+			// Jdbc Url cannot be blank
+			setMessage( EMPTY_URL, IMessageProvider.ERROR );
+			testButton.setEnabled( false );
+		}
+		else
+		{
+			setMessage( DEFAULT_MESSAGE );
+			if ( !testButton.isEnabled( ) )
+				testButton.setEnabled( true );
+		}
+		manageButton.setEnabled( true );
+		enableParent( manageButton );
+	}
+	
+	/**
+	 * Enable the specific composite
+	 */
+	private void enableParent( Control control )
+	{
+		Composite parent = control.getParent( );
+		if ( parent == null || parent instanceof Shell )
+		{
+			return;
+		}
+		if ( !parent.isEnabled( ) )
+		{
+			parent.setEnabled( true );
+		}
+		enableParent( parent );
 	}
 	
 	private void verifyJDBCProperties( )
