@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.executor;
 
@@ -7,8 +17,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 abstract public class QueryItemExecutor extends StyledItemExecutor
 {
@@ -55,23 +63,8 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	protected void executeQuery( )
 	{
 		rset = null;
-		boolean useCache = false;
+		boolean useCache = design.useCachedResult( );
 		IDataQueryDefinition query = design.getQuery( );
-		if ( query == null )
-		{
-			DesignElementHandle elementHandle = design.getHandle( );
-			if ( elementHandle instanceof ReportElementHandle )
-			{
-				IDataQueryDefinition[] queries = report.getDesign( )
-						.getQueryByReportHandle(
-								(ReportElementHandle) elementHandle );
-				if ( queries != null && queries.length > 0 )
-				{
-					query = queries[0];
-					useCache = true;
-				}
-			}
-		}
 		IBaseResultSet parentRset = getParentResultSet( );
 		context.setResultSet( parentRset );
 		if ( query != null )

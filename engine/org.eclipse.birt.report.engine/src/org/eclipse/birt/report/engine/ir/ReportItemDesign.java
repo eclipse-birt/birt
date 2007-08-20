@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,7 +69,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * Action associated with this DataItem.
 	 */
-	protected ActionDesign action;
+	protected ActionDesign action;	
 	
 	/**
 	 * query used to create the data set.
@@ -79,6 +79,11 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * execution state associated with this design
 	 */
 	transient protected Object executionState;
+	
+	/**
+	 * if the item use cached result or not.
+	 */
+	protected boolean useCachedResult = false;
 	
 	/**
 	 * @return Returns the height.
@@ -297,5 +302,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	public Object getExecutionState()
 	{
 		return executionState;
+	}
+	
+
+	public void setUseCachedResult( boolean useCachedResult )
+	{
+		this.useCachedResult = useCachedResult;
+	}
+	
+	public boolean useCachedResult( )
+	{
+		return useCachedResult;
 	}
 }

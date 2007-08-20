@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
@@ -386,20 +385,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			IDataQueryDefinition[] queries = design.getQueries( );			
 			
-			boolean useCache = false;
-			if ( queries == null )
-			{
-				DesignElementHandle elementHandle = design.getHandle( );
-				if ( elementHandle instanceof ReportElementHandle )
-				{
-					queries = report.getDesign( ).getQueryByReportHandle(
-							(ReportElementHandle) elementHandle );
-					if ( queries != null && queries.length > 0 )
-					{
-						useCache = true;
-					}
-				}
-			}
+			boolean useCache = design.useCachedResult( );
 			
 			if ( queries != null )
 			{

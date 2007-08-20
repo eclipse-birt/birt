@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -295,9 +295,16 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
 			throws BirtException
 	{
-		// FIXME: code review: check if cachedQueryIdMap.get( query ) returns NULL. 
-		String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
-		return dteSession.getQueryResults( rsetId );
+		Object rsetId = cachedQueryIdMap.get( query );
+
+		if ( rsetId != null )
+		{
+			return dteSession.getQueryResults( String.valueOf( rsetId ) );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

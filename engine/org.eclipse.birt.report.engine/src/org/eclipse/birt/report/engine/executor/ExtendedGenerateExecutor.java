@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,9 +32,7 @@ import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public class ExtendedGenerateExecutor extends QueryItemExecutor
 {
@@ -188,19 +186,9 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		IDataEngine dataEngine = context.getDataEngine( );
 		IBaseResultSet parent = getParentResultSet( );
 
-		boolean useCache = false;
+		boolean useCache = extItem.useCachedResult( );
 		
 		IDataQueryDefinition[] queries = extItem.getQueries( );
-		if ( queries == null )
-		{
-			DesignElementHandle elementHandle = design.getHandle( );
-			if ( elementHandle instanceof ReportElementHandle )
-			{
-				queries = report.getDesign( ).getQueryByReportHandle(
-						(ReportElementHandle) elementHandle );
-				useCache = true;
-			}
-		}
 		if ( queries != null )
 		{
 			rsets = new IBaseResultSet[queries.length];

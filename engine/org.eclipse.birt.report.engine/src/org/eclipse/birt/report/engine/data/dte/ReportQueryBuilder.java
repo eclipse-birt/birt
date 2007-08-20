@@ -94,7 +94,6 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -146,7 +145,12 @@ public class ReportQueryBuilder
 	 */
 	protected int maxRows = 0;
 
-	IQueryContext queryContext;
+	protected IQueryContext queryContext;
+
+	/**
+	 * used to register the unresolved query reference.
+	 */
+	protected Map unresolvedQueryReferences = new HashMap( ); 
 
 	public ReportQueryBuilder( )
 	{
@@ -250,26 +254,69 @@ public class ReportQueryBuilder
 				return null;
 			}
 			IDataQueryDefinition[] queries = (IDataQueryDefinition[]) result;
-
 			design.setQueries( queries );
-			for ( int i = 0; i < queries.length; i++ )
+			if ( !design.useCachedResult( ) )
 			{
-				IDataQueryDefinition query = queries[i];
-				if ( query != null )
+				for ( int i = 0; i < queries.length; i++ )
 				{
-					/*
-					 * before 2.1, the user can only defined one query for a
-					 * item, so the generated query id is the id of element.
-					 * after 2.2, we changes the interface, there could be
-					 * multiple queries, so the first query is is un-changed,
-					 * but the remain queries will have the sequence id.
-					 */
-					String queryId = String.valueOf( design.getID( ) );
-					if ( i > 0 )
+					IDataQueryDefinition query = queries[i];
+					if ( query != null )
 					{
-						queryId = queryId + "_" + String.valueOf( i );
+						/*
+						 * before 2.1, the user can only defined one query for a
+						 * item, so the generated query id is the id of element.
+						 * after 2.2, we changes the interface, there could be
+						 * multiple queries, so the first query is un-changed,
+						 * but the remain queries will have the sequence id.
+						 */
+						String queryId = String.valueOf( design.getID( ) );
+						if ( i > 0 )
+						{
+							queryId = queryId + "_" + String.valueOf( i );
+						}
+						this.queryIDs.put( query, queryId );
+						// we do not support cube's metaData now. And we so do
+						// support CUB data's extration.
+						if ( query instanceof IBaseQueryDefinition )
+						{
+							ResultMetaData metaData = new ResultMetaData(
+									(IBaseQueryDefinition) query );
+							resultMetaData.put( query, metaData );
+						}
+						registerQueryAndElement( query, design );
+						if ( !( query instanceof ISubqueryDefinition ) )
+						{
+							this.queries.add( query );
+						}
+						else if ( query instanceof ISubqueryDefinition )
+						{
+							// TODO: chart engine make a mistake here
+							if ( !( parentQuery instanceof IBaseQueryDefinition ) )
+							{
+								context.addException( new EngineException(
+										"subquery can only be created in another subquery/query"
+												+ design.getID( ) ) );
+							}
+
+							IBaseQueryDefinition pQuery = (IBaseQueryDefinition) parentQuery;
+							Collection subQueries = pQuery.getSubqueries( );
+							if ( !subQueries.contains( query ) )
+							{
+								subQueries.add( query );
+							}
+
+						}
 					}
-					this.queryIDs.put( query, queryId );
+				}
+				registerQueryToHandle( design, queries );
+				resolveQueryReference( design, queries );
+				return queries;
+			}
+			else
+			{
+				for ( int i = 0; i < queries.length; i++ )
+				{
+					IDataQueryDefinition query = queries[i];
 					// we do not support cube's metaData now. And we so do
 					// support CUB data's extration.
 					if ( query instanceof IBaseQueryDefinition )
@@ -278,33 +325,10 @@ public class ReportQueryBuilder
 								(IBaseQueryDefinition) query );
 						resultMetaData.put( query, metaData );
 					}
-					registerQueryAndElement( query, design );
-					if ( !( query instanceof ISubqueryDefinition ) )
-					{
-						this.queries.add( query );
-					}
-					else if ( query instanceof ISubqueryDefinition )
-					{
-						// TODO: chart engine make a mistake here
-						if ( !( parentQuery instanceof IBaseQueryDefinition ) )
-						{
-							context.addException( new EngineException(
-									"subquery can only be created in another subquery/query"
-											+ design.getID( ) ) );
-						}
-
-						IBaseQueryDefinition pQuery = (IBaseQueryDefinition) parentQuery;
-						Collection subQueries = pQuery.getSubqueries( );
-						if ( !subQueries.contains( query ) )
-						{
-							subQueries.add( query );
-						}
-
-					}
 				}
 				registerQueryToHandle( design, queries );
+				return null;
 			}
-			return queries;
 		}
 	}
 
@@ -333,10 +357,50 @@ public class ReportQueryBuilder
 			IDataQueryDefinition[] queries )
 	{
 		DesignElementHandle handle = reportItem.getHandle( );
-		assert handle instanceof ReportElementHandle;
-		report.setQueryToReportHandle( (ReportElementHandle) handle, queries );
+		assert handle instanceof ReportItemHandle;
+		ReportItemHandle itemHandle = (ReportItemHandle) handle;
+		report.setQueryToReportHandle( itemHandle, queries );
 	}
 
+	private void resolveQueryReference( ReportItemDesign reportItem,
+			IDataQueryDefinition[] queries )
+	{
+		DesignElementHandle handle = reportItem.getHandle( );
+		assert handle instanceof ReportItemHandle;
+		ReportItemHandle itemHandle = (ReportItemHandle) handle;
+		if ( unresolvedQueryReferences.containsKey( itemHandle ) )
+		{
+			ArrayList items = (ArrayList) unresolvedQueryReferences
+					.get( itemHandle );
+			for ( int i = 0; i < items.size( ); i++ )
+			{
+				ReportItemDesign item = (ReportItemDesign) items.get( i );
+				build( null, item );
+			}
+			unresolvedQueryReferences.remove( itemHandle );
+			for ( int i = 0; i < queries.length; i++ )
+			{
+				IDataQueryDefinition referenceQuery = queries[i];
+				if ( referenceQuery instanceof BaseQueryDefinition )
+				{
+					( (BaseQueryDefinition) referenceQuery )
+							.setCacheQueryResults( true );
+				}
+				else if ( referenceQuery instanceof ICubeQueryDefinition )
+				{
+					( (ICubeQueryDefinition) referenceQuery )
+							.setCacheQueryResults( true );
+				}
+				else
+				{
+					// FIXME: throw out an exception
+					throw new IllegalStateException(
+							"unsupported query, report item: "
+									+ reportItem.getID( ) ); 
+				}
+			}
+		}
+	}
 	/**
 	 * The visitor class that actually builds the report query
 	 */
@@ -356,7 +420,20 @@ public class ReportQueryBuilder
 		public Object visitFreeFormItem( FreeFormItemDesign container,
 				Object value )
 		{
-			BaseQueryDefinition query = createQuery( container, value );
+			BaseQueryDefinition query;
+			if ( container.useCachedResult( ) )
+			{
+				query = getRefenceQuery( container );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( container );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( container, value );
+			}
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				build( query, container.getItem( i ) );
@@ -372,7 +449,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
-			BaseQueryDefinition query = createQuery( grid, value );
+			BaseQueryDefinition query;
+			if ( grid.useCachedResult( ) )
+			{
+				query = getRefenceQuery( grid );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( grid );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( grid, value );
+			}
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 			{
@@ -390,7 +480,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitImageItem( ImageItemDesign image, Object value )
 		{
-			BaseQueryDefinition query = createQuery( image, value );
+			BaseQueryDefinition query;
+			if ( image.useCachedResult( ) )
+			{
+				query = getRefenceQuery( image );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( image );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( image, value );
+			}
 
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 			{
@@ -424,7 +527,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
-			BaseQueryDefinition query = createQuery( label, value );
+			BaseQueryDefinition query;
+			if ( label.useCachedResult( ) )
+			{
+				query = getRefenceQuery( label );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( label );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( label, value );
+			}
 			transformExpressions( label, query );
 			return getResultQuery( query, value );
 		}
@@ -446,7 +562,6 @@ public class ReportQueryBuilder
 						.getQueryByReportHandle( referenceHandle );
 				if ( queries != null && queries.length > 0 )
 				{
-					registerQueryToHandle( item, queries );
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						IDataQueryDefinition referenceQuery = queries[i];
@@ -467,14 +582,12 @@ public class ReportQueryBuilder
 						transformExpressions( item,
 								(IBaseQueryDefinition) query );
 					}
-					return null;
+					return queries;
 				}
 				else
 				{
-					// FIXME: Maybe the query has not been created now. So need
-					// process.
-					throw new IllegalStateException(
-							"forward reference dataset" );
+					registerUnresolvedQueryReference( item );
+					return null;
 				}
 			}
 
@@ -528,7 +641,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitListItem( ListItemDesign list, Object value )
 		{
-			BaseQueryDefinition query = createQuery( list, value );
+			BaseQueryDefinition query;
+			if ( list.useCachedResult( ) )
+			{
+				query = getRefenceQuery( list );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( list );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( list, value );
+			}
 			if ( query == null )
 			{
 				handleListingBand( list.getHeader( ), query, true, null );
@@ -571,7 +697,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitTextItem( TextItemDesign text, Object value )
 		{
-			BaseQueryDefinition query = createQuery( text, value );
+			BaseQueryDefinition query;
+			if ( text.useCachedResult( ) )
+			{
+				query = getRefenceQuery( text );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( text );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( text, value );
+			}
 			HashMap exprs = text.getExpressions( );
 			if ( exprs != null )
 			{
@@ -608,7 +747,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			BaseQueryDefinition query = createQuery( table, value );
+			BaseQueryDefinition query;
+			if ( table.useCachedResult( ) )
+			{
+				query = getRefenceQuery( table );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( table );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( table, value );
+			}
 			if ( query == null )
 			{
 				handleListingBand( table.getHeader( ), query, true, null );
@@ -659,7 +811,20 @@ public class ReportQueryBuilder
 		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
 				Object value )
 		{
-			BaseQueryDefinition query = createQuery( dynamicText, value );
+			BaseQueryDefinition query;
+			if ( dynamicText.useCachedResult( ) )
+			{
+				query = getRefenceQuery( dynamicText );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( dynamicText );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( dynamicText, value );
+			}
 			String newContent = transformExpression( dynamicText.getContent( ),
 					query, null );
 			dynamicText.setContent( newContent );
@@ -674,7 +839,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
-			BaseQueryDefinition query = createQuery( data, value );
+			BaseQueryDefinition query;
+			if ( data.useCachedResult( ) )
+			{
+				query = getRefenceQuery( data );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( data );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( data, value );
+			}
 
 			transformExpressions( data, query );
 			return getResultQuery( query, value );
@@ -823,7 +1001,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitRow( RowDesign row, Object value )
 		{
-			BaseQueryDefinition query = createQuery( row, value );
+			BaseQueryDefinition query;
+			if ( row.useCachedResult( ) )
+			{
+				query = getRefenceQuery( row );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( row );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( row, value );
+			}
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
@@ -838,7 +1029,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitCell( CellDesign cell, Object value )
 		{
-			BaseQueryDefinition query = createQuery( cell, value );
+			BaseQueryDefinition query;
+			if ( cell.useCachedResult( ) )
+			{
+				query = getRefenceQuery( cell );
+				if ( query == null )
+				{
+					registerUnresolvedQueryReference( cell );
+					return null;
+				}
+			}
+			else
+			{
+				query = createQuery( cell, value );
+			}
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 			{
 				build( query, cell.getContent( i ) );
@@ -850,7 +1054,7 @@ public class ReportQueryBuilder
 		private IBaseQueryDefinition[] getResultQuery(
 				IBaseQueryDefinition query, Object parent )
 		{
-			if ( query != null && query != parent && !query.cacheQueryResults( ) )
+			if ( query != null && query != parent )
 			{
 				return new IBaseQueryDefinition[]{query};
 			}
@@ -904,6 +1108,65 @@ public class ReportQueryBuilder
 				context.addException( ex );
 			}
 		}
+		
+		/**
+		 * Remember the relations if the reference handle's query hasn't been
+		 * builder.
+		 * 
+		 * @param referenceHandle
+		 * @param handle
+		 */
+		protected void registerUnresolvedQueryReference( ReportItemDesign item )
+		{
+			ReportItemHandle itemHandle = (ReportItemHandle) item.getHandle( );
+			ReportItemHandle referenceHandle = itemHandle
+					.getDataBindingReference( );
+			if ( unresolvedQueryReferences.containsKey( referenceHandle ) )
+			{
+				List items = (ArrayList) unresolvedQueryReferences
+						.get( referenceHandle );
+				items.add( item );
+			}
+			else
+			{
+				List items = new ArrayList( );
+				items.add( item );
+				unresolvedQueryReferences.put( referenceHandle, items );
+			}
+		}
+		
+		protected BaseQueryDefinition getRefenceQuery( ReportItemDesign item )
+		{
+			ReportItemHandle itemHandle = (ReportItemHandle) item.getHandle( );
+			ReportItemHandle referenceHandle = itemHandle
+					.getDataBindingReference( );
+			IDataQueryDefinition[] queries = report
+					.getQueryByReportHandle( referenceHandle );
+			if ( queries != null && queries.length > 0 )
+			{
+				for ( int i = 0; i < queries.length; i++ )
+				{
+					IDataQueryDefinition referenceQuery = queries[i];
+					if ( referenceQuery instanceof BaseQueryDefinition )
+					{
+						( (BaseQueryDefinition) referenceQuery )
+								.setCacheQueryResults( true );
+					}
+				}
+				if ( (BaseQueryDefinition) queries[0] instanceof BaseQueryDefinition )
+				{
+					return (BaseQueryDefinition) queries[0];
+				}
+				else
+				{
+					// FIXME: can't support reference normal query to cube
+					// query.
+					throw new IllegalStateException(
+							"Can't support reference normal query to cube query" ); 
+				}
+			}
+			return null;
+		}
 
 		/**
 		 * create query for non-listing report item
@@ -913,50 +1176,15 @@ public class ReportQueryBuilder
 		 * @return a report query
 		 */
 		protected BaseQueryDefinition createQuery( ReportItemDesign item,
-				Object value )
+				Object parent )
 		{
 
-			DesignElementHandle handle = item.getHandle( );
-			if ( handle instanceof ReportItemHandle )
-			{
-				ReportItemHandle itemHandle = (ReportItemHandle) handle;
-				ReportItemHandle referenceHandle = itemHandle
-						.getDataBindingReference( );
-				if ( referenceHandle != null )
-				{
-					IDataQueryDefinition[] queries = report
-							.getQueryByReportHandle( referenceHandle );
-					if ( queries != null && queries.length > 0 )
-					{
-						registerQueryToHandle( item, queries );
-						for ( int i = 0; i < queries.length; i++ )
-						{
-							IDataQueryDefinition referenceQuery = queries[i];
-							if ( referenceQuery instanceof BaseQueryDefinition )
-							{
-								( (BaseQueryDefinition) referenceQuery )
-										.setCacheQueryResults( true );
-							}
-						}
-						if ( (BaseQueryDefinition) queries[0] instanceof BaseQueryDefinition )
-						{
-							return (BaseQueryDefinition) queries[0];
-						}
-					}
-					else
-					{
-						// FIXME: Maybe the query has been not created now. So
-						// need process.
-						throw new IllegalStateException(
-								"forward reference dataset" );
-					}
-				}
-			}
+			DesignElementHandle handle = item.getHandle( );			
 
 			BaseQueryDefinition parentQuery = null;
-			if ( value instanceof BaseQueryDefinition )
+			if ( parent instanceof BaseQueryDefinition )
 			{
-				parentQuery = (BaseQueryDefinition) value;
+				parentQuery = (BaseQueryDefinition) parent;
 			}
 			if ( !( handle instanceof ReportItemHandle ) )
 			{
@@ -994,15 +1222,16 @@ public class ReportQueryBuilder
 					return parentQuery;
 				}
 				
-				if ( value instanceof CubeQueryDefinition )
+				if ( parent instanceof CubeQueryDefinition )
 				{
 					return null;
+					//return createSubQuery(item, null);
 				}
 
 				// we have column binding, create a sub query.
 				return createSubQuery( item, parentQuery );
 			}
-			// The report item has a data set definition, must creat a query for
+			// The report item has a data set definition, must create a query for
 			// it.
 			QueryDefinition query = new QueryDefinition( parentQuery );
 			query.setDataSetName( dsHandle.getQualifiedName( ) );

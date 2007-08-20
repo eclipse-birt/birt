@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -877,6 +877,12 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeShort( out, FIELD_ACTION );
 			writeAction( out, action );
+		}
+		boolean useCachedResult = design.useCachedResult( );
+		if ( useCachedResult )
+		{
+			IOUtil.writeShort( out, FIELD_USE_CACHED_RESULT );
+			IOUtil.writeBool( out, useCachedResult );
 		}
 	}
 

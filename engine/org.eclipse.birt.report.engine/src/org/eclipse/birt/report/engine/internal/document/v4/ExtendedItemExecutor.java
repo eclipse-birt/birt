@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -238,6 +238,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 		 */
 		if ( design != null )
 		{
+			boolean useCache = design.useCachedResult( );
 			IDataQueryDefinition[] queries = design.getQueries( );
 			if ( queries != null )
 			{
@@ -248,7 +249,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						rsets[i] = context.executeQuery( prset, queries[i],
-								false );
+								useCache );
 					}
 					context.setResultSets( rsets );
 				}

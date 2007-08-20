@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -427,6 +427,7 @@ public class ReportItemReader implements IReportItemExecutor
 		if ( generateBy instanceof ReportItemDesign )
 		{
 			ReportItemDesign design = (ReportItemDesign) generateBy;
+			boolean useCache = design.useCachedResult( );
 			IDataQueryDefinition[] queries = design.getQueries( );
 			if ( queries == null )
 			{
@@ -496,7 +497,7 @@ public class ReportItemReader implements IReportItemExecutor
 					try
 					{
 						rsets[i] = context.executeQuery( rset, queries[i],
-								false );
+								useCache );
 					}
 					catch ( BirtException ex )
 					{
