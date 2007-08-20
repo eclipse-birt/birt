@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -27,9 +30,71 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 public class DataUtil
 {
 
+	public static Set getReferencedBindings( ComputedColumnHandle target,
+			List allHandleList )
+	{
+		return getReferencedBindings( target, allHandleList, new HashSet( ) );
+	}
+
 	/**
-	 * Return a list of valid group key bindings. Only those bindings that do not involve aggregations will be
-	 * allowed.
+	 * Get all referenced bindings by the given binding in a set of binding
+	 * list.
+	 * 
+	 * @param target
+	 * @param allHandleList
+	 * @return
+	 */
+	private static Set getReferencedBindings( ComputedColumnHandle target,
+			List allHandleList, Set prohibitedSet )
+	{
+		Set result = new HashSet( );
+		if ( target == null
+				|| allHandleList == null || allHandleList.size( ) == 0 )
+			return result;
+		prohibitedSet.add( target.getName( ) );
+		String expr = target.getExpression( );
+		try
+		{
+			List referredBindings = ExpressionUtil.extractColumnExpressions( expr );
+			for ( int i = 0; i < referredBindings.size( ); i++ )
+			{
+				IColumnBinding binding = (IColumnBinding) referredBindings.get( i );
+				for ( int j = 0; j < allHandleList.size( ); j++ )
+				{
+					ComputedColumnHandle handle = (ComputedColumnHandle) allHandleList.get( j );
+					if ( handle.getName( )
+							.equals( binding.getResultSetColumnName( ) )
+							&& !prohibitedSet.contains( binding.getResultSetColumnName( ) ) )
+					{
+						result.add( handle );
+					}
+				}
+			}
+
+			Set temp = new HashSet( );
+
+			for ( Iterator it = result.iterator( ); it.hasNext( ); )
+			{
+				Set newProhibitedSet = new HashSet( );
+				newProhibitedSet.addAll( prohibitedSet );
+				temp.addAll( getReferencedBindings( (ComputedColumnHandle) it.next( ),
+						allHandleList,
+						newProhibitedSet ) );
+			}
+
+			result.addAll( temp );
+
+		}
+		catch ( BirtException e )
+		{
+		}
+
+		return result;
+	}
+
+	/**
+	 * Return a list of valid group key bindings. Only those bindings that do
+	 * not involve aggregations will be allowed.
 	 * 
 	 * @param availableHandles
 	 * @return
