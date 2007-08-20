@@ -165,6 +165,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=文書ファイル {0} にアクセスで
 birt.viewer.generalException.REPORT_FILE_ERROR=レポートファイル {0} は存在しないか、誤りがあります。
 birt.viewer.generalException.REPORT_ACCESS_ERROR=レポートファイル {0} にアクセスできません。
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=文書ファイルを処理しています。後でやり直してください。
+birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
 
 ###############################################################################
 # Report service exception
@@ -180,7 +181,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=レポートエンジンの
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=レポート文書のインスタンスが空です。
 birt.viewer.actionException.INVALID_BOOKMARK=ブックマーク {0} が無効です。確認して、リンクを設定し直してください。
-birt.viewer.actionException.INVALID_PAGE_NUMBER=ページ番号が無効です。 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
 birt.viewer.actionException.INVALID_ID_FORMAT=ID の形式が無効です (ID={0})。
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=セッションがタイムアウトになったか、文書ファイルがありません。
 

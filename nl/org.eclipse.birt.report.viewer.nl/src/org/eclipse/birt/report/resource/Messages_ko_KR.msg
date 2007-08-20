@@ -165,6 +165,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=문서 파일: {0}에 액세스할 수 
 birt.viewer.generalException.REPORT_FILE_ERROR=보고서 파일: {0}이(가) 없거나 오류가 있습니다.
 birt.viewer.generalException.REPORT_ACCESS_ERROR=보고서 파일: {0}에 액세스할 수 없습니다.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=문서 파일을 처리 중입니다. 나중에 다시 시도하십시오.
+birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
 
 ###############################################################################
 # Report service exception
@@ -180,7 +181,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=보고서 엔진 시작 �
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=보고서 문서 항목이 비어 있습니다.
 birt.viewer.actionException.INVALID_BOOKMARK=책갈피 {0}이[가] 잘못되었습니다. 링크를 확인하여 다시 설정하십시오.
-birt.viewer.actionException.INVALID_PAGE_NUMBER=잘못된 페이지 번호 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
 birt.viewer.actionException.INVALID_ID_FORMAT=잘못된 ID 형식. Id={0}
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=세션 시간을 초과했거나 사용 가능한 문서 파일이 없습니다.
 
