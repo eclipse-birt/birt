@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
@@ -23,7 +24,11 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.gef.Request;
 
 /**
@@ -123,6 +128,19 @@ public class InsertAction extends AbstractElementAction
 		}
 	}
 
+	public boolean isEnabled( )
+	{
+		/*
+		 * Check the case that a table refer other element and whether can insert a group.
+		 */
+		if ( getSelection( ) instanceof SlotHandle
+				&& ( (SlotHandle) getSelection( ) ).getSlotID( ) == IListingElementModel.GROUP_SLOT )
+		{
+			return ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.TABLE_GROUP_ELEMENT );
+		}
+		return super.isEnabled( );
+	}
+
 	/**
 	 * Gets the default slot handle to insert
 	 * 
@@ -158,7 +176,7 @@ public class InsertAction extends AbstractElementAction
 	 */
 	protected boolean doAction( ) throws Exception
 	{
-		 Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
+		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
 		Map extendsData = new HashMap( );
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
 
@@ -188,24 +206,24 @@ public class InsertAction extends AbstractElementAction
 		}
 		return bool;
 
-// CommandUtils.getHandlerService( )
-//				.getCurrentState( )
-//				.addVariable( "position", position );
-//
-//		if ( type != null )
-//			CommandUtils.getHandlerService( )
-//					.getCurrentState( )
-//					.addVariable( "type", type );
-//
-//		Object returnVlaue = CommandUtils.executeCommand( "insert" );
-//
-//		CommandUtils.getHandlerService( )
-//				.getCurrentState( )
-//				.removeVariable( "position" );
-//		CommandUtils.getHandlerService( )
-//				.getCurrentState( )
-//				.removeVariable( "type" );
-//
-//		return Boolean.TRUE.equals( returnVlaue );
+		// CommandUtils.getHandlerService( )
+		// .getCurrentState( )
+		// .addVariable( "position", position );
+		//
+		// if ( type != null )
+		// CommandUtils.getHandlerService( )
+		// .getCurrentState( )
+		// .addVariable( "type", type );
+		//
+		// Object returnVlaue = CommandUtils.executeCommand( "insert" );
+		//
+		// CommandUtils.getHandlerService( )
+		// .getCurrentState( )
+		// .removeVariable( "position" );
+		// CommandUtils.getHandlerService( )
+		// .getCurrentState( )
+		// .removeVariable( "type" );
+		//
+		// return Boolean.TRUE.equals( returnVlaue );
 	}
 }
