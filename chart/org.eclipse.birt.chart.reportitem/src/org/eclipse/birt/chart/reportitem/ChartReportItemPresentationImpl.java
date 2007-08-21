@@ -313,8 +313,21 @@ public final class ChartReportItemPresentationImpl extends
 				
 				// Get chart max row number from application context
 				Object oMaxRow = context.getAppContext( )
-						.get( ChartUtil.CHART_MAX_ROW );
-				rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
+						.get( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
+				if ( oMaxRow != null )
+				{
+					rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
+				}
+				else
+				{
+					// Get chart max row number from global variables if app
+					// context doesn't put it
+					oMaxRow = context.getGlobalVariable( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
+					if ( oMaxRow != null )
+					{
+						rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
+					}
+				}
 			}
 			ois.close( );
 		}

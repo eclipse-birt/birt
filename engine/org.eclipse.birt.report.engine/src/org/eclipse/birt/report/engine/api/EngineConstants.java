@@ -25,13 +25,20 @@ public class EngineConstants {
 	
 	//chart and html will all use APPCONTEXT_CHART_RESOLUTION
 	public final static String APPCONTEXT_CHART_RESOLUTION = "CHART_RESOLUTION"; //$NON-NLS-1$//false
+	
 	/**
 	 * @deprecated use APPCONTEXT_CHART_RESOLUTION instead of APPCONTEXT_CHART_PRINT_RESOLUTION
 	 */
-	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = APPCONTEXT_CHART_RESOLUTION;	 //$NON-NLS-1$
+	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = APPCONTEXT_CHART_RESOLUTION;
+	
+	/**
+	 * This property is a key for putting max row number of extended item in app
+	 * context or global variables.
+	 */
+	public final static String PROPERTY_EXTENDED_ITEM_MAX_ROW = "EXTENDED_ITEM_MAX_ROW"; //$NON-NLS-1$
 	
 	//used by ScriptExecutor
-	public static final String PROPERTYSEPARATOR = File.pathSeparator; //$NON-NLS-1$
+	public static final String PROPERTYSEPARATOR = File.pathSeparator;
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
