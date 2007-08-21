@@ -50,8 +50,6 @@ public class ChartUtil
 	 * Default max row count that will be supported in charts.
 	 */
 	private static final int DEFAULT_MAX_ROW_COUNT = 10000;
-
-	private static int iMaxRowCount = 0;
 	
 	/**
 	 * The constant defined as the key in RuntimeContext or JVM arguments, to
@@ -460,38 +458,34 @@ public class ChartUtil
 	 */
 	public static int getSupportedMaxRowCount( RunTimeContext rtc )
 	{
+		int iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
+
 		// To get value from runtime context first
 		Object contextMaxRow = rtc.getState( CHART_MAX_ROW );
-		
-		// Only get property value in the first time if no value in runtime
-		// context
-		if ( contextMaxRow != null || iMaxRowCount <= 0 )
+		if ( contextMaxRow != null )
 		{
-			if ( contextMaxRow != null )
+			iMaxRowCount = ( (Number) contextMaxRow ).intValue( );
+		}
+		else
+		{
+			// Then to get value from JVM
+			String jvmMaxRow = System.getProperty( CHART_MAX_ROW );
+			if ( jvmMaxRow != null )
 			{
-				iMaxRowCount = ( (Number) contextMaxRow ).intValue( );
-			}
-			else
-			{
-				// Then to get value from JVM
-				String jvmMaxRow = System.getProperty( CHART_MAX_ROW );
-				if ( jvmMaxRow != null )
+				try
 				{
-					try
-					{
-						iMaxRowCount = Integer.parseInt( jvmMaxRow );
-					}
-					catch ( NumberFormatException e )
-					{
-						iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
-					}
+					iMaxRowCount = Integer.parseInt( jvmMaxRow );
+				}
+				catch ( NumberFormatException e )
+				{
+					iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
 				}
 			}
-			// In case of negative value
-			if ( iMaxRowCount <= 0 )
-			{
-				iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
-			}
+		}
+		// In case of negative value
+		if ( iMaxRowCount <= 0 )
+		{
+			iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
 		}
 		return iMaxRowCount;
 	}
