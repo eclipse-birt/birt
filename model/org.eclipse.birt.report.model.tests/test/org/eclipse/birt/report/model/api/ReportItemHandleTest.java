@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -756,123 +755,6 @@ public class ReportItemHandleTest extends BaseTestCase
 		columnHandle2.setName( "table1.column3" ); //$NON-NLS-1$
 		assertEquals( "table1.column3", columnHandle2.getName( ) ); //$NON-NLS-1$
 
-	}
-
-	/**
-	 * Tests the function for adding bound data columns.
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testDataBindingRef( ) throws Exception
-	{
-		openDesign( "ReportItemHandleTest_2.xml" ); //$NON-NLS-1$ 
-
-		DataItemHandle data1 = (DataItemHandle) designHandle
-				.findElement( "myData1" ); //$NON-NLS-1$
-
-		Iterator columns = data1.columnBindingsIterator( );
-		ComputedColumnHandle column = (ComputedColumnHandle) columns.next( );
-		verifyColumnValues( column );
-
-		DataItemHandle data2 = (DataItemHandle) designHandle
-				.findElement( "myData2" ); //$NON-NLS-1$
-		columns = data2.columnBindingsIterator( );
-		column = (ComputedColumnHandle) columns.next( );
-		verifyColumnValues( column );
-
-		assertEquals( "myData1", data2.getDataBindingReferenceName( ) ); //$NON-NLS-1$
-
-		DataItemHandle newData = (DataItemHandle) designHandle
-				.findElement( "myData3" ); //$NON-NLS-1$
-		newData.setDataBindingReference( data2 );
-
-		columns = newData.columnBindingsIterator( );
-		column = (ComputedColumnHandle) columns.next( );
-		verifyColumnValues( column );
-
-		try
-		{
-			newData.setDataBindingReference( newData );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
-					e.getErrorCode( ) );
-		}
-
-		try
-		{
-			data1.setDataBindingReference( data2 );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
-					e.getErrorCode( ) );
-		}
-
-		// parameter biding in both data and table, should get value from the
-		// table
-
-		Iterator paramBindings = data2.paramBindingsIterator( );
-		ParamBindingHandle paramBinding = (ParamBindingHandle) paramBindings
-				.next( );
-		assertEquals( "table value1", paramBinding.getExpression( ) ); //$NON-NLS-1$
-
-		TableHandle table2 = (TableHandle) designHandle
-				.findElement( "myTable2" ); //$NON-NLS-1$
-		Iterator filters = table2.filtersIterator( );
-		FilterConditionHandle filter = (FilterConditionHandle) filters.next( );
-		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
-
-		Iterator sorts = table2.sortsIterator( );
-		SortKeyHandle sort = (SortKeyHandle) sorts.next( );
-		assertEquals( "table 1 name", sort.getKey( ) ); //$NON-NLS-1$
-	}
-
-	private void verifyColumnValues( ComputedColumnHandle column )
-	{
-		assertEquals( "CUSTOMERNUMBER", column.getName( ) ); //$NON-NLS-1$
-		assertEquals( "dataSetRow[\"CUSTOMERNUMBER\"]", column.getExpression( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
-				.getDataType( ) );
-	}
-
-	/**
-	 * Tests getDataBindingType() and getAvailableDataBindingReferenceList.
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testgetAvailableDataBindingReferenceList( ) throws Exception
-	{
-		openDesign( "ReportItemHandleBindingDataTypeTest.xml" ); //$NON-NLS-1$ 
-
-		TextItemHandle text = (TextItemHandle) designHandle
-				.findElement( "myText" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_NONE, text
-				.getDataBindingType( ) );
-
-		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, list
-				.getDataBindingType( ) );
-
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
-				.findElement( "ex1" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, extendedItem
-				.getDataBindingType( ) );
-
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table
-				.getDataBindingType( ) );
-
-		List handleList = list.getAvailableDataBindingReferenceList( );
-		assertEquals( 1, handleList.size( ) );
-		assertTrue( handleList.get( 0 ) instanceof ExtendedItemHandle );
 	}
 
 	/**

@@ -276,7 +276,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Checks whethere recursive element reference occurs.
+	 * Checks whether recursive element reference occurs.
 	 * 
 	 * @param memberDefn
 	 *            the property/member definition

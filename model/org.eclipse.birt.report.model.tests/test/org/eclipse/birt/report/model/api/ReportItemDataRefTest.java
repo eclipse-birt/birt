@@ -186,9 +186,19 @@ public class ReportItemDataRefTest extends BaseTestCase
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table
 				.getDataBindingType( ) );
 
-		List handleList = list.getAvailableDataBindingReferenceList( );
-		assertEquals( 1, handleList.size( ) );
-		assertTrue( handleList.get( 0 ) instanceof ExtendedItemHandle );
+		// cannot contain self and elements that refer to self.
+
+		PropertyHandle propHandle = list
+				.getPropertyHandle( ReportItemHandle.DATA_BINDING_REF_PROP );
+		List handleList = propHandle.getReferenceableElementList( );
+		assertEquals( 3, handleList.size( ) );
+
+		assertEquals( "ex1", ( (DesignElementHandle) handleList.get( 0 ) ) //$NON-NLS-1$
+				.getName( ) );
+		assertEquals( "table", ( (DesignElementHandle) handleList.get( 1 ) ) //$NON-NLS-1$
+				.getName( ) );
+		assertEquals( "table2", ( (DesignElementHandle) handleList.get( 2 ) ) //$NON-NLS-1$
+				.getName( ) );
 	}
 
 	private void verifyColumnValues( ComputedColumnHandle column )
@@ -295,7 +305,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		assertFalse( table2.canContain( TableHandle.GROUP_SLOT, designHandle
 				.getElementFactory( ).newTableGroup( ) ) );
-		
+
 		assertFalse( table2.canContain( TableHandle.GROUP_SLOT, group2
 				.getDefn( ).getName( ) ) );
 	}

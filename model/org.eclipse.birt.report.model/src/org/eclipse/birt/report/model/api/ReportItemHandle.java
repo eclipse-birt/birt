@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
 /**
@@ -878,10 +880,17 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Returns report items that has dataset property defined. That is, data set
-	 * property is set locally and databinding ref property is null. ReportItem
-	 * in the design are all applicable. Each entry of the return list is of
-	 * <code>ReportItemHandle</code> type.
+	 * Returns report items that can be referred by other report items by data
+	 * binding reference property.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has dataset property defined. That is, data set
+	 * property is set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has dataset property defined
 	 */
@@ -903,17 +912,38 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			{
 				ReportItemHandle elementHandle = (ReportItemHandle) e
 						.getHandle( module );
-				if ( elementHandle.getDataBindingType( ) == DATABINDING_TYPE_DATA &&
-						e.getName( ) != null )
-					rtnList.add( elementHandle );
+				int bindingType = elementHandle.getDataBindingType( );
 
+				if ( e.getName( ) == null )
+					continue;
+
+				if ( bindingType == DATABINDING_TYPE_DATA )
+					rtnList.add( elementHandle );
+				else if ( bindingType == DATABINDING_TYPE_REPORT_ITEM_REF )
+				{
+
+					DesignElementHandle tmpElementHandle = elementHandle
+							.getDataBindingReference( );
+
+					if ( tmpElementHandle == null )
+					{
+						rtnList.add( elementHandle );
+						continue;
+					}
+
+					if ( element instanceof IReferencableElement &&
+							!ModelUtil.isRecursiveReference( tmpElementHandle
+									.getElement( ),
+									(IReferencableElement) element ) )
+						rtnList.add( elementHandle );
+				}
 			}
 		}
 
 		if ( rtnList.isEmpty( ) )
 			return Collections.EMPTY_LIST;
-		else
-			return Collections.unmodifiableList( rtnList );
+
+		return Collections.unmodifiableList( rtnList );
 	}
 
 	/**

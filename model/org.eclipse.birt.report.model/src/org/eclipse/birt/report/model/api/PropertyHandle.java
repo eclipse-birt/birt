@@ -210,6 +210,12 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSets( );
 
+		else if ( getElementHandle( ) instanceof ReportItemHandle &&
+				ReportItemHandle.DATA_BINDING_REF_PROP
+						.equalsIgnoreCase( propDefn.getName( ) ) )
+			return ( (ReportItemHandle) getElementHandle( ) )
+					.getAvailableDataBindingReferenceList( );
+		
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSources( );

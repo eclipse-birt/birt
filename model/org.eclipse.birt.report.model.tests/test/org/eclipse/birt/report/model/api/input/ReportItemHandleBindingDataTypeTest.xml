@@ -11,57 +11,7 @@
     </data-sets>
     <cubes>
     	<tabular-cube name="testCube">
-    		<property name="dataSet">myDataSet</property>
-    		<list-property name="filter">
-                <structure>
-                    <property name="operator">lt</property>
-                    <expression name="expr">filter expression</expression>
-                    <expression name="value1">value1 expression</expression>
-                    <expression name="value2">value2 expression</expression>
-                </structure>
-            </list-property>
-    		<list-property name="dimensionConditions">
-    			<structure>
-    				<property name="hierarchy">testHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    					<value>column2</value>
-    					<value>column4</value>
-    				</simple-property-list>
-    			</structure>
-    			<structure>
-    				<property name="hierarchy">nonExistingHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    				</simple-property-list>
-    			</structure>
-    		</list-property>
-    		<property name="dimensions">
-    			<tabular-dimension name="testDimension">
-    				<property name="isTimeType">true</property>
-    				<property name="hierarchies">
-    					<tabular-hierarchy name="testHierarchy">
-    						<property name="levels">
-    							<tabular-level name="testLevel">
-    								<property name="columnName">column1</property>
-    								<property name="interval">week</property>
-    							</tabular-level>
-    						</property>
-    					</tabular-hierarchy>
-    				</property>
-    			</tabular-dimension>
-    		</property>
-    		<property name="measureGroups">
-    			<tabular-measure-group name="testMeasureGroup">
-    				<property name="measures">
-    					<tabular-measure name="testMeasure">
-    						<property name="function">min</property>
-    						<property name="measureExpression">column</property>
-    						<property name="isCalculated">false</property>
-    					</tabular-measure>
-    				</property>
-    			</tabular-measure-group>
-    		</property>  		
+    		<property name="dataSet">myDataSet</property>		
     	</tabular-cube>
     </cubes>
     <page-setup>
@@ -88,8 +38,11 @@
 			<property name="dataBindingRef">table1</property>	
 			<property name="dataSet">myDataSet</property>
 		</table>	
-		<table>	
+		<table  name="table2">	
 			<property name="dataSet">myDataSet</property>
 		</table>	
+		<table  name="table3">	
+			<property name="dataBindingRef">my list</property>
+		</table>
     </body>
 </report>
