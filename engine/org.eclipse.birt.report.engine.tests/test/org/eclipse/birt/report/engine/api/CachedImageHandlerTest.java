@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.EngineCase;
@@ -35,9 +34,11 @@ public class CachedImageHandlerTest extends EngineCase
 		CachedImageHandler imageHandler = new CachedImageHandler( );
 
 		EngineConfig config = new EngineConfig( );
-		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
-		emitterConfig.setImageHandler( imageHandler );
-		config.setEmitterConfiguration( "html", emitterConfig );
+		RenderOption option = new RenderOption( );
+		option.setImageHandler( imageHandler );
+		config
+				.setEmitterConfiguration( RenderOption.OUTPUT_FORMAT_HTML,
+						option );
 		IReportEngine engine = new ReportEngine( config );
 
 		// first we need create the report document
@@ -58,7 +59,9 @@ public class CachedImageHandlerTest extends EngineCase
 		render.render( );
 		render.close( );
 
-		assertEquals( 1, imageHandler.customImageCount );
+		assertEquals( 1, imageHandler.cachedImageCount );
+		assertEquals( 0, imageHandler.customImageCount );
+		assertEquals( 1, imageHandler.fileImageCount );
 		// render the report again, the cached image should be return.
 		render = engine.createRenderTask( document );
 		render.setRenderOption( options );
@@ -66,11 +69,11 @@ public class CachedImageHandlerTest extends EngineCase
 		render.close( );
 
 		assertEquals( 1, imageHandler.cachedImageCount );
-		assertEquals( 1, imageHandler.customImageCount );
-		assertEquals( 1, imageHandler.fileImageCount );
+		assertEquals( 0, imageHandler.customImageCount );
+		assertEquals( 2, imageHandler.fileImageCount );
 		document.close( );
 
-		engine.shutdown( );
+		engine.destroy( );
 	}
 
 	class CachedImageHandler extends HTMLImageHandler
@@ -88,19 +91,24 @@ public class CachedImageHandlerTest extends EngineCase
 			String url = (String) map.get( id );
 			if ( url != null )
 			{
-				cachedImageCount++;
-				return new CachedImage( id, "CACHED_IMAGE:" + url );
+				return new CachedImage( id, url );
 			}
 			return null;
-
+		}
+		
+		public CachedImage addCachedImage(String id, int sourceType, IImage image, IReportContext context)
+		{
+			cachedImageCount++;
+			String url = "CACHED_IMAGE:" + cachedImageCount;
+			map.put( id, url );
+			CachedImage cache = new CachedImage( id, url );
+			return cache;
 		}
 
 		public String onCustomImage( IImage image, IReportContext context )
 		{
 			customImageCount++;
-			String date = new Date( ).toString( );
-			map.put( image.getID( ), date );
-			return "CACHED_IMAGE:" + date;
+			return "CUSTOM_IMAGE:" + customImageCount;
 		}
 
 		public String onFileImage( IImage image, IReportContext context )
