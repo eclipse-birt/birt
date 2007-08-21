@@ -48,7 +48,6 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChange
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -180,18 +179,20 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	{
 		createContextMenus( );
 
-		treeViewer.setSorter( new ViewerSorter( ) {
-
-			public int category( Object element )
-			{
-				if ( element instanceof LibraryHandle )
-				{
-					return 1;
-				}
-				return super.category( element );
-			}
-
-		} );
+		// !remove sorter to keep same order with outline view
+		// treeViewer.setSorter( new ViewerSorter( ) {
+		//
+		// public int category( Object element )
+		// {
+		// if ( element instanceof LibraryHandle )
+		// {
+		// return 1;
+		// }
+		// return super.category( element );
+		// }
+		//
+		// } );
+		
 		treeViewer.getTree( ).addMouseTrackListener( new MouseTrackAdapter( ) {
 
 			public void mouseHover( MouseEvent event )
