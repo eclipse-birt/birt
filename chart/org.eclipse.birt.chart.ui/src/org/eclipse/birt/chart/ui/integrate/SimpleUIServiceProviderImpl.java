@@ -123,7 +123,8 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	{
 		switch ( command )
 		{
-			case IUIServiceProvider.COMMAND_HYPERLINK :
+			case COMMAND_HYPERLINK :
+			case COMMAND_HYPERLINK_DATAPOINTS :
 				Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
