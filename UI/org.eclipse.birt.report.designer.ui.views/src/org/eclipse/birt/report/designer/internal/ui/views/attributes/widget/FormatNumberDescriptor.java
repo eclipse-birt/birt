@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -104,12 +105,22 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			.format( 1234.56 );
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
-	private static String[] symbols = {
-			// "none", "锟斤拷","$", "?", "锟斤拷"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ),
-			Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
-			"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-	};
+	private static String[] symbols = new String[0];
+	static
+	{
+		java.util.List list = new ArrayList( );
+		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) );
+		list.add( "\u00A5" );
+		list.add( "$" );
+		list.add( "\u20ac" );
+		list.add( "\u00A3" );
+		list.add( "\u20A9" );
+		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
+				.getSymbol( );
+		if ( !list.contains( localSymbol ) )
+			list.add( 1, localSymbol );
+		symbols = (String[]) list.toArray( new String[0] );
+	}
 
 	private CCombo typeChoicer;
 
