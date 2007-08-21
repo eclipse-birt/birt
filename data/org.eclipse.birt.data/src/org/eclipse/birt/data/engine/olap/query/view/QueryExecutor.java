@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -105,7 +106,6 @@ public class QueryExecutor
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
 		}
 		cube.close( );
-		documentManager.close( );
 		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
 	}
 
@@ -284,9 +284,11 @@ public class QueryExecutor
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
 				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
-			return DocumentManagerFactory.loadFileDocumentManager( executor.getContext( )
-					.getTmpdir( ) + executor.getSession( ).getEngine( ).hashCode( ),
-					executor.getCubeQueryDefinition( ).getName( ) );
+			return DocManagerMap.getDocManagerMap( ).get
+					( String.valueOf( executor.getSession( ).getEngine( ).hashCode( ) ),
+							executor.getContext( ).getTmpdir( ) +
+							executor.getSession( ).getEngine( ).hashCode( ) +
+							executor.getCubeQueryDefinition( ).getName( ) );
 		}
 		else
 		{

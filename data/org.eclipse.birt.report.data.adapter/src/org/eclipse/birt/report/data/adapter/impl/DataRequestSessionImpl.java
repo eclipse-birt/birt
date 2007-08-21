@@ -536,7 +536,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws DataException, IOException, BirtException
 	{
 		CubeMaterializer cubeMaterializer;
-		cubeMaterializer = new CubeMaterializer( this.sessionContext.getDataEngineContext( )
+		cubeMaterializer = new CubeMaterializer( this.dataEngine,
+				this.sessionContext.getDataEngineContext( )
 				.getTmpdir( ) + this.dataEngine.hashCode( ),
 				cubeHandle.getQualifiedName( ) );
 		return cubeMaterializer;

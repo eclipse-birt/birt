@@ -1325,7 +1325,7 @@ public class CubeIVTest extends BaseTestCase
 	
 	private void createCube( IDocArchiveWriter writter, DataEngine engine ) throws BirtException, IOException
 	{
-		CubeMaterializer cubeMaterializer = new CubeMaterializer( documentPath+engine.hashCode( ),
+		CubeMaterializer cubeMaterializer = new CubeMaterializer( engine, documentPath+engine.hashCode( ),
 				"cube" );
 		
 		IDocumentManager documentManager = cubeMaterializer.getDocumentManager( );

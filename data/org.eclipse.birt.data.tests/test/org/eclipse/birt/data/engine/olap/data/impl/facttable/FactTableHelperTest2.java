@@ -695,7 +695,7 @@ public class FactTableHelperTest2 extends TestCase
 	 */
 	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
-		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( tmpPath, "cub1" );
+		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( null, tmpPath, "cub1" );
 		
 		testFactTableSaveAndLoad5( cubeCreatorHelper );
 		

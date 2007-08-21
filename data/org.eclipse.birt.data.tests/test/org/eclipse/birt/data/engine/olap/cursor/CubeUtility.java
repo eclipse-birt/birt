@@ -28,6 +28,8 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
+import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerReleaser;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -72,7 +74,8 @@ public class CubeUtility
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath
 				+ engine.hashCode( ),
 				cubeName );
-
+		DocManagerMap.getDocManagerMap( ).set( String.valueOf( engine.hashCode( ) ), documentPath + engine.hashCode( ) + cubeName, documentManager );
+		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[6];
 
 		// dimension0
@@ -194,7 +197,7 @@ public class CubeUtility
 
 		cube.create( getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		cube.close( );
-		documentManager.close( );
+		documentManager.flush( );
 	}
 	
 	ICubeQueryDefinition createQueryDefinition( )

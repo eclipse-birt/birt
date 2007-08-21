@@ -148,7 +148,7 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void testRAAggregation1( ) throws IOException, BirtException
 	{
-		CubeMaterializer materializer = new CubeMaterializer();
+		CubeMaterializer materializer = new CubeMaterializer( null );
 		IDocumentManager localDocManager = materializer.getDocumentManager( );
 		IDocumentManager oldManager = documentManager; //backup old document manager
 		documentManager = localDocManager;

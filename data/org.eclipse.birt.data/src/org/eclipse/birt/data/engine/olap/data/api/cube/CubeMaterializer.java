@@ -17,6 +17,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -34,7 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Hierarchy;
 public class CubeMaterializer
 {
 	private IDocumentManager documentManager;
-	
+	private DataEngine dataEngine;
 	/**
 	 * 
 	 * @param pathName
@@ -42,9 +43,9 @@ public class CubeMaterializer
 	 * @throws BirtOlapException
 	 * @throws IOException
 	 */
-	public CubeMaterializer( String pathName, String managerName  ) throws DataException, IOException
+	public CubeMaterializer( DataEngine dataEngine, String pathName, String managerName  ) throws DataException, IOException
 	{
-		documentManager = DocumentManagerFactory.createFileDocumentManager( pathName, managerName );
+		this( dataEngine, pathName, managerName, 0 );
 	}
 
 	/**
@@ -55,18 +56,39 @@ public class CubeMaterializer
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public CubeMaterializer( String pathName, String managerName, int cacheSize  ) throws DataException, IOException
+	public CubeMaterializer( DataEngine dataEngine, String pathName, String managerName, int cacheSize  ) throws DataException, IOException
 	{
+		this.dataEngine = dataEngine;
+		setShutdownListener( );
 		documentManager = DocumentManagerFactory.createFileDocumentManager( pathName, managerName, cacheSize );
+		if ( this.dataEngine != null )
+		{
+			DocManagerMap.getDocManagerMap( )
+					.set( String.valueOf( this.dataEngine.hashCode( ) ),
+							pathName + managerName,
+							documentManager );
+		}
 	}
 	/**
 	 * 
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public CubeMaterializer(  ) throws DataException, IOException
+	public CubeMaterializer( DataEngine dataEngine ) throws DataException, IOException
 	{
+		this.dataEngine = dataEngine;
+		setShutdownListener( );
 		documentManager = DocumentManagerFactory.createFileDocumentManager( );
+	}
+
+	/**
+	 * 
+	 */
+	private void setShutdownListener( )
+	{
+		if( dataEngine == null )
+			return;
+		dataEngine.addShutdownListener( new DocManagerReleaser( dataEngine ) );
 	}
 	
 	/**
@@ -255,6 +277,6 @@ public class CubeMaterializer
 	 */
 	public void close( ) throws IOException
 	{
-		documentManager.close( );
+		documentManager.flush( );
 	}
 }

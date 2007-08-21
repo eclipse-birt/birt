@@ -108,10 +108,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	private void create( String dirName, String managerName ) throws IOException, DataException
 	{
 		documentObjectMap = new HashMap( );
-		if ( !new File(dirName).exists( ) )
-		{
-			new File(dirName).mkdirs( );
-		}
+		
 		objectFile = new File( dirName + File.separatorChar + managerName + "obj" );
 		objectAccessFile = new BufferedRandomAccessFile( objectFile, "rw", 1024, dataFileCacheSize / 5 );
 		objectAccessFile.setLength( 0 );
@@ -336,6 +333,10 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		objectAccessFile.writeLong( length );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#flush()
+	 */
 	public void flush( ) throws IOException
 	{
 		objectAccessFile.flush( );

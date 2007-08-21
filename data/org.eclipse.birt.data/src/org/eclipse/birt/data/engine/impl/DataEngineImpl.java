@@ -13,9 +13,11 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -62,6 +65,9 @@ public class DataEngineImpl extends DataEngine
 	private DataEngineContext context;
 	private DataEngineSession session;
 	private DataSourceManager dataSourceManager;
+	
+	//shut down listener list
+	private List shutdownListenerList = null;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -471,6 +477,40 @@ public class DataEngineImpl extends DataEngine
 	}
 	
 	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#addShutdownListener(org.eclipse.birt.data.engine.api.IShutdownListener)
+	 */
+	public void addShutdownListener( IShutdownListener listener )
+	{
+		if ( shutdownListenerList == null )
+			shutdownListenerList = new ArrayList( );
+		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
+		{
+			if ( listener == shutdownListenerList.get( i ) )
+				return;
+		}
+		shutdownListenerList.add( listener );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#removeListener(org.eclipse.birt.data.engine.api.IShutdownListener)
+	 */
+	public void removeListener( IShutdownListener listener )
+	{
+		if ( shutdownListenerList == null )
+			return;
+		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
+		{
+			if ( listener == shutdownListenerList.get( i ) )
+			{
+				shutdownListenerList.remove( i );
+				return;
+			}
+		}
+	}
+	
+	/*
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#shutdown()
 	 */
 	public void shutdown( )
@@ -482,6 +522,16 @@ public class DataEngineImpl extends DataEngine
 			logger.fine( "The data engine has already been shutdown" );
 			return;
 		}
+		
+		if ( shutdownListenerList != null )
+		{
+			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
+			{
+				( (IShutdownListener) shutdownListenerList.get( i ) ).dataEngineShutdown( );
+			}
+			shutdownListenerList.clear( );
+		}
+		
 		// Close all open data sources
 		Collection col = dataSources.values( );
 		Iterator it = col.iterator( );

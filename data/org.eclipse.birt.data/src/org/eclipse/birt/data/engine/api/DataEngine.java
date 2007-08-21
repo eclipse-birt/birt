@@ -318,6 +318,18 @@ abstract public class DataEngine
 			Map appContext ) throws BirtException;
 	
 	/**
+	 * Add a shut down listener. When the data engine shut down the listener
+	 * will be notified.
+	 */
+	abstract public void addShutdownListener( IShutdownListener listener );
+	
+	/**
+	 * Remove a shut down listener. 
+	 * @param listener
+	 */
+	abstract public void removeListener( IShutdownListener listener );
+	
+	/**
 	 * Shuts down this instance of data engine, and releases all associated resources.
 	 * This method should be called when the caller is done with an instance of the data engine.
 	 */

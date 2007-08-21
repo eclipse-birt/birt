@@ -85,6 +85,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	 */
 	private void createRandomAccessFile( ) throws IOException
 	{
+		File parent = file.getParentFile( );
+		if ( !parent.exists( ) )
+		{
+			parent.mkdirs( );
+		}
 		delegate = new RandomAccessFile( file, mode );
 		if ( memoryDelegate != null || length > 0 )
 		{
