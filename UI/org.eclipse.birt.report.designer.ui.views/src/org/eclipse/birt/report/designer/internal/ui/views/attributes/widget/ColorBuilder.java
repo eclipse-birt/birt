@@ -490,7 +490,7 @@ public class ColorBuilder extends Composite
 		{
 			if ( rgb == null )
 			{
-				newComboText = ""; //$NON-NLS-1$
+				newComboText = NONE_CHOICE;
 			}
 			else
 			{
