@@ -23,21 +23,27 @@ public class PostScriptRenderTest extends EngineCase
 
 	protected void setUp( ) throws Exception
 	{
-		super.setUp( );
-		String[] pictures = new String[]{"aa.bmp", "aa.gif", "aa.jpg",
-				"aa.png", "actuate.tif", "affine.svg"};
-		String pkg = "org/eclipse/birt/report/engine/emitter/postscript/picture/";
-		for ( int i = 0; i < pictures.length; i++ )
+		if ( isOnWindows( ) )
 		{
-			String file = pictures[i];
-			copyResource( pkg + file, pictureFolder + file );
+			super.setUp( );
+			String[] pictures = new String[]{"aa.bmp", "aa.gif", "aa.jpg",
+					"aa.png", "actuate.tif", "affine.svg"};
+			String pkg = "org/eclipse/birt/report/engine/emitter/postscript/picture/";
+			for ( int i = 0; i < pictures.length; i++ )
+			{
+				String file = pictures[i];
+				copyResource( pkg + file, pictureFolder + file );
+			}
 		}
 	}
 
 	protected void tearDown( ) throws Exception
 	{
-		removeFile( new File( pictureFolder ) );
-		super.tearDown( );
+		if ( isOnWindows( ) )
+		{
+			removeFile( new File( pictureFolder ) );
+			super.tearDown( );
+		}
 	}
 
 	/**
@@ -55,33 +61,31 @@ public class PostScriptRenderTest extends EngineCase
 	 */
 	public void testRenderReport( ) throws Exception
 	{
-		String thePackage = "org/eclipse/birt/report/engine/emitter/postscript/";
-		String[] designs = new String[]{"underline", "uriImages", "urlImages",
-				"pageBreak", "embededImages", "svgImages",
-				"pageBackgroundColor", "lableWithBorder",
-				"pageBackgroundImage", "gridBackgroundImage",
-				"pageBackgroundImageNoRepeat", "pageBackgroundImageRepeatX",
-				"pageBackgroundImageRepeatY"};
-		String suffix = ".rptdesign";
-		HTMLRenderOption options = new HTMLRenderOption( );
-		options.setOutputFormat( "postscript" );
-		String resultFolder = "testresult/";
-		for ( int i = 0; i < designs.length; i++ )
+		if ( isOnWindows( ) )
 		{
-			if ( "uriImages".equals( designs[i] ) && !isOnWindows( ) )
+			String thePackage = "org/eclipse/birt/report/engine/emitter/postscript/";
+			String[] designs = new String[]{"underline", "uriImages",
+					"urlImages", "pageBreak", "embededImages", "svgImages",
+					"pageBackgroundColor", "lableWithBorder",
+					"pageBackgroundImage", "gridBackgroundImage",
+					"pageBackgroundImageNoRepeat",
+					"pageBackgroundImageRepeatX", "pageBackgroundImageRepeatY"};
+			String suffix = ".rptdesign";
+			HTMLRenderOption options = new HTMLRenderOption( );
+			options.setOutputFormat( "postscript" );
+			String resultFolder = "testresult/";
+			for ( int i = 0; i < designs.length; i++ )
 			{
-				continue;
+				options.setOutputFileName( resultFolder + designs[i] + ".ps" );
+				String design = thePackage + designs[i] + suffix;
+				IRunAndRenderTask runAndRenderTask = createRunAndRenderTask( design );
+				runAndRenderTask.setRenderOption( options );
+				runAndRenderTask.run( );
+				runAndRenderTask.close( );
 			}
-			options.setOutputFileName( resultFolder + designs[i] + ".ps" );
-			String design = thePackage + designs[i] + suffix;
-			IRunAndRenderTask runAndRenderTask = createRunAndRenderTask( design );
-			runAndRenderTask.setRenderOption( options );
-			runAndRenderTask.run( );
-			runAndRenderTask.close( );
+			System.out.println( "please check result manually in folder : "
+					+ new File( resultFolder ).getAbsolutePath( ) );
 		}
-		System.out.println( "please check result manually in folder : "
-				+ new File( resultFolder ).getAbsolutePath( ) );
-		tearDown( );
 	}
 
 	private boolean isOnWindows( )
