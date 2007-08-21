@@ -221,7 +221,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		Control left = createTableSelectionComposite( pageContainer );
 		Sash sash = createSash( pageContainer );
 		Control right = createTextualQueryComposite( pageContainer );
-		setWidthHints( pageContainer, left, right );
+		setWidthHints( pageContainer, left, right, sash );
 		addDragListerner( sash, pageContainer, left, right );
 		return pageContainer;
 	}
@@ -232,7 +232,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * @param right
 	 */
 	private void setWidthHints( Composite pageContainer, Control left,
-			Control right )
+			Control right, Sash sash )
 	{
 		int leftWidth = left.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		int totalWidth = pageContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
@@ -240,8 +240,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( (double) leftWidth / (double) totalWidth > 0.4 )
 		{
 			// if left side is too wide, set it to default value 40:60
+			totalWidth = leftWidth / 40 * 100;
+			leftWidth = leftWidth - sash.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 			GridData data = (GridData) left.getLayoutData( );
-			data.widthHint = (int) ( totalWidth * 0.4 );
+			data.widthHint = leftWidth;
 			data = (GridData) right.getLayoutData( );
 			data.widthHint = (int) ( totalWidth * 0.6 );
 		}
