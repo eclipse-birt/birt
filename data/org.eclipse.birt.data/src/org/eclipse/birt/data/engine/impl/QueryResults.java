@@ -319,8 +319,11 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IExecutorHelper getExecutorHelper( ) throws DataException
 	{
-		return ( (ResultIterator) this.getResultIterator( ) ).getOdiResult( )
+		if ( this.getResultIterator( ) instanceof ResultIterator )
+			return ( (ResultIterator) this.getResultIterator( ) ).getOdiResult( )
 				.getExecutorHelper( );
+		else
+			return null;
 	}
 	
 	/*
