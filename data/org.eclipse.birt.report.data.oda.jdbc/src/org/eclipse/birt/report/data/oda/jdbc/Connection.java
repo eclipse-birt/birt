@@ -14,15 +14,16 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * Connection implements IConnection interface of ODA. It is a wrapper of JDBC
@@ -40,6 +41,7 @@ public class Connection implements IConnection
 	// TODO: externalize
 	private static final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
+	private Map appContext;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
@@ -147,12 +149,23 @@ public class Connection implements IConnection
 		try
 		{
 			jdbcConn = JDBCDriverManager.getInstance( )
-					.getConnection( driverClass, url, jndiNameUrl, props );
+					.getConnection( driverClass,
+							url,
+							jndiNameUrl,
+							props,
+							getDriverClassPath( ) );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e );
 		}
+	}
+
+	private String getDriverClassPath( )
+	{
+		return (this.appContext != null && this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH )!= null)
+				? this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH ).toString( )
+				: null;
 	}
 	
 	/*
@@ -293,7 +306,8 @@ public class Connection implements IConnection
 	 */
 	public void setAppContext( Object context ) throws OdaException
 	{
-		// do nothing; no support for pass-through application context
+		if( context instanceof Map )
+			this.appContext = (Map) context;
 	}
 	
 

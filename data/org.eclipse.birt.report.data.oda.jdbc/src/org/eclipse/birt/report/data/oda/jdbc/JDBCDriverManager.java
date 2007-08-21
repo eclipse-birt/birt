@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -89,13 +92,13 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public Connection getConnection( String driverClass, String url, 
-			Properties connectionProperties ) throws SQLException, OdaException
+			Properties connectionProperties, String driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url );
 		if ( logger.isLoggable( Level.FINE ))
 			logger.fine("Request JDBC Connection: driverClass=" + 
 					(driverClass == null? "" : driverClass) + "; url=" + url);
-		return doConnect( driverClass, url, null, connectionProperties );
+		return doConnect( driverClass, url, null, connectionProperties, driverClassPath );
 	}
 
 	/**
@@ -108,7 +111,7 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public  Connection getConnection( String driverClass, String url, 
-			String user, String password ) throws SQLException, OdaException
+			String user, String password, String driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url );
 		if ( logger.isLoggable( Level.FINE ))
@@ -119,7 +122,7 @@ public class JDBCDriverManager
 		// Construct a Properties list with user/password properties
 		Properties props = addUserAuthenticationProperties( null, user, password );
         
-        return doConnect( driverClass, url, null, props );
+        return doConnect( driverClass, url, null, props, driverClassPath );
 	}
     
     /**
@@ -136,7 +139,7 @@ public class JDBCDriverManager
      */
     public Connection getConnection( String driverClass, String url, 
                                 String jndiNameUrl,
-                                Properties connectionProperties ) 
+                                Properties connectionProperties, String driverClassPath ) 
         throws SQLException, OdaException
     {
         validateConnectionUrl( url );
@@ -145,7 +148,7 @@ public class JDBCDriverManager
                         "; url=" + url +            //$NON-NLS-1$
                         "; jndi name url=" + jndiNameUrl );  //$NON-NLS-1$
         
-        return doConnect( driverClass, url, jndiNameUrl, connectionProperties );
+        return doConnect( driverClass, url, jndiNameUrl, connectionProperties, driverClassPath );
     }
 	
 	/**
@@ -154,7 +157,7 @@ public class JDBCDriverManager
 	 */    
     private synchronized Connection doConnect( String driverClass, String url, 
             String jndiNameUrl,
-            Properties connectionProperties ) throws SQLException, OdaException
+            Properties connectionProperties, String driverClassPath ) throws SQLException, OdaException
     {
 		assert ( url != null );
 		IConnectionFactory factory = getDriverConnectionFactory (driverClass);
@@ -179,7 +182,7 @@ public class JDBCDriverManager
         // no JNDI Data Source URL defined, or 
         // not able to get a JNDI data source connection, 
         // use the JDBC DriverManager instead to get a JDBC connection
-		loadAndRegisterDriver( driverClass );
+		loadAndRegisterDriver( driverClass, driverClassPath );
 		if ( logger.isLoggable( Level.FINER ))
 			logger.finer( "Calling DriverManager.getConnection. url=" + url ); //$NON-NLS-1$
 		try
@@ -431,7 +434,7 @@ public class JDBCDriverManager
             // no JNDI Data Source URL defined, or 
             // not able to get a JNDI data source connection, 
             // use the JDBC DriverManager instead to get a JDBC connection
-			loadAndRegisterDriver( driverClassName );
+			loadAndRegisterDriver( driverClassName, null );
 
 			// If the connections built upon the given driver has been tested
 			// once,
@@ -557,7 +560,7 @@ public class JDBCDriverManager
 			throws SQLException, OdaException
 	{
 		Connection testConn = this.getConnection( driverClassName, 
-				connectionString, userId, password );
+				connectionString, userId, password, null );
 		assert ( testConn != null );
         closeConnection( testConn );
 	}
@@ -567,18 +570,16 @@ public class JDBCDriverManager
 	 * 
 	 * @param className
 	 * @return Driver instance
-	 * @throws JDBCException
+	 * @throws OdaException 
 	 */
-	private Driver findDriver( String className ) throws JDBCException
+	private Driver findDriver( String className, String driverClassPath ) throws OdaException
 	{
 		Class driverClass = null;
-		boolean driverInClassPath = false;
 		try
 		{
 			driverClass = Class.forName( className );
 			// Driver class in class path
 			logger.info( "Loaded JDBC driver class in class path: " + className );
-			driverInClassPath = true;
 		}
 		catch ( ClassNotFoundException e )
 		{
@@ -590,7 +591,7 @@ public class JDBCDriverManager
 				}
 
 				// Driver not in plugin class path; find it in drivers directory
-				driverClass = loadExtraDriver( className, true );
+				driverClass = loadExtraDriver( className, true, driverClassPath );
 
 				// if driver class still cannot be found,
 				if ( driverClass == null )
@@ -631,7 +632,7 @@ public class JDBCDriverManager
 		{
 			return true;
 		}
-		Driver driver = findDriver( className );
+		Driver driver = findDriver( className, null );
 		if ( driver != null )
 		{
 			try
@@ -680,7 +681,7 @@ public class JDBCDriverManager
 				&& registeredDrivers.get( className ).equals( DRIVER_DEREGISTERED );
 	}
 	
-	private void loadAndRegisterDriver( String className ) 
+	private void loadAndRegisterDriver( String className, String driverClassPath ) 
 		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
@@ -705,7 +706,7 @@ public class JDBCDriverManager
 		// in this class's ClassLoader. DriverManager will not allow this class to create
 		// connections using such driver. To solve the problem, we create a wrapper Driver in 
 		// our class loader, and register it with DriverManager
-		Driver driver = findDriver( className );
+		Driver driver = findDriver( className, driverClassPath );
 		if ( driver != null )
 		{
 			try
@@ -728,15 +729,16 @@ public class JDBCDriverManager
 	 * Search driver in the "drivers" directory and load it if found
 	 * @param className
 	 * @return
+	 * @throws OdaException 
 	 * @throws DriverException
 	 * @throws OdaException
 	 */
-	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail)
+	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail, String driverClassPath) throws OdaException
 	{
 		assert className != null;
 		
 		if( extraDriverLoader == null)
-			extraDriverLoader = new DriverClassLoader();
+			extraDriverLoader = new DriverClassLoader( driverClassPath );
 		
 		try
 		{
@@ -749,7 +751,7 @@ public class JDBCDriverManager
 			if(  refreshUrlsWhenFail && extraDriverLoader.refreshURLs() )
 			{
 				// New driver found; try loading again
-				return loadExtraDriver( className, false );
+				return loadExtraDriver( className, false, driverClassPath );
 			}
 			
 			// no new driver found; give up
@@ -762,12 +764,12 @@ public class JDBCDriverManager
 	{
 		private Bundle bundle;
 		private HashSet fileSet = new HashSet();
-		
-		public DriverClassLoader( ) 
+		private String driverClassPath;
+		public DriverClassLoader( String driverClassPath ) throws OdaException 
 		{
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
-			
+			this.driverClassPath = driverClassPath;
 			bundle = Platform.getBundle( "org.eclipse.birt.report.data.oda.jdbc" );
 			if ( bundle == null )
 			{
@@ -784,14 +786,61 @@ public class JDBCDriverManager
 		 * Refresh the URL list of DriverClassLoader
 		 * @return if the refreshURL is different than the former one then return true otherwise
 		 * 			return false
+		 * @throws OdaException 
 		 */
-		public boolean refreshURLs()
+		public boolean refreshURLs() throws OdaException
 		{
 			if ( bundle == null )
 				return false;			// init failed
 			
 			// List all files under "drivers" directory
 			boolean foundNew = false;
+			
+			if( driverClassPath != null )
+			{
+				try
+				{
+					File driverClassFile = new File( driverClassPath );
+					if ( driverClassFile.exists( ) )
+					{
+						this.addURL( driverClassFile.toURL( ) );
+						
+						if ( driverClassFile.isDirectory( ) )
+						{
+							File[] driverFiles = driverClassFile.listFiles( new FileFilter(){
+
+								public boolean accept( File pathname )
+								{
+									if ( pathname.isFile( ) && OdaJdbcDriver.isDriverFile( pathname.getName( )))
+									{
+										return true;
+									}
+									return false;
+								}} );
+							
+							for ( int i = 0; i < driverFiles.length; i++ )
+							{
+								if ( !fileSet.contains( driverFiles[i].getName( ) ) )
+								{
+									// This is a new file not previously added to URL list
+									foundNew = true;
+									fileSet.add( driverFiles[i].getName( ) );
+									addURL( driverFiles[i].toURL( ) );
+									logger.info( "JDBCDriverManager: found JAR file "
+											+ driverFiles[i].getName( ) + ". URL=" + driverFiles[i].toURL( ) );
+								}
+							}
+						}
+					}
+						
+				}
+				catch ( MalformedURLException e )
+				{
+					throw new OdaException( e );
+				}
+			}
+			
+			
 			Enumeration files = bundle.getEntryPaths( 
 					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
 			while ( files.hasMoreElements() )
@@ -817,18 +866,18 @@ public class JDBCDriverManager
 	}
 	
 //	The classloader of a driver (jtds driver, etc.) is
-//	 ��java.net.FactoryURLClassLoader��, whose parent is
-//	 ��sun.misc.Launcher$AppClassLoader��.
+//	 "java.net.FactoryURLClassLoader", whose parent is
+//	 "sun.misc.Launcher$AppClassLoader".
 //	The classloader of class Connection (the caller of
 //	 DriverManager.getConnection(url, props)) is
-//	 ��sun.misc.Launcher$AppClassLoader��. As the classes loaded by a child
+//	 "sun.misc.Launcher$AppClassLoader". As the classes loaded by a child
 //	 classloader are always not visible to its parent classloader,
 //	 DriverManager.getConnection(url, props), called by class Connection, actually
 //	 has no access to driver classes, which are loaded by
-//	 ��java.net.FactoryURLClassLoader��. The invoking of this method would return a
-//	 ��no suitable driver�� exception.
+//	 "java.net.FactoryURLClassLoader". The invoking of this method would return a
+//	 "no suitable driver" exception.
 //	On the other hand, if we use class WrappedDriver to wrap drivers. The DriverExt
-//	 class is loaded by ��sun.misc.Launcher$AppClassLoader��, which is same as the
+//	 class is loaded by "sun.misc.Launcher$AppClassLoader", which is same as the
 //	 classloader of Connection class. So DriverExt class is visible to
 //	 DriverManager.getConnection(url, props). And the invoking of the very method
 //	 would success.
