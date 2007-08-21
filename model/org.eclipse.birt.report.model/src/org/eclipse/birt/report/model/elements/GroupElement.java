@@ -114,7 +114,10 @@ public abstract class GroupElement extends DesignElement
 	{
 		// This getting is not relative to design.
 
-		return (String) getLocalProperty( null, GROUP_NAME_PROP );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getDefn( )
+				.getProperty( GROUP_NAME_PROP );
+		return (String) getStrategy( ).getPropertyFromElement( null, this,
+				propDefn );
 	}
 
 	/*

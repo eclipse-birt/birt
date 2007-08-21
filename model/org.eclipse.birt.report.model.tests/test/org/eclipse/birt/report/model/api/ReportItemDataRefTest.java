@@ -226,7 +226,8 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.get( 0 );
 		assertEquals( "row[\"CUSTOMERNAME\"]", group2.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "group1", group2.getName( ) ); //$NON-NLS-1$
-
+		assertEquals( "group1", group2.getDisplayLabel( ) ); //$NON-NLS-1$
+		
 		Iterator iter1 = group2.filtersIterator( );
 		FilterConditionHandle filter = (FilterConditionHandle) iter1.next( );
 		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
@@ -246,6 +247,9 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.get( 0 );
 		group1.setKeyExpr( "the new expression" ); //$NON-NLS-1$
 		assertEquals( "the new expression", group2.getKeyExpr( ) ); //$NON-NLS-1$
+		
+		group1.setName( "newGroup1" ); //$NON-NLS-1$
+		assertEquals( "newGroup1", group2.getDisplayLabel( ) ); //$NON-NLS-1$
 
 	}
 
