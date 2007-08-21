@@ -139,10 +139,19 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			if ( previewExists )
 			{
 				alert( "A print preview window is already open." );
-				if ( previousPrintWindow )
-				{
-					previousPrintWindow.focus();
+				if ( previousPrintWindow && previousPrintWindow.focus )
+				{					
+					try
+					{
+						previousPrintWindow.focus();
+					}
+					catch ( e )
+					{
+						// an exception may be produced by in focus() method
+						// of an IE window containing a PDF document
+					}
 				}
+				
 				return false;
 			}
 			else
