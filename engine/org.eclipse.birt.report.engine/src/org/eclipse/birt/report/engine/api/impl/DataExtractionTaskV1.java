@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,10 +15,12 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -239,11 +241,19 @@ public class DataExtractionTaskV1 extends EngineTask
 
 			if ( result != null )
 			{
-
+				Set dteMetaInfoSet = new HashSet();
 				for ( int i = 0; i < result.size( ); i++ )
 				{
-
 					String[] rsetRelation = (String[]) result.get( i );
+					
+					// if the rset has been loaded, skip it.
+					String dteMetaInfoString = getDteMetaInfoString( rsetRelation );
+					if ( dteMetaInfoSet.contains( dteMetaInfoString ) )
+					{
+						continue;
+					}
+					dteMetaInfoSet.add( dteMetaInfoString );
+					
 					// this is the query id
 					String queryId = rsetRelation[2];
 					// this is the rest id
@@ -286,6 +296,30 @@ public class DataExtractionTaskV1 extends EngineTask
 		{
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
+	}
+	
+	/**
+	 * Transfer the rset relation array to a string.
+	 * @param rsetRelation
+	 * @return
+	 */
+	private String getDteMetaInfoString( String[] rsetRelation )
+	{
+		StringBuffer buffer = new StringBuffer( );
+
+		String pRsetId = rsetRelation[0];
+		String rowId = rsetRelation[1];
+		String queryId = rsetRelation[2];
+		String rsetId = rsetRelation[3];
+		buffer.setLength( 0 );
+		buffer.append( pRsetId );
+		buffer.append( "." );
+		buffer.append( rowId );
+		buffer.append( "." );
+		buffer.append( queryId );
+		buffer.append( "." );
+		buffer.append( rsetId );
+		return buffer.toString( );
 	}
 
 	InstanceID[] getAncestors( InstanceID id )
