@@ -327,6 +327,7 @@ abstract public class APITestCase extends BaseTestCase
 			}
 			testPrintln( "" );
 		}
+		resultIt.close( );
 		testPrintln( "" );
 	}
 	

@@ -50,7 +50,7 @@ public class CachedQueryResults implements IQueryResults
 				params );
 		
 		this.queryResultID = queryResultID;
-		this.resultIterator = new CacheResultIterator( context, queryResultID );
+		this.resultIterator = new CacheResultIterator( context, this );
 		logger.exiting( CachedQueryResults.class.getName( ),
 				"CachedQueryResults" );
 	}

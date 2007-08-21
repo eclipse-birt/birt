@@ -75,8 +75,9 @@ public class QueryResults implements IQueryResults, IQueryService
 	 * @param queryService
 	 * @param queryScope
 	 * @param nestedLevel
+	 * @throws DataException 
 	 */
-	QueryResults( IServiceForQueryResults queryService )
+	QueryResults( IServiceForQueryResults queryService ) throws DataException
 	{
 		logger.entering( QueryResults.class.getName( ),
 				"QueryResults",
@@ -87,6 +88,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		this.context = queryService.getContext( );
 		this.queryScope = queryService.getScope( );
 		this.nestedLevel = queryService.getNestedLevel( );
+		
 		logger.exiting( QueryResults.class.getName( ), "QueryResults" );
 	}
 		
@@ -140,34 +142,72 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IResultIterator getResultIterator( ) throws DataException
 	{ 
+		
 		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 
-		if ( iterator == null )
+		try
 		{
-			// data row binding
-			this.queryService.initAutoBinding( );
-			this.queryService.validateQuery( );
-			
-			org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
-			if (isDummyQuery(odiIterator) )
+			if ( iterator == null )
 			{
-				iterator = new DummyResultIterator( new ResultService( context, this ),
-						odiIterator,
-						this.queryScope);
-			}
-			else
-			{
-				if ( queryService.getQueryDefn( ).usesDetails( ) == true )
-					iterator = new ResultIterator( new ResultService( context, this ),
+				// data row binding
+				this.queryService.initAutoBinding( );
+				this.queryService.validateQuery( );
+
+				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
+				if ( isDummyQuery( odiIterator ) )
+				{
+					iterator = new DummyResultIterator( new ResultService( context,
+							this ),
 							odiIterator,
 							this.queryScope );
+				}
 				else
-					iterator = new ResultIterator2( new ResultService( context,
-							this ), odiIterator, this.queryScope );
+				{
+					if ( queryService.getQueryDefn( ).usesDetails( ) == true )
+					{
+						if ( queryService.getQueryDefn( ).cacheQueryResults( ) )
+						{
+							//First create the cache. The cache is created when 
+							//a ResultIterator is closed;
+							new ResultIterator( new ResultService( context,
+									this ), odiIterator, this.queryScope ).close( );
+							iterator = new CacheResultIterator( context,
+									this );
+						}else
+						{
+							iterator = new ResultIterator( new ResultService( context,
+									this ), odiIterator, this.queryScope );
+						}
+					}
+					else
+					{
+						if ( queryService.getQueryDefn( ).cacheQueryResults( ) )
+						{
+
+							//First create the cache. The cache is created when 
+							//a ResultIterator is closed;
+							new ResultIterator2( new ResultService( context,
+									this ), odiIterator, this.queryScope ).close( );
+							iterator = new CacheResultIterator( context,
+									this );
+						}
+						else
+						{
+							iterator = new ResultIterator2( new ResultService( context,
+									this ),
+									odiIterator,
+									this.queryScope );
+
+						}
+					}
+				}
 			}
 		}
-		
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getResultIterator",

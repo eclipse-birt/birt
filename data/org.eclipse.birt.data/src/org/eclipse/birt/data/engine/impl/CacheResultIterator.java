@@ -46,7 +46,6 @@ public class CacheResultIterator implements IResultIterator
 {
 
 	private DataEngineContext context = null;
-	private String queryResultID = null;
 	private InputStream metaInputStream = null;
 	private DataInputStream rowInputStream = null;
 	private ResultClass resultClass = null;
@@ -57,7 +56,7 @@ public class CacheResultIterator implements IResultIterator
 	private int endingGroupLevel = -1;
 	private List columnList = null;
 	private Map columnValueMap = null;
-
+	private IQueryResults queryResults;
 	private int currRowIndex;
 	private static Logger logger = Logger.getLogger( CacheResultIterator.class.getName( ) );
 
@@ -67,20 +66,20 @@ public class CacheResultIterator implements IResultIterator
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CacheResultIterator( DataEngineContext context, String queryResultID )
+	public CacheResultIterator( DataEngineContext context, IQueryResults queryResults )
 			throws DataException
 	{
 		Object[] params = {
-				context, queryResultID
+				context, queryResults.getID( )
 		};
 		logger.entering( CacheResultIterator.class.getName( ),
 				"CacheResultIterator",
 				params );
 
 		this.context = context;
-		this.queryResultID = queryResultID;
 		this.columnValueMap = new HashMap( );
 		this.currRowIndex = -1;
+		this.queryResults = queryResults;
 		try
 		{
 			createCacheInputStream( );
@@ -112,10 +111,10 @@ public class CacheResultIterator implements IResultIterator
 	private void createCacheInputStream( ) throws FileNotFoundException
 	{
 		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
-				queryResultID ) ),
+				this.queryResults.getID( ) ) ),
 				1024 );
 		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
-				queryResultID ) ),
+				this.queryResults.getID( ) ) ),
 				1024 ) );
 	}
 
@@ -246,7 +245,7 @@ public class CacheResultIterator implements IResultIterator
 	 */
 	public IQueryResults getQueryResults( )
 	{
-		return null;
+		return this.queryResults;
 	}
 
 	/*
