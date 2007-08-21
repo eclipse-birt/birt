@@ -11,7 +11,7 @@
 package org.eclipse.birt.data.engine.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.osgi.framework.BundleContext;
 

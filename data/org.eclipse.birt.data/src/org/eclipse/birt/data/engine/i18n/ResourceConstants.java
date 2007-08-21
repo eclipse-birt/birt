@@ -342,4 +342,57 @@ public class ResourceConstants
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_COLUMN_FAIL = "data.executor.configFileParser.getTimeStampColumnByID";
 	public final static String CONFIG_FILE_PARSER_QUERYTEXT_FAIL = "data.executor.configFileParser.getQueryTextByID";
 	public final static String CONFIG_FILE_PARSER_PARAMETERS_FORMAT_FAIL = "data.executor.configFileParser.getParametersByID";
+	
+	// aggregation function display name keys
+	public final static String TOTAL_FUNC_SUM = "total.func.sum";
+	public final static String TOTAL_FUNC_RUNNINGSUM = "total.func.runningSum";
+	public final static String TOTAL_FUNC_COUNT = "total.func.count";
+	public final static String TOTAL_FUNC_RUNNINGCOUNT = "total.func.runningCount";
+	public final static String TOTAL_FUNC_COUNTDISTINCT = "total.func.countDistinct";
+	public final static String TOTAL_FUNC_MAX = "total.func.max";
+	public final static String TOTAL_FUNC_MIN = "total.func.min";
+	public final static String TOTAL_FUNC_AVE = "total.func.ave";
+	public final static String TOTAL_FUNC_WEIGHTEDAVE = "total.func.weightedAve";
+	public final static String TOTAL_FUNC_MOVINGAVE = "total.func.movingAve";
+	public final static String TOTAL_FUNC_MEDIAN = "total.func.median";
+	public final static String TOTAL_FUNC_MODE = "total.func.mode";
+	public final static String TOTAL_FUNC_STDDEV = "total.func.stdDev";
+	public final static String TOTAL_FUNC_VARIANCE = "total.func.variance";
+	public final static String TOTAL_FUNC_FIRST = "total.func.first";
+	public final static String TOTAL_FUNC_LAST = "total.func.last";
+	public final static String TOTAL_FUNC_RANK = "total.func.rank";
+	public final static String TOTAL_FUNC_PERCENTRANK = "total.func.percentRank";
+	public final static String TOTAL_FUNC_PERCENTILE = "total.func.percentile";
+	public final static String TOTAL_FUNC_QUARTILE = "total.func.quartile";
+	public final static String TOTAL_FUNC_PERCENTSUM = "total.func.percentSum";
+	public final static String TOTAL_FUNC_ISTOPN = "total.func.isTopN";
+	public final static String TOTAL_FUNC_ISTOPNPERCENT = "total.func.isTopNPercent";
+	public final static String TOTAL_FUNC_ISBOTTOMN = "total.func.isBottomN";
+	public final static String TOTAL_FUNC_ISBOTTOMNPERCENT = "total.func.isBottomNPercent";
+	// aggregation parameter display name keys
+	public final static String TOTAL_PARAM_WEIGHTEDAVE_WEIGHT = "total.param.weightedAve.weight";
+	public final static String TOTAL_PARAM_MOVINGAVE_WINDOW = "total.param.movingAve.window";
+	public final static String TOTAL_PARAM_RANK_ASCENDING = "total.param.rank.ascending";
+	public final static String TOTAL_PARAM_PERCENTILE_PCT = "total.param.percentile.pct";
+	public final static String TOTAL_PARAM_QUARTILE_QUART = " total.param.quartile.quart";
+	public final static String TOTAL_PARAM_ISTOPN_N = "total.param.isTopN.n";
+	public final static String TOTAL_PARAM_ISTOPNPERCENT_PCT = "total.param.isTopNPercent.pct";
+	public final static String TOTAL_PARAM_ISBOTTOMN_N = "total.param.isBottomN.n";
+	public final static String TOTAL_PARAM_ISBOTTOMNPERCENT_PCT = "total.param.isBottomNPercent.pct";
+	
+	// finance function display name keys
+	public final static String TOTAL_FUNC_NPV = "total.func.npv";
+	public final static String TOTAL_FUNC_RUNNINGNPV = "total.func.runningnpv";
+	public final static String TOTAL_FUNC_MIRR = "total.func.mirr";
+	public final static String TOTAL_FUNC_IRR = "total.func.irr";
+	
+	// finance parameter display names keys
+	public final static String TOTAL_PARAM_NPV_RATE = "total.param.npv.rate";
+	public final static String TOTAL_PARAM_NPV_CASHARRAY = "total.param.npv.cashArray";
+	public final static String TOTAL_PARAM_RUNNINGNPV_RATE = "total.param.runningnpv.rate";
+	public final static String TOTAL_PARAM_RUNNINGNPV_CASHARRAY = "total.param.runningnpv.cashArray";
+	public final static String TOTAL_PARAM_MIRR_CASHARRAY = "total.param.mirr.cashArray";
+	public final static String TOTAL_PARAM_MIRR_RATE = "total.param.mirr.rate";
+	public final static String TOTAL_PARAM_IRR_CASHARRAY = "total.param.irr.cashArray";
+	public final static String TOTAL_PARAM_IRR_STARTINGGUESS = "total.param.irr.startingGuess";
 }
