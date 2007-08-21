@@ -290,7 +290,7 @@ public class BindingPage extends Composite implements Listener
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getName( );
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
 		return references;
 	}

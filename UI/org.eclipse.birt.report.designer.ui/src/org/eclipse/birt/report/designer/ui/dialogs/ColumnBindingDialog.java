@@ -1124,7 +1124,7 @@ public class ColumnBindingDialog extends BaseDialog
 		references[0] = NullReportItemChoice;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getName( );
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
 		return references;
 	}

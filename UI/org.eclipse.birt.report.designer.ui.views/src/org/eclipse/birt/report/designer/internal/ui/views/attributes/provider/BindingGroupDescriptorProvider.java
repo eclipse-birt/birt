@@ -45,7 +45,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getName( );
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
 		Object value;
 		switch ( type )
