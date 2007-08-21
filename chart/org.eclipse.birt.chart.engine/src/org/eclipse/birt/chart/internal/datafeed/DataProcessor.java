@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
@@ -318,15 +317,19 @@ public class DataProcessor
 			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
 			do
 			{
-				if ( count++ > MAX_ROW_COUNT )
+				if ( count++ >= MAX_ROW_COUNT )
 				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.DATA_BINDING,
-							"exception.data.max.row.count", //$NON-NLS-1$
-							new Object[]{
-								new Integer( MAX_ROW_COUNT )
-							},
-							Messages.getResourceBundle( ) );
+					// throw new ChartException( ChartEnginePlugin.ID,
+					// ChartException.DATA_BINDING,
+					// "exception.data.max.row.count", //$NON-NLS-1$
+					// new Object[]{
+					// new Integer( MAX_ROW_COUNT )
+					// },
+					// Messages.getResourceBundle( ) );
+					
+					// Do not throw exceptions to stop rendering, but get the
+					// first rows to render chart
+					break;
 				}
 				
 				oaTuple = new Object[iColumnCount];

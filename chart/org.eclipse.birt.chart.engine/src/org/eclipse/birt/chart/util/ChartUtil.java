@@ -460,16 +460,16 @@ public class ChartUtil
 	 */
 	public static int getSupportedMaxRowCount( RunTimeContext rtc )
 	{
-		// Only get property value in the first time
-		if ( iMaxRowCount <= 0 )
+		// To get value from runtime context first
+		Object contextMaxRow = rtc.getState( CHART_MAX_ROW );
+		
+		// Only get property value in the first time if no value in runtime
+		// context
+		if ( contextMaxRow != null || iMaxRowCount <= 0 )
 		{
-			iMaxRowCount = DEFAULT_MAX_ROW_COUNT;
-			
-			// To get value from runtime context first
-			Object contextMaxRow = rtc.getState( CHART_MAX_ROW );
 			if ( contextMaxRow != null )
 			{
-				iMaxRowCount = ( (Integer) contextMaxRow ).intValue( );
+				iMaxRowCount = ( (Number) contextMaxRow ).intValue( );
 			}
 			else
 			{
