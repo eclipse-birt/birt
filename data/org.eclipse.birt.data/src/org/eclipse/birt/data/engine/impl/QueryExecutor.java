@@ -187,7 +187,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		this.parentScope = targetScope;
 		dataSource = findDataSource( );
 
-		if ( outerRts != null )
+		if ( outerRts != null && outerRts instanceof IQueryService )
 		{
 			outerResults = ( (IQueryService) outerRts );
 			if ( outerResults.isClosed( ) )
