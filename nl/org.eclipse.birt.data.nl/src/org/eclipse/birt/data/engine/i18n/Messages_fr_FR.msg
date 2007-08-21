@@ -348,3 +348,58 @@ data.executor.configFileParser.getTSFormatByID=Impossible d'analyser le format d
 data.executor.configFileParser.getTimeStampColumnByID=Impossible d'analyser le format d'horodatage à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de la requête à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
+
+
+# aggregation function display names
+total.func.sum=SUM
+total.func.runningSum=RUNNINGSUM
+total.func.count=COUNT
+total.func.runningCount=RUNNINGCOUNT
+total.func.countDistinct=COUNTDISTINCT
+total.func.max=MAX
+total.func.min=MIN
+total.func.ave=AVE
+total.func.weightedAve=WEIGHTEDAVE
+total.func.movingAve=MOVINGAVE
+total.func.median=MEDIAN
+total.func.mode=MODE
+total.func.stdDev=STDDEV
+total.func.variance=VARIANCE
+total.func.first=FIRST
+total.func.last=LAST
+total.func.rank=RANK
+total.func.percentRank=PERCENT-RANK
+total.func.percentile=PERCENTILE
+total.func.quartile=QUARTILE
+total.func.percentSum=PERCENT-SUM
+total.func.isTopN=IS-TOP-N
+total.func.isTopNPercent=IS-TOP-N-PERCENT
+total.func.isBottomN=IS-BOTTOM-N
+total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
+# aggregation function display names
+total.param.weightedAve.weight=weight
+total.param.movingAve.window=window
+total.param.rank.ascending=ascending
+total.param.percentile.pct=percentage
+total.param.quartile.quart=quart
+total.param.isTopN.n=n
+total.param.isTopNPercent.pct=percentage
+total.param.isBottomN.n=n
+total.param.isBottomNPercent.pct=percentage
+#finance function display names
+total.func.npv=NPV
+total.func.runningnpv=RUNNING-NPV
+total.func.mirr=MIRR
+total.func.irr=IRR
+
+total.param.npv.rate=rate
+total.param.npv.cashArray=cashArray
+
+total.param.runningnpv.rate=rate
+total.param.runningnpv.cashArray=cashArray
+
+total.param.mirr.cashArray=cashArray
+total.param.mirr.rate=rate
+
+total.param.irr.cashArray=cashArray
+total.param.irr.startingGuess=startingGuess
