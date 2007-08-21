@@ -883,6 +883,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 		} );
+		if ( isRef )
+		{
+			expressionButton.setEnabled( false );
+		}
 	}
 
 	protected void setExpressionButtonImage( Button button )
