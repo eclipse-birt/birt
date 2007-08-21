@@ -602,6 +602,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 			String propName = (String) propNames.next( );
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement
 					.getDefn( ).getProperty( propName );
+			if ( propDefn == null )
+				continue;
+
+			if ( source.getDefn( ).getProperty( propName ) == null )
+				continue;
+
 			Object value = targetElement.getStrategy( )
 					.getPropertyExceptRomDefault( module, targetElement,
 							propDefn );
