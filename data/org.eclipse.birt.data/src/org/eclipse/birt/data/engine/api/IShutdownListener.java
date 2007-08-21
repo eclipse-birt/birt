@@ -17,5 +17,8 @@ package org.eclipse.birt.data.engine.api;
 
 public interface IShutdownListener
 {
+	/**
+	 * 
+	 */
 	public void dataEngineShutdown( );
 }
