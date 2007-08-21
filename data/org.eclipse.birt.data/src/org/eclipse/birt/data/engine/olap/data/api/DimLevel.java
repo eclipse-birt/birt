@@ -33,6 +33,7 @@ public class DimLevel implements Comparable
 	private String levelName;
 
 	private String qualifiedName;// = dimensionName+'/'+levelName
+	private String attrName = null;
 	private static Logger logger = Logger.getLogger( DimLevel.class.getName( ) );
 
 	/**
@@ -49,6 +50,12 @@ public class DimLevel implements Comparable
 		this.levelName = levelName;
 		setQualifiedName( );
 		logger.exiting( DimLevel.class.getName( ), "DimLevel" );
+	}
+	
+	public DimLevel( String dimensionName, String levelName, String attrName )
+	{
+		this( dimensionName, levelName );
+		this.attrName  = attrName;
 	}
 
 	/**
@@ -88,6 +95,15 @@ public class DimLevel implements Comparable
 		return levelName;
 	}
 
+	/**
+	 * Return the attribute name.
+	 * @return
+	 */
+	public String getAttrName( )
+	{
+		return this.attrName;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

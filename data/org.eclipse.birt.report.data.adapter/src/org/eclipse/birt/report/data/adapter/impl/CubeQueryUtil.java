@@ -355,7 +355,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
 			return new MemberValueIterator( it,
 					levelValueMap,
-					target.getLevelName( ) );
+					target.getLevelName( ), target.getAttrName( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -412,7 +412,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				}
 			}
 			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
-			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ));
+			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ), target.getAttrName( ));
 		}
 		catch ( BirtException e )
 		{
@@ -468,13 +468,15 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		private Map levelValueMap;
 		private String targetLevelName;
 		private Object currentValue;
+		private String attribute;
 		
-		public MemberValueIterator( IDatasetIterator it, Map levelValueMap, String targetLevelName )
+		public MemberValueIterator( IDatasetIterator it, Map levelValueMap, String targetLevelName, String attribute )
 		{
 			this.dataSetIterator = it;
 			this.hasNext = true;
 			this.levelValueMap = levelValueMap;
 			this.targetLevelName = targetLevelName;
+			this.attribute = attribute;
 			this.next( );
 		}
 		
@@ -508,7 +510,10 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 					if( accept )
 					{
-						this.currentValue = this.dataSetIterator.getValue( this.dataSetIterator.getFieldIndex( this.targetLevelName ) );
+						this.currentValue = this.dataSetIterator.getValue( this.dataSetIterator.getFieldIndex( this.attribute == null
+								? this.targetLevelName
+								: OlapExpressionUtil.getAttributeColumnName( this.targetLevelName,
+										this.attribute ) ) );
 						break;
 					}
 				}
