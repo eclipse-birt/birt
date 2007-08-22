@@ -1474,9 +1474,9 @@ public class EngineIRVisitor extends DesignVisitor
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 		rule.setExpression( createExpression( handle.getExpression( ) ) );
 		String format = handle.getFormat( );
-		if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+		if ( "viewer".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 		{
-			format = EngineIRConstants.FORMAT_TYPE_VIEWER;
+			format = "html";
 		}
 		rule.setFormat( format );
 		return rule;

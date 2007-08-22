@@ -361,6 +361,10 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		if(emitter!=null)
 		{
 			format = emitter.getOutputFormat( );
+			if(format!=null)
+			{
+				format = format.toLowerCase( );
+			}
 		}
 		if ( format!=null && contains(formats, format))
 		{
