@@ -42,6 +42,8 @@ import org.eclipse.swt.widgets.Table;
 public class ChartColumnBindingDialog extends ColumnBindingDialog
 {
 
+	private Button btnAddAgg;
+
 	public ChartColumnBindingDialog( Shell parent )
 	{
 		super( parent, false, false );
@@ -49,7 +51,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 	protected int addButtons( Composite cmp, final Table table )
 	{
-		Button btnAddAgg = new Button( cmp, SWT.PUSH );
+		btnAddAgg = new Button( cmp, SWT.PUSH );
 		btnAddAgg.setText( Messages.getString( "ChartColumnBindingDialog.Button.AddAggregation" ) ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		data.widthHint = Math.max( 60, btnAddAgg.computeSize( SWT.DEFAULT,
@@ -87,6 +89,12 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		return 1;
 	}
 
+	protected void updateButtons( )
+	{
+		super.updateButtons( );
+		btnAddAgg.setEnabled( btnAdd.isEnabled( ) );
+	}
+
 	protected void addBinding( ComputedColumn column )
 	{
 		try
@@ -113,6 +121,8 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.DIALOG_TRIM
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 	}
 }

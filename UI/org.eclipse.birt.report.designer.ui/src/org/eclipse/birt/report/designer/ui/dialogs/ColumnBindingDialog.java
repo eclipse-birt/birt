@@ -387,37 +387,37 @@ public class ColumnBindingDialog extends BaseDialog
 					saveBinding( );
 				}
 			} );
-		}
 
-		reportItemRadio = new Button( composite, SWT.RADIO );
-		reportItemRadio.setText( "Report Item:" );
-		reportItemRadio.addSelectionListener( new SelectionAdapter( ) {
+			reportItemRadio = new Button( composite, SWT.RADIO );
+			reportItemRadio.setText( "Report Item:" );
+			reportItemRadio.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				refreshBinding( );
-				if ( reportItemRadio.getSelection( )
-						&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
-						&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
-								true )
-								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+				public void widgetSelected( SelectionEvent e )
+				{
+					refreshBinding( );
+					if ( reportItemRadio.getSelection( )
+							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
+							&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
+									true )
+									.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+						saveBinding( );
+				}
+			} );
+			reportItemCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			reportItemCombo.setBackground( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+			gd = new GridData( );
+			gd.widthHint = 250;
+			reportItemCombo.setLayoutData( gd );
+			reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
 					saveBinding( );
-			}
-		} );
-		reportItemCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
-		reportItemCombo.setBackground( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		GridData gd = new GridData( );
-		gd.widthHint = 250;
-		reportItemCombo.setLayoutData( gd );
-		reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				saveBinding( );
-			}
-		} );
+				}
+			} );
+		}
 
 		Composite contentComposite = new Composite( parentComposite, SWT.NONE );
 		contentComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -430,7 +430,7 @@ public class ColumnBindingDialog extends BaseDialog
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 				| ( canSelect ? SWT.CHECK : 0 ) );
-		gd = new GridData( GridData.FILL_BOTH );
+		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 200;
 		gd.verticalSpan = 3;
 		table.setLayoutData( gd );
@@ -1135,70 +1135,82 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public void load( )
 	{
-		datasetRadio.setEnabled( true );
-		reportItemRadio.setEnabled( true );
-		BindingInfo info = (BindingInfo) loadValue( );
-		if ( info != null )
+		if ( canSelect )
 		{
-			refreshBindingInfo( info );
+			datasetRadio.setEnabled( true );
+			reportItemRadio.setEnabled( true );
+			BindingInfo info = (BindingInfo) loadValue( );
+			if ( info != null )
+			{
+				refreshBindingInfo( info );
+			}
 		}
 		refreshBindingTable( );
 	}
 
 	private void refreshBindingInfo( BindingInfo info )
 	{
-		int type = info.getBindingType( );
-		Object value = info.getBindingValue( );
-		datasetCombo.setItems( getAvailableDatasetItems( ) );
-		reportItemCombo.setItems( getReferences( ) );
-		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
-			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
-		switch ( type )
+		if ( canSelect )
 		{
-			case ReportItemHandle.DATABINDING_TYPE_NONE :
-			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				datasetRadio.setSelection( true );
-				datasetCombo.setEnabled( true );
-				datasetCombo.setText( value.toString( ) );
-				reportItemRadio.setSelection( false );
-				reportItemCombo.setEnabled( false );
-				break;
-			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-				datasetRadio.setSelection( false );
-				datasetCombo.setEnabled( false );
-				reportItemRadio.setSelection( true );
-				reportItemCombo.setEnabled( true );
-				reportItemCombo.setText( value.toString( ) );
+			int type = info.getBindingType( );
+			Object value = info.getBindingValue( );
+			datasetCombo.setItems( getAvailableDatasetItems( ) );
+			reportItemCombo.setItems( getReferences( ) );
+			if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+				type = DEUtil.getBindingHolder( inputElement )
+						.getDataBindingType( );
+			switch ( type )
+			{
+				case ReportItemHandle.DATABINDING_TYPE_NONE :
+				case ReportItemHandle.DATABINDING_TYPE_DATA :
+					datasetRadio.setSelection( true );
+					datasetCombo.setEnabled( true );
+					datasetCombo.setText( value.toString( ) );
+					reportItemRadio.setSelection( false );
+					reportItemCombo.setEnabled( false );
+					break;
+				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+					datasetRadio.setSelection( false );
+					datasetCombo.setEnabled( false );
+					reportItemRadio.setSelection( true );
+					reportItemCombo.setEnabled( true );
+					reportItemCombo.setText( value.toString( ) );
+			}
 		}
 	}
 
 	public Object loadValue( )
 	{
-		int type = inputElement.getDataBindingType( );
-		Object value;
-		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
-			type = DEUtil.getBindingHolder( inputElement ).getDataBindingType( );
-		switch ( type )
+		if ( canSelect )
 		{
-			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				DataSetHandle dataset = inputElement.getDataSet( );
-				if ( dataset == null )
+			int type = inputElement.getDataBindingType( );
+			Object value;
+			if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+				type = DEUtil.getBindingHolder( inputElement )
+						.getDataBindingType( );
+			switch ( type )
+			{
+				case ReportItemHandle.DATABINDING_TYPE_DATA :
+					DataSetHandle dataset = inputElement.getDataSet( );
+					if ( dataset == null )
+						value = NullDatasetChoice;
+					else
+						value = dataset.getQualifiedName( );
+					break;
+				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+					ReportItemHandle reference = inputElement.getDataBindingReference( );
+					if ( reference == null )
+						value = NullReportItemChoice;
+					else
+						value = reference.getQualifiedName( );
+					break;
+				default :
 					value = NullDatasetChoice;
-				else
-					value = dataset.getQualifiedName( );
-				break;
-			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-				ReportItemHandle reference = inputElement.getDataBindingReference( );
-				if ( reference == null )
-					value = NullReportItemChoice;
-				else
-					value = reference.getQualifiedName( );
-				break;
-			default :
-				value = NullDatasetChoice;
+			}
+			BindingInfo info = new BindingInfo( type, value );
+			return info;
 		}
-		BindingInfo info = new BindingInfo( type, value );
-		return info;
+		return null;
 	}
 
 	public void save( Object saveValue ) throws SemanticException
