@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
@@ -502,7 +503,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				cubeMaterializer = createCubeMaterializer( cubeHandle );
+				int size = 0;
+				if ( appContext != null )
+				{
+					Integer value = DataTypeUtil.toInteger( appContext.get( DataEngine.IN_MEMORY_CUBE_SIZE ) );
+					if ( value != null && value.intValue( ) > 0)
+					{
+						size = value.intValue( );
+					}
+				}
+				cubeMaterializer = createCubeMaterializer( cubeHandle, size );
 				createCube( (TabularCubeHandle) cubeHandle,
 						cubeMaterializer,
 						appContext );
@@ -510,7 +520,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = createCubeMaterializer( cubeHandle );
+				cubeMaterializer = createCubeMaterializer( cubeHandle, 0 );
 				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
@@ -532,14 +542,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	private CubeMaterializer createCubeMaterializer( CubeHandle cubeHandle )
+	private CubeMaterializer createCubeMaterializer( CubeHandle cubeHandle, int size )
 			throws DataException, IOException, BirtException
 	{
-		CubeMaterializer cubeMaterializer;
-		cubeMaterializer = new CubeMaterializer( this.dataEngine,
+		CubeMaterializer cubeMaterializer = new CubeMaterializer( this.dataEngine,
 				this.sessionContext.getDataEngineContext( )
 				.getTmpdir( ) + this.dataEngine.hashCode( ),
-				cubeHandle.getQualifiedName( ) );
+				cubeHandle.getQualifiedName( ), size );
 		return cubeMaterializer;
 	}
 
