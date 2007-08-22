@@ -187,7 +187,7 @@ public class SampledbPlugin extends BIRTPlugin
 			JDBCDriverManager.getInstance().getConnection( 
 					SampleDBConstants.DERBY_DRIVER_CLASS, 
 					getDBUrl(true), 
-					SampleDBConstants.SAMPLE_DB_SCHEMA, "" );
+					SampleDBConstants.SAMPLE_DB_SCHEMA, "", null );
 		}
 		catch (Exception e)
 		{
