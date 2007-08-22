@@ -282,6 +282,7 @@ public abstract class DataViewPage extends Page implements
 
 				public void run( )
 				{
+					getTreeViewer( ).refresh( );
 					handleSelectionChange( request );
 				}
 			} );

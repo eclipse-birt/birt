@@ -339,36 +339,39 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		if ( scriptName != null && scriptName.equals( "onRender" ) ) //$NON-NLS-1$
 		{
-			ScriptClassInfo info = new ScriptClassInfo( IChartEventHandler.class ) ;
+			ScriptClassInfo info = new ScriptClassInfo( IChartEventHandler.class );
 			List list = info.getMethods( );
-			Collections.sort( list, new Comparator(){
+			Collections.sort( list, new Comparator( ) {
 
 				public int compare( Object arg0, Object arg1 )
 				{
-					if ( arg0 instanceof IMethodInfo && arg1 instanceof IMethodInfo )
+					if ( arg0 instanceof IMethodInfo
+							&& arg1 instanceof IMethodInfo )
 					{
-						String name0 = ((IMethodInfo)arg0).getName( );
-						String name1 = ((IMethodInfo )arg1).getName( );
-						if ( name0.startsWith( "before" ) && name1.startsWith( "after" )) //$NON-NLS-1$ //$NON-NLS-2$
+						String name0 = ( (IMethodInfo) arg0 ).getName( );
+						String name1 = ( (IMethodInfo) arg1 ).getName( );
+						if ( name0.startsWith( "before" ) && name1.startsWith( "after" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 						{
 							return -1;
 						}
-						if ( name0.startsWith( "after" ) && name1.startsWith( "before" )) //$NON-NLS-1$ //$NON-NLS-2$
+						if ( name0.startsWith( "after" ) && name1.startsWith( "before" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 						{
 							return 1;
 						}
-						return (name0.compareToIgnoreCase( name1 ));
+						return ( name0.compareToIgnoreCase( name1 ) );
 					}
 					else
 						return -1;
 				}
-			});
-				
-			return  (IMethodInfo[])list.toArray( new IMethodInfo[list.size( )] );
-			
+			} );
+
+			return (IMethodInfo[]) list.toArray( new IMethodInfo[list.size( )] );
+
 		}
-		else return null;
+		else
+			return null;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -378,6 +381,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
+
+		if ( cm == null )
+		{
+			return null;
+		}
 
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
 		{
@@ -408,7 +416,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
 					: false );
 		}
-		else if ( propName.equals( "script" ) || propName.equals(  "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( propName.equals( "script" ) || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			return cm.getScript( );
 		}
@@ -493,7 +501,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 						Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
 		}
-		else if ( propName.equals( "script" )  || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( propName.equals( "script" ) || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			cm.setScript( (String) value );
 		}
@@ -504,12 +512,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	}
 
-	
 	protected void checkScriptSyntax( String string ) throws RhinoException
 	{
 		if ( string == null )
 			return;
-		
+
 		if ( !isJavaClassName( string ) )
 		{
 			try
@@ -545,21 +552,26 @@ public final class ChartReportItemImpl extends ReportItem implements
 			{
 				checkScriptSyntax( cm.getScript( ) );
 			}
-			catch (RhinoException e )
+			catch ( RhinoException e )
 			{
 				logger.log( e );
-				ExtendedElementException extendedException  = new ExtendedElementException( this.getHandle( ).getElement( ),
-						 ChartReportItemPlugin.ID , 
+				ExtendedElementException extendedException = new ExtendedElementException( this.getHandle( )
+						.getElement( ),
+						ChartReportItemPlugin.ID,
 						"exception.script.syntaxError",//$NON-NLS-1$
-						new Object[]{ e.getLocalizedMessage( )},
+						new Object[]{
+							e.getLocalizedMessage( )
+						},
 						Messages.getResourceBundle( ) );
-				extendedException.setProperty( ExtendedElementException.LINE_NUMBER, String.valueOf( e.lineNumber( ) ) );
-				extendedException.setProperty( ExtendedElementException.SUB_EDITOR, "script" );//$NON-NLS-1$
+				extendedException.setProperty( ExtendedElementException.LINE_NUMBER,
+						String.valueOf( e.lineNumber( ) ) );
+				extendedException.setProperty( ExtendedElementException.SUB_EDITOR,
+						"script" );//$NON-NLS-1$
 				list.add( extendedException );
 			}
 		}
 		return list;
-		 
+
 	}
 
 	/*
@@ -612,7 +624,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		CompatibleExpressionUpdater.update( cm, newExpressions );
 	}
-	
+
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
 	{
 		assert handle instanceof ExtendedItemHandle;
