@@ -51,6 +51,11 @@ public class UIUtil implements IBirtWizardConstants
 	 */
 	private final static int MAX_MAX_ROWS = Integer.MAX_VALUE;
 
+	/**
+	 * Max value of Max cube fetching levels setting
+	 */
+	private final static int MAX_MAX_LEVELS = Integer.MAX_VALUE;
+
 	public UIUtil( Map properties )
 	{
 		this.properties = properties;
@@ -421,12 +426,74 @@ public class UIUtil implements IBirtWizardConstants
 			public void modifyText( ModifyEvent e )
 			{
 				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_MAX_ROWS_SETTING, DataUtil.getMaxRows( ( (Text) e
-								.getSource( ) ).getText( ) ) );
+						BIRT_MAX_ROWS_SETTING, DataUtil
+								.getNumberSetting( ( (Text) e.getSource( ) )
+										.getText( ) ) );
 			}
 		} );
 
 		return txtMaxRows;
+	}
+
+	/**
+	 * Create "BIRT_VIEWER_MAX_CUBE_LEVELS" configuration group
+	 * 
+	 * @param parent
+	 */
+	public Text createMaxLevelsGroup( Composite parent )
+	{
+		Text txtMaxLevels = null;
+
+		Composite composite = new Composite( parent, SWT.NULL );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		composite.setLayoutData( data );
+
+		// get font
+		Font font = parent.getFont( );
+
+		Label label = new Label( composite, SWT.LEFT );
+		label.setFont( font );
+		label.setText( BirtWTPMessages.BIRTConfiguration_maxlevels_label );
+
+		txtMaxLevels = new Text( composite, SWT.BORDER );
+		txtMaxLevels.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		txtMaxLevels.setFont( font );
+		txtMaxLevels
+				.setTextLimit( Integer.toString( MAX_MAX_LEVELS ).length( ) );
+
+		// set default value
+		int defaultValue = DataUtil.getInt( WebArtifactUtil
+				.getContextParamValue( properties, BIRT_MAX_LEVELS_SETTING ) );
+		if ( defaultValue > 0 )
+			txtMaxLevels.setText( "" + defaultValue ); //$NON-NLS-1$
+
+		txtMaxLevels.addVerifyListener( new VerifyListener( ) {
+
+			public void verifyText( VerifyEvent e )
+			{
+				e.doit = e.text.matches( "[0-9]*" ); //$NON-NLS-1$
+			}
+		} );
+
+		// add modify listener
+		txtMaxLevels.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				WebArtifactUtil.setContextParamValue( properties,
+						BIRT_MAX_LEVELS_SETTING, DataUtil
+								.getNumberSetting( ( (Text) e.getSource( ) )
+										.getText( ) ) );
+			}
+		} );
+
+		return txtMaxLevels;
 	}
 
 	/**
@@ -480,6 +547,59 @@ public class UIUtil implements IBirtWizardConstants
 		} );
 
 		return cbLogLevel;
+	}
+
+	/**
+	 * Create "BIRT_VIEWER_PRINT_SERVERSIDE" configuration group
+	 * 
+	 * @param parent
+	 */
+	public Combo createPrintServerGroup( Composite parent )
+	{
+		Combo cbPrintServer = null;
+
+		Composite composite = new Composite( parent, SWT.NULL );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		GridData data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		composite.setLayoutData( data );
+
+		// get font
+		Font font = parent.getFont( );
+
+		Label label = new Label( composite, SWT.LEFT );
+		label.setFont( font );
+		label.setText( BirtWTPMessages.BIRTConfiguration_printserver_label );
+
+		cbPrintServer = new Combo( composite, SWT.H_SCROLL );
+		cbPrintServer.setFont( font );
+		cbPrintServer.setItems( new String[]{"ON", "OFF"} ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// set default value
+		cbPrintServer.setText( DataUtil.getString( WebArtifactUtil
+				.getContextParamValue( properties, BIRT_PRINT_SERVER_SETTING ),
+				false ) );
+
+		// Add Selection Listener
+		cbPrintServer.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				WebArtifactUtil.setContextParamValue( properties,
+						BIRT_PRINT_SERVER_SETTING, ( (Combo) e.getSource( ) )
+								.getText( ) );
+			}
+		} );
+
+		return cbPrintServer;
 	}
 
 	/**

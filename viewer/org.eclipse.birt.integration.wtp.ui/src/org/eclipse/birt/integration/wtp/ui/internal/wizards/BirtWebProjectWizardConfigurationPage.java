@@ -47,7 +47,9 @@ import org.osgi.framework.Bundle;
  * <li>WORKING_FOLDER_ACCESS_ONLY</li>
  * <li>BIRT_OVERWRITE_DOCUMENT</li>
  * <li>BIRT_VIEWER_MAX_ROWS</li>
+ * <li>BIRT_VIEWER_MAX_CUBE_LEVELS</li>
  * <li>BIRT_VIEWER_LOG_LEVEL</li>
+ * <li>BIRT_VIEWER_PRINT_SERVERSIDE</li>
  * </ol>
  * 
  */
@@ -112,9 +114,19 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 	protected Text txtMaxRows;
 
 	/**
+	 * Value for "BIRT_VIEWER_MAX_CUBE_LEVELS" setting
+	 */
+	protected Text txtMaxLevels;
+
+	/**
 	 * Value for "BIRT_VIEWER_LOG_LEVEL" setting
 	 */
 	protected Combo cbLogLevel;
+
+	/**
+	 * Value for "BIRT_VIEWER_PRINT_SERVERSIDE" setting
+	 */
+	protected Combo cbPrintServer;
 
 	/**
 	 * Constructor
@@ -191,8 +203,14 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		// create log level setting group
 		this.cbLogLevel = uit.createLogLevelGroup( others );
 
+		// create print server setting group
+		this.cbPrintServer = uit.createPrintServerGroup( others );
+
 		// create max rows setting group
 		this.txtMaxRows = uit.createMaxRowsGroup( others );
+
+		// create max cube fetching levels setting group
+		this.txtMaxLevels = uit.createMaxLevelsGroup( others );
 
 		// initialize page properties map
 		initializeProperties( );
@@ -242,10 +260,16 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 				BIRT_OVERWRITE_DOCUMENT_SETTING, new String( BLANK_STRING
 						+ btOverwrite.getSelection( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_ROWS_SETTING, DataUtil.getMaxRows( txtMaxRows
+				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_MAX_LEVELS_SETTING, DataUtil
+						.getNumberSetting( txtMaxLevels.getText( ) ) );
+		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
+		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_PRINT_SERVER_SETTING, cbPrintServer.getText( ) );
+
 	}
 
 	/**

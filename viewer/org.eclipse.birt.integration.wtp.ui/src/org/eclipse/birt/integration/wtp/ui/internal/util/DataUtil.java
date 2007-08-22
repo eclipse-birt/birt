@@ -94,12 +94,12 @@ public class DataUtil
 	}
 
 	/**
-	 * Returns Max Rows Setting value
+	 * Returns number Setting value
 	 * 
 	 * @param value
 	 * @return
 	 */
-	public static String getMaxRows( String value )
+	public static String getNumberSetting( String value )
 	{
 		int num = DataUtil.getInt( value );
 		if ( num >= 0 )

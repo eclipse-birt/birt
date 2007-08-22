@@ -869,6 +869,16 @@ public class WebArtifactUtil implements IBirtWizardConstants
 				name = param.getName( );
 				value = param.getValue( );
 				description = param.getDescription( );
+				if ( description == null )
+				{
+					List descList = param.getDescriptions( );
+					if ( descList != null && descList.size( ) > 0 )
+					{
+						Description descObj = (Description) descList.get( 0 );
+						if ( descObj != null )
+							description = descObj.getValue( );
+					}
+				}
 			}
 
 			// push into map
