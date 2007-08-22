@@ -1237,6 +1237,7 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		ListBandDesign band = new ListBandDesign( );
 		band.setID( generateUniqueID( ) );
+		setupElementIDMap( band );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
@@ -1418,6 +1419,7 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		TableBandDesign band = new TableBandDesign( );
 		band.setID( generateUniqueID( ) );
+		setupElementIDMap( band );
 
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
