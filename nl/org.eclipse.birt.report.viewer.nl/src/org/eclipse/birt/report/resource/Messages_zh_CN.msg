@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Print report
+birt.viewer.toolbar.print=打印报表
 birt.viewer.toolbar.printserver=在服务器上打印报表
 birt.viewer.toolbar.toc=显示目录
 birt.viewer.toolbar.parameter=运行报表
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=例外
 birt.viewer.dialog.exportReport.title=导出报表
 birt.viewer.dialog.parameter.title=参数
 birt.viewer.dialog.simpleExportData.title=导出数据
-birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReport.title=打印报表
 birt.viewer.dialog.printReportServer.title=在服务器上打印报表
 
 ###############################################################################
@@ -97,7 +97,7 @@ birt.viewer.dialog.export.pdf.fittowhole=适合整页
 ###############################################################################
 # Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format=打印格式
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
 
@@ -149,7 +149,7 @@ birt.viewer.dialog.exportdata.remove=删除
 birt.viewer.dialog.exportdata.up=上移
 birt.viewer.dialog.exportdata.down=下移
 birt.viewer.dialog.exportdata.separator=分隔符:
-birt.viewer.dialog.exportdata.datatype=Export column's data type
+birt.viewer.dialog.exportdata.datatype=导出列的数据类型
 
 birt.viewer.sep.0=逗号 ( , )
 birt.viewer.sep.1=分号 ( ; )

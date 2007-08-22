@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible c
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Print report
+birt.viewer.toolbar.print=Imprimir informe
 birt.viewer.toolbar.printserver=Imprimir informe en el servidor
 birt.viewer.toolbar.toc=Mostrar tabla de contenido
 birt.viewer.toolbar.parameter=Ejecutar informe
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=Excepción
 birt.viewer.dialog.exportReport.title=Exportar informe
 birt.viewer.dialog.parameter.title=Parámetro
 birt.viewer.dialog.simpleExportData.title=Exportar datos
-birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReport.title=Imprimir informe
 birt.viewer.dialog.printReportServer.title=Imprimir informe en el servidor
 
 ###############################################################################
@@ -97,7 +97,7 @@ birt.viewer.dialog.export.pdf.fittowhole=Ajustar a toda la página
 ###############################################################################
 # Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format=Imprimir formato
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
 
@@ -149,7 +149,7 @@ birt.viewer.dialog.exportdata.remove=Quitar
 birt.viewer.dialog.exportdata.up=Arriba
 birt.viewer.dialog.exportdata.down=Abajo
 birt.viewer.dialog.exportdata.separator=Separador:
-birt.viewer.dialog.exportdata.datatype=Export column's data type
+birt.viewer.dialog.exportdata.datatype=Exportar tipo de datos de columna
 
 birt.viewer.sep.0=Coma ( , )
 birt.viewer.sep.1=Punto y coma ( ; )

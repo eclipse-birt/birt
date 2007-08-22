@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=PostScript Œ`®‚ğƒTƒ|[ƒg‚·‚ég—p‰Â”\‚ÈƒvƒŠƒ“ƒ^‚ªŒ©‚
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Print report
+birt.viewer.toolbar.print=ƒŒƒ|[ƒg‚Ìˆóü
 birt.viewer.toolbar.printserver=ƒŒƒ|[ƒg‚ğƒT[ƒoã‚Åˆóü
 birt.viewer.toolbar.toc=–ÚŸ‚Ì•\¦
 birt.viewer.toolbar.parameter=ƒŒƒ|[ƒg‚ÌÀs
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=—áŠO
 birt.viewer.dialog.exportReport.title=ƒŒƒ|[ƒg‚ÌƒGƒNƒXƒ|[ƒg
 birt.viewer.dialog.parameter.title=ƒpƒ‰ƒƒ^
 birt.viewer.dialog.simpleExportData.title=ƒf[ƒ^‚ÌƒGƒNƒXƒ|[ƒg
-birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReport.title=ƒŒƒ|[ƒg‚Ìˆóü
 birt.viewer.dialog.printReportServer.title=ƒŒƒ|[ƒg‚ğƒT[ƒoã‚Åˆóü
 
 ###############################################################################
@@ -97,7 +97,7 @@ birt.viewer.dialog.export.pdf.fittowhole=‘S‘Ì•\¦
 ###############################################################################
 # Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format=ˆóüŒ`®
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
 
@@ -149,7 +149,7 @@ birt.viewer.dialog.exportdata.remove=íœ
 birt.viewer.dialog.exportdata.up=ã‚Ö
 birt.viewer.dialog.exportdata.down=‰º‚Ö
 birt.viewer.dialog.exportdata.separator=‹æØ‚è•¶š :
-birt.viewer.dialog.exportdata.datatype=Export column's data type
+birt.viewer.dialog.exportdata.datatype=ƒGƒNƒXƒ|[ƒg—ñ‚Ìƒf[ƒ^Œ^
 
 birt.viewer.sep.0=ƒRƒ“ƒ} (,)
 birt.viewer.sep.1=ƒZƒ~ƒRƒƒ“ (;)

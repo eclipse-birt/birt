@@ -3916,13 +3916,13 @@ AddEditCascadingParameterDialog.label.displaytext=Visualizar &texto:
 
 ###########################################################
 #FormatDateTimePattern
-FormatDateTimePattern.datetiem_format_type_year=Year
-FormatDateTimePattern.datetiem_format_type_short_year=Short Year
-FormatDateTimePattern.datetiem_format_type_long_month_year=Long Month Year
-FormatDateTimePattern.datetiem_format_type_shot_month_year=Short Month Year
-FormatDateTimePattern.datetiem_format_type_month=Month
-FormatDateTimePattern.datetiem_format_type_long_day_of_week=Long Day of Week
-FormatDateTimePattern.datetiem_format_type_day_of_month=Day of Month
-FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Medium Day of Year
-FormatDateTimePattern.datetiem_format_type_minutes=Minutes
-FormatDateTimePattern.datetiem_format_type_secontds=Seconds
+FormatDateTimePattern.datetiem_format_type_year=Año
+FormatDateTimePattern.datetiem_format_type_short_year=Año corto
+FormatDateTimePattern.datetiem_format_type_long_month_year=Mes largo, año
+FormatDateTimePattern.datetiem_format_type_shot_month_year=Mes corto, año
+FormatDateTimePattern.datetiem_format_type_month=Mes
+FormatDateTimePattern.datetiem_format_type_long_day_of_week=Día largo de la semana
+FormatDateTimePattern.datetiem_format_type_day_of_month=Día del mes
+FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Día medio del año
+FormatDateTimePattern.datetiem_format_type_minutes=Minutos
+FormatDateTimePattern.datetiem_format_type_secontds=Segundos

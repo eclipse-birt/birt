@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Print report
+birt.viewer.toolbar.print=보고서 인쇄
 birt.viewer.toolbar.printserver=서버에서 보고서 인쇄
 birt.viewer.toolbar.toc=목차 표시
 birt.viewer.toolbar.parameter=보고서 실행
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=예외
 birt.viewer.dialog.exportReport.title=보고서 내보내기
 birt.viewer.dialog.parameter.title=매개 변수
 birt.viewer.dialog.simpleExportData.title=데이터 내보내기
-birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReport.title=보고서 인쇄
 birt.viewer.dialog.printReportServer.title=서버에서 보고서 인쇄
 
 ###############################################################################
@@ -97,7 +97,7 @@ birt.viewer.dialog.export.pdf.fittowhole=페이지 전체에 맞추기
 ###############################################################################
 # Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format=인쇄 형식
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
 
@@ -149,7 +149,7 @@ birt.viewer.dialog.exportdata.remove=제거
 birt.viewer.dialog.exportdata.up=위로
 birt.viewer.dialog.exportdata.down=아래로
 birt.viewer.dialog.exportdata.separator=구분 기호:
-birt.viewer.dialog.exportdata.datatype=Export column's data type
+birt.viewer.dialog.exportdata.datatype=내보내기 열의 데이터 형식
 
 birt.viewer.sep.0=쉼표( , )
 birt.viewer.sep.1=세미콜론( ; )

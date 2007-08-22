@@ -29,7 +29,7 @@ birt.viewer.error.noprinter=Es kann kein verfügbarer Drucker gefunden werden, de
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=Print report
+birt.viewer.toolbar.print=Bericht drucken
 birt.viewer.toolbar.printserver=Bericht auf dem Server drucken
 birt.viewer.toolbar.toc=Inhaltsverzeichnis anzeigen
 birt.viewer.toolbar.parameter=Bericht ausführen
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=Ausnahme
 birt.viewer.dialog.exportReport.title=Bericht exportieren
 birt.viewer.dialog.parameter.title=Parameter
 birt.viewer.dialog.simpleExportData.title=Daten exportieren
-birt.viewer.dialog.printReport.title=Print Report
+birt.viewer.dialog.printReport.title=Bericht drucken
 birt.viewer.dialog.printReportServer.title=Bericht auf dem Server drucken
 
 ###############################################################################
@@ -97,7 +97,7 @@ birt.viewer.dialog.export.pdf.fittowhole=An ganze Seite anpassen
 ###############################################################################
 # Print Report dialog 
 ###############################################################################
-birt.viewer.dialog.print.format=Print Format
+birt.viewer.dialog.print.format=Druckformat
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
 
@@ -149,7 +149,7 @@ birt.viewer.dialog.exportdata.remove=Entfernen
 birt.viewer.dialog.exportdata.up=Aufwärts
 birt.viewer.dialog.exportdata.down=Abwärts
 birt.viewer.dialog.exportdata.separator=Trennzeichen:
-birt.viewer.dialog.exportdata.datatype=Export column's data type
+birt.viewer.dialog.exportdata.datatype=Spalten-Datenytpen exportieren
 
 birt.viewer.sep.0=Komma (,)
 birt.viewer.sep.1=Semikolon (;)

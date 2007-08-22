@@ -3916,13 +3916,13 @@ AddEditCascadingParameterDialog.label.displaytext=표시 텍스트(&T):
 
 ###########################################################
 #FormatDateTimePattern
-FormatDateTimePattern.datetiem_format_type_year=Year
-FormatDateTimePattern.datetiem_format_type_short_year=Short Year
-FormatDateTimePattern.datetiem_format_type_long_month_year=Long Month Year
-FormatDateTimePattern.datetiem_format_type_shot_month_year=Short Month Year
-FormatDateTimePattern.datetiem_format_type_month=Month
-FormatDateTimePattern.datetiem_format_type_long_day_of_week=Long Day of Week
-FormatDateTimePattern.datetiem_format_type_day_of_month=Day of Month
-FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Medium Day of Year
-FormatDateTimePattern.datetiem_format_type_minutes=Minutes
-FormatDateTimePattern.datetiem_format_type_secontds=Seconds
+FormatDateTimePattern.datetiem_format_type_year=연도
+FormatDateTimePattern.datetiem_format_type_short_year=연도(짧게)
+FormatDateTimePattern.datetiem_format_type_long_month_year=월(길게) 연도
+FormatDateTimePattern.datetiem_format_type_shot_month_year=월(짧게) 연도
+FormatDateTimePattern.datetiem_format_type_month=월
+FormatDateTimePattern.datetiem_format_type_long_day_of_week=일(길게)
+FormatDateTimePattern.datetiem_format_type_day_of_month=월 일
+FormatDateTimePattern.datetiem_format_type_medium_day_of_year=월 일 연도
+FormatDateTimePattern.datetiem_format_type_minutes=분
+FormatDateTimePattern.datetiem_format_type_secontds=초

@@ -3916,13 +3916,13 @@ AddEditCascadingParameterDialog.label.displaytext=显示文本(&T):
 
 ###########################################################
 #FormatDateTimePattern
-FormatDateTimePattern.datetiem_format_type_year=Year
-FormatDateTimePattern.datetiem_format_type_short_year=Short Year
-FormatDateTimePattern.datetiem_format_type_long_month_year=Long Month Year
-FormatDateTimePattern.datetiem_format_type_shot_month_year=Short Month Year
-FormatDateTimePattern.datetiem_format_type_month=Month
-FormatDateTimePattern.datetiem_format_type_long_day_of_week=Long Day of Week
-FormatDateTimePattern.datetiem_format_type_day_of_month=Day of Month
-FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Medium Day of Year
-FormatDateTimePattern.datetiem_format_type_minutes=Minutes
-FormatDateTimePattern.datetiem_format_type_secontds=Seconds
+FormatDateTimePattern.datetiem_format_type_year=年
+FormatDateTimePattern.datetiem_format_type_short_year=长格式年
+FormatDateTimePattern.datetiem_format_type_long_month_year=长格式年月
+FormatDateTimePattern.datetiem_format_type_shot_month_year=短格式年月
+FormatDateTimePattern.datetiem_format_type_month=月
+FormatDateTimePattern.datetiem_format_type_long_day_of_week=长格式星期
+FormatDateTimePattern.datetiem_format_type_day_of_month=月中第几天
+FormatDateTimePattern.datetiem_format_type_medium_day_of_year=中等格式年中第几天
+FormatDateTimePattern.datetiem_format_type_minutes=分钟
+FormatDateTimePattern.datetiem_format_type_secontds=秒
