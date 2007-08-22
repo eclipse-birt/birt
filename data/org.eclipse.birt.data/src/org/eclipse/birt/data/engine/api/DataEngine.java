@@ -105,6 +105,12 @@ abstract public class DataEngine
 	public static String CUBECURSOR_FETCH_LIMIT_ON_LEVEL = "org.eclipse.birt.data.engine.olap.cursor.onLevel";
 	
 	/**
+	 * The size of cube to be saved in memory rather than in disk. The unit is MB. In case that the size
+	 * of materialized cube exceed the assigned memory size, the disk will automatically be used. 
+	 */
+	public static String IN_MEMORY_CUBE_SIZE = "org.eclipse.birt.data.engine.cube.inmemory.size";
+	
+	/**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment
 	 * 
