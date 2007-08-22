@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class CrosstabUIHelper
 {
-
+	public static String CROSSTAB_LINK_IMAGE = "icons/pal/crosstab-link.gif";
 	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";//$NON-NLS-1$
 	public static String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
 	public static String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
@@ -145,6 +145,7 @@ public class CrosstabUIHelper
 	}
 
 	private static final String DISPALY_NAME = Messages.getString( "AddSubTotalAction.TotalName" );//$NON-NLS-1$
+
 
 	public static void CreateSubTotalLabel( LevelViewHandle levelView,
 			CrosstabCellHandle cellHandle ) throws SemanticException

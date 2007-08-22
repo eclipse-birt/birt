@@ -191,8 +191,11 @@ public class OlapUtil
 		if ( model instanceof DesignElementHandle )
 		{
 			DesignElementHandle handle = (DesignElementHandle) model;
-			if ( handle.getExtends( ) != null )
+			if ( ( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )
+					.getRoot( ) instanceof LibraryHandle ) ) )
+			{
 				return true;
+			}
 		}
 		return false;
 	}

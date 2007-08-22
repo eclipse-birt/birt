@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -128,6 +129,9 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
+		if ( OlapUtil.isFromLibrary( (CubeHandle) model ) )
+			return UIHelper.getImage( BuilderConstancts.IMAGE_LINK_CUBE );
+		else
+			return UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
 	}
 }
