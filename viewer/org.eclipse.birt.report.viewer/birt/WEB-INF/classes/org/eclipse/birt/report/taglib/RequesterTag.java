@@ -45,6 +45,8 @@ public class RequesterTag extends AbstractBaseTag
 	 */
 	private Map parameters;
 
+	private Boolean validated;
+
 	/**
 	 * Then entry to initialize tag
 	 * 
@@ -55,6 +57,7 @@ public class RequesterTag extends AbstractBaseTag
 		super.__init( );
 
 		parameters = new HashMap( );
+		validated = null;
 	}
 
 	/**
@@ -67,40 +70,83 @@ public class RequesterTag extends AbstractBaseTag
 	{
 		try
 		{
-			if ( viewer.isCustom( ) )
+			// TODO: move this logic in AbstractBaseTag if possible
+			if ( __validate( ) )
 			{
-				JspWriter writer = pageContext.getOut( );
+				if ( viewer.isCustom( ) )
+				{
+					JspWriter writer = pageContext.getOut( );
 
-				// create DIV object to contain requester page
-				writer.write( "<DIV " ); //$NON-NLS-1$
-				if ( viewer.getId( ) != null )
-					writer.write( " ID=\"" + viewer.getId( ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
+					// create DIV object to contain requester page
+					writer.write( "<DIV " ); //$NON-NLS-1$
+					if ( viewer.getId( ) != null )
+						writer.write( " ID=\"" + viewer.getId( ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+					writer.write( __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
 
-				// create form
-				writer
-						.write( "<FORM NAME=\"" + viewer.getName( ) + "\" METHOD=\"post\" " ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( " action=\"" + viewer.createURI( null ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-				if ( viewer.getTarget( ) != null )
-					writer.write( " target=\"" + viewer.getTarget( ) + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
-				writer.write( ">\n" ); //$NON-NLS-1$
+					// create form
+					writer
+							.write( "<FORM NAME=\"" + viewer.getName( ) + "\" METHOD=\"post\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+					writer
+							.write( " action=\"" + viewer.createURI( null ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+					if ( viewer.getTarget( ) != null )
+						writer
+								.write( " target=\"" + viewer.getTarget( ) + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
+					writer.write( ">\n" ); //$NON-NLS-1$
+				}
+			}
+			else
+			{
+				return SKIP_BODY;
 			}
 		}
 		catch ( Exception e )
 		{
 			__handleException( e );
+			return SKIP_BODY;
 		}
 
 		return EVAL_PAGE;
 	}
 
 	/**
-	 * validate the tag
+	 * Process only if the attributes are validated. Overrides default
+	 * doEndTag().
+	 */
+	public int doEndTag( ) throws JspException
+	{
+		try
+		{
+			if ( __validate( ) )
+			{
+				__beforeEndTag( );
+				__process( );
+			}
+			else
+			{
+				return SKIP_BODY;
+			}
+		}
+		catch ( Exception e )
+		{
+			__handleException( e );
+			return SKIP_BODY;
+		}
+		return EVAL_PAGE;
+	}
+
+	/**
+	 * Validate the tag. *
 	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__validate()
 	 */
 	public boolean __validate( ) throws Exception
 	{
+		if ( validated != null )
+		{
+			return validated.booleanValue( );
+		}
+		validated = Boolean.FALSE;
+
 		// get Locale
 		Locale locale = BirtTagUtil.getLocale( (HttpServletRequest) pageContext
 				.getRequest( ), viewer.getLocale( ) );
@@ -153,6 +199,7 @@ public class RequesterTag extends AbstractBaseTag
 					.getMessage( ResourceConstants.TAGLIB_NO_REPORT_DOCUMENT ) );
 		}
 
+		validated = Boolean.TRUE;
 		return true;
 	}
 
