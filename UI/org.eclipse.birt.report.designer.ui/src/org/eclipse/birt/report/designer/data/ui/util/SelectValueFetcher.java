@@ -18,20 +18,18 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
-import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 
 /**
@@ -61,7 +59,6 @@ public class SelectValueFetcher
 	public static List getSelectValueList( String expression,
 			DataSetHandle dataSetHandle ) throws BirtException
 	{
-		ParamBindingHandle[] bindingParams = null;
 		List selectValueList = new ArrayList( );
 		if ( expression != null && expression.trim( ).length( ) > 0 )
 		{
@@ -102,11 +99,18 @@ public class SelectValueFetcher
 			query.addGroup( groupDefn );
 			query.setUsesDetails( false );
 
-			IPreparedQuery preparedQuery = DataSetProvider.getCurrentInstance( )
-					.prepareQuery( dataSetHandle,
-							(IQueryDefinition) query,
-							true,
-							false );
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSetHandle == null ? null : dataSetHandle.getModuleHandle( ) ) );
+			if ( dataSetHandle != null )
+			{
+				if ( dataSetHandle.getDataSource( ) != null )
+					session.defineDataSource( session.getModelAdaptor( )
+							.adaptDataSource( dataSetHandle.getDataSource( ) ) );
+				session.defineDataSet( session.getModelAdaptor( )
+						.adaptDataSet( dataSetHandle ) );
+			}
+			
+			IPreparedQuery preparedQuery = session.prepare( query );
 			IQueryResults results = preparedQuery.execute( null );
 			if ( results != null )
 			{
