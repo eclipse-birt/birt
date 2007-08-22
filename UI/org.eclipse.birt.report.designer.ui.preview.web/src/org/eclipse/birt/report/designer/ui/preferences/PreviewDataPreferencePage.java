@@ -45,14 +45,22 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 
 	public static final int MAX_CUBE_LEVEL_MEMBER = 10000;
 
+	public static final int MAX_IN_MEMORY_CUBE_SIZE_DEFAULT = ViewerPlugin.DEFAULT_MAX_IN_MEMORY_CUBE_SIZE;
+
+	public static final int MAX_IN_MEMORY_CUBE_SIZE = 10000;
+
 	/** max Row preference name */
 	public static final String PREVIEW_MAXROW = WebViewer.PREVIEW_MAXROW;
 
 	public static final String PREVIEW_MAX_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBELEVEL;
 
+	public static final String PREVIEW_MAX_IN_MEMORY_CUBE_SIZE = WebViewer.PREVIEW_MAXINMEMORYCUBESIZE;
+
 	private transient IntegerFieldEditor txtMaxDataSetRow;
 
 	private transient IntegerFieldEditor txtMaxLevelMember;
+
+	private transient IntegerFieldEditor txtMaxInMemoryCubeSize;
 
 	protected Control createContents( Composite parent )
 	{
@@ -108,6 +116,27 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 			}
 		} );
 
+		txtMaxInMemoryCubeSize = new IntegerFieldEditor( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
+				Messages.getString( "designer.preview.preference.resultset.maxinmemorycubesize.description" ), cmpTop ); //$NON-NLS-1$ 
+		txtMaxInMemoryCubeSize.setPage( this );
+		txtMaxInMemoryCubeSize.setTextLimit( Integer.toString( MAX_IN_MEMORY_CUBE_SIZE )
+				.length( ) );
+		txtMaxInMemoryCubeSize.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxinmemorycubesize.errormessage", //$NON-NLS-1$
+				new Object[]{
+					new Integer( MAX_IN_MEMORY_CUBE_SIZE )
+				} ) );
+		txtMaxInMemoryCubeSize.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+		txtMaxInMemoryCubeSize.setValidRange( 1, MAX_IN_MEMORY_CUBE_SIZE );
+		txtMaxInMemoryCubeSize.setEmptyStringAllowed( false );
+		txtMaxInMemoryCubeSize.setPropertyChangeListener( new IPropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent event )
+			{
+				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+					setValid( txtMaxInMemoryCubeSize.isValid( ) );
+			}
+		} );
+
 		initControlValues( );
 
 		return cmpTop;
@@ -135,6 +164,16 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		}
 		txtMaxLevelMember.setStringValue( defaultMaxRow );
 
+		defaultMaxRow = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE );
+
+		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
+		{
+			defaultMaxRow = String.valueOf( MAX_IN_MEMORY_CUBE_SIZE_DEFAULT );
+		}
+		txtMaxInMemoryCubeSize.setStringValue( defaultMaxRow );
+
 	}
 
 	public void init( IWorkbench workbench )
@@ -146,6 +185,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 	{
 		txtMaxDataSetRow.setStringValue( String.valueOf( MAX_DATASET_ROW_DEFAULT ) );
 		txtMaxLevelMember.setStringValue( String.valueOf( MAX_CUBE_LEVEL_MEMBER_DEFAULT ) );
+		txtMaxInMemoryCubeSize.setStringValue( String.valueOf( MAX_IN_MEMORY_CUBE_SIZE_DEFAULT ) );
 
 		super.performDefaults( );
 	}
@@ -160,6 +200,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 				.getPluginPreferences( )
 				.setValue( PREVIEW_MAX_LEVEL_MEMBER,
 						txtMaxLevelMember.getIntValue( ) );
+
+		ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
+						txtMaxInMemoryCubeSize.getIntValue( ) );
 
 		ViewerPlugin.getDefault( ).savePluginPreferences( );
 

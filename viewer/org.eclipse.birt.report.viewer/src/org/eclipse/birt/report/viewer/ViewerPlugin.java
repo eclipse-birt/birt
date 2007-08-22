@@ -53,6 +53,11 @@ public class ViewerPlugin extends Plugin
 	public final static int DEFAULT_MAX_CUBELEVELS = 50;
 
 	/**
+	 * Default value of max in-memory cube size in MB
+	 */
+	public final static int DEFAULT_MAX_IN_MEMORY_CUBE_SIZE = 10;
+
+	/**
 	 * BIRT Viewer plugin working path
 	 */
 	public final static String BIRT_VIEWER_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
