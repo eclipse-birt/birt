@@ -295,11 +295,14 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		IStyle style = getElementStyle( cell );
 		IStyle cellMergedStyle = new CellMergedStyle( cell );
 
-		// output the none value of the display
-		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
-		if ( IStyle.NONE_VALUE == display )
+		if ( null != style )
 		{
-			styleBuffer.append( " display: none;" );
+			// output the none value of the display
+			CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
+			if ( IStyle.NONE_VALUE == display )
+			{
+				styleBuffer.append( " display: none;" );
+			}
 		}
 		
 		// build the font properties
