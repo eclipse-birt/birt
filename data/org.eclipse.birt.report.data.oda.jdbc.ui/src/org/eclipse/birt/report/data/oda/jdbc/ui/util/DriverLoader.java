@@ -34,7 +34,7 @@ public final class DriverLoader
 					.getConnection( driverClassName,
 							connectionString,
 							userId,
-							password );
+							password, null );
 		}
 		catch ( Exception e )
 		{
