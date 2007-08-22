@@ -57,6 +57,8 @@ BIRTConfiguration_report_access_message=作業フォルダ内のレポートと文書だけにアク
 BIRTConfiguration_overwrite_message=生成した文書ファイルを常に上書きする(&A)
 
 BIRTConfiguration_maxrows_label=データセットの最大行数(&D) :
+BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+
 BIRTConfiguration_loglevel_label=ログレベルの選択(&S) :
 BIRTConfiguration_loglevel_all=ALL
 BIRTConfiguration_loglevel_severe=SEVERE
@@ -67,6 +69,8 @@ BIRTConfiguration_loglevel_fine=FINE
 BIRTConfiguration_loglevel_finer=FINER
 BIRTConfiguration_loglevel_finest=FINEST
 BIRTConfiguration_loglevel_off=OFF
+
+BIRTConfiguration_printserver_label=&Print report on the server side:
 
 BIRTConfiguration_import_clear_message=BIRT の古いランタイムファイルを削除する(&C)
 

@@ -57,6 +57,8 @@ BIRTConfiguration_report_access_message=&Nur auf den Bericht und das Dokument im
 BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschreiben
 
 BIRTConfiguration_maxrows_label=Maximale Zeilenanzahl für &Datensatz:
+BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+
 BIRTConfiguration_loglevel_label=Protokollebene au&swählen:
 BIRTConfiguration_loglevel_all=ALLE
 BIRTConfiguration_loglevel_severe=SCHWER
@@ -67,6 +69,8 @@ BIRTConfiguration_loglevel_fine=FEIN
 BIRTConfiguration_loglevel_finer=FEINER
 BIRTConfiguration_loglevel_finest=SEHR FEIN
 BIRTConfiguration_loglevel_off=AUS
+
+BIRTConfiguration_printserver_label=&Print report on the server side:
 
 BIRTConfiguration_import_clear_message=&Alte BIRT Runtime-Dateien löschen.
 

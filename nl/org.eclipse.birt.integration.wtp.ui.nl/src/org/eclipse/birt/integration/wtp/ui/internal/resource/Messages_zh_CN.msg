@@ -57,6 +57,8 @@ BIRTConfiguration_report_access_message=仅访问工作文件夹下的报表和文档(&O)
 BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
 BIRTConfiguration_maxrows_label=数据集最大行数(&D):
+BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+
 BIRTConfiguration_loglevel_label=选择日志级别(&S):
 BIRTConfiguration_loglevel_all=全部
 BIRTConfiguration_loglevel_severe=严重
@@ -67,6 +69,8 @@ BIRTConfiguration_loglevel_fine=精细
 BIRTConfiguration_loglevel_finer=更精细
 BIRTConfiguration_loglevel_finest=最精细
 BIRTConfiguration_loglevel_off=关
+
+BIRTConfiguration_printserver_label=&Print report on the server side:
 
 BIRTConfiguration_import_clear_message=清除旧的 BIRT 运行时文件(&C)。
 

@@ -57,6 +57,8 @@ BIRTConfiguration_report_access_message=작업 폴더의 보고서 및 문서에만 액세스(&O
 BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A) 
 
 BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&D):
+BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+
 BIRTConfiguration_loglevel_label=로그 수준 선택(&S):
 BIRTConfiguration_loglevel_all=모두
 BIRTConfiguration_loglevel_severe=심각
@@ -67,6 +69,8 @@ BIRTConfiguration_loglevel_fine=양호
 BIRTConfiguration_loglevel_finer=아주 양호
 BIRTConfiguration_loglevel_finest=가장 양호
 BIRTConfiguration_loglevel_off=끄기
+
+BIRTConfiguration_printserver_label=&Print report on the server side:
 
 BIRTConfiguration_import_clear_message=오래된 BIRT 런타임 파일 지우기(&C)
 
