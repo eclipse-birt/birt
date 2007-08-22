@@ -340,19 +340,37 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				group = getCascadingGroup( parameter );
 			}
-			if ( group != null
-					&& DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( group
-							.getDataSetMode( ) ) )
+			if ( group != null )
 			{
-				return getCascadingParameterList( parameter );
+				// parameter in group
+				if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( group
+						.getDataSetMode( ) ) )
+				{
+					// single dataSet
+					return getCascadingParameterList( parameter );
+				}
+				else
+				{
+					// multiple dataSet
+					if ( parameter.getDataSetName( ) != null )
+					{
+						// parameter has dataSet
+						return getChoicesFromParameterQuery( parameter );
+					}
+					// parameter do not has dataSet, so use the group's dataSet
+					// we do not support such mix parameters.
+					// return empty list
+				}
 			}
-			else if ( parameter.getDataSetName( ) != null )
+			else
 			{
-				return getChoicesFromParameterQuery( parameter );
-			}
-			else if ( group != null )
-			{
-				return getCascadingParameterList( parameter );
+				// parameter not in group
+				if ( parameter.getDataSetName( ) != null )
+				{
+					// parameter has dataSet
+					return getChoicesFromParameterQuery( parameter );
+				}
+				// return empty list
 			}
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
@@ -530,6 +548,18 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public void evaluateQuery( String parameterGroupName )
 	{
+	}
+	
+	/**
+	 * The first step to work with the cascading parameters. Create the query
+	 * definition, prepare and execute the query. Cache the iterator of the
+	 * result set and also cache the IBaseExpression used in the prepare.
+	 * 
+	 * @param parameterGroupName -
+	 *            the cascading parameter group name
+	 */
+	private void evaluateGroupQuery( String parameterGroupName )
+	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 
 		if ( dataCache == null )
@@ -696,11 +726,14 @@ public class GetParameterDefinitionTask extends EngineTask
 		String paramDataType = parameter.getDataType( );
 		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
 		String parameterGroupName = parameterGroup.getName( );
-			evaluateQuery( parameterGroupName );
-		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroupName );
+		IResultIterator iter = null;
+		if ( dataCache != null )
+		{
+			iter = (IResultIterator) dataCache.get( parameterGroupName );
+		}
 		if ( iter == null )
 		{
-			evaluateQuery( parameterGroupName );
+			evaluateGroupQuery( parameterGroupName );
 			if ( iter == null )
 			{
 				return Collections.EMPTY_LIST;
