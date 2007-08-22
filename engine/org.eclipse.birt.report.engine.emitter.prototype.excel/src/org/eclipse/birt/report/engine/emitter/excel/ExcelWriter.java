@@ -81,12 +81,13 @@ public class ExcelWriter
 	
 	
 	//If possible, we can pass a format according the data type
-	public void writeText( Object d)
+	public void writeText( Object d )
 	{
 		writer.openTag( "Data" );
-		
+
 		if ( d instanceof Data )
 		{
+
 			if ( ( (Data) d ).getDatatype( ).equals( Data.NUMBER ) )
 			{
 				writer.attribute( "ss:Type", "Number" );
@@ -99,10 +100,12 @@ public class ExcelWriter
 			{
 				writer.attribute( "ss:Type", "String" );
 			}
+
 			writer.text( ( (Data) d ).txt.toString( ) );
 		}
 		else
 		{
+			writer.attribute( "ss:Type", "String" );
 			writer.text( d.toString( ) );
 		}
 		writer.closeTag( "Data" );

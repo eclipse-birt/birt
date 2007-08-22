@@ -285,7 +285,7 @@ public class ExcelLayoutEngine
 						.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
 				entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
 				entry.setDatatype( Data.DATE );
-				Data data = new Data( value, entry );
+				Data data = new Data( ExcelUtil.formatDate(value), entry );
 				data.setDatatype( Data.DATE );
 				return data;
 			}

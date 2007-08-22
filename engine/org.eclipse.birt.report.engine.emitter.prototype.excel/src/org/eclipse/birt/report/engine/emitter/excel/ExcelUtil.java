@@ -4,12 +4,18 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.sql.Time;
+import java.util.Date;
+import java.lang.Number;
+import java.lang.String;
 
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
+
+import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
 
@@ -22,10 +28,17 @@ public class ExcelUtil
 
 		return val;
 	}
-    
+    public static String formatDate( Object date )
+	{
+       
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss" );
+		return  dateFormat.format( (Date) date );
+        
+	}
 	public static String getPattern(Object data, String val)
     {
-    	if(val != null && data instanceof java.util.Date) {
+    	if(val != null && data instanceof Date) {
     	   if (val.indexOf( "kk:mm" ) >= 0){
     		   return "Short Time";	   
     	   }
@@ -39,25 +52,27 @@ public class ExcelUtil
     	   }
     	   return new DateFormatter(val).getPattern( );
     	}
-    	else if(val == null && data instanceof java.util.Date) {
-    	   return "yyyy/mm/dd";	
+    	else if(val == null && data instanceof Time) {
+    		return "Long Time";
     	}
-    	else if(val != null && data instanceof java.lang.Number)
+    	else if(val == null && data instanceof java.sql.Date) 
+    	{
+    		return "yyyy-M-d";
+    	}
+    	else if(val == null && data instanceof java.util.Date) 
+    	{
+    		return "yyyy-M-d HH:ss:mm AM/PM";
+    	}
+    	else if(val != null && data instanceof Number)
     	{
     	   return new NumberFormatter(val).getPattern( );	
     	}
-    	else if(val == null && data instanceof java.lang.Number)
-    	{
-    	   return null;	
-    	}
-    	else if(val != null && data instanceof java.lang.String)
+    	
+    	else if(val != null && data instanceof String)
     	{
     		return new StringFormatter(val).getPattern( );
     	}
-    	else if(val == null && data instanceof java.lang.String)
-    	{
-    	   return null;	
-    	}
+    	
     	return null;
     }
 	// TODO
