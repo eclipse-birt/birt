@@ -88,7 +88,8 @@ public class PropertyRecord extends SimpleRecord
 		assert propDefn != null;
 		assert !propDefn.isIntrinsic( );
 		newValue = value;
-		oldValue = propertyOwner.getLocalProperty( null, propDefn );
+		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
+				propDefn ) );
 	}
 
 	/**
@@ -115,11 +116,34 @@ public class PropertyRecord extends SimpleRecord
 
 		element = propertyOwner;
 		newValue = value;
-		oldValue = propertyOwner.getLocalProperty( null, propDefn );
+		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
+				propDefn ) );
 
-		label = ModelMessages.getMessage(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
-						.getDisplayName( )} );
+		label = ModelMessages.getMessage( MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[]{
+					propDefn.getDisplayName( )
+				} );
+	}
+
+	/**
+	 * if the local value is a list, we should make a copy for the list to avoid
+	 * the old value in this record to be changed by further operation on the
+	 * element.
+	 * 
+	 * @param localValue
+	 * @return copyed local value if it is a list.
+	 */
+	private Object copyLocalValue( Object localValue )
+	{
+		if ( localValue instanceof List )
+		{
+			ArrayList newValue = new ArrayList( );
+			newValue.addAll( (List) localValue );
+			return newValue;
+		}
+
+		return localValue;
+
 	}
 
 	/*
@@ -148,8 +172,7 @@ public class PropertyRecord extends SimpleRecord
 
 		if ( element instanceof ExtendedItem )
 		{
-			IReportItem extElement = ( (ExtendedItem) element )
-					.getExtendedElement( );
+			IReportItem extElement = ( (ExtendedItem) element ).getExtendedElement( );
 			// assert extElement != null;
 
 			if ( extElement != null && extElement.refreshPropertyDefinition( ) )
@@ -163,8 +186,8 @@ public class PropertyRecord extends SimpleRecord
 
 		if ( eventTarget != null )
 		{
-			return new PropertyEvent( eventTarget.getElement( ), eventTarget
-					.getPropName( ) );
+			return new PropertyEvent( eventTarget.getElement( ),
+					eventTarget.getPropName( ) );
 		}
 
 		return new PropertyEvent( element, propDefn.getName( ) );
@@ -218,8 +241,8 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element, propDefn
-				.getName( ) );
+		StructureContext context = new StructureContext( element,
+				propDefn.getName( ) );
 
 		if ( values instanceof Structure )
 			context.add( (Structure) values );
@@ -242,15 +265,15 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element, propDefn
-				.getName( ) );
+		StructureContext context = new StructureContext( element,
+				propDefn.getName( ) );
 
 		if ( values instanceof Structure )
 			context.remove( (Structure) values );
 		else if ( values instanceof List )
 		{
 			// always remove the first one
-			
+
 			int count = ( (List) values ).size( );
 			for ( int i = 0; i < count; i++ )
 			{
@@ -266,8 +289,9 @@ public class PropertyRecord extends SimpleRecord
 	 */
 	public List getValidators( )
 	{
-		return ValidationExecutor.getValidationNodes( element, propDefn
-				.getTriggerDefnSet( ), false );
+		return ValidationExecutor.getValidationNodes( element,
+				propDefn.getTriggerDefnSet( ),
+				false );
 	}
 
 	/**
