@@ -192,6 +192,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String RADIO_DYNAMIC = Messages.getString( "ParameterDialog.Radio.Dynamic" ); //$NON-NLS-1$
 
+	private static final String CHECK_ALLOW_MULTI = Messages.getString( "ParameterDialog.Check.AllowMulti" ); //$NON-NLS-1$
+
 	private static final String RADIO_STATIC = Messages.getString( "ParameterDialog.Radio.Static" ); //$NON-NLS-1$
 
 	private static final String ERROR_TITLE_INVALID_LIST_LIMIT = Messages.getString( "ParameterDialog.ErrorTitle.InvalidListLimit" ); //$NON-NLS-1$
@@ -282,6 +284,8 @@ public class ParameterDialog extends BaseDialog
 
 	// Radio buttons
 	private Button dynamicRadio, staticRadio;
+
+	private Button allowMultiChoice;
 
 	// Combo chooser for static
 	private Combo dataTypeChooser, controlTypeChooser, defaultValueChooser;
@@ -654,9 +658,11 @@ public class ParameterDialog extends BaseDialog
 
 		Composite choiceArea = new Composite( valuesDefineSection, SWT.NONE );
 		choiceArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
+		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 4, true ) );
 		staticRadio = new Button( choiceArea, SWT.RADIO );
 		staticRadio.setText( RADIO_STATIC );
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		staticRadio.setLayoutData( gd );
 		staticRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -667,6 +673,7 @@ public class ParameterDialog extends BaseDialog
 		} );
 		dynamicRadio = new Button( choiceArea, SWT.RADIO );
 		dynamicRadio.setText( RADIO_DYNAMIC );
+		dynamicRadio.setLayoutData( gd );
 		dynamicRadio.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -675,9 +682,17 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 
+		Label dummy = new Label(choiceArea, SWT.NONE);
+		dummy.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		
+		allowMultiChoice = new Button( choiceArea, SWT.CHECK );
+		allowMultiChoice.setText( CHECK_ALLOW_MULTI );
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		staticRadio.setLayoutData( gd );
+
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
 		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 300;
 		gd.widthHint = 550;
 		gd.horizontalSpan = 2;
@@ -729,6 +744,24 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setSelection( true );
 		}
 		defaultValue = inputParameter.getDefaultValue( );
+
+		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) ) )
+		{
+			allowMultiChoice.setVisible( true );
+			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( inputParameter.getParamType( ) ) )
+			{
+				allowMultiChoice.setSelection( true );
+			}
+			else
+			{
+				allowMultiChoice.setSelection( false );
+			}
+
+		}
+		else
+		{
+			allowMultiChoice.setVisible( false );
+		}
 
 		try
 		{
@@ -1373,8 +1406,15 @@ public class ParameterDialog extends BaseDialog
 			staticRadio.setEnabled( radioEnable );
 			dynamicRadio.setEnabled( radioEnable );
 		}
-		// should only reset format field when data type changed
-		// initFormatField( );
+		
+		if(PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ))
+		{
+			allowMultiChoice.setVisible( true );
+		}else
+		{
+			allowMultiChoice.setVisible( false );
+		}
+		
 	}
 
 	private void switchParamterType( )
@@ -1919,6 +1959,15 @@ public class ParameterDialog extends BaseDialog
 				newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
 				// inputParameter.setMustMatch( false );
 				inputParameter.setMustMatch( true );
+				
+				if(allowMultiChoice.isVisible( ) && allowMultiChoice.getSelection( ))
+				{
+					inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE );
+				}else
+				{
+					inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
+				}
+
 			}
 			else
 			{
