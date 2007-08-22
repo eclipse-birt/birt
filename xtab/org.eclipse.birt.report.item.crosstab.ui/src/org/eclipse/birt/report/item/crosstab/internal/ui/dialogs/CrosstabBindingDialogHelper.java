@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -655,7 +654,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		Button expressionButton = new Button( parent, SWT.PUSH );
 
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
+		{
+			expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder );
+		}
 
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {

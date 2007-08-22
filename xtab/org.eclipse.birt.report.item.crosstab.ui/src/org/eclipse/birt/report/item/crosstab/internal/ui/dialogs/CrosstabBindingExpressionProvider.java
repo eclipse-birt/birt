@@ -1,0 +1,172 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.swt.graphics.Image;
+
+/**
+ * 
+ */
+
+public class CrosstabBindingExpressionProvider extends
+		BindingExpressionProvider
+{
+
+	public CrosstabBindingExpressionProvider( DesignElementHandle handle )
+	{
+		super( handle );
+		addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if ( parentElement instanceof PropertyHandle )
+				{
+					PropertyHandle handle = (PropertyHandle) parentElement;
+					if ( handle.getPropertyDefn( )
+							.getName( )
+							.equals( ICubeModel.DIMENSIONS_PROP ) )
+					{
+						try
+						{
+							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) == null )
+								return false;
+							return true;
+						}
+						catch ( ExtendedElementException e )
+						{
+							return false;
+						}
+					}
+					else if ( handle.getPropertyDefn( )
+							.getName( )
+							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					{
+
+						try
+						{
+							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
+							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+							{
+								if ( xtabHandle.getMeasure( i )
+										.getCubeMeasure( )
+										.getContainer( )
+										.equals( mgHandle ) )
+									return true;
+							}
+							return false;
+						}
+						catch ( ExtendedElementException e )
+						{
+							return false;
+						}
+					}
+				}
+				if ( element instanceof LevelViewHandle )
+				{
+					return ( (LevelViewHandle) element ).getIndex( ) == 0;
+				}
+				if ( element instanceof MeasureHandle )
+				{
+					try
+					{
+						CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+						for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+						{
+							if ( xtabHandle.getMeasure( i ).getCubeMeasure( ).equals( element ) )
+								return true;
+						}
+						return false;
+					}
+					catch ( ExtendedElementException e )
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+		} );
+	}
+
+	protected List getChildrenList( Object parent )
+	{
+		if ( parent instanceof TabularDimensionHandle )
+		{
+			List children = new ArrayList( );
+			try
+			{
+				TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
+				{
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
+							i );
+					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
+						children.add( dimensionHandle.getLevel( 0 ) );
+				}
+				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
+				{
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
+							i );
+					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
+						children.add( dimensionHandle.getLevel( 0 ) );
+				}
+			}
+			catch ( ExtendedElementException e )
+			{
+			}
+			return children;
+		}
+		return super.getChildrenList( parent );
+	}
+
+	private CrosstabReportItemHandle getCrosstabReportItemHandle( )
+			throws ExtendedElementException
+	{
+		return (CrosstabReportItemHandle) ( (ExtendedItemHandle) elementHandle ).getReportItem( );
+	}
+
+	public String getDisplayText( Object element )
+	{
+		if ( element instanceof LevelViewHandle )
+			return ( (LevelViewHandle) element ).getCubeLevel( ).getName( );
+		return super.getDisplayText( element );
+	}
+
+	public Image getImage( Object element )
+	{
+		if ( element instanceof LevelViewHandle )
+			return UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+		return super.getImage( element );
+	}
+
+}
