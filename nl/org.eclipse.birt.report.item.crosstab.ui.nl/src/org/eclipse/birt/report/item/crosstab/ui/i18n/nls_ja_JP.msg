@@ -120,6 +120,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリック
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
 FilterConditionBuilder.text.GroupLevel=グループレベル :
+FilterConditionBuilder.checkbox.optional.title=Optional
+FilterConditionBuilder.list.item1=値
+FilterConditionBuilder.button.edit=Edit...
+FilterConditionBuilder.button.delete=削除
+FilterConditionBuilder.button.deleteall=Remove All
+FilterConditionBuilder.button.add=Add
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #VirtualCellEditPart.java

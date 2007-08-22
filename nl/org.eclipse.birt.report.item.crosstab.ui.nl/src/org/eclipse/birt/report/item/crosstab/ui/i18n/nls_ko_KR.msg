@@ -120,6 +120,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.text.GroupLevel=그룹 수준:
+FilterConditionBuilder.checkbox.optional.title=Optional
+FilterConditionBuilder.list.item1=값
+FilterConditionBuilder.button.edit=Edit...
+FilterConditionBuilder.button.delete=제거
+FilterConditionBuilder.button.deleteall=Remove All
+FilterConditionBuilder.button.add=Add
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #VirtualCellEditPart.java

@@ -120,6 +120,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=Cliquez ici pour appeler le Générateur
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=Entrer une condition de filtre :
 FilterConditionBuilder.text.GroupLevel=Niveau de groupe :
+FilterConditionBuilder.checkbox.optional.title=Optional
+FilterConditionBuilder.list.item1=Valeur
+FilterConditionBuilder.button.edit=Edit...
+FilterConditionBuilder.button.delete=Supprimer
+FilterConditionBuilder.button.deleteall=Remove All
+FilterConditionBuilder.button.add=Add
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #VirtualCellEditPart.java

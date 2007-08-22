@@ -120,6 +120,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=单击以调用表达式生成器。
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=输入筛选条件:
 FilterConditionBuilder.text.GroupLevel=组级别:
+FilterConditionBuilder.checkbox.optional.title=Optional
+FilterConditionBuilder.list.item1=值
+FilterConditionBuilder.button.edit=Edit...
+FilterConditionBuilder.button.delete=删除
+FilterConditionBuilder.button.deleteall=Remove All
+FilterConditionBuilder.button.add=Add
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #VirtualCellEditPart.java
