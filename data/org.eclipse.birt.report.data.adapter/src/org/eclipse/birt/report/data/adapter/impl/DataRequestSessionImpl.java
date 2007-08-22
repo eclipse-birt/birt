@@ -571,7 +571,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 						&& appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) == null 
 						&& appContext.get( DataEngine.MEMORY_DATA_SET_CACHE ) == null ) );
 		Map candidateAppContext = new HashMap();
-		candidateAppContext.putAll( appContext );
+		if ( appContext!= null )
+			candidateAppContext.putAll( appContext );
 		if ( doPerfTuning )
 		{
 			candidateAppContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer(-1) );
