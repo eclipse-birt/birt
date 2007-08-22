@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.widget;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
@@ -37,7 +39,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1.2.1 $ $Date: 2006/11/03 06:33:35 $
+ * @version $Revision: 1.2 $ $Date: 2006/11/21 10:21:01 $
  */
 public class ExpressionCellEditor extends DialogCellEditor
 {
@@ -45,6 +47,9 @@ public class ExpressionCellEditor extends DialogCellEditor
 	private transient Text editor;
 	private transient Button theButton;
 
+	/** the prividers */
+	private final Collection providers = new HashSet( );
+	
 	/**
 	 * 
 	 */
@@ -81,7 +86,8 @@ public class ExpressionCellEditor extends DialogCellEditor
 				.getDisplay( )
 				.getActiveShell( ),
 				(String) getValue( ) );
-		dialog.setExpressionProvier( provider );
+
+		dialog.setExpressionProviers( providers );
 
 		if ( dialog.open( ) != Window.OK )
 		{
@@ -225,11 +231,34 @@ public class ExpressionCellEditor extends DialogCellEditor
 		return theButton;
 	}
 
-	private IExpressionProvider provider;
-
+	/**
+	 * Sets the expression provider
+	 * 
+	 * @param provider
+	 *            the expression provider to set
+	 */
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		this.provider = provider;
+		providers.clear( );
+		if ( provider != null )
+		{
+			providers.add( provider );
+		}
+	}
+
+	/**
+	 * Sets the expression providers
+	 * 
+	 * @param providers
+	 *            the expression providers to set
+	 */
+	public void setExpressionProviders( Collection providers )
+	{
+		this.providers.clear( );
+		if ( providers != null )
+		{
+			this.providers.addAll( providers );
+		}
 	}
 
 	/**

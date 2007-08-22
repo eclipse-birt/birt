@@ -13,6 +13,9 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -114,6 +117,32 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
+	// Defines item types
+
+	/** The item type for provider */
+	private static final int ITEM_IMAGE = 1;
+
+	/** The display text type for provider */
+	private static final int ITEM_DISPLAY_TEXT = 2;
+	
+	/** The insert text type for provider */
+	private static final int ITEM_INSERT_TEXT = 3;
+	
+	/** The tooltip text type for provider */
+	private static final int ITEM_TOOLTIP_TEXT = 4;
+
+	/** The operators type for provider */
+	private static final int ITEM_OPERATORS = 5;
+	
+	/** The children type for provider */
+	private static final int ITEM_CHILDREN = 6;
+	
+	/** The category type for provider */
+	private static final int ITEM_CATEGORY = 7;
+
+	/** the providers */
+	private final Collection providers = new HashSet();
+	
 	private class TableContentProvider implements IStructuredContentProvider
 	{
 
@@ -130,7 +159,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			if ( viewer == categoryTable )
 			{
-				return provider.getCategory( );
+				return ( (List) getProviderValue( ITEM_CATEGORY ) ).toArray( );
 			}
 			//does not show groups/measures in third column. 
 			if ( inputElement instanceof PropertyHandle
@@ -155,13 +184,15 @@ public class ExpressionBuilder extends TitleAreaDialog
 				childrenList.add( inputElement );
 				return childrenList.toArray( );
 			}
-			return provider.getChildren( inputElement );
+			return ( (List) getProviderValue( ITEM_CHILDREN, inputElement ) ).toArray( );
 		}
 
 		private List getChildren( Object inputElement )
 		{
 			List childrenList = new ArrayList( );
-			Object[] children = provider.getChildren( inputElement );
+			Object[] children = ( (List) getProviderValue( ITEM_CHILDREN,
+					inputElement ) ).toArray( );
+
 			childrenList.addAll( Arrays.asList( children ) );
 			for ( int i = 0; i < children.length; i++ )
 			{
@@ -229,12 +260,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return provider.getImage( element );
+			return (Image) getProviderValue( ITEM_IMAGE, element );
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			return provider.getDisplayText( element );
+			return (String) getProviderValue( ITEM_DISPLAY_TEXT, element );
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -281,7 +312,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 						return;
 					}
 				}
-				String insertText = provider.getInsertText( selection.getFirstElement( ) );
+
+				String insertText = (String) getProviderValue( ITEM_INSERT_TEXT,
+						selection.getFirstElement( ) );
+
 				if ( insertText != null )
 				{
 					insertText( insertText );
@@ -290,14 +324,13 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 		}
 	};
+
 	private Composite buttonBar;
 	private TableViewer categoryTable, functionTable;
 	private TreeViewer subCategoryTable;
-	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private String expression = null;
 	private Label messageLine;
-
 	private String title;
 
 	/**
@@ -349,10 +382,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createToolbar( composite );
 		createExpressionField( composite );
-		if ( provider == null )
+
+		if ( providers.isEmpty( ) )
 		{
-			provider = new ExpressionProvider( );
+			providers.add( new ExpressionProvider( ) );
 		}
+
 		createOperatorsBar( composite );
 		createMessageLine( composite );
 		createListArea( composite );
@@ -543,11 +578,13 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createOperatorsBar( Composite parent )
 	{
-		Operator[] operators = provider.getOperators( );
+		Object[] operators = ((List) getProviderValue( ITEM_OPERATORS ) ).toArray( );
+
 		if ( operators == null || operators.length == 0 )
 		{
 			return;
 		}
+
 		Composite operatorsBar = new Composite( parent, SWT.NONE );
 		operatorsBar.setLayout( new GridLayout( 2, false ) );
 		operatorsBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -572,8 +609,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 			button.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			if ( operators[i] != IExpressionProvider.OPERATOR_SEPARATOR )
 			{
-				button.setData( operators[i].insertString );
-				String text = operators[i].symbol;
+				button.setData( ( (Operator) operators[i] ).insertString );
+				String text = ( (Operator) operators[i] ).symbol;
 				if ( text.indexOf( "&" ) != -1 ) //$NON-NLS-1$
 				{
 					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -623,7 +660,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public Object[] getChildren( Object parentElement )
 			{
-				return provider.getChildren( parentElement );
+				return ( (List) getProviderValue( ITEM_CHILDREN, parentElement ) ).toArray( );
 			}
 
 			public Object getParent( Object element )
@@ -633,7 +670,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public boolean hasChildren( Object element )
 			{
-				return provider.hasChildren( element );
+				return !( (List) getProviderValue( ITEM_CHILDREN, element ) ).isEmpty( );
 			}
 
 			public Object[] getElements( Object inputElement )
@@ -681,7 +718,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 					}
 					else
 					{
-						table.setToolTipText( provider.getTooltipText( item.getData( ) ) );
+						table.setToolTipText( (String) getProviderValue( ITEM_TOOLTIP_TEXT,
+								item.getData( ) ) );
 					}
 				}
 			}
@@ -771,7 +809,20 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 */
 	public void setExpressionProvier( IExpressionProvider provider )
 	{
-		this.provider = provider;
+		providers.clear( );
+		providers.add( provider );
+	}
+
+	/**
+	 * Sets the expression providers for the expression builder
+	 * 
+	 * @param providers
+	 *            the expression providers
+	 */
+	public void setExpressionProviers( Collection providers )
+	{
+		this.providers.clear( );
+		this.providers.addAll( providers );
 	}
 
 	/**
@@ -814,5 +865,164 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			textWidget.setCaretOffset( textWidget.getCaretOffset( ) - 1 ); // Move
 		}
+	}
+
+	/**
+	 * Returns the value with the specified item, default value if the results
+	 * are over one.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @return the provider value
+	 */
+	private Object getProviderValue( int item )
+	{
+		return getProviderValue( item, null );
+	}
+
+	/**
+	 * Returns the value with the specified item and element, default value if
+	 * the results are over one.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @param element
+	 *            the specified element
+	 * @return the provider value
+	 */
+	private Object getProviderValue( int item, Object element )
+	{
+		Collection values = new HashSet( );
+		Object defultValue = getDefaultValue( item );
+
+		for ( Iterator iterator = providers.iterator( ); iterator.hasNext( ); )
+		{
+			Object object = iterator.next( );
+			Object value = object instanceof IExpressionProvider ? getProviderValue( item,
+					element,
+					(IExpressionProvider) object )
+					: null;
+
+			values.add( value == null ? defultValue : value );
+		}
+
+		if ( values.size( ) == 1 )
+		{
+			return values.iterator( ).next( );
+		}
+		else if ( values.size( ) > 1 )
+		{
+			List results = null;
+
+			for ( Iterator iterator = values.iterator( ); iterator.hasNext( ); )
+			{
+				Object value = (Object) iterator.next( );
+
+				if ( value instanceof List )
+				{
+					if ( results == null )
+					{
+						results = new ArrayList( (List) value );
+					}
+					else
+					{
+						results.retainAll( (List) value );
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			return results;
+		}
+		return defultValue;
+	}
+
+	/**
+	 * Returns the value with the specified item, element and action handle,
+	 * <code>null</code> if a item is not found.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @param element
+	 *            the specified element
+	 * @param provider
+	 *            the specified expression provider
+	 * @return the provider value
+	 */
+	private Object getProviderValue( int item, Object element,
+			IExpressionProvider provider )
+	{
+		Object value = null;
+
+		switch ( item )
+		{
+			case ITEM_IMAGE :
+				value = provider.getImage( element );
+				break;
+
+			case ITEM_DISPLAY_TEXT :
+				value = provider.getDisplayText( element );
+				break;
+
+			case ITEM_INSERT_TEXT :
+				value = provider.getInsertText( element );
+				break;
+
+			case ITEM_TOOLTIP_TEXT :
+				value = provider.getTooltipText( element );
+				break;
+
+			case ITEM_OPERATORS :
+				value = Arrays.asList( provider.getOperators( ) );
+				break;
+				
+			case ITEM_CHILDREN :
+				value = Arrays.asList( provider.getChildren( element ) );
+				break;
+
+			case ITEM_CATEGORY :
+				value = Arrays.asList( provider.getCategory( ) );
+				break;
+
+			default :
+				value = null;
+				break;
+		}
+
+		return value;
+	}
+
+	/**
+	 * Returns the default value with the specified item.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @return the default value
+	 */
+	private Object getDefaultValue( int item )
+	{
+		Object value = null;
+
+		switch ( item )
+		{
+			case ITEM_DISPLAY_TEXT :
+			case ITEM_INSERT_TEXT :
+			case ITEM_TOOLTIP_TEXT :
+				value = "";
+				break;
+
+			case ITEM_OPERATORS :
+			case ITEM_CHILDREN :
+			case ITEM_CATEGORY :
+				value = Collections.EMPTY_LIST;
+				break;
+				
+			case ITEM_IMAGE :
+			default :
+				break;
+		}
+		return value;
 	}
 }

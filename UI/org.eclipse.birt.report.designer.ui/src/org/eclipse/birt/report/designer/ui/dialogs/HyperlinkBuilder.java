@@ -14,8 +14,12 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -47,6 +51,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
@@ -141,8 +146,35 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
 
-	private ActionHandle inputHandle;
-	private List dataSetList;
+
+	// Defines item types
+
+	/** The item type for line type */
+	private static final int ITEM_LINK_TYPE = 1;
+
+	/** The item type for uri */
+	private static final int ITEM_URI = 2;
+
+	/** The item type for target */
+	private static final int ITEM_TARGET_WINDOW = 3;
+
+	/** The item type for target bookmark */
+	private static final int ITEM_TARGET_BOOKMARK = 4;
+
+	/** The item type for target file type */
+	private static final int ITEM_TARGET_FILE_TYPE = 5;
+
+	/** The item type for report name */
+	private static final int ITEM_REPORT_NAME = 6;
+
+	/** The item type for target bookmark type */
+	private static final int ITEM_TARGET_BOOKMARK_TYPE = 7;
+	
+	/** The item type for format type */
+	private static final int ITEM_FORMAT_TYPE = 8;
+
+	/** The input handles */
+	private final Collection inputHandles = new HashSet( );
 
 	private Composite displayArea;
 
@@ -815,7 +847,7 @@ public class HyperlinkBuilder extends BaseDialog
 				new String[0],
 				SWT.READ_ONLY );
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
-		valueEditor.setExpressionProvider( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+		valueEditor.setExpressionProviders( getExpressionProviders( ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
 				parameterChooser, null, valueEditor
 		} );
@@ -867,7 +899,7 @@ public class HyperlinkBuilder extends BaseDialog
 	 */
 	protected void configureExpressionBuilder( ExpressionBuilder builder )
 	{
-		builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+		builder.setExpressionProviers( getExpressionProviders( ) );
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,
@@ -1023,6 +1055,21 @@ public class HyperlinkBuilder extends BaseDialog
 
 	protected void okPressed( )
 	{
+		for ( Iterator iterator = inputHandles.iterator( ); iterator.hasNext( ); )
+		{
+			processResult( (ActionHandle) iterator.next( ) );
+		}
+		super.okPressed( );
+	}
+
+	/**
+	 * Processes input result.
+	 * 
+	 * @param inputHandle
+	 *            the input handle
+	 */
+	private void processResult( ActionHandle inputHandle )
+	{
 		try
 		{
 			// Remove original settings
@@ -1110,7 +1157,6 @@ public class HyperlinkBuilder extends BaseDialog
 			ExceptionHandler.handle( e );
 		}
 		setResult( inputHandle );
-		super.okPressed( );
 	}
 
 	public boolean close( )
@@ -1127,14 +1173,31 @@ public class HyperlinkBuilder extends BaseDialog
 	 */
 	public void setInput( ActionHandle input )
 	{
-		inputHandle = input;
+		inputHandles.clear( );
+		if ( input != null )
+		{
+			inputHandles.add( input );
+		}
+	}
+
+	/**
+	 * Set the action to edit.
+	 * 
+	 * @param input
+	 *            the action to edit.
+	 */
+	public void setInput( Collection inputs )
+	{
+		inputHandles.clear( );
+		if ( inputs != null )
+		{
+			inputHandles.addAll( inputs );
+		}
 	}
 
 	protected boolean initDialog( )
 	{
-		dataSetList = DEUtil.getDataSetList( inputHandle.getElementHandle( ) );
-
-		switchTo( inputHandle.getLinkType( ) );
+		switchTo( getItemValue( ITEM_LINK_TYPE ) );
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
@@ -1159,14 +1222,18 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
-			if ( inputHandle.getURI( ) != null )
+			String uri = getItemValue( ITEM_URI );
+
+			if ( uri != null )
 			{
-				locationEditor.setText( inputHandle.getURI( ) );
+				locationEditor.setText( uri );
 			}
-			if ( inputHandle.getTargetWindow( ) != null )
+
+			String target = getItemValue( ITEM_TARGET_WINDOW );
+
+			if ( targetChooser.indexOf( target ) >= 0 )
 			{
-				targetChooser.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( inputHandle.getTargetWindow( ),
-						CHOICESET_TARGET ) );
+				targetChooser.setText( target );
 			}
 			else
 			{
@@ -1175,9 +1242,11 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 		{
-			if ( inputHandle.getTargetBookmark( ) != null )
+			String bookmark = getItemValue( ITEM_TARGET_BOOKMARK );
+
+			if ( bookmark != null )
 			{
-				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+				bookmarkEditor.setText( bookmark );
 			}
 			initBookmarkList( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
@@ -1221,50 +1290,50 @@ public class HyperlinkBuilder extends BaseDialog
 			// }
 			// TODO
 
-			if ( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT.equals( inputHandle.getTargetFileType( ) ) )
+			String reportName = getItemValue( ITEM_REPORT_NAME );
+			
+			if ( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT.equals( getItemValue( ITEM_TARGET_FILE_TYPE ) ) )
 			{
 				reportDocumentButton.setSelection( true );
-				if ( inputHandle.getReportName( ) != null )
+				if ( reportName != null )
 				{
-					documentEditor.setText( inputHandle.getReportName( ) );
+					documentEditor.setText( reportName );
 				}
 				selectRadio( targetGroup, reportDocumentButton );
 			}
 			else
 			{
 				reportDesignButton.setSelection( true );
-				if ( inputHandle.getReportName( ) != null )
+				if ( reportName != null )
 				{
-					locationEditor.setText( inputHandle.getReportName( ) );
+					locationEditor.setText( reportName );
 				}
 				selectRadio( targetGroup, reportDesignButton );
 			}
 			// edit mode, initail pre-setting
-			if ( inputHandle.getReportName( ) != null )
+			if ( reportName != null )
 			{
-				initTargetReport( inputHandle.getReportName( ) );
+				initTargetReport( reportName );
 			}
 
-			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( inputHandle.getTargetBookmarkType( ) ) )
+			String bookmarkType = getItemValue( ITEM_TARGET_BOOKMARK_TYPE );
+			
+			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( bookmarkType ) )
 			{
 				targetBookmarkButton.setSelection( true );
 				initAnchorChooser( targetReportHandle, false );
 			}
-			else if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals( inputHandle.getTargetBookmarkType( ) ) )
+			else if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals( bookmarkType ) )
 			{
 				tocButton.setSelection( true );
 				initAnchorChooser( targetReportHandle, true );
 			}
-			if ( inputHandle.getTargetBookmark( ) != null )
-			{
-				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
-			}
-			else
-			{
-				bookmarkEditor.setText( "---" );
-			}
+			
+			String bookmark = getItemValue( ITEM_TARGET_BOOKMARK );
 
-			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( inputHandle.getTargetWindow( ) ) )
+			bookmarkEditor.setText( bookmark != null ? bookmark : "---" );
+
+			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( getItemValue( ITEM_TARGET_WINDOW ) ) )
 			{
 				newWindowButton.setSelection( true );
 			}
@@ -1273,11 +1342,13 @@ public class HyperlinkBuilder extends BaseDialog
 				sameWindowButton.setSelection( true );
 			}
 
-			if ( inputHandle.getFormatType( ) != null )
+			String formatType = getItemValue( ITEM_FORMAT_TYPE );
+			
+			if ( formatType != null )
 			{
 				for ( int index = 0; index < supportedFormats.length; index++ )
 				{
-					if ( supportedFormats[index].equals( inputHandle.getFormatType( ) ) )
+					if ( supportedFormats[index].equals( formatType ) )
 					{
 						checkButton.setSelection( true );
 						targetFormatsChooser.setEnabled( true );
@@ -1323,12 +1394,45 @@ public class HyperlinkBuilder extends BaseDialog
 						// .getContents( ) );
 						// }
 					}
-					if ( newFilename.equals( inputHandle.getReportName( ) ) )
+					if ( newFilename.equals( getItemValue( ITEM_REPORT_NAME ) ) )
 					{
-						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+						List shareNames = null;
+						Map bindings = new HashMap( );
+
+						for ( Iterator iterator = inputHandles.iterator( ); iterator.hasNext( ); )
 						{
-							ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
-							bindingList.add( handle.getStructure( ) );
+							ActionHandle action = (ActionHandle) iterator.next( );
+							List bindingNames = new ArrayList( );
+
+							for ( Iterator iter = action.paramBindingsIterator( ); iter.hasNext( ); )
+							{
+								ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+								IStructure structure = handle.getStructure( );
+								String paramName = structure == null ? null
+										: handle.getParamName( );
+
+								if ( paramName != null )
+								{
+									bindings.put( paramName, structure );
+									bindingNames.add( paramName );
+								}
+							}
+
+							if ( shareNames == null )
+							{
+								shareNames = new ArrayList( bindingNames );
+							}
+							else
+							{
+								shareNames.retainAll( bindingNames );
+							}
+						}
+						if ( shareNames != null )
+						{
+							for ( Iterator iterator = shareNames.iterator( ); iterator.hasNext( ); )
+							{
+								bindingList.add( bindings.get( iterator.next( ) ) );
+							}
 						}
 					}
 				}
@@ -1418,7 +1522,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
 
-		String bookmark = inputHandle.getTargetBookmark( );
+		String bookmark = getItemValue( ITEM_TARGET_BOOKMARK );
 		String[] chooserValues = anchorChooser.getItems( );
 		if ( bookmark != null && chooserValues != null )
 		{
@@ -1731,4 +1835,146 @@ public class HyperlinkBuilder extends BaseDialog
 		return UIUtil.getProjectFolder( );
 	}
 
+	/**
+	 * Returns the expression providers.
+	 * 
+	 * @return the expression providers.
+	 */
+	private Collection getExpressionProviders( )
+	{
+		Collection providers = new HashSet( );
+
+		for ( Iterator iterator = inputHandles.iterator( ); iterator.hasNext( ); )
+		{
+			Object handle = iterator.next( );
+
+			if ( handle instanceof ActionHandle )
+			{
+				providers.add( new ExpressionProvider( ( (ActionHandle) handle ).getElementHandle( ) ) );
+			}
+		}
+		return providers;
+	}
+
+	/**
+	 * Returns the value with the specified item, default value if the results
+	 * are over one.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @return the item value
+	 */
+	private String getItemValue( int item )
+	{
+		Collection values = new HashSet( );
+		String defultValue = getDefaultValue( item );
+
+		for ( Iterator iterator = inputHandles.iterator( ); iterator.hasNext( ); )
+		{
+			Object object = iterator.next( );
+			String value = object instanceof ActionHandle ? getItemValue( item,
+					(ActionHandle) object ) : null;
+
+			values.add( value == null ? defultValue : value );
+		}
+
+		if ( values.size( ) == 1 )
+		{
+			return values.iterator( ).next( ).toString( );
+		}
+		return defultValue;
+	}
+
+	/**
+	 * Returns the value with the specified item and action handle,
+	 * <code>null</code> if a item is not found.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @param handle
+	 *            the specified action handle
+	 * @return the item value
+	 */
+	private String getItemValue( int item, ActionHandle handle )
+	{
+		String value = null;
+
+		switch ( item )
+		{
+			case ITEM_LINK_TYPE :
+				value = handle.getLinkType( );
+				break;
+
+			case ITEM_URI :
+				value = handle.getURI( );
+				break;
+
+			case ITEM_TARGET_WINDOW :
+				value = handle.getTargetWindow( );
+				value = ChoiceSetFactory.getDisplayNameFromChoiceSet( value == null ? ""
+						: value,
+						CHOICESET_TARGET );
+				break;
+
+			case ITEM_TARGET_BOOKMARK :
+				value = handle.getTargetBookmark( );
+				break;
+
+			case ITEM_TARGET_FILE_TYPE :
+				value = handle.getTargetFileType( );
+				break;
+
+			case ITEM_REPORT_NAME :
+				value = handle.getReportName( );
+				break;
+
+			case ITEM_TARGET_BOOKMARK_TYPE :
+				value = handle.getTargetBookmarkType( );
+				break;
+
+			case ITEM_FORMAT_TYPE :
+				value = handle.getFormatType( );
+				break;
+				
+			default :
+				value = null;
+				break;
+		}
+
+		return value;
+	}
+
+	/**
+	 * Returns the default value with the specified item.
+	 * 
+	 * @param item
+	 *            the specified item
+	 * @return the default value
+	 */
+	private String getDefaultValue( int item )
+	{
+		String value = ""; //$NON-NLS-1$
+
+		switch ( item )
+		{
+			case ITEM_LINK_TYPE :
+				value = DesignChoiceConstants.ACTION_LINK_TYPE_NONE;
+				break;
+
+			case ITEM_TARGET_WINDOW :
+				value = ChoiceSetFactory.getDisplayNameFromChoiceSet( value,
+						CHOICESET_TARGET );
+				break;
+
+			case ITEM_URI :
+			case ITEM_TARGET_BOOKMARK :
+			case ITEM_TARGET_FILE_TYPE :
+			case ITEM_REPORT_NAME :
+			case ITEM_TARGET_BOOKMARK_TYPE :
+			case ITEM_FORMAT_TYPE :
+			default :
+				break;
+		}
+		return value;
+	}
 }

@@ -3,7 +3,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ITextDescriptorProvider;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -126,12 +125,6 @@ public class TextPropertyDescriptor extends PropertyDescriptor
 
 	public void load( )
 	{
-		if ( DEUtil.getInputSize( input ) > 1 )
-		{
-			refresh( "" ); //$NON-NLS-1$
-			text.setEnabled( false );
-			return;
-		}
 		deValue = getDescriptorProvider( ).load( ).toString( );
 		boolean stateFlag = ( ( deValue == null ) == text.getEnabled( ) );
 		if ( stateFlag )
