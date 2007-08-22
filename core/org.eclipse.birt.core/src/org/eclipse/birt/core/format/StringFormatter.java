@@ -161,6 +161,10 @@ public class StringFormatter
 				case ( '!' ) :
 					dir = true;
 					break;
+					
+				case ( '^' ) :
+					trim = false;
+					break;
 			}
 		}
 		if ( "Zip Code + 4".equalsIgnoreCase( format ) )
@@ -324,6 +328,7 @@ public class StringFormatter
 				case ( '<' ) :
 				case ( '>' ) :
 				case ( '!' ) :
+				case ( '^' ) :
 					// ignore
 					break;
 
@@ -367,7 +372,8 @@ public class StringFormatter
 		{
 			if(formatPattern.charAt(i)!='!' 
 				&& formatPattern.charAt(i)!='>'
-				&& formatPattern.charAt(i)!='<')
+				&& formatPattern.charAt(i)!='<'
+				&& formatPattern.charAt(i)!='^')
 			{
 				fstr.append(formatPattern.charAt(i));
 			}

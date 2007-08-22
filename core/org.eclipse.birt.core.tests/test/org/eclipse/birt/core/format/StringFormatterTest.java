@@ -57,6 +57,9 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "(  )123", sampleStr.format( "123" ) );
 		sampleStr.applyPattern( "&&&&!" );
 		assertEquals( "123", sampleStr.format( "123" ) );
+		assertEquals( "123", sampleStr.format( " 123  " ) );
+		sampleStr.applyPattern( "&&&&!^" );
+		assertEquals( " 123  ", sampleStr.format( " 123  " ) );
 		sampleStr.applyPattern( "&&&&&&" );
 		assertEquals( "123", sampleStr.format( "123" ) );
 		sampleStr.applyPattern( "@@@&!" );
@@ -95,12 +98,12 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "123AAA", sampleStr.format( "123aaA" ) );
 		assertEquals( "123AAA", sampleStr.format( "123aaA" ) );
 
-		sampleStr.applyPattern( "^^^\"!" );
-		assertEquals( "^^^\"123", sampleStr.format( "123" ) );
-		sampleStr.applyPattern( "^^^&YY&&&!" );
-		assertEquals( "^^^1YY23", sampleStr.format( "123" ) );
-		sampleStr.applyPattern( "^^^&YY@@@!" );
-		assertEquals( "^^^1YY23 ", sampleStr.format( "123" ) );
+		sampleStr.applyPattern( "***\"!" );
+		assertEquals( "***\"123", sampleStr.format( "123" ) );
+		sampleStr.applyPattern( "***&YY&&&!" );
+		assertEquals( "***1YY23", sampleStr.format( "123" ) );
+		sampleStr.applyPattern( "***&YY@@@!" );
+		assertEquals( "***1YY23 ", sampleStr.format( "123" ) );
 
 		//test for SSN
 		sampleStr.applyPattern( "@@@-@@-@@@@!" );
@@ -108,8 +111,14 @@ public class StringFormatterTest extends TestCase
 		//test for zipcode+4
 		sampleStr.applyPattern( "@@@@@-@@@@!" );
 		assertEquals( "94305-0110", sampleStr.format( "943050110" ) );
+		assertEquals( "94305-0110", sampleStr.format( "943050110   " ) );
+		sampleStr.applyPattern( "@@@@@-@@@@!^" );
+		assertEquals( "94305-0110   ", sampleStr.format( "943050110   " ) );
 		sampleStr.applyPattern( "@@@@@-@@@@" );
 		assertEquals( "94305-0110", sampleStr.format( "943050110" ) );
+		assertEquals( "94305-0110", sampleStr.format( "   943050110" ) );
+		sampleStr.applyPattern( "@@@@@-@@@@^" );
+		assertEquals( "   94305-0110", sampleStr.format( "   943050110" ) );
 		//test for zipcode
 		sampleStr.applyPattern( "@@@@@!" );
 		assertEquals( "94305", sampleStr.format( "94305" ) );
@@ -202,12 +211,19 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "123aaA", sampleStr.parser( "123aaA" ) );
 		
 
-		sampleStr.applyPattern( "^^^\"!" );
-		assertEquals( "123", sampleStr.parser( "^^^\"123" ) );
-		sampleStr.applyPattern( "^^^&YY&&&!" );
-		assertEquals( "123 ", sampleStr.parser( "^^^1YY23" ) );
-		sampleStr.applyPattern( "^^^&YY@@@!" );
-		assertEquals( "123", sampleStr.parser( "^^^1YY23 " ) );
+		sampleStr.applyPattern( "***\"!" );
+		assertEquals( "123", sampleStr.parser( "***\"123" ) );
+		sampleStr.applyPattern( "***&YY&&&!" );
+		assertEquals( "123 ", sampleStr.parser( "***1YY23" ) );
+		sampleStr.applyPattern( "***&YY@@@!" );
+		assertEquals( "123", sampleStr.parser( "***1YY23 " ) );
+		
+		sampleStr.applyPattern( "***\"!^" );
+		assertEquals( "123", sampleStr.parser( "***\"123" ) );
+		sampleStr.applyPattern( "***&YY&&&!^" );
+		assertEquals( "123 ", sampleStr.parser( "***1YY23" ) );
+		sampleStr.applyPattern( "***&YY@@@!^" );
+		assertEquals( "123", sampleStr.parser( "***1YY23 " ) );
 
 		//test for SSN
 		sampleStr.applyPattern( "@@@-@@-@@@@!" );
@@ -241,6 +257,4 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "650837-2000", sampleStr.format( " 6508372000 " ) );
 		assertEquals( "     - 650", sampleStr.format( "650 " ) );
 	}
-	
-
 }
