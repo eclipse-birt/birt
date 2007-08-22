@@ -348,8 +348,9 @@ public class ColumnBindingDialog extends BaseDialog
 					refreshBinding( );
 					if ( datasetRadio.getSelection( )
 							&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
-							&& DEUtil.getBindingHolder( inputElement, true )
-									.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+							&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
+									true )
+									.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 						saveBinding( );
 				}
 
@@ -397,8 +398,9 @@ public class ColumnBindingDialog extends BaseDialog
 				refreshBinding( );
 				if ( reportItemRadio.getSelection( )
 						&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
-						&& DEUtil.getBindingHolder( inputElement, true )
-								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+						&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
+								true )
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 					saveBinding( );
 			}
 		} );
@@ -462,9 +464,10 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( e.keyCode == SWT.DEL
 						&& ( DEUtil.getBindingHolder( inputElement )
 								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA || ( DEUtil.getBindingHolder( inputElement )
-								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE && DEUtil.getBindingHolder( inputElement,
+								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE && ( DEUtil.getBindingHolder( inputElement,
+								true ) == null || DEUtil.getBindingHolder( inputElement,
 								true )
-								.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) ) )
+								.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) ) ) )
 				{
 					int itemCount = table.getItemCount( );
 					if ( selectIndex == itemCount )
@@ -909,8 +912,9 @@ public class ColumnBindingDialog extends BaseDialog
 			btnAdd.setEnabled( true );
 		}
 		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
-				&& DEUtil.getBindingHolder( inputElement, true )
-						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+				&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
+						true )
+						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 		{
 			btnAdd.setEnabled( true );
 		}
