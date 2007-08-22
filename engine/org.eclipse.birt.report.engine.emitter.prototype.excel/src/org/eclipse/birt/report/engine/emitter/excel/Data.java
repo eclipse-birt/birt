@@ -18,7 +18,7 @@ public class Data implements Serializable, Cloneable
 
     int styleId, id;
     
-    String datatype;
+    String datatype = Data.STRING;
     
 	StyleEntry style;
 
