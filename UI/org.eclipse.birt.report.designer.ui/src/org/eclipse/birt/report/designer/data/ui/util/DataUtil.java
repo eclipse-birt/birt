@@ -21,6 +21,9 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 /**
@@ -29,6 +32,11 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
 public class DataUtil
 {
+	public static IAggregationFactory getAggregationFactory( ) throws BirtException
+	{
+		return DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) )
+				.getAggregationFactory( );
+	}
 	/**
 	 * Get all referenced bindings by the given binding in a set of binding
 	 * list.

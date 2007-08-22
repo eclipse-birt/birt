@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
@@ -403,6 +404,12 @@ public abstract class DataRequestSession
 	abstract public IResultMetaData getCachedDataSetMetaData( IBaseDataSourceDesign dataSource,
                    IBaseDataSetDesign dataSet ) throws BirtException;
 	
+	/**
+	 * Return the aggregation factory.
+	 * @return
+	 * @throws BirtException
+	 */
+	abstract public IAggregationFactory getAggregationFactory( ) throws BirtException;
 	/**
 	 * Shuts down this session, and releases all associated resources.
 	 */

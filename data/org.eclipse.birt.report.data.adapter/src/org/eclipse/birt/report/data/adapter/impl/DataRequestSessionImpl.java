@@ -26,6 +26,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -40,6 +41,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -564,6 +566,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext )
 			throws IOException, BirtException, DataException
 	{
+		boolean doPerfTuning = this.needCachedDataSetToEnhancePerformance( cubeHandle )
+				&& ( appContext == null || ( appContext != null
+						&& appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) == null 
+						&& appContext.get( DataEngine.MEMORY_DATA_SET_CACHE ) == null ) );
+		Map candidateAppContext = new HashMap();
+		candidateAppContext.putAll( appContext );
+		if ( doPerfTuning )
+		{
+			candidateAppContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer(-1) );
+		}
+					
 		List measureNames = new ArrayList( );
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 		for ( int i = 0; i < measureGroups.size( ); i++ )
@@ -579,7 +592,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle,
-				appContext );
+				candidateAppContext );
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 
@@ -655,11 +668,31 @@ public class DataRequestSessionImpl extends DataRequestSession
 				factTableKey,
 				dimensionKey,
 				dimensions,
-				new DataSetIterator( this, cubeHandle, appContext ),
+				new DataSetIterator( this, cubeHandle, candidateAppContext ),
 				this.toStringArray( measureNames ),
 				null );
 	} 
 
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @return
+	 */
+	private boolean needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
+	{
+		DataSetHandle dsHandle = cubeHandle.getDataSet( );
+		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
+		for( int i = 0; i < dimHandles.size( ); i++ )
+		{
+			DimensionHandle dimHandle = (DimensionHandle)dimHandles.get( i );
+			List hiers = dimHandle.getContents( DimensionHandle.HIERARCHIES_PROP );
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle)hiers.get( 0 );
+			if( !dsHandle.equals( hierHandle.getDataSet( ) ))
+				return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * whether this key name is attribute or not
 	 * @param dimensions
@@ -893,6 +926,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public ICubeQueryUtil getCubeQueryUtil( )
 	{
 		return new CubeQueryUtil( this );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getAggregationFactory()
+	 */
+	public IAggregationFactory getAggregationFactory ( ) throws DataException
+	{
+		return AggregationFactory.getInstance();
 	}
 	
 	public Scriptable getScope( ) throws AdapterException
