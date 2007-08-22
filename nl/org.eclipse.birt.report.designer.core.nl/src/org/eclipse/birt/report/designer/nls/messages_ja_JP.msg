@@ -722,6 +722,8 @@ designer.preview.preference.resultset.maxrow.description=表示する行の最大数(&R) 
 designer.preview.preference.resultset.maxrow.errormessage=最大行数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
 designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
 designer.preview.preference.server.description=内部アプリケーションサーバの設定。サーバは、BIRT Report Designer\nPreview Framework 内部で使用されます。
 designer.preview.preference.server.hostDescription=ローカルマシンのホスト名または IP アドレス(&H)\n自動的に決定するには、空白のままにしてください。
 designer.preview.preference.server.note=注 :
@@ -2191,6 +2193,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを開く
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
 FilterConditionBuilder.Shell.Title=フィルタの条件
+FilterConditionBuilder.checkbox.optional.title=オプション
+FilterConditionBuilder.list.item1=値
+FilterConditionBuilder.button.edit=編集...
+FilterConditionBuilder.button.delete=削除
+FilterConditionBuilder.button.deleteall=すべて削除
+FilterConditionBuilder.button.add=追加
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2527,6 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
 ParameterDialog.datetime.prompt=日時は、{0} の形式で入力してください
 ParameterDialog.date.prompt=日付は、{0} の形式で入力してください
 ParameterDialog.time.prompt=時間は、{0} の形式で入力してください
+ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=値の選択
@@ -3024,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=リスト
 SchematicContextMenuProvider.menutitle.show=表示
 SchematicContextMenuProvider.menutitle.style=スタイル
 SchematicContextMenuProvider.Menu.EditStyle=スタイルの編集(&T)
-SchematicContextMenuProvider.Menu.DeleteStyle=スタイルの削除(&S)
+SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
 SchematicContextMenuProvider.Menu.DeleteGroup=グループの削除(&T)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=グループヘッダ/フッタの挿入(&P)
 SchematicContextMenuProvider.Menu.NewStyle=スタイルの新規作成(&Y)
@@ -3143,10 +3156,10 @@ StyleNodeProvider.action.New=スタイルの新規作成(&N)...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=スタイルの削除
+StyleProcess.action.Delete=Remove style
 StyleProcess.action.Edit=スタイルの編集(&E)...
 StyleProcess.action.New=スタイルの新規作成(&N)...
-StyleProcess.text.CannotDelete=デフォルトのスタイルを削除できません。 
+StyleProcess.text.CannotDelete=Cannot remove the default style. 
 StyleProcess.text.Show=データセットのエディタを表示します。
 
 ###########################################################

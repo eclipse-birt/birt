@@ -722,6 +722,8 @@ designer.preview.preference.resultset.maxrow.description=표시할 최대 행 수(&R):
 designer.preview.preference.resultset.maxrow.errormessage=최대 행에 대해 1과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
 designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
 designer.preview.preference.server.description=내부 응용 프로그램 서버 구성. BIRT Report Designer 미리 보기 프레임워크에서\n내부적으로 해당 서버를 사용하고 있습니다.
 designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또는 IP 주소(&H)입니다. 자동으로 결정되게 하려면 공백으로\n두십시오.
 designer.preview.preference.server.note=참고:
@@ -2191,6 +2193,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=식 빌더 열기
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.Shell.Title=필터 조건
+FilterConditionBuilder.checkbox.optional.title=옵션
+FilterConditionBuilder.list.item1=값
+FilterConditionBuilder.button.edit=편집...
+FilterConditionBuilder.button.delete=제거
+FilterConditionBuilder.button.deleteall=모두 제거
+FilterConditionBuilder.button.add=추가
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2527,6 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
 ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
+ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=값 선택
@@ -3024,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=목록
 SchematicContextMenuProvider.menutitle.show=표시
 SchematicContextMenuProvider.menutitle.style=스타일
 SchematicContextMenuProvider.Menu.EditStyle=스타일 편집(&T)
-SchematicContextMenuProvider.Menu.DeleteStyle=스타일 삭제(&S)
+SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
 SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&T)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&P)
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
@@ -3143,10 +3156,10 @@ StyleNodeProvider.action.New=새 스타일(&N)...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=스타일 삭제
+StyleProcess.action.Delete=Remove style
 StyleProcess.action.Edit=스타일 편집(&E)...
 StyleProcess.action.New=새 스타일(&N)...
-StyleProcess.text.CannotDelete=기본 스타일은 삭제할 수 없습니다. 
+StyleProcess.text.CannotDelete=Cannot remove the default style. 
 StyleProcess.text.Show=데이터 집합에 대한 데이터 집합 편집기를 표시합니다.
 
 ###########################################################

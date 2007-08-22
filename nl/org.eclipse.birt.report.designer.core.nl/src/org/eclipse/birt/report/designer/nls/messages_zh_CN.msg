@@ -722,6 +722,8 @@ designer.preview.preference.resultset.maxrow.description=要显示的最大行数(&R):
 designer.preview.preference.resultset.maxrow.errormessage=请为最大行数输入一个介于 1 和 {0} 之间的数。
 designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
 designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
 designer.preview.preference.server.description=Internal Application Server 配置。该服务器由 \nBIRT Report Designer Preview Framework 内部使用。
 designer.preview.preference.server.hostDescription=本地计算机的主机名或 IP 地址。将其留空以自动\n确定(&H)。
 designer.preview.preference.server.note=注：
@@ -2191,6 +2193,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=打开表达式生成器
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=输入筛选条件:
 FilterConditionBuilder.Shell.Title=筛选条件
+FilterConditionBuilder.checkbox.optional.title=可选
+FilterConditionBuilder.list.item1=值
+FilterConditionBuilder.button.edit=编辑...
+FilterConditionBuilder.button.delete=删除
+FilterConditionBuilder.button.deleteall=全部删除
+FilterConditionBuilder.button.add=添加
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2527,6 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=打开表达式生成器
 ParameterDialog.datetime.prompt=请输入以下形式的日期时间值: {0}
 ParameterDialog.date.prompt=请输入以下形式的日期值: {0}
 ParameterDialog.time.prompt=请输入以下形式的时间值: {0}
+ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=选择值
@@ -3024,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=列表
 SchematicContextMenuProvider.menutitle.show=显示
 SchematicContextMenuProvider.menutitle.style=样式
 SchematicContextMenuProvider.Menu.EditStyle=编辑样式(&T:)
-SchematicContextMenuProvider.Menu.DeleteStyle=删除样式(&S)
+SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
 SchematicContextMenuProvider.Menu.DeleteGroup=删除组(&T)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=插入组页眉/页脚(&P)
 SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
@@ -3143,10 +3156,10 @@ StyleNodeProvider.action.New=新建样式(&N)...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=删除样式
+StyleProcess.action.Delete=Remove style
 StyleProcess.action.Edit=编辑样式(&E)...
 StyleProcess.action.New=新建样式(&N)...
-StyleProcess.text.CannotDelete=无法删除默认样式。 
+StyleProcess.text.CannotDelete=Cannot remove the default style. 
 StyleProcess.text.Show=显示该数据集的数据集编辑器。
 
 ###########################################################

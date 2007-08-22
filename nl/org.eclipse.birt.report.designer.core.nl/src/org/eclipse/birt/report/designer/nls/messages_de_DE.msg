@@ -722,6 +722,8 @@ designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuze
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
 designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
 designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
 designer.preview.preference.server.note=Hinweis:
@@ -2191,6 +2193,16 @@ FilterConditionBuilder.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 FilterConditionBuilder.text.AND=UND
 FilterConditionBuilder.text.Condition=Filterbedingung eingeben:
 FilterConditionBuilder.Shell.Title=Filterbedingung
+FilterConditionBuilder.checkbox.optional.title=Optional
+FilterConditionBuilder.list.item1=Wert
+FilterConditionBuilder.button.edit=Bearbeiten...
+FilterConditionBuilder.button.delete=Entfernen
+FilterConditionBuilder.button.deleteall=Alles entfernen
+FilterConditionBuilder.button.add=Hinzufügen
+FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
+FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
+FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
+FilterConditionBuilder.button.add.tooltip=Add the value to value list
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2527,6 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
 ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingeben: {0}
 ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
 ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
+ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Wert auswählen
@@ -3024,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=Liste
 SchematicContextMenuProvider.menutitle.show=Anzeigen
 SchematicContextMenuProvider.menutitle.style=Stil
 SchematicContextMenuProvider.Menu.EditStyle=S&til bearbeiten
-SchematicContextMenuProvider.Menu.DeleteStyle=&Stil löschen
+SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
 SchematicContextMenuProvider.Menu.DeleteGroup=Gruppe &löschen
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Gru&ppenkopfzeile/-fußzeile einfügen
 SchematicContextMenuProvider.Menu.NewStyle=Neuer St&il
@@ -3143,10 +3156,10 @@ StyleNodeProvider.action.New=&Neuer Stil...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=Stil löschen
+StyleProcess.action.Delete=Remove style
 StyleProcess.action.Edit=Stil b&earbeiten...
 StyleProcess.action.New=&Neuer Stil...
-StyleProcess.text.CannotDelete=Der Standardstil kann nicht gelöscht werden. 
+StyleProcess.text.CannotDelete=Cannot remove the default style. 
 StyleProcess.text.Show=Blendet den Datensatzeditor für den Datensatz ein.
 
 ###########################################################
