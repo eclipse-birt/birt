@@ -21,20 +21,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -47,8 +52,10 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -169,10 +176,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				queryDefn.addResultSetExpression( columnExpression[i],
 						new ScriptExpression( columnExpression[i] ) );
 			}
-
+			
+			// Iterate parameter bindings to check if its expression is a explicit
+			// value, otherwise use default value of parameter as its expression.
+			resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
+			
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
-					itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-							.iterator( ),
+					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 							.iterator( ),
 					ReportItemUIUtil.getColumnDataBindings( itemHandle ) );
@@ -218,6 +228,65 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 		}
 		return dataList;
+	}
+
+	/**
+	 * Check if current parameters is explicit value in chart builder, otherwise
+	 * default value of parameters will be used to get preview data.
+	 * 
+	 * @param dataSetHandle current dataset handle.
+	 * @param queryDefn query definition.
+	 * @return query definition.
+	 */
+	private QueryDefinition resetParametersForDataPreview(
+			DataSetHandle dataSetHandle, QueryDefinition queryDefn )
+	{
+		// 1. Get parameters description from dataset.
+		Iterator iterParams = dataSetHandle.parametersIterator( );
+		Map dsphMap = new LinkedHashMap( );
+		for ( ; iterParams.hasNext( ); )
+		{
+			DataSetParameterHandle dsph = (DataSetParameterHandle) iterParams.next( );
+			dsphMap.put( dsph.getName( ), dsph );
+		}
+
+		// 2. Get parameters setting from current handle.
+		iterParams = itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+				.iterator( );
+		Map pbhMap = new LinkedHashMap( );
+		for ( ; iterParams.hasNext( ); )
+		{
+			ParamBindingHandle paramBindingHandle = (ParamBindingHandle) iterParams.next( );
+			pbhMap.put( paramBindingHandle.getParamName( ), paramBindingHandle );
+		}
+
+		// 3. Check and reset parameters expression.
+		Object[] names = pbhMap.keySet( ).toArray( );
+		for ( int i = 0; i < names.length; i++ )
+		{
+			DataSetParameterHandle dsph = (DataSetParameterHandle) dsphMap.get( names[i] );
+			ScriptExpression se = null;
+			String expr = ( (ParamBindingHandle) pbhMap.get( names[i] ) ).getExpression( );
+			// The parameters must be a explicit value, the 'row[]' and
+			// 'row.' expressions only be converted to a explicit value
+			// under runtime case. So use default value of parameter to get
+			// data in Chart Builder.
+			if ( dsph.getDefaultValue( ) != null &&
+					( expr == null || expr.indexOf( "row[" ) >= 0 || expr.indexOf( "row." ) >= 0 ) ) //$NON-NLS-1$ //$NON-NLS-2$
+			{
+				se = new ScriptExpression( dsph.getDefaultValue( ) );
+			}
+			else
+			{
+				se = new ScriptExpression( expr );
+			}
+
+			InputParameterBinding ipb = new InputParameterBinding( (String) names[i],
+					se );
+			queryDefn.addInputParamBinding( ipb );
+		}
+
+		return queryDefn;
 	}
 
 	public String getBoundDataSet( )

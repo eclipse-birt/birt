@@ -57,9 +57,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -136,6 +139,8 @@ public class TaskSelectType extends SimpleTask implements
 	private Label lblOutput = null;
 	private Combo cbOutput = null;
 
+	private SashForm foSashForm;
+
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
 	private static Hashtable htSeriesNames = null;
@@ -195,6 +200,15 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void placeComponents( )
 	{
+		foSashForm = new SashForm(topControl, SWT.VERTICAL);
+		{
+			GridLayout layout = new GridLayout( );
+			foSashForm.setLayout( layout );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
+			gridData.heightHint = 570;
+			foSashForm.setLayoutData( gridData );
+		}
+		
 		createPreviewArea( );
 		createTypeArea( );
 		setDefaultTypeSelection( );
@@ -214,7 +228,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void createPreviewArea( )
 	{
-		cmpPreview = new Composite( topControl, SWT.NONE );
+		cmpPreview = new Composite( foSashForm, SWT.NONE );
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
@@ -236,13 +250,28 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void createTypeArea( )
 	{
-		cmpType = new Composite( topControl, SWT.NONE );
+		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.V_SCROLL );
+		{
+			GridLayout layout = new GridLayout( );
+			sc.setLayout( layout );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			sc.setLayoutData( gridData );
+			sc.setExpandHorizontal( true );
+			sc.setExpandVertical( true );
+		}
+		
+		cmpType = new Composite( sc, SWT.NONE );
 		cmpType.setLayout( new GridLayout( 2, false ) );
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sc.setContent( cmpType );
+		
 		createTypeTable( );
 		addChartTypes( );
 
 		createDetails( );
+		
+		Point size = cmpType.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		sc.setMinSize( size );
 	}
 
 	private void createDetails( )
@@ -360,7 +389,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		cmpLeft = new Composite( cmpType, SWT.NONE );
 		cmpLeft.setLayout( new GridLayout( ) );
-		cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cmpLeft.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Label lblTypes = new Label( cmpLeft, SWT.WRAP );
 		{
@@ -369,7 +398,7 @@ public class TaskSelectType extends SimpleTask implements
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
 
-		table = new Table( cmpLeft, SWT.BORDER );
+		table = new Table( cmpLeft, SWT.BORDER);
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			table.setLayoutData( gd );

@@ -62,9 +62,12 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -108,6 +111,9 @@ public class TaskSelectData extends SimpleTask implements
 	 * or error.
 	 */
 	private volatile boolean fbException = false;
+	private SashForm foSashForm;
+	private Point fLeftSize;
+	private Point fRightSize;
 
 	public TaskSelectData( )
 	{
@@ -130,6 +136,15 @@ public class TaskSelectData extends SimpleTask implements
 			dynamicArea = new SelectDataDynamicArea( this );
 			getCustomizeUI( ).init( );
 
+			foSashForm = new SashForm(topControl, SWT.VERTICAL);
+			{
+				GridLayout layout = new GridLayout( );
+				foSashForm.setLayout( layout );
+				GridData gridData = new GridData( GridData.FILL_BOTH );
+				gridData.heightHint = 580;
+				foSashForm.setLayoutData( gridData );
+			}
+			
 			placeComponents( );
 			createPreviewPainter( );
 			init( );
@@ -184,15 +199,7 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			createHeadArea( );// place two rows
 
-			new Label( topControl, SWT.NONE );
-			createDataSetArea( topControl );
-			new Label( topControl, SWT.NONE );
-
-			new Label( topControl, SWT.NONE );
-			createDataPreviewTableArea( topControl );
-			createDataPreviewButtonArea( topControl );
-
-			new Label( topControl, SWT.NONE );
+			createDataArea( );
 
 		}
 		finally
@@ -203,27 +210,77 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
+	private void createDataArea( )
+	{
+		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.VERTICAL );
+		{
+			GridLayout gl = new GridLayout();
+			sc.setLayout( gl );
+			GridData gd = new GridData(GridData.FILL_VERTICAL);
+			sc.setLayoutData( gd );
+			sc.setExpandHorizontal( true );
+			sc.setExpandVertical( true );
+		}
+		
+		Composite dataComposite = new Composite( sc, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout(3, false);
+			dataComposite.setLayout( gl );
+			GridData gd = new GridData(GridData.FILL_BOTH);
+			dataComposite.setLayoutData( gd );
+		}
+		sc.setContent( dataComposite );
+		
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = fLeftSize.x;
+		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
+		createDataSetArea( dataComposite );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = fRightSize.x;
+		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
+
+		new Label( dataComposite, SWT.NONE );
+		createDataPreviewTableArea( dataComposite );
+		createDataPreviewButtonArea( dataComposite );
+
+		new Label( dataComposite, SWT.NONE );
+		
+		Point size = dataComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		sc.setMinSize( size );
+	}
+
 	private void createHeadArea( )
 	{
+		// Create header area.
+		Composite headerArea = new Composite( foSashForm, SWT.NONE );
 		{
-			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( topControl );
+			GridLayout layout = new GridLayout(3, false);
+			headerArea.setLayout( layout );
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			headerArea.setLayoutData( gd );
+		}
+		
+		{
+			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( headerArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
 			cmpLeftContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createLeftBindingArea( cmpLeftContainer );
+			fLeftSize = cmpLeftContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		}
-		createPreviewArea( );
+		createPreviewArea( headerArea );
 		{
-			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( topControl );
+			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( headerArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
 			cmpRightContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createRightBindingArea( cmpRightContainer );
+			fRightSize = cmpRightContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		}
 		{
-			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( topControl );
+			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( headerArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_BEGINNING );
 			cmpBottomContainer.setLayoutData( gridData );
@@ -231,9 +288,9 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
-	private void createPreviewArea( )
+	private void createPreviewArea( Composite parent )
 	{
-		cmpPreview = ChartUIUtil.createCompositeWrapper( topControl );
+		cmpPreview = ChartUIUtil.createCompositeWrapper( parent );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -260,7 +317,9 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Composite cmpDataSet = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			cmpDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.widthHint = CENTER_WIDTH_HINT;
+			cmpDataSet.setLayoutData( gd );
 		}
 
 		Label label = new Label( cmpDataSet, SWT.NONE );

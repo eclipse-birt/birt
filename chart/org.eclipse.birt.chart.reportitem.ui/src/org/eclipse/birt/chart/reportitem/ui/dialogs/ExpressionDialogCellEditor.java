@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
@@ -39,7 +39,7 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 		ModifyListener
 {
 
-	private ReportItemHandle itemHandle;
+	private DesignElementHandle itemHandle;
 
 	private Text text;
 
@@ -181,7 +181,7 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 		return null;
 	}
 
-	public void setItemHandle( ReportItemHandle handle )
+	public void setItemHandle( DesignElementHandle handle )
 	{
 		itemHandle = handle;
 	}

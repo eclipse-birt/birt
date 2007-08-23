@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -70,7 +70,7 @@ public class ReportItemParametersDialog extends BaseDialog
 	/**
 	 * The Binding properties table.
 	 */
-	private transient Table table;
+	private Table table;
 
 	private ArrayList resultList;
 	private ArrayList bindingParametersList;
@@ -100,7 +100,7 @@ public class ReportItemParametersDialog extends BaseDialog
 
 	private static final String DEFAULT_VALUE_LABEL = Messages.getString( "ChartDataBindingPage.Lbl.DefaultValue" ); //$NON-NLS-1$
 
-	private transient ReportItemHandle reportItemHandle = null;
+	private ReportItemHandle reportItemHandle = null;
 
 	public ReportItemParametersDialog( ReportItemHandle reportItemHandle )
 	{
@@ -243,7 +243,9 @@ public class ReportItemParametersDialog extends BaseDialog
 		// reportItemHandle.getDataSet();
 		tableViewer.setInput( reportItemHandle );
 		// tableViewer.refresh( );
-		expressionCellEditor.setItemHandle( reportItemHandle );
+		// Get parent handle for parameter expression editing,
+		// only parent dataset column binding can be as parameter expression.
+		expressionCellEditor.setItemHandle( reportItemHandle.getContainer( ) );
 	}
 
 	/**

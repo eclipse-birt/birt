@@ -44,16 +44,24 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.NavTree;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * 
@@ -63,13 +71,20 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		IUIManager,
 		ITaskChangeListener
 {
-
+	
 	private transient ChartPreviewPainter previewPainter = null;
 
 	private transient Canvas previewCanvas;
 
 	private transient Label lblNodeTitle;
 
+	/** The sash form contains Chart preview canvas and detail sub-task sheet. */
+	private SashForm foRightSashForm;
+	
+	/** The scrolled composite contains detail sub-task components. */
+	private ScrolledComposite foScrolledDetailComposite;
+	
+	
 	// registered collections of sheets.
 	// Key:collectionName; Value:nodePath array
 	private transient Hashtable htSheetCollections = null;
@@ -432,7 +447,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	public void createControl( Composite parent )
 	{
 		manipulateCompatible( );
-		super.createControl( parent );
+		
+		// Initialize all components.
+		initControl( parent );
+		
 		if ( previewPainter == null )
 		{
 			// Invoke this only once
@@ -446,20 +464,154 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	{
 		Composite cmpTask = super.createContainer( parent );
 
-		lblNodeTitle = new Label( cmpTask, SWT.NONE );
+		return cmpTask;
+	}
+
+	protected void initDetailHeader( Composite parent )
+	{
+
+		lblNodeTitle = new Label( parent, SWT.NONE );
 		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			lblNodeTitle.setLayoutData( gd );
+			
 			lblNodeTitle.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		Label separator = new Label( cmpTask, SWT.SEPARATOR | SWT.HORIZONTAL );
+		Label separator = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			separator.setLayoutData( gd );
 		}
+	}
+	
+	/**
+	 * Initialize components in these shell.
+	 * 
+	 * @param parent parent composite.
+	 */
+	private void initControl(Composite parent)
+	{
+		if ( topControl == null || topControl.isDisposed( ) )
+		{
+			// 1. Create top level composite of the shell.
+			topControl = new Composite( parent, SWT.NONE );
+			{
+				GridLayout layout = new GridLayout( 2, false );
+				layout.marginHeight = 0;
+				layout.marginWidth = 0;
+				layout.horizontalSpacing = 0;
+				topControl.setLayout( layout );
+				GridData gridData = new GridData( );
+				gridData.horizontalAlignment = SWT.FILL;
+				gridData.verticalAlignment = SWT.FILL;
+				topControl.setLayoutData( gridData );
+			}
+			
+			// 2. Create left navigator tree.
+			navTree = new NavTree( topControl, SWT.BORDER );
+			{
+				final GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.FILL_VERTICAL );
+				gridData.widthHint = 127;
+				navTree.setLayoutData( gridData );
+				navTree.addListener( SWT.Selection, new Listener( ) {
 
-		return cmpTask;
+					public void handleEvent( Event event )
+					{
+						switchToTreeItem( (TreeItem) event.item );
+					}
+				} );
+			}
+			
+			// 3. Create right sash form, it contains chart preview canvas and detail sub-task sheet.
+			foRightSashForm  = new SashForm( topControl, SWT.VERTICAL );
+			{
+				foRightSashForm.SASH_WIDTH = 1;
+				foRightSashForm.setBackground( parent.getDisplay( )
+						.getSystemColor( SWT.COLOR_DARK_GRAY ) );
+				
+				GridLayout layout = new GridLayout( );
+				foRightSashForm.setLayout( layout );
+				GridData gridData = new GridData( GridData.FILL_BOTH );
+				gridData.heightHint = 500;
+				foRightSashForm.setLayoutData( gridData );
+			}
+			// 3.1 Create preview canvas and add to right sash form.
+			createContainer( foRightSashForm );
+
+			// 3.2 Create detail sheet composite and add to right sash form.
+			createDetailComposite( foRightSashForm );
+		}
+		
+		populateSubtasks( );
+		updateTreeItem( );
+		setDefaultSelection( );
 	}
 
+	/**
+	 * Create detail sheet composite.
+	 * 
+	 * @param parent parent composite.
+	 */
+	private void createDetailComposite(Composite parent )
+	{
+		Composite detailComposite = new Composite( parent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( );
+			detailComposite.setLayout( layout );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			detailComposite.setLayoutData( gridData );
+		}
+		
+		initDetailHeader( detailComposite );
+
+		createScrolledSubDetailComposite( detailComposite );
+	}
+
+	/**
+	 * Create scrolled composite which contains detail sub-task sheet.
+	 * 
+	 * @param detailComposite parent composite.
+	 */
+	private void createScrolledSubDetailComposite( Composite detailComposite )
+	{
+		foScrolledDetailComposite = new ScrolledComposite( detailComposite, SWT.V_SCROLL | SWT.H_SCROLL);
+		{
+			GridLayout layout = new GridLayout( );
+			foScrolledDetailComposite.setLayout( layout );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
+
+			
+			foScrolledDetailComposite.setLayoutData( gridData );
+			
+			foScrolledDetailComposite.setExpandHorizontal( true );
+			foScrolledDetailComposite.setExpandVertical( true );
+		}
+		
+		cmpSubtaskContainer = new Composite( foScrolledDetailComposite, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( );
+			cmpSubtaskContainer.setLayout( layout );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
+			cmpSubtaskContainer.setLayoutData( gridData );
+		}
+		
+		foScrolledDetailComposite.setContent( cmpSubtaskContainer );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo(java.lang.String, boolean)
+	 */
+	protected void switchTo( String sSubtaskPath, boolean needSelection )
+	{
+		super.switchTo( sSubtaskPath, needSelection );
+		
+		// Compute minimum size for scrolled composite to let correct scroll behavior.
+		Point childSize = cmpSubtaskContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		foScrolledDetailComposite.setMinSize( childSize );
+	}
+	
 	protected Composite createTitleArea( Composite parent )
 	{
 		Composite cmpTitle = super.createTitleArea( parent );

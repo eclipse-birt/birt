@@ -50,7 +50,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -89,16 +88,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
 		
-		cmpContent = new Composite( parent, SWT.NONE ) {
-
-			public Point computeSize( int wHint, int hHint, boolean changed )
-			{
-				// Return a fixed height as preferred size of scrolled composite
-				Point p = super.computeSize( wHint, hHint, changed );
-				p.y = 200;
-				return p;
-			}
-		};
+		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( COLUMN_CONTENT, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
@@ -127,7 +117,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = COLUMN_CONTENT;
-			gd.heightHint = 120;
 			cmpScroll.setLayoutData( gd );
 
 			cmpScroll.setExpandVertical( true );
@@ -136,9 +125,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		createSeriesOptions( cmpScroll );
 
-		Point childSize = cmpList.computeSize( -1, -1 );
-		cmpScroll.setMinSize( childSize );
-		
 		createButtonGroup( cmpContent );
 	}
 

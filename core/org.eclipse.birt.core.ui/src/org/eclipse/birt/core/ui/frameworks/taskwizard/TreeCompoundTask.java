@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2005, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
@@ -36,8 +38,8 @@ import org.eclipse.swt.widgets.TreeItem;
 public class TreeCompoundTask extends CompoundTask
 {
 
-	private transient Composite cmpSubtaskContainer;
-	private transient NavTree navTree;
+	protected Composite cmpSubtaskContainer;
+	protected NavTree navTree;
 	private SubtaskHistory history;
 
 	private boolean needHistory = true;
@@ -45,11 +47,11 @@ public class TreeCompoundTask extends CompoundTask
 	protected static final String INDEX_SEPARATOR = " - "; //$NON-NLS-1$
 
 	// Cache for subtask selection next time
-	private transient Map lastSubtaskRegistry = new HashMap( );
+	private Map lastSubtaskRegistry = new HashMap( );
 
 	// Cache for popup selection next time. This will override the subtask
 	// selection to the popup.
-	private transient Map lastPopupRegistry = new HashMap( );
+	private Map lastPopupRegistry = new HashMap( );
 
 	/**
 	 * Constructor
@@ -106,7 +108,7 @@ public class TreeCompoundTask extends CompoundTask
 		setDefaultSelection( );
 	}
 
-	private void setDefaultSelection( )
+	protected void setDefaultSelection( )
 	{
 		TreeItem lastselection = navTree.findTreeItem( getSubtaskSelection( ) );
 		if ( navTree.getSelection( ).length == 0 )
