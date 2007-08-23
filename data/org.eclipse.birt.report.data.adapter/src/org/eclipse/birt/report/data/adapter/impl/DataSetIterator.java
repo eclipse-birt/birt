@@ -949,7 +949,7 @@ public class DataSetIterator implements IDatasetIterator
 	{
 		d.set(Calendar.HOUR_OF_DAY, 0);
 		d.set(Calendar.MINUTE, 0);
-		d.set(Calendar.SECOND, 1);
+		d.set(Calendar.SECOND, 0);
 		d.set(Calendar.MILLISECOND,0 );
 	}
 	

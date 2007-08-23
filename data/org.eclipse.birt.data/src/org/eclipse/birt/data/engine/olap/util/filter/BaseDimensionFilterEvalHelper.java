@@ -493,7 +493,7 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 			{
 				return resultRow.getFieldValue( CubeQueryExecutorHelper.getAttrReference( this.dimName,
 						this.key,
-						value ) );
+						OlapExpressionUtil.getAttributeColumnName( this.key, value ) ));
 			}
 			catch ( DataException e )
 			{
