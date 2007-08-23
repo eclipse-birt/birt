@@ -86,6 +86,19 @@ public class ExceptionHandler
 	 */
 	public static void handle( Throwable e )
 	{
+		handle( e, false );
+	}
+
+	/**
+	 * Handles the exception
+	 * 
+	 * @param e
+	 *            the exception to be handled
+	 * 
+	 */
+	public static void handle( Throwable e, boolean logOnly )
+	{
+
 		IDesignerExceptionHandler customizeHandler = ExceptionHandlerRegistry.getInstance( )
 				.getExceptionHandler( );
 		if ( customizeHandler != null )
@@ -96,25 +109,46 @@ public class ExceptionHandler
 			return;
 		}
 
-		String title = TITLE_ERROR;
-		String message = e.getLocalizedMessage( );
-		if ( e instanceof UnknownHostException )
+		if ( logOnly )
 		{
-			title = TITLE_UNKNOWN_HOST;
-			message = MSG_UNKNOWN_HOST + message;
-		}
-		else if ( e instanceof FileNotFoundException )
-		{
-			title = TITLE_FILE_NOT_FOUND;
-			message = MSG_FILE_NOT_FOUND_PREFIX + ":" + e.getLocalizedMessage( ); //$NON-NLS-1$
-		}
-		else if ( e instanceof PartInitException )
-		{
-			title = TITLE_PART_INIT_ERROR;
-			message = MSG_PART_INIT_ERROR;
-		}
+			if ( !( e instanceof BirtException ) )
+			{
+				e = GUIException.createGUIException( ReportPlugin.REPORT_UI, e );
+			}
 
-		handle( e, title, message );
+			if ( needLog( e ) )
+			{
+				ErrorStatus status = createErrorStatus( e );
+				if ( status != null )
+				{
+					status.setException( e );
+					ReportPlugin.getDefault( ).getLog( ).log( status );
+				}
+			}
+		}
+		else
+		{
+			String title = TITLE_ERROR;
+			String message = e.getLocalizedMessage( );
+			if ( e instanceof UnknownHostException )
+			{
+				title = TITLE_UNKNOWN_HOST;
+				message = MSG_UNKNOWN_HOST + message;
+			}
+			else if ( e instanceof FileNotFoundException )
+			{
+				title = TITLE_FILE_NOT_FOUND;
+				message = MSG_FILE_NOT_FOUND_PREFIX
+						+ ":" + e.getLocalizedMessage( ); //$NON-NLS-1$
+			}
+			else if ( e instanceof PartInitException )
+			{
+				title = TITLE_PART_INIT_ERROR;
+				message = MSG_PART_INIT_ERROR;
+			}
+
+			handle( e, title, message );
+		}
 	}
 
 	/**
@@ -140,7 +174,7 @@ public class ExceptionHandler
 			ErrorDialog.openError( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ), dialogTitle, message, status );
-			if ( !needNotLog( e ) )
+			if ( needLog( e ) )
 			{
 				status.setException( e );
 				ReportPlugin.getDefault( ).getLog( ).log( status );
@@ -207,20 +241,20 @@ public class ExceptionHandler
 		return status;
 	}
 
-	private static boolean needNotLog( Throwable e )
+	private static boolean needLog( Throwable e )
 	{
 		for ( Iterator iter = ExpectedExceptionList.iterator( ); iter.hasNext( ); )
 		{
 			if ( ( (Class) iter.next( ) ).isInstance( e ) )
 			{
-				return true;
+				return false;
 			}
 		}
 		if ( e instanceof BirtException )
 		{
-			return ( ( (BirtException) e ).getSeverity( ) ^ BirtException.INFO ) == BirtException.ERROR;
+			return ( ( (BirtException) e ).getSeverity( ) ^ BirtException.INFO ) != BirtException.INFO;
 		}
-		return false;
+		return true;
 	}
 
 	/**
