@@ -220,11 +220,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		public void selectionChanged( SelectionChangedEvent event )
 		{
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
-			if ( selection.isEmpty( ) )
-			{
-				return;
-			}
 			Viewer target = null;
+
 			if ( event.getSource( ) == categoryTable )
 			{
 				target = subCategoryTable;
@@ -235,7 +232,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 			if ( target != null )
 			{
-				target.setInput( selection.getFirstElement( ) );
+				target.setInput( selection == null ? null
+						: selection.getFirstElement( ) );
 			}
 
 			if ( event.getSource( ) == functionTable )
