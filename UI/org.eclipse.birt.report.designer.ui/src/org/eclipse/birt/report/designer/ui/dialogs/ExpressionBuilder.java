@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -927,14 +928,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 				if ( value instanceof Collection )
 				{
-					if ( results == null )
-					{
-						results = new ArrayList( (Collection) value );
-					}
-					else
-					{
-						results.retainAll( (Collection) value );
-					}
+					results = retainCollection( results, (Collection) value );
 				}
 				else
 				{
@@ -944,6 +938,95 @@ public class ExpressionBuilder extends TitleAreaDialog
 			return results;
 		}
 		return defultValue;
+	}
+
+    /**
+	 * Retains only the elements those all are contained in two collections.
+	 * 
+	 * @param c1
+	 *            the first collection
+	 * @param c2
+	 *            the second collection
+	 * @return the results retained
+	 */
+	private Collection retainCollection( Collection c1, Collection c2 )
+	{
+		Collection result = new ArrayList( );
+
+		if ( c1 == null && c2 != null )
+		{
+			result = new ArrayList( c2 );
+		}
+		else if ( c1 != null && c2 == null )
+		{
+			result = new ArrayList( c1 );
+		}
+		else if ( c1 != null && c2 != null )
+		{
+			Collection result1 = new ArrayList( c1 );
+			Collection result2 = new ArrayList( c2 );
+
+			for ( Iterator iterator1 = result1.iterator( ); iterator1.hasNext( ); )
+			{
+				Object item1 = iterator1.next( );
+
+				for ( Iterator iterator2 = result2.iterator( ); iterator2.hasNext( ); )
+				{
+					Object item2 = iterator2.next( );
+
+					if ( isEquals( item1, item2 ) )
+					{
+						result.add( item2 );
+						iterator2.remove( );
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Returns <code>true</code> if two items are equal, <code>false</code>
+	 * otherwise.
+	 * 
+	 * @param item1
+	 *            the first item
+	 * @param item2
+	 *            the second item
+	 * @return <code>true</code> if two items are equal, <code>false</code>
+	 *         otherwise.
+	 */
+	private boolean isEquals( Object item1, Object item2 )
+	{
+		if ( !item1.getClass( ).isArray( ) || !item2.getClass( ).isArray( ) )
+		{
+			return item1.equals( item2 );
+		}
+
+		int length1 = Array.getLength( item1 );
+		int length2 = Array.getLength( item2 );
+
+		if ( length1 != length2 )
+		{
+			return false;
+		}
+
+		for ( int i = 0; i < length1; i++ )
+		{
+			Object a1 = Array.get( item1, i );
+			Object a2 = Array.get( item2, i );
+
+			if ( a1 != null && !a1.equals( a2 ) )
+			{
+				return false;
+			}
+			else if ( a1 == null && a2 != null )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
