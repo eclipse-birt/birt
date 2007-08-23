@@ -28,7 +28,15 @@ public class SimpleActionUtil
 		{
 			if ( array.length > 0 )
 			{
-				action.setURI( array[0] );
+				String uri = array[0].trim( );
+				if ( uri.length( ) > 1
+						&& uri.charAt( 0 ) == '"'
+						&& uri.charAt( uri.length( ) - 1 ) == '"' )
+				{
+					// Remove double quotation marks
+					uri = uri.substring( 1, uri.length( ) - 1 );
+				}
+				action.setURI( uri );
 			}
 			if ( array.length > 1 )
 			{
