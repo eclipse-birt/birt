@@ -216,26 +216,23 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					// for onmouseover only.
 					return false;
 				case ActionType.INVOKE_SCRIPT :
-					ScriptValue sv = (ScriptValue) ac.getValue( );
 					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+					final DataPointHints dph;
 					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
 							.getType( ) ) )
 					{
-						final DataPointHints dph = (DataPointHints) sa.getSource( )
-								.getSource( );
-						String callbackFunction = getJSMethodName( condition, sa )
-								+ "("; //$NON-NLS-1$
-						callbackFunction = ScriptUtil.script( callbackFunction,
-								dph );
-						callbackFunction += ");"; //$NON-NLS-1$
-						tag.addAttribute( htmlAttr, eval2JS( callbackFunction,
-								true ) );
+						dph = (DataPointHints) sa.getSource( ).getSource( );
 					}
 					else
 					{
-						tag.addAttribute( htmlAttr, eval2JS( sv.getScript( ),
-								false ) );
+						dph = null;
 					}
+					String callbackFunction = getJSMethodName( condition, sa )
+							+ "("; //$NON-NLS-1$
+					callbackFunction = ScriptUtil.script( callbackFunction, dph );
+					callbackFunction += ");"; //$NON-NLS-1$
+					tag.addAttribute( htmlAttr,
+							eval2JS( callbackFunction, true ) );
 					return true;
 			}
 		}
@@ -300,24 +297,23 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					}
 					return false;
 				case ActionType.INVOKE_SCRIPT :
+					final DataPointHints dph;
 					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
 							.getType( ) ) )
 					{
-						final DataPointHints dph = (DataPointHints) sa.getSource( )
-								.getSource( );
-						String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL, sa )
-								+ "("; //$NON-NLS-1$
-						callbackFunction = ScriptUtil.script( callbackFunction,
-								dph );
-						callbackFunction += ");"; //$NON-NLS-1$
-						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
-								eval2JS( callbackFunction, true ) );
+						dph = (DataPointHints) sa.getSource( ).getSource( );
 					}
 					else
 					{
-						tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
-								eval2JS( generateJSContent( ac ), false ) );
+						dph = null;
 					}
+					String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL,
+							sa )
+							+ "("; //$NON-NLS-1$
+					callbackFunction = ScriptUtil.script( callbackFunction, dph );
+					callbackFunction += ");"; //$NON-NLS-1$
+					tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
+							eval2JS( callbackFunction, true ) );
 					return true;
 			}
 		}
@@ -799,9 +795,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private void addScriptCallBack( ShapedAction sa, StringBuffer sb,
 			Action ac, String functionName )
 	{
-		if ( ac != null
-				&& StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-						.getType( ) ) )
+		if ( ac != null )
 		{
 			// Do not use callback methods for URL_redirect since the target
 			// method may be in another page

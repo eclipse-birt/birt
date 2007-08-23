@@ -30,11 +30,14 @@ public class ScriptUtil
 	 */
 	public static String script( String str, DataPointHints dph )
 	{
-		str += addDataValueToScript( dph.getBaseValue( ) );
-		str += ","; //$NON-NLS-1$
-		str += addDataValueToScript( dph.getOrthogonalValue( ) );
-		str += ","; //$NON-NLS-1$
-		str += addDataValueToScript( dph.getSeriesValue( ) );
+		if ( dph != null )
+		{
+			str += addDataValueToScript( dph.getBaseValue( ) );
+			str += ","; //$NON-NLS-1$
+			str += addDataValueToScript( dph.getOrthogonalValue( ) );
+			str += ","; //$NON-NLS-1$
+			str += addDataValueToScript( dph.getSeriesValue( ) );
+		}
 		return str;
 	}
 
