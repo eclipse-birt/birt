@@ -38,7 +38,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	 */
 	public ConditionalExpression( String expr, int operator  )
 	{
-		this( expr, operator, null, null);
+		this( expr, operator, (String)null, null );
 	}
 	
 	/**
@@ -79,6 +79,22 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		this.operator = operator;
 		this.op1 = new CombinedExpression( operand );
 		this.op2 = null;
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 * @param operator
+	 * @param operand
+	 * @param operand2
+	 */
+	public ConditionalExpression( String expr, int operator, List operand,
+			String operand2 )
+	{
+		this.expr = new ScriptExpression( expr );
+		this.operator = operator;
+		this.op1 = new CombinedExpression( operand );
+		this.op2 = newJSExpression( operand2 );
 	}
 	
 	/**
