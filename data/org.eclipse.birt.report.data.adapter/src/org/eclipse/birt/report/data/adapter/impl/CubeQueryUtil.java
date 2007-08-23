@@ -154,6 +154,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 */
 	private boolean isLeafLevel( IEdgeDefinition edge, DimLevel target )
 	{
+		if ( edge == null )
+			return false;
 		IDimensionDefinition dim = (IDimensionDefinition) edge.getDimensions( )
 				.get( edge.getDimensions( ).size( ) - 1 );
 		if ( dim.getName( ).equals( target.getDimensionName( ) ) )
