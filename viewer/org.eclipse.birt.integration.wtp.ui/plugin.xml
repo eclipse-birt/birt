@@ -243,6 +243,11 @@
 				description="Cube fetch levels limited when preview report. Default to return all levels"/>
 
 			<context-param 
+				name="BIRT_VIEWER_CUBE_MEMORY_SIZE"
+				value=""
+				description="Memory size(MB) for creating cube."/>
+
+			<context-param 
 				name="BIRT_VIEWER_LOG_LEVEL"
 				value="WARNING"
 				description="Report engine log level.( ALL|SEVERE|WARNING|INFO|CONFIG|FINE|FINER|FINEST|OFF )"/>

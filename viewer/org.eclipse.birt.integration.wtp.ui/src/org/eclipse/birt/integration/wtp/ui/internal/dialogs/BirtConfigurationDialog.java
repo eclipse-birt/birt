@@ -102,6 +102,11 @@ public class BirtConfigurationDialog extends Dialog
 	protected Text txtMaxLevels;
 
 	/**
+	 * Value for "BIRT_VIEWER_CUBE_MEMORY_SIZE" setting
+	 */
+	protected Text txtCubeMemorySize;
+
+	/**
 	 * Value for "BIRT_VIEWER_LOG_LEVEL" setting
 	 */
 	protected Combo cbLogLevel;
@@ -225,6 +230,9 @@ public class BirtConfigurationDialog extends Dialog
 		// create max cube fetching levels setting group
 		this.txtMaxLevels = uit.createMaxLevelsGroup( others );
 
+		// create max cube memory size setting group
+		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
+
 		// create import clear setting group
 		this.btClear = uit.createImportClearSetting( composite );
 		this.isClear = this.btClear.getSelection( );
@@ -265,6 +273,9 @@ public class BirtConfigurationDialog extends Dialog
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_MAX_LEVELS_SETTING, DataUtil
 						.getNumberSetting( txtMaxLevels.getText( ) ) );
+		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
+						.getNumberSetting( txtCubeMemorySize.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,

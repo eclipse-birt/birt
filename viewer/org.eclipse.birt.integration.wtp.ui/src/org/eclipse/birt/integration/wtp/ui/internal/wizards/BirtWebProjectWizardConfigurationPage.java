@@ -48,6 +48,7 @@ import org.osgi.framework.Bundle;
  * <li>BIRT_OVERWRITE_DOCUMENT</li>
  * <li>BIRT_VIEWER_MAX_ROWS</li>
  * <li>BIRT_VIEWER_MAX_CUBE_LEVELS</li>
+ * <li>BIRT_VIEWER_CUBE_MEMORY_SIZE</li>
  * <li>BIRT_VIEWER_LOG_LEVEL</li>
  * <li>BIRT_VIEWER_PRINT_SERVERSIDE</li>
  * </ol>
@@ -117,6 +118,11 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 	 * Value for "BIRT_VIEWER_MAX_CUBE_LEVELS" setting
 	 */
 	protected Text txtMaxLevels;
+
+	/**
+	 * Value for "BIRT_VIEWER_CUBE_MEMORY_SIZE" setting
+	 */
+	protected Text txtCubeMemorySize;
 
 	/**
 	 * Value for "BIRT_VIEWER_LOG_LEVEL" setting
@@ -212,6 +218,9 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		// create max cube fetching levels setting group
 		this.txtMaxLevels = uit.createMaxLevelsGroup( others );
 
+		// create max cube memory size setting group
+		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
+
 		// initialize page properties map
 		initializeProperties( );
 
@@ -265,6 +274,9 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_MAX_LEVELS_SETTING, DataUtil
 						.getNumberSetting( txtMaxLevels.getText( ) ) );
+		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
+						.getNumberSetting( txtCubeMemorySize.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,

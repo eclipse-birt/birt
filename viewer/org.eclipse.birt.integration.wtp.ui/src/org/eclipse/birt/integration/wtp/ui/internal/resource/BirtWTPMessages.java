@@ -111,6 +111,7 @@ public class BirtWTPMessages extends NLS
 	
 	public static String BIRTConfiguration_maxrows_label;
 	public static String BIRTConfiguration_maxlevels_label;
+	public static String BIRTConfiguration_cubememsize_label;
 	
 	public static String BIRTConfiguration_loglevel_label;
 	public static String BIRTConfiguration_loglevel_all;

@@ -74,6 +74,12 @@
 		<param-value></param-value>
 	</context-param>
 
+	<!-- Memory size(MB) for creating cube. -->
+	<context-param>
+		<param-name>BIRT_VIEWER_CUBE_MEMORY_SIZE</param-name>
+		<param-value></param-value>
+	</context-param>
+	
 	<!-- If always overwrite generated document file.For designer,default to false -->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>

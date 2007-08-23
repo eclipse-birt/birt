@@ -48,7 +48,8 @@ public class ViewerPlugin extends Plugin
 	public final static int DEFAULT_MAX_ROWS = 500;
 
 	/**
-	 * Default value of max cube fetch levels setting displaying in preference page
+	 * Default value of max cube fetch levels setting displaying in preference
+	 * page
 	 */
 	public final static int DEFAULT_MAX_CUBELEVELS = 50;
 
@@ -110,6 +111,9 @@ public class ViewerPlugin extends Plugin
 				DEFAULT_MAX_ROWS );
 		plugin.getPluginPreferences( ).setDefault(
 				WebViewer.PREVIEW_MAXCUBELEVEL, DEFAULT_MAX_CUBELEVELS );
+		plugin.getPluginPreferences( ).setDefault(
+				WebViewer.PREVIEW_MAXINMEMORYCUBESIZE,
+				DEFAULT_MAX_IN_MEMORY_CUBE_SIZE );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
 				ULocale.getDefault( ).getDisplayName( ) );
 

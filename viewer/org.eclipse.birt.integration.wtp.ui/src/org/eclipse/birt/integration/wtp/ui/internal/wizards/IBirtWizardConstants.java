@@ -48,6 +48,7 @@ public interface IBirtWizardConstants
 	public final static String BIRT_OVERWRITE_DOCUMENT_SETTING = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
 	public final static String BIRT_MAX_ROWS_SETTING = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 	public final static String BIRT_MAX_LEVELS_SETTING = "BIRT_VIEWER_MAX_CUBE_LEVELS"; //$NON-NLS-1$
+	public final static String BIRT_CUBE_MEMORYSIZE_SETTING = "BIRT_VIEWER_CUBE_MEMORY_SIZE"; //$NON-NLS-1$
 	public final static String BIRT_LOG_LEVEL_SETTING = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
 	public final static String BIRT_PRINT_SERVER_SETTING = "BIRT_VIEWER_PRINT_SERVERSIDE"; //$NON-NLS-1$
 	

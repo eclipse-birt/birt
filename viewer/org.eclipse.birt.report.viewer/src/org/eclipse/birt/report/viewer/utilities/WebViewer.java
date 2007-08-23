@@ -261,6 +261,11 @@ public class WebViewer
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
 
+		// cube memory size
+		String cubeMemorySize = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( PREVIEW_MAXINMEMORYCUBESIZE );
+
 		// get -dir rtl option
 		boolean rtl = false;
 		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
@@ -337,6 +342,9 @@ public class WebViewer
 						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ ( maxlevels != null && maxlevels.trim( ).length( ) > 0
 						? "&__maxlevels=" + maxlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( cubeMemorySize != null
+						&& cubeMemorySize.trim( ).length( ) > 0
+						? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
 				+ ( asattachment != null ? asattachment : "" ); //$NON-NLS-1$
 	}

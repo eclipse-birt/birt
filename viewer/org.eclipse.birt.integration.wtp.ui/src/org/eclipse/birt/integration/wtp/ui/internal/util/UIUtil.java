@@ -56,6 +56,11 @@ public class UIUtil implements IBirtWizardConstants
 	 */
 	private final static int MAX_MAX_LEVELS = Integer.MAX_VALUE;
 
+	/**
+	 * Max value of cube memory size setting
+	 */
+	private final static int MAX_CUBE_MEMORYSIZE = Integer.MAX_VALUE;
+
 	public UIUtil( Map properties )
 	{
 		this.properties = properties;
@@ -494,6 +499,69 @@ public class UIUtil implements IBirtWizardConstants
 		} );
 
 		return txtMaxLevels;
+	}
+
+	/**
+	 * Create "BIRT_VIEWER_CUBE_MEMORY_SIZE" configuration group
+	 * 
+	 * @param parent
+	 */
+	public Text createCubeMemorySizeGroup( Composite parent )
+	{
+		Text txtCubeMemorySize = null;
+
+		Composite composite = new Composite( parent, SWT.NULL );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		composite.setLayoutData( data );
+
+		// get font
+		Font font = parent.getFont( );
+
+		Label label = new Label( composite, SWT.LEFT );
+		label.setFont( font );
+		label.setText( BirtWTPMessages.BIRTConfiguration_cubememsize_label );
+
+		txtCubeMemorySize = new Text( composite, SWT.BORDER );
+		txtCubeMemorySize
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		txtCubeMemorySize.setFont( font );
+		txtCubeMemorySize.setTextLimit( Integer.toString( MAX_CUBE_MEMORYSIZE )
+				.length( ) );
+
+		// set default value
+		int defaultValue = DataUtil
+				.getInt( WebArtifactUtil.getContextParamValue( properties,
+						BIRT_CUBE_MEMORYSIZE_SETTING ) );
+		if ( defaultValue > 0 )
+			txtCubeMemorySize.setText( "" + defaultValue ); //$NON-NLS-1$
+
+		txtCubeMemorySize.addVerifyListener( new VerifyListener( ) {
+
+			public void verifyText( VerifyEvent e )
+			{
+				e.doit = e.text.matches( "[0-9]*" ); //$NON-NLS-1$
+			}
+		} );
+
+		// add modify listener
+		txtCubeMemorySize.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				WebArtifactUtil.setContextParamValue( properties,
+						BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
+								.getNumberSetting( ( (Text) e.getSource( ) )
+										.getText( ) ) );
+			}
+		} );
+
+		return txtCubeMemorySize;
 	}
 
 	/**

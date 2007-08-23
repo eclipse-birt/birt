@@ -185,6 +185,11 @@ public class ParameterAccessor
 	public static final String PARAM_MAXCUBELEVELS = "__maxlevels"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that gives the cube memory size option.
+	 */
+	public static final String PARAM_CUBEMEMSIZE = "__cubememsize"; //$NON-NLS-1$
+
+	/**
 	 * URL parameter name that gives the reportlet id.
 	 */
 	public static final String PARAM_INSTANCEID = "__instanceid"; //$NON-NLS-1$
@@ -375,6 +380,11 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_VIEWER_MAXCUBELEVELS = "BIRT_VIEWER_MAX_CUBE_LEVELS"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that gives cube memory size.
+	 */
+	public static final String INIT_PARAM_VIEWER_CUBEMEMSIZE = "BIRT_VIEWER_CUBE_MEMORY_SIZE"; //$NON-NLS-1$
+	
+	/**
 	 * Context parameter name that if always overwrite generated document file.
 	 */
 	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
@@ -470,6 +480,11 @@ public class ParameterAccessor
 	public static int maxCubeLevels;
 
 	/**
+	 * Cube memory size
+	 */
+	public static int cubeMemorySize;
+
+	/**
 	 * Current web application locale.
 	 */
 	public static Locale webAppLocale = null;
@@ -510,12 +525,11 @@ public class ParameterAccessor
 	public static Map initProps;
 
 	/**
-	 * The logger names to register.
-	 * The key part contains the name of the logger and the value
-	 * contains the name of the level.
+	 * The logger names to register. The key part contains the name of the
+	 * logger and the value contains the name of the level.
 	 */
 	public static Map loggers;
-	
+
 	/**
 	 * viewer properties
 	 */
@@ -754,6 +768,24 @@ public class ParameterAccessor
 			curMaxLevels = maxCubeLevels;
 
 		return curMaxLevels;
+	}
+
+	/**
+	 * Get cube memory size.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return memory size
+	 */
+
+	public static int getCubeMemorySize( HttpServletRequest request )
+	{
+		int curMaxMemSize = ParameterAccessor.getParameterAsInt( request,
+				PARAM_CUBEMEMSIZE );
+		if ( curMaxMemSize <= 0 )
+			curMaxMemSize = cubeMemorySize;
+
+		return curMaxMemSize;
 	}
 
 	/**
@@ -1379,7 +1411,7 @@ public class ParameterAccessor
 								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
 
-		// Get preview report max rows parameter from Servlet Context
+		// Get preview report max rows parameter from ServletContext
 		String s_maxRows = context.getInitParameter( INIT_PARAM_VIEWER_MAXROWS );
 		try
 		{
@@ -1390,8 +1422,8 @@ public class ParameterAccessor
 			maxRows = -1;
 		}
 
-		// Get preview report max cube fetch levels parameter from Servlet
-		// Context
+		// Get preview report max cube fetch levels parameter from
+		// ServletContext
 		String s_maxLevels = context
 				.getInitParameter( INIT_PARAM_VIEWER_MAXCUBELEVELS );
 		try
@@ -1401,6 +1433,18 @@ public class ParameterAccessor
 		catch ( NumberFormatException e )
 		{
 			maxCubeLevels = -1;
+		}
+
+		// Get cube memory size parameter from ServletContext
+		String s_cubeMemSize = context
+				.getInitParameter( INIT_PARAM_VIEWER_CUBEMEMSIZE );
+		try
+		{
+			cubeMemorySize = Integer.valueOf( s_cubeMemSize ).intValue( );
+		}
+		catch ( NumberFormatException e )
+		{
+			cubeMemorySize = 0;
 		}
 
 		// default resource path
@@ -1421,26 +1465,25 @@ public class ParameterAccessor
 
 		// initialize the application properties
 		initProps = initViewerProps( context, initProps );
-		
+
 		if ( loggers == null )
 		{
-			loggers = new HashMap();
+			loggers = new HashMap( );
 		}
-		
+
 		// retrieve the logger names from the application properties
 		for ( Iterator i = initProps.keySet( ).iterator( ); i.hasNext( ); )
 		{
-			String name = (String)i.next();
-			if ( name.startsWith( "logger." )) //$NON-NLS-1$
+			String name = (String) i.next( );
+			if ( name.startsWith( "logger." ) ) //$NON-NLS-1$
 			{
-				String loggerName = name.replaceFirst(
-						"logger.", //$NON-NLS-1$
+				String loggerName = name.replaceFirst( "logger.", //$NON-NLS-1$
 						"" //$NON-NLS-1$
-						);
-				String levelName = (String)initProps.get( name );
-				
+				);
+				String levelName = (String) initProps.get( name );
+
 				loggers.put( loggerName, levelName );
-			
+
 				i.remove( );
 			}
 		}

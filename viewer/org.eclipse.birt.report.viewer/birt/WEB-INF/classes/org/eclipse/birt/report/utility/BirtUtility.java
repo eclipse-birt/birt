@@ -899,6 +899,12 @@ public class BirtUtility
 			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_LEVEL,
 					new Integer( maxCubeLevels ) );
 
+		// Cube memory size
+		int cubeMemorySize = ParameterAccessor.getCubeMemorySize( request );
+		if ( cubeMemorySize >= 0 )
+			context.put( DataEngine.IN_MEMORY_CUBE_SIZE, new Integer(
+					cubeMemorySize ) );
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 
