@@ -25,8 +25,6 @@ public class PPTPageDevice implements IPageDevice
 
 	public PPTPageDevice( OutputStream output )
 	{
-		// BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-		// output );
 		writer = new PPTWriter( output );
 		writer.start( );
 	}

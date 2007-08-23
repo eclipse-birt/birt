@@ -12,13 +12,13 @@ package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -43,13 +43,14 @@ import com.lowagie.text.pdf.BaseFont;
 public class PPTWriter
 {
 
-	protected static Logger logger = Logger.getLogger( PPTRender.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( PPTRender.class
+			.getName( ) );
 
 	/**
 	 * Output stream where postscript to be output.
 	 */
 	// protected PrintStream pptOutput = System.out;
-	private OutputStream pptOutput = null;
+	private PrintWriter writer = null;
 
 	protected int currentPageNum = 0;
 	private int shapeCount = 0;
@@ -71,8 +72,15 @@ public class PPTWriter
 
 	public PPTWriter( OutputStream output )
 	{
-		// pptOutput = new PrintStream( output );
-		pptOutput = output;
+		try
+		{
+			writer = new PrintWriter(
+					new OutputStreamWriter( output, "UTF-8" ), false );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			assert ( false );
+		}
 	}
 
 	/**
@@ -90,47 +98,45 @@ public class PPTWriter
 			fileNamesLists.clear( );
 		}
 
-		try
-		{
-			write( "MIME-Version: 1.0\n" ); //$NON-NLS-1$
-			write( "Content-Type: multipart/related; boundary=\"___Actuate_Content_Boundary___\"\n" ); //$NON-NLS-1$
-			write( "\n" ); //$NON-NLS-1$
-			write( "--___Actuate_Content_Boundary___\n" ); //$NON-NLS-1$
-			write( "Content-Location: file:///C:/___Actuate___/slide-show\n" ); //$NON-NLS-1$
-			write( "Content-Transfer-Encoding: quoted-printable\n" ); //$NON-NLS-1$
-			write( "Content-Type: text/html; charset=\"utf-8\"\n" ); //$NON-NLS-1$
-			write( "\n" ); //$NON-NLS-1$
-			write( "<html\n" ); //$NON-NLS-1$
-			write( "xmlns=3D'http://www.w3.org/TR/REC-html40'\n" ); //$NON-NLS-1$
-			write( "xmlns:o=3D'urn:schemas-microsoft-com:office:office'\n" ); //$NON-NLS-1$
-			write( "xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'\n" ); //$NON-NLS-1$
-			write( "xmlns:v=3D'urn:schemas-microsoft-com:vml'\n" ); //$NON-NLS-1$
-			write( ">\n" ); //$NON-NLS-1$
-			write( "<head>\n" ); //$NON-NLS-1$
-			write( "<meta http-equiv=3D'Content-Type' content=3D'text/html; charset=3Dutf-8'>\n" ); //$NON-NLS-1$
-			write( "<meta name=3D'ProgId' content=3D'PowerPoint.Slide'>\n" ); //$NON-NLS-1$
-			write( "<meta name=3D'Generator' content=3D'Actuate View Server'>\n" ); //$NON-NLS-1$
-			write( "<title>Actuate Report</title>\n" ); //$NON-NLS-1$
-			write( "<xml><o:DocumentProperties>\n" ); //$NON-NLS-1$
-			write( "<o:Author>Actuate View Server</o:Author>\n" ); //$NON-NLS-1$
-			write( "</o:DocumentProperties></xml><link rel=3DFile-List href=3D'file-list'>\n" ); //$NON-NLS-1$
-			write( "<link rel=3DPresentation-XML href=3D'presentation'>\n" ); //$NON-NLS-1$
-			write( "</head><body/></html>\n" ); //$NON-NLS-1$
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
+		println( "MIME-Version: 1.0" ); //$NON-NLS-1$
+		println( "Content-Type: multipart/related; boundary=\"___Actuate_Content_Boundary___\"" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
+		println( "Content-Location: file:///C:/___Actuate___/slide-show" ); //$NON-NLS-1$
+		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
+		println( "Content-Type: text/html; charset=\"utf-8\"" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "<html" ); //$NON-NLS-1$
+		println( "xmlns=3D'http://www.w3.org/TR/REC-html40'" ); //$NON-NLS-1$
+		println( "xmlns:o=3D'urn:schemas-microsoft-com:office:office'" ); //$NON-NLS-1$
+		println( "xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'" ); //$NON-NLS-1$
+		println( "xmlns:v=3D'urn:schemas-microsoft-com:vml'" ); //$NON-NLS-1$
+		println( ">" ); //$NON-NLS-1$
+		println( "<head>" ); //$NON-NLS-1$
+		println( "<meta http-equiv=3D'Content-Type' content=3D'text/html; charset=3Dutf-8'>" ); //$NON-NLS-1$
+		println( "<meta name=3D'ProgId' content=3D'PowerPoint.Slide'>" ); //$NON-NLS-1$
+		println( "<meta name=3D'Generator' content=3D'Actuate View Server'>" ); //$NON-NLS-1$
+		println( "<title>Actuate Report</title>" ); //$NON-NLS-1$
+		println( "<xml><o:DocumentProperties>" ); //$NON-NLS-1$
+		println( "<o:Author>Actuate View Server</o:Author>" ); //$NON-NLS-1$
+		println( "</o:DocumentProperties></xml><link rel=3DFile-List href=3D'file-list'>" ); //$NON-NLS-1$
+		println( "<link rel=3DPresentation-XML href=3D'presentation'>" ); //$NON-NLS-1$
+		println( "</head><body/></html>" ); //$NON-NLS-1$
 	}
 
-	private void write( String text ) throws IOException
+	private void print( String text )
 	{
-		write( text.getBytes( ) );
+		writer.print( text );
 	}
 
-	private void write( byte[] data ) throws IOException
+	private void println( String text )
 	{
-		pptOutput.write( data );
+		writer.println( text );
+	}
+
+	private void print( byte[] data )
+	{
+		print( new String( data ) );
 	}
 
 	/**
@@ -139,65 +145,55 @@ public class PPTWriter
 	 */
 	public void end( )
 	{
-		if ( pptOutput != null )
+		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
+		println( "Content-Location: file:///C:/___Actuate___/presentation" ); //$NON-NLS-1$
+		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
+		println( "Content-Type: text/xml; charset=\"utf-8\"" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "<xml" ); //$NON-NLS-1$
+		println( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'" ); //$NON-NLS-1$
+		println( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'" ); //$NON-NLS-1$
+		println( ">" ); //$NON-NLS-1$
+		println( ( "<p:presentation sizeof=3D'custom' slidesizex=3D'" + ( pageWidth * 8 ) + "' slidesizey=3D'" + ( pageHeight * 8 ) + "'>" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		for ( int i = 0; i < currentPageNum; i++ )
 		{
-			try
+			println( ( "<p:slide id=3D'" + ( i + 1 ) + "' href=3D's" + ( i + 1 ) + "'/>" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+
+		println( "</p:presentation></xml>" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
+		println( "Content-Location: file:///C:/___Actuate___/file-list" ); //$NON-NLS-1$
+		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
+		println( "Content-Type: text/xml; charset=\"utf-8\"" ); //$NON-NLS-1$
+		println( "<xml" ); //$NON-NLS-1$
+		println( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'" ); //$NON-NLS-1$
+		println( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'" ); //$NON-NLS-1$
+		println( ">" ); //$NON-NLS-1$
+		println( "<o:MainFile href=3D'slide-show'/>" ); //$NON-NLS-1$
+		println( "<o:File href=3D'presentation'/>" ); //$NON-NLS-1$
+		println( "<o:File href=3D'file-list'/>" ); //$NON-NLS-1$
+
+		for ( int i = 0; i < currentPageNum; i++ )
+		{
+			println( ( "<o:File href=3D's" + ( i + 1 ) + "'/>" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( fileNamesLists.containsKey( new Integer( i + 1 ) ) )
 			{
-				write( "--___Actuate_Content_Boundary___\n" ); //$NON-NLS-1$
-				write( "Content-Location: file:///C:/___Actuate___/presentation\n" ); //$NON-NLS-1$
-				write( "Content-Transfer-Encoding: quoted-printable\n" ); //$NON-NLS-1$
-				write( "Content-Type: text/xml; charset=\"utf-8\"\n" ); //$NON-NLS-1$
-				write( "\n" ); //$NON-NLS-1$
-				write( "<xml\n" ); //$NON-NLS-1$
-				write( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'\n" ); //$NON-NLS-1$
-				write( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'\n" ); //$NON-NLS-1$
-				write( ">\n" ); //$NON-NLS-1$
-				write( ( "<p:presentation sizeof=3D'custom' slidesizex=3D'" + ( pageWidth * 8 ) + "' slidesizey=3D'" + ( pageHeight * 8 ) + "'>\n" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-				for ( int i = 0; i < currentPageNum; i++ )
+				List filenames = (List) fileNamesLists
+						.get( new Integer( i + 1 ) );
+				for ( Iterator ite = filenames.iterator( ); ite.hasNext( ); )
 				{
-					write( ( "<p:slide id=3D'" + ( i + 1 ) + "' href=3D's" + ( i + 1 ) + "'/>\n" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					println( ( "<o:File href=3D\"" + (String) ite.next( ) + "\"/>" ) );
 				}
-
-				write( "</p:presentation></xml>\n" ); //$NON-NLS-1$
-				write( "\n" ); //$NON-NLS-1$
-				write( "--___Actuate_Content_Boundary___\n" ); //$NON-NLS-1$
-				write( "Content-Location: file:///C:/___Actuate___/file-list\n" ); //$NON-NLS-1$
-				write( "Content-Transfer-Encoding: quoted-printable\n" ); //$NON-NLS-1$
-				write( "Content-Type: text/xml; charset=\"utf-8\"\n" ); //$NON-NLS-1$
-				write( "<xml\n" ); //$NON-NLS-1$
-				write( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'\n" ); //$NON-NLS-1$
-				write( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'\n" ); //$NON-NLS-1$
-				write( ">\n" ); //$NON-NLS-1$
-				write( "<o:MainFile href=3D'slide-show'/>\n" ); //$NON-NLS-1$
-				write( "<o:File href=3D'presentation'/>\n" ); //$NON-NLS-1$
-				write( "<o:File href=3D'file-list'/>\n" ); //$NON-NLS-1$
-
-				for ( int i = 0; i < currentPageNum; i++ )
-				{
-					write( ( "<o:File href=3D's" + ( i + 1 ) + "'/>\n" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-					if ( fileNamesLists.containsKey( new Integer( i + 1 ) ) )
-					{
-						List filenames = (List) fileNamesLists.get( new Integer( i + 1 ) );
-						for ( Iterator ite = filenames.iterator( ); ite.hasNext( ); )
-						{
-							write( ( "<o:File href=3D\""
-									+ (String) ite.next( ) + "\"/>\n" ) );
-						}
-					}
-				}
-
-				write( "</xml>\n" ); //$NON-NLS-1$
-				write( "\n" ); //$NON-NLS-1$
-				write( "--___Actuate_Content_Boundary___--\n" ); //$NON-NLS-1$
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
 
-		pptOutput = null;
+		println( "</xml>" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "--___Actuate_Content_Boundary___--" ); //$NON-NLS-1$
+		writer.close( );
+		writer = null;
 	}
 
 	public void endPage( )
@@ -210,9 +206,9 @@ public class PPTWriter
 				String imageTitle = (String) ite.next( );
 				byte[] imageData = (byte[]) currentImageData.get( imageTitle );
 				generateImageBytes( imageTitle, imageData );
-				write( "\n\n" );
+				println( "\n" );
 			}
-			write( "</p:slide></body></html>\n" ); //$NON-NLS-1$
+			println( "</p:slide></body></html>" ); //$NON-NLS-1$
 		}
 		catch ( IOException ioe )
 		{
@@ -222,13 +218,13 @@ public class PPTWriter
 
 	private void exportImageHeader( String imagekey ) throws IOException
 	{
-		write( "\n" );
-		write( "--___Actuate_Content_Boundary___\n" ); //$NON-NLS-1$
-		write( "Content-Location: file:///C:/___Actuate___/"
-				+ (String) imageNames.get( imagekey ) + "\n" );
-		write( "Content-Transfer-Encoding: base64\n" );
-		write( "Content-Type: image/"
-				+ (String) imageExtensions.get( imagekey ) + "\n\n" );
+		println( "" );
+		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
+		println( "Content-Location: file:///C:/___Actuate___/"
+				+ (String) imageNames.get( imagekey ) + "" );
+		println( "Content-Transfer-Encoding: base64" );
+		println( "Content-Type: image/"
+				+ (String) imageExtensions.get( imagekey ) + "\n" );
 	}
 
 	private void generateImageBytes( String imageTitle, byte[] imageData )
@@ -237,7 +233,7 @@ public class PPTWriter
 		exportImageHeader( imageTitle );
 
 		Base64 base = new Base64( );
-		write( base.encode( imageData ) );
+		print( base.encode( imageData ) );
 	}
 
 	/**
@@ -255,27 +251,19 @@ public class PPTWriter
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
 
-		try
-		{
-			write( "--___Actuate_Content_Boundary___\n" ); //$NON-NLS-1$
-			write( "Content-Location: file:///C:/___Actuate___/s" + currentPageNum + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			write( "Content-Transfer-Encoding: quoted-printable\n" ); //$NON-NLS-1$
-			write( "Content-Type: text/html; charset=\"utf-8\"\n" ); //$NON-NLS-1$
-			write( "\n" ); //$NON-NLS-1$
-			write( "<html\n" ); //$NON-NLS-1$
-			write( " xmlns=3D'http://www.w3.org/TR/REC-html40'\n" ); //$NON-NLS-1$
-			write( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'\n" ); //$NON-NLS-1$
-			write( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'\n" ); //$NON-NLS-1$
-			write( " xmlns:v=3D'urn:schemas-microsoft-com:vml'\n" ); //$NON-NLS-1$
-			write( ">\n" ); //$NON-NLS-1$
-			write( "<head/><body><p:slide>\n" ); //$NON-NLS-1$
-			write( "<meta http-equiv=3D'Content-Type' content=3D'text/html; charset=3Dutf-8'>\n" ); //$NON-NLS-1$
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-
+		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
+		println( "Content-Location: file:///C:/___Actuate___/s" + currentPageNum + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
+		println( "Content-Type: text/html; charset=\"utf-8\"" ); //$NON-NLS-1$
+		println( "" ); //$NON-NLS-1$
+		println( "<html" ); //$NON-NLS-1$
+		println( " xmlns=3D'http://www.w3.org/TR/REC-html40'" ); //$NON-NLS-1$
+		println( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'" ); //$NON-NLS-1$
+		println( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'" ); //$NON-NLS-1$
+		println( " xmlns:v=3D'urn:schemas-microsoft-com:vml'" ); //$NON-NLS-1$
+		println( ">" ); //$NON-NLS-1$
+		println( "<head/><body><p:slide>" ); //$NON-NLS-1$
+		println( "<meta http-equiv=3D'Content-Type' content=3D'text/html; charset=3Dutf-8'>" ); //$NON-NLS-1$
 		drawBackgroundColor( backgroundColor, 0, 0, pageWidth, pageHeight );
 	}
 
@@ -319,48 +307,35 @@ public class PPTWriter
 		green = green.length( ) == 1 ? "0" + green : green; //$NON-NLS-1$
 		blue = blue.length( ) == 1 ? "0" + blue : blue; //$NON-NLS-1$
 
-		Charset charset = Charset.forName( "UTF-8" );
-		ByteBuffer encodedText = charset.encode( text );
-		try
+//		ByteBuffer encodedText = Charset.forName( "UTF-8" ).encode( text );
+		println( "<v:shape id=3D't" + ( ++shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:square;'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
+		println( "<v:textbox style=3D'mso-fit-shape-to-text:f;' inset=3D'0.00pt 0.00pt 0.00pt 0.00pt'/>" ); //$NON-NLS-1$
+		println( "</v:shape>" ); //$NON-NLS-1$
+		println( "<div v:shape=3D't" + shapeCount + "'>" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		println( "<div style=3D'mso-text-indent-alt:" //$NON-NLS-1$
+				+ 0 + ";text-align:left;'>" //$NON-NLS-1$
+				+ "<span style=3D'font-family:" //$NON-NLS-1$
+				+ fontName + ";font-size:" //$NON-NLS-1$
+				+ fontInfo.getFontSize( ) + "pt;color:#" //$NON-NLS-1$
+				+ red + green + blue + ";'>" ); //$NON-NLS-1$
+		// + text.getText( ) + "</span></div>\n" );
+
+		if ( fontInfo != null && fontInfo.getFontStyle( ) == Font.ITALIC )
 		{
-			write( "<v:shape id=3D't" + ( ++shapeCount ) + "' type=3D'#r'\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			write( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:square;'\n" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			write( " filled=3D'f' stroked=3D'f'>\n" ); //$NON-NLS-1$
-			write( "<v:textbox style=3D'mso-fit-shape-to-text:f;' inset=3D'0.00pt 0.00pt 0.00pt 0.00pt'/>\n" ); //$NON-NLS-1$
-			write( "</v:shape>\n" ); //$NON-NLS-1$
-			write( "<div v:shape=3D't" + shapeCount + "'>\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-			write( "<div style=3D'mso-text-indent-alt:" //$NON-NLS-1$
-					+ 0
-					+ ";text-align:left;'>" //$NON-NLS-1$
-					+ "<span style=3D'font-family:" //$NON-NLS-1$
-					+ fontName
-					+ ";font-size:" //$NON-NLS-1$
-					+ fontInfo.getFontSize( )
-					+ "pt;color:#" //$NON-NLS-1$
-					+ red
-					+ green
-					+ blue + ";'>" ); //$NON-NLS-1$
-			// + text.getText( ) + "</span></div>\n" );
-
-			if ( fontInfo != null && fontInfo.getFontStyle( ) == Font.ITALIC )
-			{
-				write( "<i>" );
-				write( encodedText.array( ) );
-				write( "</i>" );
-			}
-			else
-			{
-				write( encodedText.array( ) );
-			}
-			write( "</span></div>\n" );
-
-			write( "</div>\n" ); //$NON-NLS-1$
+			print( "<i>" );
+			print( text );
+			print( "</i>" );
 		}
-		catch ( IOException ioe )
+		else
 		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
+			print( text );
 		}
+		println( "</span></div>" );
+
+		println( "</div>" ); //$NON-NLS-1$
 	}
 
 	public void drawImage( byte[] imageData, String extension, float imageX,
@@ -368,9 +343,7 @@ public class PPTWriter
 			throws Exception
 	{
 		String imageName;
-		String imageTitle = "slide"
-				+ currentPageNum
-				+ "_image"
+		String imageTitle = "slide" + currentPageNum + "_image"
 				+ ( ++shapeCount );
 		imageTitles.add( imageTitle );
 
@@ -401,29 +374,19 @@ public class PPTWriter
 	private void exportImageDefn( String imageName, String imageTitle,
 			double width, double height, double x, double y )
 	{
-		try
-		{
-			write( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#r'\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			write( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'\n" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			write( " filled=3D'f' stroked=3D'f'>\n" ); //$NON-NLS-1$
-			write( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"/>\n" ); //$NON-NLS-1$
-			write( "<o:lock v:ext=3D'"
-					+ "edit"
-					+ "' aspectratio=3D't"
-					+ "'/>\n" );
-			write( "</v:shape>\n" ); //$NON-NLS-1$			
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-		}
+		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
+		println( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"/>" ); //$NON-NLS-1$
+		println( "<o:lock v:ext=3D'" + "edit" + "' aspectratio=3D't" + "'/>" );
+		println( "</v:shape>" ); //$NON-NLS-1$			
 	}
 
 	private String getImageExtension( String imageURI )
 	{
 		String rectifiedImageURI = imageURI.replace( '.', '&' );
-		String extension = imageURI.substring( rectifiedImageURI.lastIndexOf( '&' ) + 1 )
-				.toLowerCase( );
+		String extension = imageURI.substring(
+				rectifiedImageURI.lastIndexOf( '&' ) + 1 ).toLowerCase( );
 
 		if ( extension.equals( "svg" ) )
 		{
@@ -476,8 +439,7 @@ public class PPTWriter
 		// if the border does NOT have color or the line width of the border
 		// is zero
 		// or the lineStyle is "none", just return.
-		if ( null == color
-				|| 0f == width
+		if ( null == color || 0f == width
 				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
 			return;
@@ -521,37 +483,30 @@ public class PPTWriter
 			double endY, double width, Color color, String lineStyle )
 	{
 		// TODO insert a line
-		try
+		print( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+		print( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
+		print( " strokecolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
+		print( " strokeweight=3D\"" + width + "pt\"" ); //$NON-NLS-1$
+		if ( lineStyle.equalsIgnoreCase( "dashed" ) )
 		{
-			write( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-			write( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			write( " to=3D\"" + endX + "pt," + endY + "pt\"" );
-			write( " strokecolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
-			write( " strokeweight=3D\"" + width + "pt\"" ); //$NON-NLS-1$
-			if ( lineStyle.equalsIgnoreCase( "dashed" ) )
-			{
-				write( "<v:stroke dashstyle=3D\"dash\"/>\n" );
-			}
-			else if ( lineStyle.equalsIgnoreCase( "dotted" ) )
-			{
-				write( "<v:stroke dashstyle=3D\"1 1\"/>\n" );
-			}
-			else if ( lineStyle.equalsIgnoreCase( "double" ) )
-			{
-				write( "<v:stroke linestyle=3D\"thinThin\"/>\n" );
-			}
-			else
-			{
-				write( "/>\n" );
-				return;
-			}
-			write( ">\n" );
-			write( "</v:line>\n" );
+			println( "<v:stroke dashstyle=3D\"dash\"/>" );
 		}
-		catch ( IOException ioe )
+		else if ( lineStyle.equalsIgnoreCase( "dotted" ) )
 		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
+			println( "<v:stroke dashstyle=3D\"1 1\"/>" );
 		}
+		else if ( lineStyle.equalsIgnoreCase( "double" ) )
+		{
+			println( "<v:stroke linestyle=3D\"thinThin\"/>" );
+		}
+		else
+		{
+			println( "/>" );
+			return;
+		}
+		println( ">" );
+		println( "</v:line>" );
 	}
 
 	/**
@@ -576,24 +531,11 @@ public class PPTWriter
 			return;
 		}
 		// TODO set back ground
-		try
-		{
-			write( "<v:rect id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-			write( " style=3D'position:absolute;left:"
-					+ x
-					+ "pt;top:"
-					+ y
-					+ "pt;width:"
-					+ width
-					+ "pt;height:"
-					+ height + "pt'" );
-			write( " fillcolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
-			write( " stroked=3D\"f" + "\"/>\n" ); //$NON-NLS-1$			
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-		}
+		print( "<v:rect id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+		print( " style=3D'position:absolute;left:" + x + "pt;top:" + y
+				+ "pt;width:" + width + "pt;height:" + height + "pt'" );
+		print( " fillcolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
+		println( " stroked=3D\"f" + "\"/>" ); //$NON-NLS-1$			
 	}
 
 	/**
@@ -667,9 +609,7 @@ public class PPTWriter
 			}
 		}
 
-		String imageTitle = "slide"
-				+ currentPageNum
-				+ "_image"
+		String imageTitle = "slide" + currentPageNum + "_image"
 				+ ( ++shapeCount );
 		imageTitles.add( imageTitle );
 		String imageName;
@@ -687,20 +627,20 @@ public class PPTWriter
 			recordFileLists( imageName );
 			currentImageData.put( imageTitle, imageData );
 		}
-		
+
 		Position areaPosition = new Position( x, y );
 		Position areaSize = new Position( width, height );
 		Position imagePosition = new Position( x + positionX, y + positionY );
 		// TODO: need to confirm the tansformation from unit pixel to
 		// pointer.
 		Position imageSize = new Position( imageWidth, imageHeight );
-		BackgroundImageLayout layout = new BackgroundImageLayout(
-				areaPosition, areaSize, imagePosition, imageSize );
+		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
+				areaSize, imagePosition, imageSize );
 		Collection positions = layout.getImagePositions( repeat );
 		Iterator iterator = positions.iterator( );
-		while( iterator.hasNext( ) )
+		while ( iterator.hasNext( ) )
 		{
-			Position position = ( Position )iterator.next( );
+			Position position = (Position) iterator.next( );
 			exportImageDefn( imageName, imageTitle, imageWidth, imageHeight,
 					position.getX( ), position.getY( ) );
 		}
