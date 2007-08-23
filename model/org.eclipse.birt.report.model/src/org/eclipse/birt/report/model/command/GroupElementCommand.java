@@ -25,8 +25,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
+import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -35,6 +37,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class adds, deletes and moves group elements. Group elements are treated
@@ -97,9 +100,10 @@ public class GroupElementCommand extends ContentCommand
 			ListingElement tmpElement = (ListingElement) tmpElements.get( i );
 			assert tmpElement.getRoot( ) == getModule( );
 
-			GroupElement tmpGroup = createNewGroupElement( content, module );
-			GroupElementCommand cmd = new GroupElementCommand( module, focus
-					.createContext( tmpElement ), true );
+			GroupElement tmpGroup = createNewGroupElement( tmpElement );
+
+			GroupElementCommand cmd = new GroupElementCommand( module,
+					newContainerContext( tmpElement ), true );
 			cmd.add( tmpGroup );
 		}
 	}
@@ -110,27 +114,34 @@ public class GroupElementCommand extends ContentCommand
 	 * @return
 	 */
 
-	private static GroupElement createNewGroupElement( GroupElement group,
-			Module module )
+	private static List createNewGroupElement( ListingElement tmpElement,
+			int groupCount )
 	{
-		GroupElement retElement = null;
+		List groupsToAdd = new ArrayList( );
 
-		if ( retElement instanceof ListGroup )
-			retElement = new ListGroup( );
-		else if ( group instanceof TableGroup )
-			retElement = new TableGroup( );
+		for ( int i = 0; i < groupCount; i++ )
+		{
+			groupsToAdd.add( createNewGroupElement( tmpElement ) );
+		}
+
+		return groupsToAdd;
+	}
+
+	private static GroupElement createNewGroupElement( ListingElement tmpElement )
+	{
+		if ( tmpElement instanceof TableItem )
+		{
+			return new TableGroup( );
+		}
+		else if ( tmpElement instanceof ListItem )
+		{
+			return new ListGroup( );
+		}
 		else
 		{
 			assert false;
 			return null;
 		}
-
-		module.makeUniqueName( retElement );
-
-		if ( retElement instanceof ListGroup )
-			return retElement;
-
-		return retElement;
 	}
 
 	/**
@@ -157,8 +168,8 @@ public class GroupElementCommand extends ContentCommand
 
 			GroupElement tmpGroup = (GroupElement) tmpElement.getGroups( ).get(
 					groupIndex );
-			GroupElementCommand cmd = new GroupElementCommand( module, focus
-					.createContext( tmpElement ), true );
+			GroupElementCommand cmd = new GroupElementCommand( module,
+					newContainerContext( tmpElement ), true );
 			cmd.remove( tmpGroup, false, true );
 		}
 	}
@@ -384,7 +395,7 @@ public class GroupElementCommand extends ContentCommand
 						.get( oldPosn );
 
 				GroupElementCommand tmpCmd = new GroupElementCommand( module,
-						focus.createContext( tmpElement ), true );
+						newContainerContext( tmpElement ), true );
 				tmpCmd.movePosition( tmpContent, newPosn );
 			}
 		}
@@ -409,9 +420,9 @@ public class GroupElementCommand extends ContentCommand
 	protected void setupSharedDataGroups( DesignElement targetElement )
 			throws SemanticException
 	{
-		if ( targetElement.getDefn( ) != element.getDefn( ) )
+		if (!ModelUtil.isCompatibleDataBindingElements( element, targetElement ))
 			return;
-
+		
 		List groupsToRemove = ( (ListingElement) element ).getGroups( );
 		for ( int i = 0; i < groupsToRemove.size( ); i++ )
 		{
@@ -421,13 +432,9 @@ public class GroupElementCommand extends ContentCommand
 			tmpCmd.remove( (GroupElement) groupsToRemove.get( i ), false, true );
 		}
 
-		List groupsToAdd = new ArrayList( );
 		List targetGroups = ( (ListingElement) targetElement ).getGroups( );
-		for ( int i = 0; i < targetGroups.size( ); i++ )
-		{
-			groupsToAdd.add( createNewGroupElement( (GroupElement) targetGroups
-					.get( i ), module ) );
-		}
+		List groupsToAdd = createNewGroupElement( (ListingElement) element,
+				targetGroups.size( ) );
 
 		for ( int i = 0; i < groupsToAdd.size( ); i++ )
 		{
@@ -436,5 +443,17 @@ public class GroupElementCommand extends ContentCommand
 					true );
 			tmpCmd.add( (GroupElement) groupsToAdd.get( i ) );
 		}
+	}
+
+	private ContainerContext newContainerContext( DesignElement tmpElement )
+	{
+		ContainerContext tmpContext = focus.createContext( tmpElement );
+		if ( tmpContext == null )
+		{
+			tmpContext = new ContainerContext( tmpElement, focus.getSlotID( ) );
+		}
+
+		return tmpContext;
+
 	}
 }

@@ -100,7 +100,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <group id="30">
+            <group id="32">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
                 <list-property name="sort">
@@ -116,14 +116,54 @@ from CLASSICMODELS.CUSTOMERS</property>
                     </structure>
                 </list-property>
             </group>
-            <group id="31">
+            <group id="33">
                 <property name="groupName">group2</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
-            <group id="32">
+            <group id="34">
                 <property name="groupName">group3</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
             </group>
         </table>
+        <list name="myList1" id="30">
+            <property name="dataSet">Data Set</property>
+            <property name="dataBindingRef">myTable3</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <group id="35">
+                <property name="groupName">group1</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key">table 1 name</expression>
+                        <property name="direction">asc</property>
+                    </structure>
+                </list-property>
+                <list-property name="filter">
+                    <structure>
+                        <property name="operator">lt</property>
+                        <expression name="expr">table 1 filter expression</expression>
+                    </structure>
+                </list-property>
+            </group>
+            <group id="36">
+                <property name="groupName">group2</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+            <group id="37">
+                <property name="groupName">group3</property>
+                <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
+            </group>
+        </list>
     </body>
 </report>

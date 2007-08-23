@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * The utility to recover listing/group properties if data binding reference
@@ -55,7 +56,9 @@ public class RecoverDataGroupUtil
 		}
 
 		DesignElement targetElement = refValue.getElement( );
-		if ( targetElement.getDefn( ) != listing.getDefn( ) )
+
+		if ( !ModelUtil
+				.isCompatibleDataBindingElements( listing, targetElement ) )
 			return;
 
 		int elementGroupCount = listing.getGroups( ).size( );

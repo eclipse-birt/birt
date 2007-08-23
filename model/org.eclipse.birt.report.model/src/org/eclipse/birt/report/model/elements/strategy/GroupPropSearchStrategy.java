@@ -122,7 +122,8 @@ public class GroupPropSearchStrategy extends PropertySearchStrategy
 		while ( refValue != null && refValue.isResolved( ) )
 		{
 			target = refValue.getElement( );
-			if ( target.getDefn( ) != tmpContainer.getDefn( ) )
+
+			if ( !( target instanceof ListingElement ) )
 				break;
 
 			tmpContainer = target;

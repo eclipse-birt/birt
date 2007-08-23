@@ -553,7 +553,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				!( targetElement instanceof ListingElement ) )
 			return;
 
-		if ( reportItem.getDefn( ) != targetElement.getDefn( ) )
+		if (!ModelUtil.isCompatibleDataBindingElements( element, targetElement ))
 			return;
 
 		ListingElement listing = (ListingElement) reportItem;

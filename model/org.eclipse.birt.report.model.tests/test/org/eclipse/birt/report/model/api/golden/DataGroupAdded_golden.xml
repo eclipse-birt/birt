@@ -61,7 +61,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     </structure>
                 </list-property>
             </group>
-            <group id="28">
+            <group id="30">
                 <property name="groupName">NewTableGroup2</property>
             </group>
             <detail>
@@ -85,7 +85,14 @@ from CLASSICMODELS.CUSTOMERS</property>
             <group id="27">
                 <property name="groupName">group1</property>
             </group>
-            <group id="29"/>
+            <group id="31"/>
         </table>
+        <list name="myList1" id="28">
+            <property name="dataBindingRef">myTable2</property>
+            <group id="29">
+                <property name="groupName">group1</property>
+            </group>
+            <group id="32"/>
+        </list>
     </body>
 </report>

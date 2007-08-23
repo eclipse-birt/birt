@@ -72,6 +72,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -146,8 +147,8 @@ public class ModelUtil
 			boolean isSelector = MetaDataDictionary.getInstance( )
 					.getPredefinedStyle( styleName ) != null;
 
-			if ( ( !isSelector && styleName.equals( name ) )
-					|| ( isSelector && styleName.equalsIgnoreCase( name ) ) )
+			if ( ( !isSelector && styleName.equals( name ) ) ||
+					( isSelector && styleName.equalsIgnoreCase( name ) ) )
 			{
 				return i;
 			}
@@ -180,8 +181,8 @@ public class ModelUtil
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, module );
 
-		if ( value instanceof List && defn != null
-				&& defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
+		if ( value instanceof List && defn != null &&
+				defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
 		{
 			List valueList = (List) value;
 			List names = new ArrayList( );
@@ -290,23 +291,22 @@ public class ModelUtil
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IStyledElementModel.STYLE_PROP.equals( propName )
-					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP
-							.equals( propName )
-					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
-							.equals( propName )
-					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
-					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
-							.equals( propName )
-					|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName ) ||
+					IDesignElementModel.EXTENDS_PROP.equals( propName ) ||
+					IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) ||
+					IOdaExtendableElementModel.EXTENSION_ID_PROP
+							.equals( propName ) ||
+					IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) ||
+					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
+							.equals( propName ) ||
+					IDesignElementModel.VIEW_ACTION_PROP.equals( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
 					.getPropertyDefn( propName );
 
-			if ( propDefn == null
-					|| propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			if ( propDefn == null ||
+					propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 				continue;
 
 			Object value = null;
@@ -315,11 +315,10 @@ public class ModelUtil
 			// properties on the group element
 
 			// for toc the default value is the group expression.
-			if ( propHandle.getElement( ) instanceof GroupElement
-					&& ( IGroupElementModel.TOC_PROP.equals( propName )
-							|| IStyleModel.PAGE_BREAK_AFTER_PROP
-									.equals( propName )
-							|| IStyleModel.PAGE_BREAK_BEFORE_PROP
+			if ( propHandle.getElement( ) instanceof GroupElement &&
+					( IGroupElementModel.TOC_PROP.equals( propName ) ||
+							IStyleModel.PAGE_BREAK_AFTER_PROP.equals( propName ) ||
+							IStyleModel.PAGE_BREAK_BEFORE_PROP
 									.equals( propName ) || IStyleModel.PAGE_BREAK_INSIDE_PROP
 							.equals( propName ) ) )
 				value = propHandle.getElement( ).getLocalProperty(
@@ -600,8 +599,8 @@ public class ModelUtil
 					String errorCode = ( (LibraryException) parserException
 							.getException( ) ).getErrorCode( );
 
-					if ( errorCode == LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY
-							|| errorCode == LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE )
+					if ( errorCode == LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY ||
+							errorCode == LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE )
 					{
 						return parserException.getException( );
 					}
@@ -796,8 +795,8 @@ public class ModelUtil
 		// should have already caught this case.
 
 		String name = theme.getName( );
-		assert !StringUtil.isBlank( name )
-				&& ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
+		assert !StringUtil.isBlank( name ) &&
+				ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
 						.equals( name );
 
 		NameSpace ns = library.getNameHelper( ).getNameSpace(
@@ -868,8 +867,8 @@ public class ModelUtil
 		if ( propDefn == null || content == null )
 			return;
 
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE &&
+				propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
 			return;
 
 		Object value = content.getLocalProperty( module,
@@ -1026,8 +1025,8 @@ public class ModelUtil
 	public static String getExternalizedValue( DesignElement element,
 			String propIDName, String propName, ULocale locale )
 	{
-		if ( element == null || element.getPropertyDefn( propName ) == null
-				|| element.getPropertyDefn( propIDName ) == null )
+		if ( element == null || element.getPropertyDefn( propName ) == null ||
+				element.getPropertyDefn( propIDName ) == null )
 			return null;
 		String textKey = searchForExternalizedValue( element, propIDName,
 				locale );
@@ -1156,13 +1155,13 @@ public class ModelUtil
 
 		}
 
-		if ( versionNo < 0
-				|| versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
+		if ( versionNo < 0 ||
+				versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
 			rtnList
 					.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
 
-		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION
-				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
+		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION &&
+				DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
 			rtnList.add( new VersionInfo( version,
 					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
 
@@ -1205,8 +1204,8 @@ public class ModelUtil
 				if ( DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_EXTENDED_ITEM
 						.equals( name ) )
 				{
-					if ( element instanceof ExtendedItem
-							&& element
+					if ( element instanceof ExtendedItem &&
+							element
 									.getDefn( )
 									.isKindOf(
 											dd
@@ -1320,7 +1319,7 @@ public class ModelUtil
 
 		return true;
 	}
-	
+
 	/**
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by
@@ -1414,14 +1413,14 @@ public class ModelUtil
 	public static void addElement2NameSpace( Module module,
 			DesignElement element )
 	{
-		if ( module == null || element == null
-				|| !element.isManagedByNameSpace( ) )
+		if ( module == null || element == null ||
+				!element.isManagedByNameSpace( ) )
 			return;
 
 		module.makeUniqueName( element );
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( element.getName( ) != null
-				&& ns != MetaDataConstants.NO_NAME_SPACE )
+		if ( element.getName( ) != null &&
+				ns != MetaDataConstants.NO_NAME_SPACE )
 			new NameExecutor( element ).getNameSpace( module ).insert( element );
 
 	}
@@ -1600,8 +1599,8 @@ public class ModelUtil
 			}
 
 			retTarget.pushStep( tmpPropDefn, index );
-			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
-					&& !( tmpContainer instanceof ContentElement ) )
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE &&
+					!( tmpContainer instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpContainer );
 				return retTarget;
@@ -1623,5 +1622,28 @@ public class ModelUtil
 		}
 
 		return null;
+	}
+
+	/**
+	 * Checks whether element definitions are compatible with others.
+	 * 
+	 * @param element1
+	 *            the element 1
+	 * @param element2
+	 *            the element 2
+	 * @return <code>true</code> if definitions of two elements are same or
+	 *         both elements are listing elements
+	 */
+
+	public static boolean isCompatibleDataBindingElements(
+			DesignElement element1, DesignElement element2 )
+	{
+		// if one list and the other table, it is OK.
+
+		if ( element1.getDefn( ) != element2.getDefn( ) &&
+				!( ( element1 instanceof ListingElement ) && ( element2 instanceof ListingElement ) ) )
+			return false;
+
+		return true;
 	}
 }

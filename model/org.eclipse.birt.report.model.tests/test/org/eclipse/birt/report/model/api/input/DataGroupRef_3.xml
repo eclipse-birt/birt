@@ -98,5 +98,11 @@ from CLASSICMODELS.CUSTOMERS</property>
             </group>
             <property name="dataBindingRef">myTable1</property>                   
         </table>         
+        <list name="myList1">
+            <group>
+            	<property name="groupName">listGroup3</property>
+            </group>
+            <property name="dataBindingRef">myTable1</property>                   
+        </list>               
     </body>
 </report>

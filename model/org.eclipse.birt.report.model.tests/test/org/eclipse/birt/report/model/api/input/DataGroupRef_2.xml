@@ -100,6 +100,11 @@ from CLASSICMODELS.CUSTOMERS</property>
             <group>
             	<property name="groupName">group3</property>
             </group>      
-        </table>         
+        </table>       
+        <list name="myList1">
+            <group>
+            	<property name="groupName">listgroup3</property>
+            </group>      
+        </list>                
     </body>
 </report>

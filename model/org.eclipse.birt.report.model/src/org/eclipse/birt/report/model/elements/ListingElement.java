@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class represents the properties and slots common to the List and Table
@@ -230,8 +231,7 @@ public abstract class ListingElement extends ReportItem
 	}
 
 	/**
-	 * Returns listing elements that refers to this listing element directly or
-	 * non-directly.
+	 * Returns listing elements that refers to this listing element directly.
 	 * 
 	 * @param module
 	 *            the root of the listing element
@@ -251,15 +251,11 @@ public abstract class ListingElement extends ReportItem
 			if ( !IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( ref
 					.getPropertyName( ) ) )
 				continue;
-			if ( refElement.getDefn( ) != getDefn( ) )
+
+			if ( !ModelUtil.isCompatibleDataBindingElements( this, refElement ) )
 				continue;
 
 			returnList.add( refElement );
-
-			// recursively adds clients
-
-			returnList.addAll( ( (ListingElement) refElement )
-					.findReferredListingElements( module ) );
 		}
 
 		return returnList;

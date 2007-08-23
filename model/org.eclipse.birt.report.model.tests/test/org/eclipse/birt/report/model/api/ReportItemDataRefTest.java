@@ -227,7 +227,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 		assertEquals( "row[\"CUSTOMERNAME\"]", group2.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "group1", group2.getName( ) ); //$NON-NLS-1$
 		assertEquals( "group1", group2.getDisplayLabel( ) ); //$NON-NLS-1$
-		
+
 		Iterator iter1 = group2.filtersIterator( );
 		FilterConditionHandle filter = (FilterConditionHandle) iter1.next( );
 		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
@@ -247,9 +247,25 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.get( 0 );
 		group1.setKeyExpr( "the new expression" ); //$NON-NLS-1$
 		assertEquals( "the new expression", group2.getKeyExpr( ) ); //$NON-NLS-1$
-		
+
 		group1.setName( "newGroup1" ); //$NON-NLS-1$
 		assertEquals( "newGroup1", group2.getDisplayLabel( ) ); //$NON-NLS-1$
+
+		// list refers to the table
+
+		ListHandle list1 = (ListHandle) designHandle.findElement( "myList1" );  //$NON-NLS-1$
+
+		ListGroupHandle listGroup = (ListGroupHandle) list1.getGroups( )
+				.get( 0 );
+		assertEquals( "the new expression", listGroup.getKeyExpr( ) ); //$NON-NLS-1$
+		assertEquals( "newGroup1", listGroup.getName( ) ); //$NON-NLS-1$
+		assertEquals( "newGroup1", listGroup.getDisplayLabel( ) ); //$NON-NLS-1$
+
+		iter1 = listGroup.filtersIterator( );
+		filter = (FilterConditionHandle) iter1.next( );
+		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filter
+				.getOperator( ) );
 
 	}
 
@@ -271,19 +287,19 @@ public class ReportItemDataRefTest extends BaseTestCase
 		table1.addElement( newGroup, TableHandle.GROUP_SLOT );
 
 		save( );
-		compareFile( "DataGroupAdded_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DataGroupAdded_golden.xml" ) ); //$NON-NLS-1$
 
 		newGroup.drop( );
 		save( );
-		compareFile( "DataGroupDropped_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DataGroupDropped_golden.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 		save( );
-		compareFile( "DataGroupUndoDrop_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DataGroupUndoDrop_golden.xml" ) ); //$NON-NLS-1$
 
 		newGroup.getContainerSlotHandle( ).shift( newGroup, 0 );
 		save( );
-		compareFile( "DataGroupShiftPosition_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DataGroupShiftPosition_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -315,6 +331,13 @@ public class ReportItemDataRefTest extends BaseTestCase
 	}
 
 	/**
+	 * Cases:
+	 * 
+	 * <ul>
+	 * <li>table refers to the table
+	 * <li>list refers to the table
+	 * </ul>
+	 * 
 	 * @throws Exception
 	 */
 
@@ -328,31 +351,48 @@ public class ReportItemDataRefTest extends BaseTestCase
 		TableHandle table1 = (TableHandle) designHandle
 				.findElement( "myTable1" ); //$NON-NLS-1$
 
+		ListHandle list1 = (ListHandle) designHandle.findElement( "myList1" ); //$NON-NLS-1$
+
+		CommandStack cmdStack = designHandle.getCommandStack( );
+		cmdStack.startTrans( null );
 		table2.setDataBindingReference( table1 );
+		list1.setDataBindingReference( table1 );
+		cmdStack.commit( );
+
 		save( );
-		compareFile( "SetDataGroupRef_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "SetDataGroupRef_golden.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 		save( );
-		compareFile( "SetDataGroupRefUndo_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "SetDataGroupRefUndo_golden.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).redo( );
 		save( );
-		compareFile( "SetDataGroupRefRedo_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "SetDataGroupRefRedo_golden.xml" ) ); //$NON-NLS-1$
+
+		cmdStack.startTrans( null );
 
 		table2.setDataBindingReference( null );
+		list1.setDataBindingReference( null );
+		cmdStack.commit( );
+
 		save( );
-		compareFile( "SetDataGroupRefNull_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "SetDataGroupRefNull_golden.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 		save( );
-		compareFile( "SetDataGroupRefNullUndo_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "SetDataGroupRefNullUndo_golden.xml" ) ); //$NON-NLS-1$
 
-		table2.setDataBindingReference( designHandle.getElementFactory( )
-				.newTableItem( "myTable3" ) ); //$NON-NLS-1$
+		cmdStack.startTrans( null );
+
+		TableHandle table3 = designHandle.getElementFactory( ).newTableItem(
+				"myTable3" );//$NON-NLS-1$
+		table2.setDataBindingReference( table3 );
+		list1.setDataBindingReference( table3 );
+		cmdStack.commit( );
+
 		save( );
-		compareFile( "SetDataGroupRefInvalid_golden.xml" ); //$NON-NLS-1$
-
+		assertTrue( compareFile( "SetDataGroupRefInvalid_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -363,8 +403,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 	{
 		openDesign( "DataGroupRef_3.xml" ); //$NON-NLS-1$
 
-		// assertEquals( 0, designHandle.getErrorList( ).size( ) );
-		assertEquals( 2, designHandle.getWarningList( ).size( ) );
+		assertEquals( 3, designHandle.getWarningList( ).size( ) );
 
 		List warnings = designHandle.getWarningList( );
 		assertEquals(
@@ -375,7 +414,11 @@ public class ReportItemDataRefTest extends BaseTestCase
 				"The data binding reference of the element Table(\"myTable2\") has different number of groups with element Table(\"myTable1\") it refers to.", //$NON-NLS-1$
 				( (ErrorDetail) warnings.get( 1 ) ).getMessage( ) );
 
+		assertEquals(
+				"The data binding reference of the element List(\"myList1\") has different number of groups with element Table(\"myTable1\") it refers to.", //$NON-NLS-1$
+				( (ErrorDetail) warnings.get( 2 ) ).getMessage( ) );
+
 		save( );
-		compareFile( "ParseInconsistentDataGroup_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "ParseInconsistentDataGroup_golden.xml" ) ); //$NON-NLS-1$
 	}
 }
