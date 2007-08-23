@@ -70,6 +70,7 @@ public class JDBCPropertyPage extends DataSourceEditorPage
 
 		// enable/disable all controls on page in respect of the editable session state
 		enableAllControls( getControl( ), isSessionEditable( ) );
+		m_pageHelper.resetTestAndMngButton( );
 	}
 
 }
