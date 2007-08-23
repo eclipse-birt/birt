@@ -56,10 +56,11 @@ BIRTConfiguration_log_dialog_message=Wählen Sie den Standard-Protokollordner:
 BIRTConfiguration_report_access_message=&Nur auf den Bericht und das Dokument im Arbeitsordner zugreifen
 BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschreiben
 
-BIRTConfiguration_maxrows_label=Maximale Zeilenanzahl für &Datensatz:
+BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
 BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
 
-BIRTConfiguration_loglevel_label=Protokollebene au&swählen:
+BIRTConfiguration_loglevel_label=S&elect Log Level:
 BIRTConfiguration_loglevel_all=ALLE
 BIRTConfiguration_loglevel_severe=SCHWER
 BIRTConfiguration_loglevel_warning=WARNUNG

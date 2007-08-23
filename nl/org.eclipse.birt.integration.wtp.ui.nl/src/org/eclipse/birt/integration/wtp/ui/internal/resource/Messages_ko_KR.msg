@@ -56,10 +56,11 @@ BIRTConfiguration_log_dialog_message=기본 로그 폴더를 선택하십시오.
 BIRTConfiguration_report_access_message=작업 폴더의 보고서 및 문서에만 액세스(&O)
 BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A) 
 
-BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&D):
+BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
 BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
 
-BIRTConfiguration_loglevel_label=로그 수준 선택(&S):
+BIRTConfiguration_loglevel_label=S&elect Log Level:
 BIRTConfiguration_loglevel_all=모두
 BIRTConfiguration_loglevel_severe=심각
 BIRTConfiguration_loglevel_warning=경고

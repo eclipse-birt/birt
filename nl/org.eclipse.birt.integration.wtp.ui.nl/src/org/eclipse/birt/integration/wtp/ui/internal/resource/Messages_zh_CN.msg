@@ -56,10 +56,11 @@ BIRTConfiguration_log_dialog_message=请选择默认日志文件夹:
 BIRTConfiguration_report_access_message=仅访问工作文件夹下的报表和文档(&O)
 BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
-BIRTConfiguration_maxrows_label=数据集最大行数(&D):
+BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
 BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
 
-BIRTConfiguration_loglevel_label=选择日志级别(&S):
+BIRTConfiguration_loglevel_label=S&elect Log Level:
 BIRTConfiguration_loglevel_all=全部
 BIRTConfiguration_loglevel_severe=严重
 BIRTConfiguration_loglevel_warning=警告

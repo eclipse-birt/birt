@@ -56,10 +56,11 @@ BIRTConfiguration_log_dialog_message=Seleccione la carpeta de registro predeterm
 BIRTConfiguration_report_access_message=Acceder sól&o al informe y documento de la carpeta de trabajo
 BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de documento generado
 
-BIRTConfiguration_maxrows_label=Número máximo de filas de conjunto de &datos:
+BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
 BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
 
-BIRTConfiguration_loglevel_label=&Seleccionar nivel de registro:
+BIRTConfiguration_loglevel_label=S&elect Log Level:
 BIRTConfiguration_loglevel_all=TODOS
 BIRTConfiguration_loglevel_severe=GRAVE
 BIRTConfiguration_loglevel_warning=ADVERTENCIA

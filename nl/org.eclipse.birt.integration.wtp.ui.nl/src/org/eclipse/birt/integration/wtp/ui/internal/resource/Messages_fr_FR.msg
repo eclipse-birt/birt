@@ -56,10 +56,11 @@ BIRTConfiguration_log_dialog_message=Sélectionnez le dossier du journal par défa
 BIRTConfiguration_report_access_message=Accéder uniquement aux états et d&ocuments du dossier de travail
 BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
-BIRTConfiguration_maxrows_label=Lignes max. de jeux de &données :
+BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
 BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
+BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
 
-BIRTConfiguration_loglevel_label=&Sélectionnez le niveau de journalisation :
+BIRTConfiguration_loglevel_label=S&elect Log Level:
 BIRTConfiguration_loglevel_all=TOUT
 BIRTConfiguration_loglevel_severe=SEVERE
 BIRTConfiguration_loglevel_warning=AVERTISSEMENT
