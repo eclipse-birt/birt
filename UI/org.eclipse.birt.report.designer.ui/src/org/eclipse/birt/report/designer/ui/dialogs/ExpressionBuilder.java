@@ -811,7 +811,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 	public void setExpressionProvier( IExpressionProvider provider )
 	{
 		providers.clear( );
-		providers.add( provider );
+		if ( provider != null )
+		{
+			providers.add( provider );
+		}
 	}
 
 	/**
@@ -823,7 +826,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 	public void setExpressionProviers( Collection providers )
 	{
 		this.providers.clear( );
-		this.providers.addAll( providers );
+		if ( providers != null )
+		{
+			this.providers.addAll( providers );
+		}
 	}
 
 	/**
