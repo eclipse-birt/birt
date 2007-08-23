@@ -63,7 +63,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 	private static final String COLUMN_NAME_SPLITTER = "::";
 
-	private static final String TEMP_COLUMN_STRING = ".*$TEMP_.*";
+	private static final String TEMP_COLUMN_STRING = "\\Q_{$TEMP\\E.*";
 
 	//
 	private IJointDataSetDesign dataSet;
@@ -577,6 +577,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				DataSourceQuery dsQuery = new DataSourceQuery( dataEngine.getSession( ) );
 
 				JointDataSetQuery jointQuery = (JointDataSetQuery) odiQuery;
+				this.prepareCacheQuery( dsQuery );
 				dsQuery.setExprProcessor( jointQuery.getExprProcessor( ) );
 				List fetchEvents = jointQuery.getFetchEvents( );
 				if ( fetchEvents != null )

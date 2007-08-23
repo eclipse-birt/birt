@@ -433,6 +433,71 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
+	 * @throws Exception 
+	 */
+	public void testJointDataSetCacheWithGroup( ) throws Exception
+	{
+		QueryDefinition queryDefn = prepareForJointDataSet( );
+
+		prepareExprNameAndQuery( rowBeArray, totalBeArray, queryDefn );
+		IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
+		IQueryResults qr = preparedQuery.execute( null );
+		IResultIterator ri = qr.getResultIterator( );
+
+		while ( ri.next( ) )
+		{
+			for ( int i = 0; i < rowBeArray.length; i++ )
+				ri.getValue( rowBeNames[i] );
+		}
+
+		GroupDefinition gd = new GroupDefinition( "G1" );
+		gd.setKeyExpression( "row[\""
+				+ this.dataSet.getName( ) + "::COUNTRY\"]" );
+		queryDefn.addGroup( gd );
+		queryDefn.setAutoBinding( true );
+		preparedQuery = myDataEngine.prepare( queryDefn );
+		qr = preparedQuery.execute( null );
+		ri = qr.getResultIterator( );
+
+		while ( ri.next( ) )
+		{
+			String s = "";
+			for ( int i = 0; i < rowBeArray.length; i++ )
+			{
+				s += ri.getValue( rowBeNames[i] );
+				if ( i != rowBeArray.length - 1 )
+					s += ", ";
+			}
+
+			testPrintln( s );
+		}		
+		
+		gd = new GroupDefinition( "G2" );
+		gd.setKeyExpression( "row[\""
+				+ this.dataSet.getName( ) + "::CITY\"]" );
+		queryDefn.addGroup( gd );
+		preparedQuery = myDataEngine.prepare( queryDefn );
+		qr = preparedQuery.execute( null );
+		ri = qr.getResultIterator( );
+
+		while ( ri.next( ) )
+		{
+			String s = "";
+			for ( int i = 0; i < rowBeArray.length; i++ )
+			{
+				s += ri.getValue( rowBeNames[i] );
+				if ( i != rowBeArray.length - 1 )
+					s += ", ";
+			}
+
+			testPrintln( s );
+		}		
+		myDataEngine.shutdown( );
+		
+		this.checkOutputFile( );
+	}
+	
+	/**
 	 * @throws BirtException
 	 */
 	public QueryDefinition prepareForJointDataSet( ) throws BirtException

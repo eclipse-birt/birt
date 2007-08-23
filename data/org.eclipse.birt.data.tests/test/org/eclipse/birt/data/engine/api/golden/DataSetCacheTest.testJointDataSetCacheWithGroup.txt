@@ -1,0 +1,32 @@
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York

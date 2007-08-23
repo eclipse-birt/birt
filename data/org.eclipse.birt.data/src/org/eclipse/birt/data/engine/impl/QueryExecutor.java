@@ -303,7 +303,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 			// specify max rows the query should fetch
 			odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
 			
-			prepareCacheQuery( );
+			prepareCacheQuery( this.odiQuery );
 		}
 		finally
 		{
@@ -315,7 +315,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * TODO: enhance me, this is only a temp logic
 	 * Set temporary computed columns to DataSourceQuery where cache is used
 	 */
-	private void prepareCacheQuery( )
+	protected void prepareCacheQuery( IQuery odiQuery )
 	{
 		if ( odiQuery instanceof org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery
 				&& temporaryComputedColumns != null
