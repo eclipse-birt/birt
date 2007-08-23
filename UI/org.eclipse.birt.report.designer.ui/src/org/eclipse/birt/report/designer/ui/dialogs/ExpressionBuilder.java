@@ -139,6 +139,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 	
 	/** The category type for provider */
 	private static final int ITEM_CATEGORY = 7;
+	
+	/** The has children type for provider */
+	private static final int ITEM_HAS_CHILDREN = 8;
 
 	/** the providers */
 	private final Collection providers = new HashSet();
@@ -668,7 +671,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public boolean hasChildren( Object element )
 			{
-				return !( (List) getProviderValue( ITEM_CHILDREN, element ) ).isEmpty( );
+				return ( (Boolean) getProviderValue( ITEM_HAS_CHILDREN, element ) ).booleanValue( );
 			}
 
 			public Object[] getElements( Object inputElement )
@@ -984,6 +987,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 				value = Arrays.asList( provider.getCategory( ) );
 				break;
 
+			case ITEM_HAS_CHILDREN :
+				value = new Boolean( provider.hasChildren( element ) );
+				break;
+
 			default :
 				value = null;
 				break;
@@ -1016,7 +1023,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 			case ITEM_CATEGORY :
 				value = Collections.EMPTY_LIST;
 				break;
-				
+
+			case ITEM_HAS_CHILDREN :
+				value = new Boolean( false );
+				break;
+
 			case ITEM_IMAGE :
 			default :
 				break;
