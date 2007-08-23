@@ -150,6 +150,8 @@ public class DataAdapterUtil
 				new Integer( IConditionalExpression.OP_NOT_LIKE ) );
 		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH,
 				new Integer( IConditionalExpression.OP_NOT_MATCH ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_IN,
+				new Integer( IConditionalExpression.OP_IN ) );
 	}
 
 	/**

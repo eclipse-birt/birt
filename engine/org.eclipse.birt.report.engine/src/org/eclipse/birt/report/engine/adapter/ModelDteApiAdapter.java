@@ -58,6 +58,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -880,10 +881,24 @@ public class ModelDteApiAdapter
 
 		String column = filterExpr;
 		int dteOpr = toDteFilterOperator( filterOpr );
-		String operand1 = modelFilter.getValue1( );
-		String operand2 = modelFilter.getValue2( );
-		return new FilterDefinition( new ConditionalExpression( column, dteOpr,
-				operand1, operand2 ) );
+		if ( dteOpr == IConditionalExpression.OP_IN ||
+				dteOpr == IConditionalExpression.OP_NOT_IN )
+		{
+			List operands = modelFilter.getValue1List( );
+			return new FilterDefinition( new ConditionalExpression( column,
+					dteOpr,
+					operands ) );
+		}
+		else
+		{
+			String operand1 = modelFilter.getValue1( );
+			String operand2 = modelFilter.getValue2( );
+
+			return new FilterDefinition( new ConditionalExpression( column,
+					dteOpr,
+					operand1,
+					operand2 ) );
+		}
 	}
 
 	private IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
@@ -975,90 +990,13 @@ public class ModelDteApiAdapter
 
 	public static int toDteDataType( String modelDataType )
 	{
-		if ( modelDataType == null )
-			return DataType.UNKNOWN_TYPE;
-		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-			return DataType.ANY_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) )
-			return DataType.INTEGER_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-			return DataType.STRING_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-			return DataType.DATE_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
-			return DataType.SQL_DATE_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-			return DataType.SQL_TIME_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
-			return DataType.DECIMAL_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
-			return DataType.DOUBLE_TYPE;
-		if ( modelDataType
-				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
-			return DataType.BOOLEAN_TYPE;	
-
-		return DataType.UNKNOWN_TYPE;
+		return DataAdapterUtil.adaptModelDataType( modelDataType );
 	}
 
 	// Convert model operator value to DtE IColumnFilter enum value
 	public static int toDteFilterOperator( String modelOpr )
 	{
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
-			return IConditionalExpression.OP_EQ;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
-			return IConditionalExpression.OP_NE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
-			return IConditionalExpression.OP_LT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
-			return IConditionalExpression.OP_LE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
-			return IConditionalExpression.OP_GE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
-			return IConditionalExpression.OP_GT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
-			return IConditionalExpression.OP_BETWEEN;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
-			return IConditionalExpression.OP_NOT_BETWEEN;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
-			return IConditionalExpression.OP_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
-			return IConditionalExpression.OP_NOT_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
-			return IConditionalExpression.OP_TRUE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
-			return IConditionalExpression.OP_FALSE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
-			return IConditionalExpression.OP_LIKE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
-			return IConditionalExpression.OP_TOP_N;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
-			return IConditionalExpression.OP_BOTTOM_N;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
-			return IConditionalExpression.OP_TOP_PERCENT;
-		if ( modelOpr
-				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
-			return IConditionalExpression.OP_BOTTOM_PERCENT;
-		
-		/*		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-			return IConditionalExpression.OP_ANY;*/
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ) )
-			return IConditionalExpression.OP_MATCH;
-		
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ))
-			return IConditionalExpression.OP_NOT_LIKE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ))
-			return IConditionalExpression.OP_NOT_MATCH;
-		assert false; // unknown filter operator
-		return IConditionalExpression.OP_NONE;
+		return DataAdapterUtil.adaptModelFilterOperator( modelOpr );
 	}
 
 	/*

@@ -13,9 +13,12 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
+import java.util.List;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * A report filter
@@ -42,10 +45,23 @@ public class FilterAdapter extends FilterDefinition
 			else
 			{
 				// Condition filter with operator and operands
-				String operand1 = modelFilter.getValue1( );
-				String operand2 = modelFilter.getValue2( );
-				setExpression( new ConditionAdapter( filterExpr, filterOpr,
-						operand1, operand2 ) );
+				if ( !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_IN ) )
+				{
+					String operand1 = modelFilter.getValue1( );
+					String operand2 = modelFilter.getValue2( );
+
+					setExpression( new ConditionAdapter( filterExpr,
+							filterOpr,
+							operand1,
+							operand2 ) );
+				}
+				else
+				{
+					List operands = modelFilter.getValue1List( );
+					setExpression( new ConditionAdapter( filterExpr,
+							filterOpr,
+							operands ) );
+				}
 			}
 		}
 	}
