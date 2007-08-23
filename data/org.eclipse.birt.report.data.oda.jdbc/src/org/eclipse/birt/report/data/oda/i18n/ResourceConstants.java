@@ -112,7 +112,7 @@ public class ResourceConstants
 	public final static String PREPARESTATEMENT_PARAMETER_TYPE_CANNOT_GET = "odajdbc.PrepareStatement.CannotGetParameterType";
 	public final static String PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET = "odajdbc.CannotGetParameterMetadata";
 	public final static String PREPARESTATEMENT_CLEAR_PARAMETER_ERROR = "odajdbc.ClearParametersError";
-
+	public final static String MISSEDURLANDJNDI = "odajdbc.missedUrlAndJndi";
 	// used in assert error
 	public final static String DRIVER_NO_CONNECTION = "odajdbc.driver.ConnNotOpen";
 	public final static String DRIVER_MISSING_PROPERTIES = "odajdbc.driver.DriverMissingProperties";

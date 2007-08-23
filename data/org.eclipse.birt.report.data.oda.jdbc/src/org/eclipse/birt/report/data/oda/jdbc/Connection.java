@@ -105,7 +105,9 @@ public class Connection implements IConnection
 		else
 		{
 			String url = connProperties.getProperty( Constants.ODAURL );
-			if ( url == null || url.length( ) == 0 )
+			String jndiName = connProperties.getProperty( Constants.ODAJndiName );
+			if ( (url == null || url.length( ) == 0) && (jndiName == null ||
+					jndiName.length() == 0) )
 			{
 				throw new JDBCException( ResourceConstants.DRIVER_MISSING_PROPERTIES,
 						ResourceConstants.ERROR_MISSING_PROPERTIES );

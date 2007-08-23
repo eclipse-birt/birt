@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -37,6 +38,8 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.osgi.framework.Bundle;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utility classs that manages the JDBC drivers available to this bridge driver.
@@ -63,6 +66,10 @@ public class JDBCDriverManager
 	private HashMap driverExtensions = null;
 	
 	private  DriverClassLoader extraDriverLoader = null;
+	
+	//The resource handle.
+	private JdbcResourceHandle resourceHandle = new JdbcResourceHandle(ULocale
+			.getDefault());
 	
 	private static JDBCDriverManager instance;
 	
@@ -94,7 +101,7 @@ public class JDBCDriverManager
 	public Connection getConnection( String driverClass, String url, 
 			Properties connectionProperties, String driverClassPath ) throws SQLException, OdaException
 	{
-        validateConnectionUrl( url );
+        validateConnectionUrl( url,null );
 		if ( logger.isLoggable( Level.FINE ))
 			logger.fine("Request JDBC Connection: driverClass=" + 
 					(driverClass == null? "" : driverClass) + "; url=" + url);
@@ -113,7 +120,7 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password, String driverClassPath ) throws SQLException, OdaException
 	{
-        validateConnectionUrl( url );
+        validateConnectionUrl( url,null );
 		if ( logger.isLoggable( Level.FINE ))
 			logger.fine("Request JDBC Connection: driverClass=" + 
 					(driverClass == null? "" : driverClass) + "; url=" + url + 
@@ -142,7 +149,7 @@ public class JDBCDriverManager
                                 Properties connectionProperties, String driverClassPath ) 
         throws SQLException, OdaException
     {
-        validateConnectionUrl( url );
+        validateConnectionUrl( url, jndiNameUrl);
         if ( logger.isLoggable( Level.FINE ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
                         "; url=" + url +            //$NON-NLS-1$
@@ -236,22 +243,37 @@ public class JDBCDriverManager
      * Creates a new collection if none is specified.
      */
     static Properties addUserAuthenticationProperties( Properties connProps,
-                                String user, String password )
-    {
-        if ( connProps == null )
-            connProps = new Properties();
-        if ( user != null )
-            connProps.setProperty( JDBC_USER_PROP_NAME, user );
-        if ( password != null )
-            connProps.setProperty( JDBC_PASSWORD_PROP_NAME, password );
-        return connProps;
-    }       
+			String user, String password )
+	{
+		if ( connProps == null )
+			connProps = new Properties( );
+		if ( user != null )
+			connProps.setProperty( JDBC_USER_PROP_NAME, user );
+		if ( password != null )
+			connProps.setProperty( JDBC_PASSWORD_PROP_NAME, password );
+		return connProps;
+	}       
 	
-    private void validateConnectionUrl( String url )
-    {
-        if ( url == null )
-            throw new NullPointerException( "getConnection: url is null." );
-    }
+    /**
+	 * Validate the URL & Jndi properties.
+	 * 
+	 * @param url
+	 * @param jndiNameUrl
+	 */
+	private void validateConnectionUrl( String url, String jndiNameUrl )
+	{
+		if ( isBlank( url ) && isBlank( jndiNameUrl ) )
+			throw new NullPointerException( this.resourceHandle.getMessage( ResourceConstants.MISSEDURLANDJNDI ) );
+	}
+
+    /**
+	 * 
+	 * @param url
+	 * @return
+	 */
+	private boolean isBlank(String url) {
+		return url == null || url.trim().toString().length() == 0;
+	}
     
 	/** 
 	 * Searches extension registry for connection factory defined for driverClass. Returns an 
@@ -803,7 +825,7 @@ public class JDBCDriverManager
 					File driverClassFile = new File( driverClassPath );
 					if ( driverClassFile.exists( ) )
 					{
-						this.addURL( driverClassFile.toURL( ) );
+						this.addURL( driverClassFile.toURI().toURL( ) );
 						
 						if ( driverClassFile.isDirectory( ) )
 						{
@@ -825,9 +847,12 @@ public class JDBCDriverManager
 									// This is a new file not previously added to URL list
 									foundNew = true;
 									fileSet.add( driverFiles[i].getName( ) );
-									addURL( driverFiles[i].toURL( ) );
+									addURL( driverFiles[i].toURI().toURL( ) );
 									logger.info( "JDBCDriverManager: found JAR file "
-											+ driverFiles[i].getName( ) + ". URL=" + driverFiles[i].toURL( ) );
+											+ driverFiles[i].getName()
+													+ ". URL="
+													+ driverFiles[i].toURI()
+															.toURL());
 								}
 							}
 						}
