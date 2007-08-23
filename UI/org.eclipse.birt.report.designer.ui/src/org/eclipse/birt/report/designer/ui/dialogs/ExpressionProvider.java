@@ -56,13 +56,6 @@ import org.eclipse.swt.graphics.Image;
 public class ExpressionProvider implements IExpressionProvider
 {
 
-	private boolean hideCurrentCube = false;
-	
-	public void setHideCurrentCube(boolean hide)
-	{
-		hideCurrentCube = hide;
-	}
-	
 	private static class Expression
 	{
 
@@ -184,6 +177,10 @@ public class ExpressionProvider implements IExpressionProvider
 
 	protected DesignElementHandle elementHandle;
 
+	protected IExpressionProvider adapterProvider;
+
+	protected boolean adapterProviderInitialized = false;
+
 	private List filterList;
 
 	private boolean includeSelf;
@@ -234,6 +231,30 @@ public class ExpressionProvider implements IExpressionProvider
 	 */
 	public Operator[] getOperators( )
 	{
+		if ( adapterProvider != null )
+		{
+			Operator[] cats = adapterProvider.getOperators( );
+
+			if ( cats != null )
+			{
+				Operator[] rt = new Operator[OPERATORS_ON_BAR.length
+						+ cats.length];
+
+				System.arraycopy( OPERATORS_ON_BAR,
+						0,
+						rt,
+						0,
+						OPERATORS_ON_BAR.length );
+				System.arraycopy( cats,
+						0,
+						rt,
+						OPERATORS_ON_BAR.length,
+						cats.length );
+
+				return rt;
+			}
+		}
+
 		return OPERATORS_ON_BAR;
 	}
 
@@ -267,7 +288,7 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			categoryList.add( COLUMN_BINDINGS );
 		}
-		if (hideCurrentCube == false &&  elementHandle instanceof ReportItemHandle
+		if ( elementHandle instanceof ReportItemHandle
 				&& ( (ReportItemHandle) elementHandle ).getCube( ) != null )
 		{
 			categoryList.add( CURRENT_CUBE );
@@ -279,6 +300,17 @@ public class ExpressionProvider implements IExpressionProvider
 		categoryList.add( NATIVE_OBJECTS );
 		categoryList.add( BIRT_OBJECTS );
 		categoryList.add( OPERATORS );
+
+		if ( adapterProvider != null )
+		{
+			Object[] cats = adapterProvider.getCategory( );
+
+			if ( cats != null )
+			{
+				categoryList.addAll( Arrays.asList( cats ) );
+			}
+		}
+
 		return categoryList;
 	}
 
@@ -458,6 +490,17 @@ public class ExpressionProvider implements IExpressionProvider
 				return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) );
 			}
 		}
+
+		if ( adapterProvider != null )
+		{
+			Object[] cats = adapterProvider.getChildren( parent );
+
+			if ( cats != null )
+			{
+				childrenList.addAll( Arrays.asList( cats ) );
+			}
+		}
+
 		return childrenList;
 	}
 
@@ -575,6 +618,17 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (LevelAttributeHandle) element ).getName( );
 		}
+
+		if ( adapterProvider != null )
+		{
+			String txt = adapterProvider.getDisplayText( element );
+
+			if ( txt != null )
+			{
+				return txt;
+			}
+		}
+
 		return element.toString( );
 	}
 
@@ -602,6 +656,17 @@ public class ExpressionProvider implements IExpressionProvider
 			return TOOLTIP_BINDING_PREFIX
 					+ ( (ComputedColumnHandle) element ).getExpression( );
 		}
+
+		if ( adapterProvider != null )
+		{
+			String txt = adapterProvider.getTooltipText( element );
+
+			if ( txt != null )
+			{
+				return txt;
+			}
+		}
+
 		return getDisplayText( element );
 	}
 
@@ -658,6 +723,12 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return IMAGE_LEVEL_ATTRI;
 		}
+
+		if ( adapterProvider != null )
+		{
+			return adapterProvider.getImage( element );
+		}
+
 		return null;
 	}
 
@@ -712,7 +783,8 @@ public class ExpressionProvider implements IExpressionProvider
 					(ComputedColumnHandle) element );
 		}
 		else if ( element instanceof LevelHandle
-				|| element instanceof MeasureHandle || element instanceof LevelAttributeHandle )
+				|| element instanceof MeasureHandle
+				|| element instanceof LevelAttributeHandle )
 		{
 			return DEUtil.getExpression( element );
 		}
@@ -720,6 +792,12 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return (String) element;
 		}
+
+		if ( adapterProvider != null )
+		{
+			return adapterProvider.getInsertText( element );
+		}
+
 		return null;
 	}
 
@@ -735,8 +813,8 @@ public class ExpressionProvider implements IExpressionProvider
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
 			IClassInfo classInfo = (IClassInfo) iter.next( );
-			if ( classInfo.isNative( ) == isNative 
-					&& !classInfo.getName( ).equals( "Total" )) //$NON-NLS-1$
+			if ( classInfo.isNative( ) == isNative
+					&& !classInfo.getName( ).equals( "Total" ) ) //$NON-NLS-1$
 			{
 				resultList.add( classInfo );
 			}
@@ -820,15 +898,31 @@ public class ExpressionProvider implements IExpressionProvider
 				|| element instanceof TabularDimensionHandle
 				|| element instanceof LevelHandle )
 			return true;
+
+		if ( adapterProvider != null )
+		{
+			return adapterProvider.hasChildren( element );
+		}
+
 		return false;
 	}
 
-	// @Override
-	// Custom expression provider needs to override
-	public Object getAdapter( Class adapter )
+	protected IExpressionProvider getAdapterProvider( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if ( !adapterProviderInitialized )
+		{
+			Object adapter = ElementAdapterManager.getAdapter( this,
+					IExpressionProvider.class );
+
+			if ( adapter instanceof IExpressionProvider && adapter != this )
+			{
+				adapterProvider = (IExpressionProvider) adapter;
+			}
+
+			adapterProviderInitialized = true;
+		}
+
+		return adapterProvider;
 	}
-	
+
 }

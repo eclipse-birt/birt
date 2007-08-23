@@ -22,6 +22,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -91,23 +92,24 @@ import org.eclipse.ui.PlatformUI;
 
 public class HighlightRuleBuilder extends BaseDialog
 {
-	protected IExpressionProvider expressionProvider;	
+
+	protected IExpressionProvider expressionProvider;
 	protected transient String bindingName = null;
 	protected ReportElementHandle currentItem = null;
-	
+
 	protected String[] popupItems = null;
 
 	protected static String[] EMPTY_ARRAY = new String[]{};
-	
-	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" );
+
+	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" ); //$NON-NLS-1$
 
 	protected static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
 			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
 	};
-	
+
 	protected ParamBindingHandle[] bindingParams = null;
-	
+
 	/**
 	 * Usable operators for building highlight rule conditions.
 	 */
@@ -134,7 +136,6 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 	}
 
-	
 	/**
 	 * Returns the operator value by its display name.
 	 * 
@@ -298,7 +299,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		currentItem = reportItem;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -308,9 +309,9 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		GridData gdata;
 		GridLayout glayout;
-		
+
 		refreshList( );
-		
+
 		Composite contents = new Composite( parent, SWT.NONE );
 		contents.setLayout( new GridLayout( ) );
 		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -354,7 +355,8 @@ public class HighlightRuleBuilder extends BaseDialog
 						&& designHandle instanceof DataItemHandle )
 				{
 					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}else
+				}
+				else
 				{
 					String newValue = expression.getText( );
 					String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
@@ -428,7 +430,8 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		value1 = new ExpressionValue( condition, expression );
 		value1.addTextControlListener( SWT.Modify, textModifyListener );
-		value1.addButtonControlListener( SWT.Selection, popBtnSelectionListener1 );
+		value1.addButtonControlListener( SWT.Selection,
+				popBtnSelectionListener1 );
 
 		createDummy( condition, 3 );
 
@@ -437,10 +440,11 @@ public class HighlightRuleBuilder extends BaseDialog
 		andLable.setVisible( false );
 
 		createDummy( condition, 3 );
-		
+
 		value2 = new ExpressionValue( condition, expression );
 		value2.addTextControlListener( SWT.Modify, textModifyListener );
-		value2.addButtonControlListener( SWT.Selection, popBtnSelectionListener2 );
+		value2.addButtonControlListener( SWT.Selection,
+				popBtnSelectionListener2 );
 		value2.setVisible( false );
 		if ( operator.getItemCount( ) > 0 )
 		{
@@ -664,7 +668,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 		return null;
 	}
-	
+
 	private Composite createApplyStyleArea( Composite parent )
 	{
 		Label lb = new Label( parent, SWT.NONE );
@@ -701,18 +705,18 @@ public class HighlightRuleBuilder extends BaseDialog
 			updateButtons( );
 		}
 	};
-	
+
 	private void refreshList( )
 	{
-			ArrayList finalItems = new ArrayList( 10 );
-			for ( int n = 0; n < actions.length; n++ )
-			{
-				finalItems.add( actions[n] );
-			}
+		ArrayList finalItems = new ArrayList( 10 );
+		for ( int n = 0; n < actions.length; n++ )
+		{
+			finalItems.add( actions[n] );
+		}
 
-			popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
+		popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
 	}
-	
+
 	private List getSelectValueList( ) throws BirtException
 	{
 		List selectValueList = new ArrayList( );
@@ -734,10 +738,10 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 		return selectValueList;
 	}
-	
-	protected void popBtnSelectionAction(ExpressionValue expressionValue)
+
+	protected void popBtnSelectionAction( ExpressionValue expressionValue )
 	{
-		Text valueText =  expressionValue.getTextControl( );
+		Text valueText = expressionValue.getTextControl( );
 		Rectangle textBounds = valueText.getBounds( );
 		Point pt = valueText.toDisplay( textBounds.x, textBounds.y );
 		Rectangle rect = new Rectangle( pt.x, pt.y, valueText.getParent( )
@@ -787,9 +791,9 @@ public class HighlightRuleBuilder extends BaseDialog
 					catch ( Exception ex )
 					{
 						MessageDialog.openError( null,
-								Messages.getString( "SelectValueDialog.selectValue" ),
-								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-										+ "\n"
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
 										+ ex.getMessage( ) );
 					}
 				}
@@ -814,22 +818,22 @@ public class HighlightRuleBuilder extends BaseDialog
 					}
 					catch ( BirtException e1 )
 					{
-						// TODO Auto-generated catch block
 						MessageDialog.openError( null,
-								Messages.getString( "SelectValueDialog.selectValue" ),
-								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-										+ "\n"
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
 										+ e1.getMessage( ) );
 					}
-				}else if(designHandle instanceof ExtendedItemHandle)
+				}
+				else if ( designHandle instanceof ExtendedItemHandle )
 				{
-					CubeHandle cube = ((ExtendedItemHandle)designHandle).getCube( );
+					CubeHandle cube = ( (ExtendedItemHandle) designHandle ).getCube( );
 				}
 				else
 				{
 					MessageDialog.openInformation( null,
-							Messages.getString( "SelectValueDialog.selectValue" ),
-							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 				}
 			}
 			else if ( value.equals( actions[1] ) )
@@ -859,21 +863,21 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		}
 	}
-	
+
 	private Listener popBtnSelectionListener1 = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
-			popBtnSelectionAction(value1);
+			popBtnSelectionAction( value1 );
 		}
 
 	};
-	
+
 	private Listener popBtnSelectionListener2 = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
-			popBtnSelectionAction(value2);
+			popBtnSelectionAction( value2 );
 		}
 
 	};
@@ -1054,23 +1058,23 @@ public class HighlightRuleBuilder extends BaseDialog
 		this.designHandle = handle;
 		initializeProviderType( );
 		inilializeColumnList( handle );
-		initializeParamterBinding(handle);
+		initializeParamterBinding( handle );
 	}
 
 	private void inilializeColumnList( DesignElementHandle handle )
 	{
-		if(handle instanceof ExtendedItemHandle)
+		if ( handle instanceof ExtendedItemHandle )
 		{
-			columnList = new ArrayList();
+			columnList = new ArrayList( );
 		}
 		else
 		{
 			columnList = DEUtil.getVisiableColumnBindingsList( handle );
 		}
-		
+
 	}
-	
-	private void initializeParamterBinding(DesignElementHandle handle)
+
+	private void initializeParamterBinding( DesignElementHandle handle )
 	{
 		if ( handle instanceof ReportItemHandle )
 		{
@@ -1121,7 +1125,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 			String styleName = styleHandle.getName( );
 			stylesChooser.add( styleName );
-			styles.put( (Object) styleName, (Object) styleHandle );
+			styles.put( styleName, styleHandle );
 		}
 
 		if ( handle != null && handle.getStyle( ) != null )
@@ -1699,7 +1703,19 @@ public class HighlightRuleBuilder extends BaseDialog
 		if ( designHandle != null )
 		{
 			ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
-			expressionProvider.setHideCurrentCube( true );
+			expressionProvider.addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+					{
+						return false;
+					}
+					return true;
+				}
+
+			} );
 			expressionBuilder.setExpressionProvier( expressionProvider );
 		}
 

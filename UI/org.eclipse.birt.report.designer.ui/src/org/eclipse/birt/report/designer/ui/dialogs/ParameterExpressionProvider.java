@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +62,17 @@ public class ParameterExpressionProvider extends ExpressionProvider
 		{
 			categoryList.add( DATASETS );
 		}
+
+		if ( adapterProvider != null )
+		{
+			Object[] cats = adapterProvider.getCategory( );
+
+			if ( cats != null )
+			{
+				categoryList.addAll( Arrays.asList( cats ) );
+			}
+		}
+
 		return categoryList;
 	}
 

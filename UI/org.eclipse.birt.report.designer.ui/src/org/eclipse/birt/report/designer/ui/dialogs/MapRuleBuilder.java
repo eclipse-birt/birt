@@ -24,6 +24,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -586,9 +587,9 @@ public class MapRuleBuilder extends BaseDialog
 					catch ( Exception ex )
 					{
 						MessageDialog.openError( null,
-								Messages.getString( "SelectValueDialog.selectValue" ),
-								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-										+ "\n"
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
 										+ ex.getMessage( ) );
 					}
 				}
@@ -613,19 +614,18 @@ public class MapRuleBuilder extends BaseDialog
 					}
 					catch ( BirtException e1 )
 					{
-						// TODO Auto-generated catch block
 						MessageDialog.openError( null,
-								Messages.getString( "SelectValueDialog.selectValue" ),
-								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-										+ "\n"
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+										+ "\n" //$NON-NLS-1$
 										+ e1.getMessage( ) );
 					}
 				}
 				else
 				{
 					MessageDialog.openInformation( null,
-							Messages.getString( "SelectValueDialog.selectValue" ),
-							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 				}
 			}
 			else if ( value.equals( actions[1] ) )
@@ -667,7 +667,7 @@ public class MapRuleBuilder extends BaseDialog
 		resourceKeyArea.setLayoutData( gd );
 
 		Label lb = new Label( resourceKeyArea, SWT.NONE );
-		lb.setText( Messages.getString( "MapRuleBuilder.Button.ResourceKey" ) );
+		lb.setText( Messages.getString( "MapRuleBuilder.Button.ResourceKey" ) ); //$NON-NLS-1$
 		resourceKeytext = new Text( resourceKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		resourceKeytext.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -702,7 +702,7 @@ public class MapRuleBuilder extends BaseDialog
 		gd.horizontalSpan = 4;
 		gd.widthHint = 350;
 		noteLabel.setLayoutData( gd );
-		noteLabel.setText( Messages.getString( "I18nPage.text.Note" ) );
+		noteLabel.setText( Messages.getString( "I18nPage.text.Note" ) ); //$NON-NLS-1$
 		return resourceKeyArea;
 	}
 
@@ -765,7 +765,7 @@ public class MapRuleBuilder extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); //$NON-NLS-1$
+		label.setText( getTitle( ) );
 
 		return titleArea;
 	}
@@ -1078,7 +1078,19 @@ public class MapRuleBuilder extends BaseDialog
 		if ( designHandle != null )
 		{
 			ExpressionProvider expressionProvider = new ExpressionProvider( designHandle );
-			expressionProvider.setHideCurrentCube( true );
+			expressionProvider.addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+					{
+						return false;
+					}
+					return true;
+				}
+
+			} );
 			expressionBuilder.setExpressionProvier( expressionProvider );
 		}
 
@@ -1127,7 +1139,6 @@ public class MapRuleBuilder extends BaseDialog
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			if ( resource == null || path == null || !new File( path ).exists( ) )
