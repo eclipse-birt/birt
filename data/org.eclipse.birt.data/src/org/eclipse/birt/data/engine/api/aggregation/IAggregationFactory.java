@@ -31,6 +31,14 @@ public interface IAggregationFactory
 	 * @return
 	 */
 	public abstract List getAggrInfoList( int type );
+	
+	/**
+	 * Return an IAggregationInfo instance according to given aggregation name.
+	 * 
+	 * @param aggrName
+	 * @return
+	 */
+	public abstract IAggregationInfo getAggrInfo( String aggrName );
 
 	/**
 	 * Return an IAggregation instance according to the given aggregation name
