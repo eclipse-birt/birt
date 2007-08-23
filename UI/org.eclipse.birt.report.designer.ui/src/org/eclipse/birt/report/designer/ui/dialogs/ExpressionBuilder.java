@@ -162,7 +162,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			if ( viewer == categoryTable )
 			{
-				return ( (List) getProviderValue( ITEM_CATEGORY ) ).toArray( );
+				return ( (Collection) getProviderValue( ITEM_CATEGORY ) ).toArray( );
 			}
 			//does not show groups/measures in third column. 
 			if ( inputElement instanceof PropertyHandle
@@ -187,13 +187,13 @@ public class ExpressionBuilder extends TitleAreaDialog
 				childrenList.add( inputElement );
 				return childrenList.toArray( );
 			}
-			return ( (List) getProviderValue( ITEM_CHILDREN, inputElement ) ).toArray( );
+			return ( (Collection) getProviderValue( ITEM_CHILDREN, inputElement ) ).toArray( );
 		}
 
 		private List getChildren( Object inputElement )
 		{
 			List childrenList = new ArrayList( );
-			Object[] children = ( (List) getProviderValue( ITEM_CHILDREN,
+			Object[] children = ( (Collection) getProviderValue( ITEM_CHILDREN,
 					inputElement ) ).toArray( );
 
 			childrenList.addAll( Arrays.asList( children ) );
@@ -579,7 +579,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createOperatorsBar( Composite parent )
 	{
-		Object[] operators = ((List) getProviderValue( ITEM_OPERATORS ) ).toArray( );
+		Object[] operators = ((Collection) getProviderValue( ITEM_OPERATORS ) ).toArray( );
 
 		if ( operators == null || operators.length == 0 )
 		{
@@ -661,7 +661,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public Object[] getChildren( Object parentElement )
 			{
-				return ( (List) getProviderValue( ITEM_CHILDREN, parentElement ) ).toArray( );
+				return ( (Collection) getProviderValue( ITEM_CHILDREN, parentElement ) ).toArray( );
 			}
 
 			public Object getParent( Object element )
@@ -919,21 +919,21 @@ public class ExpressionBuilder extends TitleAreaDialog
 		}
 		else if ( values.size( ) > 1 )
 		{
-			List results = null;
+			Collection results = null;
 
 			for ( Iterator iterator = values.iterator( ); iterator.hasNext( ); )
 			{
 				Object value = (Object) iterator.next( );
 
-				if ( value instanceof List )
+				if ( value instanceof Collection )
 				{
 					if ( results == null )
 					{
-						results = new ArrayList( (List) value );
+						results = new ArrayList( (Collection) value );
 					}
 					else
 					{
-						results.retainAll( (List) value );
+						results.retainAll( (Collection) value );
 					}
 				}
 				else
@@ -1021,7 +1021,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			case ITEM_DISPLAY_TEXT :
 			case ITEM_INSERT_TEXT :
 			case ITEM_TOOLTIP_TEXT :
-				value = "";
+				value = ""; //$NON-NLS-1$
 				break;
 
 			case ITEM_OPERATORS :
