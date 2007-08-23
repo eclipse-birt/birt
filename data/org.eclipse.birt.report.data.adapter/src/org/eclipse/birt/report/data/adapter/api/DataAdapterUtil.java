@@ -222,7 +222,8 @@ public class DataAdapterUtil
 	public static String adaptModelAggregationType( String modelAggrType )
 			throws AdapterException
 	{
-		return (String) aggrAdapterMap.get( modelAggrType );
+		Object o = aggrAdapterMap.get( modelAggrType );
+		return o == null ? modelAggrType : o.toString( );
 	}
 	
 	/**
