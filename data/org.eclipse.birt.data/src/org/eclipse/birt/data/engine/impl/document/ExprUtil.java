@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -153,10 +154,18 @@ public class ExprUtil
 			IConditionalExpression ce2 = (IConditionalExpression) be2;
 			return ce.getDataType( ) == ce2.getDataType( )
 					&& ce.getOperator( ) == ce2.getOperator( )
-					&& isEqualExpression2( ce.getExpression( ),
+					&& isEqualExpression( ce.getExpression( ),
 							ce2.getExpression( ) )
-					&& isEqualExpression2( ce.getOperand1( ), ce2.getOperand1( ) )
-					&& isEqualExpression2( ce.getOperand2( ), ce2.getOperand2( ) );
+					&& isEqualExpression( ce.getOperand1( ), ce2.getOperand1( ) )
+					&& isEqualExpression( ce.getOperand2( ), ce2.getOperand2( ) );
+		}
+		else if ( be instanceof ICombinedExpression &&
+				be2 instanceof ICombinedExpression )
+		{
+			return be.getDataType( ) == be2.getDataType( ) &&
+					isEqualExpressionArray( ( (ICombinedExpression) be ).getExpressions( ),
+							( (ICombinedExpression) be2 ).getExpressions( ) );
+
 		}
 
 		return false;
@@ -177,6 +186,26 @@ public class ExprUtil
 
 		return se.getDataType( ) == se2.getDataType( )
 				&& isEqualObject( se.getText( ), se2.getText( ) );
+	}
+	
+	/**
+	 * 
+	 * @param operands
+	 * @param operands2
+	 * @return
+	 */
+	private static boolean isEqualExpressionArray( IBaseExpression[] operands1, IBaseExpression[] operands2 )
+	{
+		if ( operands1 == operands2 )
+			return true;
+		if ( operands1.length != operands2.length )
+			return false;
+		for ( int i = 0; i < operands1.length; i++ )
+		{
+			if ( !isEqualExpression( operands1[i], operands2[i] ) )
+				return false;
+		}
+		return true;
 	}
 
 	/**
@@ -225,12 +254,24 @@ public class ExprUtil
 	 * @param se
 	 * @return
 	 */
-	private static int hashCode2( IScriptExpression se )
+	private static int hashCode2( IBaseExpression se )
 	{
 		if ( se == null )
 			return 0;
 
-		return se.getDataType( ) + se.getText( ).trim( ).hashCode( );
+		if ( se instanceof IScriptExpression )
+			return se.getDataType( ) +
+					( (IScriptExpression) se ).getText( ).trim( ).hashCode( );
+		else if ( se instanceof ICombinedExpression )
+		{
+			int hashCode = 0;
+			for ( int i = 0; i < ( (ICombinedExpression) se ).getExpressions( ).length; i++ )
+			{
+				hashCode += hashCode2( ( (ICombinedExpression) se ).getExpressions( )[i] );
+			}
+			return se.getDataType( ) + hashCode;
+		}
+		return 0;
 	}
 	
 }

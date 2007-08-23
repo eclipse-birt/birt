@@ -1,0 +1,4 @@
+CHINA, Shanghai, 100
+US, Chicago, 700
+CHINA, Shanghai, 100
+US, Chicago, 400

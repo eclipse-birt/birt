@@ -1109,6 +1109,67 @@ public class CubeAggregationTest extends TestCase
 		}
 	}
 	
+	/**
+	 * in/not in dimension filter.
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter9(  ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		cubeQuery.addBinding( level21_sum );
+		
+		// top 2 filter
+		List valueList = new ArrayList( );
+		valueList.add( "1" );
+		valueList.add( "2" );
+		IConditionalExpression expr1 = new ConditionalExpression( "dimension[\"dimension2\"][\"level21\"]",
+				IConditionalExpression.OP_IN,
+				valueList );
+		CubeFilterDefinition cubeFilter = new CubeFilterDefinition( expr1 );
+		IJSFilterHelper filterHelper = BaseDimensionFilterEvalHelper.createFilterHelper( baseScope,
+				cubeQuery,
+				cubeFilter );
+		cubeQueryExcutorHelper.addJSFilter( filterHelper );
+		
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 2 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(6) );//	
+		resultSet[0].seek( 1 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(22) );//	
+		
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
+	}
+	
 	
 	
 	private void createCube2( ) throws IOException, BirtException

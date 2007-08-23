@@ -15,7 +15,11 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 
 
+import java.util.List;
+
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
@@ -26,8 +30,8 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 {
 	protected IScriptExpression		expr;
 	protected int				operator;
-	protected IScriptExpression		op1;
-	protected IScriptExpression 	op2;
+	protected IBaseExpression	op1;
+	protected IBaseExpression 	op2;
 	
 	/**
 	 * Constructs an instance, setting main expression and the operator (which takes no operands)
@@ -58,12 +62,23 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	 * Constructs an instance, setting main expression, operator, and operands
 	 */
 	public ConditionalExpression(IScriptExpression expr, int operator, 
-			IScriptExpression op1, IScriptExpression op2)
+			IBaseExpression op1, IBaseExpression op2)
 	{
 		this.expr = expr;
 		this.operator = operator;
 		this.op1 = op1;
 		this.op2 = op2;
+	}
+		
+	/**
+	 * Constructs an instance, setting main expression, a unary operator, and its Collection operand
+	 */
+	public ConditionalExpression( String expr, int operator, List operand  )
+	{
+		this.expr = new ScriptExpression(expr);
+		this.operator = operator;
+		this.op1 = new CombinedExpression( operand );
+		this.op2 = null;
 	}
 	
 	/**
@@ -85,7 +100,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand1()
 	 */
-	public IScriptExpression getOperand1()
+	public IBaseExpression getOperand1()
 	{
 		return op1;
 	}
@@ -93,7 +108,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand2()
 	 */
-	public IScriptExpression getOperand2()
+	public IBaseExpression getOperand2()
 	{
 		return op2;
 	}
@@ -139,5 +154,51 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	 */
 	private static ScriptExpression newJSExpression(String expr){
 		return expr==null?null:new ScriptExpression(expr);
+	}
+	
+	private class CombinedExpression extends BaseExpression
+			implements
+				ICombinedExpression
+	{
+
+		private IBaseExpression[] combinedExpression;
+
+		/**
+		 * 
+		 * @param text
+		 */
+		CombinedExpression( List text )
+		{
+			if ( text == null || text.isEmpty( ) )
+			{
+				combinedExpression = new ScriptExpression[0];
+				return;
+			}
+			if ( text.get( 0 ) instanceof String )
+			{
+				combinedExpression = new ScriptExpression[text.size( )];
+				for ( int i = 0; i < text.size( ); i++ )
+				{
+					combinedExpression[i] = new ScriptExpression( text.get( i )
+							.toString( ) );
+				}
+			}
+			else if ( text.get( 0 ) instanceof IScriptExpression )
+			{
+				combinedExpression = new ScriptExpression[text.size( )];
+				for ( int i = 0; i < text.size( ); i++ )
+				{
+					combinedExpression[i] = (ScriptExpression) text.get( i );
+				}
+			}
+		}
+		
+		/*
+		 * @see 
+		 */
+		public IBaseExpression[] getExpressions( )
+		{
+			return combinedExpression;
+		}
 	}
 }

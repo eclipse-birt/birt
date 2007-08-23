@@ -143,6 +143,14 @@ public interface IConditionalExpression extends IBaseExpression
 	public static final int OP_NOT_LIKE 	  = 20;
 
 	public static final int OP_NOT_MATCH      = 21;
+	
+	/**
+	 * IN, NOT_IN operator. Evaluates to true if the left operand is contained
+	 * or not contained in the Collection as right operand
+	 */
+	public static final int OP_IN = 22;
+	public static final int OP_NOT_IN = 23;
+	
 	/**
 	 * Gets the main expression
 	 */
@@ -158,10 +166,10 @@ public interface IConditionalExpression extends IBaseExpression
 	/**
 	 * Gets the expression for operand 1.
 	 */
-	public IScriptExpression getOperand1();
+	public IBaseExpression getOperand1();
 	
 	/**
 	 * Gets the expression for operand 2.
 	 */
-	public IScriptExpression getOperand2();
+	public IBaseExpression getOperand2();
 }

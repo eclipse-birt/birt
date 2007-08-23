@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -76,67 +77,96 @@ public class ScriptEvalUtil
 	 * 
 	 * @param obj
 	 * @param operator
+	 * @param Op1
+	 * @param Op2
+	 * @return
+	 * @throws DataException
+	 */
+	public static Object evalConditionalExpr( Object obj, int operator,
+			Object Op1, Object Op2 ) throws DataException
+	{
+		return evalConditionalExpr( obj, operator, new Object[]{
+				Op1, Op2
+		} );
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 * @param operator
 	 * @param op1
 	 * @param op2
 	 * @return A Boolean result
 	 * @throws DataException
 	 */
 	public static Object evalConditionalExpr( Object obj,
-			int operator, Object o1, Object o2 )
+			int operator, Object[] ops )
 			throws DataException
 	{
-		ExprTextAndValue op1 = createExprTextAndValueInstance( o1 );
-		ExprTextAndValue op2 = createExprTextAndValueInstance( o2 );
+		ExprTextAndValue[] opTextAndValue = new ExprTextAndValue[ops.length]; 
+		for( int i=0; i< ops.length; i++ )
+		{
+			opTextAndValue[i] = createExprTextAndValueInstance( ops[i] );
+		}
 		
 		Object resultObject = obj;
-		Object resultOp1 = op1.value;
-		Object resultOp2 = op2.value;
+		Object[] resultOp = new Object[ops.length];
+		for( int i=0; i< ops.length; i++ )
+		{
+			resultOp[i] = opTextAndValue[i].value;
+		}
 
-		Object[] obArray = MiscUtil.isComparable( obj, operator, op1, op2 );
+		Object[] obArray = MiscUtil.isComparable( obj, operator, opTextAndValue );
 		if ( obArray != null )
 		{
 			resultObject = obArray[0];
-			resultOp1 = obArray[1];
-			resultOp2 = obArray[2];
+			for ( int i = 1; i < obArray.length; i++ )
+			{
+				resultOp[i - 1] = obArray[i];
+			}
 		}
 		
 		if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( 
-				ScriptEvalUtil.class.getName( ),
-				"evalConditionalExpr",
-				"evalConditionalExpr() resultObject="
-				+ LogUtil.toString( resultObject )
-				+ ", operator=" + operator
-				+ ( resultOp1 == null? null: ( ", resultOp1=" + LogUtil.toString( resultOp1 ) ) )
-				+ ( resultOp2 == null? null: ( ", resultOp2=" + LogUtil.toString( resultOp2 ) ) ) 
-				);
-
+		{
+			String logStr ="";
+			for ( int i = 0; i < ops.length; i++ )
+			{
+				logStr += resultOp[i] == null
+						? null
+						: ( ", resultOp" + i + "=" + LogUtil.toString( resultOp[i] ) );
+			}
+			logger.entering( ScriptEvalUtil.class.getName( ),
+					"evalConditionalExpr",
+					"evalConditionalExpr() resultObject=" +
+							LogUtil.toString( resultObject ) + ", operator=" +
+							operator + logStr );
+		}
 		boolean result = false;
 		switch ( operator )
 		{
 			case IConditionalExpression.OP_EQ :
-			    result = compare( resultObject, resultOp1 ) == 0;
+			    result = compare( resultObject, resultOp[0] ) == 0;
 				break;
 			case IConditionalExpression.OP_NE :
-			    result = compare( resultObject, resultOp1 ) != 0;
+			    result = compare( resultObject, resultOp[0] ) != 0;
 				break;
 			case IConditionalExpression.OP_LT :
-				result = compare( resultObject, resultOp1 ) < 0;
+				result = compare( resultObject, resultOp[0] ) < 0;
 				break;
 			case IConditionalExpression.OP_LE :
-				result = compare( resultObject, resultOp1 ) <= 0;
+				result = compare( resultObject, resultOp[0] ) <= 0;
 				break;
 			case IConditionalExpression.OP_GE :
-				result = compare( resultObject, resultOp1 ) >= 0;
+				result = compare( resultObject, resultOp[0] ) >= 0;
 				break;
 			case IConditionalExpression.OP_GT :
-				result = compare( resultObject, resultOp1 ) > 0;
+				result = compare( resultObject, resultOp[0] ) > 0;
 				break;
 			case IConditionalExpression.OP_BETWEEN :
-				result = between( resultObject, resultOp1, resultOp2 );
+				result = between( resultObject, resultOp[0], resultOp[1] );
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
-				result = !( between( resultObject, resultOp1, resultOp2 ) );
+				result = !( between( resultObject, resultOp[0], resultOp[1] ) );
 				break;
 			case IConditionalExpression.OP_NULL :
 				result = resultObject == null;
@@ -151,10 +181,10 @@ public class ScriptEvalUtil
 				result = isTrueOrFalse( resultObject, Boolean.FALSE );
 				break;
 			case IConditionalExpression.OP_LIKE :
-				result = like( resultObject, resultOp1 );
+				result = like( resultObject, resultOp[0] );
 				break;
 			case IConditionalExpression.OP_NOT_LIKE :
-				result = !like( resultObject, resultOp1 );
+				result = !like( resultObject, resultOp[0] );
 				break;
 				
 			case IConditionalExpression.OP_TOP_N :
@@ -165,14 +195,21 @@ public class ScriptEvalUtil
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "Top/Bottom(N) outside of row filters" );
 				
-		/*	case IConditionalExpression.OP_ANY :
-				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );*/
+		/*
+		 * case IConditionalExpression.OP_ANY : throw new DataException(
+		 * ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
+		 */
 			case IConditionalExpression.OP_MATCH :
-				result = match( resultObject, resultOp1 );
+				result = match( resultObject, resultOp[0] );
 				break;
 			case IConditionalExpression.OP_NOT_MATCH :
-				result = !match( resultObject, resultOp1 );
+				result = !match( resultObject, resultOp[0] );
+				break;
+			case IConditionalExpression.OP_IN :
+				result = in( obArray );
+				break;
+			case IConditionalExpression.OP_NOT_IN :
+				result = !in( obArray );
 				break;
 			default :
 				throw new DataException(
@@ -479,6 +516,29 @@ public class ScriptEvalUtil
 		}
 	}
 	
+	/**
+	 * 
+	 * @param resultObj
+	 * @return
+	 * @throws DataException
+	 */
+	private static boolean in( Object[] resultObj ) throws DataException
+	{
+		Object target = resultObj[0];
+		for ( int i = 1; i < resultObj.length; i++ )
+		{
+			if ( resultObj[i] instanceof Object[] )
+			{
+				Object[] flatternObj = (Object[]) resultObj[i];
+				if ( in( flatternObj ) )
+					return true;
+			}
+			if ( compare( target, resultObj[i] ) == 0 )
+				return true;
+		}
+		return false;
+	}
+	
 
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
@@ -506,21 +566,59 @@ public class ScriptEvalUtil
 		{
 			result = null;
 		}
-		else if ( expr instanceof IConditionalExpression)
+		else if ( expr instanceof IConditionalExpression )
 		{
 			// If this is a prepared top(n)/bottom(n) expr, use its evaluator
-			Object handle = expr.getHandle();
+			Object handle = expr.getHandle( );
 			if ( handle instanceof NEvaluator )
 			{
-				result =  Boolean.valueOf (((NEvaluator)handle).evaluate( cx, scope ));
+				result = Boolean.valueOf( ( (NEvaluator) handle ).evaluate( cx,
+						scope ) );
 			}
 			else
 			{
-				ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
-				Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
-				Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
-				Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
-				result = evalConditionalExpr( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
+				ConditionalExpression conditionalExpr = (ConditionalExpression) expr;
+				Object expression = evalExpr( conditionalExpr.getExpression( ),
+						cx,
+						scope,
+						source,
+						lineNo );
+				if ( conditionalExpr.getOperand1( ) instanceof ICombinedExpression )
+				{
+					ICombinedExpression combinedExpr = (ICombinedExpression) ( (IConditionalExpression) expr ).getOperand1( );
+
+					Object[] opValues = new Object[combinedExpr.getExpressions( ).length];
+					for ( int i = 0; i < opValues.length; i++ )
+					{
+						opValues[i] = evalExpr( combinedExpr.getExpressions( )[i],
+								cx,
+								scope,
+								source,
+								lineNo );
+					}
+					result = evalConditionalExpr( expression,
+							conditionalExpr.getOperator( ),
+							opValues );
+				}
+				else
+				{
+
+					Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand1( ) ),
+							cx,
+							scope,
+							source,
+							lineNo );
+					Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression( (IScriptExpression) conditionalExpr.getOperand2( ) ),
+							cx,
+							scope,
+							source,
+							lineNo );
+					result = evalConditionalExpr( expression,
+							conditionalExpr.getOperator( ),
+							new Object[]{
+									Op1, Op2
+							} );
+				}
 			}
 		}
 		else
@@ -671,26 +769,19 @@ public class ScriptEvalUtil
 		{
 			return ( result instanceof Boolean ) || ( result instanceof String );
 		}
-
+		
 		/**
-		 * To check whether the expressions are comparable. If so, they will be
-		 * formatted to the comparable.For operands, only ExprTextAndValue is
-		 * acceptable.
 		 * 
 		 * @param obj
 		 * @param operator
-		 * @param op1
-		 * @param op2
+		 * @param operands
 		 * @return
-		 * @throws DataException
 		 */
 		private static Object[] isComparable( Object obj, int operator,
-				ExprTextAndValue op1, ExprTextAndValue op2 )
-				throws DataException
+				ExprTextAndValue[] operands )
 		{
-			if ( needFormat( obj, operator, op1, op2 ) )
-				return formatToComparable( obj, op1, op2 );
-
+			if ( needFormat( obj, operator, operands ) )
+				return formatToComparable( obj, operands );
 			return null;
 		}
 
@@ -698,25 +789,21 @@ public class ScriptEvalUtil
 		 * 
 		 * @param obj
 		 * @param operator
-		 * @param op1
-		 * @param op2
+		 * @param ops
 		 * @return
 		 */
 		private static boolean needFormat( Object obj, int operator,
-				ExprTextAndValue op1, ExprTextAndValue op2 )
+				ExprTextAndValue[] ops )
 		{
-			// compare and between methods without null can get through.
-			// for more information on operators,please refer to
-			// /org.eclipse.birt.data/src/org/eclipse/birt/data/engine/api/IConditionalExpression.java
-			if ( operator < IConditionalExpression.OP_EQ
-					|| operator > IConditionalExpression.OP_NOT_BETWEEN
-					|| obj == null || op1.value == null )
+			if ( operator < IConditionalExpression.OP_EQ ||
+					( operator > IConditionalExpression.OP_NOT_BETWEEN && operator < IConditionalExpression.OP_IN ) ||
+					obj == null || ops.length == 0 )
 				return false;
-			// op2.value can not be null either if it's a betteen method
-			else if ( ( operator == IConditionalExpression.OP_BETWEEN || operator == IConditionalExpression.OP_NOT_BETWEEN )
-					&& op2.value == null )
+			// op2.value can not be null either if it's a between method
+			else if ( ( operator == IConditionalExpression.OP_BETWEEN || operator == IConditionalExpression.OP_NOT_BETWEEN ) &&
+					ops.length < 2 )
 				return false;
-			
+
 			return true;
 		}
 		
@@ -725,32 +812,42 @@ public class ScriptEvalUtil
 		 * explanation will be thrown if anything goes wrong.
 		 * 
 		 * @param obj
-		 * @param op1
-		 * @param op2
+		 * @param operands
 		 * @return
-		 * @throws DataException
 		 */
 		private static Object[] formatToComparable( Object obj,
-				ExprTextAndValue op1, ExprTextAndValue op2 )
-				throws DataException
+				ExprTextAndValue[] operands )
 		{
-			Object[] obArray = new Object[3];
+			Object[] obArray = new Object[operands.length + 1];
 			obArray[0] = obj;
-			obArray[1] = op1.value;
-			obArray[2] = op2.value;
-
+			for ( int i = 0; i < operands.length; i++ )
+			{
+				obArray[i + 1] = operands[i].value;
+			}
+			boolean isSameType = true;
+			
 			// obj will always be considered as the default data type
 			// skip if op2.value!=null but is not same type as obj
 			if ( isSameType( obj, obArray[1] ) )
 			{
-				if ( obArray[2] == null
-						|| ( obArray[2] != null && isSameType( obj, obArray[2] ) ) )
+				for ( int i = 1; i < operands.length; i++ )
 				{
-					return obArray;
+					if ( obArray[i + 1] != null &&
+							!isSameType( obj, obArray[i + 1] ) )
+					{
+						isSameType = false;
+						break;
+					}
 				}
 			}
+			else
+			{
+				isSameType = false;
+			}
 
-			if( obj instanceof Boolean )
+			if ( isSameType )
+				return obArray;
+			else if ( obj instanceof Boolean )
 				populateObArray( obArray[1], obArray );
 			else
 				populateObArray( obj, obArray );
@@ -763,55 +860,31 @@ public class ScriptEvalUtil
 			{
 				if ( obj instanceof Number )
 				{
-
-					obArray[0] = DataTypeUtil.toDouble( obArray[0] );
-
-					obArray[1] = DataTypeUtil.toDouble( obArray[1] );
-					if ( obArray[2] != null )
+					for ( int i = 0; i < obArray.length; i++ )
 					{
-
-						obArray[2] = DataTypeUtil.toDouble( obArray[2] );
+						obArray[i] = DataTypeUtil.toDouble( obArray[i] );
 					}
-
 				}
 				else if ( obj instanceof java.sql.Date )
 				{
-
-					obArray[0] = DataTypeUtil.toSqlDate( obArray[0] );
-
-					obArray[1] = DataTypeUtil.toSqlDate( obArray[1] );
-					if ( obArray[2] != null )
+					for ( int i = 0; i < obArray.length; i++ )
 					{
-
-						obArray[2] = DataTypeUtil.toSqlDate( obArray[2] );
+						obArray[i] = DataTypeUtil.toSqlDate( obArray[i] );
 					}
-
 				}
 				else if ( obj instanceof java.sql.Time )
 				{
-
-					obArray[0] = DataTypeUtil.toSqlTime( obArray[0] );
-
-					obArray[1] = DataTypeUtil.toSqlTime( obArray[1] );
-					if ( obArray[2] != null )
+					for ( int i = 0; i < obArray.length; i++ )
 					{
-
-						obArray[2] = DataTypeUtil.toSqlTime( obArray[2] );
+						obArray[i] = DataTypeUtil.toSqlTime( obArray[i] );
 					}
-
 				}
 				else if ( obj instanceof Date )
 				{
-
-					obArray[0] = DataTypeUtil.toDate( obArray[0] );
-
-					obArray[1] = DataTypeUtil.toDate( obArray[1] );
-					if ( obArray[2] != null )
+					for ( int i = 0; i < obArray.length; i++ )
 					{
-
-						obArray[2] = DataTypeUtil.toDate( obArray[2] );
+						obArray[i] = DataTypeUtil.toDate( obArray[i] );
 					}
-
 				}
 			}
 			catch ( BirtException e )

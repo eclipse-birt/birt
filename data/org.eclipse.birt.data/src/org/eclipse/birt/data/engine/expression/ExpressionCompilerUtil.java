@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
@@ -99,6 +100,10 @@ public class ExpressionCompilerUtil
 		{
 			columnList = extractColumnExpression( (IConditionalExpression) expression );
 		}
+		else if ( expression instanceof ICombinedExpression )
+		{
+			columnList = extractColumnExpression( (ICombinedExpression) expression );
+		}
 		return columnList;
 	}
 	
@@ -135,9 +140,44 @@ public class ExpressionCompilerUtil
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		populateColumnList( list, expression.getExpression( ), true );
-		populateColumnList( list, expression.getOperand1( ), true );
-		populateColumnList( list, expression.getOperand2( ), true );
+		list.addAll( extractColumnExpression( expression.getExpression( ) ) );
+		List valueList = extractColumnExpression( expression.getOperand1( ) );
+		for ( int i = 0; i < valueList.size( ); i++ )
+		{
+			if ( !list.contains( valueList.get( i ) ) )
+				list.add( valueList.get( i ) );
+		}
+		valueList = extractColumnExpression( expression.getOperand2( ) );
+		for ( int i = 0; i < valueList.size( ); i++ )
+		{
+			if ( !list.contains( valueList.get( i ) ) )
+				list.add( valueList.get( i ) );
+		}
+		return list;
+	}
+	
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractColumnExpression( ICombinedExpression expression )
+			throws DataException
+	{
+		List list = new ArrayList( );
+		if ( expression == null )
+			return list;
+		IBaseExpression[] ce = expression.getExpressions( );
+		for ( int i = 0; i < ce.length; i++ )
+		{
+			List valueList = extractColumnExpression( ce[i] );
+			for ( int j = 0; j < valueList.size( ); j++ )
+			{
+				if ( !list.contains( valueList.get( j ) ) )
+					list.add( valueList.get( j ) );
+			}
+		}
 		return list;
 	}
 	
@@ -164,6 +204,10 @@ public class ExpressionCompilerUtil
 		{
 			columnList = extractDataSetColumnExpression( (IConditionalExpression) expression );
 		}
+		else if ( expression instanceof ICombinedExpression )
+		{
+			columnList = extractDataSetColumnExpression( (ICombinedExpression) expression );
+		}
 		return columnList;
 	}
 	
@@ -181,12 +225,46 @@ public class ExpressionCompilerUtil
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		populateColumnList( list, expression.getExpression( ), false );
-		populateColumnList( list, expression.getOperand1( ), false );
-		populateColumnList( list, expression.getOperand2( ), false );
+		list.addAll( extractDataSetColumnExpression( expression.getExpression( ) ) );
+		List valueList = extractDataSetColumnExpression( expression.getOperand1( ) );
+		for ( int i = 0; i < valueList.size( ); i++ )
+		{
+			if ( !list.contains( valueList.get( i ) ) )
+				list.add( valueList.get( i ) );
+		}
+		valueList = extractDataSetColumnExpression( expression.getOperand2( ) );
+		for ( int i = 0; i < valueList.size( ); i++ )
+		{
+			if ( !list.contains( valueList.get( i ) ) )
+				list.add( valueList.get( i ) );
+		}
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException 
+	 */
+	public static List extractDataSetColumnExpression(
+			ICombinedExpression expression ) throws DataException
+	{
+		List list = new ArrayList( );
+		if ( expression == null )
+			return list;
+		for ( int i = 0; i < expression.getExpressions( ).length; i++ )
+		{
+			List valueList = extractDataSetColumnExpression( expression.getExpressions( )[i] );
+			for ( int j = 0; j < valueList.size( ); j++ )
+			{
+				if ( !list.contains( valueList.get( j ) ) )
+					list.add( valueList.get( j ) );
+			}
+		}
+		return list;
+	}
+	
 	/**
 	 * This utility method is to compile expression to get a list of dataset
 	 * column expressions which is depended by given expression.
@@ -214,21 +292,28 @@ public class ExpressionCompilerUtil
 	 */
 	public static boolean hasAggregationInExpr( IBaseExpression expression )
 	{
+		if ( expression == null )
+			return false;
 		if ( expression instanceof IScriptExpression )
 		{
-			String text = ((IScriptExpression)expression).getText( );
+			String text = ( (IScriptExpression) expression ).getText( );
 			return ExpressionUtil.hasAggregation( text );
 		}
 		else if ( expression instanceof IConditionalExpression )
 		{
-			String expr = getExprText(((IConditionalExpression)expression).getExpression( ));
-			String oprand1 = getExprText(((IConditionalExpression)expression).getOperand1( ));
-			String oprand2 = getExprText(((IConditionalExpression)expression).getOperand2( ));
-			return ExpressionUtil.hasAggregation(  expr )
-				   ||ExpressionUtil.hasAggregation(  oprand1 )
-				   ||ExpressionUtil.hasAggregation( oprand2 );
+			return hasAggregationInExpr( ( (IConditionalExpression) expression ).getExpression( ) ) ||
+					hasAggregationInExpr( ( (IConditionalExpression) expression ).getOperand1( ) ) ||
+					hasAggregationInExpr( ( (IConditionalExpression) expression ).getOperand2( ) );
 		}
-		
+		else if ( expression instanceof ICombinedExpression )
+		{
+			IBaseExpression[] text = ( (ICombinedExpression) expression ).getExpressions( );
+			for ( int i = 0; i < text.length; i++ )
+			{
+				if ( hasAggregationInExpr( text[i] ) )
+					return true;
+			}
+		}
 		return false;
 	}
 
@@ -270,11 +355,11 @@ public class ExpressionCompilerUtil
 		else if ( expression instanceof IConditionalExpression )
 		{
 			IScriptExpression expr = ( (IConditionalExpression) expression ).getExpression( );
-			IScriptExpression oprand1 = ( (IConditionalExpression) expression ).getOperand1( );
-			IScriptExpression oprand2 = ( (IConditionalExpression) expression ).getOperand2( );
-			return isValidExpressionInQueryFilter( expr )
-					&& isValidExpressionInQueryFilter( oprand1 )
-					&& isValidExpressionInQueryFilter( oprand2 );
+			IBaseExpression oprand1 = ( (IConditionalExpression) expression ).getOperand1( );
+			IBaseExpression oprand2 = ( (IConditionalExpression) expression ).getOperand2( );
+			return isValidExpressionInQueryFilter( expr ) &&
+					isValidExpressionInQueryFilter( oprand1 ) &&
+					isValidExpressionInQueryFilter( oprand2 );
 		}
 		return true;
 	}
@@ -447,15 +532,16 @@ public class ExpressionCompilerUtil
 	 * @throws DataException
 	 */
 	private static void populateColumnList( List list,
-			IScriptExpression expression, boolean rowMode ) throws DataException
+			IBaseExpression expression, boolean rowMode ) throws DataException
 	{
 		if ( expression != null )
 		{
-			List l;
+			List l = new ArrayList( );
 			try
 			{
-				l = ExpressionUtil.extractColumnExpressions( expression.getText( ),
-						rowMode );
+				if ( expression instanceof IScriptExpression )
+					l = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expression ).getText( ),
+							rowMode );
 			}
 			catch ( BirtException e )
 			{

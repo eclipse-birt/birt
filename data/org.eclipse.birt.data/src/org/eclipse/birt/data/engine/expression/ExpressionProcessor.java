@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -127,25 +128,12 @@ public class ExpressionProcessor implements IExpressionProcessor
 						iccState.setValueAvailable( i );
 					}
 
-					if ( baseExpression instanceof IScriptExpression )
-					{
-						exprInfo = new ExpressionInfo( (IScriptExpression) baseExpression,
-								exprType,
-								currentGroupLevel,
-								useResultSetMeta );
-
-						baseExpression.setHandle( helper.compileExpression( exprInfo,
-								context ) );
-					}
-					else if ( baseExpression instanceof IConditionalExpression )
-					{
-						compileConditionalExpression( (IConditionalExpression) baseExpression,
-								helper,
-								rsPopulator,
-								exprType,
-								currentGroupLevel,
-								context );
-					}
+					setHandle( context,
+							exprType,
+							currentGroupLevel,
+							helper,
+							baseExpression,
+							useResultSetMeta );
 
 					// if the expression is group column , compile it then
 					// return, do not compile the next expression
@@ -172,6 +160,57 @@ public class ExpressionProcessor implements IExpressionProcessor
 			Context.exit( );
 		}
 	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param exprType
+	 * @param currentGroupLevel
+	 * @param helper
+	 * @param baseExpression
+	 * @param useResultSetMeta
+	 * @throws DataException
+	 */
+	private void setHandle(  Context context,
+			int exprType, int currentGroupLevel,
+			MultiPassExpressionCompiler helper, IBaseExpression baseExpression, boolean useResultSetMeta )
+			throws DataException
+	{
+		if( baseExpression == null )
+			return;
+		ExpressionInfo exprInfo;
+		if ( baseExpression instanceof IScriptExpression )
+		{
+			exprInfo = new ExpressionInfo( (IScriptExpression) baseExpression,
+					exprType,
+					currentGroupLevel,
+					useResultSetMeta );
+
+			baseExpression.setHandle( helper.compileExpression( exprInfo,
+					context ) );
+		}
+		else if ( baseExpression instanceof IConditionalExpression )
+		{
+			compileConditionalExpression( (IConditionalExpression) baseExpression,
+					helper,
+					rsPopulator,
+					exprType,
+					currentGroupLevel,
+					context );
+		}
+		else if ( baseExpression instanceof ICombinedExpression )
+		{
+			for ( int i = 0; i < ( (ICombinedExpression) baseExpression ).getExpressions( ).length; i++ )
+			{
+				this.setHandle( context,
+						exprType,
+						currentGroupLevel,
+						helper,
+						( (ICombinedExpression) baseExpression ).getExpressions( )[i],
+						useResultSetMeta );
+			}
+		}
+	}
 	
 	/**
 	 * 
@@ -195,28 +234,15 @@ public class ExpressionProcessor implements IExpressionProcessor
 		
 		try
 		{
-			ExpressionInfo exprInfo;
 			for ( int i = 0; i < exprArray.length; i++ )
 			{
 				baseExpression = (IBaseExpression) exprArray[i];
-				if ( baseExpression instanceof IConditionalExpression )
-				{
-					compileConditionalExpression( (IConditionalExpression) baseExpression,
-							helper,
-							rsPopulator,
-							arrayType,
-							currentGroupLevel[i],
-							context );
-				}
-				else if ( baseExpression instanceof IScriptExpression )
-				{
-					exprInfo = new ExpressionInfo( (IScriptExpression) baseExpression,
-							arrayType,
-							currentGroupLevel[i],
-							true );
-					baseExpression.setHandle( helper.compileExpression( exprInfo,
-							context ) );
-				}
+				this.setHandle( context,
+						arrayType,
+						currentGroupLevel[i],
+						helper,
+						baseExpression,
+						true );
 			}
 		}
 		finally
@@ -245,10 +271,18 @@ public class ExpressionProcessor implements IExpressionProcessor
 		helper.setDataSetMode( isDataSetMode );
 
 		IBaseExpression baseExpression = null;
-		for ( int i = 0; i < list.size( ); i++ )
+		Context cx = Context.enter( );
+		try
 		{
-			baseExpression = (IBaseExpression) list.get( i );
-			compileBaseExpression( baseExpression, helper );
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				baseExpression = (IBaseExpression) list.get( i );
+				compileBaseExpression( baseExpression, helper, cx );
+			}
+		}
+		finally
+		{
+			cx.exit( );
 		}
 		hasAggregate = helper.getAggregateStatus( );
 		clear( );
@@ -274,7 +308,15 @@ public class ExpressionProcessor implements IExpressionProcessor
 
 			helper.setDataSetMode( isDataSetMode );
 			IBaseExpression baseExpression = expression;
-			compileBaseExpression( baseExpression, helper );
+			Context cx = Context.enter( );
+			try
+			{
+				compileBaseExpression( baseExpression, helper, cx );
+			}
+			finally
+			{
+				cx.exit( );
+			}
 			hasAggregate = helper.getAggregateStatus( );
 			clear( );
 		}
@@ -339,41 +381,16 @@ public class ExpressionProcessor implements IExpressionProcessor
 	private void compileConditionalExpression(
 			IConditionalExpression baseExpression,
 			MultiPassExpressionCompiler helper, ResultSetPopulator rsPopulator,
-			int exprType, int currentGroupLevel, Context context ) throws DataException
+			int exprType, int currentGroupLevel, Context context )
+			throws DataException
 	{
-		ExpressionInfo exprInfo = null;
-		if ( baseExpression instanceof IConditionalExpression )
-		{
-			IConditionalExpression condition = (IConditionalExpression) baseExpression;
-			IScriptExpression op = condition.getExpression( );
-			IScriptExpression op1 = condition.getOperand1( );
-			IScriptExpression op2 = condition.getOperand2( );
-			if ( op != null )
-			{
-				exprInfo = new ExpressionInfo( op,
-						exprType,
-						currentGroupLevel,
-						true );
-				op.setHandle( helper.compileExpression( exprInfo,
-						context ) );
-			}
-			if ( op1 != null )
-			{
-				exprInfo = new ExpressionInfo( op1,
-						exprType,
-						currentGroupLevel,
-						true );
-				op1.setHandle( helper.compileExpression( op1, context ) );
-			}
-			if ( op2 != null )
-			{
-				exprInfo = new ExpressionInfo( op2,
-						exprType,
-						currentGroupLevel,
-						true );
-				op2.setHandle( helper.compileExpression( op2, context ) );
-			}
-		}
+		IConditionalExpression condition = (IConditionalExpression) baseExpression;
+		IScriptExpression op = condition.getExpression( );
+		IBaseExpression op1 = condition.getOperand1( );
+		IBaseExpression op2 = condition.getOperand2( );
+		this.setHandle( context, exprType, currentGroupLevel, helper, op, true );
+		this.setHandle( context, exprType, currentGroupLevel, helper, op1, true );
+		this.setHandle( context, exprType, currentGroupLevel, helper, op2, true );
 	}
 
 	/**
@@ -382,40 +399,44 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * @throws DataException
 	 */
 	private void compileBaseExpression( IBaseExpression baseExpression,
-			MultiPassExpressionCompiler helper ) throws DataException
+			MultiPassExpressionCompiler helper, Context context )
+			throws DataException
 	{
-		Context context = Context.enter( );
-		try
+		if ( baseExpression instanceof IConditionalExpression )
 		{
-			if ( baseExpression instanceof IConditionalExpression )
-			{
-				IConditionalExpression condition = (IConditionalExpression) baseExpression;
-				IScriptExpression op = condition.getExpression( );
-				IScriptExpression op1 = condition.getOperand1( );
-				IScriptExpression op2 = condition.getOperand2( );
-				if ( op != null )
-					helper.compileExpression( op, context );
-				if ( op1 != null )
-					helper.compileExpression( op1, context );
-				if ( op2 != null )
-					helper.compileExpression( op2, context );
-			}
-			else if ( baseExpression instanceof IScriptExpression )
-			{
-				IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
-				helper.compileExpression( scriptExpr, context );
-			}
+			IConditionalExpression condition = (IConditionalExpression) baseExpression;
+			IScriptExpression op = condition.getExpression( );
+			IBaseExpression op1 = condition.getOperand1( );
+			IBaseExpression op2 = condition.getOperand2( );
+			if ( op != null )
+				helper.compileExpression( op, context );
+			if ( op1 != null )
+				compileBaseExpression( op1, helper, context );
+			if ( op2 != null )
+				compileBaseExpression( op2, helper, context );
 		}
-		finally
+		else if ( baseExpression instanceof IScriptExpression )
 		{
-			Context.exit( );
+			IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
+			helper.compileExpression( scriptExpr, context );
+		}
+		else if ( baseExpression instanceof ICombinedExpression )
+		{
+			ICombinedExpression combinedExpr = (ICombinedExpression) baseExpression;
+			for ( int i = 0; i < combinedExpr.getExpressions( ).length; i++ )
+			{
+				compileBaseExpression( combinedExpr.getExpressions( )[i],
+						helper,
+						context );
+			}
 		}
 	}
 	
 	/**
 	 * Return the index of group according to the given group text.
+	 * 
 	 * @param groupText
-	 * @return The index of group 
+	 * @return The index of group
 	 */
 	private int getCurrentGroupLevel( String groupText, int start, BaseQuery query )
 	{

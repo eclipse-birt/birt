@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -58,12 +59,12 @@ public class OlapExpressionCompiler
 			dimName = getReferencedScriptObject( expr1, objectName );
 			if ( dimName != null )
 				return dimName;
-			IScriptExpression op1 = ( (IConditionalExpression) expr ).getOperand1( );
+			IBaseExpression op1 = ( (IConditionalExpression) expr ).getOperand1( );
 			dimName = getReferencedScriptObject( op1, objectName );
 			if ( dimName != null )
 				return dimName;
 
-			IScriptExpression op2 = ( (IConditionalExpression) expr ).getOperand2( );
+			IBaseExpression op2 = ( (IConditionalExpression) expr ).getOperand2( );
 			dimName = getReferencedScriptObject( op2, objectName );
 			return dimName;
 		}
@@ -152,15 +153,29 @@ public class OlapExpressionCompiler
 					bindings,
 					onlyFromDirectReferenceExpr ) );
 
-			IScriptExpression op1 = ( (IConditionalExpression) expr ).getOperand1( );
-			result.addAll( getReferencedDimLevel( op1,
-					bindings,
-					onlyFromDirectReferenceExpr ) );
+			IBaseExpression op1 = ( (IConditionalExpression) expr ).getOperand1( );
+			if ( op1 != null )
+				result.addAll( getReferencedDimLevel( op1,
+						bindings,
+						onlyFromDirectReferenceExpr ) );
 
-			IScriptExpression op2 = ( (IConditionalExpression) expr ).getOperand2( );
-			result.addAll( getReferencedDimLevel( op2,
-					bindings,
-					onlyFromDirectReferenceExpr ) );
+			IBaseExpression op2 = ( (IConditionalExpression) expr ).getOperand2( );
+			if ( op2 != null )
+				result.addAll( getReferencedDimLevel( op2,
+						bindings,
+						onlyFromDirectReferenceExpr ) );
+			return result;
+		}
+		else if ( expr instanceof ICombinedExpression )
+		{
+			Set result = new HashSet( );
+			IBaseExpression[] ops = ( (ICombinedExpression) expr ).getExpressions( );
+			for ( int i = 0; i < ops.length; i++ )
+			{
+				result.addAll( getReferencedDimLevel( ops[i],
+						bindings,
+						onlyFromDirectReferenceExpr ) );
+			}
 			return result;
 		}
 

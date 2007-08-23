@@ -18,6 +18,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -29,8 +32,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.GregorianCalendar;
-
-import junit.framework.TestCase;
 
 /**
  * Tests script evaluation
@@ -732,6 +733,50 @@ public class ScriptEvalTest extends TestCase
 		result = ScriptEvalUtil.evalConditionalExpr( "aaaaab",
 				IConditionalExpression.OP_EQ, "s", null );
 		assertResult(result,false);
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	public void test_IN( ) throws DataException
+	{
+		Object result;
+		result = ScriptEvalUtil.evalConditionalExpr( "100",
+				IConditionalExpression.OP_IN,
+				new String[]{
+						"200", "100"
+				} );
+		assertResult( result, true );
+
+		result = ScriptEvalUtil.evalConditionalExpr( "100",
+				IConditionalExpression.OP_IN,
+				new String[]{
+						"200", "400"
+				} );
+		assertResult(result, false);
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	public void test_NOT_IN( ) throws DataException
+	{
+		Object result;
+		result = ScriptEvalUtil.evalConditionalExpr( "100",
+				IConditionalExpression.OP_NOT_IN,
+				new String[]{
+						"200", "100"
+				} );
+		assertResult( result, false );
+
+		result = ScriptEvalUtil.evalConditionalExpr( "100",
+				IConditionalExpression.OP_NOT_IN,
+				new String[]{
+						"200", "400"
+				} );
+		assertResult( result, true );
 	}
 
 	private void assertResult(Object result,boolean expectedResult){

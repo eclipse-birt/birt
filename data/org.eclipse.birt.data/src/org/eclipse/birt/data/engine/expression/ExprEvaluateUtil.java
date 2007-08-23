@@ -15,6 +15,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -26,11 +27,12 @@ import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil.ExprTextAndValue;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * Expression evaluation utitlity class for compiled expression or uncompiled
+ * Expression evaluation utility class for compiled expression or uncompiled
  * expression.
  */
 public class ExprEvaluateUtil
@@ -79,20 +81,72 @@ public class ExprEvaluateUtil
 			Object resultExpr = evaluateExpression( ce.getExpression( ),
 					odiResult,
 					scope );
-			Object resultOp1 = ce.getOperand1( ) != null
-					? evaluateExpression( ce.getOperand1( ), odiResult, scope )
-					: null;
-			Object resultOp2 = ce.getOperand2( ) != null
-					? evaluateExpression( ce.getOperand2( ), odiResult, scope )
-					: null;
-			String op1Text = ce.getOperand1( ) != null ? ce.getOperand1( )
-					.getText( ) : null;
-			String op2Text = ce.getOperand2( ) != null ? ce.getOperand2( )
-					.getText( ) : null;
+			String[] op1Text = new String[0], op2Text = new String[0];
+			Object[] op1Value = new Object[0], op2Value = new Object[0];
+
+			if ( ce.getOperand1( ) != null )
+			{
+				if ( ce.getOperand1( ) instanceof IScriptExpression )
+				{
+					op1Text = new String[1];
+					op1Text[0] = ( (IScriptExpression) ce.getOperand1( ) ).getText( );
+					op1Value = new Object[1];
+					op1Value[0] = evaluateExpression( ce.getOperand1( ),
+							odiResult,
+							scope );
+				}
+				else if ( ce.getOperand1( ) instanceof ICombinedExpression )
+				{
+					int length = ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( ).length;
+					op1Text = new String[length];
+					op1Value = new Object[length];
+					for ( int i = 0; i < length; i++ )
+					{
+						op1Value[i] = evaluateExpression( ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( )[i],
+								odiResult,
+								scope );
+					}
+				}
+			}
+			if ( ce.getOperand2( ) != null )
+			{
+				if ( ce.getOperand2( ) instanceof IScriptExpression )
+				{
+					op2Text = new String[1];
+					op2Text[0] = ( (IScriptExpression) ce.getOperand2( ) ).getText( );
+					op2Value = new Object[1];
+					op2Value[0] = evaluateExpression( ce.getOperand2( ),
+							odiResult,
+							scope );
+				}
+				else if ( ce.getOperand2( ) instanceof ICombinedExpression )
+				{
+					int length = ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( ).length;
+					op2Text = new String[length];
+					op2Value = new Object[length];
+					for ( int i = 0; i < length; i++ )
+					{
+						op2Value[i] = evaluateExpression( ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( )[i],
+								odiResult,
+								scope );
+					}
+				}
+			}
+			ExprTextAndValue[] exprValues = new ExprTextAndValue[op1Text.length +
+					op2Text.length];
+			for ( int i = 0; i < op1Text.length; i++ )
+			{
+				exprValues[i] = ScriptEvalUtil.newExprInfo( op1Text[i],
+						op1Value[i] );
+			}
+			for ( int i = 0; i < op2Text.length; i++ )
+			{
+				exprValues[i + op1Text.length] = ScriptEvalUtil.newExprInfo( op2Text[i],
+						op2Value[i] );
+			}
 			exprValue = ScriptEvalUtil.evalConditionalExpr( resultExpr,
 					ce.getOperator( ),
-					ScriptEvalUtil.newExprInfo( op1Text, resultOp1 ),
-					ScriptEvalUtil.newExprInfo( op2Text, resultOp2 ) );
+					exprValues );
 		}
 		else
 		{
@@ -258,15 +312,34 @@ public class ExprEvaluateUtil
 				
 				IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
 				int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
-				IScriptExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
-				IScriptExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
+				IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
+				IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
 				
-				return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
-						scope,
-						javaType ),
-						oper,
-						doEvaluateRawExpression( operand1, scope, javaType ),
-						doEvaluateRawExpression( operand2, scope, javaType ) );
+				if ( operand1 instanceof ICombinedExpression )
+				{
+					IBaseExpression[] expr = ( (ICombinedExpression) operand1 ).getExpressions( );
+					Object[] result = new Object[expr.length];
+					for ( int i = 0; i < result.length; i++ )
+					{
+						result[i] = doEvaluateRawExpression( expr[i],
+								scope,
+								javaType );
+					}
+					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+							scope,
+							javaType ),
+							oper,
+							result );
+				}
+				else
+				{
+					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+							scope,
+							javaType ),
+							oper,
+							doEvaluateRawExpression( operand1, scope, javaType ),
+							doEvaluateRawExpression( operand2, scope, javaType ) );
+				}
 			}
 			else
 			{
@@ -326,20 +399,76 @@ public class ExprEvaluateUtil
 					index,
 					roObject,
 					scope );
-			Object resultOp1 = ce.getOperand1( ) != null
-					? evaluateValue( ce.getOperand1( ), index, roObject, scope )
-					: null;
-			Object resultOp2 = ce.getOperand2( ) != null
-					? evaluateValue( ce.getOperand2( ), index, roObject, scope )
-					: null;
-			String op1Text = ce.getOperand1( ) != null ? ce.getOperand1( )
-					.getText( ) : null;
-			String op2Text = ce.getOperand2( ) != null ? ce.getOperand2( )
-					.getText( ) : null;
+			String[] op1Text = new String[0], op2Text = new String[0];
+			Object[] op1Value = new Object[0], op2Value = new Object[0];
+
+			if ( ce.getOperand1( ) != null )
+			{
+				if ( ce.getOperand1( ) instanceof IScriptExpression )
+				{
+					op1Text = new String[1];
+					op1Text[0] = ( (IScriptExpression) ce.getOperand1( ) ).getText( );
+					op1Value = new Object[1];
+					op1Value[0] = evaluateValue( ce.getOperand1( ),
+							index,
+							roObject,
+							scope );
+				}
+				else if ( ce.getOperand1( ) instanceof ICombinedExpression )
+				{
+					int length = ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( ).length;
+					op1Text = new String[length];
+					op1Value = new Object[length];
+					for ( int i = 0; i < length; i++ )
+					{
+						op1Value[i] = evaluateValue( ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( )[i],
+								index,
+								roObject,
+								scope );
+					}
+				}
+			}
+			if ( ce.getOperand2( ) != null )
+			{
+				if ( ce.getOperand2( ) instanceof IScriptExpression )
+				{
+					op2Text = new String[1];
+					op2Text[0] = ( (IScriptExpression) ce.getOperand2( ) ).getText( );
+					op2Value = new Object[1];
+					op2Value[0] = evaluateValue( ce.getOperand2( ),
+							index,
+							roObject,
+							scope );
+				}
+				else if ( ce.getOperand2( ) instanceof ICombinedExpression )
+				{
+					int length = ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( ).length;
+					op2Text = new String[length];
+					op2Value = new Object[length];
+					for ( int i = 0; i < length; i++ )
+					{
+						op2Value[i] = evaluateValue( ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( )[i],
+								index,
+								roObject,
+								scope );
+					}
+				}
+			}
+			ExprTextAndValue[] exprValues = new ExprTextAndValue[op1Text.length +
+					op2Text.length];
+			for ( int i = 0; i < op1Text.length; i++ )
+			{
+				exprValues[i] = ScriptEvalUtil.newExprInfo( op1Text[i],
+						op1Value[i] );
+			}
+			for ( int i = 0; i < op2Text.length; i++ )
+			{
+				exprValues[i + op1Text.length] = ScriptEvalUtil.newExprInfo( op2Text[i],
+						op2Value[i] );
+			}
 			exprValue = ScriptEvalUtil.evalConditionalExpr( resultExpr,
 					ce.getOperator( ),
-					ScriptEvalUtil.newExprInfo( op1Text, resultOp1 ),
-					ScriptEvalUtil.newExprInfo( op2Text, resultOp2 ) );
+					exprValues );
 		}
 		else
 		{

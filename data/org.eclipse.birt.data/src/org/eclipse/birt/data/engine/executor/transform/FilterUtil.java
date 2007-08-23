@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
@@ -96,8 +97,9 @@ public final class FilterUtil
 				// Tag expression with NEvaluator
 				NEvaluator evaluator = NEvaluator.newInstance( operator,
 						ce.getExpression( ),
-						ce.getOperand1( ),
-						filterPass, helper );
+						(IScriptExpression) ce.getOperand1( ),
+						filterPass,
+						helper );
 				expr.setHandle( evaluator );
 			}
 		}

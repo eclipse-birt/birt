@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.script;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -53,26 +54,37 @@ public class OLAPExpressionCompiler
 	 * @param cx
 	 * @param expr1
 	 */
-	private static void prepareScriptExpression( Context cx, IScriptExpression expr1 )
+	private static void prepareScriptExpression( Context cx,
+			IBaseExpression expr1 )
 	{
 		if ( expr1 == null )
 			return;
-		
-		String exprText = expr1.getText( );
+		if ( expr1 instanceof IScriptExpression )
+		{
+			String exprText = ( (IScriptExpression) expr1 ).getText( );
 
-		CompilerEnvirons compilerEnv = new CompilerEnvirons( );
-		compilerEnv.initFromContext( cx );
-		Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
+			CompilerEnvirons compilerEnv = new CompilerEnvirons( );
+			compilerEnv.initFromContext( cx );
+			Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
 
-		ScriptOrFnNode tree = p.parse( exprText, null, 0 );
-		Interpreter compiler = new Interpreter( );
-		Object compiledOb = compiler.compile( compilerEnv,
-				tree,
-				null,
-				false );
-		Script script = (Script) compiler.createScriptObject( compiledOb,
-				null );
-		expr1.setHandle( new OLAPExpressionHandler( script ));
+			ScriptOrFnNode tree = p.parse( exprText, null, 0 );
+			Interpreter compiler = new Interpreter( );
+			Object compiledOb = compiler.compile( compilerEnv,
+					tree,
+					null,
+					false );
+			Script script = (Script) compiler.createScriptObject( compiledOb,
+					null );
+			expr1.setHandle( new OLAPExpressionHandler( script ) );
+		}
+		else if ( expr1 instanceof ICombinedExpression )
+		{
+			for ( int i = 0; i < ( (ICombinedExpression) expr1 ).getExpressions( ).length; i++ )
+			{
+				prepareScriptExpression( cx,
+						( (ICombinedExpression) expr1 ).getExpressions( )[i] );
+			}
+		}
 	}
 
 	/**

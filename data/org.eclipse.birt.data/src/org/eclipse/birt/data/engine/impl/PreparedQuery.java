@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -402,6 +403,17 @@ final class PreparedQuery
 	    	// Set itself as the compiled handle
 	    	expr.setHandle( ce );
 	    }
+	    else if ( expr instanceof ICombinedExpression )
+		{
+			ICombinedExpression ce = (ICombinedExpression) expr;
+			for ( int i = 0; i < ce.getExpressions( ).length; i++ )
+			{
+				prepareExpression( ce.getExpressions( )[i],
+						groupLevel,
+						cx,
+						reg );
+			}
+		}
 	    else
 	    {
 	    	// Should never get here
@@ -441,9 +453,9 @@ final class PreparedQuery
 		
 		if( prefix != null )
 		{
-			ce = new ConditionalExpression( prefix+"("
-					+ ce.getExpression( ).getText( ) + ","
-					+ ce.getOperand1( ).getText( ) + ")",
+			ce = new ConditionalExpression( prefix +
+					"(" + ce.getExpression( ).getText( ) + "," +
+					( (IScriptExpression) ce.getOperand1( ) ).getText( ) + ")",
 					IConditionalExpression.OP_TRUE );
 		}
 		return ce;

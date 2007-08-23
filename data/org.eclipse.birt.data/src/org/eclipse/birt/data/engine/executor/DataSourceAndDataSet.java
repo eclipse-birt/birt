@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -307,10 +308,17 @@ public class DataSourceAndDataSet
 					&& ce.getOperator( ) == ce2.getOperator( )
 					&& isEqualExpression2( ce.getExpression( ),
 							ce2.getExpression( ) )
-					&& isEqualExpression2( ce.getOperand1( ), ce2.getOperand1( ) )
-					&& isEqualExpression2( ce.getOperand2( ), ce2.getOperand2( ) );
+					&& isEqualExpression( ce.getOperand1( ), ce2.getOperand1( ) )
+					&& isEqualExpression( ce.getOperand2( ), ce2.getOperand2( ) );
 		}
+		else if ( be instanceof ICombinedExpression &&
+				be2 instanceof ICombinedExpression )
+		{
+			return be.getDataType( ) == be2.getDataType( ) &&
+					isEqualExpressionArray( ( (ICombinedExpression) be ).getExpressions( ),
+							( (ICombinedExpression) be2 ).getExpressions( ) );
 
+		}
 		return false;
 	}
 
@@ -319,16 +327,35 @@ public class DataSourceAndDataSet
 	 * @param se2
 	 * @return
 	 */
-	private boolean isEqualExpression2( IScriptExpression se,
-			IScriptExpression se2 )
+	private boolean isEqualExpression2( IScriptExpression se, IBaseExpression se2 )
 	{
 		if ( se == se2 )
 			return true;
 		else if ( se == null || se2 == null )
 			return false;
-
-		return se.getDataType( ) == se2.getDataType( )
-				&& isEqualString( se.getText( ), se2.getText( ) );
+		return se.getDataType( ) == se2.getDataType( ) &&
+					isEqualString( ( (IScriptExpression) se ).getText( ),
+							( (IScriptExpression) se2 ).getText( ) );
+	}
+	
+	/**
+	 * 
+	 * @param operands
+	 * @param operands2
+	 * @return
+	 */
+	private boolean isEqualExpressionArray( IBaseExpression[] operands1, IBaseExpression[] operands2 )
+	{
+		if ( operands1 == operands2 )
+			return true;
+		if ( operands1.length != operands2.length )
+			return false;
+		for ( int i = 0; i < operands1.length; i++ )
+		{
+			if ( !isEqualExpression( operands1[i], operands2[i] ) )
+				return false;
+		}
+		return true;
 	}
 
 	/**

@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -796,15 +797,27 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 
 					result = popAggrRefFromScriptExpr( aggrReferences,
 							ce.getExpression( ),
-							aggrMap )||
-					popAggrRefFromScriptExpr( aggrReferences,
+							aggrMap ) ||
+							popAggrRefFromBaseExpr( aggrReferences,
 									ce.getOperand1( ),
-									aggrMap )||
-					popAggrRefFromScriptExpr( aggrReferences,
+									aggrMap ) ||
+							popAggrRefFromBaseExpr( aggrReferences,
 									ce.getOperand2( ),
 									aggrMap );
-
-					
+				}
+				else if( expr instanceof ICombinedExpression )
+				{
+					ICombinedExpression ce = ( ICombinedExpression )expr;
+					for ( int i = 0; i < ce.getExpressions( ).length; i++ )
+					{
+						if ( popAggrRefFromBaseExpr( aggrReferences,
+								ce.getExpressions( )[i],
+								aggrMap ) )
+						{
+							result = true;
+							break;
+						}
+					}
 				}
 				return result;
 			}
@@ -815,7 +828,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		}
 
 		/**
-		 * Popualte the aggregation references, return whether the aggregation should 
+		 * Populate the aggregation references, return whether the aggregation should 
 		 * be calculated on OVERALL level, which is indicated by reference to "dataSetRow"
 		 * java script object.
 		 * 

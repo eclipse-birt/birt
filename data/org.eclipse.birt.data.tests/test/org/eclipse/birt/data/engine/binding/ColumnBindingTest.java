@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -379,6 +380,51 @@ public class ColumnBindingTest extends APITestCase
 	}
 	
 	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testCombinedFilterOnTable( ) throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// column mapping
+		String[] name = new String[]{
+				"testColumn1", "testColumn2", "AMOUNT1"
+		};
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		se[1] = new ScriptExpression( "dataSetRow.CITY" );
+		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addResultSetExpression( name[i], se[i] );
+
+		List combinedList = new ArrayList();
+		combinedList.add( "\"Shanghai\"" );
+		combinedList.add( "\"Chicago\"" );
+		IConditionalExpression filter = new ConditionalExpression( "row.testColumn2",
+				IConditionalExpression.OP_IN,
+				combinedList );
+
+		FilterDefinition filterDefn = new FilterDefinition( filter );
+		queryDefn.addFilter( filterDefn );
+
+		IResultIterator ri = executeQuery( queryDefn );
+		while ( ri.next( ) )
+		{
+			String str = "";
+			for ( int i = 0; i < name.length; i++ )
+			{
+				str += ri.getValue( name[i] );
+
+				if ( i < name.length - 1 )
+					str += ", ";
+			}
+			testPrintln( str );
+		}
+		checkOutputFile( );
+	}
+	
+	/**
 	 * Sort on table
 	 * 
 	 * @throws Exception
@@ -415,6 +461,7 @@ public class ColumnBindingTest extends APITestCase
 			}
 			testPrintln( str );
 		}
+		checkOutputFile( );
 	}
 	
 	/**

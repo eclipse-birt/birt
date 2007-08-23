@@ -11,6 +11,8 @@
 package org.eclipse.birt.data.engine.binding.newbinding;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -1996,7 +1998,78 @@ public class MultiplePassTest extends APITestCase
 				bindingExprSort, bindingNameFilter, bindingExprFilter,
 				bindingNameRow, bindingExprRow, expressions, groupDefn, null, filters);
 	}
+	
+	/**
+	 * Test filterings including group instance filters
+	 * 
+	 * @throws Exception
+	 */
+	public void testIN_FilteringInGroup( ) throws Exception
+	{
+		// --- begin binding
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_GROUP0";
+		bindingNameGroup[1] = "GROUP_GROUP1";
 
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+
+		String[] bindingNameSort = new String[0];
+
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
+		String[] bindingNameFilter = null;
+
+		IBaseExpression[] bindingExprFilter = null;
+
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		// --- end binding
+
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_GROUP0" );
+		groupDefn[1].setKeyExpression( "row.GROUP_GROUP1" );
+		IBaseExpression[] expressions = new IBaseExpression[]{
+				new ScriptExpression( "row.ROW_COUNTRY", 0 ),
+				new ScriptExpression( "row.ROW_CITY", 0 ),
+				new ScriptExpression( "row.ROW_SALE_DATE", 0 ),
+				new ScriptExpression( "row.ROW_AMOUNT", 0 )
+		};
+
+		List combinedValue = new ArrayList();
+		combinedValue.add( "7600" );
+		combinedValue.add( "1000" );
+		IConditionalExpression expr = new ConditionalExpression( "Total.Sum(row.ROW_AMOUNT,null,1)",
+				IConditionalExpression.OP_IN,
+				combinedValue );
+		FilterDefinition filters = new FilterDefinition( expr );
+		groupDefn[0].addFilter( filters );
+
+		createAndRunQuery( bindingNameGroup,
+				bindingExprGroup,
+				bindingNameSort,
+				bindingExprSort,
+				bindingNameFilter,
+				bindingExprFilter,
+				bindingNameRow,
+				bindingExprRow,
+				expressions,
+				groupDefn,
+				null,
+				null );
+
+	}
 
 	/**
 	 * Create query definition from passed parameters
