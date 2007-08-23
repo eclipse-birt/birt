@@ -76,7 +76,7 @@ odajdbc.PrepareStatement.CannotSetNullValue=preparedStatement の NULL 値を設定で
 odajdbc.PrepareStatement.CannotGetParameterType=パラメタのメタデータからパラメタの型を取得できません。
 odajdbc.CannotGetParameterMetadata=パラメタのメタデータを取得できません。
 odajdbc.ClearParametersError=現在のパラメタ値をクリアする際にエラーが発生しました。
-
+odajdbc.missedUrlAndJndi=GetConnection: url and jndiNameUrl are both of null value.
 #used in assert error
 odajdbc.driver.ConnNotOpen=接続が開いていません。
 odajdbc.driver.DriverMissingProperties=Connection.open(Properties) のプロパティが見つかりません。

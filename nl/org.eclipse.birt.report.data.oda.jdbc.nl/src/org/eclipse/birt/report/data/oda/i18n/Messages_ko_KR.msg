@@ -76,7 +76,7 @@ odajdbc.PrepareStatement.CannotSetNullValue=preparedStatement 널(null) 값을 설정
 odajdbc.PrepareStatement.CannotGetParameterType=매개 변수 메타데이터에서 매개 변수 형식을 가져올 수 없습니다.
 odajdbc.CannotGetParameterMetadata=매개 변수 메타데이터를 검색할 수 없습니다.
 odajdbc.ClearParametersError=현재 매개 변수 값을 지우는 도중 오류가 발생했습니다.
-
+odajdbc.missedUrlAndJndi=GetConnection: url and jndiNameUrl are both of null value.
 #used in assert error
 odajdbc.driver.ConnNotOpen=연결이 열리지 않습니다.
 odajdbc.driver.DriverMissingProperties=Connection.open(속성)의 속성이 누락되었습니다.

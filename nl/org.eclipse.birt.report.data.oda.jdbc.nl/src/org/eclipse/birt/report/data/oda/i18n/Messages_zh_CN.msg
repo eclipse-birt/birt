@@ -76,7 +76,7 @@ odajdbc.PrepareStatement.CannotSetNullValue=无法设置 preparedStatement 空值。
 odajdbc.PrepareStatement.CannotGetParameterType=无法从参数元数据中获得参数类型。
 odajdbc.CannotGetParameterMetadata=无法检索参数元数据。
 odajdbc.ClearParametersError=清除当前参数值时出错。
-
+odajdbc.missedUrlAndJndi=GetConnection: url and jndiNameUrl are both of null value.
 #used in assert error
 odajdbc.driver.ConnNotOpen=连接未打开。
 odajdbc.driver.DriverMissingProperties=Connection.open(Properties) 缺少属性。
