@@ -307,7 +307,6 @@ public class PPTWriter
 		green = green.length( ) == 1 ? "0" + green : green; //$NON-NLS-1$
 		blue = blue.length( ) == 1 ? "0" + blue : blue; //$NON-NLS-1$
 
-//		ByteBuffer encodedText = Charset.forName( "UTF-8" ).encode( text );
 		println( "<v:shape id=3D't" + ( ++shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:square;'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
