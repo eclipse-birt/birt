@@ -117,8 +117,8 @@ public class BoundDataColumnUtil
 			String updatedValue = (String) updatedValues.get( value );
 			if ( updatedValue != null )
 			{
-				buffer.append( VALUE_OF_START_TAG + updatedValue
-						+ VALUE_OF_END_TAG );
+				buffer.append( VALUE_OF_START_TAG + updatedValue +
+						VALUE_OF_END_TAG );
 				return updatedValue;
 			}
 
@@ -199,8 +199,8 @@ public class BoundDataColumnUtil
 
 	public static String getColumnName( List columns, String expression )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 )
-				|| expression == null )
+		if ( ( columns == null ) || ( columns.size( ) == 0 ) ||
+				expression == null )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
@@ -229,23 +229,23 @@ public class BoundDataColumnUtil
 	public static ComputedColumn getColumn( List columns, String expression,
 			String function, List aggregateOnList )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 )
-				|| expression == null )
+		if ( ( columns == null ) || ( columns.size( ) == 0 ) )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) columns.get( i );
-			if ( expression.equals( column.getExpression( ) )
-					&& ( ( function != null && function.equals( column
+			if ( ( ( expression == null && column.getExpression( ) == null ) || ( expression != null && expression
+					.equals( column.getExpression( ) ) ) ) &&
+					( ( function != null && function.equals( column
 							.getAggregateFunction( ) ) ) || ( function == null && column
 							.getAggregateFunction( ) == null ) ) )
 			{
 				List tempAggregateOnList = column.getAggregateOnList( );
-				boolean isEmptyA = aggregateOnList == null
-						|| aggregateOnList.isEmpty( );
-				boolean isEmptyB = tempAggregateOnList == null
-						|| tempAggregateOnList.isEmpty( );
+				boolean isEmptyA = aggregateOnList == null ||
+						aggregateOnList.isEmpty( );
+				boolean isEmptyB = tempAggregateOnList == null ||
+						tempAggregateOnList.isEmpty( );
 
 				// if two is empty list, return this
 				if ( isEmptyA && isEmptyB )
@@ -265,8 +265,8 @@ public class BoundDataColumnUtil
 				{
 					String aggregationA = (String) tempAggregateOnList.get( j );
 					String aggregationB = (String) aggregateOnList.get( j );
-					if ( !aggregateOnList.contains( aggregationA )
-							|| !tempAggregateOnList.contains( aggregationB ) )
+					if ( !aggregateOnList.contains( aggregationA ) ||
+							!tempAggregateOnList.contains( aggregationB ) )
 					{
 						isMatch = false;
 						break;
@@ -324,8 +324,8 @@ public class BoundDataColumnUtil
 		String newName = columnName;
 
 		String foundName = getColumnName( columns, expression );
-		if ( ( foundName == null )
-				&& ( DataColumnNameValidator.getColumn( columns, newName ) == null ) )
+		if ( ( foundName == null ) &&
+				( DataColumnNameValidator.getColumn( columns, newName ) == null ) )
 		{
 			ComputedColumn column = StructureFactory.createComputedColumn( );
 			columns.add( column );
@@ -387,8 +387,8 @@ public class BoundDataColumnUtil
 
 		while ( tmpElement != null && tmpOuterLevel < outerLevel )
 		{
-			if ( !( tmpElement instanceof GroupElement
-					|| tmpElement instanceof ReportItem || tmpElement instanceof ScalarParameter ) )
+			if ( !( tmpElement instanceof GroupElement ||
+					tmpElement instanceof ReportItem || tmpElement instanceof ScalarParameter ) )
 			{
 				tmpElement = tmpElement.getContainer( );
 				continue;
@@ -409,9 +409,9 @@ public class BoundDataColumnUtil
 			if ( retElement == null )
 				retElement = tmpElement;
 
-			if ( tmpElement instanceof ListingElement
-					|| tmpElement instanceof GroupElement
-					|| tmpElement instanceof ExtendedItem )
+			if ( tmpElement instanceof ListingElement ||
+					tmpElement instanceof GroupElement ||
+					tmpElement instanceof ExtendedItem )
 			{
 				retElement = tmpElement;
 				tmpOuterLevel++;
@@ -499,8 +499,8 @@ public class BoundDataColumnUtil
 			// report item hasn't column binding or data set, The column name is
 			// unique in the scope of it's listing container.
 
-			if ( ( (ReportItemHandle) element ).getDataSet( ) != null
-					|| element
+			if ( ( (ReportItemHandle) element ).getDataSet( ) != null ||
+					element
 							.getProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) != null )
 			{
 				addColumnNamesToSet( element, columnNames );
@@ -758,8 +758,8 @@ public class BoundDataColumnUtil
 				ITextItemModel.CONTENT_TYPE_PROP );
 
 		if ( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO
-				.equalsIgnoreCase( contentType )
-				|| ( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
+				.equalsIgnoreCase( contentType ) ||
+				( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
 						.equalsIgnoreCase( contentType ) ) )
 		{
 
@@ -782,8 +782,8 @@ public class BoundDataColumnUtil
 						expression = ( (TextTemplate.ImageNode) obj ).getExpr( );
 					}
 
-					if ( !StringUtil.isBlank( expression )
-							&& !exprs.contains( expression ) )
+					if ( !StringUtil.isBlank( expression ) &&
+							!exprs.contains( expression ) )
 					{
 						exprs.add( expression );
 						expression = null;

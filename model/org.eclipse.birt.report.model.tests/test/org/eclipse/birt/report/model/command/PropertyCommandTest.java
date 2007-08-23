@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -543,7 +545,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// add the same structure to the list twice. The structure will be
 		// copied and added.
-		
+
 		PropertyHandle propHandle = style.getHandle( design )
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 
@@ -1644,6 +1646,53 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( measureGroupHandle.getElement( ), design.getNameHelper( )
 				.getNameSpace( Module.CUBE_NAME_SPACE ).getElement(
 						measureGroupHandle.getName( ) ) );
+	}
+
+	/**
+	 * The newValue and oldValue in PropertyRecord once be set in constructor,
+	 * then should never be changed. This test case is for testing if the old
+	 * local value is a list, then we should make a copy for the list, but not
+	 * point oldValue to the same list instance with Element. And the undo,
+	 * redo, rollback status should be correct.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testProeprtyRecordForListValue( ) throws Exception
+	{
+		createDesign( );
+		
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"table" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( table );
+
+		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
+		stack.flush( );
+		
+		ComputedColumn column = new ComputedColumn( );
+		column.setDataType( "string" ); //$NON-NLS-1$
+		column.setExpression( "expression" ); //$NON-NLS-1$
+		column.setName( "name" ); //$NON-NLS-1$
+
+		table.addColumnBinding( column, true );
+
+		stack = (ActivityStack) designHandle.getCommandStack( );
+		assertTrue( stack.canUndo( ) );
+
+		table.getPropertyHandle( TableHandle.BOUND_DATA_COLUMNS_PROP )
+				.clearValue( );
+
+		assertTrue( stack.canUndo( ) );
+
+		stack.undo( );
+
+		assertTrue( stack.canUndo( ) );
+		assertTrue( table.columnBindingsIterator( ).hasNext( ) );
+
+		stack.undo( );
+
+		assertFalse( stack.canUndo( ) );
+		assertFalse( table.columnBindingsIterator( ).hasNext( ) );
 	}
 
 	/**

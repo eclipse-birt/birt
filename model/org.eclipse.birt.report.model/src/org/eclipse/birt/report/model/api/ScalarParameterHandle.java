@@ -963,8 +963,6 @@ public class ScalarParameterHandle extends ParameterHandle
 			return null;
 
 		String expr = addColumn.getExpression( );
-		if ( expr == null )
-			return null;
 
 		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
 		if ( columns == null )
