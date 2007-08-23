@@ -599,35 +599,17 @@ public class ExecutionContext
 	 */
 	public Object evaluateCondExpr( IConditionalExpression expr )
 	{
-		int operator = expr.getOperator( );
 		IScriptExpression testExpr = expr.getExpression( );
-		IScriptExpression v1 = expr.getOperand1( );
-		IScriptExpression v2 = expr.getOperand2( );
 
 		if ( testExpr == null )
 			return Boolean.FALSE;
-
-		Object testExprValue = evaluate( testExpr.getText( ) );
-		if ( IConditionalExpression.OP_NONE == operator )
-		{
-			return testExprValue;
-		}
-		Object vv1 = null;
-		Object vv2 = null;
-		if ( v1 != null )
-		{
-			vv1 = evaluate( v1.getText( ) );
-		}
-		if ( v2 != null )
-		{
-			vv2 = evaluate( v2.getText( ) );
-		}
-
 		try
 		{
-
-			return ScriptEvalUtil.evalConditionalExpr( testExprValue, expr
-					.getOperator( ), vv1, vv2 );
+			return ScriptEvalUtil.evalExpr( expr,
+					scriptContext.getContext( ),
+					scriptContext.getScope( ),
+					null,
+					0 );
 		}
 		catch ( Exception e )
 		{

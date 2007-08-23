@@ -111,8 +111,8 @@ public final class ExpressionUtil
 		if( prefix != null )
 		{
 			ce = new ConditionalExpression( prefix+"("
-					+ ce.getExpression( ).getText( ) + ","
-					+ ce.getOperand1( ).getText( ) + ")",
+					+ ce.getExpression( ).getText( ) + "," +
+					( (IScriptExpression) ce.getOperand1( ) ).getText( ) + ")",
 					IConditionalExpression.OP_TRUE );
 		}
 		return ce;
@@ -129,18 +129,12 @@ public final class ExpressionUtil
 		try
 		{
 			IConditionalExpression ce = key;
-
-			String expr = getExprText( ce.getExpression( ) );
-			String oprand1 = getExprText( ce.getOperand1( ) );
-			String oprand2 = getExprText( ce.getOperand2( ) );
-			if ( !org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( expr ) &&
-					!org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( oprand1 ) &&
-					!org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( oprand2 ) )
+			
+			if ( hasAggregationInFilter( key ) )
 			{
 				result.addNewExpression( ce );
 				return;
 			}
-
 			if ( groupName != null )
 				ce.setGroupName( groupName );
 
@@ -166,6 +160,38 @@ public final class ExpressionUtil
 		{
 			throw new EngineException( e.getLocalizedMessage( ) );
 		}
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private boolean hasAggregationInFilter( IBaseExpression expr )
+	{
+		if ( expr == null )
+			return false;
+		if ( expr instanceof IScriptExpression )
+		{
+			return org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( ( (ScriptExpression) expr ).getText( ) );
+		}
+		else if ( expr instanceof IConditionalExpression )
+		{
+			IConditionalExpression ce = (IConditionalExpression) expr;
+			if ( hasAggregationInFilter( ce.getExpression( ) ) )
+			{
+				return true;
+			}
+			if ( hasAggregationInFilter( ce.getOperand1( ) ) )
+			{
+				return true;
+			}
+			if ( hasAggregationInFilter( ce.getOperand2( ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -443,19 +469,7 @@ public final class ExpressionUtil
 
 		return true;
 	}
-	
-	/**
-	 * 
-	 * @param expr
-	 * @return
-	 */
-	private static String getExprText( IScriptExpression expr )
-	{
-		if( expr!= null )
-			return expr.getText( );
-		return null;
-	}
-	
+		
 	// Convert model operator value to DtE IColumnFilter enum value
 	private int toDteFilterOperator( String modelOpr )
 	{
