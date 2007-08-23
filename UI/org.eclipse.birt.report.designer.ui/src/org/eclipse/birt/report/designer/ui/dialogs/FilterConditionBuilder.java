@@ -184,7 +184,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	static
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
-				FilterCondition.OPERATOR_MEMBER);
+				FilterCondition.OPERATOR_MEMBER );
 		IChoice[] chs = chset.getChoices( );
 		OPERATOR = new String[chs.length][2];
 
@@ -352,17 +352,28 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	protected void createFilterConditionContent( Composite innerParent )
 	{
 
-		optionalBtn = new Button( innerParent, SWT.CHECK );
-		optionalBtn.setText( Messages.getString( "FilterConditionBuilder.checkbox.optional.title" ) );
-
-		Label lb = new Label( innerParent, SWT.NONE );
+		Composite anotherParent = new Composite( innerParent, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		anotherParent.setLayoutData( gd );
+		GridLayout glayout = new GridLayout( 4, false );
+		anotherParent.setLayout( glayout );
+		
+		Label lb = new Label( anotherParent, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
 
+		Label lb2 = new Label(anotherParent, SWT.NONE);
+		lb2.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		
+		optionalBtn = new Button( anotherParent, SWT.CHECK );
+		optionalBtn.setText( Messages.getString( "FilterConditionBuilder.checkbox.optional.title" ) );
+
+		new Label(anotherParent, SWT.NONE);
+
 		Composite condition = new Composite( innerParent, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 180;
 		condition.setLayoutData( gd );
-		GridLayout glayout = new GridLayout( 4, false );
+		glayout = new GridLayout( 4, false );
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
@@ -461,12 +472,13 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		value2.setVisible( false );
 		valBuilder2.setVisible( false );
-		
-		if ( operator.getItemCount( ) > 0 && operator.getSelectionIndex( ) == -1)
+
+		if ( operator.getItemCount( ) > 0
+				&& operator.getSelectionIndex( ) == -1 )
 		{
 			operator.select( 0 );
 		}
-		
+
 		condition.getParent( ).layout( true, true );
 
 	}
@@ -638,8 +650,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		rightPart.setLayout( layout );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
-		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ));
-		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip"  ));
+		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) );
+		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) );
 		setButtonLayoutData( editBtn );
 		editBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -727,35 +739,35 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		} );
 
 		delAllBtn = new Button( rightPart, SWT.PUSH );
-		delAllBtn.setText( Messages.getString("FilterConditionBuilder.button.deleteall"));
-		delAllBtn.setToolTipText(Messages.getString("FilterConditionBuilder.button.deleteall.tooltip" ));
+		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) );
+		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) );
 		setButtonLayoutData( delAllBtn );
-		delAllBtn.addSelectionListener( new SelectionListener(){
+		delAllBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
 				int count = valueList.size( );
-				if(count > 0)
+				if ( count > 0 )
 				{
 					valueList.clear( );
 					tableViewer.refresh( );
-					updateButtons();
-				}else
+					updateButtons( );
+				}
+				else
 				{
 					delAllBtn.setEnabled( false );
 				}
 			}
-			
+
 		} );
-		
-		
+
 		addExpressionValue = new ExpressionValue( valueListComposite,
 				SWT.NONE,
 				expression );
@@ -771,7 +783,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		addBtn = new Button( valueListComposite, SWT.PUSH );
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
-		addBtn.setToolTipText(Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
+		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
 		setButtonLayoutData( addBtn );
 		addBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -890,17 +902,17 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			if ( valueVisible == 3 )
 			{
 				createValueListComposite( operator.getParent( ) );
-				if(inputHandle != null)
+				if ( inputHandle != null )
 				{
 					valueList = new ArrayList( inputHandle.getValue1List( ) );
 				}
-				
+
 				tableViewer.setInput( valueList );
 			}
 			else
 			{
 				create2ValueComposite( operator.getParent( ) );
-				if(inputHandle != null)
+				if ( inputHandle != null )
 				{
 					value1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
 					value2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
@@ -1063,7 +1075,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		else
 		{
 			setControlEnable( valueListComposite, val );
-			if(val)
+			if ( val )
 			{
 				checkAddButtonStatus( );
 				checkEditDelButtonStatus( );
@@ -1135,20 +1147,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	 */
 	private boolean checkValues( )
 	{
-		if(valueVisible == 3)
+		if ( valueVisible == 3 )
 		{
-			if(valueList.size( ) <= 0)
+			if ( valueList.size( ) <= 0 )
 			{
 				return false;
-			}else
+			}
+			else
 			{
 				return true;
 			}
-		}else
+		}
+		else
 		{
-			assert(! value1.isDisposed( ));
-			assert(! value2.isDisposed( ));
-			
+			assert ( !value1.isDisposed( ) );
+			assert ( !value2.isDisposed( ) );
+
 			if ( value1.getVisible( ) )
 			{
 				if ( value1.getText( ) == null
@@ -1158,7 +1172,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 			}
 
-			if (  value2.getVisible( ) )
+			if ( value2.getVisible( ) )
 			{
 				if ( value2.getText( ) == null
 						|| value2.getText( ).trim( ).length( ) == 0 )
@@ -1167,7 +1181,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 			}
 		}
-
 
 		return true;
 	}
@@ -1205,10 +1218,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 		editBtn.setEnabled( enabled );
 		delBtn.setEnabled( enabled );
-		
+
 		enabled = table.getItemCount( ) > 0 ? true : false;
 		delAllBtn.setEnabled( enabled );
-		
+
 	}
 
 	/**
@@ -1221,7 +1234,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
 		optionalBtn.setSelection( inputHandle.isOptional( ) );
-		
+
 		if ( valueVisible == 3 )
 		{
 			createValueListComposite( operator.getParent( ) );

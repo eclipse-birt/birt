@@ -636,9 +636,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		UIUtil.bindHelp( innerParent,
 				IHelpContextIds.XTAB_FILTER_CONDITION_BUILDER );
 
-		optionalBtn = new Button( innerParent, SWT.CHECK );
-		optionalBtn.setText( Messages.getString( "FilterConditionBuilder.checkbox.optional.title" ) );
-
 		Composite groupLevelParent = new Composite( innerParent, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		groupLevelParent.setLayoutData( gd );
@@ -647,6 +644,20 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		Label lbGroupLevel = new Label( groupLevelParent, SWT.NONE );
 		lbGroupLevel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
+		lbGroupLevel.setLayoutData( new GridData() );
+		
+		Composite anotherComposite= new Composite(groupLevelParent, SWT.NONE);
+		anotherComposite.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		glayout = new GridLayout( 3, false );
+		anotherComposite.setLayout( glayout );
+		
+		new Label(anotherComposite, SWT.NONE).setLayoutData( new GridData(GridData.FILL_HORIZONTAL)  );	
+		
+		optionalBtn = new Button( anotherComposite, SWT.CHECK );
+		optionalBtn.setText( Messages.getString( "FilterConditionBuilder.checkbox.optional.title" ) );
+		gd = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		
+		new Label(anotherComposite, SWT.NONE);
 
 		comboGroupLevel = new Combo( groupLevelParent, SWT.READ_ONLY
 				| SWT.BORDER );
