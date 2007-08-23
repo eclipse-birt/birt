@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PropertyHandleTableViewer;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Utility;
@@ -64,13 +63,11 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ * ExtendedItemFilterDialog
  */
-
-public class ExtendedItemFilterDialog extends TrayDialog
-		implements
-			ITableLabelProvider,
-			ISelectionChangedListener
+public class ExtendedItemFilterDialog extends TrayDialog implements
+		ITableLabelProvider,
+		ISelectionChangedListener
 {
 
 	private transient PropertyHandleTableViewer viewer = null;
@@ -199,16 +196,15 @@ public class ExtendedItemFilterDialog extends TrayDialog
 
 		pageActivated( );
 
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( "Modify Filters" ); //$NON-NLS-1$
 		return composite;
 	}
 
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.DIALOG_TRIM
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 	}
 
 	private void setupEditors( )
@@ -674,43 +670,23 @@ public class ExtendedItemFilterDialog extends TrayDialog
 
 	public void addListener( ILabelProviderListener listener )
 	{
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void okPressed( )
-	{
-		SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-		super.okPressed( );
-	}
-
-	protected void cancelPressed( )
-	{
-		SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
-		super.cancelPressed( );
 	}
 
 	public void dispose( )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean isLabelProperty( Object element, String property )
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void removeListener( ILabelProviderListener listener )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public void selectionChanged( SelectionChangedEvent event )
 	{
-		// TODO Auto-generated method stub
 		setPageProperties( );
 	}
 }

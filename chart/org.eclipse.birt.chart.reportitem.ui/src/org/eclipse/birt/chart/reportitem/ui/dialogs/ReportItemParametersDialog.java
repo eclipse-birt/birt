@@ -19,12 +19,10 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -134,8 +132,6 @@ public class ReportItemParametersDialog extends BaseDialog
 
 		refreshValues( );
 
-		getActionStack( ).startTrans( "Modify Parameters" ); //$NON-NLS-1$
-
 		return composite;
 	}
 
@@ -207,18 +203,6 @@ public class ReportItemParametersDialog extends BaseDialog
 	{
 		super.setShellStyle( newShellStyle
 				| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
-	}
-
-	protected void okPressed( )
-	{
-		getActionStack( ).commit( );
-		super.okPressed( );
-	}
-
-	protected void cancelPressed( )
-	{
-		getActionStack( ).rollback( );
-		super.cancelPressed( );
 	}
 
 	/**
@@ -495,16 +479,6 @@ public class ReportItemParametersDialog extends BaseDialog
 		}
 	}
 
-	/**
-	 * Gets the DE CommandStack instance
-	 * 
-	 * @return CommandStack instance
-	 */
-	private CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
-	}
-	
 	/**
 	 * Gets dataset from ReportItemHandle at first. If null, get dataset from
 	 * its container.
