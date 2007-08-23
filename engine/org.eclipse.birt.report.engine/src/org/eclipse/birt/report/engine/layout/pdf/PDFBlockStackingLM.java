@@ -239,6 +239,10 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			}
 		}
 		keepWith = keepWithNext;
+		if(!keepWith )
+		{
+			clearCache( );
+		}
 		return true;
 	}
 
