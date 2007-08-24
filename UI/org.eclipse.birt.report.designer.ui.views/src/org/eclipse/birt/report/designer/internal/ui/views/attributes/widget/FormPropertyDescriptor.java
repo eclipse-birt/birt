@@ -484,13 +484,13 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			IFormProvider provider = (IFormProvider) getDescriptorProvider( );
 			if ( provider.isEnable( ) )
 			{
-				btnAdd.setEnabled( provider.isAddEnable( ) );
-				btnEdit.setEnabled( provider.isEditEnable( ) );
-				btnDel.setEnabled( provider.isDeleteEnable( ) );
+				if(btnAdd.isEnabled( ))btnAdd.setEnabled( provider.isAddEnable( ) );
+				if(btnEdit.isEnabled( ))btnEdit.setEnabled( provider.isEditEnable( ) );
+				if(btnDel.isEnabled( ))btnDel.setEnabled( provider.isDeleteEnable( ) );
 				if ( style != NO_UP_DOWN )
 				{
-					btnUp.setEnabled( provider.isUpEnable( ) );
-					btnDown.setEnabled( provider.isDownEnable( ) );
+					if(btnUp.isEnabled( ))btnUp.setEnabled( provider.isUpEnable( ) );
+					if(btnDown.isEnabled( ))btnDown.setEnabled( provider.isDownEnable( ) );
 				}
 			}
 		}
