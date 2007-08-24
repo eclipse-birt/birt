@@ -36,10 +36,11 @@ import org.eclipse.ui.ISharedImages;
 public class CrossTabNodeProvider extends DefaultNodeProvider
 {
 
-
-	public Object getParent(Object model){
+	public Object getParent( Object model )
+	{
 		return super.getParent( model );
 	}
+
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
@@ -79,7 +80,7 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		if(OlapUtil.isFromLibrary( model ))
+		if ( OlapUtil.needLibraryImage( model ) )
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
 		return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
 	}

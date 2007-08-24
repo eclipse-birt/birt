@@ -186,13 +186,27 @@ public class OlapUtil
 		return true;
 	}
 
-	public static boolean isFromLibrary( Object model )
+	public static boolean needLibraryImage( Object model )
 	{
 		if ( model instanceof DesignElementHandle )
 		{
 			DesignElementHandle handle = (DesignElementHandle) model;
 			if ( ( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )
 					.getRoot( ) instanceof LibraryHandle ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isFromLibrary( Object model )
+	{
+		if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
+			if ( handle.getExtends( ) != null
+					&& handle.getExtends( ).getRoot( ) instanceof LibraryHandle )
 			{
 				return true;
 			}
