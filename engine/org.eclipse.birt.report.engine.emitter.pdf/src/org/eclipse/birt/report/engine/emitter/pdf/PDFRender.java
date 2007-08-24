@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -149,7 +148,7 @@ public class PDFRender extends PageDeviceRender
 		this.services = services;
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 		// It has the top preference.
-		IReportRunnable reportRunnable = services.getReportRunnable( );
+		reportRunnable = services.getReportRunnable( );
 		if ( reportRunnable != null )
 		{
 			reportDesign = (ReportDesignHandle) reportRunnable
