@@ -91,12 +91,12 @@ public class ParameterConverterTest extends TestCase
 		rpc = new ReportParameterConverter( ">", locDef );
 		assertEquals( "123AAA", rpc.format( "123aaA" ) );
 
-		rpc = new ReportParameterConverter( "^^^\"!", locDef );
-		assertEquals( "^^^\"123", rpc.format( "123" ) );
-		rpc = new ReportParameterConverter( "^^^&YY&&&!", locDef );
-		assertEquals( "^^^1YY23", rpc.format( "123" ) );
-		rpc = new ReportParameterConverter( "^^^&YY@@@!", locDef );
-		assertEquals( "^^^1YY23 ", rpc.format( "123" ) );
+		rpc = new ReportParameterConverter( "***\"!", locDef );
+		assertEquals( "***\"123", rpc.format( "123" ) );
+		rpc = new ReportParameterConverter( "***&YY&&&!", locDef );
+		assertEquals( "***1YY23", rpc.format( "123" ) );
+		rpc = new ReportParameterConverter( "***&YY@@@!", locDef );
+		assertEquals( "***1YY23 ", rpc.format( "123" ) );
 
 		// test for SSN
 		rpc = new ReportParameterConverter( "@@@-@@-@@@@!", locDef );
@@ -412,14 +412,14 @@ public class ParameterConverterTest extends TestCase
 		assertEquals( "123aaA", rpc.parse( "123aaA",
 				IScalarParameterDefn.TYPE_STRING ) );
 
-		rpc = new ReportParameterConverter( "^^^\"!", locDef.toLocale( ) );
-		assertEquals( "123", rpc.parse( "^^^\"123",
+		rpc = new ReportParameterConverter( "***\"!", locDef.toLocale( ) );
+		assertEquals( "123", rpc.parse( "***\"123",
 				IScalarParameterDefn.TYPE_STRING ) );
-		rpc = new ReportParameterConverter( "^^^&YY&&&!", locDef.toLocale( ) );
-		assertEquals( "123 ", rpc.parse( "^^^1YY23",
+		rpc = new ReportParameterConverter( "***&YY&&&!", locDef.toLocale( ) );
+		assertEquals( "123 ", rpc.parse( "***1YY23",
 				IScalarParameterDefn.TYPE_STRING ) );
-		rpc = new ReportParameterConverter( "^^^&YY@@@!", locDef.toLocale( ) );
-		assertEquals( "123", rpc.parse( "^^^1YY23 ",
+		rpc = new ReportParameterConverter( "***&YY@@@!", locDef.toLocale( ) );
+		assertEquals( "123", rpc.parse( "***1YY23 ",
 				IScalarParameterDefn.TYPE_STRING ) );
 		// test for SSN
 		rpc = new ReportParameterConverter( "@@@-@@-@@@@!", locDef.toLocale( ) );
