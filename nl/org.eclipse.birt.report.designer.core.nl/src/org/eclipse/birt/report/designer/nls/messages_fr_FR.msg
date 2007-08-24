@@ -405,8 +405,9 @@ DataPageGenerator.List.Visibility=Visibilité
 dataset.edit=Modifier le jeu de données - {0}
 
 dataset.editor.settings=Paramètres
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Entrez un nombre supérieur à zéro pour la limite de récupération de ligne.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
 dataset.editor.settings.dataFetchSetting=Paramètre de récupération de données
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
 dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
 dataset.editor.settings.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul

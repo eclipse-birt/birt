@@ -405,8 +405,9 @@ DataPageGenerator.List.Visibility=可視性
 dataset.edit=データセットの編集 - {0}
 
 dataset.editor.settings=設定
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=フェッチする最大行数には、0 よりも大きい数値を入力してください。
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
 dataset.editor.settings.dataFetchSetting=データフェッチの設定
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
 dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
 dataset.editor.settings.cachePreference=キャッシュの設定
 dataset.editor.computedColumns=計算列

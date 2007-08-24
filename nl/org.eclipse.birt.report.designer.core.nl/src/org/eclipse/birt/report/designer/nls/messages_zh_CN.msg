@@ -405,8 +405,9 @@ DataPageGenerator.List.Visibility=可见性
 dataset.edit=编辑数据集 - {0}
 
 dataset.editor.settings=设置
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=请为行提取限制输入一个大于零的数。
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
 dataset.editor.settings.dataFetchSetting=数据提取设置
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
 dataset.editor.settings.cachePreference.errorNumberFormat=请为缓存行大小输入一个大于零的数。
 dataset.editor.settings.cachePreference=缓存首选项
 dataset.editor.computedColumns=计算列
