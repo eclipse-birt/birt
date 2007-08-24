@@ -123,7 +123,7 @@ public class FactTableAccessor
 				if ( dimensionPosition[i] < 0 )
 				{
 					String[] args = new String[2];
-					args[0] = currentRow.toString( );
+					args[0] = currentRow.getDimensionKeys()[i].toString( );
 					args[1] = dimensions[i].getName( );
 					throw new DataException( ResourceConstants.INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW,
 							args );
