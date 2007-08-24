@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -71,75 +71,79 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * @author Actuate Corporation
+ * Popup sheet for Series Label
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet implements
-		SelectionListener,
-		Listener
+public class SeriesLabelSheet extends AbstractPopupSheet
+		implements
+			SelectionListener,
+			Listener
 {
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient Group grpDataPoint = null;
+	private Group grpDataPoint = null;
 
-	private transient List lstComponents = null;
+	private List lstComponents = null;
 
-	private transient Combo cmbComponentTypes = null;
+	private Combo cmbComponentTypes = null;
 
-	private transient Button btnAddComponent = null;
+	private Button btnAddComponent = null;
 
-	private transient Button btnRemoveComponent = null;
+	private Button btnRemoveComponent = null;
 
-	private transient Button btnFormatSpecifier = null;
+	private Button btnFormatSpecifier = null;
 
-	private transient TextEditorComposite txtPrefix = null;
+	private TextEditorComposite txtPrefix = null;
 
-	private transient TextEditorComposite txtSuffix = null;
+	private TextEditorComposite txtSuffix = null;
 
-	private transient TextEditorComposite txtSeparator = null;
+	private TextEditorComposite txtSeparator = null;
 
-	private transient LineAttributesComposite liacOutline = null;
+	private LineAttributesComposite liacOutline = null;
 
-	private transient InsetsComposite icInsets = null;
+	private InsetsComposite icInsets = null;
 
-	private transient SeriesDefinition seriesDefn = null;
+	private SeriesDefinition seriesDefn = null;
 
-	private transient Label lblPosition;
+	private Label lblPosition;
 
-	private transient Combo cmbPosition;
+	private Combo cmbPosition;
 
-	private transient Label lblFont;
+	private Label lblFont;
 
-	private transient FontDefinitionComposite fdcFont;
+	private FontDefinitionComposite fdcFont;
 
-	private transient Label lblFill;
+	private Label lblFill;
 
-	private transient FillChooserComposite fccBackground;
+	private FillChooserComposite fccBackground;
 
-	private transient Label lblShadow;
+	private Label lblShadow;
 
-	private transient FillChooserComposite fccShadow;
+	private FillChooserComposite fccShadow;
 
-	private transient Group grpAttributes;
+	private Group grpAttributes;
 
-	private transient Label lblPrefix;
+	private Label lblPrefix;
 
-	private transient Label lblSuffix;
+	private Label lblSuffix;
 
-	private transient Label lblSeparator;
+	private Label lblSeparator;
 
-	private transient Group grpOutline;
+	private Group grpOutline;
 
-	private transient ChartWizardContext context;
+	private ChartWizardContext context;
 
 	/** Caches the pairs of datapoint display name and name */
-	private transient Map mapDataPointNames;
+	private Map mapDataPointNames;
 
 	/**
 	 * Caches corresponding index in model of each List item
 	 */
-	private transient ArrayList dataPointIndex;
+	private ArrayList dataPointIndex;
+
+	/** The DataPointDefinition stores data point component for current Chart. */
+	private IDataPointDefinition foDataPointDefinition;
 
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
@@ -240,16 +244,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		boolean bException = false;
 		try
 		{
+			mapDataPointNames.clear( );
 			// Add series-specific datapoint components
-			IDataPointDefinition dpd = PluginSettings.instance( )
+			foDataPointDefinition = PluginSettings.instance( )
 					.getDataPointDefinition( getSeriesForProcessing( ).getClass( ) );
-			if ( dpd != null )
+			if ( foDataPointDefinition != null )
 			{
-				String[] dpType = dpd.getDataPointTypes( );
+				String[] dpType = foDataPointDefinition.getDataPointTypes( );
 				String[] dpTypeDisplay = new String[dpType.length];
 				for ( int i = 0; i < dpType.length; i++ )
 				{
-					dpTypeDisplay[i] = dpd.getDisplayText( dpType[i] );
+					dpTypeDisplay[i] = foDataPointDefinition.getDisplayText( dpType[i] );
 					mapDataPointNames.put( dpType[i], dpTypeDisplay[i] );
 					mapDataPointNames.put( dpTypeDisplay[i], dpType[i] );
 				}
@@ -451,8 +456,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 		// Selected DataPoint components list
 		lstComponents = new List( grpDataPoint, SWT.BORDER
-				| SWT.SINGLE
-				| SWT.V_SCROLL );
+				| SWT.SINGLE | SWT.V_SCROLL );
 		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
 		gdLSTComponents.horizontalSpan = 4;
 		lstComponents.setLayoutData( gdLSTComponents );
@@ -563,6 +567,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				}
 			}
 		}
+		else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+		{
+			return AxisType.LOGARITHMIC_LITERAL;
+		}
+
 		return null;
 	}
 
@@ -715,6 +724,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		if ( formatEnable )
 		{
 			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) ) );
+			if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL
+					&& mapDataPointNames != null
+					&& mapDataPointNames.size( ) > 0 )
+			{
+				formatEnable = false;
+			}
 			if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
 			{
 				formatEnable = false;
@@ -771,19 +786,24 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 
 		FormatSpecifierDialog editor = null;
-		if ( getAxisType( dpc.getType( ) ) == AxisType.DATE_TIME_LITERAL )
+		AxisType axisType = getAxisType( dpc.getType( ) );
+		boolean isAnyType = false;
+		if ( mapDataPointNames != null && mapDataPointNames.size( ) > 0 )
 		{
+			isAnyType = foDataPointDefinition.isAnyDataType( (String) mapDataPointNames.get( lstComponents.getItem( iComponentIndex ) ) );
+		}
+		if ( axisType != null && !isAnyType )
 			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
-					AxisType.DATE_TIME_LITERAL,
+					axisType,
 					sContext );
-		}
 		else
 		{
 			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
 					sContext );
 		}
+
 		if ( editor.open( ) == Window.OK )
 		{
 			if ( editor.getFormatSpecifier( ) == null )
