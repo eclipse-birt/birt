@@ -33,6 +33,7 @@ public class TotalTest extends TestCase
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
     private double[] doubleArray2 = {4, -43, 4, 23, -15, -6, 4, -6, 3, 63, 33, -6, -23, 34};
     private Double[] doubleArray3 = {Double.valueOf( "100" ),Double.valueOf( "20" ),null,Double.valueOf( "300" ),null,Double.valueOf( "40" ),Double.valueOf( "10" ), Double.valueOf( "10" )};
+    private boolean[] doubleArray3TopBottom = {true,false,false,true,false,false,false, false};
     private int[] doubleArray3RankDec = {2, 4, 7, 1, 7, 3, 5, 5 };
     private int[] doubleArray3RankAsc = {7, 5, 1, 8, 1, 6, 3, 3 };
     private int[] doubleArray3PercentRank = {857,571,0,1000,0,714,285,285};
@@ -1010,6 +1011,36 @@ public class TotalTest extends TestCase
         ac.finish();
         
         assertEquals(new Boolean(true), ac.getValue());
+    }
+    
+    /**
+	 * test top n aggregation with null values. Note: the null values will not
+	 * be considered as the candidates for the result.
+	 */
+    public void testTotalTop2() throws Exception
+    {
+        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
+        Accumulator ac = ag.newAccumulator();
+        assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
+        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(2, ag.getParameterDefn().length);
+        assertTrue(ag.getParameterDefn()[0]);
+        assertFalse(ag.getParameterDefn()[1]);
+        
+        ac.start();
+        for(int i=0; i<doubleArray3.length; i++)
+        {
+            ac.onRow(new Double[]{doubleArray3[i], new Double(2)});
+        }
+        ac.finish();
+        
+        ac.start();
+        for(int i=0; i<doubleArray3.length; i++)
+        {
+            ac.onRow(new Double[]{doubleArray3[i], new Double(2)});
+            assertEquals(new Boolean(doubleArray3TopBottom[i]), ac.getValue());
+        }
+        ac.finish();
     }
     
     public void testTotalBottom() throws Exception

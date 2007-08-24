@@ -38,7 +38,6 @@ public abstract class NEvaluator
 	
 	private FilterPassController filterPassController;
 
-	protected static final String nullValueReplacer = "{NULL_VALUE_!@#$%^&}";
 	/**
 	 * Create a new instance to evaluate the top/bottom expression
 	 * @param operator 
@@ -168,7 +167,10 @@ public abstract class NEvaluator
 			rowIdList = new BasicCachedArray( N );
 			
 		}
-		populateValueListAndRowIdList( value, N );
+		if ( value != null )
+		{
+			populateValueListAndRowIdList( value, N );
+		}
 		return true;
 	}
 
@@ -183,8 +185,6 @@ public abstract class NEvaluator
 		int activeCount = N < this.firstPassRowNumberCounter? N:this.firstPassRowNumberCounter;
 		for( int i = 0; i < activeCount; i++ )
 		{
-			if( value == null )
-				value = nullValueReplacer;
 			if( valueList.get( i ) == null )
 			{
 				valueList.set( i, value);
@@ -193,14 +193,7 @@ public abstract class NEvaluator
 			}
 			else 
 			{
-				Object result;
-				
-				if( value.equals(nullValueReplacer) )
-					result = this.doCompare( null, valueList.get( i ));
-				else if ( valueList.get( i ).equals(nullValueReplacer))
-					result = this.doCompare( value, null );
-				else
-					result = this.doCompare( value, valueList.get( i ) );
+				Object result = this.doCompare( value, valueList.get( i ) );
 				
 				try
 				{
