@@ -223,7 +223,7 @@ public class ElementAdapterManager
 		for ( Iterator iter = keys.iterator( ); iter.hasNext( ); )
 		{
 			Class clazz = (Class) iter.next( );
-			// adaptable is the key's superclass.
+			// adaptable is the instance of the key class or its subclass.
 			if ( clazz.isAssignableFrom( adaptableObject.getClass( ) ) )
 			{
 				if ( adapters == null )
