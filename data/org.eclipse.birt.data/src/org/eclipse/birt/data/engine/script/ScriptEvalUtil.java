@@ -530,14 +530,39 @@ public class ScriptEvalUtil
 			if ( resultObj[i] instanceof Object[] )
 			{
 				Object[] flatternObj = (Object[]) resultObj[i];
-				if ( in( flatternObj ) )
+				if ( in( target, flatternObj ) )
 					return true;
 			}
+			else 
 			if ( compare( target, resultObj[i] ) == 0 )
 				return true;
 		}
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @param target
+	 * @param resultObj
+	 * @return
+	 * @throws DataException
+	 */
+	private static boolean in( Object target, Object[] resultObj ) throws DataException
+	{
+		for ( int i = 0; i < resultObj.length; i++ )
+		{
+			if ( resultObj[i] instanceof Object[] )
+			{
+				Object[] flatternObj = (Object[]) resultObj[i];
+				if ( in( target, flatternObj ) )
+					return true;
+			}
+			else if ( compare( target, resultObj[i] ) == 0 )
+				return true;
+		}
+		return false;
+	}
+	
 	
 
 	/**
