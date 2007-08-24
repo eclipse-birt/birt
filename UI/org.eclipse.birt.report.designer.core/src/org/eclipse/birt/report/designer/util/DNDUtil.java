@@ -1181,7 +1181,8 @@ public class DNDUtil
 		{
 			return CONTAIN_THIS;
 		}
-		else if ( targetHandle instanceof ParameterGroupHandle
+		else if ( targetHandle != childHandle
+				&& targetHandle instanceof ParameterGroupHandle
 				&& childHandle instanceof ParameterGroupHandle )
 		{
 			return CONTAIN_THIS;
