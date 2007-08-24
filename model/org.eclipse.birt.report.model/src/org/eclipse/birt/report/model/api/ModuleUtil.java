@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -802,6 +803,27 @@ public class ModuleUtil
 		return isValidElementName( elementHandle,
 				"name",
 				elementHandle.getName( ) );
+
+	}
+
+	/**
+	 * Determine if the value1 of this filter condition is a list.
+	 * 
+	 * @param filter
+	 *            the filter need to check
+	 * @return true if the value1 value is a list, false if it is a single
+	 *         value.
+	 */
+	public boolean isListFilterValue( FilterConditionHandle filter )
+	{
+		if ( filter == null )
+			return false;
+		
+		if ( filter.getOperator( )
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_IN ) )
+			return true;
+
+		return false;
 
 	}
 }
