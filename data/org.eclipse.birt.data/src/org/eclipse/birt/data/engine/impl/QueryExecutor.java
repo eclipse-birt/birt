@@ -317,11 +317,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	protected void prepareCacheQuery( IQuery odiQuery )
 	{
-		if ( odiQuery instanceof org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery
-				&& temporaryComputedColumns != null
+		if ( temporaryComputedColumns != null
 				&& temporaryComputedColumns.size( ) > 0 )
 		{
-			( (org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery) odiQuery ).setTempComputedColumn( this.temporaryComputedColumns );
+			if ( odiQuery instanceof org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery )
+			{
+				( (org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery) odiQuery ).setTempComputedColumn( this.temporaryComputedColumns );
+			}
+			else if ( odiQuery instanceof org.eclipse.birt.data.engine.executor.dscache.CandidateQuery )
+			{
+				( (org.eclipse.birt.data.engine.executor.dscache.CandidateQuery) odiQuery ).setTempComputedColumn( this.temporaryComputedColumns );
+			}
 		}
 	}
 	

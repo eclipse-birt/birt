@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.dscache;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -89,6 +91,15 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 		{
 			// ignore it
 		}
+	}
+	
+	/**
+	 * 
+	 * @param columns
+	 */
+	public void setTempComputedColumn( List columns )
+	{
+		this.getOdaCacheResultSet( ).setTempComputedColumn( columns );
 	}
 	
 	/**
