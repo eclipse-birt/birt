@@ -41,9 +41,11 @@ CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
 CrosstabReportItemQuery.error.register.empty.cell.value=注册空单元格值时出错。
 
-CrosstabQueryHelper.error.invalid.measure=交叉表的关联度量无效。
-CrosstabQueryHelper.error.invalid.dimension=交叉表的关联维无效。
-CrosstabQueryHelper.error.invalid.level=交叉表的关联级别无效。
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure defintion or the specific measure "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=处理可见性时出错。
 BaseCrosstabExecutor.error.process.bookmark=处理书签时出错。

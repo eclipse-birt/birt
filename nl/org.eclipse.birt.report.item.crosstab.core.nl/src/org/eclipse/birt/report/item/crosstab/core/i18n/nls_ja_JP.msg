@@ -41,9 +41,11 @@ CrosstabReportItemQuery.error.crosstab.loading=Šg’£€–Ú‚©‚çƒNƒƒXƒ^ƒu€–Ú‚ğ“Ç‚İ
 CrosstabReportItemQuery.error.query.building=ƒNƒGƒŠ\’z‚ÌƒNƒƒXƒ^ƒuƒ‚ƒfƒ‹‚ª–³Œø‚Å‚·B
 CrosstabReportItemQuery.error.register.empty.cell.value=‹ó‚ÌƒZƒ‹’l‚Ì“o˜^’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
-CrosstabQueryHelper.error.invalid.measure=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éŒv‘ª‚ª–³Œø‚Å‚·B
-CrosstabQueryHelper.error.invalid.dimension=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éŸŒ³‚ª–³Œø‚Å‚·B
-CrosstabQueryHelper.error.invalid.level=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒŒƒxƒ‹‚ª–³Œø‚Å‚·B
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure defintion or the specific measure "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=‰Â‹«‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 BaseCrosstabExecutor.error.process.bookmark=ƒuƒbƒNƒ}[ƒN‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B

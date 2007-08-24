@@ -41,9 +41,11 @@ CrosstabReportItemQuery.error.crosstab.loading=Laden des Kreuztabellenelements a
 CrosstabReportItemQuery.error.query.building=Ungültiges Kreuztabellenmodell zum Erstellen der Abfrage.
 CrosstabReportItemQuery.error.register.empty.cell.value=Fehler beim Registrieren des leeren Zellenwerts.
 
-CrosstabQueryHelper.error.invalid.measure=Die verknüpfte Maßeinheit für die Kreuztabelle ist ungültig.
-CrosstabQueryHelper.error.invalid.dimension=Die verknüpfte Dimension für die Kreuztabelle ist ungültig.
-CrosstabQueryHelper.error.invalid.level=Die verknüpfte Ebene für die Kreuztabelle ist ungültig.
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure defintion or the specific measure "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.

@@ -41,9 +41,11 @@ CrosstabReportItemQuery.error.crosstab.loading=Echec du chargement de l'élément 
 CrosstabReportItemQuery.error.query.building=Modèle de tableau croisé non valide pour la génération de requête.
 CrosstabReportItemQuery.error.register.empty.cell.value=Erreur lors de l'enregistrement de la valeur de cellule vide.
 
-CrosstabQueryHelper.error.invalid.measure=La mesure associée pour le tableau croisé est incorrecte.
-CrosstabQueryHelper.error.invalid.dimension=La dimension associée pour le tableau croisé est incorrecte.
-CrosstabQueryHelper.error.invalid.level=Le niveau associé pour le tableau croisé est incorrect.
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure defintion or the specific measure "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité.
 BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement du signet.
