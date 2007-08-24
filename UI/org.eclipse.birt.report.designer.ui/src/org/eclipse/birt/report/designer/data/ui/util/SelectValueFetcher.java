@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
@@ -38,26 +40,20 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
  */
 public class SelectValueFetcher
 {
+
 	private final static String BINDING_GROUP_NAME = "GROUP";
 	private final static String BINDING_ROW_NAME = "FILTER_SELECT_VALUE";
 	private final static String BINDING_GROUP_EXPRESSION = "row.FILTER_SELECT_VALUE";
-	
+
 	/**
 	 * private constructor
 	 */
 	private SelectValueFetcher( )
 	{
 	}
-	
-	/**
-	 * 
-	 * @param selectValueExpression
-	 * @param dataSetHandle
-	 * @return
-	 * @throws BirtException
-	 */
+
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle ) throws BirtException
+			DataSetHandle dataSetHandle, boolean inclFilter ) throws BirtException
 	{
 		List selectValueList = new ArrayList( );
 		if ( expression != null && expression.trim( ).length( ) > 0 )
@@ -65,7 +61,7 @@ public class SelectValueFetcher
 			// Execute the query and populate this list
 			QueryDefinition query = new QueryDefinition( );
 			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-
+			query.setAutoBinding( true );
 			PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 
 			if ( handle != null )
@@ -77,8 +73,8 @@ public class SelectValueFetcher
 					if ( paramDefn.isInput( ) )
 					{
 						String defaultValue = null;
-						if ( paramDefn instanceof OdaDataSetParameterHandle &&
-								( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
+						if ( paramDefn instanceof OdaDataSetParameterHandle
+								&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
 							defaultValue = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) );
 						else
 							defaultValue = paramDefn.getDefaultValue( );
@@ -90,8 +86,8 @@ public class SelectValueFetcher
 						}
 					}
 				}
-			}		
-						
+			}
+
 			IBaseExpression bindingExprGroup = new ScriptExpression( ExpressionUtility.getReplacedColRefExpr( expression ) );
 			GroupDefinition groupDefn = new GroupDefinition( BINDING_GROUP_NAME );
 			groupDefn.setKeyExpression( BINDING_GROUP_EXPRESSION );
@@ -100,16 +96,22 @@ public class SelectValueFetcher
 			query.setUsesDetails( false );
 
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSetHandle == null ? null : dataSetHandle.getModuleHandle( ) ) );
+					dataSetHandle == null ? null
+							: dataSetHandle.getModuleHandle( ) ) );
 			if ( dataSetHandle != null )
 			{
 				if ( dataSetHandle.getDataSource( ) != null )
 					session.defineDataSource( session.getModelAdaptor( )
 							.adaptDataSource( dataSetHandle.getDataSource( ) ) );
-				session.defineDataSet( session.getModelAdaptor( )
-						.adaptDataSet( dataSetHandle ) );
+				BaseDataSetDesign dSet = session.getModelAdaptor( ).adaptDataSet( dataSetHandle );
+				if ( !inclFilter )
+				{
+					if ( dSet.getFilters( )!= null )
+						dSet.getFilters( ).clear( );
+				}
+				session.defineDataSet( dSet );
 			}
-			
+
 			IPreparedQuery preparedQuery = session.prepare( query );
 			IQueryResults results = preparedQuery.execute( null );
 			if ( results != null )
@@ -132,5 +134,19 @@ public class SelectValueFetcher
 			}
 		}
 		return selectValueList;
+
+	}
+
+	/**
+	 * 
+	 * @param selectValueExpression
+	 * @param dataSetHandle
+	 * @return
+	 * @throws BirtException
+	 */
+	public static List getSelectValueList( String expression,
+			DataSetHandle dataSetHandle ) throws BirtException
+	{
+		return getSelectValueList( expression, dataSetHandle, true );
 	}
 }
