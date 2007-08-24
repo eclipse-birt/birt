@@ -107,6 +107,7 @@ public class LoggingUtil
 			logFileHandler.setFormatter( new SimpleFormatter( ) );
 			logFileHandler.setLevel( level );
 			theLogger.addHandler( logFileHandler );
+			theLogger.setUseParentHandlers( false );
 		}
 		catch ( SecurityException e )
 		{
