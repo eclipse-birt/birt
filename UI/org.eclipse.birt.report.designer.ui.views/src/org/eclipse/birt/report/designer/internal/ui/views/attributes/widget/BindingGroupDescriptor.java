@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider.BindingInfo;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
@@ -209,6 +211,15 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		Object value = info.getBindingValue( );
 		datasetCombo.setItems( getProvider( ).getAvailableDatasetItems( ) );
 		reportItemCombo.setItems( getProvider( ).getReferences( ) );
+		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+		{
+			if ( DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+					true ) != null
+					&& DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
+							true )
+							.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+				type = ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
+		}
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :

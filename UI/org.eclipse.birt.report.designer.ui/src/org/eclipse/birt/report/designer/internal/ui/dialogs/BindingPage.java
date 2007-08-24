@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -547,6 +548,15 @@ public class BindingPage extends Composite implements Listener
 		Object value = info.getBindingValue( );
 		datasetCombo.setItems( getAvailableDatasetItems( ) );
 		reportItemCombo.setItems( getReferences( ) );
+		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+		{
+			if ( DEUtil.getBindingHolder( getReportItemHandle( ),
+					true ) != null
+					&& DEUtil.getBindingHolder( getReportItemHandle( ),
+							true )
+							.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+				type = ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
+		}
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :

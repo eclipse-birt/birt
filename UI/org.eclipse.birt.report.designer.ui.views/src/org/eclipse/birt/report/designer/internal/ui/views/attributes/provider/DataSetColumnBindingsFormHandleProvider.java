@@ -90,6 +90,17 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			return false;
 		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
+		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE )
+		{
+			if ( DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( input ),
+					true ) != null
+					&& DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( input ),
+							true )
+							.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+				return false;
+			else
+				return true;
+		}
 		else
 			return true;
 	}
@@ -128,9 +139,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public String getDisplayName( )
 	{
-		if(isEditable( ))
+		if ( isEditable( ) )
 			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
-		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
+		else
+			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
 	}
 
 	public CellEditor[] getEditors( Table table )

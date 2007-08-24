@@ -293,7 +293,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		section.load( );
 	}
 
-	private ReportItemHandle getReportItemHandle( )
+	public ReportItemHandle getReportItemHandle( )
 	{
 		return (ReportItemHandle) DEUtil.getInputFirstElement( input );
 	}

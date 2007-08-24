@@ -125,6 +125,17 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			return false;
 		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( bindingObject ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
+		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( bindingObject ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE )
+		{
+			if ( DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( bindingObject ),
+					true ) != null
+					&& DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( bindingObject ),
+							true )
+							.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+				return false;
+			else
+				return true;
+		}
 		else
 			return true;
 	}
