@@ -42,6 +42,12 @@ import com.ibm.icu.util.ULocale;
 public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 {
 
+	// provide an unique id for each config variable to avoid duplicated
+	private int index = 0;
+
+	// remember whether records parameter data type/expr..
+	private Map map = new HashMap( );
+
 	/**
 	 * Constructor.
 	 * 
@@ -122,8 +128,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					if ( parameter != null )
 					{
 						// add null parameter to config file
-						configVar.setName( ParameterAccessor.PARAM_ISNULL
-								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
+						configVar
+								.setName( getConfigName( ParameterAccessor.PARAM_ISNULL
+										+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue
 								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						handle.addConfigVariable( configVar );
@@ -141,9 +148,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 							.findParameterDefinition( displayTextParam );
 					if ( parameter != null )
 					{
-						// add display text of select parameter to config file
-						configVar
-								.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
+						// add display text of select parameter
+						configVar.setName( getConfigName( paramName
+								+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}
@@ -153,7 +160,13 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				else
 				{
 					// push to parameter map
-					params.put( paramName, paramValue );
+					List list = (List) params.get( paramName );
+					if ( list == null )
+					{
+						list = new ArrayList( );
+						params.put( paramName, list );
+					}
+					list.add( paramValue );
 				}
 			}
 		}
@@ -163,9 +176,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		while ( it.hasNext( ) )
 		{
 			String paramName = (String) it.next( );
-			String paramValue = (String) params.get( paramName );
-
-			ConfigVariable configVar = new ConfigVariable( );
+			List paramValues = (List) params.get( paramName );
 
 			// find the parameter
 			ParameterDefinition parameter = attrBean
@@ -176,25 +187,61 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			String pattern = parameter.getPattern( );
 			String dataType = ParameterDataTypeConverter
 					.ConvertDataType( parameter.getDataType( ) );
-			try
+
+			// check whether it is a locale String.
+			boolean isLocale = locs.contains( paramName );
+
+			if ( parameter.isMultiValue( ) )
 			{
-				// check whether it is a locale String.
-				boolean isLocale = locs.contains( paramName );
+				for ( int i = 0; i < paramValues.size( ); i++ )
+				{
+					try
+					{
+						// convert parameter
+						Object paramValueObj = DataUtil.validate( dataType,
+								pattern, (String) paramValues.get( i ),
+								attrBean.getLocale( ), isLocale );
 
-				// convert parameter
-				Object paramValueObj = DataUtil.validate( dataType, pattern,
-						paramValue, attrBean.getLocale( ), isLocale );
+						String paramValue = DataUtil
+								.getDisplayValue( paramValueObj );
 
-				paramValue = DataUtil.getDisplayValue( paramValueObj );
+						// add parameter to config file
+						ConfigVariable configVar = new ConfigVariable( );
+						configVar.setName( getConfigName( paramName
+								+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
+						configVar.setValue( paramValue );
+						handle.addConfigVariable( configVar );
+					}
+					catch ( Exception err )
+					{
+						// do nothing
+					}
+				}
 			}
-			catch ( Exception err )
+			else
 			{
-			}
+				try
+				{
+					// convert parameter
+					Object paramValueObj = DataUtil.validate( dataType,
+							pattern, (String) paramValues.get( 0 ), attrBean
+									.getLocale( ), isLocale );
 
-			// add parameter to config file
-			configVar.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
-			configVar.setValue( paramValue );
-			handle.addConfigVariable( configVar );
+					String paramValue = DataUtil
+							.getDisplayValue( paramValueObj );
+
+					// add parameter to config file
+					ConfigVariable configVar = new ConfigVariable( );
+					configVar.setName( getConfigName( paramName
+							+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
+					configVar.setValue( paramValue );
+					handle.addConfigVariable( configVar );
+				}
+				catch ( Exception err )
+				{
+					// do nothing
+				}
+			}
 
 			// update parameter information
 			updateParameterInfo( handle, parameter );
@@ -220,13 +267,16 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		assert parameter != null;
 
 		String paramName = parameter.getName( );
+		if ( map.containsKey( paramName ) )
+			return;
+
 		String dataType = ParameterDataTypeConverter.ConvertDataType( parameter
 				.getDataType( ) );
 
 		// add parameter type
 		ConfigVariable typeVar = new ConfigVariable( );
 		typeVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-				+ IBirtConstants.PROP_TYPE );
+				+ IBirtConstants.PROP_TYPE + "_" ); //$NON-NLS-1$
 		typeVar.setValue( dataType );
 		handle.addConfigVariable( typeVar );
 
@@ -235,10 +285,12 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		{
 			ConfigVariable exprVar = new ConfigVariable( );
 			exprVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-					+ IBirtConstants.PROP_EXPR );
+					+ IBirtConstants.PROP_EXPR + "_" ); //$NON-NLS-1$
 			exprVar.setValue( parameter.getValueExpr( ) );
 			handle.addConfigVariable( exprVar );
 		}
+
+		map.put( paramName, new Boolean( true ) );
 	}
 
 	/**
@@ -256,6 +308,14 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		Update update = new Update( );
 		update.setUpdateData( updateData );
 		response.setUpdate( new Update[]{update} );
+	}
+
+	/**
+	 * Returns the config variable name
+	 */
+	protected String getConfigName( String name )
+	{
+		return name + "_" + ( index++ ); //$NON-NLS-1$
 	}
 
 	protected IViewerReportService getReportService( )

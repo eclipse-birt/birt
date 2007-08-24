@@ -302,11 +302,12 @@ public class BirtUtility
 	/**
 	 * Get Display Text of select parameters
 	 * 
+	 * @param parameters
 	 * @param displayTexts
 	 * @param request
 	 * @return Map
 	 */
-	public static Map getDisplayTexts( Map displayTexts,
+	public static Map getDisplayTexts( Collection parameters, Map displayTexts,
 			HttpServletRequest request )
 	{
 		if ( displayTexts == null )
@@ -319,8 +320,14 @@ public class BirtUtility
 			String paramName = ParameterAccessor.isDisplayText( param );
 			if ( paramName != null )
 			{
-				displayTexts.put( paramName, ParameterAccessor.getParameter(
-						request, param ) );
+				ParameterDefinition parameter = findParameterDefinition(
+						parameters, paramName );
+
+				// TODO: Currently, Multi-value parameter doesn't support
+				// displayText
+				if ( parameter != null && !parameter.isMultiValue( ) )
+					displayTexts.put( paramName, ParameterAccessor
+							.getParameter( request, param ) );
 			}
 		}
 
@@ -366,30 +373,53 @@ public class BirtUtility
 		Iterator iter = parameterList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ParameterDefinition parameterObj = (ParameterDefinition) iter
-					.next( );
+			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
 
-			String parameterName = parameterObj.getName( );
+			String parameterName = parameter.getName( );
 			Object parameterValue = parameters.get( parameterName );
 
 			// hidden type parameter
-			if ( parameterObj.isHidden( ) )
+			if ( parameter.isHidden( ) || !parameter.isRequired( ) )
 			{
 				continue;
 			}
 
-			if ( parameterValue == null && parameterObj.isRequired( ) )
+			// Null Value
+			if ( parameterValue == null )
 			{
 				missingParameter = true;
 				break;
 			}
 
-			if ( parameterValue instanceof String )
+			if ( parameterValue instanceof List )
 			{
-				String parameterStringValue = (String) parameterValue;
-				if ( parameterStringValue != null
-						&& parameterStringValue.length( ) <= 0
-						&& parameterObj.isRequired( ) )
+				// handle multi-value parameter
+				List values = (List) parameterValue;
+				for ( int i = 0; i < values.size( ); i++ )
+				{
+					Object value = values.get( i );
+					if ( value == null )
+					{
+						missingParameter = true;
+						break;
+					}
+
+					if ( value instanceof String
+							&& ( (String) value ).length( ) <= 0 )
+					{
+						missingParameter = true;
+						break;
+					}
+				}
+
+				if ( missingParameter )
+					break;
+			}
+			else
+			{
+				// Blank Value
+				if ( parameterValue instanceof String
+						&& ( (String) parameterValue ).length( ) <= 0 )
 				{
 					missingParameter = true;
 					break;
@@ -435,24 +465,36 @@ public class BirtUtility
 				// parameter value is a locale string
 				locs.add( paramValue );
 			}
-			// Check if parameter set to null
-			else if ( ParameterAccessor.PARAM_ISNULL
-					.equalsIgnoreCase( paramName ) )
-			{
-				// set parametet to null value
-				parameterMap.put( paramValue, null );
-				continue;
-			}
 			// display text of parameter
 			else if ( ( displayTextParam = ParameterAccessor
 					.isDisplayText( paramName ) ) != null )
 			{
-				displayTexts.put( displayTextParam, paramValue );
+				ParameterDefinition parameter = bean
+						.findParameterDefinition( displayTextParam );
+
+				// TODO: Currently, Multi-value parameter doesn't support
+				// displayText
+				if ( parameter != null && !parameter.isMultiValue( ) )
+					displayTexts.put( displayTextParam, paramValue );
 				continue;
 			}
 			else
 			{
-				params.put( paramName, paramValue );
+				// Check if parameter set to null
+				if ( ParameterAccessor.PARAM_ISNULL
+						.equalsIgnoreCase( paramName ) )
+				{
+					paramName = (String) paramValue;
+					paramValue = null;
+				}
+
+				List list = (List) params.get( paramName );
+				if ( list == null )
+				{
+					list = new ArrayList( );
+					params.put( paramName, list );
+				}
+				list.add( paramValue );
 			}
 		}
 
@@ -460,7 +502,7 @@ public class BirtUtility
 		while ( it.hasNext( ) )
 		{
 			String paramName = (String) it.next( );
-			String paramValue = (String) params.get( paramName );
+			List paramValues = (List) params.get( paramName );
 
 			// find the parameter
 			ParameterDefinition parameter = bean
@@ -476,11 +518,31 @@ public class BirtUtility
 			boolean isLocale = locs.contains( paramName );
 
 			// convert parameter
-			Object paramValueObj = DataUtil.validate( dataType, pattern,
-					paramValue, bean.getLocale( ), isLocale );
+			if ( parameter.isMultiValue( ) )
+			{
+				List values = new ArrayList( );
+				// multi parameter value
+				for ( int i = 0; i < paramValues.size( ); i++ )
+				{
+					Object paramValueObj = DataUtil.validate( dataType,
+							pattern, (String) paramValues.get( i ), bean
+									.getLocale( ), isLocale );
+					values.add( paramValueObj );
+				}
 
-			// push to parameter map
-			parameterMap.put( paramName, paramValueObj );
+				// push to parameter map
+				parameterMap.put( paramName, values.toArray( ) );
+			}
+			else
+			{
+				// single parameter value
+				Object paramValueObj = DataUtil.validate( dataType, pattern,
+						(String) paramValues.get( 0 ), bean.getLocale( ),
+						isLocale );
+
+				// push to parameter map
+				parameterMap.put( paramName, paramValueObj );
+			}
 		}
 	}
 

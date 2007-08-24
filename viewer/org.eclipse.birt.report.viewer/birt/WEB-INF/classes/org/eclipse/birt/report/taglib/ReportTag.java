@@ -13,6 +13,7 @@ package org.eclipse.birt.report.taglib;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -524,8 +525,12 @@ public class ReportTag extends AbstractViewerTag
 		// Prepare the report parameters
 		Map params = __handleParameters( reportDesignHandle, null );
 
+		// Get parameter definition list
+		Collection parameterDefList = getReportService( )
+				.getParameterDefinitions( reportDesignHandle, options, false );
+
 		// Prepare the display text of report parameters
-		Map displayTexts = BirtUtility.getDisplayTexts( null,
+		Map displayTexts = BirtUtility.getDisplayTexts( parameterDefList, null,
 				(HttpServletRequest) pageContext.getRequest( ) );
 
 		// Render report
@@ -565,10 +570,12 @@ public class ReportTag extends AbstractViewerTag
 			if ( handle instanceof ScalarParameterHandle )
 			{
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) handle;
+				boolean isMultiValue = DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+						.equalsIgnoreCase( parameterHandle.getParamType( ) );
 				String paramName = parameterHandle.getName( );
 				ParameterField field = (ParameterField) paramMap
 						.get( paramName );
-				String paramValue;
+				Object paramValue;
 				Object paramObj;
 				if ( field != null )
 				{
@@ -583,17 +590,41 @@ public class ReportTag extends AbstractViewerTag
 					// if set parameter object
 					if ( !( paramObj instanceof String ) )
 					{
-						params.put( paramName, paramObj );
-						continue;
+						if ( isMultiValue )
+						{
+							Object[] values;
+							if ( paramObj instanceof Object[] )
+								values = (Object[]) paramObj;
+							else
+								values = new Object[]{paramObj};
+
+							for ( int i = 0; i < values.length; i++ )
+							{
+								if ( values[i] != null
+										&& values[i] instanceof String )
+									values[i] = getParameterValue(
+											parameterHandle, field,
+											(String) values[i] );
+							}
+
+							params.put( paramName, values );
+						}
+						else
+						{
+							params.put( paramName, paramObj );
+						}
 					}
 					else
 					{
-						paramValue = (String) paramObj;
-					}
+						// handle parameter using String value
+						paramValue = getParameterValue( parameterHandle, field,
+								(String) paramObj );
 
-					// handle parameter using String value
-					params.put( paramName, getParameterValue( parameterHandle,
-							field, paramValue ) );
+						if ( isMultiValue )
+							params.put( paramName, new Object[]{paramValue} );
+						else
+							params.put( paramName, paramValue );
+					}
 				}
 				else
 				{

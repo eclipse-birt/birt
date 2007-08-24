@@ -1200,10 +1200,17 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean distinct = scalarParamHandle == null
 				? false
 				: scalarParamHandle.distinct( );
+		boolean isMultiValue = false;
+		if ( scalarParamHandle != null )
+		{
+			isMultiValue = DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+					.equalsIgnoreCase( scalarParamHandle.getParamType( ) );
+		}
 		ParameterDefinition param = new ParameterDefinition( id, name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				valueExpr, controlType, hidden, allowNull, allowBlank,
-				isRequired, mustMatch, concealValue, distinct, group, null );
+				isRequired, mustMatch, concealValue, distinct, isMultiValue,
+				group, null );
 		return param;
 	}
 

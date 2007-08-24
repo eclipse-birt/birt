@@ -171,25 +171,44 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			String encParamName = ParameterAccessor
 					.htmlEncode( param.getName( ) );
 
-			// parse parameter object as standard format
-			String paramValue = DataUtil.getDisplayValue( param.getValue( ) );
+			Object[] values;
+			Object valueObj = param.getValue( );
 
-			// set NULL parameter
-			if ( param.getValue( ) == null )
+			// support multi-value parameter
+			if ( valueObj != null && valueObj instanceof Object[] )
 			{
-				writer
-						.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PARAM_ISNULL + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( " value=\"" + encParamName + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
-				continue;
+				values = (Object[]) valueObj;
+			}
+			else
+			{
+				values = new Object[1];
+				values[0] = valueObj;
 			}
 
-			// set Parameter value
-			writer
-					.write( "<input type = 'hidden' name=\"" + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( " value=\"" + paramValue + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			for ( int i = 0; i < values.length; i++ )
+			{
+				// parse parameter object as standard format
+				String paramValue = DataUtil.getDisplayValue( values[i] );
 
-			// if value is string, check wheter set isLocale flag
-			if ( param.getValue( ) instanceof String && param.isLocale( ) )
+				// set NULL parameter
+				if ( paramValue == null )
+				{
+					writer
+							.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PARAM_ISNULL + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+					writer.write( " value=\"" + encParamName + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+					continue;
+				}
+
+				// set Parameter value
+				writer
+						.write( "<input type = 'hidden' name=\"" + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + paramValue + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			// if value is string/string[], check whether set isLocale flag
+			if ( valueObj != null
+					&& param.isLocale( )
+					&& ( valueObj instanceof String || valueObj instanceof String[] ) )
 			{
 
 				writer

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -147,9 +149,12 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		// parameter value.
 		if ( attrBean.getParametersAsString( ) != null )
 		{
-			String parameterValue = (String) attrBean.getParametersAsString( )
-					.get( parameterBean.getName( ) );
-			parameterBean.setValue( parameterValue );
+			Object paramObj = attrBean.getParametersAsString( ).get(
+					parameterBean.getName( ) );
+			if ( paramObj instanceof List )
+				parameterBean.setValueList( (List) paramObj );
+			else
+				parameterBean.setValue( (String) paramObj );
 		}
 
 		// Set parameter display text
@@ -180,8 +185,26 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			Object param = params.get( parameter.getName( ) );
 			if ( param != null )
 			{
-				String value = DataUtil.getDisplayValue( param );
-				parameterBean.setValue( value );
+				Object displayTextObj = null;
+				if ( param instanceof Object[] )
+				{
+					Object[] values = (Object[]) param;
+					List paramList = new ArrayList( );
+					for ( int i = 0; i < values.length; i++ )
+					{
+						String value = DataUtil.getDisplayValue( values[i] );
+						paramList.add( value );
+					}
+					parameterBean.setValueList( paramList );
+					if ( values.length > 0 )
+						displayTextObj = values[0];
+				}
+				else
+				{
+					displayTextObj = param;
+					String value = DataUtil.getDisplayValue( param );
+					parameterBean.setValue( value );
+				}
 
 				// display text
 				if ( !displayTexts.containsKey( parameterBean.getName( ) ) )
@@ -189,7 +212,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 					parameterBean.setDisplayTextInReq( false );
 					String displayText = ParameterValidationUtil
 							.getDisplayValue( null, parameter.getPattern( ),
-									param, locale );
+									displayTextObj, locale );
 					parameterBean.setDisplayText( displayText );
 				}
 			}

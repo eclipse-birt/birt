@@ -13,6 +13,7 @@ package org.eclipse.birt.report.context;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -269,8 +270,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				parameterDefList, request, options );
 
 		// Get display text of select parameters
-		this.displayTexts = BirtUtility.getDisplayTexts( this.displayTexts,
-				request );
+		this.displayTexts = BirtUtility.getDisplayTexts( this.parameterDefList,
+				this.displayTexts, request );
 
 		// Get locale parameter list
 		this.locParams = BirtUtility.getLocParams( this.locParams, request );
@@ -357,7 +358,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							.next( );
 					if ( configVar != null )
 					{
-						String varName = configVar.getName( );
+						String varName = prepareConfigVarName( configVar
+								.getName( ) );
 						Object varValue = configVar.getValue( );
 
 						if ( varName == null || varValue == null )
@@ -390,7 +392,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						{
 							// find cached parameter type
 							String typeVarName = tempName
-									+ "_" + IBirtConstants.PROP_TYPE; //$NON-NLS-1$
+									+ "_" + IBirtConstants.PROP_TYPE + "_"; //$NON-NLS-1$ //$NON-NLS-2$
 							ConfigVariable typeVar = handle
 									.findConfigVariable( typeVarName );
 
@@ -409,7 +411,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 							// find cached parameter value expression
 							String exprVarName = tempName + "_" //$NON-NLS-1$
-									+ IBirtConstants.PROP_EXPR;
+									+ IBirtConstants.PROP_EXPR + "_"; //$NON-NLS-1$
 							ConfigVariable exprVar = handle
 									.findConfigVariable( exprVarName );
 							String cachedExpr = null;
@@ -426,11 +428,26 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							if ( !cachedExpr.equals( expr ) )
 								continue;
 
+							// multi-value parameter
+							List values = null;
+							if ( parameter.isMultiValue( ) )
+							{
+								values = (List) this.configMap.get( paramName );
+								if ( values == null )
+								{
+									values = new ArrayList( );
+									this.configMap.put( paramName, values );
+								}
+							}
+
 							// check if null parameter
 							if ( varName.toLowerCase( ).startsWith(
 									ParameterAccessor.PARAM_ISNULL ) )
 							{
-								this.configMap.put( paramName, null );
+								if ( parameter.isMultiValue( ) )
+									values.add( null );
+								else
+									this.configMap.put( paramName, null );
 							}
 							// check if display text of select parameter
 							else if ( ( displayTextParam = ParameterAccessor
@@ -440,7 +457,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							}
 							else
 							{
-								this.configMap.put( paramName, varValue );
+								if ( parameter.isMultiValue( ) )
+									values.add( varValue );
+								else
+									this.configMap.put( paramName, varValue );
 							}
 						}
 					}
@@ -452,6 +472,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		catch ( Exception e )
 		{
 		}
+	}
+
+	/**
+	 * Delete the last "_" part
+	 * 
+	 * @param name
+	 * @return String
+	 */
+	private String prepareConfigVarName( String name )
+	{
+		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
+		return name.substring( 0, index );
 	}
 
 	/**
@@ -745,56 +777,85 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				continue;
 
 			String paramName = parameter.getName( );
-			String paramValue = (String) this.parametersAsString
-					.get( paramName );
+			Object paramObj = this.parametersAsString.get( paramName );
 
-			if ( paramValue != null )
+			if ( paramObj != null )
 			{
-				try
+				// get parameter format
+				String format = ParameterAccessor
+						.getFormat( request, paramName );
+				if ( format == null || format.length( ) <= 0 )
 				{
-					// get parameter format
-					String format = ParameterAccessor.getFormat( request,
-							paramName );
-					if ( format == null || format.length( ) <= 0 )
-					{
-						format = parameter.getPattern( );
-					}
-
-					// get parameter data type
-					String dataType = ParameterDataTypeConverter
-							.ConvertDataType( parameter.getDataType( ) );
-
-					// check whether locale string
-					boolean isLocale = this.locParams.contains( paramName );
-
-					// convert parameter to object
-					Object paramValueObj = DataUtil.validate( dataType, format,
-							paramValue, locale, isLocale );
-
-					params.put( paramName, paramValueObj );
+					format = parameter.getPattern( );
 				}
-				catch ( ValidationValueException e )
+
+				// get parameter data type
+				String dataType = ParameterDataTypeConverter
+						.ConvertDataType( parameter.getDataType( ) );
+
+				// check whether locale string
+				boolean isLocale = this.locParams.contains( paramName );
+
+				List paramList = null;
+				if ( paramObj instanceof List )
 				{
-					// if in PREVIEW mode, then throw exception directly
-					if ( IBirtConstants.SERVLET_PATH_PREVIEW
-							.equalsIgnoreCase( request.getServletPath( ) ) )
+					// multi-value parameter
+					paramList = (List) paramObj;
+				}
+				else
+				{
+					paramList = new ArrayList( );
+					paramList.add( paramObj );
+				}
+
+				for ( int i = 0; i < paramList.size( ); i++ )
+				{
+					try
 					{
-						this.exception = e;
-						break;
+						// convert parameter to object
+						Object paramValueObj = DataUtil.validate( dataType,
+								format, (String) paramList.get( i ), locale,
+								isLocale );
+						paramList.set( i, paramValueObj );
 					}
+					catch ( ValidationValueException e )
+					{
+						// if in PREVIEW mode, then throw exception directly
+						if ( IBirtConstants.SERVLET_PATH_PREVIEW
+								.equalsIgnoreCase( request.getServletPath( ) ) )
+						{
+							this.exception = e;
+							break;
+						}
+					}
+				}
+
+				if ( paramObj instanceof List )
+				{
+					params.put( paramName, paramList.toArray( ) );
+				}
+				else
+				{
+					params.put( paramName, paramList.get( 0 ) );
 				}
 			}
 			else
 			{
+				Object paramValueObj = null;
 				// null parameter value
-				if ( this.parametersAsString.containsKey( paramName ) )
+				if ( !this.parametersAsString.containsKey( paramName ) )
 				{
-					params.put( paramName, null );
+					// Get parameter default value as object
+					paramValueObj = this.defaultValues.get( paramName );
+				}
+
+				if ( parameter.isMultiValue( ) )
+				{
+					params.put( paramName, new Object[]{paramValueObj} );
 				}
 				else
 				{
-					// Get parameter default value as object
-					params.put( paramName, this.defaultValues.get( paramName ) );
+					params.put( paramName, paramValueObj );
 				}
 			}
 		}
@@ -871,29 +932,40 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			String paramValue = null;
 			if ( ParameterAccessor.isReportParameterExist( request, paramName ) )
 			{
-				// Get value from http request
-				paramValue = ParameterAccessor.getReportParameter( request,
-						paramName, null );
+				if ( parameter.isMultiValue( ) )
+				{
+					// handle multi-value parameter
+					List values = ParameterAccessor.getReportParameters(
+							request, paramName );
+					params.put( paramName, values );
+				}
+				else
+				{
+					// Get value from http request
+					paramValue = ParameterAccessor.getReportParameter( request,
+							paramName, null );
 
-				params.put( paramName, paramValue );
+					params.put( paramName, paramValue );
+				}
 			}
 			else
 			{
-				Object paramValueObj = null;
+				Object valueObj = null;
 				if ( this.isDesigner
-						&& !IBirtConstants.SERVLET_PATH_FRAMESET
-								.equalsIgnoreCase( request.getServletPath( ) )
+						&& ( IBirtConstants.SERVLET_PATH_RUN
+								.equalsIgnoreCase( request.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
+								.equalsIgnoreCase( request.getServletPath( ) ) )
 						&& this.configMap != null
 						&& this.configMap.containsKey( paramName ) )
 				{
 					// Get value from config file
-					paramValueObj = this.configMap.get( paramName );
+					valueObj = this.configMap.get( paramName );
 				}
 				else if ( this.parameterMap != null
 						&& this.parameterMap.containsKey( paramName ) )
 				{
 					// Get value from document
-					paramValueObj = this.parameterMap.get( paramName );
+					valueObj = this.parameterMap.get( paramName );
 				}
 				else
 				{
@@ -901,9 +973,25 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					continue;
 				}
 
-				// return String parameter value
-				paramValue = DataUtil.getDisplayValue( paramValueObj );
-				params.put( paramName, paramValue );
+				if ( valueObj instanceof List )
+				{
+					// handle multi-value parameter
+					List values = (List) valueObj;
+
+					for ( int i = 0; i < values.size( ); i++ )
+					{
+						paramValue = DataUtil.getDisplayValue( values.get( i ) );
+						values.set( i, paramValue );
+					}
+
+					params.put( paramName, values );
+				}
+				else
+				{
+					// return String parameter value
+					paramValue = DataUtil.getDisplayValue( valueObj );
+					params.put( paramName, paramValue );
+				}
 			}
 		}
 
@@ -947,10 +1035,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// if miss parameter, set parameter value as default value
 			if ( !parsedParameters.containsKey( paramName ) )
 			{
-				parsedParameters
-						.put( paramName, DataUtil
-								.getDisplayValue( this.defaultValues
-										.get( paramName ) ) );
+				String paramValue = DataUtil
+						.getDisplayValue( this.defaultValues.get( paramName ) );
+				if ( parameter.isMultiValue( ) )
+				{
+					List values = new ArrayList( );
+					values.add( paramValue );
+					parsedParameters.put( paramName, values );
+				}
+				else
+				{
+					parsedParameters.put( paramName, paramValue );
+				}
 			}
 		}
 

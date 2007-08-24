@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.context;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.report.service.api.ParameterDefinition;
@@ -39,6 +40,11 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	 * Current parameter value.
 	 */
 	private String value = null;
+
+	/**
+	 * Current parameter value list.
+	 */
+	private List valueList = null;
 
 	/**
 	 * Display text for current parameter
@@ -238,6 +244,23 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public void setValue( String value )
 	{
 		this.value = value;
+	}
+
+	/**
+	 * @return the valueList
+	 */
+	public List getValueList( )
+	{
+		return valueList;
+	}
+
+	/**
+	 * @param valueList
+	 *            the valueList to set
+	 */
+	public void setValueList( List valueList )
+	{
+		this.valueList = valueList;
 	}
 
 	/**

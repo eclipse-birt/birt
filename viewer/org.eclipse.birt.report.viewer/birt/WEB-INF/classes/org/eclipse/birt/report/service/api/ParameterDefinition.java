@@ -79,6 +79,8 @@ public class ParameterDefinition
 
 	private boolean distinct;
 
+	private boolean isMultiValue;
+
 	private ParameterGroupDefinition group;
 
 	private Collection selectionList;
@@ -88,8 +90,8 @@ public class ParameterDefinition
 			String promptText, int dataType, String valueExpr, int controlType,
 			boolean hidden, boolean allowNull, boolean allowBlank,
 			boolean isRequired, boolean mustMatch, boolean concealValue,
-			boolean distinct, ParameterGroupDefinition group,
-			Collection selectionList )
+			boolean distinct, boolean isMultiValue,
+			ParameterGroupDefinition group, Collection selectionList )
 	{
 		this.id = id;
 		this.name = name;
@@ -108,6 +110,7 @@ public class ParameterDefinition
 		this.mustMatch = mustMatch;
 		this.concealValue = concealValue;
 		this.distinct = distinct;
+		this.isMultiValue = isMultiValue;
 		this.group = group;
 		this.selectionList = selectionList;
 	}
@@ -206,6 +209,14 @@ public class ParameterDefinition
 	public boolean isDistinct( )
 	{
 		return distinct;
+	}
+
+	/**
+	 * @return the isMultiValue
+	 */
+	public boolean isMultiValue( )
+	{
+		return isMultiValue;
 	}
 
 	public ParameterGroupDefinition getGroup( )

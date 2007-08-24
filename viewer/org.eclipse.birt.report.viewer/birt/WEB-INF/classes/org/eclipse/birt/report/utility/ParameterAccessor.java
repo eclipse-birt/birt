@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
@@ -1173,6 +1174,42 @@ public class ParameterAccessor
 		}
 
 		return value;
+	}
+
+	/**
+	 * Get report parameters by given name, support multi-value parameter.
+	 * 
+	 * @param request
+	 *            http request
+	 * @param paramName
+	 *            parameter name
+	 * @return parameter value
+	 */
+
+	public static List getReportParameters( HttpServletRequest request,
+			String paramName )
+	{
+		assert request != null && paramName != null;
+
+		List paramList = new ArrayList( );
+
+		Set params = getParameterValues( request, paramName );
+		if ( params != null )
+		{
+			Iterator it = params.iterator( );
+			while ( it.hasNext( ) )
+			{
+				String value = (String) it.next( );
+				if ( value != null )
+					paramList.add( value );
+			}
+		}
+
+		Set nullParams = getParameterValues( request, PARAM_ISNULL );
+		if ( nullParams != null && nullParams.contains( paramName ) )
+			paramList.add( null );
+
+		return paramList;
 	}
 
 	/**

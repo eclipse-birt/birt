@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.taglib;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,6 +86,11 @@ public class ParamDefTag extends BodyTagSupport
 	private InputOptions options;
 
 	/**
+	 * Current isLocale setting
+	 */
+	private boolean isLocale = false;
+
+	/**
 	 * Current locale setting
 	 */
 	private Locale locale;
@@ -97,6 +104,11 @@ public class ParamDefTag extends BodyTagSupport
 	 * value string
 	 */
 	private String valueString;
+
+	/**
+	 * value string list
+	 */
+	private List valueStringList;
 
 	/**
 	 * display text string
@@ -249,37 +261,91 @@ public class ParamDefTag extends BodyTagSupport
 		if ( this.pattern == null )
 			this.pattern = paramDef.getPattern( );
 
-		boolean isLocale = false;
 		if ( "true".equalsIgnoreCase( param.getIsLocale( ) ) ) //$NON-NLS-1$
-			isLocale = true;
+			this.isLocale = true;
 
 		// handle parameter value
-		if ( param.getValue( ) != null && param.getValue( ) instanceof String )
+		if ( param.getValue( ) != null )
 		{
-			// convert parameter value to object
-			Object valueObj = DataUtil.validateWithPattern( dataType,
-					this.pattern, (String) param.getValue( ), locale, isLocale );
-			param.setValue( valueObj );
+			if ( param.getValue( ) instanceof String )
+			{
+				// convert parameter value to object
+				Object valueObj = DataUtil.validateWithPattern( dataType,
+						this.pattern, (String) param.getValue( ), locale,
+						isLocale );
+				if ( this.paramDef.isMultiValue( ) )
+					param.setValue( new Object[]{valueObj} );
+				else
+					param.setValue( valueObj );
+			}
+			else if ( this.paramDef.isMultiValue( )
+					&& param.getValue( ) instanceof String[] )
+			{
+				// handle multi-value parameter
+				String[] sValues = (String[]) param.getValue( );
+				Object[] values = new Object[sValues.length];
+				for ( int i = 0; i < sValues.length; i++ )
+				{
+					Object valueObj = DataUtil.validateWithPattern( dataType,
+							this.pattern, sValues[i], locale, isLocale );
+					values[i] = valueObj;
+				}
+				param.setValue( values );
+			}
 		}
-
-		if ( param.getValue( ) == null )
+		else
 		{
 			Object defaultValue = BirtReportServiceFactory.getReportService( )
 					.getParameterDefaultValue( viewer.getReportDesignHandle( ),
 							param.getName( ), options );
-			param.setValue( defaultValue );
+			if ( this.paramDef.isMultiValue( ) )
+				param.setValue( new Object[]{defaultValue} );
+			else
+				param.setValue( defaultValue );
 		}
 
 		// handle value string
-		this.valueString = DataUtil.getDisplayValue( param.getValue( ) );
-		if ( this.valueString == null )
-			this.valueString = ""; //$NON-NLS-1$
+		if ( this.paramDef.isMultiValue( ) )
+		{
+			// handle multi-value parameter
+			this.valueStringList = new ArrayList( );
+			Object[] values = (Object[]) param.getValue( );
+			if ( values != null )
+			{
+				for ( int i = 0; i < values.length; i++ )
+				{
+					String value = DataUtil.getDisplayValue( values[i] );
+					this.valueStringList.add( value );
+				}
+			}
+		}
+		else
+		{
+			this.valueString = DataUtil.getDisplayValue( param.getValue( ) );
+			if ( this.valueString == null )
+				this.valueString = ""; //$NON-NLS-1$
+		}
 
 		// handle parameter display text
 		this.displayTextString = param.getDisplayText( );
 		if ( this.displayTextString == null )
-			this.displayTextString = ParameterValidationUtil.getDisplayValue(
-					dataType, this.pattern, param.getValue( ), locale );
+		{
+			Object obj = param.getValue( );
+			if ( obj != null )
+			{
+				if ( obj instanceof Object[] )
+				{
+					Object[] objs = (Object[]) obj;
+					if ( objs.length > 0 )
+						obj = objs[0];
+					else
+						obj = null;
+				}
+
+				this.displayTextString = ParameterValidationUtil
+						.getDisplayValue( dataType, this.pattern, obj, locale );
+			}
+		}
 		if ( this.displayTextString == null )
 			this.displayTextString = ""; //$NON-NLS-1$
 
@@ -665,7 +731,10 @@ public class ParamDefTag extends BodyTagSupport
 							viewer.getReportDesignHandle( ), options,
 							param.getName( ) );
 
-			__handleCommonListBox( selectionList );
+			if ( this.paramDef.isMultiValue( ) )
+				__handleMultiListBox( selectionList );
+			else
+				__handleCommonListBox( selectionList );
 		}
 
 	}
@@ -727,7 +796,179 @@ public class ParamDefTag extends BodyTagSupport
 	}
 
 	/**
-	 * Handle Common List Box type parameter( not cascading parameter )
+	 * Handle Multi-value List Box type parameter
+	 * 
+	 * @param selectionList
+	 * 
+	 * @throws Exception
+	 */
+	protected void __handleMultiListBox( Collection selectionList )
+			throws Exception
+	{
+		JspWriter writer = pageContext.getOut( );
+
+		String encParamId = ParameterAccessor.htmlEncode( param.getId( ) );
+		String encParamName = ParameterAccessor.htmlEncode( param.getName( ) );
+
+		String containerId = encParamId + "_container"; //$NON-NLS-1$		
+		String displayTextName = ParameterAccessor.PREFIX_DISPLAY_TEXT
+				+ encParamName;
+
+		// function for handling select onchange
+		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
+		writer.write( "function handleParam" + encParamId + "( oCtl )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "{\n" ); //$NON-NLS-1$
+		writer.write( "  if( !oCtl ) return;\n" ); //$NON-NLS-1$
+		writer
+				.write( "  var container = document.getElementById(\"" + containerId + "\");\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( " while( container.childNodes.length > 0)\n" ); //$NON-NLS-1$
+		writer.write( "{\n" ); //$NON-NLS-1$
+		writer.write( "  container.removeChild(container.firstChild);\n" ); //$NON-NLS-1$		
+		writer.write( "}\n" ); //$NON-NLS-1$
+		writer.write( "\n" ); //$NON-NLS-1$
+		writer.write( "  var options = oCtl.options;\n" ); //$NON-NLS-1$			
+		writer.write( "  for( var i = 0; i < options.length; i++ )\n" ); //$NON-NLS-1$
+		writer.write( "  {\n" ); //$NON-NLS-1$
+		writer.write( "    if( !options[i].selected ) continue;\n" ); //$NON-NLS-1$
+		writer.write( "\n" ); //$NON-NLS-1$
+		writer.write( "    var text = options[i].text;\n" ); //$NON-NLS-1$
+		writer.write( "    var value = options[i].value;\n" ); //$NON-NLS-1$
+
+		// null value
+		writer.write( "\n" ); //$NON-NLS-1$
+		writer
+				.write( "  if( value == '' && text == '" + IBirtConstants.NULL_VALUE + "')\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "    {\n" ); //$NON-NLS-1$
+		writer
+				.write( "      var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
+		writer.write( "      oInput.type = 'hidden';\n" ); //$NON-NLS-1$
+		writer
+				.write( "      oInput.name = '" + ParameterAccessor.PARAM_ISNULL + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "      oInput.value = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "      container.appendChild( oInput );\n" ); //$NON-NLS-1$
+		writer.write( "    }\n" ); //$NON-NLS-1$
+
+		// parameter value
+		writer.write( "\n" ); //$NON-NLS-1$
+		writer.write( "    var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
+		writer.write( "    oInput.type = 'hidden';\n" ); //$NON-NLS-1$
+		writer.write( "    oInput.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "    oInput.value = value;\n" ); //$NON-NLS-1$
+		writer.write( "    container.appendChild( oInput );\n" ); //$NON-NLS-1$
+
+		// display text
+		writer.write( "\n" ); //$NON-NLS-1$
+		writer.write( "    var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
+		writer.write( "    oInput.type = 'hidden';\n" ); //$NON-NLS-1$
+		writer.write( "    oInput.name = \"" + displayTextName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "    oInput.value = text;\n" ); //$NON-NLS-1$
+		writer.write( "    container.appendChild( oInput );\n" ); //$NON-NLS-1$				
+		writer.write( "  }\n" ); //$NON-NLS-1$
+
+		// isLocale
+		if ( this.isLocale )
+		{
+			writer.write( "\n" ); //$NON-NLS-1$
+			writer
+					.write( "  var oInput = document.createElement( 'input' );\n" ); //$NON-NLS-1$
+			writer.write( "  oInput.type = 'hidden';\n" ); //$NON-NLS-1$
+			writer
+					.write( "  oInput.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "  oInput.value = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "  container.appendChild( oInput );\n" ); //$NON-NLS-1$			
+		}
+
+		writer.write( "}\n" ); //$NON-NLS-1$
+
+		writer.write( "</script>\n" ); //$NON-NLS-1$
+
+		String onChange = "handleParam" + encParamId + "( this )"; //$NON-NLS-1$ //$NON-NLS-2$
+
+		// parameter container
+		writer
+				.write( "<div id=\"" + containerId + "\" style=\"display:none;\"></div>" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// select control
+		writer.write( "<select " ); //$NON-NLS-1$
+		writer.write( " id=\"" + encParamId + "\"" ); //$NON-NLS-1$//$NON-NLS-2$			
+		__handleGeneralDefinition( );
+		writer.write( " onchange=\"" + onChange + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( " multiple='true'" ); //$NON-NLS-1$
+		writer.write( " >\n" ); //$NON-NLS-1$
+
+		// blank item
+		if ( !paramDef.isRequired( ) )
+		{
+			writer.write( "<option value='' " ); //$NON-NLS-1$
+			if ( DataUtil.contain( this.valueStringList, "" ) ) //$NON-NLS-1$
+				writer.write( " selected " ); //$NON-NLS-1$
+			writer.write( "></option>\n" ); //$NON-NLS-1$
+		}
+
+		// selection list
+		for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
+		{
+			ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
+					.next( );
+
+			Object value = selectionItem.getValue( );
+			try
+			{
+				// try convert value to parameter definition data type
+				value = DataUtil.convert( value, paramDef.getDataType( ) );
+			}
+			catch ( Exception e )
+			{
+				value = null;
+			}
+
+			// Convert parameter value using standard format
+			String displayValue = DataUtil.getDisplayValue( value );
+			if ( displayValue == null )
+				continue;
+
+			// If label is null or blank, then use the format parameter
+			// value for display
+			String label = selectionItem.getLabel( );
+			if ( label == null || label.length( ) <= 0 )
+				label = ParameterValidationUtil.getDisplayValue( null,
+						this.pattern, value, this.locale );
+
+			label = label != null ? label : ""; //$NON-NLS-1$
+			writer.write( "<option value=\"" //$NON-NLS-1$
+					+ ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$
+			if ( DataUtil.contain( this.valueStringList, displayValue ) )
+				writer.write( " selected" ); //$NON-NLS-1$
+			writer.write( ">" ); //$NON-NLS-1$
+			writer.write( ParameterAccessor.htmlEncode( label ) );
+			writer.write( "</option>\n" ); //$NON-NLS-1$
+		}
+
+		// null value item
+		if ( !paramDef.isRequired( ) )
+		{
+			writer.write( "<option value=''" ); //$NON-NLS-1$
+			if ( DataUtil.contain( this.valueStringList, null ) )
+				writer.write( " selected" ); //$NON-NLS-1$					
+			writer.write( " >" ); //$NON-NLS-1$
+			writer.write( IBirtConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$
+		}
+
+		writer.write( "</select>\n" ); //$NON-NLS-1$
+
+		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
+		writer.write( "var selectCtl = document.getElementById(\"" //$NON-NLS-1$
+				+ encParamId + "\");\n" ); //$NON-NLS-1$
+		writer.write( "if( selectCtl.options.length > 8 )\n" ); //$NON-NLS-1$
+		writer.write( "  selectCtl.size = 8;\n" ); //$NON-NLS-1$
+		writer.write( "else\n" ); //$NON-NLS-1$
+		writer.write( "  selectCtl.size = selectCtl.options.length;\n" ); //$NON-NLS-1$
+		writer.write( "handleParam" + encParamId + "( selectCtl );\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "</script>\n" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Handle Common List/Combo Box type parameter( not cascading parameter )
 	 * 
 	 * @param selectionList
 	 * 

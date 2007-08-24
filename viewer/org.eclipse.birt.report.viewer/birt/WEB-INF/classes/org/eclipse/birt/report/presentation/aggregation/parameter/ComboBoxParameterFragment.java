@@ -136,7 +136,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				parameterBean.getSelectionList( ).add( selectionItem );
 
 				// If parameter value is in the selection list
-				if ( displayValue.equals( parameterBean.getValue( ) ) )
+				if ( !paramDef.isMultiValue( )
+						&& displayValue.equals( parameterBean.getValue( ) ) )
 				{
 					parameterBean.setValueInList( true );
 

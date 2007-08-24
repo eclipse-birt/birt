@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.Types;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -395,5 +397,35 @@ public class DataUtil
 			default :
 				return "STRING"; //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Check the passed String whether be contained in list
+	 * 
+	 * @param values
+	 * @param value
+	 * @return
+	 */
+	public static boolean contain( List values, String value )
+	{
+		if ( values == null )
+			return false;
+
+		for ( Iterator it = values.iterator( ); it.hasNext( ); )
+		{
+			Object obj = it.next( );
+			if ( obj == null )
+			{
+				if ( value == null )
+					return true;
+				
+				continue;
+			}
+
+			if ( obj instanceof String && ( (String) obj ).equals( value ) )
+				return true;
+		}
+
+		return false;
 	}
 }

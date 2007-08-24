@@ -44,11 +44,13 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Preview page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor implements
-		IReportEditorPage
+public class ReportPreviewFormPage extends ReportPreviewEditor
+		implements
+			IReportEditorPage
 {
 
-	protected static Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
+	protected static Logger logger = Logger
+			.getLogger( ReportPreviewFormPage.class.getName( ) );
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview.web"; //$NON-NLS-1$
 
@@ -136,9 +138,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		request.setType( ReportRequest.SELECTION );
 
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
+		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest(
+				request );
 		return true;
 	}
 
@@ -215,7 +216,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
+		IReportProvider provider = (IReportProvider) editor
+				.getAdapter( IReportProvider.class );
 
 		if ( provider == null )
 		{
@@ -376,8 +378,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			File configFile = new File( configFileName );
 
 			// if config file existed, then delete it
-			if ( configFile != null
-					&& configFile.exists( )
+			if ( configFile != null && configFile.exists( )
 					&& configFile.isFile( ) )
 			{
 				handle = sessionHandle.openDesign( configFileName );
@@ -388,11 +389,15 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 					Iterator it = handle.configVariablesIterator( );
 					while ( it != null && it.hasNext( ) )
 					{
-						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next( );
+						ConfigVariableHandle configVar = (ConfigVariableHandle) it
+								.next( );
 						if ( configVar != null && configVar.getName( ) != null )
 						{
+							String varName = prepareConfigVarName( configVar
+									.getName( ) );
+
 							// check the parameter whether exist or not
-							String paramName = getParameterName( configVar.getName( ) );
+							String paramName = getParameterName( varName );
 
 							// get parameter handle
 							ScalarParameterHandle parameter = findParameter( paramName );
@@ -400,8 +405,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 							if ( parameter != null )
 							{
 								// get cached parameter type
-								String typeVarName = configVar.getName( ) + "_" //$NON-NLS-1$
-										+ PROP_TYPE;
+								String typeVarName = varName + "_" //$NON-NLS-1$
+										+ PROP_TYPE + "_"; //$NON-NLS-1$
 								ConfigVariable typeVar = handle
 										.findConfigVariable( typeVarName );
 								String dataType = null;
@@ -416,8 +421,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 									continue;
 
 								// find cached parameter value expression
-								String exprVarName = configVar.getName( ) + "_" //$NON-NLS-1$
-										+ PROP_EXPR;
+								String exprVarName = varName + "_" //$NON-NLS-1$
+										+ PROP_EXPR + "_"; //$NON-NLS-1$
 								ConfigVariable exprVar = handle
 										.findConfigVariable( exprVarName );
 								String expr = parameter.getValueExpr( );
@@ -437,7 +442,25 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 							if ( paramName != null && paramName.length( ) > 0 )
 							{
-								configVars.put( paramName, configVar.getValue( ) );
+								if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+										.equalsIgnoreCase( parameter
+												.getParamType( ) ) )
+								{
+									// handle multi-value parameter
+									List values = (List) configVars
+											.get( paramName );
+									if ( values == null )
+									{
+										values = new ArrayList( );
+										configVars.put( paramName, values );
+									}
+									values.add( configVar.getValue( ) );
+								}
+								else
+								{
+									configVars.put( paramName, configVar
+											.getValue( ) );
+								}
 							}
 						}
 					}
@@ -457,11 +480,23 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			}
 			catch ( Exception e1 )
 			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 
 		return configVars;
+	}
+
+	/**
+	 * Delete the last "_" part
+	 * 
+	 * @param name
+	 * @return String
+	 */
+	private String prepareConfigVarName( String name )
+	{
+		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
+		return name.substring( 0, index );
 	}
 
 	/**
@@ -568,7 +603,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 				.getReportDesignHandle( );
 
 		HashMap params = (HashMap) this.getConfigVars( );
-
 		List parameters = model.getFlattenParameters( );
 		if ( parameters != null )
 		{
@@ -576,39 +610,63 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			{
 				if ( parameters.get( i ) instanceof ScalarParameterHandle )
 				{
-					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
+							.get( i ) );
 
-					if ( parameter.isHidden( ) )
+					if ( parameter.isHidden( ) || !parameter.isRequired( ) )
 					{
 						continue;
 					}
 
-					String paramValue = null;
-
-					if ( params != null
-							&& params.containsKey( parameter.getName( ) ) )
-					{
-						Object curVal = params.get( parameter.getName( ) );
-						if ( curVal != null )
-							paramValue = curVal.toString( );
-					}
-
-					if ( paramValue == null && !parameter.allowNull( ) )
+					if ( params == null )
 					{
 						missingParameter = true;
 						break;
 					}
 
-					if ( paramValue != null
-							&& paramValue.trim( ).length( ) <= 0
-							&& !parameter.allowBlank( )
-							&& parameter.getDataType( )
-									.equalsIgnoreCase( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+					Object valueObj = params.get( parameter.getName( ) );
+					if ( valueObj == null )
 					{
 						missingParameter = true;
 						break;
 					}
 
+					if ( valueObj instanceof List )
+					{
+						// multi-value parameter
+						// handle multi-value parameter
+						List values = (List) valueObj;
+						for ( int j = 0; j < values.size( ); j++ )
+						{
+							Object value = values.get( j );
+							if ( value == null )
+							{
+								missingParameter = true;
+								break;
+							}
+
+							if ( DesignChoiceConstants.PARAM_TYPE_STRING
+									.equalsIgnoreCase( parameter.getDataType( ) )
+									&& ( (String) value ).length( ) <= 0 )
+							{
+								missingParameter = true;
+								break;
+							}
+						}
+
+						if ( missingParameter )
+							break;
+					}
+					else
+					{
+						if ( DesignChoiceConstants.PARAM_TYPE_STRING
+								.equalsIgnoreCase( parameter.getDataType( ) )
+								&& ( (String) valueObj ).length( ) <= 0 )
+						{
+							missingParameter = true;
+							break;
+						}
+					}
 				}
 			}
 		}
