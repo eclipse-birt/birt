@@ -179,8 +179,6 @@ public class ExpressionProvider implements IExpressionProvider
 
 	protected IExpressionProvider adapterProvider;
 
-	protected boolean adapterProviderInitialized = false;
-
 	private List filterList;
 
 	private boolean includeSelf;
@@ -222,6 +220,8 @@ public class ExpressionProvider implements IExpressionProvider
 			elementHandle = handle;
 		}
 		this.includeSelf = includeSelf;
+
+		initAdapterProvider( );
 	}
 
 	/*
@@ -907,22 +907,17 @@ public class ExpressionProvider implements IExpressionProvider
 		return false;
 	}
 
-	protected IExpressionProvider getAdapterProvider( )
+	protected void initAdapterProvider( )
 	{
-		if ( !adapterProviderInitialized )
+		adapterProvider = null;
+
+		Object adapter = ElementAdapterManager.getAdapter( this,
+				IExpressionProvider.class );
+
+		if ( adapter instanceof IExpressionProvider && adapter != this )
 		{
-			Object adapter = ElementAdapterManager.getAdapter( this,
-					IExpressionProvider.class );
-
-			if ( adapter instanceof IExpressionProvider && adapter != this )
-			{
-				adapterProvider = (IExpressionProvider) adapter;
-			}
-
-			adapterProviderInitialized = true;
+			adapterProvider = (IExpressionProvider) adapter;
 		}
-
-		return adapterProvider;
 	}
 
 }

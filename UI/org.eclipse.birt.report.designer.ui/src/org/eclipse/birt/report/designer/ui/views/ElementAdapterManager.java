@@ -35,13 +35,12 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * 
+ * ElementAdapterManager
  */
-
 public class ElementAdapterManager
 {
-	protected static Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
 
+	protected static Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
 
 	private static Map adaptersMap = new HashMap( ) {
 
@@ -85,55 +84,55 @@ public class ElementAdapterManager
 		//
 		// adapters.add( adapter2 );
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.elementAdapters" );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.elementAdapters" ); //$NON-NLS-1$
 		if ( extensionPoint != null )
 		{
 			IConfigurationElement[] elements = extensionPoint.getConfigurationElements( );
 			for ( int j = 0; j < elements.length; j++ )
 			{
-				String adaptable = elements[j].getAttribute( "class" );
+				String adaptable = elements[j].getAttribute( "class" ); //$NON-NLS-1$
 				try
 				{
 					Class adaptableType = Class.forName( adaptable );
-					IConfigurationElement[] adapters = elements[j].getChildren( "adapter" );
+					IConfigurationElement[] adapters = elements[j].getChildren( "adapter" ); //$NON-NLS-1$
 					for ( int k = 0; k < adapters.length; k++ )
 					{
 						try
 						{
 							ElementAdapter adapter = new ElementAdapter( );
-							adapter.setId( adapters[k].getAttribute( "id" ) );
+							adapter.setId( adapters[k].getAttribute( "id" ) ); //$NON-NLS-1$
 							adapter.setAdaptableType( adaptableType );
-							adapter.setAdapterType( Class.forName( adapters[k].getAttribute( "type" ) ) );
+							adapter.setAdapterType( Class.forName( adapters[k].getAttribute( "type" ) ) ); //$NON-NLS-1$
 
-							if ( adapters[k].getAttribute( "class" ) != null
-									&& !adapters[k].getAttribute( "class" )
-											.equals( "" ) )
-								adapter.setAdapterInstance( adapters[k].createExecutableExtension( "class" ) );
-							else if ( adapters[k].getAttribute( "factory" ) != null
-									&& !adapters[k].getAttribute( "factory" )
-											.equals( "" ) )
-								adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) );
+							if ( adapters[k].getAttribute( "class" ) != null //$NON-NLS-1$
+									&& !adapters[k].getAttribute( "class" ) //$NON-NLS-1$
+											.equals( "" ) ) //$NON-NLS-1$
+								adapter.setAdapterInstance( adapters[k].createExecutableExtension( "class" ) ); //$NON-NLS-1$
+							else if ( adapters[k].getAttribute( "factory" ) != null //$NON-NLS-1$
+									&& !adapters[k].getAttribute( "factory" ) //$NON-NLS-1$
+											.equals( "" ) ) //$NON-NLS-1$
+								adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) ); //$NON-NLS-1$
 
-							adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) );
-							if ( adapters[k].getAttribute( "priority" ) != null
-									&& !adapters[k].getAttribute( "priority" )
-											.equals( "" ) )
+							adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+							if ( adapters[k].getAttribute( "priority" ) != null //$NON-NLS-1$
+									&& !adapters[k].getAttribute( "priority" ) //$NON-NLS-1$
+											.equals( "" ) ) //$NON-NLS-1$
 								try
 								{
-									adapter.setPriority( Integer.parseInt( adapters[k].getAttribute( "priority" ) ) );
+									adapter.setPriority( Integer.parseInt( adapters[k].getAttribute( "priority" ) ) ); //$NON-NLS-1$
 								}
 								catch ( NumberFormatException e )
 								{
 								}
 
-							if ( adapters[k].getAttribute( "overwrite" ) != null
-									&& !adapters[k].getAttribute( "overwrite" )
-											.equals( "" ) )
-								adapter.setOverwrite( adapters[k].getAttribute( "overwrite" )
-										.split( ";" ) );
-							adapter.setIncludeWorkbenchContribute( "true".equals( adapters[k].getAttribute( "includeWorkbenchContribute" ) ) );
+							if ( adapters[k].getAttribute( "overwrite" ) != null //$NON-NLS-1$
+									&& !adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
+											.equals( "" ) ) //$NON-NLS-1$
+								adapter.setOverwrite( adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
+										.split( ";" ) ); //$NON-NLS-1$
+							adapter.setIncludeWorkbenchContribute( "true".equals( adapters[k].getAttribute( "includeWorkbenchContribute" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-							IConfigurationElement[] enablements = adapters[k].getChildren( "enablement" );
+							IConfigurationElement[] enablements = adapters[k].getChildren( "enablement" ); //$NON-NLS-1$
 							if ( enablements != null && enablements.length > 0 )
 								adapter.setExpression( ExpressionConverter.getDefault( )
 										.perform( enablements[0] ) );
@@ -141,19 +140,18 @@ public class ElementAdapterManager
 						}
 						catch ( Exception e )
 						{
-							System.out.println( "Register adapter error!" );
-							logger.log(Level.SEVERE, e.getMessage(),e);
+							System.out.println( "Register adapter error!" ); //$NON-NLS-1$
+							logger.log( Level.SEVERE, e.getMessage( ), e );
 						}
 					}
 				}
 				catch ( ClassNotFoundException e )
 				{
-					// TODO Auto-generated catch block
-					System.out.println( MessageFormat.format( "Adaptable Type {0} not found!",
+					System.out.println( MessageFormat.format( "Adaptable Type {0} not found!", //$NON-NLS-1$
 							new Object[]{
 								adaptable
 							} ) );
-					logger.log(Level.SEVERE, e.getMessage(),e);
+					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
 
 			}
@@ -167,22 +165,22 @@ public class ElementAdapterManager
 		{
 			Set adapterSet = (Set) adaptersMap.get( adaptableType );
 			adapterSet.add( adapter );
-//			if ( adapterSet.add( adapter ) )
-//				System.out.println( "Register adapter for "
-//						+ adaptableType.getName( )
-//						+ " "
-//						+ adapter.getId( ) );
-//			else
-//				System.out.println( "fail Register adapter for "
-//						+ adaptableType.getName( )
-//						+ " "
-//						+ adapter.getId( ) );
+			// if ( adapterSet.add( adapter ) )
+			// System.out.println( "Register adapter for "
+			// + adaptableType.getName( )
+			// + " "
+			// + adapter.getId( ) );
+			// else
+			// System.out.println( "fail Register adapter for "
+			// + adaptableType.getName( )
+			// + " "
+			// + adapter.getId( ) );
 		}
 	}
 
 	public static Object getAdapter( Object adaptableObject, Class adatperType )
 	{
-		
+
 		Set adapters = getAdapters( adaptableObject );
 		if ( adapters == null )
 			return null;
@@ -226,7 +224,7 @@ public class ElementAdapterManager
 		{
 			Class clazz = (Class) iter.next( );
 			// adaptable is the key's superclass.
-			if ( adaptableObject.getClass( ).isAssignableFrom( clazz ) )
+			if ( clazz.isAssignableFrom( adaptableObject.getClass( ) ) )
 			{
 				if ( adapters == null )
 				{
@@ -319,7 +317,7 @@ class ElementAdapterSet extends TreeSet
 				if ( this.overwriteList.contains( adapter.getId( ) ) )
 				{
 					if ( super.remove( adapter ) )
-						System.out.println( adapter.getId( ) + " was filtered." );
+						System.out.println( adapter.getId( ) + " was filtered." ); //$NON-NLS-1$
 				}
 			}
 			this.isReset = true;
