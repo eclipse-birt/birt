@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Calendar;
 import java.sql.Time;
 import java.util.Date;
 import java.lang.Number;
@@ -14,6 +15,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
@@ -36,7 +38,32 @@ public class ExcelUtil
 		return  dateFormat.format( (Date) date );
         
 	}
-	public static String getPattern(Object data, String val)
+    
+    public static String getType(Object val)
+    {
+    	if ( val instanceof Number )
+    	{
+    	   return Data.NUMBER;	
+    	}
+    	else if(val instanceof Date)
+    	{
+    	   return Data.DATE;	
+    	}
+    	else if (val instanceof Calendar)
+    	{
+    	   return Data.CALENDAR;	
+    	}
+    	else if(val instanceof CDateTime)
+    	{
+    	   return Data.CDATETIME;	
+    	}
+    	else 
+    	{
+    	   return Data.STRING;	
+    	}
+    }
+	
+    public static String getPattern(Object data, String val)
     {
     	if(val != null && data instanceof Date) {
     	   if (val.indexOf( "kk:mm" ) >= 0){

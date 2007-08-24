@@ -81,35 +81,28 @@ public class ExcelWriter
 	
 	
 	//If possible, we can pass a format according the data type
-	public void writeText( Object d )
+	public void writeText( Data d )
 	{
 		writer.openTag( "Data" );
 
-		if ( d instanceof Data )
+		if ( d.getDatatype( ).equals( Data.NUMBER ) )
 		{
-
-			if ( ( (Data) d ).getDatatype( ).equals( Data.NUMBER ) )
-			{
-				writer.attribute( "ss:Type", "Number" );
-			}
-			else if ( ( (Data) d ).getDatatype( ).equals( Data.DATE ) )
-			{
-				writer.attribute( "ss:Type", "DateTime" );
-			}
-			else
-			{
-				writer.attribute( "ss:Type", "String" );
-			}
-
-			writer.text( ( (Data) d ).txt.toString( ) );
+			writer.attribute( "ss:Type", "Number" );
+		}
+		else if ( d.getDatatype( ).equals( Data.DATE ) )
+		{
+			writer.attribute( "ss:Type", "DateTime" );
 		}
 		else
 		{
 			writer.attribute( "ss:Type", "String" );
-			writer.text( d.toString( ) );
 		}
-		writer.closeTag( "Data" );
-	}
+
+		writer.text( d.getText( ) );
+
+		writer.closeTag( "Data" );	
+		
+    }
 
 	public void startRow( )
 	{
@@ -143,9 +136,13 @@ public class ExcelWriter
 		writer.attribute( "ss:MergeDown", rowspan );
 	}
 	
-	public void writeDefaultCell(String content) {
+	public void writeDefaultCell(Data d) {
 		writer.openTag("Cell");
-		writeText(content);
+		
+		if(d.getStyleId( ) != 0) {
+			writer.attribute( "ss:StyleID", d.getStyleId() );
+		}
+		writeText(d);
 		writer.closeTag( "Cell" );
 	}
 
@@ -250,69 +247,74 @@ public class ExcelWriter
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
 
-		String horizontalAlign = style.getProperty( StyleConstant.H_ALIGN_PROP );
-		String verticalAlign = style.getProperty( StyleConstant.V_ALIGN_PROP );
-		writeAlignment( horizontalAlign, verticalAlign );
+		if ( id >= 20 )
+		{
+			String horizontalAlign = style
+					.getProperty( StyleConstant.H_ALIGN_PROP );
+			String verticalAlign = style
+					.getProperty( StyleConstant.V_ALIGN_PROP );
+			writeAlignment( horizontalAlign, verticalAlign );
 
-		writer.openTag( "Borders" );
-		String bottomColor = style
-				.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
-		String bottomLineStyle = style
-				.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
-		String bottomWeight = style
-				.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
-		writeBorder( "Bottom", bottomLineStyle, bottomWeight, bottomColor );
+			writer.openTag( "Borders" );
+			String bottomColor = style
+					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
+			String bottomLineStyle = style
+					.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
+			String bottomWeight = style
+					.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
+			writeBorder( "Bottom", bottomLineStyle, bottomWeight, bottomColor );
 
-		String topColor = style
-				.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
-		String topLineStyle = style
-				.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
-		String topWeight = style
-				.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
-		writeBorder( "Top", topLineStyle, topWeight, topColor );
+			String topColor = style
+					.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
+			String topLineStyle = style
+					.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
+			String topWeight = style
+					.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
+			writeBorder( "Top", topLineStyle, topWeight, topColor );
 
-		String leftColor = style
-				.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
-		String leftLineStyle = style
-				.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
-		String leftWeight = style
-				.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
-		writeBorder( "Left", leftLineStyle, leftWeight, leftColor );
+			String leftColor = style
+					.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
+			String leftLineStyle = style
+					.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
+			String leftWeight = style
+					.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
+			writeBorder( "Left", leftLineStyle, leftWeight, leftColor );
 
-		String rightColor = style
-				.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
-		String rightLineStyle = style
-				.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
-		String rightWeight = style
-				.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
-		writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
-		writer.closeTag( "Borders" );
+			String rightColor = style
+					.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
+			String rightLineStyle = style
+					.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
+			String rightWeight = style
+					.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
+			writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
+			writer.closeTag( "Borders" );
 
-		String fontName = style.getProperty( StyleConstant.FONT_FAMILY_PROP );
-		String size = style.getProperty( StyleConstant.FONT_SIZE_PROP );
-		String fontStyle = style.getProperty( StyleConstant.FONT_STYLE_PROP );
-		String fontWeight = style.getProperty( StyleConstant.FONT_WEIGHT_PROP );
-		String strikeThrough = style
-				.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
-		String underline = style
-				.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
-		String color = style.getProperty( StyleConstant.COLOR_PROP );
-		writeFont( fontName, size, fontWeight, fontStyle, strikeThrough,
-				underline, color );
+			String fontName = style
+					.getProperty( StyleConstant.FONT_FAMILY_PROP );
+			String size = style.getProperty( StyleConstant.FONT_SIZE_PROP );
+			String fontStyle = style
+					.getProperty( StyleConstant.FONT_STYLE_PROP );
+			String fontWeight = style
+					.getProperty( StyleConstant.FONT_WEIGHT_PROP );
+			String strikeThrough = style
+					.getProperty( StyleConstant.TEXT_LINE_THROUGH_PROP );
+			String underline = style
+					.getProperty( StyleConstant.TEXT_UNDERLINE_PROP );
+			String color = style.getProperty( StyleConstant.COLOR_PROP );
+			writeFont( fontName, size, fontWeight, fontStyle, strikeThrough,
+					underline, color );
+			String bgColor = style
+					.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
+			writeBackGroudColor( bgColor );
+		}
+		writeDataFormat( style );
 
-		writeDataFormat(style);
-		String bgColor = style
-				.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
-		writeBackGroudColor( bgColor );
-       
-		
-		
 		writer.closeTag( "Style" );
 	}
     
 	public void writeDataFormat( StyleEntry style )
 	{
-		if ( style.getDatatype( ) == Data.DATE
+		if ( style.getProperty(StyleConstant.DATA_TYPE_PROP ) == Data.DATE
 				&& style.getProperty( StyleConstant.DATE_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -321,16 +323,8 @@ public class ExcelWriter
 			writer.closeTag( "NumberFormat" );
 
 		}
-		if ( style.getDatatype( ) == Data.STRING
-				&& style.getProperty( StyleConstant.STRING_FORMAT_PROP ) != null )
-		{
-			writer.openTag( "NumberFormat" );
-			writer.attribute( "ss:Format", style
-					.getProperty( StyleConstant.STRING_FORMAT_PROP ) );
-			writer.closeTag( "NumberFormat" );
-
-		}
-		if ( style.getDatatype( ) == Data.NUMBER
+		
+		if ( style.getProperty(StyleConstant.DATA_TYPE_PROP ) == Data.NUMBER
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );

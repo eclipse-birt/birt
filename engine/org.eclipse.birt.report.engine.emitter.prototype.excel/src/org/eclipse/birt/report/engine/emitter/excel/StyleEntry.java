@@ -67,14 +67,7 @@ public class StyleEntry implements StyleConstant,Serializable
 	{
 		return start;
 	}
-	public void setDatatype(String type)
-	{
-		this.dataType = type;
-	}
-	public String getDatatype()
-	{
-		return dataType;
-	}
+	
 	public void setStart(boolean start)
 	{
 		this.start = start;

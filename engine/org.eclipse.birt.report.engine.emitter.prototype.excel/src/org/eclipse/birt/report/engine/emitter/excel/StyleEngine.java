@@ -26,8 +26,9 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
  */
 public class StyleEngine
 {
+	public static final int DEFAULT_DATE_STYLE = 1;
 
-	private int styleID = 0;	
+	private int styleID = 20;	
 	private Hashtable style2id = new Hashtable( );
 	private ExcelLayoutEngine engine;
 
@@ -40,8 +41,23 @@ public class StyleEngine
 	public StyleEngine( ExcelLayoutEngine engine )
 	{
 		this.engine = engine;
+
+		style2id.put( getDefaultEntry( DEFAULT_DATE_STYLE ), new Integer(
+				DEFAULT_DATE_STYLE ) );
 	}
 	
+	public StyleEntry getDefaultEntry( int id )
+	{
+		StyleEntry entry = new StyleEntry( );
+		if ( id == DEFAULT_DATE_STYLE )
+		{
+			entry.setProperty( StyleConstant.DATE_FORMAT_PROP,
+					"yyyy-M-d HH:ss:mm AM/PM" );
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
+		}
+		return entry;
+	}
+
 	public StyleEntry createEntry(Rule rule, IStyle style)
 	{
 		if(style ==  null)

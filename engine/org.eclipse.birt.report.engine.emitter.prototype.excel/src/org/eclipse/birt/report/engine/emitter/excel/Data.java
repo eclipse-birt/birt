@@ -13,6 +13,8 @@ public class Data implements Serializable, Cloneable
 	public static final String DATE = "DATE";
 	public static final String NUMBER = "NUMBER";
 	public static final String STRING = "STRING";
+	public static final String CALENDAR = "CALENDAR";
+	public static final String CDATETIME = "CDATETIME";
 	//String txt;
     Object txt;
 
@@ -30,18 +32,41 @@ public class Data implements Serializable, Cloneable
 
 	boolean isTxtData = true;
 
-	public Data( final Object txt, final StyleEntry s )
+	public Data(final Object txt, final String datatype)
+	{
+	   this(txt, null, datatype);
+	}
+	
+	public Data( final Object txt, final StyleEntry s, final String datatype )
 	{
 		this.txt = txt;		
 		this.style = s;
+		this.datatype = datatype;
 		id = ID++;
+		
 	}
-
+    
 	protected void setNotTxtData( )
 	{
 		this.isTxtData = false;
 	}
-
+    
+	public String getText()
+    {
+       if (txt == null) 
+       {
+          return " "; 
+       }
+       else if (datatype.equals( Data.DATE )) 
+       { 
+    	  return ExcelUtil.formatDate( txt );
+       }
+       else
+       {
+    	   return txt.toString( );
+       }
+    }
+	
 	public int hashCode( )
 	{
 		return id;
@@ -50,6 +75,7 @@ public class Data implements Serializable, Cloneable
     {
        this.datatype = type;	
     }
+    
     public String getDatatype()
     {
        return this.datatype;	

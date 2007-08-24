@@ -200,7 +200,7 @@ public class ExcelLayoutEngine
 			{
 				Rule colrule = axis.getRule( i );
 				Data data = new Data( EMPTY, engine
-						.createHorizionStyle( colrule ) );
+						.createHorizionStyle( colrule ), Data.STRING );
 				data.setRule( colrule );
 				cache.addData( i - detal, data );
 			}
@@ -239,7 +239,7 @@ public class ExcelLayoutEngine
 		// Make sure all containers contain data except table.
 		if ( container.isEmpty( ) )
 		{
-			Data data = new Data( EMPTY, container.getStyle( ) );
+			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING );
 			data.setRule( container.getRule( ) );
 			addData( data );
 		}
@@ -262,42 +262,36 @@ public class ExcelLayoutEngine
 
 	public Data createData( Object txt, StyleEntry entry )
 	{
-
 		if ( txt instanceof IDataContent )
 		{
 			IDataContent dataContent = (IDataContent) txt;
 			Object value = dataContent.getValue( );
 
-			if ( value instanceof Number )
+			if ( ExcelUtil.getType(value).equals( Data.NUMBER) )
 			{
 
 				String format = ExcelUtil.getPattern( value, entry
 						.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
 				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
-				entry.setDatatype( Data.NUMBER );
-				Data data = new Data( value, entry );
-				data.setDatatype( Data.NUMBER );
+				entry.setProperty(StyleConstant.DATA_TYPE_PROP, Data.NUMBER );
+				Data data = new Data( value, entry, Data.NUMBER);
 				return data;
 			}
-			else if ( value instanceof Date )
+			else if ( ExcelUtil.getType(value).equals( Data.DATE) )
 			{
 				String format = ExcelUtil.getPattern( value, entry
 						.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
 				entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
-				entry.setDatatype( Data.DATE );
-				Data data = new Data( ExcelUtil.formatDate(value), entry );
-				data.setDatatype( Data.DATE );
+				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
+				Data data = new Data( value, entry, Data.DATE );
 				return data;
 			}
-			  
-			Data data1 = new Data( dataContent.getText( ).trim( ), entry );
-			data1.setDatatype( Data.STRING );
-			return data1;
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );  
+			return new Data( dataContent.getText( ).trim( ), entry, Data.STRING );
+			
 		}
-		
-		Data data1 = new Data( txt, entry );
-		data1.setDatatype( Data.STRING );
-		return data1;
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING ); 
+		return new Data( txt, entry, Data.STRING );
 		
 	}
 
