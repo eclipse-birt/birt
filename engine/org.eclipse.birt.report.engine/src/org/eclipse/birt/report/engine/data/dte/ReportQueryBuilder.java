@@ -93,6 +93,7 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -1404,12 +1405,12 @@ public class ReportQueryBuilder
 
 			String column = filterExpr;
 			int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
-//			List operand1List = handle.getValue1List( );
-//			if ( operand1List != null )
-//			{
-//				return new FilterDefinition( new ConditionalExpression( column,
-//						dteOpr, operand1List ) );
-//			}
+			if ( ModuleUtil.isListFilterValue( handle ) )
+			{
+				List operand1List = handle.getValue1List( );				
+				return new FilterDefinition( new ConditionalExpression( column,
+						dteOpr, operand1List ) );
+			}
 			String operand1 = handle.getValue1( );
 			String operand2 = handle.getValue2( );
 			return new FilterDefinition( new ConditionalExpression( column,
