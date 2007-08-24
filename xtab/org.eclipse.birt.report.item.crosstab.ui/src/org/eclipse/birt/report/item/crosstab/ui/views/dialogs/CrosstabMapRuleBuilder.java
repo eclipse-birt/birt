@@ -21,13 +21,13 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionValue;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -123,10 +123,12 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 						.getActiveShell( ),
 						valueText.getText( ) );
 
-				if ( expressionProvider == null )
-					dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
-				else
-					dialog.setExpressionProvier( expressionProvider );
+				if (expressionProvider == null ||( !( expressionProvider instanceof CrosstabBindingExpressionProvider) ))
+				{
+					expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
+				}
+
+				dialog.setExpressionProvier( expressionProvider );
 
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
