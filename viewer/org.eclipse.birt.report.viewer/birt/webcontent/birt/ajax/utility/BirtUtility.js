@@ -440,6 +440,77 @@ BirtUtility.prototype =
 			
 		return pageNum;
 	},
+
+	// get total page number
+	getTotalPageNumber: function( )
+	{
+		var pageNum = 0;
+		var oPage = $( 'totalPage' );
+		if ( oPage )
+		{
+			pageNum = ( oPage.firstChild.data == '+' )? '+' : parseInt( oPage.firstChild.data );		
+		}
+			
+		return pageNum;
+	},
+	
+	/**
+	 * Checks the given page range syntax is valid, and if the page exist.
+	 * @param range in the format "1-4,6,7"
+	 * @return true if the range is correct 
+	 */
+	checkPageRange: function( range )
+	{
+		if ( !range )
+		{
+			return false;
+		}
+		var myRange = birtUtility.trim(range);
+
+		// check if the range format is correct
+		if ( !myRange.match( /^[0-9]+\s*(-\s*[0-9]+)?(\s*,\s*[0-9]+(-[0-9]+)?)*$/ ) )
+		{
+			return false;
+		}	
+		
+		var lastPage = this.getTotalPageNumber();
+		
+		// split the range parts
+		var parts = myRange.split(",");
+		for ( i = 0; i < parts.length; i++ )
+		{
+			var part = parts[i];			
+			var boundaries = part.split("-");
+
+			// page range
+			if ( boundaries.length == 2 )
+			{
+				var pageStart = parseInt( boundaries[0] );
+				var pageEnd = parseInt( boundaries[1] );
+				if ( isNaN( pageStart ) || isNaN( pageEnd ) 
+					|| pageEnd <= pageStart || pageStart < 1 || pageEnd < 1
+					|| pageStart > lastPage || pageEnd > lastPage )
+				{
+					return false;
+				}
+			}
+			// single page number
+			else if ( boundaries.length == 1 )
+			{
+				var pageNum = parseInt( boundaries[0] ); 
+				if ( isNaN( pageNum ) || pageNum < 1 || pageNum > lastPage )
+				{
+					return false;
+				}
+			}
+			// invalid format
+			else
+			{
+				return false;
+			}			
+		}
+		return true;
+	},
 	
 	/**
 	 * Initialize the client DPI setting

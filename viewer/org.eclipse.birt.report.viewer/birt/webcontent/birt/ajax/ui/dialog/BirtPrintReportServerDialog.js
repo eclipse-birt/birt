@@ -75,18 +75,24 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 		if( this.__enable )
 		{
 			this.__collectPrinter( );
-			flag = this.__printAction( );			
+			flag = this.__printAction( );
+			
+			if ( flag )
+			{
+				birtConfirmationDialog.__cb_bind( );
+			}			
+		}
+
+		// don't hide if there was an error
+		if ( !( this.__enable && !flag ) )
+		{
+			this.__l_hide( );
 		}
 		
-		this.__l_hide( );
-		if( this.__enable && flag )
-		{
-			birtConfirmationDialog.__cb_bind( );
-		}
 	},
 	
 	/**
-	 * Collect printer infomation
+	 * Collect printer information
 	 * 
 	 * @return, void
 	 * 
@@ -196,6 +202,11 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 			{
 				// Set page range setting
 				var pageRange = birtUtility.trim( $( 'printServerPageRange_input' ).value );
+				if ( !birtUtility.checkPageRange( pageRange ) )
+				{
+					alert( Constants.error.invalidPageRange );
+					return false;
+				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 

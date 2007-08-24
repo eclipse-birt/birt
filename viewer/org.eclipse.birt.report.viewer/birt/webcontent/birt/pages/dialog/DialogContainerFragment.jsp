@@ -95,3 +95,9 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+// <![CDATA[
+	// Error msgs
+	Constants.error.invalidPageRange = '<%= BirtResources.getMessage( "birt.viewer.dialog.page.error.invalidpagerange" )%>';
+// ]]>
+</script>

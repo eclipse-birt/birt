@@ -63,13 +63,14 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__okPress : function( )
 	{
-		this.__l_hide( );
-		
 		var oSelect = $( 'exportFormat' );
 		if( oSelect.value == '' )
 			return;
 		
-		this.__exportAction( );
+		if ( this.__exportAction( ) )
+		{
+			this.__l_hide( );
+		}
 	},
 	
 	/**
@@ -125,6 +126,11 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			{
 				// Set page range setting
 				var pageRange = birtUtility.trim( $( 'exportPageRange_input' ).value );
+				if ( !birtUtility.checkPageRange( pageRange ) )
+				{
+					alert( Constants.error.invalidPageRange );
+					return false;
+				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 			

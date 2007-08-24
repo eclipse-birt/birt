@@ -118,48 +118,6 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}	
 		else
 		{	
-			var previewExists = false;
-			// retrieve previous window instance
-			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW );
-			try
-			{
-				// if the window didn't exist, then window.open() has opened an empty window
-				var previousBodyElement = previousPrintWindow.document.getElementsByTagName("body")[0];				
-				if ( previousBodyElement && birtUtility.trim( previousBodyElement.innerHTML ).length > 0 )
-				{
-					previewExists = true;
-				}
-			}
-			catch ( e )
-			{
-				// access denied is thrown if the previous preview window contains a PDF content
-				previewExists = true;
-			}
-
-			if ( previewExists )
-			{
-				alert( "A print preview window is already open." );
-				if ( previousPrintWindow && previousPrintWindow.focus )
-				{					
-					try
-					{
-						previousPrintWindow.focus();
-					}
-					catch ( e )
-					{
-						// an exception may be produced by in focus() method
-						// of an IE window containing a PDF document
-					}
-				}
-				
-				return false;
-			}
-			else
-			{
-				// use the created window as current window
-				this.__printWindow = previousPrintWindow;
-			}
-	
 			var divObj = document.createElement( "DIV" );
 			document.body.appendChild( divObj );
 			divObj.style.display = "none";
@@ -196,6 +154,11 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			{
 				// Set page range setting
 				var pageRange = birtUtility.trim( $( 'printPageRange_input' ).value );
+				if ( !birtUtility.checkPageRange( pageRange ) )
+				{
+					alert( Constants.error.invalidPageRange );
+					return false;
+				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 
@@ -247,6 +210,48 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			// Replace servlet pattern as output
 			action = action.replace( /[\/][a-zA-Z]+[?]/, "/"+Constants.SERVLET_OUTPUT+"?" );
+
+			var previewExists = false;
+			// retrieve previous window instance
+			var previousPrintWindow = window.open( '', Constants.WINDOW_PRINT_PREVIEW );
+			try
+			{
+				// if the window didn't exist, then window.open() has opened an empty window
+				var previousBodyElement = previousPrintWindow.document.getElementsByTagName("body")[0];				
+				if ( previousBodyElement && birtUtility.trim( previousBodyElement.innerHTML ).length > 0 )
+				{
+					previewExists = true;
+				}
+			}
+			catch ( e )
+			{
+				// access denied is thrown if the previous preview window contains a PDF content
+				previewExists = true;
+			}
+
+			if ( previewExists )
+			{
+				alert( "A print preview window is already open." );
+				if ( previousPrintWindow && previousPrintWindow.focus )
+				{					
+					try
+					{
+						previousPrintWindow.focus();
+					}
+					catch ( e )
+					{
+						// an exception may be produced by in focus() method
+						// of an IE window containing a PDF document
+					}
+				}
+				
+				return false;
+			}
+			else
+			{
+				// use the created window as current window
+				this.__printWindow = previousPrintWindow;
+			}
 
 			if ( !BrowserUtility.__isIE() )
 			{
