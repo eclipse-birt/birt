@@ -155,8 +155,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		String propName = prop.getName( );
 		if ( ( IReportItemModel.TOC_PROP.equals( propName ) || IGroupElementModel.TOC_PROP
-				.equals( propName ) ) &&
-				( value instanceof String ) )
+				.equals( propName ) )
+				&& ( value instanceof String ) )
 		{
 			Object oldValue = element.getLocalProperty( module, prop );
 			if ( oldValue != null )
@@ -192,10 +192,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( element.isVirtualElement( ) && element instanceof Cell )
 		{
 			propName = prop.getName( );
-			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName ) ||
-					ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName ) ||
-					ICellModel.DROP_PROP.equalsIgnoreCase( propName ) ||
-					ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
+			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 			{
 				throw new PropertyValueException(
 						element,
@@ -214,8 +214,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// a pre-defined type.
 
 			propName = prop.getName( );
-			if ( !( (MasterPage) element ).isCustomType( module ) &&
-					( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
+			if ( !( (MasterPage) element ).isCustomType( module )
+					&& ( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
 							.equals( propName ) ) )
 			{
 				throw new SemanticError( element,
@@ -225,14 +225,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		value = validateValue( prop, value );
 
-		if ( value instanceof ElementRefValue &&
-				prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		if ( value instanceof ElementRefValue
+				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
 		}
 
-		if ( element instanceof GroupElement &&
-				IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
+		if ( element instanceof GroupElement
+				&& IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
 		{
 			if ( !isGroupNameValidInContext( (String) value ) )
 				throw new NameException( element, (String) value,
@@ -247,8 +247,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 		}
 		if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
-				.getName( ) ) &&
-				value == null )
+				.getName( ) )
+				&& value == null )
 		{
 			clearRefTemplateParameterProp( prop, value );
 			return;
@@ -420,8 +420,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// if useOwnModel is true, set property to extended item and return
 			// directly.
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) ||
-					prop.isUseOwnModel( ) )
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
+					|| prop.isUseOwnModel( ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 
@@ -435,9 +435,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 			}
 		}
 
-		if ( element instanceof Level &&
-				prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE ) &&
-				value != null )
+		if ( element instanceof Level
+				&& prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE )
+				&& value != null )
 		{
 			ActivityStack stack = getActivityStack( );
 
@@ -446,39 +446,61 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 			stack.startTrans( record.getLabel( ) );
 			stack.execute( record );
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
-					element );
+			boolean isFound = false;
 			ElementPropertyDefn attributesPropertyDefn = element
 					.getPropertyDefn( ILevelModel.ATTRIBUTES_PROP );
-			Structure struct = null;
-			if ( element instanceof TabularLevel )
+			List attrs = (List) element.getProperty( module,
+					attributesPropertyDefn );
+			if ( attrs != null )
 			{
-				LevelAttribute attibute = new LevelAttribute( );
-				attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
-				attibute
-						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
-				struct = attibute;
-			}
-			else if ( element instanceof OdaLevel )
-			{
-				OdaLevelAttribute attibute = new OdaLevelAttribute( );
-				attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
-				attibute
-						.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
-				struct = attibute;
-			}
-			if ( attributesPropertyDefn != null && struct != null )
-			{
-				try
+				for ( int i = 0; i < attrs.size( ); i++ )
 				{
-					cmd.addItem( new CachedMemberRef( attributesPropertyDefn ),
-							struct );
+					LevelAttribute attr = (LevelAttribute) attrs.get( i );
+					if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( attr
+							.getName( ) ) )
+					{
+						isFound = true;
+						break;
+					}
 				}
-				catch ( SemanticException e )
-				{
+			}
 
-					assert false;
-					stack.rollback( );
+			if ( !isFound )
+			{
+
+				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+						module, element );
+
+				Structure struct = null;
+				if ( element instanceof TabularLevel )
+				{
+					LevelAttribute attibute = new LevelAttribute( );
+					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
+					attibute
+							.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					struct = attibute;
+				}
+				else if ( element instanceof OdaLevel )
+				{
+					OdaLevelAttribute attibute = new OdaLevelAttribute( );
+					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
+					attibute
+							.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					struct = attibute;
+				}
+				if ( attributesPropertyDefn != null && struct != null )
+				{
+					try
+					{
+						cmd.addItem( new CachedMemberRef(
+								attributesPropertyDefn ), struct );
+					}
+					catch ( SemanticException e )
+					{
+
+						assert false;
+						stack.rollback( );
+					}
 				}
 			}
 
@@ -507,15 +529,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 				if ( value == null || !( (ElementRefValue) value ).isResolved( ) )
 				{
-					if ( oldValue != null &&
-							( (ElementRefValue) oldValue ).isResolved( ) )
+					if ( oldValue != null
+							&& ( (ElementRefValue) oldValue ).isResolved( ) )
 						localizeProperties( ( (ElementRefValue) oldValue )
 								.getElement( ) );
 				}
 
-				if ( value != null &&
-						( (ElementRefValue) value ).isResolved( ) &&
-						element instanceof ListingElement )
+				if ( value != null && ( (ElementRefValue) value ).isResolved( )
+						&& element instanceof ListingElement )
 				{
 					GroupElementCommand tmpCmd = new GroupElementCommand(
 							module, new ContainerContext( element,
@@ -549,11 +570,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		recoverReferredReportItem( reportItem, targetElement );
 
-		if ( !( reportItem instanceof ListingElement ) ||
-				!( targetElement instanceof ListingElement ) )
+		if ( !( reportItem instanceof ListingElement )
+				|| !( targetElement instanceof ListingElement ) )
 			return;
 
-		if (!ModelUtil.isCompatibleDataBindingElements( element, targetElement ))
+		if ( !ModelUtil
+				.isCompatibleDataBindingElements( element, targetElement ) )
 			return;
 
 		ListingElement listing = (ListingElement) reportItem;
@@ -674,9 +696,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// exception
 
 		ElementRefValue refValue = (ElementRefValue) retValue;
-		if ( refValue.isResolved( ) &&
-				value instanceof DesignElementHandle &&
-				refValue.getElement( ) != ( (DesignElementHandle) value )
+		if ( refValue.isResolved( )
+				&& value instanceof DesignElementHandle
+				&& refValue.getElement( ) != ( (DesignElementHandle) value )
 						.getElement( ) )
 			throw new SemanticError( element, new String[]{prop.getName( ),
 					refValue.getName( )},
@@ -818,12 +840,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// if set the value to the name of a structure, must ensure this
 		// would not create duplicates.
 
-		if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE ||
-				memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
+		if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE
+				|| memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
 			checkItemName( ref, (String) value );
 
-		if ( value instanceof ElementRefValue &&
-				memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		if ( value instanceof ElementRefValue
+				&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			checkRecursiveElementReference( memberDefn, (ElementRefValue) value );
 		}
