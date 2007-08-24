@@ -1688,7 +1688,7 @@
 		<Default>any</Default>
 	</Member>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  
-    <Member detailType="aggregationFunction" displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="choice" >
+    <Member displayNameID="Structure.ComputedColumn.aggregateFunction" name="aggregateFunction" since="2.2" type="string" >
     </Member>	  	  
     <Member detailType="AggregationArgument" displayNameID="Structure.ComputedColumn.arguments" isList="true" name="arguments" since="2.2" type="structure" />	  	  	  	  
     <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />	  	  	  	  

@@ -110,7 +110,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		argument.setName( "argu2" ); //$NON-NLS-1$
 		argument.setValue( "value2" ); //$NON-NLS-1$
 		column.addArgument( argument );
-		
+
 		column.setName( "column1" ); //$NON-NLS-1$
 		column.setExpression( "expression 1" ); //$NON-NLS-1$
 
@@ -127,7 +127,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		argument = StructureFactory.createAggregationArgument( );
 		argument.setValue( "value4" ); //$NON-NLS-1$
 		column.addArgument( argument );
-		
+
 		column.setName( "column2" ); //$NON-NLS-1$
 		column.setExpression( "expression 2" ); //$NON-NLS-1$
 
@@ -143,6 +143,42 @@ public class ComputedColumnHandleTest extends BaseTestCase
 							.getErrorCode( ) );
 		}
 
+	}
+
+	/**
+	 * For bug 200645, skip choice check in ComputedColumn structure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSkipComputedColumnValidation( ) throws Exception
+	{
+		openDesign( "ReportItemHandle_ComputedColumn.xml" );//$NON-NLS-1$
+		ScalarParameterHandle paramHandle = (ScalarParameterHandle) designHandle
+				.findParameter( "MyParam1" );//$NON-NLS-1$
+		
+		ComputedColumnHandle columnHandle = (ComputedColumnHandle) paramHandle
+				.getColumnBindings( ).get( 0 );
+		assertEquals( "sum 2", columnHandle.getAggregateFunction( ) );//$NON-NLS-1$
+
+		ComputedColumnHandle columnHandle2 = (ComputedColumnHandle) paramHandle
+				.getColumnBindings( ).get( 1 );
+		assertEquals( "MAX", columnHandle2.getAggregateFunction( ) );//$NON-NLS-1$
+
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setProperty( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER,
+				"count 2" );//$NON-NLS-1$
+		column.setName( "column3" );//$NON-NLS-1$
+
+		PropertyHandle propHandle = paramHandle.getColumnBindings( );
+		propHandle.addItem( column );
+
+		ComputedColumnHandle columnHandle3 = (ComputedColumnHandle) propHandle
+				.get( 2 );
+		assertEquals( "count 2", columnHandle3.getAggregateFunction( ) );//$NON-NLS-1$
+		
+		save();
+		assertTrue( compareFile( "ReportItemHandle_ComputedColumn_golden.xml" ) );//$NON-NLS-1$
 	}
 
 }
