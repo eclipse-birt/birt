@@ -181,13 +181,10 @@ public class ReportEngineService
 				scriptlibClassPath );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
-		
+
 		// configure the loggers
-		LoggingUtil.configureLoggers(
-			ParameterAccessor.loggers,
-			level,
-			ParameterAccessor.logFolder
-			);
+		LoggingUtil.configureLoggers( ParameterAccessor.loggers, level,
+				ParameterAccessor.logFolder );
 	}
 
 	/**
@@ -1527,12 +1524,12 @@ public class ReportEngineService
 					StringBuffer buf = new StringBuffer( );
 
 					// Captions
-					buf.append( columnNames[0] );
+					buf.append( csvConvertor( columnNames[0], sep ) );
 
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
 						buf.append( sep );
-						buf.append( columnNames[i] );
+						buf.append( csvConvertor( columnNames[i], sep ) );
 					}
 
 					buf.append( '\n' );
