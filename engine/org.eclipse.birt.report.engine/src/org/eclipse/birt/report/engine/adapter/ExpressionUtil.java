@@ -130,7 +130,7 @@ public final class ExpressionUtil
 		{
 			IConditionalExpression ce = key;
 			
-			if ( hasAggregationInFilter( key ) )
+			if ( !hasAggregationInFilter( key ) )
 			{
 				result.addNewExpression( ce );
 				return;
