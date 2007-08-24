@@ -383,7 +383,7 @@ public class ParameterAccessor
 	 * Context parameter name that gives cube memory size.
 	 */
 	public static final String INIT_PARAM_VIEWER_CUBEMEMSIZE = "BIRT_VIEWER_CUBE_MEMORY_SIZE"; //$NON-NLS-1$
-	
+
 	/**
 	 * Context parameter name that if always overwrite generated document file.
 	 */
@@ -2758,7 +2758,7 @@ public class ParameterAccessor
 
 		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
 		String sep = getInitProp( key );
-		if ( sep.length( ) <= 0 )
+		if ( sep == null || sep.length( ) <= 0 )
 			return DEFAULT_SEP;
 
 		return sep.charAt( 0 );
