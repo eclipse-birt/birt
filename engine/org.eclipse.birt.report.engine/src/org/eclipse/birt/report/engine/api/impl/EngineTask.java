@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -591,6 +592,43 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 		
+		String paramType = paramHandle.getParamType( );
+		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+				.equals( paramType ) )
+		{
+			if ( paramValue instanceof Object[] )
+			{
+				boolean isValid = true;
+				Object[] paramValueList = (Object[]) paramValue;
+				for ( int i = 0; i < paramValueList.length; i++ )
+				{
+					if ( !validateParameterValueType( paramName,
+							paramValueList[i], type, paramHandle ) )
+					{
+						isValid = false;
+					}
+				}
+				return isValid;
+			}
+			throw new ParameterValidationException(
+					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					new String[]{paramName, "Object[]",
+							paramValue.getClass( ).getName( )} );
+		}
+		else
+		{
+			return validateParameterValueType( paramName, paramValue, type,
+					paramHandle );
+		}
+	}
+	
+	/*
+	 * Validate parameter value based on parameter type
+	 */
+	private boolean validateParameterValueType( String paramName,
+			Object paramValue, String type, ScalarParameterHandle paramHandle )
+			throws ParameterValidationException
+	{
 		/*
 		 * Validate based on parameter type
 		 */

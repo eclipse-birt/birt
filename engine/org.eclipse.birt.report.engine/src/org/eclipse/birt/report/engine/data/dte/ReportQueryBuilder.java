@@ -1404,6 +1404,12 @@ public class ReportQueryBuilder
 
 			String column = filterExpr;
 			int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
+			List operand1List = handle.getValue1List( );
+			if ( operand1List != null )
+			{
+				return new FilterDefinition( new ConditionalExpression( column,
+						dteOpr, operand1List ) );
+			}
 			String operand1 = handle.getValue1( );
 			String operand2 = handle.getValue2( );
 			return new FilterDefinition( new ConditionalExpression( column,
