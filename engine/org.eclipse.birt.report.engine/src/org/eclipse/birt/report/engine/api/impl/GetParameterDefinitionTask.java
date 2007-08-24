@@ -734,6 +734,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( iter == null )
 		{
 			evaluateGroupQuery( parameterGroupName );
+			iter = (IResultIterator) dataCache.get( parameterGroupName );
 			if ( iter == null )
 			{
 				return Collections.EMPTY_LIST;
