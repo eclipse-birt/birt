@@ -820,9 +820,9 @@ public class ScriptEvalUtil
 		private static boolean needFormat( Object obj, int operator,
 				ExprTextAndValue[] ops )
 		{
-			if ( operator < IConditionalExpression.OP_EQ ||
-					( operator > IConditionalExpression.OP_NOT_BETWEEN && operator < IConditionalExpression.OP_IN ) ||
-					obj == null || ops.length == 0 )
+			if ( operator < IConditionalExpression.OP_EQ
+					|| ( operator > IConditionalExpression.OP_NOT_BETWEEN && operator < IConditionalExpression.OP_IN )
+					|| obj == null || ops.length == 0 || ops[0].value == null )
 				return false;
 			// op2.value can not be null either if it's a between method
 			else if ( ( operator == IConditionalExpression.OP_BETWEEN || operator == IConditionalExpression.OP_NOT_BETWEEN ) &&
