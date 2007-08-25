@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -32,10 +32,12 @@ import org.eclipse.datatools.connectivity.oda.IClob;
 public class ParameterHint
 {
 	private String m_name;
+    private String m_nativeName;
 	private int m_position;
 	private Class m_dataType;
     private int m_nativeDataType = UNKNOWN_NATIVE_TYPE;
 	private boolean m_isInputOptional;
+    private boolean m_isMultiInputValuesAllowed = false;
 	private String m_defaultInputValue;
 	private boolean m_isInputMode;
 	private boolean m_isOutputMode;
@@ -58,7 +60,7 @@ public class ParameterHint
 	 */
 	public ParameterHint( String parameterName, boolean isInputMode, boolean isOutputMode )
 	{
-		final String methodName = "ParameterHint";
+		final String methodName = "ParameterHint( String, boolean, boolean )"; //$NON-NLS-1$
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName,
 		            			new Object[] { parameterName, new Boolean( isInputMode ), new Boolean( isOutputMode ) } );
@@ -69,7 +71,7 @@ public class ParameterHint
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL );
 			    
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"The given parameter is null or empty." );
+							"The given parameter is null or empty." ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -100,14 +102,14 @@ public class ParameterHint
 	 */
 	public void setPosition( int position )
 	{
-		final String methodName = "setPosition";
+		final String methodName = "setPosition( int )"; //$NON-NLS-1$
 		
 		if( position < 1 )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE );
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid parameter position {0} ", new Integer( position ) );
+					"Invalid parameter position {0} ", new Integer( position ) ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -131,7 +133,7 @@ public class ParameterHint
 	 */
 	public void setDataType( Class dataType )
 	{
-		final String methodName = "setDataType";
+		final String methodName = "setDataType( Class )"; //$NON-NLS-1$
 		
 		// validate given data type;
 		// data type for a hint may be null
@@ -168,7 +170,7 @@ public class ParameterHint
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE,
 				        new Object[]{ dataType } );
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid parameter data type {0}.", dataType );
+					"Invalid parameter data type {0}.", dataType ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -286,20 +288,67 @@ public class ParameterHint
 	{
 		return m_isOutputMode;
 	}
+
+    /**
+     * Sets the native name of the parameter as known to the underlying data source.
+     * @param nativeName The native name to set; may be a null value if the name 
+     *          is not available or this parameter is not named.
+     */
+    public void setNativeName( String nativeName )
+    {
+        m_nativeName = nativeName;
+    }
 	
 	/**
+     * Returns the native name of the parameter as known to the underlying data source.
+     * @return the parameter native name, or 
+     *          null if the name is not available or this parameter is not named.
+     */
+    public String getNativeName()
+    {
+        return m_nativeName;
+    }
+
+    /**
+     * Sets hether this parameter allows binding with multiple input values.  
+     * Has no effect on non-input parameters.
+     * @param isMultiInputValuesAllowed  true if multiple input values are allowed;
+     *          false if at most a single input value is allowed.
+     */
+    public void setMultiInputValuesAllowed( boolean isMultiInputValuesAllowed )
+    {
+        if( m_isInputMode )
+            m_isMultiInputValuesAllowed = isMultiInputValuesAllowed;
+    }
+
+    /**
+     * Indicates whether this parameter allows binding with multiple input values.
+     * Only applies to input parameters.
+     * @return true if multiple input values are allowed;
+     *          false if at most a single input value is allowed.
+     */
+    public boolean isMultiInputValuesAllowed()
+    {
+        return ( m_isInputMode ) ? m_isMultiInputValuesAllowed : false;
+    }
+
+    /**
 	 * Helper method to update this <code>ParameterHint</code> with 
 	 * information from another <code>ParameterHint</code>.
 	 * @param hint	the <code>ParameterHint</code> instance.
 	 */
 	void updateHint( ParameterHint hint )
 	{
-		String methodName = "updateHint";
+		final String methodName = "updateHint( ParameterHint )"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, hint );
 
 		m_name = hint.m_name;
 		
-		// don't update if the specified hint has the default values
+		// don't update if the specified hint has default values
+
+	    if( hint.m_nativeName != null )
+	        m_nativeName = hint.m_nativeName;
+
 		if( hint.m_position != 0 )
 			m_position = hint.m_position;
 		

@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2006 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,15 +21,16 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 
 /**
+ * Package internal class.
  * <code>DriverManager</code> manages a set of data source drivers.  Calling 
  * <code>getInstance</code> will return the singleton instance of <code>DriverManager</code>.
  * 
- * When the method <code>getDriverConnectionFactory</code> is initiated by the 
+ * When the method <code>getDriverHelper</code> is initiated by the 
  * <code>ConnectionManager</code>, the <code>DriverManager</code> will 
  * attempt to load the specified driver and return a <code>IDriver</code> 
  * instance of that driver.
  */
-class DriverManager
+public class DriverManager
 {
 	private static DriverManager sm_driverManager = null;
 	private Hashtable m_loadedDrivers;
@@ -47,7 +48,7 @@ class DriverManager
 	 * handling driver-related tasks.
 	 * @return	a <code>DriverManager</code> instance.
 	 */
-	static DriverManager getInstance()
+	public static DriverManager getInstance()
 	{
 		if( sm_driverManager == null )
 			sm_driverManager = new DriverManager();
@@ -76,7 +77,7 @@ class DriverManager
 	 * @param dataSourceElementId	the name of the driver.
 	 * @return	an <code>IDriver</code> instance.
 	 */
-	IDriver getDriverHelper( String dataSourceElementId )
+	public IDriver getDriverHelper( String dataSourceElementId )
 		throws DataException
 	{
 		final String methodName = "getDriverHelper"; //$NON-NLS-1$
@@ -97,7 +98,7 @@ class DriverManager
 	 * @return	the extension data source type id for <code>IDriver.getConnection</code>, 
 	 * 			or null if no explicit data source type was specified.
 	 */
-	String getExtensionDataSourceId( String dataSourceElementId ) 
+	public String getExtensionDataSourceId( String dataSourceElementId ) 
 		throws DataException
 	{
 		final String methodName = "getExtensionDataSourceId"; //$NON-NLS-1$

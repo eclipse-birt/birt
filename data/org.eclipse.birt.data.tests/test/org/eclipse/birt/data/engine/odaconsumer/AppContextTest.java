@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -16,13 +16,11 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestAdvQueryImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestConnectionImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestDriverImpl;
+import org.eclipse.birt.data.engine.odaconsumer.testutil.OdaTestDriverCase;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IQuery;
@@ -32,34 +30,20 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  *  Test ODA Consumer handling of passing thru application context objects
  *  to an underlying ODA driver.
  */
-public class AppContextTest extends TestCase
+public class AppContextTest extends OdaTestDriverCase
 {
-    private final String TEST_DRIVER_ID = 
-        "org.eclipse.birt.data.engine.odaconsumer.testdriver";
-
-	private ConnectionManager sm_connManager;
     private Properties sm_appContextMap;
-    
-    static
-    {
-		if ( System.getProperty( "BIRT_HOME" ) == null )
-			System.setProperty( "BIRT_HOME", "./test" );
-		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
-		Platform.initialize( null );
-    }
-    
+        
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception
     {
         super.setUp();
-	    if( sm_connManager == null )
-	        sm_connManager = ConnectionManager.getInstance();
 	    if( sm_appContextMap == null )
 	    {
 	        sm_appContextMap = new Properties();
-	        sm_appContextMap.put( TEST_DRIVER_ID, sm_connManager );
+	        sm_appContextMap.put( TEST_DRIVER_ID, getConnectionManager() );
 	        sm_appContextMap.put( TestDriverImpl.TEST_DRIVER_CONN_STATE, "" );
 	    }
     }
@@ -72,7 +56,7 @@ public class AppContextTest extends TestCase
         super.tearDown();
         sm_appContextMap.put( TestDriverImpl.TEST_DRIVER_CONN_STATE, "" );
     }
-  
+
     /*
      * Test that setAppContext is passed thru the ODA Consumer
      * to an ODA driver's IDriver, IConnection and IQuery setAppContext calls
@@ -80,7 +64,8 @@ public class AppContextTest extends TestCase
      */
     public void testSetAppContext()
     {
-        verifyDriverSetAppContext();
+        String testCase = TestAdvQueryImpl.TEST_CASE_OUTPUTPARAM;
+        verifyDriverSetAppContext( testCase );
         
         Connection hostConn = null;
         PreparedStatement hostStmt = null;
@@ -89,11 +74,11 @@ public class AppContextTest extends TestCase
         try
         {
             // creates a new Oda connection, passing thru the app context
-            hostConn = sm_connManager.openConnection( TEST_DRIVER_ID, null, sm_appContextMap );
+            hostConn = getConnectionManager().openConnection( TEST_DRIVER_ID, null, sm_appContextMap );
             assertTrue( hostConn != null );
             
             // uses default dataSetType in plugin.xml
-            hostStmt = hostConn.prepareStatement( null, null ); 
+            hostStmt = hostConn.prepareStatement( null, testCase ); 
             assertTrue( hostStmt != null );
             
             boolean execStatus = hostStmt.execute();
@@ -128,11 +113,12 @@ public class AppContextTest extends TestCase
         try
         {
             // creates a new Oda connection, passing thru the app context
-            hostConn = sm_connManager.openConnection( TEST_DRIVER_ID, null, sm_appContextMap );
+            hostConn = getConnectionManager().openConnection( TEST_DRIVER_ID, null, sm_appContextMap );
             assertTrue( hostConn != null );
             
             // uses default dataSetType in plugin.xml
-            hostStmt = hostConn.prepareStatement( null, null ); 
+            hostStmt = hostConn.prepareStatement( null,
+                    TestAdvQueryImpl.TEST_CASE_OUTPUTPARAM ); 
             assertTrue( hostStmt != null );
             
             boolean execStatus = hostStmt.execute();
@@ -155,7 +141,7 @@ public class AppContextTest extends TestCase
      * Verify that the ODA driver tester has implemented
      * the setAppContext method.
      */
-    private void verifyDriverSetAppContext()
+    private void verifyDriverSetAppContext( String testCase )
     {
         // test call to IDriver.setAppContext
         IDriver odaDriver = new TestDriverImpl();
@@ -196,7 +182,7 @@ public class AppContextTest extends TestCase
         try
         {
             // test call to IConnection.setAppContext
-            odaQuery = odaConn.newQuery( "dummy" );
+            odaQuery = odaConn.newQuery( testCase );
             odaQuery.setAppContext( sm_appContextMap );
         }
         catch( OdaException e1 )

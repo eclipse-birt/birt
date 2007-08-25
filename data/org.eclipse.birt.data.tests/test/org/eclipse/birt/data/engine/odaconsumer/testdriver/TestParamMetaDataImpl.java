@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -20,12 +20,18 @@ import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- *
+ *  Provides parameter metadata to support individual test cases.
+ *  See test case ids defined in TestAdvQueryImpl class.
  */
 public class TestParamMetaDataImpl implements IParameterMetaData
 {
-    public TestParamMetaDataImpl()
+    public static final String TEST_PARAM_NATIVE_NAME_PREFIX = "myParamNativeName";
+    
+    private int m_currentTestCase;
+
+    public TestParamMetaDataImpl( int testCaseId )
     {
+        m_currentTestCase = testCaseId;
     }
 
     /* (non-Javadoc)
@@ -33,7 +39,13 @@ public class TestParamMetaDataImpl implements IParameterMetaData
      */
     public int getParameterCount() throws OdaException
     {
-        return 3;
+        switch( m_currentTestCase )
+        {
+            case 1: return 3;
+            case 2: return 3;
+        }
+        
+        return 0;
     }
 
     /* (non-Javadoc)
@@ -41,9 +53,18 @@ public class TestParamMetaDataImpl implements IParameterMetaData
      */
     public int getParameterMode( int param ) throws OdaException
     {
-        return ( param <= getParameterCount() ) ?
-                IParameterMetaData.parameterModeOut :
-                IParameterMetaData.parameterModeUnknown;
+        if( m_currentTestCase == 1 )
+        {
+            if ( param <= getParameterCount() )
+                return IParameterMetaData.parameterModeOut;
+        }
+        else if( m_currentTestCase == 2 )
+        {
+            if ( param <= getParameterCount() )
+                return IParameterMetaData.parameterModeIn;
+        }
+       
+        return IParameterMetaData.parameterModeUnknown;
     }
 
     /* (non-Javadoc)
@@ -51,7 +72,11 @@ public class TestParamMetaDataImpl implements IParameterMetaData
      */
     public String getParameterName( int param ) throws OdaException
     {
-        // TODO Auto-generated method stub
+        if( m_currentTestCase == 1 || m_currentTestCase == 2 )
+        {
+            return TEST_PARAM_NATIVE_NAME_PREFIX + param;
+        }
+            
         return null;
     }
 
@@ -59,14 +84,18 @@ public class TestParamMetaDataImpl implements IParameterMetaData
      * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(int)
      */
     public int getParameterType( int param ) throws OdaException
-    {        
-        switch( param )
+    {       
+        if( m_currentTestCase == 1 || m_currentTestCase == 2 )
         {
-        	case 1: return Types.VARCHAR;
-        	case 2: return Types.DATE;
-        	case 3: return Types.BOOLEAN;	// not mapped in plugin.xml
-        	default: return Types.NULL;
+            switch( param )
+            {
+            	case 1: return Types.VARCHAR;
+            	case 2: return Types.DATE;
+            	case 3: return Types.BOOLEAN;	// not mapped in plugin.xml
+            }
         }
+        
+        return Types.NULL;
     }
 
     /* (non-Javadoc)
@@ -74,12 +103,17 @@ public class TestParamMetaDataImpl implements IParameterMetaData
      */
     public String getParameterTypeName( int param ) throws OdaException
     {
-        switch( param )
+        if( m_currentTestCase == 1 || m_currentTestCase == 2 )
         {
-        	case 1: return "String";
-        	case 2: return "Date";
-        	default: return "Unknown type";
+            switch( param )
+            {
+            	case 1: return "String";
+            	case 2: return "Date";
+            	case 3: return "Boolean";
+            }
         }
+        
+        return "Unknown type";       
     }
 
     /* (non-Javadoc)

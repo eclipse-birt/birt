@@ -22,7 +22,17 @@
             driverClass="org.eclipse.birt.data.engine.odaconsumer.testdriver.TestDriverImpl"
             setThreadContextClassLoader="false"
             id="org.eclipse.birt.data.engine.odaconsumer.testdriver"/>
-      <dataSet id="org.eclipse.birt.data.engine.odaconsumer.testdriver.dataSet">
+      <dataSet id="1">
+         <dataTypeMapping
+               nativeDataType="String"
+               nativeDataTypeCode="12"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="Date"
+               nativeDataTypeCode="91"
+               odaScalarDataType="Date"/>
+      </dataSet>
+      <dataSet id="2">
          <dataTypeMapping
                nativeDataType="String"
                nativeDataTypeCode="12"

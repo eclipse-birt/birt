@@ -1,11 +1,12 @@
 /*
  * ****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * Contributors: 
+ *  Actuate Corporation - initial API and implementation
  * 
  * *****************************************************************************
  */
@@ -39,17 +40,17 @@ public class ParameterHintTest extends ConnectionTest
 		super.tearDown( );
 	}
 
-	public void testParameterHints1( ) throws Exception
+	public void testNameToPositionInSingleParameterHint( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 		assertNotNull( statement );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName", true, false );
 		hint.setPosition( 1 );
 		statement.addParameterHint( hint );
 
-		statement.setParameterValue( "ColumnValue", new Integer( 4 ) );
+		statement.setParameterValue( "ParamName", new Integer( 4 ) );
 		assertTrue( statement.execute( ) );
 		ResultSet resultset = statement.getResultSet( );
 
@@ -60,23 +61,23 @@ public class ParameterHintTest extends ConnectionTest
 		assertEquals( 1, count );
 	}
 
-	public void testParameterHints2( ) throws Exception
+	public void testNameToPositionInParameterHints( ) throws Exception
 	{
 		String command = "select \"intColumn\" from \"testtable\" where \"intColumn\" = ? OR \"stringColumn\" = ?";
 		PreparedStatement statement = getConnection( ).prepareStatement( command,
 				JDBCOdaDataSource.DATA_SET_TYPE );
 		assertNotNull( statement );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		statement.addParameterHint( hint );
 
-		hint = new ParameterHint( "ColumnValue2", true, false );
+		hint = new ParameterHint( "ParamName2", true, false );
 		hint.setPosition( 2 );
 		statement.addParameterHint( hint );
 
-		statement.setParameterValue( "ColumnValue1", new Integer( 0 ) );
-		statement.setParameterValue( "ColumnValue2", "blah blah blah" );
+		statement.setParameterValue( "ParamName1", new Integer( 0 ) );
+		statement.setParameterValue( "ParamName2", "blah blah blah" );
 		assertTrue( statement.execute( ) );
 		ResultSet resultset = statement.getResultSet( );
 
@@ -95,11 +96,12 @@ public class ParameterHintTest extends ConnectionTest
 					JDBCOdaDataSource.DATA_SET_TYPE );
 			assertNotNull( statement );
 
-			ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+			ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 			hint.setPosition( 1 );
 			statement.addParameterHint( hint );
 
-			hint = new ParameterHint( "ColumnValue1", true, false );
+			// conflicting hint on same parameter name
+			hint = new ParameterHint( "ParamName1", true, false );
 			hint.setPosition( 2 );
 			statement.addParameterHint( hint );
 
@@ -109,51 +111,51 @@ public class ParameterHintTest extends ConnectionTest
 		{
 			String msg = resourceHandle.getMessage( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
 					new Object[]{
-						"ColumnValue1"
+						"ParamName1"
 					} );
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
 
-	public void testValidateParameterHints2( ) throws Exception
+	public void testValidateInputParameterHints2( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 		assertNotNull( statement );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		statement.addParameterHint( hint );
 
-		hint = new ParameterHint( "ColVal1", true, false );
+		hint = new ParameterHint( "PName1", true, false );
 		hint.setPosition( 1 );
 
 		try
 		{
 			statement.addParameterHint( hint );
-			fail( );
+			fail( );     // should have an exception
 		}
 		catch ( DataException ex )
 		{
 			String msg = resourceHandle.getMessage( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION,
 					new Object[]{
-							"ColumnValue1", new Integer( 1 )
+							"ParamName1", new Integer( 1 )
 					} );
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
 
-	public void testValidateParameterHints3( ) throws Exception
+	public void testValidateOutputParameterHints( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 		assertNotNull( statement );
 
-		ParameterHint outputHint = new ParameterHint( "ColumnValue1", false, true );
+		ParameterHint outputHint = new ParameterHint( "ParamName1", false, true );
 		outputHint.setPosition( 2 );
 		statement.addParameterHint( outputHint );
 
-		ParameterHint hint = new ParameterHint( "ColVal1", true, false );
+		ParameterHint hint = new ParameterHint( "PName1", true, false );
 		hint.setPosition( 2 );
 
 		try
@@ -165,11 +167,38 @@ public class ParameterHintTest extends ConnectionTest
 		{
 			String msg = resourceHandle.getMessage( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION,
 					new Object[]{
-							"ColumnValue1", new Integer( 2 )
+							"ParamName1", new Integer( 2 )
 					} );
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
+
+    public void testValidateInputParameterHintsSucceed( ) throws Exception
+    {
+        PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
+                JDBCOdaDataSource.DATA_SET_TYPE );
+        assertNotNull( statement );
+
+        // 2 hints with different model names and positions, but same native name
+        ParameterHint hint = new ParameterHint( "ParamName1", true, false );
+        hint.setPosition( 1 );
+        hint.setNativeName( "sameNativeName" );
+        statement.addParameterHint( hint );
+
+        hint = new ParameterHint( "ParamName2", true, false );
+        hint.setPosition( 2 );
+        hint.setNativeName( "sameNativeName" );
+
+        try
+        {
+            statement.addParameterHint( hint );
+            assertTrue( true );     // no exception, test succeeded
+        }
+        catch ( DataException ex )
+        {
+            fail( );
+        }
+    }
 
 	public void testGetParameterMetaData1( ) throws Exception
 	{
@@ -234,8 +263,9 @@ public class ParameterHintTest extends ConnectionTest
 		Collection parameterMetaData = statement.getParameterMetaData( );
 		assertNotNull( parameterMetaData );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
+		hint.setNativeName( "paramNativeName" );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
@@ -251,7 +281,8 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( 1, metadata.getPosition( ) );
 			//This expected value only suitable for Derby Database
 			assertEquals( Types.INTEGER, metadata.getDataType( ) );
-			assertEquals( "ColumnValue1", metadata.getName( ) );
+			assertEquals( "ParamName1", metadata.getName( ) );
+            assertEquals( "paramNativeName", metadata.getNativeName( ) );
 			assertEquals( null, metadata.getDefaultValue( ) );
 			//This expected value only suitable for Derby Database
 			assertEquals( "INTEGER", metadata.getNativeTypeName( ) );
@@ -265,8 +296,9 @@ public class ParameterHintTest extends ConnectionTest
 		}
 	}
 
-	public void testUnsupportParameterMetaData( ) throws Exception
+	public void testUnsupportedRuntimeParameterMetaData( ) throws Exception
 	{
+        // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -283,13 +315,13 @@ public class ParameterHintTest extends ConnectionTest
         }
         assertNull( parameterMetaData );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
 
-		ParameterHint hint2 = new ParameterHint( "ColumnValue2", true, false );
+		ParameterHint hint2 = new ParameterHint( "ParamName2", true, false );
 		hint2.setDataType( Double.class );
 		statement.addParameterHint( hint2 );
 
@@ -305,7 +337,7 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( 1, metadata.getPosition( ) );
 				assertEquals( Types.INTEGER, metadata.getDataType( ) );
-				assertEquals( "ColumnValue1", metadata.getName( ) );
+				assertEquals( "ParamName1", metadata.getName( ) );
 				assertEquals( null, metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
@@ -319,7 +351,7 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( -1, metadata.getPosition( ) );
 				assertEquals( Types.DOUBLE, metadata.getDataType( ) );
-				assertEquals( "ColumnValue2", metadata.getName( ) );
+				assertEquals( "ParamName2", metadata.getName( ) );
 				assertEquals( null, metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
@@ -332,7 +364,7 @@ public class ParameterHintTest extends ConnectionTest
 		}
 	}
 
-	public void testUnsupportParameterMetaData1( ) throws Exception
+	public void testMultipleHintsOnSameParameterName( ) throws Exception
 	{
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
@@ -350,17 +382,20 @@ public class ParameterHintTest extends ConnectionTest
         }
         assertNull( parameterMetaData );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
+		hint.setNativeName( "paramNativeName1" );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
 
-		ParameterHint hint2 = new ParameterHint( "ColumnValue2", false, true );
+		ParameterHint hint2 = new ParameterHint( "ParamName2", false, true );
 		hint2.setDataType( Double.class );
 		statement.addParameterHint( hint2 );
 
-		ParameterHint hint3 = new ParameterHint( "ColumnValue1", false, true );
+		// another hint to change the design metadata of the first parameter
+		ParameterHint hint3 = new ParameterHint( "ParamName1", false, true );
+        hint3.setNativeName( "paramNativeName3" );
 		statement.addParameterHint( hint3 );
 
 		Collection parameterMetaData1 = statement.getParameterMetaData( );
@@ -375,13 +410,18 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( 1, metadata.getPosition( ) );
 				assertEquals( Types.INTEGER, metadata.getDataType( ) );
-				assertEquals( "ColumnValue1", metadata.getName( ) );
+				assertEquals( "ParamName1", metadata.getName( ) );
+                // last hint's nativeName is effective
+				assertEquals( "paramNativeName3", metadata.getNativeName() );   
 				assertEquals( null, metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
 				assertEquals( -1, metadata.getPrecision( ) );
+				
+				// should have md from the third hint
 				assertEquals( Boolean.FALSE, metadata.isInputMode( ) );
 				assertEquals( Boolean.TRUE, metadata.isOutputMode( ) );
+				
 				assertEquals( Boolean.TRUE, metadata.isOptional( ) );
 				assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 			}
@@ -389,7 +429,7 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( -1, metadata.getPosition( ) );
 				assertEquals( Types.DOUBLE, metadata.getDataType( ) );
-				assertEquals( "ColumnValue2", metadata.getName( ) );
+				assertEquals( "ParamName2", metadata.getName( ) );
 				assertEquals( null, metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
@@ -402,8 +442,9 @@ public class ParameterHintTest extends ConnectionTest
 		}
 	}
 
-	public void testUnsupportParameterMetaData2( ) throws Exception
+	public void testUnsupportedRuntimeParameterMetaData2( ) throws Exception
 	{
+        // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -420,14 +461,14 @@ public class ParameterHintTest extends ConnectionTest
         }
         assertNull( parameterMetaData );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		hint.setDefaultInputValue( "123" );
 		statement.addParameterHint( hint );
 
-		ParameterHint hint2 = new ParameterHint( "ColumnValue2", true, false );
+		ParameterHint hint2 = new ParameterHint( "ParamName2", true, false );
 		hint2.setDataType( Double.class );
 		hint2.setDefaultInputValue( "456" );
 		statement.addParameterHint( hint2 );
@@ -444,7 +485,7 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( 1, metadata.getPosition( ) );
 				assertEquals( Types.INTEGER, metadata.getDataType( ) );
-				assertEquals( "ColumnValue1", metadata.getName( ) );
+				assertEquals( "ParamName1", metadata.getName( ) );
 				assertEquals( "123", metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
@@ -458,7 +499,7 @@ public class ParameterHintTest extends ConnectionTest
 			{
 				assertEquals( -1, metadata.getPosition( ) );
 				assertEquals( Types.DOUBLE, metadata.getDataType( ) );
-				assertEquals( "ColumnValue2", metadata.getName( ) );
+				assertEquals( "ParamName2", metadata.getName( ) );
 				assertEquals( "456", metadata.getDefaultValue( ) );
 				assertEquals( null, metadata.getNativeTypeName( ) );
 				assertEquals( -1, metadata.getScale( ) );
@@ -500,17 +541,19 @@ public class ParameterHintTest extends ConnectionTest
 
 	public void testMergeParamHints( ) throws Exception
 	{
+        // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
 
-		ParameterHint outputHint = new ParameterHint( "ColumnValue1", false, true );
+		// another hint on same parameter name, but as output parameter mode
+		ParameterHint outputHint = new ParameterHint( "ParamName1", false, true );
 		outputHint.setPosition( 1 );
 		outputHint.setDataType( Integer.class );
 		statement.addParameterHint( outputHint );
@@ -523,7 +566,7 @@ public class ParameterHintTest extends ConnectionTest
 			ParameterMetaData metadata = (ParameterMetaData) iter.next( );
 			assertEquals( 1, metadata.getPosition( ) );
 			assertEquals( Types.INTEGER, metadata.getDataType( ) );
-			assertEquals( "ColumnValue1", metadata.getName( ) );
+			assertEquals( "ParamName1", metadata.getName( ) );
 			assertEquals( null, metadata.getDefaultValue( ) );
 			assertEquals( null, metadata.getNativeTypeName( ) );
 			assertEquals( -1, metadata.getScale( ) );
@@ -537,17 +580,20 @@ public class ParameterHintTest extends ConnectionTest
 
 	public void testMergeParamHints1( ) throws Exception
 	{
+        // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
 
-		hint = new ParameterHint( "ColumnValue1", true, false );
+        // another hint on same parameter name, with additional metadata attributes
+		hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
+		hint.setNativeName( "paramNativeName" );
 		hint.setDataType( Integer.class );
 		statement.addParameterHint( hint );
 
@@ -559,7 +605,8 @@ public class ParameterHintTest extends ConnectionTest
 			ParameterMetaData metadata = (ParameterMetaData) iter.next( );
 			assertEquals( 1, metadata.getPosition( ) );
 			assertEquals( Types.INTEGER, metadata.getDataType( ) );
-			assertEquals( "ColumnValue1", metadata.getName( ) );
+			assertEquals( "ParamName1", metadata.getName( ) );
+            assertEquals( "paramNativeName", metadata.getNativeName( ) );
 			assertEquals( null, metadata.getDefaultValue( ) );
 			assertEquals( null, metadata.getNativeTypeName( ) );
 			assertEquals( -1, metadata.getScale( ) );
@@ -571,21 +618,22 @@ public class ParameterHintTest extends ConnectionTest
 		}
 	}
 
-	public void testMergeParamHints2( ) throws Exception
+	public void testConflictingParamHints( ) throws Exception
 	{
 		try
 		{
+	        // uses mySQL that does not provide runtime parameterMetaData
 			Connection connection = getMySqlConnection( );
 			PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 					JDBCOdaDataSource.DATA_SET_TYPE );
 
-			ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+			ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 			hint.setPosition( 1 );
 			hint.setDataType( Integer.class );
 			hint.setIsInputOptional( false );
 			statement.addParameterHint( hint );
 
-			ParameterHint outputHint = new ParameterHint( "ColumnValue1", false, true );
+			ParameterHint outputHint = new ParameterHint( "ParamName1", false, true );
 			outputHint.setPosition( 2 );
 			outputHint.setDataType( Integer.class );
 			statement.addParameterHint( outputHint );
@@ -595,7 +643,7 @@ public class ParameterHintTest extends ConnectionTest
 		{
 			String msg = resourceHandle.getMessage( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
 					new Object[]{
-						"ColumnValue1"
+						"ParamName1"
 					} );
 			assertEquals( msg, ex.getMessage( ) );
 		}
@@ -603,17 +651,18 @@ public class ParameterHintTest extends ConnectionTest
 
 	public void testMergeParamHints3( ) throws Exception
 	{
+        // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
 
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		hint.setDataType( Integer.class );
 		hint.setIsInputOptional( false );
 		statement.addParameterHint( hint );
 
-		ParameterHint outputHint = new ParameterHint( "ColumnValue1", false, true );
+		ParameterHint outputHint = new ParameterHint( "ParamName1", false, true );
 		outputHint.setDataType( Double.class );
 		statement.addParameterHint( outputHint );
 
@@ -625,7 +674,7 @@ public class ParameterHintTest extends ConnectionTest
 			ParameterMetaData metadata = (ParameterMetaData) iter.next( );
 			assertEquals( 1, metadata.getPosition( ) );
 			assertEquals( Types.DOUBLE, metadata.getDataType( ) );
-			assertEquals( "ColumnValue1", metadata.getName( ) );
+			assertEquals( "ParamName1", metadata.getName( ) );
 			assertEquals( null, metadata.getDefaultValue( ) );
 			assertEquals( null, metadata.getNativeTypeName( ) );
 			assertEquals( -1, metadata.getScale( ) );
@@ -637,44 +686,45 @@ public class ParameterHintTest extends ConnectionTest
 		}
 	}
 
-	
 	public void testMergeParamHintsWithRuntimeMd() throws Exception 
 	{
-		PreparedStatement statement = 
-			getConnection().prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?", 
-											  JDBCOdaDataSource.DATA_SET_TYPE ); 
-		assertNotNull( statement );
-	  
-		Collection parameterMetaData = statement.getParameterMetaData();
-		assertNotNull( parameterMetaData );
-	  
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
-		hint.setPosition( 1 );
-		hint.setDataType( Integer.class ); 
-		hint.setIsInputOptional( false );
-		statement.addParameterHint( hint );
+        PreparedStatement statement = 
+            getConnection().prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?", 
+                                              JDBCOdaDataSource.DATA_SET_TYPE ); 
+        assertNotNull( statement );
+      
+        Collection parameterMetaData = statement.getParameterMetaData();
+        assertNotNull( parameterMetaData );
+      
+        ParameterHint hint = new ParameterHint( "ParamName1", true, false );
+        hint.setPosition( 1 );
+        hint.setNativeName( "myParam1" );
+        hint.setDataType( Integer.class ); 
+        hint.setIsInputOptional( false );
+        statement.addParameterHint( hint );
 
-		Collection parameterMetaData1 = statement.getParameterMetaData();
-		assertNotNull( parameterMetaData1 ); 
-		assertNotSame( parameterMetaData, parameterMetaData1 );
-	  
-		Iterator iter = parameterMetaData1.iterator(); 
-		while( iter.hasNext() ) 
-		{
-			ParameterMetaData metadata = (ParameterMetaData) iter.next();
-			assertEquals( 1, metadata.getPosition() ); 
-			assertEquals( Types.INTEGER, metadata.getDataType() ); 
-			assertEquals( "ColumnValue1", metadata.getName() ); 
-			assertEquals( null, metadata.getDefaultValue() ); //
-			assertEquals( "INTEGER", metadata.getNativeTypeName() ); 
-			assertEquals( 0, metadata.getScale() ); 
-			assertEquals( 10, metadata.getPrecision() );
-			assertEquals( Boolean.TRUE, metadata.isInputMode() ); 
-			assertEquals( Boolean.FALSE, metadata.isOutputMode() ); 
-			assertEquals( Boolean.FALSE, metadata.isOptional() ); 
-			assertEquals( Boolean.TRUE, metadata.isNullable() ); 
-		} 
-	}
+        Collection parameterMetaData1 = statement.getParameterMetaData();
+        assertNotNull( parameterMetaData1 ); 
+        assertNotSame( parameterMetaData, parameterMetaData1 );
+      
+        Iterator iter = parameterMetaData1.iterator(); 
+        while( iter.hasNext() ) 
+        {
+            ParameterMetaData metadata = (ParameterMetaData) iter.next();
+            assertEquals( 1, metadata.getPosition() ); 
+            assertEquals( Types.INTEGER, metadata.getDataType() ); 
+            assertEquals( "ParamName1", metadata.getName() ); 
+            assertEquals( "myParam1", metadata.getNativeName() ); 
+            assertEquals( null, metadata.getDefaultValue() ); //
+            assertEquals( "INTEGER", metadata.getNativeTypeName() ); 
+            assertEquals( 0, metadata.getScale() ); 
+            assertEquals( 10, metadata.getPrecision() );
+            assertEquals( Boolean.TRUE, metadata.isInputMode() ); 
+            assertEquals( Boolean.FALSE, metadata.isOutputMode() ); 
+            assertEquals( Boolean.FALSE, metadata.isOptional() ); 
+            assertEquals( Boolean.TRUE, metadata.isNullable() ); 
+        } 
+    }
 	
 	public void testMergeParamHintsWithDefaultValue() throws Exception {
 		PreparedStatement statement = 
@@ -685,7 +735,7 @@ public class ParameterHintTest extends ConnectionTest
 		Collection parameterMetaData = statement.getParameterMetaData();
 		assertNotNull( parameterMetaData );
 	  
-		ParameterHint hint = new ParameterHint( "ColumnValue1", true, false );
+		ParameterHint hint = new ParameterHint( "ParamName1", true, false );
 		hint.setPosition( 1 );
 		hint.setDataType( Integer.class ); 
 		hint.setIsInputOptional( false );
@@ -702,7 +752,7 @@ public class ParameterHintTest extends ConnectionTest
 			ParameterMetaData metadata = (ParameterMetaData) iter.next();
 			assertEquals( 1, metadata.getPosition() ); 
 			assertEquals( Types.INTEGER, metadata.getDataType() ); 
-			assertEquals( "ColumnValue1", metadata.getName() ); 
+			assertEquals( "ParamName1", metadata.getName() ); 
 			assertEquals( "123", metadata.getDefaultValue() ); 
 			assertEquals( "INTEGER", metadata.getNativeTypeName() ); 
 			assertEquals( 0, metadata.getScale() );

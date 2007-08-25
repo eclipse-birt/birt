@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */ 
@@ -25,6 +25,7 @@ public class ParameterDefinition implements IParameterDefinition
 {
 	private int posn = -1;
 	private String name;
+    private String nativeName;
 	private int type = DataType.UNKNOWN_TYPE;
     private int nativeDataType = 0;     // unknown
 	private boolean isInputMode = false;
@@ -86,6 +87,24 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.name = name;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getNativeName()
+	 */
+    public String getNativeName()
+    {
+        return nativeName;
+    }
+
+    /**
+     * Sets the parameter's native name as known to the underlying ODA driver.
+     * The value may be null for unknown or undefined name.
+     */
+    public void setNativeName( String nativeName )
+    {
+        this.nativeName = nativeName;
+    }
+
     /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getPosition()
      */	

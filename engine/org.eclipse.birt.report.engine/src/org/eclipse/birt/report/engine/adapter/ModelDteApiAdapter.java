@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -790,9 +790,15 @@ public class ModelDteApiAdapter
 		dteParam.setName( modelParam.getName( ) );
 		if ( modelParam.getPosition( ) != null )
 			dteParam.setPosition( modelParam.getPosition( ).intValue( ) );
-		if( modelParam.getNativeDataType( ) != null )
+		if ( modelParam.getNativeDataType( ) != null )
 			dteParam.setNativeType( modelParam.getNativeDataType( ).intValue( ) );
 
+		if ( modelParam instanceof OdaDataSetParameterHandle )
+        {
+		    dteParam.setNativeName( 
+		            ((OdaDataSetParameterHandle) modelParam ).getNativeName() );
+        }
+        
 		dteParam.setType( toDteDataType( modelParam.getDataType( ) ) );
 		dteParam.setInputMode( modelParam.isInput( ) );
 		dteParam.setOutputMode( modelParam.isOutput( ) );

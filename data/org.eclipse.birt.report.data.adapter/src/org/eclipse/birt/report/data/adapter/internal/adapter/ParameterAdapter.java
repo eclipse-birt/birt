@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2006, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */ 
@@ -31,6 +31,13 @@ public class ParameterAdapter extends ParameterDefinition
 			setPosition( modelParam.getPosition( ).intValue( ) );
 		if ( modelParam.getNativeDataType( ) != null )
 			setNativeType( modelParam.getNativeDataType( ).intValue( ) );
+
+        if ( modelParam instanceof OdaDataSetParameterHandle )
+        {
+            setNativeName( 
+                    ((OdaDataSetParameterHandle) modelParam ).getNativeName() );
+        }
+        
 		setType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( modelParam.getDataType( ) ) );
 		setInputMode( modelParam.isInput( ) );
 		setOutputMode( modelParam.isOutput( ) );

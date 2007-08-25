@@ -1,11 +1,12 @@
 /*
  * ************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * Contributors: 
+ *   Actuate Corporation - initial API and implementation
  * 
  * ************************************************************************
  */
@@ -34,7 +35,7 @@ public class ConnectionTest extends ConnectionManagerTest
 		super.setUp( );
 
 		Properties connProperties = getJdbcConnProperties();		
-		m_connection = getManager( ).openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, connProperties );
+		m_connection = getManager( ).openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, connProperties, null );
 	}
 
 	protected void tearDown( ) throws Exception
@@ -47,13 +48,13 @@ public class ConnectionTest extends ConnectionManagerTest
 	Connection getMySqlConnection( ) throws DataException
 	{
 		Properties connProperties = new Properties( );
-		connProperties.setProperty( "odaURL", "jdbc:mysql://qacat:3306/test" );
+		connProperties.setProperty( "odaURL", "jdbc:mysql://spmdb:3306/test" );
 		connProperties.setProperty( "odaUser", "root" );
 		connProperties.setProperty( "odaPassword", "root" );
 		connProperties.setProperty( "odaDriverClass", "com.mysql.jdbc.Driver" );
 
 		Connection connection = ConnectionManager.getInstance( )
-				.openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, connProperties );
+				.openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, connProperties, null );
 		return connection;
 	}
 

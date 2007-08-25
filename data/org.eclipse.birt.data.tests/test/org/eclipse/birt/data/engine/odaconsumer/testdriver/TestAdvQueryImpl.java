@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -34,15 +34,21 @@ import org.eclipse.datatools.connectivity.oda.SortSpec;
  * on an ODA driver's IQuery implementation. 
  * Behavior being tested include:
  * 	setAppContext
+ *  get<Type>( int ) - retrieving output parameter values by position
  */
 public class TestAdvQueryImpl implements IAdvancedQuery
 {
+    public static final String TEST_CASE_OUTPUTPARAM = "1";
+    public static final String TEST_CASE_IN_PARAM_NAME = "2";
+    
     private Object m_appContext;
     private boolean m_isPrepareCalled = false;
     private IParameterMetaData m_paramMetaData;
+    private int m_currentTestCase = 0;
 
-    public TestAdvQueryImpl()
-    {
+    public TestAdvQueryImpl( int testCaseId )
+    {        
+        m_currentTestCase = testCaseId;
     }
 
     /* (non-Javadoc)
@@ -174,6 +180,19 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public void setString( String parameterName, String value )
             throws OdaException
     {
+        if( m_currentTestCase == 2 )
+        {
+            if( parameterName.endsWith( "1" ) )
+            {
+                if( ! value.equals( "stringValue" ))
+                    throw new OdaException( "Error in setString by name with value: " + value );
+            }
+            else if( parameterName.endsWith( "3" ) )
+            {
+                if( ! value.equals( "true" ))
+                    throw new OdaException( "Error in setString by name with value: " + value );
+            }
+        }
     }
 
     /* (non-Javadoc)
@@ -181,6 +200,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public void setString( int parameterId, String value ) throws OdaException
     {
+        if( m_currentTestCase == 2 )
+            throw new UnsupportedOperationException( "Unable to setString by index" );
     }
 
     /* (non-Javadoc)
@@ -188,6 +209,12 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public void setDate( String parameterName, Date value ) throws OdaException
     {
+        if( m_currentTestCase == 2 )
+        {
+            if( parameterName.endsWith( "2" ) )
+                if( ! value.equals( Date.valueOf( "2005-11-13" ) ))
+                    throw new OdaException( "Error in setDate by name" );
+        }
     }
 
     /* (non-Javadoc)
@@ -195,6 +222,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public void setDate( int parameterId, Date value ) throws OdaException
     {
+        if( m_currentTestCase == 2 )
+            throw new UnsupportedOperationException( "Unable to setDate by index" );
     }
 
     /* (non-Javadoc)
@@ -233,6 +262,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public void setBoolean( String parameterName, boolean value )
             throws OdaException
     {        
+        if( m_currentTestCase == 2 )
+            throw new UnsupportedOperationException( "Unable to setBoolean by name" );
     }
 
     /* (non-Javadoc)
@@ -241,6 +272,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public void setBoolean( int parameterId, boolean value )
             throws OdaException
     {        
+        if( m_currentTestCase == 2 )
+            throw new OdaException( "Unable to setBoolean by index" );
     }
 
     /* (non-Javadoc)
@@ -262,8 +295,13 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public int findInParameter( String parameterName ) throws OdaException
     {
-        // test driver does not handle input parameters
-        throw new UnsupportedOperationException();
+        if( m_currentTestCase == 1 )
+        {
+            // test case does not handle input parameters
+            throw new UnsupportedOperationException();
+        }
+        
+        throw new OdaException( "Bad test case" );
     }
 
     /* (non-Javadoc)
@@ -272,7 +310,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public IParameterMetaData getParameterMetaData() throws OdaException
     {
         if( m_paramMetaData == null )
-            m_paramMetaData = new TestParamMetaDataImpl();
+            m_paramMetaData = new TestParamMetaDataImpl( m_currentTestCase );
         return m_paramMetaData;
     }
 
@@ -387,8 +425,12 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         validateOutputParamId( parameterId );
         
-        if( parameterId == 2 )
-            return Date.valueOf( "2005-11-13" );
+        if( m_currentTestCase == 1 )
+        {
+            if( parameterId == 2 )
+                return Date.valueOf( "2005-11-13" );
+        }
+        
         return null;
     }
     
@@ -397,7 +439,12 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public Date getDate( String parameterName ) throws OdaException
     {
-        // test driver does not support this
+        if( m_currentTestCase == 1 )
+        {
+            if( parameterName.endsWith( "2" ) )
+                return Date.valueOf( "2005-11-13" );
+        }
+        
         throw new UnsupportedOperationException();
     }
     
@@ -517,12 +564,27 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         validateOutputParamId( parameterId );
         
-        // return appContext object for parameter 1
-        if( parameterId == 1 && getAppContext() != null )
-            return getAppContext().toString();
-        if( parameterId == 3 )
-            return "parameter 3 value as a String";
+        if( m_currentTestCase == 1 )
+        {
+            // return appContext object for parameter 1
+            if( parameterId == 1 && getAppContext() != null )
+                return getAppContext().toString();
+            if( parameterId == 3 )
+                return "parameter 3 value as a String";
+        }
+        
         return null;
+    }
+    
+    private IParameterMetaData validateParamId( int parameterId ) throws OdaException
+    {
+        IParameterMetaData paramMD = getParameterMetaData();
+        
+        if( paramMD == null )
+            throw new OdaException( "Problem with getting query's paramter meta-data." );
+        if( parameterId > paramMD.getParameterCount() )
+            throw new OdaException( "Given paramter id does not match parameter meta-data." );  
+        return paramMD;
     }
     
     /**
@@ -531,11 +593,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     private void validateOutputParamId( int parameterId ) throws OdaException
     {
-        IParameterMetaData paramMD = getParameterMetaData();
-        if( paramMD == null )
-            throw new OdaException( "Problem with getting query's paramter meta-data." );
-        if( parameterId > paramMD.getParameterCount() )
-            throw new OdaException( "Given paramter id does not match parameter meta-data." );
+        IParameterMetaData paramMD = validateParamId( parameterId );
         if( paramMD.getParameterMode( parameterId ) == IParameterMetaData.parameterModeIn )
             throw new OdaException( "Given paramter id is not an output parameter." );
     }
@@ -545,7 +603,11 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public String getString( String parameterName ) throws OdaException
     {
-        // test driver does not support this
+        if( m_currentTestCase == 1 )
+        {
+            return parameterName + " value as a String";
+        }
+        
         throw new UnsupportedOperationException();
     }
     

@@ -1,11 +1,12 @@
 /*
  * ****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * Contributors: 
+ *  Actuate Corporation - initial API and implementation
  * 
  * *****************************************************************************
  */
@@ -248,6 +249,7 @@ public class QueryTest extends ConnectionTest
 
 	public final void testGetParameterTypeString( ) throws DataException
 	{
+	    boolean hasException = false;
 		try
 		{
 			m_statement.getParameterType( "someParamName" );
@@ -255,9 +257,9 @@ public class QueryTest extends ConnectionTest
 		catch ( DataException ex )
 		{
 			assertEquals( ex.getErrorCode(), ResourceConstants.CANNOT_GET_PARAMETER_TYPE );
-//			assertEquals( "No named Parameter supported.", ex.getCause( )
-//					.getMessage( ) );
+			hasException = true;
 		}
+		assertTrue( hasException );
 	}
 
 	public final void testGetParameterValueInt( ) throws DataException

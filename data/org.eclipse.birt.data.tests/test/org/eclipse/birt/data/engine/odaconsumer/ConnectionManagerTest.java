@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odaconsumer.testutil.TraceLogTesterUtil;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaConsumerPlugin;
@@ -98,7 +99,7 @@ public class ConnectionManagerTest extends OdaconsumerTestCase
 	{
 		Properties connProperties = getJdbcConnProperties();		
 		Connection conn = getManager().openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, 
-		        				connProperties );
+		        				connProperties, null );
 		assertNotNull( conn );
 		conn.close();
 	}

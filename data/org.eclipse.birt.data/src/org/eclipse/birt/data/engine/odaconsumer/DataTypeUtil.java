@@ -25,8 +25,7 @@ import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
- * Utility class for handling data types in the ODI layer of the Data 
- * Engine.
+ * Internal utility class for handling data types in the ODI layer of the Data Engine.  
  */
 public final class DataTypeUtil
 {
@@ -149,7 +148,7 @@ public final class DataTypeUtil
      * @return  the converted ODA data type code, 
      *          or java.sql.Types.NULL if no valid mapping is found
      */
-    static int toOdaType( int nativeTypeCode, 
+    public static int toOdaType( int nativeTypeCode, 
                           String odaDataSourceId, String dataSetType )
     {
         if( odaDataSourceId == null || odaDataSourceId.length() == 0 )

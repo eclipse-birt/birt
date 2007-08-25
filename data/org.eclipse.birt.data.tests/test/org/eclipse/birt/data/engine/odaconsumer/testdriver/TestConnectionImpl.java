@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -31,6 +31,7 @@ public class TestConnectionImpl implements IConnection
 {
     private Object m_appContext;
     private boolean m_isOpen = false;
+    private int m_currentTestCase = 0;
     
     public TestConnectionImpl()
     {
@@ -86,7 +87,11 @@ public class TestConnectionImpl implements IConnection
      */
     public IQuery newQuery( String dataSetType ) throws OdaException
     {
-       return new TestAdvQueryImpl();
+        m_currentTestCase = ( new Integer( dataSetType)).intValue();       
+        if( m_currentTestCase <= 0 )
+            throw new OdaException( "invalid test case id: " + dataSetType );
+
+        return new TestAdvQueryImpl( m_currentTestCase );
     }
     
     /* (non-Javadoc)
@@ -116,4 +121,10 @@ public class TestConnectionImpl implements IConnection
     {
         return m_appContext;
     }
+    
+    int getCurrentTestCase()
+    {
+        return m_currentTestCase;
+    }
+    
 }

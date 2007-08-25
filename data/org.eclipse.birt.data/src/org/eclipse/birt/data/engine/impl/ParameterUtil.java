@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
@@ -60,13 +60,13 @@ class ParameterUtil
 				outerResults, dsRT, queryDefn, scope
 		};
 		logger.entering( ParameterUtil.class.getName( ),
-				"ParameterUtil",
+				"ParameterUtil", //$NON-NLS-1$
 				params );
 		this.outerResults = outerResults;
 		this.dsRT = dsRT;
 		this.queryDefn = queryDefn;
 		this.scope = scope;
-		logger.exiting( ParameterUtil.class.getName( ), "ParameterUtil" );
+		logger.exiting( ParameterUtil.class.getName( ), "ParameterUtil" ); //$NON-NLS-1$
 	}
 	
 	/**
@@ -189,10 +189,10 @@ class ParameterUtil
 			// A binding exists but the data set has no definition for the
 			// bound parameter, log an error and ignore the param
 			if ( logger != null )
-				logger.warning( "Ignored binding defined for non-exising data set parameter: "
-						+ "name="
+				logger.warning( "Ignored binding defined for non-exising data set parameter: " //$NON-NLS-1$
+						+ "name=" //$NON-NLS-1$
 						+ binding.getName( )
-						+ ", position="
+						+ ", position=" //$NON-NLS-1$
 						+ binding.getPosition( ) );
 		}
 
@@ -285,8 +285,8 @@ class ParameterUtil
 			if ( logger != null )
 				logger.logp( Level.FINE,
 						PreparedOdaDSQuery.class.getName( ),
-						"getMergedParameters",
-						"Error occurs in IQueryResults.getResultIterator()",
+						"getMergedParameters", //$NON-NLS-1$
+						"Error occurs in IQueryResults.getResultIterator()", //$NON-NLS-1$
 						e );
 			throw dataEx;
 		}
@@ -330,7 +330,7 @@ class ParameterUtil
 			
 			if( paramValue instanceof Date )
 			{
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"); //$NON-NLS-1$
 				return sdf.format( (Date)paramValue );
 			}
 			
@@ -356,6 +356,8 @@ class ParameterUtil
 		if ( paramDefn.getPosition( ) > 0 )
 			parameterHint.setPosition( paramDefn.getPosition( ) );
 
+		parameterHint.setNativeName( paramDefn.getNativeName() );
+		
 		// following data types is not supported by odaconsumer currently
 		Class dataTypeClass = DataType.getClass( paramDefn.getType( ) );
 		if ( dataTypeClass == DataType.AnyType.class

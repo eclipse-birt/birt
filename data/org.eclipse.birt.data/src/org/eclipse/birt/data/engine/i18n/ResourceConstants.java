@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.i18n;
@@ -200,6 +200,7 @@ public class ResourceConstants
 	public static final String RESULT_CLASS_SAVE_ERROR="data.engine.resultClassSaveError";
 	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
+
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -214,6 +215,8 @@ public class ResourceConstants
 	public final static String INVALID_DATA_SET_TYPE = "odaconsumer.InvalidDataSetType";
 	public final static String PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ParameterNameCannotBeEmptyOrNull";
 	public final static String PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ParameterPositionIsOneBased";
+    public final static String CANNOT_GET_PARAMETER_NAME = "odaconsumer.CannotGetParameterNativeName";
+    public final static String CANNOT_GET_PARAMETER_TYPE = "odaconsumer.CannotGetParameterType";
 	public final static String CANNOT_GET_PARAMETER_TYPE_NAME = "odaconsumer.CannotGetParameterTypeName";
 	public final static String CANNOT_GET_PARAMETER_MODE = "odaconsumer.CannotGetParameterMode";
 	public final static String CANNOT_GET_PARAMETER_SCALE = "odaconsumer.CannotGetParameterScale";
@@ -252,7 +255,6 @@ public class ResourceConstants
 	public final static String CANNOT_GET_RESULTSET = "odaconsumer.CannotGetResultSet";
 	public final static String CANNOT_GET_NAMED_RESULTSET = "odaconsumer.CannotGetNamedResultSet";
 	public final static String CANNOT_FIND_OUT_PARAMETER = "odaconsumer.CannotFindOutParameter";
-	public final static String CANNOT_GET_PARAMETER_TYPE = "odaconsumer.CannotGetParameterType";
 	public final static String CANNOT_CLOSE_STATEMENT = "odaconsumer.CannotCloseStatement";
 	public final static String CANNOT_GET_COLUMN_COUNT = "odaconsumer.CannotGetColumnCount";
 	public final static String CANNOT_GET_COLUMN_NAME = "odaconsumer.CannotGetColumnName";
@@ -300,6 +302,7 @@ public class ResourceConstants
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
+    public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
 	
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";

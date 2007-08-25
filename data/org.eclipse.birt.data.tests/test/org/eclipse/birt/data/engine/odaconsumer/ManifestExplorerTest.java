@@ -1,13 +1,13 @@
 /*
  *******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -30,44 +30,24 @@ import testutil.JDBCOdaDataSource;
 
 public class ManifestExplorerTest extends OdaconsumerTestCase
 {
-	private final String m_birtFlatFileId = "org.eclipse.birt.report.data.oda.flatfile";
-	private final String m_dtpFlatFileId = "org.eclipse.datatools.connectivity.oda.flatfile";
-	private final String m_sampledbId = "org.eclipse.birt.report.data.oda.sampledb";
 	private final String m_jdbcId = JDBCOdaDataSource.DATA_SOURCE_TYPE;
 	private final String m_expectedJdbcDataSetId = JDBCOdaDataSource.DATA_SET_TYPE;
-	private final String m_odaAdapter = "org.eclipse.birt.data.oda.adapter.dtp";
     private final String m_testDriverId = "org.eclipse.birt.data.engine.odaconsumer.testdriver";
-    private final String m_testBirtDriverId = "org.eclipse.birt.data.engine.odaconsumer.testbirtdriver";
 	
 	public void testGetDataSourceNames() throws Exception
 	{
 		Properties names = ManifestExplorer.getInstance().getDataSourceIdentifiers();
 		
-		assertEquals( "BIRT-DTP ODA DataSource Adapter", names.getProperty( m_odaAdapter ) );
+		assertNotNull( names.getProperty( m_testDriverId ) );
 	}
 	
 	public void testGetExtensionConfigs() throws Exception
 	{
 		ExtensionManifest[] configs = 
 		    ManifestExplorer.getInstance().getExtensionManifests();
-		verifyExtensionConfigs( configs );
+		assertTrue( configs.length > 0 );
 	}
 		
-	void verifyExtensionConfigs( ExtensionManifest[] configs )
-	{
-		for( int i = 0; i < configs.length; i++ )
-		{
-		    ExtensionManifest config = configs[i];
-		    assertTrue( config.getDataSourceElementID().equals( m_jdbcId ) ||
-		    		config.getDataSourceElementID().equals( m_birtFlatFileId ) ||
-		    		config.getDataSourceElementID().equals( m_dtpFlatFileId ) ||
-		            config.getDataSourceElementID().equals( m_odaAdapter ) ||
-		            config.getDataSourceElementID().equals( m_sampledbId ) ||
-            		config.getDataSourceElementID().equals( m_testDriverId ) ||
-    				config.getDataSourceElementID().equals( m_testBirtDriverId ) );
-		}
-	}
-
 	public void testGetExtensionConfig() throws Exception
 	{
 		ExtensionManifest config = 
@@ -88,7 +68,7 @@ public class ManifestExplorerTest extends OdaconsumerTestCase
 		assertNotNull( config );
 		assertEquals( m_jdbcId, config.getDataSourceElementID() );
 		assertEquals( "JDBC Data Source", config.getDataSourceDisplayName() );
-		assertEquals( "3.0", config.getOdaVersion() );
+		assertEquals( "3.1", config.getOdaVersion() );
 		
 		RuntimeInterface runtime = config.getRuntimeInterface();
 		assertTrue( runtime instanceof JavaRuntimeInterface );
@@ -97,7 +77,9 @@ public class ManifestExplorerTest extends OdaconsumerTestCase
 					  javaRuntime.getDriverClass() );
 		assertFalse( javaRuntime.needSetThreadContextClassLoader() );
 		assertEquals( RuntimeInterface.JAVA_TYPE, javaRuntime.getInterfaceType() );
-		assertTrue( javaRuntime.getLibraryLocation().toString().endsWith( "org.eclipse.birt.report.data.oda.jdbc/" ) );
+        assertTrue( 
+                javaRuntime.getLibraryLocation().toString().indexOf( 
+                        "org.eclipse.birt.report.data.oda.jdbc" ) > 0 );
 		
 		TraceLogging traceLogging = config.getTraceLogging();
 		assertNull( traceLogging );
@@ -128,35 +110,35 @@ public class ManifestExplorerTest extends OdaconsumerTestCase
 		
 		Property aProp = (Property) propsList.get( "odaDriverClass" );
 		myTestPropertyAttributes( aProp,
-		        				"%datasource.property.odaDriverClass",//TODO "JDBC Driver Class",
+		        				"JDBC Driver &Class",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
 		        				true, null, false );
 		aProp = (Property) propsList.get( "odaURL" );
 		myTestPropertyAttributes( aProp,
-		        				"%datasource.property.odaURL",//TODO "JDBC Driver URL",
+		        				"JDBC Driver U&RL",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
 		        				true, null, false );
 		aProp = (Property) propsList.get( "odaDataSource" );
 		myTestPropertyAttributes( aProp,
-		        				"%datasource.property.odaDataSource",//TODO "Data Source",
+		        				"Data Source",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
 		        				true, null, false );
 		aProp = (Property) propsList.get( "odaUser" );
 		myTestPropertyAttributes( aProp,
-		        				"%datasource.property.odaUser",//TODO "User Name",
+		        				"User &Name",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
 		        				true, null, false );
 		aProp = (Property) propsList.get( "odaPassword" );
 		myTestPropertyAttributes( aProp,
-		        				"%datasource.property.odaPassword",//TODO "Password",
+		        				"Pass&word",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
@@ -210,7 +192,7 @@ public class ManifestExplorerTest extends OdaconsumerTestCase
 		Property aProp = dataSetProps[0];
 		assertEquals( "queryTimeOut", aProp.getName() );
 		myTestPropertyAttributes( aProp,
-		        				"%dataset.property.queryTimeOut",//TODO "Query Time Out (in seconds)",
+		        				"&Query Time Out (in seconds)",
 		        				expectedGroupName,
 		        				expectedGroupDisplayName,
 		        				"string",
@@ -239,6 +221,6 @@ public class ManifestExplorerTest extends OdaconsumerTestCase
 		{ new Integer( (int) -2 ), "BINARY", "Blob" },
 		{ new Integer( (int) -3 ), "VARBINARY", "Blob" },
 		{ new Integer( (int) -4 ), "LONGVARBINARY", "Blob" },
-		{ new Integer( (int) 16 ), "BOOLEAN", "Integer" }
+		{ new Integer( (int) 16 ), "BOOLEAN", "Boolean" }
 	};
 }

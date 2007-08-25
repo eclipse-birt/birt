@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -26,10 +26,12 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 public class TestDataSetMetaDataImpl implements IDataSetMetaData
 {
 	private IConnection m_connection;
+	private int m_currentTestCase = 0;
 	
 	protected TestDataSetMetaDataImpl( IConnection connection )
 	{
 		m_connection = connection;
+		m_currentTestCase = ((TestConnectionImpl) connection).getCurrentTestCase();
 	}
 	
 	/**
@@ -118,7 +120,14 @@ public class TestDataSetMetaDataImpl implements IDataSetMetaData
 	 */
 	public boolean supportsNamedParameters() throws OdaException
 	{
-		return false;
+	    if( m_currentTestCase == 
+	        ( new Integer( TestAdvQueryImpl.TEST_CASE_IN_PARAM_NAME )).intValue()  )
+	        return true;
+        if( m_currentTestCase == 
+            ( new Integer( TestAdvQueryImpl.TEST_CASE_OUTPUTPARAM )).intValue()  )
+            return true;
+	    
+	    return false;
 	}
 
 	/**
