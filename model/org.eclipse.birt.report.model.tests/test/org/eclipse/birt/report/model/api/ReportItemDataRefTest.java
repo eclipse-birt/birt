@@ -253,7 +253,7 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		// list refers to the table
 
-		ListHandle list1 = (ListHandle) designHandle.findElement( "myList1" );  //$NON-NLS-1$
+		ListHandle list1 = (ListHandle) designHandle.findElement( "myList1" ); //$NON-NLS-1$
 
 		ListGroupHandle listGroup = (ListGroupHandle) list1.getGroups( )
 				.get( 0 );
@@ -328,6 +328,9 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		assertFalse( table2.canContain( TableHandle.GROUP_SLOT, group2
 				.getDefn( ).getName( ) ) );
+
+		assertTrue( group2.canContain( GroupHandle.FOOTER_SLOT,
+				ReportDesignConstants.ROW_ELEMENT ) );
 	}
 
 	/**

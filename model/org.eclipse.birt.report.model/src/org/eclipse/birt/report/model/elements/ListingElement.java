@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -166,7 +168,8 @@ public abstract class ListingElement extends ReportItem
 
 		// do the check of the group name
 
-		if ( containerInfo.getSlotID( ) == ListingElement.GROUP_SLOT )
+		if ( defn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.GROUP_ELEMENT ) ) )
 		{
 			// check the data binding reference
 
