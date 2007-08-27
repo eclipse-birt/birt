@@ -222,32 +222,26 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareTextFile( "DataSetParameterNameTest_golden.xml" ) ); //$NON-NLS-1$
-		
+
 		setDesign = createDataSetDesignForParamNames1( );
 
-		setHandle = new ModelOdaAdapter( )
-				.createDataSetHandle( setDesign, designHandle );
+		setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
+				designHandle );
 
 		List params = (List) setHandle
 				.getProperty( OdaDataSetHandle.PARAMETERS_PROP );
 		OdaDataSetParameter param = (OdaDataSetParameter) params.get( 0 );
-		assertEquals( 1, param.getPosition( ).intValue( ) );
+		assertEquals( 0, param.getPosition( ).intValue( ) );
 
 		param = (OdaDataSetParameter) params.get( 1 );
-		assertEquals( 2, param.getPosition( ).intValue( ) );
+		assertEquals( 1, param.getPosition( ).intValue( ) );
 
 		setDesign = createDataSetDesignForParamNames1( );
 
-		try
-		{
-			setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
-					designHandle );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
-		}
+		// should not exception 
+		
+		setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
+				designHandle );
 	}
 
 	/**
@@ -346,7 +340,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 	}
 
 	/**
-	 * Creates a new <code>DataSetDesign</code>.  Parameter positions are not
+	 * Creates a new <code>DataSetDesign</code>. Parameter positions are not
 	 * set.
 	 * 
 	 * @return an object of <code>DataSetDesign</code>.
@@ -385,7 +379,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
 		dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
 		dataAttrs.setName( "" ); //$NON-NLS-1$
-		dataAttrs.setPosition( 0 );
+		dataAttrs.setPosition( 1 );
 		dataAttrs.setNativeDataTypeCode( 1 );
 		paramDefn.setAttributes( dataAttrs );
 		paramDefn.setInOutMode( ParameterMode.get( ParameterMode.IN_OUT ) );
