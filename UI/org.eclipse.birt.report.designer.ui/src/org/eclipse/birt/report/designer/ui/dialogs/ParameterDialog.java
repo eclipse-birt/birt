@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -1347,13 +1349,18 @@ public class ParameterDialog extends BaseDialog
 
 	private void makeUniqueAndValid( )
 	{
+		Set set = new HashSet();	
 		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
 			SelectionChoice choice = (SelectionChoice) iter.next( );
-			if ( isValidValue( choice.getValue( ) ) != null
-					|| containValue( choice, choice.getValue( ), COLUMN_VALUE ) )
+//			if ( isValidValue( choice.getValue( ) ) != null
+//					|| containValue( choice, choice.getValue( ), COLUMN_VALUE ) )
+			if ( set.contains( choice.getValue( ) ) || isValidValue( choice.getValue( ) ) != null )
 			{
 				iter.remove( );
+			}else
+			{
+				set.add( choice.getValue( ) );
 			}
 		}
 	}
