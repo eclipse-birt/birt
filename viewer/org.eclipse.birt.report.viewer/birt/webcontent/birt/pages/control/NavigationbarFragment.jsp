@@ -115,10 +115,3 @@
 		</DIV>
 	</TD>
 </TR>
-
-<script type="text/javascript"> 
-// <![CDATA[
-	// Error msgs
-	Constants.error.invalidPageNumber = '<%= BirtResources.getMessage( "birt.viewer.navbar.error.blankpagenum" )%>';
-// ]]>
-</script>

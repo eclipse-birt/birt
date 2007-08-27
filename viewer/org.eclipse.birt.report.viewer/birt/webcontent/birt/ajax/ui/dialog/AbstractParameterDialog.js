@@ -272,7 +272,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					{
 						if( temp.defaultValue == "" )
 						{
-							alert( temp.name + " should have a value" );
+							alert( birtUtility.formatMessage( Constants.error.parameterRequired, temp.name ) );
 							return false;
 						}
 						this.__parameter[k].value = temp.defaultValue;
@@ -326,7 +326,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 							
 							if ( oSEC[0].selectedIndex == -1 )
 							{
-								alert( oIEC[j].value + " should have a value" );
+								alert( birtUtility.formatMessage( Constants.error.parameterRequired, oIEC[j].value ) );
 								return false;
 							}
 							else

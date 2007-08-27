@@ -585,6 +585,39 @@ BirtUtility.prototype =
 			} 
 		} 	
 	},
+	
+	/**
+	 * Formats the given messages by putting the given values in
+	 * the placeholders. The placeholder format is {0}, {1}, ...
+	 * @param message template text containing placeholders
+	 * @param params an array of values to put into the placeholders, 
+	 * or a single string
+	 * @return formatted text 
+	 */
+	formatMessage : function( message, params )
+	{
+		if ( !message )
+		{
+			return;
+		}
+		
+		if ( !params )
+		{
+			return message;
+		}
+
+		if ( !(params.constructor == Array) )
+		{
+			params = new Array(params);
+		}		
+
+		for ( i = 0; i < params.length; i++ )
+		{
+			var pattern = new RegExp("\\\{" + i + "\\\}","g");
+			message = message.replace(pattern, params[i]);
+		}
+		return message;
+	},
 		
 	noComma : "" //just to avoid javascript syntax errors
 }

@@ -113,7 +113,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( "Report document should be generated first." );
+			alert ( Constants.error.generateReportFirst );
 			return false;
 		}	
 		else
@@ -231,7 +231,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			if ( previewExists )
 			{
-				alert( "A print preview window is already open." );
+				alert( Constants.error.printPreviewAlreadyOpen );
 				if ( previousPrintWindow && previousPrintWindow.focus )
 				{					
 					try

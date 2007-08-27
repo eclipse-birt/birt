@@ -301,7 +301,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[2].focus( );
-							alert( paramName + ' cannot be blank' );
+							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}
 													
@@ -354,7 +354,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						&& birtUtility.trim( paramValue ) == '' && this.visible )
 					{
 						oIEC[1].focus( );
-						alert( paramName + ' cannot be blank' );
+						alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 						return false;
 					}
 						
@@ -443,7 +443,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					if ( oSEC[0].selectedIndex < 0 && this.visible )
 					{
 						oSEC[0].focus( );
-						alert( paramName + " should have a value" );
+						alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 						return false;
 					}
 																									
@@ -461,7 +461,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								if( birtUtility.trim( tempValue ) == '' && this.visible )
 								{
 									oSEC[0].focus( );
-									alert( paramName + " must be required" );
+									alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 									return false;									
 								}
 							}
@@ -475,7 +475,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						if ( this.__is_parameter_required( oIEC ) && birtUtility.trim( tempValue ) == '' && this.visible )
 						{
 							oSEC[0].focus( );
-							alert( paramName + " must be required" );
+							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}	
 
@@ -534,7 +534,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						if ( this.__is_parameter_required( oIEC ) && birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[4].focus( );
-							alert( paramName + " cannot be blank" );
+							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}						
 

@@ -85,7 +85,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( "Report document should be generated first." );	
+			alert ( Constants.error.generateReportFirst );	
 			return;
 		}	
 		else

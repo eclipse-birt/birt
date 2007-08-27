@@ -184,6 +184,8 @@
 		%>
 	</BODY>
 
+	<%@include file="../common/Locale.jsp" %>	
+
 	<script type="text/javascript">
 	// <![CDATA[
 		var hasSVGSupport = false;

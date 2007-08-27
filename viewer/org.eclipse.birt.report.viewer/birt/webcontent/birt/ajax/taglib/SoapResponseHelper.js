@@ -145,7 +145,7 @@ SoapResponseHelper.prototype =
 		}
 		else
 		{
-			alert("Unknown error!");
+			alert( Constants.error.unknownError );
 		}	
 	},
 	
