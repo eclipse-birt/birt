@@ -377,7 +377,7 @@ public class ResourceConstants
 	public final static String TOTAL_PARAM_MOVINGAVE_WINDOW = "total.param.movingAve.window";
 	public final static String TOTAL_PARAM_RANK_ASCENDING = "total.param.rank.ascending";
 	public final static String TOTAL_PARAM_PERCENTILE_PCT = "total.param.percentile.pct";
-	public final static String TOTAL_PARAM_QUARTILE_QUART = " total.param.quartile.quart";
+	public final static String TOTAL_PARAM_QUARTILE_QUART = "total.param.quartile.quart";
 	public final static String TOTAL_PARAM_ISTOPN_N = "total.param.isTopN.n";
 	public final static String TOTAL_PARAM_ISTOPNPERCENT_PCT = "total.param.isTopNPercent.pct";
 	public final static String TOTAL_PARAM_ISBOTTOMN_N = "total.param.isBottomN.n";
@@ -391,11 +391,8 @@ public class ResourceConstants
 	
 	// finance parameter display names keys
 	public final static String TOTAL_PARAM_NPV_RATE = "total.param.npv.rate";
-	public final static String TOTAL_PARAM_NPV_CASHARRAY = "total.param.npv.cashArray";
 	public final static String TOTAL_PARAM_RUNNINGNPV_RATE = "total.param.runningnpv.rate";
-	public final static String TOTAL_PARAM_RUNNINGNPV_CASHARRAY = "total.param.runningnpv.cashArray";
-	public final static String TOTAL_PARAM_MIRR_CASHARRAY = "total.param.mirr.cashArray";
-	public final static String TOTAL_PARAM_MIRR_RATE = "total.param.mirr.rate";
-	public final static String TOTAL_PARAM_IRR_CASHARRAY = "total.param.irr.cashArray";
-	public final static String TOTAL_PARAM_IRR_STARTINGGUESS = "total.param.irr.startingGuess";
+	public final static String TOTAL_PARAM_MIRR_FINANCE_RATE = "total.param.mirr.financeRate";
+	public final static String TOTAL_PARAM_MIRR_REINVESTMENT_RATE = "total.param.mirr.reinvestmentRate";
+	public final static String TOTAL_PARAM_IRR_RATE = "total.param.irr.rate";
 }
