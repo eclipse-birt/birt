@@ -81,10 +81,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-public class TaskSelectData extends SimpleTask implements
-		SelectionListener,
-		ITaskChangeListener,
-		Listener
+public class TaskSelectData extends SimpleTask
+		implements
+			SelectionListener,
+			ITaskChangeListener,
+			Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -97,6 +98,8 @@ public class TaskSelectData extends SimpleTask implements
 	private Button btnUseDataSet = null;
 	private Combo cmbDataSet = null;
 	private Button btnNewData = null;
+	private Button btnUseReference;
+	private Combo cmbReferences = null;
 
 	private CustomPreviewTable tablePreview = null;
 	private Button btnFilters = null;
@@ -104,13 +107,12 @@ public class TaskSelectData extends SimpleTask implements
 	private Button btnBinding = null;
 
 	private SelectDataDynamicArea dynamicArea;
-	private String BLANK_DATASET = ""; //$NON-NLS-1$
 
 	/**
 	 * The field indicates if any operation in this class cause some exception
 	 * or error.
 	 */
-	private volatile boolean fbException = false;
+	private boolean fbException = false;
 	private SashForm foSashForm;
 	private Point fLeftSize;
 	private Point fRightSize;
@@ -127,8 +129,8 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			topControl = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( 3, false );
-			gridLayout.marginWidth = 10;
-			gridLayout.marginHeight = 10;
+			gridLayout.marginWidth = 0;
+			gridLayout.marginHeight = 0;
 			topControl.setLayout( gridLayout );
 			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
@@ -136,7 +138,7 @@ public class TaskSelectData extends SimpleTask implements
 			dynamicArea = new SelectDataDynamicArea( this );
 			getCustomizeUI( ).init( );
 
-			foSashForm = new SashForm(topControl, SWT.VERTICAL);
+			foSashForm = new SashForm( topControl, SWT.VERTICAL );
 			{
 				GridLayout layout = new GridLayout( );
 				foSashForm.setLayout( layout );
@@ -144,7 +146,7 @@ public class TaskSelectData extends SimpleTask implements
 				gridData.heightHint = 580;
 				foSashForm.setLayoutData( gridData );
 			}
-			
+
 			placeComponents( );
 			createPreviewPainter( );
 			init( );
@@ -214,23 +216,23 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.VERTICAL );
 		{
-			GridLayout gl = new GridLayout();
+			GridLayout gl = new GridLayout( );
 			sc.setLayout( gl );
-			GridData gd = new GridData(GridData.FILL_VERTICAL);
+			GridData gd = new GridData( GridData.FILL_VERTICAL );
 			sc.setLayoutData( gd );
 			sc.setExpandHorizontal( true );
 			sc.setExpandVertical( true );
 		}
-		
+
 		Composite dataComposite = new Composite( sc, SWT.NONE );
 		{
-			GridLayout gl = new GridLayout(3, false);
+			GridLayout gl = new GridLayout( 3, false );
 			dataComposite.setLayout( gl );
-			GridData gd = new GridData(GridData.FILL_BOTH);
+			GridData gd = new GridData( GridData.FILL_BOTH );
 			dataComposite.setLayoutData( gd );
 		}
 		sc.setContent( dataComposite );
-		
+
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = fLeftSize.x;
 		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
@@ -244,7 +246,7 @@ public class TaskSelectData extends SimpleTask implements
 		createDataPreviewButtonArea( dataComposite );
 
 		new Label( dataComposite, SWT.NONE );
-		
+
 		Point size = dataComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		sc.setMinSize( size );
 	}
@@ -254,12 +256,12 @@ public class TaskSelectData extends SimpleTask implements
 		// Create header area.
 		Composite headerArea = new Composite( foSashForm, SWT.NONE );
 		{
-			GridLayout layout = new GridLayout(3, false);
+			GridLayout layout = new GridLayout( 3, false );
 			headerArea.setLayout( layout );
-			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			headerArea.setLayoutData( gd );
 		}
-		
+
 		{
 			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( headerArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
@@ -277,7 +279,8 @@ public class TaskSelectData extends SimpleTask implements
 			gridData.verticalSpan = 2;
 			cmpRightContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createRightBindingArea( cmpRightContainer );
-			fRightSize = cmpRightContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+			fRightSize = cmpRightContainer.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT );
 		}
 		{
 			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( headerArea );
@@ -317,9 +320,7 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Composite cmpDataSet = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = CENTER_WIDTH_HINT;
-			cmpDataSet.setLayoutData( gd );
+			cmpDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
 		Label label = new Label( cmpDataSet, SWT.NONE );
@@ -337,28 +338,42 @@ public class TaskSelectData extends SimpleTask implements
 			cmpDetail.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
-		Composite comp = ChartUIUtil.createCompositeWrapper( cmpDetail );
+		Composite compRadios = ChartUIUtil.createCompositeWrapper( cmpDetail );
+		{
+			GridData gd = new GridData( );
+			gd.verticalSpan = 3;
+			compRadios.setLayoutData( gd );
+		}
 
-		btnUseReportData = new Button( comp, SWT.RADIO );
+		btnUseReportData = new Button( compRadios, SWT.RADIO );
 		btnUseReportData.setText( Messages.getString( "TaskSelectData.Label.UseReportData" ) ); //$NON-NLS-1$
 		btnUseReportData.addSelectionListener( this );
 
-		btnUseDataSet = new Button( comp, SWT.RADIO );
+		btnUseDataSet = new Button( compRadios, SWT.RADIO );
 		btnUseDataSet.setText( Messages.getString( "TaskSelectData.Label.UseDataSet" ) ); //$NON-NLS-1$
 		btnUseDataSet.addSelectionListener( this );
 
+		btnUseReference = new Button( compRadios, SWT.RADIO );
+		btnUseReference.setText( Messages.getString( "TaskSelectData.Label.UseReportItem" ) ); //$NON-NLS-1$
+		btnUseReference.addSelectionListener( this );
+
+		new Label( cmpDetail, SWT.NONE );
+		new Label( cmpDetail, SWT.NONE );
+
 		cmbDataSet = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cmbDataSet.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END
-				| GridData.FILL_HORIZONTAL ) );
+		cmbDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataSet.addSelectionListener( this );
 
 		btnNewData = new Button( cmpDetail, SWT.NONE );
 		{
-			btnNewData.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
 			btnNewData.setText( Messages.getString( "TaskSelectData.Label.CreateNew" ) ); //$NON-NLS-1$
 			btnNewData.setToolTipText( Messages.getString( "TaskSelectData.Tooltip.CreateNewDataset" ) ); //$NON-NLS-1$
 			btnNewData.addSelectionListener( this );
 		}
+
+		cmbReferences = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbReferences.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cmbReferences.addSelectionListener( this );
 	}
 
 	private void createDataPreviewTableArea( Composite parent )
@@ -380,13 +395,11 @@ public class TaskSelectData extends SimpleTask implements
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
-			gridData.heightHint = 150;
+			gridData.heightHint = 120;
 			tablePreview.setLayoutData( gridData );
 			tablePreview.setHeaderAlignment( SWT.LEFT );
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,
@@ -433,14 +446,16 @@ public class TaskSelectData extends SimpleTask implements
 
 	protected void init( )
 	{
-		// Create data set list
+		// create Combo items
+		cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
+		cmbReferences.setItems( getDataServiceProvider( ).getAllReportItemReferences( ) );
+
+		// select data set
 		String currentDataSet = getDataServiceProvider( ).getBoundDataSet( );
 		if ( currentDataSet != null )
 		{
-			cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
-			cmbDataSet.setText( ( currentDataSet == null ) ? BLANK_DATASET
-					: currentDataSet );
-			useReportDataSet( false );
+			btnUseDataSet.setSelection( true );
+			cmbDataSet.setText( currentDataSet );
 			if ( currentDataSet != null )
 			{
 				switchDataTable( );
@@ -448,7 +463,12 @@ public class TaskSelectData extends SimpleTask implements
 		}
 		else
 		{
-			useReportDataSet( true );
+			btnUseReportData.setSelection( true );
+			cmbDataSet.select( 0 );
+			cmbDataSet.setEnabled( false );
+			// Initializes column bindings from container
+			getDataServiceProvider( ).setDataSet( null );
+
 			String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
 			if ( reportDataSet != null )
 			{
@@ -456,32 +476,27 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 
-		btnFilters.setEnabled( hasDataSet( )
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnBinding.setEnabled( hasDataSet( )
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		// select reference item
+		selectItemRef( );
+		if ( cmbReferences.getSelectionIndex( ) > 0 )
+		{
+			cmbDataSet.setEnabled( false );
+			btnUseReference.setSelection( true );
+			btnUseReportData.setSelection( false );
+			btnUseDataSet.setSelection( false );
+		}
+		else
+		{
+			cmbReferences.setEnabled( false );
+		}
+
+		setEnabledForButtons( );
+
+		// make some buttons invisible
+		btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-	}
-
-	private void useReportDataSet( boolean bDS )
-	{
-		btnUseReportData.setSelection( bDS );
-
-		btnUseDataSet.setSelection( !bDS );
-		cmbDataSet.setEnabled( !bDS );
-		btnNewData.setEnabled( !bDS
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-
-		if ( bDS )
-		{
-			// Initializes column bindings from container
-			getDataServiceProvider( ).setDataSet( null );
-		}
 	}
 
 	private void refreshTableColor( )
@@ -498,7 +513,8 @@ public class TaskSelectData extends SimpleTask implements
 	private void switchDataTable( )
 	{
 		// 1. Create a runnable.
-		Runnable runnable = new Runnable() {
+		Runnable runnable = new Runnable( ) {
+
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -521,7 +537,7 @@ public class TaskSelectData extends SimpleTask implements
 							{
 								return;
 							}
-							
+
 							if ( header == null )
 							{
 								tablePreview.setEnabled( false );
@@ -554,7 +570,9 @@ public class TaskSelectData extends SimpleTask implements
 					final String msg = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
-						/* (non-Javadoc)
+						/*
+						 * (non-Javadoc)
+						 * 
 						 * @see java.lang.Runnable#run()
 						 */
 						public void run( )
@@ -562,7 +580,7 @@ public class TaskSelectData extends SimpleTask implements
 							fbException = true;
 							WizardBase.showException( msg );
 						}
-					});
+					} );
 				}
 			}
 		};
@@ -588,20 +606,11 @@ public class TaskSelectData extends SimpleTask implements
 		return ( (ChartWizardContext) getContext( ) ).getModel( );
 	}
 
-	private int switchDataSet( String datasetName ) throws ChartException
+	private void switchDataSet( String datasetName ) throws ChartException
 	{
-		int bCancel = Window.OK;
-		if ( getDataServiceProvider( ).getBoundDataSet( ) != null
-				&& getDataServiceProvider( ).getBoundDataSet( )
-						.equals( datasetName ) )
-		{
-			return bCancel;
-		}
-
 		try
 		{
 			// Clear old dataset and preview data
-			getDataServiceProvider( ).setDataSet( datasetName );
 			tablePreview.clearContents( );
 
 			// Try to get report data set
@@ -630,200 +639,186 @@ public class TaskSelectData extends SimpleTask implements
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		doLivePreview( );
 		updateApplyButton( );
-		return bCancel;
 	}
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( btnUseReportData ) )
+		fbException = false;
+		try
 		{
-			ColorPalette.getInstance( ).restore( );
-
-			// Skip when selection is false
-			if ( !btnUseReportData.getSelection( ) )
-			{
-				return;
-			}
-			boolean bException = false;
-			try
-			{
-				switchDataSet( null );
-			}
-			catch ( ChartException e1 )
-			{
-				bException = true;
-				ChartWizard.showException( e1.getLocalizedMessage( ) );
-			}
-			if ( !bException )
-			{
-				WizardBase.removeException( );
-			}
-			cmbDataSet.add( BLANK_DATASET, 0 );
-			cmbDataSet.select( 0 );
-			cmbDataSet.setEnabled( false );
-			btnNewData.setEnabled( false );
-			btnFilters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			// Bugzilla#177704 Chart inheriting data from container doesn't
-			// support parameters due to limitation in DtE
-			btnParameters.setEnabled( false );
-			btnBinding.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-		}
-		else if ( e.getSource( ).equals( btnUseDataSet ) )
-		{
-			// Skip when selection is false
-			if ( !btnUseDataSet.getSelection( ) )
-			{
-				return;
-			}
-			WizardBase.removeException( );
-			cmbDataSet.removeAll( );
-			cmbDataSet.add( BLANK_DATASET, 0 );
-
-			String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
-			if ( dataSets != null )
-				for ( int i = 0; i < dataSets.length; i++ )
-				{
-					cmbDataSet.add( dataSets[i], i + 1 );
-				}
-			cmbDataSet.select( 0 );
-			cmbDataSet.setEnabled( true );
-			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
-			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-		}
-		else if ( e.getSource( ).equals( cmbDataSet ) )
-		{
-			fbException = false;
-			try
+			if ( e.getSource( ).equals( btnUseReportData ) )
 			{
 				ColorPalette.getInstance( ).restore( );
-				if ( !cmbDataSet.getText( ).equals( BLANK_DATASET ) )
+
+				// Skip when selection is false
+				if ( !btnUseReportData.getSelection( ) )
 				{
-					int bCancel = switchDataSet( cmbDataSet.getText( ) );
-					if ( bCancel == Window.OK
-							&& cmbDataSet.getItem( 0 ).equals( BLANK_DATASET ) )
-					{
-						cmbDataSet.remove( BLANK_DATASET );
-					}
-					else if ( bCancel == Window.CANCEL )
-					{
-						String[] datasetNames = cmbDataSet.getItems( );
-						for ( int i = 0; i < datasetNames.length; i++ )
-						{
-							if ( datasetNames[i].equals( getDataServiceProvider( ).getBoundDataSet( ) ) )
-							{
-								cmbDataSet.select( i );
-								if ( cmbDataSet.getItem( 0 )
-										.equals( BLANK_DATASET ) )
-								{
-									cmbDataSet.remove( BLANK_DATASET );
-								}
-								return;
-							}
-						}
-						cmbDataSet.select( 0 );
-					}
+					return;
 				}
-			}
-			catch ( ChartException e1 )
-			{
-				fbException = true;
-				ChartWizard.showException( e1.getLocalizedMessage( ) );
-			}
-			if ( !fbException )
-			{
-				WizardBase.removeException( );
-			}
+				getDataServiceProvider( ).setReportItemReference( null );
+				getDataServiceProvider( ).setDataSet( null );
+				switchDataSet( null );
 
-			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
-			btnFilters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnBinding.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-		}
-		else if ( e.getSource( ).equals( btnNewData ) )
-		{
-			// Bring up the dialog to create a dataset
-			int result = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
-			if ( result == Window.CANCEL )
-			{
-				return;
+				cmbDataSet.select( 0 );
+				cmbDataSet.setEnabled( false );
+				cmbReferences.select( 0 );
+				cmbReferences.setEnabled( false );
+				setEnabledForButtons( );
 			}
-
-			String[] sAllDS = getDataServiceProvider( ).getAllDataSets( );
-
-			String currentDataSet = cmbDataSet.getText( );
-			int dataSetCount = cmbDataSet.getItemCount( );
-			if ( currentDataSet.equals( BLANK_DATASET ) )
+			else if ( e.getSource( ).equals( btnUseDataSet ) )
 			{
-				dataSetCount = dataSetCount - 1;
+				// Skip when selection is false
+				if ( !btnUseDataSet.getSelection( ) )
+				{
+					return;
+				}
+
+				getDataServiceProvider( ).setReportItemReference( null );
+				selectDataSet( );
+				cmbDataSet.setEnabled( true );
+				cmbReferences.setEnabled( false );
+
+				setEnabledForButtons( );
 			}
+			else if ( e.getSource( ).equals( cmbDataSet ) )
+			{
+				ColorPalette.getInstance( ).restore( );
+				if ( cmbDataSet.getSelectionIndex( ) > 0 )
+				{
+					if ( getDataServiceProvider( ).getBoundDataSet( ) != null
+							&& getDataServiceProvider( ).getBoundDataSet( )
+									.equals( cmbDataSet.getText( ) ) )
+					{
+						return;
+					}
+					getDataServiceProvider( ).setDataSet( cmbDataSet.getText( ) );
+					switchDataSet( cmbDataSet.getText( ) );
+					// if ( bCancel == Window.CANCEL )
+					// {
+					// String[] datasetNames = cmbDataSet.getItems( );
+					// for ( int i = 1; i < datasetNames.length; i++ )
+					// {
+					// if ( datasetNames[i].equals( getDataServiceProvider(
+					// ).getBoundDataSet( ) ) )
+					// {
+					// cmbDataSet.select( i );
+					// return;
+					// }
+					// }
+					// cmbDataSet.select( 0 );
+					// }
 
-			if ( sAllDS.length == dataSetCount )
-			{
-				return;
+					setEnabledForButtons( );
+				}
+				else
+				{
+					// Inherit data from container
+					btnUseReportData.setSelection( true );
+					btnUseDataSet.setSelection( false );
+					btnUseReportData.notifyListeners( SWT.Selection,
+							new Event( ) );
+				}
+
 			}
-			if ( currentDataSet.equals( BLANK_DATASET ) )
+			else if ( e.getSource( ).equals( btnUseReference ) )
 			{
+				// Skip when selection is false
+				if ( !btnUseReference.getSelection( ) )
+				{
+					return;
+				}
+				cmbDataSet.setEnabled( false );
+				cmbReferences.setEnabled( true );
+				selectItemRef( );
+				setEnabledForButtons( );
+			}
+			else if ( e.getSource( ).equals( cmbReferences ) )
+			{
+				if ( cmbReferences.getSelectionIndex( ) == 0 )
+				{
+					if ( getDataServiceProvider( ).getReportItemReference( ) == null )
+					{
+						return;
+					}
+					getDataServiceProvider( ).setReportItemReference( null );
+
+					// Auto select the data set
+					selectDataSet( );
+					cmbReferences.setEnabled( false );
+					cmbDataSet.setEnabled( true );
+					btnUseReference.setSelection( false );
+					btnUseDataSet.setSelection( true );
+				}
+				else
+				{
+					if ( cmbReferences.getText( )
+							.equals( getDataServiceProvider( ).getReportItemReference( ) ) )
+					{
+						return;
+					}
+					getDataServiceProvider( ).setReportItemReference( cmbReferences.getText( ) );
+					selectDataSet( );
+				}
+				switchDataSet( cmbDataSet.getText( ) );
+				setEnabledForButtons( );
+			}
+			else if ( e.getSource( ).equals( btnNewData ) )
+			{
+				// Bring up the dialog to create a dataset
+				int result = getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
+				if ( result == Window.CANCEL )
+				{
+					return;
+				}
+
+				String currentDataSet = cmbDataSet.getText( );
 				cmbDataSet.removeAll( );
-				cmbDataSet.add( BLANK_DATASET, 0 );
-
-				for ( int i = 0; i < sAllDS.length; i++ )
+				cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
+				cmbDataSet.setText( currentDataSet );
+			}
+			else if ( e.getSource( ).equals( btnFilters ) )
+			{
+				if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
 				{
-					cmbDataSet.add( sAllDS[i], i + 1 );
+					refreshTablePreview( );
+					doLivePreview( );
+					updateApplyButton( );
 				}
 			}
-			else
+			else if ( e.getSource( ).equals( btnParameters ) )
 			{
-				cmbDataSet.setItems( sAllDS );
+				if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
+				{
+					refreshTablePreview( );
+					doLivePreview( );
+					updateApplyButton( );
+				}
 			}
-			cmbDataSet.setText( currentDataSet );
-		}
-		else if ( e.getSource( ).equals( btnFilters ) )
-		{
-			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
+			else if ( e.getSource( ).equals( btnBinding ) )
 			{
-				refreshTablePreview( );
-				doLivePreview( );
-				updateApplyButton( );
+				if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING ) == Window.OK )
+				{
+					refreshTablePreview( );
+					doLivePreview( );
+					updateApplyButton( );
+				}
 			}
-		}
-		else if ( e.getSource( ).equals( btnParameters ) )
-		{
-			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
+			else if ( e.getSource( ) instanceof MenuItem )
 			{
-				refreshTablePreview( );
-				doLivePreview( );
-				updateApplyButton( );
-			}
-		}
-		else if ( e.getSource( ).equals( btnBinding ) )
-		{
-			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_BINDING ) == Window.OK )
-			{
-				refreshTablePreview( );
-				doLivePreview( );
-				updateApplyButton( );
+				MenuItem item = (MenuItem) e.getSource( );
+				IAction action = (IAction) item.getData( );
+				action.setChecked( !action.isChecked( ) );
+				action.run( );
 			}
 		}
-		else if ( e.getSource( ) instanceof MenuItem )
+		catch ( ChartException e1 )
 		{
-			MenuItem item = (MenuItem) e.getSource( );
-			IAction action = (IAction) item.getData( );
-			action.setChecked( !action.isChecked( ) );
-			action.run( );
+			fbException = true;
+			ChartWizard.showException( e1.getLocalizedMessage( ) );
+		}
+		if ( !fbException )
+		{
+			WizardBase.removeException( );
 		}
 	}
 
@@ -1143,8 +1138,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 )
-				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 
@@ -1271,7 +1265,8 @@ public class TaskSelectData extends SimpleTask implements
 					bException = true;
 					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
-									ce.getLocalizedMessage( ), series.getDisplayName( )
+									ce.getLocalizedMessage( ),
+									series.getDisplayName( )
 							} ) );
 					if ( ce.getMessage( ).endsWith( expression ) )
 					{
@@ -1501,5 +1496,45 @@ public class TaskSelectData extends SimpleTask implements
 	public Image getImage( )
 	{
 		return UIHelper.getImage( "icons/obj16/selectdata.gif" ); //$NON-NLS-1$
+	}
+
+	private void selectDataSet( )
+	{
+		String currentDS = getDataServiceProvider( ).getBoundDataSet( );
+		if ( currentDS == null )
+		{
+			cmbDataSet.select( 0 );
+		}
+		else
+		{
+			cmbDataSet.setText( currentDS );
+		}
+	}
+
+	private void selectItemRef( )
+	{
+		String currentRef = getDataServiceProvider( ).getReportItemReference( );
+		if ( currentRef == null )
+		{
+			cmbReferences.select( 0 );
+		}
+		else
+		{
+			cmbReferences.setText( currentRef );
+		}
+	}
+
+	private void setEnabledForButtons( )
+	{
+		btnNewData.setEnabled( btnUseDataSet.getSelection( )
+				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnFilters.setEnabled( hasDataSet( )
+				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		// Bugzilla#177704 Chart inheriting data from container doesn't
+		// support parameters due to limitation in DtE
+		btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
+				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnBinding.setEnabled( hasDataSet( )
+				&& getDataServiceProvider( ).isInvokingSupported( ) );
 	}
 }

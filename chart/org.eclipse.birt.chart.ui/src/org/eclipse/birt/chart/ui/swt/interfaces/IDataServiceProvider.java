@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,7 +29,9 @@ public interface IDataServiceProvider
 	public static final int COMMAND_EDIT_BINDING = 3;
 
 	/**
-	 * Returns all available datasets to choose.
+	 * Returns all available data sets.
+	 * 
+	 * @return name string array
 	 */
 	public String[] getAllDataSets( );
 
@@ -43,6 +45,23 @@ public interface IDataServiceProvider
 	 * there.
 	 */
 	public String getReportDataSet( );
+
+	/**
+	 * Returns all available report item references.
+	 * 
+	 * @return name string array
+	 * @since 2.2.1
+	 */
+	public String[] getAllReportItemReferences( );
+
+	/**
+	 * Returns the name of current data item reference, or null if no reference
+	 * found.
+	 * 
+	 * @return the name of current data item reference
+	 * @since 2.2.1
+	 */
+	public String getReportItemReference( );
 
 	/**
 	 * Returns all available style names.
@@ -84,13 +103,24 @@ public interface IDataServiceProvider
 	public void setContext( Object context );
 
 	/**
-	 * Binds dataset for chart, and updates related settings, such as column
+	 * Binds data set for chart, and updates related settings, such as column
 	 * bindings, filters, parameters.
 	 * 
 	 * @param datasetName
 	 *            Dataset name. Null means inheriting from container.
 	 */
 	public void setDataSet( String datasetName );
+
+	/**
+	 * Binds report item reference for chart, and update related settings, such
+	 * as data set.
+	 * 
+	 * @param referenceName
+	 *            Reference name. Null means no reference or inheriting from
+	 *            container.
+	 * @since 2.2.1
+	 */
+	public void setReportItemReference( String referenceName );
 
 	/**
 	 * Sets current used style by specified style name.
@@ -149,9 +179,10 @@ public interface IDataServiceProvider
 	 * @since 2.1
 	 */
 	public boolean isInvokingSupported( );
-	
+
 	/**
 	 * Returns whether the application is running under Eclipse Mode.
+	 * 
 	 * @since 2.2
 	 */
 	public boolean isEclipseModeSupported( );

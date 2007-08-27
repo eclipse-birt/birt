@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,9 +25,14 @@ import org.eclipse.jface.window.Window;
 public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 {
 
-	private transient String sDataSetName = "Dummy DataSet"; //$NON-NLS-1$
+	private static final String NONE = "<None>"; //$NON-NLS-1$
+	private static final String DS_DUMMY = "Dummy DataSet"; //$NON-NLS-1$
+	private static final String REF_DUMMY = "Dummy Reference"; //$NON-NLS-1$
 	private static final int COLUMN_COUNT = 8;
 	private static final int ROW_COUNT = 6;
+
+	private String sDataSetName = DS_DUMMY;
+	private String sRefName = NONE;
 
 	/*
 	 * (non-Javadoc)
@@ -36,9 +41,8 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 */
 	public String[] getAllDataSets( )
 	{
-		// TODO Auto-generated method stub
 		return new String[]{
-			"Dummy DataSet" //$NON-NLS-1$
+				NONE, DS_DUMMY
 		};
 	}
 
@@ -49,7 +53,6 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 */
 	public String getBoundDataSet( )
 	{
-		// TODO Auto-generated method stub
 		return sDataSetName;
 	}
 
@@ -110,8 +113,14 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 */
 	public void setDataSet( String datasetName )
 	{
-		// TODO Auto-generated method stub
-		this.sDataSetName = datasetName;
+		if ( DS_DUMMY.equals( datasetName ) )
+		{
+			this.sDataSetName = datasetName;
+		}
+		else
+		{
+			this.sDataSetName = null;
+		}
 	}
 
 	/*
@@ -201,13 +210,36 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	{
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(java.lang.String)
 	 */
 	public DataType getDataType( String expression )
 	{
 		return DataType.NUMERIC_LITERAL;
+	}
+
+	public String[] getAllReportItemReferences( )
+	{
+		return new String[]{
+				NONE, REF_DUMMY
+		};
+	}
+
+	public String getReportItemReference( )
+	{
+		return this.sRefName;
+	}
+
+	public void setReportItemReference( String referenceName )
+	{
+		this.sRefName = referenceName;
+		if ( REF_DUMMY.equals( this.sRefName ) )
+		{
+			this.setDataSet( DS_DUMMY );
+		}
 	}
 
 }
