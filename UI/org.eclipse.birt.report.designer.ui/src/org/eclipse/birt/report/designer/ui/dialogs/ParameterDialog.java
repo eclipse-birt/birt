@@ -1590,6 +1590,15 @@ public class ParameterDialog extends BaseDialog
 				changeDefault.getParent( ).layout( );
 			}
 		} );
+		
+		int width1 = UIUtil.getStringWidth( BUTTON_LABEL_REMOVE_DEFAULT, changeDefault )+ 10;
+		int width2 = UIUtil.getStringWidth( BUTTON_LABEL_SET_DEFAULT, changeDefault ) + 10;
+		int width = width1 >= width2 ? width1 : width2;
+		
+		GridData gd = new GridData();
+		gd.widthHint = width;
+		changeDefault.setLayoutData( gd );		
+		
 		createPromptLine( tableAreaComposite );
 		updateTableButtons( );
 		createSortingArea( valueArea );
