@@ -34,7 +34,6 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -529,6 +528,8 @@ public class ScriptEvalUtil
 	private static boolean in( Object target, Object[] resultObj )
 			throws DataException
 	{
+		if ( resultObj == null )
+			return false;
 		for ( int i = 0; i < resultObj.length; i++ )
 		{
 			if ( compare( target, resultObj[i] ) == 0 )

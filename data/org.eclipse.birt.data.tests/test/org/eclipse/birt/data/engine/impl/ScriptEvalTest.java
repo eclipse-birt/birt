@@ -754,6 +754,13 @@ public class ScriptEvalTest extends TestCase
 						"200", "400"
 				} );
 		assertResult(result, false);
+		
+		result = ScriptEvalUtil.evalConditionalExpr( "100",
+				IConditionalExpression.OP_IN,
+				new String[]{
+						null
+				} );
+		assertResult(result, false);
 	}
 	
 	/**
