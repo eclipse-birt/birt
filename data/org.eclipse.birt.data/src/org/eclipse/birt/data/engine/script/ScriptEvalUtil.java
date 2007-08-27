@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.script;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -31,6 +34,7 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -527,43 +531,11 @@ public class ScriptEvalUtil
 		Object target = resultObj[0];
 		for ( int i = 1; i < resultObj.length; i++ )
 		{
-			if ( resultObj[i] instanceof Object[] )
-			{
-				Object[] flatternObj = (Object[]) resultObj[i];
-				if ( in( target, flatternObj ) )
-					return true;
-			}
-			else 
 			if ( compare( target, resultObj[i] ) == 0 )
 				return true;
 		}
 		return false;
 	}
-	
-	/**
-	 * 
-	 * @param target
-	 * @param resultObj
-	 * @return
-	 * @throws DataException
-	 */
-	private static boolean in( Object target, Object[] resultObj ) throws DataException
-	{
-		for ( int i = 0; i < resultObj.length; i++ )
-		{
-			if ( resultObj[i] instanceof Object[] )
-			{
-				Object[] flatternObj = (Object[]) resultObj[i];
-				if ( in( target, flatternObj ) )
-					return true;
-			}
-			else if ( compare( target, resultObj[i] ) == 0 )
-				return true;
-		}
-		return false;
-	}
-	
-	
 
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
@@ -623,7 +595,7 @@ public class ScriptEvalUtil
 					}
 					result = evalConditionalExpr( expression,
 							conditionalExpr.getOperator( ),
-							opValues );
+							MiscUtil.flatternMultipleValues( opValues ) );
 				}
 				else
 				{
@@ -951,7 +923,31 @@ public class ScriptEvalUtil
 		private static IScriptExpression constructValidScriptExpression ( IScriptExpression ise)
 		{
 		    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
-		}		
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		private static Object[] flatternMultipleValues( Object[] values )
+		{
+			if ( values == null || values.length == 0 )
+				return new Object[0];
+			List flattern = new ArrayList( );
+			for ( int i = 0; i < values.length; i++ )
+			{
+				if ( values[i] instanceof Object[] )
+				{
+					Object[] flatternObj = (Object[]) values[i];
+					flattern.addAll( Arrays.asList( flatternMultipleValues( flatternObj ) ) );
+				}
+				else
+				{
+					flattern.add( values[i] );
+				}
+			}
+			return flattern.toArray( );
+		}
 	}
 }
 

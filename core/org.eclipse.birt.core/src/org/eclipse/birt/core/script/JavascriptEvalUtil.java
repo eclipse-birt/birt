@@ -26,7 +26,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.ImporterTopLevel;
-
+import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
@@ -235,6 +235,16 @@ public class JavascriptEvalUtil
 			else if( "String".equals(jsClass) )
 			{
 				return inputObj.toString();
+			}
+			else if ( "Array".equals( jsClass ) )
+			{
+				Object[] obj = new Object[(int) ( (NativeArray) inputObj ).getLength( )];
+				for ( int i = 0; i < obj.length; i++ )
+				{
+					obj[i] = convertJavascriptValue( ( (NativeArray) inputObj ).get( i,
+							null ) );
+				}
+				return obj;
 			}
 		}
 		else if ( inputObj instanceof Wrapper )

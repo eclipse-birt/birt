@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
@@ -79,22 +78,6 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		this.operator = operator;
 		this.op1 = new CombinedExpression( operand );
 		this.op2 = null;
-	}
-
-	/**
-	 * 
-	 * @param expr
-	 * @param operator
-	 * @param operand
-	 * @param operand2
-	 */
-	public ConditionalExpression( String expr, int operator, List operand,
-			String operand2 )
-	{
-		this.expr = new ScriptExpression( expr );
-		this.operator = operator;
-		this.op1 = new CombinedExpression( operand );
-		this.op2 = newJSExpression( operand2 );
 	}
 	
 	/**
@@ -170,51 +153,5 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	 */
 	private static ScriptExpression newJSExpression(String expr){
 		return expr==null?null:new ScriptExpression(expr);
-	}
-	
-	private class CombinedExpression extends BaseExpression
-			implements
-				ICombinedExpression
-	{
-
-		private IBaseExpression[] combinedExpression;
-
-		/**
-		 * 
-		 * @param text
-		 */
-		CombinedExpression( List text )
-		{
-			if ( text == null || text.isEmpty( ) )
-			{
-				combinedExpression = new ScriptExpression[0];
-				return;
-			}
-			if ( text.get( 0 ) instanceof String )
-			{
-				combinedExpression = new ScriptExpression[text.size( )];
-				for ( int i = 0; i < text.size( ); i++ )
-				{
-					combinedExpression[i] = new ScriptExpression( text.get( i )
-							.toString( ) );
-				}
-			}
-			else if ( text.get( 0 ) instanceof IScriptExpression )
-			{
-				combinedExpression = new ScriptExpression[text.size( )];
-				for ( int i = 0; i < text.size( ); i++ )
-				{
-					combinedExpression[i] = (ScriptExpression) text.get( i );
-				}
-			}
-		}
-		
-		/*
-		 * @see 
-		 */
-		public IBaseExpression[] getExpressions( )
-		{
-			return combinedExpression;
-		}
 	}
 }

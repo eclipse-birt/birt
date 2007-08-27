@@ -20,7 +20,6 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;

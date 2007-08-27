@@ -25,7 +25,8 @@ public class ExprMetaInfo
 	
 	public final static int SCRIPT_EXPRESSION = 0;
 	public final static int CONDITIONAL_EXPRESSION = 1;
-	
+	public final static int COMBINED_EXPRESSION = 2;
+
 	/**
 	 * @return
 	 */

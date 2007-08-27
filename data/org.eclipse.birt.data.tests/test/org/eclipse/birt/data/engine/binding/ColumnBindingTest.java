@@ -425,6 +425,53 @@ public class ColumnBindingTest extends APITestCase
 	}
 	
 	/**
+	 * Test Filter_In operator with Object array.
+	 * @throws Exception
+	 */
+	public void testCombinedFilterOnTable2( ) throws Exception
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+
+		// column mapping
+		String[] name = new String[]{
+				"testColumn1", "testColumn2", "AMOUNT1"
+		};
+		ScriptExpression[] se = new ScriptExpression[name.length];
+		se[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		se[1] = new ScriptExpression( "dataSetRow.CITY" );
+		se[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		for ( int i = 0; i < name.length; i++ )
+			queryDefn.addResultSetExpression( name[i], se[i] );
+
+		List combinedList = new ArrayList( );
+		String script1 = "obj = new Array();obj[0]=\"Shanghai\"; obj[1]=\"Chicago\";obj";
+		String script2 = "obj = new Array();obj[0]= new Array(); obj[0][0]=\"London\"; obj[1]=\"Edinburgh\";obj";
+		combinedList.add( script1 );
+		combinedList.add( script2 );
+		IConditionalExpression filter = new ConditionalExpression( "row.testColumn2",
+				IConditionalExpression.OP_IN,
+				combinedList );
+
+		FilterDefinition filterDefn = new FilterDefinition( filter );
+		queryDefn.addFilter( filterDefn );
+
+		IResultIterator ri = executeQuery( queryDefn );
+		while ( ri.next( ) )
+		{
+			String str = "";
+			for ( int i = 0; i < name.length; i++ )
+			{
+				str += ri.getValue( name[i] );
+
+				if ( i < name.length - 1 )
+					str += ", ";
+			}
+			testPrintln( str );
+		}
+		checkOutputFile( );
+	}
+	
+	/**
 	 * Sort on table
 	 * 
 	 * @throws Exception

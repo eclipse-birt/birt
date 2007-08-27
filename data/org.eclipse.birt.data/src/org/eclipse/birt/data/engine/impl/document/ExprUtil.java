@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.CombinedExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
@@ -30,6 +31,7 @@ public class ExprUtil
 	private final static int NULL_EXPRESSION = 0;
 	private final static int SCRIPT_EXPRESSION = 1;
 	private final static int CONDITIONAL_EXPRESSION = 2;
+	private final static int COMBINED_EXPRESSION = 3;
 
 	/**
 	 * @param dos
@@ -58,6 +60,17 @@ public class ExprUtil
 			IOUtil.writeInt( dos, condExpr.getOperator( ) );
 			saveBaseExpr( dos, condExpr.getOperand1( ) );
 			saveBaseExpr( dos, condExpr.getOperand2( ) );
+		}
+		else if ( baseExpr instanceof ICombinedExpression )
+		{
+			IOUtil.writeInt( dos, COMBINED_EXPRESSION );
+			ICombinedExpression combinedExpr = (ICombinedExpression) baseExpr;
+			IOUtil.writeInt( dos, combinedExpr.getDataType( ) );
+			IOUtil.writeInt( dos, combinedExpr.getExpressions( ).length );
+			for ( int i = 0; i < combinedExpr.getExpressions( ).length; i++ )
+			{
+				saveBaseExpr( dos, combinedExpr.getExpressions( )[i] );
+			}
 		}
 		else
 		{
@@ -100,10 +113,21 @@ public class ExprUtil
 		{
 			IScriptExpression expr = (IScriptExpression) loadBaseExpr( dis );
 			int operator = IOUtil.readInt( dis );
-			IScriptExpression op1 = (IScriptExpression) loadBaseExpr( dis );
-			IScriptExpression op2 = (IScriptExpression) loadBaseExpr( dis );
+			IBaseExpression op1 = (IBaseExpression) loadBaseExpr( dis );
+			IBaseExpression op2 = (IBaseExpression) loadBaseExpr( dis );
 
 			return new ConditionalExpression( expr, operator, op1, op2 );
+		}
+		else if( exprType == COMBINED_EXPRESSION )
+		{
+			int type = IOUtil.readInt( dis );
+			int size = IOUtil.readInt( dis );
+			IBaseExpression[] baseExpr = new IBaseExpression[size];
+			for( int i=0; i< size; i++ )
+			{
+				baseExpr[i] = (IBaseExpression)loadBaseExpr( dis );
+			}
+			return new CombinedExpression( baseExpr );
 		}
 		else
 		{
