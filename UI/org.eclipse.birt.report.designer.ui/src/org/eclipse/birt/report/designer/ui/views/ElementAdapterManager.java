@@ -316,8 +316,9 @@ class ElementAdapterSet extends TreeSet
 				ElementAdapter adapter = (ElementAdapter) iterator.next( );
 				if ( this.overwriteList.contains( adapter.getId( ) ) )
 				{
-					if ( super.remove( adapter ) )
-						System.out.println( adapter.getId( ) + " was filtered." ); //$NON-NLS-1$
+					iterator.remove( );
+					ElementAdapterManager.logger.log( Level.INFO,
+							adapter.getId( ) + " is filtered." ); //$NON-NLS-1$
 				}
 			}
 			this.isReset = true;
