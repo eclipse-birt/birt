@@ -17,6 +17,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterInfo;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -35,11 +43,8 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -97,7 +102,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private String name;
 	private String typeSelect;
 	private String expression;
-	private String functionName;
 	private Map argsMap = new HashMap( );
 
 	private Composite composite;
@@ -200,7 +204,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
-		if ( isCreate )//create
+		if ( isCreate )// create
 		{
 			if ( isRef )
 			{
@@ -323,7 +327,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			initFilter( );
 			initGroups( );
 		}
-
+		validate( );
 	}
 
 	private void initFilter( )
@@ -337,20 +341,27 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private void initFunction( )
 	{
 		cmbFunction.setItems( getFunctionDisplayNames( ) );
-		//		cmbFunction.add( NULL, 0 );
+		// cmbFunction.add( NULL, 0 );
 		if ( binding == null )
 		{
 			cmbFunction.select( 0 );
 			handleFunctionSelectEvent( );
 			return;
 		}
-		String functionString = getFunctionDisplayName( binding.getAggregateFunction( ) );
-		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
-				functionString );
-		cmbFunction.select( itemIndex );
-		handleFunctionSelectEvent( );
-		//		List args = getFunctionArgs( functionString );
-		//		bindingColumn.argumentsIterator( )
+		try
+		{
+			String functionString = getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( binding.getAggregateFunction( ) ) );
+			int itemIndex = getItemIndex( getFunctionDisplayNames( ),
+					functionString );
+			cmbFunction.select( itemIndex );
+			handleFunctionSelectEvent( );
+		}
+		catch ( AdapterException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		// List args = getFunctionArgs( functionString );
+		// bindingColumn.argumentsIterator( )
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
@@ -369,14 +380,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getFunctionDisplayNames( )
 	{
-		//		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		//		String[] displayNames = new String[functions.size( )];
-		//		for ( int i = 0; i < displayNames.length; i++ )
-		//		{
-		//			displayNames[i] = ( (IMethodInfo) functions.get( i ) ).getName( );
-		//		}
-		//		return displayNames;
-		IChoice[] choices = getFunctions( );
+		IAggregationInfo[] choices = getFunctions( );
 		if ( choices == null )
 			return new String[0];
 
@@ -388,9 +392,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return displayNames;
 	}
 
-	private String getFunctionByDisplayName( String displayName )
+	private IAggregationInfo getFunctionByDisplayName( String displayName )
 	{
-		IChoice[] choices = getFunctions( );
+		IAggregationInfo[] choices = getFunctions( );
 		if ( choices == null )
 			return null;
 
@@ -398,7 +402,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			if ( choices[i].getDisplayName( ).equals( displayName ) )
 			{
-				return choices[i].getName( );
+				return choices[i];
 			}
 		}
 		return null;
@@ -406,27 +410,32 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String getFunctionDisplayName( String function )
 	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
-			return null;
-
-		for ( int i = 0; i < choices.length; i++ )
+		try
 		{
-			if ( choices[i].getName( ).equals( function ) )
-			{
-				return choices[i].getDisplayName( );
-			}
+			return DataUtil.getAggregationFactory( )
+					.getAggrInfo( function )
+					.getDisplayName( );
 		}
-		return null;
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return null;
+		}
 	}
 
-	private IChoice[] getFunctions( )
+	private IAggregationInfo[] getFunctions( )
 	{
-		return DEUtil.getMetaDataDictionary( )
-				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
-				.getAllowedChoices( )
-				.getChoices( );
+		try
+		{
+			List aggrInfoList = DataUtil.getAggregationFactory( )
+					.getAggrInfoList( IAggregationFactory.AGGR_TABULAR );
+			return (IAggregationInfo[]) aggrInfoList.toArray( new IAggregationInfo[0] );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return new IAggregationInfo[0];
+		}
 	}
 
 	/**
@@ -571,6 +580,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent e )
 			{
 				handleFunctionSelectEvent( );
+				validate( );
 			}
 		} );
 
@@ -608,7 +618,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		gridData.exclude = true;
 		argsComposite.setLayoutData( gridData );
 		GridLayout layout = new GridLayout( );
-		//		layout.horizontalSpacing = layout.verticalSpacing = 0;
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
 		argsComposite.setLayout( layout );
@@ -742,8 +752,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			if ( dialog.getOkButton( ) != null )
 				dialog.getOkButton( ).setEnabled( false );
+			return;
 		}
-		if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
+		if ( this.binding == null )// create bindnig, we should check if the
+		// binding name already exists.
 		{
 			for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
 					.iterator( ); iterator.hasNext( ); )
@@ -777,23 +789,36 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				return;
 			}
 		}
+		if ( cmbDataField != null
+				&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
+						.trim( )
+						.equals( "" ) ) && cmbDataField.isEnabled( ) ) //$NON-NLS-1$
+		{
+			if ( dialog.getOkButton( ) != null )
+			{
+				dialog.getOkButton( ).setEnabled( false );
+				return;
+			}
+		}
 		if ( dialog.getOkButton( ) != null )
 			dialog.getOkButton( ).setEnabled( true );
 	}
 
 	protected void handleFunctionSelectEvent( )
 	{
+		if ( isRef )
+			return;
 		Control[] children = argsComposite.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			children[i].dispose( );
 		}
 
-		String function = getFunctionByDisplayName( cmbFunction.getText( ) );
+		IAggregationInfo function = getFunctionByDisplayName( cmbFunction.getText( ) );
 		if ( function != null )
 		{
 			argsMap.clear( );
-			List args = getFunctionArgNames( function );
+			List args = getFunctionArgNames( function.getName( ) );
 			if ( args.size( ) > 0 )
 			{
 				( (GridData) argsComposite.getLayoutData( ) ).exclude = false;
@@ -809,7 +834,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					Text txtArg = new Text( argsComposite, SWT.BORDER );
 					GridData gridData = new GridData( );
 
-					gridData.widthHint = txtFilter.getBounds( ).width - 9;
+					gridData.widthHint = txtFilter.getBounds( ).width - 7;
 
 					txtArg.setLayoutData( gridData );
 					createExpressionButton( argsComposite, txtArg );
@@ -819,14 +844,18 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
-				//						( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
+			this.cmbDataField.setEnabled( function.needDataField( ) );
+			Control control = (Control) cmbDataField.getData( "express" );
+			if ( control != null )
+				control.setEnabled( function.needDataField( ) );
 		}
 		else
 		{
 			( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
-			//					( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
-			//					new Label( argsComposite, SWT.NONE ).setText( "no args" );
+			// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
 		argsComposite.layout( );
 		composite.layout( );
@@ -864,7 +893,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			final Combo combo )
 	{
 		Button expressionButton = new Button( parent, SWT.PUSH );
-
+		combo.setData( "express", expressionButton );
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
 
@@ -929,22 +958,22 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private List getFunctionArgNames( String function )
 	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
 		List argList = new ArrayList( );
-		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		try
 		{
-			IMethodInfo method = (IMethodInfo) iterator.next( );
-			if ( method.getName( ).equals( function ) )
+			IAggregationInfo aggregationInfo = DataUtil.getAggregationFactory( )
+					.getAggrInfo( function );
+			Iterator argumentListIter = aggregationInfo.getParameters( )
+					.iterator( );
+			for ( ; argumentListIter.hasNext( ); )
 			{
-				Iterator argumentListIter = method.argumentListIterator( );
-				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
-				{
-					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					argList.add( argInfo.getDisplayName( ) );
-				}
-				break;
+				IParameterInfo argInfo = (IParameterInfo) argumentListIter.next( );
+				argList.add( argInfo.getDisplayName( ) );
 			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 		return argList;
 	}
@@ -1014,8 +1043,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			this.newBinding.setName( txtName.getText( ) );
 			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-			this.newBinding.setExpression( cmbDataField.getText( ) );
-			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+			if ( cmbDataField.isEnabled( ) )
+				this.newBinding.setExpression( cmbDataField.getText( ) );
+			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 			this.newBinding.setFilterExpression( txtFilter.getText( ) );
 
 			if ( btnTable.getSelection( ) )
@@ -1045,7 +1075,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			if ( cmbDataField.getText( ) != null
-					&& cmbDataField.getText( ).trim( ).length( ) == 0 )
+					&& cmbDataField.getText( ).trim( ).length( ) == 0
+					&& cmbDataField.isEnabled( ) )
 			{
 				this.binding = null;
 				return;
@@ -1066,8 +1097,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 
-			this.binding.setExpression( cmbDataField.getText( ) );
-			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+			if ( cmbDataField.isEnabled( ) )
+				this.binding.setExpression( cmbDataField.getText( ) );
+			else
+				this.binding.setExpression( null );
+			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 			this.binding.setFilterExpression( txtFilter.getText( ) );
 
 			if ( btnTable.getSelection( ) )
@@ -1095,21 +1129,21 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String getArgumentByDisplayName( String function, String argument )
 	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		try
 		{
-			IMethodInfo method = (IMethodInfo) iterator.next( );
-			if ( method.getName( ).equals( function ) )
+			IAggregationInfo info = DataUtil.getAggregationFactory( )
+					.getAggrInfo( function );
+			Iterator arguments = info.getParameters( ).iterator( );
+			for ( ; arguments.hasNext( ); )
 			{
-				Iterator argumentListIter = method.argumentListIterator( );
-				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
-				{
-					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					if ( argInfo.getDisplayName( ).equals( argument ) )
-						return argInfo.getName( );
-				}
+				IParameterInfo argInfo = (IParameterInfo) arguments.next( );
+				if ( argInfo.getDisplayName( ).equals( argument ) )
+					return argInfo.getName( );
 			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 		return null;
 	}
@@ -1117,21 +1151,21 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private String getArgumentDisplayNameByName( String function,
 			String argument )
 	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
+		try
 		{
-			IMethodInfo method = (IMethodInfo) iterator.next( );
-			if ( method.getName( ).equals( function ) )
+			IAggregationInfo info = DataUtil.getAggregationFactory( )
+					.getAggrInfo( function );
+			Iterator arguments = info.getParameters( ).iterator( );
+			for ( ; arguments.hasNext( ); )
 			{
-				Iterator argumentListIter = method.argumentListIterator( );
-				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
-				{
-					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					if ( argInfo.getName( ).equals( argument ) )
-						return argInfo.getDisplayName( );
-				}
+				IParameterInfo argInfo = (IParameterInfo) arguments.next( );
+				if ( argInfo.getName( ).equals( argument ) )
+					return argInfo.getDisplayName( );
 			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 		return null;
 	}
