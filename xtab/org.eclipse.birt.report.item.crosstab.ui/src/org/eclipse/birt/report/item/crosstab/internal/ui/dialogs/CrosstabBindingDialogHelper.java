@@ -42,8 +42,9 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -52,7 +53,6 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
-import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -656,11 +656,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void createExpressionButton( final Composite parent, final Text text )
 	{
 		Button expressionButton = new Button( parent, SWT.PUSH );
-		
-		if (expressionProvider == null || (!( expressionProvider instanceof CrosstabBindingExpressionProvider) ))
+
+		if ( expressionProvider == null
+				|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
 		{
 			expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder );
-		}	
+		}
 
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
@@ -701,174 +702,169 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		return argList;
 	}
 
-	public void save( ) throws Exception
-	{
-		if ( txtName.getText( ) != null
-				&& txtName.getText( ).trim( ).length( ) > 0 )
-		{
-
-			if ( isAggregate( ) )
-			{
-				saveAggregate( );
-			}
-			else
-			{
-				if ( getBinding( ) == null )
-				{
-					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-					{
-						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.equals( cmbType.getText( ) ) )
-						{
-							newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-							break;
-						}
-					}
-					this.newBinding.setName( txtName.getText( ) );
-					this.newBinding.setExpression( txtExpression.getText( ) );
-					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-					this.binding = DEUtil.addColumn( getBindingHolder( ),
-							newBinding,
-							true );
-				}
-				else
-				{
-					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-					{
-						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.equals( cmbType.getText( ) ) )
-						{
-							this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-							break;
-						}
-					}
-					this.binding.setDisplayName( txtDisplayName.getText( ) );
-					this.binding.setExpression( txtExpression.getText( ) );
-				}
-			}
-		}
-	}
-
-	private void saveAggregate( ) throws Exception
-	{
-		if ( getBinding( ) == null )
-		{
-			this.newBinding.setName( txtName.getText( ) );
-			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-			{
-				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-						.equals( cmbType.getText( ) ) )
-				{
-					newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-					break;
-				}
-			}
-			if ( cmbDataField.isEnabled( ) )
-			this.newBinding.setExpression( cmbDataField.getText( ) );
-			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			this.newBinding.setFilterExpression( txtFilter.getText( ) );
-
-			this.newBinding.clearAggregateOnList( );
-			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr, "," );
-
-			while ( token.hasMoreTokens( ) )
-			{
-				String agg = token.nextToken( );
-				if ( !agg.equals( ALL ) )
-					newBinding.addAggregateOn( agg );
-			}
-
-			this.binding = DEUtil.addColumn( getBindingHolder( ),
-					newBinding,
-					true );
-
-			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-			{
-				String arg = (String) iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( ( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-						arg ) ) );
-				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-				this.binding.addArgument( argHandle );
-			}
-
-		}
-		else
-		{
-			if ( cmbDataField.getText( ) != null
-					&& cmbDataField.getText( ).trim( ).length( ) == 0 
-					&& cmbDataField.isEnabled( ))
-			{
-				this.binding = null;
-				return;
-			}
-
-			if ( !( this.binding.getName( ) != null && this.binding.getName( )
-					.equals( txtName.getText( ).trim( ) ) ) )
-				this.binding.setName( txtName.getText( ) );
-			this.binding.setDisplayName( txtDisplayName.getText( ) );
-
-			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-			{
-				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-						.equals( cmbType.getText( ) ) )
-				{
-					this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-					break;
-				}
-			}
-
-			if ( cmbDataField.isEnabled( ) )
-				this.binding.setExpression( cmbDataField.getText( ) );
-			else
-				this.binding.setExpression( null );
-			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			this.binding.setFilterExpression( txtFilter.getText( ) );
-
-			this.binding.clearAggregateOnList( );
-			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr, "," );
-
-			while ( token.hasMoreTokens( ) )
-			{
-				String agg = token.nextToken( );
-				if ( !agg.equals( ALL ) )
-					this.binding.addAggregateOn( agg );
-			}
-
-			this.binding.clearArgumentList( );
-
-			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-			{
-				String arg = (String) iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-						arg ) );
-				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-				this.binding.addArgument( argHandle );
-			}
-		}
-	}
+	//	public void save( ) throws Exception
+	//	{
+	//		if ( txtName.getText( ) != null
+	//				&& txtName.getText( ).trim( ).length( ) > 0 )
+	//		{
+	//
+	//			if ( isAggregate( ) )
+	//			{
+	//				saveAggregate( );
+	//			}
+	//			else
+	//			{
+	//				if ( getBinding( ) == null )
+	//				{
+	//					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	//					{
+	//						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	//								.equals( cmbType.getText( ) ) )
+	//						{
+	//							newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	//							break;
+	//						}
+	//					}
+	//					this.newBinding.setName( txtName.getText( ) );
+	//					this.newBinding.setExpression( txtExpression.getText( ) );
+	//					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+	//					this.binding = DEUtil.addColumn( getBindingHolder( ),
+	//							newBinding,
+	//							true );
+	//				}
+	//				else
+	//				{
+	//					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	//					{
+	//						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	//								.equals( cmbType.getText( ) ) )
+	//						{
+	//							this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	//							break;
+	//						}
+	//					}
+	//					this.binding.setDisplayName( txtDisplayName.getText( ) );
+	//					this.binding.setExpression( txtExpression.getText( ) );
+	//				}
+	//			}
+	//		}
+	//	}
+	//
+	//	private void saveAggregate( ) throws Exception
+	//	{
+	//		if ( getBinding( ) == null )
+	//		{
+	//			this.newBinding.setName( txtName.getText( ) );
+	//			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+	//			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	//			{
+	//				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	//						.equals( cmbType.getText( ) ) )
+	//				{
+	//					newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	//					break;
+	//				}
+	//			}
+	//			this.newBinding.setExpression( cmbDataField.getText( ) );
+	//			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+	//			this.newBinding.setFilterExpression( txtFilter.getText( ) );
+	//
+	//			this.newBinding.clearAggregateOnList( );
+	//			String aggStr = cmbAggOn.getText( );
+	//			StringTokenizer token = new StringTokenizer( aggStr, "," );
+	//
+	//			while ( token.hasMoreTokens( ) )
+	//			{
+	//				String agg = token.nextToken( );
+	//				if ( !agg.equals( ALL ) )
+	//					newBinding.addAggregateOn( agg );
+	//			}
+	//
+	//			this.binding = DEUtil.addColumn( getBindingHolder( ),
+	//					newBinding,
+	//					true );
+	//
+	//			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+	//			{
+	//				String arg = (String) iterator.next( );
+	//				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+	//				argHandle.setName( ( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+	//						arg ) ) );
+	//				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+	//				this.binding.addArgument( argHandle );
+	//			}
+	//
+	//		}
+	//		else
+	//		{
+	//			if ( cmbDataField.getText( ) != null
+	//					&& cmbDataField.getText( ).trim( ).length( ) == 0 )
+	//			{
+	//				this.binding = null;
+	//				return;
+	//			}
+	//
+	//			if ( !( this.binding.getName( ) != null && this.binding.getName( )
+	//					.equals( txtName.getText( ).trim( ) ) ) )
+	//				this.binding.setName( txtName.getText( ) );
+	//			this.binding.setDisplayName( txtDisplayName.getText( ) );
+	//
+	//			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	//			{
+	//				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	//						.equals( cmbType.getText( ) ) )
+	//				{
+	//					this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	//					break;
+	//				}
+	//			}
+	//
+	//			this.binding.setExpression( cmbDataField.getText( ) );
+	//			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
+	//			this.binding.setFilterExpression( txtFilter.getText( ) );
+	//
+	//			this.binding.clearAggregateOnList( );
+	//			String aggStr = cmbAggOn.getText( );
+	//			StringTokenizer token = new StringTokenizer( aggStr, "," );
+	//
+	//			while ( token.hasMoreTokens( ) )
+	//			{
+	//				String agg = token.nextToken( );
+	//				if ( !agg.equals( ALL ) )
+	//					this.binding.addAggregateOn( agg );
+	//			}
+	//
+	//			this.binding.clearArgumentList( );
+	//
+	//			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+	//			{
+	//				String arg = (String) iterator.next( );
+	//				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+	//				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+	//						arg ) );
+	//				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+	//				this.binding.addArgument( argHandle );
+	//			}
+	//		}
+	//	}
 
 	private String getArgumentByDisplayName( String function, String argument )
 	{
-		try
+		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
+		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
 		{
-			IAggregationInfo info = DataUtil.getAggregationFactory( )
-					.getAggrInfo( function );
-			Iterator arguments = info.getParameters( ).iterator( );
-			for ( ; arguments.hasNext( ); )
+			IMethodInfo method = (IMethodInfo) iterator.next( );
+			if ( method.getName( ).equals( function ) )
 			{
-				IParameterInfo argInfo = (IParameterInfo) arguments.next( );
-				if ( argInfo.getDisplayName( ).equals( argument ) )
-					return argInfo.getName( );
+				Iterator argumentListIter = method.argumentListIterator( );
+				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
+				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+				{
+					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+					if ( argInfo.getDisplayName( ).equals( argument ) )
+						return argInfo.getName( );
+				}
 			}
-		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
 		}
 		return null;
 	}
@@ -903,7 +899,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			dialog.setCanFinish( false );
-			return;
 		}
 		else if ( txtExpression != null
 				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
@@ -911,7 +906,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			dialog.setCanFinish( false );
-			return;
 		}
 		else
 		{
@@ -935,18 +929,163 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					}
 				}
 			}
-			if ( cmbDataField != null
-					&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
-							.trim( )
-							.equals( "" ) ) && cmbDataField.isEnabled( )) //$NON-NLS-1$
-			{
-				dialog.setCanFinish( false );
-				return;
-			}
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
 		}
+	}
+
+	public boolean differs( ComputedColumnHandle binding )
+	{
+		if ( isAggregate( ) )
+		{
+			if ( !strEquals( binding.getName( ), txtName.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getDisplayName( ),
+					txtDisplayName.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
+				return true;
+			if ( !strEquals( binding.getExpression( ), cmbDataField.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getAggregateFunction( ),
+					getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
+				return true;
+			if ( !strEquals( binding.getFilterExpression( ),
+					txtFilter.getText( ) ) )
+				return true;
+			if ( !strEquals( cmbAggOn.getText( ), binding.getAggregateOn( ) ) )
+				return true;
+
+			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+			{
+				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
+				String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
+						handle.getName( ) );
+				if ( argsMap.containsKey( argDisplayName ) )
+				{
+					if ( !strEquals( handle.getValue( ),
+							( (Text) argsMap.get( argDisplayName ) ).getText( ) ) )
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+		}
+		else
+		{
+			if ( !strEquals( txtName.getText( ), binding.getName( ) ) )
+				return true;
+			if ( !strEquals( txtDisplayName.getText( ),
+					binding.getDisplayName( ) ) )
+				return true;
+			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
+				return true;
+			if ( !strEquals( txtExpression.getText( ), binding.getExpression( ) ) )
+				return true;
+		}
+		return false;
+	}
+
+	private boolean strEquals( String left, String right )
+	{
+		if ( left == right )
+			return true;
+		if ( left == null )
+			return "".equals( right );
+		if ( right == null )
+			return "".equals( left );
+		return left.equals( right );
+	}
+
+	private String getDataType( )
+	{
+		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		{
+			if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+					.equals( cmbType.getText( ) ) )
+			{
+				return DATA_TYPE_CHOICES[i].getName( );
+			}
+		}
+		return "";
+	}
+
+	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
+			throws SemanticException
+	{
+		if ( isAggregate( ) )
+		{
+			binding.setDisplayName( txtDisplayName.getText( ) );
+
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+						.equals( cmbType.getText( ) ) )
+				{
+					binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					break;
+				}
+			}
+
+			binding.setExpression( cmbDataField.getText( ) );
+			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
+			binding.setFilterExpression( txtFilter.getText( ) );
+
+			binding.clearAggregateOnList( );
+			String aggStr = cmbAggOn.getText( );
+			StringTokenizer token = new StringTokenizer( aggStr, "," );
+
+			while ( token.hasMoreTokens( ) )
+			{
+				String agg = token.nextToken( );
+				if ( !agg.equals( ALL ) )
+					binding.addAggregateOn( agg );
+			}
+
+			binding.clearArgumentList( );
+
+			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+			{
+				String arg = (String) iterator.next( );
+				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+				argHandle.setName( getArgumentByDisplayName( binding.getAggregateFunction( ),
+						arg ) );
+				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+				binding.addArgument( argHandle );
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+						.equals( cmbType.getText( ) ) )
+				{
+					binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					break;
+				}
+			}
+			binding.setDisplayName( txtDisplayName.getText( ) );
+			binding.setExpression( txtExpression.getText( ) );
+		}
+		return binding;
+	}
+
+	public ComputedColumnHandle newBinding( ReportItemHandle bindingHolder,
+			String name ) throws SemanticException
+	{
+		ComputedColumn column = StructureFactory.newComputedColumn( bindingHolder,
+				name == null ? txtName.getText( ) : name );
+		ComputedColumnHandle binding = DEUtil.addColumn( bindingHolder,
+				column,
+				true );
+		return editBinding( binding );
 	}
 
 }

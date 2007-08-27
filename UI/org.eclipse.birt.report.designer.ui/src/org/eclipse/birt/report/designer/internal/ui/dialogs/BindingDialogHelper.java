@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -204,7 +205,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
-		if ( isCreate )// create
+		if ( isCreate )//create
 		{
 			if ( isRef )
 			{
@@ -978,155 +979,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return argList;
 	}
 
-	public void save( ) throws Exception
-	{
-		if ( isRef )
-			return;
-		if ( txtName.getText( ) != null
-				&& txtName.getText( ).trim( ).length( ) > 0 )
-		{
-
-			if ( isAggregate( ) )
-			{
-				saveAggregate( );
-			}
-			else
-			{
-				if ( isCreate )
-				{
-					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-					{
-						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.equals( cmbType.getText( ) ) )
-						{
-							newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-							break;
-						}
-					}
-					this.newBinding.setName( txtName.getText( ) );
-					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-					this.newBinding.setExpression( txtExpression.getText( ) );
-					this.binding = DEUtil.addColumn( getBindingHolder( ),
-							this.newBinding,
-							true );
-				}
-				else
-				{
-					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-					{
-						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-								.equals( cmbType.getText( ) ) )
-						{
-							this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-							break;
-						}
-					}
-					this.binding.setDisplayName( txtDisplayName.getText( ) );
-					this.binding.setExpression( txtExpression.getText( ) );
-				}
-			}
-		}
-	}
-
-	private void saveAggregate( ) throws Exception
-	{
-		if ( isCreate )
-		{
-			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-			{
-				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-						.equals( cmbType.getText( ) ) )
-				{
-					this.newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-					break;
-				}
-			}
-			this.newBinding.setName( txtName.getText( ) );
-			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-			if ( cmbDataField.isEnabled( ) )
-				this.newBinding.setExpression( cmbDataField.getText( ) );
-			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			this.newBinding.setFilterExpression( txtFilter.getText( ) );
-
-			if ( btnTable.getSelection( ) )
-			{
-				this.newBinding.setAggregateOn( null );
-			}
-			else
-			{
-				this.newBinding.setAggregateOn( cmbGroup.getText( ) );
-			}
-
-			this.binding = DEUtil.addColumn( getBindingHolder( ),
-					this.newBinding,
-					true );
-
-			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-			{
-				String arg = (String) iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-						arg ) );
-				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-				this.binding.addArgument( argHandle );
-			}
-
-		}
-		else
-		{
-			if ( cmbDataField.getText( ) != null
-					&& cmbDataField.getText( ).trim( ).length( ) == 0
-					&& cmbDataField.isEnabled( ) )
-			{
-				this.binding = null;
-				return;
-			}
-
-			if ( !( this.binding.getName( ) != null && this.binding.getName( )
-					.equals( txtName.getText( ).trim( ) ) ) )
-				this.binding.setName( txtName.getText( ) );
-			this.binding.setDisplayName( txtDisplayName.getText( ) );
-
-			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-			{
-				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-						.equals( cmbType.getText( ) ) )
-				{
-					this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-					break;
-				}
-			}
-
-			if ( cmbDataField.isEnabled( ) )
-				this.binding.setExpression( cmbDataField.getText( ) );
-			else
-				this.binding.setExpression( null );
-			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			this.binding.setFilterExpression( txtFilter.getText( ) );
-
-			if ( btnTable.getSelection( ) )
-			{
-				this.binding.setAggregateOn( null );
-			}
-			else
-			{
-				this.binding.setAggregateOn( cmbGroup.getText( ) );
-			}
-
-			this.binding.clearArgumentList( );
-
-			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-			{
-				String arg = (String) iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-						arg ) );
-				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-				this.binding.addArgument( argHandle );
-			}
-		}
-	}
-
 	private String getArgumentByDisplayName( String function, String argument )
 	{
 		try
@@ -1173,5 +1025,136 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public void validate( )
 	{
 		verifyInput( );
+	}
+
+	public boolean differs( ComputedColumnHandle binding )
+	{
+		if ( isAggregate( ) )
+		{
+			if ( !strEquals( binding.getName( ), txtName.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getDisplayName( ),
+					txtDisplayName.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
+				return true;
+			if ( !strEquals( binding.getExpression( ), cmbDataField.getText( ) ) )
+				return true;
+			if ( !strEquals( binding.getAggregateFunction( ),
+					getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
+				return true;
+			if ( !strEquals( binding.getFilterExpression( ),
+					txtFilter.getText( ) ) )
+				return true;
+			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) == null ) )
+				return true;
+		}
+		else
+		{
+			if ( !strEquals( txtName.getText( ), binding.getName( ) ) )
+				return true;
+			if ( !strEquals( txtDisplayName.getText( ),
+					binding.getDisplayName( ) ) )
+				return true;
+			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
+				return true;
+			if ( !strEquals( txtExpression.getText( ), binding.getExpression( ) ) )
+				return true;
+		}
+		return false;
+	}
+
+	private boolean strEquals( String left, String right )
+	{
+		if ( left == right )
+			return true;
+		if ( left == null )
+			return "".equals( right );
+		if ( right == null )
+			return "".equals( left );
+		return left.equals( right );
+	}
+
+	private String getDataType( )
+	{
+		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		{
+			if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+					.equals( cmbType.getText( ) ) )
+			{
+				return DATA_TYPE_CHOICES[i].getName( );
+			}
+		}
+		return "";
+	}
+
+	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
+			throws SemanticException
+	{
+		if ( isAggregate( ) )
+		{
+			binding.setDisplayName( txtDisplayName.getText( ) );
+
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+						.equals( cmbType.getText( ) ) )
+				{
+					binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					break;
+				}
+			}
+
+			binding.setExpression( cmbDataField.getText( ) );
+			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
+			binding.setFilterExpression( txtFilter.getText( ) );
+
+			if ( btnTable.getSelection( ) )
+			{
+				binding.setAggregateOn( null );
+			}
+			else
+			{
+				binding.setAggregateOn( cmbGroup.getText( ) );
+			}
+
+			binding.clearArgumentList( );
+
+			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+			{
+				String arg = (String) iterator.next( );
+				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+						arg ) );
+				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+				binding.addArgument( argHandle );
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+						.equals( cmbType.getText( ) ) )
+				{
+					binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					break;
+				}
+			}
+			binding.setDisplayName( txtDisplayName.getText( ) );
+			binding.setExpression( txtExpression.getText( ) );
+		}
+		return binding;
+	}
+
+	public ComputedColumnHandle newBinding( ReportItemHandle bindingHolder,
+			String name ) throws SemanticException
+	{
+		ComputedColumn column = StructureFactory.newComputedColumn( bindingHolder,
+				name == null ? txtName.getText( ) : name );
+		ComputedColumnHandle binding = DEUtil.addColumn( bindingHolder,
+				column,
+				true );
+		return editBinding( binding );
 	}
 }
