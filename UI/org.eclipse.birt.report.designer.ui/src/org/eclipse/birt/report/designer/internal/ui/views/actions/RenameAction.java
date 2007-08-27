@@ -149,11 +149,11 @@ public class RenameAction extends AbstractViewerAction
 	{
 		if ( selectedItem.getData( ) instanceof DesignElementHandle )
 		{
-			originalName = ( (DesignElementHandle) selectedItem.getData( ) ).getQualifiedName( );
+			originalName = ( (DesignElementHandle) selectedItem.getData( ) ).getName( );
 		}
 		if ( selectedItem.getData( ) instanceof EmbeddedImageHandle )
 		{
-			originalName = ( (EmbeddedImageHandle) selectedItem.getData( ) ).getQualifiedName( );
+			originalName = ( (EmbeddedImageHandle) selectedItem.getData( ) ).getName( );
 		}
 
 		if ( originalName == null )
