@@ -436,8 +436,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				list = (List) ModelUtil.copyValue( propDefn, inherited );
 
 				// establish context when add items.
-
-				setupStructureContext( list );
+				if( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+					setupStructureContext( list );
 			}
 			else
 				list = new ArrayList( );

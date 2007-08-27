@@ -57,4 +57,18 @@ public class LibraryJointDataSetTest extends BaseTestCase
 		assertEquals( "new_library.Rev", cond.getLeftDataSet( ) ); //$NON-NLS-1$
 		assertEquals( "new_library.HistUnitsSales", cond.getRightDataSet( ) ); //$NON-NLS-1$
 	}
+	
+	/**
+	 * For bug 201038, can't throw out exception when remove data set.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testRemoveDataSetFromLib( ) throws Exception
+	{
+		openDesign( "JointDataSetHandleTest_2.xml" );//$NON-NLS-1$
+		JointDataSetHandle dsHandle = designHandle
+				.findJointDataSet( "Data Set2" );//$NON-NLS-1$
+		dsHandle.removeDataSet( "JointDataSetHandleTest_Lib.Data Set" );//$NON-NLS-1$
+	}
 }
