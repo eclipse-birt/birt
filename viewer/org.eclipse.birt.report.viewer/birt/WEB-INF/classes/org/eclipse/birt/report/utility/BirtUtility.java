@@ -752,13 +752,14 @@ public class BirtUtility
 			writeMessage(
 					response.getOutputStream( ),
 					BirtResources
-							.getMessage( "birt.viewer.dialog.print.complete" ), IBirtConstants.MSG_COMPLETE ); //$NON-NLS-1$
+							.getMessage( "birt.viewer.dialog.printserver.complete" ), IBirtConstants.MSG_COMPLETE ); //$NON-NLS-1$
 		}
 		else
 		{
 			writeMessage(
 					response.getOutputStream( ),
-					BirtResources.getMessage( "birt.viewer.error.noprinter" ), IBirtConstants.MSG_ERROR ); //$NON-NLS-1$					
+					BirtResources
+							.getMessage( "birt.viewer.dialog.printserver.error.noprinter" ), IBirtConstants.MSG_ERROR ); //$NON-NLS-1$					
 		}
 	}
 
