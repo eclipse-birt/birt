@@ -210,10 +210,10 @@ public class ScriptEvalUtil
 				result = !match( resultObject, resultOp[0] );
 				break;
 			case IConditionalExpression.OP_IN :
-				result = in( obArray );
+				result = in( resultObject, resultOp );
 				break;
 			case IConditionalExpression.OP_NOT_IN :
-				result = !in( obArray );
+				result = !in( resultObject, resultOp);
 				break;
 			default :
 				throw new DataException(
@@ -526,10 +526,10 @@ public class ScriptEvalUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean in( Object[] resultObj ) throws DataException
+	private static boolean in( Object target, Object[] resultObj )
+			throws DataException
 	{
-		Object target = resultObj[0];
-		for ( int i = 1; i < resultObj.length; i++ )
+		for ( int i = 0; i < resultObj.length; i++ )
 		{
 			if ( compare( target, resultObj[i] ) == 0 )
 				return true;
