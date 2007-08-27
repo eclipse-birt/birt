@@ -285,7 +285,9 @@ public class ChartImageManager
 		int readSize = 0;
 		while ( ( readSize = fis.read( buffer ) ) != -1 )
 		{
-			fos.write( buffer );
+			// Bug 200777
+			// Only write the read size of input stream into output stream.
+			fos.write( buffer, 0, readSize );
 		}
 		fis.close( );
 		fos.close( );
