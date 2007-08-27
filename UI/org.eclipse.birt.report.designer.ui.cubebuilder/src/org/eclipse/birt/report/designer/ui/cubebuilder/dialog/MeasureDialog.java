@@ -11,6 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -30,6 +38,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.core.internal.runtime.DataArea;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -104,7 +113,7 @@ public class MeasureDialog extends BaseDialog
 
 	private String[] getFunctionDisplayNames( )
 	{
-		IChoice[] choices = getFunctions( );
+		IAggregationInfo[] choices = getFunctions( );
 		if ( choices == null )
 			return new String[0];
 
@@ -114,43 +123,36 @@ public class MeasureDialog extends BaseDialog
 			displayNames[i] = choices[i].getDisplayName( );
 		}
 		return displayNames;
-
 	}
 
-	private String[] getFunctionNames( )
+	private String getFunctionDisplayName( String function )
 	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
-			return new String[0];
-
-		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
+		try
 		{
-			displayNames[i] = choices[i].getName( );
+			return DataUtil.getAggregationFactory( )
+					.getAggrInfo( function )
+					.getDisplayName( );
 		}
-		return displayNames;
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return null;
+		}
 	}
 
-	private String getFunctionDisplayName( String name )
-
+	private IAggregationInfo[] getFunctions( )
 	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-						.getProperty( IMeasureModel.FUNCTION_PROP )
-						.getAllowedChoices( ) );
-
-	}
-
-	private IChoice[] getFunctions( )
-
-	{
-		return DEUtil.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-				.getProperty( IMeasureModel.FUNCTION_PROP )
-				.getAllowedChoices( )
-				.getChoices( );
-
+		try
+		{
+			List aggrInfoList = DataUtil.getAggregationFactory( )
+					.getAggrInfoList( IAggregationFactory.AGGR_MEASURE );
+			return (IAggregationInfo[]) aggrInfoList.toArray( new IAggregationInfo[0] );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return new IAggregationInfo[0];
+		}
 	}
 
 	public MeasureDialog( boolean newOrEdit )
@@ -209,8 +211,15 @@ public class MeasureDialog extends BaseDialog
 		{
 			typeCombo.setText( getDataTypeDisplaName( input.getDataType( ) ) == null ? ""
 					: getDataTypeDisplaName( input.getDataType( ) ) );
-			functionCombo.setText( getFunctionDisplayName( input.getFunction( ) ) == null ? ""
-					: getFunctionDisplayName( input.getFunction( ) ) );
+			try
+			{
+				functionCombo.setText( getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) == null ? ""
+						: getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) );
+			}
+			catch ( AdapterException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 			expressionText.setText( input.getMeasureExpression( ) == null ? ""
 					: input.getMeasureExpression( ) );
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) );
@@ -233,7 +242,7 @@ public class MeasureDialog extends BaseDialog
 				TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 						.newTabularMeasure( nameText.getText( ) );
 
-				measure.setFunction( getFunctionNames( )[functionCombo.getSelectionIndex( )] );
+				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				measure.setMeasureExpression( expressionText.getText( ) );
 				result = measure;
@@ -241,7 +250,7 @@ public class MeasureDialog extends BaseDialog
 			else
 			{
 				input.setName( nameText.getText( ) );
-				input.setFunction( getFunctionNames( )[functionCombo.getSelectionIndex( )] );
+				input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				input.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				input.setMeasureExpression( expressionText.getText( ) );
 				result = input;

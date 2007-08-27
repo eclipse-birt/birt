@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Dialog to choose the table/grid row/column number when create a table/grid.
@@ -208,14 +207,10 @@ public class TableOptionDialog extends BaseDialog
 
 		if ( insertTable )
 		{
-			Button datasetRadio = new Button( innerPane, SWT.RADIO );
-			datasetRadio.setText( MSG_DATA_SET );
+			new Label( innerPane, SWT.NONE ).setText( MSG_DATA_SET );
 			dataSetCombo = new Combo( innerPane, SWT.BORDER
 					| SWT.SINGLE
 					| SWT.READ_ONLY );
-			dataSetCombo.setBackground( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
@@ -223,20 +218,6 @@ public class TableOptionDialog extends BaseDialog
 			newList[0] = NONE;
 			dataSetCombo.setItems( newList );
 			dataSetCombo.select( 0 );
-			
-			Button reportItemRadio = new Button( innerPane, SWT.RADIO );
-			
-			reportItemRadio.setText( MSG_DATA_SET );
-			Combo reportItemCombo = new Combo( innerPane, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.READ_ONLY );
-			reportItemCombo.setBackground( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-			reportItemCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			reportItemCombo.setItems( newList );
-			reportItemCombo.select( 0 );
-			
 		}
 
 		else
