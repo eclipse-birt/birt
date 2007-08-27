@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.w3c.dom.css.CSSValue;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 public class ExcelLayoutEngine
 {
@@ -266,31 +267,40 @@ public class ExcelLayoutEngine
 		{
 			IDataContent dataContent = (IDataContent) txt;
 			Object value = dataContent.getValue( );
-
-			if ( ExcelUtil.getType(value).equals( Data.NUMBER) )
+			String text = dataContent.getText( );
+			
+			
+			if ( ( (DataItemDesign) dataContent.getGenerateBy( ) ).getMap( ) != null
+					&& ( (DataItemDesign) dataContent.getGenerateBy( ) )
+							.getMap( ).getRuleCount( ) > 0 )
+			{
+				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );
+				return new Data( text.trim(), entry, Data.STRING );
+			}
+			else if ( ExcelUtil.getType( value ).equals( Data.NUMBER ) )
 			{
 
 				String format = ExcelUtil.getPattern( value, entry
 						.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
 				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
-				entry.setProperty(StyleConstant.DATA_TYPE_PROP, Data.NUMBER );
-				Data data = new Data( value, entry, Data.NUMBER);
-				return data;
+				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.NUMBER );
+				return new Data( value, entry, Data.NUMBER );
+
 			}
-			else if ( ExcelUtil.getType(value).equals( Data.DATE) )
+			else if ( ExcelUtil.getType( value ).equals( Data.DATE ) )
 			{
 				String format = ExcelUtil.getPattern( value, entry
 						.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
 				entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
 				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
-				Data data = new Data( value, entry, Data.DATE );
-				return data;
+				return new Data( value, entry, Data.DATE );
+
 			}
-			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );  
-			return new Data( dataContent.getText( ).trim( ), entry, Data.STRING );
-			
+			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );
+			return new Data( text.trim( ), entry, Data.STRING );
+
 		}
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING ); 
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );
 		return new Data( txt, entry, Data.STRING );
 		
 	}
