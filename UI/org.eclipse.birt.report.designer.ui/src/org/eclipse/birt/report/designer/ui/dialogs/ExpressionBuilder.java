@@ -11,12 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -118,35 +114,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
-	// Defines item types
-
-	/** The item type for provider */
-	private static final int ITEM_IMAGE = 1;
-
-	/** The display text type for provider */
-	private static final int ITEM_DISPLAY_TEXT = 2;
-	
-	/** The insert text type for provider */
-	private static final int ITEM_INSERT_TEXT = 3;
-	
-	/** The tooltip text type for provider */
-	private static final int ITEM_TOOLTIP_TEXT = 4;
-
-	/** The operators type for provider */
-	private static final int ITEM_OPERATORS = 5;
-	
-	/** The children type for provider */
-	private static final int ITEM_CHILDREN = 6;
-	
-	/** The category type for provider */
-	private static final int ITEM_CATEGORY = 7;
-	
-	/** The has children type for provider */
-	private static final int ITEM_HAS_CHILDREN = 8;
-
-	/** the providers */
-	private final Collection providers = new HashSet();
-	
 	private class TableContentProvider implements IStructuredContentProvider
 	{
 
@@ -163,7 +130,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			if ( viewer == categoryTable )
 			{
-				return ( (Collection) getProviderValue( ITEM_CATEGORY ) ).toArray( );
+				return provider.getCategory( );
 			}
 			//does not show groups/measures in third column. 
 			if ( inputElement instanceof PropertyHandle
@@ -188,15 +155,13 @@ public class ExpressionBuilder extends TitleAreaDialog
 				childrenList.add( inputElement );
 				return childrenList.toArray( );
 			}
-			return ( (Collection) getProviderValue( ITEM_CHILDREN, inputElement ) ).toArray( );
+			return provider.getChildren( inputElement );
 		}
 
 		private List getChildren( Object inputElement )
 		{
 			List childrenList = new ArrayList( );
-			Object[] children = ( (Collection) getProviderValue( ITEM_CHILDREN,
-					inputElement ) ).toArray( );
-
+			Object[] children = provider.getChildren( inputElement );
 			childrenList.addAll( Arrays.asList( children ) );
 			for ( int i = 0; i < children.length; i++ )
 			{
@@ -224,8 +189,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 		public void selectionChanged( SelectionChangedEvent event )
 		{
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+			if ( selection.isEmpty( ) )
+			{
+				return;
+			}
 			Viewer target = null;
-
 			if ( event.getSource( ) == categoryTable )
 			{
 				target = subCategoryTable;
@@ -236,8 +204,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 			if ( target != null )
 			{
-				target.setInput( selection == null ? null
-						: selection.getFirstElement( ) );
+				target.setInput( selection.getFirstElement( ) );
 			}
 
 			if ( event.getSource( ) == functionTable )
@@ -262,12 +229,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return (Image) getProviderValue( ITEM_IMAGE, element );
+			return provider.getImage( element );
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			return (String) getProviderValue( ITEM_DISPLAY_TEXT, element );
+			return provider.getDisplayText( element );
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -314,10 +281,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 						return;
 					}
 				}
-
-				String insertText = (String) getProviderValue( ITEM_INSERT_TEXT,
-						selection.getFirstElement( ) );
-
+				String insertText = provider.getInsertText( selection.getFirstElement( ) );
 				if ( insertText != null )
 				{
 					insertText( insertText );
@@ -326,13 +290,14 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 		}
 	};
-
 	private Composite buttonBar;
 	private TableViewer categoryTable, functionTable;
 	private TreeViewer subCategoryTable;
+	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private String expression = null;
 	private Label messageLine;
+
 	private String title;
 
 	/**
@@ -384,12 +349,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createToolbar( composite );
 		createExpressionField( composite );
-
-		if ( providers.isEmpty( ) )
+		if ( provider == null )
 		{
-			providers.add( new ExpressionProvider( ) );
+			provider = new ExpressionProvider( );
 		}
-
 		createOperatorsBar( composite );
 		createMessageLine( composite );
 		createListArea( composite );
@@ -580,13 +543,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createOperatorsBar( Composite parent )
 	{
-		Object[] operators = ((Collection) getProviderValue( ITEM_OPERATORS ) ).toArray( );
-
+		Operator[] operators = provider.getOperators( );
 		if ( operators == null || operators.length == 0 )
 		{
 			return;
 		}
-
 		Composite operatorsBar = new Composite( parent, SWT.NONE );
 		operatorsBar.setLayout( new GridLayout( 2, false ) );
 		operatorsBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -611,8 +572,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 			button.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			if ( operators[i] != IExpressionProvider.OPERATOR_SEPARATOR )
 			{
-				button.setData( ( (Operator) operators[i] ).insertString );
-				String text = ( (Operator) operators[i] ).symbol;
+				button.setData( operators[i].insertString );
+				String text = operators[i].symbol;
 				if ( text.indexOf( "&" ) != -1 ) //$NON-NLS-1$
 				{
 					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -662,7 +623,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public Object[] getChildren( Object parentElement )
 			{
-				return ( (Collection) getProviderValue( ITEM_CHILDREN, parentElement ) ).toArray( );
+				return provider.getChildren( parentElement );
 			}
 
 			public Object getParent( Object element )
@@ -672,7 +633,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 			public boolean hasChildren( Object element )
 			{
-				return ( (Boolean) getProviderValue( ITEM_HAS_CHILDREN, element ) ).booleanValue( );
+				return provider.hasChildren( element );
 			}
 
 			public Object[] getElements( Object inputElement )
@@ -720,8 +681,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					}
 					else
 					{
-						table.setToolTipText( (String) getProviderValue( ITEM_TOOLTIP_TEXT,
-								item.getData( ) ) );
+						table.setToolTipText( provider.getTooltipText( item.getData( ) ) );
 					}
 				}
 			}
@@ -811,26 +771,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 */
 	public void setExpressionProvier( IExpressionProvider provider )
 	{
-		providers.clear( );
-		if ( provider != null )
-		{
-			providers.add( provider );
-		}
-	}
-
-	/**
-	 * Sets the expression providers for the expression builder
-	 * 
-	 * @param providers
-	 *            the expression providers
-	 */
-	public void setExpressionProviers( Collection providers )
-	{
-		this.providers.clear( );
-		if ( providers != null )
-		{
-			this.providers.addAll( providers );
-		}
+		this.provider = provider;
 	}
 
 	/**
@@ -873,254 +814,5 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			textWidget.setCaretOffset( textWidget.getCaretOffset( ) - 1 ); // Move
 		}
-	}
-
-	/**
-	 * Returns the value with the specified item, default value if the results
-	 * are over one.
-	 * 
-	 * @param item
-	 *            the specified item
-	 * @return the provider value
-	 */
-	private Object getProviderValue( int item )
-	{
-		return getProviderValue( item, null );
-	}
-
-	/**
-	 * Returns the value with the specified item and element, default value if
-	 * the results are over one.
-	 * 
-	 * @param item
-	 *            the specified item
-	 * @param element
-	 *            the specified element
-	 * @return the provider value
-	 */
-	private Object getProviderValue( int item, Object element )
-	{
-		Collection values = new HashSet( );
-		Object defultValue = getDefaultValue( item );
-
-		for ( Iterator iterator = providers.iterator( ); iterator.hasNext( ); )
-		{
-			Object object = iterator.next( );
-			Object value = object instanceof IExpressionProvider ? getProviderValue( item,
-					element,
-					(IExpressionProvider) object )
-					: null;
-
-			values.add( value == null ? defultValue : value );
-		}
-
-		if ( values.size( ) == 1 )
-		{
-			return values.iterator( ).next( );
-		}
-		else if ( values.size( ) > 1 )
-		{
-			Collection results = null;
-
-			for ( Iterator iterator = values.iterator( ); iterator.hasNext( ); )
-			{
-				Object value = (Object) iterator.next( );
-
-				if ( value instanceof Collection )
-				{
-					results = retainCollection( results, (Collection) value );
-				}
-				else
-				{
-					break;
-				}
-			}
-			return results;
-		}
-		return defultValue;
-	}
-
-    /**
-	 * Retains only the elements those all are contained in two collections.
-	 * 
-	 * @param c1
-	 *            the first collection
-	 * @param c2
-	 *            the second collection
-	 * @return the results retained
-	 */
-	private Collection retainCollection( Collection c1, Collection c2 )
-	{
-		Collection result = new ArrayList( );
-
-		if ( c1 == null && c2 != null )
-		{
-			result = new ArrayList( c2 );
-		}
-		else if ( c1 != null && c2 == null )
-		{
-			result = new ArrayList( c1 );
-		}
-		else if ( c1 != null && c2 != null )
-		{
-			Collection result1 = new ArrayList( c1 );
-			Collection result2 = new ArrayList( c2 );
-
-			for ( Iterator iterator1 = result1.iterator( ); iterator1.hasNext( ); )
-			{
-				Object item1 = iterator1.next( );
-
-				for ( Iterator iterator2 = result2.iterator( ); iterator2.hasNext( ); )
-				{
-					Object item2 = iterator2.next( );
-
-					if ( isEquals( item1, item2 ) )
-					{
-						result.add( item2 );
-						iterator2.remove( );
-						break;
-					}
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Returns <code>true</code> if two items are equal, <code>false</code>
-	 * otherwise.
-	 * 
-	 * @param item1
-	 *            the first item
-	 * @param item2
-	 *            the second item
-	 * @return <code>true</code> if two items are equal, <code>false</code>
-	 *         otherwise.
-	 */
-	private boolean isEquals( Object item1, Object item2 )
-	{
-		if ( !item1.getClass( ).isArray( ) || !item2.getClass( ).isArray( ) )
-		{
-			return item1.equals( item2 );
-		}
-
-		int length1 = Array.getLength( item1 );
-		int length2 = Array.getLength( item2 );
-
-		if ( length1 != length2 )
-		{
-			return false;
-		}
-
-		for ( int i = 0; i < length1; i++ )
-		{
-			Object a1 = Array.get( item1, i );
-			Object a2 = Array.get( item2, i );
-
-			if ( a1 != null && !a1.equals( a2 ) )
-			{
-				return false;
-			}
-			else if ( a1 == null && a2 != null )
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Returns the value with the specified item, element and action handle,
-	 * <code>null</code> if a item is not found.
-	 * 
-	 * @param item
-	 *            the specified item
-	 * @param element
-	 *            the specified element
-	 * @param provider
-	 *            the specified expression provider
-	 * @return the provider value
-	 */
-	private Object getProviderValue( int item, Object element,
-			IExpressionProvider provider )
-	{
-		Object value = null;
-
-		switch ( item )
-		{
-			case ITEM_IMAGE :
-				value = provider.getImage( element );
-				break;
-
-			case ITEM_DISPLAY_TEXT :
-				value = provider.getDisplayText( element );
-				break;
-
-			case ITEM_INSERT_TEXT :
-				value = provider.getInsertText( element );
-				break;
-
-			case ITEM_TOOLTIP_TEXT :
-				value = provider.getTooltipText( element );
-				break;
-
-			case ITEM_OPERATORS :
-				value = Arrays.asList( provider.getOperators( ) );
-				break;
-				
-			case ITEM_CHILDREN :
-				value = Arrays.asList( provider.getChildren( element ) );
-				break;
-
-			case ITEM_CATEGORY :
-				value = Arrays.asList( provider.getCategory( ) );
-				break;
-
-			case ITEM_HAS_CHILDREN :
-				value = new Boolean( provider.hasChildren( element ) );
-				break;
-
-			default :
-				value = null;
-				break;
-		}
-
-		return value;
-	}
-
-	/**
-	 * Returns the default value with the specified item.
-	 * 
-	 * @param item
-	 *            the specified item
-	 * @return the default value
-	 */
-	private Object getDefaultValue( int item )
-	{
-		Object value = null;
-
-		switch ( item )
-		{
-			case ITEM_DISPLAY_TEXT :
-			case ITEM_INSERT_TEXT :
-			case ITEM_TOOLTIP_TEXT :
-				value = ""; //$NON-NLS-1$
-				break;
-
-			case ITEM_OPERATORS :
-			case ITEM_CHILDREN :
-			case ITEM_CATEGORY :
-				value = Collections.EMPTY_LIST;
-				break;
-
-			case ITEM_HAS_CHILDREN :
-				value = new Boolean( false );
-				break;
-
-			case ITEM_IMAGE :
-			default :
-				break;
-		}
-		return value;
 	}
 }
