@@ -62,7 +62,7 @@ public class RenderTaskTest extends EngineCase
 		IReportDocument reportDoc = engine.openReportDocument( null, reader,
 				new HashMap( ) );
 		assertTrue( reportDoc.getVersion( ).equals(
-				ReportDocumentConstants.REPORT_DOCUMENT_VERSION ) );
+				ReportDocumentConstants.BIRT_ENGINE_VERSION ) );
 		// create an RenderTask using the report document
 		IRenderTask renderTask = engine.createRenderTask( reportDoc );
 		// get the page number
@@ -98,7 +98,7 @@ public class RenderTaskTest extends EngineCase
 		// open the document in the archive.
 		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
 		assertTrue( reportDoc.getVersion( ).equals(
-				ReportDocumentConstants.REPORT_DOCUMENT_VERSION ) );
+				ReportDocumentConstants.BIRT_ENGINE_VERSION ) );
 		// create an RenderTask using the report document
 		IRenderTask task = engine.createRenderTask( reportDoc );
 		// get the page number

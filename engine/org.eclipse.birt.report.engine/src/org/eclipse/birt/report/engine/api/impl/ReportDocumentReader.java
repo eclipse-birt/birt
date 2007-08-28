@@ -424,6 +424,7 @@ public class ReportDocumentReader
 				if ( supportedVersions[i].equals( docVersion ) )
 				{
 					supportedVersion = true;
+					break;
 				}
 			}
 		}

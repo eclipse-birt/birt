@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004,2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api.document;
 
@@ -37,6 +47,7 @@ public class ReportDocumentTest extends EngineCase
 
 	final String REPORT_DOCUMENT = "./utest/report.rptdocument";
 	final String REPORT_DOCUMENT_V2_1_0 = "org/eclipse/birt/report/engine/api/document/v2_1_0.rptdocument";
+	final String REPORT_DOCUMENT_V2_2_0 = "org/eclipse/birt/report/engine/api/document/v2_2_0.rptdocument";
 
 	public void tearDown( )
 	{
@@ -46,6 +57,14 @@ public class ReportDocumentTest extends EngineCase
 	public void testV2_1_0( ) throws Exception
 	{
 		copyResource( REPORT_DOCUMENT_V2_1_0, REPORT_DOCUMENT );
+		doTestDocument( );
+		super.removeFile( REPORT_DOCUMENT );
+
+	}
+	
+	public void testV2_2_0( ) throws Exception
+	{
+		copyResource( REPORT_DOCUMENT_V2_2_0, REPORT_DOCUMENT );
 		doTestDocument( );
 		super.removeFile( REPORT_DOCUMENT );
 
