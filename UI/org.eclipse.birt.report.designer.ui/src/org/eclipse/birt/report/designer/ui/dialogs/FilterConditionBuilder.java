@@ -291,7 +291,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected Combo expression, operator;
 
-	protected Button optionalBtn, valBuilder1, valBuilder2;
+	protected Button valBuilder1, valBuilder2;
 
 	protected Button addBtn, editBtn, delBtn, delAllBtn;
 
@@ -364,9 +364,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		Label lb2 = new Label(anotherParent, SWT.NONE);
 		lb2.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
 		
-		optionalBtn = new Button( anotherParent, SWT.CHECK );
-		optionalBtn.setText( Messages.getString( "FilterConditionBuilder.checkbox.optional.title" ) );
-
 		new Label(anotherParent, SWT.NONE);
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
@@ -1064,9 +1061,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected void enableInput( boolean val )
 	{
+		operator.setEnabled( val );
 		if ( valueVisible != 3 )
-		{
-			operator.setEnabled( val );
+		{			
 			value1.setEnabled( val );
 			value2.setEnabled( val );
 			valBuilder1.setEnabled( val );
@@ -1108,7 +1105,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	/**
 	 * Gets if the expression field is not empty.
 	 */
-	private boolean isExpressionOK( )
+	protected boolean isExpressionOK( )
 	{
 		if ( expression == null )
 		{
@@ -1145,7 +1142,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	/**
 	 * Gets if the values of the condition is(are) available.
 	 */
-	private boolean checkValues( )
+	protected boolean checkValues( )
 	{
 		if ( valueVisible == 3 )
 		{
@@ -1233,7 +1230,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
-		optionalBtn.setSelection( inputHandle.isOptional( ) );
 
 		if ( valueVisible == 3 )
 		{
@@ -1300,7 +1296,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				FilterCondition filter = StructureFactory.createFilterCond( );
 				filter.setProperty( FilterCondition.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				filter.setOptional( optionalBtn.getSelection( ) );
 				if ( valueVisible == 3 )
 				{
 					filter.setValue1( valueList );
@@ -1325,7 +1320,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			else
 			{
 				inputHandle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				inputHandle.setOptional( optionalBtn.getSelection( ) );
 				if ( valueVisible == 3 )
 				{
 					inputHandle.setValue1( valueList );

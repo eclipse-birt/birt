@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -775,14 +776,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		List bindingList = getReferableBindings( level );
 		for ( int i = 0; i < bindingList.size( ); i++ )
 		{
-			try
-			{
-				textKey.add( ( (IBinding) ( bindingList.get( i ) ) ).getBindingName( ) );
-			}
-			catch ( DataException e )
-			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
-			}
+			textKey.add( ( (IBindingMetaInfo) ( bindingList.get( i ) ) ).getBindingName( ) );
 		}
 
 		if ( textKey.getItemCount( ) == 0 )

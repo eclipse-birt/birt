@@ -97,7 +97,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 			FilterConditionElementHandle filterHandle = levelfilterHandle.getfilterConditionHandle( );
 
 			CrosstabFilterConditionBuilder dialog = new CrosstabFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT, FilterConditionBuilder.DLG_MESSAGE_EDIT );
+					CrosstabFilterConditionBuilder.DLG_TITLE_EDIT, CrosstabFilterConditionBuilder.DLG_MESSAGE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( filterHandle, level );
 			if ( dialog.open( ) == Dialog.CANCEL )
@@ -174,7 +174,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 						.equals( "Crosstab" ) )
 		{
 			CrosstabFilterConditionBuilder dialog = new CrosstabFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW,FilterConditionBuilder.DLG_MESSAGE_NEW );
+					CrosstabFilterConditionBuilder.DLG_TITLE_NEW,CrosstabFilterConditionBuilder.DLG_MESSAGE_NEW );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
