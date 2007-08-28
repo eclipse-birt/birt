@@ -129,6 +129,7 @@ import org.osgi.framework.Bundle;
 
 public class UIUtil
 {
+
 	protected static Logger logger = Logger.getLogger( UIUtil.class.getName( ) );
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
@@ -1086,7 +1087,7 @@ public class UIUtil
 		}
 		catch ( IOException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return home;
 	}
@@ -1113,7 +1114,7 @@ public class UIUtil
 		}
 		catch ( IOException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return directory;
 	}
@@ -1312,7 +1313,7 @@ public class UIUtil
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
-				ExceptionHandler.handle( exception );	
+				ExceptionHandler.handle( exception );
 			}
 			return handle;
 		}
@@ -1330,7 +1331,7 @@ public class UIUtil
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
-				ExceptionHandler.handle( exception );				
+				ExceptionHandler.handle( exception );
 
 			}
 		}
@@ -1565,16 +1566,16 @@ public class UIUtil
 				"org.eclipse.birt.report.designer.ui.editors.LibraryEditor",
 				"org.eclipse.birt.report.designer.ui.editors.TemplateEditor"
 		};
-		
-		for(int i = 0; i < ids.length; i ++)
+
+		for ( int i = 0; i < ids.length; i++ )
 		{
 			input = getActiveEditor( ids[i] );
-			if(input != null)
+			if ( input != null )
 			{
 				break;
 			}
-		}			
-		
+		}
+
 		if ( input == null )
 			return null;
 		Object adapter = input.getAdapter( ModelEventManager.class );
@@ -1616,8 +1617,7 @@ public class UIUtil
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * Return the display name of dataset column
 	 * @param column
@@ -1635,15 +1635,16 @@ public class UIUtil
 			{
 				if ( element.getDisplayNameKey( ) != null )
 				{
-					return element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER, ColumnHint.DISPLAY_NAME_MEMBER);
+					return element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
 				}
-				return element.getDisplayName( ) == null
-						? column.getColumnName( ) : element.getDisplayName( );
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
 			}
 		}
 		return column.getColumnName( );
 	}
-	
+
 	public static void setExpressionButtonImage( Button button )
 	{
 		String imageName;
@@ -1658,8 +1659,11 @@ public class UIUtil
 		Image image = ReportPlatformUIImages.getImage( imageName );
 
 		GridData gd = new GridData( );
-		gd.widthHint = 20;
-		gd.heightHint = 20;
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			gd.widthHint = 20;
+			gd.heightHint = 20;
+		}
 		button.setLayoutData( gd );
 
 		button.setImage( image );
