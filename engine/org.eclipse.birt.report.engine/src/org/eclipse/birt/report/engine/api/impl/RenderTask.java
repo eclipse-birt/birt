@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
@@ -236,12 +237,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void render( ) throws EngineException
 	{
-		if ( !designLoaded )
-		{
-			// load report design			
-			loadDesign( );
-			designLoaded = true;
-		}
 		try
 		{
 			changeStatusToRunning( );
@@ -255,6 +250,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 				throw new EngineException(
 						"Can not find the report design in the report document {0}.",
 						new Object[]{reportDoc.getName( )} );
+			}
+
+			if ( !designLoaded )
+			{
+				// load report design
+				loadDesign( );
+				// synchronize the design ir's version with the document
+				String version = reportDoc.getVersion( );
+				Report report = executionContext.getReport( );
+				report.updateVersion( version );
+
+				designLoaded = true;
 			}
 
 			innerRender.render( );

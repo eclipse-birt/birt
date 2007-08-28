@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,8 +32,10 @@ public class PageHintReader implements IPageHintReader
 
 	public PageHintReader( IReportDocument document ) throws IOException
 	{
-		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
-				.equals( document.getVersion( ) ) )
+		String version = document
+				.getProperty( ReportDocumentConstants.PAGE_HINT_VERSION_KEY );
+
+		if ( ReportDocumentConstants.PAGE_HINT_VERSION_1.equals( version ) )
 		{
 			this.reader = new PageHintReaderV1( document );
 		}

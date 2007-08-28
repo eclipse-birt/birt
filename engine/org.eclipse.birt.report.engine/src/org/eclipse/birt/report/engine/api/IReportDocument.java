@@ -40,6 +40,8 @@ public interface IReportDocument
 
 	public String getVersion();
 	
+	public String getProperty( String key );
+
 	/**
 	 * @return the report document (archive) name
 	 */

@@ -62,8 +62,8 @@ public class ReportDocumentReader
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
 	 */
-	private String docVersion;
 	private int coreVersion = -1;
+	private Map properties = new HashMap( );
 	private HashMap parameters;
 	private HashMap globalVariables;
 	/**
@@ -158,7 +158,12 @@ public class ReportDocumentReader
 
 	public String getVersion( )
 	{
-		return docVersion;
+		return (String) properties.get( BIRT_ENGINE_VERSION_KEY );
+	}
+	
+	public String getProperty( String key )
+	{
+		return (String) properties.get( key );
 	}
 
 	protected class ReportDocumentCoreInfo
@@ -211,9 +216,9 @@ public class ReportDocumentReader
 					}
 					else
 					{
-						throw new IOException( "unsupported document:"
-								+ docVersion + "  core stream version: "
-								+ coreVersion );
+						throw new IOException(
+								"unsupported core stream version: " +
+										coreVersion );
 					}
 				}
 				finally
@@ -393,29 +398,84 @@ public class ReportDocumentReader
 	protected void checkVersion( DataInputStream di ) throws IOException
 	{
 		String tag = IOUtil.readString( di );
-		docVersion = IOUtil.readString( di );
+		String docVersion = IOUtil.readString( di );
 		if ( CORE_VERSION_0.equals( docVersion ) )
 		{
 			coreVersion = Integer.parseInt( CORE_VERSION_0
 					.substring( CORE_VERSION_PREFIX.length( ) ) );
 			docVersion = IOUtil.readString( di );
 		}
+		else if (CORE_VERSION_1.equals( docVersion ))
+		{
+			coreVersion = Integer.parseInt( CORE_VERSION_0
+					.substring( CORE_VERSION_PREFIX.length( ) ) );
+			docVersion = IOUtil.readString( di );
+			properties = IOUtil.readMap( di );
+		}
 
 		String[] supportedVersions = new String[]{
 				REPORT_DOCUMENT_VERSION_1_2_1, REPORT_DOCUMENT_VERSION_2_1_0,
 				REPORT_DOCUMENT_VERSION_2_1_3};
+		boolean supportedVersion = false;
 		if ( REPORT_DOCUMENT_TAG.equals( tag ) )
 		{
 			for ( int i = 0; i < supportedVersions.length; i++ )
 			{
 				if ( supportedVersions[i].equals( docVersion ) )
 				{
-					return;
+					supportedVersion = true;
 				}
 			}
 		}
-		throw new IOException(
-				"unsupport report document tag" + tag + " version " + docVersion ); //$NON-NLS-1$
+		if ( supportedVersion == false )
+		{
+			throw new IOException(
+					"unsupport report document tag" + tag + " version " + docVersion ); //$NON-NLS-1$
+		}
+		
+		if ( properties.get( BIRT_ENGINE_VERSION_KEY ) == null )
+		{
+			if ( REPORT_DOCUMENT_VERSION_1_2_1.equals( docVersion ) )
+			{
+				properties.put( BIRT_ENGINE_VERSION_KEY,
+						BIRT_ENGINE_VERSION_2_1 );
+			}
+			else if ( REPORT_DOCUMENT_VERSION_2_1_0.equals( docVersion ) )
+			{
+				properties.put( BIRT_ENGINE_VERSION_KEY,
+						BIRT_ENGINE_VERSION_2_1_RC5 );
+			}
+			else if ( REPORT_DOCUMENT_VERSION_2_1_3.equals( docVersion ) )
+			{
+				properties.put( BIRT_ENGINE_VERSION_KEY,
+						BIRT_ENGINE_VERSION_2_1_3 );
+			}
+		}
+		
+
+		String version = getVersion( );
+		//FIXME: test if the version is later than BIRT_ENGINE_VERSION
+
+		if ( properties.get( DATA_EXTRACTION_TASK_VERSION_KEY ) == null )
+		{
+			// check the data extraction task version
+			if ( BIRT_ENGINE_VERSION_2_1.equals( docVersion ) ||
+					BIRT_ENGINE_VERSION_2_1_RC5.equals( version ) )
+			{
+				properties.put( DATA_EXTRACTION_TASK_VERSION_KEY,
+						DATA_EXTRACTION_TASK_VERSION_0 );
+			}
+			else
+			{
+				properties.put( DATA_EXTRACTION_TASK_VERSION_KEY,
+						DATA_EXTRACTION_TASK_VERSION_1 );
+			}
+		}
+		// assign the page-hint version
+		if ( properties.get( PAGE_HINT_VERSION_KEY ) == null )
+		{
+			properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_2 );
+		}
 	}
 
 	public void close( )
@@ -490,6 +550,7 @@ public class ReportDocumentReader
 						stream = archive.getStream( DESIGN_IR_STREAM );
 						EngineIRReader reader = new EngineIRReader( );
 						Report reportIR = reader.read( stream );
+						reportIR.setVersion( getVersion( ) );
 						reader.link( reportIR, reportRunnable.getReport( ) );
 						reportRunnable.setReportIR( reportIR );
 					}
@@ -869,11 +930,6 @@ public class ReportDocumentReader
 		{
 			return -1;
 		}
-		// version 1.0.0 don't support this feature
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
-		{
-			return -1;
-		}
 		initializePageHintReader( );
 		if ( pageHintReader == null )
 		{
@@ -991,11 +1047,6 @@ public class ReportDocumentReader
 
 	private long getOffset( Map index, String key )
 	{
-		// version 1.0.0 don't support this feature
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
-		{
-			return -1;
-		}
 		Long offset = (Long) index.get( key );
 		if ( offset != null )
 		{

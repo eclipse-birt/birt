@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,17 +37,14 @@ public class DataExtractionTask implements IDataExtractionTask
 	public DataExtractionTask( IReportEngine engine, IReportRunnable runnable,
 			IReportDocument reader ) throws EngineException
 	{
-		String version = reader.getVersion( );
-		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0
-				.equals( version )
-				|| ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_2_1
-						.equals( version )
-				|| ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
-						.equals( version ) )
+		String version = reader
+				.getProperty( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_KEY );
+		if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_0
+				.equals( version ) )
 		{
 			task = new DataExtractionTaskV0( engine, runnable, reader );
 		}
-		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_3
+		else if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_1
 				.equals( version ) )
 		{
 			task = new DataExtractionTaskV1( engine, runnable, reader );

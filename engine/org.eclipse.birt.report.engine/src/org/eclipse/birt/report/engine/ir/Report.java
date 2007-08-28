@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -63,7 +63,7 @@ public class Report
 	 * use to find the query IDs.(query, string) pair.
 	 */
 	protected HashMap queryIDs = new HashMap( );
-	
+
 	/**
 	 * use to find the result MetaData.(query, ResultMetaData) pair.
 	 */
@@ -92,7 +92,7 @@ public class Report
 	 * map query to report element handle
 	 */
 	protected HashMap mapQueryToReportElementHandle;
-	
+
 	/**
 	 * css engine used in this
 	 */
@@ -124,7 +124,7 @@ public class Report
 		}
 		return mapReportItemToQuery;
 	}
-	
+
 	/**
 	 * set query to report item
 	 * 
@@ -156,7 +156,8 @@ public class Report
 	{
 		if ( mapQueryToReportElementHandle != null )
 		{
-			return (IDataQueryDefinition[]) mapQueryToReportElementHandle.get( handle );
+			return (IDataQueryDefinition[]) mapQueryToReportElementHandle
+					.get( handle );
 		}
 		return null;
 	}
@@ -348,7 +349,7 @@ public class Report
 	{
 		return this.queryIDs;
 	}
-	
+
 	public HashMap getResultMetaData( )
 	{
 		return this.resultMetaData;
@@ -370,22 +371,48 @@ public class Report
 	public List getErrors( )
 	{
 		return this.reportDesign.getErrorList( );
-	}	
+	}
 
 	public ReportItemDesign findDesign( ReportElementHandle handle )
 	{
-		ReportElementDesign elementDesign = getReportItemByID( handle
-				.getID( ) );
+		ReportElementDesign elementDesign = getReportItemByID( handle.getID( ) );
 		if ( elementDesign != null )
 		{
 			return (ReportItemDesign) elementDesign;
 		}
 		else
 		{
-			return new EngineIRVisitor( reportDesign ).translate( handle,
-					this );
+			return new EngineIRVisitor( reportDesign ).translate( handle, this );
 		}
 	}
 
+	/**
+     * the BIRT vesion used to generate the IR.
+     */
+	protected String version;
 
+	/**
+	 * @return
+	 */
+	public String getVersion( )
+	{
+		return version;
+	}
+
+	public void setVersion( String version )
+	{
+		this.version = version;
+	}
+
+	public void updateVersion( String version )
+	{
+		if ( version == null )
+		{
+			return;
+		}
+		if ( version.equals( this.version ) )
+		{
+			return;
+		}
+	}
 }

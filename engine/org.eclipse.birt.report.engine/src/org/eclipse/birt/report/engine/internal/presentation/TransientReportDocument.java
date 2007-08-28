@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 
 import com.ibm.icu.util.ULocale;
 
@@ -60,6 +59,11 @@ public class TransientReportDocument implements IReportDocument
 	public String getVersion( )
 	{
 		return document.getVersion( );
+	}
+	
+	public String getProperty( String key )
+	{
+		return document.getProperty( key );
 	}
 
 	public String getName( )

@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -174,7 +175,10 @@ public class ReportParser
 		// assert ( design.getErrorList().isEmpty());
 
 		EngineIRVisitor visitor = new EngineIRVisitor( design );
-		return visitor.translate( );
+		Report report = visitor.translate( );
+		report.setVersion( ReportDocumentConstants.BIRT_ENGINE_VERSION );
+		return report;
+		
 	}
 	
 }

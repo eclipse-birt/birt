@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -110,27 +110,24 @@ public class ReportExecutorWrapper implements IReportExecutor
 
 	public static int getVersion( IReportDocument document ) throws IOException
 	{
-		String docVersion = document.getVersion( );
+		String birtVersion = document.getVersion( );
 		int version = EXECUTOR_VERSION_UNKNOWN;
-		if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_0_0
-				.equals( docVersion ) )
+		if ( birtVersion != null )
 		{
-			version = EXECUTOR_VERSION_1;
-		}
-		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_1_2_1
-				.equals( docVersion ) )
-		{
-			version = EXECUTOR_VERSION_2;
-		}
-		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0
-				.equals( docVersion ) )
-		{
-			version = EXECUTOR_VERSION_3;
-		}
-		else if ( ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_3
-				.equals( docVersion ) )
-		{
-			version = EXECUTOR_VERSION_4;
+			if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1
+					.equals( birtVersion ) )
+			{
+				version = EXECUTOR_VERSION_2;
+			}
+			else if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_RC5
+					.equals( birtVersion ) )
+			{
+				version = EXECUTOR_VERSION_3;
+			}
+			else
+			{
+				version = EXECUTOR_VERSION_4;
+			}
 		}
 		return version;
 	}
