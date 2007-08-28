@@ -18,9 +18,9 @@ import org.eclipse.ui.PlatformUI;
 public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 {
 
-	protected static final String LABEL_LINK_TO = Messages.getString( "HyperLinkPage.Label.LnikTo" ); //$NON-NLS-1$
+	private static final String LABEL_LINK_TO = Messages.getString( "HyperLinkPage.Label.LnikTo" ); //$NON-NLS-1$
 
-	protected static final String LABEL_NONE = Messages.getString( "HyperLinkPage.Label.None" ); //$NON-NLS-1$
+	private static final String LABEL_NONE = Messages.getString( "HyperLinkPage.Label.None" ); //$NON-NLS-1$
 
 	public String getDisplayName( )
 	{
@@ -120,14 +120,14 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 		return flag;
 	}
 
-	protected boolean needRefresh = true;
+	private boolean needRefresh = true;
 
-	protected CommandStack getActionStack( )
+	private CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
-	protected ActionHandle getActionHandle( )
+	private ActionHandle getActionHandle( )
 	{
 		return DEUtil.getActionHandle( (ReportItemHandle) DEUtil.getInputFirstElement( input ) );
 	}
@@ -137,5 +137,11 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 		return true;
 	}
 
-
+	public boolean isEnable( )
+	{
+		if ( DEUtil.getInputSize( input ) != 1 )
+			return false;
+		else
+			return true;
+	}
 }
