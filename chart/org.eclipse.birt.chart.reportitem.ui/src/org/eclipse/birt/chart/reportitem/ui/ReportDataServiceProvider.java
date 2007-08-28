@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -202,7 +203,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						String[] record = new String[columnCount];
 						for ( int n = 0; n < columnCount; n++ )
 						{
-							record[n] = iter.getString( expressions[n] );
+							// Bugzilla#190229, to get string with localized
+							// format
+							record[n] = DataTypeUtil.toString( iter.getValue( expressions[n] ) );
 						}
 						dataList.add( record );
 					}

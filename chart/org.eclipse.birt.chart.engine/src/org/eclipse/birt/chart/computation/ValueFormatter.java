@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -106,10 +106,10 @@ public final class ValueFormatter
 			}
 			else
 			{
-				if ( oValue instanceof Double )
+				if ( oValue instanceof Number )
 				{
 					return NumberFormat.getInstance( lcl )
-							.format( ( (Double) oValue ).doubleValue( ) );
+							.format( ( (Number) oValue ).doubleValue( ) );
 				}
 				else if ( oValue instanceof NumberDataElement )
 				{
@@ -170,10 +170,10 @@ public final class ValueFormatter
 		}
 		else
 		{
-			if ( oValue instanceof Double )
+			if ( oValue instanceof Number )
 			{
 				return NumberFormat.getInstance( lcl )
-						.format( ( (Double) oValue ).doubleValue( ) );
+						.format( ( (Number) oValue ).doubleValue( ) );
 			}
 			else if ( oValue instanceof NumberDataElement )
 			{

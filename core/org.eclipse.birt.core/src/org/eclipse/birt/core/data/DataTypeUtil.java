@@ -28,11 +28,11 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -747,7 +747,7 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof Number )
 		{
-			return new NumberFormatter( locale ).format( (Number )source );
+			return NumberFormat.getInstance( locale ).format( source );
 		}
 		else 
 		{
