@@ -68,7 +68,7 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Preview report max cube fetch levels limited. -->
+	<!-- Preview report max cube fetch levels limited.(Only support to preview a report design file using preview pattern.) -->
 	<context-param>
 		<param-name>BIRT_VIEWER_MAX_CUBE_LEVELS</param-name>
 		<param-value></param-value>
