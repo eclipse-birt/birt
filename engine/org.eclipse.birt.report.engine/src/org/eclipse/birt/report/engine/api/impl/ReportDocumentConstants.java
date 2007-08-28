@@ -135,7 +135,7 @@ public interface ReportDocumentConstants
 	/**
 	 * the engine version used to generate the report document
 	 */
-	static final String BIRT_ENGINE_VERSION_KEY = "BIRT ENGINE";
+	static final String BIRT_ENGINE_VERSION_KEY = "BIRT ENGINE VERSION";
 	static final String BIRT_ENGINE_VERSION_2_1 = "2.1";
 	static final String BIRT_ENGINE_VERSION_2_1_RC5 = "2.1RC5";
 	static final String BIRT_ENGINE_VERSION_2_1_3 = "2.1.3";
@@ -156,4 +156,9 @@ public interface ReportDocumentConstants
 	static final String PAGE_HINT_VERSION_KEY = "page hint version";
 	static final String PAGE_HINT_VERSION_1 = "1";
 	static final String PAGE_HINT_VERSION_2 = "2";
+	
+	/**
+	 * build number, the number is get from the org.eclipse.birt.report.engine
+	 */
+	static final String BIRT_ENGINE_BUILD_NUMBER_KEY = "BIRT ENGINE BUILD NUMBER";
 }

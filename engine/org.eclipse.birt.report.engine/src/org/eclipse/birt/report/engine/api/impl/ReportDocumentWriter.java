@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,6 +31,8 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 /**
  * 
@@ -241,6 +244,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			
 			HashMap properties = new HashMap( );
 			properties.put( BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION );
+			properties.put( BIRT_ENGINE_BUILD_NUMBER_KEY, getBuildNumber( ) );
 			IOUtil.writeMap( coreStream, properties );
 			
 			if ( checkpoint != CHECKPOINT_END )
@@ -319,5 +323,24 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		this.idToOffset = new HashMap();
 		this.idToOffset.putAll( idToOffset );
+	}
+	
+	private String getBuildNumber( )
+	{
+		Bundle bundle = Platform.getBundle( "org.eclipse.birt.report.engine" );
+		if ( bundle != null )
+		{
+			Dictionary dict = bundle.getHeaders( );
+			if ( dict != null )
+			{
+				Object version = dict
+						.get( org.osgi.framework.Constants.BUNDLE_VERSION );
+				if ( version != null )
+				{
+					return version.toString( );
+				}
+			}
+		}
+		return "UNKNOWN";
 	}
 }
