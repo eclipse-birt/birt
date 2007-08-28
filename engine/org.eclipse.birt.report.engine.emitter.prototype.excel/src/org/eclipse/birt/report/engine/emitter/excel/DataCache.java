@@ -13,8 +13,7 @@ public class DataCache
 {
 	private ArrayList columns = new ArrayList( );
 	private Hashtable colrow = new Hashtable( );// col -> start line
-	protected Logger logger = Logger.getLogger( DataCache.class.getName( ) );	
-
+	
 	public DataCache( int size )
 	{
 		Integer start = new Integer( 0 );		
@@ -112,8 +111,8 @@ public class DataCache
 		int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
 		
 		if(row < start)
-		{			
-			logger.log( Level.WARNING,  "Row is not correct");
+		{
+		
 			return null;
 		}
 		else
