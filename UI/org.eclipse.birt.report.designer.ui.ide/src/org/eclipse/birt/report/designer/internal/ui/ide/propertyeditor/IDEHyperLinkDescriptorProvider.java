@@ -3,6 +3,7 @@ package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.GroupHyperLinkDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HyperLinkDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -15,7 +16,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
-public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
+public class IDEHyperLinkDescriptorProvider extends GroupHyperLinkDescriptorProvider
 {
 
 	public boolean hyperLinkSelected( )
@@ -59,12 +60,12 @@ public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
 
 	private boolean needRefresh = true;
 
-	private CommandStack getActionStack( )
+	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
-	private ActionHandle getActionHandle( )
+	protected ActionHandle getActionHandle( )
 	{
 		return DEUtil.getActionHandle( (ReportItemHandle) DEUtil.getInputFirstElement( input ) );
 	}
