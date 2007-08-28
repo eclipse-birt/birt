@@ -28,4 +28,19 @@ public class IDEHyperLinkPage extends HyperLinkPage
 		} );
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refresh()
+	 */
+	public void refresh( )
+	{
+		super.refresh( );
+		if ( section != null &&
+				section.getButtonControl( ) != null )
+		{
+			section.getButtonControl( )
+					.setEnabled( hyperLinkProvider.isEnable( ) );
+		}
+	}
 }
