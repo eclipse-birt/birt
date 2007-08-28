@@ -370,7 +370,8 @@ public class ParameterDialog extends BaseDialog
 				text = choice.getLabel( );
 				if ( text == null )
 				{
-					text = format( choice.getValue( ) );
+//					text = format( choice.getValue( ) );
+					text = "";
 				}
 			}
 			else if ( columnIndex == valueIndex + 2 )
@@ -1347,22 +1348,24 @@ public class ParameterDialog extends BaseDialog
 		return false;
 	}
 
-	private void makeUniqueAndValid( )
+	// false: change anything; true: remove duplicated
+	private boolean makeUniqueAndValid( )
 	{
+		boolean change = false;
 		Set set = new HashSet();	
 		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
 			SelectionChoice choice = (SelectionChoice) iter.next( );
-//			if ( isValidValue( choice.getValue( ) ) != null
-//					|| containValue( choice, choice.getValue( ), COLUMN_VALUE ) )
 			if ( set.contains( choice.getValue( ) ) || isValidValue( choice.getValue( ) ) != null )
 			{
 				iter.remove( );
+				change = true;
 			}else
 			{
 				set.add( choice.getValue( ) );
 			}
 		}
+		return change;
 	}
 
 	private void changeControlType( )
@@ -1903,10 +1906,6 @@ public class ParameterDialog extends BaseDialog
 	private Object validateValue( String value ) throws BirtException
 	{
 		String tempdefaultValue = value;
-		if ( value == null )
-		{
-			tempdefaultValue = defaultValue;
-		}
 
 		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 		{
@@ -1947,7 +1946,7 @@ public class ParameterDialog extends BaseDialog
 		// Validate the date first -- begin -- bug 164765
 		try
 		{
-			validateValue( null );
+			validateValue( defaultValue );
 		}
 		catch ( BirtException e1 )
 		{
@@ -2218,8 +2217,11 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( isStatic( ) )
 			{
-				makeUniqueAndValid( );
-				refreshValueTable( );
+				boolean change = makeUniqueAndValid( );
+				if(change)
+				{
+					refreshValueTable( );
+				}				
 			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
@@ -2953,16 +2955,16 @@ public class ParameterDialog extends BaseDialog
 			return errorMessage;
 		}
 		String newValue = convertToStandardFormat( value );
+		if ( containValue( choice, newValue, COLUMN_VALUE ) )
+		{
+			return ERROR_MSG_DUPLICATED_VALUE;
+		}
 		if ( ( displayLabel == null && containValue( choice,
 				newValue,
 				COLUMN_DISPLAY_TEXT ) )
 				|| ( containValue( choice, displayLabel, COLUMN_DISPLAY_TEXT ) ) )
 		{
 			return ERROR_MSG_DUPLICATED_LABEL;
-		}
-		if ( containValue( choice, newValue, COLUMN_VALUE ) )
-		{
-			return ERROR_MSG_DUPLICATED_VALUE;
 		}
 		if ( containValue( choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY ) )
 		{
