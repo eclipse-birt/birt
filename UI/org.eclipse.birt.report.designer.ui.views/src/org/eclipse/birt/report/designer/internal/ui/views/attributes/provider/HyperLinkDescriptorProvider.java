@@ -120,7 +120,7 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 		return flag;
 	}
 
-	private boolean needRefresh = true;
+	protected boolean needRefresh = true;
 
 	protected CommandStack getActionStack( )
 	{
