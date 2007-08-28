@@ -76,7 +76,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	{
 		this.expr = new ScriptExpression(expr);
 		this.operator = operator;
-		this.op1 = new CombinedExpression( operand );
+		this.op1 = new ExpressionCollection( operand );
 		this.op2 = null;
 	}
 	

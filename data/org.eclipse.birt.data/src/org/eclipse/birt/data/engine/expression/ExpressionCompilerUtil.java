@@ -18,7 +18,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
@@ -100,9 +100,9 @@ public class ExpressionCompilerUtil
 		{
 			columnList = extractColumnExpression( (IConditionalExpression) expression );
 		}
-		else if ( expression instanceof ICombinedExpression )
+		else if ( expression instanceof IExpressionCollection )
 		{
-			columnList = extractColumnExpression( (ICombinedExpression) expression );
+			columnList = extractColumnExpression( (IExpressionCollection) expression );
 		}
 		return columnList;
 	}
@@ -162,16 +162,16 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression( ICombinedExpression expression )
+	public static List extractColumnExpression( IExpressionCollection expression )
 			throws DataException
 	{
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		IBaseExpression[] ce = expression.getExpressions( );
+		Object[] ce =  expression.getExpressions( ).toArray( );
 		for ( int i = 0; i < ce.length; i++ )
 		{
-			List valueList = extractColumnExpression( ce[i] );
+			List valueList = extractColumnExpression( (IBaseExpression)ce[i] );
 			for ( int j = 0; j < valueList.size( ); j++ )
 			{
 				if ( !list.contains( valueList.get( j ) ) )
@@ -204,9 +204,9 @@ public class ExpressionCompilerUtil
 		{
 			columnList = extractDataSetColumnExpression( (IConditionalExpression) expression );
 		}
-		else if ( expression instanceof ICombinedExpression )
+		else if ( expression instanceof IExpressionCollection )
 		{
-			columnList = extractDataSetColumnExpression( (ICombinedExpression) expression );
+			columnList = extractDataSetColumnExpression( (IExpressionCollection) expression );
 		}
 		return columnList;
 	}
@@ -248,14 +248,15 @@ public class ExpressionCompilerUtil
 	 * @throws DataException 
 	 */
 	public static List extractDataSetColumnExpression(
-			ICombinedExpression expression ) throws DataException
+			IExpressionCollection expression ) throws DataException
 	{
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		for ( int i = 0; i < expression.getExpressions( ).length; i++ )
+		Object[] exprs = expression.getExpressions( ).toArray( );
+		for ( int i = 0; i < exprs.length; i++ )
 		{
-			List valueList = extractDataSetColumnExpression( expression.getExpressions( )[i] );
+			List valueList = extractDataSetColumnExpression( (IBaseExpression)exprs[i] );
 			for ( int j = 0; j < valueList.size( ); j++ )
 			{
 				if ( !list.contains( valueList.get( j ) ) )
@@ -305,12 +306,12 @@ public class ExpressionCompilerUtil
 					hasAggregationInExpr( ( (IConditionalExpression) expression ).getOperand1( ) ) ||
 					hasAggregationInExpr( ( (IConditionalExpression) expression ).getOperand2( ) );
 		}
-		else if ( expression instanceof ICombinedExpression )
+		else if ( expression instanceof IExpressionCollection )
 		{
-			IBaseExpression[] text = ( (ICombinedExpression) expression ).getExpressions( );
+			Object[] text = ( (IExpressionCollection) expression ).getExpressions( ).toArray( );
 			for ( int i = 0; i < text.length; i++ )
 			{
-				if ( hasAggregationInExpr( text[i] ) )
+				if ( hasAggregationInExpr( (IBaseExpression) text[i] ) )
 					return true;
 			}
 		}
@@ -362,18 +363,6 @@ public class ExpressionCompilerUtil
 					isValidExpressionInQueryFilter( oprand2 );
 		}
 		return true;
-	}
-	
-	/**
-	 * 
-	 * @param expr
-	 * @return
-	 */
-	private static String getExprText( IScriptExpression expr )
-	{
-		if( expr!= null )
-			return expr.getText( );
-		return null;
 	}
 	
 	/**

@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.olap.script;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -77,12 +77,13 @@ public class OLAPExpressionCompiler
 					null );
 			expr1.setHandle( new OLAPExpressionHandler( script ) );
 		}
-		else if ( expr1 instanceof ICombinedExpression )
+		else if ( expr1 instanceof IExpressionCollection )
 		{
-			for ( int i = 0; i < ( (ICombinedExpression) expr1 ).getExpressions( ).length; i++ )
+			Object[] exprs =  ( (IExpressionCollection) expr1 ).getExpressions( ).toArray( );
+			for ( int i = 0; i <exprs.length; i++ )
 			{
 				prepareScriptExpression( cx,
-						( (ICombinedExpression) expr1 ).getExpressions( )[i] );
+						(IBaseExpression)exprs[i] );
 			}
 		}
 	}

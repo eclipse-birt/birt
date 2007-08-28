@@ -13,14 +13,15 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.CombinedExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ExpressionCollection;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 /**
@@ -61,15 +62,16 @@ public class ExprUtil
 			saveBaseExpr( dos, condExpr.getOperand1( ) );
 			saveBaseExpr( dos, condExpr.getOperand2( ) );
 		}
-		else if ( baseExpr instanceof ICombinedExpression )
+		else if ( baseExpr instanceof IExpressionCollection )
 		{
 			IOUtil.writeInt( dos, COMBINED_EXPRESSION );
-			ICombinedExpression combinedExpr = (ICombinedExpression) baseExpr;
+			IExpressionCollection combinedExpr = (IExpressionCollection) baseExpr;
 			IOUtil.writeInt( dos, combinedExpr.getDataType( ) );
-			IOUtil.writeInt( dos, combinedExpr.getExpressions( ).length );
-			for ( int i = 0; i < combinedExpr.getExpressions( ).length; i++ )
+			Object[] exprs = combinedExpr.getExpressions( ).toArray( );
+			IOUtil.writeInt( dos, exprs.length );
+			for ( int i = 0; i < exprs.length; i++ )
 			{
-				saveBaseExpr( dos, combinedExpr.getExpressions( )[i] );
+				saveBaseExpr( dos, (IBaseExpression)exprs[i] );
 			}
 		}
 		else
@@ -127,7 +129,7 @@ public class ExprUtil
 			{
 				baseExpr[i] = (IBaseExpression)loadBaseExpr( dis );
 			}
-			return new CombinedExpression( baseExpr );
+			return new ExpressionCollection( baseExpr );
 		}
 		else
 		{
@@ -183,12 +185,12 @@ public class ExprUtil
 					&& isEqualExpression( ce.getOperand1( ), ce2.getOperand1( ) )
 					&& isEqualExpression( ce.getOperand2( ), ce2.getOperand2( ) );
 		}
-		else if ( be instanceof ICombinedExpression &&
-				be2 instanceof ICombinedExpression )
+		else if ( be instanceof IExpressionCollection &&
+				be2 instanceof IExpressionCollection )
 		{
 			return be.getDataType( ) == be2.getDataType( ) &&
-					isEqualExpressionArray( ( (ICombinedExpression) be ).getExpressions( ),
-							( (ICombinedExpression) be2 ).getExpressions( ) );
+					isEqualExpressionArray( ( (IExpressionCollection) be ).getExpressions( ),
+							( (IExpressionCollection) be2 ).getExpressions( ) );
 
 		}
 
@@ -218,15 +220,17 @@ public class ExprUtil
 	 * @param operands2
 	 * @return
 	 */
-	private static boolean isEqualExpressionArray( IBaseExpression[] operands1, IBaseExpression[] operands2 )
+	private static boolean isEqualExpressionArray( Collection op1, Collection op2 )
 	{
-		if ( operands1 == operands2 )
+		if ( op1 == op2 )
 			return true;
+		Object[] operands1 = op1.toArray( );
+		Object[] operands2 = op2.toArray( );
 		if ( operands1.length != operands2.length )
 			return false;
 		for ( int i = 0; i < operands1.length; i++ )
 		{
-			if ( !isEqualExpression( operands1[i], operands2[i] ) )
+			if ( !isEqualExpression( (IBaseExpression)operands1[i], (IBaseExpression)operands2[i] ) )
 				return false;
 		}
 		return true;
@@ -286,12 +290,13 @@ public class ExprUtil
 		if ( se instanceof IScriptExpression )
 			return se.getDataType( ) +
 					( (IScriptExpression) se ).getText( ).trim( ).hashCode( );
-		else if ( se instanceof ICombinedExpression )
+		else if ( se instanceof IExpressionCollection )
 		{
 			int hashCode = 0;
-			for ( int i = 0; i < ( (ICombinedExpression) se ).getExpressions( ).length; i++ )
+			Object[] exprs = ( (IExpressionCollection) se ).getExpressions( ).toArray( );
+			for ( int i = 0; i < exprs.length; i++ )
 			{
-				hashCode += hashCode2( ( (ICombinedExpression) se ).getExpressions( )[i] );
+				hashCode += hashCode2( (IBaseExpression)exprs[i] );
 			}
 			return se.getDataType( ) + hashCode;
 		}

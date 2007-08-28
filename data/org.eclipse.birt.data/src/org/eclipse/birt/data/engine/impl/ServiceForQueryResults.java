@@ -29,7 +29,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -805,13 +805,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 									ce.getOperand2( ),
 									aggrMap );
 				}
-				else if( expr instanceof ICombinedExpression )
+				else if( expr instanceof IExpressionCollection )
 				{
-					ICombinedExpression ce = ( ICombinedExpression )expr;
-					for ( int i = 0; i < ce.getExpressions( ).length; i++ )
+					IExpressionCollection ce = ( IExpressionCollection )expr;
+					Object[] exprs = ce.getExpressions( ).toArray( );
+					for ( int i = 0; i < exprs.length; i++ )
 					{
 						if ( popAggrRefFromBaseExpr( aggrReferences,
-								ce.getExpressions( )[i],
+								(IBaseExpression)exprs[i],
 								aggrMap ) )
 						{
 							result = true;

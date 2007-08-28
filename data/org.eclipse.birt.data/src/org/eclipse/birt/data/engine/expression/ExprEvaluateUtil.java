@@ -19,8 +19,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -31,9 +31,7 @@ import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil.ExprTextAndValue;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -98,14 +96,15 @@ public class ExprEvaluateUtil
 							odiResult,
 							scope );
 				}
-				else if ( ce.getOperand1( ) instanceof ICombinedExpression )
+				else if ( ce.getOperand1( ) instanceof IExpressionCollection )
 				{
 					isCombined = true;
-					int length = ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( ).length;
+					Object[] exprs = ( (IExpressionCollection) ce.getOperand1( ) ).getExpressions( ).toArray( );
+					int length = exprs.length;
 					Object[] result = new Object[length];
 					for ( int i = 0; i < length; i++ )
 					{
-						result[i] = evaluateExpression( ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( )[i],
+						result[i] = evaluateExpression( (IBaseExpression) exprs[i],
 								odiResult,
 								scope );
 					}
@@ -299,13 +298,13 @@ public class ExprEvaluateUtil
 				IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
 				IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
 				
-				if ( operand1 instanceof ICombinedExpression )
+				if ( operand1 instanceof IExpressionCollection )
 				{
-					IBaseExpression[] expr = ( (ICombinedExpression) operand1 ).getExpressions( );
+					Object[] expr = ( (IExpressionCollection) operand1 ).getExpressions( ).toArray( );
 					Object[] result = new Object[expr.length];
 					for ( int i = 0; i < result.length; i++ )
 					{
-						result[i] = doEvaluateRawExpression( expr[i],
+						result[i] = doEvaluateRawExpression( (IBaseExpression)expr[i],
 								scope,
 								javaType );
 					}
@@ -396,14 +395,15 @@ public class ExprEvaluateUtil
 							roObject,
 							scope );
 				}
-				else if ( ce.getOperand1( ) instanceof ICombinedExpression )
+				else if ( ce.getOperand1( ) instanceof IExpressionCollection )
 				{
 					isCombined = true;
-					int length = ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( ).length;
+					Object[] exprs = ( (IExpressionCollection) ce.getOperand1( ) ).getExpressions( ).toArray( ); 
+					int length = exprs.length;
 					Object[] result = new Object[length];
 					for ( int i = 0; i < length; i++ )
 					{
-						result[i] = evaluateValue( ( (ICombinedExpression) ce.getOperand1( ) ).getExpressions( )[i],
+						result[i] = evaluateValue( (IBaseExpression)exprs[i],
 								index,
 								roObject,
 								scope );
@@ -421,13 +421,14 @@ public class ExprEvaluateUtil
 							roObject,
 							scope );
 				}
-				else if ( ce.getOperand2( ) instanceof ICombinedExpression )
+				else if ( ce.getOperand2( ) instanceof IExpressionCollection )
 				{
-					int length = ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( ).length;
+					Object[] exprs = ( (IExpressionCollection) ce.getOperand2( ) ).getExpressions( ).toArray( ); 
+					int length = exprs.length;
 					Object[] result = new Object[length];
 					for ( int i = 0; i < length; i++ )
 					{
-						result[i] = evaluateValue( ( (ICombinedExpression) ce.getOperand2( ) ).getExpressions( )[i],
+						result[i] = evaluateValue( (IBaseExpression)exprs[i],
 								index,
 								roObject,
 								scope );

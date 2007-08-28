@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -96,7 +96,6 @@ public class ExpressionProcessor implements IExpressionProcessor
 		{
 			int exprType = COMPUTED_COLUMN_EXPR;
 			int currentGroupLevel = 0;
-			ExpressionInfo exprInfo;
 
 			MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
 			helper.setDataSetMode( isDataSetMode );
@@ -198,15 +197,16 @@ public class ExpressionProcessor implements IExpressionProcessor
 					currentGroupLevel,
 					context );
 		}
-		else if ( baseExpression instanceof ICombinedExpression )
+		else if ( baseExpression instanceof IExpressionCollection )
 		{
-			for ( int i = 0; i < ( (ICombinedExpression) baseExpression ).getExpressions( ).length; i++ )
+			Object[] exprs = ( (IExpressionCollection) baseExpression ).getExpressions( ).toArray( );
+			for ( int i = 0; i < exprs.length; i++ )
 			{
 				this.setHandle( context,
 						exprType,
 						currentGroupLevel,
 						helper,
-						( (ICombinedExpression) baseExpression ).getExpressions( )[i],
+						(IBaseExpression)exprs[i],
 						useResultSetMeta );
 			}
 		}
@@ -282,7 +282,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		}
 		finally
 		{
-			cx.exit( );
+			Context.exit( );
 		}
 		hasAggregate = helper.getAggregateStatus( );
 		clear( );
@@ -315,7 +315,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 			}
 			finally
 			{
-				cx.exit( );
+				Context.exit( );
 			}
 			hasAggregate = helper.getAggregateStatus( );
 			clear( );
@@ -420,12 +420,13 @@ public class ExpressionProcessor implements IExpressionProcessor
 			IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
 			helper.compileExpression( scriptExpr, context );
 		}
-		else if ( baseExpression instanceof ICombinedExpression )
+		else if ( baseExpression instanceof IExpressionCollection )
 		{
-			ICombinedExpression combinedExpr = (ICombinedExpression) baseExpression;
-			for ( int i = 0; i < combinedExpr.getExpressions( ).length; i++ )
+			IExpressionCollection combinedExpr = (IExpressionCollection) baseExpression;
+			Object[] exprs = combinedExpr.getExpressions( ).toArray( );
+			for ( int i = 0; i < exprs.length; i++ )
 			{
-				compileBaseExpression( combinedExpr.getExpressions( )[i],
+				compileBaseExpression( (IBaseExpression)exprs[i],
 						helper,
 						context );
 			}

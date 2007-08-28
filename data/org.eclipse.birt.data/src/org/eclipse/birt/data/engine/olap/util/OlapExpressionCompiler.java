@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -166,13 +166,13 @@ public class OlapExpressionCompiler
 						onlyFromDirectReferenceExpr ) );
 			return result;
 		}
-		else if ( expr instanceof ICombinedExpression )
+		else if ( expr instanceof IExpressionCollection )
 		{
 			Set result = new HashSet( );
-			IBaseExpression[] ops = ( (ICombinedExpression) expr ).getExpressions( );
+			Object[] ops = ( (IExpressionCollection) expr ).getExpressions( ).toArray( );
 			for ( int i = 0; i < ops.length; i++ )
 			{
-				result.addAll( getReferencedDimLevel( ops[i],
+				result.addAll( getReferencedDimLevel( (IBaseExpression)ops[i],
 						bindings,
 						onlyFromDirectReferenceExpr ) );
 			}

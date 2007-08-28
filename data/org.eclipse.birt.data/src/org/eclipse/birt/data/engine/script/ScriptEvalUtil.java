@@ -24,7 +24,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -581,14 +581,16 @@ public class ScriptEvalUtil
 						scope,
 						source,
 						lineNo );
-				if ( conditionalExpr.getOperand1( ) instanceof ICombinedExpression )
+				if ( conditionalExpr.getOperand1( ) instanceof IExpressionCollection )
 				{
-					ICombinedExpression combinedExpr = (ICombinedExpression) ( (IConditionalExpression) expr ).getOperand1( );
-
-					Object[] opValues = new Object[combinedExpr.getExpressions( ).length];
+					IExpressionCollection combinedExpr = (IExpressionCollection) ( (IConditionalExpression) expr ).getOperand1( );
+					Object[] exprs = combinedExpr.getExpressions( ).toArray( );
+					
+					Object[] opValues = new Object[exprs.length];
+					
 					for ( int i = 0; i < opValues.length; i++ )
 					{
-						opValues[i] = evalExpr( combinedExpr.getExpressions( )[i],
+						opValues[i] = evalExpr( (IBaseExpression)exprs[i],
 								cx,
 								scope,
 								source,

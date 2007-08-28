@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
-import org.eclipse.birt.data.engine.api.ICombinedExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -311,12 +311,12 @@ public class DataSourceAndDataSet
 					&& isEqualExpression( ce.getOperand1( ), ce2.getOperand1( ) )
 					&& isEqualExpression( ce.getOperand2( ), ce2.getOperand2( ) );
 		}
-		else if ( be instanceof ICombinedExpression &&
-				be2 instanceof ICombinedExpression )
+		else if ( be instanceof IExpressionCollection &&
+				be2 instanceof IExpressionCollection )
 		{
 			return be.getDataType( ) == be2.getDataType( ) &&
-					isEqualExpressionArray( ( (ICombinedExpression) be ).getExpressions( ),
-							( (ICombinedExpression) be2 ).getExpressions( ) );
+					isEqualExpressionArray( ( (IExpressionCollection) be ).getExpressions( ),
+							( (IExpressionCollection) be2 ).getExpressions( ) );
 
 		}
 		return false;
@@ -344,15 +344,18 @@ public class DataSourceAndDataSet
 	 * @param operands2
 	 * @return
 	 */
-	private boolean isEqualExpressionArray( IBaseExpression[] operands1, IBaseExpression[] operands2 )
+	private boolean isEqualExpressionArray( Collection op1, Collection op2 )
 	{
-		if ( operands1 == operands2 )
+		if ( op1 == op2 )
 			return true;
+		Object[] operands1 = op1.toArray( );
+		Object[] operands2 = op2.toArray( );
 		if ( operands1.length != operands2.length )
 			return false;
 		for ( int i = 0; i < operands1.length; i++ )
 		{
-			if ( !isEqualExpression( operands1[i], operands2[i] ) )
+			if ( !isEqualExpression( (IBaseExpression) operands1[i],
+					(IBaseExpression) operands2[i] ) )
 				return false;
 		}
 		return true;
