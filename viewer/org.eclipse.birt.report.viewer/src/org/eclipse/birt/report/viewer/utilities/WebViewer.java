@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
@@ -315,7 +316,7 @@ public class WebViewer
 			encodedResourceFolder = ""; //$NON-NLS-1$
 
 		String reportParam = "__report"; //$NON-NLS-1$
-		if ( encodedReportName.endsWith( REPORT_DOCUMENT_FILE ) )
+		if ( isReportDocument( encodedReportName ) )
 			reportParam = "__document"; //$NON-NLS-1$
 		reportParam += "=" + encodedReportName; //$NON-NLS-1$
 
@@ -549,6 +550,25 @@ public class WebViewer
 		{
 			// Do nothing
 		}
+	}
+
+	/**
+	 * Check whether the report is a document file.
+	 * 
+	 * @param reportName
+	 * @return true or false
+	 */
+	private static boolean isReportDocument( String reportName )
+	{
+		if ( reportName == null )
+			return false;
+
+		Pattern p = Pattern.compile( ".[a-z]{3}document$" ); //$NON-NLS-1$
+		Matcher m = p.matcher( reportName );
+		if ( m.find( ) )
+			return true;
+
+		return false;
 	}
 
 }
