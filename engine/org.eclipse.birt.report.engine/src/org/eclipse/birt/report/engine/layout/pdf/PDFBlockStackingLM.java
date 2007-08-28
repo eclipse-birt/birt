@@ -40,8 +40,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	
 	protected boolean keepWith = false;
 	
-	protected boolean pageBreakAvoid = false;
-	
 		
 	public int getCurrentMaxContentHeight()
 	{
@@ -57,7 +55,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
-		pageBreakAvoid = pageBreakInsideAvoid( ) || pageBreakAfterAvoid();
 	}
 
 	protected boolean traverseChildren( )
@@ -547,6 +544,8 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	{
 		if(!isRootEmpty( ))
 		{
+			closeLayout();
+			submitRoot();
 			return;
 		}
 		else if(!keepWithCache.isEmpty( ))

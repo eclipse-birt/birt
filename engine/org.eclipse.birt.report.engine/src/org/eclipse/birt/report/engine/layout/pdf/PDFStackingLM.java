@@ -48,6 +48,9 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 
 	protected int minWidth = 0;
 	
+	protected boolean pageBreakAvoid = false;
+
+	
 	public int getMaxAvaHeight()
 	{
 		return this.maxAvaHeight;
@@ -109,6 +112,26 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 			IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content,  executor );
+		pageBreakAvoid = pageBreakInsideAvoid( ) || pageBreakAfterAvoid();
+	}
+	
+	public boolean isPageBreakAvoidInside()
+	{
+		if(parent==null)
+		{
+			return false;
+		}
+		else
+		{
+			if(parent.pageBreakAvoid)
+			{
+				return true;
+			}
+			else
+			{
+				return parent.isPageBreakAvoidInside( );
+			}
+		}
 	}
 
 	protected boolean layoutChildren( )
@@ -125,11 +148,10 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		{
 			clearCache();
 		}
-		if ( !isRootEmpty( ) )
+		if ( !isRootEmpty( ) &&!(isPageBreakAvoidInside( )&&context.isAutoPageBreak( )&&hasNextPage))
 		{
 			closeLayout( );
 			hasNextPage = !submitRoot( ) || hasNextPage;
-
 		}
 		return hasNextPage;
 	}

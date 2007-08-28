@@ -169,19 +169,7 @@ public class PDFRowLM extends PDFInlineStackingLM
 	protected boolean isRootEmpty( )
 	{
 
-		if ( pageBreakInsideAvoid( ) )
-		{
-			if ( this.isRowFinished( ) )
-			{
-				return false;
-			}
-			if ( !context.isAutoPageBreak( ) )
-			{
-				return false;
-			}
-			return true;
-		}
-		else
+		if ( root != null )
 		{
 			Iterator iter = root.getChildren( );
 			while ( iter.hasNext( ) )
@@ -192,12 +180,13 @@ public class PDFRowLM extends PDFInlineStackingLM
 					return false;
 				}
 			}
-			if ( this.isRowFinished( ) )
+			if ( isRowFinished( ) && root.getChildrenCount( ) > 0 )
 			{
 				return false;
 			}
-			return true;
 		}
+		return true;
+
 	}
 
 	public void submit( AbstractArea area )
