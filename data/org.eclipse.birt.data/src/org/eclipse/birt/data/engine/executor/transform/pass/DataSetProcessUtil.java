@@ -100,10 +100,10 @@ class DataSetProcessUtil extends RowProcessUtil
 			
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 
+		doDataSetFilter( changeMaxRows );
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ));
 		
 		removeAvailableComputedColumns( );
-		doDataSetFilter( changeMaxRows );
 		
 		//Begin populate computed columns with aggregations.
 		//TODO:remove me
