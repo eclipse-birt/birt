@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.widget;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
@@ -47,9 +45,6 @@ public class ExpressionCellEditor extends DialogCellEditor
 	private transient Text editor;
 	private transient Button theButton;
 
-	/** the prividers */
-	private final Collection providers = new HashSet( );
-	
 	/**
 	 * 
 	 */
@@ -86,8 +81,7 @@ public class ExpressionCellEditor extends DialogCellEditor
 				.getDisplay( )
 				.getActiveShell( ),
 				(String) getValue( ) );
-
-		dialog.setExpressionProviers( providers );
+		dialog.setExpressionProvier( provider );
 
 		if ( dialog.open( ) != Window.OK )
 		{
@@ -231,34 +225,11 @@ public class ExpressionCellEditor extends DialogCellEditor
 		return theButton;
 	}
 
-	/**
-	 * Sets the expression provider
-	 * 
-	 * @param provider
-	 *            the expression provider to set
-	 */
+	private IExpressionProvider provider;
+
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		providers.clear( );
-		if ( provider != null )
-		{
-			providers.add( provider );
-		}
-	}
-
-	/**
-	 * Sets the expression providers
-	 * 
-	 * @param providers
-	 *            the expression providers to set
-	 */
-	public void setExpressionProviders( Collection providers )
-	{
-		this.providers.clear( );
-		if ( providers != null )
-		{
-			this.providers.addAll( providers );
-		}
+		this.provider = provider;
 	}
 
 	/**
