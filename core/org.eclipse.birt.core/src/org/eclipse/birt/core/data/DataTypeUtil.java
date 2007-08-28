@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -732,21 +733,23 @@ public final class DataTypeUtil
 		{
 			return ((Time) source).toString( );
 		}
-		
-		if ( source instanceof java.sql.Date )
+		else if ( source instanceof java.sql.Date )
 		{
 			return ((java.sql.Date) source).toString( );
 		}
-		
-		if ( source instanceof Timestamp )
+		else if ( source instanceof Timestamp )
 		{
 			return ((java.sql.Timestamp) source).toString( );
 		}
-		if ( source instanceof Date )
+		else if ( source instanceof Date )
 		{
 			return toString( (Date) source, locale );
 		}
-		else
+		else if ( source instanceof Number )
+		{
+			return new NumberFormatter( locale ).format( (Number )source );
+		}
+		else 
 		{
 			String str = "";
 			if ( source instanceof byte[] )
