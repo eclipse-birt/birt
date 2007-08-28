@@ -1091,6 +1091,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
 			throws SemanticException
 	{
+		if ( isRef )
+			return getBindingColumn( );
 		if ( isAggregate( ) )
 		{
 			binding.setDisplayName( txtDisplayName.getText( ) );
@@ -1150,6 +1152,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public ComputedColumnHandle newBinding( ReportItemHandle bindingHolder,
 			String name ) throws SemanticException
 	{
+		if ( isRef )
+			return getBindingColumn( );
 		ComputedColumn column = StructureFactory.newComputedColumn( bindingHolder,
 				name == null ? txtName.getText( ) : name );
 		ComputedColumnHandle binding = DEUtil.addColumn( bindingHolder,
