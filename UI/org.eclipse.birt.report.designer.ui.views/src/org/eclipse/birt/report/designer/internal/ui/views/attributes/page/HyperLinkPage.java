@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.GroupHyperLinkDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HyperLinkDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -32,7 +33,7 @@ public class HyperLinkPage extends AttributePage
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
 
-		hyperLinkProvider = new HyperLinkDescriptorProvider( );
+		hyperLinkProvider = new GroupHyperLinkDescriptorProvider( );
 		hyperLinkSection = new TextAndButtonSection( hyperLinkProvider.getDisplayName( ),
 				container,
 				true );
