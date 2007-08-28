@@ -55,7 +55,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		Collection list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
 		Object[] content = list.toArray( );
-		assertEquals( "1002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
+		assertEquals( "1,002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 		list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[]{"1002"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		content = list.toArray( );

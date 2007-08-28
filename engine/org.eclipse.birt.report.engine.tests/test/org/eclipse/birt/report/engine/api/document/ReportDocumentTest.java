@@ -47,6 +47,7 @@ public class ReportDocumentTest extends EngineCase
 
 	final String REPORT_DOCUMENT = "./utest/report.rptdocument";
 	final String REPORT_DOCUMENT_V2_1_0 = "org/eclipse/birt/report/engine/api/document/v2_1_0.rptdocument";
+	final String REPORT_DOCUMENT_V2_1_3 = "org/eclipse/birt/report/engine/api/document/v2_1_3.rptdocument";
 	final String REPORT_DOCUMENT_V2_2_0 = "org/eclipse/birt/report/engine/api/document/v2_2_0.rptdocument";
 
 	public void tearDown( )
@@ -60,8 +61,16 @@ public class ReportDocumentTest extends EngineCase
 		doTestDocument( );
 		super.removeFile( REPORT_DOCUMENT );
 
+	}	
+
+	public void testV2_1_3( ) throws Exception
+	{
+		copyResource( REPORT_DOCUMENT_V2_1_3, REPORT_DOCUMENT );
+		doTestDocument( );
+		super.removeFile( REPORT_DOCUMENT );
+
 	}
-	
+
 	public void testV2_2_0( ) throws Exception
 	{
 		copyResource( REPORT_DOCUMENT_V2_2_0, REPORT_DOCUMENT );

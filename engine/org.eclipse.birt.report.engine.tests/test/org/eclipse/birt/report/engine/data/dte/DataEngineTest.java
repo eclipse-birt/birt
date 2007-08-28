@@ -245,7 +245,15 @@ public class DataEngineTest extends TestCase
 			while ( parentIter.hasNext( ) )
 			{
 				String nextPar = (String) parentIter.next( );
-				resultStr += parentRSet.getString( nextPar );
+				Object value = parentRSet.getValue( nextPar );
+				if ( value != null )
+				{
+					resultStr += value.toString( );
+				}
+				else
+				{
+					resultStr += "null";
+				}
 			}
 			childRSet = (IQueryResultSet) dataEngine
 					.execute( parentRSet, childQuery, false );
@@ -257,7 +265,15 @@ public class DataEngineTest extends TestCase
 				Arrays.sort( columns );
 				for ( int j = 0; j < columns.length; j++ )
 				{
-					resultStr += childRSet.getString( columns[j] );
+					Object value = childRSet.getValue( columns[j] );
+					if ( value != null )
+					{
+						resultStr += value.toString( );
+					}
+					else
+					{
+						resultStr += "null";
+					}
 				}
 			}
 			childRSet.close( );
@@ -295,7 +311,15 @@ public class DataEngineTest extends TestCase
 			while ( parentIter.hasNext( ) )
 			{
 				String nextPar = (String) parentIter.next( );
-				resultStr += parentRSet.getString( nextPar );
+				Object value = parentRSet.getValue( nextPar );
+				if ( value != null )
+				{
+					resultStr += value.toString( );
+				}
+				else
+				{
+					resultStr += "null";
+				}
 			}
 			childRSet = (IQueryResultSet) dataEngine
 					.execute( parentRSet, childQuery, false );
@@ -307,7 +331,15 @@ public class DataEngineTest extends TestCase
 				Arrays.sort( columns );
 				for ( int j = 0; j < columns.length; j++ )
 				{
-					resultStr += childRSet.getString( columns[j] );
+					Object value = childRSet.getValue( columns[j] );
+					if ( value != null )
+					{
+						resultStr += value.toString( );
+					}
+					else
+					{
+						resultStr += "null";
+					}
 				}
 			}
 			childRSet.close( );

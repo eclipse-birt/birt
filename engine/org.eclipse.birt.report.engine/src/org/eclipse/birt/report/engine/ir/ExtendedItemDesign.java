@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Extended Item. 
@@ -28,6 +31,11 @@ public class ExtendedItemDesign extends ReportItemDesign
 	 * Text Resource Key used for altText localization.
 	 */
 	protected String altTextKey;
+	
+	/**
+	 * children of this extended item.
+	 */
+	protected List children = new ArrayList( ); 
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
@@ -61,5 +69,10 @@ public class ExtendedItemDesign extends ReportItemDesign
 	public String getAltText( )
 	{
 		return altText;
+	}
+	
+	public List getChildren( )
+	{
+		return children;
 	}
 }

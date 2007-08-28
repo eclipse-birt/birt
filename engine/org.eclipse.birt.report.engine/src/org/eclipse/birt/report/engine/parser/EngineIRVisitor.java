@@ -108,6 +108,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.core.runtime.Assert;
@@ -657,7 +658,7 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 		}
 
-		new TableItemDesignLayout( ).layout( grid, newCellId );
+		newCellId = new TableItemDesignLayout( ).layout( grid, newCellId );
 		applyColumnHighlight( grid );
 
 		currentElement = grid;
@@ -785,7 +786,7 @@ public class EngineIRVisitor extends DesignVisitor
 			table.setFooter( footer );
 		}
 
-		new TableItemDesignLayout( ).layout( table, newCellId );
+		newCellId = new TableItemDesignLayout( ).layout( table, newCellId );
 
 		for ( int i = 0; i < table.getGroupCount( ); i++ )
 		{
@@ -1370,7 +1371,52 @@ public class EngineIRVisitor extends DesignVisitor
 		// Alternative text for extendedItem
 		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
 		
+		handleExtendedItemChildren( extendedItem, obj );
+
 		currentElement = extendedItem;
+	}
+	
+	/**
+	 * process extended item's children.
+	 * @param extendedItem
+	 * @param extendedHandle
+	 */
+	private void handleExtendedItemChildren( ExtendedItemDesign extendedItem,
+			ExtendedItemHandle extendedHandle )
+	{
+		if ( extendedHandle == null )
+			return;
+
+		List properties = extendedHandle.getExtensionPropertyDefinitionList( );
+		Iterator propIter = properties.iterator( );
+		while ( propIter.hasNext( ) )
+		{
+			IElementPropertyDefn property = (IElementPropertyDefn) propIter
+					.next( );
+			if ( property.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			{
+				Object children = extendedHandle.getProperty( property
+						.getName( ) );
+				if ( children instanceof List )
+				{
+					List tempList = (List) children;
+					for ( int i = 0; tempList != null && i < tempList.size( ); i++ )
+					{
+						Object tempObj = tempList.get( i );
+						if ( tempObj instanceof ReportItemHandle )
+						{
+							apply( (ReportItemHandle) tempObj );
+							extendedItem.getChildren( ).add( currentElement );
+						}
+					}
+				}
+				else if ( children instanceof ReportItemHandle )
+				{
+					apply( (ReportItemHandle) children );
+					extendedItem.getChildren( ).add( currentElement );
+				}
+			}
+		}
 	}
 
 	public void visitTemplateReportItem( TemplateReportItemHandle obj )

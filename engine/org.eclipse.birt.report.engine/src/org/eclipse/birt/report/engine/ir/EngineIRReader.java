@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -26,7 +27,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
- * Read the tansfered engine IR designs wrote in EngineIRWriter.
+ * Read the transfered engine IR designs wrote in EngineIRWriter.
  * The reading sequence of report root:
  *    1. Version. Version id stored in IR, to remember the document changes.
  *    2. Report Version.
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    
  * Version 1: remove read isBookmark of ActionDesign.
  * Version 2: remove read base path and unit of report.
+ * Version 3: add extended item's children.
  */
 public class EngineIRReader implements IOConstants
 {
@@ -74,7 +76,8 @@ public class EngineIRReader implements IOConstants
 
 		// read the version
 		version = IOUtil.readLong( dis );
-		if ( version != 0L && version != 1L && version != 2L )
+		if ( version != ENGINE_IR_VERSION_0 && version != ENGINE_IR_VERSION_1
+				&& version != ENGINE_IR_VERSION_2 && version != ENGINE_IR_VERSION_3 )
 		{
 			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
@@ -88,7 +91,7 @@ public class EngineIRReader implements IOConstants
 
 		reportDesign = new Report( );
 
-		if ( version == 0L || version == 1L )
+		if ( version == ENGINE_IR_VERSION_0 || version == ENGINE_IR_VERSION_1 )
 		{
 			// design's base path, removed from version 2
 			IOUtil.readString( dis );
@@ -391,6 +394,15 @@ public class EngineIRReader implements IOConstants
 			{
 				ExtendedItemDesign design = new ExtendedItemDesign( );
 				readExtended( dis, design );
+				if ( version >= ENGINE_IR_VERSION_3 )
+				{
+					// read children
+					int count = IOUtil.readInt( in );
+					for ( int i = 0; i < count; i++ )
+					{
+						design.getChildren( ).add( readDesign( in ) );
+					}
+				}
 				return design;
 			}
 			case AUTO_TEXT_DESIGN :
@@ -1368,7 +1380,7 @@ public class EngineIRReader implements IOConstants
 			default :
 				throw new IOException( "invalid action type:" + actionType ); //$NON-NLS-1$
 		}
-		if ( version == 0L )
+		if ( version == ENGINE_IR_VERSION_0 )
 		{
 			// We remove isBookmark of ActionDesign from version 1.
 			IOUtil.readBool( in );
@@ -1583,6 +1595,19 @@ public class EngineIRReader implements IOConstants
 			{
 				CellDesign cell = row.getCell( i );
 				cell.accept( this, value );
+			}
+			return value;
+		}		
+
+		public Object visitExtendedItem( ExtendedItemDesign extendedItem,
+				Object value )
+		{
+			linkReportElement( extendedItem );
+
+			List children = extendedItem.getChildren( );
+			for ( int i = 0; i < children.size( ); i++ )
+			{
+				( (ReportItemDesign) children.get( i ) ).accept( this, null );
 			}
 			return value;
 		}

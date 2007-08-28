@@ -16,6 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    
  * Version 1: remove write isBookmark of ActionDesign.
  * Version 2: remove write base path and unit of report.
+ * Version 3: add extended item's children.
  */
 public class EngineIRWriter implements IOConstants
 {	
@@ -54,7 +56,7 @@ public class EngineIRWriter implements IOConstants
 		DataOutputStream dos = new DataOutputStream( out );
 
 		// stream version number
-		IOUtil.writeLong( dos, 2L );
+		IOUtil.writeLong( dos, ENGINE_IR_VERSION_CURRENT );
 
 		// design version number
 		IOUtil.writeString( dos, DesignSchemaConstants.REPORT_VERSION );
@@ -240,6 +242,14 @@ public class EngineIRWriter implements IOConstants
 				bdos.flush( );
 				IOUtil.writeShort( dos, EXTENDED_DESIGN );
 				IOUtil.writeBytes( dos, bout.toByteArray( ) );
+				
+				List childrenDesigns = item.getChildren( );
+				IOUtil.writeInt( dos, childrenDesigns.size( ) );
+				for ( int i = 0; i < childrenDesigns.size( ); i++ )
+				{
+					( (ReportItemDesign) childrenDesigns.get( i ) ).accept(
+							this, value );
+				}
 			}
 			catch ( IOException ex )
 			{

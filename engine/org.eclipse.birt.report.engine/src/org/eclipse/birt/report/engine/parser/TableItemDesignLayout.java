@@ -31,7 +31,7 @@ public class TableItemDesignLayout
 
 	Table layout = new Table( );
 	
-	public void layout( GridItemDesign grid, long newCellId )
+	public long layout( GridItemDesign grid, long newCellId )
 	{
 		layout = new Table(0, grid.getColumnCount());
 		layout.reset( );
@@ -48,14 +48,15 @@ public class TableItemDesignLayout
 		}
 
 		// update the row design, create the empty cell.
-		normalize( newCellId );
+		newCellId = normalize( newCellId );
 		for ( int i = grid.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{
 			grid.addColumn( new ColumnDesign( ) );
 		}
+		return newCellId;
 	}
 
-	protected void normalize( long newCellId )
+	protected long normalize( long newCellId )
 	{
 		for ( int i = 0; i < layout.getRowCount( ); i++ )
 		{
@@ -84,10 +85,11 @@ public class TableItemDesignLayout
 				}
 			}
 		}
+		return newCellId;
 
 	}
 
-	public void layout( TableItemDesign table, long newCellId )
+	public long layout( TableItemDesign table, long newCellId )
 	{
 		layout = new Table( 0, table.getColumnCount( ) );
 		layoutBand( (TableBandDesign)table.getHeader( ) );
@@ -105,11 +107,12 @@ public class TableItemDesignLayout
 			layoutBand( footer );
 		}
 		layoutBand( (TableBandDesign)table.getFooter( ) );
-		normalize( newCellId );
+		newCellId = normalize( newCellId );
 		for ( int i = table.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{
 			table.addColumn( new ColumnDesign( ) );
 		}
+		return newCellId;
 	}
 
 	void layoutBand( TableBandDesign band )
