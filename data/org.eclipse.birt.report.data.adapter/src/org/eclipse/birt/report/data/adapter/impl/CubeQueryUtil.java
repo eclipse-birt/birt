@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -90,7 +91,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null
 								&& this.isLeafLevel( cubeDefn, target ) )
 						{
-							result.add( binding );
+							result.add( new BindingMetaInfo( binding.getBindingName( ),
+									IBindingMetaInfo.MEASURE_TYPE ) );
 							continue;
 						}
 					}
@@ -103,24 +105,30 @@ public class CubeQueryUtil implements ICubeQueryUtil
 							//Only add to result list if the target dimLevel is the leaf level 
 							//of its own edge that referenced in aggrOns list.
 							if( j == aggrOns.size( ) -1 )
-								result.add( binding );
+							{
+								if ( fromSameEdge( aggrOns, cubeDefn )  )
+									result.add( new BindingMetaInfo( binding.getBindingName( ),
+											IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
+								else
+									result.add( new BindingMetaInfo( binding.getBindingName( ),
+											IBindingMetaInfo.SUB_TOTAL_TYPE ) );
+							}
 							else
 							{
 								DimLevel next = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j+1 )
 										.toString( ) );
 								if ( getAxisQualifierLevel( next,
 										cubeDefn.getEdge( getAxisQualifierEdgeType( dimLevel,
-												cubeDefn ) ) ) == null )
-									continue;
-								else
-									result.add( binding );
+												cubeDefn ) ) ) != null )
+									result.add( new BindingMetaInfo( binding.getBindingName( ),
+											IBindingMetaInfo.SUB_TOTAL_TYPE ) );
 							}
 							break;
 						}
 					}
 					continue;
 				}
-				result.add( binding );
+				result.add( new BindingMetaInfo( binding.getBindingName( ), IBindingMetaInfo.DIMENSION_TYPE ) );
 			}
 
 			return result;
@@ -129,6 +137,32 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * 
+	 * @param aggrOns
+	 * @return
+	 * @throws DataException 
+	 */
+	private boolean fromSameEdge( List aggrOns, ICubeQueryDefinition cubeDefn ) throws DataException
+	{
+		int candidateEdge = -1;
+		for( int i = 0; i < aggrOns.size( ); i++ )
+		{
+			DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( i )
+					.toString( ) );
+			if( candidateEdge == -1  )
+				candidateEdge = getAxisQualifierEdgeType( dimLevel,
+						cubeDefn );
+			else
+			{
+				if( candidateEdge != getAxisQualifierEdgeType( dimLevel,
+						cubeDefn ))
+					return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -559,5 +593,46 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+	
+	/**
+	 * 
+	 *
+	 */
+	private class BindingMetaInfo implements IBindingMetaInfo
+	{
+		//
+		private String name;
+		private int type;
+		
+		/**
+		 * Constructor.
+		 * @param name
+		 * @param type
+		 */
+		BindingMetaInfo( String name, int type )
+		{
+			this.name = name;
+			this.type = type;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo#getBindingType()
+		 */
+		public int getBindingType( )
+		{
+			return type;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo#getBindingName()
+		 */
+		public String getBindingName( )
+		{
+			return name;
+		}
+		
 	}
 }

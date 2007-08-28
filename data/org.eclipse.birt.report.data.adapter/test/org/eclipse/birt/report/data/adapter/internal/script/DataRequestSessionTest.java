@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.impl.DataRequestSessionImpl;
 
 
@@ -49,22 +50,40 @@ public class DataRequestSessionTest extends TestCase
 	public void testGetReferableBindings( ) throws AdapterException, DataException
 	{
 		IBinding binding1 = new Binding( "b1", new ScriptExpression("dimension[\"dim1\"][\"level1\"]"));
+		int type1 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding2 = new Binding( "b2", new ScriptExpression("dimension.dim1.level2 + 1"));
+		int type2 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding3 = new Binding( "b3", new ScriptExpression("dimension[\"dim1\"][\"level3\"] + dimension.dim1.level2"));
+		int type3 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding4 = new Binding( "b4", new ScriptExpression("data.b1"));
+		int type4 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding5 = new Binding( "b5", new ScriptExpression("dimension.dim1.level1 + 25"));
+		int type5 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding6 = new Binding( "b6", new ScriptExpression("data.b4 + 1"));
+		int type6 = IBindingMetaInfo.DIMENSION_TYPE;
 		IBinding binding7 = new Binding( "b7", new ScriptExpression("measure[\"abc\"]"));
 		binding7.addAggregateOn( "dimension[\"dim1\"][\"level2\"]" );
 		binding7.addAggregateOn( "dimension[\"dim1\"][\"level1\"]" );
 		binding7.addAggregateOn( "dimension[\"dim2\"][\"level1\"]" );
+		int type7 = IBindingMetaInfo.SUB_TOTAL_TYPE;
 		
 		IBinding binding71 = new Binding( "b71", new ScriptExpression("measure[\"abc\"]"));
 		binding71.addAggregateOn( "dimension[\"dim1\"][\"level1\"]" );
 		binding71.addAggregateOn( "dimension[\"dim1\"][\"level2\"]" );
 		binding71.addAggregateOn( "dimension[\"dim2\"][\"level1\"]" );
+		int type71 = IBindingMetaInfo.SUB_TOTAL_TYPE;
 		
 		IBinding binding8 = new Binding( "b8", new ScriptExpression("dimension[\"dim2\"][\"level1\"]"));
+		int type8 = IBindingMetaInfo.DIMENSION_TYPE;
+		
+		IBinding binding9 = new Binding( "b9", new ScriptExpression( "measure[\"abc\"]"));
+		binding9.addAggregateOn( "dimension[\"dim1\"][\"level1\"]"  );
+		binding9.addAggregateOn( "dimension[\"dim1\"][\"level2\"]"  );
+		int type9 = IBindingMetaInfo.GRAND_TOTAL_TYPE;
+		
+		IBinding binding10 = new Binding( "b10", new ScriptExpression( "measure[\"abc\"]"));
+		int type10 = IBindingMetaInfo.MEASURE_TYPE;
+		
 		
 		ICubeQueryDefinition query = new CubeQueryDefinition( "query");
 		query.addBinding( binding1 );
@@ -93,24 +112,61 @@ public class DataRequestSessionTest extends TestCase
 		String targetLevel1 = "dimension[\"dim1\"][\"level1\"]";
 		List l1 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel1, query, true );
 		assertTrue( l1.size( ) == 3 );
-		assertTrue( l1.contains( binding1 ));
-		assertTrue( l1.contains( binding4 ));
-		assertTrue( l1.contains( binding7 ));
+		assertTrue( contains( l1, binding1, type1 ));
+		assertTrue( contains( l1, binding4, type4 ));
+		assertTrue( contains( l1, binding7, type7 ));
 		
 		String targetLevel2 = "dimension[\"dim1\"][\"level1\"]";
 		List l2 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel2, query, false );
 		assertTrue( l2.size( ) == 5 );
-		assertTrue( l2.contains( binding1 ));
-		assertTrue( l2.contains( binding4 ));
-		assertTrue( l2.contains( binding5 ));
-		assertTrue( l2.contains( binding6 ));
-		assertTrue( l2.contains( binding7 ));
+		assertTrue( contains( l2, binding1, type1 ));
+		assertTrue( contains( l2, binding4, type4 ));
+		assertTrue( contains( l2, binding5, type5 ));
+		assertTrue( contains( l2, binding6, type6 ));
+		assertTrue( contains( l2, binding7, type7 ));
 	
 		String targetLevel3 = "dimension[\"dim1\"][\"level2\"]";
 		List l3 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel3, query, false );
 		assertTrue( l3.size( ) == 2 );
-		assertTrue( l3.contains( binding2 ));
-		assertTrue( l3.contains( binding71 ));
+		assertTrue( contains( l3, binding2, type2 ));
+		assertTrue( contains( l3, binding71, type71 ));
+	
+		String targetLevel4 = "dimension[\"dim1\"][\"level2\"]";
+		query.addBinding( binding9 );
+		List l4 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel4, query, false );
+		
+		assertTrue( l4.size( ) == 3 );
+		assertTrue( contains( l4, binding2, type2 ));
+		assertTrue( contains( l4, binding71, type71 ));
+		assertTrue( contains( l4, binding9, type9 ));
+		
+		String targetLevel5 = "dimension[\"dim2\"][\"level1\"]";
+		query.addBinding( binding10 );
+		List l5 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel5, query, false );
+		assertTrue( l5.size( )==4 );
+		assertTrue( contains( l5, binding7, type7 ));
+		assertTrue( contains( l5, binding71, type71 ));
+		assertTrue( contains( l5, binding8, type8 ));
+		assertTrue( contains( l5, binding10, type10 ));
+	}
+	
+	/**
+	 * 
+	 * @param l
+	 * @param binding
+	 * @param type
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean contains ( List l, IBinding binding, int type ) throws DataException
+	{
+		for( int i = 0; i < l.size( ); i++ )
+		{
+			IBindingMetaInfo bm = (IBindingMetaInfo)l.get( i );
+			if( bm.getBindingName( ).equals( binding.getBindingName( ) ) && bm.getBindingType( ) == type )
+				return true;
+		}
+		return false;
 	}
 	
 	public void testGetReferencedLevels() throws DataException, AdapterException
