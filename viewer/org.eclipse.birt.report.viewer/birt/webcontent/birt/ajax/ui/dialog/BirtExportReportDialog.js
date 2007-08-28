@@ -86,7 +86,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
 			alert ( Constants.error.generateReportFirst );	
-			return;
+			return false;
 		}	
 		else
 		{	
@@ -197,6 +197,8 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			formObj.action = action;
 			formObj.method = "post";			
 			formObj.submit( );
+			
+			return true;
 		}		
 	},
 	
