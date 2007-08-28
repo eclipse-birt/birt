@@ -56,20 +56,4 @@ public class HyperLinkPage extends AttributePage
 		createSections( );
 		layoutSections( );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refresh()
-	 */
-	public void refresh( )
-	{
-		super.refresh( );
-		if ( hyperLinkSection != null &&
-				hyperLinkSection.getButtonControl( ) != null )
-		{
-			hyperLinkSection.getButtonControl( )
-					.setEnabled( hyperLinkProvider.isEnable( ) );
-		}
-	}
 }
