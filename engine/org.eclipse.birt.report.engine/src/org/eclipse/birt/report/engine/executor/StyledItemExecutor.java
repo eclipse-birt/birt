@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.net.URL;
+import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
@@ -27,8 +26,10 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Defines an abstract base class for all styled element executors, including
@@ -41,14 +42,14 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 {
 
 	private ExpressionUtil expressionUtil;
-	
+
 	/**
 	 * constructor
 	 * 
 	 * @param visitor
 	 *            the report executor visitor
 	 */
-	protected StyledItemExecutor( ExecutorManager manager, int type)
+	protected StyledItemExecutor( ExecutorManager manager, int type )
 	{
 		super( manager, type );
 		expressionUtil = new ExpressionUtil( );
@@ -66,15 +67,14 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processStyle( ReportItemDesign design, IContent content )
 	{
-		StyleDeclaration inlineStyle = createHighlightStyle( design
-				.getHighlight( ) );
+		StyleDeclaration inlineStyle = createHighlightStyle( design.getHighlight( ) );
 		content.setInlineStyle( inlineStyle );
 	}
 
 	/**
-	 * Gets the style from the original column design object, calculates the highlight
-	 * style, merges the teo styles and then sets them on the corresponding
-	 * column object.
+	 * Gets the style from the original column design object, calculates the
+	 * highlight style, merges the teo styles and then sets them on the
+	 * corresponding column object.
 	 * 
 	 * @param column
 	 *            the target column object.
@@ -83,8 +83,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processColumnStyle( ColumnDesign columnDesign, IColumn column )
 	{
-		StyleDeclaration inlineStyle = createHighlightStyle( columnDesign
-				.getHighlight( ) );
+		StyleDeclaration inlineStyle = createHighlightStyle( columnDesign.getHighlight( ) );
 		column.setInlineStyle( inlineStyle );
 	}
 
@@ -116,7 +115,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				{
 					if ( expression instanceof String )
 					{
-						value = evaluate( (String)expression );
+						value = evaluate( (String) expression );
 					}
 					else
 					{
@@ -125,17 +124,17 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				else
 				{
-					IConditionalExpression newExpression = expressionUtil
-							.createConditionalExpression( rule
-									.getTestExpression( ), rule.getOperator( ),
-									rule.getValue1( ), rule.getValue2( ) );
+					IConditionalExpression newExpression = expressionUtil.createConditionalExpression( rule.getTestExpression( ),
+							rule.getOperator( ),
+							rule.getValue1( ),
+							rule.getValue2( ) );
 					value = evaluate( newExpression );
 				}
-				if ( ( value != null ) && ( value instanceof Boolean )
+				if ( ( value != null )
+						&& ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
-					StyleDeclaration highlightStyle = new StyleDeclaration(
-							(StyleDeclaration) rule.getStyle( ) );
+					StyleDeclaration highlightStyle = new StyleDeclaration( (StyleDeclaration) rule.getStyle( ) );
 					if ( style != null )
 					{
 						style.setProperties( highlightStyle );
@@ -163,6 +162,58 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			IDataContent dataObj )
 	{
 		MapDesign map = item.getMap( );
+
+		if ( item.getHandle( ) instanceof DataItemHandle )
+		{
+			// TODO this is a temp hack fix for 201496 and should be removed
+			// after we have better onprepare support for extended item, which
+			// is the best timing to do this.
+
+			// try find the special map rule dynamically created by XTAB and
+			// process it first
+			DataItemHandle dataHandle = (DataItemHandle) item.getHandle( );
+
+			StyleHandle sh = dataHandle.getPrivateStyle( );
+
+			if ( sh != null )
+			{
+				Iterator itr = sh.mapRulesIterator( );
+
+				if ( itr != null )
+				{
+					String testExpr = org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) );
+
+					for ( itr = sh.mapRulesIterator( ); itr.hasNext( ); )
+					{
+						MapRuleHandle mrh = (MapRuleHandle) itr.next( );
+
+						if ( testExpr.equals( mrh.getTestExpression( ) )
+								&& DesignChoiceConstants.MAP_OPERATOR_NULL.equals( mrh.getOperator( ) ) )
+						{
+							Object value = null;
+
+							IConditionalExpression newExpression = expressionUtil.createConditionalExpression( mrh.getTestExpression( ),
+									mrh.getOperator( ),
+									mrh.getValue1( ),
+									mrh.getValue2( ) );
+
+							value = evaluate( newExpression );
+
+							if ( ( value != null )
+									&& ( value instanceof Boolean )
+									&& ( ( (Boolean) value ).booleanValue( ) ) )
+							{
+								dataObj.setLabelText( mrh.getDisplay( ) );
+								dataObj.setLabelKey( mrh.getDisplayKey( ) );
+							}
+
+							break;
+						}
+					}
+				}
+			}
+		}
+
 		if ( map != null )
 		{
 			for ( int i = 0; i < map.getRuleCount( ); i++ )
@@ -185,14 +236,14 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					else
 					{
-						IConditionalExpression newExpression = expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) );
+						IConditionalExpression newExpression = expressionUtil.createConditionalExpression( rule.getTestExpression( ),
+								rule.getOperator( ),
+								rule.getValue1( ),
+								rule.getValue2( ) );
 						value = evaluate( newExpression );
 					}
-					if ( ( value != null ) && ( value instanceof Boolean )
+					if ( ( value != null )
+							&& ( value instanceof Boolean )
 							&& ( ( (Boolean) value ).booleanValue( ) ) )
 					{
 						dataObj.setLabelText( rule.getDisplayText( ) );
