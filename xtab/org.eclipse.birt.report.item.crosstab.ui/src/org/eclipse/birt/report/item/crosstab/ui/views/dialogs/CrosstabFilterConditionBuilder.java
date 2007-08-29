@@ -930,7 +930,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			else if ( element instanceof BindingGroup )
 			{
-				return true;
+				if(((BindingGroup)element).getBindings( ).size( ) > 0)
+				{
+					return true;
+				}else
+				{
+					return false;
+				}
+				
 			}
 			if ( element instanceof String )
 			{
