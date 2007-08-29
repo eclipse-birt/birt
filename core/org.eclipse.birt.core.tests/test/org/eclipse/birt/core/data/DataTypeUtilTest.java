@@ -139,9 +139,9 @@ public class DataTypeUtilTest extends TestCase
 				null,
 				new Exception( "" ), 
 				new Integer( "12345" ),
-				new Exception( "" ), 
-				new Exception( "" ), 
-				new Exception( "" )};
+				new Integer( 10 ), 
+				new Integer( 10 ), 
+				new Integer( 10 )};
 		// the expected results of toBigDecimal()
 		resultBigDecimal = new Object[]{
 				new BigDecimal( "1" ),
@@ -159,9 +159,9 @@ public class DataTypeUtilTest extends TestCase
 				null,
 				new Exception( "" ), 
 				new BigDecimal( "12345" ),
-				new Exception( "" ), 
-				new Exception( "" ), 
-				new Exception( "" )};
+				new BigDecimal( 10 ), 
+				new BigDecimal( 10 ), 
+				new BigDecimal( 10 )};
 		// the expected results of toBoolean()
 		resultBoolean = new Object[]{
 				new Boolean( true ), 
@@ -198,9 +198,9 @@ public class DataTypeUtilTest extends TestCase
 				null,
 				new Exception( "" ),
 				new Double( "12345" ),
-				new Exception( "" ),
-				new Exception( "" ),
-				new Exception( "" )};
+				new Double( 10 ),
+				new Double( 10 ),
+				new Double( 10 )};
 		// the expected results of toString()
 		resultString = new Object[]{"1", "0",
 				String.valueOf( Integer.MAX_VALUE ),
@@ -599,6 +599,13 @@ public class DataTypeUtilTest extends TestCase
 				result = DataTypeUtil.toString( testObject[i] );
 				if ( resultString[i] instanceof Exception )
 					fail( "Should throw Exception." );
+				if ( testObject[i] instanceof Double )
+				{
+					result = DataTypeUtil.toDouble( result ).toString( );
+				}else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
+				{
+					result = DataTypeUtil.toInteger( result ).toString( );
+				}
 				assertEquals( result, resultString[i] );
 			}
 			catch ( BirtException e )
