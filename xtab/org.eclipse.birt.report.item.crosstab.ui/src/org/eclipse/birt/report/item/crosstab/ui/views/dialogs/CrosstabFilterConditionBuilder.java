@@ -2202,11 +2202,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			else if ( this.type == IBindingMetaInfo.GRAND_TOTAL_TYPE )
 			{
-				return Messages.getString( "FilterbyTree.Bindings.Catogory.Measures" );
+				return Messages.getString( "FilterbyTree.Bindings.Catogory.GrandTotal" );
 			}
 			else if ( this.type == IBindingMetaInfo.SUB_TOTAL_TYPE )
 			{
-				return Messages.getString( "FilterbyTree.Bindings.Catogory.GrandTotal" );
+				return Messages.getString( "FilterbyTree.Bindings.Catogory.SubTotal" );
 			}
 			else
 			{
