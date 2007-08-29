@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -417,8 +418,7 @@ public class TableAreaLayout
 		rows.resetCursor( );
 	}
 	
-	
-	public void resolveDropCells(int dropValue)
+	public int resolveDropCells(int dropValue)
 	{
 		/*
 		 * 1. scan current row and calculate row height
@@ -429,83 +429,74 @@ public class TableAreaLayout
 		
 		if(rows.size( )==0 || !hasDropCell)
 		{
-			return;
+			return 0;
 		}
 		Row row = (Row)rows.getCurrent( );
 		assert(row!=null);
+		
 		int rowHeight = row.getArea( ).getHeight( );
 		int height = rowHeight;
-		boolean needResolve = false;
 		//scan for Max height for drop cells
 		for( int i=startCol; i<=endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
-			if(cell!=null && cell.getRowSpan( )==dropValue)
+			if ( cell == null )
+				continue;
+			
+			if( cell.getRowSpan( )==dropValue )
 			{
-				height = Math.max( height, cell.getHeight( ) );
-				needResolve = true;
+				if ( cell instanceof DummyCell )
+				{
+					height = Math.max( height, cell.getHeight() + rowHeight );
+				}
+				else
+				{
+					height = Math.max( height, cell.getHeight( ) );	
+				}
 			}
 		}
 		
-		if(needResolve)
+		int delta = height - rowHeight;
+		
+		HashSet dropCells = new HashSet();
+		for( int i=startCol; i<=endCol; i++ )
 		{
-			HashSet dropCells = new HashSet();
-			int delta = height - rowHeight;
-			for( int i=startCol; i<=endCol; i++ )
+			CellArea cell = row.getCell( i );
+			if ( cell == null )
+				continue;
+			if ( cell instanceof DummyCell )
 			{
-				CellArea cell = row.getCell( i );
-				if( cell==null )
+				int remainCellHeight = cell.getHeight( ) - delta;
+				cell.setHeight( remainCellHeight );
+				if ( cell.getRowSpan( ) == dropValue )
 				{
-					continue;
-				}
-				if(cell.getRowSpan( )==dropValue)
-				{
-					if(cell instanceof DummyCell)
+					if (cell.getHeight()<0)
 					{
+						//update the height of drop cell if the remain height in dummy cell is less than 0	
 						CellArea ref = ((DummyCell)cell).getCell( );
-						int cellHeight = cell.getHeight( );
-						int refHeight = ref.getHeight( );
 						if(!dropCells.contains( ref ))
 						{
-							ref.setHeight( refHeight - cellHeight + delta );
+							ref.setHeight( ref.getHeight( ) - remainCellHeight );
+							cell.setHeight( 0 );
 							verticalAlign( ref );
 							dropCells.add( ref );
 						}
 					}
-					else
-					{
-						cell.setHeight( height );
-						verticalAlign( cell );							
-					}
-					cell.setRowSpan(1);
+					cell.setRowSpan( 1 );
 				}
-				else if(cell.getRowSpan( )==1)
-				{
-					if(cell instanceof DummyCell)
-					{
-						CellArea ref = ((DummyCell)cell).getCell( );
-						if(!dropCells.contains( ref ))
-						{
-							ref.setHeight( ref.getHeight( ) + delta );
-							if(delta>0)
-							{
-								verticalAlign( ref );
-							}
-							dropCells.add( ref );
-						}
-					}
-					else
-					{
-						cell.setHeight( height );
-						verticalAlign( cell );							
-					}
-				}
-					
 			}
-			
+			else if( (cell.getRowSpan() == 1) )
+			{
+				if ( delta != 0 )
+				{
+					cell.setHeight( height );
+					row.getArea().setHeight(height);
+					verticalAlign( cell );	
+				}
+			}
 		}
 		
-		
+		return delta;	
 	}
 	
 	/*protected void keepUnresolvedCell(Row lastRow)
@@ -538,8 +529,9 @@ public class TableAreaLayout
 
 	}*/
 	
-	public void resolveAll()
+	public int resolveAll()
 	{
+		
 		/*
 		 * 1. scan current row and calculate row height
 		 * 2. update the height of drop cells
@@ -548,8 +540,9 @@ public class TableAreaLayout
 		
 		if(rows.size( )==0 || !hasDropCell)
 		{
-			return;
+			return 0;
 		}
+
 		Row row = (Row)rows.getCurrent( );
 		int rowHeight = row.getArea( ).getHeight( );
 		int height = rowHeight;
@@ -562,17 +555,25 @@ public class TableAreaLayout
 			{
 				if(isDropCell( cell ) || cell.getRowSpan( )>1 )
 				{
-					height = Math.max( height, cell.getHeight( ) );
+					if ( cell instanceof DummyCell )
+					{
+						height = Math.max( height, cell.getHeight() + rowHeight );
+					}
+					else
+					{
+						height = Math.max( height, cell.getHeight( ) );	
+					}
 					hasDropCell = true;
 				}
 			}
 		}
 		
+		int delta = height - rowHeight;
 		if(hasDropCell)
 		{
 			//unfinishedRow = new UnresolvedRow(row.getContent( ));
 			HashSet dropCells = new HashSet();
-			int delta = height - rowHeight;
+			
 			if(delta>0)
 			{
 				row.getArea( ).setHeight( height );
@@ -645,6 +646,7 @@ public class TableAreaLayout
 			//this.keepUnresolvedCell( row );
 			unresolvedRow = row;
 		}
+		return delta;
 	}
 	
 	/*private int getLeftRowSpan(boolean finished, int rowSpan)
@@ -732,8 +734,11 @@ public class TableAreaLayout
 		 */
 		hasDropCell = !finished;
 		Row lastRow = (Row)rows.getCurrent( );
+		
 		Row row = new Row(rowArea, startCol, endCol, finished, repeated );
+
 		int rowHeight = rowArea.getHeight( );
+		
 		HashSet dropCells = new HashSet();
 		for(int i=startCol; i<=endCol; i++)
 		{
@@ -789,7 +794,7 @@ public class TableAreaLayout
 							if(!dropCells.contains( cArea ))
 							{
 								cArea.setHeight( cArea.getHeight( ) - dummyCell.getHeight( ) );
-								verticalAlign( cArea);
+								verticalAlign( cArea );
 								dropCells.add( cArea );
 							}
 						}
@@ -803,7 +808,6 @@ public class TableAreaLayout
 			}
 		}
 		rows.add( row );
-
 	}
 	
 	public void skipRow(RowArea area)
@@ -860,6 +864,7 @@ public class TableAreaLayout
 				{
 					row.remove( i );
 				}
+				
 				if(lastCell.getRowSpan( )==2)
 				{
 					if(lastCell instanceof DummyCell)
@@ -878,7 +883,12 @@ public class TableAreaLayout
 			{
 				if(cell!=null)
 				{
-					if( cell.getRowSpan( )==1)
+//					if( cell.getChildrenCount() == 0 )
+//					{
+//						height = Math.max( height, 0 );
+//					}
+//					else 
+						if( cell.getRowSpan( )==1 )
 					{
 						height = Math.max( height, cell.getHeight( ) );
 					}
@@ -980,6 +990,10 @@ public class TableAreaLayout
 		for(int i=startCol; i<=endCol; i++)
 		{
 			CellArea cell = row.getCell( i );
+//			if ( isDropCell (cell) )
+//			{
+//				return false;
+//			}
 			if ( cell != null && !isDropCell( cell )
 					&& cell.getChildrenCount( ) > 0 )
 			{

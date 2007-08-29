@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -20,6 +21,8 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
@@ -47,8 +50,10 @@ public class PDFTableGroupLM extends PDFGroupLM
 		boolean childBreak = super.traverseChildren( );
 		if ( !childBreak )
 		{
-			tableLM.endGroup( (IGroupContent) content );
+			int heightAdjustment = tableLM.endGroup( (IGroupContent) content );
+			currentBP += heightAdjustment;
 		}
+		
 		return childBreak;
 	}
 
@@ -212,5 +217,9 @@ public class PDFTableGroupLM extends PDFGroupLM
 			}
 		}
 	}
-
+	
+	public void updateHeight( int height )
+	{
+		currentBP += height;
+	}
 }

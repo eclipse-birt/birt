@@ -91,14 +91,24 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		if ( isFirst && groupLevel >= 0
 				&& type == IBandContent.BAND_GROUP_FOOTER )
 		{
-			tbl.updateUnresolvedCell( groupLevel, false );
+			int height = 0;
+			height = tbl.updateUnresolvedCell( groupLevel, false );
+			if ( 0!= height )
+			{
+				((PDFTableGroupLM)parent).updateHeight( height );
+			}
 		}
 		isFirst = false;
 		boolean childBreak = super.traverseChildren( );
 		if ( !childBreak && groupLevel >= 0
 				&& type == IBandContent.BAND_GROUP_FOOTER )
 		{
-			tbl.updateUnresolvedCell( groupLevel, true );
+			int height = 0;
+			height = tbl.updateUnresolvedCell( groupLevel, true );
+			if ( 0!= height )
+			{
+				((PDFTableGroupLM)parent).updateHeight( height );
+			}
 		}
 		return childBreak;
 	}
