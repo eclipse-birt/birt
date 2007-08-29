@@ -59,7 +59,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.7 $ $Date: 2007/07/06 06:58:17 $
+ * @version $Revision: 1.8 $ $Date: 2007/08/13 09:03:54 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -350,35 +350,18 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 				GridData data = (GridData) left.getLayoutData( );
 				int newWidthHint = data.widthHint + shift;
-				if ( newWidthHint < 20 )
+				if ( newWidthHint < 100 )
 				{
-					return;
+					newWidthHint = 100;
+					shift = 100 - data.widthHint;
 				}
-				Point computedSize = parent.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT );
-				Point currentSize = parent.getSize( );
 				// if the dialog wasn't of a custom size we know we can shrink
 				// it if necessary based on sash movement.
-				boolean customSize = !computedSize.equals( currentSize );
 				widthHints[0] = data.widthHint = newWidthHint;
 				data = (GridData) right.getLayoutData( );
 				newWidthHint = data.widthHint - shift;
 				widthHints[1] = data.widthHint = newWidthHint;
-				parent.layout( true );
-				// recompute based on new widget size
-				computedSize = parent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-				// if the dialog was of a custom size then increase it only if
-				// necessary.
-				if ( customSize )
-				{
-					computedSize.x = Math.max( computedSize.x, currentSize.x );
-				}
-				computedSize.y = Math.max( computedSize.y, currentSize.y );
-				if ( computedSize.equals( currentSize ) )
-				{
-					return;
-				}
-				parent.setSize( computedSize.x, computedSize.y );
+				parent.layout( );
 			}
 		} );
 	}
