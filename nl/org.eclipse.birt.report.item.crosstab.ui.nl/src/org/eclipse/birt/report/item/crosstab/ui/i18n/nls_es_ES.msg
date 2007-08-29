@@ -120,7 +120,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=Hacer clic para llamar al compilador d
 FilterConditionBuilder.text.AND=Y
 FilterConditionBuilder.text.Condition=Introducir una condicion de filtro:
 FilterConditionBuilder.text.GroupLevel=Nivel de grupo:
-FilterConditionBuilder.checkbox.optional.title=Optional
 FilterConditionBuilder.list.item1=Valor
 FilterConditionBuilder.button.edit=Edit...
 FilterConditionBuilder.button.delete=Quitar
@@ -130,6 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
 FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
 FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
 FilterConditionBuilder.button.add.tooltip=Add the value to value list
+CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+
+FilterbyTree.Bindings.Catogory.Measures=Measures
+FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.GrandTotal=Total general
+FilterbyTree.Bindings.Catogory.SubTotal=Subtotal
+FilterbyTree.Bindings.Catogory.Undefined=Undefined
+FilterbyTree.Title=Filter By
+FilterbyTree.Message=Filter By
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -184,6 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=Repetir encabezado de columna
 
 ExpressionValueCellEditor.buildExpressionAction=<Compilar expresión...>
 ExpressionValueCellEditor.selectValueAction=<Seleccionar valor...>
+ExpressionValueCellEditor.filterBy=<Filter by...>
 ExpressionValueCellEditor.title=Seleccionar valor
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro

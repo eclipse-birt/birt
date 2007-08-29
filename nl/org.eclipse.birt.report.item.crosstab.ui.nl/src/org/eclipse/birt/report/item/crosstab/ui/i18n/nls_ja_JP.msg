@@ -120,7 +120,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを起動するには、ここをクリック
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
 FilterConditionBuilder.text.GroupLevel=グループレベル :
-FilterConditionBuilder.checkbox.optional.title=Optional
 FilterConditionBuilder.list.item1=値
 FilterConditionBuilder.button.edit=Edit...
 FilterConditionBuilder.button.delete=削除
@@ -130,6 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
 FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
 FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
 FilterConditionBuilder.button.add.tooltip=Add the value to value list
+CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+
+FilterbyTree.Bindings.Catogory.Measures=Measures
+FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.GrandTotal=総計
+FilterbyTree.Bindings.Catogory.SubTotal=小計
+FilterbyTree.Bindings.Catogory.Undefined=Undefined
+FilterbyTree.Title=Filter By
+FilterbyTree.Message=Filter By
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -184,6 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=列のヘッダの繰り返し
 
 ExpressionValueCellEditor.buildExpressionAction=<式の構築...>
 ExpressionValueCellEditor.selectValueAction=<値の選択...>
+ExpressionValueCellEditor.filterBy=<Filter by...>
 ExpressionValueCellEditor.title=値の選択
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択
