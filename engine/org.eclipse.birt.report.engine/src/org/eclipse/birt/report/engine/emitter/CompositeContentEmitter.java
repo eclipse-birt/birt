@@ -41,7 +41,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 {
 	protected ArrayList emitters = new ArrayList();
 
-	protected String format = "mutliple";
+	protected String format = "html";
 	
 	public CompositeContentEmitter()
 	{

@@ -18,8 +18,8 @@ import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
@@ -397,6 +397,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		}
 		return false;
 	}
+	
 
 	protected boolean handleVisibility( )
 	{
@@ -404,30 +405,77 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		assert executor != null;
 		if ( isHidden( content ) )
 		{
-			traverse( executor );
+			traverse( executor, content );
 			return true;
 		}
 		return false;
 	}
-
+	
+	protected void startHiddenContent(IContentEmitter emitter, IContent content)
+	{
+		if(content!=null)
+		{
+			switch(content.getContentType( ))
+			{
+				case IContent.DATA_CONTENT:
+				case IContent.LABEL_CONTENT:
+				case IContent.TEXT_CONTENT:
+				case IContent.IMAGE_CONTENT:
+					context.getPageBufferManager( ).startContent( content, emitter, false );
+					break;
+				default:
+					context.getPageBufferManager( ).startContainer( content, true, emitter, false );
+					break;
+			}
+		}
+	}
+	
+	protected void endHiddenContent(IContentEmitter emitter, IContent content)
+	{
+		if(content!=null)
+		{
+			switch(content.getContentType( ))
+			{
+				case IContent.DATA_CONTENT:
+				case IContent.LABEL_CONTENT:
+				case IContent.TEXT_CONTENT:
+				case IContent.IMAGE_CONTENT:
+					break;
+				default:
+					context.getPageBufferManager( ).endContainer( content, true, emitter, false );
+					break;
+			}
+		}
+		
+	}
+	
 	/**
 	 * execute the executor, drip all its children contents.
 	 * 
 	 * @param executor
 	 */
-	private void traverse( IReportItemExecutor executor )
+	private void traverse( IReportItemExecutor executor, IContent content )
 	{
 		assert executor != null;
+		IContentEmitter emitter = getEmitter();
+		if(content!=null)
+		{
+			startHiddenContent(emitter, content);
+		}
 		while ( executor.hasNextChild( ) )
 		{
 			IReportItemExecutor child = (IReportItemExecutor) executor
 					.getNextChild( );
 			if ( child != null )
 			{
-				child.execute( );
-				traverse( child );
+				IContent childContent = child.execute( );
+				traverse( child, childContent );
 				child.close( );
 			}
+		}
+		if(content!=null)
+		{
+			endHiddenContent(emitter, content);
 		}
 	}
 

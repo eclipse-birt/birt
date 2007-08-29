@@ -105,7 +105,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 				context.getPageNumber( ), pageDesign );
 		if ( emitter != null  )
 		{
-			context.getPageBufferManager( ).startContainer( pageContent, isFirst, emitter );
+			context.getPageBufferManager( ).startContainer( pageContent, isFirst, emitter, true );
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	{
 		if ( emitter != null  )
 		{
-			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter );
+			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter, true );
 		}
 	}
 }

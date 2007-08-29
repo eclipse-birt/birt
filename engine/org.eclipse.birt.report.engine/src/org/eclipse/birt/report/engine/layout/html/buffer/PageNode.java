@@ -26,6 +26,7 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 
 	public void end( )
 	{
+		flushUnStartedChildren( );
 		ContentEmitterUtil.endContent( content, emitter );
 	}
 
@@ -41,6 +42,7 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 		}
 		ContentEmitterUtil.startContent( content, emitter );
 		isStarted = true;
+		flushUnStartedChildren( );
 	}
 
 }

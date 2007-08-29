@@ -38,7 +38,7 @@ public class DummyPageBuffer implements IPageBuffer
 	}
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
 		if ( isFirstContent )
 		{
@@ -60,8 +60,12 @@ public class DummyPageBuffer implements IPageBuffer
 	}
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
+		if( !visible )
+		{
+			return;
+		}
 		if ( content.getContentType( ) == IContent.PAGE_CONTENT )
 		{
 			isFirstContent = true;
@@ -81,9 +85,13 @@ public class DummyPageBuffer implements IPageBuffer
 			}
 		}
 	}
-
-	public void startContent( IContent content, IContentEmitter emitter )
+	
+	public void startContent( IContent content, IContentEmitter emitter, boolean visible )
 	{
+		if( !visible )
+		{
+			return;
+		}
 		if ( isFirstContent )
 		{
 			startPageContent( content );
