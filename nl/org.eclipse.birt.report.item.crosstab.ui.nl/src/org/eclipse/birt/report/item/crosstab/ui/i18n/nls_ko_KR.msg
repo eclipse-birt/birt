@@ -120,7 +120,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=식 빌더를 호출하려면 누릅니다.
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.text.GroupLevel=그룹 수준:
-FilterConditionBuilder.checkbox.optional.title=Optional
 FilterConditionBuilder.list.item1=값
 FilterConditionBuilder.button.edit=Edit...
 FilterConditionBuilder.button.delete=제거
@@ -130,6 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
 FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
 FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
 FilterConditionBuilder.button.add.tooltip=Add the value to value list
+CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+
+FilterbyTree.Bindings.Catogory.Measures=Measures
+FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.GrandTotal=총합계
+FilterbyTree.Bindings.Catogory.SubTotal=부분합
+FilterbyTree.Bindings.Catogory.Undefined=Undefined
+FilterbyTree.Title=Filter By
+FilterbyTree.Message=Filter By
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -184,6 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=열 머리글 반복
 
 ExpressionValueCellEditor.buildExpressionAction=<식 빌드...>
 ExpressionValueCellEditor.selectValueAction=<값 선택...>
+ExpressionValueCellEditor.filterBy=<Filter by...>
 ExpressionValueCellEditor.title=값 선택
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=행 구성원 값 선택
