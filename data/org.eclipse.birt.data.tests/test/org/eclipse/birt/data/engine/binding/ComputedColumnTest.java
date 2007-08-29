@@ -760,8 +760,8 @@ public class ComputedColumnTest extends APITestCase
 	public void testWrongDataType( ) throws Exception
 	{
 		ccName = new String[] { "ccc", "ccc2" };
-		ccExpr = new String[] { "row.COL0+row.COL1+'abc'",
-				"row.COL1+'abc'" };
+		ccExpr = new String[] { "'abc'+row.COL0+row.COL1+'abc'",
+				"'a'+row.COL1+'abc'" };
 
 		for ( int i = 0; i < ccName.length; i++ )
 		{
@@ -788,8 +788,9 @@ public class ComputedColumnTest extends APITestCase
 		};
 
 		try {
-			this.executeQuery(this.createQuery(null, null, null, null, null,
+			Object o = this.executeQuery(this.createQuery(null, null, null, null, null,
 					null, null, null, null, bindingNameRow, bindingExprRow));
+			System.out.println(o);
 		} catch (DataException e) {
 			// expect a DataException
 			return;
