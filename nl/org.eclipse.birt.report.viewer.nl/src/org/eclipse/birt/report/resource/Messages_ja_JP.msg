@@ -25,6 +25,9 @@ birt.viewer.restore=レポートパラメタを表示します。
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
 birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
+birt.viewer.error.unknownerror=Unknown error.
+birt.viewer.error.generatereportfirst=Report document should be generated first.
+birt.viewer.error.parameterrequired={0} is required.
 
 ###############################################################################
 # Toolbar
@@ -68,6 +71,7 @@ birt.viewer.dialog.page.all=すべてのページ
 birt.viewer.dialog.page.current=現在のページ
 birt.viewer.dialog.page.range=ページ :
 birt.viewer.dialog.page.range.description=(ページ番号をコンマで区切って指定するか、ページ範囲を指定してください。例 : 1-6 または 1,3,6)
+birt.viewer.dialog.page.error.invalidpagerange=Invalid page range
 
 ###############################################################################
 # Dialog title
@@ -100,6 +104,7 @@ birt.viewer.dialog.export.pdf.fittowhole=全体表示
 birt.viewer.dialog.print.format=印刷形式
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
+birt.viewer.dialog.print.printpreviewalreadyopen=A print preview window is already open.
 
 ###############################################################################
 # Print report on the server dialog 
@@ -125,7 +130,7 @@ birt.viewer.dialog.printserver.settings.pagesize=用紙サイズ :
 birt.viewer.dialog.printserver.settings.print=印刷 :
 
 birt.viewer.dialog.printserver.complete=文書ファイルをサーバ上の選択したプリンタに送信しました。
-
+birt.viewer.dialog.printserver.error.noprinter=No printer
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################
