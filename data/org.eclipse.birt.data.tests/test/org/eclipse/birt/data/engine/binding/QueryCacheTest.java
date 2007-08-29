@@ -49,4 +49,21 @@ public class QueryCacheTest extends APITestCase
 		this.outputQueryResult( it, new String[]{"CITY", "AMOUNT"} );
 		this.checkOutputFile( );
 	}
+	
+	public void testUseDetailsCache( ) throws Exception
+	{
+		QueryDefinition query = new QueryDefinition();
+		query.setDataSetName( this.dataSet.getName( ) );
+		query.setAutoBinding( true );
+		query.setCacheQueryResults( true );
+		query.setUsesDetails( false );
+		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
+		String id = queryResults.getID( );
+		IResultIterator it = queryResults.getResultIterator( );
+		
+		IQueryResults result = this.dataEngine.getQueryResults( id );
+		it = result.getResultIterator( );
+		this.outputQueryResult( it, new String[]{"CITY", "AMOUNT"} );
+		this.checkOutputFile( );
+	}
 }
