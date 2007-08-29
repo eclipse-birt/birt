@@ -64,8 +64,14 @@ Contribute_Samples=Bugzilla のエントリは、https://bugs.eclipse.org/bugs/enter_bu
 ###########################################################
 #Scripting
 
+#Dynamic Map Rule
+DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=ここでは、BIRT のスクリプト機能について、シンプルなレポートを使って説明します。ほとんどのサンプルレポートは、スクリプトを使用する前と後の状態でダウンロードでき、Flash 形式で見ることもできます。エクスポートした Java オブジェクトをレポートにロードして使用するには、このサンプルレポートを開いた後で BIRT を再起動してください。  
+
+#Visibility Rule
+Addvisrule=This example illustrates adding a visibility rule in script.  
 
 ###########################################################
 #Extending BIRT

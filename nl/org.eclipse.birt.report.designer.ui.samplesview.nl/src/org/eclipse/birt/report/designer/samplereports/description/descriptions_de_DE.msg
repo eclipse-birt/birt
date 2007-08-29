@@ -64,8 +64,14 @@ Contribute_Samples=Reichen Sie einen Bugzilla-Eintrag unter https://bugs.eclipse
 ###########################################################
 #Scripting
 
+#Dynamic Map Rule
+DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=Dieser Abschnitt mit Beispielen konzentriert sich auf das Scripting innerhalb von BIRT. Einfache Berichte veranschaulichen die Scripting-Funktionalität. Die meisten Beispiele enthalten einen Vorher-/Nachher-Bericht, den Sie herunterladen können. Außerdem wird das Beispiel in einer Flash-Präsentation veranschaulicht. Um das exportierte Java-Objekt zu laden und es dem Bericht zu ermöglichen, es zu verwenden, starten Sie BIRT nach dem Öffnen dieses Beispielberichts neu.  
+
+#Visibility Rule
+Addvisrule=This example illustrates adding a visibility rule in script.  
 
 ###########################################################
 #Extending BIRT

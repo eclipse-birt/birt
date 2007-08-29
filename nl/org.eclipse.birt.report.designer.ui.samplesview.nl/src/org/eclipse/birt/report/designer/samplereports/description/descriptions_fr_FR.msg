@@ -64,8 +64,14 @@ Contribute_Samples=Veuillez soumettre une entrée bugzilla à l'adresse https://bu
 ###########################################################
 #Scripting
 
+#Dynamic Map Rule
+DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=Les exemples présentés dans cette section illustrent l'utilisation de scripts dans BIRT, à l'aide d'états simples. La plupart de ces exemples comportent un pré-état et un post-état, qu'il est possible de télécharger. En outre, les exemples sont disponibles sous la forme de présentations Flash. Pour charger l'objet Java exporté et faire en sorte que l'état puisse l'utiliser, veuillez redémarrer BIRT après avoir ouvert cet exemple d'état.  
+
+#Visibility Rule
+Addvisrule=This example illustrates adding a visibility rule in script.  
 
 ###########################################################
 #Extending BIRT
