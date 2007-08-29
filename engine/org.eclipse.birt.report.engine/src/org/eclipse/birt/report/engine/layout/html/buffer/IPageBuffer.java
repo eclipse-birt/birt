@@ -18,12 +18,12 @@ public interface IPageBuffer
 {
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter );
+			IContentEmitter emitter, boolean visible );
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter );
-
-	public void startContent( IContent content, IContentEmitter emitter );
+			IContentEmitter emitter, boolean visible );
+	
+	public void startContent( IContent content, IContentEmitter emitter, boolean visible);
 
 	public void setRepeated( boolean isRepeated );
 

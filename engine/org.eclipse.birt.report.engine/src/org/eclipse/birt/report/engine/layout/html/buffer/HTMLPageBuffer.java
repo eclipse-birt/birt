@@ -24,6 +24,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected PageHintGenerator generator;
 
 	protected HTMLLayoutContext context;
+	protected PageNode pageNode;
 
 	protected boolean isRepeated = false;
 
@@ -34,7 +35,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	}
 
 	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
 		int type = content.getContentType( );
 		switch ( type )
@@ -61,6 +62,7 @@ public class HTMLPageBuffer implements IPageBuffer
 				PageNode pageNode = new PageNode( content, emitter, generator );
 				setup( pageNode, isFirst );
 				currentNode = pageNode;
+				this.pageNode = pageNode;
 				break;
 			default :
 				ContainerBufferNode node = new ContainerBufferNode( content,
@@ -70,27 +72,39 @@ public class HTMLPageBuffer implements IPageBuffer
 				break;
 		}
 	}
-
-	public void startContent( IContent content, IContentEmitter emitter )
+	
+	protected boolean isPageStarted()
 	{
-		if ( isRepeated )
+		if( pageNode!=null )
+		{
+			return pageNode.isStarted( );
+		}
+		return false;
+	}
+
+	public void startContent( IContent content, IContentEmitter emitter, boolean visible )
+	{
+		if ( isRepeated || ( !visible && !isPageStarted( ) ) )
 		{
 			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
 					generator );
 			setup( leafNode, true );
-			currentNode.addChild( leafNode );
 		}
 		else
 		{
+			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
+					generator );
+			setup( leafNode, true );
 			currentNode.start( );
 			ContentEmitterUtil.startContent( content, emitter );
 			generator.start( content, true );
 			generator.end( content, true );
+			currentNode.removeChildren( );
 		}
 	}
 
 	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
 		int type = content.getContentType( );
 		switch ( type )
@@ -98,24 +112,24 @@ public class HTMLPageBuffer implements IPageBuffer
 			case IContent.TABLE_BAND_CONTENT :
 			case IContent.LIST_BAND_CONTENT :
 				boolean isFinished = finished && !isRepeated;
-				_endContainer( content, isFinished, emitter );
+				_endContainer( content, isFinished, emitter, visible );
 				break;
 			case IContent.PAGE_CONTENT :
 				endPage( content, finished, emitter );
 				break;
 
 			case IContent.CELL_CONTENT :
-				endCell( content, finished, emitter );
+				endCell( content, finished, emitter, visible );
 				break;
 			default :
-				_endContainer( content, finished, emitter );
+				_endContainer( content, finished, emitter, visible );
 				break;
 		}
 
 	}
 
 	private void _endContainer( IContent content, boolean finished,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
 		( (AbstractNode) currentNode ).setFinished( finished );
 		if ( currentNode.isStarted( ) )
@@ -124,21 +138,35 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			if ( finished &&!isRepeated )
+			if( finished &&!isRepeated )
 			{
-				currentNode.flush( );
+				if( visible )
+				{
+					currentNode.flush( );
+				}
+				else if ( isPageStarted( ) )
+				{
+					currentNode.flush( );
+				}
 			}
 		}
 
 		currentNode = currentNode.getParent( );
-		if ( currentNode != null && !isRepeated)
+		if ( currentNode != null && finished &&!isRepeated)
 		{
-			currentNode.removeChildren( );
+			if( visible )
+			{
+				currentNode.removeChildren( );
+			}
+			else if ( isPageStarted( ) )
+			{
+				currentNode.removeChildren( );
+			}
 		}
 	}
 
 	protected void endCell( IContent content, boolean finished,
-			IContentEmitter emitter )
+			IContentEmitter emitter, boolean visible )
 	{
 		( (AbstractNode) currentNode ).setFinished( finished );
 		if ( currentNode.isStarted( ) )
@@ -163,10 +191,17 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			if ( finished && context.getPageNumber( ) == 1 )
+			if ( finished )
 			{
-				currentNode.flush( );
-				pageBreakEvent( );
+				if( context.getPageNumber( ) == 1 )
+				{
+					currentNode.flush( );
+					pageBreakEvent( );
+				}
+				else
+				{
+					context.setPageNumber( context.getPageNumber( ) - 1 );
+				}
 			}
 		}
 

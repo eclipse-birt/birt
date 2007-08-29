@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
 public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
@@ -45,7 +47,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 	{
 		if(emitter!=null)
 		{
-			context.getPageBufferManager( ).startContent( content, emitter );
+			context.getPageBufferManager( ).startContent( content, emitter, true );
 		}
 	}
 

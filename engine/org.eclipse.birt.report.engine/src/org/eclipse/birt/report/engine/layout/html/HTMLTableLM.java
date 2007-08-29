@@ -79,12 +79,17 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 
 	protected void end( boolean finished )
 	{
-		context.getPageBufferManager( ).endContainer( content, finished, tableEmitter );
+		context.getPageBufferManager( ).endContainer( content, finished, tableEmitter, true );
 	}
 
 	protected void start( boolean isFirst )
 	{
-		context.getPageBufferManager( ).startContainer( content, isFirst, tableEmitter );
+		context.getPageBufferManager( ).startContainer( content, isFirst, tableEmitter, true );
+	}
+
+	protected IContentEmitter getEmitter( )
+	{
+		return this.tableEmitter;
 	}
 
 }

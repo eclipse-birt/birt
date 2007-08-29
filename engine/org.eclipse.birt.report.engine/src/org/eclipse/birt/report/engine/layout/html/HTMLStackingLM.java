@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+
 public abstract class HTMLStackingLM extends HTMLAbstractLM
 {
 
@@ -33,7 +36,7 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 	{
 		if(emitter!=null)
 		{
-			context.getPageBufferManager( ).endContainer( content, finished, emitter );
+			context.getPageBufferManager( ).endContainer( content, finished, emitter, true);
 		}
 	}
 
@@ -41,7 +44,7 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 	{
 		if(emitter!=null)
 		{
-			context.getPageBufferManager( ).startContainer( content, isFirst, emitter );
+			context.getPageBufferManager( ).startContainer( content, isFirst, emitter, true );
 		}
 	}
 
