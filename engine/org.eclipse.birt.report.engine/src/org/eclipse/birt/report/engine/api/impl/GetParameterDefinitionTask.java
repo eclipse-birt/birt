@@ -822,7 +822,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			Object valueParent = iter.getValue( groupValueNames[i] );
 			valueParent = convertToType( valueParent, groupTypes[i] );
-			if ( ( valueParent == null && valueParent == groupKeyValues[i] )
+			if ( ( valueParent == null && groupKeyValues[i] != null )
 					|| ( valueParent != null && !valueParent
 							.equals( groupKeyValues[i] ) ) )
 			{
