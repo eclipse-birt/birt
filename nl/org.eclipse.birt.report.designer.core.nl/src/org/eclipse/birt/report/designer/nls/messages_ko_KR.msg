@@ -2194,7 +2194,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=식 빌더 열기
 FilterConditionBuilder.text.AND=및 
 FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.Shell.Title=필터 조건
-FilterConditionBuilder.checkbox.optional.title=옵션
 FilterConditionBuilder.list.item1=값
 FilterConditionBuilder.button.edit=편집...
 FilterConditionBuilder.button.delete=제거
@@ -3787,6 +3786,13 @@ DataItemBindingDialog.Button.Delete=삭제
 DataColumBindingDialog.title.CreateNewDataBinding=새 데이터 바인딩
 DataColumBindingDialog.title.EditDataBinding=데이터 바인딩 편집
 DataColumBindingDialog.title.AggBuilder=집계 빌더
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
+DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogButtonYes=예
+DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
+DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
+DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3927,3 +3933,4 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=월 일
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=월 일 연도
 FormatDateTimePattern.datetiem_format_type_minutes=분
 FormatDateTimePattern.datetiem_format_type_secontds=초
+

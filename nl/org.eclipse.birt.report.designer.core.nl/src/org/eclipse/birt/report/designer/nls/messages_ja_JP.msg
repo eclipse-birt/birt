@@ -2194,7 +2194,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=式ビルダを開く
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=フィルタの条件の入力 :
 FilterConditionBuilder.Shell.Title=フィルタの条件
-FilterConditionBuilder.checkbox.optional.title=オプション
 FilterConditionBuilder.list.item1=値
 FilterConditionBuilder.button.edit=編集...
 FilterConditionBuilder.button.delete=削除
@@ -3787,6 +3786,13 @@ DataItemBindingDialog.Button.Delete=削除
 DataColumBindingDialog.title.CreateNewDataBinding=データバインドの新規作成
 DataColumBindingDialog.title.EditDataBinding=データバインドの編集
 DataColumBindingDialog.title.AggBuilder=集計ビルダ
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
+DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogButtonYes=はい
+DataColumnBindingDialog.NewBindingDialogButtonNo=いいえ
+DataColumnBindingDialog.NewBindingDialogButtonCancel=キャンセル
+DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3927,3 +3933,4 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=通日 (月)
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=通日 (年)
 FormatDateTimePattern.datetiem_format_type_minutes=分
 FormatDateTimePattern.datetiem_format_type_secontds=秒
+

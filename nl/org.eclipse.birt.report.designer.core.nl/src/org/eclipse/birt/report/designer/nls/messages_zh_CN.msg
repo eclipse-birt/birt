@@ -2194,7 +2194,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=打开表达式生成器
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=输入筛选条件:
 FilterConditionBuilder.Shell.Title=筛选条件
-FilterConditionBuilder.checkbox.optional.title=可选
 FilterConditionBuilder.list.item1=值
 FilterConditionBuilder.button.edit=编辑...
 FilterConditionBuilder.button.delete=删除
@@ -3787,6 +3786,13 @@ DataItemBindingDialog.Button.Delete=删除
 DataColumBindingDialog.title.CreateNewDataBinding=新建数据绑定
 DataColumBindingDialog.title.EditDataBinding=编辑数据绑定
 DataColumBindingDialog.title.AggBuilder=聚合生成器
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
+DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogButtonYes=是
+DataColumnBindingDialog.NewBindingDialogButtonNo=否
+DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
+DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3927,3 +3933,4 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=月中第几天
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=中等格式年中第几天
 FormatDateTimePattern.datetiem_format_type_minutes=分钟
 FormatDateTimePattern.datetiem_format_type_secontds=秒
+

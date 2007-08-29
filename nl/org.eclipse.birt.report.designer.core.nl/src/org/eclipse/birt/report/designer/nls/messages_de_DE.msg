@@ -2194,7 +2194,6 @@ FilterConditionBuilder.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 FilterConditionBuilder.text.AND=UND
 FilterConditionBuilder.text.Condition=Filterbedingung eingeben:
 FilterConditionBuilder.Shell.Title=Filterbedingung
-FilterConditionBuilder.checkbox.optional.title=Optional
 FilterConditionBuilder.list.item1=Wert
 FilterConditionBuilder.button.edit=Bearbeiten...
 FilterConditionBuilder.button.delete=Entfernen
@@ -3787,6 +3786,13 @@ DataItemBindingDialog.Button.Delete=Löschen
 DataColumBindingDialog.title.CreateNewDataBinding=Neue Datenbindung
 DataColumBindingDialog.title.EditDataBinding=Datenbindung bearbeiten
 DataColumBindingDialog.title.AggBuilder=Aggregaterstellung
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
+DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogButtonYes=Ja
+DataColumnBindingDialog.NewBindingDialogButtonNo=Nein
+DataColumnBindingDialog.NewBindingDialogButtonCancel=Abbrechen
+DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3927,3 +3933,4 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Tag des Monats
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Tag des Jahres (mittel)
 FormatDateTimePattern.datetiem_format_type_minutes=Minuten
 FormatDateTimePattern.datetiem_format_type_secontds=Sekunden
+
