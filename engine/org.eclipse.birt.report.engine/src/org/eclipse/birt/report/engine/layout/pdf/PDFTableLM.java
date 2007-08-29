@@ -136,14 +136,17 @@ public class PDFTableLM extends PDFBlockStackingLM
 		groupStack.push( new Integer( groupLevel ) );
 	}
 
-	public void endGroup( IGroupContent groupContent )
+	public int endGroup( IGroupContent groupContent )
 	{
 		// if there is no group footer, we still need to do with the drop.
 		int groupLevel = groupContent.getGroupLevel( );
-		updateUnresolvedCell( groupLevel, false );
-		updateUnresolvedCell( groupLevel, true );
+		int height = 0;
+		height = updateUnresolvedCell( groupLevel, false );
+		height += updateUnresolvedCell( groupLevel, true );
+		
 		assert ( !groupStack.isEmpty( ) );
 		groupStack.pop( );
+		return height;
 	}
 
 	protected int getGroupLevel( )
@@ -263,7 +266,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 		int borderHeight = 0;
 		if ( layout != null )
 		{
-			layout.resolveAll( );
+			int height = layout.resolveAll( );
+			if ( 0 != height)
+			{
+				currentBP = currentBP + height;
+			}
 			borderHeight = layout.resolveBottomBorder( );
 			layout.remove( (TableArea) root );
 		}
@@ -643,14 +650,15 @@ public class PDFTableLM extends PDFBlockStackingLM
 		return false;
 	}
 
-	public void updateUnresolvedCell( int groupLevel, boolean dropAll )
+	public int updateUnresolvedCell( int groupLevel, boolean dropAll )
 	{
 		String dropType = dropAll ? "all" : "detail"; //$NON-NLS-1$ //$NON-NLS-2$
 		int dropValue = this.createDropID( groupLevel, dropType );
 		if ( layout != null )
 		{
-			layout.resolveDropCells( dropValue );
+			return layout.resolveDropCells( dropValue );
 		}
+		return 0;
 	}
 
 	public void skipRow( RowArea row )
