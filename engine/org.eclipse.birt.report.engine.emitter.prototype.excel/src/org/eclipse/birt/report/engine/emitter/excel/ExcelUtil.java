@@ -92,6 +92,9 @@ public class ExcelUtil
     	}
     	else if(val != null && data instanceof Number)
     	{
+    	   if(val.indexOf( "E" ) >= 0){
+    	      return "Scientific";
+    	   }
     	   return new NumberFormatter(val).getPattern( );	
     	}
     	
@@ -247,5 +250,8 @@ public class ExcelUtil
 		{
 			return (int) (value.convertTo( DimensionType.UNITS_PT ));
 		}
-	}	
+	}
+	
+
+	
 }
