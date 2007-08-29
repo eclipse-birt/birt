@@ -97,10 +97,13 @@ class DataSetProcessUtil extends RowProcessUtil
 			+ filterByRow.getFilterList( FilterByRow.GROUP_FILTER ).size( ) > 0;
 		if ( changeMaxRows )
 			this.populator.getQuery( ).setMaxRows( 0 );
-			
-		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 
+		if ( this.computedColumnHelper!= null )
+			this.computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 		doDataSetFilter( changeMaxRows );
+		
+		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
+		
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ));
 		
 		removeAvailableComputedColumns( );
