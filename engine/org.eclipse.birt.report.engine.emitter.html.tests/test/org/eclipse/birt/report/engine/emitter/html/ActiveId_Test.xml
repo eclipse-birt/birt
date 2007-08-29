@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.v20070828-0939 Build &lt;2.2.0.v20070828-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Data Cube.Data Set.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cube.Data Set.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Data Cube.Data Set.x">135</property>
+    <property name="Data Cube.Data Set.y">80</property>
     <template-parameter-definitions>
         <template-parameter-definition name="NewTemplateParameterDefinition4" id="110">
             <property name="allowedType">Label</property>
@@ -1079,7 +1093,9 @@
             <list-property name="filter">
                 <structure>
                     <expression name="expr">row["COUNTRY"]</expression>
-                    <expression name="value1">"Australia"</expression>
+                    <simple-property-list name="value1">
+                        <value>"Australia"</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -1236,6 +1252,46 @@
 from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
     </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube" id="197">
+            <property name="defaultMeasureGroup">Summary Field</property>
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="198">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="199">
+                            <property name="levels">
+                                <tabular-level name="COUNTRY" id="200">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">COUNTRY</property>
+                                </tabular-level>
+                                <tabular-level name="STATE" id="201">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">STATE</property>
+                                </tabular-level>
+                                <tabular-level name="CITY" id="202">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CITY</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Data Set</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="203">
+                    <property name="measures">
+                        <tabular-measure name="CUSTOMERNUMBER" id="204">
+                            <expression name="measureExpression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>
@@ -2334,6 +2390,68 @@ from CLASSICMODELS.CUSTOMERS</property>
         <template-report-item name="template chart" id="161">
             <property name="refTemplateParameter">NewTemplateParameterDefinition11</property>
         </template-report-item>
+        <extended-item extensionName="Crosstab" id="196">
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="210">
+                    <property name="measure">CUSTOMERNUMBER</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="211">
+                            <property name="content">
+                                <data name="CUSTOMERNUMBER" id="213">
+                                    <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="212">
+                            <property name="content">
+                                <label id="214">
+                                    <text-property name="text">CUSTOMERNUMBER</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="205">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="206">
+                            <property name="dimension">Group</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="207">
+                                    <property name="level">Group/COUNTRY</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="208">
+                                            <property name="content">
+                                                <data name="COUNTRY" id="209">
+                                                    <property name="resultSetColumn">COUNTRY</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <expression name="bookmark">"xtab"</expression>
+            <property name="cube">Data Cube</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dimension["Group"]["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">measure["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+        </extended-item>
     </body>
     <list-property name="images">
         <structure>

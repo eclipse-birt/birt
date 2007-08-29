@@ -63,7 +63,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/ActiveId_Test.xml";
 		String[][] bookmarksWithMetadata = {{"label", "LABEL"},
-				{"table", "TABLE"}, {"chart", "EXTENDED"}, {"list", "LIST"},
+				{"table", "TABLE"}, {"chart", "CHART"}, {"list", "LIST"}, {"xtab", "CROSSTAB"},
 				{"AUTOGENBOOKMARK_1", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_2", "TEMPLATE"},
 				{"AUTOGENBOOKMARK_3", "TEMPLATE"},
@@ -258,7 +258,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		for ( int i = 0; i < bookmarksWithMetadata.length; i++ )
 		{
-			if ( bookmarksWithMetadata[0].length >=3 )
+			if ( bookmarksWithMetadata[i].length >=3 )
 			{
 				assertMetadataOutput( content, instanceIds,
 						bookmarksWithMetadata[i][0],
@@ -425,7 +425,8 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	
 	private String[] getMetadataString( String type )
 	{
-		if ( "TABLE".equals( type ) || "GRID".equals( type ))
+		if ( "TABLE".equals( type ) || "GRID".equals( type ) ||
+				"CROSSTAB".equals( type ) )
 		{
 			return new String[]{table1, table2};
 		}
@@ -433,7 +434,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		{
 			return new String[]{list1, list2};
 		}
-		else if ( "IMAGE".equals( type ) || "EXTENDED".equals( type ) )
+		else if ( "IMAGE".equals( type ) || "CHART".equals( type ) )
 		{
 			return new String[]{imageMetadata1, imageMetadata2};
 		}

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * Utility class for html emitter.
@@ -112,8 +113,9 @@ public class HTMLEmitterUtil
 		writer.attribute( "element_type", type );
 		if ( iid != null )
 		{
-			if ( type == TYPE_TABLE || type == TYPE_LIST
-					|| type == TYPE_EXTENDED )
+			if ( type == TYPE_TABLE || type == TYPE_LIST ||
+					type == TYPE_EXTENDED || type == TYPE_CHART ||
+					type == TYPE_XTAB )
 			{
 				writer.attribute( "iid", iid.toUniqueString( ) );
 			}
@@ -172,6 +174,8 @@ public class HTMLEmitterUtil
 	static final String TYPE_TABLE = "TABLE";
 	static final String TYPE_LIST = "LIST";
 	static final String TYPE_DATA = "DATA";
+	static final String TYPE_CHART = "CHART";
+	static final String TYPE_XTAB = "CROSSTAB";
 	static final String TYPE_UNKNOWN = null;
 
 	private static String getActiveIdType( IContent content )
@@ -188,6 +192,17 @@ public class HTMLEmitterUtil
 
 		if ( genBy instanceof ExtendedItemDesign )
 		{
+			ExtendedItemDesign extDesign = (ExtendedItemDesign)genBy;
+			ExtendedItemHandle extHandle = (ExtendedItemHandle)extDesign.getHandle( );
+			String extensionName = extHandle.getExtensionName( );
+			if ( TYPE_XTAB.equalsIgnoreCase( extensionName ) )
+			{
+				return TYPE_XTAB;
+			}
+			else if ( TYPE_CHART.equalsIgnoreCase( extensionName ) )
+			{
+				return TYPE_CHART;
+			}
 			return TYPE_EXTENDED;
 		}
 		if ( genBy instanceof TableItemDesign )
