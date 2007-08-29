@@ -1,5 +1,5 @@
 # Localized messages for the DTE Engine. Messages here give 
-# the text of Design Engine exceptions.
+# the text of Data Engine exceptions.
 
 ###########################################################
 #for test only
@@ -203,6 +203,8 @@ odaconsumer.CannotDetermineDefaultDataSetType=Kein Datensatztyp. Der Standard-Da
 odaconsumer.InvalidDataSetType=Datensatztyp {0} ist ungültig. Der Standard-Datensatztyp für den Datensatz {1} kann nicht festgestellt werden.
 odaconsumer.ParameterNameCannotBeEmptyOrNull=Der Parametername darf nicht leer oder gleich Null sein.
 odaconsumer.ParameterPositionIsOneBased=Die Parameterposition darf nicht unter 1 liegen.
+odaconsumer.CannotGetParameterNativeName=Cannot get the driver-defined name of parameter: {0}
+odaconsumer.CannotGetParameterType=Typ für Parameter {0} kann nicht abgerufen werden.
 odaconsumer.CannotGetParameterTypeName=Typname für den Parameter kann nicht abgerufen werden: {0}
 odaconsumer.CannotGetParameterMode=Modus für Parameter kann nicht abgerufen werden: {0}
 odaconsumer.CannotGetParameterScale=Skalierung für Parameter kann nicht abgerufen werden: {0}
@@ -241,7 +243,6 @@ odaconsumer.CannotExecuteStatement=Anweisung kann nicht ausgeführt werden.
 odaconsumer.CannotGetResultSet=Ergebnis kann nicht abgerufen werden.
 odaconsumer.CannotGetNamedResultSet=Benanntes Ergebnis {0} kann nicht abgerufen werden.
 odaconsumer.CannotFindOutParameter=Ausgabeparameter {0} kann nicht gefunden werden.
-odaconsumer.CannotGetParameterType=Typ für Parameter {0} kann nicht abgerufen werden.
 odaconsumer.CannotCloseStatement=Anweisung kann nicht geschlossen werden.
 odaconsumer.CannotGetColumnCount=Spaltenanzahl kann nicht abgerufen werden.
 odaconsumer.CannotGetColumnName=Name der Spalte {0} kann nicht abgerufen werden.
@@ -288,6 +289,8 @@ odaconsumer.CannotGetColumnNativeDataTypeName=Programmeigener Datentypname für d
 odaconsumer.CannotGetParameterMetaData=Die Metadaten für den Parameter des ODA-Treibers können nicht abgerufen werden.
 odaconsumer.CannotLoadOdaAdapter={0}-Treiber kann nicht geladen werden; DTP-zu-BIRT-ODA-Adapter-Plug-In {1} fehlt.
 odaconsumer.MustSpecifyColumnName=Beim Hinzufügen eines Spaltenhinweises muss ein Spaltenname angegeben werden.
+odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
+odaconsumer.ParameterNames=\nParameter defined with model name ({0}) and driver-defined name ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Nach Aufruf von executeQuery() können Ergebnisse nicht nach Namen abgerufen werden.
 odaconsumer.manager.CannotSetParamBeforePrepare=Die Eingabeparameter können erst nach Vorbereitung der Anweisung eingestellt werden.
@@ -303,7 +306,7 @@ odaconsumer.manager.MaxConcurrentStatementsReached=Maximale Anzahl aktiver gleic
 odaconsumer.manager.PrepareFailed=Vorbereitung fehlgeschlagen.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Metadaten für Ergebnisse können erst nach Vorbereitung der Anweisung abgerufen werden.
 odaconsumer.manager.CannotExecuteBeforePrepare=Die Anweisung kann erst ausgeführt werden, nachdem sie vorbereitet wurde.
-odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
+
 
 # Data Olap error code
 data.olap.OlapDirCreateFail=Verzeichnis {0} konnte nicht erstellt werden.
@@ -377,29 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=weight
-total.param.movingAve.window=window
-total.param.rank.ascending=ascending
-total.param.percentile.pct=percentage
-total.param.quartile.quart=quart
-total.param.isTopN.n=n
-total.param.isTopNPercent.pct=percentage
-total.param.isBottomN.n=n
-total.param.isBottomNPercent.pct=percentage
+total.param.weightedAve.weight=&weight
+total.param.movingAve.window=&window
+total.param.rank.ascending=a&scending
+total.param.percentile.pct=&percentage
+total.param.quartile.quart=&quart
+total.param.isTopN.n=&n
+total.param.isTopNPercent.pct=&percentage
+total.param.isBottomN.n=&n
+total.param.isBottomNPercent.pct=&percentage
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=rate
-total.param.npv.cashArray=cashArray
-
-total.param.runningnpv.rate=rate
-total.param.runningnpv.cashArray=cashArray
-
-total.param.mirr.cashArray=cashArray
-total.param.mirr.rate=rate
-
-total.param.irr.cashArray=cashArray
-total.param.irr.startingGuess=startingGuess
+total.param.npv.rate=&rate
+total.param.runningnpv.rate=&rate
+total.param.mirr.financeRate=f&inance rate
+total.param.mirr.reinvestmentRate=&reinvestment rate
+total.param.irr.rate=&intrate

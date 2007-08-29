@@ -1,5 +1,5 @@
 # Localized messages for the DTE Engine. Messages here give 
-# the text of Design Engine exceptions.
+# the text of Data Engine exceptions.
 
 ###########################################################
 #for test only
@@ -203,6 +203,8 @@ odaconsumer.CannotDetermineDefaultDataSetType=¿ÕÊı¾İ¼¯ÀàĞÍ¡£ÎŞ·¨È·¶¨Çı¶¯³ÌĞò {0}
 odaconsumer.InvalidDataSetType=ÎŞĞ§µÄÊı¾İ¼¯ÀàĞÍ {0}¡£ÎŞ·¨È·¶¨Êı¾İ¼¯ {1} µÄÄ¬ÈÏÊı¾İ¼¯ÀàĞÍ¡£
 odaconsumer.ParameterNameCannotBeEmptyOrNull=²ÎÊıÃû³Æ²»ÄÜÎª¿Õ»ò null¡£
 odaconsumer.ParameterPositionIsOneBased=²ÎÊıÎ»ÖÃ²»ÄÜĞ¡ÓÚ 1¡£
+odaconsumer.CannotGetParameterNativeName=Cannot get the driver-defined name of parameter: {0}
+odaconsumer.CannotGetParameterType=ÎŞ·¨»ñµÃ²ÎÊıµÄÀàĞÍ: {0}
 odaconsumer.CannotGetParameterTypeName=ÎŞ·¨»ñµÃ²ÎÊıµÄÀàĞÍÃû³Æ: {0}
 odaconsumer.CannotGetParameterMode=ÎŞ·¨»ñµÃ²ÎÊıµÄÄ£Ê½: {0}
 odaconsumer.CannotGetParameterScale=ÎŞ·¨»ñµÃ²ÎÊıµÄ½øÎ»ÖÆ: {0}
@@ -241,7 +243,6 @@ odaconsumer.CannotExecuteStatement=ÎŞ·¨Ö´ĞĞÓï¾ä¡£
 odaconsumer.CannotGetResultSet=ÎŞ·¨»ñÈ¡½á¹û¼¯¡£
 odaconsumer.CannotGetNamedResultSet=ÎŞ·¨»ñµÃÖ¸¶¨½á¹û¼¯: {0}
 odaconsumer.CannotFindOutParameter=ÎŞ·¨ÕÒµ½Êä³ö²ÎÊı: {0}
-odaconsumer.CannotGetParameterType=ÎŞ·¨»ñµÃ²ÎÊıµÄÀàĞÍ: {0}
 odaconsumer.CannotCloseStatement=ÎŞ·¨¹Ø±ÕÓï¾ä¡£
 odaconsumer.CannotGetColumnCount=ÎŞ·¨»ñÈ¡ÁĞ¼ÆÊı¡£
 odaconsumer.CannotGetColumnName=ÎŞ·¨»ñµÃÁĞµÄÃû³Æ: {0}
@@ -288,6 +289,8 @@ odaconsumer.CannotGetColumnNativeDataTypeName=ÎŞ·¨»ñµÃÁĞµÄ±¾µØÊı¾İÀàĞÍÃû³Æ: {0}
 odaconsumer.CannotGetParameterMetaData=ÎŞ·¨»ñÈ¡ ODA Çı¶¯³ÌĞò²ÎÊıÔªÊı¾İ¡£
 odaconsumer.CannotLoadOdaAdapter=ÎŞ·¨¼ÓÔØ {0} Çı¶¯³ÌĞò£»È±ÉÙ DTP ÖÁ BIRT ODA ÊÊÅäÆ÷²å¼ş {1}¡£
 odaconsumer.MustSpecifyColumnName=Ìí¼ÓÁĞÌáÊ¾Ê±±ØĞëÖ¸¶¨ÁĞÃû³Æ¡£
+odaconsumer.CannotFindLogDirectory=ÎŞ·¨ÕÒµ½ÈÕÖ¾Ä¿Â¼¡£
+odaconsumer.ParameterNames=\nParameter defined with model name ({0}) and driver-defined name ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=µ÷ÓÃ executeQuery() ºó£¬ÎŞ·¨°´Ãû³Æ»ñµÃ½á¹û¼¯¡£
 odaconsumer.manager.CannotSetParamBeforePrepare=ÔÚÓï¾ä×¼±¸ºÃÖ®Ç°²»ÄÜÉèÖÃÊäÈë²ÎÊı¡£
@@ -303,7 +306,7 @@ odaconsumer.manager.MaxConcurrentStatementsReached=´ËÁ¬½ÓÒÑ´ïµ½×î´ó»î¶¯²¢·¢Óï¾äÊ
 odaconsumer.manager.PrepareFailed=×¼±¸²Ù×÷Ê§°Ü¡£
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=ÔÚÓï¾ä×¼±¸ºÃÖ®Ç°²»ÄÜ»ñµÃ½á¹û¼¯ÔªÊı¾İ¡£
 odaconsumer.manager.CannotExecuteBeforePrepare=ÔÚÓï¾ä×¼±¸ºÃÖ®Ç°²»ÄÜÖ´ĞĞ¸ÃÓï¾ä¡£
-odaconsumer.CannotFindLogDirectory=ÎŞ·¨ÕÒµ½ÈÕÖ¾Ä¿Â¼¡£
+
 
 # Data Olap error code
 data.olap.OlapDirCreateFail=ÎŞ·¨´´½¨Ä¿Â¼ {0}¡£
@@ -377,29 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=weight
-total.param.movingAve.window=window
-total.param.rank.ascending=ascending
-total.param.percentile.pct=percentage
-total.param.quartile.quart=quart
-total.param.isTopN.n=n
-total.param.isTopNPercent.pct=percentage
-total.param.isBottomN.n=n
-total.param.isBottomNPercent.pct=percentage
+total.param.weightedAve.weight=&weight
+total.param.movingAve.window=&window
+total.param.rank.ascending=a&scending
+total.param.percentile.pct=&percentage
+total.param.quartile.quart=&quart
+total.param.isTopN.n=&n
+total.param.isTopNPercent.pct=&percentage
+total.param.isBottomN.n=&n
+total.param.isBottomNPercent.pct=&percentage
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=rate
-total.param.npv.cashArray=cashArray
-
-total.param.runningnpv.rate=rate
-total.param.runningnpv.cashArray=cashArray
-
-total.param.mirr.cashArray=cashArray
-total.param.mirr.rate=rate
-
-total.param.irr.cashArray=cashArray
-total.param.irr.startingGuess=startingGuess
+total.param.npv.rate=&rate
+total.param.runningnpv.rate=&rate
+total.param.mirr.financeRate=f&inance rate
+total.param.mirr.reinvestmentRate=&reinvestment rate
+total.param.irr.rate=&intrate
