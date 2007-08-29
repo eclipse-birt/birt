@@ -1,5 +1,5 @@
 # Localized messages for the DTE Engine. Messages here give 
-# the text of Design Engine exceptions.
+# the text of Data Engine exceptions.
 
 ###########################################################
 #for test only
@@ -203,6 +203,8 @@ odaconsumer.CannotDetermineDefaultDataSetType=널(null) 데이터 집합 형식입니다. �
 odaconsumer.InvalidDataSetType=잘못된 데이터 집합 형식 {0}입니다. 데이터 집합 {1}의 기본 데이터 집합 형식을 확인할 수 없습니다.
 odaconsumer.ParameterNameCannotBeEmptyOrNull=매개 변수 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ParameterPositionIsOneBased=매개 변수 위치는 1 미만이 될 수 없습니다.
+odaconsumer.CannotGetParameterNativeName=Cannot get the driver-defined name of parameter: {0}
+odaconsumer.CannotGetParameterType=매개 변수의 형식을 가져올 수 없습니다 {0}
 odaconsumer.CannotGetParameterTypeName=매개 변수의 형식 이름을 가져올 수 없습니다: {0}
 odaconsumer.CannotGetParameterMode=매개 변수의 모드를 가져올 수 없습니다: {0}
 odaconsumer.CannotGetParameterScale=매개 변수의 배율을 가져올 수 없습니다: {0}
@@ -241,7 +243,6 @@ odaconsumer.CannotExecuteStatement=문을 실행할 수 없습니다.
 odaconsumer.CannotGetResultSet=결과 집합을 가져올 수 없습니다.
 odaconsumer.CannotGetNamedResultSet=명명된 결과 집합을 가져올 수 없습니다: {0}
 odaconsumer.CannotFindOutParameter=출력 매개 변수를 찾을 수 없습니다: {0}
-odaconsumer.CannotGetParameterType=매개 변수의 형식을 가져올 수 없습니다 {0}
 odaconsumer.CannotCloseStatement=문을 닫을 수 없습니다.
 odaconsumer.CannotGetColumnCount=열 수를 가져올 수 없습니다.
 odaconsumer.CannotGetColumnName=열의 이름을 가져올 수 없습니다: {0}
@@ -288,6 +289,8 @@ odaconsumer.CannotGetColumnNativeDataTypeName=열의 고유 데이터 형식 이름을 가져�
 odaconsumer.CannotGetParameterMetaData=ODA 드라이버 매개 변수 메타데이터를 가져올 수 없습니다.
 odaconsumer.CannotLoadOdaAdapter={0} 드라이버를 로드할 수 없습니다. DTP-to-BIRT ODA 어댑터 플러그인 {1}이(가) 누락되었습니다.
 odaconsumer.MustSpecifyColumnName=열 힌트를 추가할 때 열 이름을 지정해야 합니다.
+odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
+odaconsumer.ParameterNames=\nParameter defined with model name ({0}) and driver-defined name ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery()를 호출한 후 결과 집합을 이름별로 가져올 수 없습니다.
 odaconsumer.manager.CannotSetParamBeforePrepare=입력 매개 변수를 설정하려면 문을 준비해야 합니다.
@@ -303,7 +306,7 @@ odaconsumer.manager.MaxConcurrentStatementsReached=이 연결의 최대 활성 동시 연결
 odaconsumer.manager.PrepareFailed=준비하지 못했습니다.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=결과 집합 메타데이터를 가져오려면 문을 준비해야 합니다.
 odaconsumer.manager.CannotExecuteBeforePrepare=문을 실행하려면 먼저 준비해야 합니다.
-odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
+
 
 # Data Olap error code
 data.olap.OlapDirCreateFail=디렉터리 {0}을(를) 만들지 못했습니다.
@@ -377,29 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=weight
-total.param.movingAve.window=window
-total.param.rank.ascending=ascending
-total.param.percentile.pct=percentage
-total.param.quartile.quart=quart
-total.param.isTopN.n=n
-total.param.isTopNPercent.pct=percentage
-total.param.isBottomN.n=n
-total.param.isBottomNPercent.pct=percentage
+total.param.weightedAve.weight=&weight
+total.param.movingAve.window=&window
+total.param.rank.ascending=a&scending
+total.param.percentile.pct=&percentage
+total.param.quartile.quart=&quart
+total.param.isTopN.n=&n
+total.param.isTopNPercent.pct=&percentage
+total.param.isBottomN.n=&n
+total.param.isBottomNPercent.pct=&percentage
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=rate
-total.param.npv.cashArray=cashArray
-
-total.param.runningnpv.rate=rate
-total.param.runningnpv.cashArray=cashArray
-
-total.param.mirr.cashArray=cashArray
-total.param.mirr.rate=rate
-
-total.param.irr.cashArray=cashArray
-total.param.irr.startingGuess=startingGuess
+total.param.npv.rate=&rate
+total.param.runningnpv.rate=&rate
+total.param.mirr.financeRate=f&inance rate
+total.param.mirr.reinvestmentRate=&reinvestment rate
+total.param.irr.rate=&intrate

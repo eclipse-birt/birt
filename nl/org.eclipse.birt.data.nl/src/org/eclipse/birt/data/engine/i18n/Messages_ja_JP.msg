@@ -1,5 +1,5 @@
 # Localized messages for the DTE Engine. Messages here give 
-# the text of Design Engine exceptions.
+# the text of Data Engine exceptions.
 
 ###########################################################
 #for test only
@@ -203,6 +203,8 @@ odaconsumer.CannotDetermineDefaultDataSetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^‚ª null ‚Ì‚½‚ßAƒh
 odaconsumer.InvalidDataSetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^ {0} ‚ª–³Œø‚Å‚·Bƒf[ƒ^ƒZƒbƒg {1} ‚ÌƒfƒtƒHƒ‹ƒg‚ÌŒ^‚ğ¯•Ê‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.ParameterNameCannotBeEmptyOrNull=ƒpƒ‰ƒƒ^–¼‚Í‹ó”’‚Ü‚½‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.ParameterPositionIsOneBased=ƒpƒ‰ƒƒ^‚ÌˆÊ’u‚É‚Í 1 ‚æ‚è¬‚³‚¢’l‚ğw’è‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.CannotGetParameterNativeName=Cannot get the driver-defined name of parameter: {0}
+odaconsumer.CannotGetParameterType=ƒpƒ‰ƒƒ^ {0} ‚ÌŒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetParameterTypeName=ƒpƒ‰ƒƒ^ {0} ‚ÌŒ^–¼‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetParameterMode=ƒpƒ‰ƒƒ^ {0} ‚Ìƒ‚[ƒh‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetParameterScale=ƒpƒ‰ƒƒ^ {0} ‚ÌƒXƒP[ƒ‹‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -241,7 +243,6 @@ odaconsumer.CannotExecuteStatement=•¶‚ğÀs‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetResultSet=Œ‹‰ÊƒZƒbƒg‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetNamedResultSet=–¼‘O•t‚«Œ‹‰ÊƒZƒbƒg {0} ‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotFindOutParameter=o—Íƒpƒ‰ƒƒ^ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
-odaconsumer.CannotGetParameterType=ƒpƒ‰ƒƒ^ {0} ‚ÌŒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotCloseStatement=•¶‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetColumnCount=—ñ‚Ì”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetColumnName=—ñ {0} ‚Ì–¼‘O‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -288,6 +289,8 @@ odaconsumer.CannotGetColumnNativeDataTypeName=—ñ {0} ‚ÌƒlƒCƒeƒBƒuƒf[ƒ^Œ^‚Ì–¼‘O‚
 odaconsumer.CannotGetParameterMetaData=ODA ƒhƒ‰ƒCƒo‚Ìƒpƒ‰ƒƒ^‚Ìƒƒ^ƒf[ƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotLoadOdaAdapter={0} ƒhƒ‰ƒCƒo‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñBDTP-to-BIRT ODA ƒAƒ_ƒvƒ^‚Ìƒvƒ‰ƒOƒCƒ“ {1} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 odaconsumer.MustSpecifyColumnName=—ñ‚Ìƒqƒ“ƒg‚ğ’Ç‰Á‚·‚é‚Æ‚«‚ÍA—ñ–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+odaconsumer.CannotFindLogDirectory=ƒƒOƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+odaconsumer.ParameterNames=\nParameter defined with model name ({0}) and driver-defined name ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery() ‚ğŒÄ‚Ño‚µ‚½Œã‚ÍAŒ‹‰ÊƒZƒbƒg‚ğ–¼‘O‚Åæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.manager.CannotSetParamBeforePrepare=•¶‚ğ‹Lq‚·‚é‘O‚Í“ü—Íƒpƒ‰ƒƒ^‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
@@ -303,7 +306,7 @@ odaconsumer.manager.MaxConcurrentStatementsReached=‚±‚ÌÚ‘±‚Å‚ÍAƒAƒNƒeƒBƒu‚Ì“¯
 odaconsumer.manager.PrepareFailed=€”õ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=•¶‚ğ‹Lq‚·‚é‘O‚ÍŒ‹‰ÊƒZƒbƒg‚Ìƒƒ^ƒf[ƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.manager.CannotExecuteBeforePrepare=•¶‚ğ‹Lq‚·‚é‘O‚Í•¶‚ğÀs‚Å‚«‚Ü‚¹‚ñB
-odaconsumer.CannotFindLogDirectory=ƒƒOƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+
 
 # Data Olap error code
 data.olap.OlapDirCreateFail={0} ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚Å‚«‚Ü‚¹‚ñB
@@ -377,29 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=weight
-total.param.movingAve.window=window
-total.param.rank.ascending=ascending
-total.param.percentile.pct=percentage
-total.param.quartile.quart=quart
-total.param.isTopN.n=n
-total.param.isTopNPercent.pct=percentage
-total.param.isBottomN.n=n
-total.param.isBottomNPercent.pct=percentage
+total.param.weightedAve.weight=&weight
+total.param.movingAve.window=&window
+total.param.rank.ascending=a&scending
+total.param.percentile.pct=&percentage
+total.param.quartile.quart=&quart
+total.param.isTopN.n=&n
+total.param.isTopNPercent.pct=&percentage
+total.param.isBottomN.n=&n
+total.param.isBottomNPercent.pct=&percentage
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=rate
-total.param.npv.cashArray=cashArray
-
-total.param.runningnpv.rate=rate
-total.param.runningnpv.cashArray=cashArray
-
-total.param.mirr.cashArray=cashArray
-total.param.mirr.rate=rate
-
-total.param.irr.cashArray=cashArray
-total.param.irr.startingGuess=startingGuess
+total.param.npv.rate=&rate
+total.param.runningnpv.rate=&rate
+total.param.mirr.financeRate=f&inance rate
+total.param.mirr.reinvestmentRate=&reinvestment rate
+total.param.irr.rate=&intrate
