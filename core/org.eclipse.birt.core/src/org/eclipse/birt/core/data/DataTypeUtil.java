@@ -209,10 +209,24 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new CoreException( ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								source.toString( ), "Integer"
-						} );
+				try
+				{
+					Number number = NumberFormat.getInstance( ULocale.getDefault( )).parse( (String)source );
+					if( number != null )
+						return new Integer( number.intValue( ));
+					
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "Integer"
+							} );
+				}
+				catch ( ParseException e1 )
+				{
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "Integer"
+							} );
+				}
 			}
 		}
 		else
@@ -284,11 +298,25 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new CoreException(
-						ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								source.toString( ), "BigDecimal"
-						});
+				try
+				{
+					Number number = NumberFormat.getInstance( ULocale.getDefault( ) )
+							.parse( (String) source );
+					if( number != null )
+						return new BigDecimal( number.toString( ) );
+					
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "BigDecimal"
+							} );
+				}
+				catch ( ParseException e1 )
+				{
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "BigDecimal"
+							} );
+				}
 			}
 		}
 		else
@@ -667,11 +695,25 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new CoreException( 
-						ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								source.toString( ), "Double"
-						});
+				try
+				{
+					Number number = NumberFormat.getInstance( ULocale.getDefault( ) )
+							.parse( (String) source );
+					if( number != null )
+						return new Double( number.doubleValue( ));
+					
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "Double"
+							} );
+				}
+				catch ( ParseException e1 )
+				{
+					throw new CoreException( ResourceConstants.CONVERT_FAILS,
+							new Object[]{
+									source.toString( ), "Double"
+							} );
+				}
 			}
 		}
 		else
