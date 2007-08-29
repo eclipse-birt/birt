@@ -1,0 +1,14 @@
+*****A new Report Start!*****
+S:0 E:1 Beijing    7000    
+S:1 E:1 New York    100    
+S:1 E:1 Shanghai    100    
+S:1 E:1 Chicago    700    
+S:1 E:1 New York    100    
+S:1 E:1 Shanghai    100    
+S:1 E:1 Beijing    400    
+S:1 E:1 Chicago    400    
+S:1 E:1 London    600    
+S:1 E:1 London    700    
+S:1 E:1 Edinburgh    800    
+S:1 E:0 Edinburgh    1000    
+

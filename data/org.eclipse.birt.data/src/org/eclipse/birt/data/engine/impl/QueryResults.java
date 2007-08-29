@@ -186,8 +186,9 @@ public class QueryResults implements IQueryResults, IQueryService
 						{
 
 							//First create the cache. The cache is created when 
-							//a ResultIterator is closed;
-							new ResultIterator2( new ResultService( context,
+							//a ResultIterator is closed;Please note that whether usesDetails or
+							//not, we should always create a complete ResultIterator.
+							new ResultIterator( new ResultService( context,
 									this ), odiIterator, this.queryScope ).close( );
 							iterator = new CacheResultIterator( context,
 									this );
