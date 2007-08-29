@@ -88,12 +88,21 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					List aggrOns = binding.getAggregatOns( );
 					if( aggrOns.size( ) == 0 )
 					{
-						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null
-								&& this.isLeafLevel( cubeDefn, target ) )
+						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null )
 						{
-							result.add( new BindingMetaInfo( binding.getBindingName( ),
-									IBindingMetaInfo.MEASURE_TYPE ) );
-							continue;
+							if ( this.isLeafLevel( cubeDefn, target )
+									&& binding.getAggrFunction( ) == null )
+							{
+								result.add( new BindingMetaInfo( binding.getBindingName( ),
+										IBindingMetaInfo.MEASURE_TYPE ) );
+								continue;
+							}
+							else if ( binding.getAggrFunction( ) != null )
+							{
+								result.add( new BindingMetaInfo( binding.getBindingName( ),
+										IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
+								continue;
+							}
 						}
 					}
 					for ( int j = 0; j < aggrOns.size( ); j++ )

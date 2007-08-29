@@ -84,6 +84,9 @@ public class DataRequestSessionTest extends TestCase
 		IBinding binding10 = new Binding( "b10", new ScriptExpression( "measure[\"abc\"]"));
 		int type10 = IBindingMetaInfo.MEASURE_TYPE;
 		
+		IBinding binding11 = new Binding( "b11", new ScriptExpression( "measure[\"abc\"]"));
+		binding11.setAggrFunction( "SUM" );
+		int type11 = IBindingMetaInfo.GRAND_TOTAL_TYPE;
 		
 		ICubeQueryDefinition query = new CubeQueryDefinition( "query");
 		query.addBinding( binding1 );
@@ -148,6 +151,15 @@ public class DataRequestSessionTest extends TestCase
 		assertTrue( contains( l5, binding71, type71 ));
 		assertTrue( contains( l5, binding8, type8 ));
 		assertTrue( contains( l5, binding10, type10 ));
+		
+		String targetLevel6 = "dimension[\"dim1\"][\"level2\"]";
+		query.addBinding( binding11 );
+		List l6 = this.session.getCubeQueryUtil( ).getReferableBindings( targetLevel6, query, false );
+		assertTrue( l6.size( ) == 4 );
+		assertTrue( contains( l6, binding2, type2 ));
+		assertTrue( contains( l6, binding71, type71 ));
+		assertTrue( contains( l6, binding9, type9 ));
+		assertTrue( contains( l6, binding11, type11 ));
 	}
 	
 	/**
