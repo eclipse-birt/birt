@@ -25,6 +25,9 @@ birt.viewer.restore=보고서 매개 변수 표시
 birt.viewer.error=오류 메시지
 birt.viewer.error.noparameter=이 보고서에 대한 매개 변수가 없습니다.
 birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다.
+birt.viewer.error.unknownerror=Unknown error.
+birt.viewer.error.generatereportfirst=Report document should be generated first.
+birt.viewer.error.parameterrequired={0} is required.
 
 ###############################################################################
 # Toolbar
@@ -68,6 +71,7 @@ birt.viewer.dialog.page.all=모든 페이지
 birt.viewer.dialog.page.current=현재 페이지
 birt.viewer.dialog.page.range=페이지:
 birt.viewer.dialog.page.range.description=(여러 페이지 번호 및/또는 여러 번호 범위 입력. 예: 1-6 또는 1,3,6)
+birt.viewer.dialog.page.error.invalidpagerange=Invalid page range
 
 ###############################################################################
 # Dialog title
@@ -100,6 +104,7 @@ birt.viewer.dialog.export.pdf.fittowhole=페이지 전체에 맞추기
 birt.viewer.dialog.print.format=인쇄 형식
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
+birt.viewer.dialog.print.printpreviewalreadyopen=A print preview window is already open.
 
 ###############################################################################
 # Print report on the server dialog 
@@ -125,7 +130,7 @@ birt.viewer.dialog.printserver.settings.pagesize=페이지 크기:
 birt.viewer.dialog.printserver.settings.print=인쇄:
 
 birt.viewer.dialog.printserver.complete=문서 파일을 서버의 선택된 프린터에 보냈습니다.
-
+birt.viewer.dialog.printserver.error.noprinter=No printer
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################

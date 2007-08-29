@@ -25,6 +25,9 @@ birt.viewer.restore=Afficher les paramètres de l'état
 birt.viewer.error=Message d'erreur
 birt.viewer.error.noparameter=Il n'existe aucun paramètre pour cet état.
 birt.viewer.error.noprinter=Impossible de trouver une imprimante disponible qui prend en charge le format postscript.
+birt.viewer.error.unknownerror=Unknown error.
+birt.viewer.error.generatereportfirst=Report document should be generated first.
+birt.viewer.error.parameterrequired={0} is required.
 
 ###############################################################################
 # Toolbar
@@ -68,6 +71,7 @@ birt.viewer.dialog.page.all=Toutes les pages
 birt.viewer.dialog.page.current=Page en cours
 birt.viewer.dialog.page.range=Pages :
 birt.viewer.dialog.page.range.description=(Entrez le(s) numéro(s) de page et/ou la(les) série(s) de pages. Par exemple : 1-6 ou 1,3,6)
+birt.viewer.dialog.page.error.invalidpagerange=Invalid page range
 
 ###############################################################################
 # Dialog title
@@ -100,6 +104,7 @@ birt.viewer.dialog.export.pdf.fittowhole=Ajuster à la page
 birt.viewer.dialog.print.format=Format d'impression
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
+birt.viewer.dialog.print.printpreviewalreadyopen=A print preview window is already open.
 
 ###############################################################################
 # Print report on the server dialog 
@@ -125,7 +130,7 @@ birt.viewer.dialog.printserver.settings.pagesize=Format de papier :
 birt.viewer.dialog.printserver.settings.print=Imprimer :
 
 birt.viewer.dialog.printserver.complete=Fichier de document envoyé à l'imprimante sélectionnée sur le serveur.
-
+birt.viewer.dialog.printserver.error.noprinter=No printer
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################

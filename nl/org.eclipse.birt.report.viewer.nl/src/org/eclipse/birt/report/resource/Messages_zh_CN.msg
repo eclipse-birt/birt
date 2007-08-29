@@ -25,6 +25,9 @@ birt.viewer.restore=显示报表参数
 birt.viewer.error=错误消息
 birt.viewer.error.noparameter=此报表无参数。
 birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
+birt.viewer.error.unknownerror=Unknown error.
+birt.viewer.error.generatereportfirst=Report document should be generated first.
+birt.viewer.error.parameterrequired={0} is required.
 
 ###############################################################################
 # Toolbar
@@ -68,6 +71,7 @@ birt.viewer.dialog.page.all=所有页
 birt.viewer.dialog.page.current=当前页
 birt.viewer.dialog.page.range=页:
 birt.viewer.dialog.page.range.description=(输入页码和/或页范围。例如: 1-6 或 1,3,6)
+birt.viewer.dialog.page.error.invalidpagerange=Invalid page range
 
 ###############################################################################
 # Dialog title
@@ -100,6 +104,7 @@ birt.viewer.dialog.export.pdf.fittowhole=适合整页
 birt.viewer.dialog.print.format=打印格式
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
+birt.viewer.dialog.print.printpreviewalreadyopen=A print preview window is already open.
 
 ###############################################################################
 # Print report on the server dialog 
@@ -125,7 +130,7 @@ birt.viewer.dialog.printserver.settings.pagesize=页面大小:
 birt.viewer.dialog.printserver.settings.print=打印:
 
 birt.viewer.dialog.printserver.complete=已将文档文件发送到服务器上选择的打印机。
-
+birt.viewer.dialog.printserver.error.noprinter=No printer
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################
