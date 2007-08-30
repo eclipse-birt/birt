@@ -58,8 +58,13 @@ class AllocEntry
 		// ensure the buffer is larger enough.
 		if ( blockIds == null || blockIds.length < size )
 		{
-			size = ( size / BLOCK_COUNT_INCREASE ) * BLOCK_COUNT_INCREASE
-					+ BLOCK_COUNT_INCREASE;
+			int base = ( size / BLOCK_COUNT_INCREASE ) * BLOCK_COUNT_INCREASE;
+			int increase = base / 4;
+			if ( increase < BLOCK_COUNT_INCREASE )
+			{
+				increase = BLOCK_COUNT_INCREASE;
+			}
+			size = base + increase;
 			int[] blocks = new int[size];
 			if ( blockIds != null )
 			{
@@ -99,7 +104,7 @@ class AllocEntry
 		blockIds[totalBlocks] = blockId;
 		totalBlocks++;
 	}
-	
+
 	int removeLastBlock( )
 	{
 		if ( totalBlocks > 0 )

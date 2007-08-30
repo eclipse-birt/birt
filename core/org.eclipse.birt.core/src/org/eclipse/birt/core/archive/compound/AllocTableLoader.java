@@ -19,37 +19,62 @@ import org.eclipse.birt.core.archive.ArchiveUtil;
 class AllocTableLoader implements ArchiveConstants
 {
 
-	ArrayList entries = new ArrayList( );
-	AllocEntry lastEntry;
+	static class Node
+	{
+
+		AllocEntry entry;
+		Node next;
+	}
+	protected Node nodes = new Node( );
+	protected AllocEntry fatEntry;
 
 	AllocTableLoader( )
 	{
+		fatEntry = new AllocEntry( ALLOC_TABLE_BLOCK );
+		Node fatNode = new Node( );
+		fatNode.entry = fatEntry;
+		nodes.next = fatNode;
 	}
 
 	ArrayList getEntryies( )
 	{
+		ArrayList entries = new ArrayList( );
+		Node entryNode = nodes.next;
+		while ( entryNode != null )
+		{
+			entries.add( entryNode.entry );
+			entryNode = entryNode.next;
+		}
 		return entries;
 	}
 
-	private AllocEntry getEntry( int blockId )
+	private void appendBlock( int blockIndex, int blockId )
 	{
-		if ( blockId == lastEntry.getLastBlock( ) )
+		Node prevNode = null;
+		Node entryNode = nodes.next;
+		do
 		{
-			return lastEntry;
-		}
-		for ( int i = entries.size( ) - 1; i >= 0; i-- )
-		{
-			AllocEntry entry = (AllocEntry) entries.get( i );
-			if ( entry.getLastBlock( ) == blockId )
+			if ( entryNode.entry.getLastBlock( ) == blockIndex )
 			{
-				lastEntry = entry;
-				return entry;
+				entryNode.entry.appendBlock( blockId );
+				// move the node to the first element
+				if ( entryNode != nodes.next )
+				{
+					prevNode.next = entryNode.next;
+					entryNode.next = nodes.next;
+					nodes.next = entryNode;
+				}
+				return;
 			}
-		}
-		AllocEntry entry = new AllocEntry( blockId );
-		entries.add( entry );
-		lastEntry = entry;
-		return entry;
+			prevNode = entryNode;
+			entryNode = entryNode.next;
+		} while ( entryNode != null );
+		// create a new entry
+		entryNode = new Node( );
+		entryNode.entry = new AllocEntry( blockIndex );
+		entryNode.entry.appendBlock( blockId );
+		entryNode.next = nodes.next;
+		nodes.next = entryNode;
 	}
 
 	void load( ArchiveFileV2 af ) throws IOException
@@ -57,9 +82,6 @@ class AllocTableLoader implements ArchiveConstants
 		int BLOCK_SIZE = af.BLOCK_SIZE;
 		int INDEX_PER_BLOCK = BLOCK_SIZE / 4;
 		// initialize the FAT entry
-		AllocEntry fatEntry = new AllocEntry( ALLOC_TABLE_BLOCK );
-		entries.add( fatEntry );
-		lastEntry = fatEntry;
 
 		// load the FAT block one by one
 		byte buffer[] = new byte[BLOCK_SIZE];
@@ -72,10 +94,10 @@ class AllocTableLoader implements ArchiveConstants
 			for ( int i = 0; i < INDEX_PER_BLOCK; i++ )
 			{
 				int blockId = ArchiveUtil.bytesToInteger( buffer, i * 4 );
+				// -1 means the last block while 0 means unused block.
 				if ( blockId > 0 )
 				{
-					AllocEntry entry = getEntry( blockIndex );
-					entry.appendBlock( blockId );
+					appendBlock( blockIndex, blockId );
 				}
 				blockIndex++;
 			}
