@@ -31,10 +31,10 @@ OrderMasterAfter=Cet exemple illustre la création d'un état principal et d'un ét
 OrderDetailAfter=L'état détaillé accessible en cliquant sur l'état principal.
 
 #Dynamic Report Parameter
-ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+ParameterToDataSetParameter=Cet exemple décrit comment lier un paramètre d'état à un paramètre de jeu de données.
 
 #Expressions
-Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+Expressions=Cet exemple décrit comment créer un état BIRT utilisant des fonctions.
 
 #Grouping
 CustomerListAfter_Grouping=Cet exemple explique comment créer un état groupé dans BIRT. Dans cet exemple, l'état comporte une liste de clients et les regroupe par pays. Les principales fonctions de BIRT évoquées sont le regroupement, les sauts de page, la table des matières et l'agrégation de données par groupe ou sous forme de total. 

@@ -31,10 +31,10 @@ OrderMasterAfter=‚±‚Ì—á‚Å‚ÍAƒ}ƒXƒ^[ƒŒƒ|[ƒg‚ÆÚ×ƒŒƒ|[ƒg‚Ì\’z•û–@‚ğ¦‚µ‚Ü‚·
 OrderDetailAfter=ƒ}ƒXƒ^ƒŒƒ|[ƒg‚Ì€–Ú‚ğƒNƒŠƒbƒN‚µ‚Ä‚¢‚­‚ÆÚ×ƒŒƒ|[ƒg‚ª•\¦‚³‚ê‚Ü‚·B
 
 #Dynamic Report Parameter
-ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+ParameterToDataSetParameter=‚±‚±‚Å‚ÍAƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ğƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÉƒŠƒ“ƒN‚·‚é—á‚ğ¦‚µ‚Ä‚¢‚Ü‚·B
 
 #Expressions
-Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+Expressions=‚±‚±‚Å‚ÍAŠÖ”‚ğg‚Á‚½ BIRT ƒŒƒ|[ƒg‚Ìì¬—á‚ğ¦‚µ‚Ä‚¢‚Ü‚·B
 
 #Grouping
 CustomerListAfter_Grouping=‚±‚Ì—á‚Å‚ÍABIRT ‚ÅƒOƒ‹[ƒv‰»‚µ‚½ƒŒƒ|[ƒg‚Ì\’z•û–@‚ğ¦‚·‚½‚ß‚ÉAŒÚ‹q‚ğ‘•Ê‚ÉƒOƒ‹[ƒv‰»‚µ‚Ä‚¢‚Ü‚·BBIRT ‚Ìå—v‹@”\‚Å‚ ‚éƒOƒ‹[ƒv‰»Aƒy[ƒW‹æØ‚èA–ÚŸA‚¨‚æ‚ÑƒOƒ‹[ƒv‚²‚Æ‚Ìƒf[ƒ^‚ÌWŒv‚Æ‡Œv‚ÌWŒv‚àg—p‚µ‚Ä‚¢‚Ü‚·B 

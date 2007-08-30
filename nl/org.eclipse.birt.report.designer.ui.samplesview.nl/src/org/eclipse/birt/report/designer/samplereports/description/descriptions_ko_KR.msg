@@ -31,10 +31,10 @@ OrderMasterAfter=이 예제는 마스터 보고서와 상세 보고서를 만드는 것을 보여 줍니다
 OrderDetailAfter=마스터 보고서를 클릭하여 드릴다운한 상세 보고서입니다.
 
 #Dynamic Report Parameter
-ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+ParameterToDataSetParameter=이 예제는 보고서 매개 변수를 데이터 집합 매개 변수에 연결하는 방법을 보여 줍니다.
 
 #Expressions
-Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+Expressions=이 예제는 함수를 사용하는 BIRT 보고서 작성 방법을 보여 줍니다.
 
 #Grouping
 CustomerListAfter_Grouping=이 예제는 BIRT에서 그룹화된 보고서를 만드는 것을 보여 줍니다. 고객 목록을 국가별로 그룹화하여 보여 줍니다. 이 예제에서 포함된 핵심적인 BIRT 기능은 그룹화, 페이지 나누기, 목차, 데이터의 그룹별 집계 및 총 합계 계산입니다. 
