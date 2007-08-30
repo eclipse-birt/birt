@@ -56,11 +56,11 @@ BIRTConfiguration_log_dialog_message=デフォルトのログフォルダを選択してください 
 BIRTConfiguration_report_access_message=作業フォルダ内のレポートと文書だけにアクセスする(&O)
 BIRTConfiguration_overwrite_message=生成した文書ファイルを常に上書きする(&A)
 
-BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
-BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
-BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
+BIRTConfiguration_maxrows_label=データセットの最大行数(&T) :
+BIRTConfiguration_maxlevels_label=キューブをフェッチできる最大レベル(&M) :
+BIRTConfiguration_cubememsize_label=作成できるキューブの最大メモリサイズ(&X) :
 
-BIRTConfiguration_loglevel_label=S&elect Log Level:
+BIRTConfiguration_loglevel_label=ログレベルの選択(&E) :
 BIRTConfiguration_loglevel_all=ALL
 BIRTConfiguration_loglevel_severe=SEVERE
 BIRTConfiguration_loglevel_warning=WARNING
@@ -71,7 +71,7 @@ BIRTConfiguration_loglevel_finer=FINER
 BIRTConfiguration_loglevel_finest=FINEST
 BIRTConfiguration_loglevel_off=OFF
 
-BIRTConfiguration_printserver_label=&Print report on the server side:
+BIRTConfiguration_printserver_label=レポートをサーバサイドで印刷(&P) :
 
 BIRTConfiguration_import_clear_message=BIRT の古いランタイムファイルを削除する(&C)
 
