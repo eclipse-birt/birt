@@ -40,6 +40,10 @@ public class DummyPageBuffer implements IPageBuffer
 	public void endContainer( IContent content, boolean finished,
 			IContentEmitter emitter, boolean visible )
 	{
+		if( !visible )
+		{
+			return;
+		}
 		if ( isFirstContent )
 		{
 			startPageContent( content );
