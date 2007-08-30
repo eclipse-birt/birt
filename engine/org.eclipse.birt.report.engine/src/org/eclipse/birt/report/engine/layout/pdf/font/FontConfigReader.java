@@ -42,13 +42,15 @@ import org.xml.sax.SAXException;
 
 import com.lowagie.text.FontFactory;
 
-//FIXME: code review : add comments for all methods.
+// FIXME: code review : add comments for all methods.
 public class FontConfigReader
 {
 
+	private static final int DEFAULT_BLOCK_INDEX = -1;
 	private static final String TAG_COMPOSITE_FONT = "composite-font"; //$NON-NLS-1$
 	private static final String TAG_ALL_FONTS = "all-fonts"; //$NON-NLS-1$
 	private static final String TAG_BLOCK = "block"; //$NON-NLS-1$
+	private static final String TAG_CHARACTER = "character"; //$NON-NLS-1$
 	private static final String TAG_MAPPING = "mapping"; //$NON-NLS-1$
 	private static final String TAG_PATH = "path"; //$NON-NLS-1$
 	private static final String TAG_ENCODING = "encoding"; //$NON-NLS-1$
@@ -103,7 +105,8 @@ public class FontConfigReader
 		String languageConfig = languageConfigPrefix + CONFIG_FILE_SUFFIX;
 		parseConfigFile( languageConfig );
 
-		//FIXME: code review : consider the case when country is not defined in locale.
+		// FIXME: code review : consider the case when country is not defined in
+		// locale.
 		String countryConfig = languageConfigPrefix + CONFIG_FILE_SEPERATOR
 				+ locale.getCountry( ) + CONFIG_FILE_SUFFIX;
 		parseConfigFile( countryConfig );
@@ -167,12 +170,12 @@ public class FontConfigReader
 		InputStream cfgFile = fileURL.openStream( );
 		try
 		{
-			InputStreamReader r = new InputStreamReader(
+			InputStreamReader reader = new InputStreamReader(
 					new BufferedInputStream( cfgFile ), Charset
 							.forName( "UTF-8" ) ); //$NON-NLS-1$
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance( );
 			DocumentBuilder db = dbf.newDocumentBuilder( );
-			Document doc = db.parse( new InputSource( r ) );
+			Document doc = db.parse( new InputSource( reader ) );
 
 			handleFontMappings( doc );
 			handleCompositeFonts( doc );
@@ -238,7 +241,7 @@ public class FontConfigReader
 			Node node = encodings.item( i );
 			String fontFamily = getProperty( node, PROP_FONT_FAMILY );
 			String encoding = getProperty( node, PROP_ENCODING );
-			if ( isValidValue( encoding ) && isValidValue( fontFamily ) )
+			if ( notBlank( encoding ) && notBlank( fontFamily ) )
 				fontEncoding.put( fontFamily, encoding );
 		}
 		fontMappingManager.addFontEncoding( fontEncoding );
@@ -252,7 +255,7 @@ public class FontConfigReader
 		{
 			Node node = paths.item( i );
 			String path = getProperty( node, PROP_PATH );
-			if ( isValidValue( path ) )
+			if ( notBlank( path ) )
 				fontMappingManager.addFontPath( path );
 		}
 	}
@@ -283,7 +286,7 @@ public class FontConfigReader
 			{
 				String name = getProperty( node, PROP_NAME );
 				String fontFamily = getProperty( node, PROP_FONT_FAMILY );
-				if ( isValidValue( name ) && isValidValue( fontFamily ) )
+				if ( notBlank( name ) && notBlank( fontFamily ) )
 					fontMappingResult.put( name, fontFamily );
 			}
 		}
@@ -299,14 +302,14 @@ public class FontConfigReader
 
 	private void handleCompositeFontsNode( Document doc )
 	{
-		NodeList allFonts = doc.getDocumentElement( ).getElementsByTagName(
-				TAG_COMPOSITE_FONT );
-		for ( int i = 0; i < allFonts.getLength( ); i++ )
+		NodeList compositeFonts = doc.getDocumentElement( )
+				.getElementsByTagName( TAG_COMPOSITE_FONT );
+		for ( int i = 0; i < compositeFonts.getLength( ); i++ )
 		{
-			Node node = allFonts.item( i );
-			String fontName = getProperty( node, PROP_NAME );
-			Map blockMap = parseComsiteFont( node );
-			fontMappingManager.addCompositeFonts( fontName, blockMap );
+			Node node = compositeFonts.item( i );
+			CompositeFont compositeFont = parseComsiteFont( node );
+			fontMappingManager.addCompositeFonts( compositeFont.getName( ),
+					compositeFont );
 		}
 	}
 
@@ -321,28 +324,29 @@ public class FontConfigReader
 			for ( int i = 0; i < blocks.getLength( ); i++ )
 			{
 				Node blockNode = blocks.item( i );
-				if ( !TAG_BLOCK.equals( blockNode.getNodeName( ) ) )
+				if ( !TAG_BLOCK.equalsIgnoreCase( blockNode.getNodeName( ) ) )
 				{
 					continue;
 				}
 				String blockIndex = getProperty( blockNode, PROP_BLOCK_INDEX );
-				if ( isValidValue( blockIndex ) )
+				if ( notBlank( blockIndex ) )
 				{
 					int index = Integer.parseInt( blockIndex );
-					processAllFontsMapping( blockNode, new Integer( index ) );
+					processAllFontsMapping( blockNode, index );
 					continue;
 				}
 				String blockName = getProperty( blockNode, PROP_NAME );
 				if ( DEFAULT_BLOCK.equalsIgnoreCase( blockName ) )
 				{
-					processAllFontsMapping( blockNode, DEFAULT_BLOCK );
+					processAllFontsMapping( blockNode, DEFAULT_BLOCK_INDEX );
 				}
 			}
 		}
 	}
 
-	private void processAllFontsMapping( Node blockNode, Object blockId )
+	private void processAllFontsMapping( Node blockNode, int blockIndex )
 	{
+		boolean isDefault = ( blockIndex == DEFAULT_BLOCK_INDEX );
 		NodeList mappings = blockNode.getChildNodes( );
 		for ( int j = 0; j < mappings.getLength( ); j++ )
 		{
@@ -353,44 +357,105 @@ public class FontConfigReader
 
 			String name = getProperty( mapping, PROP_NAME );
 			String fontFamily = getProperty( mapping, PROP_FONT_FAMILY );
-			if ( isValidValue( fontFamily ) )
+			if ( notBlank( fontFamily ) )
 			{
-				fontMappingManager.addBlockToCompositeFont( name, blockId,
-						fontFamily );
+				if ( isDefault )
+				{
+					fontMappingManager.setDefaultFont( name, fontFamily );
+				}
+				else
+				{
+					fontMappingManager.addBlockToCompositeFont( name,
+							blockIndex, fontFamily );
+				}
 			}
 		}
 	}
 
-	private Map parseComsiteFont( Node node )
+	private CompositeFont parseComsiteFont( Node node )
 	{
 		NodeList blocks = node.getChildNodes( );
-		Map blockMap = new HashMap( );
+		String fontName = getProperty( node, PROP_NAME );
+		String defaultFont = getProperty( node, PROP_FONT_FAMILY );
+		CompositeFont compositeFont = new CompositeFont( fontName, defaultFont );
 		for ( int i = 0; i < blocks.getLength( ); i++ )
 		{
 			Node blockNode = blocks.item( i );
-			if ( !TAG_BLOCK.equals( blockNode.getNodeName( ) ) )
+			String nodeName = blockNode.getNodeName( );
+			if ( TAG_BLOCK.equalsIgnoreCase( nodeName ) )
 			{
-				continue;
+				String blockIndex = getProperty( blockNode, PROP_BLOCK_INDEX );
+				if ( notBlank( blockIndex ) )
+				{
+					int index = Integer.parseInt( blockIndex );
+					String font = getProperty( blockNode, PROP_FONT_FAMILY );
+					compositeFont.setBlockFont( index, font );
+					continue;
+				}
+
+				// Compatible for older version which uses block named "default"
+				// to define default font for the composite font. Current
+				// implementation use attribute "default" defined on
+				// "composite-font" to define default font for the composite
+				// font.
+				String blockName = getProperty( blockNode, PROP_NAME );
+				if ( DEFAULT_BLOCK.equalsIgnoreCase( blockName ) )
+				{
+					String font = getProperty( blockNode, PROP_FONT_FAMILY );
+					if ( font != null
+							&& compositeFont.getDefaultFont( ) == null )
+					{
+						compositeFont.setDefaultFont( font );
+					}
+				}
 			}
-			String blockIndex = getProperty( blockNode, PROP_BLOCK_INDEX );
-			if ( isValidValue( blockIndex ) )
+			else if ( TAG_CHARACTER.equalsIgnoreCase( nodeName ) )
 			{
-				int index = Integer.parseInt( blockIndex );
-				String font = getProperty( blockNode, PROP_FONT_FAMILY );
-				blockMap.put( new Integer( index ), font );
-				continue;
-			}
-			String blockName = getProperty( blockNode, PROP_NAME );
-			if ( DEFAULT_BLOCK.equalsIgnoreCase( blockName ) )
-			{
-				String font = getProperty( blockNode, PROP_FONT_FAMILY );
-				blockMap.put( DEFAULT_BLOCK, font );
+				String character = getProperty( blockNode, "value" );
+				try
+				{
+					char c = getChar( character );
+					String font = getProperty( blockNode, PROP_FONT_FAMILY );
+					if ( font != null )
+					{
+						compositeFont.setCharacterFont( c, font );
+					}
+				}
+				catch ( Exception e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+				}
 			}
 		}
-		return blockMap;
+		return compositeFont;
 	}
 
-	private boolean isValidValue( String propertyName )
+	/**
+	 * Parses a character from a string represents the character. The string can
+	 * be of two form: character and UNICODE. For instance, character 'a' can be
+	 * represented by "a" as character form, or "\u0061" as UNICODE form.
+	 * 
+	 * @param character
+	 *            the string represent the character.
+	 * @throws Exception
+	 *             when parameter character is not a valid character
+	 *             representation.
+	 */
+	private char getChar( String character ) throws Exception
+	{
+		if ( character.matches( "." ) )
+		{
+			return character.charAt( 0 );
+		}
+		else if ( character.matches( "\\\\u\\p{XDigit}{4}" ) )
+		{
+			String unicode = character.substring( 2 );
+			return (char) Integer.parseInt( unicode, 16 );
+		}
+		throw new Exception( "Unknow character value: " + character );
+	}
+
+	private boolean notBlank( String propertyName )
 	{
 		return ( null != propertyName && propertyName.length( ) != 0 );
 	}
@@ -408,5 +473,4 @@ public class FontConfigReader
 		}
 		return null;
 	}
-
 }

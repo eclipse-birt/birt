@@ -113,20 +113,18 @@ public class FontConfigReaderTest extends TestCase
 
 		Map compositeFonts = fontMappingManager.getCompositeFonts( );
 		assertEquals( 3, compositeFonts.size( ) );
-		Map overriddenFont = (Map) compositeFonts.get( "font overridden" );
-		assertEquals( 1, overriddenFont.size( ) );
-		assertEquals( "font in composite-font", overriddenFont
-				.get( new Integer( 0 ) ) );
-		Map notOverriddenFont = (Map) compositeFonts
+		CompositeFont overriddenFont = (CompositeFont) compositeFonts.get( "font overridden" );
+		assertEquals( 1, overriddenFont.getBlockCount( ) );
+		assertEquals( "font in composite-font", overriddenFont.getBlockFont( 0 ) );
+		CompositeFont notOverriddenFont = (CompositeFont) compositeFonts
 				.get( "font not overridden" );
-		assertEquals( 1, notOverriddenFont.size( ) );
-		assertEquals( "font in all-fonts", notOverriddenFont.get( new Integer(
-				0 ) ) );
-		Map allFonts = (Map) compositeFonts.get( "all-fonts" );
-		assertEquals( 3, allFonts.size( ) );
-		assertEquals( "Times-Roman", allFonts.get( new Integer( 0 ) ) );
-		assertEquals( "Helvetica", allFonts.get( new Integer( 1 ) ) );
-		assertEquals( "Helvetica", allFonts.get( "default" ) );
+		assertEquals( 1, notOverriddenFont.getBlockCount( ) );
+		assertEquals( "font in all-fonts", notOverriddenFont.getBlockFont( 0) );
+		CompositeFont allFonts = (CompositeFont) compositeFonts.get( "all-fonts" );
+		assertEquals( 2, allFonts.getBlockCount( ) );
+		assertEquals( "Times-Roman", allFonts.getBlockFont( 0 ) );
+		assertEquals( "Helvetica", allFonts.getBlockFont( 1 ) );
+		assertEquals( "Helvetica", allFonts.getDefaultFont( ) );
 	}
 
 	public void testFontConfigParser( ) throws IOException,
@@ -140,10 +138,10 @@ public class FontConfigReaderTest extends TestCase
 
 		Map compositeFonts = fontMappingManager.getCompositeFonts( );
 		assertEquals( 1, compositeFonts.size( ) );
-		Map testFont = (Map) compositeFonts.get( "test font" );
-		assertEquals( 2, testFont.size( ) );
-		assertEquals( "Symbol", testFont.get( new Integer( 0 ) ) );
-		assertEquals( "Helvetica", testFont.get( "default" ) );
+		CompositeFont testFont = (CompositeFont) compositeFonts.get( "test font" );
+		assertEquals( 1, testFont.getBlockCount( ) );
+		assertEquals( "Symbol", testFont.getBlockFont( 0 ) );
+		assertEquals( "Helvetica", testFont.getDefaultFont( ) );
 	}
 
 	public void testConfigFilePriority( )
@@ -158,6 +156,18 @@ public class FontConfigReaderTest extends TestCase
 		}
 	}
 
+	public void testCharacterFontMapping( ) throws IOException,
+			FactoryConfigurationError, ParserConfigurationException,
+			SAXException
+	{
+		fontMappingManager = getFontMappingManager( "fontsConfig_character.xml" );
+		String testFontForCharacterMapping = "testForCharacterMapping";
+		assertTrue( isMappedTo( 'a', testFontForCharacterMapping, "Helvetica" ));
+		assertTrue( isMappedTo( 'b', testFontForCharacterMapping, "Times Roman" ));
+		assertTrue( isMappedTo( 'c', testFontForCharacterMapping, "Courier" ));
+		assertTrue( isMappedTo( 'a', "testForDefaultFont", "Symbol" ));
+	}
+	
 	private void testPriority( final String testDir )
 	{
 		testPriority( testDir, null );
@@ -192,9 +202,8 @@ public class FontConfigReaderTest extends TestCase
 		Map compositeFonts = manager.getCompositeFonts( );
 		assertEquals( 3, compositeFonts.size( ) );
 		String fontName = "common";
-		compositeFonts.get( fontName );
-		Map compositeFont1 = (Map) compositeFonts.get( fontName );
-		assertEquals( 1, compositeFont1.size( ) );
+		CompositeFont compositeFont = (CompositeFont) compositeFonts.get( fontName );
+		assertEquals( 1, compositeFont.getBlockCount( ) );
 		assertTrue( compositeFonts.containsKey( "higher priority" ) );
 		assertTrue( compositeFonts.containsKey( "lower priority" ) );
 	}

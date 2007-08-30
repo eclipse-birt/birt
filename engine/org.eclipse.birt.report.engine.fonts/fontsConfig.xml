@@ -52,8 +52,21 @@
 <!--
 	<composite-font> section is used to define a composite font, that is a font consists of many physical
 	fonts which are used for different characters. The component fonts are defined by <block> entries.
-	Each <block> entry defines a Unicode range and a font family name, which means, the font family will
-	be applied for the characters with Unicode in the range.
+	Each <block> entry defines a UNICODE range and a font family name, which means, the font family will
+	be applied for the characters with UNICODE in the range.
+	
+	Different characters in one block may need different fonts. One example is, in block "Currency Symbols",
+	characters are currency symbols in different language, the fonts specified for which should be fonts
+	for the corresponding languages. For these characters, special fonts can be specified by <character>
+	entry as following:
+	<composite-font>
+	    ......
+		<character value="฿" font-family="Angsana New"/>
+		<character value="\u0068" font-family="Time Roman"/>
+	    ......
+	</composite-font>
+	Note that the characters are represented by attribute "value", which can be of two forms: the character
+	itself or its UNICODE.
 	
 	A composite font named "all-fonts" will be applied as a default font, that is, when	a character is
 	not defined in desired font, the font defined in "all-fonts" is used.
