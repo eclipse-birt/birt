@@ -1,6 +1,5 @@
-
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,10 +40,18 @@ public class ClonedCellContent implements ICellContent
 		return cellContent;
 	}
 	
-	public ClonedCellContent(ICellContent cellContent, int rowSpan)
+	public ClonedCellContent( ICellContent cellContent, int rowSpan )
 	{
-		this.cellContent = cellContent;
-		this.rowSpan = rowSpan;
+		if ( cellContent instanceof ClonedCellContent )
+		{
+			this.cellContent = ( (ClonedCellContent) cellContent ).cellContent;
+			this.rowSpan = rowSpan;
+		}
+		else
+		{
+			this.cellContent = cellContent;
+			this.rowSpan = rowSpan;
+		}
 	}
 	
 	public int getColSpan( )
