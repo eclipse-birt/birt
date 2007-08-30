@@ -59,7 +59,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.8 $ $Date: 2007/08/13 09:03:54 $
+ * @version $Revision: 1.9 $ $Date: 2007/08/29 09:55:18 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -502,7 +502,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	public Composite createTitleArea( Composite parent )
 	{
 		Composite messageComposite = new Composite( parent, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		GridData data = new GridData( GridData.FILL_BOTH );
 		messageComposite.setLayoutData( data );
 
 		FormLayout messageLayout = new FormLayout( );
@@ -519,7 +519,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 		FormData messageData = new FormData( );
 		messageData.left = new FormAttachment( 0, 0 );
-		messageData.right = new FormAttachment( titleImage, 0 );
+		messageData.right = new FormAttachment( titleImage, 100 );
 		messageData.bottom = new FormAttachment( titleImage, 0, SWT.BOTTOM );
 		messageData.top = new FormAttachment( 0, 0 );
 		messageArea.setTitleLayoutData( messageData );
