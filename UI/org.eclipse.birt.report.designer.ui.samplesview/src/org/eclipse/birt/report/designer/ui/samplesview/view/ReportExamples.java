@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.samplesview.view;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -41,7 +43,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
@@ -52,7 +56,7 @@ public class ReportExamples
 {
 
 	private static final String CONTRIBUTION_ITEM_TEXT = Messages.getString( "SampleReportsView.Text.Contribute_Samples" );
-	
+
 	private Composite mainComposite;
 
 	private SampleReportCanvas previewCanvas;
@@ -157,9 +161,19 @@ public class ReportExamples
 		description.setText( Messages.getString( "SampleReportsView.defautDescription" ) );
 	}
 
-	private void setSelectedElement( Object element )
+	private void setSelectedElement( TreeItem element )
 	{
 		this.selectedElement = element;
+		fireSelectedChangeEvent( element );
+	}
+
+	private void fireSelectedChangeEvent( TreeItem element )
+	{
+		Event changeEvent = new Event( );
+		changeEvent.type = SWT.Selection;
+		changeEvent.widget = element;
+		for ( int i = 0; i < listenerList.size( ); i++ )
+			( (Listener) listenerList.get( i ) ).handleEvent( changeEvent );
 	}
 
 	public Object getSelectedElement( )
@@ -373,5 +387,18 @@ public class ReportExamples
 			description.dispose( );
 			description = null;
 		}
+		listenerList.clear( );
+	}
+
+	private List listenerList = new ArrayList( );
+
+	public void removeSelectedListener( Listener selectedListener )
+	{
+		listenerList.remove( selectedListener );
+	}
+
+	public void addSelectedListener( Listener selectedListener )
+	{
+		listenerList.add( selectedListener );
 	}
 }
