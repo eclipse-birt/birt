@@ -1,7 +1,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -49,7 +48,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 						sysFont.length );
 				for ( int i = 0; i < items.length; i++ )
 				{
-					UIUtil.RemoveQuote( items[i] );
+					DEUtil.RemoveQuote( items[i] );
 				}
 				this.items = items;
 			}
@@ -77,12 +76,27 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	public Object load( )
 	{
-		if ( getProperty( ).equals( StyleHandle.FONT_FAMILY_PROP ) )
+		if ( StyleHandle.FONT_FAMILY_PROP.equals( getProperty( ) ) )
 		{
-			return UIUtil.RemoveQuote( super.load( ).toString( ) );
+			return DEUtil.RemoveQuote( super.load( ).toString( ) );
+		}
+		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( getProperty( ) )
+				|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) ) )
+		{
+			Object rt = super.load( );
+
+			if ( rt == null
+					|| ( rt instanceof String && ( (String) rt ).length( ) == 0 ) )
+			{
+				return ChoiceSetFactory.CHOICE_AUTO;
+			}
+
+			return rt;
 		}
 		else
+		{
 			return super.load( );
+		}
 	}
 
 	public String getDisplayName( String key )
@@ -119,10 +133,11 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 		}
 
 		if ( StyleHandle.FONT_FAMILY_PROP.equals( pName )
-				&& needAddQuote( value==null?null:value.toString( ) ) )
+				&& needAddQuote( value == null ? null : value.toString( ) ) )
 		{
 
-			super.save( UIUtil.AddQuote( value==null?null:value.toString( ) ) );
+			super.save( DEUtil.AddQuote( value == null ? null
+					: value.toString( ) ) );
 		}
 		else
 		{
