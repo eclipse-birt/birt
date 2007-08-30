@@ -35,7 +35,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 
 	/**
 	 * field editors.
-	 *  
+	 * 
 	 */
 	private ComboBoxMeasureFieldEditor lineHeight;
 
@@ -144,7 +144,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						StyleHandle.VERTICAL_ALIGN_PROP ) ),
+						StyleHandle.VERTICAL_ALIGN_PROP ),
+						true ),
 				getFieldEditorParent( ) );
 
 		textAlign = new ComboBoxFieldEditor( StyleHandle.TEXT_ALIGN_PROP,
@@ -152,7 +153,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						StyleHandle.TEXT_ALIGN_PROP ) ),
+						StyleHandle.TEXT_ALIGN_PROP ),
+						true ),
 				getFieldEditorParent( ) );
 
 		textIndent = new ComboBoxMeasureFieldEditor( StyleHandle.TEXT_INDENT_PROP,
@@ -198,8 +200,9 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 		addField( textTrans );
 		addField( whiteSpace );
 		addField( display );
-		
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_TEXTBLOCK_ID ); 
+
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
+				IHelpContextIds.STYLE_BUILDER_TEXTBLOCK_ID );
 
 	}
 
@@ -214,18 +217,56 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 	 */
 	private String[][] getChoiceArray( IChoiceSet set )
 	{
+		return getChoiceArray( set, false );
+	}
+
+	/**
+	 * Gets choice array of the given choise set.
+	 * 
+	 * @param set
+	 *            The given choice set.
+	 * @return String[][]: The choice array of the key, which contains he names
+	 *         (labels) and underlying values, will be arranged as: { {name1,
+	 *         value1}, {name2, value2}, ...}
+	 */
+	private String[][] getChoiceArray( IChoiceSet set, boolean addAuto )
+	{
 		IChoice[] choices = set.getChoices( );
 
 		String[][] names = null;
+
 		if ( choices.length > 0 )
 		{
-			names = new String[choices.length][2];
+			int offset = 0;
+
+			if ( addAuto )
+			{
+				offset = 1;
+
+				names = new String[choices.length + 1][2];
+				names[0][0] = ChoiceSetFactory.CHOICE_AUTO;
+				names[0][1] = ""; //$NON-NLS-1$
+			}
+			else
+			{
+				names = new String[choices.length][2];
+			}
+
 			for ( int i = 0; i < choices.length; i++ )
 			{
-				names[i][0] = choices[i].getDisplayName( );
-				names[i][1] = choices[i].getName( );
+				names[i + offset][0] = choices[i].getDisplayName( );
+				names[i + offset][1] = choices[i].getName( );
 			}
 		}
+		else if ( addAuto )
+		{
+			names = new String[][]{
+				{
+						ChoiceSetFactory.CHOICE_AUTO, "" //$NON-NLS-1$
+				}
+			};
+		}
+
 		return names;
 	}
 

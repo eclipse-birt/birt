@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -57,7 +56,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 			String[][] entryNamesAndValues, Composite parent )
 	{
 		init( name, labelText );
-		Assert.isTrue( checkArray( entryNamesAndValues ) );
+		assert checkArray( entryNamesAndValues );
 		fEntryNamesAndValues = entryNamesAndValues;
 		createControl( parent );
 	}
@@ -195,7 +194,8 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 		setOldValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
-			if ( fEntryNamesAndValues[i][1].equals(value) )
+			if ( ( value == null && ( fEntryNamesAndValues[i][1] == null || fEntryNamesAndValues[i][1].length( ) == 0 ) )
+					|| fEntryNamesAndValues[i][1].equals( value ) )
 			{
 				fCombo.setText( fEntryNamesAndValues[i][0] );
 				return;
