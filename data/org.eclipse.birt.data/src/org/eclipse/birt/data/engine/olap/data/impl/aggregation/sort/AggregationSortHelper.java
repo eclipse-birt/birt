@@ -26,6 +26,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.IStructure;
+import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 
 /**
  * Helper class to sort on aggregations.
@@ -245,7 +247,10 @@ public class AggregationSortHelper
 			IAggregationResultRow temp = base.getCurrentRow( );
 			diskArray.add( temp );
 		}
-		base.seek( 0 );
+		if( base.length( ) > 0 )
+		{
+			base.seek( 0 );
+		}
 		return diskArray;
 	}
 
@@ -537,7 +542,7 @@ class CombinedAggrResultRow implements IAggregationResultRow
  * store any level info.
  *
  */
-class AggrValueOnlyResultRow implements IAggregationResultRow
+class AggrValueOnlyResultRow implements IStructure, IAggregationResultRow
 {
 
 	private Object[] aggrValues;
@@ -585,6 +590,33 @@ class AggrValueOnlyResultRow implements IAggregationResultRow
 	public void setLevelMembers( Member[] levelMembers )
 	{
 		throw new UnsupportedOperationException( );
+	}
+
+	/**
+	 * 
+	 */
+	public Object[] getFieldValues( )
+	{
+		return aggrValues;
+	}
+	
+	public static IStructureCreator getCreator()
+	{
+		return new AggrValueOnlyResultRowCreator( );
+	}
+}
+
+/**
+ * 
+ * @author Administrator
+ *
+ */
+class AggrValueOnlyResultRowCreator implements IStructureCreator
+{
+
+	public IStructure createInstance( Object[] fields )
+	{
+		return new AggrValueOnlyResultRow( fields );
 	}
 }
 
