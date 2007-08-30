@@ -282,15 +282,28 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	{
 		window.clearTimeout( this.__timer );
 	
-		if ( !this.__printWindow.document || this.__printWindow.document.readyState != "complete" )
-		{
-			// wait a little longer
-			this.__timer = window.setTimeout( this.__cb_waitPreviewLoaded.bindAsEventListener( this ), 1000 );
+		try
+		{		
+			if ( !this.__printWindow || this.__printWindow.closed )
+			{
+				return;
+			}
+		
+			if ( !this.__printWindow.document || this.__printWindow.document.readyState != "complete" )
+			{
+				// wait a little longer
+				this.__timer = window.setTimeout( this.__cb_waitPreviewLoaded.bindAsEventListener( this ), 1000 );
+			}
+			else
+		  	{
+				this.__cb_print();
+		  	}
 		}
-		else
-	  	{
-			this.__cb_print();
-	  	}
+		catch ( error )
+		{
+			// IE throws a permission denied exception if the user closes
+			// the window too early. In this case ignore the exception.
+		}
 	},
 
 	/**
@@ -304,28 +317,55 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__cb_print : function( )
 	{
-		var err = this.__printWindow.document.getElementById( "birt_errorPage" );
-		if( err && err.innerHTML != '' )
-		{
-			return;
+		try
+		{	
+			if ( !this.__printWindow || this.__printWindow.closed )			
+			{
+				return;
+			}
+
+			var err = this.__printWindow.document.getElementById( "birt_errorPage" );
+			if( err && err.innerHTML != '' )
+			{
+				return;
+			}
+			
+			// Call the browser's print dialog (async)
+			if ( this.__printFormat == 'pdf' ) // Mozilla only
+			{
+				// Mozilla needs some delay after loading PDF
+				this.__printWindow.setTimeout( "window.print();", 1000 );
+				// note: window closing during print doesn't work
+				// with PDF and Mozilla									
+			}
+			// if the window is still open (user could close it in the mean time)
+			else
+			{
+				this.__printWindow.print();
+				/* Close the print window: the browser will in fact close it
+				 * after the print dialog is closed.
+				 * Use timer to let the browser some time to open the 
+				 * print dialog first
+				 */
+				window.setTimeout( this.__cb_close_popup.bindAsEventListener( this ) , 1000 );
+			}
 		}
-		
-		// Call the browser's print dialog (async)
-		if ( this.__printFormat == 'pdf' ) // Mozilla only
+		catch ( error )
 		{
-			// Mozilla needs some delay after loading PDF
-			this.__printWindow.setTimeout( "window.print();", 1000 );
-			// note: window closing during print doesn't work properly with Mozilla									
+			// IE throws a permission denied exception if the user closes
+			// the window too early. In this case ignore the exception.
 		}
-		else
-		{				
-			this.__printWindow.print();
-			/* Close the print window: the browser will in fact close it
-			 * after the print dialog is closed.
-			 * Use timer to let the browser some time to open the 
-			 * print dialog first
-			 */
-			this.__printWindow.setTimeout( "window.close();" , 1000 );
+	},
+	
+	/**
+	 * Closes the popup window
+	 */
+	__cb_close_popup : function( )
+	{
+		if ( this.__printWindow && !this.__printWindow.closed )
+		{
+			this.__printWindow.close();
+			this.__printWindow = null;
 		}
 	},
 	
