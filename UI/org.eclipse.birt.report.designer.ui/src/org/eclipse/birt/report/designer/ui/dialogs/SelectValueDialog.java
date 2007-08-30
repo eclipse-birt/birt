@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -43,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.22 $ $Date: 2007/05/28 11:29:24 $
+ * @version $Revision: 1.22.4.1 $ $Date: 2007/08/29 09:09:31 $
  */
 public class SelectValueDialog extends BaseDialog
 {
