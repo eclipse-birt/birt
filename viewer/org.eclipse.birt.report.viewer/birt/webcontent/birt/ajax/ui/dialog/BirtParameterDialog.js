@@ -925,14 +925,21 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 			else
 			{
-				if( this.__mode == 'run' )
+				if( this.__mode == 'frameset' )
 				{
-					// if 'run' mode, fire GetPageAll event
-					this.__init_page_all( );
+					// reset the page number to 1
+					var oPageNumber = $( 'pageNumber' );
+					if ( oPageNumber )
+					{
+						oPageNumber.innerHTML = "1";						
+					}
+					
+					birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
 				}
 				else
 				{
-					birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
+					// if 'run' mode, fire GetPageAll event
+					this.__init_page_all( );
 				}
 				
 				this.__l_hide( );
