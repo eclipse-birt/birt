@@ -2281,7 +2281,7 @@
         <Default>normal</Default>
       </Property>
       <Property detailType="textAlign" displayNameID="Element.Style.text.align" isStyleProperty="true" name="textAlign" since="1.0" type="choice">
-        <Default>left</Default>
+        <!--Default>center</Default-->
       </Property>
       <Property displayNameID="Element.Style.text.indent" isStyleProperty="true" name="textIndent" since="1.0" type="dimension">
         <Default>0em</Default>
@@ -2291,7 +2291,7 @@
         <Default>none</Default>
       </Property>
       <Property canInherit="false" detailType="verticalAlign" displayNameID="Element.Style.verticalAlign" isStyleProperty="true" name="verticalAlign" since="1.0" type="string">
-        <Default>baseline</Default>
+        <!--Default>baseline</Default-->
       </Property>
       <Property detailType="whiteSpace" displayNameID="Element.Style.whiteSpace" isStyleProperty="true" name="whiteSpace" since="1.0" type="choice">
         <Default>normal</Default>
