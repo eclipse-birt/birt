@@ -154,7 +154,7 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 #BindingPage properties
 
 BindingPage.Dataset.Label=Datensatz:
-BindingPage.ReportItem.Label=Report Item:
+BindingPage.ReportItem.Label=Berichtobjekt:
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
 BindingPage.None=Keine
@@ -162,7 +162,7 @@ BindingPage.TableColumn.DataType=Datentyp
 BindingPage.TableColumn.Parameter=Parameter
 BindingPage.TableColumn.Value=Wert
 
-ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
+ColumnBingingDialog.Label.Warn=Das Ändern des Datensatzes oder des Berichtobjektverweises könnte zur Folge haben, dass alle Ausdrücke in den Ergebnisspalten ungültig werden.
 ColumnBindingDialog.Label.DataSet=Datensatz:
 ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
@@ -175,7 +175,7 @@ ColumnBindingDialog.Column.AggregateOn=Aggregat in
 ColumnBindingDialog.All=Alles
 ColumnBindingDialog.NONE=Ohne
 ColumnBindingDialog.Choice.DatasetFromContainer=Datensatz des Containers
-ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
+ColumnBindingDialog.Choice.ReportItemFromContainer=Verwiesenes Berichtobjekt des Containers
 ColumnBindingDialog.AGGREGATEON.NONE=n.a.
 ColumnBindingDialog.Text.Add=Hinzufügen...
 ColumnBindingDialog.Text.Edit=Bearbeiten...
@@ -405,9 +405,9 @@ DataPageGenerator.List.Visibility=Sichtbarkeit
 dataset.edit=Datensatz bearbeiten - {0}
 
 dataset.editor.settings=Einstellungen
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Ganzzahl ein, die größer als Null ist.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
+dataset.editor.settings.dataFetchSetting.fetchAll=Alle Zeilen aus Datenquelle abrufen
 dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
@@ -420,7 +420,7 @@ dataset.editor.error.emptyName=Der Name darf nicht leer sein.
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
 dataset.editor.error.noDataSource=Keine Datenquelle verfügbar für den Datensatz {0}; wählen Sie einen Datenquellen-Eintrag in der Eigenschaftenansicht aus.
-dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
+dataset.editor.error.nonmatchedDataSource=Datenquelle ohne Übereinstimmung für Datensatz '{0}'. Wählen Sie eine Datenquelle aus, die mit dem Datensatztyp '{1}' übereinstimmt.
 dataset.editor.error.noEditorsFound=Keinen Editor für Datensatz gefunden {0}.
 dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss einen Standardwert aufweisen, der ungleich Null ist.
 dataset.editor.error.title=Warnung
@@ -468,7 +468,7 @@ dataset.outputparameters.preview.tooltip=Vorschau der Ausgabeparameter anzeigen
 dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
 dataset.wizard.label.dataSource=&Datenquelle:
-dataSourceSelectionPage.title=Link with data source
+dataSourceSelectionPage.title=Verknüpfung mit Datenquelle
 
 ###########################################################
 #DataSetBasePage properties
@@ -721,10 +721,10 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine 
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl von Tabellen in den Schemata zu definieren.
 designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuzeigender Zeilen:
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
-designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
-designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
-designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
+designer.preview.preference.resultset.maxlevelmember.description=Anzuzeigende maximale Mitgliederanzahl für jede &Ebene:
+designer.preview.preference.resultset.maxlevelmember.errormessage=Geben Sie für die maximale Mitgliederanzahl eine Zahl zwischen 1 und {0} ein.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Maximale Quaderspeichergröße (MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Geben Sie eine Zahl zwischen 1 und {0} für die maximale Quaderspeichergröße an.
 designer.preview.preference.server.description=Konfiguration des internen Anwendungsservers. Der Server wird intern vom\nBIRT Report Designer Preview Framework verwendet.
 designer.preview.preference.server.hostDescription=&Host-Name oder IP-Adresse des lokalen Rechners. Leer lassen, damit eine automatische\nFestlegung erfolgt.
 designer.preview.preference.server.note=Hinweis:
@@ -1224,7 +1224,7 @@ EmptyEditPart.Msg.NonVisual=Es wurde ein nicht-visuelles Element gewählt.
 
 error.duplicateName=Der neue Name ist im gleichen Namensraum bereits vorhanden.
 error.emptyName=Der Datenquellenname darf nicht leer sein.
-error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
+error.invalidName=Der Name '{0}' ist unzulässig, da er eines der folgenden Zeichen enthält: '.', '/', '\', '!', ';', ','.
 
 ###########################################################
 #ExceptionHandler properties
@@ -2199,10 +2199,10 @@ FilterConditionBuilder.button.edit=Bearbeiten...
 FilterConditionBuilder.button.delete=Entfernen
 FilterConditionBuilder.button.deleteall=Alles entfernen
 FilterConditionBuilder.button.add=Hinzufügen
-FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
-FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
-FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
-FilterConditionBuilder.button.add.tooltip=Add the value to value list
+FilterConditionBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearbeiten
+FilterConditionBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
+FilterConditionBuilder.button.deleteall.tooltip=Alle Werte aus Liste löschen
+FilterConditionBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2539,7 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
 ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingeben: {0}
 ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
 ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
-ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
+ParameterDialog.Check.AllowMulti=&Mehrere Werte zulassen
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Wert auswählen
@@ -2762,8 +2762,8 @@ RefreshLibExplorerAction.Text=Aktualisieren
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Bibliothek entfernen
-RemoveLibraryAction.config.Title=Confirm library remove
-RemoveLibraryAction.config.Message=Do you really want to remove this library?
+RemoveLibraryAction.config.Title=Entfernen der Bibliothek bestätigen
+RemoveLibraryAction.config.Message=Möchten Sie diese Bibliothek wirklich entfernen?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3037,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=Liste
 SchematicContextMenuProvider.menutitle.show=Anzeigen
 SchematicContextMenuProvider.menutitle.style=Stil
 SchematicContextMenuProvider.Menu.EditStyle=S&til bearbeiten
-SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
+SchematicContextMenuProvider.Menu.DeleteStyle=&Stil entfernen
 SchematicContextMenuProvider.Menu.DeleteGroup=Gruppe &löschen
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Gru&ppenkopfzeile/-fußzeile einfügen
 SchematicContextMenuProvider.Menu.NewStyle=Neuer St&il
@@ -3156,10 +3156,10 @@ StyleNodeProvider.action.New=&Neuer Stil...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=Remove style
+StyleProcess.action.Delete=Stil entfernen
 StyleProcess.action.Edit=Stil b&earbeiten...
 StyleProcess.action.New=&Neuer Stil...
-StyleProcess.text.CannotDelete=Cannot remove the default style. 
+StyleProcess.text.CannotDelete=Standardstil kann nicht entfernt werden. 
 StyleProcess.text.Show=Blendet den Datensatzeditor für den Datensatz ein.
 
 ###########################################################
@@ -3443,7 +3443,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Use Library
+UseLibraryAction.Text=&Bibliothek verwenden
 UseLibraryAction.Error.Title=Vorhandene Datei ersetzen
 UseLibraryAction.Error.Message=Die Datei ''{0}'' ist bereits im BIRT-Ressourcenordner vorhanden. Ersetzen?
 
@@ -3644,7 +3644,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschüt
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
 DataSetColumnBindingsFormHandleProvider.Column.displayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
-DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Verfügbare Spaltenbindung:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck

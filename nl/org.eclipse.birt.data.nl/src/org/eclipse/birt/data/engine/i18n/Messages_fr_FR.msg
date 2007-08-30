@@ -323,7 +323,7 @@ data.olap.FacttableRowNotDistinct=Les lignes de la table des faits doivent être 
 data.olap.FacttableJointColumnNotExist=La colonne jointe "{0}" n''existe pas dans les dimensions.
 data.olap.ParameterColumnOfAggregationNotExist=La colonne de paramètre "{0}" n''existe pas dans les dimensions.
 data.olap.FacttableNullMeasureValue=Une des colonnes de mesures comporte une valeur vide. "{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=The dimension key value "{0}" does not exist in dimension "{1}".
+data.olap.InvalidDimensionPositionFacttableRow=La valeur de la clé de dimension "{0}" n''existe pas dans la dimension "{1}".
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.dimensionNameNotFound=Le nom de dimension "{0}" est introuvable.
@@ -342,7 +342,7 @@ data.olap.invalidBindingMissingAggrFunc=La fonction d''agrégation de la liaison 
 data.olap.invalidAggrArgument=Seul l'attribut de niveau peut servir d'argument d'agrégation.
 data.olap.axis.level.CantBeNull=Le niveau de membre de colonne ne peut pas être nul.
 data.olap.axis.value.CantBeNull=La valeur de membre de colonne du niveau \"{0}\" ne peut pas être nulle.
-data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
+data.olap.fetchlimitWarning=La taille d''extraction est {0}, elle est donc inférieure à la longueur totale du jeu de résultats[{1}].
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
@@ -380,23 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=&weight
-total.param.movingAve.window=&window
-total.param.rank.ascending=a&scending
-total.param.percentile.pct=&percentage
-total.param.quartile.quart=&quart
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&percentage
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&percentage
+total.param.weightedAve.weight=épaisseur
+total.param.movingAve.window=fenêtre
+total.param.rank.ascending=croissant
+total.param.percentile.pct=pourcentage
+total.param.quartile.quart=quart
+total.param.isTopN.n=n
+total.param.isTopNPercent.pct=pourcentage
+total.param.isBottomN.n=n
+total.param.isBottomNPercent.pct=pourcentage
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=&rate
-total.param.runningnpv.rate=&rate
+total.param.npv.rate=taux
+total.param.runningnpv.rate=taux
 total.param.mirr.financeRate=f&inance rate
 total.param.mirr.reinvestmentRate=&reinvestment rate
 total.param.irr.rate=&intrate

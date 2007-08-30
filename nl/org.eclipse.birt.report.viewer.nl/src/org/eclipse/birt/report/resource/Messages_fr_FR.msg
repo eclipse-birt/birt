@@ -170,7 +170,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=Impossible d''accéder au fich
 birt.viewer.generalException.REPORT_FILE_ERROR=Le fichier d''état {0} n''existe pas ou contient des erreurs.
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Impossible d''accéder au fichier d''état {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Traitement du fichier de document en cours, veuillez réessayer ultérieurement.
-birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
+birt.viewer.generalException.NO_REPORT_DESIGN=Aucun objet de modèle d'état n'est disponible.
 
 ###############################################################################
 # Report service exception
@@ -186,7 +186,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Une erreur fatale 
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=Instance de document de rapport vide.
 birt.viewer.actionException.INVALID_BOOKMARK=Le signet {0} n''est pas valide. Vérifiez-le, puis réinitialisez le lien.
-birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=Numéro de page {0} sur {1} non valide. 
 birt.viewer.actionException.INVALID_ID_FORMAT=Format d'ID non valide. Id={0}.
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=Expiration de la session ou aucun fichier de document disponible.
 

@@ -170,7 +170,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=No se puede acceder al archiv
 birt.viewer.generalException.REPORT_FILE_ERROR=El archivo de informe: {0} no existe o contiene errores.
 birt.viewer.generalException.REPORT_ACCESS_ERROR=No se puede acceder al archivo de informe: {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Procesando archivo de documento, inténtelo más tarde.
-birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
+birt.viewer.generalException.NO_REPORT_DESIGN=No hay ningún objeto de diseño de informe disponible.
 
 ###############################################################################
 # Report service exception
@@ -186,7 +186,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Se ha producido un
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=La instancia de documento de informe está vacía.
 birt.viewer.actionException.INVALID_BOOKMARK=El marcador: {0} no es válido. Compruebe y restablezca el link.
-birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=Número de página no válido {0} de {1}. 
 birt.viewer.actionException.INVALID_ID_FORMAT=Formato de ID no válido. Id={0}.
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=La sesión ha alcanzado el límite de tiempo o no hay ningún archivo de documento disponible.
 

@@ -31,10 +31,10 @@ OrderMasterAfter=Dieses Beispiel veranschaulicht die Erstellung eines Master- un
 OrderDetailAfter=Der detaillierte Bericht, der durch Klicken auf Master-Bericht abgefragt wurde.
 
 #Dynamic Report Parameter
-ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+ParameterToDataSetParameter=Dieses Beispiel veranschaulicht die Verknüpfung eines Berichtparameters mit einem Datensatzparameter.
 
 #Expressions
-Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+Expressions=Dieses Beispiel veranschaulicht die Erstellung eines BIRT-Berichts, in dem Funktionen verwendet werden.
 
 #Grouping
 CustomerListAfter_Grouping=Dieses Beispiel veranschaulicht die Erstellung eines gruppierten Berichts in BIRT. Der Beispielbericht zeigt eine Liste von Kunden und gruppiert diese nach Land. Schlüsselfunktionen von BIRT, die in dieser Präsentation abgedeckt werden, sind Gruppierung, Seitenumbrüche, Inhaltsverzeichnis und das gruppenweise bzw. gesamte Aggregieren von Daten. 

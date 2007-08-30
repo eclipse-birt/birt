@@ -154,7 +154,7 @@ BgImageFieldEditor.displayname.Browse=Par&courir...
 #BindingPage properties
 
 BindingPage.Dataset.Label=Jeu de données :
-BindingPage.ReportItem.Label=Report Item:
+BindingPage.ReportItem.Label=Elément d'état :
 BindingPage.Label.Binding=Liaison
 BindingPage.MessageDlg.SaveParamBinding=Enregistrer ParamBinding
 BindingPage.None=Aucun
@@ -162,7 +162,7 @@ BindingPage.TableColumn.DataType=Type de données
 BindingPage.TableColumn.Parameter=Paramètre
 BindingPage.TableColumn.Value=Valeur
 
-ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
+ColumnBingingDialog.Label.Warn=La modification du jeu de données ou de la référence de l'élément d'état risque d'invalider toutes les expressions de colonne de jeu de résultats.
 ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
@@ -175,7 +175,7 @@ ColumnBindingDialog.Column.AggregateOn=Regrouper par
 ColumnBindingDialog.All=Tous
 ColumnBindingDialog.NONE=Aucun
 ColumnBindingDialog.Choice.DatasetFromContainer=Jeu de données du conteneur
-ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
+ColumnBindingDialog.Choice.ReportItemFromContainer=Elément d'état référencé du conteneur
 ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=Ajouter...
 ColumnBindingDialog.Text.Edit=Modifier...
@@ -405,9 +405,9 @@ DataPageGenerator.List.Visibility=Visibilité
 dataset.edit=Modifier le jeu de données - {0}
 
 dataset.editor.settings=Paramètres
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Entrez un nombre entier supérieur à zéro pour la limite de récupération de ligne.
 dataset.editor.settings.dataFetchSetting=Paramètre de récupération de données
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
+dataset.editor.settings.dataFetchSetting.fetchAll=Récupérer toutes les lignes à partir de la source de données
 dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
 dataset.editor.settings.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
@@ -420,7 +420,7 @@ dataset.editor.error.emptyName=Le nom ne doit pas rester vierge.
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
 dataset.editor.error.noDataSource=Aucune source de données disponible pour le jeu de données {0}, sélectionnez une source de données dans l''entrée Source de données de la vue des propriétés.
-dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
+dataset.editor.error.nonmatchedDataSource=Source de données sans correspondance pour le jeu de données "{0}", sélectionnez une source de données correspondant à un type de jeu de données "{1}".
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
 dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur renseignée par défaut.
 dataset.editor.error.title=Avertissement
@@ -468,7 +468,7 @@ dataset.outputparameters.preview.tooltip=Prévisualiser les paramètres de sortie
 dataset.wizard.label.datasetName=No&m du jeu de données :
 dataset.wizard.label.datasetType=&Type de jeu de données :
 dataset.wizard.label.dataSource=&Source de données :
-dataSourceSelectionPage.title=Link with data source
+dataSourceSelectionPage.title=Lien avec la source de données
 
 ###########################################################
 #DataSetBasePage properties
@@ -721,10 +721,10 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=Entrez un chiff
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Entrez un chiffre compris entre 0 et {0} pour le nombre maximum de tables de chaque schéma.
 designer.preview.preference.resultset.maxrow.description=Nombre maximum de lignes à affiche&r :
 designer.preview.preference.resultset.maxrow.errormessage=Entrez un nombre compris entre 1 et {0} pour le nombre maximal de lignes.
-designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
-designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
-designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
+designer.preview.preference.resultset.maxlevelmember.description=Nombre de membres maximum pour chaque &niveau à afficher :
+designer.preview.preference.resultset.maxlevelmember.errormessage=Entrez un nombre compris entre 1 et {0} pour le nombre maximal de membres par niveau.
+designer.preview.preference.resultset.maxinmemorycubesize.description=Taille maximale de cube dans la mémoire (Mo) :
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Entrez un nombre compris entre 1 et {0} pour la taille maximale de cube dans la mémoire.
 designer.preview.preference.server.description=Configuration du serveur d'application interne. Le serveur est utilisé en interne par\nla structure de prévisualisation de BIRT Report Designer.
 designer.preview.preference.server.hostDescription=Nom d'&hôte ou adresse IP de la machine locale. Ne pas renseigner, détermination\nautomatique.
 designer.preview.preference.server.note=Remarque :
@@ -1224,7 +1224,7 @@ EmptyEditPart.Msg.NonVisual=Elément non visuel sélectionné.
 
 error.duplicateName=Le nouveau nom est le doublon d'un nom existant dans le même espace de noms.
 error.emptyName=Le nom de la source de données doit être renseigné.
-error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
+error.invalidName=Le nom "{0}" n''est pas valide car il contient le caractère ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
 #ExceptionHandler properties
@@ -2199,10 +2199,10 @@ FilterConditionBuilder.button.edit=Modifier...
 FilterConditionBuilder.button.delete=Supprimer
 FilterConditionBuilder.button.deleteall=Supprimer tout
 FilterConditionBuilder.button.add=Ajouter
-FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
-FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
-FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
-FilterConditionBuilder.button.add.tooltip=Add the value to value list
+FilterConditionBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans la liste
+FilterConditionBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de la liste
+FilterConditionBuilder.button.deleteall.tooltip=Supprimer toutes les valeurs de la liste
+FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2539,7 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
 ParameterDialog.datetime.prompt=Entrez les valeurs de date et d''heure selon le modèle suivant : {0}
 ParameterDialog.date.prompt=Entrez les valeurs de date selon le modèle suivant : {0}
 ParameterDialog.time.prompt=Entrez les valeurs d''heure selon le modèle suivant : {0}
-ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
+ParameterDialog.Check.AllowMulti=Autoriser les valeurs multipl&es
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Sélectionner une valeur
@@ -2762,8 +2762,8 @@ RefreshLibExplorerAction.Text=Actualiser
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Supprimer la bibliothèque
-RemoveLibraryAction.config.Title=Confirm library remove
-RemoveLibraryAction.config.Message=Do you really want to remove this library?
+RemoveLibraryAction.config.Title=Confirmer la suppression de la bibliothèque
+RemoveLibraryAction.config.Message=Voulez-vous vraiment supprimer cette bibliothèque ?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3037,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=Liste
 SchematicContextMenuProvider.menutitle.show=Afficher
 SchematicContextMenuProvider.menutitle.style=Style
 SchematicContextMenuProvider.Menu.EditStyle=&Modifier le style
-SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
+SchematicContextMenuProvider.Menu.DeleteStyle=Supprimer le &style
 SchematicContextMenuProvider.Menu.DeleteGroup=Suppri&mer le groupe
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insérer l'en-tête/le pied de page du grou&pe
 SchematicContextMenuProvider.Menu.NewStyle=Nouveau st&yle
@@ -3156,10 +3156,10 @@ StyleNodeProvider.action.New=&Nouveau style...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=Remove style
+StyleProcess.action.Delete=Supprimer le style
 StyleProcess.action.Edit=Modifi&er le style...
 StyleProcess.action.New=&Nouveau style...
-StyleProcess.text.CannotDelete=Cannot remove the default style. 
+StyleProcess.text.CannotDelete=Impossible de supprimer le style par défaut. 
 StyleProcess.text.Show=Affiche l'éditeur de jeu de données pour ce jeu de données.
 
 ###########################################################
@@ -3443,7 +3443,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Use Library
+UseLibraryAction.Text=&Utiliser la bibliothèque
 UseLibraryAction.Error.Title=Remplacer le fichier existant
 UseLibraryAction.Error.Message=Le fichier ''{0}'' existe déjà dans le dossier de ressources BIRT. Souhaitez-vous remplacer le fichier existant ?
 
@@ -3644,7 +3644,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
 DataSetColumnBindingsFormHandleProvider.Column.displayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Liaison de colonne de données :
-DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Liaison de colonne disponible :
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expression

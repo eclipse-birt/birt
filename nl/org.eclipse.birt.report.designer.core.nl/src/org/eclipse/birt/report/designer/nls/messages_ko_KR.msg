@@ -154,7 +154,7 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 #BindingPage properties
 
 BindingPage.Dataset.Label=데이터 집합:
-BindingPage.ReportItem.Label=Report Item:
+BindingPage.ReportItem.Label=보고서 항목:
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
 BindingPage.None=없음
@@ -162,7 +162,7 @@ BindingPage.TableColumn.DataType=데이터 형식
 BindingPage.TableColumn.Parameter=매개 변수
 BindingPage.TableColumn.Value=값
 
-ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
+ColumnBingingDialog.Label.Warn=데이터 집합 또는 보고서 항목을 변경하면 모든 결과 집합 열 식이 무효가 될 수 있습니다.
 ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
@@ -175,7 +175,7 @@ ColumnBindingDialog.Column.AggregateOn=집계 대상
 ColumnBindingDialog.All=모두
 ColumnBindingDialog.NONE=없음
 ColumnBindingDialog.Choice.DatasetFromContainer=컨테이너의 데이터 집합
-ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
+ColumnBindingDialog.Choice.ReportItemFromContainer=컨테이너 참조 보고서 항목
 ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
 ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
@@ -405,9 +405,9 @@ DataPageGenerator.List.Visibility=표시 유형
 dataset.edit=데이터 집합 편집 - {0}
 
 dataset.editor.settings=설정
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 반입 한계에 0보다 큰 정수를 입력하십시오.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
+dataset.editor.settings.dataFetchSetting.fetchAll=데이터 원본에서 모든 행 반입
 dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
 dataset.editor.settings.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
@@ -420,7 +420,7 @@ dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다.
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.noDataSource=데이터 집합 {0}에 사용할 수 있는 데이터 원본이 없습니다. 속성 뷰의 "데이터 집합" 항목에서 데이터 원본을 선택하십시오.
-dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
+dataset.editor.error.nonmatchedDataSource=데이터 집합 "{0}"에 일치하지 않는 데이터 원본이 있습니다. 데이터 집합 형식 "{1}"에 일치하는 데이터 원본을 선택하십시오.
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
 dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 비어 있지 않은 기본값이 있어야 합니다.
 dataset.editor.error.title=경고
@@ -468,7 +468,7 @@ dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
-dataSourceSelectionPage.title=Link with data source
+dataSourceSelectionPage.title=데이터 원본과 연결
 
 ###########################################################
 #DataSetBasePage properties
@@ -721,10 +721,10 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 �
 designer.preview.preference.resultset.maxNoOfTable.errormessage=각 스키마의 최대 테이블 수를 0에서 {0} 사이의 숫자로 입력하십시오.
 designer.preview.preference.resultset.maxrow.description=표시할 최대 행 수(&R):
 designer.preview.preference.resultset.maxrow.errormessage=최대 행에 대해 1과 {0} 사이의 숫자를 입력하십시오.
-designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
-designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
-designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
+designer.preview.preference.resultset.maxlevelmember.description=표시할 각 수준의 최대 구성원 수(&L):
+designer.preview.preference.resultset.maxlevelmember.errormessage=각 수준의 최대 구성원에 대해 1과 {0} 사이의 숫자를 입력하십시오.
+designer.preview.preference.resultset.maxinmemorycubesize.description=최대 인 메모리 큐브 크기(MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=최대 인 메모리 큐브 크기에 대해 1과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.server.description=내부 응용 프로그램 서버 구성. BIRT Report Designer 미리 보기 프레임워크에서\n내부적으로 해당 서버를 사용하고 있습니다.
 designer.preview.preference.server.hostDescription=로컬 컴퓨터의 호스트 이름 또는 IP 주소(&H)입니다. 자동으로 결정되게 하려면 공백으로\n두십시오.
 designer.preview.preference.server.note=참고:
@@ -1224,7 +1224,7 @@ EmptyEditPart.Msg.NonVisual=보이지 않는 요소가 선택되었습니다.
 
 error.duplicateName=새 이름이 동일한 네임스페이스의 기존 이름과 중복됩니다.
 error.emptyName=데이터 원본 이름은 비워둘 수 없습니다.
-error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
+error.invalidName=이름 "{0}"이(가) 잘못되었습니다. 이름에는 ".", "/", "\\", "!", ";", ","와 같은 문자를 사용할 수 없습니다.
 
 ###########################################################
 #ExceptionHandler properties
@@ -2199,10 +2199,10 @@ FilterConditionBuilder.button.edit=편집...
 FilterConditionBuilder.button.delete=제거
 FilterConditionBuilder.button.deleteall=모두 제거
 FilterConditionBuilder.button.add=추가
-FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
-FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
-FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
-FilterConditionBuilder.button.add.tooltip=Add the value to value list
+FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
+FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
+FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
+FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2539,7 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
 ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
-ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
+ParameterDialog.Check.AllowMulti=복수 값 허용(&E)
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=값 선택
@@ -2762,8 +2762,8 @@ RefreshLibExplorerAction.Text=새로 고침
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=라이브러리 제거
-RemoveLibraryAction.config.Title=Confirm library remove
-RemoveLibraryAction.config.Message=Do you really want to remove this library?
+RemoveLibraryAction.config.Title=라이브러리 제거 확인
+RemoveLibraryAction.config.Message=이 라이브러리를 제거하시겠습니까?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3037,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=목록
 SchematicContextMenuProvider.menutitle.show=표시
 SchematicContextMenuProvider.menutitle.style=스타일
 SchematicContextMenuProvider.Menu.EditStyle=스타일 편집(&T)
-SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
+SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&T)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&P)
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
@@ -3156,10 +3156,10 @@ StyleNodeProvider.action.New=새 스타일(&N)...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=Remove style
+StyleProcess.action.Delete=스타일 제거
 StyleProcess.action.Edit=스타일 편집(&E)...
 StyleProcess.action.New=새 스타일(&N)...
-StyleProcess.text.CannotDelete=Cannot remove the default style. 
+StyleProcess.text.CannotDelete=기본 스타일은 제거할 수 없습니다. 
 StyleProcess.text.Show=데이터 집합에 대한 데이터 집합 편집기를 표시합니다.
 
 ###########################################################
@@ -3443,7 +3443,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Use Library
+UseLibraryAction.Text=라이브러리 사용(&U)
 UseLibraryAction.Error.Title=기존 파일 대체
 UseLibraryAction.Error.Message=''{0}'' 파일이 BIRT 리소스 폴더에 이미 있습니다. 기존 파일을 바꾸시겠습니까?
 
@@ -3644,7 +3644,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
 DataSetColumnBindingsFormHandleProvider.Column.displayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
-DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=사용 가능한 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
 DataSetColumnBindingsFormHandleProvider.Column.Expression=식

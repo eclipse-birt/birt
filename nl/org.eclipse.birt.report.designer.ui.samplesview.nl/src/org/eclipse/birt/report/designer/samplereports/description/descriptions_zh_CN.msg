@@ -31,10 +31,10 @@ OrderMasterAfter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÉú³ÉÖ÷±¨±íºÍÏêÏ¸±¨±í¡£Ö÷±¨±íÁĞ³öËùÓĞ¶©µ¥²¢ÔÊĞí¶©µ
 OrderDetailAfter=ÏêÏ¸±¨±íÍ¨¹ıµ¥»÷Ö÷±¨±í½øĞĞ×·Ëİ¡£
 
 #Dynamic Report Parameter
-ParameterToDataSetParameter=This example illustrates linking a report parameter to a data set parameter.
+ParameterToDataSetParameter=´ËÊ¾ÀıËµÃ÷ÈçºÎ½«±¨±í²ÎÊıÁ´½Óµ½Êı¾İ¼¯²ÎÊı¡£
 
 #Expressions
-Expressions=This example demonstrating how to build a BIRT report that uses funcitons.
+Expressions=´ËÊ¾ÀıËµÃ÷ÈçºÎÉú³ÉÊ¹ÓÃº¯ÊıµÄ BIRT ±¨±í¡£
 
 #Grouping
 CustomerListAfter_Grouping=±¾Ê¾ÀıÊ¾·¶ÈçºÎÔÚ BIRT ÖĞÉú³É·Ö×é±¨±í¡£Ê¾Àı±¨±íÏÔÊ¾¿Í»§ÁĞ±í²¢°´¹ú¼Ò¶ÔÕâĞ©¿Í»§½øĞĞ·Ö×é¡£±¾Ê¾·¶°üº¬µÄÖ÷Òª BIRT ¹¦ÄÜÊÇ·Ö×é¹¦ÄÜ¡¢·ÖÒ³·û¹¦ÄÜ¡¢Ä¿Â¼¹¦ÄÜºÍÃ¿×é¾ÛºÏÊı¾İ»ò×ÜÌå¾ÛºÏÊı¾İ¹¦ÄÜ¡£ 
