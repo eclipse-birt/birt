@@ -401,7 +401,7 @@ Choices.filterOperator.bottom-percent=아래쪽 퍼센트
 Choices.filterOperator.any=모두
 Choices.filterOperator.match=일치
 Choices.filterOperator.not-match=일치하지 않음
-Choices.filterOperator.in=In
+Choices.filterOperator.in=확대
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=변경
@@ -625,8 +625,8 @@ Choices.dateTimeLevelType.minute=분
 Choices.dateTimeLevelType.second=초
 
 #76. scalarParamType
-Choices.scalarParamType.simple=Simple
-Choices.scalarParamType.multi-value=Multi Value
+Choices.scalarParamType.simple=단순
+Choices.scalarParamType.multi-value=복수 값
 Choices.scalarParamType.ad-hoc=Ad-hoc
     
 ###########################################################
@@ -2347,9 +2347,9 @@ Element.Parameter.validate=유효성 검사
 Element.Parameter.validate.toolTip=매개 변수의 사용자 지정 유효성 검사에 대해 참 또는 거짓 값을 반환합니다.
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Value type
+Element.ScalarParameter.valueType=값 형식
 Element.ScalarParameter.dataType=데이터 형식
-Element.ScalarParameter.paramType=Scalar parameter type
+Element.ScalarParameter.paramType=스칼라 매개 변수 형식
 Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
 Element.ScalarParameter.isRequired=가 필요합니다.
@@ -2870,7 +2870,7 @@ Element.Listing.sorting=정렬
 Element.Listing.filter=필터
 Element.Listing.repeatHeader=머리글 반복
 Element.Listing.pageBreakInterval=페이지 나누기 간격
-Element.Listing.sortByGroups=Sort By Groups
+Element.Listing.sortByGroups=그룹별로 정렬
 Element.Listing.onStart=시작 시
 Element.Listing.onStart.toolTip=데이터 집합이 열렸지만 머리글 밴드가 생성되기 이전이며, 첫 번째 행이 이 요소에 대한 데이터 집합에서 검색되기 전에 호출됩니다
 Element.Listing.onRow=행에서
@@ -3322,7 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=요소 "{0}"은(는) 자식 요소이거
 Error.ContentException.CONTENT_NAME_REQUIRED={0}은(는) 이름이 없으므로 {1}의 {2} 슬롯에 추가할 수 없습니다.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0}에 명시적인 템플릿 매개 변수 정의가 없어서 {1}의 슬롯({2})에 삽입할 수 없습니다.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=요소를 템플릿으로 바꿀 수 없습니다.
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=요소 "{0}"은(는) 보고서 항목을 공유하기 때문에 그룹을 추가, 제거, 또는 이동할 수 없습니다.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=변환 리소스 키를 제공해야 합니다.
@@ -3439,7 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=요소 "{0}"을(를) 이동하는 것은 금지되어 
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=요소 "{0}"을(를) 삽입 및 붙여 넣는 것은 금지되어 있습니다.
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE= {0}은 이미 {1}을 참조하므로 순환 요소 참조를 찾을 수 있습니다.
-Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=요소 {0}의 데이터 바인딩 참조의 그룹 수와 참조하고 있는 요소 {1}의 그룹 수가 다릅니다.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.

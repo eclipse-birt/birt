@@ -626,8 +626,8 @@ Choices.dateTimeLevelType.second=Deuxième
 
 #76. scalarParamType
 Choices.scalarParamType.simple=Simple
-Choices.scalarParamType.multi-value=Multi Value
-Choices.scalarParamType.ad-hoc=Ad-hoc
+Choices.scalarParamType.multi-value=Valeurs multiples
+Choices.scalarParamType.ad-hoc=Ad hoc
     
 ###########################################################
 # Classes
@@ -2347,9 +2347,9 @@ Element.Parameter.validate=Validation
 Element.Parameter.validate.toolTip=Renvoie la valeur Vrai (True) ou Faux (False) pour la validation personnalisée du paramètre.
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Value type
+Element.ScalarParameter.valueType=Type de valeur
 Element.ScalarParameter.dataType=Type de données
-Element.ScalarParameter.paramType=Scalar parameter type
+Element.ScalarParameter.paramType=Type de paramètre scalaire
 Element.ScalarParameter.displayPrompt=Afficher une invite
 Element.ScalarParameter.concealValue=Masquer la valeur
 Element.ScalarParameter.isRequired=Est requis
@@ -2870,7 +2870,7 @@ Element.Listing.sorting=Tri en cours
 Element.Listing.filter=Filtre
 Element.Listing.repeatHeader=Répéter l'en-tête
 Element.Listing.pageBreakInterval=Intervalle de saut de page
-Element.Listing.sortByGroups=Sort By Groups
+Element.Listing.sortByGroups=Trier par Groupes
 Element.Listing.onStart=Au début
 Element.Listing.onStart.toolTip=Commande appelée après l'ouverture du jeu de données, mais avant la création de la bande d'en-tête et avant l'extraction de la première ligne du jeu de données pour cet élément
 Element.Listing.onRow=A la ligne
@@ -3322,7 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=L''élément "{0}" est un élémen
 Error.ContentException.CONTENT_NAME_REQUIRED={0} ne peut pas être ajouté à l''emplacement {2} de {1} car il n''est pas nommé.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de définition de paramètre de modèle explicite et ne peut donc pas être inséré dans l''emplacement ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un élément d''état ; il est donc impossible d''ajouter, de supprimer ou de déplacer ses groupes.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.
@@ -3439,7 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=L'opération de déplacement sur l'élément
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage sur l'élément "{0}" n'est pas autorisée.
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
-Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence de liaison de données de l''élément {0} est différent du nombre de l''élément {1} auquel il se réfère.
 
 #StyleException
 Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un style.

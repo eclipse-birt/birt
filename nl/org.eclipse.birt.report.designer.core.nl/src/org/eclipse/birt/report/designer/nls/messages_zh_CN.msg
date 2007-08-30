@@ -154,7 +154,7 @@ BgImageFieldEditor.displayname.Browse=ä¯ÀÀ(&W)...
 #BindingPage properties
 
 BindingPage.Dataset.Label=Êı¾İ¼¯:
-BindingPage.ReportItem.Label=Report Item:
+BindingPage.ReportItem.Label=±¨±íÏî:
 BindingPage.Label.Binding=°ó¶¨
 BindingPage.MessageDlg.SaveParamBinding=±£´æ ParamBinding
 BindingPage.None=ÎŞ
@@ -162,7 +162,7 @@ BindingPage.TableColumn.DataType=Êı¾İÀàĞÍ
 BindingPage.TableColumn.Parameter=²ÎÊı
 BindingPage.TableColumn.Value=Öµ
 
-ColumnBingingDialog.Label.Warn=Changing data set or report item reference could invalidate all the result set column expressions.
+ColumnBingingDialog.Label.Warn=¸ü¸ÄÊı¾İ¼¯»ò±¨±íÏîÒıÓÃ»áÊ¹ËùÓĞ½á¹û¼¯ÁĞ±í´ïÊ½ÎŞĞ§¡£
 ColumnBindingDialog.Label.DataSet=Êı¾İ¼¯:
 ColumnBindingDialog.Column.Expression=±í´ïÊ½
 ColumnBindingDialog.DialogTitle=Ñ¡ÔñÊı¾İ°ó¶¨
@@ -175,7 +175,7 @@ ColumnBindingDialog.Column.AggregateOn=¾ÛºÏÌõ¼ş
 ColumnBindingDialog.All=È«²¿
 ColumnBindingDialog.NONE=ÎŞ
 ColumnBindingDialog.Choice.DatasetFromContainer=ÈİÆ÷µÄÊı¾İ¼¯
-ColumnBindingDialog.Choice.ReportItemFromContainer=Container's Referred Report Item
+ColumnBindingDialog.Choice.ReportItemFromContainer=ÈİÆ÷µÄÒıÓÃ±¨±íÏî
 ColumnBindingDialog.AGGREGATEON.NONE=²»ÊÊÓÃ
 ColumnBindingDialog.Text.Add=Ìí¼Ó...
 ColumnBindingDialog.Text.Edit=±à¼­...
@@ -405,9 +405,9 @@ DataPageGenerator.List.Visibility=¿É¼ûĞÔ
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
 
 dataset.editor.settings=ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=ÇëÎªĞĞÈ¡ÊıÏŞÖÆÊäÈëÒ»¸ö´óÓÚÁãµÄÕûÊı
 dataset.editor.settings.dataFetchSetting=Êı¾İÌáÈ¡ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source
+dataset.editor.settings.dataFetchSetting.fetchAll=´ÓÊı¾İÔ´ÌáÈ¡ËùÓĞĞĞ
 dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
 dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
@@ -420,7 +420,7 @@ dataset.editor.error.emptyName=Ãû³Æ²»ÄÜÎª¿Õ°×¡£
 dataset.editor.error.missingComputedColumnExpression=¼ÆËãÁĞ {0} µÄ±í´ïÊ½²»ÄÜÎª¿Õ»ò¿Õ°×¡£
 dataset.editor.error.missingComputedColumnName=¼ÆËãÁĞÃû³Æ²»ÄÜÎª¿Õ»ò¿Õ°×¡£
 dataset.editor.error.noDataSource=Ã»ÓĞ¿ÉÓÃÓÚÊı¾İ¼¯µÄÊı¾İÔ´ {0}£¬ÇëÔÚÊôĞÔÊÓÍ¼µÄ¡°Êı¾İÔ´¡±ÌõÄ¿ÖĞÑ¡ÔñÊı¾İÔ´¡£
-dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0}", please select a data source matched with data set type "{1}".
+dataset.editor.error.nonmatchedDataSource=Êı¾İ¼¯¡°{0}¡±µÄÊı¾İÔ´²»Æ¥Åä£¬ÇëÑ¡ÔñÓëÊı¾İ¼¯ÀàĞÍ¡°{1}¡±Æ¥ÅäµÄÊı¾İÔ´¡£
 dataset.editor.error.noEditorsFound=Î´ÕÒµ½¿ÉÓÃÓÚÊı¾İ¼¯µÄ±à¼­Æ÷ {0}¡£
 dataset.editor.error.noInputParameterDefaultValue=ÊäÈë²ÎÊı {0} Ó¦¾ßÓĞ·Ç¿ÕÄ¬ÈÏÖµ¡£
 dataset.editor.error.title=¾¯¸æ
@@ -468,7 +468,7 @@ dataset.outputparameters.preview.tooltip=Ô¤ÀÀÊä³ö²ÎÊı
 dataset.wizard.label.datasetName=Êı¾İ¼¯Ãû³Æ(&M):
 dataset.wizard.label.datasetType=Êı¾İ¼¯ÀàĞÍ(&T):
 dataset.wizard.label.dataSource=Êı¾İÔ´(&S):
-dataSourceSelectionPage.title=Link with data source
+dataSourceSelectionPage.title=ÓëÊı¾İÔ´Á´½Ó
 
 ###########################################################
 #DataSetBasePage properties
@@ -721,10 +721,10 @@ designer.preview.preference.resultset.maxNoOfSchema.errormessage=ÇëÎª×î´ó¼Ü¹¹ÊıÊ
 designer.preview.preference.resultset.maxNoOfTable.errormessage=ÇëÔÚÃ¿¸ö¼Ü¹¹ÖĞ·Ö±ğÎª×î´ó±íÊıÊäÈëÒ»¸ö½éÓÚ 0 ºÍ {0} Ö®¼äµÄÊı¡£
 designer.preview.preference.resultset.maxrow.description=ÒªÏÔÊ¾µÄ×î´óĞĞÊı(&R):
 designer.preview.preference.resultset.maxrow.errormessage=ÇëÎª×î´óĞĞÊıÊäÈëÒ»¸ö½éÓÚ 1 ºÍ {0} Ö®¼äµÄÊı¡£
-designer.preview.preference.resultset.maxlevelmember.description=Maximum member count of each &level to display:
-designer.preview.preference.resultset.maxlevelmember.errormessage=Please enter a number between 1 and {0} for maximum level member.
-designer.preview.preference.resultset.maxinmemorycubesize.description=Maximum in-memory cube size (MB):
-designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Please enter a number between 1 and {0} for maximum in-memory cube size.
+designer.preview.preference.resultset.maxlevelmember.description=ÏÔÊ¾µÄÃ¿¸ö¼¶±ğµÄ×î´ó¼ÆÊı(&L):
+designer.preview.preference.resultset.maxlevelmember.errormessage=ÇëÎª×î´ó¼¶±ğÊıÊäÈëÒ»¸ö½éÓÚ 1 ºÍ {0} Ö®¼äµÄÊı¡£
+designer.preview.preference.resultset.maxinmemorycubesize.description=×î´óÄÚ´æ¶àÎ¬Êı¾İ¼¯´óĞ¡(MB):
+designer.preview.preference.resultset.maxinmemorycubesize.errormessage=ÇëÎª×î´óÄÚ´æ¶àÎ¬Êı¾İ¼¯´óĞ¡ÊäÈëÒ»¸ö½éÓÚ 1 ºÍ {0} Ö®¼äµÄÊı¡£
 designer.preview.preference.server.description=Internal Application Server ÅäÖÃ¡£¸Ã·şÎñÆ÷ÓÉ \nBIRT Report Designer Preview Framework ÄÚ²¿Ê¹ÓÃ¡£
 designer.preview.preference.server.hostDescription=±¾µØ¼ÆËã»úµÄÖ÷»úÃû»ò IP µØÖ·¡£½«ÆäÁô¿ÕÒÔ×Ô¶¯\nÈ·¶¨(&H)¡£
 designer.preview.preference.server.note=×¢£º
@@ -1224,7 +1224,7 @@ EmptyEditPart.Msg.NonVisual=Ñ¡ÔñÁË²»¿É¼ûÔªËØ¡£
 
 error.duplicateName=ĞÂÃû³ÆÓëÍ¬Ò»Ãû³Æ¿Õ¼äÖĞµÄÏÖÓĞÃû³ÆÖØ¸´¡£
 error.emptyName=Êı¾İÔ´Ãû³Æ²»ÄÜÎª¿Õ¡£
-error.invalidName=The name "{0}" is invalid for it contains character ".", "/", "\\", "!", ";", "," .
+error.invalidName=Ãû³Æ¡°{0}¡±ÎŞĞ§£¬ÒòÎªËü°üº¬×Ö·û "."¡¢"/"¡¢"\\"¡¢"!"¡¢";" ºÍ ","¡£
 
 ###########################################################
 #ExceptionHandler properties
@@ -2199,10 +2199,10 @@ FilterConditionBuilder.button.edit=±à¼­...
 FilterConditionBuilder.button.delete=É¾³ı
 FilterConditionBuilder.button.deleteall=È«²¿É¾³ı
 FilterConditionBuilder.button.add=Ìí¼Ó
-FilterConditionBuilder.button.edit.tooltip=Edit the selected one in value list
-FilterConditionBuilder.button.delete.tooltip=Delete the selected value from the list
-FilterConditionBuilder.button.deleteall.tooltip=Delete all the values from the list
-FilterConditionBuilder.button.add.tooltip=Add the value to value list
+FilterConditionBuilder.button.edit.tooltip=±à¼­ÖµÁĞ±íÖĞµÄÑ¡¶¨Öµ
+FilterConditionBuilder.button.delete.tooltip=´ÓÁĞ±íÖĞÉ¾³ıÑ¡¶¨Öµ
+FilterConditionBuilder.button.deleteall.tooltip=´ÓÁĞ±íÖĞÉ¾³ıËùÓĞÖµ
+FilterConditionBuilder.button.add.tooltip=½«ÖµÌí¼Óµ½ÖµÁĞ±í
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2539,7 +2539,7 @@ ParameterDialog.toolTipText.OpenExprButton=´ò¿ª±í´ïÊ½Éú³ÉÆ÷
 ParameterDialog.datetime.prompt=ÇëÊäÈëÒÔÏÂĞÎÊ½µÄÈÕÆÚÊ±¼äÖµ: {0}
 ParameterDialog.date.prompt=ÇëÊäÈëÒÔÏÂĞÎÊ½µÄÈÕÆÚÖµ: {0}
 ParameterDialog.time.prompt=ÇëÊäÈëÒÔÏÂĞÎÊ½µÄÊ±¼äÖµ: {0}
-ParameterDialog.Check.AllowMulti=Allow Multipl&e Values
+ParameterDialog.Check.AllowMulti=ÔÊĞí¶à¸öÖµ(&E)
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Ñ¡ÔñÖµ
@@ -2762,8 +2762,8 @@ RefreshLibExplorerAction.Text=Ë¢ĞÂ
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=É¾³ı¿â
-RemoveLibraryAction.config.Title=Confirm library remove
-RemoveLibraryAction.config.Message=Do you really want to remove this library?
+RemoveLibraryAction.config.Title=È·ÈÏ¿âÉ¾³ı
+RemoveLibraryAction.config.Message=ÊÇ·ñÈ·ÊµÒªÉ¾³ı´Ë¿â?
 
 ###########################################################
 #UseCssInReportDesignAction properties
@@ -3037,7 +3037,7 @@ SchematicContextMenuProvider.menutitle.list=ÁĞ±í
 SchematicContextMenuProvider.menutitle.show=ÏÔÊ¾
 SchematicContextMenuProvider.menutitle.style=ÑùÊ½
 SchematicContextMenuProvider.Menu.EditStyle=±à¼­ÑùÊ½(&T:)
-SchematicContextMenuProvider.Menu.DeleteStyle=Remove &Style
+SchematicContextMenuProvider.Menu.DeleteStyle=É¾³ıÑùÊ½(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=É¾³ı×é(&T)
 SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=²åÈë×éÒ³Ã¼/Ò³½Å(&P)
 SchematicContextMenuProvider.Menu.NewStyle=ĞÂÑùÊ½(&Y)
@@ -3156,10 +3156,10 @@ StyleNodeProvider.action.New=ĞÂ½¨ÑùÊ½(&N)...
 ###########################################################
 #StyleProcess properties
 
-StyleProcess.action.Delete=Remove style
+StyleProcess.action.Delete=É¾³ıÑùÊ½
 StyleProcess.action.Edit=±à¼­ÑùÊ½(&E)...
 StyleProcess.action.New=ĞÂ½¨ÑùÊ½(&N)...
-StyleProcess.text.CannotDelete=Cannot remove the default style. 
+StyleProcess.text.CannotDelete=ÎŞ·¨É¾³ıÄ¬ÈÏÑùÊ½¡£ 
 StyleProcess.text.Show=ÏÔÊ¾¸ÃÊı¾İ¼¯µÄÊı¾İ¼¯±à¼­Æ÷¡£
 
 ###########################################################
@@ -3443,7 +3443,7 @@ UnitPropertyDescriptor.error.title=Too Big Value
 ###########################################################
 #UseLibraryAction properties
 
-UseLibraryAction.Text=&Use Library
+UseLibraryAction.Text=Ê¹ÓÃ¿â(&U)
 UseLibraryAction.Error.Title=Ìæ»»ÏÖÓĞÎÄ¼ş
 UseLibraryAction.Error.Message=BIRT ×ÊÔ´ÎÄ¼ş¼ĞÖĞÒÑ¾­´æÔÚÎÄ¼ş¡°{0}¡±¡£ÊÇ·ñÒªÌæ»»ÏÖÓĞÎÄ¼ş£¿
 
@@ -3644,7 +3644,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ÎÄ¼ş¡°{0}¡±ÎªÖ»¶Á£¬ÇëÊ×ÏÈÈ·±£Ëü¿
 DataSetColumnBindingsFormHandleProvider.Column.Name=Ãû³Æ
 DataSetColumnBindingsFormHandleProvider.Column.displayName=ÏÔÊ¾Ãû³Æ
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Êı¾İÁĞ°ó¶¨:
-DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Available Column Binding:
+DataSetColumnBindingsFormHandleProvider.ReportItemTitle=¿ÉÓÃÁĞ°ó¶¨:
 DataSetColumnBindingsFormHandleProvider.NewBinding=ĞÂ°ó¶¨  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Êı¾İÀàĞÍ
 DataSetColumnBindingsFormHandleProvider.Column.Expression=±í´ïÊ½

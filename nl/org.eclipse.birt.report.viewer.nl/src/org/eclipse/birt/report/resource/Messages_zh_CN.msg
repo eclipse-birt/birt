@@ -170,7 +170,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=无法访问文档文件: {0}。
 birt.viewer.generalException.REPORT_FILE_ERROR=报表文件: {0} 不存在或包含错误。
 birt.viewer.generalException.REPORT_ACCESS_ERROR=无法访问报表文件: {0}。
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=正在处理文档文件，请稍后再试。
-birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
+birt.viewer.generalException.NO_REPORT_DESIGN=没有可用的报表设计对象。
 
 ###############################################################################
 # Report service exception
@@ -186,7 +186,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=尝试启动报表引擎时
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=报表文档实例为空。
 birt.viewer.actionException.INVALID_BOOKMARK=书签: {0} 无效。请检查并重置链接。
-birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=无效页码第 {0} 页，共 {1} 页。 
 birt.viewer.actionException.INVALID_ID_FORMAT=无效 id 格式。Id={0}。
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=会话超时或没有可用的文档文件。
 

@@ -10,7 +10,7 @@ design.preview=Vor&schau
 
 preference.preview=Vorschau
 preference.preview.server=Vorschau-Server
-preference.preview.data=Data
+preference.preview.data=Daten
 
 ###############################################################################
 # Actions

@@ -170,7 +170,7 @@ birt.viewer.generalException.DOCUMENT_ACCESS_ERROR=Zugriff auf die Dokumentdatei
 birt.viewer.generalException.REPORT_FILE_ERROR=Die Berichtdatei : {0} ist nicht vorhanden oder fehlerhaft.
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Zugriff auf die Berichtdatei nicht möglich : {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Dokumentdatei wird verarbeitet. Versuchen Sie es später erneut.
-birt.viewer.generalException.NO_REPORT_DESIGN=There is no report design object available.
+birt.viewer.generalException.NO_REPORT_DESIGN=Kein Berichtdesignobjekt verfügbar.
 
 ###############################################################################
 # Report service exception
@@ -186,7 +186,7 @@ birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Beim Versuch, die 
 ###############################################################################
 birt.viewer.actionException.NO_REPORT_DOCUMENT=Berichtdokument-Instanz ist leer.
 birt.viewer.actionException.INVALID_BOOKMARK=Das Lesezeichen {0} ist ungültig. Bitte prüfen und Verknüpfung zurücksetzen.
-birt.viewer.actionException.INVALID_PAGE_NUMBER=Invalid page number {0} of {1}. 
+birt.viewer.actionException.INVALID_PAGE_NUMBER=Ungültige Seitennummer {0} von {1}. 
 birt.viewer.actionException.INVALID_ID_FORMAT=Ungültiges ID-Format. Id={0}.
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=Sitzung wegen Zeitüberschreitung abgebrochen bzw. keine Dokumentdatei verfügbar.
 

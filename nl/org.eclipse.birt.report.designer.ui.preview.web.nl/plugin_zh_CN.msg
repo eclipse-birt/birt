@@ -10,7 +10,7 @@ design.preview=预览(&V)
 
 preference.preview=预览
 preference.preview.server=预览服务器
-preference.preview.data=Data
+preference.preview.data=数据
 
 ###############################################################################
 # Actions
