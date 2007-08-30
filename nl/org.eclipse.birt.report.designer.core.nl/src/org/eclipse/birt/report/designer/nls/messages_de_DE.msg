@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=Keinen Editor für Datensatz gefunden {0}.
 dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss einen Standardwert aufweisen, der ungleich Null ist.
 dataset.editor.error.title=Warnung
-dataset.editor.warning.correctParameter=BIRT versucht, falsche Datensatzparameter zu aktualisieren.
 dataset.editor.error.unsupportedDataSet=Nicht unterstützter Datensatztyp - {0}.
 dataset.editor.error.validationParameter=Für den Eingabeparameter [{0}] liegt kein Wert vor. Soll der Parameter ohne Wert bleiben?
 dataset.editor.filters=Filter
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=Parameter bearbeiten
 DataSetParameterPage.toolTipText.Remove=Parameter entfernen
 DataSetParameterPage.toolTipText.Up=Parameter nach oben verschieben
 DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties

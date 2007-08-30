@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=No se han encontrado editores para el conjunto de datos {0}.
 dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} debe tener un valor predeterminado que no esté vacío.
 dataset.editor.error.title=Advertencia
-dataset.editor.warning.correctParameter=BIRT intenta actualizar los parámetros incorrectos del conjunto de datos.
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
 dataset.editor.filters=Filtros
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=Editar parámetro
 DataSetParameterPage.toolTipText.Remove=Quitar parámetro
 DataSetParameterPage.toolTipText.Up=Mover parámetro hacia arriba
 DataSetParameterPage.toolTipText.Down=Mover parámetro hacia abajo
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties

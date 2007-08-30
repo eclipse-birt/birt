@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
 dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur renseignée par défaut.
 dataset.editor.error.title=Avertissement
-dataset.editor.warning.correctParameter=BIRT tente de mettre à jour un paramètre de jeu de données incorrect.
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
 dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vide. Voulez-vous laisser cette valeur vide ?
 dataset.editor.filters=Filtres
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=Modifier le paramètre
 DataSetParameterPage.toolTipText.Remove=Supprimer le paramètre
 DataSetParameterPage.toolTipText.Up=Déplacer le paramètre vers le haut
 DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties

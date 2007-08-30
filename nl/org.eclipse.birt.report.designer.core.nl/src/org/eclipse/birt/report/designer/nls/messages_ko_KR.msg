@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
 dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 비어 있지 않은 기본값이 있어야 합니다.
 dataset.editor.error.title=경고
-dataset.editor.warning.correctParameter=BIRT가 잘못된 데이터 집합 매개 변수 업데이트를 시도했습니다.
 dataset.editor.error.unsupportedDataSet=지원되지 않는 데이터 집합 형식 - {0}.
 dataset.editor.error.validationParameter=입력 매개 변수 [{0}]의 값이 비어 있습니다. 값을 그대로 비워두시겠습니까?
 dataset.editor.filters=필터
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=매개변수 편집
 DataSetParameterPage.toolTipText.Remove=매개 변수 제거
 DataSetParameterPage.toolTipText.Up=매개 변수를 위로 이동
 DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties

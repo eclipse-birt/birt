@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=データセットのエディタが見つかりません {0}。
 dataset.editor.error.noInputParameterDefaultValue=入力パラメタ {0} に空白以外のデフォルト値を設定してください。
 dataset.editor.error.title=警告
-dataset.editor.warning.correctParameter=間違ったデータセットパラメタを更新しようとしています。
 dataset.editor.error.unsupportedDataSet=このデータセット型は使用できません - {0}。
 dataset.editor.error.validationParameter=入力パラメタ [{0}] の値が空です。空のままにしておきますか ?
 dataset.editor.filters=フィルタ
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=パラメタの編集
 DataSetParameterPage.toolTipText.Remove=パラメタの削除
 DataSetParameterPage.toolTipText.Up=パラメタを上に移動
 DataSetParameterPage.toolTipText.Down=パラメタを下に移動
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties
