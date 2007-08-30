@@ -323,7 +323,7 @@ data.olap.FacttableRowNotDistinct=ファクトテーブルでは行が固有でなければなりませ
 data.olap.FacttableJointColumnNotExist=結合列 "{0}" は次元にありません。
 data.olap.ParameterColumnOfAggregationNotExist=パラメタ列 "{0}" は次元にありません。
 data.olap.FacttableNullMeasureValue=計測列の値が NULL です。"{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=The dimension key value "{0}" does not exist in dimension "{1}".
+data.olap.InvalidDimensionPositionFacttableRow=次元のキー値 "{0}" が次元 "{1}" に含まれていません。
 data.olap.measureNameNotFound=計測名 "{0}" が見つかりません。
 data.olap.levelNameNotFound=レベル名 "{0}" が見つかりません。
 data.olap.dimensionNameNotFound=次元名 "{0}" が見つかりません。
@@ -342,7 +342,7 @@ data.olap.invalidBindingMissingAggrFunc=バインド "{0}" に集計関数がありません。
 data.olap.invalidAggrArgument=集計引数に指定できるのはレベルの属性だけです。
 data.olap.axis.level.CantBeNull=列メンバのレベルは null にできません。
 data.olap.axis.value.CantBeNull=列メンバのレベル \"{0}\" の値は null にできません。
-data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
+data.olap.fetchlimitWarning=結果セットの全体のサイズは [{1}] ですが、{0} しかフェッチされませんでした。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code
@@ -380,23 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=&weight
-total.param.movingAve.window=&window
-total.param.rank.ascending=a&scending
-total.param.percentile.pct=&percentage
-total.param.quartile.quart=&quart
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&percentage
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&percentage
+total.param.weightedAve.weight=重み
+total.param.movingAve.window=ウィンドウ
+total.param.rank.ascending=昇順
+total.param.percentile.pct=割合 (%)
+total.param.quartile.quart=四分位
+total.param.isTopN.n=n
+total.param.isTopNPercent.pct=割合 (%)
+total.param.isBottomN.n=n
+total.param.isBottomNPercent.pct=割合 (%)
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=&rate
-total.param.runningnpv.rate=&rate
+total.param.npv.rate=rate
+total.param.runningnpv.rate=rate
 total.param.mirr.financeRate=f&inance rate
 total.param.mirr.reinvestmentRate=&reinvestment rate
 total.param.irr.rate=&intrate

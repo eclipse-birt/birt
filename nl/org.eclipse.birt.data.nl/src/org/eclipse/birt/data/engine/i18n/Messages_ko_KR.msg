@@ -323,7 +323,7 @@ data.olap.FacttableRowNotDistinct=행은 팩트 테이블에서 고유해야 합니다. "{0}"이(
 data.olap.FacttableJointColumnNotExist=조인 열 "{0}"이(가) 차원에 없습니다.
 data.olap.ParameterColumnOfAggregationNotExist=매개 변수 열 "{0}"이(가) 차원에 없습니다.
 data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}" 
-data.olap.InvalidDimensionPositionFacttableRow=The dimension key value "{0}" does not exist in dimension "{1}".
+data.olap.InvalidDimensionPositionFacttableRow=차원 키 값 "{0}"이(가) 차원 "{1}"에 없습니다.
 data.olap.measureNameNotFound=측정값 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.dimensionNameNotFound=차원 이름 "{0}"을(를) 찾을 수 없습니다.
@@ -342,7 +342,7 @@ data.olap.invalidBindingMissingAggrFunc=바인딩 "{0}"의 집계 함수가 없습니다.
 data.olap.invalidAggrArgument=수준 특성만 집계 인수로 사용될 수 있습니다.
 data.olap.axis.level.CantBeNull=열 구성원의 수준은 널(null)이 될 수 없습니다!
 data.olap.axis.value.CantBeNull=수준 \"{0}\"의 열 구성원 값은 널(null)이 될 수 없습니다!
-data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
+data.olap.fetchlimitWarning=반입 크기는 {0}(으)로, 전체 결과 집합 [{1}]의 길이보다 작습니다.
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code
@@ -380,23 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=&weight
-total.param.movingAve.window=&window
-total.param.rank.ascending=a&scending
-total.param.percentile.pct=&percentage
-total.param.quartile.quart=&quart
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&percentage
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&percentage
+total.param.weightedAve.weight=두께
+total.param.movingAve.window=창
+total.param.rank.ascending=오름차순
+total.param.percentile.pct=백분율
+total.param.quartile.quart=4분위수
+total.param.isTopN.n=n
+total.param.isTopNPercent.pct=백분율
+total.param.isBottomN.n=n
+total.param.isBottomNPercent.pct=백분율
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=&rate
-total.param.runningnpv.rate=&rate
+total.param.npv.rate=비율
+total.param.runningnpv.rate=비율
 total.param.mirr.financeRate=f&inance rate
 total.param.mirr.reinvestmentRate=&reinvestment rate
 total.param.irr.rate=&intrate

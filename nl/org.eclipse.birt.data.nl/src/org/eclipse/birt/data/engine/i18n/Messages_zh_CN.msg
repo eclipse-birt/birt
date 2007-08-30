@@ -323,7 +323,7 @@ data.olap.FacttableRowNotDistinct=行在事实表中应各不相同。“{0}”出现多次。
 data.olap.FacttableJointColumnNotExist=维中不存在联接列“{0}”。
 data.olap.ParameterColumnOfAggregationNotExist=维中不存在参数列“{0}”。
 data.olap.FacttableNullMeasureValue=度量列的值为空。“{0}” 
-data.olap.InvalidDimensionPositionFacttableRow=The dimension key value "{0}" does not exist in dimension "{1}".
+data.olap.InvalidDimensionPositionFacttableRow=维键值“{0}”在维“{1}”中不存在。
 data.olap.measureNameNotFound=找不到度量名称“{0}”。
 data.olap.levelNameNotFound=找不到级别名称“{0}”。
 data.olap.dimensionNameNotFound=找不到维名称“{0}”。
@@ -342,7 +342,7 @@ data.olap.invalidBindingMissingAggrFunc=绑定“{0}”的聚合函数丢失。
 data.olap.invalidAggrArgument=仅级别属性可以用作聚合参数。
 data.olap.axis.level.CantBeNull=列成员级别不能为空!
 data.olap.axis.value.CantBeNull=级别\“{0}\”的列成员值不能为空!
-data.olap.fetchlimitWarning=The fetch size is {0}, which is less than the length of entire result set[{1}].
+data.olap.fetchlimitWarning=取数大小为 {0}，小于整个结果集的长度 [{1}]。
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
@@ -380,23 +380,23 @@ total.func.isTopNPercent=IS-TOP-N-PERCENT
 total.func.isBottomN=IS-BOTTOM-N
 total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
 # aggregation function display names
-total.param.weightedAve.weight=&weight
-total.param.movingAve.window=&window
-total.param.rank.ascending=a&scending
-total.param.percentile.pct=&percentage
-total.param.quartile.quart=&quart
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&percentage
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&percentage
+total.param.weightedAve.weight=权值
+total.param.movingAve.window=窗口
+total.param.rank.ascending=升序
+total.param.percentile.pct=百分比
+total.param.quartile.quart=四分位
+total.param.isTopN.n=n
+total.param.isTopNPercent.pct=百分比
+total.param.isBottomN.n=n
+total.param.isBottomNPercent.pct=百分比
 #finance function display names
 total.func.npv=NPV
 total.func.runningnpv=RUNNING-NPV
 total.func.mirr=MIRR
 total.func.irr=IRR
 
-total.param.npv.rate=&rate
-total.param.runningnpv.rate=&rate
+total.param.npv.rate=比率
+total.param.runningnpv.rate=比率
 total.param.mirr.financeRate=f&inance rate
 total.param.mirr.reinvestmentRate=&reinvestment rate
 total.param.irr.rate=&intrate
