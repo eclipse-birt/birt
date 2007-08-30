@@ -422,21 +422,51 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
-							// TODO: here need the get the format from the
-							// parameter.
-							String value = DataUtil.getDisplayValue( valueObj );
+							Object[] values;
+							if ( valueObj instanceof Object[] )
+							{
+								values = (Object[]) valueObj;
+							}
+							else
+							{
+								values = new Object[1];
+								values[0] = valueObj;
+							}
 
-							link
-									.append( ParameterAccessor
-											.getQueryParameterString(
-													URLEncoder
-															.encode(
-																	key,
-																	ParameterAccessor.UTF_8_ENCODE ),
-													URLEncoder
-															.encode(
-																	value,
-																	ParameterAccessor.UTF_8_ENCODE ) ) );
+							for ( int i = 0; i < values.length; i++ )
+							{
+								// TODO: here need the get the format from the
+								// parameter.
+								String value = DataUtil
+										.getDisplayValue( values[i] );
+
+								if ( value != null )
+								{
+									link
+											.append( ParameterAccessor
+													.getQueryParameterString(
+															URLEncoder
+																	.encode(
+																			key,
+																			ParameterAccessor.UTF_8_ENCODE ),
+															URLEncoder
+																	.encode(
+																			value,
+																			ParameterAccessor.UTF_8_ENCODE ) ) );
+								}
+								else
+								{
+									// pass NULL value
+									link
+											.append( ParameterAccessor
+													.getQueryParameterString(
+															ParameterAccessor.PARAM_ISNULL,
+															URLEncoder
+																	.encode(
+																			key,
+																			ParameterAccessor.UTF_8_ENCODE ) ) );
+								}
+							}
 						}
 					}
 					catch ( UnsupportedEncodingException e )
