@@ -601,7 +601,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
-			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) )
+			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null )
 			{
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
@@ -688,7 +688,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			DimensionHandle dimHandle = (DimensionHandle)dimHandles.get( i );
 			List hiers = dimHandle.getContents( DimensionHandle.HIERARCHIES_PROP );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle)hiers.get( 0 );
-			if( !dsHandle.equals( hierHandle.getDataSet( ) ))
+			if( hierHandle.getDataSet( )!= null )
 				return false;
 		}
 		return true;
