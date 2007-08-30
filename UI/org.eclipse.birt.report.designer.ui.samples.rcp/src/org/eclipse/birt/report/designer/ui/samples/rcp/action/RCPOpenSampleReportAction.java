@@ -19,27 +19,32 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class RCPOpenSampleReportAction extends Action implements
-		IOpenSampleReportAction
+		IOpenSampleReportAction,
+		Listener
 {
 
 	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
 
 	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
-	
+
 	private ReportExamples composite;
 
 	public RCPOpenSampleReportAction( )
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.rcp" ) );
+		setEnabled( false );
 	}
 
 	public void setMainComposite( ReportExamples composite )
 	{
 		this.composite = composite;
+		composite.addSelectedListener( this );
 	}
 
 	public void run( )
@@ -65,7 +70,7 @@ public class RCPOpenSampleReportAction extends Action implements
 					getDefaultLocation( ),
 					item.getText( ) );
 		}
-		
+
 		/*
 		 * Copy the inluded libraries if selecting sample report demostrate
 		 * report library feature
@@ -91,5 +96,19 @@ public class RCPOpenSampleReportAction extends Action implements
 	{
 		IPath defaultPath = Platform.getLocation( );
 		return defaultPath.toOSString( );
+	}
+
+	public void handleEvent( Event event )
+	{
+		if ( event.widget == null || !( event.widget instanceof TreeItem ) )
+			setEnabled( false );
+		TreeItem item = (TreeItem) event.widget;
+		if ( item == null )
+			super.setEnabled( false );
+		Object selectedElement = item.getData( );
+		if ( selectedElement == null )
+			super.setEnabled( false );
+		else
+			super.setEnabled( selectedElement instanceof ReportDesignHandle );
 	}
 }

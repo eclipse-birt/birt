@@ -45,12 +45,14 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 public class IDEOpenSampleReportAction extends Action implements
-		IOpenSampleReportAction
+		IOpenSampleReportAction,Listener
 {
 
 	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
@@ -77,11 +79,13 @@ public class IDEOpenSampleReportAction extends Action implements
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.ide" ) );
+		setEnabled( false );		
 	}
 
 	public void setMainComposite( ReportExamples composite )
 	{
 		this.composite = composite;
+		composite.addSelectedListener( this );
 	}
 
 	public void run( )
@@ -429,5 +433,19 @@ public class IDEOpenSampleReportAction extends Action implements
 		IPath path = project.getFullPath( ).append( "src" );
 		entries[0] = JavaCore.newSourceEntry( path );
 		return entries;
+	}
+	
+	public void handleEvent( Event event )
+	{
+		if ( event.widget == null || !( event.widget instanceof TreeItem ) )
+			setEnabled( false );
+		TreeItem item = (TreeItem) event.widget;
+		if ( item == null )
+			super.setEnabled( false );
+		Object selectedElement = item.getData( );
+		if ( selectedElement == null )
+			super.setEnabled( false );
+		else
+			super.setEnabled( selectedElement instanceof ReportDesignHandle );
 	}
 }

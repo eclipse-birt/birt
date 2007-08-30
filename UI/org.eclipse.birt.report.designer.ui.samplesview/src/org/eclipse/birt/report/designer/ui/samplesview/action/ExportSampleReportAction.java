@@ -17,10 +17,12 @@ import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
-public class ExportSampleReportAction extends Action
+public class ExportSampleReportAction extends Action implements Listener
 {
 
 	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[]{
@@ -35,7 +37,9 @@ public class ExportSampleReportAction extends Action
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.exportSampleReport.toolTipText" ) );
+		setEnabled( false );
 		this.composite = composite;
+		composite.addSelectedListener( this );
 	}
 
 	public void run( )
@@ -60,5 +64,19 @@ public class ExportSampleReportAction extends Action
 				saveDialog.getFilterPath( ),
 				saveDialog.getFileName( ),
 				filename );
+	}
+
+	public void handleEvent( Event event )
+	{
+		if ( event.widget == null || !( event.widget instanceof TreeItem ) )
+			setEnabled( false );
+		TreeItem item = (TreeItem) event.widget;
+		if ( item == null )
+			super.setEnabled( false );
+		Object selectedElement = item.getData( );
+		if ( selectedElement == null )
+			super.setEnabled( false );
+		else
+			super.setEnabled( selectedElement instanceof ReportDesignHandle );
 	}
 }
