@@ -226,9 +226,10 @@ public class LibraryParseTest extends BaseTestCase
 		// get style from report design css style
 		assertEquals( "right", labelHandle2.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
 		// get style from theme style.
-		assertEquals( "left", labelHandle3.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+		
+		assertNull( labelHandle3.getStyle( ).getTextAlign( ) );
 		// get style from theme css style
-		assertEquals( "left", labelHandle4.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+		assertNull( labelHandle4.getStyle( ).getTextAlign( ) );
 
 		assertTrue( ( (Style) labelHandle3.getStyle( ).getElement( ) )
 				.getContainer( ) instanceof Theme );

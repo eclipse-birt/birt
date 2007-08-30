@@ -247,8 +247,7 @@ public class CellHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
 		cell = getCellInTableSlot( table, TableItem.DETAIL_SLOT, 0, 0 );
-		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_BASELINE, cell
-				.getProperty( Style.VERTICAL_ALIGN_PROP ) );
+		assertNull( cell.getProperty( Style.VERTICAL_ALIGN_PROP ) );
 	}
 
 	/**
