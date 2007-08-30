@@ -1384,7 +1384,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IDiskArray dimPosition, List filterList ) throws IOException,
 			DataException
 	{
-		IDiskArray result = dimPosition;
+		IDiskArray result = null;
 		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
 		for ( int i = 0; i < filterList.size( ); i++ )
 		{
@@ -1395,9 +1395,16 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					filter );
 			IDiskArray dimPositionArray = fetchDimPositions( dimValueArrayList,
 					filter );
-			result = getIntersection( result, dimPositionArray );
+			if ( result == null )
+			{
+				result = dimPositionArray;
+			}
+			else
+			{
+				result = getIntersection( result, dimPositionArray );
+			}
 		}
-		return result;
+		return result == null ? dimPosition : result;
 	}
 
 	/**
