@@ -424,7 +424,6 @@ dataset.editor.error.nonmatchedDataSource=Unmatched data source for data set "{0
 dataset.editor.error.noEditorsFound=未找到可用于数据集的编辑器 {0}。
 dataset.editor.error.noInputParameterDefaultValue=输入参数 {0} 应具有非空默认值。
 dataset.editor.error.title=警告
-dataset.editor.warning.correctParameter=BIRT 尝试更新不正确的数据集参数。
 dataset.editor.error.unsupportedDataSet=不支持的数据集类型 - {0}。
 dataset.editor.error.validationParameter=输入参数 [{0}] 具有空值。是否要保留为空?
 dataset.editor.filters=筛选器
@@ -545,6 +544,7 @@ DataSetParameterPage.toolTipText.Edit=编辑参数
 DataSetParameterPage.toolTipText.Remove=删除参数
 DataSetParameterPage.toolTipText.Up=参数上移
 DataSetParameterPage.toolTipText.Down=参数下移
+DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
 
 ###########################################################
 #PropertyBindingpage properties
