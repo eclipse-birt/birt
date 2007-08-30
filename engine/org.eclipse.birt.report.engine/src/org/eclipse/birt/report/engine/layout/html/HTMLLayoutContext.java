@@ -42,6 +42,18 @@ public class HTMLLayoutContext
 	
 	protected IPageBuffer bufferMgr;
 	
+	protected boolean needLayoutPageContent = true;
+	
+	public void setLayoutPageContent(boolean needLayoutPageContent)
+	{
+		this.needLayoutPageContent = needLayoutPageContent;
+	}
+	
+	public boolean needLayoutPageContent()
+	{
+		return needLayoutPageContent;
+	}
+	
 	public HTMLReportLayoutEngine getLayoutEngine()
 	{
 		return engine;

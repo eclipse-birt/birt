@@ -71,7 +71,7 @@ import com.ibm.icu.util.ULocale;
  */
 public abstract class EngineTask implements IEngineTask
 {
-
+	public final static String TASK_TYPE = "task_type";
 	protected static int id = 0;
 
 	protected String pagination;
@@ -1137,6 +1137,7 @@ public abstract class EngineTask implements IEngineTask
 						outputDisplayNone );
 			}
 		}
+		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;
 	}
 

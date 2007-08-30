@@ -20,10 +20,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -180,6 +182,7 @@ public class ReportDocumentBuilder
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory
 				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
+		engine.setOption( EngineTask.TASK_TYPE,  new Integer(IEngineTask.TASK_RUN));
 		engine.setPageHandler( layoutPageHandler );
 		IReportContent report = executor.execute( );
 		outputEmitters.start( report );
