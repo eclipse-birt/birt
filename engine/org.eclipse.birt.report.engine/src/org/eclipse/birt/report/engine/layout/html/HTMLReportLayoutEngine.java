@@ -14,7 +14,9 @@ package org.eclipse.birt.report.engine.layout.html;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -155,6 +157,17 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 				context.setOutputDisplayNone( true );
 			}
 		}
+		
+		Object taskType = options.get( EngineTask.TASK_TYPE );
+		if ( taskType instanceof Integer )
+		{
+			int type = ( (Integer) taskType ).intValue( );
+			if ( type == IEngineTask.TASK_RUN )
+			{
+				context.setLayoutPageContent( false );
+			}
+		}
+		
 	}
 
 	public void setPageHandler( ILayoutPageHandler handler )
