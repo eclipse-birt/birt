@@ -67,6 +67,12 @@ Contribute_Samples=Bugzilla のエントリは、https://bugs.eclipse.org/bugs/enter_bu
 #Dynamic Map Rule
 DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
 
+#Group Spearator
+GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+
+#Retrieve Session Information
+Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=ここでは、BIRT のスクリプト機能について、シンプルなレポートを使って説明します。ほとんどのサンプルレポートは、スクリプトを使用する前と後の状態でダウンロードでき、Flash 形式で見ることもできます。エクスポートした Java オブジェクトをレポートにロードして使用するには、このサンプルレポートを開いた後で BIRT を再起動してください。  
 
