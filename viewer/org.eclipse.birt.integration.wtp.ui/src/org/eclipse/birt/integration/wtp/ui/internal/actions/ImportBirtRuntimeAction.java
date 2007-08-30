@@ -299,6 +299,12 @@ public class ImportBirtRuntimeAction extends Action
 		WebArtifactUtil.configureServletMapping( (Map) properties
 				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
 
+		WebArtifactUtil.configureFilter( (Map) properties.get( EXT_FILTER ),
+				project, query, monitor );
+
+		WebArtifactUtil.configureFilterMapping( (Map) properties
+				.get( EXT_FILTER_MAPPING ), project, query, monitor );
+
 		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
 				project, query, monitor );
 	}

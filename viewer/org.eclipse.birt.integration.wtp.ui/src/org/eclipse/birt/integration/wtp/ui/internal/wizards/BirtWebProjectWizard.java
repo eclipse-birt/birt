@@ -208,8 +208,8 @@ public class BirtWebProjectWizard extends WebProjectWizard
 
 		// configure WebArtifact
 		WebArtifactUtil.configureWebApp( (WebAppBean) properties
-				.get( EXT_WEBAPP ), project, query, monitor );		
-		
+				.get( EXT_WEBAPP ), project, query, monitor );
+
 		WebArtifactUtil.configureContextParam( (Map) properties
 				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
 
@@ -221,6 +221,12 @@ public class BirtWebProjectWizard extends WebProjectWizard
 
 		WebArtifactUtil.configureServletMapping( (Map) properties
 				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
+
+		WebArtifactUtil.configureFilter( (Map) properties.get( EXT_FILTER ),
+				project, query, monitor );
+
+		WebArtifactUtil.configureFilterMapping( (Map) properties
+				.get( EXT_FILTER_MAPPING ), project, query, monitor );
 
 		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
 				project, query, monitor );

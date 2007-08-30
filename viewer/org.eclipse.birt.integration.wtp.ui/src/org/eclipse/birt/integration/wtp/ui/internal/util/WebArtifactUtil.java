@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ContextParamBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterMappingBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ListenerBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletMappingBean;
@@ -35,6 +37,8 @@ import org.eclipse.jst.j2ee.jsp.JspFactory;
 import org.eclipse.jst.j2ee.jsp.TagLibRefType;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.jst.j2ee.webapplication.ContextParam;
+import org.eclipse.jst.j2ee.webapplication.Filter;
+import org.eclipse.jst.j2ee.webapplication.FilterMapping;
 import org.eclipse.jst.j2ee.webapplication.Servlet;
 import org.eclipse.jst.j2ee.webapplication.ServletMapping;
 import org.eclipse.jst.j2ee.webapplication.ServletType;
@@ -248,6 +252,218 @@ public class WebArtifactUtil implements IBirtWizardConstants
 	}
 
 	/**
+	 * Configure the filter settings
+	 * 
+	 * @param map
+	 * @param project
+	 * @param query
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	public static void configureFilter( Map map, IProject project,
+			IOverwriteQuery query, IProgressMonitor monitor )
+			throws CoreException
+	{
+		// cancel progress
+		if ( monitor.isCanceled( ) )
+			return;
+
+		if ( map == null || project == null )
+		{
+			return;
+		}
+
+		// create WebArtifact
+		WebArtifactEdit webEdit = WebArtifactEdit
+				.getWebArtifactEditForWrite( project );
+		if ( webEdit == null )
+			return;
+
+		try
+		{
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+
+			// handle filter settings
+			Iterator it = map.keySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				String name = DataUtil.getString( it.next( ), false );
+				FilterBean bean = (FilterBean) map.get( name );
+
+				if ( bean == null )
+					continue;
+
+				// if contained this filter
+				Object obj = webapp.getFilterNamed( name );
+				if ( obj != null )
+				{
+					String ret = query.queryOverwrite( "Filter '" + name + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+					// check overwrite query result
+					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
+					{
+						continue;
+					}
+					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
+					{
+						monitor.setCanceled( true );
+						return;
+					}
+
+					// remove old item
+					webapp.getFilters( ).remove( obj );
+				}
+
+				String className = bean.getClassName( );
+				String description = bean.getDescription( );
+
+				// create filter object
+				Filter filter = WebapplicationFactory.eINSTANCE.createFilter( );
+				filter.setName( name );
+				filter.setFilterClassName( className );
+				filter.setDescription( description );
+
+				webapp.getFilters( ).add( filter );
+			}
+
+			webEdit.saveIfNecessary( monitor );
+		}
+		finally
+		{
+			webEdit.dispose( );
+		}
+	}
+
+	/**
+	 * Configure the filter-mapping settings
+	 * 
+	 * @param map
+	 * @param project
+	 * @param query
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	public static void configureFilterMapping( Map map, IProject project,
+			IOverwriteQuery query, IProgressMonitor monitor )
+			throws CoreException
+	{
+		// cancel progress
+		if ( monitor.isCanceled( ) )
+			return;
+
+		if ( map == null || project == null )
+		{
+			return;
+		}
+
+		// create WebArtifact
+		WebArtifactEdit webEdit = WebArtifactEdit
+				.getWebArtifactEditForWrite( project );
+		if ( webEdit == null )
+			return;
+
+		try
+		{
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+
+			// handle filter-mapping settings
+			Iterator it = map.keySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				String key = DataUtil.getString( it.next( ), false );
+				FilterMappingBean bean = (FilterMappingBean) map.get( key );
+
+				if ( bean == null )
+					continue;
+
+				// if contained this filter-mapping
+				Object obj = getFilterMappingByKey(
+						webapp.getFilterMappings( ), key );
+				if ( obj != null )
+				{
+					String ret = query
+							.queryOverwrite( "Filter-mapping '" + key + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+					// check overwrite query result
+					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
+					{
+						continue;
+					}
+					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
+					{
+						monitor.setCanceled( true );
+						return;
+					}
+
+					// remove old item
+					webapp.getFilterMappings( ).remove( obj );
+				}
+
+				// filter name
+				String name = bean.getName( );
+
+				// create FilterMapping object
+				FilterMapping mapping = WebapplicationFactory.eINSTANCE
+						.createFilterMapping( );
+
+				// get filter by name
+				Filter filter = webapp.getFilterNamed( name );
+				if ( filter != null )
+				{
+					mapping.setFilter( filter );
+					mapping.setUrlPattern( bean.getUri( ) );
+					mapping.setServletName( bean.getServletName( ) );
+
+					// get Servlet object
+					Servlet servlet = webapp.getServletNamed( bean
+							.getServletName( ) );
+					mapping.setServlet( servlet );
+
+					if ( bean.getUri( ) != null || servlet != null )
+						webapp.getFilterMappings( ).add( mapping );
+				}
+			}
+
+			webEdit.saveIfNecessary( monitor );
+		}
+		finally
+		{
+			webEdit.dispose( );
+		}
+	}
+
+	/**
+	 * get filter-mapping from list by key String
+	 * 
+	 * @param list
+	 * @param name
+	 * @return
+	 */
+	public static Object getFilterMappingByKey( List list, String key )
+	{
+		if ( list == null || key == null )
+			return null;
+
+		Iterator it = list.iterator( );
+		while ( it.hasNext( ) )
+		{
+			// get filter-mapping object
+			FilterMapping filterMapping = (FilterMapping) it.next( );
+			if ( filterMapping != null )
+			{
+				String name = filterMapping.getFilter( ).getName( );
+				String servletName = filterMapping.getServletName( );
+				String uri = filterMapping.getUrlPattern( );
+				String curKey = getFilterMappingString( name, servletName, uri );
+				if ( key.equals( curKey ) )
+					return filterMapping;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Configure the listener settings
 	 * 
 	 * @param map
@@ -385,7 +601,7 @@ public class WebArtifactUtil implements IBirtWizardConstants
 					continue;
 
 				// if contained this servlet
-				Object obj = getServletByName( webapp.getServlets( ), name );
+				Object obj = webapp.getServletNamed( name );
 				if ( obj != null )
 				{
 					String ret = query
@@ -432,32 +648,6 @@ public class WebArtifactUtil implements IBirtWizardConstants
 		{
 			webEdit.dispose( );
 		}
-	}
-
-	/**
-	 * get servlet from list by name
-	 * 
-	 * @param list
-	 * @param name
-	 * @return
-	 */
-	public static Object getServletByName( List list, String name )
-	{
-		if ( list == null || name == null )
-			return null;
-
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
-			// get servlet object
-			Servlet servlet = (Servlet) it.next( );
-			if ( servlet != null && name.equals( servlet.getServletName( ) ) )
-			{
-				return servlet;
-			}
-		}
-
-		return null;
 	}
 
 	/**
@@ -890,5 +1080,21 @@ public class WebArtifactUtil implements IBirtWizardConstants
 				son.put( name, bean );
 			}
 		}
+	}
+
+	/**
+	 * Returns the filter-mapping string
+	 * 
+	 * @param name
+	 * @param servletName
+	 * @param uri
+	 * @return
+	 */
+	public static String getFilterMappingString( String name,
+			String servletName, String uri )
+	{
+		return ( name != null ? name : "" ) //$NON-NLS-1$
+				+ ( servletName != null ? servletName : "" ) //$NON-NLS-1$
+				+ ( uri != null ? uri : "" ); //$NON-NLS-1$
 	}
 }

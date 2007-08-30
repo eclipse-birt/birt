@@ -70,15 +70,6 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response ) throws BirtException
 	{
-		try
-		{
-			request.setCharacterEncoding( ParameterAccessor.UTF_8_ENCODE );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			e.printStackTrace( );
-		}
-
 		BirtReportServiceFactory.getReportService( ).setContext(
 				getServletContext( ), null );
 		return new BirtContext( request, response );
