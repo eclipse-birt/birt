@@ -46,6 +46,7 @@ import org.eclipse.birt.report.data.adapter.group.ICalculator;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -116,18 +117,52 @@ public class DataSetIterator implements IDatasetIterator
 		QueryDefinition query = new QueryDefinition( );
 		query.setUsesDetails( false );
 		
-		query.setDataSetName( hierHandle.getDataSet( ).getQualifiedName( ) );
+		query.setDataSetName( getDataSet ( hierHandle ) );
 
 		List metaList = new ArrayList( );
 		this.prepareLevels( query,
 				hierHandle, metaList, null );
 		
-		popualteFilter( session, hierHandle.filtersIterator( ), query );
+		popualteFilter( session, getFilterIterator( hierHandle ), query );
 		executeQuery( session, query, appContext );
 		
 		this.metadata = new ResultMeta( metaList );
 	}
 
+	private String getDataSet( TabularHierarchyHandle handle )
+	{
+		if ( handle.getDataSet( )!= null )
+			return handle.getDataSet( ).getQualifiedName( );
+		else
+		{
+			TabularCubeHandle cubeHandle = this.acquireContainerCube( handle );
+			if( cubeHandle!= null )
+				return cubeHandle.getDataSet( ).getQualifiedName( ); 
+		}
+		return null;
+	}
+	
+	private Iterator getFilterIterator( TabularHierarchyHandle handle )
+	{
+		if ( handle.getDataSet( )!= null )
+			return handle.filtersIterator( );
+		else
+		{
+			TabularCubeHandle cubeHandle = this.acquireContainerCube( handle );
+			if( cubeHandle!= null )
+				return cubeHandle.filtersIterator( );
+		}
+		return new ArrayList().iterator( );
+	}
+	
+	private TabularCubeHandle acquireContainerCube( TabularHierarchyHandle hierHandle )
+	{
+		DesignElementHandle handle = hierHandle.getContainer( ).getContainer( );
+		if( handle == null || !(handle instanceof TabularCubeHandle))
+			return null;
+		return (TabularCubeHandle)handle;
+	}
+	
 	private void executeQuery( DataRequestSessionImpl session, QueryDefinition query, Map appContext )
 			throws AdapterException
 	{
