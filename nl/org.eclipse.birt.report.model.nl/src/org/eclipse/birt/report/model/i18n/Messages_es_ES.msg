@@ -401,7 +401,7 @@ Choices.filterOperator.bottom-percent=Porcentaje inferior
 Choices.filterOperator.any=Cualquiera
 Choices.filterOperator.match=Coincidencia
 Choices.filterOperator.not-match=No coincide
-Choices.filterOperator.in=In
+Choices.filterOperator.in=En
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=Cambiar
@@ -626,7 +626,7 @@ Choices.dateTimeLevelType.second=Segundo
 
 #76. scalarParamType
 Choices.scalarParamType.simple=Simple
-Choices.scalarParamType.multi-value=Multi Value
+Choices.scalarParamType.multi-value=Valor múltiple
 Choices.scalarParamType.ad-hoc=Ad-hoc
     
 ###########################################################
@@ -2347,9 +2347,9 @@ Element.Parameter.validate=Validación
 Element.Parameter.validate.toolTip=Devuelve "True" o "False" para la validación personalizada del parámetro
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Value type
+Element.ScalarParameter.valueType=Tipo de valor
 Element.ScalarParameter.dataType=Tipo de datos
-Element.ScalarParameter.paramType=Scalar parameter type
+Element.ScalarParameter.paramType=Tipo de parámetro de escala
 Element.ScalarParameter.displayPrompt=Mostrar solicitud
 Element.ScalarParameter.concealValue=Ocultar valor
 Element.ScalarParameter.isRequired=Es necesario
@@ -2870,7 +2870,7 @@ Element.Listing.sorting=Ordenar
 Element.Listing.filter=Filtrar
 Element.Listing.repeatHeader=Repetir encabezado
 Element.Listing.pageBreakInterval=Intervalo de salto de página
-Element.Listing.sortByGroups=Sort By Groups
+Element.Listing.sortByGroups=Ordenar por grupos
 Element.Listing.onStart=En inicio
 Element.Listing.onStart.toolTip=Llamado después de abrir el conjunto de datos pero antes de crear la banda de encabezado y antes de recuperar la primera fila del conjunto de datos para este elemento
 Element.Listing.onRow=En fila
@@ -3322,7 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN="{0}" es un elemento secundari
 Error.ContentException.CONTENT_NAME_REQUIRED=No se permite añadir {0} en el slot {2} de {1} porque no tiene nombre.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=El valor {0} no tiene una definición de parámetro de plantilla explícita, de forma que no puede insertarse en el slot ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=No se permite transformar el elemento a una plantilla.
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=El elemento "{0}" tiene elementos de informe para compartir y no puede añadir, eliminar o mover sus grupos.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.
@@ -3439,7 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=Está prohibida la operación cambiar en e
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación insertar y pegar en el elemento "{0}".
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
-Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=La referencia de enlace de datos del elemento {0} tiene un número diferente de grupos con el elemento {1} al que hace referencia.
 
 #StyleException
 Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.

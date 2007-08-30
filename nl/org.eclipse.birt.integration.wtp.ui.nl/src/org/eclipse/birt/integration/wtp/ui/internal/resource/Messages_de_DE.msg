@@ -56,11 +56,11 @@ BIRTConfiguration_log_dialog_message=Wählen Sie den Standard-Protokollordner:
 BIRTConfiguration_report_access_message=&Nur auf den Bericht und das Dokument im Arbeitsordner zugreifen
 BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschreiben
 
-BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
-BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
-BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
+BIRTConfiguration_maxrows_label=Maximale &Datensatzzeilen:
+BIRTConfiguration_maxlevels_label=&Maximale Abrufebenen für Quader:
+BIRTConfiguration_cubememsize_label=&Maximale Speichergröße zum Erstellen von Quadern:
 
-BIRTConfiguration_loglevel_label=S&elect Log Level:
+BIRTConfiguration_loglevel_label=&Protokollebene auswählen:
 BIRTConfiguration_loglevel_all=ALLE
 BIRTConfiguration_loglevel_severe=SCHWER
 BIRTConfiguration_loglevel_warning=WARNUNG
@@ -71,7 +71,7 @@ BIRTConfiguration_loglevel_finer=FEINER
 BIRTConfiguration_loglevel_finest=SEHR FEIN
 BIRTConfiguration_loglevel_off=AUS
 
-BIRTConfiguration_printserver_label=&Print report on the server side:
+BIRTConfiguration_printserver_label=&Bericht auf Server drucken:
 
 BIRTConfiguration_import_clear_message=&Alte BIRT Runtime-Dateien löschen.
 

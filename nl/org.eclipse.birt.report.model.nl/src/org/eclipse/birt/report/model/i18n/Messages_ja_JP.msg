@@ -401,7 +401,7 @@ Choices.filterOperator.bottom-percent=‰ºˆÊ %
 Choices.filterOperator.any=”CˆÓ
 Choices.filterOperator.match=ŒŸõğŒ
 Choices.filterOperator.not-match=Ÿ‚Ì’l‚Éˆê’v‚µ‚È‚¢
-Choices.filterOperator.in=In
+Choices.filterOperator.in=ŠÜ‚Ü‚ê‚é
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=•ÏX
@@ -625,9 +625,9 @@ Choices.dateTimeLevelType.minute=•ª
 Choices.dateTimeLevelType.second=•b
 
 #76. scalarParamType
-Choices.scalarParamType.simple=Simple
-Choices.scalarParamType.multi-value=Multi Value
-Choices.scalarParamType.ad-hoc=Ad-hoc
+Choices.scalarParamType.simple=ŠÈˆÕ
+Choices.scalarParamType.multi-value=•¡”‚Ì’l
+Choices.scalarParamType.ad-hoc=ƒAƒhƒzƒbƒN
     
 ###########################################################
 # Classes
@@ -2347,9 +2347,9 @@ Element.Parameter.validate=ŒŸØ
 Element.Parameter.validate.toolTip=ƒpƒ‰ƒƒ^‚ÌƒJƒXƒ^ƒ€ŒŸØ‚ğs‚¢Atrue ‚Ü‚½‚Í false ‚ğ•Ô‚µ‚Ü‚·B
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Value type
+Element.ScalarParameter.valueType=’l‚ÌŒ^
 Element.ScalarParameter.dataType=ƒf[ƒ^Œ^
-Element.ScalarParameter.paramType=Scalar parameter type
+Element.ScalarParameter.paramType=ƒXƒJƒ‰[ƒpƒ‰ƒƒ^‚ÌŒ^
 Element.ScalarParameter.displayPrompt=ƒvƒƒ“ƒvƒg‚Ì•\¦
 Element.ScalarParameter.concealValue=’l‚ğ‰B‚·
 Element.ScalarParameter.isRequired=•K{
@@ -2870,7 +2870,7 @@ Element.Listing.sorting=ƒ\[ƒg
 Element.Listing.filter=ƒtƒBƒ‹ƒ^
 Element.Listing.repeatHeader=ƒwƒbƒ_‚ÌŒJ‚è•Ô‚µ
 Element.Listing.pageBreakInterval=‰üƒy[ƒW‚ÌŠÔŠu
-Element.Listing.sortByGroups=Sort By Groups
+Element.Listing.sortByGroups=ƒOƒ‹[ƒv‚ğŠî€‚Éƒ\[ƒg
 Element.Listing.onStart=ŠJn
 Element.Listing.onStart.toolTip=ƒf[ƒ^ƒZƒbƒg‚ğŠJ‚¢‚½Œã‚ÅAƒwƒbƒ_ƒoƒ“ƒh‚Ìì¬‘OA‚¨‚æ‚Ñ‚±‚Ì—v‘f‚Ìƒf[ƒ^ƒZƒbƒg‚©‚çÅ‰‚Ìs‚ªæ“¾‚³‚ê‚é‘O‚ÉŒÄ‚Ño‚³‚ê‚Ü‚· 
 Element.Listing.onRow=s‚²‚Æ
@@ -3322,7 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=—v‘f "{0}" ‚ÍAq—v‘f‚Ü‚½‚Í‰¼‘
 Error.ContentException.CONTENT_NAME_REQUIRED={0} ‚É‚Í–¼‘O‚ª•t‚¢‚Ä‚¢‚È‚¢‚½‚ßA{1} ‚ÌƒXƒƒbƒg {2} ‚É’Ç‰Á‚Å‚«‚Ü‚¹‚ñB
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} ‚É‚Íƒeƒ“ƒvƒŒ[ƒg‚Ìƒpƒ‰ƒƒ^‚ª–¾¦“I‚É’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA{1} ‚ÌƒXƒƒbƒg ({2}) ‚É‘}“ü‚Å‚«‚Ü‚¹‚ñB
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=‚±‚Ì—v‘f‚Íƒeƒ“ƒvƒŒ[ƒg‚É•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=—v‘f "{0}" ‚É‚Í‹¤—L‚ÌƒŒƒ|[ƒg€–Ú‚ª‚ ‚é‚½‚ßAƒOƒ‹[ƒv‚Ì’Ç‰ÁAíœAˆÚ“®‚Ís‚¦‚Ü‚¹‚ñB
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=•ÏŠ·î•ñ‚ÌƒŠƒ\[ƒXƒL[‚ª•K—v‚Å‚·B
@@ -3439,7 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=—v‘f "{0}" ‚ğƒVƒtƒg‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=—v‘f "{0}" ‚Ì‘}“ü‚â“\‚è•t‚¯‚Í‚Å‚«‚Ü‚¹‚ñB
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=—v‘f‚ÌQÆ‚ªzŠÂ‚µ‚Ä‚¢‚Ü‚·B{0} ‚ÍA‚·‚Å‚É {1} ‚ğQÆ‚µ‚Ä‚¢‚Ü‚·B
-Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=—v‘f {0} ‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ÌQÆ‚É‚ÍA‚»‚ÌQÆæ‚Ì—v‘f {1} ‚Æ‚ÍˆÙ‚È‚é”‚ÌƒOƒ‹[ƒv‚ª‚ ‚è‚Ü‚·B
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} ‚É‚ÍƒXƒ^ƒCƒ‹‚ğ“K—p‚Å‚«‚Ü‚¹‚ñB

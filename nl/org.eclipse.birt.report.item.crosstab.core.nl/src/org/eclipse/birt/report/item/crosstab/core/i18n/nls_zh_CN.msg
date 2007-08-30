@@ -41,11 +41,11 @@ CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
 CrosstabReportItemQuery.error.register.empty.cell.value=注册空单元格值时出错。
 
-CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure defintion or the specific measure "{0}" doest not exist in associated cube.
-CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
-CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
-CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension defintion or the specific dimension "{0}" doest not exist in associated cube.
-CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level defintion or the specific level "{0}" doest not exist in associated cube.
+CrosstabQueryHelper.error.invalid.measure=交叉表包含空度量定义，或者特定度量“{0}”在关联的多维数据集内不存在。
+CrosstabQueryHelper.error.invalid.dimension.row=交叉表行区域包含空维定义，或者特定维“{0}”在关联的多维数据集内不存在。
+CrosstabQueryHelper.error.invalid.level.row=交叉表行区域包含空级别定义，或者特定级别“{0}”在关联的多维数据集内不存在。
+CrosstabQueryHelper.error.invalid.dimension.column=交叉表列区域包含空维定义，或者特定维“{0}”在关联的多维数据集内不存在。
+CrosstabQueryHelper.error.invalid.level.column=交叉表列区域包含空级别定义，或者特定级别“{0}”在关联的多维数据集内不存在。
 
 BaseCrosstabExecutor.error.process.visibility=处理可见性时出错。
 BaseCrosstabExecutor.error.process.bookmark=处理书签时出错。

@@ -625,9 +625,9 @@ Choices.dateTimeLevelType.minute=Minute
 Choices.dateTimeLevelType.second=Sekunde
 
 #76. scalarParamType
-Choices.scalarParamType.simple=Simple
-Choices.scalarParamType.multi-value=Multi Value
-Choices.scalarParamType.ad-hoc=Ad-hoc
+Choices.scalarParamType.simple=Einfach
+Choices.scalarParamType.multi-value=Mehrere Werte
+Choices.scalarParamType.ad-hoc=Adhoc
     
 ###########################################################
 # Classes
@@ -2347,9 +2347,9 @@ Element.Parameter.validate=Validierung
 Element.Parameter.validate.toolTip=Gibt "True" oder "False" für die benutzerdefinierte Validierung des Parameters zurück
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Value type
+Element.ScalarParameter.valueType=Werttyp
 Element.ScalarParameter.dataType=Datentyp
-Element.ScalarParameter.paramType=Scalar parameter type
+Element.ScalarParameter.paramType=Skalarparametertyp
 Element.ScalarParameter.displayPrompt=Anzeige-Aufforderung
 Element.ScalarParameter.concealValue=Wert verbergen
 Element.ScalarParameter.isRequired=Erforderlich
@@ -2870,7 +2870,7 @@ Element.Listing.sorting=Sortierung
 Element.Listing.filter=Filter
 Element.Listing.repeatHeader=Kopfzeile wiederholen
 Element.Listing.pageBreakInterval=Intervall für Seitenumbruch
-Element.Listing.sortByGroups=Sort By Groups
+Element.Listing.sortByGroups=Nach Gruppen sortieren
 Element.Listing.onStart=Beim Starten
 Element.Listing.onStart.toolTip=Wird nach dem Öffnen des Datensatzes, aber vor Erstellen der Kopfzeile aufgerufen, jedoch bevor die erste Zeile aus dem Datensatz für dieses Element abgerufen wird
 Element.Listing.onRow=Bei Zeile
@@ -3322,7 +3322,7 @@ Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=Die Struktur von Element "{0}"
 Error.ContentException.CONTENT_NAME_REQUIRED={0} hat keinen Namen und darf Feld {2} von {1} daher nicht hinzugefügt werden.
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite Definition für Vorlagenparameter. Es kann daher nicht in Feld ({2}) von {1} eingefügt werden.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element "{0}" has report item sharing, can not add, remove or move its groups.
+Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.
@@ -3439,7 +3439,7 @@ Error.SemanticError.ROW_SHIFT_FORBIDDEN=Das Verschieben beim Element "{0}" ist u
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
-Error.SemanticError.INCONSISTENT_DATA_GROUP=The data binding reference of the element {0} has different number of groups with element {1} it refers to.
+Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.

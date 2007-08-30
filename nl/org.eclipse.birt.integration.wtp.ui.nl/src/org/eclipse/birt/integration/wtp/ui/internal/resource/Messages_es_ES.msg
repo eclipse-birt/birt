@@ -56,11 +56,11 @@ BIRTConfiguration_log_dialog_message=Seleccione la carpeta de registro predeterm
 BIRTConfiguration_report_access_message=Acceder sól&o al informe y documento de la carpeta de trabajo
 BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de documento generado
 
-BIRTConfiguration_maxrows_label=Da&taSet Max Rows:
-BIRTConfiguration_maxlevels_label=&Max cube fetching levels:
-BIRTConfiguration_cubememsize_label=Ma&x memory size for creating cube:
+BIRTConfiguration_maxrows_label=Número máximo de filas del conjunto de da&tos:
+BIRTConfiguration_maxlevels_label=&Niveles de recuperación del cubo máximos:
+BIRTConfiguration_cubememsize_label=Tamaño de memoria má&ximo para crear el cubo:
 
-BIRTConfiguration_loglevel_label=S&elect Log Level:
+BIRTConfiguration_loglevel_label=S&eleccionar nivel de registro:
 BIRTConfiguration_loglevel_all=TODOS
 BIRTConfiguration_loglevel_severe=GRAVE
 BIRTConfiguration_loglevel_warning=ADVERTENCIA
@@ -71,7 +71,7 @@ BIRTConfiguration_loglevel_finer=MEJOR
 BIRTConfiguration_loglevel_finest=ÓPTIMO
 BIRTConfiguration_loglevel_off=DESACTIVAR
 
-BIRTConfiguration_printserver_label=&Print report on the server side:
+BIRTConfiguration_printserver_label=&Imprimir informe en el servidor:
 
 BIRTConfiguration_import_clear_message=Eliminar los ar&chivos de tiempo de ejecución BIRT antiguos.
 
