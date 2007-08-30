@@ -267,6 +267,19 @@
 				value="true"
 				description="If force optimized HTML output.Default to true"/>
 			
+			<filter
+				name="ViewerFilter"
+				class="org.eclipse.birt.report.filter.ViewerFilter"
+				description="Filter to handle request object. Currently, set request character encoding to UTF-8."/>			
+
+			<filter-mapping
+				name="ViewerFilter"
+				servletName="ViewerServlet"/>	
+
+			<filter-mapping
+				name="ViewerFilter"
+				servletName="EngineServlet"/>	
+								
 			<listener class="org.eclipse.birt.report.listener.ViewerServletContextListener"/>
 			<listener class="org.eclipse.birt.report.listener.ViewerHttpSessionListener"/>
 			

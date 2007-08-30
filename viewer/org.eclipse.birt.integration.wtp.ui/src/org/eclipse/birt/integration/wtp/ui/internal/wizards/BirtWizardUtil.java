@@ -31,6 +31,8 @@ import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ContextParamBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterMappingBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ListenerBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletMappingBean;
@@ -426,6 +428,10 @@ public class BirtWizardUtil implements IBirtWizardConstants
 
 			IConfigurationElement[] contextParams = elements[i]
 					.getChildren( EXT_CONTEXT_PARAM );
+			IConfigurationElement[] filters = elements[i]
+					.getChildren( EXT_FILTER );
+			IConfigurationElement[] filterMappings = elements[i]
+					.getChildren( EXT_FILTER_MAPPING );
 			IConfigurationElement[] listeners = elements[i]
 					.getChildren( EXT_LISTENER );
 			IConfigurationElement[] servlets = elements[i]
@@ -460,6 +466,60 @@ public class BirtWizardUtil implements IBirtWizardConstants
 				}
 
 				map.put( EXT_CONTEXT_PARAM, son );
+			}
+
+			// filter
+			if ( filters != null )
+			{
+				Map son = (Map) map.get( EXT_FILTER );
+				if ( son == null )
+					son = new HashMap( );
+
+				for ( int j = 0; j < filters.length; j++ )
+				{
+					String name = filters[j].getAttribute( "name" ); //$NON-NLS-1$
+					String className = filters[j].getAttribute( "class" ); //$NON-NLS-1$
+					String description = filters[j]
+							.getAttribute( "description" ); //$NON-NLS-1$
+
+					// create filter bean
+					if ( name != null && className != null )
+					{
+						FilterBean bean = new FilterBean( name, className );
+						bean.setDescription( description );
+						son.put( name, bean );
+					}
+				}
+
+				map.put( EXT_FILTER, son );
+			}
+
+			// filter mapping
+			if ( filterMappings != null )
+			{
+				Map son = (Map) map.get( EXT_FILTER_MAPPING );
+				if ( son == null )
+					son = new HashMap( );
+
+				for ( int j = 0; j < filterMappings.length; j++ )
+				{
+					String name = filterMappings[j].getAttribute( "name" ); //$NON-NLS-1$
+					String servletName = filterMappings[j]
+							.getAttribute( "servletName" ); //$NON-NLS-1$
+					String uri = filterMappings[j].getAttribute( "uri" ); //$NON-NLS-1$
+
+					// create filter-mapping bean
+					if ( name != null )
+					{
+						FilterMappingBean bean = new FilterMappingBean( name,
+								servletName );
+						bean.setUri( uri );
+						son.put( WebArtifactUtil.getFilterMappingString( name,
+								servletName, uri ), bean );
+					}
+				}
+
+				map.put( EXT_FILTER_MAPPING, son );
 			}
 
 			// listener

@@ -145,14 +145,6 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected IContext __getContext( HttpServletRequest request,
 			HttpServletResponse response ) throws BirtException
 	{
-		try
-		{
-			request.setCharacterEncoding( ParameterAccessor.UTF_8_ENCODE );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			e.printStackTrace( );
-		}
 		BirtReportServiceFactory.getReportService( ).setContext(
 				getServletContext( ), null );
 		return new BirtContext( request, response );

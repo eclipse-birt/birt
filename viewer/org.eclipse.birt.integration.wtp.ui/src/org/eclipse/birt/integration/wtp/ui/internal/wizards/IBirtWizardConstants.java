@@ -61,6 +61,8 @@ public interface IBirtWizardConstants
 	// Extension Item
 	public final static String EXT_WEBAPP="webapp"; //$NON-NLS-1$
 	public final static String EXT_CONTEXT_PARAM="context-param"; //$NON-NLS-1$
+	public final static String EXT_FILTER="filter"; //$NON-NLS-1$
+	public final static String EXT_FILTER_MAPPING="filter-mapping"; //$NON-NLS-1$
 	public final static String EXT_LISTENER="listener"; //$NON-NLS-1$
 	public final static String EXT_SERVLET="servlet"; //$NON-NLS-1$
 	public final static String EXT_SERVLET_MAPPING="servlet-mapping";  //$NON-NLS-1$

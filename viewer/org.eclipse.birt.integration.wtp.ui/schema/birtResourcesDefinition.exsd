@@ -57,6 +57,8 @@
       <complexType>
          <sequence>
             <element ref="context-param" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="filter" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="filter-mapping" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="listener" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="servlet" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="servlet-mapping" minOccurs="0" maxOccurs="unbounded"/>
@@ -101,6 +103,58 @@
             </annotation>
          </attribute>
          <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filter">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filter-mapping">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="servletName" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="uri" type="string">
             <annotation>
                <documentation>
                   
