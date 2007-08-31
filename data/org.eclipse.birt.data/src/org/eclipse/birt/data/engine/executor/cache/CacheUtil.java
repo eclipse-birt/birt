@@ -61,9 +61,9 @@ public class CacheUtil
 	 */
 	public static int computeMemoryBufferSize( Map appContext )
 	{
-		//here a simple assumption, that 1M memory can accomondate 2000 rows
+		//here a simple assumption, that 1M memory can accommodate 2000 rows
 		if ( appContext == null )
-			return 10*1024*1024;
+			return 10*1024*1024*8;
 		if ( appContext.get( TEST_MEM_BUFFER_SIZE )!= null )
 		{
 			//For unit test.The unit is 1 byte.
@@ -71,7 +71,7 @@ public class CacheUtil
 		}
 		
 		//The unit is 1M.
-		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
+		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024 * 8;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class CacheUtil
 	private static int populateMemBufferSize( Object propValue )
 	{
 		String targetBufferSize =  propValue == null
-				? "1" : propValue
+				? "10" : propValue
 						.toString( );
 		
 		int memoryCacheSize = 10; 
