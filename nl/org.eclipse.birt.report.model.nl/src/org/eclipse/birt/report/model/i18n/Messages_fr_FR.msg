@@ -3244,6 +3244,7 @@ Message.RemoveItem=Supprimer l'élément
 Message.ReplaceElement=Remplacer l'élément
 Message.TransformTemplate=Transformer le modèle
 Message.SetTheme=Définir le thème
+Message.ChangePropertyEncryption=Change encryption for property:{0}
 
 ###########################################################
 #Element new names.
@@ -3547,3 +3548,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
+
+#EncryptionException
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
+Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
