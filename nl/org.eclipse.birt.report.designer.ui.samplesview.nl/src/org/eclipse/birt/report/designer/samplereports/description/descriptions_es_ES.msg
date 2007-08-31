@@ -27,6 +27,7 @@ CustomerOrdersFinal=En este ejemplo se muestra cómo se puede crear un diagrama d
 cascade=En este ejemplo se muestra cómo compilar un informe BIRT que utiliza un grupo de parámetros en cascada. Un grupo de parámetros en cascada permite vincular entre sí un grupo de parámetros en el que, al seleccionar un valor para el primer parámetro, se afecta a las opciones disponibles en los siguientes parámetros. Los parámetros en cascada pueden vincularse a uno o más conjuntos de datos. Los conjuntos de datos completan cada nivel de la cascada. Esto, combinado con parámetros de conjuntos de datos, ofrece muy buena flexibilidad para descartar datos devueltos de un informe.
 
 #Drill to details
+MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
 OrderMasterAfter=En este ejemplo se muestra la compilación de un informe principal y un informe detallado. La lista de informes principales solicita y permite al usuario del informe hacer clic en un número de pedido particular para acceder al informe detallado del pedido seleccionado. En este ejemplo se ilustra el uso de un parámetro sencillo para descartar resultados del informe detallado y la propiedad de hyperlink dentro del informe principal para pasar este parámetro al informe detallado. La propiedad de hyperlink dentro del informe principal se genera dinámicamente basándose en resultados obtenidos de una consulta.
 OrderDetailAfter=El informe detallado al que se accede al hacer clic en el informe principal.
 

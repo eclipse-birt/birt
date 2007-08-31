@@ -27,6 +27,7 @@ CustomerOrdersFinal=Cet exemple explique comment créer un graphique de combinais
 cascade=Cet exemple décrit comment créer un état BIRT avec un groupe de paramètres en cascade. Ce type de groupe permet de lier un groupe de paramètres de sorte que la valeur sélectionnée pour le premier paramètre affecte les choix disponibles pour les paramètres suivants. Il est possible de lier les paramètres en cascade à un ou plusieurs jeux de données. Ces derniers peuvent être utilisés à tous les niveaux du groupe. Combinée avec les paramètres des jeux de données, cette fonctionnalité est une solution particulièrement pratique pour récupérer les données renvoyées d'un état.
 
 #Drill to details
+MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
 OrderMasterAfter=Cet exemple illustre la création d'un état principal et d'un état détaillé. L'état principal répertorie les commandes et permet à l'utilisateur de cliquer sur un numéro de commande afin d'explorer les détails de celle-ci. Cet exemple décrit comment utiliser un paramètre simple pour rassembler les résultats dans l'état détaillé et comment utiliser les propriétés des liens hypertexte dans l'état principal pour transmettre ce paramètre à l'état détaillé. Les propriétés des hyperliens de l'état principal sont générées dynamiquement en fonction des résultats renvoyés par une requête.
 OrderDetailAfter=L'état détaillé accessible en cliquant sur l'état principal.
 

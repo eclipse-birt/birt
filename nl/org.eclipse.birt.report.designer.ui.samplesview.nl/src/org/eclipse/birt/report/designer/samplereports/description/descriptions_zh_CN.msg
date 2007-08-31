@@ -27,6 +27,7 @@ CustomerOrdersFinal=本示例示范如何在 BIRT 内创建“组合图”。此外，本示例还说明如
 cascade=本示例示范如何生成 BIRT 报表使用层叠参数组。层叠参数组允许一组参数交互链接，其中第一个参数值的选择会影响到随后参数的选择。层叠参数可与一个或多个数据集连接。数据集将填充各个层叠层。通过与数据集参数组合，将为报表返回数据的筛选提供极大灵活性。
 
 #Drill to details
+MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
 OrderMasterAfter=本示例示范如何生成主报表和详细报表。主报表列出所有订单并允许订单用户单击特定订单号追溯选定订单的详细报表。本示例说明如何使用简单参数对详细报表中的结果进行筛选，以及如何使用主报表内的超级链接属性将此参数传输到详细报表。主报表内的超级链接基于查询检索的结果而动态生成。
 OrderDetailAfter=详细报表通过单击主报表进行追溯。
 
