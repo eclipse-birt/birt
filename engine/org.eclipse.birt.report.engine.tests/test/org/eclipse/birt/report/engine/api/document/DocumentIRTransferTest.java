@@ -50,8 +50,9 @@ public class DocumentIRTransferTest extends EngineCase
 	final String REPORT_DOCUMENT_V2_1_3 = "org/eclipse/birt/report/engine/api/document/v2_1_3.rptdocument";
 	final String REPORT_DOCUMENT_V2_2_1 = "org/eclipse/birt/report/engine/api/document/v2_2_1.rptdocument";
 
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		copyResource( REPORT_DESIGN_SOURCE, REPORT_DESIGN );		
 	}
 	
