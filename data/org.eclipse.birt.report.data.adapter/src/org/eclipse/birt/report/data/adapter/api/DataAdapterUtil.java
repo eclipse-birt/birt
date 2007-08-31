@@ -252,7 +252,7 @@ public class DataAdapterUtil
 	 * @param functionName
 	 * @return
 	 */
-	public String getRollUpAggregationName( String functionName )
+	public static String getRollUpAggregationName( String functionName )
 	{
 		if ( functionName == null || functionName.trim( ).length( ) == 0 )
 			return functionName;
