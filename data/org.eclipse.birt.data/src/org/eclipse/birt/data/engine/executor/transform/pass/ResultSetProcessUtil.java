@@ -39,6 +39,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private List cachedSort;
 
+	private boolean groupingDone;
 	/**
 	 * 
 	 * @param populator
@@ -132,10 +133,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 		if ( needPreCalculateForGroupFilterSort( needGroupFiltering,
 				needGroupSorting ) )
 		{
-			if (!hasGroupingBeDone())
+			if ( !groupingDone )
+			{
 				PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, session );
+						new OdiResultSetWrapper( populator.getResultIterator( ) ),
+						true,
+						session );
+			}
 			this.populator.getExpressionProcessor( )
 					.setResultIterator( this.populator.getResultIterator( ) );
 			AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
@@ -148,15 +152,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 		}
 	}
 
-	/**
-	 * Indicate whether grouping has been done.
-	 * @return
-	 */
-	private boolean hasGroupingBeDone( )
-	{
-		return psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING );
-	}
-	
 	/**
 	 * Indicate whether need to pre calculate the aggregations.
 	 * @param needGroupFiltering
@@ -208,13 +203,17 @@ class ResultSetProcessUtil extends RowProcessUtil
 	{
 		if ( psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
 		{
-			// if no group pass has been made, made one.
-			PassUtil.pass( this.populator,
-						new OdiResultSetWrapper( populator.getResultIterator( ) ),
-						true, session );
-			
-			if ( aggCCList.size( ) != 0 )
+			if ( aggCCList.size( ) != 0
+					|| psController.needDoOperation( PassStatusController.GROUP_ROW_FILTERING ) )
 			{
+				PassUtil.pass( this.populator,
+						new OdiResultSetWrapper( populator.getResultIterator( ) ),
+						true,
+						session );
+				this.groupingDone = true;
+			}
+			if ( aggCCList.size( ) != 0 )
+			{				
 				computedColumnHelper.getComputedColumnList( ).clear( );
 				computedColumnHelper.getComputedColumnList( )
 						.addAll( aggCCList );
@@ -241,6 +240,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private void doGroupSorting( ) throws DataException
 	{
+		if( !groupingDone )
+		{
+			PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true, session );
+			groupingDone = true;
+		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
 				&& this.populator.getQuery( ).getGrouping( ).length > 0 )
 		{
@@ -270,6 +276,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					true,
 					session );
+			this.groupingDone = true;
 		}
 	}
 
@@ -279,6 +286,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private void doGroupFiltering( ) throws DataException
 	{
+		if ( ! groupingDone )
+		{
+			PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true, session );
+			groupingDone = true;
+		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
 				&& this.populator.getQuery( ).getGrouping( ).length > 0 )
 		{
