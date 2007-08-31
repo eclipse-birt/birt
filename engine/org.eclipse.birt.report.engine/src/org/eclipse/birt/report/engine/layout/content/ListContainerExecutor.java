@@ -11,7 +11,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.w3c.dom.css.CSSValue;
 
 
 public class ListContainerExecutor extends BlockStackingExecutor
@@ -46,7 +45,6 @@ public class ListContainerExecutor extends BlockStackingExecutor
 		protected IContent childContent = null;
 		protected boolean hasNext = false;
 		protected boolean needUpdate = true;
-		protected boolean firstChild = true;
 		protected IContent currentRunInContent = null;
 		
 		public ExecutorList(IReportItemExecutor executor, IContent content)
@@ -69,22 +67,6 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			return content;
 		}
 
-		protected void transferPageBreak(IContent parent, IContent child)
-		{
-			if(parent!=null && child!=null)
-			{
-				IStyle childStyle = child.getStyle( );
-				IStyle parentStyle = parent.getStyle( );
-				CSSValue parentPageBreak = parentStyle.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-				if ( IStyle.ALWAYS_VALUE.equals( parentPageBreak )
-						|| IStyle.SOFT_VALUE.equals( parentPageBreak ) )
-				{
-					childStyle.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE );
-				}
-			}
-			
-		}
-		
 		public IReportItemExecutor getNextChild( )
 		{
 			if(childContent!=null)
@@ -98,26 +80,11 @@ public class ListContainerExecutor extends BlockStackingExecutor
 			if(currentRunIn!=null)
 			{
 				needUpdate = true;
-				IReportItemExecutor runInChild = currentRunIn.getNextChild( );
-				if(runInChild!=null)
+				if(currentRunIn.hasNextChild( ))
 				{
-					IContent runInContent = runInChild.execute( );
-					if(firstChild)
-					{
-						transferPageBreak(currentRunInContent, runInContent);
-						firstChild = false;
-					}
-					if(runInContent!=null && 
-							(runInContent.getChildren( )==null || runInContent.getChildren( ).size( )==0))
-					{
-						execute(runInChild, runInContent);
-						runInChild.close( );
-						runInChild = new DOMReportItemExecutor(runInContent);
-					}
+					return currentRunIn.getNextChild();
 				}
-				return runInChild;
 			}
-			assert(false);
 			return null;
 			
 		}
@@ -157,11 +124,14 @@ public class ListContainerExecutor extends BlockStackingExecutor
 						next.execute( );
 						add( nextContent.getParent( ).getChildren( ), nextContent );
 					}
+					else
+					{
+						next = new RunInContainerExecutor(next, nextContent);
+					}
 					if(next.hasNextChild( ))
 					{
 						currentRunIn = next;
 						currentRunInContent = nextContent;
-						firstChild = true;
 						break;
 					}
 				}
