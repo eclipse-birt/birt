@@ -119,15 +119,14 @@ public class PropertyNameException extends SemanticException
 	 */
 	public String getLocalizedMessage( )
 	{
-		String errorCode = getErrorCode( );
-		if ( errorCode == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID )
+		if ( sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID )
 		{
 			String elementName = element == null ? "" : element.getFullName( ); //$NON-NLS-1$
 			return ModelMessages.getMessage(
 					DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[]{name,
 							elementName} );
 		}
-		else if ( errorCode == DESIGN_EXCEPTION_MEMBER_NAME_INVALID )
+		else if ( sResourceKey == DESIGN_EXCEPTION_MEMBER_NAME_INVALID )
 		{
 			String structName = struct == null ? "" : struct.getStructName( ); //$NON-NLS-1$
 			return ModelMessages.getMessage(

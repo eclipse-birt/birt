@@ -188,7 +188,9 @@ public class CompatibleOdaDriverPropertyStructureListState
 						.getNewOdaDriverProperty( propertyName );
 
 				if ( !privatePropDefns.contains( newPropertyName ) )
+				{
 					setProperty( newPropertyName, propertyValue );
+				}
 				else
 				{
 					struct = new ExtendedProperty( );

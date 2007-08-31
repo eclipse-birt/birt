@@ -36,9 +36,13 @@ public final class ExtensionManager
 		// ensure the ROM is initialized first
 		assert !MetaDataDictionary.getInstance( ).isEmpty( );
 
-		// load extensions in all the extension points
+		// load extensions in all the extension points; for encryption helper is
+		// independent and peer extension depends on it, so load encryption
+		// first, then the peer extension, for scriptable extension depends on
+		// peer, and last is scriptable extension
+		new EncryptionHelperExtensionLoader( ).load( );
 		new PeerExtensionLoader( ).load( );
 		new ScriptableObjectExtensionLoader( ).load( );
-		new EncryptionHelperExtensionLoader( ).load( );		
+
 	}
 }

@@ -209,11 +209,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private boolean useValidationTrigger = false;
 
 	/**
-	 * The default encryption helper.
+	 * The map that stores all implementation of encryption helpers. The key is
+	 * extension id of the encryption helper and value is the class instance of
+	 * IEncryptionHelper.
 	 */
 
-	private IEncryptionHelper encryptionHelper = SimpleEncryptionHelper
-			.getInstance( );
+	private Map encryptionHelperMap = null;
 
 	/**
 	 * The factory to create scriptable classes.
@@ -652,7 +653,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	public IChoiceSet getChoiceSet( String choiceSetName )
 	{
 		// for the backward compatibility issue
-		
+
 		String newName = choiceSetName;
 		if ( DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION
 				.equalsIgnoreCase( newName ) )
@@ -937,26 +938,64 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	}
 
 	/**
-	 * Returns the encryption helper.
+	 * Returns the encryption helper with the extension id.
 	 * 
-	 * @return the encryption helper which is registered on metadata dictionary.
+	 * @param id
+	 *            the extension id for the encryption helper to find
+	 * @return the encryption helper if found, otherwise false.
 	 */
 
-	public IEncryptionHelper getEncryptionHelper( )
+	public IEncryptionHelper getEncryptionHelper( String id )
 	{
-		return encryptionHelper;
+		if ( id == null )
+			return null;
+		if ( SimpleEncryptionHelper.ENCRYPTION_ID.equals( id ) )
+			return SimpleEncryptionHelper.getInstance( );
+		return encryptionHelperMap == null
+				? null
+				: (IEncryptionHelper) encryptionHelperMap.get( id );
+	}
+
+	/**
+	 * Gets all the encryption helpers.
+	 * 
+	 * @return
+	 */
+	public List getEncryptionHelpers( )
+	{
+		ArrayList encryptions = new ArrayList( );
+		encryptions.add( SimpleEncryptionHelper.getInstance( ) );
+		if ( encryptionHelperMap != null )
+		{
+			encryptions.addAll( encryptionHelperMap.values( ) );
+		}
+		return encryptions;
 	}
 
 	/**
 	 * Sets the encryption helper.
 	 * 
+	 * @param id
+	 *            the extension id
 	 * @param encryptionHelper
 	 *            the encryption helper to set
+	 * @throws MetaDataException
 	 */
 
-	void setEncryptionHelper( IEncryptionHelper encryptionHelper )
+	void addEncryptionHelper( String id, IEncryptionHelper encryptionHelper )
+			throws MetaDataException
 	{
-		this.encryptionHelper = encryptionHelper;
+		assert id != null;
+		assert encryptionHelper != null;
+
+		if ( encryptionHelperMap == null )
+			encryptionHelperMap = new HashMap( );
+		if ( getEncryptionHelper( id ) != null )
+			throw new ExtensionException(
+					new String[]{id},
+					MetaDataException.DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS );
+
+		encryptionHelperMap.put( id, encryptionHelper );
 	}
 
 	/**

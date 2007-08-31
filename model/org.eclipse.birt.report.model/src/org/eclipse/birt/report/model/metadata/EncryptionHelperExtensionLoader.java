@@ -87,23 +87,18 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 				IEncryptionHelper helper = (IEncryptionHelper) elementTag
 						.createExecutableExtension( CLASS_ATTRIB );
 
-				IEncryptionHelper registeredHelper = MetaDataDictionary
-						.getInstance( ).getEncryptionHelper( );
-				if ( registeredHelper != SimpleEncryptionHelper.getInstance( ) )
-				{
-					handleError( new ExtensionException(
-							new String[]{className},
-							ExtensionException.DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS ) );
-					return;
-				}
-
-				MetaDataDictionary.getInstance( ).setEncryptionHelper( helper );
+				MetaDataDictionary.getInstance( ).addEncryptionHelper( extensionName, helper );
 			}
 			catch ( FrameworkException e )
 			{
 				handleError( new ExtensionException(
 						new String[]{className},
 						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE ) );
+				return;
+			}
+			catch ( MetaDataException e )
+			{
+				handleError( e );
 				return;
 			}
 		}

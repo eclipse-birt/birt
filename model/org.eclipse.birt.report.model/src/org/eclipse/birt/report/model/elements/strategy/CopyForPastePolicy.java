@@ -123,8 +123,23 @@ public class CopyForPastePolicy extends CopyPolicy
 				Object value = current.getLocalProperty( module, propDefn );
 				if ( value != null )
 				{
-					destination.setProperty( propDefn, ModelUtil.copyValue(
-							propDefn, value ) );
+					Object copyValue = ModelUtil.copyValue( propDefn, value );
+
+					// if this local property has encryption id, then set it
+					String encryptionID = current
+							.getLocalEncryptionID( propDefn );
+					if ( encryptionID != null )
+					{
+						destination
+								.setEncryptionHelper( propDefn, encryptionID );
+						destination.setProperty( propDefn, ModelUtil
+								.encryptProperty( destination, propDefn,
+										encryptionID, copyValue ) );
+					}
+					else
+					{
+						destination.setProperty( propDefn, copyValue );
+					}
 					break;
 				}
 

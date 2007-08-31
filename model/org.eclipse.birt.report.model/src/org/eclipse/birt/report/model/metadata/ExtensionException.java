@@ -43,12 +43,6 @@ public class ExtensionException extends MetaDataException
 	public static final String DESIGN_EXCEPTION_VALUE_REQUIRED = "VALUE_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating the encryption extension already exists.
-	 */
-
-	public static final String DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS = "ENCYRPTION_EXTENSION_EXISTS"; //$NON-NLS-1$
-
-	/**
 	 * Error code indicating the choice value is invalid for the user property
 	 * type, which is not choice.
 	 */
