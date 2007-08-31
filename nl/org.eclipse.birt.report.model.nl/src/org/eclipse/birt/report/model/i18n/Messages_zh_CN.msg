@@ -3244,6 +3244,7 @@ Message.RemoveItem=删除项
 Message.ReplaceElement=替换元素
 Message.TransformTemplate=转换模板
 Message.SetTheme=设置主题
+Message.ChangePropertyEncryption=Change encryption for property:{0}
 
 ###########################################################
 #Element new names.
@@ -3547,3 +3548,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
+
+#EncryptionException
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
+Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.

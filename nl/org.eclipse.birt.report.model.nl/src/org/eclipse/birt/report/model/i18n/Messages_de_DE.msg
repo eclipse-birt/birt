@@ -3244,6 +3244,7 @@ Message.RemoveItem=Objekt entfernen
 Message.ReplaceElement=Element ersetzen
 Message.TransformTemplate=Vorlage umwandeln
 Message.SetTheme=Thema festlegen
+Message.ChangePropertyEncryption=Change encryption for property:{0}
 
 ###########################################################
 #Element new names.
@@ -3547,3 +3548,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage 
 Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
 Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
+
+#EncryptionException
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
+Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.

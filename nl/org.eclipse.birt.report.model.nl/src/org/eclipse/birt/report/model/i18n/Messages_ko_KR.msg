@@ -3244,6 +3244,7 @@ Message.RemoveItem=항목 제거
 Message.ReplaceElement=요소 바꾸기
 Message.TransformTemplate=템플릿 변환
 Message.SetTheme=테마 설정
+Message.ChangePropertyEncryption=Change encryption for property:{0}
 
 ###########################################################
 #Element new names.
@@ -3547,3 +3548,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
+
+#EncryptionException
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
+Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
