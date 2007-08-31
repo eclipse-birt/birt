@@ -209,8 +209,8 @@ class ResultSetsAdapter
 			if ( !isValueSet )
 			{
 				ValueFormatHints formatHints = outputAttrs.getFormattingHints( );
-				if ( formatHints != null
-						&& formatHints.getDisplayFormat( ) != null )
+				if ( formatHints != null &&
+						formatHints.getDisplayFormat( ) != null )
 					isValueSet = true;
 			}
 
@@ -247,12 +247,23 @@ class ResultSetsAdapter
 		if ( dataUIHints == null )
 			return;
 
+		// first compare value on data set handle, if not equals,
+		// keep handle value. If equals, compare old and new design value and
+		// update
+
 		DataElementUIHints cachedDataUIHints = cachedDataAttrs == null
 				? null
 				: cachedDataAttrs.getUiHints( );
 		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
 				.getDisplayName( );
 		newValue = dataUIHints.getDisplayName( );
+
+		String handleValue = (String) newHint.getLocalProperty( null,
+				ColumnHint.DISPLAY_NAME_MEMBER );
+
+		if ( handleValue != null && !handleValue.equals( oldValue ) )
+			return;
+
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, newValue );
@@ -377,8 +388,8 @@ class ResultSetsAdapter
 		oldValue = cachedDataAttrs == null ? null : new Integer(
 				cachedDataAttrs.getNativeDataTypeCode( ) );
 		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
-		if ( oldValue == null || !oldValue.equals( newValue )
-				|| newColumn.getNativeDataType( ) == null )
+		if ( oldValue == null || !oldValue.equals( newValue ) ||
+				newColumn.getNativeDataType( ) == null )
 		{
 			newColumn.setNativeDataType( (Integer) newValue );
 		}
@@ -425,8 +436,8 @@ class ResultSetsAdapter
 					column.getNativeDataType( ).intValue( ), null );
 
 		Integer tmpNativeCodeType = tmpParam.getNativeDataType( );
-		if ( tmpNativeCodeType == null
-				|| tmpNativeCodeType.equals( column.getNativeDataType( ) ) )
+		if ( tmpNativeCodeType == null ||
+				tmpNativeCodeType.equals( column.getNativeDataType( ) ) )
 			return tmpParam.getDataType( );
 
 		String oldDataType = tmpParam.getDataType( );
@@ -495,9 +506,9 @@ class ResultSetsAdapter
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
 			if ( ( StringUtil.isBlank( nativeName ) || nativeName
-					.equalsIgnoreCase( paramName ) )
-					&& position.equals( column.getPosition( ) )
-					&& ( tmpNativeDataType == null || nativeDataType
+					.equalsIgnoreCase( paramName ) ) &&
+					position.equals( column.getPosition( ) ) &&
+					( tmpNativeDataType == null || nativeDataType
 							.equals( tmpNativeDataType ) ) )
 				return column;
 
@@ -537,8 +548,8 @@ class ResultSetsAdapter
 			if ( dataAttrs == null )
 				continue;
 
-			if ( columnName.equals( dataAttrs.getName( ) )
-					&& ( position == null || position.intValue( ) == dataAttrs
+			if ( columnName.equals( dataAttrs.getName( ) ) &&
+					( position == null || position.intValue( ) == dataAttrs
 							.getPosition( ) ) )
 				return columnDefn;
 		}
@@ -571,8 +582,8 @@ class ResultSetsAdapter
 		if ( resultDefn == null )
 		{
 			ResultSets resultSets = setDesign.getResultSets( );
-			if ( resultSets != null
-					&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
+			if ( resultSets != null &&
+					!resultSets.getResultSetDefinitions( ).isEmpty( ) )
 				resultDefn = (ResultSetDefinition) resultSets
 						.getResultSetDefinitions( ).get( 0 );
 		}
@@ -859,6 +870,11 @@ class ResultSetsAdapter
 
 		private OdaResultSetColumn column;
 		private ColumnHint hint;
+
+		/**
+		 * @param column
+		 * @param hint
+		 */
 
 		ResultSetColumnInfo( OdaResultSetColumn column, ColumnHint hint )
 		{
