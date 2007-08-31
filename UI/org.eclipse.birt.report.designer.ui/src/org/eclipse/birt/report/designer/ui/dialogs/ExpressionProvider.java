@@ -895,8 +895,7 @@ public class ExpressionProvider implements IExpressionProvider
 	{
 		if ( element instanceof PropertyHandle
 				|| element instanceof TabularMeasureGroupHandle
-				|| element instanceof TabularDimensionHandle
-				|| element instanceof LevelHandle )
+				|| element instanceof TabularDimensionHandle )
 			return true;
 
 		if ( adapterProvider != null )
