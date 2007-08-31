@@ -312,7 +312,6 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 * Below are the implemented functions for the given browsers and output formats.
 	 * Function              IE       Mozilla
 	 * window.print()       HTML       HTML,PDF(delay)
-	 * Window closing       HTML       HTML
 	 *
 	 */
 	__cb_print : function( )
@@ -335,37 +334,16 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			{
 				// Mozilla needs some delay after loading PDF
 				this.__printWindow.setTimeout( "window.print();", 1000 );
-				// note: window closing during print doesn't work
-				// with PDF and Mozilla									
 			}
-			// if the window is still open (user could close it in the mean time)
 			else
 			{
 				this.__printWindow.print();
-				/* Close the print window: the browser will in fact close it
-				 * after the print dialog is closed.
-				 * Use timer to let the browser some time to open the 
-				 * print dialog first
-				 */
-				window.setTimeout( this.__cb_close_popup.bindAsEventListener( this ) , 1000 );
 			}
 		}
 		catch ( error )
 		{
 			// IE throws a permission denied exception if the user closes
 			// the window too early. In this case ignore the exception.
-		}
-	},
-	
-	/**
-	 * Closes the popup window
-	 */
-	__cb_close_popup : function( )
-	{
-		if ( this.__printWindow && !this.__printWindow.closed )
-		{
-			this.__printWindow.close();
-			this.__printWindow = null;
 		}
 	},
 	
