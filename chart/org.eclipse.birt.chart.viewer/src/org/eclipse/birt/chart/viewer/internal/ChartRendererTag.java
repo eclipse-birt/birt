@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.viewer.internal;
 import java.io.File;
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -72,7 +73,15 @@ public class ChartRendererTag extends TagSupport
 
 			if ( model instanceof String )
 			{
-				chartModel = ChartWebHelper.parseChart( (String) model );
+				String path = (String) model;
+				final File chartFile = new File( path );
+				if ( !chartFile.exists( ) )
+				{
+					// Get real path if the model is a relative path
+					path = ChartWebHelper.getRealPath( getServletContext( ),
+							path );
+				}
+				chartModel = ChartWebHelper.parseChart( path );
 				if ( chartModel == null )
 				{
 					printError( "Following file does not exist: " + model ); //$NON-NLS-1$
@@ -81,7 +90,9 @@ public class ChartRendererTag extends TagSupport
 			}
 			else if ( model instanceof Chart )
 			{
-				chartModel = (Chart) EcoreUtil.copy( (Chart) model );
+				// Do not copy EObject for the sake of performance, since the
+				// changes won't be saved back
+				chartModel = (Chart) model;
 			}
 
 			if ( chartModel != null )
@@ -291,5 +302,10 @@ public class ChartRendererTag extends TagSupport
 	public IExternalContext getExternalContext( )
 	{
 		return externalContext;
+	}
+
+	protected ServletContext getServletContext( )
+	{
+		return this.pageContext.getServletContext( );
 	}
 }

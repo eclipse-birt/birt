@@ -10,25 +10,24 @@
 <title>Sample web page of BIRT chart</title>
 </head>
 <body>
-Bar chart with tooltips, URL hyperlink, data evaluator (PNG):
+Bar chart with Tooltips and Hyperlinks (PNG):
 <br>
-<chart:renderChart width="600" height="400"
-	model="<%=session.getServletContext().getRealPath("SampleBar.chart")%>"
+<chart:renderChart width="600" height="400" model="SampleBar.chart"
 	data="<%=SampleHelper.createSampleEvaluator() %>"
 	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
+</chart:renderChart>
+<br>
+Difference chart (SVG):
+<br>
+<chart:renderChart width="400" height="300" output="svg"
+	model="<%=SampleHelper.createSampleChart() %>"
+	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>">
 </chart:renderChart>
 <br>
 Pie chart (PDF):
 <br>
 <chart:renderChart width="400" height="300" output="pdf"
-	model="<%=session.getServletContext().getRealPath("SamplePie.chart")%>">
-</chart:renderChart>
-<br>
-Bar chart (SVG):
-<br>
-<chart:renderChart width="400" height="300" output="svg"
-	model="<%=SampleHelper.createSampleChart() %>"
-	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>">
+	model="SamplePie.chart">
 </chart:renderChart>
 <br>
 </body>

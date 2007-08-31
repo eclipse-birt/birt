@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2006, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,9 @@ package org.eclipse.birt.chart.viewer.internal.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.MalformedURLException;
+
+import javax.servlet.ServletContext;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
@@ -43,6 +46,10 @@ public class ChartWebHelper
 	 */
 	public static Chart parseChart( String strPath ) throws ChartException
 	{
+		if ( strPath == null )
+		{
+			return null;
+		}
 		Chart chartModel = null;
 		final File chartFile = new File( strPath );
 		// Reads the chart model
@@ -124,5 +131,34 @@ public class ChartWebHelper
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the real path of the file in the web folder
+	 * 
+	 * @param context
+	 *            servlet context
+	 * @param fileName
+	 *            the relative path of the file
+	 */
+	public static String getRealPath( ServletContext context, String fileName )
+	{
+		String path = context.getRealPath( "/" ); //$NON-NLS-1$
+
+		if ( path == null )
+		{
+			// resources are in a .war (JBoss, WebLogic)
+			java.net.URL url;
+			try
+			{
+				url = context.getResource( "/" ); //$NON-NLS-1$
+				path = url.getPath( );
+			}
+			catch ( MalformedURLException e )
+			{
+				e.printStackTrace( );
+			}
+		}
+		return path + fileName;
 	}
 }
