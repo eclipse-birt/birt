@@ -324,10 +324,15 @@ public class BirtUtility
 						parameters, paramName );
 
 				// TODO: Currently, Multi-value parameter doesn't support
-				// displayText
-				if ( parameter != null && !parameter.isMultiValue( ) )
-					displayTexts.put( paramName, ParameterAccessor
-							.getParameter( request, param ) );
+				// displayText.( set to NULL value )
+				if ( parameter != null )
+				{
+					if ( parameter.isMultiValue( ) )
+						displayTexts.put( paramName, null );
+					else
+						displayTexts.put( paramName, ParameterAccessor
+								.getParameter( request, param ) );
+				}
 			}
 		}
 
@@ -473,9 +478,14 @@ public class BirtUtility
 						.findParameterDefinition( displayTextParam );
 
 				// TODO: Currently, Multi-value parameter doesn't support
-				// displayText
-				if ( parameter != null && !parameter.isMultiValue( ) )
-					displayTexts.put( displayTextParam, paramValue );
+				// displayText.( set to NULL value )
+				if ( parameter != null )
+				{
+					if ( parameter.isMultiValue( ) )
+						displayTexts.put( displayTextParam, null );
+					else
+						displayTexts.put( displayTextParam, paramValue );
+				}
 				continue;
 			}
 			else
