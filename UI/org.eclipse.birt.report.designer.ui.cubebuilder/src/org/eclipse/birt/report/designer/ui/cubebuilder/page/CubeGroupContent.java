@@ -1246,9 +1246,9 @@ public class CubeGroupContent extends Composite implements Listener
 						&& level.attributesIterator( ) != null
 						&& level.attributesIterator( ).hasNext( ) )
 				{
-					String name = level.getName( ) + " (" //$NON-NLS-1$
-							+ level.getColumnName( )
-							+ ": "; //$NON-NLS-1$
+					String name = level.getName( ) + " ("; //$NON-NLS-1$
+//							+ level.getColumnName( )
+//							+ ": "; //$NON-NLS-1$
 					Iterator attrIter = level.attributesIterator( );
 					while ( attrIter.hasNext( ) )
 					{
@@ -1748,7 +1748,7 @@ public class CubeGroupContent extends Composite implements Listener
 									dataField.getColumnName( ) );
 							if ( dialog.open( ) == Window.CANCEL )
 							{
-								SessionHandleAdapter.getInstance( )
+							SessionHandleAdapter.getInstance( )
 										.getCommandStack( )
 										.rollback( );
 							}
