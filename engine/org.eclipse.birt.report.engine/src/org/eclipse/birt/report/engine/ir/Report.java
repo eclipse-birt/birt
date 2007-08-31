@@ -17,9 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.parser.EngineIRTransferV213;
+import org.eclipse.birt.report.engine.parser.EngineIRTransferV221;
 import org.eclipse.birt.report.engine.parser.EngineIRVisitor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -410,9 +413,17 @@ public class Report
 		{
 			return;
 		}
+
 		if ( version.equals( this.version ) )
 		{
 			return;
 		}
+		
+		if ( version.equals( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_3 ) )
+		{
+			new EngineIRTransferV213( reportDesign, this ).transfer( );
+			return;
+		}
+		
 	}
 }
