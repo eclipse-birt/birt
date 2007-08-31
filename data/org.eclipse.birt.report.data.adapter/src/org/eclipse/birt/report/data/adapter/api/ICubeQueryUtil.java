@@ -122,13 +122,4 @@ public interface ICubeQueryUtil
 	 */
 	public List getInvalidBindings( ICubeQueryDefinition queryDefn )
 			throws AdapterException;
-	
-	/**
-	 * Get the rollup aggregation name. If the function is TOTAL_AVE_FUNC,
-	 * TOTAL_COUNT_FUNC, or TOTAL_COUNT_DISTINCT_FUNC, return TOTAL_SUM_FUNC as
-	 * measure function name
-	 * 
-	 * @return
-	 */
-	public String getRollUpAggregationName( String functionName );
 }

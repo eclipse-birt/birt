@@ -256,6 +256,35 @@ public class DataAdapterUtil
 				? ISortDefinition.SORT_DESC : ISortDefinition.SORT_ASC;
 	}
 	
+	/**
+	 * Get the rollup aggregation name. If the function is TOTAL_AVE_FUNC,
+	 * TOTAL_COUNT_FUNC, or TOTAL_COUNT_DISTINCT_FUNC, return TOTAL_SUM_FUNC as
+	 * measure function name
+	 * 
+	 * @param functionName
+	 * @return
+	 */
+	public static String getRollUpAggregationName( String functionName )
+	{
+		if ( functionName == null || functionName.trim( ).length( ) == 0 )
+			return functionName;
+		String func = functionName;
+		try
+		{
+			func = adaptModelAggregationType( functionName );
+		}
+		catch ( AdapterException e )
+		{
+			// do nothing
+		}
+		if ( func.equals( IBuildInAggregation.TOTAL_AVE_FUNC ) ||
+				func.equals( IBuildInAggregation.TOTAL_COUNT_FUNC ) ||
+				func.equals( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC ) )
+			return IBuildInAggregation.TOTAL_SUM_FUNC;
+		else
+			return func;
+	}
+	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
 		/**
