@@ -102,7 +102,9 @@ public class CrosstabBindingExpressionProvider extends
 						CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
 						for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
 						{
-							if ( xtabHandle.getMeasure( i ).getCubeMeasure( ).equals( element ) )
+							if ( xtabHandle.getMeasure( i )
+									.getCubeMeasure( )
+									.equals( element ) )
 								return true;
 						}
 						return false;
@@ -131,14 +133,16 @@ public class CrosstabBindingExpressionProvider extends
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
 							i );
 					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
-						children.add( dimensionHandle.getLevel( 0 ) );
+						children.add( dimensionHandle.getLevel( 0 )
+								.getCubeLevel( ) );
 				}
 				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
 				{
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
 							i );
 					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
-						children.add( dimensionHandle.getLevel( 0 ) );
+						children.add( dimensionHandle.getLevel( 0 )
+								.getCubeLevel( ) );
 				}
 			}
 			catch ( ExtendedElementException e )
