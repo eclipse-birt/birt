@@ -69,7 +69,7 @@ public abstract class NotificationEvent
 	 * 
 	 * @deprecated since BIRT 2.1
 	 */
-	
+
 	public static final int NAME_SPACE_EVENT = 4;
 
 	/**
@@ -157,24 +157,29 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int LIBRARY_RELOADED_EVENT = 19;
-	
+
 	/**
 	 * The event type of LIBRARY_CHANGE_EVENT
 	 */
 
 	public static final int LIBRARY_CHANGE_EVENT = 20;
-	
+
 	/**
 	 * The event type of css reload event
 	 */
-	
+
 	public static final int CSS_RELOADED_EVENT = 21;
-	
+
 	/**
 	 * The event type of css CRUD event
 	 */
 
 	public static final int CSS_EVENT = 22;
+
+	/**
+	 * The event type of encryption change event.
+	 */
+	public static final int ENCRYPTION_EVENT = 23;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.

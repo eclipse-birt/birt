@@ -57,7 +57,7 @@ public class EncryptionEvent extends NotificationEvent
 	 */
 	public int getEventType( )
 	{
-		return NAME_EVENT;
+		return ENCRYPTION_EVENT;
 	}
 
 	/**
