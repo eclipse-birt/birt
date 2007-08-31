@@ -55,6 +55,12 @@ public class MetaDataException extends ModelException
 	protected String message = null;
 
 	/**
+	 * Error code indicating the encryption extension already exists.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS = "ENCYRPTION_EXTENSION_EXISTS"; //$NON-NLS-1$
+
+	/**
 	 * Error code constant indicating a missing element name.
 	 */
 

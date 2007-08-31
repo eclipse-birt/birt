@@ -148,7 +148,8 @@ public class DesignWriter extends ModuleWriter
 
 				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-							IReportDesignModel.THUMBNAIL_PROP, value, false );
+							IReportDesignModel.THUMBNAIL_PROP, null, value,
+							false );
 				else
 					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
 							IReportDesignModel.THUMBNAIL_PROP, value );

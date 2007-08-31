@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
-import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
@@ -85,7 +84,7 @@ public class ExtendedItem extends ReportItem
 	 * extendable element.
 	 */
 
-	private PeerExtensibilityProvider provider = null;
+	protected PeerExtensibilityProvider provider = null;
 
 	private ContentTree contentTree = null;
 
@@ -383,13 +382,11 @@ public class ExtendedItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#clone()
+	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
 	 */
-
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
+	protected Object baseClone( ) throws CloneNotSupportedException
 	{
-		ExtendedItem clonedElement = (ExtendedItem) super.doClone( policy );
+		ExtendedItem clonedElement = (ExtendedItem) super.baseClone( );
 
 		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
 				clonedElement.extensionName );
@@ -592,11 +589,61 @@ public class ExtendedItem extends ReportItem
 			}
 		}
 		catch ( ExtendedElementException e )
-		{			
+		{
 		}
 		if ( reportItem == null )
 			return Collections.EMPTY_LIST;
 
 		return reportItem.getPredefinedStyles( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalEncryptionID(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
+	{
+		if ( propDefn == null || !propDefn.isEncryptable( ) )
+			return null;
+		if ( !propDefn.isExtended( ) )
+			return super.getLocalEncryptionID( propDefn );
+
+		if ( provider != null )
+			return provider.getEncryptionHelperID( propDefn );
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setEncryptionHelper(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
+	 *      java.lang.String)
+	 */
+	public void setEncryptionHelper( ElementPropertyDefn propDefn,
+			String encryptionID )
+	{
+		if ( !propDefn.isExtended( ) )
+			super.setEncryptionHelper( propDefn, encryptionID );
+
+		if ( provider != null )
+			provider.setEncryptionHelper( propDefn, encryptionID );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#hasLocalValue(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	protected boolean hasLocalValue( ElementPropertyDefn propDefn )
+	{
+		if ( propDefn == null )
+			return false;
+		if ( !propDefn.isExtended( ) )
+			return super.hasLocalValue( propDefn );
+		if ( provider != null )
+			return provider.getExtensionProperty( propDefn.getName( ) ) != null;
+		return false;
 	}
 }

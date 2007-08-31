@@ -33,13 +33,14 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.SimpleEncryptionHelper;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -89,11 +90,11 @@ public class AbstractPropertyState extends AbstractParseState
 	protected String name = null;
 
 	/**
-	 * The hash code for the name member. Used for performance tuning. 
+	 * The hash code for the name member. Used for performance tuning.
 	 */
-	
+
 	protected int nameValue = -1;
-	
+
 	/**
 	 * The library which the element reference is using.
 	 */
@@ -149,7 +150,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		nameValue = name.toLowerCase( ).hashCode( );	
+		nameValue = name.toLowerCase( ).hashCode( );
 		super.parseAttrs( attrs );
 	}
 
@@ -202,9 +203,17 @@ public class AbstractPropertyState extends AbstractParseState
 
 		if ( memberDefn.isEncryptable( ) )
 		{
-			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-					.getEncryptionHelper( );
-			valueToSet = helper.decrypt( (String) valueToSet );
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
+			{
+				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance( );
+				if ( helper != SimpleEncryptionHelper.getInstance( ) )
+				{
+					valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
+							(String) valueToSet );
+					valueToSet = helper.encrypt( (String) valueToSet );
+				}
+
+			}
 		}
 
 		doSetMember( struct, propName, memberDefn, valueToSet );
@@ -292,7 +301,30 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		doSetProperty( propDefn, value );
+		Object valueToSet = value;
+
+		if ( propDefn.isEncryptable( ) )
+		{
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
+			{
+				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance( );
+				if ( handler.versionNumber == VersionUtil.VERSION_0 )
+				{
+					valueToSet = helper.encrypt( (String) valueToSet );
+				}
+				else if ( helper != SimpleEncryptionHelper.getInstance( ) )
+				{
+					valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
+							(String) valueToSet );
+					valueToSet = helper == null ? valueToSet : helper
+							.encrypt( (String) valueToSet );
+				}
+				element.setEncryptionHelper( propDefn,
+						SimpleEncryptionHelper.ENCRYPTION_ID );
+
+			}
+		}
+		doSetProperty( propDefn, valueToSet );
 	}
 
 	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )

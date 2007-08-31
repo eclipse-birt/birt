@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -84,6 +86,11 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	 */
 
 	HashMap extensionPropValues = new HashMap( );
+
+	/**
+	 * 
+	 */
+	Map encryptionMap = null;
 
 	/**
 	 * Constructs the peer extensibility provider with the extensible element
@@ -297,7 +304,10 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 						element, defn, (ElementRefValue) value );
 		}
 
-		return extensionPropValues.get( propName );
+		return defn.isEncryptable( )
+				? ModelUtil.decryptLocalProperty( element, defn,
+						extensionPropValues.get( propName ) )
+				: extensionPropValues.get( propName );
 	}
 
 	/**
@@ -618,6 +628,14 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 							propName );
 				}
 			}
+
+			// copy encryption map
+			if ( source.encryptionMap != null
+					&& !source.encryptionMap.isEmpty( ) )
+			{
+				encryptionMap = new HashMap( );
+				encryptionMap.putAll( source.encryptionMap );
+			}
 		}
 	}
 
@@ -703,7 +721,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					// do nothing
 				}
 			}
-			else if ( childValue == null && reportItem == null )
+			else if ( reportItem == null )
 				continue;
 
 			childValue = reportItem == null ? null : reportItem
@@ -730,8 +748,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 						// do nothing
 					}
 				}
-				else if ( parentValue == null
-						&& parentProvider.reportItem == null )
+				else if ( parentProvider.reportItem == null )
 				{
 					parent = (ExtendedItem) ModelUtil.getParent( parent );
 					continue;
@@ -751,15 +768,52 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 			if ( parentValue == null )
 				return true;
-			else
-			{
-				if ( childValue.toString( ).equals( parentValue.toString( ) ) )
-					continue;
-				else
-					return true;
-			}
+
+			if ( childValue.toString( ).equals( parentValue.toString( ) ) )
+				continue;
+
+			return true;
+
 		}
 
 		return false;
+	}
+
+	/**
+	 * Gets the default encryption helper for the extension property.
+	 * 
+	 * @param propDefn
+	 * @return
+	 */
+	public String getEncryptionHelperID( ElementPropertyDefn propDefn )
+	{
+		if ( propDefn == null || !propDefn.isEncryptable( ) )
+			return null;
+		if ( encryptionMap != null
+				&& encryptionMap.get( propDefn.getName( ) ) != null )
+		{
+			String encryptionID = (String) encryptionMap.get( propDefn
+					.getName( ) );
+			return encryptionID;
+		}
+		return null;
+	}
+
+	/**
+	 * Sets the encryption id for the given property.
+	 * 
+	 * @param propDefn
+	 * @param encryptionID
+	 */
+	public void setEncryptionHelper( ElementPropertyDefn propDefn,
+			String encryptionID )
+	{
+		String id = StringUtil.trimString( encryptionID );
+		if ( encryptionMap == null )
+			encryptionMap = new HashMap( );
+		if ( id == null )
+			encryptionMap.remove( propDefn.getName( ) );
+		else
+			encryptionMap.put( propDefn.getName( ), id );
 	}
 }

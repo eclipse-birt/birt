@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
-import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -174,7 +173,6 @@ import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -549,19 +547,23 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the tag to write
 	 * @param name
 	 *            the property name or member name
+	 * @param encryptionID
 	 * @param value
 	 *            the xml value
 	 * @param cdata
 	 *            whether the values should be written as CDATA.
 	 */
 
-	protected void writeEntry( String tag, String name, String value,
-			boolean cdata )
+	protected void writeEntry( String tag, String name, String encryptionID,
+			String value, boolean cdata )
 	{
 		writer.startElement( tag );
 
 		if ( name != null )
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
+		if ( encryptionID != null )
+			writer.attribute( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB,
+					encryptionID );
 
 		if ( cdata )
 			writer.textCDATA( value );
@@ -667,11 +669,15 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
+		String encryptionID = null;
 		if ( propDefn.isEncryptable( ) )
 		{
-			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-					.getEncryptionHelper( );
-			xml = helper.encrypt( xml );
+			encryptionID = obj
+					.getLocalEncryptionID( (ElementPropertyDefn) propDefn );
+			tag = DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
+			// getLocalProperty will return decrypted value, so encrypt it here
+			xml = (String) ModelUtil.encryptProperty( obj,
+					(ElementPropertyDefn) propDefn, encryptionID, xml );
 		}
 
 		if ( tag == null )
@@ -680,7 +686,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
 
-		writeEntry( tag, propDefn.getName( ), xml, cdata );
+		writeEntry( tag, propDefn.getName( ), encryptionID, xml, cdata );
 	}
 
 	/**
@@ -725,13 +731,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
-		if ( propDefn.isEncryptable( ) )
-		{
-			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-					.getEncryptionHelper( );
-			xml = helper.encrypt( xml );
-		}
-
 		if ( tag == null )
 			tag = ModelUtil.getTagByPropertyType( propDefn );
 
@@ -739,9 +738,9 @@ public abstract class ModuleWriter extends ElementVisitor
 			cdata = true;
 
 		if ( withoutName )
-			writeEntry( tag, null, xml, cdata );
+			writeEntry( tag, null, null, xml, cdata );
 		else
-			writeEntry( tag, memberName, xml, cdata );
+			writeEntry( tag, memberName, null, xml, cdata );
 	}
 
 	/**
@@ -1151,8 +1150,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			if ( propDefn.getDefault( ) != null )
 				writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-						UserPropertyDefn.DEFAULT_MEMBER, propDefn.getXmlValue(
-								null, propDefn.getDefault( ) ), false );
+						UserPropertyDefn.DEFAULT_MEMBER, null, propDefn
+								.getXmlValue( null, propDefn.getDefault( ) ),
+						false );
 
 			IChoiceSet choiceSet = propDefn.getChoices( );
 
@@ -1171,12 +1171,12 @@ public abstract class ModuleWriter extends ElementVisitor
 					writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-							Choice.NAME_PROP, choice.getName( ), false );
+							Choice.NAME_PROP, null, choice.getName( ), false );
 
 					if ( choice.getValue( ) != null )
 					{
 						writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-								UserChoice.VALUE_PROP, choice.getValue( )
+								UserChoice.VALUE_PROP, null, choice.getValue( )
 										.toString( ), false );
 					}
 
@@ -1298,7 +1298,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 						if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 							writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-									EmbeddedImage.DATA_MEMBER, value, false );
+									EmbeddedImage.DATA_MEMBER, null, value,
+									false );
 						else
 							writeLongIndentText(
 									DesignSchemaConstants.PROPERTY_TAG,
@@ -3278,8 +3279,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value,
-							false );
+							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, null,
+							value, false );
 				else
 					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value );

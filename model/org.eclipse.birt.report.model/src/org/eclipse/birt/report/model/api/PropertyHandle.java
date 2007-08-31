@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.ContentCommand;
+import org.eclipse.birt.report.model.command.EncryptionCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -194,8 +195,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE &&
-				propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -210,12 +211,12 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSets( );
 
-		else if ( getElementHandle( ) instanceof ReportItemHandle &&
-				ReportItemHandle.DATA_BINDING_REF_PROP
+		else if ( getElementHandle( ) instanceof ReportItemHandle
+				&& ReportItemHandle.DATA_BINDING_REF_PROP
 						.equalsIgnoreCase( propDefn.getName( ) ) )
 			return ( (ReportItemHandle) getElementHandle( ) )
 					.getAvailableDataBindingReferenceList( );
-		
+
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSources( );
@@ -363,8 +364,8 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( !masterPage.isCustomType( getModule( ) ) )
 			{
 				String propName = propDefn.getName( );
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName ) ||
-						IMasterPageModel.WIDTH_PROP.equals( propName ) )
+				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
+						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
 					return true;
 			}
 		}
@@ -812,5 +813,17 @@ public class PropertyHandle extends SimpleValueHandle
 			return (DesignElementHandle) value;
 
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param encryptionID
+	 * @throws SemanticException
+	 */
+	public void setEncryption( String encryptionID ) throws SemanticException
+	{
+		EncryptionCommand cmd = new EncryptionCommand( getModule( ),
+				getElement( ) );
+		cmd.setEncryption( propDefn, encryptionID );
 	}
 }

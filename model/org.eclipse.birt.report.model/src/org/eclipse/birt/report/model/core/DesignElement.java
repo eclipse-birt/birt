@@ -630,6 +630,11 @@ public abstract class DesignElement
 	protected long baseId = NO_BASE_ID;
 
 	/**
+	 * Map that stores pair of propName/encryptionID.
+	 */
+	protected Map encryptionMap = null;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -1074,11 +1079,14 @@ public abstract class DesignElement
 
 	public Object getLocalProperty( Module module, ElementPropertyDefn prop )
 	{
+		boolean isEncryptable = prop.isEncryptable( );
 		if ( prop.isIntrinsic( ) )
 		{
 			// This is an intrinsic system-defined property.
-
-			return getIntrinsicProperty( prop.getName( ) );
+			return isEncryptable
+					? ModelUtil.decryptLocalProperty( this, prop,
+							getIntrinsicProperty( prop.getName( ) ) )
+					: getIntrinsicProperty( prop.getName( ) );
 		}
 
 		switch ( prop.getTypeCode( ) )
@@ -1092,11 +1100,13 @@ public abstract class DesignElement
 			case IPropertyType.LIST_TYPE :
 				if ( prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 					return resolveElementReferenceList( module, prop );
+
 		}
 
 		// Get the value of a non-intrinsic property.
-
-		return propValues.get( prop.getName( ) );
+		return isEncryptable ? ModelUtil.decryptLocalProperty( this, prop,
+				propValues.get( prop.getName( ) ) ) : propValues.get( prop
+				.getName( ) );
 	}
 
 	/**
@@ -3117,7 +3127,7 @@ public abstract class DesignElement
 	 * @throws CloneNotSupportedException
 	 */
 
-	final private Object baseClone( ) throws CloneNotSupportedException
+	protected Object baseClone( ) throws CloneNotSupportedException
 	{
 		DesignElement element = (DesignElement) super.clone( );
 
@@ -3128,6 +3138,13 @@ public abstract class DesignElement
 		element.cachedDefn = null;
 		element.handle = null;
 		element.propValues = new HashMap( );
+
+		// handle encryption map
+		if ( encryptionMap != null && !encryptionMap.isEmpty( ) )
+		{
+			element.encryptionMap = new HashMap( );
+			element.encryptionMap.putAll( encryptionMap );
+		}
 
 		// handle extends relationship
 		if ( extendsRef != null )
@@ -3467,5 +3484,72 @@ public abstract class DesignElement
 		ContainerContext containerContext = getContainerInfo( );
 		return containerContext == null ? -1 : containerContext.indexOf(
 				module, this );
+	}
+
+	/**
+	 * 
+	 * @param propDefn
+	 * @return
+	 */
+	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
+	{
+		if ( encryptionMap != null
+				&& encryptionMap.get( propDefn.getName( ) ) != null )
+		{
+			String encryptionID = (String) encryptionMap.get( propDefn
+					.getName( ) );
+			return encryptionID;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param propDefn
+	 * @return
+	 */
+	protected boolean hasLocalValue( ElementPropertyDefn propDefn )
+	{
+		if ( propDefn == null )
+			return false;
+		if ( propDefn.isIntrinsic( ) )
+			return getIntrinsicProperty( propDefn.getName( ) ) != null;
+		return propValues.get( propDefn.getName( ) ) != null;
+	}
+
+	/**
+	 * Sets the encryption id for the given property.
+	 * 
+	 * @param propName
+	 * @param encryptionID
+	 */
+	public final void setEncryptionHelper( String propName, String encryptionID )
+	{
+		ElementPropertyDefn prop = getPropertyDefn( propName );
+		if ( prop == null || !prop.isEncryptable( ) )
+			return;
+		setEncryptionHelper( prop, encryptionID );
+	}
+
+	/**
+	 * Sets the encryption id for the given property.
+	 * 
+	 * @param propDefn
+	 * @param encryptionID
+	 */
+	public void setEncryptionHelper( ElementPropertyDefn propDefn,
+			String encryptionID )
+	{
+		if ( propDefn == null || !propDefn.isEncryptable( ) )
+			return;
+		String id = StringUtil.trimString( encryptionID );
+
+		if ( encryptionMap == null )
+			encryptionMap = new HashMap( );
+		if ( id == null )
+			encryptionMap.remove( propDefn.getName( ) );
+		else
+			encryptionMap.put( propDefn.getName( ), id );
+
 	}
 }

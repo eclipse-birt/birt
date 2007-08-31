@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2">
             <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
@@ -17,7 +17,7 @@
             <property name="odaDriverClass">Driver Class</property>
             <property name="odaURL">URL</property>
             <property name="odaUser">User</property>
-            <encrypted-property name="odaPassword"> Password </encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">UGFzc3dvcmQ=</encrypted-property>
         </oda-data-source>
     </data-sources>
     <page-setup>

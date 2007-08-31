@@ -15,10 +15,15 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.SimpleEncryptionHelper;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
+import org.eclipse.birt.report.model.util.VersionUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -29,12 +34,29 @@ import org.xml.sax.SAXException;
 public class EncryptedPropertyState extends PropertyState
 {
 
+	/**
+	 * 
+	 */
+	protected String encryptionID = null;
+
+	/**
+	 * 
+	 * @param theHandler
+	 * @param element
+	 */
 	EncryptedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );
 	}
 
+	/**
+	 * 
+	 * @param theHandler
+	 * @param element
+	 * @param propDefn
+	 * @param struct
+	 */
 	EncryptedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
@@ -50,6 +72,18 @@ public class EncryptedPropertyState extends PropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		super.parseAttrs( attrs );
+		encryptionID = attrs
+				.getValue( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
+	 */
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
@@ -92,9 +126,40 @@ public class EncryptedPropertyState extends PropertyState
 		if ( null == valueToSet )
 			return;
 
-		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-				.getEncryptionHelper( );
-		valueToSet = helper.decrypt( valueToSet );
+		// do some backward-compartibility
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
+		{
+			IEncryptionHelper helper = null;
+			String encryption = null;
+			if ( struct != null )
+				helper = SimpleEncryptionHelper.getInstance( );
+			else
+			{
+				encryption = encryptionID == null
+						? SimpleEncryptionHelper.ENCRYPTION_ID
+						: encryptionID;
+				helper = MetaDataDictionary.getInstance( ).getEncryptionHelper(
+						encryption );
+			}
+			if ( helper != SimpleEncryptionHelper.getInstance( ) )
+			{
+				valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
+						valueToSet );
+				valueToSet = helper == null ? valueToSet : helper
+						.encrypt( valueToSet );
+
+				// set encryption id
+				if ( struct == null )
+					element.setEncryptionHelper(
+							(ElementPropertyDefn) propDefn, encryption );
+			}
+			else
+			{
+				if ( struct == null )
+					element.setEncryptionHelper(
+							(ElementPropertyDefn) propDefn, encryption );
+			}
+		}
 
 		if ( struct != null )
 		{
@@ -103,6 +168,11 @@ public class EncryptedPropertyState extends PropertyState
 			return;
 		}
 
+		// set encryption id
+		if ( encryptionID != null )
+		{
+			element.setEncryptionHelper( name, encryptionID );
+		}
 		doSetProperty( propDefn, valueToSet );
 	}
 }

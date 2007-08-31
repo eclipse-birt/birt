@@ -14,13 +14,13 @@ package org.eclipse.birt.report.model.extension;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * Tests cases in extension package.
  */
 
 public class AllExtensionTests
 {
+
 	/**
 	 * @return the test
 	 */
@@ -28,13 +28,12 @@ public class AllExtensionTests
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
-		
+
 		// add all test classes here
+		test.addTestSuite( EncryptionHelperExtensionTest.class );
 		test.addTestSuite( ReportItemExtensionTest.class );
 		test.addTestSuite( PeerExtensionTest.class );
-		
+
 		return test;
 	}
 }
-
-

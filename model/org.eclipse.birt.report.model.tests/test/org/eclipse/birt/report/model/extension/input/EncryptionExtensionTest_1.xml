@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <body>
+        <extended-item extensionName="TestingTable" name="extended">
+        	<property name="pswd">TmV3IFBhc3N3b3Jk</property>
+        </extended-item>
+    </body>
+</report>

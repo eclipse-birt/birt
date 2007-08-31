@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.0.1 Build &lt;20060222-1204></property>
     <property name="units">in</property>
     <text-property name="displayName">rpt100</text-property>
@@ -8,7 +8,7 @@
             <property name="odaDriverClass">net.sourceforge.jtds.jdbc.Driver</property>
             <property name="odaURL">jdbc:jtds:sqlserver://192.168.30.67:1433;databaseName=BIRT_test</property>
             <property name="odaUser">actest</property>
-            <encrypted-property name="odaPassword"> c3lzVGVzdA== </encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">c3lzVGVzdA==</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>

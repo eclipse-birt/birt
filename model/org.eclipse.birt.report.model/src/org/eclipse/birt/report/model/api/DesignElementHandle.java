@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.ContentCommand;
+import org.eclipse.birt.report.model.command.EncryptionCommand;
 import org.eclipse.birt.report.model.command.ExtendsCommand;
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
@@ -995,10 +996,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Gets the name of this element. The returned element name will be the same
 	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
-	 * element is contained, if the element name resides in the whole design tree
-	 * scope; otherwise we will append the name of the holder where the element
-	 * name resides. If the element is existed in the current module,this method
-	 * and <CODE>getName()</CODE> will return identical results.
+	 * element is contained, if the element name resides in the whole design
+	 * tree scope; otherwise we will append the name of the holder where the
+	 * element name resides. If the element is existed in the current
+	 * module,this method and <CODE>getName()</CODE> will return identical
+	 * results.
 	 * 
 	 * @return the qualified name of the element.
 	 */
@@ -1509,9 +1511,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( int level )
 	{
-		assert level == IDesignElementModel.USER_LABEL ||
-				level == IDesignElementModel.SHORT_LABEL ||
-				level == IDesignElementModel.FULL_LABEL;
+		assert level == IDesignElementModel.USER_LABEL
+				|| level == IDesignElementModel.SHORT_LABEL
+				|| level == IDesignElementModel.FULL_LABEL;
 
 		return getElement( ).getDisplayLabel( module, level );
 	}
@@ -1667,8 +1669,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
-		if ( IDesignElementModel.NAME_PROP.equals( propName ) ||
-				IDesignElementModel.EXTENDS_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName )
+				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
@@ -2841,5 +2843,19 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		{
 			propHandle.drop( posn );
 		}
+	}
+
+	/**
+	 * 
+	 * @param propName
+	 * @param encryptionID
+	 * @throws SemanticException
+	 */
+	public void setEncryption( String propName, String encryptionID )
+			throws SemanticException
+	{
+		EncryptionCommand cmd = new EncryptionCommand( getModule( ),
+				getElement( ) );
+		cmd.setEncryption( propName, encryptionID );
 	}
 }

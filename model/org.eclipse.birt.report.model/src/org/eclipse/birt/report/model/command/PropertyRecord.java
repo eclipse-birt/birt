@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -90,6 +91,10 @@ public class PropertyRecord extends SimpleRecord
 		newValue = value;
 		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
 				propDefn ) );
+
+		label = ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
+						.getDisplayName( )} );
 	}
 
 	/**
@@ -119,10 +124,9 @@ public class PropertyRecord extends SimpleRecord
 		oldValue = copyLocalValue( propertyOwner.getLocalProperty( null,
 				propDefn ) );
 
-		label = ModelMessages.getMessage( MessageConstants.CHANGE_PROPERTY_MESSAGE,
-				new String[]{
-					propDefn.getDisplayName( )
-				} );
+		label = ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
+						.getDisplayName( )} );
 	}
 
 	/**
@@ -172,7 +176,8 @@ public class PropertyRecord extends SimpleRecord
 
 		if ( element instanceof ExtendedItem )
 		{
-			IReportItem extElement = ( (ExtendedItem) element ).getExtendedElement( );
+			IReportItem extElement = ( (ExtendedItem) element )
+					.getExtendedElement( );
 			// assert extElement != null;
 
 			if ( extElement != null && extElement.refreshPropertyDefinition( ) )
@@ -186,8 +191,8 @@ public class PropertyRecord extends SimpleRecord
 
 		if ( eventTarget != null )
 		{
-			return new PropertyEvent( eventTarget.getElement( ),
-					eventTarget.getPropName( ) );
+			return new PropertyEvent( eventTarget.getElement( ), eventTarget
+					.getPropName( ) );
 		}
 
 		return new PropertyEvent( element, propDefn.getName( ) );
@@ -217,6 +222,15 @@ public class PropertyRecord extends SimpleRecord
 
 		if ( propDefn.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
 		{
+			if ( propDefn.isEncryptable( ) && value instanceof String )
+			{
+				String encryption = element.getLocalEncryptionID( propDefn );
+				value = ModelUtil.encryptProperty( element, propDefn,
+						encryption, value );
+				element.setProperty( propDefn, value );
+				return;
+			}
+
 			element.setProperty( propDefn, value );
 			return;
 		}
@@ -241,8 +255,8 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element,
-				propDefn.getName( ) );
+		StructureContext context = new StructureContext( element, propDefn
+				.getName( ) );
 
 		if ( values instanceof Structure )
 			context.add( (Structure) values );
@@ -265,8 +279,8 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element,
-				propDefn.getName( ) );
+		StructureContext context = new StructureContext( element, propDefn
+				.getName( ) );
 
 		if ( values instanceof Structure )
 			context.remove( (Structure) values );
@@ -289,9 +303,8 @@ public class PropertyRecord extends SimpleRecord
 	 */
 	public List getValidators( )
 	{
-		return ValidationExecutor.getValidationNodes( element,
-				propDefn.getTriggerDefnSet( ),
-				false );
+		return ValidationExecutor.getValidationNodes( element, propDefn
+				.getTriggerDefnSet( ), false );
 	}
 
 	/**

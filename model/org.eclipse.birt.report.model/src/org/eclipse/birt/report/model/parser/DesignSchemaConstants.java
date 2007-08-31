@@ -25,13 +25,13 @@ public interface DesignSchemaConstants
 	 * The version of report design.
 	 */
 
-	public final static String REPORT_VERSION = "3.2.14"; //$NON-NLS-1$
+	public final static String REPORT_VERSION = "3.2.15"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
 
-	final static int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_14;
+	final static int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_15;
 
 	static final String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	static final String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$
@@ -76,6 +76,7 @@ public interface DesignSchemaConstants
 	static final String DEFAULT_TAG = "default"; //$NON-NLS-1$
 	static final String DETAIL_TAG = "detail"; //$NON-NLS-1$
 	static final String DIMENSION_TAG = "dimension"; //$NON-NLS-1$
+	static final String ENCRYPTION_ID_ATTRIB = "encryptionID"; //$NON-NLS-1$
 	static final String ENCRYPTED_PROPERTY_TAG = "encrypted-property"; //$NON-NLS-1$
 	static final String EX_PROPERTY_TAG = "ex-property"; //$NON-NLS-1$
 	static final String EXPRESSION_TAG = "expression"; //$NON-NLS-1$

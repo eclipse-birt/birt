@@ -56,6 +56,8 @@ public interface MessageConstants
 	public static final String INSERT_ITEM_MESSAGE = "Message.InsertItem"; //$NON-NLS-1$
 
 	public static final String REMOVE_ITEM_MESSAGE = "Message.RemoveItem"; //$NON-NLS-1$
+	
+	public static final String CHANGE_PROPERTY_ENCRYPTION_MESSAGE = "Message.ChangePropertyEncryption"; //$NON-NLS-1$
 
 	// Errors
 
@@ -302,5 +304,9 @@ public interface MessageConstants
 	public static final String VERSION_INFO_INVALID_DESIGN_FILE = "Info.VersionInfo.INVALID_DESIGN_FILE"; //$NON-NLS-1$
 	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$	
 	public static final String VERSION_INFO_INVALID_VERSION = "Info.VersionInfo.INVALID_VERSION"; //$NON-NLS-1$	
+
+	// EncryptionException
+	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY = "Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY"; //$NON-NLS-1$
+	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTION = "Error.EncryptionException.INVALID_ENCRYPTION"; //$NON-NLS-1$
 	
 }
