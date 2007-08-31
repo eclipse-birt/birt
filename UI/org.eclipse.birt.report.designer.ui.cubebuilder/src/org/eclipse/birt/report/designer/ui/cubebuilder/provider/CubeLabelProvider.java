@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
@@ -141,13 +145,20 @@ public class CubeLabelProvider extends LabelProvider
 	{
 		if ( element instanceof DataSetHandle )
 		{
-			if(input!=null && input.getDataSet( )!=null && input.getDataSet( ) == element)
-				return ( (DataSetHandle) element ).getName( )+" "+Messages.getString( "GroupsPage.Primary.Dataset" );
-			else return ( (DataSetHandle) element ).getName( );
+			if ( input != null
+					&& input.getDataSet( ) != null
+					&& input.getDataSet( ) == element )
+				return ( (DataSetHandle) element ).getName( )
+						+ " "
+						+ Messages.getString( "GroupsPage.Primary.Dataset" );
+			else
+				return ( (DataSetHandle) element ).getName( );
 		}
-		if ( element instanceof VirtualField && ((VirtualField)element).getType( ).equals( VirtualField.TYPE_OTHER_DATASETS ) )
+		if ( element instanceof VirtualField
+				&& ( (VirtualField) element ).getType( )
+						.equals( VirtualField.TYPE_OTHER_DATASETS ) )
 		{
-			return Messages.getString("Cube.Other.Datasets"); //$NON-NLS-1$
+			return Messages.getString( "Cube.Other.Datasets" ); //$NON-NLS-1$
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
@@ -171,7 +182,20 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof MeasureHandle )
 		{
-			return ( (MeasureHandle) element ).getName( );
+			try
+			{
+				return ( (MeasureHandle) element ).getName( )
+						+ "("
+						+ DataUtil.getAggregationFactory( )
+								.getAggrInfo( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
+								.getDisplayName( )
+						+ ")";
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+				return "";
+			}
 		}
 		else if ( element instanceof String )
 		{

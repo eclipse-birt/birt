@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -140,6 +141,22 @@ public class MeasureDialog extends BaseDialog
 		}
 	}
 
+	private IAggregationInfo getFunctionByDisplayName( String displayName )
+	{
+		IAggregationInfo[] choices = getFunctions( );
+		if ( choices == null )
+			return null;
+
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getDisplayName( ).equals( displayName ) )
+			{
+				return choices[i];
+			}
+		}
+		return null;
+	}
+
 	private IAggregationInfo[] getFunctions( )
 	{
 		try
@@ -224,6 +241,7 @@ public class MeasureDialog extends BaseDialog
 					: input.getMeasureExpression( ) );
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) );
 		}
+		handleFunctionSelectEvent( );
 	}
 
 	private Object result;
@@ -244,7 +262,8 @@ public class MeasureDialog extends BaseDialog
 
 				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
-				measure.setMeasureExpression( expressionText.getText( ) );
+				if ( expressionText.isEnabled( ) )
+					measure.setMeasureExpression( expressionText.getText( ) );
 				result = measure;
 			}
 			else
@@ -252,7 +271,10 @@ public class MeasureDialog extends BaseDialog
 				input.setName( nameText.getText( ) );
 				input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
 				input.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
-				input.setMeasureExpression( expressionText.getText( ) );
+				if ( expressionText.isEnabled( ) )
+					input.setMeasureExpression( expressionText.getText( ) );
+				else
+					input.setMeasureExpression( null );
 				result = input;
 			}
 		}
@@ -306,6 +328,7 @@ public class MeasureDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				handleFunctionSelectEvent( );
 				checkOkButtonStatus( );
 			}
 
@@ -341,7 +364,7 @@ public class MeasureDialog extends BaseDialog
 
 		} );
 
-		Button expressionButton = new Button( group, SWT.PUSH );
+		expressionButton = new Button( group, SWT.PUSH );
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -354,23 +377,44 @@ public class MeasureDialog extends BaseDialog
 		return group;
 	}
 
+	private void handleFunctionSelectEvent( )
+	{
+		IAggregationInfo function = getFunctionByDisplayName( functionCombo.getText( ) );
+		if ( function != null )
+		{
+			expressionText.setEnabled( function.needDataField( ) );
+			expressionButton.setEnabled( function.needDataField( ) );
+		}
+	}
+
 	protected void checkOkButtonStatus( )
 	{
 		if ( nameText.getText( ) == null
 				|| nameText.getText( ).trim( ).equals( "" )
 				|| functionCombo.getSelectionIndex( ) == -1
-				|| typeCombo.getSelectionIndex( ) == -1
-				|| expressionText.getText( ) == null
-				|| expressionText.getText( ).trim( ).equals( "" ) )
+				|| typeCombo.getSelectionIndex( ) == -1 )
 		{
 			if ( getOkButton( ) != null )
+			{
 				getOkButton( ).setEnabled( false );
+				return;
+			}
 		}
-		else
+
+		if ( expressionText != null
+				&& ( expressionText.getText( ) == null || expressionText.getText( )
+						.trim( )
+						.equals( "" ) ) && expressionText.isEnabled( ) ) //$NON-NLS-1$
 		{
 			if ( getOkButton( ) != null )
-				getOkButton( ).setEnabled( true );
+			{
+				getOkButton( ).setEnabled( false );
+				return;
+			}
 		}
+
+		if ( getOkButton( ) != null )
+			getOkButton( ).setEnabled( true );
 
 	}
 
@@ -434,5 +478,6 @@ public class MeasureDialog extends BaseDialog
 	private Combo typeCombo;
 	private Text expressionText;
 	private Combo functionCombo;
+	private Button expressionButton;
 
 }
