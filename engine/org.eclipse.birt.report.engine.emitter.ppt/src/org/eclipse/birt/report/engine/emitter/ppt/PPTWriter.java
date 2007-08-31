@@ -49,7 +49,6 @@ public class PPTWriter
 	/**
 	 * Output stream where postscript to be output.
 	 */
-	// protected PrintStream pptOutput = System.out;
 	private PrintWriter writer = null;
 
 	protected int currentPageNum = 0;
@@ -322,18 +321,28 @@ public class PPTWriter
 				+ red + green + blue + ";'>" ); //$NON-NLS-1$
 		// + text.getText( ) + "</span></div>\n" );
 
-		if ( fontInfo != null && fontInfo.getFontStyle( ) == Font.ITALIC )
+		boolean isItalic = fontInfo != null
+				&& ( fontInfo.getFontStyle( ) & Font.ITALIC ) != 0;
+		boolean isBold = fontInfo != null
+				&& ( fontInfo.getFontStyle( ) & Font.BOLD ) != 0;
+		if ( isItalic )
 		{
 			print( "<i>" );
-			print( text );
+		}
+		if ( isBold )
+		{
+			print( "<b>" );
+		}
+		print( text );
+		if ( isBold )
+		{
+			print( "</b>" );
+		}
+		if ( isItalic )
+		{
 			print( "</i>" );
 		}
-		else
-		{
-			print( text );
-		}
-		println( "</span></div>" );
-
+		println( "</span></div>" ); //$NON-NLS-1$
 		println( "</div>" ); //$NON-NLS-1$
 	}
 
