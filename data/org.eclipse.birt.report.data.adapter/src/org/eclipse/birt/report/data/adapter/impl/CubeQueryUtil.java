@@ -21,7 +21,6 @@ import java.util.Set;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -36,7 +35,6 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -604,30 +602,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
-	}
-	
-	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getRollUpAggregationName(java.lang.String)
-	 */
-	public String getRollUpAggregationName( String functionName )
-	{
-		if ( functionName == null || functionName.trim( ).length( ) == 0 )
-			return functionName;
-		String func = functionName;
-		try
-		{
-			func = DataAdapterUtil.adaptModelAggregationType( functionName );
-		}
-		catch ( AdapterException e )
-		{
-			// do nothing
-		}
-		if ( func.equals( IBuildInAggregation.TOTAL_AVE_FUNC ) ||
-				func.equals( IBuildInAggregation.TOTAL_COUNT_FUNC ) ||
-				func.equals( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC ) )
-			return IBuildInAggregation.TOTAL_SUM_FUNC;
-		else
-			return func;
 	}
 	
 	/**
