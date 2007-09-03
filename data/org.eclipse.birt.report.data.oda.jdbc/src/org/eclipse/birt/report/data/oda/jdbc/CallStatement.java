@@ -345,32 +345,43 @@ public class CallStatement implements IAdvancedQuery
 			this.cachedResultSet = null;  // Clear this so subsequent executeQuery should run it again
 			return ret;
 		}
+		if ( !maxRowsUpToDate )
+		{
+			try
+			{
+				assertNotNull( callStat );
+				callStat.setMaxRows( maxrows );
+			}
+			catch ( SQLException e1 )
+			{
+				// assume this exception is caused by the drivers that do
+				// not support "setMaxRows" method
+			}
+			maxRowsUpToDate = true;
+		}
+		registerOutputParameter( );
+
+		/*
+		 * redirect the call to JDBC callableStatement.execute(), since
+		 * currently only support the single result set, we just return the
+		 * first none null result set from callable statement
+		 */
+		//TODO Support multiple result set
+		java.sql.ResultSet rs = null;
 		try
 		{
-			if ( !maxRowsUpToDate )
+			this.callStat.execute( );
+			rs = this.callStat.getResultSet( );
+
+			while ( rs == null && this.callStat.getMoreResults( ) )
 			{
-				try
-				{
-					assertNotNull( callStat );
-					callStat.setMaxRows( maxrows );
-				}
-				catch ( SQLException e1 )
-				{
-					//assume this exception is caused by the drivers that do
-					//not support "setMaxRows" method
-				}
-				maxRowsUpToDate = true;
+				rs = this.callStat.getResultSet( );
 			}
-			registerOutputParameter( );
-		
-			/* redirect the call to JDBC callableStatement.executeQuery() */
-			java.sql.ResultSet rs = this.callStat.executeQuery( );
 			if ( rs != null )
 				return new ResultSet( rs );
-			
 			java.sql.ResultSet resultSet = getOutputParamResultSet( );
-			
-			if( resultSet != null )
+
+			if ( resultSet != null )
 				return new ResultSet( resultSet );
 			else
 				return new SPResultSet( null );
