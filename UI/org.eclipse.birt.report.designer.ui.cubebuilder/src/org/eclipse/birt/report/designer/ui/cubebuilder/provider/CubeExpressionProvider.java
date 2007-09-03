@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -44,9 +45,13 @@ public class CubeExpressionProvider extends ExpressionProvider
 		if ( handle instanceof TabularCubeHandle )
 			dataSetHandle = ( (TabularCubeHandle) handle ).getDataSet( );
 		else if ( handle instanceof TabularHierarchyHandle )
-			dataSetHandle = ( (TabularHierarchyHandle) handle ).getDataSet( );
+		{
+			dataSetHandle = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) handle );
+		}
 		else if ( handle instanceof TabularLevelHandle )
-			dataSetHandle = ( (TabularHierarchyHandle) handle.getContainer( ) ).getDataSet( );
+		{
+			dataSetHandle = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) handle.getContainer( ) );
+		}
 	}
 
 	protected List getCategoryList( )

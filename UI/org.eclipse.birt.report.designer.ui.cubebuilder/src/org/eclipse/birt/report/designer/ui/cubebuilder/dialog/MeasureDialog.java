@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -39,7 +38,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
-import org.eclipse.core.internal.runtime.DataArea;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
