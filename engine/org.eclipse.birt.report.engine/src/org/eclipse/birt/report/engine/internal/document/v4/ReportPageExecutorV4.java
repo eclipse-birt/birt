@@ -84,7 +84,15 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 
 	protected Fragment loadPageHints( List pageSequence ) throws IOException
 	{
-
+		if ( pageSequence.size( ) == 1 )
+		{
+			long[] pages = (long[]) pageSequence.get( 0 );
+			if ( pages[0] == 1 && pages[1] == hintsReader.getTotalPage( ) )
+			{
+				return null;
+			}
+		}
+		
 		Fragment fragment = new Fragment( new InstanceIDComparator( ) );
 
 		PageRangeIterator iter = new PageRangeIterator( pageSequence );

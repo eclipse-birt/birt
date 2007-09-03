@@ -10,6 +10,7 @@ import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 
 public class ListContainerExecutor extends BlockStackingExecutor
@@ -82,8 +83,10 @@ public class ListContainerExecutor extends BlockStackingExecutor
 				if(runInChild!=null)
 				{
 					IContent runInContent = runInChild.execute( );
-					if(runInContent!=null && 
-							(runInContent.getChildren( )==null || runInContent.getChildren( ).size( )==0))
+					if ( runInContent != null
+							&& PropertyUtil.isInlineElement( runInContent )
+							&& ( runInContent.getChildren( ) == null || runInContent
+									.getChildren( ).size( ) == 0 ) )
 					{
 						execute(runInChild, runInContent);
 						runInChild.close( );
